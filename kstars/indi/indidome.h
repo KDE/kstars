@@ -24,62 +24,81 @@ namespace ISD
  */
 class Dome : public DeviceDecorator
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:    
-    explicit Dome(GDInterface *iPtr);
-    typedef enum {
-        DOME_IDLE,
-        DOME_MOVING,
-        DOME_TRACKING,
-        DOME_PARKING,
-        DOME_UNPARKING,
-        DOME_PARKED,
-        DOME_ERROR
-    } Status;
+    public:
+        explicit Dome(GDInterface *iPtr);
+        typedef enum
+        {
+            DOME_IDLE,
+            DOME_MOVING,
+            DOME_TRACKING,
+            DOME_PARKING,
+            DOME_UNPARKING,
+            DOME_PARKED,
+            DOME_ERROR
+        } Status;
 
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty *tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
-    void registerProperty(INDI::Property *prop);
+        void processSwitch(ISwitchVectorProperty *svp) override;
+        void processText(ITextVectorProperty *tvp) override;
+        void processNumber(INumberVectorProperty *nvp) override;
+        void processLight(ILightVectorProperty *lvp) override;
+        void registerProperty(INDI::Property *prop) override;
 
-    DeviceFamily getType() { return dType; }
+        DeviceFamily getType() override
+        {
+            return dType;
+        }
 
-    bool canPark() const { return m_CanPark; }
-    bool canAbsMove() const { return m_CanAbsMove; }
-    bool canAbort() const { return m_CanAbort; }
-    bool isParked() const { return m_ParkStatus == PARK_PARKED; }
-    bool isMoving() const;
+        bool canPark() const
+        {
+            return m_CanPark;
+        }
+        bool canAbsMove() const
+        {
+            return m_CanAbsMove;
+        }
+        bool canAbort() const
+        {
+            return m_CanAbort;
+        }
+        bool isParked() const
+        {
+            return m_ParkStatus == PARK_PARKED;
+        }
+        bool isMoving() const;
 
-    double azimuthPosition() const;
-    bool setAzimuthPosition(double position);
+        double azimuthPosition() const;
+        bool setAzimuthPosition(double position);
 
-    Status status() const { return m_Status; }
-    static const QString getStatusString (Status status);
+        Status status() const
+        {
+            return m_Status;
+        }
+        static const QString getStatusString (Status status);
 
-  public slots:
-    bool Abort();
-    bool Park();
-    bool UnPark();
+    public slots:
+        bool Abort();
+        bool Park();
+        bool UnPark();
 
-  signals:
-    void newStatus(Status status);
-    void newParkStatus(ParkStatus status);
-    void azimuthPositionChanged(double Az);
-    void ready();
+    signals:
+        void newStatus(Status status);
+        void newParkStatus(ParkStatus status);
+        void azimuthPositionChanged(double Az);
+        void ready();
 
-  private:
-    ParkStatus m_ParkStatus { PARK_UNKNOWN };
-    Status m_Status { DOME_IDLE };
-    bool m_CanAbsMove { false };
-    bool m_CanPark { false };
-    bool m_CanAbort { false };
-    std::unique_ptr<QTimer> readyTimer;
+    private:
+        ParkStatus m_ParkStatus { PARK_UNKNOWN };
+        Status m_Status { DOME_IDLE };
+        bool m_CanAbsMove { false };
+        bool m_CanPark { false };
+        bool m_CanAbort { false };
+        std::unique_ptr<QTimer> readyTimer;
 };
 }
 
 Q_DECLARE_METATYPE(ISD::Dome::Status)
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::Status& source);
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::Status &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::Status &dest);
 

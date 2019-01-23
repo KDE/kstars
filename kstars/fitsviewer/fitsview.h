@@ -50,245 +50,290 @@ class FITSLabel;
 
 class FITSView : public QScrollArea
 {
-    Q_OBJECT
-  public:
-    explicit FITSView(QWidget *parent = nullptr, FITSMode fitsMode = FITS_NORMAL, FITSScale filterType = FITS_NONE);
-    ~FITSView();
+        Q_OBJECT
+    public:
+        explicit FITSView(QWidget *parent = nullptr, FITSMode fitsMode = FITS_NORMAL, FITSScale filterType = FITS_NONE);
+        ~FITSView();
 
-    typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
+        typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
 
-    /**
-     * @brief loadFITS Loads FITS data and display it in FITSView frame
-     * @param inFilename FITS File name
-     * @param silent if set, error popups are suppressed.
-     * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
-     * Obtain error by calling lastError()
-     */
-    void loadFITS(const QString &inFilename, bool silent = true);
-    // Save FITS
-    int saveFITS(const QString &newFilename);
-    // Rescale image lineary from image_buffer, fit to window if desired
-    bool rescale(FITSZoom type);
-
-    // Access functions
-    FITSData *getImageData() const { return imageData; }
-    double getCurrentZoom() const { return currentZoom; }
-    QImage getDisplayImage() const { return rawImage; }
-    const QPixmap &getDisplayPixmap() const { return displayPixmap; }
-
-    // Tracking square
-    void setTrackingBoxEnabled(bool enable);
-    bool isTrackingBoxEnabled() const { return trackingBoxEnabled; }
-    QPixmap &getTrackingBoxPixmap(uint8_t margin=0);
-    void setTrackingBox(const QRect &rect);
-    const QRect &getTrackingBox() const { return trackingBox; }
-
-    // last error
-    const QString &lastError() const { return m_LastError; }
-
-    // Overlay
-    virtual void drawOverlay(QPainter *);
-
-    // Overlay objects
-    void drawStarCentroid(QPainter *);
-    void drawTrackingBox(QPainter *);
-    void drawMarker(QPainter *);
-    void drawCrosshair(QPainter *);
-    void drawEQGrid(QPainter *);
-    void drawObjectNames(QPainter *painter);
-    void drawPixelGrid(QPainter *painter);
-
-    bool isCrosshairShown();
-    bool areObjectsShown();
-    bool isEQGridShown();
-    bool isPixelGridShown();
-    bool imageHasWCS();
-
-    void updateFrame();
-
-    bool isTelescopeActive();
-
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
-    CursorMode getCursorMode();
-    void setCursorMode(CursorMode mode);
-    void updateMouseCursor();
-
-    void updateScopeButton();
-    void setScopeButton(QAction *action) { centerTelescopeAction = action; }
-
-    // Zoom related
-    void cleanUpZoom(QPoint viewCenter);
-    QPoint getImagePoint(QPoint viewPortPoint);
-    uint16_t zoomedWidth() { return currentWidth; }
-    uint16_t zoomedHeight() { return currentHeight; }
-
-    // Star Detection
-    int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
-    void toggleStars(bool enable);
-    void setStarsEnabled(bool enable);
-
-    // FITS Mode
-    void updateMode(FITSMode fmode);
-    FITSMode getMode() { return mode; }
-
-    void setFilter(FITSScale newFilter) { filter = newFilter; }
-
-    void setFirstLoad(bool value);
-
-    void pushFilter(FITSScale value) { filterStack.push(value); }
-    FITSScale popFilter() { return filterStack.pop(); }
-
-    // Floating toolbar
-    void createFloatingToolBar();
-
-    //void setLoadWCSEnabled(bool value);
-
-  public slots:
-    void wheelEvent(QWheelEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void ZoomIn();
-    void ZoomOut();
-    void ZoomDefault();
-    void ZoomToFit();
-
-    // Grids
-    void toggleEQGrid();
-    void toggleObjects();
-    void togglePixelGrid();
-    void toggleCrosshair();
-
-    // Stars
-    void toggleStars();
-    void toggleStarProfile();
-    void viewStarProfile();
-
-    void centerTelescope();
-
-    void processPointSelection(int x, int y);
-    void processMarkerSelection(int x, int y);
-    void move3DTrackingBox(int x, int y);
-    void resizeTrackingBox(int newSize);
-
-  protected slots:
-    /**
-         * @brief syncWCSState Update toolbar and actions depending on whether WCS is available or not
+        /**
+         * @brief loadFITS Loads FITS data and display it in FITSView frame
+         * @param inFilename FITS File name
+         * @param silent if set, error popups are suppressed.
+         * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
+         * Obtain error by calling lastError()
          */
-    void syncWCSState();    
+        void loadFITS(const QString &inFilename, bool silent = true);
+        // Save FITS
+        int saveFITS(const QString &newFilename);
+        // Rescale image lineary from image_buffer, fit to window if desired
+        bool rescale(FITSZoom type);
 
-private:
-    bool event(QEvent *event);
-    bool gestureEvent(QGestureEvent *event);
-    void pinchTriggered(QPinchGesture *gesture);
+        // Access functions
+        FITSData *getImageData() const
+        {
+            return imageData;
+        }
+        double getCurrentZoom() const
+        {
+            return currentZoom;
+        }
+        QImage getDisplayImage() const
+        {
+            return rawImage;
+        }
+        const QPixmap &getDisplayPixmap() const
+        {
+            return displayPixmap;
+        }
 
-    template <typename T>
-    bool rescale(FITSZoom type);
+        // Tracking square
+        void setTrackingBoxEnabled(bool enable);
+        bool isTrackingBoxEnabled() const
+        {
+            return trackingBoxEnabled;
+        }
+        QPixmap &getTrackingBoxPixmap(uint8_t margin = 0);
+        void setTrackingBox(const QRect &rect);
+        const QRect &getTrackingBox() const
+        {
+            return trackingBox;
+        }
 
-    double average();
-    double stddev();
-    void calculateMaxPixel(double min, double max);
-    void initDisplayImage();
+        // last error
+        const QString &lastError() const
+        {
+            return m_LastError;
+        }
 
-    QPointF getPointForGridLabel();
-    bool pointIsInImage(QPointF pt, bool scaled);
+        // Overlay
+        virtual void drawOverlay(QPainter *);
 
-    void loadInFrame();
+        // Overlay objects
+        void drawStarCentroid(QPainter *);
+        void drawTrackingBox(QPainter *);
+        void drawMarker(QPainter *);
+        void drawCrosshair(QPainter *);
+        void drawEQGrid(QPainter *);
+        void drawObjectNames(QPainter *painter);
+        void drawPixelGrid(QPainter *painter);
 
-public:
-    CursorMode lastMouseMode { selectCursor };
-    bool isStarProfileShown() { return showStarProfile; }
+        bool isCrosshairShown();
+        bool areObjectsShown();
+        bool isEQGridShown();
+        bool isPixelGridShown();
+        bool imageHasWCS();
 
-protected:
-    /// WCS Future Watcher
-    QFutureWatcher<bool> wcsWatcher;
-    /// FITS Future Watcher
-    QFutureWatcher<bool> fitsWatcher;
-    /// Cross hair
-    QPointF markerCrosshair;
-    /// Pointer to FITSData object
-    FITSData *imageData { nullptr };
-    /// Current zoom level
-    double currentZoom { 0 };
+        void updateFrame();
 
-private:
-    QLabel *noImageLabel { nullptr };
-    QPixmap noImage;
+        bool isTelescopeActive();
 
-    QVector<QPointF> eqGridPoints;
+        void enterEvent(QEvent *event) override;
+        void leaveEvent(QEvent *event) override;
+        CursorMode getCursorMode();
+        void setCursorMode(CursorMode mode);
+        void updateMouseCursor();
 
-    std::unique_ptr<FITSLabel> image_frame;
+        void updateScopeButton();
+        void setScopeButton(QAction *action)
+        {
+            centerTelescopeAction = action;
+        }
 
-    uint32_t image_width { 0 };
-    uint32_t image_height { 0 };
+        // Zoom related
+        void cleanUpZoom(QPoint viewCenter);
+        QPoint getImagePoint(QPoint viewPortPoint);
+        uint16_t zoomedWidth()
+        {
+            return currentWidth;
+        }
+        uint16_t zoomedHeight()
+        {
+            return currentHeight;
+        }
 
-    /// Current width due to zoom
-    uint16_t currentWidth { 0 };
-    uint16_t lastWidth { 0 };
-    /// Current height due to zoom
-    uint16_t currentHeight { 0 };
-    uint16_t lastHeight { 0 };
-    /// Image zoom factor
-    const double zoomFactor;
+        // Star Detection
+        int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
+        void toggleStars(bool enable);
+        void setStarsEnabled(bool enable);
 
-    // Original full-size image
-    QImage rawImage;
-    // Scaled images
-    QImage scaledImage;
-    // Actual pixmap after all the overlays
-    QPixmap displayPixmap;
+        // FITS Mode
+        void updateMode(FITSMode fmode);
+        FITSMode getMode()
+        {
+            return mode;
+        }
 
-    bool firstLoad { true };
-    bool markStars { false };
-    bool showStarProfile { false };
-    bool showCrosshair { false };
-    bool showObjects { false };
-    bool showEQGrid { false };
-    bool showPixelGrid { false };
+        void setFilter(FITSScale newFilter)
+        {
+            filter = newFilter;
+        }
 
-    CursorMode cursorMode { selectCursor };
-    bool zooming { false };
-    int zoomTime { 0 };
-    QPoint zoomLocation;
+        void setFirstLoad(bool value);
 
-    QString filename;
-    FITSMode mode;
-    FITSScale filter;
-    QString m_LastError;
+        void pushFilter(FITSScale value)
+        {
+            filterStack.push(value);
+        }
+        FITSScale popFilter()
+        {
+            return filterStack.pop();
+        }
 
-    QStack<FITSScale> filterStack;
+        // Floating toolbar
+        void createFloatingToolBar();
 
-    // Tracking box
-    bool trackingBoxEnabled { false };
-    QRect trackingBox;
-    QPixmap trackingBoxPixmap;
+        //void setLoadWCSEnabled(bool value);
 
-    // Scope pixmap
-    QPixmap redScopePixmap;
-    // Magenta Scope Pixmap
-    QPixmap magentaScopePixmap;
+    public slots:
+        void wheelEvent(QWheelEvent *event) override;
+        void resizeEvent(QResizeEvent *event) override;
+        void ZoomIn();
+        void ZoomOut();
+        void ZoomDefault();
+        void ZoomToFit();
 
-    // Floating toolbar
-    QToolBar *floatingToolBar { nullptr };
-    QAction *centerTelescopeAction { nullptr };
-    QAction *toggleEQGridAction { nullptr };
-    QAction *toggleObjectsAction { nullptr };
-    QAction *toggleStarsAction { nullptr };
-    QAction *toggleProfileAction { nullptr };
+        // Grids
+        void toggleEQGrid();
+        void toggleObjects();
+        void togglePixelGrid();
+        void toggleCrosshair();
 
-    //Star Profile Viewer
-    #ifdef HAVE_DATAVISUALIZATION
-    QPointer<StarProfileViewer> starProfileWidget;
-    #endif
+        // Stars
+        void toggleStars();
+        void toggleStarProfile();
+        void viewStarProfile();
 
-  signals:
-    void newStatus(const QString &msg, FITSBar id);
-    void debayerToggled(bool);
-    void wcsToggled(bool);
-    void actionUpdated(const QString &name, bool enable);
-    void trackingStarSelected(int x, int y);
-    void loaded();
-    void failed();
-    void starProfileWindowClosed();
+        void centerTelescope();
 
-    friend class FITSLabel;
+        void processPointSelection(int x, int y);
+        void processMarkerSelection(int x, int y);
+        void move3DTrackingBox(int x, int y);
+        void resizeTrackingBox(int newSize);
+
+    protected slots:
+        /**
+             * @brief syncWCSState Update toolbar and actions depending on whether WCS is available or not
+             */
+        void syncWCSState();
+
+    private:
+        bool event(QEvent *event) override;
+        bool gestureEvent(QGestureEvent *event);
+        void pinchTriggered(QPinchGesture *gesture);
+
+        template <typename T>
+        bool rescale(FITSZoom type);
+
+        double average();
+        double stddev();
+        void calculateMaxPixel(double min, double max);
+        void initDisplayImage();
+
+        QPointF getPointForGridLabel();
+        bool pointIsInImage(QPointF pt, bool scaled);
+
+        void loadInFrame();
+
+    public:
+        CursorMode lastMouseMode { selectCursor };
+        bool isStarProfileShown()
+        {
+            return showStarProfile;
+        }
+
+    protected:
+        /// WCS Future Watcher
+        QFutureWatcher<bool> wcsWatcher;
+        /// FITS Future Watcher
+        QFutureWatcher<bool> fitsWatcher;
+        /// Cross hair
+        QPointF markerCrosshair;
+        /// Pointer to FITSData object
+        FITSData *imageData { nullptr };
+        /// Current zoom level
+        double currentZoom { 0 };
+
+    private:
+        QLabel *noImageLabel { nullptr };
+        QPixmap noImage;
+
+        QVector<QPointF> eqGridPoints;
+
+        std::unique_ptr<FITSLabel> image_frame;
+
+        uint32_t image_width { 0 };
+        uint32_t image_height { 0 };
+
+        /// Current width due to zoom
+        uint16_t currentWidth { 0 };
+        uint16_t lastWidth { 0 };
+        /// Current height due to zoom
+        uint16_t currentHeight { 0 };
+        uint16_t lastHeight { 0 };
+        /// Image zoom factor
+        const double zoomFactor;
+
+        // Original full-size image
+        QImage rawImage;
+        // Scaled images
+        QImage scaledImage;
+        // Actual pixmap after all the overlays
+        QPixmap displayPixmap;
+
+        bool firstLoad { true };
+        bool markStars { false };
+        bool showStarProfile { false };
+        bool showCrosshair { false };
+        bool showObjects { false };
+        bool showEQGrid { false };
+        bool showPixelGrid { false };
+
+        CursorMode cursorMode { selectCursor };
+        bool zooming { false };
+        int zoomTime { 0 };
+        QPoint zoomLocation;
+
+        QString filename;
+        FITSMode mode;
+        FITSScale filter;
+        QString m_LastError;
+
+        QStack<FITSScale> filterStack;
+
+        // Tracking box
+        bool trackingBoxEnabled { false };
+        QRect trackingBox;
+        QPixmap trackingBoxPixmap;
+
+        // Scope pixmap
+        QPixmap redScopePixmap;
+        // Magenta Scope Pixmap
+        QPixmap magentaScopePixmap;
+
+        // Floating toolbar
+        QToolBar *floatingToolBar { nullptr };
+        QAction *centerTelescopeAction { nullptr };
+        QAction *toggleEQGridAction { nullptr };
+        QAction *toggleObjectsAction { nullptr };
+        QAction *toggleStarsAction { nullptr };
+        QAction *toggleProfileAction { nullptr };
+
+        //Star Profile Viewer
+#ifdef HAVE_DATAVISUALIZATION
+        QPointer<StarProfileViewer> starProfileWidget;
+#endif
+
+    signals:
+        void newStatus(const QString &msg, FITSBar id);
+        void debayerToggled(bool);
+        void wcsToggled(bool);
+        void actionUpdated(const QString &name, bool enable);
+        void trackingStarSelected(int x, int y);
+        void loaded();
+        void failed();
+        void starProfileWindowClosed();
+
+        friend class FITSLabel;
 };

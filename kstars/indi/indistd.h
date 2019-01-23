@@ -37,16 +37,16 @@ typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNP
 
 class GDSetCommand : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement,
-                 QVariant qValue, QObject *parent);
-    INDI_PROPERTY_TYPE propType;
+    public:
+        GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement,
+                     QVariant qValue, QObject *parent);
+        INDI_PROPERTY_TYPE propType;
 
-    QString indiProperty;
-    QString indiElement;
-    QVariant elementValue;
+        QString indiProperty;
+        QString indiElement;
+        QVariant elementValue;
 };
 
 /**
@@ -61,63 +61,63 @@ class GDSetCommand : public QObject
  */
 class GDInterface : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    // Property handling
-    virtual void registerProperty(INDI::Property *prop)    = 0;
-    virtual void removeProperty(INDI::Property *prop)      = 0;
-    virtual void processSwitch(ISwitchVectorProperty *svp) = 0;
-    virtual void processText(ITextVectorProperty *tvp)     = 0;
-    virtual void processNumber(INumberVectorProperty *nvp) = 0;
-    virtual void processLight(ILightVectorProperty *lvp)   = 0;
-    virtual void processBLOB(IBLOB *bp)                    = 0;
-    virtual void processMessage(int messageID)             = 0;
+    public:
+        // Property handling
+        virtual void registerProperty(INDI::Property *prop)    = 0;
+        virtual void removeProperty(INDI::Property *prop)      = 0;
+        virtual void processSwitch(ISwitchVectorProperty *svp) = 0;
+        virtual void processText(ITextVectorProperty *tvp)     = 0;
+        virtual void processNumber(INumberVectorProperty *nvp) = 0;
+        virtual void processLight(ILightVectorProperty *lvp)   = 0;
+        virtual void processBLOB(IBLOB *bp)                    = 0;
+        virtual void processMessage(int messageID)             = 0;
 
-    // Accessors
-    virtual QList<INDI::Property *> getProperties() = 0;
-    virtual DeviceFamily getType()                  = 0;
-    virtual DriverInfo *getDriverInfo()             = 0;
-    virtual DeviceInfo *getDeviceInfo()             = 0;
-    virtual INDI::BaseDevice *getBaseDevice()       = 0;
-    virtual uint32_t getDriverInterface()           = 0;
+        // Accessors
+        virtual QList<INDI::Property *> getProperties() = 0;
+        virtual DeviceFamily getType()                  = 0;
+        virtual DriverInfo *getDriverInfo()             = 0;
+        virtual DeviceInfo *getDeviceInfo()             = 0;
+        virtual INDI::BaseDevice *getBaseDevice()       = 0;
+        virtual uint32_t getDriverInterface()           = 0;
 
-    // Convenience functions
-    virtual bool setConfig(INDIConfig tConfig)           = 0;
-    virtual const char *getDeviceName()                  = 0;
-    virtual bool isConnected()                           = 0;
-    virtual bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
-                               double *step)             = 0;
-    virtual IPState getState(const QString &propName)    = 0;
-    virtual IPerm getPermission(const QString &propName) = 0;
-    virtual INDI::Property *getProperty(const QString &propName) = 0;
+        // Convenience functions
+        virtual bool setConfig(INDIConfig tConfig)           = 0;
+        virtual const char *getDeviceName()                  = 0;
+        virtual bool isConnected()                           = 0;
+        virtual bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
+                                   double *step)             = 0;
+        virtual IPState getState(const QString &propName)    = 0;
+        virtual IPerm getPermission(const QString &propName) = 0;
+        virtual INDI::Property *getProperty(const QString &propName) = 0;
 
-    virtual ~GDInterface() = default;
+        virtual ~GDInterface() = default;
 
-  public slots:
-    virtual bool Connect()                                    = 0;
-    virtual bool Disconnect()                                 = 0;
-    virtual bool runCommand(int command, void *ptr = nullptr) = 0;
-    virtual bool setProperty(QObject *)                       = 0;
+    public slots:
+        virtual bool Connect()                                    = 0;
+        virtual bool Disconnect()                                 = 0;
+        virtual bool runCommand(int command, void *ptr = nullptr) = 0;
+        virtual bool setProperty(QObject *)                       = 0;
 
-protected:
-    DeviceFamily dType { KSTARS_CCD };
-    uint32_t driverInterface { 0 };
-    QList<INDI::Property *> properties;
+    protected:
+        DeviceFamily dType { KSTARS_CCD };
+        uint32_t driverInterface { 0 };
+        QList<INDI::Property *> properties;
 
-signals:
-    void Connected();
-    void Disconnected();
-    void switchUpdated(ISwitchVectorProperty *svp);
-    void textUpdated(ITextVectorProperty *tvp);
-    void numberUpdated(INumberVectorProperty *nvp);
-    void lightUpdated(ILightVectorProperty *lvp);
-    void BLOBUpdated(IBLOB *bp);
-    void messageUpdated(int messageID);
+    signals:
+        void Connected();
+        void Disconnected();
+        void switchUpdated(ISwitchVectorProperty *svp);
+        void textUpdated(ITextVectorProperty *tvp);
+        void numberUpdated(INumberVectorProperty *nvp);
+        void lightUpdated(ILightVectorProperty *lvp);
+        void BLOBUpdated(IBLOB *bp);
+        void messageUpdated(int messageID);
 
-    void systemPortDetected();
-    void propertyDefined(INDI::Property *prop);
-    void propertyDeleted(INDI::Property *prop);
+        void systemPortDetected();
+        void propertyDefined(INDI::Property *prop);
+        void propertyDeleted(INDI::Property *prop);
 };
 
 /**
@@ -132,60 +132,81 @@ signals:
  */
 class GenericDevice : public GDInterface
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit GenericDevice(DeviceInfo &idv);
-    virtual ~GenericDevice() override = default;
+    public:
+        explicit GenericDevice(DeviceInfo &idv);
+        virtual ~GenericDevice() override = default;
 
-    virtual void registerProperty(INDI::Property *prop) override;
-    virtual void removeProperty(INDI::Property *prop) override;
-    virtual void processSwitch(ISwitchVectorProperty *svp) override;
-    virtual void processText(ITextVectorProperty *tvp) override;
-    virtual void processNumber(INumberVectorProperty *nvp) override;
-    virtual void processLight(ILightVectorProperty *lvp) override;
-    virtual void processBLOB(IBLOB *bp) override;
-    virtual void processMessage(int messageID) override;
+        virtual void registerProperty(INDI::Property *prop) override;
+        virtual void removeProperty(INDI::Property *prop) override;
+        virtual void processSwitch(ISwitchVectorProperty *svp) override;
+        virtual void processText(ITextVectorProperty *tvp) override;
+        virtual void processNumber(INumberVectorProperty *nvp) override;
+        virtual void processLight(ILightVectorProperty *lvp) override;
+        virtual void processBLOB(IBLOB *bp) override;
+        virtual void processMessage(int messageID) override;
 
-    virtual DeviceFamily getType() override { return dType; }
-    virtual const char *getDeviceName() override;
-    virtual DriverInfo *getDriverInfo() override { return driverInfo; }
-    virtual DeviceInfo *getDeviceInfo() override { return deviceInfo; }
-    virtual QList<INDI::Property *> getProperties() override { return properties; }
-    virtual uint32_t getDriverInterface() override { return driverInterface; }
+        virtual DeviceFamily getType() override
+        {
+            return dType;
+        }
+        virtual const char *getDeviceName() override;
+        virtual DriverInfo *getDriverInfo() override
+        {
+            return driverInfo;
+        }
+        virtual DeviceInfo *getDeviceInfo() override
+        {
+            return deviceInfo;
+        }
+        virtual QList<INDI::Property *> getProperties() override
+        {
+            return properties;
+        }
+        virtual uint32_t getDriverInterface() override
+        {
+            return driverInterface;
+        }
 
-    virtual bool setConfig(INDIConfig tConfig) override;
-    virtual bool isConnected() override { return connected; }
-    virtual INDI::BaseDevice *getBaseDevice() override { return baseDevice; }
-    virtual bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
-                               double *step) override;
-    virtual IPState getState(const QString &propName) override;
-    virtual IPerm getPermission(const QString &propName) override;
-    virtual INDI::Property *getProperty(const QString &propName) override;
+        virtual bool setConfig(INDIConfig tConfig) override;
+        virtual bool isConnected() override
+        {
+            return connected;
+        }
+        virtual INDI::BaseDevice *getBaseDevice() override
+        {
+            return baseDevice;
+        }
+        virtual bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
+                                   double *step) override;
+        virtual IPState getState(const QString &propName) override;
+        virtual IPerm getPermission(const QString &propName) override;
+        virtual INDI::Property *getProperty(const QString &propName) override;
 
-  public slots:
-    virtual bool Connect() override;
-    virtual bool Disconnect() override;
-    virtual bool runCommand(int command, void *ptr = nullptr) override;
-    virtual bool setProperty(QObject *) override;
+    public slots:
+        virtual bool Connect() override;
+        virtual bool Disconnect() override;
+        virtual bool runCommand(int command, void *ptr = nullptr) override;
+        virtual bool setProperty(QObject *) override;
 
-  protected slots:
-    virtual void resetWatchdog();
+    protected slots:
+        virtual void resetWatchdog();
 
-  protected:
-    void createDeviceInit();
-    void updateTime();
-    void updateLocation();
+    protected:
+        void createDeviceInit();
+        void updateTime();
+        void updateLocation();
 
-  private:
-    static void registerDBusType();
-    bool connected { false };
-    DriverInfo *driverInfo { nullptr };
-    DeviceInfo *deviceInfo { nullptr };
-    INDI::BaseDevice *baseDevice { nullptr };
-    ClientManager *clientManager { nullptr };
-    QTimer *watchDogTimer { nullptr };
-    char BLOBFilename[MAXINDIFILENAME+1];
+    private:
+        static void registerDBusType();
+        bool connected { false };
+        DriverInfo *driverInfo { nullptr };
+        DeviceInfo *deviceInfo { nullptr };
+        INDI::BaseDevice *baseDevice { nullptr };
+        ClientManager *clientManager { nullptr };
+        QTimer *watchDogTimer { nullptr };
+        char BLOBFilename[MAXINDIFILENAME + 1];
 };
 
 /**
@@ -196,48 +217,48 @@ class GenericDevice : public GDInterface
  */
 class DeviceDecorator : public GDInterface
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit DeviceDecorator(GDInterface *iPtr);
-    ~DeviceDecorator();
+    public:
+        explicit DeviceDecorator(GDInterface *iPtr);
+        ~DeviceDecorator();
 
-    virtual void registerProperty(INDI::Property *prop);
-    virtual void removeProperty(INDI::Property *prop);
-    virtual void processSwitch(ISwitchVectorProperty *svp);
-    virtual void processText(ITextVectorProperty *tvp);
-    virtual void processNumber(INumberVectorProperty *nvp);
-    virtual void processLight(ILightVectorProperty *lvp);
-    virtual void processBLOB(IBLOB *bp);
-    virtual void processMessage(int messageID);
+        virtual void registerProperty(INDI::Property *prop) override;
+        virtual void removeProperty(INDI::Property *prop) override;
+        virtual void processSwitch(ISwitchVectorProperty *svp) override;
+        virtual void processText(ITextVectorProperty *tvp) override;
+        virtual void processNumber(INumberVectorProperty *nvp) override;
+        virtual void processLight(ILightVectorProperty *lvp) override;
+        virtual void processBLOB(IBLOB *bp) override;
+        virtual void processMessage(int messageID) override;
 
-    virtual DeviceFamily getType();
+        virtual DeviceFamily getType() override;
 
-    virtual bool setConfig(INDIConfig tConfig);
-    virtual bool isConnected();
-    const char *getDeviceName();
-    DriverInfo *getDriverInfo();
-    DeviceInfo *getDeviceInfo();
-    QList<INDI::Property *> getProperties();
-    uint32_t getDriverInterface();
-    virtual INDI::BaseDevice *getBaseDevice();
+        virtual bool setConfig(INDIConfig tConfig) override;
+        virtual bool isConnected() override;
+        const char *getDeviceName() override;
+        DriverInfo *getDriverInfo() override;
+        DeviceInfo *getDeviceInfo() override;
+        QList<INDI::Property *> getProperties() override;
+        uint32_t getDriverInterface() override;
+        virtual INDI::BaseDevice *getBaseDevice() override;
 
 
-    bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max, double *step);
-    IPState getState(const QString &propName);
-    IPerm getPermission(const QString &propName);
-    INDI::Property *getProperty(const QString &propName);
+        bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max, double *step) override;
+        IPState getState(const QString &propName) override;
+        IPerm getPermission(const QString &propName) override;
+        INDI::Property *getProperty(const QString &propName) override;
 
-  public slots:
-    virtual bool Connect();
-    virtual bool Disconnect();
-    virtual bool runCommand(int command, void *ptr = nullptr);
-    virtual bool setProperty(QObject *);
+    public slots:
+        virtual bool Connect() override;
+        virtual bool Disconnect() override;
+        virtual bool runCommand(int command, void *ptr = nullptr) override;
+        virtual bool setProperty(QObject *) override;
 
-  protected:
-    INDI::BaseDevice *baseDevice { nullptr };
-    ClientManager *clientManager { nullptr };
-    GDInterface *interfacePtr { nullptr };
+    protected:
+        INDI::BaseDevice *baseDevice { nullptr };
+        ClientManager *clientManager { nullptr };
+        GDInterface *interfacePtr { nullptr };
 };
 
 /**
@@ -251,25 +272,25 @@ class DeviceDecorator : public GDInterface
  */
 class ST4
 {
-  public:
-    ST4(INDI::BaseDevice *bdv, ClientManager *cm);
-    ~ST4() = default;
+    public:
+        ST4(INDI::BaseDevice *bdv, ClientManager *cm);
+        ~ST4() = default;
 
-    bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
-    bool doPulse(GuideDirection dir, int msecs);
-    void setDECSwap(bool enable);
-    const char *getDeviceName();
+        bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
+        bool doPulse(GuideDirection dir, int msecs);
+        void setDECSwap(bool enable);
+        const char *getDeviceName();
 
-  private:
-    INDI::BaseDevice *baseDevice { nullptr };
-    ClientManager *clientManager { nullptr };
-    bool swapDEC { false };
+    private:
+        INDI::BaseDevice *baseDevice { nullptr };
+        ClientManager *clientManager { nullptr };
+        bool swapDEC { false };
 };
 }
 
 #ifndef KSTARS_LITE
 Q_DECLARE_METATYPE(ISD::ParkStatus)
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus& source);
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::ParkStatus &dest);
 #endif
 
