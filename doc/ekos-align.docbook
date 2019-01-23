@@ -117,7 +117,7 @@
                         In Ekos Align module, you must set the solver type to <guimenuitem>Online</guimenuitem> so that it uses the local ANSVR server for all astrometry queries. Then you can use the align module as you would normally do.
                     </para>
                     <para>
-                        Remember as indicated above that StellarMate <emphasis>already</emphasis> includes astrometry.net. Therefore, if you would like to use StellarMate remotely to solve your images, simply change solver type to <guimenuitem>Remote</guimenuitem> and ensure that your equipment profile includes <emphasis role="bold">Astrometry</emphasis> driver which can be selected under the <guilabel>Auxiliary</guilabel> dropdown. This is applicable to all operating systems and not just Windows.
+                        Remember as indicated above that StellarMate <emphasis>already</emphasis> includes astrometry.net. Therefore, if you would like to use StellarMate remotely to solve your images, simply change solver type to <guimenuitem>Remote</guimenuitem> and ensure that your equipment profile includes <emphasis role="bold">Astrometry</emphasis> driver which can be selected under the <guilabel>Auxiliary</guilabel> dropdown. This is applicable to all operating systems and not just &Windows;.
                     </para>
                 </listitem>
             </varlistentry>
@@ -410,7 +410,7 @@
                 </listitem>
             </itemizedlist>
             <para>
-                By default, the solver will search all over the sky to determine the coordinates of the captured image. This can <emphasis>take a lot of time</emphasis>; therefore, in order to speed up the solver, you can restrict it to only search within a specified area in the sky designated by the RA, DEC, and Radius options above.
+                By default, the solver will search all over the sky to determine the coordinates of the captured image. This can <emphasis>take a lot of time</emphasis>; therefore, in order to speed up the solver, you can restrict it to only search within a specified area in the sky designated by the <guilabel>RA</guilabel>, <guilabel>DEC</guilabel>, and <guilabel>Radius</guilabel> options above.
             </para>
         </sect3>
         
@@ -507,7 +507,7 @@
                 </listitem>
             </orderedlist>
             <para>
-                If the solver is successful, Ekos will sync and then slew to the star. The results are displayed in the Solution Results tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis>thinks</emphasis> it is looking at) vs. its actual position in the sky as determined by the solver.
+                If the solver is successful, Ekos will sync and then slew to the star. The results are displayed in the <guilabel>Solution Results</guilabel> tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis>thinks</emphasis> it is looking at) vs. its actual position in the sky as determined by the solver.
             </para>
             <para>
                 Each time the solver is executed and returns successful results, Ekos can run on the following actions:
@@ -627,7 +627,7 @@
             <sect4 id="ekos-align-legacy-polar-alignment-workflow">
                 <title>Legacy Polar Alignment Workflow</title>
                 <para>
-                    Using the Polar Alignment mode, Ekos can measure and correct for polar alignment errors. To measure Azimuth error, point your mount to a star close to the meridian. If you live in the northern hemisphere, you will point the mount toward the southern meridian. Click on <guibutton>Measure Az Error</guibutton> to begin the process. Ekos will try to measure the drift between two images and calculates the error accordingly. You can ask Ekos to correct Azimuth error by clicking on the <guibutton>Correct Az Error</guibutton> button. Ekos will slew to a new location and asks you to adjust the mount's azimuth knobs until the star is in the center of the Field of View. You can use the Focus Module's Framing feature to take a look at the image as you make your adjustments.
+                    Using the Polar Alignment mode, Ekos can measure and correct the polar alignment errors. To measure Azimuth error, point your mount to a star close to the meridian. If you live in the northern hemisphere, you will point the mount toward the southern meridian. Click on <guibutton>Measure Az Error</guibutton> to begin the process. Ekos will try to measure the drift between two images and calculates the error accordingly. You can ask Ekos to correct Azimuth error by clicking on the <guibutton>Correct Az Error</guibutton> button. Ekos will slew to a new location and asks you to adjust the mount's azimuth knobs until the star is in the center of the Field of View. You can use the Focus Module's <link linkend="focus-focuser-group">Framing feature</link> to take a look at the image as you make your adjustments.
                 </para>
                 <para>
                     Similarly, to measure Altitude error, click on the <guibutton>Measure Alt Error</guibutton> button. You need to point your mount either east or west and set the <guilabel>Altitude Direction</guilabel> combo box accordingly. Ekos will take two images and calculates the error. You can ask Ekos to correct Altitude error by clicking on the <guibutton>Correct Alt Error</guibutton> button. As with Azimuth correction, Ekos will slew to a new location and asks you to adjust the mount's altitude knobs until the star is in the center of the FOV.
@@ -646,7 +646,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            Switch mode to <guilabel>Polar Alignment</guilabel>. Click <guibutton>Measure Az Error</guibutton>. It will ask you to slew to a star at the southern meridian which we already done click <guibutton>Continue</guibutton>. Ekos will now perform the error calculation.
+                            Switch mode to <guilabel>Polar Alignment</guilabel>. Click <guibutton>Measure Az Error</guibutton>. It will ask you to slew to a star at the southern meridian which we already done. Click <guibutton>Continue</guibutton>. Ekos will now perform the error calculation.
                         </para>
                     </listitem>
                     <listitem>
@@ -661,7 +661,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <guibutton>Stop Framing</guibutton> in the <link linkend="ekos-focus">Focus module</link>.
+                            <guibutton>Stop Framing</guibutton> in the <link linkend="focus-focuser-group">Focus module</link>.
                         </para>
                     </listitem>
                     <listitem>
@@ -691,12 +691,12 @@
                     </listitem>
                     <listitem>
                         <para>
-                            Click <guibutton>Measure Alt Error</guibutton>. It will ask you to slew to a star at either the eastern (Azimuth 90) or western (Azimuth 270) which we already done click <guibutton>Continue</guibutton>. Ekos will now perform the error calculation.
+                            Click <guibutton>Measure Alt Error</guibutton>. It will ask you to slew to a star at either the eastern (Azimuth 90) or western (Azimuth 270) horizon which we already done. Click <guibutton>Continue</guibutton>. Ekos will now perform the error calculation.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            To correct for the error, click <guibutton>Correct Alt Error</guibutton>. Ekos will now slew to a different point in the sky, and you will be required to <emphasis role="bold">ONLY</emphasis> adjust the mount's altitude knobs to center the star in the field of view. Start framing as done before in the focus module to help you with the centering.
+                            To correct for the error, click <guibutton>Correct Alt Error</guibutton>. Ekos will now slew to a different point in the sky, and you will be required to <emphasis role="bold">ONLY</emphasis> adjust the mount's altitude knobs to center the star in the field of view. Start framing as done before in the <link linkend="focus-focuser-group">focus module</link> to help you with the centering.
                         </para>
                     </listitem>
                     <listitem>
