@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
                          "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"),
-                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, notice),
+                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, i18n(notice)),
                          "http://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
                         "http://www.30doradus.org");
