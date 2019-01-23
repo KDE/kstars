@@ -293,7 +293,7 @@ bool CCDChip::resetFrame()
     if (xarg && yarg && warg && harg)
     {
         if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max &&
-            harg->value == harg->max)
+                harg->value == harg->max)
             return false;
 
         xarg->value = xarg->min;
@@ -780,10 +780,10 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     m_Media.reset(new Media(this));
     connect(m_Media.get(), &Media::newFile, this, &CCD::setWSBLOB);
 
-    connect(clientManager, &ClientManager::newBLOBManager, [&](const char *device, INDI::Property *prop)
+    connect(clientManager, &ClientManager::newBLOBManager, [&](const char *device, INDI::Property * prop)
     {
-       if (!strcmp(device, getDeviceName()))
-               emit newBLOBManager(prop);
+        if (!strcmp(device, getDeviceName()))
+            emit newBLOBManager(prop);
     });
 }
 
@@ -906,6 +906,7 @@ void CCD::registerProperty(INDI::Property *prop)
     {
         IBLOBVectorProperty *bp = prop->getBLOB();
         primaryCCDBLOB = bp->bp;
+        primaryCCDBLOB->bvp = bp;
     }
     // try to find gain property, if any
     else if (gainN == nullptr && prop->getType() == INDI_NUMBER)
@@ -1122,7 +1123,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         ISwitch *looping = IUFindSwitch(svp, "LOOP_ON");
         if (looping && looping->s == ISS_ON)
             IsLooping = true;
-         else
+        else
             IsLooping = false;
     }
     else if (!strcmp(svp->name, "CONNECTION"))
@@ -1405,7 +1406,7 @@ void CCD::processBLOB(IBLOB *bp)
                 return;
             }
             else
-            // We have successfully unpacked the thumbnail, now let us write it to a file
+                // We have successfully unpacked the thumbnail, now let us write it to a file
             {
                 //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
                 if (LIBRAW_SUCCESS != (ret = RawProcessor.dcraw_thumb_writer(preview_filename.toLatin1().data())))
@@ -1442,7 +1443,7 @@ void CCD::processBLOB(IBLOB *bp)
             m_ImageViewerWindow->loadImage(filename);
         }
     }
-// Unless we have cfitsio, we're done.
+    // Unless we have cfitsio, we're done.
 #ifdef HAVE_CFITSIO
     if (BType == BLOB_FITS)
     {
@@ -1454,7 +1455,7 @@ void CCD::processBLOB(IBLOB *bp)
         if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
         {
             if (m_FITSViewerWindows.isNull() && targetChip->getCaptureMode() != FITS_GUIDE &&
-                targetChip->getCaptureMode() != FITS_FOCUS && targetChip->getCaptureMode() != FITS_ALIGN)
+                    targetChip->getCaptureMode() != FITS_FOCUS && targetChip->getCaptureMode() != FITS_ALIGN)
             {
                 normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
@@ -1466,17 +1467,18 @@ void CCD::processBLOB(IBLOB *bp)
                     KStars::Instance()->addFITSViewer(m_FITSViewerWindows);
                 }
 
-                connect(m_FITSViewerWindows, &FITSViewer::closed, [&](int tabIndex) {
-                   if (tabIndex == normalTabID)
-                       normalTabID = -1;
-                   else if (tabIndex == calibrationTabID)
-                       calibrationTabID = -1;
-                   else if (tabIndex == focusTabID)
-                       focusTabID = -1;
-                   else if (tabIndex == guideTabID)
-                       guideTabID = -1;
-                   else if (tabIndex == alignTabID)
-                       alignTabID = -1;
+                connect(m_FITSViewerWindows, &FITSViewer::closed, [&](int tabIndex)
+                {
+                    if (tabIndex == normalTabID)
+                        normalTabID = -1;
+                    else if (tabIndex == calibrationTabID)
+                        calibrationTabID = -1;
+                    else if (tabIndex == focusTabID)
+                        focusTabID = -1;
+                    else if (tabIndex == guideTabID)
+                        guideTabID = -1;
+                    else if (tabIndex == alignTabID)
+                        alignTabID = -1;
                 });
 
                 //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
@@ -1499,7 +1501,7 @@ void CCD::processBLOB(IBLOB *bp)
             if (Options::singleWindowCapturedFITS())
                 previewTitle = i18n("%1 Preview", getDeviceName());
             else
-            // Otherwise, just use "Preview"
+                // Otherwise, just use "Preview"
                 previewTitle = i18n("Preview");
         }
 
@@ -1514,7 +1516,8 @@ void CCD::processBLOB(IBLOB *bp)
                 {
                     m_FITSViewerWindows->disconnect(this);
                     auto m_Loaded = std::make_shared<QMetaObject::Connection>();
-                    *m_Loaded = connect(m_FITSViewerWindows, &FITSViewer::loaded, [=](int tabIndex) {
+                    *m_Loaded = connect(m_FITSViewerWindows, &FITSViewer::loaded, [ = ](int tabIndex)
+                    {
                         *tabID = tabIndex;
                         targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
                         if (Options::focusFITSOnNewImage())
@@ -1524,7 +1527,8 @@ void CCD::processBLOB(IBLOB *bp)
                     });
 
                     auto m_Failed = std::make_shared<QMetaObject::Connection>();
-                    *m_Failed = connect(m_FITSViewerWindows, &FITSViewer::failed, [=]() {
+                    *m_Failed = connect(m_FITSViewerWindows, &FITSViewer::failed, [ = ]()
+                    {
                         // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
                         QObject::disconnect(*m_Failed);
@@ -1563,20 +1567,22 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
     if (view)
     {
         auto m_Loaded = std::make_shared<QMetaObject::Connection>();
-        *m_Loaded = connect(view, &FITSView::loaded, [=]() {
+        *m_Loaded = connect(view, &FITSView::loaded, [ = ]()
+        {
             //view->updateFrame();
             // FITSViewer is shown if:
             // Image in preview mode, or useFITSViewre is true; AND
             // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
             // NORMAL is used for raw INDI drivers without Ekos.
             if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
-                    m_FITSViewerWindows->show();
+                m_FITSViewerWindows->show();
 
             QObject::disconnect(*m_Loaded);
             emit BLOBUpdated(bp);
         });
         auto m_Failed = std::make_shared<QMetaObject::Connection>();
-        *m_Failed = connect(view, &FITSView::failed, [=]() {
+        *m_Failed = connect(view, &FITSView::failed, [ = ]()
+        {
             QObject::disconnect(*m_Failed);
             emit newExposureValue(targetChip, 0, IPS_ALERT);
             return;
@@ -1588,7 +1594,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
 
 }
 
-void CCD::addFITSKeywords(const QString& filename)
+void CCD::addFITSKeywords(const QString &filename)
 {
 #ifdef HAVE_CFITSIO
     int status = 0;
@@ -1798,8 +1804,8 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
 
     // If everything is already set, let's return.
     if (((autoLoop && autoLoopS->s == ISS_ON) || (!autoLoop && autoLoopS->s == ISS_OFF)) &&
-        ((sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF)) &&
-        ((showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF)))
+            ((sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF)) &&
+            ((showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF)))
         return true;
 
     autoLoopS->s   = autoLoop ? ISS_ON : ISS_OFF;
@@ -2037,7 +2043,7 @@ bool CCD::resetStreamingFrame()
     if (xarg && yarg && warg && harg)
     {
         if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max &&
-            harg->value == harg->max)
+                harg->value == harg->max)
             return false;
 
         xarg->value = xarg->min;

@@ -24,29 +24,32 @@ namespace ISD
  */
 class Weather : public DeviceDecorator
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit Weather(GDInterface *iPtr);
+    public:
+        explicit Weather(GDInterface *iPtr);
 
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty *tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
+        void registerProperty(INDI::Property *prop) override;
+        void processSwitch(ISwitchVectorProperty *svp) override;
+        void processText(ITextVectorProperty *tvp) override;
+        void processNumber(INumberVectorProperty *nvp) override;
+        void processLight(ILightVectorProperty *lvp) override;
 
-    DeviceFamily getType() { return dType; }
+        DeviceFamily getType() override
+        {
+            return dType;
+        }
 
-    IPState getWeatherStatus();
+        IPState getWeatherStatus();
 
-    uint16_t getUpdatePeriod();
+        uint16_t getUpdatePeriod();
 
-signals:
-    void newStatus(IPState status);
-    void ready();
+    signals:
+        void newStatus(IPState status);
+        void ready();
 
-private:
-    IPState m_WeatherStatus { IPS_IDLE };
-    std::unique_ptr<QTimer> readyTimer;
+    private:
+        IPState m_WeatherStatus { IPS_IDLE };
+        std::unique_ptr<QTimer> readyTimer;
 };
 }

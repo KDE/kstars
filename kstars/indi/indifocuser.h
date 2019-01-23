@@ -22,41 +22,50 @@ namespace ISD
 
 class Focuser : public DeviceDecorator
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    enum FocusDirection
-    {
-        FOCUS_INWARD,
-        FOCUS_OUTWARD
-    };
+    public:
+        enum FocusDirection
+        {
+            FOCUS_INWARD,
+            FOCUS_OUTWARD
+        };
 
-    explicit Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER; }
+        explicit Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr)
+        {
+            dType = KSTARS_FOCUSER;
+        }
 
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty *tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
+        void registerProperty(INDI::Property *prop) override;
+        void processSwitch(ISwitchVectorProperty *svp) override;
+        void processText(ITextVectorProperty *tvp) override;
+        void processNumber(INumberVectorProperty *nvp) override;
+        void processLight(ILightVectorProperty *lvp) override;
 
-    DeviceFamily getType() { return dType; }
+        DeviceFamily getType() override
+        {
+            return dType;
+        }
 
-    bool focusIn();
-    bool focusOut();
-    bool moveByTimer(int msecs);
-    bool moveAbs(int steps);
-    bool moveRel(int steps);
+        bool focusIn();
+        bool focusOut();
+        bool moveByTimer(int msecs);
+        bool moveAbs(int steps);
+        bool moveRel(int steps);
 
-    bool canAbsMove();
-    bool canRelMove();
-    bool canTimerMove();
-    bool getFocusDirection(FocusDirection *dir);
+        bool canAbsMove();
+        bool canRelMove();
+        bool canTimerMove();
+        bool getFocusDirection(FocusDirection *dir);
 
-    // Max Travel
-    uint32_t getmaxPosition() { return m_maxPosition; }
-    bool setmaxPosition(uint32_t steps);
+        // Max Travel
+        uint32_t getmaxPosition()
+        {
+            return m_maxPosition;
+        }
+        bool setmaxPosition(uint32_t steps);
 
-private:
-    uint32_t m_maxPosition {0};
+    private:
+        uint32_t m_maxPosition {0};
 };
 }

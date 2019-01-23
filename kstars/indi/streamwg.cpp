@@ -155,18 +155,18 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     }
     else
     {
-        connect(NSSlider, &QSlider::valueChanged, [&]()
+        connect(NSSlider, &QSlider::sliderReleased, [&]()
         {
             ITextVectorProperty * tvp = eoszoomposition->getText();
-            QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
+            QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
             IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
             currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
 
-        connect(WESlider, &QSlider::valueChanged, [&]()
+        connect(WESlider, &QSlider::sliderReleased, [&]()
         {
             ITextVectorProperty * tvp = eoszoomposition->getText();
-            QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
+            QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
             IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
             currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });

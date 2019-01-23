@@ -85,8 +85,8 @@ FITSData::FITSData(const FITSData * other)
     this->m_DataType = other->m_DataType;
     this->m_Channels = other->m_Channels;
     memcpy(&stats, &(other->stats), sizeof(stats));
-    m_ImageBuffer = new uint8_t[stats.samples_per_channel*m_Channels*stats.bytesPerPixel];
-    memcpy(m_ImageBuffer, other->m_ImageBuffer, stats.samples_per_channel*m_Channels*stats.bytesPerPixel);
+    m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
+    memcpy(m_ImageBuffer, other->m_ImageBuffer, stats.samples_per_channel * m_Channels * stats.bytesPerPixel);
 }
 
 FITSData::~FITSData()
@@ -106,7 +106,7 @@ FITSData::~FITSData()
     if (fptr != nullptr)
     {
         fits_close_file(fptr, &status);
-        fptr=nullptr;
+        fptr = nullptr;
 
         if (m_isTemporary && autoRemoveTemporaryFITS)
             QFile::remove(m_Filename);
@@ -124,7 +124,7 @@ QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
     if (fptr != nullptr)
     {
         fits_close_file(fptr, &status);
-        fptr=nullptr;
+        fptr = nullptr;
 
         // If current file is temporary AND
         // Auto Remove Temporary File is Set AND
@@ -655,13 +655,13 @@ int FITSData::calculateMinMax(bool refresh)
 }
 
 template <typename T>
-QPair<T,T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
+QPair<T, T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
 {
     auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
 
-    uint32_t end = start+stride;
+    uint32_t end = start + stride;
 
     for (uint32_t i = start; i < end; i++)
     {
@@ -671,7 +671,7 @@ QPair<T,T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
             max = buffer[i];
     }
 
-    return qMakePair(min,max);
+    return qMakePair(min, max);
 }
 
 template <typename T>
@@ -687,7 +687,7 @@ void FITSData::calculateMinMax()
     // Create N threads
     const uint8_t nThreads = 16;
 
-    for (int n=0; n < m_Channels; n++)
+    for (int n = 0; n < m_Channels; n++)
     {
         uint32_t cStart = n * stats.samples_per_channel;
 
@@ -701,19 +701,19 @@ void FITSData::calculateMinMax()
         uint32_t tStart = cStart;
 
         // List of futures
-        QList<QFuture<QPair<T,T>>> futures;
+        QList<QFuture<QPair<T, T>>> futures;
 
-        for (int i=0; i < nThreads; i++)
+        for (int i = 0; i < nThreads; i++)
         {
             // Run threads
-            futures.append(QtConcurrent::run(this, &FITSData::getParitionMinMax<T>, tStart, (i == (nThreads-1)) ? fStride : tStride));
+            futures.append(QtConcurrent::run(this, &FITSData::getParitionMinMax<T>, tStart, (i == (nThreads - 1)) ? fStride : tStride));
             tStart += tStride;
         }
 
         // Now wait for results
-        for (int i=0; i < nThreads; i++)
+        for (int i = 0; i < nThreads; i++)
         {
-            QPair<T,T> result = futures[i].result();
+            QPair<T, T> result = futures[i].result();
             if (result.first < min)
                 min = result.first;
             if (result.second > max)
@@ -769,7 +769,7 @@ qCInfo(KSTARS_FITS) << filename << "MinMax calculation took" << timer.elapsed() 
 }
 
 template <typename T>
-QPair<double,double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t stride)
+QPair<double, double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t stride)
 {
     uint32_t m_n       = 2;
     double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
@@ -787,7 +787,7 @@ QPair<double,double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t str
         m_n++;
     }
 
-    return qMakePair<double,double>(m_newM, m_newS);
+    return qMakePair<double, double>(m_newM, m_newS);
 }
 
 template <typename T>
@@ -800,7 +800,7 @@ void FITSData::runningAverageStdDev()
     // Create N threads
     const uint8_t nThreads = 16;
 
-    for (int n=0; n < m_Channels; n++)
+    for (int n = 0; n < m_Channels; n++)
     {
         uint32_t cStart = n * stats.samples_per_channel;
 
@@ -814,28 +814,28 @@ void FITSData::runningAverageStdDev()
         uint32_t tStart = cStart;
 
         // List of futures
-        QList<QFuture<QPair<double,double>>> futures;
+        QList<QFuture<QPair<double, double>>> futures;
 
-        for (int i=0; i < nThreads; i++)
+        for (int i = 0; i < nThreads; i++)
         {
             // Run threads
-            futures.append(QtConcurrent::run(this, &FITSData::getSquaredSumAndMean<T>, tStart, (i == (nThreads-1)) ? fStride : tStride));
+            futures.append(QtConcurrent::run(this, &FITSData::getSquaredSumAndMean<T>, tStart, (i == (nThreads - 1)) ? fStride : tStride));
             tStart += tStride;
         }
 
-        double mean=0, squared_sum=0;
+        double mean = 0, squared_sum = 0;
 
         // Now wait for results
-        for (int i=0; i < nThreads; i++)
+        for (int i = 0; i < nThreads; i++)
         {
-            QPair<double,double> result = futures[i].result();
+            QPair<double, double> result = futures[i].result();
             mean += result.first;
             squared_sum += result.second;
         }
 
         double variance = squared_sum / stats.samples_per_channel;
 
-        stats.mean[n]   = mean/nThreads;
+        stats.mean[n]   = mean / nThreads;
         stats.stddev[n] = sqrt(variance);
     }
 #if 0
@@ -866,7 +866,7 @@ else
     }
     else
     {
-        int m_n[3]       = {2,2,2};
+        int m_n[3]       = {2, 2, 2};
         double m_oldM[3] = {0}, m_newM[3] = {0}, m_oldS[3] = {0}, m_newS[3] = {0};
 
         T * rBuffer = buffer;
@@ -925,7 +925,7 @@ void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
 bool FITSData::parseHeader()
 {
     char * header = nullptr;
-    int status = 0, nkeys=0;
+    int status = 0, nkeys = 0;
 
     if (fits_hdr2str(fptr, 0, nullptr, 0, &header, &nkeys, &status))
     {
@@ -1982,7 +1982,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
     {
         case FITS_AUTO_STRETCH:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = stats.mean[i] - stats.stddev[i];
                 dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
@@ -1992,7 +1992,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case FITS_HIGH_CONTRAST:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = stats.mean[i] + stats.stddev[i];
                 dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
@@ -2002,7 +2002,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case FITS_HIGH_PASS:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = stats.mean[i];
             }
@@ -2017,7 +2017,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
     {
         case TBYTE:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
                 dataMax[i] = dataMax[i] > UINT8_MAX ? UINT8_MAX : dataMax[i];
@@ -2028,7 +2028,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TSHORT:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < INT16_MIN ? INT16_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > INT16_MAX ? INT16_MAX : dataMax[i];
@@ -2040,7 +2040,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TUSHORT:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
                 dataMax[i] = dataMax[i] > UINT16_MAX ? UINT16_MAX : dataMax[i];
@@ -2051,7 +2051,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TLONG:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < INT_MIN ? INT_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > INT_MAX ? INT_MAX : dataMax[i];
@@ -2062,7 +2062,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TULONG:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
                 dataMax[i] = dataMax[i] > UINT_MAX ? UINT_MAX : dataMax[i];
@@ -2073,7 +2073,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TFLOAT:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < FLT_MIN ? FLT_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > FLT_MAX ? FLT_MAX : dataMax[i];
@@ -2084,7 +2084,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TLONGLONG:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < LLONG_MIN ? LLONG_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > LLONG_MAX ? LLONG_MAX : dataMax[i];
@@ -2096,7 +2096,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
 
         case TDOUBLE:
         {
-            for (int i=0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dataMin[i] = dataMin[i] < DBL_MIN ? DBL_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > DBL_MAX ? DBL_MAX : dataMax[i];
@@ -2131,7 +2131,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
     }
 
     T min[3], max[3];
-    for (int i=0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
     {
         min[i] = (*targetMin)[i] < std::numeric_limits<T>::min() ? std::numeric_limits<T>::min() : (*targetMin)[i];
         max[i] = (*targetMax)[i] > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max() : (*targetMax)[i];
@@ -2162,16 +2162,16 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
 
             if (type == FITS_LOG)
             {
-                for (int i=0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                     coeff[i] = max[i] / std::log(1 + max[i]);
             }
             else if (type == FITS_SQRT)
             {
-                for (int i=0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                     coeff[i] = max[i] / sqrt(max[i]);
             }
 
-            for (int n=0; n < m_Channels; n++)
+            for (int n = 0; n < m_Channels; n++)
             {
                 if (type == FITS_HIGH_PASS)
                     min[n] = stats.mean[n];
@@ -2188,12 +2188,12 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
 
                 if (type == FITS_LOG)
                 {
-                    for (int i=0; i < nThreads; i++)
+                    for (int i = 0; i < nThreads; i++)
                     {
                         // Run threads
-                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff,n](T & a)
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max, coeff, n](T & a)
                         {
-                            a = qBound(min[n],static_cast<T>(round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))),max[n]);
+                            a = qBound(min[n], static_cast<T>(round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))), max[n]);
                         }));
 
                         runningBuffer += tStride;
@@ -2201,12 +2201,12 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                 }
                 else if (type == FITS_SQRT)
                 {
-                    for (int i=0; i < nThreads; i++)
+                    for (int i = 0; i < nThreads; i++)
                     {
                         // Run threads
-                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff,n](T & a)
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max, coeff, n](T & a)
                         {
-                            a = qBound(min[n],static_cast<T>(round(coeff[n] * a)),max[n]);
+                            a = qBound(min[n], static_cast<T>(round(coeff[n] * a)), max[n]);
                         }));
                     }
 
@@ -2214,24 +2214,24 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                 }
                 else
                 {
-                    for (int i=0; i < nThreads; i++)
+                    for (int i = 0; i < nThreads; i++)
                     {
                         // Run threads
-                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,n](T & a)
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max, n](T & a)
                         {
-                            a = qBound(min[n], a,max[n]);
+                            a = qBound(min[n], a, max[n]);
                         }));
                         runningBuffer += tStride;
                     }
                 }
             }
 
-            for (int i=0; i < nThreads*m_Channels; i++)
+            for (int i = 0; i < nThreads * m_Channels; i++)
                 futures[i].waitForFinished();
 
             if (calcStats)
             {
-                for (int i=0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     stats.min[i] = min[i];
                     stats.max[i] = max[i];
@@ -2253,7 +2253,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
 
             double coeff = 255.0 / (height * width);
             uint32_t row = 0;
-            uint32_t index=0;
+            uint32_t index = 0;
 
             for (int i = 0; i < m_Channels; i++)
             {
@@ -2316,7 +2316,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                         int k = 0;
                         float window[9];
 
-                        memset(&window[0], 0, 9*sizeof(float));
+                        memset(&window[0], 0, 9 * sizeof(float));
                         for (uint32_t j = m - 1; j < m + 2; ++j)
                             for (uint32_t i = n - 1; i < n + 2; ++i)
                                 window[k++] = extension[j * N + i];
@@ -2373,7 +2373,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
 }
 else
 {
-    uint32_t index = 0, row=0, offset=0;
+    uint32_t index = 0, row = 0, offset = 0;
 
     switch (type)
     {
@@ -2577,7 +2577,7 @@ else
                         int k = 0;
                         float window[9];
 
-                        memset(&window[0], 0, 9*sizeof(float));
+                        memset(&window[0], 0, 9 * sizeof(float));
                         for (uint32_t j = m - 1; j < m + 2; ++j)
                             for (uint32_t i = n - 1; i < n + 2; ++i)
                                 window[k++] = extension[j * N + i];
@@ -2645,7 +2645,7 @@ QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
     {
         int x = static_cast<int>(starCenters[i]->x);
         int y = static_cast<int>(starCenters[i]->y);
-        if(subFrame.contains(x,y))
+        if(subFrame.contains(x, y))
         {
             starCentersInSubFrame.append(starCenters[i]);
         }
@@ -3874,16 +3874,16 @@ void FITSData::sobel(const QImage &image, QVector<int> &gradient, QVector<int> &
         size_t yOffset = y * image.width();
         const quint8 * grayLine = image.constBits() + yOffset;
 
-        const quint8 * grayLine_m1 = y < 1? grayLine: grayLine - image.width();
-        const quint8 * grayLine_p1 = y >= image.height() - 1? grayLine: grayLine + image.width();
+        const quint8 * grayLine_m1 = y < 1 ? grayLine : grayLine - image.width();
+        const quint8 * grayLine_p1 = y >= image.height() - 1 ? grayLine : grayLine + image.width();
 
         int * gradientLine = gradient.data() + yOffset;
         int * directionLine = direction.data() + yOffset;
 
         for (int x = 0; x < image.width(); x++)
         {
-            int x_m1 = x < 1? x: x - 1;
-            int x_p1 = x >= image.width() - 1? x: x + 1;
+            int x_m1 = x < 1 ? x : x - 1;
+            int x_p1 = x >= image.width() - 1 ? x : x + 1;
 
             int gradX = grayLine_m1[x_p1]
                         + 2 * grayLine[x_p1]
@@ -4108,15 +4108,15 @@ QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradi
     {
         int yOffset = y * width;
         const int * gradientLine = gradient.constData() + yOffset;
-        const int * gradientLine_m1 = y < 1? gradientLine: gradientLine - width;
-        const int * gradientLine_p1 = y >= height - 1? gradientLine: gradientLine + width;
+        const int * gradientLine_m1 = y < 1 ? gradientLine : gradientLine - width;
+        const int * gradientLine_p1 = y >= height - 1 ? gradientLine : gradientLine + width;
         const int * directionLine = direction.constData() + yOffset;
         int * thinnedLine = thinned.data() + yOffset;
 
         for (int x = 0; x < width; x++)
         {
-            int x_m1 = x < 1? 0: x - 1;
-            int x_p1 = x >= width - 1? x: x + 1;
+            int x_m1 = x < 1 ? 0 : x - 1;
+            int x_p1 = x >= width - 1 ? x : x + 1;
 
             int direction = directionLine[x];
             int pixel = 0;
@@ -4182,8 +4182,8 @@ QVector<float> FITSData::threshold(int thLow, int thHi, const QVector<float> &im
     QVector<float> thresholded(image.size());
 
     for (int i = 0; i < image.size(); i++)
-        thresholded[i] = image[i] <= thLow? 0:
-                         image[i] >= thHi? 255:
+        thresholded[i] = image[i] <= thLow ? 0 :
+                         image[i] >= thHi ? 255 :
                          127;
 
     return thresholded;
@@ -4219,7 +4219,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
     T bMax    = dataMax > limit ? limit : dataMax;
     uint16_t w    = width();
     uint16_t h    = height();
-    uint32_t size = w*h;
+    uint32_t size = w * h;
     double val;
 
     if (channels() == 1)
@@ -4539,7 +4539,7 @@ bool FITSData::contains(const QPointF &point) const
 
 int FITSData::findSEPStars(const QRect &boundary)
 {
-    int x=0,y=0,w=stats.width,h=stats.height, maxRadius=50;
+    int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
 
     if (!boundary.isNull())
     {
@@ -4550,7 +4550,7 @@ int FITSData::findSEPStars(const QRect &boundary)
         maxRadius = w;
     }
 
-    auto * data = new float[w*h];
+    auto * data = new float[w * h];
 
     switch (stats.bitpix)
     {
@@ -4585,13 +4585,13 @@ int FITSData::findSEPStars(const QRect &boundary)
     }
 
     float * imback = nullptr;
-    double * flux= nullptr, *fluxerr= nullptr, *area= nullptr;
+    double * flux = nullptr, *fluxerr = nullptr, *area = nullptr;
     short * flag = nullptr;
-    short flux_flag=0;
+    short flux_flag = 0;
     int status = 0;
     sep_bkg * bkg = nullptr;
     sep_catalog * catalog = nullptr;
-    float conv[] = {1,2,1, 2,4,2, 1,2,1};
+    float conv[] = {1, 2, 1, 2, 4, 2, 1, 2, 1};
     double flux_fractions[2] = {0};
     double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge *> edges;
@@ -4604,7 +4604,7 @@ int FITSData::findSEPStars(const QRect &boundary)
     if (status != 0) goto exit;
 
     // #2 Background evaluation
-    imback = (float *)malloc((w * h)*sizeof(float));
+    imback = (float *)malloc((w * h) * sizeof(float));
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
     if (status != 0) goto exit;
 
@@ -4614,7 +4614,7 @@ int FITSData::findSEPStars(const QRect &boundary)
 
     // #4 Source Extraction
     // Note that we set deblend_cont = 1.0 to turn off deblending.
-    status = sep_extract(&im, 2*bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
+    status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
     if (status != 0) goto exit;
 
 #if 0
@@ -4625,7 +4625,7 @@ int FITSData::findSEPStars(const QRect &boundary)
     fluxerrt = fluxerr = (double *)malloc(catalog->nobj * sizeof(double));
     areat = area = (double *)malloc(catalog->nobj * sizeof(double));
     flagt = flag = (short *)malloc(catalog->nobj * sizeof(short));
-    for (int i=0; i<catalog->nobj; i++, fluxt++, fluxerrt++, flagt++, areat++)
+    for (int i = 0; i < catalog->nobj; i++, fluxt++, fluxerrt++, flagt++, areat++)
         sep_sum_circle(&im, catalog->x[i], catalog->y[i], 10.0, 5, 0, fluxt, fluxerrt, areat, flagt);
 #endif
 
@@ -4634,37 +4634,37 @@ int FITSData::findSEPStars(const QRect &boundary)
     // Must limit to brightest 100 (by flux) centers
     // Should probably use ellipse to draw instead of simple circle?
     // Useful for galaxies and also elenogated stars.
-    for (int i=0; i<catalog->nobj; i++)
+    for (int i = 0; i < catalog->nobj; i++)
     {
         double flux = catalog->flux[i];
         // Get HFR
         sep_flux_radius(&im, catalog->x[i], catalog->y[i], maxRadius, 5, 0, &flux, requested_frac, 2, flux_fractions, &flux_flag);
 
         auto * center = new Edge();
-        center->x = catalog->x[i]+x+0.5;
-        center->y = catalog->y[i]+y+0.5;
+        center->x = catalog->x[i] + x + 0.5;
+        center->y = catalog->y[i] + y + 0.5;
         center->val = catalog->peak[i];
         center->sum = flux;
         center->HFR = center->width = flux_fractions[0];
         if (flux_fractions[1] < maxRadius)
-            center->width = flux_fractions[1]*2;
+            center->width = flux_fractions[1] * 2;
         edges.append(center);
     }
 
     // Let's sort edges, starting with widest
-    qSort(edges.begin(), edges.end(), [](const Edge *edge1, const Edge *edge2) -> bool { return edge1->width > edge2->width;});
+    qSort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->width > edge2->width;});
 
     // Take only the first 100 stars
     {
         int starCount = qMin(100, edges.count());
-        for (int i=0; i < starCount; i++)
+        for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
     }
 
     edges.clear();
 
     qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Width" << "#HFR";
-    for (int i=0; i < starCenters.count(); i++)
+    for (int i = 0; i < starCenters.count(); i++)
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->HFR;
 
@@ -4697,15 +4697,15 @@ void FITSData::getFloatBuffer(float * buffer, int x, int y, int w, int h)
 
     float * floatPtr = buffer;
 
-    int x2 = x+w;
-    int y2 = y+h;
+    int x2 = x + w;
+    int y2 = y + h;
 
-    for (int y1=y; y1 < y2; y1++)
+    for (int y1 = y; y1 < y2; y1++)
     {
-        int offset = y1*stats.width;
-        for (int x1=x; x1 < x2; x1++)
+        int offset = y1 * stats.width;
+        for (int x1 = x; x1 < x2; x1++)
         {
-            *floatPtr++ = rawBuffer[offset+x1];
+            *floatPtr++ = rawBuffer[offset + x1];
         }
     }
 }
