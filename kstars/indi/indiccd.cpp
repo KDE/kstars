@@ -777,8 +777,8 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     readyTimer.get()->setSingleShot(true);
     connect(readyTimer.get(), &QTimer::timeout, this, &CCD::ready);
 
-    m_Media.reset(new Media(this));
-    connect(m_Media.get(), &Media::newFile, this, &CCD::setWSBLOB);
+    m_Media.reset(new WSMedia(this));
+    connect(m_Media.get(), &WSMedia::newFile, this, &CCD::setWSBLOB);
 
     connect(clientManager, &ClientManager::newBLOBManager, [&](const char *device, INDI::Property * prop)
     {

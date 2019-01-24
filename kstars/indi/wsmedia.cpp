@@ -8,7 +8,7 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include "media.h"
+#include "wsmedia.h"
 
 #include <QTimer>
 #include <QTemporaryFile>
@@ -19,15 +19,15 @@
 namespace ISD
 {
 
-Media::Media(CCD *manager): m_Manager(manager)
+WSMedia::WSMedia(CCD *manager): m_Manager(manager)
 {
-    connect(&m_WebSocket, &QWebSocket::connected, this, &Media::onConnected);
-    connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Media::onError);
+    connect(&m_WebSocket, &QWebSocket::connected, this, &WSMedia::onConnected);
+    connect(&m_WebSocket, &QWebSocket::disconnected, this, &WSMedia::onDisconnected);
+    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &WSMedia::onError);
 
 }
 
-void Media::connectServer()
+void WSMedia::connectServer()
 {
     QUrl requestURL(m_URL);
     m_WebSocket.open(requestURL);
@@ -35,54 +35,54 @@ void Media::connectServer()
     qCInfo(KSTARS_INDI) << "Connecting to Websocket server at" << requestURL.toDisplayString();
 }
 
-void Media::disconnectServer()
+void WSMedia::disconnectServer()
 {
     m_WebSocket.close();
 }
 
-void Media::onConnected()
+void WSMedia::onConnected()
 {
     qCInfo(KSTARS_INDI) << "Connected to media Websocket server at" << m_URL.toDisplayString();
 
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
-    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
+    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &WSMedia::onTextReceived);
+    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &WSMedia::onBinaryReceived);
 
     m_isConnected = true;
-    m_ReconnectTries=0;
+    m_ReconnectTries = 0;
 
     emit connected();
 }
 
-void Media::onDisconnected()
+void WSMedia::onDisconnected()
 {
     qCInfo(KSTARS_INDI) << "Disonnected from media Websocket server.";
     m_isConnected = false;
 
-    disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
-    disconnect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
+    disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &WSMedia::onTextReceived);
+    disconnect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &WSMedia::onBinaryReceived);
 
     m_sendBlobs = true;
 
     emit disconnected();
 }
 
-void Media::onError(QAbstractSocket::SocketError error)
+void WSMedia::onError(QAbstractSocket::SocketError error)
 {
     qCritical(KSTARS_INDI) << "Media Websocket connection error" << m_WebSocket.errorString();
     if (error == QAbstractSocket::RemoteHostClosedError ||
-        error == QAbstractSocket::ConnectionRefusedError)
+            error == QAbstractSocket::ConnectionRefusedError)
     {
         if (m_ReconnectTries++ < RECONNECT_MAX_TRIES)
             QTimer::singleShot(RECONNECT_INTERVAL, this, SLOT(connectServer()));
     }
 }
 
-void Media::onTextReceived(const QString &message)
+void WSMedia::onTextReceived(const QString &message)
 {
     extension = message;
 }
 
-void Media::onBinaryReceived(const QByteArray &message)
+void WSMedia::onBinaryReceived(const QByteArray &message)
 {
     emit newFile(message, extension);
 }

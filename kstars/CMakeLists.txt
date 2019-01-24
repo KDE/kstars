@@ -80,7 +80,7 @@ if (INDI_FOUND)
         indi/indilistener.cpp
         indi/inditelescope.cpp
         indi/indiccd.cpp
-        indi/media.cpp
+        indi/wsmedia.cpp
         indi/indifocuser.cpp
         indi/indifilter.cpp
         indi/indidome.cpp
