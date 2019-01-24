@@ -10,7 +10,7 @@
 #pragma once
 
 #include "indistd.h"
-#include "media.h"
+#include "wsmedia.h"
 #include "auxiliary/imageviewer.h"
 #include "fitsviewer/fitscommon.h"
 #include "fitsviewer/fitsview.h"
@@ -361,7 +361,7 @@ class CCD : public DeviceDecorator
         std::unique_ptr<QTimer> readyTimer;
         std::unique_ptr<CCDChip> primaryChip;
         std::unique_ptr<CCDChip> guideChip;
-        std::unique_ptr<Media> m_Media;
+        std::unique_ptr<WSMedia> m_Media;
         TransferFormat transferFormat { FORMAT_FITS };
         TransferFormat targetTransferFormat { FORMAT_FITS };
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };
