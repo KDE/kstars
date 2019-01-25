@@ -245,7 +245,7 @@ bool KStars::setGeoLocation(const QString &city, const QString &province, const 
     foreach (GeoLocation *loc, data()->geoList)
     {
         if (loc->translatedName() == city && (province.isEmpty() || loc->translatedProvince() == province) &&
-            loc->translatedCountry() == country)
+                loc->translatedCountry() == country)
         {
             cityFound = true;
 
@@ -282,13 +282,41 @@ bool KStars::setGeoLocation(const QString &city, const QString &province, const 
     {
         if (province.isEmpty())
             qDebug()
-                << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city, country);
+                    << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city, country);
         else
             qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.")
-                            .arg(city, province, country);
+                     .arg(city, province, country);
     }
 
     return cityFound;
+}
+
+bool KStars::setGPSLocation(double longitude, double latitude, double elevation, double tz0)
+{
+    GeoLocation *geo = data()->geo();
+    std::unique_ptr<GeoLocation> tempGeo;
+
+    QString newLocationName("GPS Location");
+
+    dms lng(longitude), lat(latitude);
+
+    if (geo->name() != newLocationName)
+    {
+        TimeZoneRule *rule = geo->tzrule();
+        tempGeo.reset(new GeoLocation(lng, lat, newLocationName, "", "", tz0, rule, elevation));
+        geo = tempGeo.get();
+    }
+    else
+    {
+        geo->setLong(lng);
+        geo->setLat(lat);
+    }
+
+    qCInfo(KSTARS) << "Setting location from DBus. Longitude:" << longitude << "Latitude:" << latitude;
+
+    data()->setLocation(*geo);
+
+    return true;
 }
 
 void KStars::readConfig()
@@ -571,9 +599,9 @@ void KStars::loadColorScheme(const QString &name)
             QApplication::setPalette(DarkPalette);
             if (KStars::Instance()->wiView())
                 KStars::Instance()->wiView()->setNightVisionOn(true);
-//Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
-//It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
-//This is also in KStars.cpp.  If you change it, change it in BOTH places.
+            //Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
+            //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
+            //This is also in KStars.cpp.  If you change it, change it in BOTH places.
 #ifdef Q_OS_OSX
             qDebug() << "setting dark stylesheet";
             qApp->setStyleSheet(
@@ -623,18 +651,18 @@ void KStars::loadColorScheme(const QString &name)
 #endif
 
 #ifdef HAVE_INDI
-        if (KStars::Instance()->ekosManager())
+    if (KStars::Instance()->ekosManager())
+    {
+        if (KStars::Instance()->ekosManager()->guideModule())
         {
-            if (KStars::Instance()->ekosManager()->guideModule())
-            {
-                KStars::Instance()->ekosManager()->guideModule()->refreshColorScheme();
-            }
+            KStars::Instance()->ekosManager()->guideModule()->refreshColorScheme();
         }
+    }
 #endif
 
-        Options::setColorSchemeFile(name);
+    Options::setColorSchemeFile(name);
 
-        map()->forceUpdate();
+    map()->forceUpdate();
 
 }
 
@@ -852,7 +880,8 @@ void KStars::renderEyepieceView(const QString &objectName, const QString &destPa
             // We must download a DSS image
             tempFile.open();
             QEventLoop loop;
-            std::function<void(bool)> slot = [&loop](bool unused) {
+            std::function<void(bool)> slot = [&loop](bool unused)
+            {
                 Q_UNUSED(unused);
                 loop.quit();
             };
@@ -980,14 +1009,16 @@ void KStars::openFITS(const QUrl &imageURL)
     }
 
     auto m_Loaded = std::make_shared<QMetaObject::Connection>();
-    *m_Loaded = connect(fv, &FITSViewer::loaded, [fv,m_Loaded]() {
+    *m_Loaded = connect(fv, &FITSViewer::loaded, [fv, m_Loaded]()
+    {
         fv->show();
 
         QObject::disconnect(*m_Loaded);
     });
 
     auto m_Failed = std::make_shared<QMetaObject::Connection>();
-    *m_Failed = connect(fv, &FITSViewer::failed, [fv,m_Failed]() {
+    *m_Failed = connect(fv, &FITSViewer::failed, [fv, m_Failed]()
+    {
         delete (fv);
 
         QObject::disconnect(*m_Failed);
