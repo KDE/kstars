@@ -637,7 +637,7 @@ CCDBinType CCDChip::getBinning()
     if (!horBin || !verBin)
         return binType;
 
-    switch ((int)horBin->value)
+    switch (static_cast<int>(horBin->value))
     {
         case 2:
             binType = DOUBLE_BIN;
@@ -1288,7 +1288,7 @@ void CCD::processBLOB(IBLOB *bp)
 
         QDataStream out(&tmpFile);
 
-        for (nr = 0; nr < (int)bp->size; nr += n)
+        for (nr = 0; nr < static_cast<int>(bp->size); nr += n)
             n = out.writeRawData(static_cast<char *>(bp->blob) + nr, bp->size - nr);
 
         tmpFile.close();
@@ -1323,7 +1323,7 @@ void CCD::processBLOB(IBLOB *bp)
 
         QDataStream out(&fits_temp_file);
 
-        for (nr = 0; nr < (int)bp->size; nr += n)
+        for (nr = 0; nr < static_cast<int>(bp->size); nr += n)
             n = out.writeRawData(static_cast<char *>(bp->blob) + nr, bp->size - nr);
 
         fits_temp_file.close();
@@ -1741,11 +1741,9 @@ CCDChip *CCD::getChip(CCDChip::ChipType cType)
     {
         case CCDChip::PRIMARY_CCD:
             return primaryChip.get();
-            break;
 
         case CCDChip::GUIDE_CCD:
             return guideChip.get();
-            break;
     }
 
     return nullptr;
