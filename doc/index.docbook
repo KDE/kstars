@@ -102,7 +102,7 @@
 <affiliation>
 <address><email>mutlaqja AT ikarustech DOT com</email></address>
 </affiliation>
-<contrib>Core Developer</contrib>
+<contrib>Lead Developer &amp; Maintainer</contrib>
 </othercredit>
 
 <othercredit role="developer">
@@ -173,14 +173,14 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2018</year>
+<year>2001-2019</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2018-05-25</date>
-<releaseinfo>2.9.6</releaseinfo>
+<date>2019-02-01</date>
+<releaseinfo>3.1.0</releaseinfo>
 
 <abstract>
 <para>
