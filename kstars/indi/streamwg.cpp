@@ -110,38 +110,28 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
-    zoomInB->setIcon(QIcon::fromTheme("zoom-in"));
-    zoomOutB->setIcon(QIcon::fromTheme("zoom-out"));
-    handLabel->setPixmap(QIcon::fromTheme("hand").pixmap(32, 32));
-
     eoszoom = currentCCD->getProperty("eoszoom");
     if (eoszoom == nullptr)
     {
-        zoomInB->hide();
-        zoomOutB->hide();
+        zoomLevelCombo->hide();
     }
     else
     {
-        connect(zoomInB, &QPushButton::clicked, [&]()
+        connect(zoomLevelCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), [&]()
         {
             ITextVectorProperty * tvp = eoszoom->getText();
-            IUSaveText(&(tvp->tp[0]), "5");
-            eoszoomActive = true;
+            QString zoomLevel = zoomLevelCombo->currentText().remove("x");
+            IUSaveText(&(tvp->tp[0]), zoomLevel.toLatin1().constData());
             handLabel->setEnabled(true);
             NSSlider->setEnabled(true);
             WESlider->setEnabled(true);
+            // Set it twice!
             currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
-        });
+            QTimer::singleShot(1000, this, [ &, tvp]()
+            {
+                currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+            });
 
-        connect(zoomOutB, &QPushButton::clicked, [&]()
-        {
-            ITextVectorProperty * tvp = eoszoom->getText();
-            IUSaveText(&(tvp->tp[0]), "0");
-            eoszoomActive = false;
-            handLabel->setEnabled(false);
-            NSSlider->setEnabled(false);
-            WESlider->setEnabled(false);
-            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
     }
 
