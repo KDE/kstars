@@ -74,7 +74,7 @@ To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
                 <listitem><para>Show Pixel Gridlines: Toggles pixel grid.</para></listitem>
                 <listitem><para>Show Equatorial Gridlines: Toggles Equatorial Grid if FITS contains a valid WCS header.</para></listitem>
                 <listitem><para>Show Objects in Image: Identifies objects such as stars, galaxies, and nebulae within the image.</para></listitem>
-                <listitem><para>Center Telescope: Toggle Center Telescope mode. When active and if the image contains a valid WCS header, clicking anywhere in the image</para></listitem>
+                <listitem><para>Center Telescope: Toggle Center Telescope mode. When active and if the image contains a valid WCS header, clicking anywhere in the image triggers the telescope slewing to the clicked point.</para></listitem>
                 <listitem><para>Histogram: Toggle histogram view in the side panel.</para></listitem>
                 <listitem><para>Statistics: Toggle FITS Statistic view in the side panel.</para></listitem>
                 <listitem><para>Auto Stretch: Apply Auto Stretch filter to the image.</para></listitem>
