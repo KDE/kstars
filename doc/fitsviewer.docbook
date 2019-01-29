@@ -6,7 +6,7 @@
 
 <para>The Flexible Image Transport System (FITS) is the standard format for representing images and data in Astronomy.</para>
 
-<para>The &kstars; FITS Viewer tool is automatically invoked when new images are recieved from the camera.
+<para>The &kstars; FITS Viewer tool is automatically invoked when new images are received from the camera.
 It is primarily used to view and examine FITS data. It is not designed for editing of FITS Images.
 To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
 <guimenu>File</guimenu> menu, or press <keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>.</para>
@@ -61,8 +61,8 @@ To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
                 <listitem><para>Save File: Save FITS data. Any filters applied to the image will be saved.</para></listitem>
                 <listitem><para>Save File As.</para></listitem>
                 <listitem><para>Undo last action.</para></listitem>
-                <listitem><para>Redo last aciton.</para></listitem>
-                <listitem><para>Zoom In: Zoom in up to a maximum of 400%. For large images thie operation can be very memory intensive. Turn on Limited Resource Mode to save memory.</para></listitem>
+                <listitem><para>Redo last action.</para></listitem>
+                <listitem><para>Zoom In: Zoom in up to a maximum of 400%. For large images this operation can be very memory intensive. Turn on Limited Resource Mode to save memory.</para></listitem>
                 <listitem><para>Zoom Out.</para></listitem>
                 <listitem><para>View in Actual Size.</para></listitem>
                 <listitem><para>Zoom to fit.</para></listitem>
@@ -70,11 +70,11 @@ To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
                 <listitem><para>Rotate Left.</para></listitem>
                 <listitem><para>Flip Horizontal.</para></listitem>
                 <listitem><para>Flip Vertical.</para></listitem>
-                <listitem><para>Show Crosshairs: Toggles crosshairs in the center of the image.</para></listitem>
+                <listitem><para>Show Cross Hairs: Toggles crosshairs in the center of the image.</para></listitem>
                 <listitem><para>Show Pixel Gridlines: Toggles pixel grid.</para></listitem>
-                <listitem><para>Show Equatorial Guidelines: Toggles Equatorial Grid if FITS contains a valid WCS header.</para></listitem>
+                <listitem><para>Show Equatorial Gridlines: Toggles Equatorial Grid if FITS contains a valid WCS header.</para></listitem>
                 <listitem><para>Show Objects in Image: Identifies objects such as stars, galaxies, and nebulae within the image.</para></listitem>
-                <listitem><para>Center Telescope: Toggle Center Telescope mode. When active and if the image contains a valid WCS header, clicking any where in the image</para></listitem>
+                <listitem><para>Center Telescope: Toggle Center Telescope mode. When active and if the image contains a valid WCS header, clicking anywhere in the image</para></listitem>
                 <listitem><para>Histogram: Toggle histogram view in the side panel.</para></listitem>
                 <listitem><para>Statistics: Toggle FITS Statistic view in the side panel.</para></listitem>
                 <listitem><para>Auto Stretch: Apply Auto Stretch filter to the image.</para></listitem>
@@ -82,7 +82,7 @@ To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
     </listitem>
     <listitem><para>Side Panel: The side panel can be opened by dragging the separator to the right. When dragged to the left, the side panel can also be closed.</para>
             <itemizedlist>
-                <listitem><para>Statistcs: Displays image statistics including Minimum, Maximum, Average, and Median values.</para></listitem>
+                <listitem><para>Statistics: Displays image statistics including Minimum, Maximum, Average, and Median values.</para></listitem>
                 <listitem><para>Histogram: Displays image histogram with controls to adjust the minimum and maximum values for each channel. Both linear and logarithmic scalings are available to apply to the image.</para></listitem>
                 <listitem><para>FITS Header: Displays a table for FITS header keywords, values, and comments.</para></listitem>
                 <listitem><para>Recent Images: Displays recently opened images. Clicking on any image will load it.</para></listitem>
