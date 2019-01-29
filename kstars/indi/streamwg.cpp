@@ -35,6 +35,7 @@
 #include <QImageWriter>
 #include <QImageReader>
 #include <QIcon>
+#include <QTimer>
 
 #include <cstdlib>
 #include <fcntl.h>
@@ -81,7 +82,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 
     double duration = 0.1;
     currentCCD->getStreamExposure(&duration);
-    videoExposure->setValue(duration);
+    targetFPSSpin->setValue(1.0 / duration);
 
     options->recordFilenameEdit->setText(filename);
     options->recordDirectoryEdit->setText(directory);
@@ -175,10 +176,17 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     }
 
     connect(currentCCD, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
-    connect(videoExposure, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double value)
+    connect(changeFPSB, &QPushButton::clicked, this, [&]()
     {
         if (currentCCD)
-            currentCCD->setStreamExposure(value);
+        {
+            currentCCD->setStreamExposure(1.0 / targetFPSSpin->value());
+            currentCCD->setVideoStreamEnabled(false);
+            QTimer::singleShot(1000, this, [&]()
+            {
+                currentCCD->setVideoStreamEnabled(true);
+            });
+        }
     });
 
 }
