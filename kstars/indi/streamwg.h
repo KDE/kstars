@@ -28,66 +28,73 @@
 
 class RecordOptions : public QDialog, public Ui::recordingOptions
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit RecordOptions(QWidget *parent);
+    public:
+        explicit RecordOptions(QWidget *parent);
 
-  public slots:
-    void selectRecordDirectory();
+    public slots:
+        void selectRecordDirectory();
 
-  private:
-    QUrl dirPath;
+    private:
+        QUrl dirPath;
 
-    friend class StreamWG;
+        friend class StreamWG;
 };
 
 class StreamWG : public QDialog, public Ui::streamForm
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit StreamWG(ISD::CCD *ccd);
-    virtual ~StreamWG() override = default;
+    public:
+        explicit StreamWG(ISD::CCD *ccd);
+        virtual ~StreamWG() override = default;
 
-    void setColorFrame(bool color);
-    void setSize(int wd, int ht);
+        void setColorFrame(bool color);
+        void setSize(int wd, int ht);
 
-    void enableStream(bool enable);
-    bool isStreamEnabled() { return processStream; }
+        void enableStream(bool enable);
+        bool isStreamEnabled()
+        {
+            return processStream;
+        }
 
-    void newFrame(IBLOB *bp);
+        void newFrame(IBLOB *bp);
 
-    int getStreamWidth() { return streamWidth; }
-    int getStreamHeight() { return streamHeight; }
+        int getStreamWidth()
+        {
+            return streamWidth;
+        }
+        int getStreamHeight()
+        {
+            return streamHeight;
+        }
 
-  protected:
-    void closeEvent(QCloseEvent *ev) override;
-    QSize sizeHint() const override;
+    protected:
+        void closeEvent(QCloseEvent *ev) override;
+        QSize sizeHint() const override;
 
-  public slots:
-    void toggleRecord();
-    void updateRecordStatus(bool enabled);
-    void resetFrame();
+    public slots:
+        void toggleRecord();
+        void updateRecordStatus(bool enabled);
+        void resetFrame();
 
-  protected slots:
-    void setStreamingFrame(QRect newFrame);
-    void updateFPS(double instantFPS, double averageFPS);
+    protected slots:
+        void setStreamingFrame(QRect newFrame);
+        void updateFPS(double instantFPS, double averageFPS);
 
-  signals:
-    void hidden();
-    void imageChanged(std::unique_ptr<QImage> & frame);
+    signals:
+        void hidden();
+        void imageChanged(std::unique_ptr<QImage> &frame);
 
-  private:
-    bool processStream;
-    int streamWidth, streamHeight;
-    bool colorFrame, isRecording;
-    QIcon recordIcon, stopIcon;
-    ISD::CCD *currentCCD;
+    private:
+        bool processStream;
+        int streamWidth, streamHeight;
+        bool colorFrame, isRecording;
+        QIcon recordIcon, stopIcon;
+        ISD::CCD *currentCCD;
 
-    // For Canon DSLRs
-    INDI::Property *eoszoom {nullptr}, *eoszoomposition {nullptr};
-    bool eoszoomActive { false };
-
-    RecordOptions *options;
+        // For Canon DSLRs
+        INDI::Property *eoszoom {nullptr}, *eoszoomposition {nullptr};
+        RecordOptions *options;
 };
