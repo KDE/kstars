@@ -59,7 +59,7 @@ FITSData *DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
     {
         // First check CCD name matches and check if we are on the correct chip
         if (map["ccd"].toString() == targetChip->getCCD()->getDeviceName() &&
-            map["chip"].toInt() == static_cast<int>(targetChip->getType()))
+                map["chip"].toInt() == static_cast<int>(targetChip->getType()))
         {
             int binX, binY;
             targetChip->getBinning(&binX, &binY);
@@ -249,7 +249,9 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 #endif
 
     lightData->applyFilter(filter);
-    if (filter == FITS_NONE)
+    if (Options::autoStretch())
+        lightData->applyFilter(FITS_AUTO_STRETCH);
+    else if (filter == FITS_NONE)
         lightData->calculateStats(true);
     lightImage->rescale(ZOOM_KEEP_LEVEL);
     lightImage->updateFrame();
@@ -257,7 +259,7 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     // If telescope is covered, let's uncover it
     if (m_TelescopeCovered)
     {
-        QString deviceName= subtractParams.targetChip->getCCD()->getDeviceName();
+        QString deviceName = subtractParams.targetChip->getCCD()->getDeviceName();
         bool hasNoShutter = Options::shutterlessCCDs().contains(deviceName);
         // Only ask if no shutter and is temporary file
         // For regular files, the data is already loaded so no need to ask user to remove cover
@@ -265,9 +267,9 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
         if (hasNoShutter)
         {
             if (KMessageBox::warningContinueCancel(
-                    nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
-                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                    "uncover_scope_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
+                        nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
+                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                        "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
             {
                 emit darkFrameCompleted(false);
                 return false;
@@ -304,7 +306,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             Options::setShutterlessCCDs(shutterlessCCDs);
         }
         else if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
-                                       i18n("Dark Exposure")) == KMessageBox::Yes)
+                                            i18n("Dark Exposure")) == KMessageBox::Yes)
         {
             hasNoShutter = false;
             shutterfulCCDs.append(deviceName);
@@ -321,9 +323,9 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     if (hasNoShutter)
     {
         if (KMessageBox::warningContinueCancel(
-                nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
-                KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                "cover_scope_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
+                    nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
+                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                    "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
