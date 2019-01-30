@@ -77,6 +77,7 @@
     <p xml:lang="nl">KStars is een opensource Astronomieprogramma van KDE, met een vrije licentie, dat draait op allerlei verschillende soorten computers.</p>
     <p xml:lang="pl">KStars jest darmowym, otwartoźródłowym, wieloplatformowym oprogramowaniem astronomicznym stworzonym przez KDE.</p>
     <p xml:lang="pt">O KStars é uma aplicação de astronomia com uma licença livre, de código-aberto e multi-plataforma.</p>
+    <p xml:lang="pt-BR">KStars é um software de Astronomia do KDE licenciado gratuitamente, de código aberto e multiplataforma.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
     <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
@@ -328,6 +329,7 @@
       <caption xml:lang="nl">Het hoofdvenster van KStars</caption>
       <caption xml:lang="pl">Główne okno KStars</caption>
       <caption xml:lang="pt">Janela principal do KStars</caption>
+      <caption xml:lang="pt-BR">Janela principal do KStars</caption>
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
       <caption xml:lang="uk">Головне вікно KStars</caption>
       <caption xml:lang="x-test">xxKStars main windowxx</caption>
