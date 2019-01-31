@@ -32,7 +32,6 @@
 
 #include <ekos_capture_debug.h>
 
-#define MF_TIMER_TIMEOUT    90000
 #define GD_TIMER_TIMEOUT    60000
 #define MF_RA_DIFF_LIMIT    4
 
@@ -4311,7 +4310,7 @@ bool Capture::checkMeridianFlip()
             m_State = CAPTURE_MERIDIAN_FLIP;
             emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
 
-            QTimer::singleShot(MF_TIMER_TIMEOUT, this, &Ekos::Capture::checkMeridianFlipTimeout);
+            QTimer::singleShot(meridianTimeOut->value()*1000, this, &Ekos::Capture::checkMeridianFlipTimeout);
             return true;
         }
     }
