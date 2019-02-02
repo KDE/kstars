@@ -352,8 +352,8 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
 void Capture::pause()
 {
     pauseFunction = nullptr;
-    m_State         = CAPTURE_PAUSED;
-    emit newStatus(Ekos::CAPTURE_PAUSED);
+    m_State         = CAPTURE_PAUSE_PLANNED;
+    emit newStatus(Ekos::CAPTURE_PAUSE_PLANNED);
     appendLogText(i18n("Sequence shall be paused after current exposure is complete."));
     pauseB->setEnabled(false);
 
@@ -363,7 +363,7 @@ void Capture::pause()
 
 void Capture::toggleSequence()
 {
-    if (m_State == CAPTURE_PAUSED)
+    if (m_State == CAPTURE_PAUSE_PLANNED || m_State == CAPTURE_PAUSED)
     {
         startB->setIcon(
             QIcon::fromTheme("media-playback-stop"));
@@ -391,11 +391,13 @@ void Capture::toggleSequence()
 
 void Capture::registerNewModule(const QString &name)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Registering new Module (" << name << ")";
     if (name == "Mount")
     {
         delete mountInterface;
         mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount",
                                             "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
+
     }
 }
 
@@ -412,8 +414,8 @@ void Capture::start()
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
     Options::setEnforceRefocusEveryN(refocusEveryNCheck->isChecked());
 
-    Options::setAutoMeridianFlip(meridianCheck->isChecked());
-    Options::setAutoMeridianHours(meridianHours->value());
+    setMeridianFlip(meridianCheck->isChecked());
+    setMeridianFlipHour(meridianHours->value());
 
     // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
     ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
@@ -476,7 +478,6 @@ void Capture::start()
     // Refocus timer should not be reset on deviation error
     if (m_DeviationDetected == false && m_State != CAPTURE_SUSPENDED)
     {
-        meridianFlipStage = MF_NONE;
         // start timer to measure time until next forced refocus
         startRefocusEveryNTimer();
     }
@@ -593,7 +594,8 @@ void Capture::stop(CaptureState targetState)
         lightBox->SetLightEnabled(false);
     }
 
-    secondsLabel->clear();
+    if (meridianFlipStage == MF_NONE)
+        secondsLabel->clear();
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
@@ -627,6 +629,8 @@ void Capture::stop(CaptureState targetState)
     seqTimer->stop();
 
     activeJob = nullptr;
+    // meridian flip may take place if requested
+    setMeridianFlipStage(MF_READY);
 }
 
 void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
@@ -1236,11 +1240,13 @@ void Capture::syncFilterInfo()
 
 bool Capture::startNextExposure()
 {
-    if (m_State == CAPTURE_PAUSED)
+    if (m_State == CAPTURE_PAUSE_PLANNED)
     {
         pauseFunction = &Capture::startNextExposure;
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
+        m_State = CAPTURE_PAUSED;
+        setMeridianFlipStage(MF_READY);
         return false;
     }
 
@@ -1360,11 +1366,13 @@ bool Capture::setCaptureComplete()
         return true;
     }
 
-    if (m_State == CAPTURE_PAUSED)
+    if (m_State == CAPTURE_PAUSE_PLANNED)
     {
         pauseFunction = &Capture::setCaptureComplete;
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
+        m_State = CAPTURE_PAUSED;
+        setMeridianFlipStage(MF_READY);
         return false;
     }
 
@@ -2838,7 +2846,8 @@ void Capture::updatePreCaptureCalibrationStatus()
         return;
     else if (rc == IPS_BUSY)
     {
-        secondsLabel->clear();
+        if (meridianFlipStage == MF_NONE)
+            secondsLabel->clear();
         QTimer::singleShot(1000, this, &Ekos::Capture::updatePreCaptureCalibrationStatus);
         return;
     }
@@ -2879,7 +2888,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             appendLogText(i18n("Post meridian flip calibration completed successfully."));
             resumeSequence();
             // N.B. Set meridian flip stage AFTER resumeSequence() always
-            meridianFlipStage = MF_NONE;
+            setMeridianFlipStage(MF_NONE);
             return;
         }
     }
@@ -3099,25 +3108,109 @@ void Capture::updateHFRThreshold()
     HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
 
-SkyPoint Capture::getInitialMountCoords() const
+void Capture::setMeridianFlipStage(MFStage status)
 {
-    QVariant const result = mountInterface->property("currentTarget");
-    SkyPoint point = result.value<SkyPoint>();
-    return point;
+    if (meridianFlipStage != status)
+    {
+        switch (status)
+        {
+        case MF_NONE:
+            if (m_State == CAPTURE_PAUSED)
+                // paused after meridian flip
+                secondsLabel->setText(i18n("Paused..."));
+            else
+                secondsLabel->setText("");
+            meridianFlipStage = status;
+            break;
+
+        case MF_READY:
+            if (meridianFlipStage == MF_REQUESTED)
+            {
+                // we keep the stage on requested until the mount starts the meridian flip
+                emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
+            }
+            else if (m_State == CAPTURE_PAUSED)
+            {
+                // paused after meridian flip requested
+                secondsLabel->setText(i18n("Paused..."));
+                meridianFlipStage = status;
+                emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
+            }
+            // in any other case, ignore it
+            break;
+
+        case MF_INITIATED:
+            meridianFlipStage = MF_INITIATED;
+            emit meridianFlipStarted();
+            secondsLabel->setText(i18n("Meridian Flip..."));
+            KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::EVENT_INFO);
+            break;
+
+        case MF_REQUESTED:
+            if (m_State == CAPTURE_PAUSED)
+                // paused before meridian flip requested
+                emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
+            else
+                emit newMeridianFlipStatus(Mount::FLIP_WAITING);
+            meridianFlipStage = status;
+            break;
+
+        case MF_COMPLETED:
+            secondsLabel->setText(i18n("Flip complete."));
+            break;
+
+        default:
+            meridianFlipStage = status;
+            break;
+        }
+    }
 }
 
-bool Capture::executeMeridianFlip()
-{
 
-    QDBusReply<bool> const reply = mountInterface->call("executeMeridianFlip");
+void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status) {
+    switch (status)
+    {
+    case Mount::FLIP_NONE:
+        // MF_NONE as external signal ignored so that re-alignment and guiding are processed first
+        if (meridianFlipStage < MF_COMPLETED)
+            setMeridianFlipStage(MF_NONE);
+        break;
 
-    if (reply.error().type() == QDBusError::NoError)
-        return reply.value();
+    case Mount::FLIP_PLANNED:
+        if (meridianFlipStage > MF_NONE)
+        {
+            // it seems like the meridian flip had been postponed
+            resumeSequence();
+            return;
+        }
+        else
+        {
+            // If we are autoguiding, we should resume autoguiding after flip
+            resumeGuidingAfterFlip = (guideState == GUIDE_GUIDING);
 
-    // error occured
-    qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: execute meridian flip request received DBUS error: %1").arg(QDBusError::errorString(reply.error().type()));
+            if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
+            {
+                setMeridianFlipStage(MF_INITIATED);
+                emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
+            }
+            else
+                setMeridianFlipStage(MF_REQUESTED);
+        }
+        break;
 
-    return false;
+    case Mount::FLIP_RUNNING:
+        setMeridianFlipStage(MF_INITIATED);
+        emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
+        break;
+
+    case Mount::FLIP_COMPLETED:
+        setMeridianFlipStage(MF_COMPLETED);
+        processFlipCompleted();
+        break;
+
+    default:
+         break;
+    }
 }
 
 int Capture::getTotalFramesCount(QString signature)
@@ -4152,62 +4245,56 @@ void Capture::processTelescopeNumber(INumberVectorProperty * nvp)
         case MF_INITIATED:
         {
             if (nvp->s == IPS_BUSY)
-                meridianFlipStage = MF_FLIPPING;
+            setMeridianFlipStage(MF_FLIPPING);
         }
         break;
 
         case MF_FLIPPING:
         {
-            double ra, dec;
-            currentTelescope->getEqCoords(&ra, &dec);
-            double diffRA = getInitialMountCoords().ra().Hours() - ra;
-            // If the mount is actually flipping then we should see a difference in RA
-            // which if it exceeded MF_RA_DIFF_LIMIT (4 hours) then we consider it to be
-            // undertaking the flip. Otherwise, it's not flipping and let timeout takes care of
-            // of that
-            // Are there any mounts that do NOT change RA while flipping? i.e. do it silently?
-            // Need to investigate that bit
-            if (fabs(diffRA) > MF_RA_DIFF_LIMIT /* || nvp->s == IPS_OK*/)
-                meridianFlipStage = MF_SLEWING;
+        if (currentTelescope != nullptr && currentTelescope->isSlewing())
+            setMeridianFlipStage(MF_SLEWING);
         }
         break;
 
-        case MF_SLEWING:
-
-            if (nvp->s != IPS_OK)
-                break;
-
-            // If dome is syncing, wait until it stops
-            if (dome && dome->isMoving())
-                break;
-
-            appendLogText(i18n("Telescope completed the meridian flip."));
-
-            //KNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"));
-            KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"), KSNotification::EVENT_INFO);
-
-            if (resumeAlignmentAfterFlip == true)
-            {
-                appendLogText(i18n("Performing post flip re-alignment..."));
-                secondsLabel->setText(i18n("Aligning..."));
-
-                retries = 0;
-                m_State   = CAPTURE_ALIGNING;
-                emit newStatus(Ekos::CAPTURE_ALIGNING);
-
-                meridianFlipStage = MF_ALIGNING;
-                //QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
-                //emit meridialFlipTracked();
-                return;
-            }
-
-            retries = 0;
-            checkGuidingAfterFlip();
-            break;
-
-        default:
-            break;
+    default:
+        break;
     }
+}
+
+void Capture::processFlipCompleted()
+{
+    // If dome is syncing, wait until it stops
+    if (dome && dome->isMoving())
+        return;
+
+    appendLogText(i18n("Telescope completed the meridian flip."));
+
+    //KNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"));
+    KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"), KSNotification::EVENT_INFO);
+
+
+    // resume only if capturing was running
+    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE)
+        return;
+
+    if (resumeAlignmentAfterFlip == true)
+    {
+        appendLogText(i18n("Performing post flip re-alignment..."));
+        secondsLabel->setText(i18n("Aligning..."));
+
+        retries = 0;
+        m_State   = CAPTURE_ALIGNING;
+        emit newStatus(Ekos::CAPTURE_ALIGNING);
+
+        setMeridianFlipStage(MF_ALIGNING);
+        //QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
+        //emit meridialFlipTracked();
+        return;
+    }
+
+    retries = 0;
+    checkGuidingAfterFlip();
+
 }
 
 void Capture::checkGuidingAfterFlip()
@@ -4217,7 +4304,7 @@ void Capture::checkGuidingAfterFlip()
     {
         resumeSequence();
         // N.B. Set meridian flip stage AFTER resumeSequence() always
-        meridianFlipStage = MF_NONE;
+        setMeridianFlipStage(MF_NONE);
     }
     else
     {
@@ -4227,43 +4314,15 @@ void Capture::checkGuidingAfterFlip()
         m_State = CAPTURE_CALIBRATING;
         emit newStatus(Ekos::CAPTURE_CALIBRATING);
 
-        meridianFlipStage = MF_GUIDING;
+        setMeridianFlipStage(MF_GUIDING);
         emit meridianFlipCompleted();
     }
-}
-
-double Capture::getCurrentHA()
-{
-    QVariant HA = mountInterface->property("hourAngle");
-    return HA.toDouble();
-}
-
-double Capture::getInitialHA()
-{
-    QVariant HA = mountInterface->property("initialHA");
-    return HA.toDouble();
-}
-
-bool Capture::slew(const SkyPoint target)
-{
-    QList<QVariant> telescopeSlew;
-    telescopeSlew.append(target.ra().Hours());
-    telescopeSlew.append(target.dec().Degrees());
-
-    QDBusReply<bool> const slewModeReply = mountInterface->callWithArgumentList(QDBus::AutoDetect, "slew", telescopeSlew);
-
-    if (slewModeReply.error().type() == QDBusError::NoError)
-        return true;
-
-    // error occured
-    qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: slew request received DBUS error: %1").arg(QDBusError::errorString(slewModeReply.error().type()));
-    return false;
 }
 
 
 bool Capture::checkMeridianFlip()
 {
-    if (currentTelescope == nullptr || meridianCheck->isChecked() == false || getInitialHA() > 0)
+    if (currentTelescope == nullptr || meridianCheck->isChecked() == false)
         return false;
 
     // If active job is taking flat field image at a wall source
@@ -4271,75 +4330,21 @@ bool Capture::checkMeridianFlip()
     if (activeJob && activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldSource() == SOURCE_WALL)
         return false;
 
-    double currentHA = getCurrentHA();
-
-    //appendLogText(i18n("Current hour angle %1", currentHA));
-
-    if (currentHA == Ekos::INVALID_VALUE)
+    if (meridianFlipStage == MF_NONE)
         return false;
 
-    if (currentHA > meridianHours->value())
-    {
-        //NOTE: DO NOT make the follow sentence PLURAL as the value is in double
-        appendLogText(
-            i18n("Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.",
-                 QString("%L1").arg(currentHA, 0, 'f', 2), QString("%L1").arg(meridianHours->value(), 0, 'f', 2)));
-        meridianFlipStage = MF_INITIATED;
+    // meridian flip requested or already in action
 
-        //KNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"));
-        KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::EVENT_INFO);
+    // Reset frame if we need to do focusing later on
+    if (isInSequenceFocus || (refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
+        emit resetFocus();
 
-        // Suspend guiding first before commanding a meridian flip
-        //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-        //            emit suspendGuiding(false);
+    // signal that meridian flip may take place
+    if (meridianFlipStage == MF_REQUESTED)
+        setMeridianFlipStage(MF_READY);
 
-        // If we are autoguiding, we should resume autoguiding after flip
-        resumeGuidingAfterFlip = (guideState == GUIDE_GUIDING);
 
-        emit meridianFlipStarted();
-
-        // Reset frame if we need to do focusing later on
-        if (isInSequenceFocus || (refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
-            emit resetFocus();
-
-        if (executeMeridianFlip())
-        {
-            secondsLabel->setText(i18n("Meridian Flip..."));
-
-            retries = 0;
-
-            m_State = CAPTURE_MERIDIAN_FLIP;
-            emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
-
-            QTimer::singleShot(MF_TIMER_TIMEOUT, this, &Ekos::Capture::checkMeridianFlipTimeout);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void Capture::checkMeridianFlipTimeout()
-{
-    if (meridianFlipStage == MF_NONE)
-        return;
-
-    if (meridianFlipStage < MF_ALIGNING)
-    {
-        appendLogText(i18n("Telescope meridian flip timed out. Please make sure your mount supports meridian flip."));
-
-        if (++retries == 3)
-        {
-            //KNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"));
-            KSNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"), KSNotification::EVENT_ALERT);
-            abort();
-        }
-        else
-        {
-            if (executeMeridianFlip())
-                appendLogText(i18n("Retrying meridian flip again..."));
-        }
-    }
+    return true;
 }
 
 void Capture::checkGuideDeviationTimeout()
@@ -4392,7 +4397,7 @@ void Capture::setAlignStatus(AlignState state)
                     this->m_State = CAPTURE_ALIGNING;
                     emit newStatus(Ekos::CAPTURE_ALIGNING);
 
-                    meridianFlipStage = MF_ALIGNING;
+                setMeridianFlipStage(MF_ALIGNING);
                 }
             }
             break;
@@ -4630,12 +4635,21 @@ void Capture::setDirty()
 
 void Capture::setMeridianFlip(bool enable)
 {
-    meridianCheck->setChecked(enable);
+    Options::setAutoMeridianFlip(enable);
+    QDBusReply<void> const reply = mountInterface->call("activateMeridianFlip", enable);
+
+    if (reply.error().type() != QDBusError::NoError)
+        qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: setting meridian flip request received DBUS error: %1").arg(QDBusError::errorString(reply.error().type()));
 }
 
 void Capture::setMeridianFlipHour(double hours)
 {
-    meridianHours->setValue(hours);
+    Options::setAutoMeridianHours(hours);
+
+    QDBusReply<void> const reply = mountInterface->call("setMeridianFlipLimit", hours);
+
+    if (reply.error().type() != QDBusError::NoError)
+        qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: setting meridian flip time limit request received DBUS error: %1").arg(QDBusError::errorString(reply.error().type()));
 }
 
 bool Capture::hasCoolerControl()

@@ -7,9 +7,6 @@
   <property name="altitudeLimits" type="(i)" access="readwrite">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
-  <property name="currentTarget" type="(dd)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="SkyPoint"/>
-  </property>
   <property name="altitudeLimitsEnabled" type="b" access="readwrite"/>
   <property name="equatorialCoords" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
@@ -22,7 +19,6 @@
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
   <property name="hourAngle" type="d" access="read"/>
-  <property name="initialHA" type="d" access="read"/>
   <property name="status" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
   </property>
@@ -59,6 +55,12 @@
     </method>
     <method name="executeMeridianFlip">
       <arg type="b" direction="out"/>
+    </method>
+    <method name="activateMeridianFlip">
+      <arg name="activate" type="b" direction="in"/>
+    </method>
+    <method name="setMeridianFlipLimit">
+      <arg name="hours" type="d" direction="in"/>
     </method>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
