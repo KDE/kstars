@@ -108,6 +108,14 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     QString path            = env.value("PATH", "");
     env.insert("PATH", "/usr/bin:/usr/local/bin:\"" + QCoreApplication::applicationDirPath() + "\":" + path);
 
+    //This Environment variable is needed sometimes in Craft built Mac KStars when running in Craft because it cannot find the qml directory inside craft.
+    //This should not cause any issues for any other installation since the original path is preserved.
+    QString qtDIR = env.value("QTDIR", "");
+    QString currentQMLPath = env.value("QML2_IMPORT_PATH", "");
+    QString newQMLPath = qtDIR + "/qml:" + qtDIR + "/lib/qml:" + currentQMLPath;
+    qputenv("QML2_IMPORT_PATH", newQMLPath.toLatin1());
+    env.insert("QML2_IMPORT_PATH", newQMLPath);
+
     QProcess dbusCheck;
     dbusCheck.setProcessEnvironment(env);
 

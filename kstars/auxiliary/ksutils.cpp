@@ -1097,6 +1097,16 @@ QString getDefaultPath(QString option)
         else
             return snap + "/etc/astrometry.cfg";
     }
+    else if (option == "AstrometryIndexFileLocation")
+    {
+#ifdef Q_OS_OSX
+        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
+#endif
+        if (flat.isEmpty() == false)
+            return flat + "/usr/share/astrometry/";
+        else
+            return snap + "/usr/share/astrometry/";
+    }
     else if (option == "XplanetPath")
     {
 #ifdef Q_OS_OSX
@@ -1172,67 +1182,151 @@ bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data
     return true; //This means the data directory was good to go from the start and the wizard did not run.
 }
 
-void configureDefaultAstrometry()
+bool getAstrometryDataDir(QString &dataDir)
 {
-    QDir writableDir;
-    QString astrometryPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
-    if (!astrometryPath.isEmpty())
+    QString confPath;
+
+    if (Options::astrometryConfFileIsInternal())
+        confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
+    else
+        confPath = Options::astrometryConfFile();
+
+    QFile confFile(confPath);
+
+    if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        writableDir.mkdir(astrometryPath);
-        astrometryPath =
-            QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
-        if (astrometryPath.isEmpty())
-            KMessageBox::sorry(
-                0, i18n("The Astrometry Index File Directory does not exist and was not able to be created."));
-        else
+        KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+                                   "configuration file full path in INDI options.",
+                                   Options::astrometryConfFile()));
+        return false;
+    }
+
+    QTextStream in(&confFile);
+    QString line;
+    while (!in.atEnd())
+    {
+        line = in.readLine();
+        if (line.isEmpty() || line.startsWith('#'))
+            continue;
+
+        line = line.trimmed();
+        if (line.startsWith(QLatin1String("add_path")))
         {
-            QString confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
-            QFile confFile(confPath);
-            QString contents;
-            if (confFile.open(QIODevice::ReadOnly) == false)
-                KMessageBox::error(0, i18n("Internal Astrometry Configuration File Read Error."));
-            else
+            dataDir = line.trimmed().mid(9).trimmed();
+            return true;
+        }
+    }
+
+    KMessageBox::error(nullptr, i18n("Unable to find data dir in astrometry configuration file."));
+    return false;
+}
+
+bool setAstrometryDataDir(QString dataDir)
+{
+    if(Options::astrometryIndexFileLocation()!=dataDir)
+        Options::setAstrometryIndexFileLocation(dataDir);
+    QString confPath;
+    if (Options::astrometryConfFileIsInternal())
+        confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
+    else
+        confPath = Options::astrometryConfFile();
+
+    QFile confFile(confPath);
+    QString contents;
+    if (confFile.open(QIODevice::ReadOnly) == false)
+    {
+        KMessageBox::error(0, i18n("Astrometry Configuration File Read Error."));
+        return false;
+    }
+    else
+    {
+        QTextStream in(&confFile);
+        QString line;
+        bool foundPathBefore   = false;
+        bool fileNeedsUpdating = false;
+        while (!in.atEnd())
+        {
+            line = in.readLine();
+            if (line.trimmed().startsWith(QLatin1String("add_path")))
             {
-                QTextStream in(&confFile);
-                QString line;
-                bool foundPathBefore   = false;
-                bool fileNeedsUpdating = false;
-                while (!in.atEnd())
+                if (!foundPathBefore) //This will ensure there is not more than one add_path line in the file.
                 {
-                    line = in.readLine();
-                    if (line.trimmed().startsWith(QLatin1String("add_path")))
+                    foundPathBefore = true;
+                    QString dataDirInFile = line.trimmed().mid(9).trimmed();
+                    if (dataDirInFile != dataDir) //Update to the correct path.
                     {
-                        if (!foundPathBefore) //This will ensure there is not more than one add_path line in the file.
-                        {
-                            foundPathBefore = true;
-                            QString dataDir = line.trimmed().mid(9).trimmed();
-                            if (dataDir != astrometryPath) //Update to the correct path.
-                            {
-                                contents += "add_path " + astrometryPath + '\n';
-                                fileNeedsUpdating = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        contents += line + '\n';
-                    }
-                }
-                confFile.close();
-                if (fileNeedsUpdating)
-                {
-                    if (confFile.open(QIODevice::WriteOnly) == false)
-                        KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
-                    else
-                    {
-                        QTextStream out(&confFile);
-                        out << contents;
-                        confFile.close();
+                        contents += "add_path " + dataDir + '\n';
+                        fileNeedsUpdating = true;
                     }
                 }
             }
+            else
+            {
+                contents += line + '\n';
+            }
+        }
+        confFile.close();
+        if (fileNeedsUpdating)
+        {
+            if (confFile.open(QIODevice::WriteOnly) == false)
+            {
+                KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
+                return false;
+            }
+            else
+            {
+                QTextStream out(&confFile);
+                out << contents;
+                confFile.close();
+            }
         }
     }
+    return true;
+}
+
+bool configureAstrometry()
+{
+    QString astrometryDataDir;
+    if (KSUtils::getAstrometryDataDir(astrometryDataDir) == false)
+        return false;
+    if(Options::astrometryIndexFileLocation()!=astrometryDataDir)
+    {
+        if (KMessageBox::warningYesNo(
+                nullptr, i18n("The Astrometry Index File Location Stored in KStars: \n %1 \n does not match the Index file location in the config file: \n %2 \n  Do you want to update the config file?", Options::astrometryIndexFileLocation(), astrometryDataDir),
+                i18n("Update Config File?")) == KMessageBox::Yes)
+        {
+            astrometryDataDir=Options::astrometryIndexFileLocation();
+            setAstrometryDataDir(astrometryDataDir);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    if (QDir(astrometryDataDir).exists() == false)
+    {
+        if (KMessageBox::warningYesNo(
+                nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?", astrometryDataDir),
+                i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
+        {
+            if(QDir(astrometryDataDir).mkdir(astrometryDataDir))
+            {
+                KMessageBox::information(nullptr, i18n("The Astrometry Index File Location was created."));
+            }
+            else
+            {
+                KMessageBox::sorry(nullptr, i18n("The Astrometry Index File Directory does not exist and was not able to be created."));
+            }
+        }
+        else
+        {
+
+            return false;
+        }
+    }
+
+    //If the Index File Directories match and the directory exists, we are good to go.
+    return true;
 }
 
 bool copyRecursively(QString sourceFolder, QString destFolder)
