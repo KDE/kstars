@@ -157,6 +157,7 @@ class FITSView : public QScrollArea
         int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
         void toggleStars(bool enable);
         void setStarsEnabled(bool enable);
+        int filterStars(const float innerRadius, const float outerRadius);
 
         // FITS Mode
         void updateMode(FITSMode fmode);
@@ -289,6 +290,12 @@ class FITSView : public QScrollArea
         bool showObjects { false };
         bool showEQGrid { false };
         bool showPixelGrid { false };
+
+    struct {
+        bool used() const { return innerRadius != 0.0f || outerRadius != 1.0f; }
+        float innerRadius { 0.0f };
+        float outerRadius { 1.0f };
+    } starFilter;
 
         CursorMode cursorMode { selectCursor };
         bool zooming { false };

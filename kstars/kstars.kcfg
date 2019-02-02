@@ -1714,8 +1714,18 @@
          <default>true</default>
       </entry>
       <entry name="FocusUseFullField" type="Bool">
-         <label>Use full frame field to measure HFR.</label>
+         <label>Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.</label>
          <default>false</default>
+      </entry>
+      <entry name="FocusFullFieldInnerRadius" type="Double">
+         <label>Full field inner radius.</label>
+         <whatsthis>During full field focusing, stars which are inside this percentage of the frame are filtered out of HFR calculation (default 0%). Detection algorithms may also have an inherent filter.</whatsthis>
+         <default>0.0</default>
+      </entry>
+      <entry name="FocusFullFieldOuterRadius" type="Double">
+         <label>Full field outer radius.</label>
+         <whatsthis>During full field focusing, stars which are outside this percentage of the frame are filtered out of HFR calculation (default 100%). Detection algorithms may also have an inherent filter.</whatsthis>
+         <default>100.0</default>
       </entry>
       <entry name="FocusAutoStarEnabled" type="Bool">
          <label>Automatically select a star to focus.</label>

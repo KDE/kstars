@@ -101,12 +101,19 @@ Focus::Focus()
     connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
     {
         Options::setFocusUseFullField(toggled);
+        fullFieldInnerRing->setEnabled(toggled);
+        fullFieldOuterRing->setEnabled(toggled);
         if (toggled)
         {
             useSubFrame->setChecked(false);
             useAutoStar->setChecked(false);
         }
     });
+
+    connect(fullFieldInnerRing, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+         [=](double d) { Options::setFocusFullFieldInnerRadius(d); });
+    connect(fullFieldOuterRing, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+         [=](double d) { Options::setFocusFullFieldOuterRadius(d); });
 
     FocusSettleTime->setValue(Options::focusSettleTime());
     connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
@@ -247,6 +254,8 @@ Focus::Focus()
     darkFrameCheck->setChecked(Options::useFocusDarkFrame());
     thresholdSpin->setValue(Options::focusThreshold());
     useFullField->setChecked(Options::focusUseFullField());
+    fullFieldInnerRing->setValue(Options::focusFullFieldInnerRadius());
+    fullFieldOuterRing->setValue(Options::focusFullFieldOuterRadius());
     //focusFramesSpin->setValue(Options::focusFrames());
 
     connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
@@ -792,8 +801,13 @@ void Focus::start()
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
     Options::setFocusFramesCount(focusFramesSpin->value());
+    Options::setFocusUseFullField(useFullField->isChecked());
 
     qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with box size: " << focusBoxSize->value()
+                 << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
+                 << " Autostar: " << ( useAutoStar->isChecked() ? "yes" : "no" )
+                 << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
+                 << " [" << fullFieldInnerRing->value() << "%," << fullFieldOuterRing->value() << "%]"
                  << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
                  << " Tolerance: " << toleranceIN->value()
                  << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
@@ -1208,6 +1222,8 @@ void Focus::setCaptureComplete()
                     focusView->findStars(ALGORITHM_CENTROID);
                 else
                     focusView->findStars(focusDetection);
+                focusView->filterStars(static_cast <float> (fullFieldInnerRing->value()/100.0),
+                                       static_cast <float> (fullFieldOuterRing->value()/100.0));
                 focusView->updateFrame();
 
                 // Get the average HFR of the whole frame
@@ -2573,6 +2589,9 @@ void Focus::toggleSubframe(bool enable)
 
     starSelected = false;
     starCenter   = QVector3D();
+
+    if (useFullField->isChecked())
+        useFullField->setChecked(!enable);
 }
 
 void Focus::filterChangeWarning(int index)
