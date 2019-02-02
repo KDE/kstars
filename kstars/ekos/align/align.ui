@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>532</height>
+    <width>873</width>
+    <height>570</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -1087,7 +1087,7 @@
            <item>
             <widget class="QStackedWidget" name="PAHWidgets">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="toolTip">
               <string>&lt;p&gt;Polar Alignment Helper tool requires the following:&lt;/p&gt;&lt;p&gt;1. German Equatorial Mount&lt;/p&gt;&lt;p&gt;2. Wide FOV &amp;gt; 1 degrees&lt;/p&gt;&lt;p&gt;For small FOVs, use the Legacy Polar Alignment Tool.&lt;/p&gt;</string>
@@ -1099,6 +1099,9 @@
               <number>0</number>
              </property>
              <widget class="QWidget" name="PAHIntroPage">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <property name="spacing">
                 <number>3</number>
@@ -1117,6 +1120,9 @@
                </property>
                <item>
                 <widget class="QLabel" name="introText">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
                  <property name="text">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Park&lt;/span&gt; your mount to home position where it &lt;span style=&quot; font-weight:600;&quot;&gt;points&lt;/span&gt; toward the celestial pole. Select mount direction and speed and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -1203,6 +1209,19 @@
                   <widget class="QComboBox" name="PAHSlewRateCombo"/>
                  </item>
                  <item>
+                  <widget class="QCheckBox" name="PAHManual">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolTip">
+                    <string>Toggle for manual slewing with non-GOTO mounts</string>
+                   </property>
+                   <property name="text">
+                    <string>Manual slew</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <spacer name="horizontalSpacer_3">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
@@ -1266,14 +1285,38 @@
                 <number>3</number>
                </property>
                <item>
-                <widget class="QLabel" name="firstRotateText">
-                 <property name="text">
-                  <string>&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;</string>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="firstRotateText">
+                   <property name="text">
+                    <string>&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="PAHfirstDone">
+                   <property name="text">
+                    <string>Done</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -1309,14 +1352,38 @@
              <widget class="QWidget" name="PAHSecondRotatePage">
               <layout class="QVBoxLayout" name="verticalLayout_16">
                <item>
-                <widget class="QLabel" name="secondRotateText">
-                 <property name="text">
-                  <string>&lt;p&gt;Executing the &lt;i&gt;second &lt;/i&gt;mount rotation...&lt;/p&gt;</string>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="secondRotateText">
+                   <property name="text">
+                    <string>&lt;p&gt;Executing the &lt;i&gt;second &lt;/i&gt;mount rotation...&lt;/p&gt;</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="PAHsecondDone">
+                   <property name="text">
+                    <string>Done</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -1757,7 +1824,40 @@
   <tabstop>PAHDoneB</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>PAHManual</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>PAHfirstDone</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>392</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>PAHManual</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>PAHsecondDone</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>392</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>385</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <buttongroups>
   <buttongroup name="solverTypeGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
