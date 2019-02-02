@@ -1081,17 +1081,18 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 
 int FITSData::filterStars(const float innerRadius, const float outerRadius)
 {
-    long const sqDiagonal = this->width()*this->width()/4 + this->height()*this->height()/4;
+    long const sqDiagonal = this->width() * this->width() / 4 + this->height() * this->height() / 4;
     long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
     long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
 
     starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(),
-        [&](Edge *edge) {
-            long const x = edge->x - this->width()/2;
-            long const y = edge->y - this->height()/2;
-            long const sqRadius = x*x + y*y;
-            return sqRadius < sqInnerRadius || sqOuterRadius < sqRadius;
-        }), starCenters.end());
+                                     [&](Edge * edge)
+    {
+        long const x = edge->x - this->width() / 2;
+        long const y = edge->y - this->height() / 2;
+        long const sqRadius = x * x + y * y;
+        return sqRadius < sqInnerRadius || sqOuterRadius < sqRadius;
+    }), starCenters.end());
 
     return starCenters.count();
 }
@@ -1935,10 +1936,10 @@ double FITSData::getHFR(HFRType type)
         int maxIndex = 0;
         for (int i = 0; i < starCenters.count(); i++)
         {
-            if (starCenters[i]->val > maxVal)
+            if (starCenters[i]->HFR > maxVal)
             {
                 maxIndex = i;
-                maxVal   = starCenters[i]->val;
+                maxVal   = starCenters[i]->HFR;
             }
         }
 
@@ -1946,23 +1947,39 @@ double FITSData::getHFR(HFRType type)
         return static_cast<double>(starCenters[maxIndex]->HFR);
     }
 
-    double FSum   = 0;
-    double avgHFR = 0;
+    QVector<double> HFRs;
+    for (auto center : starCenters)
+        HFRs << center->HFR;
+    std::sort(HFRs.begin(), HFRs.end());
 
-    // Weighted average HFR
-    for (int i = 0; i < starCenters.count(); i++)
+    double sum = std::accumulate(HFRs.begin(), HFRs.end(), 0);
+    double m =  sum / HFRs.size();
+
+    if (HFRs.size() > 3)
     {
-        avgHFR += static_cast<double>(starCenters[i]->val * starCenters[i]->HFR);
-        FSum += starCenters[i]->val;
+        double accum = 0.0;
+        std::for_each (HFRs.begin(), HFRs.end(), [&](const double d)
+        {
+            accum += (d - m) * (d - m);
+        });
+        double stddev = sqrt(accum / (HFRs.size() - 1));
+
+        // Remove stars over 2 standard deviations away.
+        std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
+        {
+            return hfr > (m + stddev * 2);
+        });
+        std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
+        {
+            return hfr < (m - stddev * 2);
+        });
+
+        // New mean
+        sum = std::accumulate(HFRs.begin(), HFRs.end(), 0);
+        m = sum / HFRs.size();
     }
 
-    if (FSum != 0)
-    {
-        //qDebug() << "Average HFR is " << avgHFR / FSum << endl;
-        return (avgHFR / FSum);
-    }
-    else
-        return -1;
+    return m;
 }
 
 double FITSData::getHFR(int x, int y)
