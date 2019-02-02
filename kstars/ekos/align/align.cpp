@@ -302,6 +302,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         PAHDirectionCombo->setEnabled(enabled);
         PAHRotationSpin->setEnabled(enabled);
         PAHSlewRateCombo->setEnabled(enabled);
+        PAHManual->setEnabled(enabled);
     });
     connect(PAHStartB, &QPushButton::clicked, this, &Ekos::Align::startPAHProcess);
     // PAH StopB is just a shortcut for the regular stop
@@ -309,6 +310,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(PAHCorrectionsNextB, &QPushButton::clicked, this, &Ekos::Align::setPAHCorrectionSelectionComplete);
     connect(PAHRefreshB, &QPushButton::clicked, this, &Ekos::Align::startPAHRefreshProcess);
     connect(PAHDoneB, &QPushButton::clicked, this, &Ekos::Align::setPAHRefreshComplete);
+    // done buttons for manual slewing during polar alignment:
+    connect(PAHfirstDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
+    connect(PAHsecondDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
 
     if (solverOptions->text().contains("no-fits2fits"))
         appendLogText(i18n(
@@ -3637,58 +3641,64 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
         if (pahStage == PAH_FIRST_ROTATE)
         {
-            double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
-            if (deltaAngle <= PAH_ROTATION_THRESHOLD)
-            {
-                currentTelescope->StopWE();
-                appendLogText(i18n("Mount first rotation is complete."));
+            // only wait for telescope to slew to new position if manual slewing is switched off
+            if(!PAHManual->isChecked()){
+                double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+                if (deltaAngle <= PAH_ROTATION_THRESHOLD)
+                {
+                    currentTelescope->StopWE();
+                    appendLogText(i18n("Mount first rotation is complete."));
 
-                pahStage = PAH_SECOND_CAPTURE;
-                emit newPAHStage(pahStage);
+                    pahStage = PAH_SECOND_CAPTURE;
+                    emit newPAHStage(pahStage);
 
-                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
-                emit newPAHMessage(secondCaptureText->text());
+                    PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+                    emit newPAHMessage(secondCaptureText->text());
 
-                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-                    appendLogText(i18n("Settling..."));
-                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
-            }
-            // If for some reason we didn't stop, let's stop if we get too far
-            else if (deltaAngle > PAHRotationSpin->value()*1.25)
-            {
-                currentTelescope->Abort();
-                appendLogText(i18n("Mount aborted. Please restart the process and reduce the speed."));
-                stopPAHProcess();
-            }
-            return;
+                    if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                        appendLogText(i18n("Settling..."));
+                    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                }
+                // If for some reason we didn't stop, let's stop if we get too far
+                else if (deltaAngle > PAHRotationSpin->value()*1.25)
+                {
+                    currentTelescope->Abort();
+                    appendLogText(i18n("Mount aborted. Please restart the process and reduce the speed."));
+                    stopPAHProcess();
+                }
+                return;
+             } // endif not manual slew
         }
         else if (pahStage == PAH_SECOND_ROTATE)
         {
-            double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
-            if (deltaAngle <= PAH_ROTATION_THRESHOLD)
-            {
-                currentTelescope->StopWE();
-                appendLogText(i18n("Mount second rotation is complete."));
+            // only wait for telescope to slew to new position if manual slewing is switched off
+            if(!PAHManual->isChecked()){
+                double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+                if (deltaAngle <= PAH_ROTATION_THRESHOLD)
+                {
+                    currentTelescope->StopWE();
+                    appendLogText(i18n("Mount second rotation is complete."));
 
-                pahStage = PAH_THIRD_CAPTURE;
-                emit newPAHStage(pahStage);
+                    pahStage = PAH_THIRD_CAPTURE;
+                    emit newPAHStage(pahStage);
 
 
-                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
-                emit newPAHMessage(thirdCaptureText->text());
+                    PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+                    emit newPAHMessage(thirdCaptureText->text());
 
-                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-                    appendLogText(i18n("Settling..."));
-                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
-            }
-            // If for some reason we didn't stop, let's stop if we get too far
-            else if (deltaAngle > PAHRotationSpin->value()*1.25)
-            {
-                currentTelescope->Abort();
-                appendLogText(i18n("Mount aborted. Please restart the process and reduce the speed."));
-                stopPAHProcess();
-            }
-            return;
+                    if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                        appendLogText(i18n("Settling..."));
+                    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                }
+                // If for some reason we didn't stop, let's stop if we get too far
+                else if (deltaAngle > PAHRotationSpin->value()*1.25)
+                {
+                    currentTelescope->Abort();
+                    appendLogText(i18n("Mount aborted. Please restart the process and reduce the speed."));
+                    stopPAHProcess();
+                }
+                return;
+            } // endif not manual slew
         }
 
         switch (azStage)
@@ -4877,6 +4887,8 @@ void Align::startPAHProcess()
 
     PAHStartB->setEnabled(false);
     PAHStopB->setEnabled(true);
+
+
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
     emit newPAHMessage(firstCaptureText->text());
 
@@ -4969,11 +4981,19 @@ void Align::rotatePAH()
     }
 #endif
 
+    // if Manual slewing is selected, don't move the mount
+    if (PAHManual->isChecked()){
+        appendLogText(i18n("Please rotate your mount about %1deg in RA",raDiff ));
+        return;
+    }
+
+
     // raDiff is in degrees
     dms newTelescopeRA = (telescopeCoord.ra() + dms(raDiff)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());
+
 
     //currentTelescope->Slew(&targetPAH);
     // Set Selected Speed
@@ -5093,6 +5113,29 @@ void Align::setPAHCorrectionSelectionComplete()
     PAHWidgets->setCurrentWidget(PAHRefreshPage);
     emit newPAHMessage(refreshText->text());
 }
+
+void Align::setPAHSlewDone()
+{
+    emit newPAHMessage("Manual slew done.");
+    switch(pahStage) {
+        case PAH_FIRST_ROTATE : pahStage = PAH_SECOND_CAPTURE;
+                                emit newPAHStage(pahStage);
+                                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+                                appendLogText(i18n("First manual rotation done."));
+                                break;
+        case PAH_SECOND_ROTATE :  pahStage = PAH_THIRD_CAPTURE;
+                                  emit newPAHStage(pahStage);
+                                  PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+                                  appendLogText(i18n("Second manual rotation done."));
+                                  break;
+        default : return; // no other stage should be able to trigger this event
+    }
+    if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+        appendLogText(i18n("Settling..."));
+    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+}
+
+
 
 void Align::startPAHRefreshProcess()
 {
@@ -5829,6 +5872,7 @@ QJsonObject Align::getPAHSettings() const
     settings.insert("mountSpeed", PAHSlewRateCombo->currentIndex());
     settings.insert("mountRotation", PAHRotationSpin->value());
     settings.insert("refresh", PAHExposure->value());
+    settings.insert("manualslew", PAHManual->isChecked());
 
     return settings;
 }
@@ -5842,6 +5886,7 @@ void Align::setPAHSettings(const QJsonObject &settings)
     PAHExposure->setValue(settings["refresh"].toDouble(1));
     if (settings.contains("mountSpeed"))
         PAHSlewRateCombo->setCurrentIndex(settings["mountSpeed"].toInt(0));
+    PAHManual->setChecked(settings["manualslew"].toBool(false));
 }
 
 void Align::syncFOV()

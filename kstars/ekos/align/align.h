@@ -436,6 +436,7 @@ class Align : public QWidget, public Ui::Align
     void setPAHRefreshDuration(double value) { PAHExposure->setValue(value);}
     void startPAHRefreshProcess();
     void setPAHRefreshComplete();
+    void setPAHSlewDone();
     void setPAHCorrectionSelectionComplete();
     void zoomAlignView();
 
