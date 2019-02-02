@@ -775,6 +775,13 @@ void FITSView::ZoomToFit()
     }
 }
 
+int FITSView::filterStars(float const innerRadius, float const outerRadius)
+{
+    starFilter.innerRadius = innerRadius;
+    starFilter.outerRadius = outerRadius;
+    return starFilter.used()? imageData->filterStars(innerRadius, outerRadius) : imageData->getStarCenters().count();
+}
+
 void FITSView::updateFrame()
 {
     bool ok = false;
@@ -799,6 +806,22 @@ void FITSView::updateFrame()
     QPainter painter(&displayPixmap);
 
     drawOverlay(&painter);
+
+    if (starFilter.used())
+    {
+        double const diagonal = std::sqrt(currentWidth*currentWidth + currentHeight*currentHeight)/2;
+        int const innerRadius = std::lround(diagonal*starFilter.innerRadius);
+        int const outerRadius = std::lround(diagonal*starFilter.outerRadius);
+        QPoint const center(currentWidth/2, currentHeight/2);
+        painter.save();
+        painter.setPen(QPen(Qt::blue, 1, Qt::DashLine));
+        painter.setOpacity(0.7);
+        painter.setBrush(QBrush(Qt::transparent));
+        painter.drawEllipse(center, outerRadius, outerRadius);
+        painter.setBrush(QBrush(Qt::blue, Qt::FDiagPattern));
+        painter.drawEllipse(center, innerRadius, innerRadius);
+        painter.restore();
+    }
 
     image_frame->setPixmap(displayPixmap);
 
