@@ -72,6 +72,7 @@ class StreamWG : public QDialog, public Ui::streamForm
 
     protected:
         void closeEvent(QCloseEvent *ev) override;
+        void showEvent(QShowEvent *ev) override;
         QSize sizeHint() const override;
 
     public slots:
