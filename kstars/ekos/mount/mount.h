@@ -42,9 +42,7 @@ class Mount : public QWidget, public Ui::Mount
     Q_PROPERTY(QList<double> equatorialCoords READ equatorialCoords)
     Q_PROPERTY(QList<double> horizontalCoords READ horizontalCoords)
     Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
-    Q_PROPERTY(SkyPoint currentTarget READ currentTarget)
     Q_PROPERTY(double hourAngle READ hourAngle)
-    Q_PROPERTY(double initialHA READ initialHA)
     Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
     Q_PROPERTY(int slewStatus READ slewStatus)
     Q_PROPERTY(bool canPark READ canPark)
@@ -56,6 +54,7 @@ class Mount : public QWidget, public Ui::Mount
 
     //typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 
+    typedef enum { FLIP_NONE, FLIP_PLANNED, FLIP_WAITING, FLIP_ACCEPTED, FLIP_RUNNING, FLIP_COMPLETED, FLIP_ERROR } MeridianFlipStatus;
 
     /**
          * @brief setTelescope Sets the mount module telescope interface
@@ -249,10 +248,29 @@ class Mount : public QWidget, public Ui::Mount
     QJsonArray getScopes() const;
 
     /*
+     * @brief Check if a meridian flip if necessary.
+     * @param lst current local sideral time
+     * @return true if a meridian flip is necessary
+     */
+    bool checkMeridianFlip(dms lst);
+
+    /*
      * @brief Execute a meridian flip if necessary.
      * @return true if a meridian flip was necessary
      */
     Q_INVOKABLE bool executeMeridianFlip();
+
+    /*
+     * @brief activate meridian flip function
+     * @param activate true iff the meridian flip function should be enabled
+     */
+    Q_INVOKABLE Q_NOREPLY void activateMeridianFlip(bool activate);
+
+    /*
+     * @brief set the time beyond the meridian when the meridian flip
+     * @param hours time limit
+     */
+    Q_INVOKABLE Q_NOREPLY void setMeridianFlipLimit(double hours);
 
 public slots:
 
@@ -329,6 +347,8 @@ public slots:
 
     void toggleMountToolBox();
 
+    void meridianFlipStatusChanged(MeridianFlipStatus status);
+
 private slots:
 
     /**
@@ -351,16 +371,19 @@ private slots:
     void pierSideChanged(ISD::Telescope::PierSide side);
     void slewRateChanged(int index);
     void ready();
+    void newMeridianFlipStatus(MeridianFlipStatus status);
 
-  private:
+private:
     void syncGPS();
+    MeridianFlipStatus m_MFStatus = FLIP_NONE;
+    void setMeridianFlipStatus(MeridianFlipStatus status);
 
     QPointer<QDBusInterface> captureInterface { nullptr };
 
     ISD::Telescope *currentTelescope = nullptr;
     ISD::GDInterface *currentGPS = nullptr;
     QStringList m_LogText;
-    SkyPoint currentTargetPosition;
+    SkyPoint *currentTargetPosition = nullptr;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
     QTimer updateTimer;
@@ -380,7 +403,7 @@ private slots:
     QQuickItem *m_SpeedSlider = nullptr, *m_SpeedLabel = nullptr, *m_raValue = nullptr, *m_deValue = nullptr,
                *m_azValue = nullptr, *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
                *m_targetText = nullptr, *m_targetRAText = nullptr, *m_targetDEText = nullptr, *m_Park = nullptr,
-               *m_Unpark = nullptr, *m_statusText = nullptr, *m_J2000Check = nullptr, *m_JNowCheck=nullptr;
+    *m_Unpark = nullptr, *m_statusText = nullptr, *m_J2000Check = nullptr, *m_JNowCheck=nullptr;
 };
 }
 

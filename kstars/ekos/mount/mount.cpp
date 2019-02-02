@@ -487,15 +487,16 @@ void Mount::updateTelescopeCoords()
         emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
 
         ISD::Telescope::Status currentStatus = currentTelescope->status();
+        bool isTracking = (currentStatus == ISD::Telescope::MOUNT_TRACKING);
         if (m_Status != currentStatus)
         {
             qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << m_Status << " to " << currentStatus;
             // If we just finished a slew, let's update initialHA and the current target's position
-            if (currentStatus == ISD::Telescope::MOUNT_TRACKING)
+            if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING)
             {
                 setInitialHA((sgn == '-' ? -1: 1) * ha.Hours());
-                currentTargetPosition.setRA(telescopeCoord.ra());
-                currentTargetPosition.setDec(telescopeCoord.dec());
+                delete currentTargetPosition;
+                currentTargetPosition = new SkyPoint(telescopeCoord.ra(), telescopeCoord.dec());
             }
 
             m_Status = currentStatus;
@@ -516,7 +517,6 @@ void Mount::updateTelescopeCoords()
 
         if (trackingGroup->isEnabled())
         {
-           bool isTracking = (currentStatus == ISD::Telescope::MOUNT_TRACKING);
            trackOnB->setChecked(isTracking);
            trackOffB->setChecked(!isTracking);
         }
@@ -533,6 +533,9 @@ void Mount::updateTelescopeCoords()
             remainingTime = remainingTime.addMSecs(autoParkTimer.remainingTime());
             countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
         }
+
+        if (isTracking && checkMeridianFlip(lst))
+            executeMeridianFlip();
     }
     else
         updateTimer.stop();
@@ -577,6 +580,26 @@ bool Mount::setSlewRate(int index)
         return currentTelescope->setSlewRate(index);
 
     return false;
+}
+
+void Mount::activateMeridianFlip(bool activate)
+{
+    meridianFlipCheckBox->setChecked(activate);
+}
+
+void Mount::setMeridianFlipLimit(double hours)
+{
+    meridianFlipTimeBox->setValue(hours);
+}
+
+void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
+{
+    if (m_MFStatus != status)
+    {
+        m_MFStatus = status;
+        meridianFlipStatusChanged(status);
+        emit newMeridianFlipStatus(status);
+    }
 }
 
 void Mount::updateSwitch(ISwitchVectorProperty *svp)
@@ -827,11 +850,89 @@ bool Mount::slew(double RA, double DEC)
     if (HA > 12.0)
         HA -= 24.0;
     setInitialHA(HA);
+    // reset the meridian flip status if the slew is not the meridian flip itself
+    if (m_MFStatus != FLIP_RUNNING)
+        setMeridianFlipStatus(FLIP_NONE);
 
-    currentTargetPosition.setRA(RA);
-    currentTargetPosition.setDec(DEC);
+    delete currentTargetPosition;
+    currentTargetPosition = new SkyPoint(RA, DEC);
 
-    return currentTelescope->Slew(RA, DEC);
+    return currentTelescope->Slew(currentTargetPosition);
+}
+
+bool Mount::checkMeridianFlip(dms lst)
+{
+
+    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
+    {
+        meridianFlipStatusText->setText("Status: inactive");
+        setMeridianFlipStatus(FLIP_NONE);
+        return false;
+    }
+
+    if (currentTelescope->isTracking() == false)
+    {
+        meridianFlipStatusText->setText("Status: inactive (not tracking)");
+        return false;
+    }
+
+
+    double deltaHA = meridianFlipTimeBox->value() - lst.Hours() + telescopeCoord.ra().Hours();
+    int hh = static_cast<int> (deltaHA);
+    int mm = static_cast<int> ((deltaHA - hh)*60);
+    int ss = static_cast<int> ((deltaHA - hh - mm/60.0)*3600);
+
+    switch (m_MFStatus)
+    {
+    case FLIP_NONE:
+
+        if (initialHA() >= 0 || meridianFlipCheckBox->isChecked() == false)
+        {
+            meridianFlipStatusText->setText("Status: inactive");
+            return false;
+        }
+
+        if (deltaHA > 0)
+        {
+            QString message = QString("Meridian flip in %1h:%2m:%3s")
+                    .arg(hh, 2, 10, QChar('0'))
+                    .arg(mm, 2, 10, QChar('0'))
+                    .arg(ss, 2, 10, QChar('0'));
+            meridianFlipStatusText->setText(message);
+            return false;
+        }
+        else if (initialHA() < 0)
+        {
+            setMeridianFlipStatus(FLIP_PLANNED);
+            return false;
+        }
+        break;
+
+    case FLIP_PLANNED:
+        return false;
+        break;
+
+    case FLIP_ACCEPTED:
+        return true;
+        break;
+
+    case FLIP_RUNNING:
+        if (currentTelescope->isTracking())
+        {
+            // meridian flip completed
+            setMeridianFlipStatus(FLIP_COMPLETED);
+        }
+        break;
+
+    case FLIP_COMPLETED:
+        setMeridianFlipStatus(FLIP_NONE);
+        break;
+
+    default:
+        // do nothing
+        break;
+    }
+    return false;
 }
 
 bool Mount::executeMeridianFlip() {
@@ -839,24 +940,76 @@ bool Mount::executeMeridianFlip() {
         // no meridian flip necessary
         return false;
 
+    if (currentTelescope->status() != ISD::Telescope::MOUNT_TRACKING)
+    {
+        // no meridian flip necessary
+        return false;
+    }
+
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    double HA = lst.Hours() - currentTargetPosition.ra().Hours();
+    double HA = lst.Hours() - currentTargetPosition->ra().Hours();
     if (HA > 12.0)
         // no meridian flip necessary
         return false;
 
     // execute meridian flip
     qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
-                                  currentTargetPosition.ra().toHMSString() <<
-                                  "DEC=" << currentTargetPosition.dec().toDMSString();
-    slew(currentTargetPosition.ra().Hours(), currentTargetPosition.dec().Degrees());
-    return true;
+                                  currentTargetPosition->ra().toHMSString() <<
+                                  "DEC=" << currentTargetPosition->dec().toDMSString();
+    setMeridianFlipStatus(FLIP_RUNNING);
+
+    bool result = slew(currentTargetPosition->ra().Hours(), currentTargetPosition->dec().Degrees());
+
+    if (result == false)
+         qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip FAILED: slewing to RA=" <<
+                                      currentTargetPosition->ra().toHMSString() <<
+                                      "DEC=" << currentTargetPosition->dec().toDMSString();
+    return result;
+
+}
+
+void Mount::meridianFlipStatusChanged(Mount::MeridianFlipStatus status) {
+
+    m_MFStatus = status;
+
+    switch (status)
+    {
+    case FLIP_NONE:
+        meridianFlipStatusText->setText("Status: inactive");
+        break;
+
+    case FLIP_PLANNED:
+        meridianFlipStatusText->setText("Meridian flip planned...");
+        break;
+
+    case FLIP_WAITING:
+        meridianFlipStatusText->setText("Meridian flip waiting...");
+        break;
+
+    case FLIP_ACCEPTED:
+        if (currentTelescope == nullptr || currentTelescope->isTracking() == false)
+            // if the mount is not tracking, we go back one step
+            setMeridianFlipStatus(FLIP_PLANNED);
+        // otherwise do nothing, execution of meridian flip initianted in updateTelescopeCoords()
+        break;
+
+    case FLIP_RUNNING:
+        meridianFlipStatusText->setText("Meridian flip running...");
+        break;
+
+    case FLIP_COMPLETED:
+        meridianFlipStatusText->setText("Meridian flip completed.");
+        break;
+    default:
+        break;
+    }
+
 
 }
 
 SkyPoint Mount::currentTarget()
 {
-    return currentTargetPosition;
+    return *currentTargetPosition;
 }
 
 

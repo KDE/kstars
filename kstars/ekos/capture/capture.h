@@ -13,6 +13,7 @@
 #include "customproperties.h"
 #include "oal/filter.h"
 #include "ekos/ekos.h"
+#include "ekos/mount/mount.h"
 #include "indi/indiccd.h"
 #include "indi/indicap.h"
 #include "indi/indidome.h"
@@ -90,7 +91,7 @@ class Capture : public QWidget, public Ui::Capture
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
   public:
-    typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
+    typedef enum { MF_NONE, MF_REQUESTED, MF_READY, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_COMPLETED, MF_ALIGNING, MF_GUIDING } MFStage;
     typedef enum {
         CAL_NONE,
         CAL_DUSTCAP_PARKING,
@@ -311,8 +312,6 @@ class Capture : public QWidget, public Ui::Capture
      */
     void setSettings(const QJsonObject &settings);
 
-    SkyPoint getInitialMountCoords() const;
-
 public slots:
 
     /** \addtogroup CaptureDBusInterface
@@ -512,6 +511,9 @@ public slots:
     // Clear Camera Configuration
     void clearCameraConfiguration();
 
+    // Meridian flip
+    void meridianFlipStatusChanged(Mount::MeridianFlipStatus status);
+
   private slots:
 
     /**
@@ -539,10 +541,6 @@ public slots:
     void editJob(QModelIndex i);
     void resetJobEdit();
     void executeJob();
-
-    // Meridian Flip
-    void checkMeridianFlipTimeout();
-    //void checkAlignmentSlewComplete();
 
     // AutoGuide
     void checkGuideDeviationTimeout();
@@ -606,6 +604,7 @@ public slots:
     void newExposureProgress(Ekos::SequenceJob *job);
     void sequenceChanged(const QJsonArray &sequence);
     void settingsUpdated(const QJsonObject &settings);
+    void newMeridianFlipStatus(Mount::MeridianFlipStatus status);
 
   private:
     void setBusy(bool enable);
@@ -633,16 +632,11 @@ public slots:
     /* Meridian Flip */
     bool checkMeridianFlip();
     void checkGuidingAfterFlip();
-    double getCurrentHA();
-    double getInitialHA();
 
     // Remaining Time in seconds
     int getJobRemainingTime(SequenceJob *job);
 
     void resetFrameToZero();
-
-    /* Slewing - true iff start slewing was successful */
-    bool slew(const SkyPoint target);
 
     /* Refocus */
     void startRefocusTimer(bool forced = false);
@@ -798,6 +792,7 @@ public slots:
     SchedulerJob::CapturedFramesMap capturedFramesMap;
 
     // Execute the meridian flip
-    bool executeMeridianFlip();
+    void setMeridianFlipStage(MFStage status);
+    void processFlipCompleted();
 };
 }
