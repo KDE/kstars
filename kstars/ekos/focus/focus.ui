@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>698</width>
-    <height>465</height>
+    <width>674</width>
+    <height>488</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -574,26 +574,6 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QCheckBox" name="suspendGuideCheck">
-              <property name="toolTip">
-               <string>Suspend Guiding while autofocus in progress</string>
-              </property>
-              <property name="text">
-               <string>Suspend Guiding</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QDoubleSpinBox" name="GuideSettleTime">
-              <property name="toolTip">
-               <string>Wait this many seconds before resuming guiding.</string>
-              </property>
-              <property name="maximum">
-               <double>60.000000000000000</double>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QCheckBox" name="useFullField">
               <property name="toolTip">
@@ -639,13 +619,33 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
+            <item row="0" column="2">
              <widget class="QCheckBox" name="darkFrameCheck">
               <property name="toolTip">
                <string/>
               </property>
               <property name="text">
                <string>Dark Frame</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="suspendGuideCheck">
+              <property name="toolTip">
+               <string>Suspend Guiding while autofocus in progress</string>
+              </property>
+              <property name="text">
+               <string>Suspend Guiding</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="GuideSettleTime">
+              <property name="toolTip">
+               <string>Wait this many seconds before resuming guiding.</string>
+              </property>
+              <property name="maximum">
+               <double>60.000000000000000</double>
               </property>
              </widget>
             </item>
@@ -1076,7 +1076,6 @@
   <tabstop>resetFrameB</tabstop>
   <tabstop>useAutoStar</tabstop>
   <tabstop>useSubFrame</tabstop>
-  <tabstop>suspendGuideCheck</tabstop>
   <tabstop>focusBoxSize</tabstop>
   <tabstop>maxTravelIN</tabstop>
   <tabstop>stepIN</tabstop>
