@@ -81,8 +81,14 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     ccd->getSERNameDirectory(filename, directory);
 
     double duration = 0.1;
-    currentCCD->getStreamExposure(&duration);
-    targetFPSSpin->setValue(1.0 / duration);
+    bool hasStreamExposure = currentCCD->getStreamExposure(&duration);
+    if (hasStreamExposure)
+        targetFPSSpin->setValue(1.0 / duration);
+    else
+    {
+        targetFPSSpin->setEnabled(false);
+        changeFPSB->setEnabled(false);
+    }
 
     options->recordFilenameEdit->setText(filename);
     options->recordDirectoryEdit->setText(directory);
@@ -185,6 +191,18 @@ QSize StreamWG::sizeHint() const
 {
     QSize size(Options::streamWindowWidth(), Options::streamWindowHeight());
     return size;
+}
+
+void StreamWG::showEvent(QShowEvent *ev)
+{
+    if (currentCCD)
+    {
+        // Always reset to 1x for DSLRs since they reset whenever they are triggered again.
+        if (eoszoom)
+            zoomLevelCombo->setCurrentIndex(0);
+    }
+
+    ev->accept();
 }
 
 void StreamWG::closeEvent(QCloseEvent * ev)
