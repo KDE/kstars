@@ -46,7 +46,7 @@ class FITSHistogram : public QDialog
 
         void applyFilter(FITSScale ftype);
 
-        double getBinWidth(int channel=0)
+        double getBinWidth(int channel = 0)
         {
             return binWidth[channel];
         }
@@ -56,7 +56,7 @@ class FITSHistogram : public QDialog
         double getJMIndex() const;
 
     protected:
-        void showEvent(QShowEvent * event);
+        void showEvent(QShowEvent * event) override;
         void driftMouseOverLine(QMouseEvent * event);
 
     public slots:
@@ -101,8 +101,8 @@ class FITSHistogramCommand : public QUndoCommand
         FITSHistogramCommand(QWidget * parent, FITSHistogram * inHisto, FITSScale newType, const QVector<double> &lmin, const QVector<double> &lmax);
         virtual ~FITSHistogramCommand();
 
-        virtual void redo();
-        virtual void undo();
+        virtual void redo() override;
+        virtual void undo() override;
         virtual QString text() const;
 
     private:

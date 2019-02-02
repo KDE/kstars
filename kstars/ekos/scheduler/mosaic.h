@@ -29,108 +29,132 @@ typedef struct
 
 class MosaicTile : public QGraphicsItem
 {
-  public:
-    MosaicTile();
-    ~MosaicTile();
+    public:
+        MosaicTile();
+        ~MosaicTile();
 
-    void setPA(double positionAngle) { pa = positionAngle * -1; }
-    void setDimension(int width, int height)
-    {
-        w = width;
-        h = height;
-    }
-    void setFOV(double fov_x, double fov_y)
-    {
-        fovW = fov_x;
-        fovH = fov_y;
-    }
-    void setOverlap(double value) { overlap = value; }
+        void setPA(double positionAngle)
+        {
+            pa = positionAngle * -1;
+        }
+        void setDimension(int width, int height)
+        {
+            w = width;
+            h = height;
+        }
+        void setFOV(double fov_x, double fov_y)
+        {
+            fovW = fov_x;
+            fovH = fov_y;
+        }
+        void setOverlap(double value)
+        {
+            overlap = value;
+        }
 
-    int getWidth() { return w; }
-    int getHeight() { return h; }
-    double getOverlap() { return overlap; }
-    double getPA() { return pa; }
+        int getWidth()
+        {
+            return w;
+        }
+        int getHeight()
+        {
+            return h;
+        }
+        double getOverlap()
+        {
+            return overlap;
+        }
+        double getPA()
+        {
+            return pa;
+        }
 
-    void updateTiles();
-    OneTile *getTile(int row, int col);
+        void updateTiles();
+        OneTile *getTile(int row, int col);
 
-    QRectF boundingRect() const;
+        QRectF boundingRect() const override;
 
-    QList<OneTile *> getTiles() const;
+        QList<OneTile *> getTiles() const;
 
-  protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    protected:
+        void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
 
-  private:
-    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
+    private:
+        QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
 
-    double overlap { 0 };
-    int w { 1 };
-    int h { 1 };
-    double fovW { 0 };
-    double fovH { 0 };
-    double pa { 0 };
+        double overlap { 0 };
+        int w { 1 };
+        int h { 1 };
+        double fovW { 0 };
+        double fovH { 0 };
+        double pa { 0 };
 
-    QBrush brush;
-    QPen pen;
+        QBrush brush;
+        QPen pen;
 
-    QBrush textBrush;
-    QPen textPen;
+        QBrush textBrush;
+        QPen textPen;
 
-    QList<OneTile *> tiles;
+        QList<OneTile *> tiles;
 };
 
 class Mosaic : public QDialog, public Ui::mosaicDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    Mosaic();
-    ~Mosaic();
+    public:
+        Mosaic();
+        ~Mosaic();
 
-    void setCameraSize(uint16_t width, uint16_t height);
-    void setPixelSize(double pixelWSize, double pixelHSize);
-    void setFocalLength(double focalLength);
-    void setCenter(const SkyPoint &value);
+        void setCameraSize(uint16_t width, uint16_t height);
+        void setPixelSize(double pixelWSize, double pixelHSize);
+        void setFocalLength(double focalLength);
+        void setCenter(const SkyPoint &value);
 
-    QString getJobsDir() { return jobsDir->text(); }
-    QList<OneTile *> getJobs() { return mosaicTileItem->getTiles(); }
+        QString getJobsDir()
+        {
+            return jobsDir->text();
+        }
+        QList<OneTile *> getJobs()
+        {
+            return mosaicTileItem->getTiles();
+        }
 
-  protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void resizeEvent(QResizeEvent *);
+    protected:
+        virtual void showEvent(QShowEvent *) override;
+        virtual void resizeEvent(QResizeEvent *) override;
 
-  public slots:
+    public slots:
 
-    void constructMosaic();
+        void constructMosaic();
 
-    void calculateFOV();
+        void calculateFOV();
 
-    void updateTargetFOV();
+        void updateTargetFOV();
 
-    void saveJobsDirectory();
+        void saveJobsDirectory();
 
-    void resetFOV();
+        void resetFOV();
 
-    void createJobs();
+        void createJobs();
 
-    void render();
+        void render();
 
-  private:
-    SkyPoint center;
-    QImage *m_skyChart { nullptr };
+    private:
+        SkyPoint center;
+        QImage *m_skyChart { nullptr };
 
-    QPixmap targetPix;
-    QGraphicsPixmapItem *skyMapItem { nullptr };
+        QPixmap targetPix;
+        QGraphicsPixmapItem *skyMapItem { nullptr };
 
-    MosaicTile *mosaicTileItem { nullptr };
+        MosaicTile *mosaicTileItem { nullptr };
 
-    double pixelsPerArcmin { 0 };
+        double pixelsPerArcmin { 0 };
 
-    QPointF screenPoint;
+        QPointF screenPoint;
 
-    QGraphicsScene scene;
+        QGraphicsScene scene;
 
-    bool rememberAltAzOption;
+        bool rememberAltAzOption;
 };
 }

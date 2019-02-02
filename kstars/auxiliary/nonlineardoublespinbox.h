@@ -15,11 +15,11 @@
 
 class NonLinearDoubleSpinBox : public QDoubleSpinBox
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
         explicit NonLinearDoubleSpinBox(QWidget *parent = Q_NULLPTR);
 
-        void stepBy(int steps);
+        void stepBy(int steps) override;
         void setRecommendedValues(QList<double> values);
         void addRecommendedValue(double v);
         QList<double> getRecommendedValues();

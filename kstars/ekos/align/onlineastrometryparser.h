@@ -29,64 +29,68 @@ class Align;
  */
 class OnlineAstrometryParser : public AstrometryParser
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    OnlineAstrometryParser();
+    public:
+        OnlineAstrometryParser();
 
-    virtual void setAlign(Align *_align) { align = _align; }
-    virtual bool init();
-    virtual void verifyIndexFiles(double fov_x, double fov_y);
-    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true);
-    virtual bool stopSolver();
+        virtual void setAlign(Align *_align) override
+        {
+            align = _align;
+        }
+        virtual bool init() override;
+        virtual void verifyIndexFiles(double fov_x, double fov_y) override;
+        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) override;
+        virtual bool stopSolver() override;
 
-    typedef enum {
-        NO_STAGE,
-        AUTH_STAGE,
-        UPLOAD_STAGE,
-        JOB_ID_STAGE,
-        JOB_STATUS_STAGE,
-        JOB_CALIBRATION_STAGE
-    } WorkflowStage;
+        typedef enum
+        {
+            NO_STAGE,
+            AUTH_STAGE,
+            UPLOAD_STAGE,
+            JOB_ID_STAGE,
+            JOB_STATUS_STAGE,
+            JOB_CALIBRATION_STAGE
+        } WorkflowStage;
 
-  public slots:
-    void onResult(QNetworkReply *reply);
-    void uploadFile();
-    void getJobID();
-    void checkJobs();
-    void checkJobCalibration();
-    void resetSolver();
-  signals:
-    void authenticateFinished();
-    void uploadFinished();
-    void jobIDFinished();
-    void jobFinished();
+    public slots:
+        void onResult(QNetworkReply *reply);
+        void uploadFile();
+        void getJobID();
+        void checkJobs();
+        void checkJobCalibration();
+        void resetSolver();
+    signals:
+        void authenticateFinished();
+        void uploadFinished();
+        void jobIDFinished();
+        void jobFinished();
 
-  private:
-    void authenticate();
+    private:
+        void authenticate();
 
-    WorkflowStage workflowStage { NO_STAGE };
-    QNetworkAccessManager *networkManager { nullptr };
-    QString sessionKey;
-    int subID { 0 };
-    int jobID { 0 };
-    int job_retries { 0 };
-    int solver_retries { 0 };
-    QTime solverTimer;
-    QString filename, units;
-    double lowerScale { 0 };
-    double upperScale { 0 };
-    double center_ra { 0 };
-    double center_dec { 0 };
-    double radius { 0 };
-    double pixscale { 0 };
-    bool useWCSCenter { false };
-    int parity { 0 };
-    double ra { 0 };
-    double dec { 0 };
-    double orientation { 0 };
-    int downsample_factor { 0 };
-    bool isGenerated { true };
-    Align *align { nullptr };
+        WorkflowStage workflowStage { NO_STAGE };
+        QNetworkAccessManager *networkManager { nullptr };
+        QString sessionKey;
+        int subID { 0 };
+        int jobID { 0 };
+        int job_retries { 0 };
+        int solver_retries { 0 };
+        QTime solverTimer;
+        QString filename, units;
+        double lowerScale { 0 };
+        double upperScale { 0 };
+        double center_ra { 0 };
+        double center_dec { 0 };
+        double radius { 0 };
+        double pixscale { 0 };
+        bool useWCSCenter { false };
+        int parity { 0 };
+        double ra { 0 };
+        double dec { 0 };
+        double orientation { 0 };
+        int downsample_factor { 0 };
+        bool isGenerated { true };
+        Align *align { nullptr };
 };
 }
