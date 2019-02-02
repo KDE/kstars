@@ -774,10 +774,10 @@ void Focus::start()
     }
     else if (canRelMove)
     {
-        appendLogText(i18n("Setting dummy central position to 50000"));
+        //appendLogText(i18n("Setting dummy central position to 50000"));
         absIterations   = 0;
         pulseDuration   = stepIN->value();
-        currentPosition = 50000;
+        //currentPosition = 50000;
         absMotionMax    = 100000;
         absMotionMin    = 0;
     }
