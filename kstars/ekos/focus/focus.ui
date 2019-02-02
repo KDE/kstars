@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>698</width>
-    <height>465</height>
+    <width>674</width>
+    <height>488</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -75,7 +75,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_16">
             <property name="text">
-             <string>Ticks:</string>
+             <string>Steps:</string>
             </property>
            </widget>
           </item>
@@ -564,16 +564,6 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QCheckBox" name="darkFrameCheck">
-              <property name="toolTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Dark Frame</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QCheckBox" name="useAutoStar">
               <property name="toolTip">
@@ -584,7 +574,62 @@
               </property>
              </widget>
             </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="useFullField">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Full Field</string>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="1">
+             <widget class="QDoubleSpinBox" name="fullFieldInnerRing">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;During full field focusing, stars which are inside this percentage of the frame are filtered out of HFR calculation (default 0%). Detection algorithms may also have an inherent filter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string>%</string>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QDoubleSpinBox" name="fullFieldOuterRing">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;During full field focusing, stars which are outside this percentage of the frame are filtered out of HFR calculation (default 100%). Detection algorithms may also have an inherent filter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string>%</string>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="darkFrameCheck">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Dark Frame</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
              <widget class="QCheckBox" name="suspendGuideCheck">
               <property name="toolTip">
                <string>Suspend Guiding while autofocus in progress</string>
@@ -594,17 +639,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QCheckBox" name="useFullField">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method can be slow.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Full Field</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
+            <item row="2" column="1">
              <widget class="QDoubleSpinBox" name="GuideSettleTime">
               <property name="toolTip">
                <string>Wait this many seconds before resuming guiding.</string>
@@ -644,7 +679,7 @@
             <item row="0" column="2">
              <widget class="QLabel" name="label_12">
               <property name="toolTip">
-               <string>Maximum travel in ticks before the autofocus process aborts</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum travel in steps before the autofocus process aborts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Max Travel:</string>
@@ -686,7 +721,7 @@
                <string/>
               </property>
               <property name="text">
-               <string>Step:</string>
+               <string>Step size:</string>
               </property>
              </widget>
             </item>
@@ -1041,9 +1076,6 @@
   <tabstop>resetFrameB</tabstop>
   <tabstop>useAutoStar</tabstop>
   <tabstop>useSubFrame</tabstop>
-  <tabstop>useFullField</tabstop>
-  <tabstop>darkFrameCheck</tabstop>
-  <tabstop>suspendGuideCheck</tabstop>
   <tabstop>focusBoxSize</tabstop>
   <tabstop>maxTravelIN</tabstop>
   <tabstop>stepIN</tabstop>

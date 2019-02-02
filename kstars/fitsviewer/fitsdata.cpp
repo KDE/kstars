@@ -1079,6 +1079,23 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
     return count;
 }
 
+int FITSData::filterStars(const float innerRadius, const float outerRadius)
+{
+    long const sqDiagonal = this->width()*this->width()/4 + this->height()*this->height()/4;
+    long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
+    long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
+
+    starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(),
+        [&](Edge *edge) {
+            long const x = edge->x - this->width()/2;
+            long const y = edge->y - this->height()/2;
+            long const sqRadius = x*x + y*y;
+            return sqRadius < sqInnerRadius || sqOuterRadius < sqRadius;
+        }), starCenters.end());
+
+    return starCenters.count();
+}
+
 template <typename T>
 int FITSData::findCannyStar(FITSData * data, const QRect &boundary)
 {
