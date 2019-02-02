@@ -220,6 +220,9 @@ class FITSData : public QObject
     void getFloatBuffer(float *buffer, int x, int y, int w, int h);
     int findSEPStars(const QRect &boundary = QRect());
 
+    // Apply ring filter to searched stars
+    int filterStars(const float innerRadius, const float outerRadius);
+
     // Half Flux Radius
     Edge *getMaxHFRStar() const { return maxHFRStar; }
     double getHFR(HFRType type = HFR_AVERAGE);
