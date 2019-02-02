@@ -51,7 +51,17 @@ bool OfflineAstrometryParser::init()
 {
 #ifdef Q_OS_OSX
     if (Options::astrometryConfFileIsInternal())
-        KSUtils::configureDefaultAstrometry();
+    {
+        if(KSUtils::configureAstrometry()==false)
+        {
+            KMessageBox::information(
+                nullptr,
+                i18n(
+                    "Failed to properly configure astrometry config file.  Please click the options button in the lower right of the Astrometry Tab in Ekos to correct your settings.  Then try starting Ekos again."),
+                i18n("Astrometry Config File Error"), "astrometry_configuration_failure_warning");
+            return false;
+        }
+    }
 #endif
 
     if (astrometryFilesOK)
@@ -63,7 +73,7 @@ bool OfflineAstrometryParser::init()
             KMessageBox::information(
                 nullptr,
                 i18n(
-                    "Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
+                    "Failed to find astrometry.net binaries. Please click the options button in the lower right of the Astrometry Tab in Ekos to correct your settings and make sure that astrometry.net is installed. Then try starting Ekos again."),
                 i18n("Missing astrometry files"), "missing_astrometry_binaries_warning");
 
         return false;
@@ -157,7 +167,7 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     QString astrometryDataDir;
     bool indexesOK = true;
 
-    if (getAstrometryDataDir(astrometryDataDir) == false)
+    if (KSUtils::getAstrometryDataDir(astrometryDataDir) == false)
         return;
 
     QStringList nameFilter("*.fits");

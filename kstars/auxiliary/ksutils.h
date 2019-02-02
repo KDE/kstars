@@ -250,7 +250,9 @@ QString getDefaultPath(QString option);
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
 bool copyDataFolderFromAppBundleIfNeeded(); //The boolean returns true if the data folders are good to go.
-void configureDefaultAstrometry();
+bool getAstrometryDataDir(QString &dataDir);
+bool setAstrometryDataDir(QString dataDir);
+bool configureAstrometry();
 bool copyRecursively(QString sourceFolder, QString destFolder);
 #endif
 

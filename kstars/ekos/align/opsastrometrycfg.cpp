@@ -3,6 +3,7 @@
 
 #include "align.h"
 #include "kstars.h"
+#include "ksutils.h"
 #include "Options.h"
 #include "ui_opsastrometrycfg.h"
 
@@ -25,6 +26,7 @@ OpsAstrometryCfg::OpsAstrometryCfg(Align *parent) : QDialog(KStars::Instance())
     connect(astrometryCFGDisplay, SIGNAL(textChanged()), SLOT(slotCFGEditorUpdated()));
 
     connect(loadCFG, SIGNAL(clicked()), this, SLOT(slotLoadCFG()));
+    connect(setIndexFileB, SIGNAL(clicked()), this, SLOT(slotSetAstrometryIndexFileLocation()));
 
     slotLoadCFG();
 }
@@ -59,6 +61,12 @@ void OpsAstrometryCfg::slotLoadCFG()
     confFile.close();
 }
 
+void OpsAstrometryCfg::slotSetAstrometryIndexFileLocation()
+{
+    KSUtils::setAstrometryDataDir(kcfg_AstrometryIndexFileLocation->text());
+    slotLoadCFG();
+}
+
 void OpsAstrometryCfg::slotApply()
 {
     if (currentCFGText != astrometryCFGDisplay->toPlainText())
@@ -80,6 +88,10 @@ void OpsAstrometryCfg::slotApply()
             confFile.close();
             KMessageBox::information(0, i18n("Astrometry.cfg successfully saved."));
             currentCFGText = astrometryCFGDisplay->toPlainText();
+            QString astrometryDataDir;
+            KSUtils::getAstrometryDataDir(astrometryDataDir);
+            if(astrometryDataDir!=kcfg_AstrometryIndexFileLocation->text())
+                kcfg_AstrometryIndexFileLocation->setText(astrometryDataDir);
         }
     }
 }

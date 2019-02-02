@@ -21,6 +21,7 @@ class OpsAstrometryCfg : public QDialog, public Ui::OpsAstrometryCfg
 
   private slots:
     void slotLoadCFG();
+    void slotSetAstrometryIndexFileLocation();
     void slotApply();
     void slotCFGEditorUpdated();
 
