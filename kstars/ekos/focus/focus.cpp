@@ -80,10 +80,12 @@ Focus::Focus()
     connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
 
-    connect(focusOutB, &QPushButton::clicked, [&]() {
+    connect(focusOutB, &QPushButton::clicked, [&]()
+    {
         focusOut();
     });
-    connect(focusInB, &QPushButton::clicked, [&]() {
+    connect(focusInB, &QPushButton::clicked, [&]()
+    {
         focusIn();
     });
 
@@ -95,7 +97,7 @@ Focus::Focus()
 
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
 
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultCCD);
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
 
     connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
@@ -108,22 +110,39 @@ Focus::Focus()
             useSubFrame->setChecked(false);
             useAutoStar->setChecked(false);
         }
+        else
+        {
+            // Disable the overlay
+            focusView->setStarFilterRange(0, 1);
+        }
     });
 
     connect(fullFieldInnerRing, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-         [=](double d) { Options::setFocusFullFieldInnerRadius(d); });
+            [ = ](double d)
+    {
+        Options::setFocusFullFieldInnerRadius(d);
+    });
     connect(fullFieldOuterRing, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-         [=](double d) { Options::setFocusFullFieldOuterRadius(d); });
+            [ = ](double d)
+    {
+        Options::setFocusFullFieldOuterRadius(d);
+    });
 
     FocusSettleTime->setValue(Options::focusSettleTime());
     connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-         [=](double d) { Options::setFocusSettleTime(d); });
+            [ = ](double d)
+    {
+        Options::setFocusSettleTime(d);
+    });
 
     GuideSettleTime->setValue(Options::guideSettleTime());
     connect(GuideSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-         [=](double d) { Options::setGuideSettleTime(d); });
+            [ = ](double d)
+    {
+        Options::setGuideSettleTime(d);
+    });
 
-    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
+    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
     connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
 
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
@@ -134,7 +153,8 @@ Focus::Focus()
     focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
     focusDetectionCombo->setCurrentIndex(focusDetection);
 
-    connect(focusDetectionCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index) {
+    connect(focusDetectionCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
+    {
         focusDetection = static_cast<StarAlgorithm>(index);
         thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
         Options::setFocusDetection(index);
@@ -142,7 +162,8 @@ Focus::Focus()
 
     focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
     focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
-    connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index) {
+    connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
+    {
         focusAlgorithm = static_cast<FocusAlgorithm>(index);
         //toleranceIN->setEnabled(focusAlgorithm == FOCUS_ITERATIVE);
         Options::setFocusAlgorithm(index);
@@ -272,7 +293,8 @@ Focus::Focus()
     focusView->setStarsEnabled(true);
 
     // Reset star center on auto star check toggle
-    connect(useAutoStar, &QCheckBox::toggled, this, [&](bool enabled) {
+    connect(useAutoStar, &QCheckBox::toggled, this, [&](bool enabled)
+    {
         if (enabled)
         {
             starCenter   = QVector3D();
@@ -353,10 +375,10 @@ void Focus::setDefaultFocuser(QString focuser)
 
 QString Focus::camera()
 {
-     if (currentCCD)
-         return currentCCD->getDeviceName();
+    if (currentCCD)
+        return currentCCD->getDeviceName();
 
-     return QString();
+    return QString();
 }
 
 void Focus::checkCCD(int ccdNum)
@@ -565,13 +587,13 @@ void Focus::checkFilter(int filterNum)
     if (filterNum == 0)
     {
         currentFilter = nullptr;
-        currentFilterPosition=-1;
+        currentFilterPosition = -1;
         FilterPosCombo->clear();
         return;
     }
 
     if (filterNum <= Filters.count())
-        currentFilter = Filters.at(filterNum-1);
+        currentFilter = Filters.at(filterNum - 1);
 
     filterManager->setCurrentFilterWheel(currentFilter);
 
@@ -581,7 +603,7 @@ void Focus::checkFilter(int filterNum)
 
     currentFilterPosition = filterManager->getFilterPosition();
 
-    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+    FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
 
     exposureIN->setValue(filterManager->getFilterExposure());
 }
@@ -602,7 +624,7 @@ void Focus::addFocuser(ISD::GDInterface *newFocuser)
     checkFocuser();
 }
 
-bool Focus::setFocuser(const QString & device)
+bool Focus::setFocuser(const QString &device)
 {
     for (int i = 0; i < focuserCombo->count(); i++)
         if (device == focuserCombo->itemText(i))
@@ -804,13 +826,13 @@ void Focus::start()
     Options::setFocusUseFullField(useFullField->isChecked());
 
     qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with box size: " << focusBoxSize->value()
-                 << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
-                 << " Autostar: " << ( useAutoStar->isChecked() ? "yes" : "no" )
-                 << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
-                 << " [" << fullFieldInnerRing->value() << "%," << fullFieldOuterRing->value() << "%]"
-                 << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
-                 << " Tolerance: " << toleranceIN->value()
-                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
+                                << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
+                                << " Autostar: " << ( useAutoStar->isChecked() ? "yes" : "no" )
+                                << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
+                                << " [" << fullFieldInnerRing->value() << "%," << fullFieldOuterRing->value() << "%]"
+                                << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
+                                << " Tolerance: " << toleranceIN->value()
+                                << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
@@ -973,7 +995,7 @@ void Focus::capture()
         if (filterPositionPending)
         {
             // Apply all policies except autofocus since we are already in autofocus module doh.
-            filterManager->setFilterPosition(targetPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY|FilterManager::OFFSET_POLICY));
+            filterManager->setFilterPosition(targetPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
     }
@@ -1001,7 +1023,7 @@ void Focus::capture()
         targetChip->setCaptureFilter(defaultScale);
 
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 &&
-        targetChip->getISOIndex() != ISOCombo->currentIndex())
+            targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
     if (gainIN->isEnabled())
@@ -1155,7 +1177,7 @@ void Focus::newFITS(IBLOB *bp)
         else
         {
             bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX,
-                                                                  offsetY);
+                      offsetY);
             darkFrameCheck->setChecked(rc);
         }
 
@@ -1222,8 +1244,9 @@ void Focus::setCaptureComplete()
                     focusView->findStars(ALGORITHM_CENTROID);
                 else
                     focusView->findStars(focusDetection);
-                focusView->filterStars(static_cast <float> (fullFieldInnerRing->value()/100.0),
-                                       static_cast <float> (fullFieldOuterRing->value()/100.0));
+                focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                              static_cast <float> (fullFieldOuterRing->value() / 100.0));
+                focusView->filterStars();
                 focusView->updateFrame();
 
                 // Get the average HFR of the whole frame
@@ -1240,24 +1263,24 @@ void Focus::setCaptureComplete()
                 }
                 else
                 {
-                   // Disable tracking box
-                   focusView->setTrackingBoxEnabled(false);
+                    // Disable tracking box
+                    focusView->setTrackingBoxEnabled(false);
 
-                   // If algorithm is set something other than Centeroid or SEP, then force Centroid
-                   // Since it is the most reliable detector when nothing was selected before.
-                   if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-                       focusView->findStars(ALGORITHM_CENTROID);
-                   else
-                   // Otherwise, continue to find use using the selected algorithm
-                       focusView->findStars(focusDetection);
+                    // If algorithm is set something other than Centeroid or SEP, then force Centroid
+                    // Since it is the most reliable detector when nothing was selected before.
+                    if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
+                        focusView->findStars(ALGORITHM_CENTROID);
+                    else
+                        // Otherwise, continue to find use using the selected algorithm
+                        focusView->findStars(focusDetection);
 
-                   // Reenable tracking box
-                   focusView->setTrackingBoxEnabled(true);
+                    // Reenable tracking box
+                    focusView->setTrackingBoxEnabled(true);
 
-                   focusView->updateFrame();
+                    focusView->updateFrame();
 
-                   // Get maximum HFR in the frame
-                   currentHFR = image_data->getHFR(HFR_MAX);
+                    // Get maximum HFR in the frame
+                    currentHFR = image_data->getHFR(HFR_MAX);
                 }
             }
         }
@@ -1291,8 +1314,8 @@ void Focus::setCaptureComplete()
                     std::sort(HFRFrames.begin(), HFRFrames.end());
                     const auto median =
                         ((HFRFrames.size() % 2) ?
-                            HFRFrames[HFRFrames.size() / 2] :
-                            ((double)HFRFrames[HFRFrames.size() / 2 - 1] + HFRFrames[HFRFrames.size() / 2]) * .5);
+                         HFRFrames[HFRFrames.size() / 2] :
+                         ((double)HFRFrames[HFRFrames.size() / 2 - 1] + HFRFrames[HFRFrames.size() / 2]) * .5);
                     const auto mean = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
                     double variance = 0;
                     foreach (auto val, HFRFrames)
@@ -1360,7 +1383,7 @@ void Focus::setCaptureComplete()
             // The starCenter _must_ already be defined, otherwise, we proceed until
             // the latter half of the function searches for a star and define it.
             if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
-                (maxStarHFR = image_data->getMaxHFRStar()) != nullptr)
+                    (maxStarHFR = image_data->getMaxHFRStar()) != nullptr)
             {
                 // Now we have star selected in the frame
                 starSelected = true;
@@ -1663,7 +1686,7 @@ void Focus::setCaptureComplete()
     if (canAbsMove || canRelMove)
         autoFocusAbs();
     else
-    // Time open-looped algorithms
+        // Time open-looped algorithms
         autoFocusRel();
 }
 
@@ -1838,7 +1861,7 @@ void Focus::autoFocusAbs()
             static double initSlopeHFR = 0;
 
             if (reverseDir && focusInLimit && focusOutLimit &&
-                fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
+                    fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
             {
                 if (absIterations <= 2)
                 {
@@ -1918,7 +1941,7 @@ void Focus::autoFocusAbs()
                 }
 
                 qCDebug(KSTARS_EKOS_FOCUS) << "V-Curve Slope " << slope << " current Position " << currentPosition
-                             << " targetPosition " << targetPosition;
+                                           << " targetPosition " << targetPosition;
 
                 lastHFR = currentHFR;
 
@@ -1993,8 +2016,8 @@ void Focus::autoFocusAbs()
                     polyMinimumFound = findMinimum(minHFRPos, &min_position, &min_hfr);
 
                     qCDebug(KSTARS_EKOS_FOCUS) << "Polynomial Coefficients c0:" << coeff[0] << "c1:" << coeff[1] << "c2:" << coeff[2]
-                                 << "c3:" << coeff[3];
-                     qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (polyMinimumFound ? "Yes" : "No");
+                                               << "c3:" << coeff[3];
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (polyMinimumFound ? "Yes" : "No");
 
                     if (polyMinimumFound)
                     {
@@ -2059,7 +2082,7 @@ void Focus::autoFocusAbs()
             if (fabs(targetPosition - initialFocuserAbsPosition) > maxTravelIN->value())
             {
                 qCDebug(KSTARS_EKOS_FOCUS) << "targetPosition (" << targetPosition << ") - initHFRAbsPos ("
-                             << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
+                                           << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
                 appendLogText("Maximum travel limit reached. Autofocus aborted.");
                 abort();
@@ -2245,8 +2268,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canAbsMove && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value()*1000, this, &Ekos::Focus::capture);
-                //capture();
+                QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
+            //capture();
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2288,7 +2311,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canRelMove && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value()*1000, this, &Ekos::Focus::capture);
+                QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2315,7 +2338,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canAbsMove == false && canRelMove == false && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value()*1000, this, &Ekos::Focus::capture);
+                QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2331,7 +2354,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 void Focus::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                              QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_FOCUS) << text;
 
@@ -2552,12 +2575,6 @@ void Focus::focusStarSelected(int x, int y)
 
     defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
 
-    if (starSelected == false)
-    {
-        appendLogText(i18n("Focus star is selected."));
-        starSelected = true;
-    }
-
     if (squareMovedOutside && inAutoFocus == false && useAutoStar->isChecked())
     {
         useAutoStar->blockSignals(true);
@@ -2565,6 +2582,12 @@ void Focus::focusStarSelected(int x, int y)
         useAutoStar->blockSignals(false);
         appendLogText(i18n("Disabling Auto Star Selection as star selection box was moved manually."));
         starSelected = false;
+    }
+    else if (starSelected == false)
+    {
+        appendLogText(i18n("Focus star is selected."));
+        starSelected = true;
+        capture();
     }
 
     waitStarSelectTimer.stop();
@@ -2652,7 +2675,7 @@ void Focus::setAutoFocusResult(bool status)
 
     // In case of failure, go back to last position if the focuser is absolute
     if (status == false && canAbsMove && currentFocuser && currentFocuser->isConnected() &&
-        initialFocuserAbsPosition >= 0)
+            initialFocuserAbsPosition >= 0)
     {
         currentFocuser->moveAbs(initialFocuserAbsPosition);
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
@@ -2681,7 +2704,8 @@ void Focus::setAutoFocusResult(bool status)
     if (settleTime > 0)
         appendLogText(i18n("Settling..."));
 
-    QTimer::singleShot(settleTime*1000, this, [&,status,settleTime]() {
+    QTimer::singleShot(settleTime * 1000, this, [ &, status, settleTime]()
+    {
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
 
@@ -2701,7 +2725,7 @@ void Focus::setAutoFocusResult(bool status)
         // Do not emit result back yet if we have a locked filter pending return to original filter
         if (fallbackFilterPending)
         {
-            filterManager->setFilterPosition(fallbackFilterPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY|FilterManager::OFFSET_POLICY));
+            filterManager->setFilterPosition(fallbackFilterPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
         emit newStatus(state);
@@ -2714,15 +2738,15 @@ void Focus::checkAutoStarTimeout()
     //if (starSelected == false && inAutoFocus)
     if (starCenter.isNull() && (inAutoFocus || minimumRequiredHFR > 0))
     {
-         if (inAutoFocus)
-         {
-             if (rememberStarCenter.isNull() == false)
-             {
-                 focusStarSelected(rememberStarCenter.x(), rememberStarCenter.y());
-                 appendLogText(i18n("No star was selected. Using last known position..."));
-                 return;
-             }
-         }
+        if (inAutoFocus)
+        {
+            if (rememberStarCenter.isNull() == false)
+            {
+                focusStarSelected(rememberStarCenter.x(), rememberStarCenter.y());
+                appendLogText(i18n("No star was selected. Using last known position..."));
+                return;
+            }
+        }
 
         appendLogText(i18n("No star was selected. Aborting..."));
         initialFocuserAbsPosition = -1;
@@ -2942,7 +2966,8 @@ bool Focus::findMinimum(double expected, double *position, double *hfr)
             *position = m;
             *hfr      = fn1(m, this);
         }
-    } while (status == GSL_CONTINUE && iter < max_iter);
+    }
+    while (status == GSL_CONTINUE && iter < max_iter);
 
     gsl_min_fminimizer_free(s);
 
@@ -3013,14 +3038,14 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
             emit newStatus(state);
         }
     }
-    );
+           );
 
     connect(filterManager.data(), &FilterManager::failed, [this]()
     {
-         appendLogText(i18n("Filter operation failed."));
-         abort();
+        appendLogText(i18n("Filter operation failed."));
+        abort();
     }
-    );
+           );
 
     connect(this, &Focus::newStatus, [this](Ekos::FocusState state)
     {
@@ -3043,24 +3068,25 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
         FilterPosCombo->clear();
         FilterPosCombo->addItems(filterManager->getFilterLabels());
         currentFilterPosition = filterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+        FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
     });
     connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
     {
         currentFilterPosition = filterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+        FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
     });
     connect(filterManager.data(), &FilterManager::exposureChanged, this, [this]()
     {
         exposureIN->setValue(filterManager->getFilterExposure());
-    ;});
+        ;
+    });
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
-            [=](const QString &text)
+            [ = ](const QString & text)
     {
         exposureIN->setValue(filterManager->getFilterExposure(text));
     }
-    );
+           );
 }
 
 void Focus::toggleVideo(bool enabled)

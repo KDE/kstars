@@ -53,7 +53,7 @@ class FITSView : public QScrollArea
         Q_OBJECT
     public:
         explicit FITSView(QWidget *parent = nullptr, FITSMode fitsMode = FITS_NORMAL, FITSScale filterType = FITS_NONE);
-        ~FITSView();
+        virtual ~FITSView() override;
 
         typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
 
@@ -157,7 +157,8 @@ class FITSView : public QScrollArea
         int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
         void toggleStars(bool enable);
         void setStarsEnabled(bool enable);
-        int filterStars(const float innerRadius, const float outerRadius);
+        void setStarFilterRange(float const innerRadius, float const outerRadius);
+        int filterStars();
 
         // FITS Mode
         void updateMode(FITSMode fmode);
@@ -182,6 +183,11 @@ class FITSView : public QScrollArea
             return filterStack.pop();
         }
 
+        CursorMode lastMouseMode { selectCursor };
+        bool isStarProfileShown()
+        {
+            return showStarProfile;
+        }
         // Floating toolbar
         void createFloatingToolBar();
 
@@ -219,11 +225,11 @@ class FITSView : public QScrollArea
              */
         void syncWCSState();
 
-    private:
         bool event(QEvent *event) override;
         bool gestureEvent(QGestureEvent *event);
         void pinchTriggered(QPinchGesture *gesture);
 
+    protected:
         template <typename T>
         bool rescale(FITSZoom type);
 
@@ -237,14 +243,6 @@ class FITSView : public QScrollArea
 
         void loadInFrame();
 
-    public:
-        CursorMode lastMouseMode { selectCursor };
-        bool isStarProfileShown()
-        {
-            return showStarProfile;
-        }
-
-    protected:
         /// WCS Future Watcher
         QFutureWatcher<bool> wcsWatcher;
         /// FITS Future Watcher
@@ -291,11 +289,15 @@ class FITSView : public QScrollArea
         bool showEQGrid { false };
         bool showPixelGrid { false };
 
-    struct {
-        bool used() const { return innerRadius != 0.0f || outerRadius != 1.0f; }
-        float innerRadius { 0.0f };
-        float outerRadius { 1.0f };
-    } starFilter;
+        struct
+        {
+            bool used() const
+            {
+                return innerRadius != 0.0f || outerRadius != 1.0f;
+            }
+            float innerRadius { 0.0f };
+            float outerRadius { 1.0f };
+        } starFilter;
 
         CursorMode cursorMode { selectCursor };
         bool zooming { false };

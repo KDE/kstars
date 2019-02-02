@@ -56,9 +56,9 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     setBaseSize(740, 530);
 
-    connect(image_frame.get(), SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
-    connect(image_frame.get(), SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
-    connect(image_frame.get(), SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
+    connect(image_frame.get(), SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
+    connect(image_frame.get(), SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
+    connect(image_frame.get(), SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
     connect(&fitsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::loadInFrame);
@@ -346,18 +346,18 @@ void FITSView::loadInFrame()
 
     uint8_t * ASImageBuffer = nullptr;
 
-//    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
-//    {
-//         // If we perform autostretch, we need to create a buffer to save the raw image data before
-//         // autostretch filter operation changes the data.
-//         // After rescaling is done, we
-//         uint32_t totalBytes = image_width * image_height *imageData->channels() * imageData->getBytesPerPixel();
-//         ASImageBuffer = new uint8_t[totalBytes];
-//         memcpy(ASImageBuffer, imageData->getImageBuffer(), totalBytes);
-//         imageData->applyFilter(FITS_AUTO_STRETCH);
-//    }
-//    else
-//        imageData->applyFilter(filter);
+    //    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
+    //    {
+    //         // If we perform autostretch, we need to create a buffer to save the raw image data before
+    //         // autostretch filter operation changes the data.
+    //         // After rescaling is done, we
+    //         uint32_t totalBytes = image_width * image_height *imageData->channels() * imageData->getBytesPerPixel();
+    //         ASImageBuffer = new uint8_t[totalBytes];
+    //         memcpy(ASImageBuffer, imageData->getImageBuffer(), totalBytes);
+    //         imageData->applyFilter(FITS_AUTO_STRETCH);
+    //    }
+    //    else
+    //        imageData->applyFilter(filter);
 
     imageData->applyFilter(filter);
     if (Options::autoStretch())
@@ -512,7 +512,7 @@ bool FITSView::rescale(FITSZoom type)
     uint32_t size = imageData->width() * imageData->height();
 
 #if 0
-    int BBP= imageData->getBytesPerPixel();
+    int BBP = imageData->getBytesPerPixel();
     filter = filterStack.last();
 
     if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
@@ -574,9 +574,9 @@ bool FITSView::rescale(FITSZoom type)
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
             {
-                futures.append(QtConcurrent::run([=]()
+                futures.append(QtConcurrent::run([ = ]()
                 {
-                    T * runningBuffer = buffer +j*image_width;
+                    T * runningBuffer = buffer + j * image_width;
                     uint8_t * scanLine = rawImage.scanLine(j);
                     for (uint32_t i = 0; i < image_width; i++)
                     {
@@ -602,12 +602,12 @@ bool FITSView::rescale(FITSZoom type)
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
             {
-                futures.append(QtConcurrent::run([=]()
+                futures.append(QtConcurrent::run([ = ]()
                 {
                     auto * scanLine = reinterpret_cast<QRgb *>((rawImage.scanLine(j)));
-                    T * runningBufferR = buffer + j*image_width;
-                    T * runningBufferG = buffer + j*image_width + size;
-                    T * runningBufferB = buffer + j*image_width + size*2;
+                    T * runningBufferR = buffer + j * image_width;
+                    T * runningBufferG = buffer + j * image_width + size;
+                    T * runningBufferB = buffer + j * image_width + size * 2;
 
                     for (uint32_t i = 0; i < image_width; i++)
                     {
@@ -775,11 +775,15 @@ void FITSView::ZoomToFit()
     }
 }
 
-int FITSView::filterStars(float const innerRadius, float const outerRadius)
+void FITSView::setStarFilterRange(float const innerRadius, float const outerRadius)
 {
     starFilter.innerRadius = innerRadius;
     starFilter.outerRadius = outerRadius;
-    return starFilter.used()? imageData->filterStars(innerRadius, outerRadius) : imageData->getStarCenters().count();
+}
+
+int FITSView::filterStars()
+{
+    return starFilter.used() ? imageData->filterStars(starFilter.innerRadius, starFilter.outerRadius) : imageData->getStarCenters().count();
 }
 
 void FITSView::updateFrame()
@@ -809,10 +813,10 @@ void FITSView::updateFrame()
 
     if (starFilter.used())
     {
-        double const diagonal = std::sqrt(currentWidth*currentWidth + currentHeight*currentHeight)/2;
-        int const innerRadius = std::lround(diagonal*starFilter.innerRadius);
-        int const outerRadius = std::lround(diagonal*starFilter.outerRadius);
-        QPoint const center(currentWidth/2, currentHeight/2);
+        double const diagonal = std::sqrt(currentWidth * currentWidth + currentHeight * currentHeight) / 2;
+        int const innerRadius = std::lround(diagonal * starFilter.innerRadius);
+        int const outerRadius = std::lround(diagonal * starFilter.outerRadius);
+        QPoint const center(currentWidth / 2, currentHeight / 2);
         painter.save();
         painter.setPen(QPen(Qt::blue, 1, Qt::DashLine));
         painter.setOpacity(0.7);
@@ -1317,8 +1321,8 @@ QPixmap &FITSView::getTrackingBoxPixmap(uint8_t margin)
 
     int x1 = (trackingBox.x() - margin) * (currentZoom / ZOOM_DEFAULT);
     int y1 = (trackingBox.y() - margin) * (currentZoom / ZOOM_DEFAULT);
-    int w  = (trackingBox.width() + margin*2) * (currentZoom / ZOOM_DEFAULT);
-    int h  = (trackingBox.height() + margin*2) * (currentZoom / ZOOM_DEFAULT);
+    int w  = (trackingBox.width() + margin * 2) * (currentZoom / ZOOM_DEFAULT);
+    int h  = (trackingBox.height() + margin * 2) * (currentZoom / ZOOM_DEFAULT);
 
     trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
 
@@ -1338,8 +1342,8 @@ void FITSView::setTrackingBox(const QRect &rect)
 
 void FITSView::resizeTrackingBox(int newSize)
 {
-    int x = trackingBox.x() + trackingBox.width()/2;
-    int y = trackingBox.y() + trackingBox.height()/2;
+    int x = trackingBox.x() + trackingBox.width() / 2;
+    int y = trackingBox.y() + trackingBox.height() / 2;
     int delta = newSize / 2;
     setTrackingBox(QRect( x - delta, y - delta, newSize, newSize));
 }
@@ -1420,7 +1424,7 @@ void FITSView::toggleStarProfile()
         if(showStarProfile)
         {
             setCursorMode(selectCursor);
-            connect(this, SIGNAL(trackingStarSelected(int,int)), this, SLOT(move3DTrackingBox(int,int)));
+            connect(this, SIGNAL(trackingStarSelected(int, int)), this, SLOT(move3DTrackingBox(int, int)));
             if(starProfileWidget)
                 connect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
             if(starProfileWidget)
@@ -1432,7 +1436,7 @@ void FITSView::toggleStarProfile()
         {
             if(getCursorMode() == selectCursor)
                 setCursorMode(dragCursor);
-            disconnect(this, SIGNAL(trackingStarSelected(int,int)), this, SLOT(move3DTrackingBox(int,int)));
+            disconnect(this, SIGNAL(trackingStarSelected(int, int)), this, SLOT(move3DTrackingBox(int, int)));
             disconnect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
             disconnect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
             setTrackingBoxEnabled(false);
@@ -1469,8 +1473,8 @@ void FITSView::viewStarProfile()
         //It will set the cursor of the Window containing the view that called the Star Profile method to the Arrow Cursor
         //Note that Ekos Manager is a QDialog and FitsViewer is a KXmlGuiWindow
         QWidget * superParent = this->parentWidget();
-        while(superParent->parentWidget()!=0 && !superParent->inherits("QDialog") && !superParent->inherits("KXmlGuiWindow"))
-            superParent=superParent->parentWidget();
+        while(superParent->parentWidget() != 0 && !superParent->inherits("QDialog") && !superParent->inherits("KXmlGuiWindow"))
+            superParent = superParent->parentWidget();
         superParent->setCursor(Qt::ArrowCursor);
         //This is the end of the band-aid
 
