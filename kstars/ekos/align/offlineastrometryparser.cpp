@@ -309,6 +309,13 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
         env.insert("PATH", "/usr/local/bin:" + path);
     }
     solver->setProcessEnvironment(env);
+
+    if (Options::alignmentLogging())
+    {
+        align->appendLogText("export PATH=" + env.value("PATH", ""));
+        align->appendLogText("export PYTHONPATH=" + env.value("PYTHONPATH", ""));
+    }
+
 #endif
 
     connect(solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
