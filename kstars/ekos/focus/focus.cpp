@@ -2081,13 +2081,30 @@ void Focus::autoFocusAbs()
 
             if (fabs(targetPosition - initialFocuserAbsPosition) > maxTravelIN->value())
             {
-                qCDebug(KSTARS_EKOS_FOCUS) << "targetPosition (" << targetPosition << ") - initHFRAbsPos ("
-                                           << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
+                int minTravelLimit = qMax(0.0, initialFocuserAbsPosition - maxTravelIN->value());
+                int maxTravelLimit = qMin(absMotionMax, initialFocuserAbsPosition + maxTravelIN->value());
 
-                appendLogText("Maximum travel limit reached. Autofocus aborted.");
-                abort();
-                setAutoFocusResult(false);
-                break;
+                // In case we are asked to go below travel limit, but we are not there yet
+                // let us go there and see the result before aborting
+                if (fabs(currentPosition - minTravelLimit) > 10 && targetPosition < minTravelLimit)
+                {
+                    targetPosition = minTravelLimit;
+                }
+                // Same for max travel
+                else if (fabs(currentPosition - maxTravelLimit) > 10 && targetPosition > maxTravelLimit)
+                {
+                    targetPosition = maxTravelLimit;
+                }
+                else
+                {
+                    qCDebug(KSTARS_EKOS_FOCUS) << "targetPosition (" << targetPosition << ") - initHFRAbsPos ("
+                                               << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
+
+                    appendLogText("Maximum travel limit reached. Autofocus aborted.");
+                    abort();
+                    setAutoFocusResult(false);
+                    break;
+                }
             }
 
             // Get delta for next move
