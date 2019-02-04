@@ -40,7 +40,7 @@ void DSLRInfo::save()
 
     if (sensorMaxWidth == 0 || sensorMaxHeight == 0 || sensorPixelW == 0 || sensorPixelH == 0)
     {
-        KMessageBox::error(0, i18n("Invalid values. Please set all values."));
+        KMessageBox::error(nullptr, i18n("Invalid values. Please set all values."));
         return;
     }
 
