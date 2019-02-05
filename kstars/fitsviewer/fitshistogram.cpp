@@ -58,8 +58,8 @@ FITSHistogram::FITSHistogram(QWidget * parent) : QDialog(parent)
     intensity.resize(3);
     frequency.resize(3);
 
-    FITSMin.fill(0,3);
-    FITSMax.fill(0,3);
+    FITSMin.fill(0, 3);
+    FITSMax.fill(0, 3);
     binWidth.fill(0, 3);
 
     rgbWidgets.resize(3);
@@ -92,33 +92,33 @@ FITSHistogram::FITSHistogram(QWidget * parent) : QDialog(parent)
     connect(customPlot, &QCustomPlot::mouseMove, this,
             &FITSHistogram::driftMouseOverLine);
 
-    for (int i=0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
     {
         // Box --> Slider
         QVector<QWidget *> w = rgbWidgets[i];
-        connect(qobject_cast<QDoubleSpinBox *>(w[1]), &QDoubleSpinBox::editingFinished, [this,i,w]()
+        connect(qobject_cast<QDoubleSpinBox *>(w[1]), &QDoubleSpinBox::editingFinished, [this, i, w]()
         {
             double value = qobject_cast<QDoubleSpinBox *>(w[1])->value();
             w[2]->blockSignals(true);
             qobject_cast<ctkRangeSlider *>(w[2])->setMinimumPosition((value - FITSMin[i])*sliderScale[i]);
             w[2]->blockSignals(false);
         });
-        connect(qobject_cast<QDoubleSpinBox *>(w[3]), &QDoubleSpinBox::editingFinished, [this,i,w]()
+        connect(qobject_cast<QDoubleSpinBox *>(w[3]), &QDoubleSpinBox::editingFinished, [this, i, w]()
         {
             double value = qobject_cast<QDoubleSpinBox *>(w[3])->value();
             w[2]->blockSignals(true);
-            qobject_cast<ctkRangeSlider *>(w[2])->setMaximumPosition((value - FITSMin[i]-sliderTick[i])*sliderScale[i]);
+            qobject_cast<ctkRangeSlider *>(w[2])->setMaximumPosition((value - FITSMin[i] - sliderTick[i])*sliderScale[i]);
             w[2]->blockSignals(false);
         });
 
         // Slider --> Box
-        connect(qobject_cast<ctkRangeSlider *>(w[2]), &ctkRangeSlider::minimumValueChanged, [this,i,w](int position)
+        connect(qobject_cast<ctkRangeSlider *>(w[2]), &ctkRangeSlider::minimumValueChanged, [this, i, w](int position)
         {
-            qobject_cast<QDoubleSpinBox *>(w[1])->setValue(FITSMin[i]+(position/sliderScale[i]));
+            qobject_cast<QDoubleSpinBox *>(w[1])->setValue(FITSMin[i] + (position / sliderScale[i]));
         });
-        connect(qobject_cast<ctkRangeSlider *>(w[2]), &ctkRangeSlider::maximumValueChanged, [this,i,w](int position)
+        connect(qobject_cast<ctkRangeSlider *>(w[2]), &ctkRangeSlider::maximumValueChanged, [this, i, w](int position)
         {
-            qobject_cast<QDoubleSpinBox *>(w[3])->setValue(FITSMin[i]+sliderTick[i]+(position/sliderScale[i]));
+            qobject_cast<QDoubleSpinBox *>(w[3])->setValue(FITSMin[i] + sliderTick[i] + (position / sliderScale[i]));
         });
     }
 
@@ -187,7 +187,7 @@ template <typename T> void FITSHistogram::constructHistogram()
     auto * buffer = reinterpret_cast<T *>(imageData->getImageBuffer());
 
     double min, max;
-    for (int i=0 ; i < 3; i++)
+    for (int i = 0 ; i < 3; i++)
     {
         imageData->getMinMax(&min, &max, i);
         FITSMin[i] = min;
@@ -212,7 +212,7 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     for (int n = 0; n < channels; n++)
     {
-        futures.append(QtConcurrent::run([=]()
+        futures.append(QtConcurrent::run([ = ]()
         {
             for (int i = 0; i < binCount; i++)
                 intensity[n][i] = FITSMin[n] + (binWidth[n] * i);
@@ -221,14 +221,16 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     for (int n = 0; n < channels; n++)
     {
-        futures.append(QtConcurrent::run([=]()
+        futures.append(QtConcurrent::run([ = ]()
         {
             uint32_t offset = n * samples;
-            uint32_t id = 0;
+            int32_t id = 0;
 
             for (uint32_t i = 0; i < samples; i++)
             {
                 id = rint((buffer[i + offset] - FITSMin[n]) / binWidth[n]);
+                if (id < 0)
+                    id = 0;
                 frequency[n][id]++;
             }
         }));
@@ -241,9 +243,9 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     for (int n = 0; n < channels; n++)
     {
-        futures.append(QtConcurrent::run([=]()
+        futures.append(QtConcurrent::run([ = ]()
         {
-            uint32_t accumulator=0;
+            uint32_t accumulator = 0;
             for (int i = 0; i < binCount; i++)
             {
                 accumulator += frequency[n][i];
@@ -259,9 +261,9 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     for (int n = 0; n < channels; n++)
     {
-        futures.append(QtConcurrent::run([=]()
+        futures.append(QtConcurrent::run([ = ]()
         {
-            double median[3]= {0};
+            double median[3] = {0};
             bool cutoffSpikes = ui->hideSaturated->isChecked();
             uint32_t halfCumulative = static_cast<int>(cumulativeFrequency[n][binCount - 1] / 2);
             for (int i = 0; i < binCount; i++)
@@ -277,7 +279,7 @@ template <typename T> void FITSHistogram::constructHistogram()
             {
                 QVector<double> sortedFreq = frequency[n];
                 std::sort(sortedFreq.begin(), sortedFreq.end());
-                double cutoff = sortedFreq[binCount*0.99];
+                double cutoff = sortedFreq[binCount * 0.99];
                 for (int i = 0; i < binCount; i++)
                 {
                     if (frequency[n][i] >= cutoff)
@@ -297,10 +299,10 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     sliderTick.clear();
     sliderScale.clear();
-    for (int n=0; n < channels; n++)
+    for (int n = 0; n < channels; n++)
     {
-        sliderTick  << fabs(FITSMax[n]-FITSMin[n])/99.0;
-        sliderScale << 99.0/(FITSMax[n]-FITSMin[n]-sliderTick[n]);
+        sliderTick  << fabs(FITSMax[n] - FITSMin[n]) / 99.0;
+        sliderScale << 99.0 / (FITSMax[n] - FITSMin[n] - sliderTick[n]);
     }
 }
 
@@ -324,7 +326,7 @@ void FITSHistogram::syncGUI()
     ui->meanEdit->setText(QString::number(imageData->getMean()));
     ui->medianEdit->setText(QString::number(imageData->getMedian()));
 
-    for (int n=0; n < imageData->channels(); n++)
+    for (int n = 0; n < imageData->channels(); n++)
     {
         double median = imageData->getMedian(n);
 
@@ -340,22 +342,22 @@ void FITSHistogram::syncGUI()
             numDecimals << 10;
 
         minBoxes[n]->setDecimals(numDecimals[n]);
-        minBoxes[n]->setSingleStep(fabs(FITSMax[n]-FITSMin[n])/20.0);
+        minBoxes[n]->setSingleStep(fabs(FITSMax[n] - FITSMin[n]) / 20.0);
         minBoxes[n]->setMinimum(FITSMin[n]);
-        minBoxes[n]->setMaximum(FITSMax[n]-sliderTick[n]);
-        minBoxes[n]->setValue(FITSMin[n]+(sliders[n]->minimumValue()/sliderScale[n]));
+        minBoxes[n]->setMaximum(FITSMax[n] - sliderTick[n]);
+        minBoxes[n]->setValue(FITSMin[n] + (sliders[n]->minimumValue() / sliderScale[n]));
 
         maxBoxes[n]->setDecimals(numDecimals[n]);
-        maxBoxes[n]->setSingleStep(fabs(FITSMax[n]-FITSMin[n])/20.0);
-        maxBoxes[n]->setMinimum(FITSMin[n]+sliderTick[n]);
+        maxBoxes[n]->setSingleStep(fabs(FITSMax[n] - FITSMin[n]) / 20.0);
+        maxBoxes[n]->setMinimum(FITSMin[n] + sliderTick[n]);
         maxBoxes[n]->setMaximum(FITSMax[n]);
-        maxBoxes[n]->setValue(FITSMin[n]+sliderTick[n]+(sliders[n]->maximumValue()/sliderScale[n]));
+        maxBoxes[n]->setValue(FITSMin[n] + sliderTick[n] + (sliders[n]->maximumValue() / sliderScale[n]));
     }
 
     customPlot->clearGraphs();
     graphs.clear();
 
-    for (int n=0; n < imageData->channels(); n++)
+    for (int n = 0; n < imageData->channels(); n++)
     {
         graphs.append(customPlot->addGraph());
         graphs[n]->setData(intensity[n], frequency[n]);
@@ -379,8 +381,8 @@ void FITSHistogram::syncGUI()
     customPlot->xAxis->setLabel(i18n("Intensity"));
     customPlot->yAxis->setLabel(i18n("Frequency"));
 
-//    customPlot->xAxis->setRange(fits_min - ui->minEdit->singleStep(),
-//                                fits_max + ui->maxEdit->singleStep());
+    //    customPlot->xAxis->setRange(fits_min - ui->minEdit->singleStep(),
+    //                                fits_max + ui->maxEdit->singleStep());
 
     customPlot->xAxis->rescale();
     customPlot->yAxis->rescale();
@@ -736,7 +738,7 @@ void FITSHistogram::driftMouseOverLine(QMouseEvent * event)
     QVector<double> freq(3, -1);
 
     QVector<bool> inRange(3, false);
-    for (int n=0; n < channels; n++)
+    for (int n = 0; n < channels; n++)
     {
         if (intensity >= imageData->getMin(n) && intensity <= imageData->getMax(n))
             inRange[n] = true;
@@ -750,7 +752,7 @@ void FITSHistogram::driftMouseOverLine(QMouseEvent * event)
 
     if (customPlot->xAxis->range().contains(intensity))
     {
-        for (int n=0; n < channels; n++)
+        for (int n = 0; n < channels; n++)
         {
             int index = graphs[n]->findBegin(intensity, true);
             freq[n] = graphs[n]->dataMainValue(index);
