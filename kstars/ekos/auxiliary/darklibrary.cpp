@@ -249,9 +249,11 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 #endif
 
     lightData->applyFilter(filter);
-    if (Options::autoStretch())
-        lightData->applyFilter(FITS_AUTO_STRETCH);
-    else if (filter == FITS_NONE)
+    //if (Options::autoStretch())
+    //    lightData->applyFilter(FITS_AUTO_STRETCH);
+    //else if (filter == FITS_NONE)
+    //    lightData->calculateStats(true);
+    if (filter == FITS_NONE)
         lightData->calculateStats(true);
     lightImage->rescale(ZOOM_KEEP_LEVEL);
     lightImage->updateFrame();
