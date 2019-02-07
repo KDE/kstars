@@ -843,9 +843,7 @@ void Capture::checkCCD(int ccdNum)
                                                  camera["PixelW"].toDouble(),
                                                  camera["PixelH"].toDouble(),
                                                  8);
-                        currentCCD->setConfig(SAVE_CONFIG);
                     }
-
                 }
             }
         }
