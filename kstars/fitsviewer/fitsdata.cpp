@@ -2270,8 +2270,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     stats.min[i] = min[i];
                     stats.max[i] = max[i];
                 }
-                if (type != FITS_AUTO && type != FITS_LINEAR)
-                    runningAverageStdDev<T>();
+                //if (type != FITS_AUTO && type != FITS_LINEAR)
+                runningAverageStdDev<T>();
             }
         }
         break;

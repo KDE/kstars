@@ -360,8 +360,8 @@ void FITSView::loadInFrame()
     //        imageData->applyFilter(filter);
 
     imageData->applyFilter(filter);
-    if (Options::autoStretch())
-        imageData->applyFilter(FITS_AUTO_STRETCH);
+    //    if (Options::autoStretch())
+    //        imageData->applyFilter(FITS_AUTO_STRETCH);
 
     // Rescale to fits window on first load
     if (firstLoad)
@@ -390,10 +390,10 @@ void FITSView::loadInFrame()
     }
 
     // Restore original raw buffer after Autostretch if applicable
-    if (ASImageBuffer)
-    {
-        imageData->setImageBuffer(ASImageBuffer);
-    }
+    //    if (ASImageBuffer)
+    //    {
+    //        imageData->setImageBuffer(ASImageBuffer);
+    //    }
 
     setAlignment(Qt::AlignCenter);
 
@@ -508,8 +508,27 @@ bool FITSView::rescale(FITSZoom type)
     if (rawImage.isNull())
         return false;
 
-    uint8_t * image_buffer = imageData->getImageBuffer();
+    uint8_t * imageBuffer = imageData->getImageBuffer();
+    uint8_t * displayBuffer = nullptr;
     uint32_t size = imageData->width() * imageData->height();
+
+    QVector<double> min(3), max(3);
+
+    if (Options::autoStretch())
+    {
+        displayBuffer = new uint8_t[size * imageData->channels() * imageData->getBytesPerPixel()];
+        memcpy(displayBuffer, imageBuffer, size * imageData->channels() * imageData->getBytesPerPixel());
+        imageData->applyFilter(FITS_AUTO_STRETCH, displayBuffer, &min, &max);
+    }
+    else
+    {
+        displayBuffer = imageBuffer;
+        for (int i = 0; i < 3; i++)
+        {
+            min[i] = imageData->getMin(i);
+            max[i] = imageData->getMax(i);
+        }
+    }
 
 #if 0
     int BBP = imageData->getBytesPerPixel();
@@ -539,9 +558,9 @@ bool FITSView::rescale(FITSZoom type)
 
     scaledImage = QImage();
 
-    auto * buffer = reinterpret_cast<T *>(image_buffer);
+    auto * buffer = reinterpret_cast<T *>(displayBuffer);
 
-    if (imageData->getMin(0) == imageData->getMax(0))
+    if (min[0] == max[0])
     {
         rawImage.fill(Qt::white);
         emit newStatus(i18n("Image is saturated."), FITS_MESSAGE);
@@ -565,9 +584,9 @@ bool FITSView::rescale(FITSZoom type)
 
         if (imageData->channels() == 1)
         {
-            double range = imageData->getMax(0) - imageData->getMin(0);
+            double range = max[0] - min[0];
             double bscale = 255. / range;
-            double bzero  = (-imageData->getMin(0)) * (255. / range);
+            double bzero  = (-min[0]) * (255. / range);
 
             QVector<QFuture<void>> futures;
 
@@ -592,12 +611,12 @@ bool FITSView::rescale(FITSZoom type)
         else
         {
             QVector<QFuture<void>> futures;
-            double bscaleR = 255. / (imageData->getMax(0) - imageData->getMin(0));
-            double bzeroR  = (-imageData->getMin(0)) * (255. / (imageData->getMax(0) - imageData->getMin(0)));
-            double bscaleG = 255. / (imageData->getMax(1) - imageData->getMin(1));
-            double bzeroG  = (-imageData->getMin(1)) * (255. / (imageData->getMax(1) - imageData->getMin(1)));
-            double bscaleB = 255. / (imageData->getMax(2) - imageData->getMin(2));
-            double bzeroB  = (-imageData->getMin(2)) * (255. / (imageData->getMax(2) - imageData->getMin(2)));
+            QVector<double> bscale(3), bzero(3);
+            for (int i = 0; i < 3; i++)
+            {
+                bscale[i] = 255. / (max[i] - min[i]);
+                bzero[i]  = (-min[i]) * (255. / (max[i] - min[i]));
+            }
 
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
@@ -611,9 +630,9 @@ bool FITSView::rescale(FITSZoom type)
 
                     for (uint32_t i = 0; i < image_width; i++)
                     {
-                        scanLine[i] = qRgb(runningBufferR[i] * bscaleR + bzeroR,
-                                           runningBufferG[i] * bscaleG + bzeroG,
-                                           runningBufferB[i] * bscaleB + bzeroB);
+                        scanLine[i] = qRgb(runningBufferR[i] * bscale[0] + bzero[0],
+                                           runningBufferG[i] * bscale[1] + bzero[1],
+                                           runningBufferB[i] * bscale[2] + bzero[2]);
                     }
                 }));
             }
@@ -660,6 +679,10 @@ bool FITSView::rescale(FITSZoom type)
         }
 #endif
     }
+
+    // Clear memory if it was allocated.
+    if (displayBuffer != imageBuffer)
+        delete [] displayBuffer;
 
     switch (type)
     {
