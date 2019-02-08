@@ -611,7 +611,7 @@ bool FITSView::rescale(FITSZoom type)
         else
         {
             QVector<QFuture<void>> futures;
-            QVector<double> bscale(3), bzero(3);
+            double bscale[3], bzero[3];
             for (int i = 0; i < 3; i++)
             {
                 bscale[i] = 255. / (max[i] - min[i]);
