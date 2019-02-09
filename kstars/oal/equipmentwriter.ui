@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>398</width>
-    <height>348</height>
+    <width>383</width>
+    <height>340</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="minimumSize">
@@ -211,6 +226,15 @@
              <property name="text">
               <string>Save</string>
              </property>
+             <property name="icon">
+              <iconset theme="list-add"/>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
             </widget>
            </item>
            <item>
@@ -235,7 +259,14 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset theme="list-add"/>
+              <iconset theme="edit-clear">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -248,7 +279,14 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset theme="list-remove"/>
+              <iconset theme="list-remove">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
              </property>
             </widget>
            </item>
