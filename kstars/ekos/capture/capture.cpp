@@ -60,11 +60,11 @@ Capture::Capture()
             QDBusConnection::sessionBus(), this);
 
     // Connecting DBus signals
-    connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
+    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this, SLOT(registerNewModule(QString)));
+    //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
 
     // ensure that the mount interface is present
     registerNewModule("Mount");
-
 
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
 
