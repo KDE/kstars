@@ -210,7 +210,7 @@ class Manager : public QDialog, public Ui::Manager
         void newModule(const QString &name);
 
     protected:
-        void closeEvent(QCloseEvent *) override;
+        void closeEvent(QCloseEvent *event) override;
         void hideEvent(QHideEvent *) override;
         void showEvent(QShowEvent *) override;
         void resizeEvent(QResizeEvent *) override;

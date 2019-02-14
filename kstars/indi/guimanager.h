@@ -38,6 +38,7 @@ class GUIManager : public QWidget
         Q_OBJECT
     public:
         static GUIManager *Instance();
+        static void release();
 
         void updateStatus(bool toggle_behavior);
 
@@ -69,7 +70,7 @@ class GUIManager : public QWidget
         QTabWidget *mainTabWidget;
         QPushButton *clearB;
         QPushButton *closeB;
-        GUIManager(QWidget *parent = 0);
+        GUIManager(QWidget *parent = nullptr);
 
         static GUIManager *_GUIManager;
         QList<ClientManager *> clients;
