@@ -71,9 +71,9 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     setWindowTitle(i18n("KStars"));
 
     // Set thread stack size to 32MB
-    #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     QThreadPool::globalInstance()->setStackSize(33554432);
-    #endif
+#endif
 
     // Initialize logging settings
     if (Options::disableLogging())
@@ -126,13 +126,13 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
                                       "<key>ProgramArguments</key>\n"
                                       "    <array>\n"
                                       "        <string>" +
-                QCoreApplication::applicationDirPath() +
-                "/dbus-daemon</string>\n"
-                "        <string>--nofork</string>\n"
-                "        <string>--config-file=" +
-                pluginsDir +
-                "/dbus/kstars.conf</string>\n"
-                "    </array>";
+                                      QCoreApplication::applicationDirPath() +
+                                      "/dbus-daemon</string>\n"
+                                      "        <string>--nofork</string>\n"
+                                      "        <string>--config-file=" +
+                                      pluginsDir +
+                                      "/dbus/kstars.conf</string>\n"
+                                      "    </array>";
         pListText.replace(currentProgramArgs, newProgramArguments);
         if (file.open(QIODevice::WriteOnly))
         {
@@ -189,7 +189,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     m_KStarsData->setLocationFromOptions();
 
     //Initialize Time and Date
-    bool datetimeSet=false;
+    bool datetimeSet = false;
     if (StartDateString.isEmpty() == false)
     {
         KStarsDateTime startDate = KStarsDateTime::fromString(StartDateString);
@@ -198,7 +198,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
         else
             data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
 
-        datetimeSet=true;
+        datetimeSet = true;
     }
     // JM 2016-11-15: Not need to set it again as it was initialized in the ctor of SimClock
     /*
@@ -291,11 +291,11 @@ KStars::~KStars()
              << "% bad uses";
 #endif
 
-/* BUG 366596: Some KDE applications processes remain as background (zombie) processes after closing
-     * No solution to this bug so far using Qt 5.8 as of 2016-11-24
-     * Therefore, the only way to solve this on Windows is to explicitly kill kstars.exe
-     * Hopefully we do not need this hack once the above bug is resolved.
-     */
+    /* BUG 366596: Some KDE applications processes remain as background (zombie) processes after closing
+         * No solution to this bug so far using Qt 5.8 as of 2016-11-24
+         * Therefore, the only way to solve this on Windows is to explicitly kill kstars.exe
+         * Hopefully we do not need this hack once the above bug is resolved.
+         */
 #ifdef Q_OS_WIN
     QProcess::execute("taskkill /im kstars.exe /f");
 #endif
@@ -311,9 +311,10 @@ void KStars::releaseResources()
     FOVManager::releaseCache();
 
 #ifdef HAVE_INDI
+    GUIManager::release();
     delete m_EkosManager;
     m_EkosManager = nullptr;
-//    GUIManager::Instance()->close();
+    //    GUIManager::Instance()->close();
 #endif
 
 #ifdef HAVE_CFITSIO
@@ -348,14 +349,14 @@ void KStars::applyConfig(bool doApplyFocus)
     {
         actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
         actionCollection()
-            ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-encrypt"));
+        ->action("track_object")
+        ->setIcon(QIcon::fromTheme("document-encrypt"));
     }
 
     actionCollection()
-        ->action("coordsys")
-        ->setText(Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
-                                        i18n("Switch to horizonal view (Horizontal &Coordinates)"));
+    ->action("coordsys")
+    ->setText(Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
+              i18n("Switch to horizonal view (Horizontal &Coordinates)"));
 
     actionCollection()->action("show_time_box")->setChecked(Options::showTimeBox());
     actionCollection()->action("show_location_box")->setChecked(Options::showGeoBox());
@@ -383,47 +384,47 @@ void KStars::applyConfig(bool doApplyFocus)
     //color scheme
     m_KStarsData->colorScheme()->loadFromConfig();
     //QApplication::setPalette(Options::darkAppColors() ? DarkPalette : OriginalPalette);
-/**
-//Note:  This uses style sheets to set the dark colors, this should be cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
-//It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
-//This is also in KStarsDbus.cpp.  If you change it, change it in BOTH places.
-@code
-#ifdef Q_OS_OSX
-    if (Options::darkAppColors())
-        qApp->setStyleSheet(
-            "QWidget { background-color: black; color:red; "
-            "selection-background-color:rgb(30,30,30);selection-color:white}"
-            "QToolBar { border:none }"
-            "QTabBar::tab:selected { background-color:rgb(50,50,50) }"
-            "QTabBar::tab:!selected { background-color:rgb(30,30,30) }"
-            "QPushButton { background-color:rgb(50,50,50);border-width:1px; border-style:solid;border-color:black}"
-            "QPushButton::disabled { background-color:rgb(10,10,10);border-width:1px; "
-            "border-style:solid;border-color:black }"
-            "QToolButton:Checked { background-color:rgb(30,30,30); border:none }"
-            "QComboBox { background-color:rgb(30,30,30); }"
-            "QComboBox::disabled { background-color:rgb(10,10,10) }"
-            "QScrollBar::handle { background: rgb(30,30,30) }"
-            "QSpinBox { border-width: 1px; border-style:solid; border-color:rgb(30,30,30) }"
-            "QDoubleSpinBox { border-width:1px; border-style:solid; border-color:rgb(30,30,30) }"
-            "QLineEdit { border-width: 1px; border-style: solid; border-color:rgb(30,30,30) }"
-            "QCheckBox::indicator:unchecked { background-color:rgb(30,30,30);border-width:1px; "
-            "border-style:solid;border-color:black }"
-            "QCheckBox::indicator:checked { background-color:red;border-width:1px; "
-            "border-style:solid;border-color:black }"
-            "QRadioButton::indicator:unchecked { background-color:rgb(30,30,30) }"
-            "QRadioButton::indicator:checked { background-color:red }"
-            "QRoundProgressBar { alternate-background-color:black }"
-            "QDateTimeEdit {background-color:rgb(30,30,30); border-width: 1px; border-style:solid; "
-            "border-color:rgb(30,30,30) }"
-            "QHeaderView { color:red;background-color:black }"
-            "QHeaderView::Section { background-color:rgb(30,30,30) }"
-            "QTableCornerButton::section{ background-color:rgb(30,30,30) }"
-            "");
-    else
-        qApp->setStyleSheet("");
-#endif
-@endcode
-**/
+    /**
+    //Note:  This uses style sheets to set the dark colors, this should be cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
+    //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
+    //This is also in KStarsDbus.cpp.  If you change it, change it in BOTH places.
+    @code
+    #ifdef Q_OS_OSX
+        if (Options::darkAppColors())
+            qApp->setStyleSheet(
+                "QWidget { background-color: black; color:red; "
+                "selection-background-color:rgb(30,30,30);selection-color:white}"
+                "QToolBar { border:none }"
+                "QTabBar::tab:selected { background-color:rgb(50,50,50) }"
+                "QTabBar::tab:!selected { background-color:rgb(30,30,30) }"
+                "QPushButton { background-color:rgb(50,50,50);border-width:1px; border-style:solid;border-color:black}"
+                "QPushButton::disabled { background-color:rgb(10,10,10);border-width:1px; "
+                "border-style:solid;border-color:black }"
+                "QToolButton:Checked { background-color:rgb(30,30,30); border:none }"
+                "QComboBox { background-color:rgb(30,30,30); }"
+                "QComboBox::disabled { background-color:rgb(10,10,10) }"
+                "QScrollBar::handle { background: rgb(30,30,30) }"
+                "QSpinBox { border-width: 1px; border-style:solid; border-color:rgb(30,30,30) }"
+                "QDoubleSpinBox { border-width:1px; border-style:solid; border-color:rgb(30,30,30) }"
+                "QLineEdit { border-width: 1px; border-style: solid; border-color:rgb(30,30,30) }"
+                "QCheckBox::indicator:unchecked { background-color:rgb(30,30,30);border-width:1px; "
+                "border-style:solid;border-color:black }"
+                "QCheckBox::indicator:checked { background-color:red;border-width:1px; "
+                "border-style:solid;border-color:black }"
+                "QRadioButton::indicator:unchecked { background-color:rgb(30,30,30) }"
+                "QRadioButton::indicator:checked { background-color:red }"
+                "QRoundProgressBar { alternate-background-color:black }"
+                "QDateTimeEdit {background-color:rgb(30,30,30); border-width: 1px; border-style:solid; "
+                "border-color:rgb(30,30,30) }"
+                "QHeaderView { color:red;background-color:black }"
+                "QHeaderView::Section { background-color:rgb(30,30,30) }"
+                "QTableCornerButton::section{ background-color:rgb(30,30,30) }"
+                "");
+        else
+            qApp->setStyleSheet("");
+    #endif
+    @endcode
+    **/
 
     //Set toolbar options from config file
     toolBar("kstarsToolBar")->applySettings(KSharedConfig::openConfig()->group("MainToolBar"));
@@ -447,7 +448,7 @@ void KStars::applyConfig(bool doApplyFocus)
         {
             SkyPoint fp(Options::focusRA(), Options::focusDec());
             if (fp.ra().Degrees() != map()->focus()->ra().Degrees() ||
-                fp.dec().Degrees() != map()->focus()->dec().Degrees())
+                    fp.dec().Degrees() != map()->focus()->dec().Degrees())
             {
                 map()->setClickedPoint(&fp);
                 map()->slotCenter();
@@ -516,8 +517,8 @@ void KStars::selectNextFov()
         return;
 
     Q_ASSERT(!data()
-                  ->getAvailableFOVs()
-                  .isEmpty()); // The available FOVs had better not be empty if the visible ones are not.
+             ->getAvailableFOVs()
+             .isEmpty()); // The available FOVs had better not be empty if the visible ones are not.
 
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx  = data()->availFOVs.indexOf(currentFov);
@@ -550,8 +551,8 @@ void KStars::selectPreviousFov()
         return;
 
     Q_ASSERT(!data()
-                  ->getAvailableFOVs()
-                  .isEmpty()); // The available FOVs had better not be empty if the visible ones are not.
+             ->getAvailableFOVs()
+             .isEmpty()); // The available FOVs had better not be empty if the visible ones are not.
 
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx  = data()->availFOVs.indexOf(currentFov);
@@ -641,7 +642,8 @@ QPointer<FITSViewer> KStars::genericFITSViewer()
 void KStars::addFITSViewer(QPointer<FITSViewer> fv)
 {
     m_FITSViewers.append(fv);
-    connect(fv.data(), &FITSViewer::destroyed, [&,fv]() {
+    connect(fv.data(), &FITSViewer::destroyed, [ &, fv]()
+    {
         m_FITSViewers.removeOne(fv);
     });
 }

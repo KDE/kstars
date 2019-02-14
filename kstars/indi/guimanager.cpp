@@ -38,6 +38,11 @@ GUIManager *GUIManager::Instance()
     return _GUIManager;
 }
 
+void GUIManager::release()
+{
+    delete _GUIManager;
+}
+
 GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 {
 #ifdef Q_OS_OSX
@@ -134,8 +139,8 @@ void GUIManager::updateStatus(bool toggle_behavior)
 
     if (guidevices.count() == 0)
     {
-        KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the "
-                                   "Device Manager in the devices menu."));
+        KMessageBox::error(nullptr, i18n("No INDI devices currently running. To run devices, please select devices from the "
+                                         "Device Manager in the devices menu."));
         showINDIPanel->setChecked(false);
         showINDIPanel->setEnabled(false);
         return;
@@ -279,7 +284,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), gdm, SLOT(updateLightGUI(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), gdm, SLOT(updateBLOBGUI(IBLOB*)));
 
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*,int)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
 
     mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
 

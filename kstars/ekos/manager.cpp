@@ -173,7 +173,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     connect(editProfileB, &QPushButton::clicked, this, &Ekos::Manager::editProfile);
     connect(deleteProfileB, &QPushButton::clicked, this, &Ekos::Manager::deleteProfile);
     connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
-            [=](const QString &text)
+            [ = ](const QString & text)
     {
         Options::setProfile(text);
         if (text == "Simulators")
@@ -230,7 +230,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
-    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString &target)
+    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
     {
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
@@ -253,14 +253,14 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     previewWidget->setLayout(vlayout);
 
     // JM 2019-01-19: Why cloud images depend on summary preview?
-//    connect(summaryPreview.get(), &FITSView::loaded, [&]()
-//    {
-//        // UUID binds the cloud & preview frames by a common key
-//        QString uuid = QUuid::createUuid().toString();
-//        uuid = uuid.remove(QRegularExpression("[-{}]"));
-//        //ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
-//        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
-//    });
+    //    connect(summaryPreview.get(), &FITSView::loaded, [&]()
+    //    {
+    //        // UUID binds the cloud & preview frames by a common key
+    //        QString uuid = QUuid::createUuid().toString();
+    //        uuid = uuid.remove(QRegularExpression("[-{}]"));
+    //        //ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
+    //        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
+    //    });
 
     if (Options::ekosLeftIcons())
     {
@@ -308,17 +308,23 @@ Manager::~Manager()
     //delete previewPixmap;
 }
 
-void Manager::closeEvent(QCloseEvent * /*event*/)
+void Manager::closeEvent(QCloseEvent * event)
 {
-    QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
-    a->setChecked(false);
+    //    QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
+    //    a->setChecked(false);
 
-    Options::setEkosWindowWidth(width());
-    Options::setEkosWindowHeight(height());
+    // 2019-02-14 JM: Close event, for some reason, make all the children disappear
+    // when the widget is shown again. Applying a workaround here
+
+    event->ignore();
+    hide();
 }
 
 void Manager::hideEvent(QHideEvent * /*event*/)
 {
+    Options::setEkosWindowWidth(width());
+    Options::setEkosWindowHeight(height());
+
     QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     a->setChecked(false);
 }
@@ -679,7 +685,7 @@ bool Manager::start()
     connect(INDIListener::Instance(), &INDIListener::deviceRemoved, this, &Ekos::Manager::removeDevice, Qt::DirectConnection);
 
 #ifdef Q_OS_OSX
-    if (m_LocalMode||currentProfile->host=="localhost")
+    if (m_LocalMode || currentProfile->host == "localhost")
     {
         if (isRunning("PTPCamera"))
         {
@@ -728,8 +734,8 @@ bool Manager::start()
             return false;
         }
 
-        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this,
-                SLOT(processServerTermination(QString,QString)));
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString, QString)), this,
+                SLOT(processServerTermination(QString, QString)));
 
         m_ekosStatus = Ekos::Pending;
         emit ekosStatusChanged(m_ekosStatus);
@@ -791,8 +797,8 @@ bool Manager::start()
             return false;
         }
 
-        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this,
-                SLOT(processServerTermination(QString,QString)));
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString, QString)), this,
+                SLOT(processServerTermination(QString, QString)));
 
         QApplication::restoreOverrideCursor();
         m_ekosStatus = Ekos::Pending;
@@ -991,7 +997,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
 
     Ekos::CommunicationStatus previousStatus = m_indiStatus;
 
-    for(auto &device: genericDevices)
+    for(auto &device : genericDevices)
     {
         if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
         {
@@ -1014,7 +1020,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
     if (currentProfile->isStellarMate)
     {
-        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]()
+        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this, devInterface]()
         {
             if (!serialPortAssistant)
             {
@@ -1086,7 +1092,7 @@ void Manager::deviceConnected()
     if (nConnectedDevices >= genericDevices.count())
     {
         m_indiStatus = Ekos::Success;
-        qCInfo(KSTARS_EKOS)<< "All INDI devices are now connected.";
+        qCInfo(KSTARS_EKOS) << "All INDI devices are now connected.";
     }
     else
         m_indiStatus = Ekos::Pending;
@@ -1217,7 +1223,7 @@ void Manager::setTelescope(ISD::GDInterface * scopeDevice)
 
     mountProcess->setTelescope(scopeDevice);
 
-    double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+    double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
     getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
     // Save telescope info in mount driver
     mountProcess->setTelescopeInfo(QList<double>() << primaryScopeFL << primaryScopeAperture << guideScopeFL << guideScopeAperture);
@@ -1576,7 +1582,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         {
             // Turn on everything
             ISwitchVectorProperty * debugLevel = prop->getSwitch();
-            for (int i=0; i < debugLevel->nsp; i++)
+            for (int i = 0; i < debugLevel->nsp; i++)
                 debugLevel->sp[i].s = ISS_ON;
 
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugLevel);
@@ -1908,7 +1914,7 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
-    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString &filename)
+    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename)
     {
         if (Options::useSummaryPreview() && QFile::exists(filename))
         {
@@ -1960,7 +1966,7 @@ void Manager::initAlign()
 
     alignProcess.reset(new Ekos::Align(currentProfile));
 
-    double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+    double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
     getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
     alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
 
@@ -2077,7 +2083,7 @@ void Manager::initMount()
     connect(mountProcess.get(), &Ekos::Mount::newLog, this, &Ekos::Manager::updateLog);
     connect(mountProcess.get(), &Ekos::Mount::newCoords, this, &Ekos::Manager::updateMountCoords);
     connect(mountProcess.get(), &Ekos::Mount::newStatus, this, &Ekos::Manager::updateMountStatus);
-    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString &target)
+    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString & target)
     {
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
@@ -2124,7 +2130,7 @@ void Manager::initGuide()
     {
         guideProcess.reset(new Ekos::Guide());
 
-        double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+        double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
         getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
         // Save telescope info in mount driver
         guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
@@ -2274,7 +2280,7 @@ bool Manager::isRunning(const QString &process)
     ps.start("pgrep", QStringList() << process);
     ps.waitForFinished();
     QString output = ps.readAllStandardOutput();
-    return output.length()>0;
+    return output.length() > 0;
 #else
     ps.start("ps", QStringList() << "-o"
              << "comm"
@@ -2545,10 +2551,10 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
 {
     // Image is set to nullptr only on initial capture start up
     int completed = job->getCompleted();
-//    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-//        completed = job->getCompleted() + 1;
-//    else
-//        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
+    //    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    //        completed = job->getCompleted() + 1;
+    //    else
+    //        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
 
     if (job->isPreview() == false)
     {
@@ -2577,9 +2583,9 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
-//        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
-//        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
-//        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
+        //        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
+        //        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
+        //        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
         QString filename = job->property("filename").toString();
         ekosLiveClient.get()->media()->sendPreviewImage(filename, uuid);
         if (job->isPreview() == false)
@@ -2791,9 +2797,9 @@ void Manager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, double 
     ProfileInfo * pi = getCurrentProfile();
     if (pi)
     {
-        int primaryScopeID=0, guideScopeID=0;
-        primaryScopeID=pi->primaryscope;
-        guideScopeID=pi->guidescope;
+        int primaryScopeID = 0, guideScopeID = 0;
+        primaryScopeID = pi->primaryscope;
+        guideScopeID = pi->guidescope;
         if (primaryScopeID > 0 || guideScopeID > 0)
         {
             // Get all OAL equipment filter list
@@ -3016,7 +3022,7 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHMessage);
         connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled);
 
-        connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView *view)
+        connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView * view)
         {
             ekosLiveClient.get()->media()->sendPreviewImage(view, QString());
         });
