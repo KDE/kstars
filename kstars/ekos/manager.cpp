@@ -64,7 +64,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this,
                 SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
     }
-
+#else
+    if (Options::independentWindowEkos())
+        setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
 #endif
     setupUi(this);
 
