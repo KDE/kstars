@@ -1358,7 +1358,7 @@ void CCD::processBLOB(IBLOB *bp)
     {
         // For raw image, we only process them to JPG if we need to open them in the image
         // viewer
-        if (Options::useDSLRImageViewer() && BType == BLOB_RAW)
+        if ((Options::useDSLRImageViewer() || targetChip->isBatchMode() == false) && BType == BLOB_RAW)
         {
 #ifdef HAVE_LIBRAW
             QString rawFileName  = filename;
