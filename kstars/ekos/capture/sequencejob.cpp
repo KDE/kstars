@@ -22,12 +22,12 @@
 
 namespace Ekos
 {
-QString const & SequenceJob::ISOMarker("_ISO8601");
+QString const &SequenceJob::ISOMarker("_ISO8601");
 
 SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")
-                                  << i18n("Complete");
+                    << i18n("Complete");
     currentTemperature = targetTemperature = Ekos::INVALID_VALUE;
     targetRotation = currentRotation = Ekos::INVALID_VALUE;
 
@@ -88,27 +88,27 @@ void SequenceJob::prepareCapture()
     // Set all custom properties
     //if (preview == false)
     //{
-        QMapIterator<QString, QMap<QString,double>> i(customProperties);
-        while (i.hasNext())
+    QMapIterator<QString, QMap<QString, double>> i(customProperties);
+    while (i.hasNext())
+    {
+        i.next();
+        INDI::Property *customProp = activeCCD->getProperty(i.key());
+        if (customProp)
         {
-            i.next();
-            INDI::Property *customProp = activeCCD->getProperty(i.key());
-            if (customProp)
+            QMap<QString, double> numbers = i.value();
+            QMapIterator<QString, double> j(numbers);
+            INumberVectorProperty *np = customProp->getNumber();
+            while (j.hasNext())
             {
-                QMap<QString,double> numbers = i.value();
-                QMapIterator<QString,double> j(numbers);
-                INumberVectorProperty *np = customProp->getNumber();
-                while (j.hasNext())
-                {
-                    j.next();
-                    INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
-                    if (oneNumber)
-                        oneNumber->value = j.value();
-                }
-
-                activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+                j.next();
+                INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
+                if (oneNumber)
+                    oneNumber->value = j.value();
             }
+
+            activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
         }
+    }
     //}
 
     if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
@@ -158,7 +158,7 @@ void SequenceJob::prepareCapture()
     }
 
     // Check if we need to update rotator
-    if (targetRotation != Ekos::INVALID_VALUE && fabs(currentRotation - targetRotation)*60 > Options::astrometryRotatorThreshold())
+    if (targetRotation != Ekos::INVALID_VALUE && fabs(currentRotation - targetRotation) * 60 > Options::astrometryRotatorThreshold())
     {
         // PA = RawAngle * Multiplier + Offset
         double rawAngle = (targetRotation - Options::pAOffset()) / Options::pAMultiplier();
@@ -265,7 +265,7 @@ bool SequenceJob::areActionsReady()
         if (ready == false)
             return false;
     }
-    
+
     return true;
 }
 
@@ -296,6 +296,9 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
     if (activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
     {
+        int currentBinX = 1, currentBinY = 1;
+        activeChip->getBinning(&currentBinX, &currentBinY);
+
         // N.B. Always set binning _before_ setting frame because if the subframed image
         // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
         // So setting binning first always ensures this will work.
@@ -305,7 +308,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
             return CAPTURE_BIN_ERROR;
         }
 
-        if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+        if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h, currentBinX != binX) == false)
         {
             setStatus(JOB_ERROR);
             return CAPTURE_FRAME_ERROR;
@@ -583,14 +586,14 @@ void SequenceJob::setCurrentFilter(int value)
         emit prepareComplete();
     }
     //else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
-        //emit checkFocus();
+    //emit checkFocus();
 }
 
 void SequenceJob::setCurrentRotation(double value)
 {
     currentRotation = value;
 
-    if (fabs(currentRotation - targetRotation)*60 <= Options::astrometryRotatorThreshold())
+    if (fabs(currentRotation - targetRotation) * 60 <= Options::astrometryRotatorThreshold())
         prepareActions[ACTION_ROTATOR] = true;
 
     //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))

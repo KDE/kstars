@@ -308,7 +308,7 @@ bool CCDChip::resetFrame()
     return false;
 }
 
-bool CCDChip::setFrame(int x, int y, int w, int h)
+bool CCDChip::setFrame(int x, int y, int w, int h, bool force)
 {
     INumberVectorProperty *frameProp = nullptr;
 
@@ -333,7 +333,7 @@ bool CCDChip::setFrame(int x, int y, int w, int h)
 
     if (xarg && yarg && warg && harg)
     {
-        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+        if (!force && xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
             return true;
 
         xarg->value = x;
