@@ -62,7 +62,7 @@ class CCDChip
         // Common commands
         bool getFrame(int *x, int *y, int *w, int *h);
         bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
-        bool setFrame(int x, int y, int w, int h);
+        bool setFrame(int x, int y, int w, int h, bool force = false);
 
         bool resetFrame();
         bool capture(double exposure);
