@@ -1259,7 +1259,7 @@ void CCD::processBLOB(IBLOB *bp)
         currentDir = fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
 
     int nr, n = 0;
-    QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
+    QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX" + format);
 
     //if (currentDir.endsWith('/'))
     //currentDir.truncate(currentDir.size()-1);
