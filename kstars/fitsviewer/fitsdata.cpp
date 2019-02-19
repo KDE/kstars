@@ -151,10 +151,12 @@ bool FITSData::privateLoad(bool silent)
     char error_status[512];
     QString errMessage;
 
+    if (m_Filename.startsWith(m_TemporaryPath))
+        m_isTemporary = true;
+
     if (m_Filename.endsWith(".fz"))
     {
         QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
-        m_isTemporary = true;
         fpstate	fpvar;
         std::vector<std::string> arguments = {"funpack", m_Filename.toLatin1().toStdString()};
         std::vector<char *> arglist;
@@ -171,10 +173,13 @@ bool FITSData::privateLoad(bool silent)
         fp_preflight (argc, argv, FUNPACK, &fpvar);
         fp_loop (argc, argv, FUNPACK, uncompressedFile.toLatin1().data(), fpvar);
 
+        // Remove compressed .fz if it was temporary
+        if (m_isTemporary && autoRemoveTemporaryFITS)
+            QFile::remove(m_Filename);
+
         m_Filename = uncompressedFile;
-    }
-    else if (m_Filename.startsWith(m_TemporaryPath))
         m_isTemporary = true;
+    }
 
     // Use open diskfile as it does not use extended file names which has problems opening
     // files with [ ] or ( ) in their names.
