@@ -1986,8 +1986,14 @@ void Capture::checkSeqBoundary(const QString &path)
     {
         tempName = it.next();
         QFileInfo info(tempName);
-        //tempName = info.baseName();
+
+        // This returns the filename without the extension
         tempName = info.completeBaseName();
+
+        // This remove any additional extension (e.g. m42_001.fits.fz)
+        // the completeBaseName() would return m42_001.fits
+        // and this remove .fits so we end up with m42_001
+        tempName = tempName.left(tempName.lastIndexOf("."));
 
         QString finalSeqPrefix = seqPrefix;
         finalSeqPrefix.remove(SequenceJob::ISOMarker);

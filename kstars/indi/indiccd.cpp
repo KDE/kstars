@@ -1179,7 +1179,7 @@ void CCD::processBLOB(IBLOB *bp)
 
     BType = BLOB_OTHER;
 
-    QString format(bp->format);
+    QString format = QString(bp->format).toLower();
 
     // If stream, process it first
     if (format.contains("stream") && streamWindow.get() != nullptr)
@@ -1228,14 +1228,15 @@ void CCD::processBLOB(IBLOB *bp)
         return;
     }
 
-    QByteArray fmt = QString(bp->format).toLower().remove('.').toUtf8();
+    // Format without leading . (.jpg --> jpg)
+    QString shortFormat = format.mid(1);
 
     // If it's not FITS or an image, don't process it.
-    if ((QImageReader::supportedImageFormats().contains(fmt)))
+    if ((QImageReader::supportedImageFormats().contains(shortFormat.toLatin1())))
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
-    else if (RAWFormats.contains(fmt))
+    else if (RAWFormats.contains(shortFormat))
         BType = BLOB_RAW;
 
     if (BType == BLOB_OTHER)
@@ -1306,11 +1307,11 @@ void CCD::processBLOB(IBLOB *bp)
         {
             QString finalPrefix = seqPrefix;
             finalPrefix.replace("ISO8601", ts);
-            filename += finalPrefix + QString("_%1.%2").arg(QString().sprintf("%03d", nextSequenceID), QString(fmt));
+            filename += finalPrefix + QString("_%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
         }
         else
             filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                        QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID), QString(fmt));
+                        QString("%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
 
         QFile fits_temp_file(filename);
 
@@ -1340,8 +1341,8 @@ void CCD::processBLOB(IBLOB *bp)
 
     if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
     {
-        KStars::Instance()->statusBar()->showMessage(i18n("%1 file saved to %2", QString(fmt).toUpper(), filename), 0);
-        qCInfo(KSTARS_INDI) << QString(fmt).toUpper() << "file saved to" << filename;
+        KStars::Instance()->statusBar()->showMessage(i18n("%1 file saved to %2", shortFormat.toUpper(), filename), 0);
+        qCInfo(KSTARS_INDI) << shortFormat.toUpper() << "file saved to" << filename;
     }
 
     // FIXME: Why is this leaking memory in Valgrind??!
