@@ -2271,7 +2271,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     stats.max[i] = max[i];
                 }
                 //if (type != FITS_AUTO && type != FITS_LINEAR)
-                runningAverageStdDev<T>();
+                //runningAverageStdDev<T>();
+                QtConcurrent::run(this, &FITSData::runningAverageStdDev<T>);
             }
         }
         break;
