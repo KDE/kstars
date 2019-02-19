@@ -345,7 +345,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     /**
      * @brief shouldSchedulerSleep Check if the scheduler needs to sleep until the job is ready
-     * @param job Job to check
+     * @param currentJob Job to check
      * @return True if we set the scheduler to sleep mode. False, if not required and we need to execute now
      */
     bool shouldSchedulerSleep(SchedulerJob *currentJob);
