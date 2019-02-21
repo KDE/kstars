@@ -56,7 +56,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
 
-    connect(connectB, &QPushButton::clicked, [=]()
+    connect(connectB, &QPushButton::clicked, [ = ]()
     {
         if (m_isConnected)
             disconnectAuthServer();
@@ -65,15 +65,20 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     });
 
     rememberCredentialsCheck->setChecked(Options::rememberCredentials());
-    connect(rememberCredentialsCheck, &QCheckBox::toggled, [=](bool toggled) { Options::setRememberCredentials(toggled);});
+    connect(rememberCredentialsCheck, &QCheckBox::toggled, [ = ](bool toggled)
+    {
+        Options::setRememberCredentials(toggled);
+    });
     autoStartCheck->setChecked(Options::autoStartEkosLive());
-    connect(autoStartCheck, &QCheckBox::toggled, [=](bool toggled) { Options::setAutoStartEkosLive(toggled);});
+    connect(autoStartCheck, &QCheckBox::toggled, [ = ](bool toggled)
+    {
+        Options::setAutoStartEkosLive(toggled);
+    });
 
     m_serviceURL.setUrl("https://live.stellarmate.com");
     m_wsURL.setUrl("wss://live.stellarmate.com");
 
     ekosLiveOnlineR->setChecked(Options::ekosLiveOnline());
-    ekosLiveOfflineR->setChecked(!Options::ekosLiveOnline());
     connect(ekosLiveOnlineR, &QRadioButton::toggled, [&](bool toggled)
     {
         Options::setEkosLiveOnline(toggled);
@@ -85,7 +90,8 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             m_Media->setURL(m_wsURL);
             m_Cloud->setURL(m_wsURL);
         }
-        else {
+        else
+        {
             m_serviceURL.setUrl("http://localhost:3000");
             m_wsURL.setUrl("ws://localhost:3000");
             m_Message->setURL(m_wsURL);
@@ -95,19 +101,20 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             m_Cloud->setURL(QUrl("wss://live.stellarmate.com"));
         }
     }
-    );
+           );
 
-    if (ekosLiveOfflineR->isChecked())
+    if (Options::ekosLiveOnline() == false)
     {
         m_serviceURL.setUrl("http://localhost:3000");
         m_wsURL.setUrl("ws://localhost:3000");
     }
 
-    #ifdef HAVE_KEYCHAIN
+#ifdef HAVE_KEYCHAIN
     QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
     job->setAutoDelete(false);
     job->setKey(QLatin1String("ekoslive"));
-    connect(job, &QKeychain::Job::finished, [&](QKeychain::Job* job) {
+    connect(job, &QKeychain::Job::finished, [&](QKeychain::Job * job)
+    {
         if (job->error() == false)
         {
             QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
@@ -120,13 +127,14 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
         job->deleteLater();
     });
     job->start();
-    #endif
+#endif
 
     m_Message = new Message(m_Manager);
     m_Message->setURL(m_wsURL);
     connect(m_Message, &Message::connected, this, &Client::onConnected);
     connect(m_Message, &Message::disconnected, this, &Client::onDisconnected);
-    connect(m_Message, &Message::expired, [&]() {
+    connect(m_Message, &Message::expired, [&]()
+    {
         // If token expired, disconnect and reconnect again.
         disconnectAuthServer();
         connectAuthServer();
@@ -159,8 +167,9 @@ void Client::onConnected()
 
     if (rememberCredentialsCheck->isChecked())
     {
-        #ifdef HAVE_KEYCHAIN
-        QJsonObject credentials = {
+#ifdef HAVE_KEYCHAIN
+        QJsonObject credentials =
+        {
             {"username", username->text()},
             {"password", password->text()}
         };
@@ -170,7 +179,7 @@ void Client::onConnected()
         job->setKey(QLatin1String("ekoslive"));
         job->setTextData(QJsonDocument(credentials).toJson());
         job->start();
-        #endif
+#endif
     }
 }
 
@@ -216,8 +225,9 @@ void Client::authenticate()
 
     request.setUrl(authURL);
 
-    QJsonObject json = { {"username" , username->text()},
-                         {"password" , password->text()}};
+    QJsonObject json = { {"username", username->text()},
+        {"password", password->text()}
+    };
 
     auto postData = QJsonDocument(json).toJson(QJsonDocument::Compact);
 
