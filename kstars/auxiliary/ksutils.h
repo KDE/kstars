@@ -15,14 +15,14 @@
  ***************************************************************************/
 
 /** @class KSUtils
-	*@short KStars utility functions
-	*@author Mark Hollomon
-	*@version 1.0
-	*Static functions for various purposes.
-	*The openDataFile() function searches the standard KDE directories
-	*for the data filename given as an argument.
-	*(it is impossible to instantiate a KSUtils object; just use the static functions).
-	*/
+    *@short KStars utility functions
+    *@author Mark Hollomon
+    *@version 1.0
+    *Static functions for various purposes.
+    *The openDataFile() function searches the standard KDE directories
+    *for the data filename given as an argument.
+    *(it is impossible to instantiate a KSUtils object; just use the static functions).
+    */
 
 #pragma once
 
@@ -58,7 +58,6 @@ namespace KSUtils
 // Quick checks whether hardware is limited or not
 // right now the only check is architecture. arm processors are limited while x86 are sufficient
 bool isHardwareLimited();
-bool isHardwareSufficient();
 
 /** Attempt to open the data file named filename, using the QFile object "file".
  *First look in the standard KDE directories, then look in a local "data"

@@ -45,15 +45,6 @@ bool isHardwareLimited()
 #endif
 }
 
-bool isHardwareSufficient()
-{
-#ifdef __arm__
-    return false;
-#else
-    return true;
-#endif
-}
-
 bool openDataFile(QFile &file, const QString &s)
 {
     QString FileName = KSPaths::locate(QStandardPaths::GenericDataLocation, s);
