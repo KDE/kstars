@@ -35,6 +35,25 @@
 
 namespace KSUtils
 {
+
+bool isHardwareLimited()
+{
+#ifdef __arm__
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool isHardwareSufficient()
+{
+#ifdef __arm__
+    return false;
+#else
+    return true;
+#endif
+}
+
 bool openDataFile(QFile &file, const QString &s)
 {
     QString FileName = KSPaths::locate(QStandardPaths::GenericDataLocation, s);
@@ -151,7 +170,8 @@ QString toDirectionString(dms angle)
                                         I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WNW"),
                                         I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NW"),
                                         I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNW"),
-                                        I18N_NOOP2("Unknown cardinal / intercardinal direction", "???") };
+                                        I18N_NOOP2("Unknown cardinal / intercardinal direction", "???")
+                                      };
 
     int index = (int)((angle.reduce().Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive) is expected
 
@@ -953,11 +973,11 @@ void Logging::UseStderr()
 void Logging::Stderr(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QTextStream stream(stderr, QIODevice::WriteOnly);
-    Write(stream, type,context,  msg);
+    Write(stream, type, context,  msg);
 }
 
 void Logging::Write(QTextStream &stream, QtMsgType type, const QMessageLogContext &context, const QString &msg)
-{    
+{
 
     stream << QDateTime::currentDateTime().toString("[yyyy-MM-ddThh:mm:ss.zzz t ");
 
@@ -1014,16 +1034,16 @@ void Logging::SyncFilterRules()
                             "org.kde.kstars.ekos.mount.debug=%8\n"
                             "org.kde.kstars.ekos.scheduler.debug=%9\n"
                             "org.kde.kstars.debug=%1").arg(
-                            Options::verboseLogging() ? "true" : "false",
-                            Options::iNDILogging() ? "true" : "false",
-                            Options::fITSLogging() ? "true" : "false",
-                            Options::captureLogging() ? "true" : "false",
-                            Options::focusLogging() ? "true" : "false",
-                            Options::guideLogging() ? "true" : "false",
-                            Options::alignmentLogging() ? "true" : "false",
-                            Options::mountLogging() ? "true" : "false",
-                            Options::schedulerLogging() ? "true" : "false"
-                            );
+                        Options::verboseLogging() ? "true" : "false",
+                        Options::iNDILogging() ? "true" : "false",
+                        Options::fITSLogging() ? "true" : "false",
+                        Options::captureLogging() ? "true" : "false",
+                        Options::focusLogging() ? "true" : "false",
+                        Options::guideLogging() ? "true" : "false",
+                        Options::alignmentLogging() ? "true" : "false",
+                        Options::mountLogging() ? "true" : "false",
+                        Options::schedulerLogging() ? "true" : "false"
+                    );
 
     QLoggingCategory::setFilterRules(rules);
 }
@@ -1123,10 +1143,11 @@ QString getDefaultPath(QString option)
 
 #ifdef Q_OS_OSX
 //Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
-void copyResourcesFolderFromAppBundle(QString folder){
+void copyResourcesFolderFromAppBundle(QString folder)
+{
     QString folderLocation = QStandardPaths::locate(QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
     QDir folderSourceDir;
-    if(folder=="kstars")
+    if(folder == "kstars")
         folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
     else
         folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder).absolutePath();
@@ -1196,8 +1217,8 @@ bool getAstrometryDataDir(QString &dataDir)
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
         KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                   "configuration file full path in INDI options.",
-                                   Options::astrometryConfFile()));
+                                         "configuration file full path in INDI options.",
+                                         Options::astrometryConfFile()));
         return false;
     }
 
@@ -1223,7 +1244,7 @@ bool getAstrometryDataDir(QString &dataDir)
 
 bool setAstrometryDataDir(QString dataDir)
 {
-    if(Options::astrometryIndexFileLocation()!=dataDir)
+    if(Options::astrometryIndexFileLocation() != dataDir)
         Options::setAstrometryIndexFileLocation(dataDir);
     QString confPath;
     if (Options::astrometryConfFileIsInternal())
@@ -1289,13 +1310,13 @@ bool configureAstrometry()
     QString astrometryDataDir;
     if (KSUtils::getAstrometryDataDir(astrometryDataDir) == false)
         return false;
-    if(Options::astrometryIndexFileLocation()!=astrometryDataDir)
+    if(Options::astrometryIndexFileLocation() != astrometryDataDir)
     {
         if (KMessageBox::warningYesNo(
-                nullptr, i18n("The Astrometry Index File Location Stored in KStars: \n %1 \n does not match the Index file location in the config file: \n %2 \n  Do you want to update the config file?", Options::astrometryIndexFileLocation(), astrometryDataDir),
-                i18n("Update Config File?")) == KMessageBox::Yes)
+                    nullptr, i18n("The Astrometry Index File Location Stored in KStars: \n %1 \n does not match the Index file location in the config file: \n %2 \n  Do you want to update the config file?", Options::astrometryIndexFileLocation(), astrometryDataDir),
+                    i18n("Update Config File?")) == KMessageBox::Yes)
         {
-            astrometryDataDir=Options::astrometryIndexFileLocation();
+            astrometryDataDir = Options::astrometryIndexFileLocation();
             setAstrometryDataDir(astrometryDataDir);
         }
         else
@@ -1306,8 +1327,8 @@ bool configureAstrometry()
     if (QDir(astrometryDataDir).exists() == false)
     {
         if (KMessageBox::warningYesNo(
-                nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?", astrometryDataDir),
-                i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
+                    nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?", astrometryDataDir),
+                    i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
         {
             if(QDir(astrometryDataDir).mkdir(astrometryDataDir))
             {
