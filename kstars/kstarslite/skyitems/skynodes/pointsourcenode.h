@@ -41,6 +41,7 @@ class PointSourceNode : public SkyNode
      * @short Constructor
      * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
      * @param parentNode pointer to the top parent node, which holds texture cache
+     * @param labelType label type of PointNode
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      * @param trixel trixelID, with which this node is indexed
