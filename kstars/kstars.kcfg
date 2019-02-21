@@ -1396,19 +1396,19 @@
    </entry>
    <entry name="AutoDebayer" type="Bool">
       <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
-      <default>true</default>
+      <default>KSUtils::isHardwareSufficient()</default>
    </entry>
    <entry name="Auto3DCube" type="Bool">
       <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
-      <default>true</default>
+      <default>KSUtils::isHardwareSufficient()</default>
    </entry>
    <entry name="AutoWCS" type="Bool">
       <label>Automatically process World-Coordinate-System (WCS) data when loading a FITS file.</label>
-      <default>true</default>
+      <default>KSUtils::isHardwareSufficient()</default>
    </entry>
    <entry name="LimitedResourcesMode" type="Bool">
       <label>Conserve CPU and memory by disabling all resource-intensive features in FITS Viewer</label>
-      <default>false</default>
+      <default>KSUtils::isHardwareLimited()</default>
    </entry>
    </group>
    <group name="WISettings">
@@ -1641,11 +1641,11 @@
       </entry>
       <entry name="useSummaryPreview" type="Bool">
          <label>Display every image captured sequence image in the Ekos summary screen preview window.</label>
-         <default>true</default>
+         <default>KSUtils::isHardwareSufficient()</default>
       </entry>
       <entry name="useDSLRImageViewer" type="Bool">
          <label>Display every captured DSLR image in the Image Viewer window.</label>
-         <default>true</default>
+         <default>!KSUtils::isHardwareSufficient()</default>
       </entry>
       <entry name="CaptureFormatIndex" type="UInt">
          <label>Index of desired capture format (FITS or Native).</label>
