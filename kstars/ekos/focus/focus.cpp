@@ -423,6 +423,8 @@ void Focus::checkCCD(int ccdNum)
 
                 binningCombo->setCurrentIndex(activeBin - 1);
             }
+            else
+                activeBin = 1;
 
             QStringList isoList = targetChip->getISOList();
             ISOCombo->clear();
