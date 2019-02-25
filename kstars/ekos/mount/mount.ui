@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>722</width>
-    <height>464</height>
+    <width>592</width>
+    <height>375</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -348,35 +348,6 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>Park Telescope</string>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item alignment="Qt::AlignBottom">
-             <widget class="QPushButton" name="parkB">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Park</string>
-              </property>
-             </widget>
-            </item>
-            <item alignment="Qt::AlignBottom">
-             <widget class="QPushButton" name="unparkB">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>UnPark</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
           <widget class="QGroupBox" name="MeridianFlipGroup">
            <property name="title">
             <string>Meridian Flip</string>
@@ -687,6 +658,75 @@ font-weight:bold;
             </property>
             <property name="checkable">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Parking</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item alignment="Qt::AlignBottom">
+           <widget class="QPushButton" name="parkB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
+            <property name="text">
+             <string>Park</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignBottom">
+           <widget class="QPushButton" name="unparkB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
+            <property name="text">
+             <string>UnPark</string>
             </property>
            </widget>
           </item>
