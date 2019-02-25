@@ -450,6 +450,7 @@ void Manager::reset()
     sequenceRemainingTime->setText("--:--:--");
     imageRemainingTime->setText("--:--:--");
     mountStatus->setText(i18n("Idle"));
+    mountStatus->setStyleSheet(QString());
     captureStatus->setText(i18n("Idle"));
     focusStatus->setText(i18n("Idle"));
     guideStatus->setText(i18n("Idle"));
@@ -2446,6 +2447,7 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
     lastStatus = status;
 
     mountStatus->setText(dynamic_cast<ISD::Telescope *>(managedDevices[KSTARS_TELESCOPE])->getStatusString(status));
+    mountStatus->setStyleSheet(QString());
 
     switch (status)
     {
@@ -2462,6 +2464,12 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
             if (mountPI->isAnimated() == false)
                 mountPI->startAnimation();
 
+            break;
+
+        case ISD::Telescope::MOUNT_PARKED:
+            mountStatus->setStyleSheet("font-weight:bold;background-color:red;border:2px solid black;");
+            if (mountPI->isAnimated())
+                mountPI->stopAnimation();
             break;
 
         default:
