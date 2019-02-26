@@ -4,6 +4,129 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.1.0 (Timmy):
+
+0b0f99334 2019-02-25 Jasem Mutlaq         More parked state more prominent for end users
+d8fdb74d1 2019-02-24 Jasem Mutlaq         Go back to single threaded runningAverageStdDev since the multithreaded version is causing crashes
+57337d2dc 2019-02-24 Jasem Mutlaq         Reset activeBin to 1 if there is no binning support
+bc5788d16 2019-02-21 Yuri Chornoivan      Add Doxygen comment
+b9a3343ff 2019-02-21 Jasem Mutlaq         No need to explicitly toggle all member of an exclusive button group
+fbf0bee79 2019-02-21 Jasem Mutlaq         One architecture detection function is enough
+62bd608f4 2019-02-21 Jasem Mutlaq         Add a couple of function to limit the software in case of ARM architecture
+0f1351510 2019-02-20 Yuri Chornoivan      Remove extra spaces to not interfere with Doxygen comments
+b0210f23f 2019-02-19 Yuri Chornoivan      Fix minor Doxygen issues
+68e7afd64 2019-02-19 Jasem Mutlaq         Fix cases for .fits.fz formats
+c842797ad 2019-02-19 Jasem Mutlaq         Remove temporary compressed .fz files
+30278ca0d 2019-02-19 Jasem Mutlaq         Try to use QtConcurrent for running average stddev calculations
+f6d810c83 2019-02-18 Jasem Mutlaq         Append format to the temporary file
+8e2476dcc 2019-02-18 Jasem Mutlaq         When there is binning change, always FORCE setting of frame values even if they did not change
+dc4a8f726 2019-02-16 Volker Krause        Fix build on binary factory
+1fd7cc9db 2019-02-14 Jasem Mutlaq         Indenepdent windows has other issues should be used for advanced users
+706896304 2019-02-14 Jasem Mutlaq         Make independent window stay on top
+509a16b20 2019-02-14 Jasem Mutlaq         Fix Ekos widget not showing up issue after close. Make both INDI and Ekos windows independent by default
+db96ecab7 2019-02-14 Jasem Mutlaq         If preview RAW then process it. Qt can open CR2 though
+d92170292 2019-02-12 Jasem Mutlaq         Only convert RAW to JPG if DSLR image viewer is enabled
+075531728 2019-02-10 Jasem Mutlaq         Use better connection that does not produce runtime warnings
+48ce18f1d 2019-02-09 Jasem Mutlaq         Make button icons more indicative of the action
+025c4f3ca 2019-02-09 Jasem Mutlaq         Auto sync
+e0a019f19 2019-02-08 Jasem Mutlaq         Use simple array instead of QVector
+33d6af04d 2019-02-08 Jasem Mutlaq         Reimplement auto stretch buffer in rescale
+ac4a672f6 2019-02-07 Jasem Mutlaq         No need to explicitly call save config since it is done by the driver already
+c69966fd6 2019-02-05 Jasem Mutlaq         Watch for negative IDs and reset them to zero
+b47a6fbba 2019-02-05 Jasem Mutlaq         Do not autostrech again
+5e924826c 2019-02-04 Jasem Mutlaq         When target position exceeds limits, try to move it to the limit edge instead of immediately aborting
+87f090d7d 2019-02-04 Jasem Mutlaq         Sync drivers
+b26261685 2019-02-04 Jasem Mutlaq         If pixel is zero and model exists, update driver
+fb43f5d99 2019-02-04 Jasem Mutlaq         0 to nullptr
+ada401f72 2019-02-03 Robert Lancaster     Summary: Removing Environment Variable, Use qt.conf instead.Improving Mac Astrometry Logging.
+1f12040f3 2019-02-02 Jasem Mutlaq         Fix override warnings
+03d1d8813 2019-02-02 Jasem Mutlaq         Use better statiscal methods for average HFR
+9e03ce150 2019-02-02 Jasem Mutlaq         Merge branch 'arcpatch-D18510'
+aebcc6f7b 2019-02-02 Jasem Mutlaq         Do not reset current position to 50000 when using a relative focuser
+8feee5e1f 2019-02-02 Jasem Mutlaq         Use steps instead of ticks
+a7826e9b3 2019-02-02 Jasem Mutlaq         Rearrange the UI a bit. When full field is unchecked, the FITS View is alerted so that it reset the filter values
+21bb7c775 2019-02-02 Eric Dejouhanet      Ring-field focusing feature.
+ee73f81f8 2019-02-02 Sebastian Neubert    working prototype solution for manual slewing during polar alignment
+824c2887f 2019-02-02 Wolfgang Reissenberger Meridian flips handled by Mount
+c795b4bdf 2019-02-02 Jasem Mutlaq         Enclose MacOS functions with ifdefs
+c1f3d114e 2019-02-02 Robert Lancaster     Summary: Environment variable and Index File Path Fixes for Macs
+964879c51 2019-02-02 Jasem Mutlaq         Always reset zoom level dropdown to 1x when the window is displayed. Disable FPS target if the camera does not support it
+f45514107 2019-02-01 Jasem Mutlaq         Add extra check for capture module
+9f4a6ae5b 2019-01-29 Jasem Mutlaq         Apply Autostretch in dark library
+83baf543a 2019-01-29 Jasem Mutlaq         Use a combo box instead of zoom buttons and set the values twice since GPhoto does not change the value at first go
+a2b8cc30a 2019-01-29 Jasem Mutlaq         Use a more logical control for FPS in the video streaming window
+32553c69f 2019-01-29 Yuri Chornoivan      Fix the unfinished statement
+5e2445486 2019-01-29 Yuri Chornoivan      Fix minor typos
+973f0ae4f 2019-01-28 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+2db493f04 2019-01-28 Jasem Mutlaq         Update FITS Viewer information
+a08d5be70 2019-01-28 Jasem Mutlaq         Update version
+c30931072 2019-01-28 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+9a3b44ef7 2019-01-25 Jasem Mutlaq         Add DBus function to set GPS location
+4384b31a2 2019-01-25 Jasem Mutlaq         Fix few warnings
+cc9380aa4 2019-01-24 Jasem Mutlaq         Make MOC on older Qt happy
+745695628 2019-01-23 Yuri Chornoivan      Really translate the notice
+5ccec7d9f 2019-01-23 Yuri Chornoivan      Fix minor typos, enhance formatting
+5175396b5 2019-01-23 Jasem Mutlaq         Style updates
+3d541e3f9 2019-01-22 Yuri Chornoivan      Docs enhancements and updates
+5b20b6eec 2019-01-22 Yuri Chornoivan      Docs enhancements and updates
+90bd90b36 2019-01-22 Jasem Mutlaq         Expand spacer if there are no DSLR controls to show
+65f81ac56 2019-01-22 Jasem Mutlaq         Fix few histogram issues with multi-channel images
+fbfb77651 2019-01-22 Jasem Mutlaq         Include filename in the sequence job. Use async uploads instead of blocking. Use Filename to load and upload data to cloud instead of relying on FIT..
+71304a16d 2019-01-22 Jasem Mutlaq         Initial work for supporting EOS zoom and zoom position control
+640b3d245 2019-01-22 Jasem Mutlaq         Remove spammy log
+ff4031a4b 2019-01-21 Yuri Chornoivan      Minor fixes and enhancements in docs
+e78af3e3a 2019-01-20 Jasem Mutlaq         Add manufacturer support to custom drivers
+71cb09830 2019-01-18 Jasem Mutlaq         Preliminary support for websocket to INDI::CCD on the client side
+ff54baeef 2019-01-20 Yuri Chornoivan      Fix minor formatting glitches in docs
+e1e285efe 2019-01-20 l10n daemon script   GIT_SILENT made messages (after extraction)
+01d1de71a 2019-01-19 Jasem Mutlaq         Improving integration with EkosLive
+11ef936e0 2019-01-19 Yuri Chornoivan      Fix my typos
+6654dfe42 2019-01-19 Yuri Chornoivan      Fix minor glitches
+2fb6d94b0 2019-01-17 Yuri Chornoivan      Add Ekos docs to KStars
+d9c6e792f 2019-01-14 Jasem Mutlaq         Separate align and capture timeout timers
+305f802a3 2019-01-10 Yuri Chornoivan      Fix minor typo
+2ea477356 2019-01-09 Jasem Mutlaq         Add option for raising FITS viewer when an image is recieved
+da0f8ebae 2019-01-09 Jasem Mutlaq         Raise FITS Viewer when receiving an image
+9bb38b5ae 2019-01-07 Eric Dejouhanet      Fixed START_AT jobs disregarded while evaluating, and fixed the update of their score.
+1f60a107c 2019-01-07 Wolfgang Reissenberger Meridian flip issued also when a target is slewed directly without using a schedule
+7cde134b2 2019-01-06 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+7c6e9e03a 2019-01-05 Jasem Mutlaq         Record initialHA after slew is complete. Without this, a premature meridian flip can be issued when not required if the slew happens outside the Mou..
+a9ef62dd3 2019-01-04 Jasem Mutlaq         Fix a possibly crash you on exit if one or more FITS Viewer windows remain open
+b31dd1e18 2019-01-04 Jasem Mutlaq         Remove the FITS viewer based on index and now raw pointer value
+8e9382342 2019-01-04 Jasem Mutlaq         Fix crash when using linguider
+54c3c6203 2019-01-03 Jasem Mutlaq         Remove "libindi" prefix in header files
+1cba6d72b 2019-01-03 Jasem Mutlaq         INDI Drivers sync script
+6f6a09f02 2019-01-03 Jasem Mutlaq         Rework serial port assistant page navigation
+d3149ffa4 2019-01-03 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+90f15f04d 2019-01-03 Jasem Mutlaq         Ensure that autofocus is ready before asking filter manager to sync the focuser position for the filter
+23700ffe1 2019-01-02 Jasem Mutlaq         Sync INDI drivers script
+75693abb2 2019-01-02 Jasem Mutlaq         Remove device widget once udev rule is added and go back to home
+2fd178f7e 2019-01-02 Jasem Mutlaq         Fix issue where correction pulses where sent in odd frames only
+5dd3651d0 2019-01-02 Yuri Chornoivan      Last fixes to unbreak automatic PDF generation from Doxygen code
+2bd1ad043 2018-12-29 Jasem Mutlaq         In Dark library, always consider DSLRs to be shutterless when taking dark frames
+ab5d0f983 2018-12-29 Jasem Mutlaq         No need to check pointer, delete anyway
+d0e9bc52d 2018-12-29 Wolfgang Reissenberger bug fix #400265: meridian flip check before capturing
+c46bcafb7 2018-12-29 Jasem Mutlaq         Use QVariantMap instead of QJsonObject for the signal since the latter is not automatically serielized to QVariantMap when used with DBus
+7a83c25e8 2018-12-29 Jasem Mutlaq         Register PierSide in DBus
+b7c41c47c 2018-12-29 Jasem Mutlaq         Add tooltip to mount tab to clarify limits
+14e944110 2018-12-29 Jasem Mutlaq         Reset shutter status in clear camera configuration
+33c80eb3c 2018-12-27 Jasem Mutlaq         Show and then raise the custom properties dialog to make sure it is displayed properly
+36a2e8845 2018-12-27 Laurent Montel       Use isEmpty()
+0d37947b0 2018-12-27 Jasem Mutlaq         Save remote capture directory in options
+c0e85b4d9 2018-12-27 Jasem Mutlaq         Bump to 3.1.0
+791ad2985 2018-12-27 Jasem Mutlaq         Remove old TODOs
+9e1fab025 2018-12-27 Jasem Mutlaq         Sync INDI drivers
+4e3a15fd3 2018-12-26 Jasem Mutlaq         Save PAH mount speed index for future use
+8ef969d35 2018-12-26 Laurent Montel       Add parent to buttondialogbox
+f39cb09ff 2018-12-26 Laurent Montel       Fix mem leak
+c45fbcbd8 2018-12-25 Jasem Mutlaq         Using rotation only instead of GOTO for PAH
+e211076cb 2018-12-24 Jasem Mutlaq         Fix syncing of the combo boxes when switching between local and remote
+418fd3ef3 2018-12-23 Jasem Mutlaq         Group mounts by manufacturer in the profile editor
+edbd5496e 2018-12-23 Jasem Mutlaq         Add more checks to the serial port assistant
+c70d2afdc 2018-12-21 Jasem Mutlaq         Add tooltip for mount model resetting
+54f6c5567 2018-12-19 Jasem Mutlaq         Move all sleep checking function to shouldSchedulerSleep function
+9f514ca35 2018-12-19 Eric Dejouhanet      Proper removal of existing jobs by the Mosaic Tool
+
 3.0.0 (Algol):
 369e30d4e 2018-12-19 Jasem Mutlaq         Improve the naming of objects in the history find list
 4ba2aa4e4 2018-12-19 Jasem Mutlaq         Improve find dialog further
