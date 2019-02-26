@@ -6,6 +6,8 @@ $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
 3.1.0 (Timmy):
 
+5af4cbdc7 2019-02-26 Jasem Mutlaq         Changes for KStars 3.1.0
+34a6e0c2f 2019-02-26 Jasem Mutlaq         Sync INDI drivers
 0b0f99334 2019-02-25 Jasem Mutlaq         More parked state more prominent for end users
 d8fdb74d1 2019-02-24 Jasem Mutlaq         Go back to single threaded runningAverageStdDev since the multithreaded version is causing crashes
 57337d2dc 2019-02-24 Jasem Mutlaq         Reset activeBin to 1 if there is no binning support
@@ -57,10 +59,8 @@ f45514107 2019-02-01 Jasem Mutlaq         Add extra check for capture module
 a2b8cc30a 2019-01-29 Jasem Mutlaq         Use a more logical control for FPS in the video streaming window
 32553c69f 2019-01-29 Yuri Chornoivan      Fix the unfinished statement
 5e2445486 2019-01-29 Yuri Chornoivan      Fix minor typos
-973f0ae4f 2019-01-28 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
 2db493f04 2019-01-28 Jasem Mutlaq         Update FITS Viewer information
 a08d5be70 2019-01-28 Jasem Mutlaq         Update version
-c30931072 2019-01-28 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
 9a3b44ef7 2019-01-25 Jasem Mutlaq         Add DBus function to set GPS location
 4384b31a2 2019-01-25 Jasem Mutlaq         Fix few warnings
 cc9380aa4 2019-01-24 Jasem Mutlaq         Make MOC on older Qt happy
@@ -78,7 +78,6 @@ ff4031a4b 2019-01-21 Yuri Chornoivan      Minor fixes and enhancements in docs
 e78af3e3a 2019-01-20 Jasem Mutlaq         Add manufacturer support to custom drivers
 71cb09830 2019-01-18 Jasem Mutlaq         Preliminary support for websocket to INDI::CCD on the client side
 ff54baeef 2019-01-20 Yuri Chornoivan      Fix minor formatting glitches in docs
-e1e285efe 2019-01-20 l10n daemon script   GIT_SILENT made messages (after extraction)
 01d1de71a 2019-01-19 Jasem Mutlaq         Improving integration with EkosLive
 11ef936e0 2019-01-19 Yuri Chornoivan      Fix my typos
 6654dfe42 2019-01-19 Yuri Chornoivan      Fix minor glitches
@@ -89,7 +88,6 @@ d9c6e792f 2019-01-14 Jasem Mutlaq         Separate align and capture timeout tim
 da0f8ebae 2019-01-09 Jasem Mutlaq         Raise FITS Viewer when receiving an image
 9bb38b5ae 2019-01-07 Eric Dejouhanet      Fixed START_AT jobs disregarded while evaluating, and fixed the update of their score.
 1f60a107c 2019-01-07 Wolfgang Reissenberger Meridian flip issued also when a target is slewed directly without using a schedule
-7cde134b2 2019-01-06 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
 7c6e9e03a 2019-01-05 Jasem Mutlaq         Record initialHA after slew is complete. Without this, a premature meridian flip can be issued when not required if the slew happens outside the Mou..
 a9ef62dd3 2019-01-04 Jasem Mutlaq         Fix a possibly crash you on exit if one or more FITS Viewer windows remain open
 b31dd1e18 2019-01-04 Jasem Mutlaq         Remove the FITS viewer based on index and now raw pointer value
@@ -97,7 +95,6 @@ b31dd1e18 2019-01-04 Jasem Mutlaq         Remove the FITS viewer based on index 
 54c3c6203 2019-01-03 Jasem Mutlaq         Remove "libindi" prefix in header files
 1cba6d72b 2019-01-03 Jasem Mutlaq         INDI Drivers sync script
 6f6a09f02 2019-01-03 Jasem Mutlaq         Rework serial port assistant page navigation
-d3149ffa4 2019-01-03 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
 90f15f04d 2019-01-03 Jasem Mutlaq         Ensure that autofocus is ready before asking filter manager to sync the focuser position for the filter
 23700ffe1 2019-01-02 Jasem Mutlaq         Sync INDI drivers script
 75693abb2 2019-01-02 Jasem Mutlaq         Remove device widget once udev rule is added and go back to home
