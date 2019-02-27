@@ -70,7 +70,7 @@ void Media::onConnected()
     connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
 
     m_isConnected = true;
-    m_ReconnectTries=0;
+    m_ReconnectTries = 0;
 
     emit connected();
 }
@@ -174,8 +174,8 @@ void Media::upload(FITSView * view)
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage().scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH/2);
-    scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
+    QImage scaledImage = view->getDisplayImage().scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2);
+    scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
     buffer.close();
 
     const FITSData * imageData = view->getImageData();
@@ -187,13 +187,19 @@ void Media::upload(FITSView * view)
     QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
     QString bitDepth = QString::number(imageData->bpp());
 
+    QString uuid;
+    // Only send UUID for non-temporary compressed file or non-tempeorary files
+    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
+            (imageData->isTempFile() == false))
+        uuid = m_UUID;
+
     QJsonObject metadata =
     {
-        {"resolution",resolution},
-        {"size",sizeBytes},
-        {"bin",binning},
-        {"bpp",bitDepth},
-        {"uuid", imageData->isTempFile() ? "" : m_UUID},
+        {"resolution", resolution},
+        {"size", sizeBytes},
+        {"bin", binning},
+        {"bpp", bitDepth},
+        {"uuid", uuid},
     };
 
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
@@ -219,7 +225,7 @@ void Media::sendUpdatedFrame(FITSView * view)
         if (length < 100)
             length = 100;
         QRect boundingRectable;
-        boundingRectable.setSize(QSize(static_cast<int>(length*2), static_cast<int>(length*2)));
+        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
 
         QPoint topLeft = (center - QPointF(length, length)).toPoint();
         boundingRectable.moveTo(topLeft);
@@ -232,7 +238,7 @@ void Media::sendUpdatedFrame(FITSView * view)
     }
     else
         emit newBoundingRect(QRect(), QSize());
-    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY/2);
+    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY / 2);
     buffer.close();
 
     m_WebSocket.sendBinaryMessage(jpegData);
@@ -244,13 +250,13 @@ void Media::sendVideoFrame(std::unique_ptr<QImage> &frame)
         return;
 
     // TODO Scale should be configurable
-    QImage scaledImage =  frame.get()->scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH/2);
+    QImage scaledImage =  frame.get()->scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2);
     QTemporaryFile jpegFile;
     jpegFile.open();
     jpegFile.close();
 
     // TODO Quality should be configurable
-    scaledImage.save(jpegFile.fileName(), "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY/2);
+    scaledImage.save(jpegFile.fileName(), "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY / 2);
 
     jpegFile.open();
 

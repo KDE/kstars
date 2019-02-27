@@ -54,7 +54,7 @@ class Cloud : public QObject
     public slots:
         void connectServer();
         void disconnectServer();
-        void setOptions(QMap<int,bool> options)
+        void setOptions(QMap<int, bool> options)
         {
             m_Options = options;
         }
@@ -90,7 +90,7 @@ class Cloud : public QObject
         bool m_isConnected {false};
         bool m_sendBlobs {true};
 
-        QMap<int,bool> m_Options;
+        QMap<int, bool> m_Options;
 
         // Image width for high-bandwidth setting
         static const uint16_t HB_WIDTH = 640;

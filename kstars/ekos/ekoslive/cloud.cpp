@@ -33,6 +33,8 @@ Cloud::Cloud(Ekos::Manager * manager): m_Manager(manager)
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Cloud::onDisconnected);
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Cloud::onError);
 
+    connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage, Qt::UniqueConnection);
+
 }
 
 void Cloud::connectServer()
@@ -70,7 +72,7 @@ void Cloud::onConnected()
     connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Cloud::onTextReceived);
 
     m_isConnected = true;
-    m_ReconnectTries=0;
+    m_ReconnectTries = 0;
 
     emit connected();
 }
@@ -130,12 +132,12 @@ void Cloud::sendPreviewImage(const QString &filename, const QString &uuid)
     if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false  || m_sendBlobs == false)
         return;
 
+    watcher.waitForFinished();
     m_UUID = uuid;
-
     imageData.reset(new FITSData());
+    imageData->setAutoRemoveTemporaryFITS(false);
     QFuture<bool> result = imageData->loadFITS(filename);
     watcher.setFuture(result);
-    connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage);
 }
 
 void Cloud::sendImage()
@@ -158,52 +160,55 @@ void Cloud::asyncUpload()
     }
 
     // Filename only without path
-    QString filename = QFileInfo(imageData->filename()).fileName();
+    QString filepath = imageData->isCompressed() ? imageData->compressedFilename() : imageData->filename();
+    QString filenameOnly = QFileInfo(filepath).fileName();
 
     // Add filename and size as wells
     metadata.insert("uuid", m_UUID);
-    metadata.insert("filename", filename);
+    metadata.insert("filename", filenameOnly);
     metadata.insert("filesize", static_cast<int>(imageData->size()));
     // Must set Content-Disposition so
-    metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filename));
+    if (imageData->isCompressed())
+        metadata.insert("Content-Disposition", QString("attachment;filename=%1").arg(filenameOnly));
+    else
+        metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
+
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
     qCInfo(KSTARS_EKOS) << "Uploading file to the cloud with metadata" << metadata;
 
+    QString compressedFile = filepath;
     // Use cfitsio pack to compress the file first
-    filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
+    if (imageData->isCompressed() == false)
+    {
+        compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
 
-    fpstate	fpvar;
-    std::vector<std::string> arguments = {"fpack", imageData->filename().toLatin1().data()};
-    std::vector<char *> arglist;
-    for (const auto &arg : arguments)
-        arglist.push_back((char *)arg.data());
-    arglist.push_back(nullptr);
+        int isLossLess = 0;
+        fpstate	fpvar;
+        fp_init (&fpvar);
+        if (fp_pack(filepath.toLatin1().data(), compressedFile.toLatin1().data(), fpvar, &isLossLess) < 0)
+        {
+            if (filepath.startsWith(QDir::tempPath()))
+                QFile::remove(filepath);
+            qCCritical(KSTARS_EKOS) << "Cloud upload failed. Failed to compress" << filepath;
+            return;
+        }
+    }
 
-    int argc = arglist.size() - 1;
-    char ** argv = arglist.data();
-
-    // TODO: Check for errors
-    fp_init (&fpvar);
-    fp_get_param (argc, argv, &fpvar);
-    fp_preflight (argc, argv, FPACK, &fpvar);
-    fp_loop (argc, argv, FPACK, filename.toLatin1().data(), fpvar);
-
-    QString newCompressedFile = filename + ".fz";
     // Upload the compressed image
-    QFile image(newCompressedFile);
+    QFile image(compressedFile);
     if (image.open(QIODevice::ReadOnly))
     {
         m_WebSocket.sendBinaryMessage(image.readAll());
-        qCInfo(KSTARS_EKOS) << "Uploaded" << newCompressedFile << " to the cloud";
+        qCInfo(KSTARS_EKOS) << "Uploaded" << compressedFile << " to the cloud";
     }
     image.close();
 
-    // Remove from disk
-    QFile::remove(newCompressedFile);
+    // Remove from disk if temporary
+    if (compressedFile != filepath && compressedFile.startsWith(QDir::tempPath()))
+        QFile::remove(compressedFile);
 
     imageData.reset();
 }
-
 
 }
