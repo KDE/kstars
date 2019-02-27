@@ -78,7 +78,11 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     m_serviceURL.setUrl("https://live.stellarmate.com");
     m_wsURL.setUrl("wss://live.stellarmate.com");
 
-    ekosLiveOnlineR->setChecked(Options::ekosLiveOnline());
+    if (Options::ekosLiveOnline())
+        ekosLiveOnlineR->setChecked(true);
+    else
+        ekosLiveOfflineR->setChecked(true);
+
     connect(ekosLiveOnlineR, &QRadioButton::toggled, [&](bool toggled)
     {
         Options::setEkosLiveOnline(toggled);
