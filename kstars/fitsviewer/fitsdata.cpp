@@ -156,22 +156,20 @@ bool FITSData::privateLoad(bool silent)
 
     if (m_Filename.endsWith(".fz"))
     {
+        // Store so we don't lose.
+        m_compressedFilename = m_Filename;
+
         QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
         fpstate	fpvar;
-        std::vector<std::string> arguments = {"funpack", m_Filename.toLatin1().toStdString()};
-        std::vector<char *> arglist;
-        for (const auto &arg : arguments)
-            arglist.push_back((char *)arg.data());
-        arglist.push_back(nullptr);
-
-        int argc = arglist.size() - 1;
-        char ** argv = arglist.data();
-
-        // TODO: Check for errors
         fp_init (&fpvar);
-        fp_get_param (argc, argv, &fpvar);
-        fp_preflight (argc, argv, FUNPACK, &fpvar);
-        fp_loop (argc, argv, FUNPACK, uncompressedFile.toLatin1().data(), fpvar);
+        if (fp_unpack(m_Filename.toLatin1().data(), uncompressedFile.toLatin1().data(), fpvar) < 0)
+        {
+            errMessage = i18n("Failed to unpack compressed fits");
+            if (!silent)
+                KSNotification::error(errMessage, i18n("FITS Open"));
+            qCCritical(KSTARS_FITS) << errMessage;
+            return false;
+        }
 
         // Remove compressed .fz if it was temporary
         if (m_isTemporary && autoRemoveTemporaryFITS)
@@ -179,6 +177,7 @@ bool FITSData::privateLoad(bool silent)
 
         m_Filename = uncompressedFile;
         m_isTemporary = true;
+        m_isCompressed = true;
     }
 
     // Use open diskfile as it does not use extended file names which has problems opening
