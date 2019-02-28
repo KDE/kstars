@@ -130,7 +130,7 @@ Capture::Capture()
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Ekos::Capture::checkSeqFile(QString)));
 
     connect(addToQueueB, &QPushButton::clicked, this, &Ekos::Capture::addJob);
-    connect(removeFromQueueB, &QPushButton::clicked, this, &Ekos::Capture::removeJob);
+    connect(removeFromQueueB, &QPushButton::clicked, this, &Ekos::Capture::removeJobFromQueue);
     connect(queueUpB, &QPushButton::clicked, this, &Ekos::Capture::moveJobUp);
     connect(queueDownB, &QPushButton::clicked, this, &Ekos::Capture::moveJobDown);
     connect(selectFITSDirB, &QPushButton::clicked, this, &Ekos::Capture::saveFITSDirectory);
@@ -2378,6 +2378,16 @@ bool Capture::addJob(bool preview)
     return true;
 }
 
+void Capture::removeJobFromQueue()
+{
+    int currentRow = queueTable->currentRow();
+
+    if (currentRow < 0)
+        currentRow = queueTable->rowCount() - 1;
+
+    removeJob(currentRow);
+}
+
 void Capture::removeJob(int index)
 {
     if (m_State != CAPTURE_IDLE && m_State != CAPTURE_ABORTED && m_State != CAPTURE_COMPLETE)
@@ -2389,23 +2399,16 @@ void Capture::removeJob(int index)
         return;
     }
 
-    int currentRow = queueTable->currentRow();
-    if (index >= 0)
-        currentRow = index;
+    if (index < 0)
+        return;
 
-    if (currentRow < 0)
-    {
-        currentRow = queueTable->rowCount() - 1;
-        if (currentRow < 0)
-            return;
-    }
 
-    queueTable->removeRow(currentRow);
+    queueTable->removeRow(index);
 
-    m_SequenceArray.removeAt(currentRow);
+    m_SequenceArray.removeAt(index);
     emit sequenceChanged(m_SequenceArray);
 
-    SequenceJob * job = jobs.at(currentRow);
+    SequenceJob * job = jobs.at(index);
     jobs.removeOne(job);
     if (job == activeJob)
         activeJob = nullptr;
