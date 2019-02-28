@@ -444,6 +444,8 @@ public slots:
      */
     void removeJob(int index=-1);
 
+    void removeJobFromQueue();
+
     /**
          * @brief moveJobUp Move the job in the sequence queue one place up.
          */
