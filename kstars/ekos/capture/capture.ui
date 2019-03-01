@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>625</width>
+    <width>622</width>
     <height>547</height>
    </rect>
   </property>
@@ -1632,6 +1632,9 @@ font-weight:bold;
             <property name="horizontalScrollBarPolicy">
              <enum>Qt::ScrollBarAsNeeded</enum>
             </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
             <attribute name="horizontalHeaderDefaultSectionSize">
              <number>85</number>
             </attribute>
@@ -1732,7 +1735,8 @@ font-weight:bold;
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="camera-off"/>
+            <iconset theme="camera-off">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
