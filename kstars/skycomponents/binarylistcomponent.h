@@ -122,7 +122,7 @@ protected:
     virtual void loadDataFromText() = 0;
 
     // TODO: Rename, and integrate it into a wrapper
-    virtual void updateDataFile() = 0; // legacy from current implementation!
+    //virtual void updateDataFile() = 0; // legacy from current implementation!
 
     /**
      * @brief dropBinary

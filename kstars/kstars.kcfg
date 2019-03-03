@@ -434,6 +434,10 @@
          <whatsthis>Toggle whether asteroid name labels are drawn in the sky map.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="OrbitalElementsAutoUpdate" type="Bool">
+         <label>Update orbial elements for comets and asteroids from online sources on startup.</label>
+         <default>true</default>
+      </entry>
       <entry name="ShowComets" type="Bool">
          <label>Draw comets in the sky map?</label>
          <whatsthis>Toggle whether comets are drawn in the sky map.</whatsthis>

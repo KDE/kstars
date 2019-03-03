@@ -809,6 +809,13 @@ void KStars::datainitFinished()
 
     //Show TotD
     KTipDialog::showTip(this, "kstars/tips");
+
+    // Update comets and asteroids if enabled.
+    if (Options::orbitalElementsAutoUpdate())
+    {        
+        slotUpdateComets(true);
+        slotUpdateAsteroids(true);
+    }
 }
 
 void KStars::initFocus()

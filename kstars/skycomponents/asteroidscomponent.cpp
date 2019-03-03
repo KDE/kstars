@@ -255,7 +255,7 @@ SkyObject *AsteroidsComponent::objectNearest(SkyPoint *p, double &maxrad)
     return oBest;
 }
 
-void AsteroidsComponent::updateDataFile()
+void AsteroidsComponent::updateDataFile(bool isAutoUpdate)
 {
     downloadJob = new FileDownloader();
 
@@ -263,7 +263,8 @@ void AsteroidsComponent::updateDataFile()
     downloadJob->registerDataVerification([&](const QByteArray &data) { return data.startsWith("full_name");});
 
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
-    QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+    if (isAutoUpdate == false)
+        QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     QUrl url = QUrl("https://ssd.jpl.nasa.gov/sbdb_query.cgi");
 

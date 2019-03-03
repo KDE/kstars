@@ -209,7 +209,7 @@ void CometsComponent::draw(SkyPainter *skyp)
 #endif
 }
 
-void CometsComponent::updateDataFile()
+void CometsComponent::updateDataFile(bool isAutoUpdate)
 {
     downloadJob = new FileDownloader();
 
@@ -217,7 +217,10 @@ void CometsComponent::updateDataFile()
     downloadJob->registerDataVerification([&](const QByteArray &data) { return data.startsWith("full_name");});
 
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
-    connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+
+    // For auto-update, we ignore errors
+    if (isAutoUpdate == false)
+        connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     QUrl url             = QUrl("https://ssd.jpl.nasa.gov/sbdb_query.cgi");
     QByteArray post_data = KSUtils::getJPLQueryString("com", "AcBdBiBgBjBlBkBqBbAgAkAlApAqArAsBsBtChAmAn",

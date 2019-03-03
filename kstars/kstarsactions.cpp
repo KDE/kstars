@@ -1877,14 +1877,14 @@ void KStars::slotShowPositionBar(SkyPoint *p)
     }
 }
 
-void KStars::slotUpdateComets()
+void KStars::slotUpdateComets(bool isAutoUpdate)
 {
-    data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile();
+    data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile(isAutoUpdate);
 }
 
-void KStars::slotUpdateAsteroids()
+void KStars::slotUpdateAsteroids(bool isAutoUpdate)
 {
-    data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile();
+    data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile(isAutoUpdate);
 }
 
 void KStars::slotUpdateSupernovae()
