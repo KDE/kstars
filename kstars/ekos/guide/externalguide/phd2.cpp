@@ -42,6 +42,7 @@ PHD2::PHD2()
 
     events["Version"]                 = Version;
     events["LockPositionSet"]         = LockPositionSet;
+    events["Calibrating"]             = Calibrating;
     events["CalibrationComplete"]     = CalibrationComplete;
     events["StarSelected"]            = StarSelected;
     events["StartGuiding"]            = StartGuiding;
@@ -66,61 +67,61 @@ PHD2::PHD2()
 
     //This list of available PHD Methods is on https://github.com/OpenPHDGuiding/phd2/wiki/EventMonitoring
     //Only some of the methods are implemented.  The ones that say COMMAND_RECEIVED simply return a 0 saying the command was received.
-        //capture_single_frame
+    //capture_single_frame
     methodResults["clear_calibration"]      = CLEAR_CALIBRATION_COMMAND_RECEIVED;
     methodResults["dither"]                 = DITHER_COMMAND_RECEIVED;
-        //find_star
-        //flip_calibration
-        //get_algo_param_names
-        //get_algo_param
-        //get_app_state
-        //get_calibrated
-        //get_calibration_data
+    //find_star
+    //flip_calibration
+    //get_algo_param_names
+    //get_algo_param
+    //get_app_state
+    //get_calibrated
+    //get_calibration_data
     methodResults["get_connected"]          = IS_EQUIPMENT_CONNECTED;
-        //get_cooler_status
-        //get_current_equipment
+    //get_cooler_status
+    //get_current_equipment
     methodResults["get_dec_guide_mode"]     = DEC_GUIDE_MODE;
     methodResults["get_exposure"]           = EXPOSURE_TIME;
     methodResults["get_exposure_durations"] = EXPOSURE_DURATIONS;
-        //get_lock_position
-        //get_lock_shift_enabled
-        //get_lock_shift_params
-        //get_paused
+    //get_lock_position
+    //get_lock_shift_enabled
+    //get_lock_shift_params
+    //get_paused
     methodResults["get_pixel_scale"]        = PIXEL_SCALE;
-        //get_profile
-        //get_profiles
-        //get_search_region
-        //get_sensor_temperature
+    //get_profile
+    //get_profiles
+    //get_search_region
+    //get_sensor_temperature
     methodResults["get_star_image"]         = STAR_IMAGE;
-        //get_use_subframes
+    //get_use_subframes
     methodResults["guide"]                  = GUIDE_COMMAND_RECEIVED;
-        //guide_pulse
-        //loop
-        //save_image
-        //set_algo_param
+    //guide_pulse
+    //loop
+    //save_image
+    //set_algo_param
     methodResults["set_connected"]          = CONNECTION_RESULT;
     methodResults["set_dec_guide_mode"]     = SET_DEC_GUIDE_MODE_COMMAND_RECEIVED;
     methodResults["set_exposure"]           = SET_EXPOSURE_COMMAND_RECEIVED;
-        //set_lock_position
-        //set_lock_shift_enabled
-        //set_lock_shift_params
+    //set_lock_position
+    //set_lock_shift_enabled
+    //set_lock_shift_params
     methodResults["set_paused"]             = SET_PAUSED_COMMAND_RECEIVED;
-        //set_profile
-        //shutdown
+    //set_profile
+    //shutdown
     methodResults["stop_capture"]           = STOP_CAPTURE_COMMAND_RECEIVED;
 
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
 
     abortTimer = new QTimer(this);
-    connect(abortTimer, &QTimer::timeout, this, [=]
+    connect(abortTimer, &QTimer::timeout, this, [ = ]
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Lost Star timeout expired";
         abort();
     });
 
     ditherTimer = new QTimer(this);
-    connect(ditherTimer, &QTimer::timeout, this, [=]
+    connect(ditherTimer, &QTimer::timeout, this, [ = ]
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "ditherTimer expired, state" << state << "dithering" << isDitherActive << "settling" << isSettling;
         ditherTimer->stop();
@@ -326,7 +327,8 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             emit newLog(i18n("PHD2: Looping Exposures Stopped."));
             break;
 
-        case Settling:        
+        case Calibrating:
+        case Settling:
         case SettleBegin:
             //This can happen for guiding or for dithering.  A Settle done event will arrive when it finishes.
             break;
@@ -403,17 +405,17 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             if (state == LOSTLOCK)
             {
                 emit newLog(i18n("PHD2: Star found, guiding resumed."));
-                abortTimer->stop();  
+                abortTimer->stop();
                 state = GUIDING;
             }
             // JM 2018-08-05: GuideStep does not necessary mean we're guiding
             // It could be that we're settling. This needs to be double-checked.
-//            else if (state != GUIDING)
-//            {
-//                emit newLog(i18n("PHD2: Guiding started up again."));
-//                emit newStatus(Ekos::GUIDE_GUIDING);
-//                state = GUIDING;
-//            }
+            //            else if (state != GUIDING)
+            //            {
+            //                emit newLog(i18n("PHD2: Guiding started up again."));
+            //                emit newStatus(Ekos::GUIDE_GUIDING);
+            //                state = GUIDING;
+            //            }
             if (isDitherActive)
                 return;
             double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec;
@@ -445,7 +447,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             if (std::isfinite(diff_ra_arcsecs) && std::isfinite(diff_de_arcsecs))
             {
                 errorLog.append(QPointF(diff_ra_arcsecs, diff_de_arcsecs));
-                if(errorLog.size()>50)
+                if(errorLog.size() > 50)
                     errorLog.remove(0);
 
                 emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
@@ -456,11 +458,11 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
                 for (auto &point : errorLog)
                 {
-                    total_sqr_RA_error+=point.x()*point.x();
-                    total_sqr_DE_error+=point.y()*point.y();
+                    total_sqr_RA_error += point.x() * point.x();
+                    total_sqr_DE_error += point.y() * point.y();
                 }
 
-                emit newAxisSigma(sqrt(total_sqr_RA_error/errorLog.size()), sqrt(total_sqr_DE_error/errorLog.size()));
+                emit newAxisSigma(sqrt(total_sqr_RA_error / errorLog.size()), sqrt(total_sqr_DE_error / errorLog.size()));
 
             }
 
@@ -495,7 +497,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             //Low-pass minimum move, Low-pass slope weight,
             //Low-pass2 minimum move, Low-pass2 aggressiveness,
             //Hysteresis hysteresis, Hysteresis aggression
-        break;
+            break;
     }
 }
 
@@ -532,7 +534,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             //Ekos didn't ask for this result?
             break;
 
-                                                    //capture_single_frame
+        //capture_single_frame
         case CLEAR_CALIBRATION_COMMAND_RECEIVED:    //clear_calibration
             break;
 
@@ -540,13 +542,13 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             emit newStatus(Ekos::GUIDE_DITHERING);
             break;
 
-                                                    //find_star
-                                                    //flip_calibration
-                                                    //get_algo_param_names
-                                                    //get_algo_param
-                                                    //get_app_state
-                                                    //get_calibrated
-                                                    //get_calibration_data
+        //find_star
+        //flip_calibration
+        //get_algo_param_names
+        //get_algo_param
+        //get_app_state
+        //get_calibrated
+        //get_calibration_data
 
         case IS_EQUIPMENT_CONNECTED:                //get_connected
         {
@@ -561,10 +563,10 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
                 emit newStatus(Ekos::GUIDE_DISCONNECTED);
             }
         }
-            break;
+        break;
 
-                                                    //get_cooler_status
-                                                    //get_current_equipment
+        //get_cooler_status
+        //get_current_equipment
 
         case DEC_GUIDE_MODE:                        //get_dec_guide_mode
         {
@@ -572,13 +574,13 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             KStars::Instance()->ekosManager()->guideModule()->updateDirectionsFromPHD2(mode);
             emit newLog(i18n("PHD2: DEC Guide Mode is Set to: %1", mode));
         }
-            break;
+        break;
 
 
         case EXPOSURE_TIME:                         //get_exposure
         {
-            int exposurems=jsonObj["result"].toInt();
-            double exposureTime=exposurems/1000.0;
+            int exposurems = jsonObj["result"].toInt();
+            double exposureTime = exposurems / 1000.0;
             KStars::Instance()->ekosManager()->guideModule()->setExposure(exposureTime);
             emit newLog(i18n("PHD2: Exposure Time set to: ") + QString::number(exposureTime, 'f', 2));
             break;
@@ -587,32 +589,32 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
 
         case EXPOSURE_DURATIONS:                    //get_exposure_durations
         {
-            QVariantList exposureListArray=jsonObj["result"].toArray().toVariantList();
+            QVariantList exposureListArray = jsonObj["result"].toArray().toVariantList();
             logValidExposureTimes = i18n("PHD2: Valid Exposure Times: Auto, ");
             QList<double> values;
-            for(int i=1; i < exposureListArray.size(); i ++) //For some reason PHD2 has a negative exposure time of 1 at the start of the array?
-                values << exposureListArray.at(i).toDouble()/1000.0;//PHD2 reports in ms.
+            for(int i = 1; i < exposureListArray.size(); i ++) //For some reason PHD2 has a negative exposure time of 1 at the start of the array?
+                values << exposureListArray.at(i).toDouble() / 1000.0; //PHD2 reports in ms.
             logValidExposureTimes += KStars::Instance()->ekosManager()->guideModule()->setRecommendedExposureValues(values);
             emit newLog(logValidExposureTimes);
             break;
         }
-                                                    //get_lock_position
-                                                    //get_lock_shift_enabled
-                                                    //get_lock_shift_params
-                                                    //get_paused
+        //get_lock_position
+        //get_lock_shift_enabled
+        //get_lock_shift_params
+        //get_paused
 
         case PIXEL_SCALE:                           //get_pixel_scale
-            pixelScale=jsonObj["result"].toDouble();
+            pixelScale = jsonObj["result"].toDouble();
             if (pixelScale == 0)
                 emit newLog(i18n("PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is invalid."));
             else
                 emit newLog(i18n("PHD2: Pixel Scale is %1 arcsec per pixel", QString::number(pixelScale, 'f', 2)));
             break;
 
-                                                    //get_profile
-                                                    //get_profiles
-                                                    //get_search_region
-                                                    //get_sensor_temperature
+        //get_profile
+        //get_profiles
+        //get_search_region
+        //get_sensor_temperature
 
         case STAR_IMAGE:                            //get_star_image
         {
@@ -622,14 +624,14 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             break;
         }
 
-                                                    //get_use_subframes
+        //get_use_subframes
 
         case GUIDE_COMMAND_RECEIVED:                //guide
             break;
-                                                    //guide_pulse
-                                                    //loop
-                                                    //save_image
-                                                    //set_algo_param
+        //guide_pulse
+        //loop
+        //save_image
+        //set_algo_param
 
         case CONNECTION_RESULT:                     //set_connected
             checkIfEquipmentConnected();
@@ -643,14 +645,14 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             requestExposureTime(); //This will check what it was set to and print a message as to what it is.
             break;
 
-                                                    //set_lock_position
-                                                    //set_lock_shift_enabled
-                                                    //set_lock_shift_params
+        //set_lock_position
+        //set_lock_shift_enabled
+        //set_lock_shift_params
 
         case SET_PAUSED_COMMAND_RECEIVED:           //set_paused
             break;
-                                                    //set_profile
-                                                    //shutdown
+        //set_profile
+        //shutdown
 
         case STOP_CAPTURE_COMMAND_RECEIVED:         //stop_capture
             break;
@@ -674,7 +676,7 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError, const QByteArray &line
     if (resultType == SET_EXPOSURE_COMMAND_RECEIVED)
     {
         emit newLog(logValidExposureTimes);  //This will let the user know the valid exposure durations
-        QTimer::singleShot(300, [=]{requestExposureTime();}); //This will reset the Exposure time in Ekos to PHD2's current exposure time after a third of a second.
+        QTimer::singleShot(300, [ = ] {requestExposureTime();}); //This will reset the Exposure time in Ekos to PHD2's current exposure time after a third of a second.
     }
     else if (resultType == CONNECTION_RESULT)
     {
@@ -718,87 +720,90 @@ void PHD2::setGuideView(FITSView *guideView)
 void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 {
     //The width and height of the received PHD2 Star Image
-   int width =  jsonStarFrame["width"].toInt();
-   int height = jsonStarFrame["height"].toInt();
+    int width =  jsonStarFrame["width"].toInt();
+    int height = jsonStarFrame["height"].toInt();
 
-   QTemporaryFile tempfile(KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1Literal("phd2_XXXXXX"));
-   if (!tempfile.open())
-   {
-       qCWarning(KSTARS_EKOS_GUIDE) << "could not create temp file for PHD2 star image";
-       return;
-   }
-   QString filename = tempfile.fileName();
+    QTemporaryFile tempfile(KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1Literal("phd2_XXXXXX"));
+    tempfile.setAutoRemove(false);
+    if (!tempfile.open())
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "could not create temp file for PHD2 star image";
+        return;
+    }
+    QString filename = tempfile.fileName();
 
-   //This section sets up the FITS File
-   fitsfile *fptr = nullptr;
-   int status=0;
-   long  fpixel = 1, naxis = 2, nelements, exposure;
-   long naxes[2] = { width, height };
-   char error_status[512] = {0};
+    //This section sets up the FITS File
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    long  fpixel = 1, naxis = 2, nelements, exposure;
+    long naxes[2] = { width, height };
+    char error_status[512] = {0};
 
-   if (fits_create_file(&fptr, QString('!' + filename).toLatin1().data(), &status))
-   {
-       qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_file failed:" << error_status;
-       return;
-   }
+    if (fits_create_file(&fptr, QString('!' + filename).toLatin1().data(), &status))
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_file failed:" << error_status;
+        return;
+    }
 
-   if (fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status))
-   {
-       qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_img failed:" << error_status;
-       status = 0;
-       fits_close_file(fptr, &status);
-       return;
-   }
+    if (fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status))
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_img failed:" << error_status;
+        status = 0;
+        fits_close_file(fptr, &status);
+        return;
+    }
 
     //Note, this is made up.  If you want the actual exposure time, you have to request it from PHD2
-   exposure = 1;
-   fits_update_key(fptr, TLONG, "EXPOSURE", &exposure,"Total Exposure Time", &status);
+    exposure = 1;
+    fits_update_key(fptr, TLONG, "EXPOSURE", &exposure, "Total Exposure Time", &status);
 
-   //This section takes the Pixels from the JSON Document
-   //Then it converts from base64 to a QByteArray
-   //Then it creates a datastream from the QByteArray to the pixel array for the FITS File
-   QByteArray converted = QByteArray::fromBase64(jsonStarFrame["pixels"].toString().toLocal8Bit());
+    //This section takes the Pixels from the JSON Document
+    //Then it converts from base64 to a QByteArray
+    //Then it creates a datastream from the QByteArray to the pixel array for the FITS File
+    QByteArray converted = QByteArray::fromBase64(jsonStarFrame["pixels"].toString().toLocal8Bit());
 
-   //This finishes up and closes the FITS file
-   nelements = naxes[0] * naxes[1];
-   if (fits_write_img(fptr, TUSHORT, fpixel, nelements, converted.data(), &status))
-   {
-       fits_get_errstatus(status, error_status);
-       qCWarning(KSTARS_EKOS_GUIDE) << "fits_write_img failed:" << error_status;
-       status = 0;
-       fits_close_file(fptr, &status);
-       return;
-   }
+    //This finishes up and closes the FITS file
+    nelements = naxes[0] * naxes[1];
+    if (fits_write_img(fptr, TUSHORT, fpixel, nelements, converted.data(), &status))
+    {
+        fits_get_errstatus(status, error_status);
+        qCWarning(KSTARS_EKOS_GUIDE) << "fits_write_img failed:" << error_status;
+        status = 0;
+        fits_close_file(fptr, &status);
+        return;
+    }
 
-   if (fits_flush_file(fptr, &status))
-   {
-       fits_get_errstatus(status, error_status);
-       qCWarning(KSTARS_EKOS_GUIDE) << "fits_flush_file failed:" << error_status;
-       status = 0;
-       fits_close_file(fptr, &status);
-       return;
-   }
+    if (fits_flush_file(fptr, &status))
+    {
+        fits_get_errstatus(status, error_status);
+        qCWarning(KSTARS_EKOS_GUIDE) << "fits_flush_file failed:" << error_status;
+        status = 0;
+        fits_close_file(fptr, &status);
+        return;
+    }
 
-   if (fits_close_file(fptr, &status))
-   {
-       fits_get_errstatus(status, error_status);
-       qCWarning(KSTARS_EKOS_GUIDE) << "fits_close_file failed:" << error_status;
-       return;
-   }
+    if (fits_close_file(fptr, &status))
+    {
+        fits_get_errstatus(status, error_status);
+        qCWarning(KSTARS_EKOS_GUIDE) << "fits_close_file failed:" << error_status;
+        return;
+    }
 
-   //This loads the FITS file in the Guide FITSView
-   //Then it updates the Summary Screen
-   auto conn = std::make_shared<QMetaObject::Connection>();
-   *conn = connect(guideFrame, &FITSView::loaded, [&]() {
-       guideFrame->getImageData()->setAutoRemoveTemporaryFITS(false); // we'll take care of deleting the temp file
-       guideFrame->updateFrame();
-       guideFrame->setTrackingBox(QRect(0,0,width,height));
-       emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
+    //This loads the FITS file in the Guide FITSView
+    //Then it updates the Summary Screen
+    auto conn = std::make_shared<QMetaObject::Connection>();
+    *conn = connect(guideFrame, &FITSView::loaded, [this, conn, width, height]()
+    {
+        // we'll take care of deleting the temp file
+        //guideFrame->getImageData()->setAutoRemoveTemporaryFITS(false);
+        guideFrame->updateFrame();
+        guideFrame->setTrackingBox(QRect(0, 0, width, height));
+        emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
 
-       QObject::disconnect(*conn);
-   });
+        QObject::disconnect(*conn);
+    });
 
-   guideFrame->loadFITS(filename, true);
+    guideFrame->loadFITS(filename, true);
 }
 
 void PHD2::setEquipmentConnected()
@@ -955,8 +960,8 @@ void PHD2::requestPixelScale()
 //get_star_image
 void PHD2::requestStarImage(int size)
 {
-    if (!Options::guideRemoteImagesEnabled())
-        return;
+    //    if (!Options::guideRemoteImagesEnabled())
+    //        return;
 
     if (starImageRequested)
     {
@@ -1028,7 +1033,7 @@ void PHD2::connectEquipment(bool enable)
     }
 
     if ((connection == EQUIPMENT_CONNECTED && enable == true) ||
-        (connection == EQUIPMENT_DISCONNECTED && enable == false))
+            (connection == EQUIPMENT_DISCONNECTED && enable == false))
         return;
 
     pixelScale = 0 ;
@@ -1182,7 +1187,7 @@ void PHD2::sendNextRpcCall()
     if (rpcRequestQueue.empty())
         return; // no queued requests
 
-    RpcCall& call = rpcRequestQueue.front();
+    RpcCall &call = rpcRequestQueue.front();
     sendRpcCall(call.call, call.resultType);
     rpcRequestQueue.pop_front();
 }
