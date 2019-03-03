@@ -150,22 +150,22 @@ void KStars::initActions()
 
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
-        << i18n("Open FITS...") << QIcon::fromTheme("document-open")
-        << QKeySequence(Qt::CTRL + Qt::Key_O);
+            << i18n("Open FITS...") << QIcon::fromTheme("document-open")
+            << QKeySequence(Qt::CTRL + Qt::Key_O);
 #endif
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))
-        << i18n("&Save Sky Image...")
-        << QIcon::fromTheme("document-export-image");
+            << i18n("&Save Sky Image...")
+            << QIcon::fromTheme("document-export-image");
 
-// 2017-09-17 Jasem: FIXME! Scripting does not work properly under non UNIX systems.
-// It must be updated to use DBus session bus from Qt (like scheduler)
+    // 2017-09-17 Jasem: FIXME! Scripting does not work properly under non UNIX systems.
+    // It must be updated to use DBus session bus from Qt (like scheduler)
 #ifndef Q_OS_WIN
     actionCollection()->addAction("run_script", this, SLOT(slotRunScript()))
-        << i18n("&Run Script...") << QIcon::fromTheme("system-run")
-        << QKeySequence(Qt::CTRL + Qt::Key_R);
+            << i18n("&Run Script...") << QIcon::fromTheme("system-run")
+            << QKeySequence(Qt::CTRL + Qt::Key_R);
 #endif
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard()))
-        << i18nc("start Printing Wizard", "Printing &Wizard");
+            << i18nc("start Printing Wizard", "Printing &Wizard");
     ka = actionCollection()->addAction(KStandardAction::Print, "print", this, SLOT(slotPrint()));
     ka->setIcon(QIcon::fromTheme("document-print"));
     //actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT(close) );
@@ -174,12 +174,12 @@ void KStars::initActions()
 
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT(slotSetTimeToNow()))
-        << i18n("Set Time to &Now") << QKeySequence(Qt::CTRL + Qt::Key_E)
-        << QIcon::fromTheme("clock");
+            << i18n("Set Time to &Now") << QKeySequence(Qt::CTRL + Qt::Key_E)
+            << QIcon::fromTheme("clock");
 
     actionCollection()->addAction("time_dialog", this, SLOT(slotSetTime()))
-        << i18nc("set Clock to New Time", "&Set Time...") << QKeySequence(Qt::CTRL + Qt::Key_S)
-        << QIcon::fromTheme("clock");
+            << i18nc("set Clock to New Time", "&Set Time...") << QKeySequence(Qt::CTRL + Qt::Key_S)
+            << QIcon::fromTheme("clock");
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
          << i18n("Stop &Clock")
@@ -188,7 +188,7 @@ void KStars::initActions()
         ka->toggle();
     QObject::connect(ka, SIGNAL(triggered()), this, SLOT(slotToggleTimer()));
     //QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)));
-    QObject::connect(data()->clock(), &SimClock::clockToggled, [=](bool toggled)
+    QObject::connect(data()->clock(), &SimClock::clockToggled, [ = ](bool toggled)
     {
         QAction *a = actionCollection()->action("clock_startstop");
         if (a)
@@ -203,13 +203,13 @@ void KStars::initActions()
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()));
     actionCollection()->addAction("time_step_forward", this, SLOT(slotStepForward()))
-        << i18n("Advance one step forward in time")
-        << QIcon::fromTheme("media-skip-forward")
-        << QKeySequence(Qt::Key_Greater);
+            << i18n("Advance one step forward in time")
+            << QIcon::fromTheme("media-skip-forward")
+            << QKeySequence(Qt::Key_Greater);
     actionCollection()->addAction("time_step_backward", this, SLOT(slotStepBackward()))
-        << i18n("Advance one step backward in time")
-        << QIcon::fromTheme("media-skip-backward")
-        << QKeySequence(Qt::Key_Less);
+            << i18n("Advance one step backward in time")
+            << QIcon::fromTheme("media-skip-backward")
+            << QKeySequence(Qt::Key_Less);
 
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT(slotPointFocus())) << i18n("&Zenith") << QKeySequence("Z");
@@ -219,14 +219,14 @@ void KStars::initActions()
     actionCollection()->addAction("west", this, SLOT(slotPointFocus())) << i18n("&West") << QKeySequence("W");
 
     actionCollection()->addAction("find_object", this, SLOT(slotFind()))
-        << i18n("&Find Object...") << QIcon::fromTheme("edit-find")
-        << QKeySequence(Qt::CTRL + Qt::Key_F);
+            << i18n("&Find Object...") << QIcon::fromTheme("edit-find")
+            << QKeySequence(Qt::CTRL + Qt::Key_F);
     actionCollection()->addAction("track_object", this, SLOT(slotTrack()))
-        << i18n("Engage &Tracking")
-        << QIcon::fromTheme("object-locked")
-        << QKeySequence(Qt::CTRL + Qt::Key_T);
+            << i18n("Engage &Tracking")
+            << QIcon::fromTheme("object-locked")
+            << QKeySequence(Qt::CTRL + Qt::Key_T);
     actionCollection()->addAction("manual_focus", this, SLOT(slotManualFocus()))
-        << i18n("Set Coordinates &Manually...") << QKeySequence(Qt::CTRL + Qt::Key_M);
+            << i18n("Set Coordinates &Manually...") << QKeySequence(Qt::CTRL + Qt::Key_M);
 
     QAction *action;
 
@@ -238,39 +238,39 @@ void KStars::initActions()
     action->setIcon(QIcon::fromTheme("zoom-out"));
 
     actionCollection()->addAction("zoom_default", map(), SLOT(slotZoomDefault()))
-        << i18n("&Default Zoom") << QIcon::fromTheme("zoom-fit-best")
-        << QKeySequence(Qt::CTRL + Qt::Key_Z);
+            << i18n("&Default Zoom") << QIcon::fromTheme("zoom-fit-best")
+            << QKeySequence(Qt::CTRL + Qt::Key_Z);
     actionCollection()->addAction("zoom_set", this, SLOT(slotSetZoom()))
-        << i18n("&Zoom to Angular Size...")
-        << QIcon::fromTheme("zoom-original")
-        << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z);
+            << i18n("&Zoom to Angular Size...")
+            << QIcon::fromTheme("zoom-original")
+            << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z);
 
     action = actionCollection()->addAction(KStandardAction::FullScreen, this, SLOT(slotFullScreen()));
     action->setIcon(QIcon::fromTheme("view-fullscreen"));
 
     actionCollection()->addAction("coordsys", this, SLOT(slotCoordSys()))
-        << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
-                                  i18n("Switch to horizonal view (Horizontal &Coordinates)"))
-        << QKeySequence("Space");
+            << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
+                i18n("Switch to horizonal view (Horizontal &Coordinates)"))
+            << QKeySequence("Space");
 
     actionCollection()->addAction("project_lambert", this, SLOT(slotMapProjection()))
-        << i18n("&Lambert Azimuthal Equal-area") << QKeySequence("F5") << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == Projector::Lambert);
+            << i18n("&Lambert Azimuthal Equal-area") << QKeySequence("F5") << AddToGroup(projectionGroup)
+            << Checked(Options::projection() == Projector::Lambert);
     actionCollection()->addAction("project_azequidistant", this, SLOT(slotMapProjection()))
-        << i18n("&Azimuthal Equidistant") << QKeySequence("F6") << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == Projector::AzimuthalEquidistant);
+            << i18n("&Azimuthal Equidistant") << QKeySequence("F6") << AddToGroup(projectionGroup)
+            << Checked(Options::projection() == Projector::AzimuthalEquidistant);
     actionCollection()->addAction("project_orthographic", this, SLOT(slotMapProjection()))
-        << i18n("&Orthographic") << QKeySequence("F7") << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == Projector::Orthographic);
+            << i18n("&Orthographic") << QKeySequence("F7") << AddToGroup(projectionGroup)
+            << Checked(Options::projection() == Projector::Orthographic);
     actionCollection()->addAction("project_equirectangular", this, SLOT(slotMapProjection()))
-        << i18n("&Equirectangular") << QKeySequence("F8") << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == Projector::Equirectangular);
+            << i18n("&Equirectangular") << QKeySequence("F8") << AddToGroup(projectionGroup)
+            << Checked(Options::projection() == Projector::Equirectangular);
     actionCollection()->addAction("project_stereographic", this, SLOT(slotMapProjection()))
-        << i18n("&Stereographic") << QKeySequence("F9") << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == Projector::Stereographic);
+            << i18n("&Stereographic") << QKeySequence("F9") << AddToGroup(projectionGroup)
+            << Checked(Options::projection() == Projector::Stereographic);
     actionCollection()->addAction("project_gnomonic", this, SLOT(slotMapProjection()))
-        << i18n("&Gnomonic") << QKeySequence("F10") << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == Projector::Gnomonic);
+            << i18n("&Gnomonic") << QKeySequence("F10") << AddToGroup(projectionGroup)
+            << Checked(Options::projection() == Projector::Gnomonic);
 
     //Settings Menu:
     //Info Boxes option actions
@@ -357,11 +357,11 @@ void KStars::initActions()
     repopulateHIPS();
 
     actionCollection()->addAction("geolocation", this, SLOT(slotGeoLocator()))
-        << i18nc("Location on Earth", "&Geographic...")
-        << QIcon::fromTheme("kstars_xplanet")
-        << QKeySequence(Qt::CTRL + Qt::Key_G);
+            << i18nc("Location on Earth", "&Geographic...")
+            << QIcon::fromTheme("kstars_xplanet")
+            << QKeySequence(Qt::CTRL + Qt::Key_G);
 
-// Configure Notifications
+    // Configure Notifications
 #ifdef HAVE_NOTIFYCONFIG
     KStandardAction::configureNotifications(this, SLOT(slotConfigureNotifications()), actionCollection());
 #endif
@@ -371,28 +371,28 @@ void KStars::initActions()
     //ka->setIcon( QIcon::fromTheme(""));
 
     actionCollection()->addAction("startwizard", this, SLOT(slotWizard()))
-        << i18n("Startup Wizard...")
-        << QIcon::fromTheme("tools-wizard");
+            << i18n("Startup Wizard...")
+            << QIcon::fromTheme("tools-wizard");
 
     // Manual data entry
     actionCollection()->addAction("manual_add_dso", this, SLOT(slotAddDeepSkyObject()))
-        << i18n("Manually add a deep-sky object");
+            << i18n("Manually add a deep-sky object");
 
     // Updates actions
     actionCollection()->addAction("update_comets", this, SLOT(slotUpdateComets()))
-        << i18n("Update comets orbital elements");
+            << i18n("Update comets orbital elements");
     actionCollection()->addAction("update_asteroids", this, SLOT(slotUpdateAsteroids()))
-        << i18n("Update asteroids orbital elements");
+            << i18n("Update asteroids orbital elements");
     actionCollection()->addAction("update_supernovae", this, SLOT(slotUpdateSupernovae()))
-        << i18n("Update Recent Supernovae data");
+            << i18n("Update Recent Supernovae data");
     actionCollection()->addAction("update_satellites", this, SLOT(slotUpdateSatellites()))
-        << i18n("Update satellites orbital elements");
+            << i18n("Update satellites orbital elements");
 
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT(slotCalculator()))
-        << i18n("Calculator")
-        << QIcon::fromTheme("accessories-calculator")
-        << QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_C);
+            << i18n("Calculator")
+            << QIcon::fromTheme("accessories-calculator")
+            << QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_C);
 
     /* FIXME Enable once port to KF5 is complete for moonphasetool
      actionCollection()->addAction("moonphasetool", this, SLOT(slotMoonPhaseTool()) )
@@ -400,28 +400,28 @@ void KStars::initActions()
     */
 
     actionCollection()->addAction("obslist", this, SLOT(slotObsList()))
-        << i18n("Observation Planner") << QKeySequence(Qt::CTRL + Qt::Key_L);
+            << i18n("Observation Planner") << QKeySequence(Qt::CTRL + Qt::Key_L);
 
     actionCollection()->addAction("altitude_vs_time", this, SLOT(slotAVT()))
-        << i18n("Altitude vs. Time") << QKeySequence(Qt::CTRL + Qt::Key_A);
+            << i18n("Altitude vs. Time") << QKeySequence(Qt::CTRL + Qt::Key_A);
 
     actionCollection()->addAction("whats_up_tonight", this, SLOT(slotWUT()))
-        << i18n("What's up Tonight") << QKeySequence(Qt::CTRL + Qt::Key_U);
+            << i18n("What's up Tonight") << QKeySequence(Qt::CTRL + Qt::Key_U);
 
     //FIXME Port to QML2
     //#if 0
     actionCollection()->addAction("whats_interesting", this, SLOT(slotToggleWIView()))
-        << i18n("What's Interesting...") << QKeySequence(Qt::CTRL + Qt::Key_W);
+            << i18n("What's Interesting...") << QKeySequence(Qt::CTRL + Qt::Key_W);
     //#endif
 
     actionCollection()->addAction("XPlanet", map(), SLOT(slotStartXplanetViewer()))
-        << i18n("XPlanet Solar System Simulator") << QKeySequence(Qt::CTRL + Qt::Key_X);
+            << i18n("XPlanet Solar System Simulator") << QKeySequence(Qt::CTRL + Qt::Key_X);
 
     actionCollection()->addAction("skycalendar", this, SLOT(slotCalendar())) << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
     ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos()))
-            << i18n("Ekos") << QKeySequence(Qt::CTRL + Qt::Key_K);
+         << i18n("Ekos") << QKeySequence(Qt::CTRL + Qt::Key_K);
     ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 
@@ -435,11 +435,11 @@ void KStars::initActions()
     // It must be updated to use DBus session bus from Qt (like scheduler)
 #ifndef Q_OS_WIN
     actionCollection()->addAction("scriptbuilder", this, SLOT(slotScriptBuilder()))
-        << i18n("Script Builder") << QKeySequence(Qt::CTRL + Qt::Key_B);
+            << i18n("Script Builder") << QKeySequence(Qt::CTRL + Qt::Key_B);
 #endif
 
     actionCollection()->addAction("solarsystem", this, SLOT(slotSolarSystem()))
-        << i18n("Solar System") << QKeySequence(Qt::CTRL + Qt::Key_Y);
+            << i18n("Solar System") << QKeySequence(Qt::CTRL + Qt::Key_Y);
 
     // Disabled until fixed later
     /*actionCollection()->addAction("jmoontool", this, SLOT(slotJMoonTool()) )
@@ -449,47 +449,47 @@ void KStars::initActions()
     actionCollection()->addAction("flagmanager", this, SLOT(slotFlagManager())) << i18n("Flags");
 
     actionCollection()->addAction("equipmentwriter", this, SLOT(slotEquipmentWriter()))
-        << i18n("List your &Equipment...") << QKeySequence(Qt::CTRL + Qt::Key_0);
+            << i18n("List your &Equipment...") << QIcon::fromTheme("kstars") << QKeySequence(Qt::CTRL + Qt::Key_0);
     actionCollection()->addAction("manageobserver", this, SLOT(slotObserverManager()))
-        << i18n("Manage Observer...") << QKeySequence(Qt::CTRL + Qt::Key_1);
+            << i18n("Manage Observer...") << QIcon::fromTheme("im-user") << QKeySequence(Qt::CTRL + Qt::Key_1);
 
     //TODO only enable it when finished
     actionCollection()->addAction("artificialhorizon", this, SLOT(slotHorizonManager()))
-        << i18n("Artificial Horizon...");
+            << i18n("Artificial Horizon...");
 
     // ==== observation menu - execute ================
     actionCollection()->addAction("execute", this, SLOT(slotExecute()))
-        << i18n("Execute the session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
+            << i18n("Execute the session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
 
     // ==== observation menu - polaris hour angle ================
     actionCollection()->addAction("polaris_hour_angle", this, SLOT(slotPolarisHourAngle()))
-        << i18n("Polaris Hour Angle...");
+            << i18n("Polaris Hour Angle...");
 
-// ==== devices Menu ================
+    // ==== devices Menu ================
 #ifdef HAVE_INDI
 #ifndef Q_OS_WIN
 #if 0
     actionCollection()->addAction("telescope_wizard", this, SLOT(slotTelescopeWizard()))
-        << i18n("Telescope Wizard...")
-        << QIcon::fromTheme("tools-wizard");
+            << i18n("Telescope Wizard...")
+            << QIcon::fromTheme("tools-wizard");
 #endif
 #endif
     actionCollection()->addAction("device_manager", this, SLOT(slotINDIDriver()))
-        << i18n("Device Manager...")
-        << QIcon::fromTheme("network-server")
-        << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
+            << i18n("Device Manager...")
+            << QIcon::fromTheme("network-server")
+            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
     actionCollection()->addAction("custom_drivers", DriverManager::Instance(), SLOT(showCustomDrivers()))
-        << i18n("Custom Drivers...")
-        << QIcon::fromTheme("address-book-new");
+            << i18n("Custom Drivers...")
+            << QIcon::fromTheme("address-book-new");
     ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
-        << i18n("INDI Control Panel...")
-        << QKeySequence(Qt::CTRL + Qt::Key_I);
+         << i18n("INDI Control Panel...")
+         << QKeySequence(Qt::CTRL + Qt::Key_I);
     ka->setShortcutContext(Qt::ApplicationShortcut);
     ka->setEnabled(false);
 #else
-//FIXME need to disable/hide devices submenu in the tools menu. It is created from the kstarsui.rc file
-//but I don't know how to hide/disable it yet. menuBar()->findChildren<QMenu *>() does not return any children that I can
-//iterate over. Anyway to resolve this?
+    //FIXME need to disable/hide devices submenu in the tools menu. It is created from the kstarsui.rc file
+    //but I don't know how to hide/disable it yet. menuBar()->findChildren<QMenu *>() does not return any children that I can
+    //iterate over. Anyway to resolve this?
 #endif
 
     //Help Menu:
@@ -513,72 +513,72 @@ void KStars::initActions()
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Stars in the display", "Stars")
-        << QIcon::fromTheme("kstars_stars")
-        << ToolTip(i18n("Toggle stars"));
+            << i18nc("Toggle Stars in the display", "Stars")
+            << QIcon::fromTheme("kstars_stars")
+            << ToolTip(i18n("Toggle stars"));
     actionCollection()->add<KToggleAction>("show_deepsky", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Deep Sky Objects in the display", "Deep Sky")
-        << QIcon::fromTheme("kstars_deepsky")
-        << ToolTip(i18n("Toggle deep sky objects"));
+            << i18nc("Toggle Deep Sky Objects in the display", "Deep Sky")
+            << QIcon::fromTheme("kstars_deepsky")
+            << ToolTip(i18n("Toggle deep sky objects"));
     actionCollection()->add<KToggleAction>("show_planets", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Solar System objects in the display", "Solar System")
-        << QIcon::fromTheme("kstars_planets")
-        << ToolTip(i18n("Toggle Solar system objects"));
+            << i18nc("Toggle Solar System objects in the display", "Solar System")
+            << QIcon::fromTheme("kstars_planets")
+            << ToolTip(i18n("Toggle Solar system objects"));
     actionCollection()->add<KToggleAction>("show_clines", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Constellation Lines in the display", "Const. Lines")
-        << QIcon::fromTheme("kstars_clines")
-        << ToolTip(i18n("Toggle constellation lines"));
+            << i18nc("Toggle Constellation Lines in the display", "Const. Lines")
+            << QIcon::fromTheme("kstars_clines")
+            << ToolTip(i18n("Toggle constellation lines"));
     actionCollection()->add<KToggleAction>("show_cnames", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Constellation Names in the display", "Const. Names")
-        << QIcon::fromTheme("kstars_cnames")
-        << ToolTip(i18n("Toggle constellation names"));
+            << i18nc("Toggle Constellation Names in the display", "Const. Names")
+            << QIcon::fromTheme("kstars_cnames")
+            << ToolTip(i18n("Toggle constellation names"));
     actionCollection()->add<KToggleAction>("show_cbounds", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Constellation Boundaries in the display", "C. Boundaries")
-        << QIcon::fromTheme("kstars_cbound")
-        << ToolTip(i18n("Toggle constellation boundaries"));
+            << i18nc("Toggle Constellation Boundaries in the display", "C. Boundaries")
+            << QIcon::fromTheme("kstars_cbound")
+            << ToolTip(i18n("Toggle constellation boundaries"));
     actionCollection()->add<KToggleAction>("show_constellationart", this, SLOT(slotViewToolBar()))
-        << xi18nc("Toggle Constellation Art in the display", "C. Art (BETA)")
-        << QIcon::fromTheme("kstars_constellationart")
-        << ToolTip(xi18n("Toggle constellation art (BETA)"));
+            << xi18nc("Toggle Constellation Art in the display", "C. Art (BETA)")
+            << QIcon::fromTheme("kstars_constellationart")
+            << ToolTip(xi18n("Toggle constellation art (BETA)"));
     actionCollection()->add<KToggleAction>("show_mw", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Milky Way in the display", "Milky Way")
-        << QIcon::fromTheme("kstars_mw")
-        << ToolTip(i18n("Toggle milky way"));
+            << i18nc("Toggle Milky Way in the display", "Milky Way")
+            << QIcon::fromTheme("kstars_mw")
+            << ToolTip(i18n("Toggle milky way"));
     actionCollection()->add<KToggleAction>("show_equatorial_grid", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid")
-        << QIcon::fromTheme("kstars_grid")
-        << ToolTip(i18n("Toggle equatorial coordinate grid"));
+            << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid")
+            << QIcon::fromTheme("kstars_grid")
+            << ToolTip(i18n("Toggle equatorial coordinate grid"));
     actionCollection()->add<KToggleAction>("show_horizontal_grid", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid")
-        << QIcon::fromTheme("kstars_hgrid")
-        << ToolTip(i18n("Toggle horizontal coordinate grid"));
+            << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid")
+            << QIcon::fromTheme("kstars_hgrid")
+            << ToolTip(i18n("Toggle horizontal coordinate grid"));
     actionCollection()->add<KToggleAction>("show_horizon", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground")
-        << QIcon::fromTheme("kstars_horizon")
-        << ToolTip(i18n("Toggle opaque ground"));
+            << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground")
+            << QIcon::fromTheme("kstars_horizon")
+            << ToolTip(i18n("Toggle opaque ground"));
     actionCollection()->add<KToggleAction>("show_flags", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle flags in the display", "Flags")
-        << QIcon::fromTheme("kstars_flag")
-        << ToolTip(i18n("Toggle flags"));
+            << i18nc("Toggle flags in the display", "Flags")
+            << QIcon::fromTheme("kstars_flag")
+            << ToolTip(i18n("Toggle flags"));
     actionCollection()->add<KToggleAction>("show_satellites", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle satellites in the display", "Satellites")
-        << QIcon::fromTheme("kstars_satellites")
-        << ToolTip(i18n("Toggle satellites"));
+            << i18nc("Toggle satellites in the display", "Satellites")
+            << QIcon::fromTheme("kstars_satellites")
+            << ToolTip(i18n("Toggle satellites"));
     actionCollection()->add<KToggleAction>("show_supernovae", this, SLOT(slotViewToolBar()))
-        << i18nc("Toggle supernovae in the display", "Supernovae")
-        << QIcon::fromTheme("kstars_supernovae")
-        << ToolTip(i18n("Toggle supernovae"));
+            << i18nc("Toggle supernovae in the display", "Supernovae")
+            << QIcon::fromTheme("kstars_supernovae")
+            << ToolTip(i18n("Toggle supernovae"));
     actionCollection()->add<KToggleAction>("show_whatsinteresting", this, SLOT(slotToggleWIView()))
-        << i18nc("Toggle What's Interesting", "What's Interesting")
-        << QIcon::fromTheme("view-list-details")
-        << ToolTip(i18n("Toggle What's Interesting"));
+            << i18nc("Toggle What's Interesting", "What's Interesting")
+            << QIcon::fromTheme("view-list-details")
+            << ToolTip(i18n("Toggle What's Interesting"));
 
 #ifdef HAVE_INDI
     // ==== INDIToolBar actions ================
     actionCollection()->add<KToggleAction>("show_ekos", this, SLOT(slotINDIToolBar()))
-        << i18nc("Toggle Ekos in the display", "Ekos")
-        << QIcon::fromTheme("kstars_ekos")
-        << ToolTip(i18n("Toggle Ekos"));
+            << i18nc("Toggle Ekos in the display", "Ekos")
+            << QIcon::fromTheme("kstars_ekos")
+            << ToolTip(i18n("Toggle Ekos"));
     ka = actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the INDI Control Panel in the display", "INDI Control Panel")
          << QIcon::fromTheme("kstars_indi")
@@ -606,33 +606,33 @@ void KStars::initActions()
     ka = actionCollection()->add<KToggleAction>("lock_telescope", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the telescope center lock in display", "Center Telescope")
          << QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg"))
-         << ToolTip(i18n("Toggle Lock Telescope Center"));    
+         << ToolTip(i18n("Toggle Lock Telescope Center"));
     telescopeGroup->addAction(ka);
 
     ka = actionCollection()->add<KToggleAction>("telescope_track", this, SLOT(slotINDITelescopeTrack()))
-            << i18n("Toggle Telescope Tracking")
-            << QIcon::fromTheme("object-locked");
+         << i18n("Toggle Telescope Tracking")
+         << QIcon::fromTheme("object-locked");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_slew", this, SLOT(slotINDITelescopeSlew()))
-            << i18n("Slew telescope to the focused object")
-            << QIcon::fromTheme("object-rotate-right");
+         << i18n("Slew telescope to the focused object")
+         << QIcon::fromTheme("object-rotate-right");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_sync", this, SLOT(slotINDITelescopeSync()))
-            << i18n("Sync telescope to the focused object")
-            << QIcon::fromTheme("media-record");
+         << i18n("Sync telescope to the focused object")
+         << QIcon::fromTheme("media-record");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_abort", this, SLOT(slotINDITelescopeAbort()))
-            << i18n("Abort telescope motions")
-            << QIcon::fromTheme("process-stop");
+         << i18n("Abort telescope motions")
+         << QIcon::fromTheme("process-stop");
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_park", this, SLOT(slotINDITelescopePark()))
-            << i18n("Park telescope")
-            << QIcon::fromTheme("flag-red");
+         << i18n("Park telescope")
+         << QIcon::fromTheme("flag-red");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_unpark", this, SLOT(slotINDITelescopeUnpark()))
-            << i18n("Unpark telescope")
-            << QIcon::fromTheme("flag-green");
+         << i18n("Unpark telescope")
+         << QIcon::fromTheme("flag-green");
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
 
@@ -647,12 +647,12 @@ void KStars::initActions()
 
     // Dome Actions
     ka = actionCollection()->addAction("dome_park", this, SLOT(slotINDIDomePark()))
-            << i18n("Park dome")
-            << QIcon::fromTheme("dome-park", QIcon(":/icons/dome-park.svg"));
+         << i18n("Park dome")
+         << QIcon::fromTheme("dome-park", QIcon(":/icons/dome-park.svg"));
     domeGroup->addAction(ka);
     ka = actionCollection()->addAction("dome_unpark", this, SLOT(slotINDIDomeUnpark()))
-            << i18n("Unpark dome")
-            << QIcon::fromTheme("dome-unpark", QIcon(":/icons/dome-unpark.svg"));
+         << i18n("Unpark dome")
+         << QIcon::fromTheme("dome-unpark", QIcon(":/icons/dome-unpark.svg"));
     ka->setShortcutContext(Qt::ApplicationShortcut);
     domeGroup->addAction(ka);
 
@@ -695,22 +695,22 @@ void KStars::repopulateHIPS()
     QList<QAction*> actions = hipsGroup->actions();
 
     for (auto &action : actions)
-      hipsGroup->removeAction(action);
+        hipsGroup->removeAction(action);
 
     QAction *ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
-        << i18n("None") << AddToGroup(hipsGroup)
-        << Checked(Options::hIPSSource() == "None");
+                  << i18n("None") << AddToGroup(hipsGroup)
+                  << Checked(Options::hIPSSource() == "None");
 
     hipsActionMenu->addAction(ka);
     hipsActionMenu->addSeparator();
 
-    for (QMap<QString,QString> source : HIPSManager::Instance()->getHIPSSources())
+    for (QMap<QString, QString> source : HIPSManager::Instance()->getHIPSSources())
     {
         QString title = source.value("obs_title");
 
         QAction *ka = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
-            << title << AddToGroup(hipsGroup)
-            << Checked(Options::hIPSSource() == title);
+                      << title << AddToGroup(hipsGroup)
+                      << Checked(Options::hIPSSource() == title);
 
         hipsActionMenu->addAction(ka);
     }
@@ -812,7 +812,7 @@ void KStars::datainitFinished()
 
     // Update comets and asteroids if enabled.
     if (Options::orbitalElementsAutoUpdate())
-    {        
+    {
         slotUpdateComets(true);
         slotUpdateAsteroids(true);
     }
