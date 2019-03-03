@@ -137,7 +137,7 @@ void AsteroidsComponent::loadDataFromText()
 
         //JM temporary hack to avoid Europa,Io, and Asterope duplication
         if (name == i18nc("Asteroid name (optional)", "Europa") || name == i18nc("Asteroid name (optional)", "Io") ||
-            name == i18nc("Asteroid name (optional)", "Asterope"))
+                name == i18nc("Asteroid name (optional)", "Asterope"))
             name += i18n(" (Asteroid)");
 
         mJD         = row_content["epoch_mjd"].toInt();
@@ -196,7 +196,7 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
     if (!selected())
-        return;        
+        return;
 
     bool hideLabels = !Options::showAsteroidNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels());
 
@@ -210,7 +210,7 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
         labelMagLimit = 10.0;
     //printf("labelMagLim = %.1f\n", labelMagLimit );
 
-    skyp->setBrush(QBrush(QColor("gray")));        
+    skyp->setBrush(QBrush(QColor("gray")));
 
     foreach (SkyObject *so, m_ObjectList)
     {
@@ -259,8 +259,12 @@ void AsteroidsComponent::updateDataFile(bool isAutoUpdate)
 {
     downloadJob = new FileDownloader();
 
-    downloadJob->setProgressDialogEnabled(true, i18n("Asteroid Update"), i18n("Downloading asteroids updates..."));
-    downloadJob->registerDataVerification([&](const QByteArray &data) { return data.startsWith("full_name");});
+    if (isAutoUpdate == false)
+        downloadJob->setProgressDialogEnabled(true, i18n("Asteroid Update"), i18n("Downloading asteroids updates..."));
+    downloadJob->registerDataVerification([&](const QByteArray & data)
+    {
+        return data.startsWith("full_name");
+    });
 
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     if (isAutoUpdate == false)
@@ -270,7 +274,7 @@ void AsteroidsComponent::updateDataFile(bool isAutoUpdate)
 
     QByteArray mag       = QString::number(Options::magLimitAsteroidDownload()).toUtf8();
     QByteArray post_data = KSUtils::getJPLQueryString("ast", "AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh",
-                                                      QVector<KSUtils::JPLFilter>{ { "Ai", "<", mag } });
+    QVector<KSUtils::JPLFilter> { { "Ai", "<", mag } });
 
     downloadJob->post(url, post_data);
 }
