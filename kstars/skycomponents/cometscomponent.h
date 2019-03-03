@@ -49,7 +49,7 @@ class CometsComponent : public QObject, public SolarSystemListComponent
 
     bool selected() override;
     void draw(SkyPainter *skyp) override;
-    void updateDataFile();
+    void updateDataFile(bool isAutoUpdate=false);
 
   protected slots:
     void downloadReady();

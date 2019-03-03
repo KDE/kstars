@@ -742,10 +742,10 @@ class KStars : public KXmlGuiWindow
         void slotPolarisHourAngle();
 
         /** Update comets orbital elements*/
-        void slotUpdateComets();
+        void slotUpdateComets(bool isAutoUpdate=false);
 
         /** Update asteroids orbital elements*/
-        void slotUpdateAsteroids();
+        void slotUpdateAsteroids(bool isAutoUpdate=false);
 
         /** Update list of recent supernovae*/
         void slotUpdateSupernovae();

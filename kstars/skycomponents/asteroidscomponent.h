@@ -54,7 +54,7 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent,
     bool selected() override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
-    void updateDataFile() override;
+    void updateDataFile(bool isAutoUpdate=false);
 
     QString ans();
 
