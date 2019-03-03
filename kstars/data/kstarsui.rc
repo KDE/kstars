@@ -62,6 +62,7 @@
                 <Action name="astrocalculator" />
         <Menu name="devices" noMerge="1"><text>&amp;Devices</text>
                 <!-- <Action name="telescope_wizard" /> -->
+                <Action name="equipmentwriter"/>
                 <Action name="device_manager" />
                 <Action name="custom_drivers" />
                 <Separator />
@@ -116,16 +117,12 @@
                         <Action name="show_sbJ2000RADec" />
                 </Menu>
                 <Action name="themes" />
-                <Action name="colorschemes" /> <!--This is a KMenuAction-->                
+                <Action name="colorschemes" /> <!--This is a KMenuAction-->
                 <Action name="fovsymbols" /> <!-- This is a KMenuAction-->
                 <Action name="opengl" />
                 <Action name="artificialhorizon" />
                 <Separator />
-                <Menu name="config_oal"><text>Configure Observation &amp;Logging</text>
-                <Action name="equipmentwriter"/>
                 <Action name="manageobserver"/>
-                </Menu>
-                <Separator />
                 <Action name="geolocation" />
                 <Separator />
                 <Action name="options_configure_keybinding"/>
