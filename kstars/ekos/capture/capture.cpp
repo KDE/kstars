@@ -4897,6 +4897,15 @@ IPState Capture::processPreCaptureCalibrationStage()
     switch (activeJob->getFlatFieldSource())
     {
         case SOURCE_MANUAL:
+            if (KMessageBox::warningContinueCancel(
+                        nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
+                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                        "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            {
+                abort();
+                return IPS_ALERT;
+            }
+            break;
         case SOURCE_DAWN_DUSK: // Not yet implemented
             break;
 
