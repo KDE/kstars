@@ -1301,6 +1301,11 @@ bool configureAstrometry()
     QString astrometryDataDir;
     if (KSUtils::getAstrometryDataDir(astrometryDataDir) == false)
         return false;
+    if(astrometryDataDir == "IndexFileLocationNotYetSet")
+    {
+        astrometryDataDir = Options::astrometryIndexFileLocation();
+        setAstrometryDataDir(astrometryDataDir);
+    }
     if(Options::astrometryIndexFileLocation() != astrometryDataDir)
     {
         if (KMessageBox::warningYesNo(
