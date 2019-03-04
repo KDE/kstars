@@ -435,7 +435,7 @@
          <default>false</default>
       </entry>
       <entry name="OrbitalElementsAutoUpdate" type="Bool">
-         <label>Update orbial elements for comets and asteroids from online sources on startup.</label>
+         <label>Update orbital elements for comets and asteroids from online sources on startup.</label>
          <default>true</default>
       </entry>
       <entry name="ShowComets" type="Bool">
