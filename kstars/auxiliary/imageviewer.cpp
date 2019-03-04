@@ -183,9 +183,9 @@ ImageViewer::~ImageViewer()
     if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
     {
         if (m_ImageUrl.isEmpty() == false ||
-            KMessageBox::questionYesNo(nullptr, i18n("Remove temporary file %1 from disk?", filename),
-                                       i18n("Confirm Removal"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                       "imageviewer_temporary_file_removal") == KMessageBox::Yes)
+                KMessageBox::questionYesNo(nullptr, i18n("Remove temporary file %1 from disk?", filename),
+                                           i18n("Confirm Removal"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                                           "imageviewer_temporary_file_removal") == KMessageBox::Yes)
             QFile::remove(filename);
     }
 
@@ -246,6 +246,10 @@ void ImageViewer::downloadError(const QString &errorString)
 bool ImageViewer::loadImage(const QString &filename)
 {
 #ifndef KSTARS_LITE
+    // If current file is temporary, remove from disk.
+    if (file.fileName().startsWith(QLatin1String("/tmp/")) || file.fileName().contains("/Temp"))
+        QFile::remove(file.fileName());
+
     file.setFileName(filename);
     return showImage();
 #else
@@ -324,10 +328,10 @@ void ImageViewer::saveFileToDisc()
         if (f.exists())
         {
             int r = KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                                                       i18n("A file named \"%1\" already exists. "
-                                                            "Overwrite it?",
-                                                            newURL.fileName()),
-                                                       i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+                    i18n("A file named \"%1\" already exists. "
+                         "Overwrite it?",
+                         newURL.fileName()),
+                    i18n("Overwrite File?"), KStandardGuiItem::overwrite());
             if (r == KMessageBox::Cancel)
                 return;
 
@@ -350,7 +354,7 @@ void ImageViewer::saveFile(QUrl &url)
     //tmpURL.setScheme("file");
 
     if (file.copy(url.toLocalFile()) == false)
-    //if (KIO::file_copy(tmpURL, url)->exec() == false)
+        //if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = i18n("Saving of the image %1 failed.", url.toString());
 #ifndef KSTARS_LITE
