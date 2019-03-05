@@ -1348,18 +1348,14 @@ void CCD::processBLOB(IBLOB *bp)
     // FIXME: Why is this leaking memory in Valgrind??!
     KNotification::event(QLatin1String("FITSReceived"), i18n("Image file is received"));
 
-    /*if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
-    {
-        emit BLOBUpdated(bp);
-        return;
-    }*/
-
     // Check if we need to process RAW or regular image
     if (BType == BLOB_IMAGE || BType == BLOB_RAW)
     {
+        bool useFITSViewer = Options::autoImageToFITS() &&  (Options::useFITSViewer() || (Options::useDSLRImageViewer() == false && targetChip->isBatchMode() == false));
+        bool useDSLRViewer = (Options::useDSLRImageViewer() || targetChip->isBatchMode() == false);
         // For raw image, we only process them to JPG if we need to open them in the image
         // viewer
-        if ((Options::useDSLRImageViewer() || targetChip->isBatchMode() == false) && BType == BLOB_RAW)
+        if (BType == BLOB_RAW && (useFITSViewer || useDSLRViewer))
         {
 #ifdef HAVE_LIBRAW
             QString rawFileName  = filename;
@@ -1387,19 +1383,6 @@ void CCD::processBLOB(IBLOB *bp)
                 return;
             }
 
-            // Let us unpack the image
-            /*if( (ret = RawProcessor.unpack() ) != LIBRAW_SUCCESS)
-            {
-                KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
-                if(LIBRAW_FATAL_ERROR(ret))
-                {
-                    RawProcessor.recycle();
-                    emit BLOBUpdated(bp);
-                    return;
-                }
-                // if there has been a non-fatal error, we will try to continue
-            }*/
-
             // Let us unpack the thumbnail
             if ((ret = RawProcessor.unpack_thumb()) != LIBRAW_SUCCESS)
             {
@@ -1423,7 +1406,13 @@ void CCD::processBLOB(IBLOB *bp)
                 }
             }
 
+            // Remove tempeorary CR2 files
+            if (targetChip->isBatchMode() == false)
+                QFile::remove(filename);
+
             filename = preview_filename;
+            format = ".jpg";
+            shortFormat = "jpg";
 
 #else
             // Silently fail if KStars was not compiled with libraw
@@ -1434,12 +1423,21 @@ void CCD::processBLOB(IBLOB *bp)
         }
 
         // store file name in
-        strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
-        bp->aux0 = targetChip;
-        bp->aux1 = &BType;
-        bp->aux2 = BLOBFilename;
+        //        strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+        //        bp->aux0 = targetChip;
+        //        bp->aux1 = &BType;
+        //        bp->aux2 = BLOBFilename;
 
-        if (Options::useDSLRImageViewer() || targetChip->isBatchMode() == false)
+        // Convert to FITS if checked.
+        QString output;
+        if (useFITSViewer && (FITSData::ImageToFITS(filename, shortFormat, output)))
+        {
+            if (BType == BLOB_RAW || targetChip->isBatchMode() == false)
+                QFile::remove(filename);
+            filename = output;
+            BType = BLOB_FITS;
+        }
+        else if (useDSLRViewer)
         {
             if (m_ImageViewerWindow.isNull())
                 m_ImageViewerWindow = new ImageViewer(getDeviceName(), KStars::Instance());

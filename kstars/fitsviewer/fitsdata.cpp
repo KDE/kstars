@@ -24,6 +24,7 @@
 
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "kspaths.h"
 #include "Options.h"
 #include "skymapcomposite.h"
 #include "auxiliary/ksnotification.h"
@@ -4380,6 +4381,120 @@ QImage FITSData::FITSToImage(const QString &filename)
     }
 
     return fitsImage;
+}
+
+bool FITSData::ImageToFITS(const QString &filename, const QString &format, QString &output)
+{
+    if (QImageReader::supportedImageFormats().contains(format.toLatin1()) == false)
+    {
+        qCCritical(KSTARS_FITS) << "Failed to convert" << filename << "to FITS since format" << format << "is not supported in Qt";
+        return false;
+    }
+
+    QImage input;
+
+    if (input.load(filename, format.toLatin1()) == false)
+    {
+        qCCritical(KSTARS_FITS) << "Failed to open image" << filename;
+        return false;
+    }
+
+    output = QString(KSPaths::writableLocation(QStandardPaths::TempLocation) + QFileInfo(filename).fileName() + ".fits");
+
+    //This section sets up the FITS File
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    long  fpixel = 1, naxis = input.allGray() ? 2 : 3, nelements, exposure;
+    long naxes[3] = { input.width(), input.height(), naxis == 3 ? 3 : 1 };
+    char error_status[512] = {0};
+
+    if (fits_create_file(&fptr, QString('!' + output).toLatin1().data(), &status))
+    {
+        qCCritical(KSTARS_FITS) << "Failed to create FITS file. Error:" << status;
+        return false;
+    }
+
+    if (fits_create_img(fptr, BYTE_IMG, naxis, naxes, &status))
+    {
+        qCWarning(KSTARS_FITS) << "fits_create_img failed:" << error_status;
+        status = 0;
+        fits_close_file(fptr, &status);
+        return false;
+    }
+
+    exposure = 1;
+    fits_update_key(fptr, TLONG, "EXPOSURE", &exposure, "Total Exposure Time", &status);
+
+    // Gray image
+    if (naxis == 2)
+    {
+        nelements = naxes[0] * naxes[1];
+        if (fits_write_img(fptr, TBYTE, fpixel, nelements, input.bits(), &status))
+        {
+            fits_get_errstatus(status, error_status);
+            qCWarning(KSTARS_FITS) << "fits_write_img GRAY failed:" << error_status;
+            status = 0;
+            fits_close_file(fptr, &status);
+            return false;
+        }
+    }
+    // RGB image, we have to convert from ARGB format to R G B for each plane
+    else
+    {
+        nelements = naxes[0] * naxes[1] * 3;
+
+        uint8_t *srcBuffer = input.bits();
+        // ARGB
+        uint32_t srcBytes = naxes[0] * naxes[1] * 4 - 4;
+
+        uint8_t *rgbBuffer = new uint8_t[nelements];
+        if (rgbBuffer == nullptr)
+        {
+            qCWarning(KSTARS_FITS) << "Not enough memory for RGB buffer";
+            fits_close_file(fptr, &status);
+            return false;
+        }
+
+        uint8_t *subR = rgbBuffer;
+        uint8_t *subG = rgbBuffer + naxes[0] * naxes[1];
+        uint8_t *subB = rgbBuffer + naxes[0] * naxes[1] * 2;
+        for (uint32_t i = 0; i < srcBytes; i += 4)
+        {
+            *subB++ = srcBuffer[i];
+            *subG++ = srcBuffer[i + 1];
+            *subR++ = srcBuffer[i + 2];
+        }
+
+        if (fits_write_img(fptr, TBYTE, fpixel, nelements, rgbBuffer, &status))
+        {
+            fits_get_errstatus(status, error_status);
+            qCWarning(KSTARS_FITS) << "fits_write_img RGB failed:" << error_status;
+            status = 0;
+            fits_close_file(fptr, &status);
+            delete [] rgbBuffer;
+            return false;
+        }
+
+        delete [] rgbBuffer;
+    }
+
+    if (fits_flush_file(fptr, &status))
+    {
+        fits_get_errstatus(status, error_status);
+        qCWarning(KSTARS_FITS) << "fits_flush_file failed:" << error_status;
+        status = 0;
+        fits_close_file(fptr, &status);
+        return false;
+    }
+
+    if (fits_close_file(fptr, &status))
+    {
+        fits_get_errstatus(status, error_status);
+        qCWarning(KSTARS_FITS) << "fits_close_file failed:" << error_status;
+        return false;
+    }
+
+    return true;
 }
 
 bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)

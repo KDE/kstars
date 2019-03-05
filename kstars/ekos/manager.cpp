@@ -22,6 +22,7 @@
 #include "capture/sequencejob.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsdata.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/drivermanager.h"
@@ -1921,7 +1922,13 @@ void Manager::initCapture()
     {
         if (Options::useSummaryPreview() && QFile::exists(filename))
         {
-            summaryPreview->loadFITS(filename);
+            QString fitsFile = filename;
+            // If it s a non-FITS file
+            if (Options::autoImageToFITS() && filename.contains(".fits") == false)
+            {
+                FITSData::ImageToFITS(filename, filename.mid(filename.lastIndexOf(".") + 1).toLower(), fitsFile);
+            }
+            summaryPreview->loadFITS(fitsFile);
         }
     });
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
