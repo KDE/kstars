@@ -4866,6 +4866,19 @@ IPState Capture::processPreCaptureCalibrationStage()
                     appendLogText(i18n("Dust cap unparked."));
                 }
             }
+        } else if (m_TelescopeCoveredManually || m_TelescopeCoveredFlatLight)
+        {
+            // Uncover telescope
+            if (KMessageBox::warningContinueCancel(
+                        nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Telescope Covered"),
+                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                        "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            {
+                return IPS_ALERT;
+            }
+
+            m_TelescopeCoveredManually = false;
+            m_TelescopeCoveredFlatLight = false;
         }
 
         // step 2: check if meridian flip already is ongoing
@@ -4885,6 +4898,46 @@ IPState Capture::processPreCaptureCalibrationStage()
 
 
         return IPS_OK;
+    } else if (activeJob->getFrameType() == FRAME_DARK && m_TelescopeCoveredManually == false)
+    {
+        QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+        QStringList shutterlessCCDs = Options::shutterlessCCDs();
+        QString deviceName = currentCCD->getDeviceName();
+
+        bool hasShutter   = shutterfulCCDs.contains(deviceName);
+        bool hasNoShutter = shutterlessCCDs.contains(deviceName) || ISOCombo->count() > 0;
+
+        // If we have no information, we ask
+        if (hasShutter == false && hasNoShutter == false)
+        {
+            if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
+                                                i18n("Dark Exposure")) == KMessageBox::Yes)
+            {
+                hasNoShutter = false;
+                shutterfulCCDs.append(deviceName);
+                Options::setShutterfulCCDs(shutterfulCCDs);
+            }
+            else
+            {
+                hasNoShutter = true;
+                shutterlessCCDs.append(deviceName);
+                Options::setShutterlessCCDs(shutterlessCCDs);
+            }
+        }
+
+        // If camera was flagged before as shutterless, or if it is a DSLR, then it is for sure shutterless.
+        if (hasNoShutter)
+        {
+            if (KMessageBox::warningContinueCancel(
+                        nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
+                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                        "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            {
+                return IPS_ALERT;
+            }
+
+            m_TelescopeCoveredManually = true;
+        }
     }
 
     if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
@@ -4897,13 +4950,18 @@ IPState Capture::processPreCaptureCalibrationStage()
     switch (activeJob->getFlatFieldSource())
     {
         case SOURCE_MANUAL:
-            if (KMessageBox::warningContinueCancel(
+            if (activeJob->getFrameType() == FRAME_FLAT &&
+                m_TelescopeCoveredFlatLight == false)
+            {
+                if (KMessageBox::warningContinueCancel(
                         nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
                         KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                         "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-            {
-                abort();
-                return IPS_ALERT;
+                {
+                    abort();
+                    return IPS_ALERT;
+                }
+                m_TelescopeCoveredFlatLight = true;
             }
             break;
         case SOURCE_DAWN_DUSK: // Not yet implemented

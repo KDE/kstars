@@ -752,6 +752,8 @@ public slots:
     CalibrationStage calibrationStage { CAL_NONE };
     bool dustCapLightEnabled { false };
     bool lightBoxLightEnabled { false };
+    bool m_TelescopeCoveredManually { false };
+    bool m_TelescopeCoveredFlatLight { false };
     ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
 
     QUrl dirPath;
