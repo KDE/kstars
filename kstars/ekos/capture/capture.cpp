@@ -4866,7 +4866,8 @@ IPState Capture::processPreCaptureCalibrationStage()
                     appendLogText(i18n("Dust cap unparked."));
                 }
             }
-        } else if (m_TelescopeCoveredManually || m_TelescopeCoveredFlatLight)
+        }
+        else if (m_TelescopeCoveredDarkExposure || m_TelescopeCoveredFlatExposure)
         {
             // Uncover telescope
             if (KMessageBox::warningContinueCancel(
@@ -4877,8 +4878,8 @@ IPState Capture::processPreCaptureCalibrationStage()
                 return IPS_ALERT;
             }
 
-            m_TelescopeCoveredManually = false;
-            m_TelescopeCoveredFlatLight = false;
+            m_TelescopeCoveredDarkExposure = false;
+            m_TelescopeCoveredFlatExposure = false;
         }
 
         // step 2: check if meridian flip already is ongoing
@@ -4898,7 +4899,8 @@ IPState Capture::processPreCaptureCalibrationStage()
 
 
         return IPS_OK;
-    } else if (activeJob->getFrameType() == FRAME_DARK && m_TelescopeCoveredManually == false)
+    }
+    else if (activeJob->getFrameType() == FRAME_DARK && m_TelescopeCoveredDarkExposure == false)
     {
         QStringList shutterfulCCDs  = Options::shutterfulCCDs();
         QStringList shutterlessCCDs = Options::shutterlessCCDs();
@@ -4911,7 +4913,7 @@ IPState Capture::processPreCaptureCalibrationStage()
         if (hasShutter == false && hasNoShutter == false)
         {
             if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
-                                                i18n("Dark Exposure")) == KMessageBox::Yes)
+                                           i18n("Dark Exposure")) == KMessageBox::Yes)
             {
                 hasNoShutter = false;
                 shutterfulCCDs.append(deviceName);
@@ -4933,10 +4935,12 @@ IPState Capture::processPreCaptureCalibrationStage()
                         KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                         "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
             {
+                abort();
                 return IPS_ALERT;
             }
 
-            m_TelescopeCoveredManually = true;
+            m_TelescopeCoveredDarkExposure = true;
+            m_TelescopeCoveredFlatExposure = false;
         }
     }
 
@@ -4951,17 +4955,18 @@ IPState Capture::processPreCaptureCalibrationStage()
     {
         case SOURCE_MANUAL:
             if (activeJob->getFrameType() == FRAME_FLAT &&
-                m_TelescopeCoveredFlatLight == false)
+                    m_TelescopeCoveredFlatExposure == false)
             {
                 if (KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
-                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                        "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+                            nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
+                            KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                            "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
                 {
                     abort();
                     return IPS_ALERT;
                 }
-                m_TelescopeCoveredFlatLight = true;
+                m_TelescopeCoveredFlatExposure = true;
+                m_TelescopeCoveredDarkExposure = false;
             }
             break;
         case SOURCE_DAWN_DUSK: // Not yet implemented
