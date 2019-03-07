@@ -2296,6 +2296,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                 setAutoFocusResult(false);
             }
         }
+        else if (nvp->s == IPS_ALERT)
+            appendLogText(i18n("Focuser error, check INDI panel."));
         return;
     }
 
@@ -2338,6 +2340,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                 setAutoFocusResult(false);
             }
         }
+        else if (nvp->s == IPS_ALERT)
+            appendLogText(i18n("Focuser error, check INDI panel."));
 
         return;
     }
@@ -2365,6 +2369,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                 setAutoFocusResult(false);
             }
         }
+        else if (nvp->s == IPS_ALERT)
+            appendLogText(i18n("Focuser error, check INDI panel."));
 
         return;
     }
