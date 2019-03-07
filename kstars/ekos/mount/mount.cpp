@@ -137,8 +137,8 @@ Mount::Mount()
 
     m_Ctxt->setContextProperty("mount", this);
 
-    m_BaseView->setMaximumSize(QSize(200, 480));
-    m_BaseView->setMinimumSize(QSize(200, 480));
+    m_BaseView->setMaximumSize(QSize(210, 540));
+    //m_BaseView->setMinimumSize(QSize(200, 480));
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
 
     m_SpeedSlider  = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
@@ -151,12 +151,14 @@ Mount::Mount()
     m_zaValue      = m_BaseObj->findChild<QQuickItem *>("zaValueObject");
     m_targetText   = m_BaseObj->findChild<QQuickItem *>("targetTextObject");
     m_targetRAText = m_BaseObj->findChild<QQuickItem *>("targetRATextObject");
-    m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");
+    m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");            
     m_J2000Check   = m_BaseObj->findChild<QQuickItem *>("j2000CheckObject");
     m_JNowCheck    = m_BaseObj->findChild<QQuickItem *>("jnowCheckObject");
     m_Park         = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
     m_Unpark       = m_BaseObj->findChild<QQuickItem *>("unparkButtonObject");
     m_statusText   = m_BaseObj->findChild<QQuickItem *>("statusTextObject");
+    m_equatorialCheck   = m_BaseObj->findChild<QQuickItem *>("equatorialCheckObject");
+    m_horizontalCheck    = m_BaseObj->findChild<QQuickItem *>("horizontalCheckObject");
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -825,8 +827,23 @@ bool Mount::slew(const QString &RA, const QString &DEC)
 {
     dms ra, de;
 
-    ra = dms::fromString(RA, false);
-    de = dms::fromString(DEC, true);
+    if (m_equatorialCheck->property("checked").toBool())
+    {
+        ra = dms::fromString(RA, false);
+        de = dms::fromString(DEC, true);
+    }
+    else
+    {
+        dms az = dms::fromString(RA, true);
+        dms at = dms::fromString(DEC, true);
+        SkyPoint horizontalTarget;
+        horizontalTarget.setAz(az);
+        horizontalTarget.setAlt(at);
+        horizontalTarget.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+        ra = horizontalTarget.ra();
+        de = horizontalTarget.dec();
+    }
 
     // If J2000 was checked and the Mount is _not_ already using native J2000 coordinates
     // then we need to convert J2000 to JNow. Otherwise, we send J2000 as is.

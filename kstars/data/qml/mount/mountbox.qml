@@ -5,8 +5,8 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: rectangle
-    width: 200
-    height: 480
+    width: 210
+    height: 550
     color: "#000000"
 
     property color buttonColor: "silver"
@@ -15,7 +15,7 @@ Rectangle {
     ColumnLayout {
         id: mainVerticalLayout
         anchors.fill: parent
-
+        anchors.margins: 5
 
         GridLayout {
             id: mountMotionLayout
@@ -267,14 +267,15 @@ Rectangle {
 
         RowLayout {
             id: mountSpeedLayout
-            width: 200
-            height: 100
-            Layout.maximumWidth: 200
+            anchors.horizontalCenter: parent.Center
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillHeight: false
             Layout.fillWidth: true
 
             Slider {
                 id: speedSlider
+                x: 5
+                y: 0
                 width: 150
                 objectName: "speedSliderObject"
                 Layout.fillWidth: true
@@ -312,16 +313,21 @@ Rectangle {
 
         GridLayout {
             id: mountCoordsLayout
-
+            x: 0
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillHeight: false
+            Layout.fillWidth: true
             rows: 2
             columns: 4
 
             Label {
                 id: raLabel
                 text: qsTr("RA:")
+                rightPadding: 0
+                leftPadding: 0
+                font.pointSize: 9
                 font.bold: true
                 color: "white"
-                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
             }
 
@@ -330,7 +336,8 @@ Rectangle {
                 objectName: "raValueObject"
                 color: coordsColor
                 text: "00:00:00"
-                Layout.preferredWidth:80
+                Layout.fillWidth: true
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
             }
 
@@ -338,7 +345,7 @@ Rectangle {
                 id: azLabel
                 color: "#ffffff"
                 text: qsTr("AZ:")
-                Layout.preferredWidth:15
+                Layout.fillWidth: false
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -348,7 +355,8 @@ Rectangle {
                 objectName: "azValueObject"
                 color: coordsColor
                 text: "00:00:00"
-                Layout.preferredWidth:60
+                Layout.fillWidth: true
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
             }
 
@@ -356,7 +364,7 @@ Rectangle {
                 id: deLabel
                 color: "#ffffff"
                 text: qsTr("DE:")
-                Layout.preferredWidth:15
+                font.pointSize: 10
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -366,7 +374,8 @@ Rectangle {
                 objectName: "deValueObject"
                 color: coordsColor
                 text: "00:00:00"
-                Layout.preferredWidth:80
+                Layout.fillWidth: true
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
             }
 
@@ -374,7 +383,7 @@ Rectangle {
                 id: altLabel
                 color: "#ffffff"
                 text: qsTr("AL:")
-                Layout.preferredWidth:15
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -384,7 +393,8 @@ Rectangle {
                 objectName: "altValueObject"
                 color: coordsColor
                 text: "00:00:00"
-                Layout.preferredWidth:60
+                Layout.fillWidth: true
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
             }
 
@@ -392,7 +402,7 @@ Rectangle {
                 id: haLabel
                 color: "#ffffff"
                 text: qsTr("HA:")
-                Layout.preferredWidth:15
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -402,7 +412,8 @@ Rectangle {
                 objectName: "haValueObject"
                 color: coordsColor
                 text: "00:00:00"
-                Layout.preferredWidth:80
+                Layout.fillWidth: true
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
             }
 
@@ -410,7 +421,6 @@ Rectangle {
                 id: zaLabel
                 color: "#ffffff"
                 text: qsTr("ZA:")
-                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -420,7 +430,8 @@ Rectangle {
                 objectName: "zaValueObject"
                 color: coordsColor
                 text: "00:00:00"
-                Layout.preferredWidth:60
+                Layout.fillWidth: true
+                font.pointSize: 9
                 fontSizeMode: Text.Fit
             }
         }
@@ -430,8 +441,8 @@ Rectangle {
             id: targetNameLayout
             width: 200
             height: 100
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillHeight: false
-            Layout.maximumWidth: 200
             Layout.minimumWidth: 200
             Layout.fillWidth: true
 
@@ -488,7 +499,6 @@ Rectangle {
 
         GridLayout {
             id: targetCoordsLayout
-            width: 100
             height: 100
             Layout.fillWidth: true
             rows: 2
@@ -497,7 +507,7 @@ Rectangle {
             Label {
                 id: targetRALabel
                 color: "#ffffff"
-                text: qsTr("RA:")
+                text: qsTr("RA/AZ:")
                 font.pointSize: 12
             }
 
@@ -515,7 +525,7 @@ Rectangle {
             Label {
                 id: targetDELabel
                 color: "#ffffff"
-                text: qsTr("DE:")
+                text: qsTr("DE/AL:")
                 font.pointSize: 12
             }
 
@@ -528,6 +538,32 @@ Rectangle {
                 Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
                 Layout.fillWidth: true
+            }
+
+            Label {
+                id: coordLabel
+                text: qsTr("Type:")
+            }
+
+            RowLayout
+            {
+                ExclusiveGroup { id: coordGroup }
+                RadioButton {
+                    id: equatorialCheck
+                    objectName: "equatorialCheckObject"
+                    checked: true
+                    text: qsTr("RA/DE")
+                    exclusiveGroup: coordGroup
+
+                    onCheckedChanged: checked ? targetRAText.placeholderText = "HH:MM:SS" : targetRAText.placeholderText = "DDD:MM:SS"
+                }
+
+                RadioButton {
+                    id: horizontalCheck
+                    objectName: "horizontalCheckObject"
+                    text: qsTr("AZ/AL")
+                    exclusiveGroup: coordGroup
+                }
             }
 
             Label {
