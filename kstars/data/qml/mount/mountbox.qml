@@ -323,8 +323,6 @@ Rectangle {
             Label {
                 id: raLabel
                 text: qsTr("RA:")
-                rightPadding: 0
-                leftPadding: 0
                 font.pointSize: 9
                 font.bold: true
                 color: "white"
