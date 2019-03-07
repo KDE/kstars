@@ -403,7 +403,7 @@ private:
     QQuickItem *m_SpeedSlider = nullptr, *m_SpeedLabel = nullptr, *m_raValue = nullptr, *m_deValue = nullptr,
                *m_azValue = nullptr, *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
                *m_targetText = nullptr, *m_targetRAText = nullptr, *m_targetDEText = nullptr, *m_Park = nullptr,
-    *m_Unpark = nullptr, *m_statusText = nullptr, *m_J2000Check = nullptr, *m_JNowCheck=nullptr;
+    *m_Unpark = nullptr, *m_statusText = nullptr, *m_J2000Check = nullptr, *m_JNowCheck=nullptr, *m_equatorialCheck=nullptr, *m_horizontalCheck=nullptr;
 };
 }
 
