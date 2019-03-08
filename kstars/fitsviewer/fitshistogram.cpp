@@ -87,8 +87,8 @@ FITSHistogram::FITSHistogram(QWidget * parent) : QDialog(parent)
         constructHistogram();
     });
 
-    connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this,
-            SLOT(checkRangeLimit(QCPRange)));
+    //    connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this,
+    //            SLOT(checkRangeLimit(QCPRange)));
     connect(customPlot, &QCustomPlot::mouseMove, this,
             &FITSHistogram::driftMouseOverLine);
 
