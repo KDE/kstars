@@ -450,7 +450,7 @@ Rectangle {
                 text: qsTr("Target:")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
-                Layout.fillWidth: true
+                Layout.fillWidth: false
                 font.pointSize: 12
                 font.bold: true
             }

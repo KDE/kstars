@@ -137,8 +137,7 @@ Mount::Mount()
 
     m_Ctxt->setContextProperty("mount", this);
 
-    m_BaseView->setMaximumSize(QSize(210, 540));
-    //m_BaseView->setMinimumSize(QSize(200, 480));
+    m_BaseView->setMinimumSize(QSize(210, 540));
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
 
     m_SpeedSlider  = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
@@ -151,7 +150,7 @@ Mount::Mount()
     m_zaValue      = m_BaseObj->findChild<QQuickItem *>("zaValueObject");
     m_targetText   = m_BaseObj->findChild<QQuickItem *>("targetTextObject");
     m_targetRAText = m_BaseObj->findChild<QQuickItem *>("targetRATextObject");
-    m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");            
+    m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");
     m_J2000Check   = m_BaseObj->findChild<QQuickItem *>("j2000CheckObject");
     m_JNowCheck    = m_BaseObj->findChild<QQuickItem *>("jnowCheckObject");
     m_Park         = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
