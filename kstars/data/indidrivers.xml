@@ -55,19 +55,19 @@
         </device>
         <device label="Celestron GPS" manufacturer="Celestron">
                 <driver name="Celestron GPS">indi_celestron_gps</driver>
-                <version>3.1</version>
+                <version>3.2</version>
         </device>
         <device label="Celestron NexStar" manufacturer="Celestron">
                 <driver name="Celestron GPS">indi_celestron_gps</driver>
-                <version>3.1</version>
+                <version>3.2</version>
         </device>
         <device label="Celestron AVX" manufacturer="Celestron">
                 <driver name="Celestron GPS">indi_celestron_gps</driver>
-                <version>3.1</version>
+                <version>3.2</version>
         </device>
         <device label="Celestron CGX" manufacturer="Celestron">
                 <driver name="Celestron GPS">indi_celestron_gps</driver>
-                <version>3.1</version>
+                <version>3.2</version>
         </device>
         <device label="Astro-Electronic FS-2">
                 <driver name="Astro-Electronic FS-2">indi_lx200fs2</driver>
@@ -359,7 +359,7 @@
         </device>
         <device label="Pegasus PPB">
                 <driver name="Pegasus PPB">indi_pegasus_ppb</driver>
-                <version>1.0</version>
+                <version>1.1</version>
         </device>
         <device label="Pegasus UPB">
                 <driver name="Pegasus UPB">indi_pegasus_upb</driver>
@@ -513,25 +513,25 @@
 <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true">
                 <driver name="ZWO CCD">indi_asi_ccd</driver>
-                <version>1.0</version>
+                <version>1.1</version>
 	</device>
 </devGroup>
 <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true">
                 <driver name="ASI EFW">indi_asi_wheel</driver>
-                <version>1.0</version>
+                <version>1.1</version>
         </device>
 </devGroup>
 <devGroup group="Focusers">
         <device label="ASI EAF">
                 <driver name="ASI EAF">indi_asi_focuser</driver>
-                <version>1.0</version>
+                <version>1.1</version>
         </device>
 </devGroup>
 <devGroup group="Auxiliary">
         <device label="ASI ST4">
                 <driver name="ASI ST4">indi_asi_st4</driver>
-                <version>1.0</version>
+                <version>1.1</version>
         </device>
 </devGroup>
 </driversList>
@@ -539,13 +539,13 @@
 <devGroup group="CCDs">
         <device label="Atik CCD" mdpd="true">
                 <driver name="Atik">indi_atik_ccd</driver>
-                <version>2.1</version>
+                <version>2.2</version>
 	</device>
 </devGroup>
 <devGroup group="Filter Wheels">
         <device label="Atik EFW" mdpd="true">
                 <driver name="Atik">indi_atik_wheel</driver>
-                <version>2.1</version>
+                <version>2.2</version>
         </device>
 </devGroup>
 </driversList>
@@ -764,7 +764,7 @@
 <devGroup group="CCDs">
         <device label="QHY CCD" mdpd="true">
 		<driver name="QHY CCD">indi_qhy_ccd</driver>
-                <version>2.1</version>
+                <version>2.3</version>
 	</device>
 </devGroup>
 </driversList>
