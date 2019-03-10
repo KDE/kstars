@@ -1993,7 +1993,7 @@ void Capture::checkSeqBoundary(const QString &path)
         // This remove any additional extension (e.g. m42_001.fits.fz)
         // the completeBaseName() would return m42_001.fits
         // and this remove .fits so we end up with m42_001
-        tempName = tempName.left(tempName.lastIndexOf("."));
+        tempName = tempName.remove(".fits");
 
         QString finalSeqPrefix = seqPrefix;
         finalSeqPrefix.remove(SequenceJob::ISOMarker);
