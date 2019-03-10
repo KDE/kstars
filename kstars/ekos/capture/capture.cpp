@@ -598,6 +598,7 @@ void Capture::stop(CaptureState targetState)
         secondsLabel->clear();
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
+    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
     currentCCD->setFITSDir("");
@@ -641,7 +642,10 @@ void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
         emit newImage(activeJob);
         // We only emit this for client/both images since remote images already send this automatically
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
-            emit newSequenceImage(filename);
+        {
+            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
+            m_GeneratedPreviewFITS.clear();
+        }
     }
 }
 
@@ -1797,6 +1801,7 @@ void Capture::captureImage()
     }
 
     connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);
+    connect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
@@ -5395,7 +5400,7 @@ bool Capture::processPostCaptureCalibrationStage()
 void Capture::setNewRemoteFile(QString file)
 {
     appendLogText(i18n("Remote image saved to %1", file));
-    emit newSequenceImage(file);
+    emit newSequenceImage(file, QString());
 }
 
 /*
@@ -5997,6 +6002,11 @@ void Capture::processCaptureTimeout()
     targetChip->abortExposure();
     targetChip->capture(exposureIN->value());
     captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+}
+
+void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
+{
+    m_GeneratedPreviewFITS = previewFITS;
 }
 
 }

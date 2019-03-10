@@ -278,4 +278,13 @@ struct JPLFilter
  *@return The query string.
  */
 QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters);
+
+/**
+ * @brief RAWToJPEG Convert raw image (e.g. CR2) using libraw to a JPEG image
+ * @param rawImage full path to raw image
+ * @param output full path to jpeg image to write to
+ * @return True if conversion is successful, false otherwise.
+ */
+bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMessage);
+
 }
