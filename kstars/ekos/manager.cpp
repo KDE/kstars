@@ -1918,17 +1918,17 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
-    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename)
+    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename, const QString & previewFITS)
     {
         if (Options::useSummaryPreview() && QFile::exists(filename))
         {
-            QString fitsFile = filename;
-            // If it s a non-FITS file
-            if (Options::autoImageToFITS() && filename.contains(".fits") == false)
+            if (Options::autoImageToFITS())
             {
-                FITSData::ImageToFITS(filename, filename.mid(filename.lastIndexOf(".") + 1).toLower(), fitsFile);
+                if (previewFITS.isEmpty() == false)
+                    summaryPreview->loadFITS(previewFITS);
             }
-            summaryPreview->loadFITS(fitsFile);
+            else
+                summaryPreview->loadFITS(filename);
         }
     });
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);

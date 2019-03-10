@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "ksutils.h"
+#include "config-kstars.h"
 
 #include "deepskyobject.h"
 #ifndef KSTARS_LITE
@@ -27,6 +28,10 @@
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
+
+#ifdef HAVE_LIBRAW
+#include <libraw/libraw.h>
 #endif
 
 #include <QPointer>
@@ -1400,6 +1405,48 @@ QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataField
              "ds=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class";
 
     return query;
+}
+
+bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMessage)
+{
+#ifndef HAVE_LIBRAW
+    errorMessage = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
+    return false;
+#else
+    int ret = 0;
+    // Creation of image processing object
+    LibRaw RawProcessor;
+
+    // Let us open the file
+    if ((ret = RawProcessor.open_file(rawImage.toLatin1().data())) != LIBRAW_SUCCESS)
+    {
+        errorMessage = i18n("Cannot open %1: %2", rawImage, libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    // Let us unpack the thumbnail
+    if ((ret = RawProcessor.unpack_thumb()) != LIBRAW_SUCCESS)
+    {
+        errorMessage = i18n("Cannot unpack_thumb %1: %2", rawImage, libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+    else
+        // We have successfully unpacked the thumbnail, now let us write it to a file
+    {
+        //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
+        if (LIBRAW_SUCCESS != (ret = RawProcessor.dcraw_thumb_writer(output.toLatin1().data())))
+        {
+            errorMessage = i18n("Cannot write %s %1: %2", output, libraw_strerror(ret));
+            RawProcessor.recycle();
+            return false;
+        }
+    }
+
+    return true;
+
+#endif
 }
 
 }

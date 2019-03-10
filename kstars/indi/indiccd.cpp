@@ -32,10 +32,6 @@
 
 #include <basedevice.h>
 
-#ifdef HAVE_LIBRAW
-#include <libraw/libraw.h>
-#endif
-
 const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng", "arw" };
 
 namespace ISD
@@ -1357,7 +1353,6 @@ void CCD::processBLOB(IBLOB *bp)
         // viewer
         if (BType == BLOB_RAW && (useFITSViewer || useDSLRViewer))
         {
-#ifdef HAVE_LIBRAW
             QString rawFileName  = filename;
             rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
 
@@ -1368,42 +1363,13 @@ void CCD::processBLOB(IBLOB *bp)
             imgPreview.open();
             imgPreview.close();
             QString preview_filename = imgPreview.fileName();
+            QString errorMessage;
 
-            int ret = 0;
-            // Creation of image processing object
-            LibRaw RawProcessor;
-
-            // Let us open the file
-            if ((ret = RawProcessor.open_file(filename.toLatin1().data())) != LIBRAW_SUCCESS)
+            if (KSUtils::RAWToJPEG(filename, preview_filename, errorMessage) == false)
             {
-                KStars::Instance()->statusBar()->showMessage(
-                    i18n("Cannot open %1: %2", rawFileName, libraw_strerror(ret)));
-                RawProcessor.recycle();
+                KStars::Instance()->statusBar()->showMessage(errorMessage);
                 emit BLOBUpdated(bp);
                 return;
-            }
-
-            // Let us unpack the thumbnail
-            if ((ret = RawProcessor.unpack_thumb()) != LIBRAW_SUCCESS)
-            {
-                KStars::Instance()->statusBar()->showMessage(
-                    i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
-                RawProcessor.recycle();
-                emit BLOBUpdated(bp);
-                return;
-            }
-            else
-                // We have successfully unpacked the thumbnail, now let us write it to a file
-            {
-                //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
-                if (LIBRAW_SUCCESS != (ret = RawProcessor.dcraw_thumb_writer(preview_filename.toLatin1().data())))
-                {
-                    KStars::Instance()->statusBar()->showMessage(
-                        i18n("Cannot write %s %1: %2", preview_filename, libraw_strerror(ret)));
-                    RawProcessor.recycle();
-                    emit BLOBUpdated(bp);
-                    return;
-                }
             }
 
             // Remove tempeorary CR2 files
@@ -1413,13 +1379,6 @@ void CCD::processBLOB(IBLOB *bp)
             filename = preview_filename;
             format = ".jpg";
             shortFormat = "jpg";
-
-#else
-            // Silently fail if KStars was not compiled with libraw
-            //KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
-            emit BLOBUpdated(bp);
-            return;
-#endif
         }
 
         // store file name in
@@ -1436,6 +1395,8 @@ void CCD::processBLOB(IBLOB *bp)
                 QFile::remove(filename);
             filename = output;
             BType = BLOB_FITS;
+
+            emit previewFITSGenerated(output);
         }
         else if (useDSLRViewer)
         {
