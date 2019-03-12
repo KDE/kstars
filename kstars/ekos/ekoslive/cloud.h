@@ -51,6 +51,9 @@ class Cloud : public QObject
         void connected();
         void disconnected();
 
+        void newMetadata(const QByteArray &metadata);
+        void newImage(const QByteArray &image);
+
     public slots:
         void connectServer();
         void disconnectServer();
@@ -70,6 +73,10 @@ class Cloud : public QObject
 
         // Send image
         void sendImage();
+
+        // Metadata and Image upload
+        void uploadMetadata(const QByteArray &metadata);
+        void uploadImage(const QByteArray &image);
 
     private:
         void asyncUpload();

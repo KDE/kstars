@@ -31,6 +31,8 @@ Media::Media(Ekos::Manager * manager): m_Manager(manager)
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Media::onError);
 
+    connect(this, &Media::newMetadata, this, &Media::uploadMetadata);
+    connect(this, &Media::newImage, this, &Media::uploadImage);
 }
 
 void Media::connectServer()
@@ -202,8 +204,11 @@ void Media::upload(FITSView * view)
         {"uuid", uuid},
     };
 
-    m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
-    m_WebSocket.sendBinaryMessage(jpegData);
+    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+    emit newImage(jpegData);
+
+    //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+    //m_WebSocket.sendBinaryMessage(jpegData);
 
     if (view == previewImage.get())
         previewImage.reset();
@@ -280,6 +285,16 @@ void Media::resetPolarView()
     this->correctionVector = QLineF();
 
     m_Manager->alignModule()->zoomAlignView();
+}
+
+void Media::uploadMetadata(const QByteArray &metadata)
+{
+    m_WebSocket.sendTextMessage(metadata);
+}
+
+void Media::uploadImage(const QByteArray &image)
+{
+    m_WebSocket.sendBinaryMessage(image);
 }
 
 }
