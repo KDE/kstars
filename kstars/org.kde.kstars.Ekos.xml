@@ -3,6 +3,7 @@
   <interface name="org.kde.kstars.Ekos">
     <property name="indiStatus" type="u" access="read"/>
     <property name="ekosStatus" type="u" access="read"/>
+    <property name="ekosLiveStatus" type="b" access="read"/>
     <property name="logText" type="as" access="read"/>
     <method name="connectDevices">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -23,6 +24,18 @@
       <arg name="profileName" type="s" direction="in"/>
       <arg type="b" direction="out"/>
     </method>
+    <method name="setEkosLiveConnected">
+        <arg name="enabled" type="b" direction="in"/>
+    </method>
+    <method name="setEkosLiveConfig">
+        <arg name="onlineService" type="b" direction="in"/>
+        <arg name="rememberCredentials" type="b" direction="in"/>
+        <arg name="autoConnect" type="b" direction="in"/>
+    </method>
+    <method name="setEkosLiveUser">
+        <arg name="username" type="s" direction="in"/>
+        <arg name="password" type="s" direction="in"/>
+    </method>
     <signal name="indiStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
@@ -32,6 +45,9 @@
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
+    <signal name="ekosLiveStatusChanged">
+        <arg name="status" type="b" direction="out"/>
     </signal>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>

@@ -113,6 +113,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
+    connect(ekosLiveClient.get(), &EkosLive::Client::connected, [this]() { emit ekosLiveStatusChanged(true); });
+    connect(ekosLiveClient.get(), &EkosLive::Client::disconnected, [this]() { emit ekosLiveStatusChanged(false); });
 
     // INDI Control Panel
     //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
@@ -3051,4 +3053,25 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(), &EkosLive::Media::setCorrectionVector);
     }
 }
+
+void Manager::setEkosLiveConnected(bool enabled)
+{
+    ekosLiveClient.get()->setConnected(enabled);
+}
+
+void Manager::setEkosLiveConfig(bool onlineService, bool rememberCredentials, bool autoConnect)
+{
+    ekosLiveClient.get()->setConfig(onlineService, rememberCredentials, autoConnect);
+}
+
+void Manager::setEkosLiveUser(const QString &username, const QString &password)
+{
+    ekosLiveClient.get()->setUser(username, password);
+}
+
+bool Manager::ekosLiveStatus()
+{
+    return ekosLiveClient.get()->isConnected();
+}
+
 }

@@ -291,4 +291,29 @@ void Client::onResult(QNetworkReply *reply)
     ekosLiveOfflineR->setEnabled(false);
 }
 
+void Client::setConnected(bool enabled)
+{
+    // Return if there is no change.
+    if (enabled == m_isConnected)
+        return;
+
+    connectB->click();
+}
+
+void Client::setConfig(bool onlineService, bool rememberCredentials, bool autoConnect)
+{
+    ekosLiveOnlineR->setChecked(onlineService);
+    ekosLiveOfflineR->setChecked(!onlineService);
+
+    rememberCredentialsCheck->setChecked(rememberCredentials);
+
+    autoStartCheck->setChecked(autoConnect);
+}
+
+void Client::setUser(const QString &user, const QString &pass)
+{
+    username->setText(user);
+    password->setText(pass);
+}
+
 }

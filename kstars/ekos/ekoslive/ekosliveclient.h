@@ -45,6 +45,10 @@ public:
     const QPointer<Media> & media() { return m_Media; }
     const QPointer<Cloud> & cloud() { return m_Cloud; }
 
+    void setConnected(bool enabled);
+    void setConfig(bool onlineService, bool rememberCredentials, bool autoConnect);
+    void setUser(const QString &user, const QString &pass);
+
 signals:
     void connected();
     void disconnected();
