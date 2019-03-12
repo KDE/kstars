@@ -54,6 +54,8 @@ class Media : public QObject
         void disconnected();
 
         void newBoundingRect(QRect rect, QSize view);
+        void newMetadata(const QByteArray &metadata);
+        void newImage(const QByteArray &image);
 
     public slots:
         void connectServer();
@@ -63,7 +65,7 @@ class Media : public QObject
         void sendVideoFrame(std::unique_ptr<QImage> &frame);
 
         // Options
-        void setOptions(QMap<int,bool> options)
+        void setOptions(QMap<int, bool> options)
         {
             m_Options = options;
         }
@@ -90,6 +92,10 @@ class Media : public QObject
         // Send image
         void sendImage();
 
+        // Metadata and Image upload
+        void uploadMetadata(const QByteArray &metadata);
+        void uploadImage(const QByteArray &image);
+
     private:
         void upload(FITSView * view);
 
@@ -100,7 +106,7 @@ class Media : public QObject
         QUrl m_URL;
         QString m_UUID;
 
-        QMap<int,bool> m_Options;
+        QMap<int, bool> m_Options;
         std::unique_ptr<FITSView> previewImage;
 
         QString extension;

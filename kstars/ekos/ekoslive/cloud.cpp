@@ -35,6 +35,8 @@ Cloud::Cloud(Ekos::Manager * manager): m_Manager(manager)
 
     connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage, Qt::UniqueConnection);
 
+    connect(this, &Cloud::newMetadata, this, &Cloud::uploadMetadata);
+    connect(this, &Cloud::newImage, this, &Cloud::uploadImage);
 }
 
 void Cloud::connectServer()
@@ -173,7 +175,8 @@ void Cloud::asyncUpload()
     else
         metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
 
-    m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+    //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
     qCInfo(KSTARS_EKOS) << "Uploading file to the cloud with metadata" << metadata;
 
@@ -199,7 +202,8 @@ void Cloud::asyncUpload()
     QFile image(compressedFile);
     if (image.open(QIODevice::ReadOnly))
     {
-        m_WebSocket.sendBinaryMessage(image.readAll());
+        //m_WebSocket.sendBinaryMessage(image.readAll());
+        emit newImage(image.readAll());
         qCInfo(KSTARS_EKOS) << "Uploaded" << compressedFile << " to the cloud";
     }
     image.close();
@@ -209,6 +213,16 @@ void Cloud::asyncUpload()
         QFile::remove(compressedFile);
 
     imageData.reset();
+}
+
+void Cloud::uploadMetadata(const QByteArray &metadata)
+{
+    m_WebSocket.sendTextMessage(metadata);
+}
+
+void Cloud::uploadImage(const QByteArray &image)
+{
+    m_WebSocket.sendBinaryMessage(image);
 }
 
 }
