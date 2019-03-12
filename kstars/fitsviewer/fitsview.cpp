@@ -1442,34 +1442,45 @@ void FITSView::toggleStarProfile()
         viewStarProfile();
     if(toggleProfileAction)
         toggleProfileAction->setChecked(showStarProfile);
-    if(mode == FITS_NORMAL || mode == FITS_ALIGN)
+
+    if(showStarProfile)
     {
-        if(showStarProfile)
+        //The tracking box is already on for Guide and Focus Views, but off for Normal and Align views.
+        //So for Normal and Align views, we need to set up the tracking box.
+        if(mode == FITS_NORMAL || mode == FITS_ALIGN)
         {
             setCursorMode(selectCursor);
             connect(this, SIGNAL(trackingStarSelected(int, int)), this, SLOT(move3DTrackingBox(int, int)));
-            if(starProfileWidget)
-                connect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
-            if(starProfileWidget)
-                connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
             trackingBox = QRect(0, 0, 128, 128);
             setTrackingBoxEnabled(true);
+            if(starProfileWidget)
+                connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
         }
-        else
+        if(starProfileWidget)
+            connect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
+    }
+    else
+    {
+        //This shuts down the tracking box for Normal and Align Views
+        //It doesn't touch Guide and Focus Views because they still need a tracking box
+        if(mode == FITS_NORMAL || mode == FITS_ALIGN)
         {
             if(getCursorMode() == selectCursor)
                 setCursorMode(dragCursor);
             disconnect(this, SIGNAL(trackingStarSelected(int, int)), this, SLOT(move3DTrackingBox(int, int)));
-            disconnect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
-            disconnect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
             setTrackingBoxEnabled(false);
             if(starProfileWidget)
-                starProfileWidget->close();
-            starProfileWidget = nullptr;
-            emit starProfileWindowClosed();
+                disconnect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
         }
-        updateFrame();
+        if(starProfileWidget)
+        {
+            disconnect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
+            starProfileWidget->close();
+            starProfileWidget = nullptr;
+        }
+        emit starProfileWindowClosed();
     }
+    updateFrame();
 #endif
 }
 
