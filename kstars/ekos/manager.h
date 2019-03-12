@@ -71,7 +71,7 @@ class KPageWidgetItem;
  *  Ekos Manager provides a summary of operations progress in the <i>Summary</i> section of the <i>Setup</i> tab.
  *
  * @author Jasem Mutlaq
- * @version 1.6
+ * @version 1.7
  */
 namespace Ekos
 {
@@ -83,11 +83,12 @@ class Manager : public QDialog, public Ui::Manager
 
         Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveStatus READ ekosLiveStatus NOTIFY ekosLiveStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
         explicit Manager(QWidget *parent);
-        ~Manager();
+        ~Manager() override;
 
         void appendLogText(const QString &);
         //void refreshRemoteDrivers();
@@ -181,7 +182,7 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE CommunicationStatus ekosStatus()
         {
             return m_ekosStatus;
-        }
+        }               
 
         /**
          * DBUS interface function.
@@ -202,10 +203,35 @@ class Manager : public QDialog, public Ui::Manager
             return m_LogText;
         }
 
+        Q_SCRIPTABLE bool ekosLiveStatus();
+
+        /**
+         * DBUS interface function.
+         * @param enabled Connect to EkosLive if true, otherwise disconnect.
+        */
+        Q_SCRIPTABLE void setEkosLiveConnected(bool enabled);
+
+        /**
+         * @brief setEkosLiveConfig Set EkosLive settings
+         * @param onlineService If true, connect to EkosLive Online Service. Otherwise, EkosLive offline service.
+         * @param rememberCredentials Remember username and password for next session.
+         * @param autoConnect If true, it will automatically connect to EkosLive service.
+         */
+        Q_SCRIPTABLE void setEkosLiveConfig(bool onlineService, bool rememberCredentials, bool autoConnect);
+
+        /**
+         * @brief setEkosLiveUser Save EkosLive username and password
+         * @param username User name
+         * @param password Password
+         */
+        Q_SCRIPTABLE void setEkosLiveUser(const QString &username, const QString &password);
+
     signals:
         // Have to use full Ekos::CommunicationStatus for DBus signal to work
         void ekosStatusChanged(Ekos::CommunicationStatus status);
         void indiStatusChanged(Ekos::CommunicationStatus status);
+        void ekosLiveStatusChanged(bool status);
+
         void newLog(const QString &text);
         void newModule(const QString &name);
 
