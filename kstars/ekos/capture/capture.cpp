@@ -68,6 +68,12 @@ Capture::Capture()
 
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
 
+    if (DSLRInfos.count() > 0)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "DSLR Cameras Info:";
+        qCDebug(KSTARS_EKOS_CAPTURE) << DSLRInfos;
+    }
+
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     //isAutoGuiding   = false;
