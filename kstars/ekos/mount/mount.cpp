@@ -85,6 +85,11 @@ Mount::Mount()
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
 
+    // meridian flip
+    connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
+    connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Mount::meridianFlipSetupChanged);
+
+
     updateTimer.setInterval(UPDATE_DELAY);
     connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
 
@@ -588,15 +593,17 @@ bool Mount::setSlewRate(int index)
     return false;
 }
 
-void Mount::activateMeridianFlip(bool activate)
+void Mount::setMeridianFlipValues(bool activate, double hours)
 {
     meridianFlipCheckBox->setChecked(activate);
-}
-
-void Mount::setMeridianFlipLimit(double hours)
-{
     meridianFlipTimeBox->setValue(hours);
 }
+
+void Mount::meridianFlipSetupChanged()
+{
+    emit newMeridianFlipSetup(meridianFlipCheckBox->isChecked(), meridianFlipTimeBox->value());
+}
+
 
 void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
 {
