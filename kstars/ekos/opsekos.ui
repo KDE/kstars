@@ -198,6 +198,19 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="settingAltitudeCutoffLabel">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Setting Altitude Cutoff</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_SettingAltitudeCutoff"/>
+        </item>
        </layout>
       </item>
       <item>

@@ -34,7 +34,6 @@
 #define BAD_SCORE               -1000
 #define MAX_FAILURE_ATTEMPTS    5
 #define UPDATE_PERIOD_MS        1000
-#define SETTING_ALTITUDE_CUTOFF 3
 
 #define DEFAULT_CULMINATION_TIME    -60
 #define DEFAULT_MIN_ALTITUDE        15
@@ -1359,11 +1358,15 @@ void Scheduler::evaluateJobs()
                 /* If job is busy, edge case, bypass evaluation */
                 continue;
 
-            case SchedulerJob::JOB_IDLE:
             case SchedulerJob::JOB_ABORTED:
+                /* If job is aborted and we're running, keep its evaluation until there is nothing else to do */
+                if (state == SCHEDULER_RUNNIG)
+                    continue;
+                /* Fall through */
+            case SchedulerJob::JOB_IDLE:
             case SchedulerJob::JOB_EVALUATION:
             default:
-                /* If job is idle or aborted, re-evaluate completely */
+                /* If job is idle, re-evaluate completely */
                 job->setEstimatedTime(-1);
                 break;
         }
@@ -1432,19 +1435,38 @@ void Scheduler::evaluateJobs()
 
     updatePreDawn();
 
-    /* Remove jobs that don't need evaluation */
-    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
+    /* This predicate matches jobs not being evaluated and not aborted */
+    auto neither_evaluated_nor_aborted = [](SchedulerJob const * const job)
     {
-        return SchedulerJob::JOB_EVALUATION != job->getState();
-    }), sortedJobs.end());
+        SchedulerJob::JOBStatus const s = job->getState();
+        return SchedulerJob::JOB_EVALUATION != s && SchedulerJob::JOB_ABORTED != s;
+    };
+
+    /* This predicate matches jobs that aborted, or completed for whatever reason */
+    auto finished_or_aborted = [](SchedulerJob const * const job)
+    {
+        SchedulerJob::JOBStatus const s = job->getState();
+        return SchedulerJob::JOB_ERROR <= s || SchedulerJob::JOB_ABORTED == s;
+    };
 
     /* If there are no jobs left to run in the filtered list, stop evaluation */
-    if (sortedJobs.isEmpty())
+    if (sortedJobs.isEmpty() || std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_evaluated_nor_aborted))
     {
         appendLogText(i18n("No jobs left in the scheduler queue."));
         setCurrentJob(nullptr);
         jobEvaluationOnly = false;
         return;
+    }
+
+    /* If there are only aborted jobs that can run, reschedule those */
+    if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted))
+    {
+        appendLogText(i18n("Only aborted jobs left in the scheduler queue, rescheduling those."));
+        std::for_each(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
+        {
+            if (SchedulerJob::JOB_ABORTED == job->getState())
+                job->setState(SchedulerJob::JOB_EVALUATION);
+        });
     }
 
     /* If option says so, reorder by altitude and priority before sequencing */
@@ -1454,6 +1476,10 @@ void Scheduler::evaluateJobs()
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
     if (Options::sortSchedulerJobs())
     {
+        // If we reorder, remove all non-runnable jobs so that they end up at the end of the list and do not disturb the reorder
+        // We tested that the list could not be empty after that operation above
+        sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), neither_evaluated_nor_aborted), sortedJobs.end());
+
         using namespace std::placeholders;
         std::stable_sort(sortedJobs.begin(), sortedJobs.end(),
                          std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, KStarsData::Instance()->lt()));
@@ -1500,6 +1526,10 @@ void Scheduler::evaluateJobs()
     for (int index = 0; index < sortedJobs.size(); index++)
     {
         SchedulerJob * const currentJob = sortedJobs.at(index);
+
+        // Bypass jobs that are not marked for evaluation - we did not remove them to preserve schedule order
+        if (SchedulerJob::JOB_EVALUATION != currentJob->getState())
+            continue;
 
         // At this point, a job with no valid start date is a problem, so consider invalid startup time is now
         if (!currentJob->getStartupTime().isValid())
@@ -1664,7 +1694,8 @@ void Scheduler::evaluateJobs()
 
                 currentJob->setLeadTime(previousJob->getCompletionTime().secsTo(currentJob->getStartupTime()));
 
-                Q_ASSERT_X(previousJob->getCompletionTime() < currentJob->getStartupTime(), __FUNCTION__, "Previous and current jobs do not overlap.");
+                // Lead time can be zero, so completion may equal startup
+                Q_ASSERT_X(previousJob->getCompletionTime() <= currentJob->getStartupTime(), __FUNCTION__, "Previous and current jobs do not overlap.");
             }
 
 
@@ -1845,12 +1876,12 @@ void Scheduler::evaluateJobs()
             {
                 if (currentJob->getCompletionTime() < currentJob->getStartupTime())
                 {
-                    currentJob->setState(SchedulerJob::JOB_INVALID);
-
                     appendLogText(i18n("Job '%1' completion time (%2) could not be achieved before start up time (%3)",
                                        currentJob->getName(),
                                        currentJob->getCompletionTime().toString(currentJob->getDateTimeDisplayFormat()),
                                        currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat())));
+
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
 
                     break;
                 }
@@ -1911,7 +1942,8 @@ void Scheduler::evaluateJobs()
     /* Remove unscheduled jobs that may have appeared during the last step - safeguard */
     sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
     {
-        return SchedulerJob::JOB_SCHEDULED != job->getState();
+        SchedulerJob::JOBStatus const s = job->getState();
+        return SchedulerJob::JOB_SCHEDULED != s && SchedulerJob::JOB_ABORTED != s;
     }), sortedJobs.end());
 
     /* Apply sorting to queue table, and mark it for saving if it changes */
@@ -1929,18 +1961,52 @@ void Scheduler::evaluateJobs()
      * We select the first job that has to be run, per schedule.
      */
 
-    /* If there are no jobs left to run in the filtered list, stop evaluation */
-    if (sortedJobs.isEmpty())
+    /* This predicate matches jobs that are neither scheduled to run nor aborted */
+    auto neither_scheduled_nor_aborted = [](SchedulerJob const * const job)
     {
-        appendLogText(i18n("No jobs left in the scheduler queue."));
+        SchedulerJob::JOBStatus const s = job->getState();
+        return SchedulerJob::JOB_SCHEDULED != s && SchedulerJob::JOB_ABORTED != s;
+    };
+
+    /* If there are no jobs left to run in the filtered list, stop evaluation */
+    if (sortedJobs.isEmpty() || std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_scheduled_nor_aborted))
+    {
+        appendLogText(i18n("No jobs left in the scheduler queue after evaluating."));
+        setCurrentJob(nullptr);
+        jobEvaluationOnly = false;
+        return;
+    }
+    /* If there are only aborted jobs that can run, reschedule those and let Scheduler restart one loop */
+    else if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted))
+    {
+        appendLogText(i18n("Only aborted jobs left in the scheduler queue after evaluating, rescheduling those."));
+        std::for_each(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
+        {
+            if (SchedulerJob::JOB_ABORTED == job->getState())
+                job->setState(SchedulerJob::JOB_EVALUATION);
+        });
+
+        jobEvaluationOnly = false;
+        return;
+    }
+
+    /* The job to run is the first scheduled, locate it in the list */
+    QList<SchedulerJob*>::iterator job_to_execute_iterator = std::find_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * const job)
+    {
+        return SchedulerJob::JOB_SCHEDULED == job->getState();
+    });
+
+    /* If there is no scheduled job anymore (because the restriction loop made them invalid, for instance), bail out */
+    if (sortedJobs.end() == job_to_execute_iterator)
+    {
+        appendLogText(i18n("No jobs left in the scheduler queue after schedule cleanup."));
         setCurrentJob(nullptr);
         jobEvaluationOnly = false;
         return;
     }
 
-    SchedulerJob * const job_to_execute = sortedJobs.first();
-
     /* Check if job can be processed right now */
+    SchedulerJob * const job_to_execute = *job_to_execute_iterator;
     if (job_to_execute->getFileStartupCondition() == SchedulerJob::START_ASAP)
         if( 0 <= calculateJobScore(job_to_execute, now))
             job_to_execute->setStartupTime(now);
@@ -2043,6 +2109,8 @@ QDateTime Scheduler::calculateAltitudeTime(SchedulerJob const *job, double minAl
 
     // Calculate the UT at the argument time
     KStarsDateTime const ut = geo->LTtoUT(ltWhen);
+
+    double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
 
     // Within the next 24 hours, search when the job target matches the altitude and moon constraints
     for (unsigned int minute = 0; minute < 24 * 60; minute++)
@@ -2290,6 +2358,7 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob const *job, QDateTime const &wh
     o.EquatorialToHorizontal(&LST, geo->lat());
     double const altitude = o.alt().Degrees();
 
+    double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
     int16_t score = BAD_SCORE - 1;
 
     // If altitude is negative, bad score
