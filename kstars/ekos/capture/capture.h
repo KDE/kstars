@@ -652,7 +652,7 @@ class Capture : public QWidget, public Ui::Capture
         void registerNewModule(const QString &name);
 
         void meridianFlipSetupChanged();
-signals:
+    signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
         Q_SCRIPTABLE void meridianFlipCompleted();
@@ -738,7 +738,6 @@ signals:
 
         bool useGuideHead { false };
         bool autoGuideReady { false};
-        bool autoGuideAbortedCapture { false };
 
         QString m_TargetName;
         QString m_ObserverName;

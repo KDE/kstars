@@ -561,7 +561,6 @@ void Capture::stop(CaptureState targetState)
                 m_SequenceArray.replace(index, oneSequence);
                 emit sequenceChanged(m_SequenceArray);
             }
-            emit newStatus(targetState);
         }
 
         // In case of batch job
@@ -591,6 +590,8 @@ void Capture::stop(CaptureState targetState)
 
     calibrationStage = CAL_NONE;
     m_State            = targetState;
+
+    emit newStatus(targetState);
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (dustCap && dustCapLightEnabled)
@@ -4459,27 +4460,17 @@ void Capture::setGuideStatus(GuideState state)
         case GUIDE_IDLE:
         case GUIDE_ABORTED:
             // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-            if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE && activeJob &&
-                    activeJob->getStatus() == SequenceJob::JOB_BUSY)
+        if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE &&
+                ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
+                 this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
             {
                 appendLogText(i18n("Autoguiding stopped. Aborting..."));
                 abort();
-                autoGuideAbortedCapture = true;
             }
             break;
 
         case GUIDE_GUIDING:
         case GUIDE_CALIBRATION_SUCESS:
-            // If capture was aborted due to guide abort
-            // then let's resume capture once we are guiding again.
-            if (autoGuideAbortedCapture &&
-                    (guideState == GUIDE_ABORTED || guideState == GUIDE_IDLE) &&
-                    (this->m_State == CAPTURE_ABORTED || this->m_State == CAPTURE_SUSPENDED))
-            {
-                start();
-                autoGuideAbortedCapture = false;
-            }
-
             autoGuideReady = true;
             break;
 
