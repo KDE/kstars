@@ -6859,7 +6859,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
                             gStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
                             gStatus == GUIDE_DITHERING_ERROR)
                     {
-                        appendLogText(i18n("Job '%1' is capturing, and is restarting its guiding procedure.", currentJob->getName()));
+                        appendLogText(i18n("Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of %3).", currentJob->getName(), captureFailureCount, MAX_FAILURE_ATTEMPTS));
                         startGuiding(true);
                         return;
                     }

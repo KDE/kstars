@@ -1024,6 +1024,10 @@ bool PHD2::guide()
 //set_connected
 void PHD2::connectEquipment(bool enable)
 {
+    if ((connection == EQUIPMENT_CONNECTED && enable == true) ||
+            (connection == EQUIPMENT_DISCONNECTED && enable == false))
+        return;
+
     if (setConnectedRetries++ > MAX_SET_CONNECTED_RETRIES)
     {
         setConnectedRetries = 0;
@@ -1031,10 +1035,6 @@ void PHD2::connectEquipment(bool enable)
         emit newStatus(Ekos::GUIDE_DISCONNECTED);
         return;
     }
-
-    if ((connection == EQUIPMENT_CONNECTED && enable == true) ||
-            (connection == EQUIPMENT_DISCONNECTED && enable == false))
-        return;
 
     pixelScale = 0 ;
 
