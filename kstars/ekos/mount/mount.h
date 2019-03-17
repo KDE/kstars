@@ -260,17 +260,6 @@ class Mount : public QWidget, public Ui::Mount
      */
     Q_INVOKABLE bool executeMeridianFlip();
 
-    /*
-     * @brief activate meridian flip function
-     * @param activate true iff the meridian flip function should be enabled
-     */
-    Q_INVOKABLE Q_NOREPLY void activateMeridianFlip(bool activate);
-
-    /*
-     * @brief set the time beyond the meridian when the meridian flip
-     * @param hours time limit
-     */
-    Q_INVOKABLE Q_NOREPLY void setMeridianFlipLimit(double hours);
 
 public slots:
 
@@ -349,6 +338,13 @@ public slots:
 
     void meridianFlipStatusChanged(MeridianFlipStatus status);
 
+    /*
+     * @brief set meridian flip activation and hours
+     * @param activate true iff the meridian flip should be executed
+     * @param hours angle past the meridian when the flip should be delayed
+     */
+    void setMeridianFlipValues(bool activate, double hours);
+
 private slots:
 
     /**
@@ -362,6 +358,8 @@ private slots:
     void stopParkTimer();
     void startAutoPark();
 
+    void meridianFlipSetupChanged();
+
   signals:
     void newLog(const QString &text);
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
@@ -372,6 +370,7 @@ private slots:
     void slewRateChanged(int index);
     void ready();
     void newMeridianFlipStatus(MeridianFlipStatus status);
+    void newMeridianFlipSetup(bool activate, double hours);
 
 private:
     void syncGPS();

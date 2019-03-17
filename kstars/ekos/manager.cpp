@@ -2990,6 +2990,10 @@ void Manager::connectModules()
     // Capture <---> Mount connections
     if (captureProcess.get() && mountProcess.get())
     {
+        // Meridian Flip Setup Values
+        connect(captureProcess.get(), &Ekos::Capture::newMeridianFlipSetup, mountProcess.get(), &Ekos::Mount::setMeridianFlipValues, Qt::UniqueConnection);
+        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipSetup, captureProcess.get(), &Ekos::Capture::setMeridianFlipValues, Qt::UniqueConnection);
+
         // Meridian Flip states
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::disableAltLimits, Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::enableAltLimits, Qt::UniqueConnection);

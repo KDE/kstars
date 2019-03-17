@@ -256,6 +256,10 @@ Capture::Capture()
         customPropertiesDialog.get()->raise();
     });
 
+    // meridian flip
+    connect(meridianCheck, &QCheckBox::toggled, this, &Ekos::Capture::meridianFlipSetupChanged);
+    connect(meridianHours, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Capture::meridianFlipSetupChanged);
+
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
     flatFieldDuration = static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex());
     wallCoord.setAz(Options::calibrationWallAz());
@@ -420,8 +424,8 @@ void Capture::start()
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
     Options::setEnforceRefocusEveryN(refocusEveryNCheck->isChecked());
 
-    setMeridianFlip(meridianCheck->isChecked());
-    setMeridianFlipHour(meridianHours->value());
+    // propagate the meridian flip values
+    meridianFlipSetupChanged();
 
     // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
     ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
@@ -3245,6 +3249,7 @@ void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
 
         case Mount::FLIP_COMPLETED:
             setMeridianFlipStage(MF_COMPLETED);
+            emit newStatus(Ekos::CAPTURE_IDLE);
             processFlipCompleted();
             break;
 
@@ -4673,24 +4678,18 @@ void Capture::setDirty()
     m_Dirty = true;
 }
 
-void Capture::setMeridianFlip(bool enable)
+void Capture::meridianFlipSetupChanged()
 {
-    Options::setAutoMeridianFlip(enable);
-    QDBusReply<void> const reply = mountInterface->call("activateMeridianFlip", enable);
-
-    if (reply.error().type() != QDBusError::NoError)
-        qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: setting meridian flip request received DBUS error: %1").arg(QDBusError::errorString(reply.error().type()));
+    emit newMeridianFlipSetup(meridianCheck->isChecked(), meridianHours->value());
 }
 
-void Capture::setMeridianFlipHour(double hours)
+
+void Capture::setMeridianFlipValues(bool activate, double hours)
 {
-    Options::setAutoMeridianHours(hours);
-
-    QDBusReply<void> const reply = mountInterface->call("setMeridianFlipLimit", hours);
-
-    if (reply.error().type() != QDBusError::NoError)
-        qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: setting meridian flip time limit request received DBUS error: %1").arg(QDBusError::errorString(reply.error().type()));
+    meridianCheck->setChecked(activate);
+    meridianHours->setValue(hours);
 }
+
 
 bool Capture::hasCoolerControl()
 {

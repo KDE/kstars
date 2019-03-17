@@ -174,17 +174,13 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
 
-        /** DBUS interface function.
-             * Enable or Disable meridian flip, and sets its activation hour.
-             * @param enable If true, meridian flip will be command after user-configurable number of hours.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setMeridianFlip(bool enable);
+        /*
+         * @brief set meridian flip activation and hours
+         * @param activate true iff the meridian flip should be executed
+         * @param hours angle past the meridian when the flip should be delayed
+         */
+        Q_INVOKABLE Q_NOREPLY void setMeridianFlipValues(bool activate, double hours);
 
-        /** DBUS interface function.
-             * Sets meridian flip trigger hour.
-             * @param hours Number of hours after the meridian at which the mount is commanded to flip.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setMeridianFlipHour(double hours);
 
         /** DBUS interface function.
              * Does the CCD has a cooler control (On/Off) ?
@@ -655,7 +651,8 @@ class Capture : public QWidget, public Ui::Capture
          */
         void registerNewModule(const QString &name);
 
-    signals:
+        void meridianFlipSetupChanged();
+signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
         Q_SCRIPTABLE void meridianFlipCompleted();
@@ -673,6 +670,7 @@ class Capture : public QWidget, public Ui::Capture
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
         void newMeridianFlipStatus(Mount::MeridianFlipStatus status);
+        void newMeridianFlipSetup(bool activate, double hours);
 
     private:
         void setBusy(bool enable);
