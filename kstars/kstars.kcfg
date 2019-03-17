@@ -2220,6 +2220,10 @@
          <label>Do not permit jobs to be scheduled or executed past this many minutes before dawn.</label>
          <default>30</default>
       </entry>
+      <entry name="SettingAltitudeCutoff" type="Double">
+         <label>Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.</label>
+         <default>3</default>
+      </entry>
       <entry name="TelescopeFocalLength" type="Double">
          <label>Telescope focal length in millimeters.</label>
          <default>0</default>
