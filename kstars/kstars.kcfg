@@ -2019,7 +2019,7 @@
       </entry>
       <entry name="AutoModeIterations" type="UInt">
          <label>Number of automode iterations for calibration process.</label>
-         <default>5</default>
+         <default>3</default>
       </entry>
       <entry name="GuideLostStarTimeout" type="UInt">
          <label>When star tracking is lost, wait this many seconds before aborting.</label>
