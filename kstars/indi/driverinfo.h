@@ -14,6 +14,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QJsonObject>
 
 class ClientManager;
 class DeviceInfo;
@@ -56,6 +57,20 @@ class DriverInfo : public QObject
     ~DriverInfo();
 
     DriverInfo *clone(bool resetClone=true);
+
+    QJsonObject toJson() const
+    {
+        return
+        {
+            {"name", name},
+            {"label", label},
+            {"binary", exec},
+            {"version", version},
+            {"manufacturer", m_Manufacturer},
+            {"skel", skelFile},
+            {"family", DeviceFamilyLabels[type]},
+        };
+    }
 
     void reset();
     void resetDevices() { devices.clear(); }
