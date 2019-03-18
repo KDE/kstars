@@ -113,8 +113,14 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
-    connect(ekosLiveClient.get(), &EkosLive::Client::connected, [this]() { emit ekosLiveStatusChanged(true); });
-    connect(ekosLiveClient.get(), &EkosLive::Client::disconnected, [this]() { emit ekosLiveStatusChanged(false); });
+    connect(ekosLiveClient.get(), &EkosLive::Client::connected, [this]()
+    {
+        emit ekosLiveStatusChanged(true);
+    });
+    connect(ekosLiveClient.get(), &EkosLive::Client::disconnected, [this]()
+    {
+        emit ekosLiveStatusChanged(false);
+    });
 
     // INDI Control Panel
     //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
@@ -2329,12 +2335,34 @@ bool Manager::setProfile(const QString &profileName)
 
 void Manager::addNamedProfile(const QJsonObject &profileInfo)
 {
-  // TODO
+    ProfileEditor editor(this);
+
+    editor.setSettings(profileInfo);
+    editor.saveProfile();
+    profiles.clear();
+    loadProfiles();
+    profileCombo->setCurrentIndex(profileCombo->count() - 1);
+    currentProfile = getCurrentProfile();
 }
 
 void Manager::deleteNamedProfile(const QString &name)
 {
-  // TODO
+    currentProfile = getCurrentProfile();
+
+    for (auto &pi : profiles)
+    {
+        // Do not delete an actively running profile
+        // Do not delete simulator profile
+        if (pi->name == "Simulators" || pi->name != name || (pi.get() == currentProfile && ekosStatus() != Idle))
+            continue;
+
+        KStarsData::Instance()->userdb()->DeleteProfile(pi.get());
+
+        profiles.clear();
+        loadProfiles();
+        currentProfile = getCurrentProfile();
+        return;
+    }
 }
 
 QJsonObject Manager::getNamedProfile(const QString &name)
@@ -2345,7 +2373,7 @@ QJsonObject Manager::getNamedProfile(const QString &name)
     for (auto &pi : profiles)
     {
         if (name == pi->name)
-          return pi->toJson();
+            return pi->toJson();
     }
 
     return QJsonObject();
