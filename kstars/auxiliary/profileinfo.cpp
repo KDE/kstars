@@ -115,36 +115,31 @@ QString ProfileInfo::aux4() const
 
 QJsonObject ProfileInfo::toJson() const
 {
-    QJsonObject drivers =
-    {
-      {"mount", mount()},
-      {"ccd", ccd()},
-      {"guider", guider()},
-      {"focuser", focuser()},
-      {"filter", filter()},
-      {"ao", ao()},
-      {"dome", dome()},
-      {"weather", weather()},
-      {"aux1", aux1()},
-      {"aux2", aux2()},
-      {"aux3", aux3()},
-      {"aux4", aux4()},
-      {"remote", remotedrivers},
-    };
-
     return
     {
         {"name", name},
         {"auto_connect", autoConnect},
-        {"mode", host.isEmpty() ? "local": "remote"},
+        {"mode", host.isEmpty() ? "local" : "remote"},
         {"remote_host", host},
         {"remote_port", port},
         {"guiding", guidertype},
         {"remote_guiding_host", guiderhost},
         {"remote_guiding_port", guiderport},
         {"use_web_manager", INDIWebManagerPort != -1},
-        {"drivers", drivers},
         {"primary_scope", primaryscope},
-        {"guide_scope", guidescope}
+        {"guide_scope", guidescope},
+        {"mount", mount()},
+        {"ccd", ccd()},
+        {"guider", guider()},
+        {"focuser", focuser()},
+        {"filter", filter()},
+        {"ao", ao()},
+        {"dome", dome()},
+        {"weather", weather()},
+        {"aux1", aux1()},
+        {"aux2", aux2()},
+        {"aux3", aux3()},
+        {"aux4", aux4()},
+        {"remote", remotedrivers},
     };
 }

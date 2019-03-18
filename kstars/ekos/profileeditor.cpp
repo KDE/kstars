@@ -54,7 +54,8 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
         QDesktopServices::openUrl(url);
     });
 
-    connect(ui->INDIWebManagerCheck, &QCheckBox::toggled, [&](bool enabled) {
+    connect(ui->INDIWebManagerCheck, &QCheckBox::toggled, [&](bool enabled)
+    {
         ui->openWebManagerB->setEnabled(enabled);
         ui->remoteDrivers->setEnabled(enabled || ui->localMode->isChecked());
     });
@@ -97,37 +98,37 @@ void ProfileEditor::loadScopeEquipment()
     ui->guideScopeCombo->addItem(i18n("Default"));
     ui->guideScopeCombo->setItemData(0, i18n("Use scope data from INDI"), Qt::ToolTipRole);
 
-    int primaryScopeIndex=0;
-    int guideScopeIndex=0;
+    int primaryScopeIndex = 0;
+    int guideScopeIndex = 0;
 
-    for (int i=0; i < m_scopeList.count(); i++)
+    for (int i = 0; i < m_scopeList.count(); i++)
     {
         OAL::Scope *oneScope = m_scopeList[i];
 
         ui->primaryScopeCombo->addItem(oneScope->name());
         if (pi && oneScope->id().toInt() == pi->primaryscope)
-            primaryScopeIndex = i+1;
+            primaryScopeIndex = i + 1;
 
         ui->guideScopeCombo->addItem(oneScope->name());
         if (pi && oneScope->id().toInt() == pi->guidescope)
-            guideScopeIndex = i+1;
+            guideScopeIndex = i + 1;
 
         double FocalLength = oneScope->focalLength();
         double Aperture = oneScope->aperture();
 
-        ui->primaryScopeCombo->setItemData(i+1,
-            i18nc("F-Number, Focal Length, Aperture",
-                  "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                  QString::number(FocalLength / Aperture, 'f', 1), QString::number(FocalLength, 'f', 2),
-                  QString::number(Aperture, 'f', 2)),
-            Qt::ToolTipRole);
+        ui->primaryScopeCombo->setItemData(i + 1,
+                                           i18nc("F-Number, Focal Length, Aperture",
+                                                   "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+                                                   QString::number(FocalLength / Aperture, 'f', 1), QString::number(FocalLength, 'f', 2),
+                                                   QString::number(Aperture, 'f', 2)),
+                                           Qt::ToolTipRole);
 
-        ui->guideScopeCombo->setItemData(i+1,
-            i18nc("F-Number, Focal Length, Aperture",
-                  "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                  QString::number(FocalLength / Aperture, 'f', 1), QString::number(FocalLength, 'f', 2),
-                  QString::number(Aperture, 'f', 2)),
-            Qt::ToolTipRole);
+        ui->guideScopeCombo->setItemData(i + 1,
+                                         i18nc("F-Number, Focal Length, Aperture",
+                                               "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+                                               QString::number(FocalLength / Aperture, 'f', 1), QString::number(FocalLength, 'f', 2),
+                                               QString::number(Aperture, 'f', 2)),
+                                         Qt::ToolTipRole);
     }
 
     ui->primaryScopeCombo->setCurrentIndex(primaryScopeIndex);
@@ -209,8 +210,8 @@ void ProfileEditor::saveProfile()
     }
 
     // Scope list
-    pi->primaryscope=0;
-    pi->guidescope=0;
+    pi->primaryscope = 0;
+    pi->guidescope = 0;
 
     QString selectedScope = ui->primaryScopeCombo->currentText();
     QString selectedGuide = ui->guideScopeCombo->currentText();
@@ -527,7 +528,7 @@ QString ProfileEditor::getTooltip(DriverInfo *dv)
     QString toolTipText;
     if (!locallyAvailable)
         toolTipText = i18n(
-            "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
+                          "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
     else
         toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
                            dv->getLabel(), dv->getName(), dv->getExecutable());
@@ -582,7 +583,7 @@ void ProfileEditor::loadDrivers()
             QString manufacturer = dv->manufacturer();
             QList<QStandardItem*> manufacturers = m_MountModel->findItems(manufacturer);
 
-             QStandardItem *parentItem = nullptr;
+            QStandardItem *parentItem = nullptr;
             if (m_MountModel->findItems(manufacturer).empty())
             {
                 parentItem = new QStandardItem(manufacturer);
@@ -663,12 +664,12 @@ void ProfileEditor::loadDrivers()
 
         switch (dv->getType())
         {
-//            case KSTARS_TELESCOPE:
-//            {
-//                ui->mountCombo->addItem(icon, dv->getLabel());
-//                ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-//            }
-//            break;
+            //            case KSTARS_TELESCOPE:
+            //            {
+            //                ui->mountCombo->addItem(icon, dv->getLabel());
+            //                ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
+            //            }
+            //            break;
 
             case KSTARS_CCD:
             {
@@ -932,4 +933,53 @@ void ProfileEditor::updateGuiderSelection(int id)
     ui->externalGuideHost->setText(host);
     ui->externalGuidePort->setText(QString::number(port));
 
+}
+
+void ProfileEditor::setSettings(const QJsonObject &profile)
+{
+    ui->profileIN->setText(profile["name"].toString());
+    ui->autoConnectCheck->setChecked(profile["auto_connect"].toBool(true));
+    ui->localMode->setChecked(profile["mode"].toString() == "local");
+    ui->remoteMode->setChecked(profile["mode"].toString() == "remote");
+    ui->remoteHost->setText(profile["remote_host"].toString("localhost"));
+    ui->remotePort->setText(profile["remote_port"].toString("7624"));
+    ui->guideTypeCombo->setCurrentText(profile["guiding"].toString(i18n("Internal")));
+    ui->externalGuideHost->setText(profile["remote_guiding_host"].toString(("localhost")));
+    ui->externalGuideHost->setText(profile["remote_guiding_port"].toString());
+    ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
+
+    int primaryID = profile["primary_scope"].toInt(-1);
+    int guideID = profile["guide_scope"].toInt(-1);
+
+    for (int i = 1; i < ui->primaryScopeCombo->count(); i++)
+    {
+        if (m_scopeList[i - 1]->id().toInt() == primaryID)
+        {
+            ui->primaryScopeCombo->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    for (int i = 1; i < ui->guideScopeCombo->count(); i++)
+    {
+        if (m_scopeList[i - 1]->id().toInt() == guideID)
+        {
+            ui->guideScopeCombo->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    // Drivers
+    ui->mountCombo->setCurrentText(profile["mount"].toString("--"));
+    ui->ccdCombo->setCurrentText(profile["ccd"].toString("--"));
+    ui->guiderCombo->setCurrentText(profile["guider"].toString("--"));
+    ui->focuserCombo->setCurrentText(profile["focuser"].toString("--"));
+    ui->filterCombo->setCurrentText(profile["filter"].toString("--"));
+    ui->AOCombo->setCurrentText(profile["ao"].toString("--"));
+    ui->domeCombo->setCurrentText(profile["dome"].toString("--"));
+    ui->weatherCombo->setCurrentText(profile["weather"].toString("--"));
+    ui->aux1Combo->setCurrentText(profile["aux1"].toString("--"));
+    ui->aux2Combo->setCurrentText(profile["aux2"].toString("--"));
+    ui->aux3Combo->setCurrentText(profile["aux3"].toString("--"));
+    ui->aux4Combo->setCurrentText(profile["aux4"].toString("--"));
 }
