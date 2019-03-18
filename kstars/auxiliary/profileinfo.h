@@ -22,24 +22,21 @@ class ProfileInfo
 
     // Is connection local or remote
     bool isLocal() { return host.isEmpty(); }
-    QJsonObject toJson() const
-    {
-        return {{"name", name}, {"isLocal", host.isEmpty()}};
-    }
+    QJsonObject toJson() const;
 
-    QString mount();
-    QString ccd();
-    QString guider();
-    QString focuser();
-    QString filter();
-    QString dome();
-    QString ao();
-    QString weather();
-    QString aux1();
-    QString aux2();
-    QString aux3();
-    QString aux4();
-    QString remoteDrivers();
+    QString mount() const;
+    QString ccd() const;
+    QString guider() const;
+    QString focuser() const;
+    QString filter() const;
+    QString dome() const;
+    QString ao() const;
+    QString weather() const;
+    QString aux1() const;
+    QString aux2() const;
+    QString aux3() const;
+    QString aux4() const;
+    QString remoteDrivers() const;
 
     QString name;
     QString host;

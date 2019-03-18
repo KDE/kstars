@@ -707,6 +707,18 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
     {
         m_Manager->stop();
     }
+    else if (command == commands[ADD_PROFILE])
+    {
+        m_Manager->addNamedProfile(payload);
+    }
+    else if (command == commands[GET_PROFILE])
+    {
+        m_Manager->getNamedProfile(payload["name"].toString());
+    }
+    else if (command == commands[DELETE_PROFILE])
+    {
+        m_Manager->deleteNamedProfile(payload["name"].toString());
+    }
 }
 
 void Message::sendProfiles()

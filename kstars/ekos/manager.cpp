@@ -2327,6 +2327,30 @@ bool Manager::setProfile(const QString &profileName)
     return true;
 }
 
+void Manager::addNamedProfile(const QJsonObject &profileInfo)
+{
+  // TODO
+}
+
+void Manager::deleteNamedProfile(const QString &name)
+{
+  // TODO
+}
+
+QJsonObject Manager::getNamedProfile(const QString &name)
+{
+    QJsonObject profileInfo;
+
+    // Get current profile
+    for (auto &pi : profiles)
+    {
+        if (name == pi->name)
+          return pi->toJson();
+    }
+
+    return QJsonObject();
+}
+
 QStringList Manager::getProfiles()
 {
     QStringList profiles;

@@ -47,6 +47,9 @@ enum COMMANDS
     GET_PROFILES,
     START_PROFILE,
     STOP_PROFILE,
+    ADD_PROFILE,
+    GET_PROFILE,
+    DELETE_PROFILE,
 
     // Capture
     CAPTURE_PREVIEW,
@@ -148,6 +151,9 @@ static QMap<COMMANDS, QString> const commands =
     {GET_PROFILES, "get_profiles"},
     {START_PROFILE, "profile_start"},
     {STOP_PROFILE, "profile_stop"},
+    {ADD_PROFILE, "profile_add"},
+    {GET_PROFILE, "profile_get"},
+    {DELETE_PROFILE, "profile_delete"},
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},

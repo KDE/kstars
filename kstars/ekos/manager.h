@@ -134,7 +134,40 @@ class Manager : public QDialog, public Ui::Manager
         void announceEvent(const QString &message, KSNotification::EventType event);
 
         /**
-         * Manager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
+         * @brief addProfile Add a new profile to the database.
+         * @param profileInfo Collection of profile parameters to include the following:
+         * 1. name: Profile name
+         * 2. auto_connect: True of False for Autoconnect?
+         * 3. Mode: "local" or "remote"
+         * 4. remote_host: Optional. remote host (default localhost)
+         * 5. remote_port: Optional. remote port (default 7624)
+         * 6. guiding: 0 for "Internal", 1 for "PHD2", or 2 for "LinGuider"
+         * 7. remote_guiding_host: Optional. remote host for guider application (default localhost)
+         * 8. remote_guide_port: Optional. remote port for guider application.
+         * 9. use_web_manager: True or False?
+         * 10. web_manager_port. Optional. INDI Web Manager port (default 8624)
+         * 11. drivers: JSon Object with all drivers. e.g. drivers["mount"], drivers["custom"]. It includes the driver label
+         * 12. primary_scope: Name of primary scope to use, if any.
+         * 13. guide_scope: Name of guide scope to use, if any.
+         */
+        void addNamedProfile(const QJsonObject &profileInfo);
+
+        /**
+         * @brief deleteProfile Delete existing equipment profile
+         * @param name Name of profile
+         * @warning Ekos must be stopped for this to work. It will fail if Ekos is online.
+         */
+        void deleteNamedProfile(const QString &name);
+
+        /**
+         * @brief getProfile Get a single profile information.
+         * @param name Profile name
+         * @return A JSon object with the detail profile info as described in addProfile function.
+         */
+        QJsonObject getNamedProfile(const QString &name);
+
+        /**
+         * DBus commands to manage equipment profiles.
          */
 
         /*@{*/
@@ -153,6 +186,15 @@ class Manager : public QDialog, public Ui::Manager
          * @return List of device profiles
          */
         Q_SCRIPTABLE QStringList getProfiles();
+
+        /** @}*/
+
+
+        /**
+         * Manager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
+         */
+
+        /*@{*/
 
         /**
          * DBUS interface function.
