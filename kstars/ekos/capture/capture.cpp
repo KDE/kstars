@@ -591,7 +591,8 @@ void Capture::stop(CaptureState targetState)
     calibrationStage = CAL_NONE;
     m_State            = targetState;
 
-    emit newStatus(targetState);
+    if (activeJob != nullptr)
+        emit newStatus(targetState);
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (dustCap && dustCapLightEnabled)
