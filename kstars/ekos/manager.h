@@ -146,9 +146,20 @@ class Manager : public QDialog, public Ui::Manager
          * 8. remote_guide_port: Optional. remote port for guider application.
          * 9. use_web_manager: True or False?
          * 10. web_manager_port. Optional. INDI Web Manager port (default 8624)
-         * 11. drivers: JSon Object with all drivers. e.g. drivers["mount"], drivers["custom"]. It includes the driver label
-         * 12. primary_scope: Name of primary scope to use, if any.
-         * 13. guide_scope: Name of guide scope to use, if any.
+         * 12. primary_scope: ID of primary scope to use. This is the ID from OAL::Scope list in the database.
+         * 13. guide_scope: ID of guide scope to use. This is the ID from OAL::Scope list in the database.
+         * 14. mount: Mount driver label (default --).
+         * 15. ccd: CCD driver label (default --).
+         * 16. guider: Guider driver label (default --).
+         * 17. focuser: Focuser driver label (default --).
+         * 18. filter: Filter Wheel driver label (default --).
+         * 19. ao: Adaptive Optics driver label (default --).
+         * 20. dome: Dome driver label (default --).
+         * 21. Weather: Weather station driver label (default --).
+         * 22. aux1: aux1 driver label (default --).
+         * 23. aux2: aux2 driver label (default --).
+         * 24. aux3: aux3 driver label (default --).
+         * 25. aux4: aux4 driver label (default --).
          */
         void addNamedProfile(const QJsonObject &profileInfo);
 
@@ -224,7 +235,7 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE CommunicationStatus ekosStatus()
         {
             return m_ekosStatus;
-        }               
+        }
 
         /**
          * DBUS interface function.
