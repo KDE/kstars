@@ -1575,3 +1575,13 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
 
     return uniqueLabel;
 }
+
+QJsonArray DriverManager::getDriverList() const
+{
+    QJsonArray driverArray;
+
+    for (const auto &drv : driversList)
+        driverArray.append(drv->toJson());
+
+    return driverArray;
+}

@@ -50,6 +50,7 @@ public:
     void sendFilterWheels();
     void sendDomes();
     void sendCaps();
+    void sendDrivers();
 
 signals:
     void connected();
