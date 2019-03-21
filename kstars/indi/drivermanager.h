@@ -19,6 +19,7 @@
 #include <QIcon>
 #include <QString>
 #include <QPointer>
+#include <QJsonArray>
 
 #include <lilxml.h>
 
@@ -107,6 +108,7 @@ class DriverManager : public QDialog
 
     const QList<DriverInfo *> &getDrivers() const { return driversList; }
     const QList<QVariantMap> &getCustomDrivers() const { return m_CustomDrivers->customDrivers(); }
+    QJsonArray getDriverList() const;
 
     const QStringList &getDriversStringList() { return driversStringList; }
 
