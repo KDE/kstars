@@ -169,6 +169,7 @@ class InternalGuider : public GuideInterface
         int ra_total_pulse { 0 };
         int de_total_pulse { 0 };
         double phi { 0 };
+        uint8_t backlash { 0 };
     } m_CalibrationParams;
 
     struct
