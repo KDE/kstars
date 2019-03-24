@@ -531,6 +531,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             ROT_Z = RotateZ(-M_PI * m_CalibrationParams.phi / 180.0); // derotates...
 
             m_CalibrationCoords.ra_distance = 0;
+            m_CalibrationParams.backlash = 0;
 
             emit newPulse(RA_DEC_DIR, m_CalibrationParams.last_pulse);
             m_CalibrationParams.ra_iterations++;
@@ -604,13 +605,19 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
         // Also increase pulse width if we are going FARTHER and not back to our original position
         else if ( (fabs(cur_x-m_CalibrationCoords.last_x) < 0.5 && fabs(cur_y-m_CalibrationCoords.last_y) < 0.5) || star_pos.x > m_CalibrationCoords.ra_distance)
         {
-            // Increase pulse by 200%
-            m_CalibrationParams.last_pulse = Options::calibrationPulseDuration()*2;
+            m_CalibrationParams.backlash++;
+
+            // Increase pulse to 200% after we tried to fight against backlash 2 times at least
+            if (m_CalibrationParams.backlash > 2)
+                m_CalibrationParams.last_pulse = Options::calibrationPulseDuration()*2;
+            else
+                m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
         }
         else
         {
             m_CalibrationParams.ra_total_pulse += m_CalibrationParams.last_pulse;
             m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
+            m_CalibrationParams.backlash = 0;
         }
         m_CalibrationCoords.last_x = cur_x;
         m_CalibrationCoords.last_y = cur_y;
