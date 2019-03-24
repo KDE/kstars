@@ -3642,8 +3642,10 @@ void Align::processNumber(INumberVectorProperty *nvp)
         if (pahStage == PAH_FIRST_ROTATE)
         {
             // only wait for telescope to slew to new position if manual slewing is switched off
-            if(!PAHManual->isChecked()){
+            if(!PAHManual->isChecked())
+            {
                 double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+                qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remainging degrees:" << deltaAngle;
                 if (deltaAngle <= PAH_ROTATION_THRESHOLD)
                 {
                     currentTelescope->StopWE();
@@ -3672,8 +3674,10 @@ void Align::processNumber(INumberVectorProperty *nvp)
         else if (pahStage == PAH_SECOND_ROTATE)
         {
             // only wait for telescope to slew to new position if manual slewing is switched off
-            if(!PAHManual->isChecked()){
+            if(!PAHManual->isChecked())
+            {
                 double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+                qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remainging degrees:" << deltaAngle;
                 if (deltaAngle <= PAH_ROTATION_THRESHOLD)
                 {
                     currentTelescope->StopWE();
