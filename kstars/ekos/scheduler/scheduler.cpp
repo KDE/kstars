@@ -3378,8 +3378,8 @@ void Scheduler::checkJobStage()
             {
                 appendLogText(i18n("Job '%1' current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), "
                                    "marking aborted.", currentJob->getName(),
-                                   QString("%L1").arg(0, p.alt().Degrees(), minAltitude->decimals()),
-                                   QString("%L1").arg(0, currentJob->getMinAltitude(), minAltitude->decimals())));
+                                   QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals()),
+                                   QString("%L1").arg(currentJob->getMinAltitude(), 0, 'f', minAltitude->decimals())));
 
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
                 stopCurrentJobAction();

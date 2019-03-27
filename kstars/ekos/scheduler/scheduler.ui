@@ -1036,7 +1036,7 @@
           <item row="0" column="1">
            <widget class="QDoubleSpinBox" name="minAltitude">
             <property name="minimum">
-             <double>15.000000000000000</double>
+             <double>-15.000000000000000</double>
             </property>
             <property name="maximum">
              <double>89.900000000000006</double>
