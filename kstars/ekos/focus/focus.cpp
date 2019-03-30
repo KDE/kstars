@@ -146,6 +146,11 @@ Focus::Focus()
     connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
 
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [](const QString & text)
+    {
+        Options::setDefaultFocusFilterWheel(text);
+    });
+
     connect(setAbsTicksB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
     connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::setActiveBinning);
     connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
@@ -262,6 +267,7 @@ Focus::Focus()
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
     connect(filterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
 
+    // Update Option changes
     exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
@@ -277,7 +283,6 @@ Focus::Focus()
     useFullField->setChecked(Options::focusUseFullField());
     fullFieldInnerRing->setValue(Options::focusFullFieldInnerRadius());
     fullFieldOuterRing->setValue(Options::focusFullFieldOuterRadius());
-    //focusFramesSpin->setValue(Options::focusFrames());
 
     connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
 
@@ -421,6 +426,7 @@ void Focus::checkCCD(int ccdNum)
                 for (int i = 1; i <= subBinX; i++)
                     binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
 
+                activeBin = Options::focusXBin();
                 binningCombo->setCurrentIndex(activeBin - 1);
             }
             else
@@ -532,6 +538,15 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     checkFilter(1);
 
     FilterDevicesCombo->setCurrentIndex(1);
+
+    if (Options::defaultFocusFilterWheel().isEmpty() == false)
+    {
+        FilterDevicesCombo->setCurrentText(Options::defaultFocusFilterWheel());
+
+        if (Options::defaultFocusFilterWheelFilter().isEmpty() == false)
+            FilterPosCombo->setCurrentText(Options::defaultFocusFilterWheelFilter());
+    }
+
 }
 
 bool Focus::setFilterWheel(const QString &device)
@@ -597,6 +612,8 @@ void Focus::checkFilter(int filterNum)
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum - 1);
 
+    //Options::setDefaultFocusFilterWheel(currentFilter->getDeviceName());
+
     filterManager->setCurrentFilterWheel(currentFilter);
 
     FilterPosCombo->clear();
@@ -606,6 +623,8 @@ void Focus::checkFilter(int filterNum)
     currentFilterPosition = filterManager->getFilterPosition();
 
     FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
+
+    //Options::setDefaultFocusFilterWheelFilter(FilterPosCombo->currentText());
 
     exposureIN->setValue(filterManager->getFilterExposure());
 }
@@ -1317,7 +1336,7 @@ void Focus::setCaptureComplete()
                     const auto median =
                         ((HFRFrames.size() % 2) ?
                          HFRFrames[HFRFrames.size() / 2] :
-                         ((double)HFRFrames[HFRFrames.size() / 2 - 1] + HFRFrames[HFRFrames.size() / 2]) * .5);
+                         (static_cast<double>(HFRFrames[HFRFrames.size() / 2 - 1]) + HFRFrames[HFRFrames.size() / 2]) * .5);
                     const auto mean = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
                     double variance = 0;
                     foreach (auto val, HFRFrames)
@@ -2582,7 +2601,7 @@ void Focus::focusStarSelected(int x, int y)
         //starRect = QRect(x-focusBoxSize->value()/(subBinX*2), y-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
         double dist = sqrt((starCenter.x() - x) * (starCenter.x() - x) + (starCenter.y() - y) * (starCenter.y() - y));
 
-        squareMovedOutside = (dist > ((double)focusBoxSize->value() / subBinX));
+        squareMovedOutside = (dist > (static_cast<double>(focusBoxSize->value()) / subBinX));
         starCenter.setX(x);
         starCenter.setY(y);
         //starRect = QRect( starCenter.x()-focusBoxSize->value()/(2*subBinX), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
@@ -3094,11 +3113,13 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
         FilterPosCombo->addItems(filterManager->getFilterLabels());
         currentFilterPosition = filterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
+        //Options::setDefaultFocusFilterWheelFilter(FilterPosCombo->currentText());
     });
     connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
     {
         currentFilterPosition = filterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
+        //Options::setDefaultFocusFilterWheelFilter(FilterPosCombo->currentText());
     });
     connect(filterManager.data(), &FilterManager::exposureChanged, this, [this]()
     {
@@ -3110,8 +3131,14 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
             [ = ](const QString & text)
     {
         exposureIN->setValue(filterManager->getFilterExposure(text));
-    }
-           );
+        //Options::setDefaultFocusFilterWheelFilter(text);
+    });
+
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
+            [ = ](const QString & text)
+    {
+        Options::setDefaultFocusFilterWheelFilter(text);
+    });
 }
 
 void Focus::toggleVideo(bool enabled)

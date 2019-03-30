@@ -1674,6 +1674,12 @@
       <entry name="DefaultFocusFocuser" type="String">
          <label>Default focus module focuser.</label>
       </entry>
+      <entry name="DefaultFocusFilterWheel" type="String">
+         <label>Default focus module filter wheel.</label>
+      </entry>
+      <entry name="DefaultFocusFilterWheelFilter" type="String">
+         <label>Default focus module filter wheel filter.</label>
+      </entry>
       <entry name="FocusTicks" type="UInt">
          <label>Default Focuser step ticks</label>
          <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
