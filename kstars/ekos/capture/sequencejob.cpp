@@ -282,7 +282,14 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     {
         if (targetFilter != currentFilter)
         {
-            activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+            //activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+
+            FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
+            // Don't perform autofocus on preview
+            if (isPreview())
+                policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
+
+            filterManager->setFilterPosition(targetFilter, policy);
             return CAPTURE_FILTER_BUSY;
         }
     }
