@@ -222,12 +222,13 @@ void SkyMap::slotToggleTimeBox(bool flag)
 void SkyMap::slotToggleInfoboxes(bool flag)
 {
     m_iboxes->setVisible(flag);
+    Options::setShowInfoBoxes(flag);
 }
 
 SkyMap::~SkyMap()
 {
     /* == Save infoxes status into Options == */
-    Options::setShowInfoBoxes(m_iboxes->isVisibleTo(parentWidget()));
+    //Options::setShowInfoBoxes(m_iboxes->isVisibleTo(parentWidget()));
     // Time box
     Options::setPositionTimeBox(m_timeBox->pos());
     Options::setShadeTimeBox(m_timeBox->shaded());
