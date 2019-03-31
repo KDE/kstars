@@ -126,6 +126,8 @@ void Message::onTextReceived(const QString &message)
         emit expired();
         return;
     }
+    else if (command == commands[GET_DRIVERS])
+        sendDrivers();
     else if (command == commands[GET_PROFILES])
         sendProfiles();
     else if (command.startsWith("profile_"))
@@ -148,8 +150,6 @@ void Message::onTextReceived(const QString &message)
         sendDomes();
     else if (command == commands[GET_CAPS])
         sendCaps();
-    else if (command == commands[GET_DRIVERS])
-        sendDrivers();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
