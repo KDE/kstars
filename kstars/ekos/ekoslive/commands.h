@@ -50,11 +50,13 @@ enum COMMANDS
     ADD_PROFILE,
     GET_PROFILE,
     DELETE_PROFILE,
+    UPDATE_PROFILE,
 
     // SCOPES
     GET_SCOPES,
     ADD_SCOPE,
     DELETE_SCOPE,
+    UPDATE_SCOPE,
 
     // Capture
     CAPTURE_PREVIEW,
@@ -109,7 +111,7 @@ enum COMMANDS
     // Polar Assistant Helper
     PAH_START,
     PAH_STOP,
-    PAH_REFRESH,    
+    PAH_REFRESH,
     PAH_SET_CROSSHAIR,
     PAH_SELECT_STAR_DONE,
     PAH_REFRESHING_DONE,
@@ -128,7 +130,7 @@ enum COMMANDS
 
 static QMap<COMMANDS, QString> const commands =
 {
-    {GET_CONNECTION, "get_connection"},    
+    {GET_CONNECTION, "get_connection"},
     {GET_STATES, "get_states"},
     {GET_CAMERAS, "get_cameras"},
     {GET_MOUNTS, "get_mounts"},
@@ -149,7 +151,7 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_VIDEO_FRAME, "new_video_frame"},
     {NEW_ALIGN_FRAME, "new_align_frame"},
     {NEW_NOTIFICATION, "new_notification"},
-    {NEW_TEMPERATURE, "new_temperature"},    
+    {NEW_TEMPERATURE, "new_temperature"},
 
     {LOGOUT, "logout"},
 
@@ -159,10 +161,12 @@ static QMap<COMMANDS, QString> const commands =
     {ADD_PROFILE, "profile_add"},
     {GET_PROFILE, "profile_get"},
     {DELETE_PROFILE, "profile_delete"},
+    {UPDATE_PROFILE, "profile_update"},
 
     {GET_SCOPES, "get_scopes"},
     {ADD_SCOPE, "scope_add"},
     {DELETE_SCOPE, "scope_delete"},
+    {UPDATE_SCOPE, "scope_update"},
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
@@ -210,7 +214,7 @@ static QMap<COMMANDS, QString> const commands =
     {PAH_START, "polar_start"},
     {PAH_STOP, "polar_stop"},
     {PAH_SET_SETTINGS, "polar_set_settings"},
-    {PAH_REFRESH, "polar_refresh"},    
+    {PAH_REFRESH, "polar_refresh"},
     {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
     {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
     {PAH_REFRESHING_DONE, "polar_refreshing_done"},
