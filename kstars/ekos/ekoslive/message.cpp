@@ -131,6 +131,8 @@ void Message::onTextReceived(const QString &message)
         sendDrivers();
     else if (command == commands[GET_PROFILES])
         sendProfiles();
+    else if (command == commands[GET_SCOPES])
+        sendScopes();
     else if (command.startsWith("profile_"))
         processProfileCommands(command, payload);
 
@@ -143,8 +145,6 @@ void Message::onTextReceived(const QString &message)
         sendCameras();
     else if (command == commands[GET_MOUNTS])
         sendMounts();
-    else if (command == commands[GET_SCOPES])
-        sendScopes();
     else if (command == commands[GET_FILTER_WHEELS])
         sendFilterWheels();
     else if (command == commands[GET_DOMES])
