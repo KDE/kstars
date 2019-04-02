@@ -14,6 +14,7 @@
 #include "commands.h"
 #include "profileinfo.h"
 #include "indi/drivermanager.h"
+#include "kstarsdata.h"
 #include "ekos_debug.h"
 
 #include <basedevice.h>
@@ -168,6 +169,8 @@ void Message::onTextReceived(const QString &message)
         processCapCommands(command, payload);
     else if (command.startsWith("option_"))
         processOptionsCommands(command, payload);
+    else if (command.startsWith("scope_"))
+        processScopeCommands(command, payload);
 }
 
 void Message::sendCameras()
@@ -318,12 +321,17 @@ void Message::sendDrivers()
 
 void Message::sendScopes()
 {
-    if (m_isConnected == false ||
-            m_Manager->getEkosStartingStatus() != Ekos::Success ||
-            m_Manager->mountModule() == nullptr)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
-    QJsonArray scopeList = m_Manager->mountModule()->getScopes();
+    QJsonArray scopeList;
+
+    QList<OAL::Scope *> allScopes;
+    KStarsData::Instance()->userdb()->GetAllScopes(allScopes);
+
+    for (auto &scope : allScopes)
+        scopeList.append(scope->toJson());
+
     sendResponse(commands[GET_SCOPES], scopeList);
 }
 
@@ -786,6 +794,21 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
         m_Options[OPTION_SET_CLOUD_STORAGE] = payload["value"].toBool(false);
 
     emit optionsChanged(m_Options);
+}
+
+void Message::processScopeCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[ADD_SCOPE])
+    {
+        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
+                payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble());
+    }
+    else if (command == commands[DELETE_SCOPE])
+    {
+        KStarsData::Instance()->userdb()->DeleteEquipment("telescope", payload["id"].toInt());
+    }
+
+    sendScopes();
 }
 
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
