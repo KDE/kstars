@@ -133,6 +133,8 @@ void Message::onTextReceived(const QString &message)
         sendProfiles();
     else if (command == commands[GET_SCOPES])
         sendScopes();
+    else if (command.startsWith("scope_"))
+        processScopeCommands(command, payload);
     else if (command.startsWith("profile_"))
         processProfileCommands(command, payload);
 
@@ -169,8 +171,6 @@ void Message::onTextReceived(const QString &message)
         processCapCommands(command, payload);
     else if (command.startsWith("option_"))
         processOptionsCommands(command, payload);
-    else if (command.startsWith("scope_"))
-        processScopeCommands(command, payload);
 }
 
 void Message::sendCameras()
