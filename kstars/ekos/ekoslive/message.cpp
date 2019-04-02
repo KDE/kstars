@@ -743,6 +743,11 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
         m_Manager->addNamedProfile(payload);
         sendProfiles();
     }
+    else if (command == commands[UPDATE_PROFILE])
+    {
+        m_Manager->editNamedProfile(payload);
+        sendProfiles();
+    }
     else if (command == commands[GET_PROFILE])
     {
         m_Manager->getNamedProfile(payload["name"].toString());
@@ -802,6 +807,11 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     {
         KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble());
+    }
+    else if (command == commands[UPDATE_SCOPE])
+    {
+        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
+                payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble(), payload["id"].toString());
     }
     else if (command == commands[DELETE_SCOPE])
     {

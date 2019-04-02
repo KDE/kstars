@@ -163,6 +163,9 @@ class Manager : public QDialog, public Ui::Manager
          */
         void addNamedProfile(const QJsonObject &profileInfo);
 
+        /** Same as above, except it edits an existing named profile */
+        void editNamedProfile(const QJsonObject &profileInfo);
+
         /**
          * @brief deleteProfile Delete existing equipment profile
          * @param name Name of profile

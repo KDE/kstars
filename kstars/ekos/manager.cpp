@@ -2333,6 +2333,16 @@ bool Manager::setProfile(const QString &profileName)
     return true;
 }
 
+void Manager::editNamedProfile(const QJsonObject &profileInfo)
+{
+    ProfileEditor editor(this);
+    setProfile(profileInfo["name"].toString());
+    currentProfile = getCurrentProfile();
+    editor.setPi(currentProfile);
+    editor.setSettings(profileInfo);
+    editor.saveProfile();
+}
+
 void Manager::addNamedProfile(const QJsonObject &profileInfo)
 {
     ProfileEditor editor(this);
