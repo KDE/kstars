@@ -47,6 +47,8 @@ class OAL::Scope
                   double _focalLength, double _aperture);
     inline void setINDIDriver(const QString &driver) { m_INDIDriver = driver; }
 
+    QJsonObject toJson() const;
+
   private:
     QString m_Id, m_Model, m_Vendor, m_Type, m_Name, m_INDIDriver;
     double m_FocalLength, m_Aperture;

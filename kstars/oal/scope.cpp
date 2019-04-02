@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "oal/scope.h"
+#include <QJsonObject>
 void OAL::Scope::setScope(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type,
                           double _focalLength, double _aperture)
 {
@@ -29,4 +30,18 @@ void OAL::Scope::setScope(const QString &_id, const QString &_model, const QStri
     //m_Name.append ( _vendor + ' ' + _model + ' ' + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ')' ) ;
 
     m_Name = _vendor + ' ' + _model + " (" + _id + ')';
+}
+
+QJsonObject OAL::Scope::toJson() const
+{
+    return
+    {
+        {"id", m_Id},
+        {"model", m_Model},
+        {"vendor", m_Vendor},
+        {"type", m_Type},
+        {"name", m_Name},
+        {"focal_length", m_FocalLength},
+        {"aperture", m_Aperture},
+    };
 }

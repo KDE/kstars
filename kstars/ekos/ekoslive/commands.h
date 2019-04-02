@@ -22,7 +22,6 @@ enum COMMANDS
     GET_STATES,
     GET_CAMERAS,
     GET_MOUNTS,
-    GET_SCOPES,
     GET_FILTER_WHEELS,
     GET_DOMES,
     GET_CAPS,
@@ -51,6 +50,11 @@ enum COMMANDS
     ADD_PROFILE,
     GET_PROFILE,
     DELETE_PROFILE,
+
+    // SCOPES
+    GET_SCOPES,
+    ADD_SCOPE,
+    DELETE_SCOPE,
 
     // Capture
     CAPTURE_PREVIEW,
@@ -128,7 +132,6 @@ static QMap<COMMANDS, QString> const commands =
     {GET_STATES, "get_states"},
     {GET_CAMERAS, "get_cameras"},
     {GET_MOUNTS, "get_mounts"},
-    {GET_SCOPES, "get_scopes"},
     {GET_FILTER_WHEELS, "get_filter_wheels"},
     {GET_DOMES, "get_domes"},
     {GET_CAPS, "get_caps"},
@@ -156,6 +159,10 @@ static QMap<COMMANDS, QString> const commands =
     {ADD_PROFILE, "profile_add"},
     {GET_PROFILE, "profile_get"},
     {DELETE_PROFILE, "profile_delete"},
+
+    {GET_SCOPES, "get_scopes"},
+    {ADD_SCOPE, "scope_add"},
+    {DELETE_SCOPE, "scope_delete"},
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},

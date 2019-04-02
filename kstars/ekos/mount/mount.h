@@ -245,7 +245,7 @@ class Mount : public QWidget, public Ui::Mount
     Q_INVOKABLE void centerMount();
 
     // Get list of scopes
-    QJsonArray getScopes() const;
+    //QJsonArray getScopes() const;
 
     /*
      * @brief Check if a meridian flip if necessary.

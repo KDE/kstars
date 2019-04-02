@@ -133,6 +133,9 @@ private:
     // Options
     void processOptionsCommands(const QString &command, const QJsonObject &payload);
 
+    // Scopes
+    void processScopeCommands(const QString &command, const QJsonObject &payload);
+
     QWebSocket m_WebSocket;
     QJsonObject m_AuthResponse;
     uint16_t m_ReconnectTries {0};
