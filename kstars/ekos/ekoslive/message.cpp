@@ -321,7 +321,7 @@ void Message::sendDrivers()
 
 void Message::sendScopes()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_isConnected == false)
         return;
 
     QJsonArray scopeList;
