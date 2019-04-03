@@ -951,21 +951,31 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     int primaryID = profile["primary_scope"].toInt(-1);
     int guideID = profile["guide_scope"].toInt(-1);
 
-    for (int i = 1; i < ui->primaryScopeCombo->count(); i++)
+    if (primaryID <= 0)
+        ui->primaryScopeCombo->setCurrentIndex(0);
+    else
     {
-        if (m_scopeList[i - 1]->id().toInt() == primaryID)
+        for (int i = 1; i < ui->primaryScopeCombo->count(); i++)
         {
-            ui->primaryScopeCombo->setCurrentIndex(i);
-            break;
+            if (m_scopeList[i - 1]->id().toInt() == primaryID)
+            {
+                ui->primaryScopeCombo->setCurrentIndex(i);
+                break;
+            }
         }
     }
 
-    for (int i = 1; i < ui->guideScopeCombo->count(); i++)
+    if (guideID <= 0)
+        ui->guideScopeCombo->setCurrentIndex(0);
+    else
     {
-        if (m_scopeList[i - 1]->id().toInt() == guideID)
+        for (int i = 1; i < ui->guideScopeCombo->count(); i++)
         {
-            ui->guideScopeCombo->setCurrentIndex(i);
-            break;
+            if (m_scopeList[i - 1]->id().toInt() == guideID)
+            {
+                ui->guideScopeCombo->setCurrentIndex(i);
+                break;
+            }
         }
     }
 
