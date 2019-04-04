@@ -134,6 +134,11 @@
                <string>Cassegrain</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>Ritchey-Chretien</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="6" column="0">
@@ -227,7 +232,8 @@
               <string>Save</string>
              </property>
              <property name="icon">
-              <iconset theme="list-add"/>
+              <iconset theme="list-add">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
