@@ -672,7 +672,7 @@ void KSUserDB::GetAllCustomDrivers(QList<QVariantMap> &CustomDrivers)
 
 /* HiPS Section */
 
-void KSUserDB::AddHIPSSource(const QMap<QString,QString> &oneSource)
+void KSUserDB::AddHIPSSource(const QMap<QString, QString> &oneSource)
 {
     userdb_.open();
     QSqlTableModel HIPSSource(nullptr, userdb_);
@@ -681,7 +681,7 @@ void KSUserDB::AddHIPSSource(const QMap<QString,QString> &oneSource)
 
     QSqlRecord record = HIPSSource.record();
 
-    for (QMap<QString,QString>::const_iterator iter = oneSource.begin(); iter != oneSource.end(); ++iter)
+    for (QMap<QString, QString>::const_iterator iter = oneSource.begin(); iter != oneSource.end(); ++iter)
         record.setValue(iter.key(), iter.value());
 
     HIPSSource.insertRecord(-1, record);
@@ -719,7 +719,7 @@ void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
 
     for (int i = 0; i < HIPSSource.rowCount(); ++i)
     {
-        QMap<QString,QString> recordMap;
+        QMap<QString, QString> recordMap;
         QSqlRecord record = HIPSSource.record(i);
         for (int j = 1; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j).toString();
@@ -733,7 +733,7 @@ void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
 
 /* DSLR Section */
 
-void KSUserDB::AddDSLRInfo(const QMap<QString,QVariant> &oneInfo)
+void KSUserDB::AddDSLRInfo(const QMap<QString, QVariant> &oneInfo)
 {
     userdb_.open();
     QSqlTableModel DSLRInfo(nullptr, userdb_);
@@ -742,7 +742,7 @@ void KSUserDB::AddDSLRInfo(const QMap<QString,QVariant> &oneInfo)
 
     QSqlRecord record = DSLRInfo.record();
 
-    for (QMap<QString,QVariant>::const_iterator iter = oneInfo.begin(); iter != oneInfo.end(); ++iter)
+    for (QMap<QString, QVariant>::const_iterator iter = oneInfo.begin(); iter != oneInfo.end(); ++iter)
         record.setValue(iter.key(), iter.value());
 
     DSLRInfo.insertRecord(-1, record);
@@ -795,7 +795,7 @@ void KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant>> &DSLRInfos)
 
     for (int i = 0; i < DSLRInfo.rowCount(); ++i)
     {
-        QMap<QString,QVariant> recordMap;
+        QMap<QString, QVariant> recordMap;
         QSqlRecord record = DSLRInfo.record(i);
         for (int j = 1; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j);
@@ -1246,7 +1246,7 @@ bool KSUserDB::ImportFlags()
     flag_file_sequence.append(qMakePair(QString("icon"), KSParser::D_QSTRING));
     flag_file_sequence.append(qMakePair(QString("label"), KSParser::D_QSTRING));
     flag_file_sequence.append(qMakePair(QString("color"), KSParser::D_QSTRING));
-    KSParser flagparser(flagfilename,'#',flag_file_sequence,' ');
+    KSParser flagparser(flagfilename, '#', flag_file_sequence, ' ');
 
     QHash<QString, QVariant> row_content;
     while (flagparser.HasNextRow())
@@ -1259,7 +1259,7 @@ bool KSUserDB::ImportFlags()
         QString label = row_content["label"].toString();
         QString color = row_content["color"].toString();
 
-        AddFlag(ra,dec,epoch,icon,label,color);
+        AddFlag(ra, dec, epoch, icon, label, color);
     }
     return true;
 }
@@ -1371,9 +1371,9 @@ bool KSUserDB::ImportEquipment()
                         readScopes();
                     else if( reader_->name() == "eyepieces" )
                         readEyepieces();
-                    else if( reader_->name() =="lenses" )
+                    else if( reader_->name() == "lenses" )
                         readLenses();
-                    else if( reader_->name() =="filters" )
+                    else if( reader_->name() == "filters" )
                         readFilters();
                 }
             }
@@ -1490,6 +1490,8 @@ void KSUserDB::readScope()
                     type = "Kutter (Schiefspiegler)";
                 if (type == "C")
                     type = "Cassegrain";
+                if (type == "RC")
+                    type = "Ritchey-Chretien";
             }
             else if (reader_->name() == "focalLength")
             {
