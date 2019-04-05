@@ -14,9 +14,11 @@
 #include "commands.h"
 #include "profileinfo.h"
 #include "indi/drivermanager.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
 
+#include <KActionCollection>
 #include <basedevice.h>
 #include <QUuid>
 
@@ -121,7 +123,15 @@ void Message::onTextReceived(const QString &message)
     const QJsonObject payload = msgObj["payload"].toObject();
 
     if (command == commands[GET_CONNECTION])
+    {
         sendConnection();
+        // Always make sure clock is ticking and set it to time
+        // when we start communicating over websocket.
+        KStarsData::Instance()->clock()->start();
+        QAction *a = KStars::Instance()->actionCollection()->action("time_to_now");
+        if (a)
+            a->trigger();
+    }
     else if (command == commands[LOGOUT])
     {
         emit expired();
