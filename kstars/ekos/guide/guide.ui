@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
+    <width>712</width>
     <height>529</height>
    </rect>
   </property>
@@ -86,26 +86,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="subFrameCheck">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star. Before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Subframe</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="darkFrameCheck">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Dark</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QPushButton" name="loopB">
             <property name="text">
@@ -145,32 +125,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QPushButton" name="guideB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Guide</string>
-            </property>
-            <property name="autoDefault">
-             <bool>true</bool>
-            </property>
-            <property name="default">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QPushButton" name="stopB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Stop</string>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="2">
            <widget class="QPushButton" name="manualDitherB">
             <property name="enabled">
@@ -195,7 +149,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="speaker">
+             <iconset theme="path-simplify">
               <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
@@ -203,6 +157,68 @@
               <width>22</width>
               <height>22</height>
              </size>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QPushButton" name="stopB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Stop</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="subFrameCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star. Before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Subframe</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="darkFrameCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Dark</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="kcfg_GuideAutoStarEnabled">
+            <property name="toolTip">
+             <string>Automatically select the calibration star.</string>
+            </property>
+            <property name="text">
+             <string>Auto Star</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" rowspan="2">
+           <widget class="QPushButton" name="guideB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Guide</string>
+            </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -1612,8 +1628,6 @@
   <tabstop>captureB</tabstop>
   <tabstop>loopB</tabstop>
   <tabstop>showFITSViewerB</tabstop>
-  <tabstop>subFrameCheck</tabstop>
-  <tabstop>darkFrameCheck</tabstop>
   <tabstop>guideB</tabstop>
   <tabstop>clearCalibrationB</tabstop>
   <tabstop>stopB</tabstop>
