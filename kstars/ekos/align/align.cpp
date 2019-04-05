@@ -4722,7 +4722,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     }*/
 
     if (coord_ok && Options::astrometryUsePosition())
-        solver_args << "-3" << QString::number(ra * 15.0) << "-4" << QString::number(dec) << "-5 15";
+        solver_args << "-3" << QString::number(ra * 15.0) << "-4" << QString::number(dec) << "-5" << "15";
 
     status = 0;
     double pixelScale = 0;
