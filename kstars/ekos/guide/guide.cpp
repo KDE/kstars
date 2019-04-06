@@ -61,6 +61,12 @@ Guide::Guide() : QWidget()
 
     // To do calibrate + guide in one command
     //autoCalibrateGuide = false;
+    connect(showGuideRateToolTipB, &QPushButton::clicked, [this]()
+    {
+        QToolTip::showText(showGuideRateToolTipB->mapToGlobal(QPoint(10, 10)),
+                           showGuideRateToolTipB->toolTip(),
+                           showGuideRateToolTipB);
+    });
 
     kcfg_GuideAutoStarEnabled->setChecked(Options::guideAutoStarEnabled());
     connect(kcfg_GuideAutoStarEnabled, &QCheckBox::toggled, [](bool enabled)
@@ -546,13 +552,13 @@ void Guide::buildTarget()
     int circleRingPt = 0;
     for (int i = 0; i < pointCount; i++)
     {
-        double theta = i / (double)(pointCount) * 2 * M_PI;
+        double theta = i / static_cast<double>(pointCount) * 2 * M_PI;
 
         for (double ring = 1; ring < 8; ring++)
         {
             if (ring != 4 && ring != 6)
             {
-                if (i % (9 - (int)ring) == 0) //This causes fewer points to draw on the inner circles.
+                if (i % (9 - static_cast<int>(ring)) == 0) //This causes fewer points to draw on the inner circles.
                 {
                     circleRings[circleRingPt] = QCPCurveData(circleRingPt, accuracyRadius * ring * 0.25 * qCos(theta),
                                                 accuracyRadius * ring * 0.25 * qSin(theta));
@@ -1261,7 +1267,7 @@ bool Guide::captureOneFrame()
     if (darkFrameCheck->isChecked())
         targetChip->setCaptureFilter(FITS_NONE);
     else
-        targetChip->setCaptureFilter((FITSScale)filterCombo->currentIndex());
+        targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
     guideView->setBaseSize(guideWidget->size());
     setBusy(true);
@@ -3136,7 +3142,7 @@ bool Guide::executeOneOperation(GuideState operation)
 
                 actionRequired = true;
 
-                targetChip->setCaptureFilter((FITSScale)filterCombo->currentIndex());
+                targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
                 if (darkData)
                     DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX,
@@ -3259,10 +3265,10 @@ void Guide::ditherDirectly()
 
     // Randomize pulse length. It is equal to 50% of pulse length + random value up to 50%
     // e.g. if ditherPulse is 500ms then final pulse is = 250 + rand(0 to 250)
-    int ra_msec  = static_cast<int>(((double)rand() / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
+    int ra_msec  = static_cast<int>((static_cast<double>(rand()) / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
     int ra_polarity = (rand() % 2 == 0) ? 1 : -1;
 
-    int de_msec  = static_cast<int>(((double)rand() / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
+    int de_msec  = static_cast<int>((static_cast<double>(rand()) / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
     int de_polarity = (rand() % 2 == 0) ? 1 : -1;
 
     qCInfo(KSTARS_EKOS_GUIDE) << "Starting non-guiding dither...";
