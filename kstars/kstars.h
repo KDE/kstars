@@ -742,10 +742,10 @@ class KStars : public KXmlGuiWindow
         void slotPolarisHourAngle();
 
         /** Update comets orbital elements*/
-        void slotUpdateComets(bool isAutoUpdate=false);
+        void slotUpdateComets(bool isAutoUpdate = false);
 
         /** Update asteroids orbital elements*/
-        void slotUpdateAsteroids(bool isAutoUpdate=false);
+        void slotUpdateAsteroids(bool isAutoUpdate = false);
 
         /** Update list of recent supernovae*/
         void slotUpdateSupernovae();
@@ -784,6 +784,12 @@ class KStars : public KXmlGuiWindow
         bool isGUIReady()
         {
             return m_SkyMap != nullptr;
+        }
+
+        /** Was KStars started with the clock running, or paused? */
+        bool isStartedWithClockRunning()
+        {
+            return StartClockRunning;
         }
 
         /// Set to true when the application is being closed
