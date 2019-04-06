@@ -125,17 +125,41 @@ void Message::onTextReceived(const QString &message)
     if (command == commands[GET_CONNECTION])
     {
         sendConnection();
-        // Always make sure clock is ticking and set it to time
-        // when we start communicating over websocket.
-        KStarsData::Instance()->clock()->start();
-        QAction *a = KStars::Instance()->actionCollection()->action("time_to_now");
-        if (a)
-            a->trigger();
     }
     else if (command == commands[LOGOUT])
     {
         emit expired();
         return;
+    }
+    else if (command == commands[SET_CLIENT_STATE])
+    {
+        // If client is connected, make sure clock is ticking
+        if (payload["state"].toBool(false))
+        {
+            qCInfo(KSTARS_EKOS) << "EkosLive client is connected.";
+
+            // If the clock is PAUSED, run it now and sync time as well.
+            if (KStarsData::Instance()->clock()->isActive() == false)
+            {
+                qCInfo(KSTARS_EKOS) << "Resuming and syncing clock.";
+                KStarsData::Instance()->clock()->start();
+                QAction *a = KStars::Instance()->actionCollection()->action("time_to_now");
+                if (a)
+                    a->trigger();
+            }
+        }
+        // Otherwise, if KStars was started in PAUSED state
+        // then we pause here as well to save power.
+        else
+        {
+            qCInfo(KSTARS_EKOS) << "EkosLive client is disconnected.";
+            // It was started with paused state, so let's pause IF Ekos is not running
+            if (KStars::Instance()->isStartedWithClockRunning() == false && m_Manager->ekosStatus() == Ekos::CommunicationStatus::Idle)
+            {
+                qCInfo(KSTARS_EKOS) << "Stopping the clock.";
+                KStarsData::Instance()->clock()->stop();
+            }
+        }
     }
     else if (command == commands[GET_DRIVERS])
         sendDrivers();

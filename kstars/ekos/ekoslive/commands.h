@@ -41,6 +41,7 @@ enum COMMANDS
     NEW_NOTIFICATION,
     NEW_TEMPERATURE,
 
+    SET_CLIENT_STATE,
     LOGOUT,
 
     // Profiles
@@ -153,6 +154,7 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_NOTIFICATION, "new_notification"},
     {NEW_TEMPERATURE, "new_temperature"},
 
+    {SET_CLIENT_STATE, "set_client_state"},
     {LOGOUT, "logout"},
 
     {GET_PROFILES, "get_profiles"},

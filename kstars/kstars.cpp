@@ -212,7 +212,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     // If we are starting paused, we need to change datetime in data
     if (StartClockRunning == false)
     {
-        qDebug() << "KStars is started in paused state.";
+        qCInfo(KSTARS) << "KStars is started in paused state.";
         if (datetimeSet == false)
             data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
     }
