@@ -549,10 +549,41 @@
           <item>
            <widget class="QLabel" name="l_3">
             <property name="toolTip">
-             <string>Mount guiding rate. Find out the guiding rate used by your mount and update the value here to get the &lt;b&gt;recommended&lt;/b&gt; value of proportional gain suitable for your mount. Setting this value &lt;b&gt;does not&lt;/b&gt; change your mount guiding rate.</string>
+             <string/>
             </property>
             <property name="text">
              <string>Guiding rate</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Mount guiding rate. Find out the guiding rate used by your mount and update the value here to get the &lt;b&gt;recommended&lt;/b&gt; value of proportional gain suitable for your mount. Setting this value &lt;b&gt;does not&lt;/b&gt; change your mount guiding rate.</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="help-about"/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
