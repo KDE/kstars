@@ -259,7 +259,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         i18n("Offline solver is not supported under Windows. Please use either the Online or Remote solvers."));
 #endif
     solverTypeGroup->button(Options::solverType())->setChecked(true);
-    connect(solverTypeGroup, SIGNAL(buttonClicked(int)), SLOT(setSolverType(int)));
+    connect(solverTypeGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
+            this, &Align::setSolverType);
 
     switch (solverTypeGroup->checkedId())
     {
@@ -5888,8 +5889,8 @@ void Align::setSettings(const QJsonObject &settings)
     exposureIN->setValue(settings["exp"].toDouble(1));
     binningCombo->setCurrentIndex(settings["bin"].toInt() - 1);
 
-    gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->setChecked(true);
-    solverTypeGroup->button(settings["solverType"].toInt(1))->setChecked(true);
+    gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
+    solverTypeGroup->button(settings["solverType"].toInt(1))->click();
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 }
 
