@@ -6657,14 +6657,18 @@ void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
 
 void Scheduler::registerNewModule(const QString &name)
 {
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Registering new Module (" << name << ")";
+
     if (name == "Focus")
     {
+        delete focusInterface;
         focusInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Focus", "org.kde.kstars.Ekos.Focus",
                                               QDBusConnection::sessionBus(), this);
         connect(focusInterface, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
     else if (name == "Capture")
     {
+        delete captureInterface;
         captureInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Capture", "org.kde.kstars.Ekos.Capture",
                                               QDBusConnection::sessionBus(), this);
 
@@ -6673,6 +6677,7 @@ void Scheduler::registerNewModule(const QString &name)
     }
     else if (name == "Mount")
     {
+        delete mountInterface;
         mountInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount",
                                               QDBusConnection::sessionBus(), this);
 
@@ -6681,18 +6686,21 @@ void Scheduler::registerNewModule(const QString &name)
     }
     else if (name == "Align")
     {
+        delete alignInterface;
         alignInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
                                               QDBusConnection::sessionBus(), this);
         connect(alignInterface, SIGNAL(newStatus(Ekos::AlignState)), this, SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
     }
     else if (name == "Guide")
     {
+        delete guideInterface;
         guideInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide",
                                               QDBusConnection::sessionBus(), this);
         connect(guideInterface, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setGuideStatus(Ekos::GuideState)), Qt::UniqueConnection);
     }
     else if (name == "Dome")
     {
+        delete domeInterface;
         domeInterface    = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome",
                                               QDBusConnection::sessionBus(), this);
 
@@ -6700,6 +6708,7 @@ void Scheduler::registerNewModule(const QString &name)
     }
     else if (name == "Weather")
     {
+        delete weatherInterface;
         weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather",
                                               QDBusConnection::sessionBus(), this);
 
@@ -6708,6 +6717,7 @@ void Scheduler::registerNewModule(const QString &name)
     }
     else if (name == "DustCap")
     {
+        delete capInterface;
         capInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
                                           QDBusConnection::sessionBus(), this);
 
