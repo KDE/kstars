@@ -393,7 +393,6 @@ bool TelescopeLite::slew(double ra, double dec)
 
 bool TelescopeLite::slew(SkyPoint *ScopeTarget)
 {
-    abort();
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
 
     if (motionSP == nullptr)
@@ -432,7 +431,6 @@ bool TelescopeLite::sync(double ra, double dec)
 
 bool TelescopeLite::sync(SkyPoint *ScopeTarget)
 {
-    abort();
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
 
     if (motionSP == nullptr)
