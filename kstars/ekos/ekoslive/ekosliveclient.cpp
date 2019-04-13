@@ -122,11 +122,19 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
         if (job->error() == false)
         {
             QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
-            username->setText(data["username"].toString());
-            password->setText(data["password"].toString());
+            const QString usernameText = data["username"].toString();
+            const QString passwordText = data["password"].toString();
 
-            if (autoStartCheck->isChecked())
-                connectAuthServer();
+            // Only set and attempt connection if the data is not empty
+            if (usernameText.isEmpty() == false && passwordText.isEmpty() == false)
+            {
+                username->setText(usernameText);
+                password->setText(passwordText);
+
+                if (autoStartCheck->isChecked())
+                    connectAuthServer();
+            }
+
         }
         job->deleteLater();
     });
