@@ -980,7 +980,13 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     }
 
     // Drivers
-    ui->mountCombo->setCurrentText(profile["mount"].toString("--"));
+    const QString mount = profile["mount"].toString("--");
+    if (mount != "--")
+    {
+        ui->mountCombo->addItem(mount);
+        ui->mountCombo->setCurrentIndex(ui->mountCombo->count() - 1);
+    }
+
     ui->ccdCombo->setCurrentText(profile["ccd"].toString("--"));
     ui->guiderCombo->setCurrentText(profile["guider"].toString("--"));
     ui->focuserCombo->setCurrentText(profile["focuser"].toString("--"));
