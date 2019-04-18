@@ -4,6 +4,82 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.2.0 (Ivy):
+
+596569b5a 2019-04-18 Jasem Mutlaq         Including missing header
+63a05b9f1 2019-04-14 Jasem Mutlaq         Must add mount this way since we have a tree structure
+18fdbc7f3 2019-04-14 Wolfgang Reissenberger Capture counting corrected
+49fc6bfc1 2019-04-13 Jasem Mutlaq         Do not connect to EkosLive with empty username
+8968926f9 2019-04-11 Jasem Mutlaq         Also accept .fits.fz in FITSViewer
+5577dc1c6 2019-04-09 Jasem Mutlaq         Fix slew and sync in KStars Lite. Patch by Sebastian.
+060749c18 2019-04-08 Wolfgang Reissenberger Clean module registration
+11cc7c78c 2019-04-07 Jasem Mutlaq         Use click to trigger the change since the signals are attached to the button clicked event
+6fa80f617 2019-04-06 Jasem Mutlaq         Show toolip explicitly on button click
+29461e124 2019-04-06 Jasem Mutlaq         Add information icon to explain what the guiding rate control is for
+0c8f1ef98 2019-04-06 Jasem Mutlaq         Resume KStars if paused in EkosLive
+4389e2361 2019-04-06 Jasem Mutlaq         Make sure clock is ticking and sync with system time when websocket connection is established
+c90eaa335 2019-04-06 Jasem Mutlaq         Move auto star selection for calibration to main guide module to make it more accessible
+8c0e7b2b9 2019-04-06 Jasem Mutlaq         Fix issue with online solver args
+7bf777cf4 2019-04-04 Jasem Mutlaq         Add RC telescope type
+53266b534 2019-04-04 Jasem Mutlaq         Fix capture delay when using legacy polar alignment tool
+9d6687356 2019-04-03 Jasem Mutlaq         If primary or guide IDs are zero or less, set profile scope to Default
+b91610734 2019-04-02 Jasem Mutlaq         Add support to updating scopes and profiles
+ae65feaa1 2019-04-02 Jasem Mutlaq         Scope commands do not require active connection in this location as well
+e90132500 2019-04-02 Jasem Mutlaq         Scope commands do not require active connection
+049f3083e 2019-04-02 Jasem Mutlaq         GET_SCOPES can now be sent before Ekos is online
+12a340798 2019-04-02 Jasem Mutlaq         Add scope websocket functions to add and delete scopes. Improve getScopes to cover all available telescopes
+d6e0f59b5 2019-04-01 Jasem Mutlaq         Send profile add deleting or adding one
+c59abae19 2019-04-01 Wolfgang Reissenberger Unchecking the meridian flip checkbox reset the meridian flip state
+e8cf401fb 2019-03-31 Jasem Mutlaq         Move send drivers before the block requiring live ekos connection
+9bfe7a47b 2019-03-31 Jasem Mutlaq         Do not change filter directly, use the filter manager
+25441353f 2019-03-31 Jasem Mutlaq         Fix infobox setting not sticking for some reason under Qt 5.12
+5689e1085 2019-03-30 Jasem Mutlaq         Save focus module filter wheel and filter in options
+87baf5eb9 2019-03-27 Eric Dejouhanet      Fix altitude restriction log and allow restriction down to -15 degrees
+9895d4898 2019-03-24 Jasem Mutlaq         Wait until backlash builds up before moving to more aggressive pulses that might cause overshooting the target position
+3916fc78e 2019-03-24 Jasem Mutlaq         Add debug log for remaining angle for mount rotation in alignment module
+c5f80470d 2019-03-21 Jasem Mutlaq         Add websocket function to get all drivers
+f9ab9cbb8 2019-03-18 Jasem Mutlaq         Update docs
+677f7dbad 2019-03-18 Jasem Mutlaq         Profile management via websocket is ready for testing
+60bd7f39a 2019-03-18 Jasem Mutlaq         Initial work for profile and driver exposure to ekoslive
+bd1d4d28b 2019-03-18 Wolfgang Reissenberger Bugfix: proper usage of abort() for finishing a capture sequence queue
+abbfb7db1 2019-03-17 Jasem Mutlaq         Reduce calibration iterations to 3 by default as it is mostly what is required for most cases
+fabf80109 2019-03-17 Eric Dejouhanet      Prevent rescheduling aborted jobs until all jobs are processed
+410f0226f 2019-03-17 Jasem Mutlaq         Making Scheduler robust against guiding problems
+f52ef343d 2019-03-17 Wolfgang Reissenberger Bugfix #405325: Keeping meridian flip in capture and mount in sync.
+7a04a4393 2019-03-12 Jasem Mutlaq         Fix websocket getting called from a different thread
+cba93a705 2019-03-12 Jasem Mutlaq         Add EkosLive DBus methods and properties
+99ba5e31e 2019-03-12 Jasem Mutlaq         Display saved DSLR infos
+15c296062 2019-03-12 Robert Lancaster     Making the StarProfile Viewer fix from 3.1.0 work for Guide and Focus Views too
+6ee0ebfb7 2019-03-10 Jasem Mutlaq         Load captured RAW images in summary without have to double-covert them since they are converted once in INDI::CCD
+1549005f5 2019-03-10 Jasem Mutlaq         Only remove .fits explicitly from base name instead of finding last decimal point since this causes conflicts with exposures in file names
+08fc70c84 2019-03-09 Jasem Mutlaq         Make the mount window resizable to fit on different DPIs
+6b3d3b4fb 2019-03-09 Jasem Mutlaq         HEAD is at v3.2.0 now
+ff94934ee 2019-03-09 Jasem Mutlaq         INDI Driver auto sync
+4cbaa0f58 2019-03-08 Jasem Mutlaq         Comment out obsolete slot connect
+f250da377 2019-03-07 Jasem Mutlaq         Remove unrequired attributes.
+04dd9fed1 2019-03-07 Jasem Mutlaq         Notify user of error in focusing even when not in autofocus
+b10c35a93 2019-03-07 Jasem Mutlaq         Add support to sending horizontal coordinates from the mount box
+cfdecf66f 2019-03-06 Heiko Becker         LONG_LONG_MAX is an obsolete GNU name for LLONG_MAX
+07219cd80 2019-03-06 Jasem Mutlaq         Improve description of the ImageToFITS option
+7d0e57198 2019-03-06 Jasem Mutlaq         Refactor the variable means to remove any confusion
+a4f962162 2019-03-05 Jasem Mutlaq         Auto ImageToFITS should be false by default
+1da8d1b62 2019-03-05 Jasem Mutlaq         Improve behavior for dark and flat frames capture when it comes to covering the mount
+c1aef273e 2019-03-05 Jasem Mutlaq         Support converting images to FITS
+efd36250e 2019-03-04 Jasem Mutlaq         Before loading next image, check if current image is temporary and if yes remove it from disk
+61d42b6e4 2019-03-04 Jasem Mutlaq         Add notification dialog for user to cover scope with flat field light source in case of manual source
+9947d6ff0 2019-03-04 Yuri Chornoivan      Fix minor typos
+efa95bffb 2019-03-04 Robert Lancaster     Making the initial astrometry.net path change automatic
+336babded 2019-03-03 Jasem Mutlaq         Configure Equipment was causing a conflict on Mac as found by Robert. Broke the menu and distributed the two items to where they logically belong
+f93400f75 2019-03-03 Jasem Mutlaq         More PHD2 fixes: 1. Restore star display despite "Receive External Guide Frame" setting since they are two separate options. 2. Fix crash when async..
+f8522bfb1 2019-03-03 Jasem Mutlaq         Be silent when auto updating comet and asteroid orbital elements
+1c9157e20 2019-03-03 Jasem Mutlaq         Add comet and asteroid orbital elements auto update on startup
+d1b81599a 2019-03-01 Jasem Mutlaq         Make selection behavior single rows for the capture jobs
+cf581270c 2019-02-28 Wolfgang Reissenberger Deleting arbitrary imaging sequence in the Capture module corrected.
+3a81f2e51 2019-02-27 Jasem Mutlaq         Fix upload issues to the cloud with compressed images
+dc198425f 2019-02-27 Jasem Mutlaq         All compressed files are extracted and considered temporary however we need to know if the original compressed file was temporary or not
+8e3b17c32 2019-02-27 Jasem Mutlaq         Fix state of ekoslive button toggle on startup
+0c70fad89 2019-02-27 Jasem Mutlaq         Do not exist program on error, return error code
+
 3.1.0 (Timmy):
 
 5af4cbdc7 2019-02-26 Jasem Mutlaq         Changes for KStars 3.1.0
