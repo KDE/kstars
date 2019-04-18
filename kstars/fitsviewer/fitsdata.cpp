@@ -32,6 +32,7 @@
 #include <QApplication>
 #include <QImage>
 #include <QtConcurrent>
+#include <QImageReader>
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 #include <wcshdr.h>
