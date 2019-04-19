@@ -5056,14 +5056,26 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
         }
 
+        // determine whether we need to continue capturing, depending on captured frames
         bool lightFramesRequired = false;
-        for (SequenceJob *oneSeqJob : seqjobs)
+        switch (oneJob->getCompletionCondition())
         {
-            QString const signature = oneSeqJob->getSignature();
-            /* If frame is LIGHT, how hany do we have left? */
-            if (oneSeqJob->getFrameType() == FRAME_LIGHT && oneSeqJob->getCount()*oneJob->getRepeatsRequired() > newFramesCount[signature])
-                lightFramesRequired = true;
+        case SchedulerJob::FINISH_SEQUENCE:
+        case SchedulerJob::FINISH_REPEAT:
+            for (SequenceJob *oneSeqJob : seqjobs)
+            {
+                QString const signature = oneSeqJob->getSignature();
+                /* If frame is LIGHT, how hany do we have left? */
+                if (oneSeqJob->getFrameType() == FRAME_LIGHT && oneSeqJob->getCount()*oneJob->getRepeatsRequired() > newFramesCount[signature])
+                    lightFramesRequired = true;
+            }
+            break;
+        default:
+            // in all other cases it does not depend on the number of captured frames
+            lightFramesRequired = true;
         }
+
+
         oneJob->setLightFramesRequired(lightFramesRequired);
     }
 
