@@ -24,6 +24,8 @@
 #include <cmath>
 #include <typeinfo>
 
+#include "kstars_debug.h"
+
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
 KSPlanet::OrbitDataManager::OrbitDataManager()
@@ -204,7 +206,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
         epret.longitude = dms(0.0);
         epret.latitude  = dms(0.0);
         epret.radius    = 0.0;
-        qWarning() << "Could not get data for '" << name() << "'" << endl;
+        qCWarning(KSTARS) << "Could not get data for name:" << name() << "(" << untranslatedName() << ")" << endl;
         return;
     }
 
@@ -217,9 +219,9 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
             sum[i] += odc.Lon[i][j].A * cos(odc.Lon[i][j].B + odc.Lon[i][j].C * Tau);
             /*
             qDebug() << "sum[" << i <<"] =" << sum[i] <<
-            	" A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
-            	" C = " << odc.Lon[i][j].C << endl;
-            	*/
+                " A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
+                " C = " << odc.Lon[i][j].C << endl;
+                */
         }
         sum[i] *= Tpow[i];
         //qDebug() << name() << " : sum[" << i << "] = " << sum[i];
@@ -256,7 +258,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
 
     /*
     qDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
-    	epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
+        epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
     */
 }
 
