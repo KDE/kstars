@@ -57,48 +57,32 @@ Focus::Focus()
     // #4 Init Plots
     initPlots();
 
-    // #5 Reset all buttons to default states
+    // #5 Init View
+    initView();
+
+    // #6 Reset all buttons to default states
     resetButtons();
 
-    HFRFrames.clear();
-    FilterDevicesCombo->addItem("--");
-
-    appendLogText(i18n("Idle."));
-
+    // #7 Image Effects
     for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
-
     filterCombo->setCurrentIndex(Options::focusEffect());
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
     connect(filterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
 
-
-    // Load All settings
+    // #8 Load All settings
     loadSettings();
 
-    // Init Setting Connection now
+    // #9 Init Setting Connection now
     initSettingsConnections();
-
-    //connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
-
-    initView();
-
-    // Reset star center on auto star check toggle
-    connect(useAutoStar, &QCheckBox::toggled, this, [&](bool enabled)
-    {
-        if (enabled)
-        {
-            starCenter   = QVector3D();
-            starSelected = false;
-            focusView->setTrackingBox(QRect());
-        }
-    });
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    appendLogText(i18n("Idle."));
 }
 
 Focus::~Focus()
@@ -3312,6 +3296,17 @@ void Focus::initConnections()
     connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
         focusAlgorithm = static_cast<FocusAlgorithm>(index);
+    });
+
+    // Reset star center on auto star check toggle
+    connect(useAutoStar, &QCheckBox::toggled, this, [&](bool enabled)
+    {
+        if (enabled)
+        {
+            starCenter   = QVector3D();
+            starSelected = false;
+            focusView->setTrackingBox(QRect());
+        }
     });
 }
 
