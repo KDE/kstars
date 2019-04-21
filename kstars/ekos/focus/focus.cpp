@@ -54,20 +54,14 @@ Focus::Focus()
     // #3 Init connections
     initConnections();
 
-    HFRFrames.clear();
-    FilterDevicesCombo->addItem("--");
-
-
-    activeBin = Options::focusXBin();
-    binningCombo->setCurrentIndex(activeBin - 1);
-
-    focusFramesSpin->setValue(Options::focusFramesCount());
-
-    connect(clearDataB, &QPushButton::clicked, this, &Ekos::Focus::clearDataPoints);
-
+    // #4 Init Plots
     initPlots();
 
+    // #5 Reset all buttons to default states
     resetButtons();
+
+    HFRFrames.clear();
+    FilterDevicesCombo->addItem("--");
 
     appendLogText(i18n("Idle."));
 
@@ -83,20 +77,11 @@ Focus::Focus()
     loadSettings();
 
     // Init Setting Connection now
-    initSettings();
+    initSettingsConnections();
 
     //connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
 
-    focusView = new FITSView(focusingWidget, FITS_FOCUS);
-    focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    focusView->setBaseSize(focusingWidget->size());
-    focusView->createFloatingToolBar();
-    QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(focusView);
-    focusingWidget->setLayout(vlayout);
-    connect(focusView, &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
-
-    focusView->setStarsEnabled(true);
+    initView();
 
     // Reset star center on auto star check toggle
     connect(useAutoStar, &QCheckBox::toggled, this, [&](bool enabled)
@@ -167,16 +152,6 @@ bool Focus::setCamera(const QString &device)
         }
 
     return false;
-}
-
-void Focus::setDefaultCCD(QString ccd)
-{
-    Options::setDefaultFocusCCD(ccd);
-}
-
-void Focus::setDefaultFocuser(QString focuser)
-{
-    Options::setDefaultFocusFocuser(focuser);
 }
 
 QString Focus::camera()
@@ -341,13 +316,7 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     FilterDevicesCombo->setCurrentIndex(1);
 
     if (Options::defaultFocusFilterWheel().isEmpty() == false)
-    {
         FilterDevicesCombo->setCurrentText(Options::defaultFocusFilterWheel());
-
-        if (Options::defaultFocusFilterWheelFilter().isEmpty() == false)
-            FilterPosCombo->setCurrentText(Options::defaultFocusFilterWheelFilter());
-    }
-
 }
 
 bool Focus::setFilterWheel(const QString &device)
@@ -2036,10 +2005,7 @@ void Focus::autoFocusRel()
                     setAutoFocusResult(false);
                 }
             }
-            break;
-
-        default:
-            break;
+            break;        
     }
 }
 
@@ -2622,16 +2588,11 @@ void Focus::setAbsoluteFocusTicks()
     currentFocuser->moveAbs(absTicksSpin->value());
 }
 
-void Focus::setActiveBinning(int bin)
-{
-    activeBin = bin + 1;
-    Options::setFocusXBin(activeBin);
-}
-
-void Focus::setThreshold(double value)
-{
-    Options::setFocusThreshold(value);
-}
+//void Focus::setActiveBinning(int bin)
+//{
+//    activeBin = bin + 1;
+//    Options::setFocusXBin(activeBin);
+//}
 
 // TODO remove from kstars.kcfg
 /*void Focus::setFrames(int value)
@@ -2904,8 +2865,6 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         if (currentFilter)
             filterManager->setFilterExposure(FilterPosCombo->currentIndex(), exposureIN->value());
-        else
-            Options::setFocusExposure(exposureIN->value());
     });
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
@@ -2933,13 +2892,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         exposureIN->setValue(filterManager->getFilterExposure(text));
         //Options::setDefaultFocusFilterWheelFilter(text);
-    });
-
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
-            [ = ](const QString & text)
-    {
-        Options::setDefaultFocusFilterWheelFilter(text);
-    });
+    });    
 }
 
 void Focus::toggleVideo(bool enabled)
@@ -3004,90 +2957,199 @@ void Focus::syncSettings()
 {
     QDoubleSpinBox *dsb = nullptr;
     QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QComboBox *cbox = nullptr;
 
     if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
     {
-        if (dsb == gainIN)
+        ///////////////////////////////////////////////////////////////////////////
+        /// Focuser Group
+        ///////////////////////////////////////////////////////////////////////////
+        if (dsb == FocusSettleTime)
+            Options::setFocusSettleTime(dsb->value());
+
+        ///////////////////////////////////////////////////////////////////////////
+        /// CCD & Filter Wheel Group
+        ///////////////////////////////////////////////////////////////////////////
+        else if (dsb == gainIN)
             Options::setFocusGain(dsb->value());
+
+        ///////////////////////////////////////////////////////////////////////////
+        /// Settings Group
+        ///////////////////////////////////////////////////////////////////////////
         else if (dsb == fullFieldInnerRing)
             Options::setFocusFullFieldInnerRadius(dsb->value());
         else if (dsb == fullFieldOuterRing)
-            Options::setFocusFullFieldOuterRadius(dsb->value());
-        else if (dsb == FocusSettleTime)
-            Options::setFocusSettleTime(dsb->value());
+            Options::setFocusFullFieldOuterRadius(dsb->value());        
         else if (dsb == GuideSettleTime)
-            Options::setGuideSettleTime(dsb->value());
+            Options::setGuideSettleTime(dsb->value());                
+        else if (dsb == maxTravelIN)
+                Options::setFocusMaxTravel(dsb->value());
+        else if (dsb == toleranceIN)
+                Options::setFocusTolerance(dsb->value());
+        else if (dsb == thresholdSpin)
+                Options::setFocusThreshold(dsb->value());
     }
     else if ( (sb = qobject_cast<QSpinBox*>(sender())))
     {
-        if (sb == stepIN)
+        ///////////////////////////////////////////////////////////////////////////
+        /// Settings Group
+        ///////////////////////////////////////////////////////////////////////////
+        if (sb == focusBoxSize)
+            Options::setFocusBoxSize(sb->value());
+        else if (sb == stepIN)
             Options::setFocusTicks(sb->value());
+        else if (sb == focusFramesSpin)
+            Options::setFocusFramesCount(sb->value());
     }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        ///////////////////////////////////////////////////////////////////////////
+        /// Settings Group
+        ///////////////////////////////////////////////////////////////////////////
+        if (cb == useAutoStar)
+            Options::setFocusAutoStarEnabled(cb->isChecked());
+        else if (cb == useSubFrame)
+            Options::setFocusSubFrame(cb->isChecked());
+        else if (cb == darkFrameCheck)
+            Options::setUseFocusDarkFrame(cb->isChecked());
+        else if (cb == useFullField)
+            Options::setFocusUseFullField(cb->isChecked());
+        else if (cb == suspendGuideCheck)
+            Options::setSuspendGuiding(cb->isChecked());
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        ///////////////////////////////////////////////////////////////////////////
+        /// CCD & Filter Wheel Group
+        ///////////////////////////////////////////////////////////////////////////
+        if (cbox == focuserCombo)
+            Options::setDefaultFocusFocuser(cbox->currentText());
+        else if (cbox == CCDCaptureCombo)
+            Options::setDefaultFocusCCD(cbox->currentText());
+        else if (cbox == binningCombo)
+        {
+            activeBin = cbox->currentIndex() + 1;
+            Options::setFocusXBin(activeBin);
+        }
+        else if (cbox == FilterDevicesCombo)
+            Options::setDefaultFocusFilterWheel(cbox->currentText());
+        // Filter Effects already taken care of in filterChangeWarning
 
+        ///////////////////////////////////////////////////////////////////////////
+        /// Settings Group
+        ///////////////////////////////////////////////////////////////////////////
+        else if (cbox == focusAlgorithmCombo)
+            Options::setFocusAlgorithm(cbox->currentIndex());
+        else if (cbox == focusDetectionCombo)
+            Options::setFocusDetection(cbox->currentIndex());
+    }
 }
 
 void Focus::loadSettings()
 {
-    // Exposure
-    exposureIN->setValue(Options::focusExposure());
+    ///////////////////////////////////////////////////////////////////////////
+    /// Focuser Group
+    ///////////////////////////////////////////////////////////////////////////
+    // Focus settle time
+    FocusSettleTime->setValue(Options::focusSettleTime());
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// CCD & Filter Wheel Group
+    ///////////////////////////////////////////////////////////////////////////
+    // Binning
+    activeBin = Options::focusXBin();
+    binningCombo->setCurrentIndex(activeBin - 1);
     // Gain
     gainIN->setValue(Options::focusGain());
-    // Tolernace
-    toleranceIN->setValue(Options::focusTolerance());
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// Settings Group
+    ///////////////////////////////////////////////////////////////////////////
+    // Auto Star?
+    useAutoStar->setChecked(Options::focusAutoStarEnabled());
+    // Subframe?
+    useSubFrame->setChecked(Options::focusSubFrame());
+    // Dark frame?
+    darkFrameCheck->setChecked(Options::useFocusDarkFrame());
+    // Use full field?
+    useFullField->setChecked(Options::focusUseFullField());
     // full field inner ring
     fullFieldInnerRing->setValue(Options::focusFullFieldInnerRadius());
     // full field outer ring
     fullFieldOuterRing->setValue(Options::focusFullFieldOuterRadius());
-    // Focus settle time
-    FocusSettleTime->setValue(Options::focusSettleTime());
+    // Suspend guiding?
+    suspendGuideCheck->setChecked(Options::suspendGuiding());
     // Guide Setting time
     GuideSettleTime->setValue(Options::guideSettleTime());
-    // Step
-    stepIN->setValue(Options::focusTicks());
-    // Auto Star?
-    useAutoStar->setChecked(Options::focusAutoStarEnabled());
+
     // Box Size
     focusBoxSize->setValue(Options::focusBoxSize());
     // Max Travel
     if (Options::focusMaxTravel() > maxTravelIN->maximum())
         maxTravelIN->setMaximum(Options::focusMaxTravel());
     maxTravelIN->setValue(Options::focusMaxTravel());
-    // Subframe?
-    useSubFrame->setChecked(Options::focusSubFrame());
-    // Suspend guiding?
-    suspendGuideCheck->setChecked(Options::suspendGuiding());
-    // Dark frame?
-    darkFrameCheck->setChecked(Options::useFocusDarkFrame());
+    // Step
+    stepIN->setValue(Options::focusTicks());
+    // Tolernace
+    toleranceIN->setValue(Options::focusTolerance());
     // Threshold spin
     thresholdSpin->setValue(Options::focusThreshold());
-    // Use full field?
-    useFullField->setChecked(Options::focusUseFullField());
-
-    //    Options::setFocusTicks(stepIN->value());
-    //    Options::setFocusTolerance(toleranceIN->value());
-    //    //Options::setFocusExposure(exposureIN->value());
-    //    Options::setFocusMaxTravel(maxTravelIN->value());
-    //    Options::setFocusBoxSize(focusBoxSize->value());
-    //    Options::setFocusSubFrame(useSubFrame->isChecked());
-    //    Options::setFocusAutoStarEnabled(useAutoStar->isChecked());
-    //    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
-    //    Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
-    //    Options::setFocusFramesCount(focusFramesSpin->value());
-    //    Options::setFocusUseFullField(useFullField->isChecked());
+    // Focus Algorithm
+    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
+    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
+    // Frames Count
+    focusFramesSpin->setValue(Options::focusFramesCount());
+    // Focus Detection
+    focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
+    thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
+    focusDetectionCombo->setCurrentIndex(focusDetection);
 }
 
-void Focus::initSettings()
+void Focus::initSettingsConnections()
 {
-    connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    ///////////////////////////////////////////////////////////////////////////
+    /// Focuser Group
+    ///////////////////////////////////////////////////////////////////////////
+    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// CCD & Filter Wheel Group
+    ///////////////////////////////////////////////////////////////////////////
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
     connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// Settings Group
+    ///////////////////////////////////////////////////////////////////////////
+    connect(useAutoStar, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+    connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+    connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+    connect(useFullField, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
     connect(fullFieldInnerRing, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(fullFieldOuterRing, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(suspendGuideCheck, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
     connect(GuideSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+
+    connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
+    connect(maxTravelIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+
+    connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
+    connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
 }
 
 void Focus::initPlots()
 {
+    connect(clearDataB, &QPushButton::clicked, this, &Ekos::Focus::clearDataPoints);
+
     profileDialog = new QDialog(this);
     profileDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
     QVBoxLayout *profileLayout = new QVBoxLayout(profileDialog);
@@ -3167,26 +3229,31 @@ void Focus::initPlots()
 
 void Focus::initConnections()
 {
+    // How long do we wait until the user select a star?
     waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
     connect(&waitStarSelectTimer, &QTimer::timeout, this, &Ekos::Focus::checkAutoStarTimeout);
     connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Focus::toggleVideo);
 
+    // Show FITS Image in a new window
     showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer"));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(showFITSViewerB, &QPushButton::clicked, this, &Ekos::Focus::showFITSViewer);
 
+    // Toggle FITS View to full screen
     toggleFullScreenB->setIcon(QIcon::fromTheme("view-fullscreen"));
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
 
-    // Exposure Timeout
+    // How long do we wait until an exposure times out and needs a retry?
     captureTimeout.setSingleShot(true);
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Focus::processCaptureTimeout);
 
+    // Start/Stop focus
     connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
 
+    // Focus IN/OUT
     connect(focusOutB, &QPushButton::clicked, [&]()
     {
         focusOut();
@@ -3196,20 +3263,17 @@ void Focus::initConnections()
         focusIn();
     });
 
+    // Capture a single frame
     connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
-
+    // Start continious capture
     connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
-
+    // Use a subframe when capturing
     connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
-
-    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
-
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultCCD);
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
-
+    // Reset frame dimensions to default
+    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);    
+    // Sync setting if full field setting is toggled.
     connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
-    {
-        Options::setFocusUseFullField(toggled);
+    {        
         fullFieldInnerRing->setEnabled(toggled);
         fullFieldOuterRing->setEnabled(toggled);
         if (toggled)
@@ -3225,36 +3289,43 @@ void Focus::initConnections()
     });
 
 
-    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
+    // Sync settings if the CCD selection is updated.
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
+    // Sync settings if the Focuser selection is updated.
     connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
-
+    // Sync settings if the filter selection is updated.
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [](const QString & text)
-    {
-        Options::setDefaultFocusFilterWheel(text);
-    });
 
+    // Set focuser absolute position
     connect(setAbsTicksB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::setActiveBinning);
+    // Update the focuser box size used to enclose a star
     connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
 
-    focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
-    focusDetectionCombo->setCurrentIndex(focusDetection);
+    // Update the focuser star detection if the detection algorithm selection changes.
     connect(focusDetectionCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
         focusDetection = static_cast<StarAlgorithm>(index);
         thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
-        Options::setFocusDetection(index);
     });
 
-    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
-    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
+    // Update the focuser solution algorithm if the selection changes.
     connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
         focusAlgorithm = static_cast<FocusAlgorithm>(index);
-        //toleranceIN->setEnabled(focusAlgorithm == FOCUS_ITERATIVE);
-        Options::setFocusAlgorithm(index);
     });
+}
+
+void Focus::initView()
+{
+    focusView = new FITSView(focusingWidget, FITS_FOCUS);
+    focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    focusView->setBaseSize(focusingWidget->size());
+    focusView->createFloatingToolBar();
+    QVBoxLayout *vlayout = new QVBoxLayout();
+    vlayout->addWidget(focusView);
+    focusingWidget->setLayout(vlayout);
+    connect(focusView, &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
+    focusView->setStarsEnabled(true);
 }
 
 }
