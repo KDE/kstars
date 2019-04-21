@@ -201,12 +201,64 @@ Capture::Capture()
     for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
+    ////////////////////////////////////////////////////////////////////////
+    /// Settings
+    ////////////////////////////////////////////////////////////////////////
+    // #1 Guide Deviation Check
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
-    guideDeviation->setValue(Options::guideDeviation());
+    connect(guideDeviationCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setEnforceGuideDeviation(checked);
+    });
+
+    // #2 Guide Deviation Value
+    guideDeviation->setValue(Options::hFRDeviation());
+    connect(guideDeviation, &QDoubleSpinBox::editingFinished, [ = ]()
+    {
+        Options::setGuideDeviation(guideDeviation->value());
+    });
+
+    // 3. Autofocus HFR Check
     autofocusCheck->setChecked(Options::enforceAutofocus());
+    connect(autofocusCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setEnforceAutofocus(checked);
+    });
+
+    // 4. Autofocus HFR Deviation
+    HFRPixels->setValue(Options::hFRDeviation());
+    connect(HFRPixels, &QDoubleSpinBox::editingFinished, [ = ]()
+    {
+        Options::setHFRDeviation(HFRPixels->value());
+    });
+
+    // 5. Refocus Every Check
     refocusEveryNCheck->setChecked(Options::enforceRefocusEveryN());
+    connect(refocusEveryNCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setEnforceRefocusEveryN(checked);
+    });
+
+    // 6. Refocus Every Value
+    refocusEveryN->setValue(Options::refocusEveryN());
+    connect(refocusEveryN, &QDoubleSpinBox::editingFinished, [ = ]()
+    {
+        Options::setRefocusEveryN(refocusEveryN->value());
+    });
+
+    // 7. Meridian Check
     meridianCheck->setChecked(Options::autoMeridianFlip());
+    connect(meridianCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setAutoMeridianFlip(checked);
+    });
+
+    // 8. Meridian hours
     meridianHours->setValue(Options::autoMeridianHours());
+    connect(meridianHours, &QDoubleSpinBox::editingFinished, [ = ]()
+    {
+        Options::setAutoMeridianHours(meridianHours->value());
+    });
 
     QCheckBox * const checkBoxes[] =
     {
@@ -418,11 +470,6 @@ void Capture::start()
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
-
-    Options::setGuideDeviation(guideDeviation->value());
-    Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
-    Options::setEnforceAutofocus(autofocusCheck->isChecked());
-    Options::setEnforceRefocusEveryN(refocusEveryNCheck->isChecked());
 
     // propagate the meridian flip values
     meridianFlipSetupChanged();
@@ -3141,6 +3188,12 @@ void Capture::updateHFRThreshold()
         filterHFRList = HFRMap["--"];
     }
 
+    if (filterHFRList.empty())
+    {
+        HFRPixels->setValue(Options::hFRDeviation());
+        return;
+    }
+
     double median = 0;
     int count = filterHFRList.size();
     if (count > 1)
@@ -4461,9 +4514,9 @@ void Capture::setGuideStatus(GuideState state)
         case GUIDE_IDLE:
         case GUIDE_ABORTED:
             // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-        if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE &&
-                ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
-                 this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
+            if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE &&
+                    ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
+                     this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
             {
                 appendLogText(i18n("Autoguiding stopped. Aborting..."));
                 abort();

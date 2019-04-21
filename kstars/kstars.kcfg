@@ -1708,6 +1708,11 @@
          <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
          <default>0.5</default>
       </entry>
+      <entry name="FocusGain" type="Double">
+         <label>Default Focuser gain value</label>
+         <whatsthis>Specifies gain value of CCD when performing focusing if supported by camera..</whatsthis>
+         <default>0</default>
+      </entry>
       <entry name="FocusBoxSize" type="UInt">
          <label>Default Focuser star selection box size</label>
          <whatsthis>Set box size to select a focus star.</whatsthis>
