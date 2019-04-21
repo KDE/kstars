@@ -42,137 +42,21 @@ namespace Ekos
 {
 Focus::Focus()
 {
+    // #1 Set the UI
     setupUi(this);
 
+    // #2 Register DBus
     qRegisterMetaType<Ekos::FocusState>("Ekos::FocusState");
     qDBusRegisterMetaType<Ekos::FocusState>();
-
     new FocusAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus", this);
 
-    //frameModified     = false;
+    // #3 Init connections
+    initConnections();
 
-    waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
-    connect(&waitStarSelectTimer, &QTimer::timeout, this, &Ekos::Focus::checkAutoStarTimeout);
-
-    connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Focus::toggleVideo);
-
-    //fy=fw=fh=0;
     HFRFrames.clear();
-
     FilterDevicesCombo->addItem("--");
 
-    showFITSViewerB->setIcon(
-        QIcon::fromTheme("kstars_fitsviewer"));
-    showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(showFITSViewerB, &QPushButton::clicked, this, &Ekos::Focus::showFITSViewer);
-
-    toggleFullScreenB->setIcon(
-        QIcon::fromTheme("view-fullscreen"));
-    toggleFullScreenB->setShortcut(Qt::Key_F4);
-    toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
-
-    // Exposure Timeout
-    captureTimeout.setSingleShot(true);
-    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Focus::processCaptureTimeout);
-
-    connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
-    connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
-
-    connect(focusOutB, &QPushButton::clicked, [&]()
-    {
-        focusOut();
-    });
-    connect(focusInB, &QPushButton::clicked, [&]()
-    {
-        focusIn();
-    });
-
-    connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
-
-    connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
-
-    connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
-
-    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
-
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultCCD);
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
-
-    connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
-    {
-        Options::setFocusUseFullField(toggled);
-        fullFieldInnerRing->setEnabled(toggled);
-        fullFieldOuterRing->setEnabled(toggled);
-        if (toggled)
-        {
-            useSubFrame->setChecked(false);
-            useAutoStar->setChecked(false);
-        }
-        else
-        {
-            // Disable the overlay
-            focusView->setStarFilterRange(0, 1);
-        }
-    });
-
-    connect(fullFieldInnerRing, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-            [ = ](double d)
-    {
-        Options::setFocusFullFieldInnerRadius(d);
-    });
-    connect(fullFieldOuterRing, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-            [ = ](double d)
-    {
-        Options::setFocusFullFieldOuterRadius(d);
-    });
-
-    FocusSettleTime->setValue(Options::focusSettleTime());
-    connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-            [ = ](double d)
-    {
-        Options::setFocusSettleTime(d);
-    });
-
-    GuideSettleTime->setValue(Options::guideSettleTime());
-    connect(GuideSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-            [ = ](double d)
-    {
-        Options::setGuideSettleTime(d);
-    });
-
-    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
-    connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
-
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [](const QString & text)
-    {
-        Options::setDefaultFocusFilterWheel(text);
-    });
-
-    connect(setAbsTicksB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::setActiveBinning);
-    connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
-
-    focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
-    focusDetectionCombo->setCurrentIndex(focusDetection);
-
-    connect(focusDetectionCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
-    {
-        focusDetection = static_cast<StarAlgorithm>(index);
-        thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
-        Options::setFocusDetection(index);
-    });
-
-    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
-    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
-    connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
-    {
-        focusAlgorithm = static_cast<FocusAlgorithm>(index);
-        //toleranceIN->setEnabled(focusAlgorithm == FOCUS_ITERATIVE);
-        Options::setFocusAlgorithm(index);
-    });
 
     activeBin = Options::focusXBin();
     binningCombo->setCurrentIndex(activeBin - 1);
@@ -181,80 +65,7 @@ Focus::Focus()
 
     connect(clearDataB, &QPushButton::clicked, this, &Ekos::Focus::clearDataPoints);
 
-    profileDialog = new QDialog(this);
-    profileDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-    QVBoxLayout *profileLayout = new QVBoxLayout(profileDialog);
-    profileDialog->setWindowTitle(i18n("Relative Profile"));
-    profilePlot = new QCustomPlot(profileDialog);
-    profilePlot->setBackground(QBrush(Qt::black));
-    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
-    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
-    profilePlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    profilePlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    profilePlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    profilePlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    profilePlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
-    profilePlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
-    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
-    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
-    profilePlot->xAxis->setTickPen(QPen(Qt::white, 1));
-    profilePlot->yAxis->setTickPen(QPen(Qt::white, 1));
-    profilePlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
-    profilePlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
-    profilePlot->xAxis->setTickLabelColor(Qt::white);
-    profilePlot->yAxis->setTickLabelColor(Qt::white);
-    profilePlot->xAxis->setLabelColor(Qt::white);
-    profilePlot->yAxis->setLabelColor(Qt::white);
-
-    profileLayout->addWidget(profilePlot);
-    profileDialog->setLayout(profileLayout);
-    profileDialog->resize(400, 300);
-
-    connect(relativeProfileB, &QPushButton::clicked, profileDialog, &QDialog::show);
-
-    currentGaus = profilePlot->addGraph();
-    currentGaus->setLineStyle(QCPGraph::lsLine);
-    currentGaus->setPen(QPen(Qt::red, 2));
-
-    lastGaus = profilePlot->addGraph();
-    lastGaus->setLineStyle(QCPGraph::lsLine);
-    QPen pen(Qt::darkGreen);
-    pen.setStyle(Qt::DashLine);
-    pen.setWidth(2);
-    lastGaus->setPen(pen);
-
-    HFRPlot->setBackground(QBrush(Qt::black));
-
-    HFRPlot->xAxis->setBasePen(QPen(Qt::white, 1));
-    HFRPlot->yAxis->setBasePen(QPen(Qt::white, 1));
-
-    HFRPlot->xAxis->setTickPen(QPen(Qt::white, 1));
-    HFRPlot->yAxis->setTickPen(QPen(Qt::white, 1));
-
-    HFRPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
-    HFRPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
-
-    HFRPlot->xAxis->setTickLabelColor(Qt::white);
-    HFRPlot->yAxis->setTickLabelColor(Qt::white);
-
-    HFRPlot->xAxis->setLabelColor(Qt::white);
-    HFRPlot->yAxis->setLabelColor(Qt::white);
-
-    HFRPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    HFRPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    HFRPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    HFRPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    HFRPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
-    HFRPlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
-
-    HFRPlot->yAxis->setLabel(i18n("HFR"));
-
-    HFRPlot->setInteractions(QCP::iRangeZoom);
-    HFRPlot->setInteraction(QCP::iRangeDrag, true);
-
-    v_graph = HFRPlot->addGraph();
-    v_graph->setLineStyle(QCPGraph::lsNone);
-    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 3));
+    initPlots();
 
     resetButtons();
 
@@ -267,24 +78,14 @@ Focus::Focus()
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
     connect(filterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
 
-    // Update Option changes
-    exposureIN->setValue(Options::focusExposure());
-    toleranceIN->setValue(Options::focusTolerance());
-    stepIN->setValue(Options::focusTicks());
-    useAutoStar->setChecked(Options::focusAutoStarEnabled());
-    focusBoxSize->setValue(Options::focusBoxSize());
-    if (Options::focusMaxTravel() > maxTravelIN->maximum())
-        maxTravelIN->setMaximum(Options::focusMaxTravel());
-    maxTravelIN->setValue(Options::focusMaxTravel());
-    useSubFrame->setChecked(Options::focusSubFrame());
-    suspendGuideCheck->setChecked(Options::suspendGuiding());
-    darkFrameCheck->setChecked(Options::useFocusDarkFrame());
-    thresholdSpin->setValue(Options::focusThreshold());
-    useFullField->setChecked(Options::focusUseFullField());
-    fullFieldInnerRing->setValue(Options::focusFullFieldInnerRadius());
-    fullFieldOuterRing->setValue(Options::focusFullFieldOuterRadius());
 
-    connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
+    // Load All settings
+    loadSettings();
+
+    // Init Setting Connection now
+    initSettings();
+
+    //connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
 
     focusView = new FITSView(focusingWidget, FITS_FOCUS);
     focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -834,17 +635,17 @@ void Focus::start()
         firstGaus = nullptr;
     }
 
-    Options::setFocusTicks(stepIN->value());
-    Options::setFocusTolerance(toleranceIN->value());
-    //Options::setFocusExposure(exposureIN->value());
-    Options::setFocusMaxTravel(maxTravelIN->value());
-    Options::setFocusBoxSize(focusBoxSize->value());
-    Options::setFocusSubFrame(useSubFrame->isChecked());
-    Options::setFocusAutoStarEnabled(useAutoStar->isChecked());
-    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
-    Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
-    Options::setFocusFramesCount(focusFramesSpin->value());
-    Options::setFocusUseFullField(useFullField->isChecked());
+    //    Options::setFocusTicks(stepIN->value());
+    //    Options::setFocusTolerance(toleranceIN->value());
+    //    //Options::setFocusExposure(exposureIN->value());
+    //    Options::setFocusMaxTravel(maxTravelIN->value());
+    //    Options::setFocusBoxSize(focusBoxSize->value());
+    //    Options::setFocusSubFrame(useSubFrame->isChecked());
+    //    Options::setFocusAutoStarEnabled(useAutoStar->isChecked());
+    //    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
+    //    Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
+    //    Options::setFocusFramesCount(focusFramesSpin->value());
+    //    Options::setFocusUseFullField(useFullField->isChecked());
 
     qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with box size: " << focusBoxSize->value()
                                 << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
@@ -3197,6 +2998,263 @@ void Focus::processCaptureTimeout()
     targetChip->abortExposure();
     targetChip->capture(exposureIN->value());
     captureTimeout.start(exposureIN->value() * 1000 + FOCUS_TIMEOUT_THRESHOLD);
+}
+
+void Focus::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        if (dsb == gainIN)
+            Options::setFocusGain(dsb->value());
+        else if (dsb == fullFieldInnerRing)
+            Options::setFocusFullFieldInnerRadius(dsb->value());
+        else if (dsb == fullFieldOuterRing)
+            Options::setFocusFullFieldOuterRadius(dsb->value());
+        else if (dsb == FocusSettleTime)
+            Options::setFocusSettleTime(dsb->value());
+        else if (dsb == GuideSettleTime)
+            Options::setGuideSettleTime(dsb->value());
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        if (sb == stepIN)
+            Options::setFocusTicks(sb->value());
+    }
+
+}
+
+void Focus::loadSettings()
+{
+    // Exposure
+    exposureIN->setValue(Options::focusExposure());
+    // Gain
+    gainIN->setValue(Options::focusGain());
+    // Tolernace
+    toleranceIN->setValue(Options::focusTolerance());
+    // full field inner ring
+    fullFieldInnerRing->setValue(Options::focusFullFieldInnerRadius());
+    // full field outer ring
+    fullFieldOuterRing->setValue(Options::focusFullFieldOuterRadius());
+    // Focus settle time
+    FocusSettleTime->setValue(Options::focusSettleTime());
+    // Guide Setting time
+    GuideSettleTime->setValue(Options::guideSettleTime());
+    // Step
+    stepIN->setValue(Options::focusTicks());
+    // Auto Star?
+    useAutoStar->setChecked(Options::focusAutoStarEnabled());
+    // Box Size
+    focusBoxSize->setValue(Options::focusBoxSize());
+    // Max Travel
+    if (Options::focusMaxTravel() > maxTravelIN->maximum())
+        maxTravelIN->setMaximum(Options::focusMaxTravel());
+    maxTravelIN->setValue(Options::focusMaxTravel());
+    // Subframe?
+    useSubFrame->setChecked(Options::focusSubFrame());
+    // Suspend guiding?
+    suspendGuideCheck->setChecked(Options::suspendGuiding());
+    // Dark frame?
+    darkFrameCheck->setChecked(Options::useFocusDarkFrame());
+    // Threshold spin
+    thresholdSpin->setValue(Options::focusThreshold());
+    // Use full field?
+    useFullField->setChecked(Options::focusUseFullField());
+
+    //    Options::setFocusTicks(stepIN->value());
+    //    Options::setFocusTolerance(toleranceIN->value());
+    //    //Options::setFocusExposure(exposureIN->value());
+    //    Options::setFocusMaxTravel(maxTravelIN->value());
+    //    Options::setFocusBoxSize(focusBoxSize->value());
+    //    Options::setFocusSubFrame(useSubFrame->isChecked());
+    //    Options::setFocusAutoStarEnabled(useAutoStar->isChecked());
+    //    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
+    //    Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
+    //    Options::setFocusFramesCount(focusFramesSpin->value());
+    //    Options::setFocusUseFullField(useFullField->isChecked());
+}
+
+void Focus::initSettings()
+{
+    connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(fullFieldInnerRing, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(fullFieldOuterRing, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(GuideSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+}
+
+void Focus::initPlots()
+{
+    profileDialog = new QDialog(this);
+    profileDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    QVBoxLayout *profileLayout = new QVBoxLayout(profileDialog);
+    profileDialog->setWindowTitle(i18n("Relative Profile"));
+    profilePlot = new QCustomPlot(profileDialog);
+    profilePlot->setBackground(QBrush(Qt::black));
+    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    profilePlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    profilePlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    profilePlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    profilePlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setTickPen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setTickLabelColor(Qt::white);
+    profilePlot->yAxis->setTickLabelColor(Qt::white);
+    profilePlot->xAxis->setLabelColor(Qt::white);
+    profilePlot->yAxis->setLabelColor(Qt::white);
+
+    profileLayout->addWidget(profilePlot);
+    profileDialog->setLayout(profileLayout);
+    profileDialog->resize(400, 300);
+
+    connect(relativeProfileB, &QPushButton::clicked, profileDialog, &QDialog::show);
+
+    currentGaus = profilePlot->addGraph();
+    currentGaus->setLineStyle(QCPGraph::lsLine);
+    currentGaus->setPen(QPen(Qt::red, 2));
+
+    lastGaus = profilePlot->addGraph();
+    lastGaus->setLineStyle(QCPGraph::lsLine);
+    QPen pen(Qt::darkGreen);
+    pen.setStyle(Qt::DashLine);
+    pen.setWidth(2);
+    lastGaus->setPen(pen);
+
+    HFRPlot->setBackground(QBrush(Qt::black));
+
+    HFRPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    HFRPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    HFRPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    HFRPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    HFRPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    HFRPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    HFRPlot->xAxis->setTickLabelColor(Qt::white);
+    HFRPlot->yAxis->setTickLabelColor(Qt::white);
+
+    HFRPlot->xAxis->setLabelColor(Qt::white);
+    HFRPlot->yAxis->setLabelColor(Qt::white);
+
+    HFRPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    HFRPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    HFRPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    HFRPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    HFRPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    HFRPlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+
+    HFRPlot->yAxis->setLabel(i18n("HFR"));
+
+    HFRPlot->setInteractions(QCP::iRangeZoom);
+    HFRPlot->setInteraction(QCP::iRangeDrag, true);
+
+    v_graph = HFRPlot->addGraph();
+    v_graph->setLineStyle(QCPGraph::lsNone);
+    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 3));
+
+}
+
+void Focus::initConnections()
+{
+    waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
+    connect(&waitStarSelectTimer, &QTimer::timeout, this, &Ekos::Focus::checkAutoStarTimeout);
+    connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Focus::toggleVideo);
+
+    showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer"));
+    showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(showFITSViewerB, &QPushButton::clicked, this, &Ekos::Focus::showFITSViewer);
+
+    toggleFullScreenB->setIcon(QIcon::fromTheme("view-fullscreen"));
+    toggleFullScreenB->setShortcut(Qt::Key_F4);
+    toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
+
+    // Exposure Timeout
+    captureTimeout.setSingleShot(true);
+    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Focus::processCaptureTimeout);
+
+    connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
+    connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
+
+    connect(focusOutB, &QPushButton::clicked, [&]()
+    {
+        focusOut();
+    });
+    connect(focusInB, &QPushButton::clicked, [&]()
+    {
+        focusIn();
+    });
+
+    connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
+
+    connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
+
+    connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
+
+    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
+
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
+
+    connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
+    {
+        Options::setFocusUseFullField(toggled);
+        fullFieldInnerRing->setEnabled(toggled);
+        fullFieldOuterRing->setEnabled(toggled);
+        if (toggled)
+        {
+            useSubFrame->setChecked(false);
+            useAutoStar->setChecked(false);
+        }
+        else
+        {
+            // Disable the overlay
+            focusView->setStarFilterRange(0, 1);
+        }
+    });
+
+
+    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
+    connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
+
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [](const QString & text)
+    {
+        Options::setDefaultFocusFilterWheel(text);
+    });
+
+    connect(setAbsTicksB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::setActiveBinning);
+    connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
+
+    focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
+    focusDetectionCombo->setCurrentIndex(focusDetection);
+    connect(focusDetectionCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
+    {
+        focusDetection = static_cast<StarAlgorithm>(index);
+        thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
+        Options::setFocusDetection(index);
+    });
+
+    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
+    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
+    connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
+    {
+        focusAlgorithm = static_cast<FocusAlgorithm>(index);
+        //toleranceIN->setEnabled(focusAlgorithm == FOCUS_ITERATIVE);
+        Options::setFocusAlgorithm(index);
+    });
 }
 
 }
