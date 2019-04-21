@@ -446,7 +446,7 @@ class Guide : public QWidget, public Ui::Guide
         void onInfoRateChanged(double val);
         void onEnableDirRA(bool enable);
         void onEnableDirDEC(bool enable);
-        void onInputParamChanged();
+        void syncSettings();
 
         //void onRapidGuideChanged(bool enable);
 
@@ -528,6 +528,11 @@ class Guide : public QWidget, public Ui::Guide
         bool executeOperationStack();
         bool executeOneOperation(GuideState operation);
 
+        // Init Functions
+        void initPlots();
+        void initView();
+        void initConnections();
+
         bool captureOneFrame();
 
         // Operation Stack
@@ -552,20 +557,20 @@ class Guide : public QWidget, public Ui::Guide
         QVector3D starCenter;
 
         // Guide Params
-        double ccdPixelSizeX { 0 };
-        double ccdPixelSizeY { 0 };
-        double aperture { 0 };
-        double focal_length { 0 };
+        double ccdPixelSizeX { -1 };
+        double ccdPixelSizeY { -1 };
+        double aperture { -1 };
+        double focal_length { -1 };
         double guideDeviationRA { 0 };
         double guideDeviationDEC { 0 };
-        double pixScaleX { 0 };
-        double pixScaleY { 0 };
+        double pixScaleX { -1 };
+        double pixScaleY { -1 };
 
         // Rapid Guide
         //bool rapidGuideReticleSet;
 
         // State
-        GuideState state;
+        GuideState state { GUIDE_IDLE };
 
         // Guide timer
         QTime guideTimer;
