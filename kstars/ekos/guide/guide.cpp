@@ -37,64 +37,31 @@ namespace Ekos
 {
 Guide::Guide() : QWidget()
 {
+    // #1 Setup UI
     setupUi(this);
 
+    // #2 Register DBus
     qRegisterMetaType<Ekos::GuideState>("Ekos::GuideState");
     qDBusRegisterMetaType<Ekos::GuideState>();
-
     new GuideAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Guide", this);
 
-    // Devices
-    currentCCD       = nullptr;
-    currentTelescope = nullptr;
-    guider           = nullptr;
+    // #3 Init Plots
+    initPlots();
 
-    // AO Driver
-    AODriver = nullptr;
+    // #4 Init View
+    initView();
 
-    // ST4 Driver
-    GuideDriver = nullptr;
-
-    // Subframe
-    subFramed = false;
-
-    // To do calibrate + guide in one command
-    //autoCalibrateGuide = false;
-    connect(showGuideRateToolTipB, &QPushButton::clicked, [this]()
-    {
-        QToolTip::showText(showGuideRateToolTipB->mapToGlobal(QPoint(10, 10)),
-                           showGuideRateToolTipB->toolTip(),
-                           showGuideRateToolTipB);
-    });
-
-    kcfg_GuideAutoStarEnabled->setChecked(Options::guideAutoStarEnabled());
-    connect(kcfg_GuideAutoStarEnabled, &QCheckBox::toggled, [](bool enabled)
-    {
-        Options::setGuideAutoStarEnabled(enabled);
-    });
-    connect(manualDitherB, &QPushButton::clicked, this, &Guide::handleManualDither);
-
-    guideView = new FITSView(guideWidget, FITS_GUIDE);
-    guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    guideView->setBaseSize(guideWidget->size());
-    guideView->createFloatingToolBar();
-    QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(guideView);
-    guideWidget->setLayout(vlayout);
-    connect(guideView, &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar);
-
-    ccdPixelSizeX = ccdPixelSizeY = aperture = focal_length = pixScaleX = pixScaleY = -1;
-    guideDeviationRA = guideDeviationDEC = 0;
-
-    useGuideHead = false;
-    //rapidGuideReticleSet = false;
-
-    // Guiding Rate - Advisory only
-    connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::onInfoRateChanged);
-
-    // Load all settings
+    // #5 Load all settings
     loadSettings();
+
+    // #6 Init Connections
+    initConnections();
+
+
+
+
+
 
     // Image Filters
     for (auto &filter : FITSViewer::filterTypes)
@@ -131,334 +98,8 @@ Guide::Guide() : QWidget()
     exposureIN->setRecommendedValues(exposureValues);
     connect(exposureIN, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
 
-    // Exposure Timeout
-    captureTimeout.setSingleShot(true);
-    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Guide::processCaptureTimeout);
-
-    // Guiding Box Size
-    connect(boxSizeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateTrackingBoxSize);
-
-    // Guider CCD Selection
-    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Guide::setDefaultCCD);
-    connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
-            [&](int index)
-    {
-        if (guiderType == GUIDE_INTERNAL)
-        {
-            starCenter = QVector3D();
-            checkCCD(index);
-        }
-        else if (index >= 0)
-        {
-            // Disable or enable selected CCD based on options
-            QString ccdName = guiderCombo->currentText().remove(" Guider");
-            setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
-            checkCCD(index);
-        }
-    }
-           );
-
-    FOVScopeCombo->setCurrentIndex(Options::guideScopeType());
-    connect(FOVScopeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateTelescopeType);
-
-    // Dark Frame Check
-    connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDarkFrameEnabled);
-
-    // Subframe check
-    connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
-
-    // ST4 Selection
-    connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), [&](const QString & text)
-    {
-        setDefaultST4(text);
-        setST4(text);
-    });
-
-    // Binning Combo Selection
-    connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateCCDBin);
-
-    // RA/DEC Enable directions
-    connect(checkBox_DirRA, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirRA);
-    connect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
-
-    // N/W and W/E direction enable
-    connect(northControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(southControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(westControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(eastControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-
-    // Declination Swap
-    connect(swapCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDECSwap);
-
-    // PID Control - Proportional Gain
-    connect(spinBox_PropGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-    connect(spinBox_PropGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-
-    // PID Control - Integral Gain
-    connect(spinBox_IntGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-    connect(spinBox_IntGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-
-    // PID Control - Derivative Gain
-    connect(spinBox_DerGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-    connect(spinBox_DerGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-
-    // Max Pulse Duration (ms)
-    connect(spinBox_MaxPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-    connect(spinBox_MaxPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-
-    // Min Pulse Duration (ms)
-    connect(spinBox_MinPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-    connect(spinBox_MinPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::onInputParamChanged);
-
-    // Capture
-    connect(captureB, &QPushButton::clicked, this, [this]()
-    {
-        state = GUIDE_CAPTURE;
-        emit newStatus(state);
-
-        capture();
-    });
-
-    connect(loopB, &QPushButton::clicked, this, [this]()
-    {
-        state = GUIDE_LOOPING;
-        emit newStatus(state);
-
-        capture();
-    });
-
-    // Stop
-    connect(stopB, &QPushButton::clicked, this, &Ekos::Guide::abort);
-
-    // Clear Calibrate
-    //connect(calibrateB, &QPushButton::clicked, this, &Ekos::Guide::calibrate()));
-    connect(clearCalibrationB, &QPushButton::clicked, this, &Ekos::Guide::clearCalibration);
-
-    // Guide
-    connect(guideB, &QPushButton::clicked, this, &Ekos::Guide::guide);
-
-    // Connect External Guide
-    connect(externalConnectB, &QPushButton::clicked, this, [&]()
-    {
-        setBLOBEnabled(false);
-        guider->Connect();
-    });
-    connect(externalDisconnectB, &QPushButton::clicked, this, [&]()
-    {
-        setBLOBEnabled(true);
-        guider->Disconnect();
-    });
-
-    // Pulse Timer
-    pulseTimer.setSingleShot(true);
-    connect(&pulseTimer, &QTimer::timeout, this, &Ekos::Guide::capture);
-
-    // Drift Graph Color Settings
-    driftGraph->setBackground(QBrush(Qt::black));
-    driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
-    driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
-    driftGraph->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    driftGraph->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    driftGraph->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    driftGraph->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    driftGraph->xAxis->grid()->setZeroLinePen(Qt::NoPen);
-    driftGraph->yAxis->grid()->setZeroLinePen(QPen(Qt::white, 1));
-    driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
-    driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
-    driftGraph->yAxis2->setBasePen(QPen(Qt::white, 1));
-    driftGraph->xAxis->setTickPen(QPen(Qt::white, 1));
-    driftGraph->yAxis->setTickPen(QPen(Qt::white, 1));
-    driftGraph->yAxis2->setTickPen(QPen(Qt::white, 1));
-    driftGraph->xAxis->setSubTickPen(QPen(Qt::white, 1));
-    driftGraph->yAxis->setSubTickPen(QPen(Qt::white, 1));
-    driftGraph->yAxis2->setSubTickPen(QPen(Qt::white, 1));
-    driftGraph->xAxis->setTickLabelColor(Qt::white);
-    driftGraph->yAxis->setTickLabelColor(Qt::white);
-    driftGraph->yAxis2->setTickLabelColor(Qt::white);
-    driftGraph->xAxis->setLabelColor(Qt::white);
-    driftGraph->yAxis->setLabelColor(Qt::white);
-    driftGraph->yAxis2->setLabelColor(Qt::white);
-
-    //Horizontal Axis Time Ticker Settings
-    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-    timeTicker->setTimeFormat("%m:%s");
-    driftGraph->xAxis->setTicker(timeTicker);
-
-    //Vertical Axis Labels Settings
-    driftGraph->yAxis2->setVisible(true);
-    driftGraph->yAxis2->setTickLabels(true);
-    driftGraph->yAxis->setLabelFont(QFont(font().family(), 10));
-    driftGraph->yAxis2->setLabelFont(QFont(font().family(), 10));
-    driftGraph->yAxis->setTickLabelFont(QFont(font().family(), 9));
-    driftGraph->yAxis2->setTickLabelFont(QFont(font().family(), 9));
-    driftGraph->yAxis->setLabelPadding(1);
-    driftGraph->yAxis2->setLabelPadding(1);
-    driftGraph->yAxis->setLabel(i18n("drift (arcsec)"));
-    driftGraph->yAxis2->setLabel(i18n("pulse (ms)"));
-
-    //Sets the default ranges
-    driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
-    driftGraph->yAxis->setRange(-3, 3);
-    int scale = 50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
-    correctionSlider->setValue(scale);
-    driftGraph->yAxis2->setRange(-3 * scale, 3 * scale);
-
-    //This sets up the legend
-    driftGraph->legend->setVisible(true);
-    driftGraph->legend->setFont(QFont("Helvetica", 9));
-    driftGraph->legend->setTextColor(Qt::white);
-    driftGraph->legend->setBrush(QBrush(Qt::black));
-    driftGraph->legend->setFillOrder(QCPLegend::foColumnsFirst);
-    driftGraph->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignBottom);
-
-    // RA Curve
-    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-    driftGraph->graph(0)->setName("RA");
-    driftGraph->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
-
-    // DE Curve
-    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-    driftGraph->graph(1)->setName("DE");
-    driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
-
-    // RA highlighted Point
-    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
-    driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-    driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
-
-    // DE highlighted Point
-    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
-    driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-    driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
-
-    // RA Pulse
-    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
-    QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
-    raPulseColor.setAlpha(75);
-    driftGraph->graph(4)->setPen(QPen(raPulseColor));
-    driftGraph->graph(4)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
-    driftGraph->graph(4)->setName("RA Pulse");
-    driftGraph->graph(4)->setLineStyle(QCPGraph::lsStepLeft);
-
-    // DEC Pulse
-    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
-    QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
-    dePulseColor.setAlpha(75);
-    driftGraph->graph(5)->setPen(QPen(dePulseColor));
-    driftGraph->graph(5)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
-    driftGraph->graph(5)->setName("DEC Pulse");
-    driftGraph->graph(5)->setLineStyle(QCPGraph::lsStepLeft);
-
-    //This will prevent the highlighted points and Pulses from showing up in the legend.
-    driftGraph->legend->removeItem(5);
-    driftGraph->legend->removeItem(4);
-    driftGraph->legend->removeItem(3);
-    driftGraph->legend->removeItem(2);
-    //Dragging and zooming settings
-    // make bottom axis transfer its range to the top axis if the graph gets zoomed:
-    connect(driftGraph->xAxis,  static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
-            driftGraph->xAxis2, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::setRange));
-    // update the second vertical axis properly if the graph gets zoomed.
-    connect(driftGraph->yAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
-            this, &Ekos::Guide::setCorrectionGraphScale);
-    driftGraph->setInteractions(QCP::iRangeZoom);
-    driftGraph->setInteraction(QCP::iRangeDrag, true);
-
-    connect(driftGraph, &QCustomPlot::mouseMove, this, &Ekos::Guide::driftMouseOverLine);
-    connect(driftGraph, &QCustomPlot::mousePress, this, &Ekos::Guide::driftMouseClicked);
 
 
-    //drift plot
-    double accuracyRadius = 2;
-
-    driftPlot->setBackground(QBrush(Qt::black));
-    driftPlot->setSelectionTolerance(10);
-
-    driftPlot->xAxis->setBasePen(QPen(Qt::white, 1));
-    driftPlot->yAxis->setBasePen(QPen(Qt::white, 1));
-
-    driftPlot->xAxis->setTickPen(QPen(Qt::white, 1));
-    driftPlot->yAxis->setTickPen(QPen(Qt::white, 1));
-
-    driftPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
-    driftPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
-
-    driftPlot->xAxis->setTickLabelColor(Qt::white);
-    driftPlot->yAxis->setTickLabelColor(Qt::white);
-
-    driftPlot->xAxis->setLabelColor(Qt::white);
-    driftPlot->yAxis->setLabelColor(Qt::white);
-
-    driftPlot->xAxis->setLabelFont(QFont(font().family(), 10));
-    driftPlot->yAxis->setLabelFont(QFont(font().family(), 10));
-    driftPlot->xAxis->setTickLabelFont(QFont(font().family(), 9));
-    driftPlot->yAxis->setTickLabelFont(QFont(font().family(), 9));
-
-    driftPlot->xAxis->setLabelPadding(2);
-    driftPlot->yAxis->setLabelPadding(2);
-
-    driftPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    driftPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    driftPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    driftPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    driftPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::gray));
-    driftPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::gray));
-
-    driftPlot->xAxis->setLabel(i18n("dRA (arcsec)"));
-    driftPlot->yAxis->setLabel(i18n("dDE (arcsec)"));
-
-    driftPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
-    driftPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
-
-    driftPlot->setInteractions(QCP::iRangeZoom);
-    driftPlot->setInteraction(QCP::iRangeDrag, true);
-
-    driftPlot->addGraph();
-    driftPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    driftPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssStar, Qt::gray, 5));
-
-    driftPlot->addGraph();
-    driftPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
-    driftPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
-
-    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Guide::handleVerticalPlotSizeChange);
-    connect(driftSplitter, &QSplitter::splitterMoved, this, &Ekos::Guide::handleHorizontalPlotSizeChange);
-
-    //This sets the values of all the Graph Options that are stored.
-    accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
-    showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
-    showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
-    showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
-    showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
-
-    //This sets the visibility of graph components to the stored values.
-    driftGraph->graph(0)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
-    driftGraph->graph(1)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
-    driftGraph->graph(2)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
-    driftGraph->graph(3)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
-    driftGraph->graph(4)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
-    driftGraph->graph(5)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
-    updateCorrectionsScaleVisibility();
-
-    buildTarget();
-
-    //This connects all the buttons and slider below the guide plots.
-    connect(accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::buildTarget);
-    connect(guideSlider, &QSlider::sliderMoved, this, &Ekos::Guide::guideHistory);
-    connect(latestCheck, &QCheckBox::toggled, this, &Ekos::Guide::setLatestGuidePoint);
-    connect(showRAPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowRAPlot);
-    connect(showDECPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowDEPlot);
-    connect(showRACorrectionsCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleRACorrectionsPlot);
-    connect(showDECorrectionsCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleDECorrectionsPlot);
-    connect(correctionSlider, &QSlider::sliderMoved, this, &Ekos::Guide::setCorrectionGraphScale);
-
-
-    driftPlot->resize(190, 190);
-    driftPlot->replot();
 
 
     // Init Internal Guider always
@@ -478,8 +119,6 @@ Guide::Guide() : QWidget()
     page->setIcon(QIcon::fromTheme("kstars_guides"));
 
     internalGuider->setGuideView(guideView);
-
-    state = GUIDE_IDLE;
 
     // Set current guide type
     setGuiderType(-1);
@@ -1372,7 +1011,7 @@ void Guide::setBusy(bool enable)
 
         darkFrameCheck->setEnabled(false);
         subFrameCheck->setEnabled(false);
-        kcfg_GuideAutoStarEnabled->setEnabled(false);
+        autoStarCheck->setEnabled(false);
 
         stopB->setEnabled(true);
 
@@ -1388,7 +1027,7 @@ void Guide::setBusy(bool enable)
             loopB->setEnabled(true);
             darkFrameCheck->setEnabled(true);
             subFrameCheck->setEnabled(true);
-            kcfg_GuideAutoStarEnabled->setEnabled(true);
+            autoStarCheck->setEnabled(true);
         }
 
         if (calibrationComplete)
@@ -1882,7 +1521,7 @@ void Guide::setCalibrationTwoAxis(bool enable)
 
 void Guide::setCalibrationAutoStar(bool enable)
 {
-    kcfg_GuideAutoStarEnabled->setChecked(enable);
+    autoStarCheck->setChecked(enable);
 }
 
 void Guide::setCalibrationAutoSquareSize(bool enable)
@@ -2256,7 +1895,7 @@ bool Guide::setGuiderType(int type)
             loopB->setEnabled(true);
             darkFrameCheck->setEnabled(true);
             subFrameCheck->setEnabled(true);
-            kcfg_GuideAutoStarEnabled->setEnabled(true);
+            autoStarCheck->setEnabled(true);
 
             guiderCombo->setEnabled(true);
             ST4Combo->setEnabled(true);
@@ -2305,7 +1944,7 @@ bool Guide::setGuiderType(int type)
             loopB->setEnabled(false);
             darkFrameCheck->setEnabled(false);
             subFrameCheck->setEnabled(false);
-            kcfg_GuideAutoStarEnabled->setEnabled(false);
+            autoStarCheck->setEnabled(false);
             guideB->setEnabled(false); //This will be enabled later when equipment connects (or not)
             externalConnectB->setEnabled(false);
 
@@ -2363,7 +2002,7 @@ bool Guide::setGuiderType(int type)
             loopB->setEnabled(false);
             darkFrameCheck->setEnabled(false);
             subFrameCheck->setEnabled(false);
-            kcfg_GuideAutoStarEnabled->setEnabled(false);
+            autoStarCheck->setEnabled(false);
             guideB->setEnabled(true);
             externalConnectB->setEnabled(true);
 
@@ -2488,14 +2127,15 @@ void Guide::onEnableDirDEC(bool enable)
     updatePHD2Directions();
 }
 
-void Guide::onInputParamChanged()
+void Guide::syncSettings()
 {
-    QSpinBox *pSB;
-    QDoubleSpinBox *pDSB;
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
 
     QObject *obj = sender();
 
-    if ((pSB = dynamic_cast<QSpinBox *>(obj)))
+    if ((pSB = qobject_cast<QSpinBox *>(obj)))
     {
         if (pSB == spinBox_MaxPulseRA)
             Options::setRAMaximumPulse(pSB->value());
@@ -2506,7 +2146,7 @@ void Guide::onInputParamChanged()
         else if (pSB == spinBox_MinPulseDEC)
             Options::setDECMinimumPulse(pSB->value());
     }
-    else if ((pDSB = dynamic_cast<QDoubleSpinBox *>(obj)))
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(obj)))
     {
         if (pDSB == spinBox_PropGainRA)
             Options::setRAProportionalGain(pDSB->value());
@@ -2520,6 +2160,11 @@ void Guide::onInputParamChanged()
             Options::setRADerivativeGain(pDSB->value());
         else if (pDSB == spinBox_DerGainDEC)
             Options::setDECDerivativeGain(pDSB->value());
+    }
+    else if ((pCB = qobject_cast<QCheckBox*>(obj)))
+    {
+        if (pCB == autoStarCheck)
+            Options::setGuideAutoStarEnabled(pCB->isChecked());
     }
 }
 
@@ -2645,6 +2290,8 @@ void Guide::loadSettings()
     // Min Pulse Duration (ms)
     spinBox_MinPulseRA->setValue(Options::rAMinimumPulse());
     spinBox_MinPulseDEC->setValue(Options::dECMinimumPulse());
+    // Autostar
+    autoStarCheck->setChecked(Options::guideAutoStarEnabled());
 }
 
 void Guide::saveSettings()
@@ -3370,6 +3017,366 @@ bool Guide::connectGuider()
 bool Guide::disconnectGuider()
 {
     return guider->Disconnect();
+}
+
+void Guide::initPlots()
+{
+    // Drift Graph Color Settings
+    driftGraph->setBackground(QBrush(Qt::black));
+    driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    driftGraph->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    driftGraph->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    driftGraph->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    driftGraph->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    driftGraph->yAxis->grid()->setZeroLinePen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->yAxis2->setBasePen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis2->setTickPen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setSubTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis2->setSubTickPen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setTickLabelColor(Qt::white);
+    driftGraph->yAxis->setTickLabelColor(Qt::white);
+    driftGraph->yAxis2->setTickLabelColor(Qt::white);
+    driftGraph->xAxis->setLabelColor(Qt::white);
+    driftGraph->yAxis->setLabelColor(Qt::white);
+    driftGraph->yAxis2->setLabelColor(Qt::white);
+
+    //Horizontal Axis Time Ticker Settings
+    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+    timeTicker->setTimeFormat("%m:%s");
+    driftGraph->xAxis->setTicker(timeTicker);
+
+    //Vertical Axis Labels Settings
+    driftGraph->yAxis2->setVisible(true);
+    driftGraph->yAxis2->setTickLabels(true);
+    driftGraph->yAxis->setLabelFont(QFont(font().family(), 10));
+    driftGraph->yAxis2->setLabelFont(QFont(font().family(), 10));
+    driftGraph->yAxis->setTickLabelFont(QFont(font().family(), 9));
+    driftGraph->yAxis2->setTickLabelFont(QFont(font().family(), 9));
+    driftGraph->yAxis->setLabelPadding(1);
+    driftGraph->yAxis2->setLabelPadding(1);
+    driftGraph->yAxis->setLabel(i18n("drift (arcsec)"));
+    driftGraph->yAxis2->setLabel(i18n("pulse (ms)"));
+
+    //Sets the default ranges
+    driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
+    driftGraph->yAxis->setRange(-3, 3);
+    int scale = 50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
+    correctionSlider->setValue(scale);
+    driftGraph->yAxis2->setRange(-3 * scale, 3 * scale);
+
+    //This sets up the legend
+    driftGraph->legend->setVisible(true);
+    driftGraph->legend->setFont(QFont("Helvetica", 9));
+    driftGraph->legend->setTextColor(Qt::white);
+    driftGraph->legend->setBrush(QBrush(Qt::black));
+    driftGraph->legend->setFillOrder(QCPLegend::foColumnsFirst);
+    driftGraph->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignBottom);
+
+    // RA Curve
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(0)->setName("RA");
+    driftGraph->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // DE Curve
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    driftGraph->graph(1)->setName("DE");
+    driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // RA highlighted Point
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
+    driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+
+    // DE highlighted Point
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
+    driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+
+    // RA Pulse
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
+    QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
+    raPulseColor.setAlpha(75);
+    driftGraph->graph(4)->setPen(QPen(raPulseColor));
+    driftGraph->graph(4)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
+    driftGraph->graph(4)->setName("RA Pulse");
+    driftGraph->graph(4)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // DEC Pulse
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
+    QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
+    dePulseColor.setAlpha(75);
+    driftGraph->graph(5)->setPen(QPen(dePulseColor));
+    driftGraph->graph(5)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
+    driftGraph->graph(5)->setName("DEC Pulse");
+    driftGraph->graph(5)->setLineStyle(QCPGraph::lsStepLeft);
+
+    //This will prevent the highlighted points and Pulses from showing up in the legend.
+    driftGraph->legend->removeItem(5);
+    driftGraph->legend->removeItem(4);
+    driftGraph->legend->removeItem(3);
+    driftGraph->legend->removeItem(2);
+    //Dragging and zooming settings
+    // make bottom axis transfer its range to the top axis if the graph gets zoomed:
+    connect(driftGraph->xAxis,  static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
+            driftGraph->xAxis2, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::setRange));
+    // update the second vertical axis properly if the graph gets zoomed.
+    connect(driftGraph->yAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
+            this, &Ekos::Guide::setCorrectionGraphScale);
+    driftGraph->setInteractions(QCP::iRangeZoom);
+    driftGraph->setInteraction(QCP::iRangeDrag, true);
+
+    connect(driftGraph, &QCustomPlot::mouseMove, this, &Ekos::Guide::driftMouseOverLine);
+    connect(driftGraph, &QCustomPlot::mousePress, this, &Ekos::Guide::driftMouseClicked);
+
+
+    //drift plot
+    double accuracyRadius = 2;
+
+    driftPlot->setBackground(QBrush(Qt::black));
+    driftPlot->setSelectionTolerance(10);
+
+    driftPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    driftPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    driftPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    driftPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    driftPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    driftPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    driftPlot->xAxis->setTickLabelColor(Qt::white);
+    driftPlot->yAxis->setTickLabelColor(Qt::white);
+
+    driftPlot->xAxis->setLabelColor(Qt::white);
+    driftPlot->yAxis->setLabelColor(Qt::white);
+
+    driftPlot->xAxis->setLabelFont(QFont(font().family(), 10));
+    driftPlot->yAxis->setLabelFont(QFont(font().family(), 10));
+    driftPlot->xAxis->setTickLabelFont(QFont(font().family(), 9));
+    driftPlot->yAxis->setTickLabelFont(QFont(font().family(), 9));
+
+    driftPlot->xAxis->setLabelPadding(2);
+    driftPlot->yAxis->setLabelPadding(2);
+
+    driftPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    driftPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    driftPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    driftPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    driftPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::gray));
+    driftPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::gray));
+
+    driftPlot->xAxis->setLabel(i18n("dRA (arcsec)"));
+    driftPlot->yAxis->setLabel(i18n("dDE (arcsec)"));
+
+    driftPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
+    driftPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
+
+    driftPlot->setInteractions(QCP::iRangeZoom);
+    driftPlot->setInteraction(QCP::iRangeDrag, true);
+
+    driftPlot->addGraph();
+    driftPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    driftPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssStar, Qt::gray, 5));
+
+    driftPlot->addGraph();
+    driftPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
+    driftPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
+
+    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Guide::handleVerticalPlotSizeChange);
+    connect(driftSplitter, &QSplitter::splitterMoved, this, &Ekos::Guide::handleHorizontalPlotSizeChange);
+
+    //This sets the values of all the Graph Options that are stored.
+    accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
+    showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
+    showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
+    showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
+    showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
+
+    //This sets the visibility of graph components to the stored values.
+    driftGraph->graph(0)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
+    driftGraph->graph(1)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
+    driftGraph->graph(2)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
+    driftGraph->graph(3)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
+    driftGraph->graph(4)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
+    driftGraph->graph(5)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
+    updateCorrectionsScaleVisibility();
+
+    driftPlot->resize(190, 190);
+    driftPlot->replot();
+
+    buildTarget();
+}
+
+void Guide::initView()
+{
+    guideView = new FITSView(guideWidget, FITS_GUIDE);
+    guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    guideView->setBaseSize(guideWidget->size());
+    guideView->createFloatingToolBar();
+    QVBoxLayout *vlayout = new QVBoxLayout();
+    vlayout->addWidget(guideView);
+    guideWidget->setLayout(vlayout);
+    connect(guideView, &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar);
+}
+
+void Guide::initConnections()
+{
+    // Exposure Timeout
+    captureTimeout.setSingleShot(true);
+    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Guide::processCaptureTimeout);
+
+    // Guiding Box Size
+    connect(boxSizeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateTrackingBoxSize);
+
+    // Guider CCD Selection
+    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Guide::setDefaultCCD);
+    connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
+            [&](int index)
+    {
+        if (guiderType == GUIDE_INTERNAL)
+        {
+            starCenter = QVector3D();
+            checkCCD(index);
+        }
+        else if (index >= 0)
+        {
+            // Disable or enable selected CCD based on options
+            QString ccdName = guiderCombo->currentText().remove(" Guider");
+            setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
+            checkCCD(index);
+        }
+    }
+           );
+
+    FOVScopeCombo->setCurrentIndex(Options::guideScopeType());
+    connect(FOVScopeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateTelescopeType);
+
+    // Dark Frame Check
+    connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDarkFrameEnabled);
+    // Subframe check
+    connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
+    // ST4 Selection
+    connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), [&](const QString & text)
+    {
+        setDefaultST4(text);
+        setST4(text);
+    });
+
+    // Binning Combo Selection
+    connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateCCDBin);
+
+    // RA/DEC Enable directions
+    connect(checkBox_DirRA, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirRA);
+    connect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
+
+    // N/W and W/E direction enable
+    connect(northControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(southControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(westControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(eastControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+
+    // Auto star check
+    connect(autoStarCheck, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+
+    // Declination Swap
+    connect(swapCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDECSwap);
+
+    // PID Control - Proportional Gain
+    connect(spinBox_PropGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(spinBox_PropGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // PID Control - Integral Gain
+    connect(spinBox_IntGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(spinBox_IntGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // PID Control - Derivative Gain
+    connect(spinBox_DerGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(spinBox_DerGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // Max Pulse Duration (ms)
+    connect(spinBox_MaxPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(spinBox_MaxPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // Min Pulse Duration (ms)
+    connect(spinBox_MinPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(spinBox_MinPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // Capture
+    connect(captureB, &QPushButton::clicked, this, [this]()
+    {
+        state = GUIDE_CAPTURE;
+        emit newStatus(state);
+
+        capture();
+    });
+
+    connect(loopB, &QPushButton::clicked, this, [this]()
+    {
+        state = GUIDE_LOOPING;
+        emit newStatus(state);
+
+        capture();
+    });
+
+    // Stop
+    connect(stopB, &QPushButton::clicked, this, &Ekos::Guide::abort);
+
+    // Clear Calibrate
+    //connect(calibrateB, &QPushButton::clicked, this, &Ekos::Guide::calibrate()));
+    connect(clearCalibrationB, &QPushButton::clicked, this, &Ekos::Guide::clearCalibration);
+
+    // Guide
+    connect(guideB, &QPushButton::clicked, this, &Ekos::Guide::guide);
+
+    // Connect External Guide
+    connect(externalConnectB, &QPushButton::clicked, this, [&]()
+    {
+        setBLOBEnabled(false);
+        guider->Connect();
+    });
+    connect(externalDisconnectB, &QPushButton::clicked, this, [&]()
+    {
+        setBLOBEnabled(true);
+        guider->Disconnect();
+    });
+
+    // Pulse Timer
+    pulseTimer.setSingleShot(true);
+    connect(&pulseTimer, &QTimer::timeout, this, &Ekos::Guide::capture);
+
+    //This connects all the buttons and slider below the guide plots.
+    connect(accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::buildTarget);
+    connect(guideSlider, &QSlider::sliderMoved, this, &Ekos::Guide::guideHistory);
+    connect(latestCheck, &QCheckBox::toggled, this, &Ekos::Guide::setLatestGuidePoint);
+    connect(showRAPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowRAPlot);
+    connect(showDECPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowDEPlot);
+    connect(showRACorrectionsCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleRACorrectionsPlot);
+    connect(showDECorrectionsCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleDECorrectionsPlot);
+    connect(correctionSlider, &QSlider::sliderMoved, this, &Ekos::Guide::setCorrectionGraphScale);
+
+    connect(showGuideRateToolTipB, &QPushButton::clicked, [this]()
+    {
+        QToolTip::showText(showGuideRateToolTipB->mapToGlobal(QPoint(10, 10)),
+                           showGuideRateToolTipB->toolTip(),
+                           showGuideRateToolTipB);
+    });
+
+
+    connect(manualDitherB, &QPushButton::clicked, this, &Guide::handleManualDither);
+
+    // Guiding Rate - Advisory only
+    connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::onInfoRateChanged);
 }
 
 }
