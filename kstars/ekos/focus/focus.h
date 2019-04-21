@@ -341,14 +341,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void setAbsoluteFocusTicks();
 
-        void setActiveBinning(int bin);
-
-        void setDefaultCCD(QString ccd);
-        void setDefaultFocuser(QString focuser);
-
         void updateBoxSize(int value);
-
-        void setThreshold(double value);
 
         void processCaptureTimeout();
 
@@ -389,7 +382,7 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief initSettings Connect settings to slots to update the value when changed
          */
-        void initSettings();
+        void initSettingsConnections();
         /**
          * @brief loadSettings Load setting from Options and set them accordingly.
          */
@@ -412,6 +405,8 @@ class Focus : public QWidget, public Ui::Focus
         void stop(bool aborted = false);
         bool findMinimum(double expected, double *position, double *hfr);
         static double fn1(double x, void *params);
+
+        void initView();
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
