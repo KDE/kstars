@@ -1702,7 +1702,7 @@
       </entry>
       <entry name="FocusGain" type="Double">
          <label>Default Focuser gain value</label>
-         <whatsthis>Specifies gain value of CCD when performing focusing if supported by camera..</whatsthis>
+         <whatsthis>Specifies gain value of CCD when performing focusing if supported by camera.</whatsthis>
          <default>0</default>
       </entry>
       <entry name="FocusBoxSize" type="UInt">
