@@ -1947,7 +1947,7 @@ void Scheduler::evaluateJobs()
     }), sortedJobs.end());
 
     /* Apply sorting to queue table, and mark it for saving if it changes */
-    mDirty = reorderJobs(sortedJobs);
+    mDirty = reorderJobs(sortedJobs) | mDirty;
 
     if (jobEvaluationOnly || state != SCHEDULER_RUNNIG)
     {
