@@ -360,6 +360,12 @@ bool OfflineAstrometryParser::stopSolver()
     {
         solver->terminate();
         solver->disconnect();
+
+        // 2019-04-25: When inparallel option is enabled in astrometry.cfg
+        // astrometry-engine is not killed after solve-field is terminated
+        QProcess p;
+        p.start("pkill astrometry-engine");
+        p.waitForFinished();
     }
 
     return true;
