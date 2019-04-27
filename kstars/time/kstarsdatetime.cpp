@@ -26,6 +26,7 @@
 
 KStarsDateTime::KStarsDateTime() : QDateTime()
 {
+    setTimeSpec(Qt::UTC);
     setDJD(J2000);
 }
 
@@ -44,7 +45,7 @@ KStarsDateTime::KStarsDateTime(const KStarsDateTime &kdt) : QDateTime()
     QTime _t = kdt.time();
     QDate _d = kdt.date();
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
-    DJD = (long double)( _d.toJulianDay() ) + jdFrac;
+    DJD = static_cast<long double>( _d.toJulianDay() ) + jdFrac;
 }*/
 
 KStarsDateTime::KStarsDateTime(const QDateTime &qdt) : QDateTime(qdt) //, QDateTime::Spec::UTC() )
@@ -53,7 +54,7 @@ KStarsDateTime::KStarsDateTime(const QDateTime &qdt) : QDateTime(qdt) //, QDateT
     QTime _t           = qdt.time();
     QDate _d           = qdt.date();
     long double jdFrac = (_t.hour() - 12 + (_t.minute() + (_t.second() + _t.msec() / 1000.) / 60.) / 60.) / 24.;
-    DJD                = (long double)(_d.toJulianDay()) + jdFrac;
+    DJD                = static_cast<long double>(_d.toJulianDay()) + jdFrac;
     setTimeSpec(qdt.timeSpec());
     //setUtcOffset(qdt.utcOffset());
 }
@@ -64,13 +65,13 @@ KStarsDateTime::KStarsDateTime(const QDate &_d, const QTime &_t, Qt::TimeSpec ti
 {
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     long double jdFrac = (_t.hour() - 12 + (_t.minute() + (_t.second() + _t.msec() / 1000.) / 60.) / 60.) / 24.;
-    DJD                = (long double)(_d.toJulianDay()) + jdFrac;
+    DJD                = static_cast<long double>(_d.toJulianDay()) + jdFrac;
 }
 
 KStarsDateTime::KStarsDateTime(long double _jd) : QDateTime()
 {
-    setDJD(_jd);
     setTimeSpec(Qt::UTC);
+    setDJD(_jd);
 }
 
 //KStarsDateTime KStarsDateTime::currentDateTime( QDateTime::Spec spec ) {
@@ -122,7 +123,7 @@ KStarsDateTime KStarsDateTime::fromString(const QString &s)
 void KStarsDateTime::setDJD(long double _jd)
 {
     //QDateTime::setTimeSpec( QDateTime::Spec::UTC() );
-    QDateTime::setTimeSpec(Qt::UTC);
+    //QDateTime::setTimeSpec(Qt::UTC);
 
     DJD            = _jd;
     long int ijd   = (long int)_jd;
@@ -148,15 +149,15 @@ void KStarsDateTime::setDJD(long double _jd)
 void KStarsDateTime::setDate(const QDate &_d)
 {
     //Save the JD fraction
-    long double jdFrac = djd() - (long double)(date().toJulianDay());
+    long double jdFrac = djd() - static_cast<long double>(date().toJulianDay());
 
     //set the integer portion of the JD and add back the JD fraction:
-    setDJD((long double)_d.toJulianDay() + jdFrac);
+    setDJD(static_cast<long double>(_d.toJulianDay()) + jdFrac);
 }
 
 KStarsDateTime KStarsDateTime::addSecs(double s) const
 {
-    long double ds = (long double)s / 86400.;
+    long double ds = static_cast<long double>(s) / 86400.;
     KStarsDateTime kdt(djd() + ds);
     kdt.setTimeSpec(timeSpec());
     return kdt;
@@ -164,7 +165,7 @@ KStarsDateTime KStarsDateTime::addSecs(double s) const
 
 void KStarsDateTime::setTime(const QTime &_t)
 {
-    KStarsDateTime _dt(date(), _t);
+    KStarsDateTime _dt(date(), _t, timeSpec());
     setDJD(_dt.djd());
 }
 
@@ -172,7 +173,7 @@ dms KStarsDateTime::gst() const
 {
     dms gst0 = GSTat0hUT();
 
-    double hr = double(time().hour() - offsetFromUtc()/3600.0);
+    double hr = double(time().hour() - offsetFromUtc() / 3600.0);
     double mn = double(time().minute());
     double sc = double(time().second()) + double(0.001 * time().msec());
     double st = (hr + (mn + sc / 60.0) / 60.0) * SIDEREALSECOND;
