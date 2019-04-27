@@ -220,7 +220,7 @@ void Mosaic::saveJobsDirectory()
 void Mosaic::setCenter(const SkyPoint &value)
 {
     center = value;
-    center.apparentCoord((long double)J2000, KStars::Instance()->data()->ut().djd());
+    center.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
 }
 
 void Mosaic::setCameraSize(uint16_t width, uint16_t height)
@@ -243,7 +243,7 @@ void Mosaic::setFocalLength(double focalLength)
 void Mosaic::calculateFOV()
 {
     if (cameraWSpin->value() == 0 || cameraHSpin->value() == 0 || pixelWSizeSpin->value() == 0 ||
-        pixelHSizeSpin->value() == 0 || focalLenSpin->value() == 0)
+            pixelHSizeSpin->value() == 0 || focalLenSpin->value() == 0)
         return;
 
     fovGroup->setEnabled(true);
@@ -324,8 +324,8 @@ void Mosaic::updateTargetFOV()
     scene.setSceneRect(skyMapItem->boundingRect());
 
     // Center tile
-    mosaicTileItem->setPos(skyMapItem->mapToScene(QPointF( mosaicWSpin->value()*cameraWFOVSpin->value()*pixelsPerArcmin/2,
-                                                           mosaicHSpin->value()*cameraHFOVSpin->value()*pixelsPerArcmin/2)));
+    mosaicTileItem->setPos(skyMapItem->mapToScene(QPointF( mosaicWSpin->value()*cameraWFOVSpin->value()*pixelsPerArcmin / 2,
+                           mosaicHSpin->value()*cameraHFOVSpin->value()*pixelsPerArcmin / 2)));
 }
 
 void Mosaic::render()
@@ -386,7 +386,7 @@ void Mosaic::constructMosaic()
         createJobsB->setEnabled(true);
 
     if (mosaicTileItem->getWidth() != mosaicWSpin->value() || mosaicTileItem->getHeight() != mosaicHSpin->value() ||
-        mosaicTileItem->getOverlap() != overlapSpin->value() || mosaicTileItem->getPA() != rotationSpin->value())
+            mosaicTileItem->getOverlap() != overlapSpin->value() || mosaicTileItem->getPA() != rotationSpin->value())
     {
         if (mosaicTileItem->getPA() != rotationSpin->value())
             Options::setCameraRotation(rotationSpin->value());
@@ -398,7 +398,7 @@ void Mosaic::constructMosaic()
         updateTargetFOV();
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile FOV in pixels W:" << cameraWFOVSpin->value() * pixelsPerArcmin << "H:"
-                 << cameraHFOVSpin->value() * pixelsPerArcmin;
+                                       << cameraHFOVSpin->value() * pixelsPerArcmin;
 
         mosaicTileItem->setDimension(mosaicWSpin->value(), mosaicHSpin->value());
         mosaicTileItem->setPA(rotationSpin->value());
@@ -430,7 +430,7 @@ void Mosaic::createJobs()
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << "#2 Center RA:" << center.ra0().toHMSString() << "DE:" << center.dec0().toDMSString();
 
-    center.apparentCoord((long double)J2000, KStars::Instance()->data()->ut().djd());
+    center.apparentCoord(static_cast<long double>J2000, KStars::Instance()->data()->ut().djd());
 
     KStars::Instance()->setApproxFOV(targetWFOVSpin->value() * 2 / 60.0);
 

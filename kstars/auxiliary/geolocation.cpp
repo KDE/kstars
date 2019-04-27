@@ -102,8 +102,8 @@ QString GeoLocation::translatedName() const
 QString GeoLocation::translatedProvince() const
 {
     return Province.isEmpty() ?
-               QString() :
-               i18nc(QString("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
+           QString() :
+           i18nc(QString("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
 }
 
 QString GeoLocation::translatedCountry() const
@@ -130,7 +130,7 @@ void GeoLocation::cartToGeod()
 
         lat1 = latd;
         xn   = axis / (sqrt(1 - e2 * s1 * s1));
-        latd = atan2((long double)rpro * (1 + e2 * xn * s1), PosCartZ);
+        latd = atan2(static_cast<long double>(rpro) * (1 + e2 * xn * s1), PosCartZ);
     }
 
     sinl = sin(latd);

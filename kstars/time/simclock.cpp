@@ -58,7 +58,7 @@ void SimClock::tick()
             lastelapsed = mselapsed;
         }
 
-        long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
+        long double scaledsec = static_cast<long double>(mselapsed) * static_cast<long double>(Scale) / 1000.0;
         UTC.setDJD(julianmark + scaledsec / (24. * 3600.));
 
         // 		qDebug() << "tick() : JD = " << QLocale().toString( UTC.djd(), 7 ) <<
@@ -97,8 +97,8 @@ void SimClock::manualTick(bool force, bool backward)
     {
         //The single shot timer is needed because otherwise the animation is happening so frequently
         //that the kstars interface becomes too unresponsive.
-        //QTimer::singleShot(1, [this,backward] { setUTC(UTC.addSecs((long double)Scale * (backward ? -1 : 1))); });
-        setUTC(UTC.addSecs((long double)Scale * (backward ? -1 : 1)));
+        //QTimer::singleShot(1, [this,backward] { setUTC(UTC.addSecs(static_cast<long double>Scale * (backward ? -1 : 1))); });
+        setUTC(UTC.addSecs(static_cast<long double>(Scale) * (backward ? -1 : 1)));
     }
     else if (!ManualMode)
         tick();
