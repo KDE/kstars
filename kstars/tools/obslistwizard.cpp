@@ -66,22 +66,23 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     connect(olw->updateButton, SIGNAL(clicked()), this, SLOT(slotUpdateObjectCount()));
 
     // Enable the update count button when certain elements are changed
-    connect(olw->TypeList, SIGNAL(itemSelectionChanged()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->ConstellationList, SIGNAL(itemSelectionChanged()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->RAMin, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
-    connect(olw->RAMax, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
-    connect(olw->DecMin, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
-    connect(olw->DecMax, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
-    connect(olw->RA, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
-    connect(olw->Dec, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
-    connect(olw->Radius, SIGNAL(editingFinished()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->Date, SIGNAL(dateChanged(QDate)), this, SLOT(slotObjectCountDirty()));
-    connect(olw->Mag, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
-    connect(olw->IncludeNoMag, SIGNAL(clicked()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->timeTo, SIGNAL(timeChanged(QTime)), this, SLOT(slotObjectCountDirty()));
-    connect(olw->timeFrom, SIGNAL(timeChanged(QTime)), this, SLOT(slotObjectCountDirty()));
-    connect(olw->minAlt, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
-    connect(olw->maxAlt, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
+    connect(olw->TypeList, &QListWidget::itemSelectionChanged, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->ConstellationList, &QListWidget::itemSelectionChanged, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->RAMin, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
+    connect(olw->RAMax, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
+    connect(olw->DecMin, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
+    connect(olw->DecMax, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
+    connect(olw->RA, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
+    connect(olw->Dec, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
+    connect(olw->Radius, &QLineEdit::editingFinished, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->Date, &QDateEdit::dateChanged, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->Mag, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->IncludeNoMag, &QPushButton::clicked, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->timeTo, &QTimeEdit::timeChanged, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->timeFrom, &QTimeEdit::timeChanged, this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->minAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->maxAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->coverage, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
 
     connect(olw->SelectByDate, SIGNAL(clicked()), this, SLOT(slotToggleDateWidgets()));
     connect(olw->SelectByMagnitude, SIGNAL(clicked()), this, SLOT(slotToggleMagWidgets()));
@@ -306,7 +307,7 @@ void ObsListWizard::slotToggleMagWidgets()
 void ObsListWizard::slotParseRegion()
 {
     if (sender()->objectName() == "RAMin" || sender()->objectName() == "RAMax" || sender()->objectName() == "DecMin" ||
-        sender()->objectName() == "DecMax")
+            sender()->objectName() == "DecMax")
     {
         if (!olw->RAMin->isEmpty() && !olw->RAMax->isEmpty() && !olw->DecMin->isEmpty() && !olw->DecMax->isEmpty())
         {
@@ -902,38 +903,48 @@ bool ObsListWizard::applyObservableFilter(SkyObject *o, bool doBuildList, bool d
 
     //Check altitude of object every hour from 18:00 to midnight
     //If it's ever above 15 degrees, flag it as visible
-    KStarsDateTime Evening(olw->Date->date(), QTime(18, 0, 0));
-    KStarsDateTime Midnight(olw->Date->date().addDays(1), QTime(0, 0, 0));
+    KStarsDateTime Evening(olw->Date->date(), QTime(18, 0, 0), Qt::LocalTime);
+    KStarsDateTime Midnight(olw->Date->date().addDays(1), QTime(0, 0, 0), Qt::LocalTime);
     double minAlt = 15, maxAlt = 90;
 
     // Or use user-selected values, if they're valid
-    if (olw->timeFrom->time() < olw->timeTo->time())
+    if (olw->timeFrom->time().isValid() && olw->timeTo->time().isValid())
     {
         Evening.setTime(olw->timeFrom->time());
         Midnight.setTime(olw->timeTo->time());
-        Midnight.setDate(olw->Date->date());
+
+        // If time from < timeTo (e.g. 06:00 PM to 9:00 PM)
+        // then we stay on the same day.
+        if (olw->timeFrom->time() < olw->timeTo->time())
+        {
+            Midnight.setDate(olw->Date->date());
+        }
+        // Otherwise we advance by one day
+        else
+        {
+            Midnight.setDate(olw->Date->date().addDays(1));
+        }
     }
 
-    if (olw->minAlt->value() < olw->maxAlt->value())
-    {
-        minAlt = olw->minAlt->value();
-        maxAlt = olw->maxAlt->value();
-    }
+    minAlt = olw->minAlt->value();
+    maxAlt = olw->maxAlt->value();
 
-    bool visible = false;
+    // This is the "relaxed" search mode
+    // where if the object obeys the restrictions in 50% of the time of the range
+    // then it qualifies as "visible"
+    double totalCount = 0, visibleCount = 0;
     for (KStarsDateTime t = Evening; t < Midnight; t = t.addSecs(3600.0))
     {
         dms LST = geo->GSTtoLST(t.gst());
         p.EquatorialToHorizontal(&LST, geo->lat());
-
+        totalCount++;
         if (p.alt().Degrees() >= minAlt && p.alt().Degrees() <= maxAlt)
-        {
-            visible = true;
-            break;
-        }
+            visibleCount++;
     }
 
-    if (visible)
+    // If the object is within the min/max alt at least coverage % of the time range
+    // then consider it visible
+    if (visibleCount / totalCount >= olw->coverage->value() / 100.0)
         return true;
 
     if (doAdjustCount)
@@ -942,4 +953,24 @@ bool ObsListWizard::applyObservableFilter(SkyObject *o, bool doBuildList, bool d
         obsList().takeAt(obsList().indexOf(o));
 
     return false;
+
+    // This is the strict mode where ANY object that does not meet the min & max
+    // altitude at ANY time would be removed from the list.
+#if 0
+    for (KStarsDateTime t = Evening; t < Midnight; t = t.addSecs(3600.0))
+    {
+        dms LST = geo->GSTtoLST(t.gst());
+        p.EquatorialToHorizontal(&LST, geo->lat());
+        if (p.alt().Degrees() < minAlt || p.alt().Degrees() > maxAlt)
+        {
+            if (doAdjustCount)
+                --ObjectCount;
+            if (doBuildList)
+                obsList().takeAt(obsList().indexOf(o));
+            return false;
+        }
+    }
+    return true;
+#endif
+
 }
