@@ -872,6 +872,10 @@
          <whatsthis>This specifies the angular radius of the Dobsonian hole, i.e. the region where a large Dobsonian telescope cannot be pointed easily.</whatsthis>
          <default>15.00</default>
       </entry>
+      <entry name="ObsListCoverage" type="Double">
+         <label>The object must obey the minimum and maximum altitudes at least this much percentage of the indicated time range.</label>
+         <default>40.00</default>
+      </entry>
    </group>
    <group name="Colors">
       <entry name="ColorSchemeFile" type="String">
