@@ -15,6 +15,7 @@
  ***************************************************************************/
 
 #include "obslistwizard.h"
+#include "Options.h"
 
 #include "geolocation.h"
 #include "kstarsdata.h"
@@ -82,7 +83,13 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     connect(olw->timeFrom, &QTimeEdit::timeChanged, this, &ObsListWizard::slotObjectCountDirty);
     connect(olw->minAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
     connect(olw->maxAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
-    connect(olw->coverage, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
+
+    olw->coverage->setValue(Options::obsListCoverage());
+    connect(olw->coverage, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double value)
+    {
+        Options::setObsListCoverage(value);
+        slotObjectCountDirty();
+    });
 
     connect(olw->SelectByDate, SIGNAL(clicked()), this, SLOT(slotToggleDateWidgets()));
     connect(olw->SelectByMagnitude, SIGNAL(clicked()), this, SLOT(slotToggleMagWidgets()));
