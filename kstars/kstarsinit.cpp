@@ -187,7 +187,15 @@ void KStars::initActions()
     if (!StartClockRunning)
         ka->toggle();
     QObject::connect(ka, SIGNAL(triggered()), this, SLOT(slotToggleTimer()));
-    //QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)));
+
+    // If we are started in --paused state make sure the icon reflects that now
+    if (StartClockRunning == false)
+    {
+        QAction *a = actionCollection()->action("clock_startstop");
+        if (a)
+            a->setIcon(QIcon::fromTheme("run-build-install-root"));
+    }
+
     QObject::connect(data()->clock(), &SimClock::clockToggled, [ = ](bool toggled)
     {
         QAction *a = actionCollection()->action("clock_startstop");
