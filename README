@@ -47,7 +47,7 @@ This is the file README.
 
 The KStars handbook can be found in your $(KDEDIR)/share/doc/HTML/<lang>/kstars/
 directory.  You can also easily access it from the Help menu, or by pressing
-the [F1] key, or by visiting http://edu.kde.org/kstars/handbook/
+the [F1] key, or by visiting https://docs.kde.org/?application=kstars
 
 In addition, there are the following README files:
 
