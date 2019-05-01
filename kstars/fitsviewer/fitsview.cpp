@@ -300,6 +300,8 @@ void FITSView::loadFITS(const QString &inFilename, bool silent)
         imageData->getBayerParams(&param);
     }
 
+    // In case image is still loading, wait until it is done.
+    fitsWatcher.waitForFinished();
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
 
