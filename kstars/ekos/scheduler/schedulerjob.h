@@ -13,16 +13,18 @@
 
 #include <QUrl>
 #include <QMap>
+#include "ksmoon.h"
 
 class QTableWidgetItem;
 class QLabel;
+class KSMoon;
 
 class dms;
 
 class SchedulerJob
 {
   public:
-    SchedulerJob() = default;
+    SchedulerJob();
 
     /** @brief States of a SchedulerJob. */
     typedef enum {
@@ -384,6 +386,53 @@ class SchedulerJob
      */
     static bool increasingStartupTimeOrder(SchedulerJob const *a, SchedulerJob const *b);
 
+    /**
+         * @brief getAltitudeScore Get the altitude score of an object. The higher the better
+         * @param when date and time to check the target altitude, now if omitted.
+         * @return Altitude score. Target altitude below minimum altitude required by job or setting target under 3 degrees below minimum altitude get bad score.
+         */
+    int16_t getAltitudeScore(QDateTime const &when = QDateTime()) const;
+
+    /**
+         * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
+         * @param when date and time to check the moon separation, now if omitted.
+         * @return Moon separation score
+         */
+    int16_t getMoonSeparationScore(QDateTime const &when = QDateTime()) const;
+
+    /**
+         * @brief getCurrentMoonSeparation Get current moon separation in degrees at current time for the given job
+         * @param job scheduler job
+         * @return Separation in degrees
+         */
+    double getCurrentMoonSeparation() const;
+
+    /**
+         * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
+         * @param when date and time to start searching from, now if omitted.
+         * @return The date and time the target is at or above the argument altitude, valid if found, invalid if not achievable (always under altitude).
+         */
+    QDateTime calculateAltitudeTime(QDateTime const &when = QDateTime()) const;
+
+    /**
+         * @brief calculateCulmination find culmination time adjust for the job offset
+         * @param when date and time to start searching from, now if omitted
+         * @return The date and time the target is in entering the culmination interval, valid if found, invalid if not achievable (currently always valid).
+         */
+    QDateTime calculateCulmination(QDateTime const &when = QDateTime()) const;
+
+
+    /**
+         * @brief findAltitude Find altitude given a specific time
+         * @param target Target
+         * @param when date time to find altitude
+         * @param is_setting whether target is setting at the argument time (optional).
+         * @param debug outputs calculation to log file (optional).
+         * @return Altitude of the target at the specific date and time given.
+         * @warning This function uses the current KStars geolocation.
+         */
+    static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
+
 private:
     QString name;
     SkyPoint targetCoords;
@@ -450,4 +499,7 @@ private:
     bool lightFramesRequired { false };
 
     QMap<QString, uint16_t> capturedFramesMap;
+
+    /// Pointer to Moon object
+    KSMoon *moon { nullptr };
 };
