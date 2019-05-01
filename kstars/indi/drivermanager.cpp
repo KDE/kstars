@@ -863,7 +863,10 @@ bool DriverManager::readINDIHosts()
     lastGroup = nullptr;
     file.setFileName(KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile));
     if (file.fileName().isEmpty() || !file.open(QIODevice::ReadOnly))
+    {
+        delLilXML(xmlParser);
         return false;
+    }
 
     while (file.getChar(&c))
     {
