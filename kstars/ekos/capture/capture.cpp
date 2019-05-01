@@ -2482,7 +2482,10 @@ void Capture::removeJob(int index)
     for (int i = 0; i < jobs.count(); i++)
         jobs.at(i)->setStatusCell(queueTable->item(i, 0));
 
-    queueTable->selectRow(queueTable->currentRow());
+    if (index < queueTable->rowCount())
+        queueTable->selectRow(index);
+    else if (queueTable->rowCount() > 0)
+        queueTable->selectRow(queueTable->rowCount()-1);
 
     if (queueTable->rowCount() == 0)
     {
