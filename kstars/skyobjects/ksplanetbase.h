@@ -267,8 +267,8 @@ class KSPlanetBase : public TrailObject
     // Heliocentric ecliptic position referred to the equinox of the epoch
     // as obtained from VSOP.
     EclipticPosition helEcPos;
-    double Rearth;
-    double Phase;
+    double Rearth {NaN::d};
+    double Phase {NaN::d};
     QImage m_image;
 
   private:
