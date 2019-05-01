@@ -30,9 +30,9 @@ namespace Ekos
 
 FilterManager::FilterManager() : QDialog(KStars::Instance())
 {
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-    #endif
+#endif
 
     setupUi(this);
 
@@ -71,7 +71,7 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     // Absolute Focus Position
     filterView->setItemDelegateForColumn(9, noEditDelegate);
 
-    connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &)
+    connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex & topLeft, const QModelIndex &, const QVector<int> &)
     {
         reloadFilters();
         if (topLeft.column() == 5)
@@ -102,7 +102,7 @@ void FilterManager::refreshFilterModel()
     // then we remove it.
     if (filterModel->rowCount() > 0 && filterModel->rowCount() != m_currentFilterLabels.count())
     {
-        for (int i=0; i < filterModel->rowCount(); i++)
+        for (int i = 0; i < filterModel->rowCount(); i++)
             filterModel->removeRow(i);
 
         filterModel->select();
@@ -167,7 +167,7 @@ void FilterManager::reloadFilters()
 {
     qDeleteAll(m_ActiveFilters);
     currentFilter = nullptr;
-    targetFilter = nullptr;    
+    targetFilter = nullptr;
     m_ActiveFilters.clear();
     operationQueue.clear();
 
@@ -201,7 +201,8 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
     connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(filter, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
-    connect(filter, &ISD::GDInterface::Disconnected, [&]() {
+    connect(filter, &ISD::GDInterface::Disconnected, [&]()
+    {
         m_currentFilterLabels.clear();
         m_currentFilterPosition = -1;
         //m_currentFilterDevice = nullptr;
@@ -209,13 +210,20 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
         m_FilterPositionProperty = nullptr;
     });
 
+    m_FilterNameProperty = nullptr;
+    m_FilterPositionProperty = nullptr;
+    m_FilterConfirmSet = nullptr;
     initFilterProperties();
 }
 
 void FilterManager::initFilterProperties()
 {
     if (m_FilterNameProperty && m_FilterPositionProperty)
+    {
+        if (m_FilterConfirmSet == nullptr)
+            m_FilterConfirmSet = m_currentFilterDevice->getBaseDevice()->getSwitch("CONFIRM_FILTER_SET");
         return;
+    }
 
     filterNameLabel->setText(m_currentFilterDevice->getDeviceName());
 
@@ -223,6 +231,7 @@ void FilterManager::initFilterProperties()
 
     m_FilterNameProperty = m_currentFilterDevice->getBaseDevice()->getText("FILTER_NAME");
     m_FilterPositionProperty = m_currentFilterDevice->getBaseDevice()->getNumber("FILTER_SLOT");
+    m_FilterConfirmSet = m_currentFilterDevice->getBaseDevice()->getSwitch("CONFIRM_FILTER_SET");
 
     m_currentFilterPosition = getFilterPosition(true);
     m_currentFilterLabels = getFilterLabels(true);
@@ -231,7 +240,7 @@ void FilterManager::initFilterProperties()
         refreshFilterModel();
 
     if (m_ActiveFilters.count() >= m_currentFilterPosition)
-        lastFilterOffset = m_ActiveFilters[m_currentFilterPosition-1]->offset();
+        lastFilterOffset = m_ActiveFilters[m_currentFilterPosition - 1]->offset();
 }
 
 QStringList FilterManager::getFilterLabels(bool forceRefresh)
@@ -273,8 +282,8 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
         return false;
 
     m_Policy = policy;
-    currentFilter= m_ActiveFilters[m_currentFilterPosition - 1];
-    targetFilter = m_ActiveFilters[position-1];
+    currentFilter = m_ActiveFilters[m_currentFilterPosition - 1];
+    targetFilter = m_ActiveFilters[position - 1];
 
     if (currentFilter == targetFilter)
     {
@@ -291,7 +300,7 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
 
 void FilterManager::processNumber(INumberVectorProperty *nvp)
 {
-    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr || strcmp(nvp->device,m_currentFilterDevice->getDeviceName()))
+    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr || strcmp(nvp->device, m_currentFilterDevice->getDeviceName()))
         return;
 
     m_FilterPositionProperty = nvp;
@@ -306,7 +315,7 @@ void FilterManager::processNumber(INumberVectorProperty *nvp)
         executeOperationQueue();
     // If filter is changed externally, record its current offset as the starting offset.
     else if (state == FILTER_IDLE && m_ActiveFilters.count() >= m_currentFilterPosition)
-        lastFilterOffset = m_ActiveFilters[m_currentFilterPosition-1]->offset();
+        lastFilterOffset = m_ActiveFilters[m_currentFilterPosition - 1]->offset();
 
     // Check if we have to apply Focus Offset
     // Focus offsets are always applied first
@@ -390,7 +399,7 @@ void FilterManager::processNumber(INumberVectorProperty *nvp)
 void FilterManager::processText(ITextVectorProperty *tvp)
 {
     if (strcmp(tvp->name, "FILTER_NAME") || m_currentFilterDevice == nullptr || strcmp(tvp->device, m_currentFilterDevice->getDeviceName())            )
-        return;    
+        return;
 
     m_FilterNameProperty = tvp;
 
@@ -415,30 +424,30 @@ void FilterManager::processSwitch(ISwitchVectorProperty *svp)
 
 void FilterManager::buildOperationQueue(FilterState operation)
 {
-    operationQueue.clear();    
+    operationQueue.clear();
     m_useTargetFilter = false;
 
     switch (operation)
     {
-    case FILTER_CHANGE:
-    {
-        if ( (m_Policy & CHANGE_POLICY) && targetFilter != currentFilter)
-            m_useTargetFilter = true;
+        case FILTER_CHANGE:
+        {
+            if ( (m_Policy & CHANGE_POLICY) && targetFilter != currentFilter)
+                m_useTargetFilter = true;
 
-        if (m_useTargetFilter)
-        {            
-            operationQueue.enqueue(FILTER_CHANGE);
-            if (m_FocusReady && (m_Policy & OFFSET_POLICY))
-                operationQueue.enqueue(FILTER_OFFSET);
+            if (m_useTargetFilter)
+            {
+                operationQueue.enqueue(FILTER_CHANGE);
+                if (m_FocusReady && (m_Policy & OFFSET_POLICY))
+                    operationQueue.enqueue(FILTER_OFFSET);
+            }
+
+            if (m_FocusReady && (m_Policy & AUTOFOCUS_POLICY) && targetFilter->useAutoFocus())
+                operationQueue.enqueue(FILTER_AUTOFOCUS);
         }
-
-        if (m_FocusReady && (m_Policy & AUTOFOCUS_POLICY) && targetFilter->useAutoFocus())
-            operationQueue.enqueue(FILTER_AUTOFOCUS);
-    }
         break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -458,44 +467,52 @@ bool FilterManager::executeOperationQueue()
 
     switch (nextOperation)
     {
-    case FILTER_CHANGE:
-    {
-        state = FILTER_CHANGE;
-        if (m_useTargetFilter)
-            targetFilterPosition = m_ActiveFilters.indexOf(targetFilter) + 1;
-        m_currentFilterDevice->runCommand(INDI_SET_FILTER, &targetFilterPosition);
-        emit newStatus(state);
-    }
-        break;
-
-    case FILTER_OFFSET:
-    {
-        state = FILTER_OFFSET;
-        if (m_useTargetFilter)
+        case FILTER_CHANGE:
         {
-            targetFilterOffset = targetFilter->offset() - lastFilterOffset;
-            lastFilterOffset   = targetFilter->offset();
-            currentFilter = targetFilter;
-            m_useTargetFilter = false;
-        }
-        if (targetFilterOffset == 0)
-            actionRequired = false;
-        else
-        {
-            emit newFocusOffset(targetFilterOffset, false);
+            state = FILTER_CHANGE;
+            if (m_useTargetFilter)
+                targetFilterPosition = m_ActiveFilters.indexOf(targetFilter) + 1;
+            m_currentFilterDevice->runCommand(INDI_SET_FILTER, &targetFilterPosition);
             emit newStatus(state);
+
+            if (m_FilterConfirmSet)
+            {
+                if (KMessageBox::questionYesNo(KStars::Instance(),
+                                               i18n("Set filter to %1. Is filter set?", targetFilter->color()),
+                                               i18n("Confirm Filter")) == KMessageBox::Yes)
+                    m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
+            }
         }
-    }
         break;
 
-    case FILTER_AUTOFOCUS:
-        state = FILTER_AUTOFOCUS;
-        emit newStatus(state);
-        emit checkFocus(0.01);
+        case FILTER_OFFSET:
+        {
+            state = FILTER_OFFSET;
+            if (m_useTargetFilter)
+            {
+                targetFilterOffset = targetFilter->offset() - lastFilterOffset;
+                lastFilterOffset   = targetFilter->offset();
+                currentFilter = targetFilter;
+                m_useTargetFilter = false;
+            }
+            if (targetFilterOffset == 0)
+                actionRequired = false;
+            else
+            {
+                emit newFocusOffset(targetFilterOffset, false);
+                emit newStatus(state);
+            }
+        }
         break;
 
-    default:
-        break;
+        case FILTER_AUTOFOCUS:
+            state = FILTER_AUTOFOCUS;
+            emit newStatus(state);
+            emit checkFocus(0.01);
+            break;
+
+        default:
+            break;
     }
 
     // If an additional action is required, return return and continue later
@@ -512,8 +529,8 @@ bool FilterManager::executeOneOperation(FilterState operation)
 
     switch (operation)
     {
-    default:
-        break;
+        default:
+            break;
     }
 
     return actionRequired;
@@ -532,10 +549,12 @@ double FilterManager::getFilterExposure(const QString &name) const
 
     QString color = name;
     if (color.isEmpty())
-        color = m_currentFilterLabels[m_currentFilterPosition-1];
+        color = m_currentFilterLabels[m_currentFilterPosition - 1];
     // Search for locked filter by filter color name
-    auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [color](OAL::Filter *oneFilter)
-    {return (oneFilter->color() == color);});
+    auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [color](OAL::Filter * oneFilter)
+    {
+        return (oneFilter->color() == color);
+    });
 
     if (pos != m_ActiveFilters.end())
         return (*pos)->exposure();
@@ -549,19 +568,19 @@ bool FilterManager::setFilterExposure(int index, double exposure)
     if (m_currentFilterLabels.empty())
         return false;
 
-     QString color = m_currentFilterLabels[index];
-     for (int i=0; i < m_ActiveFilters.count(); i++)
-     {
-         if (color == m_ActiveFilters[i]->color())
-         {
-             filterModel->setData(filterModel->index(i, 5), exposure);
-             filterModel->submitAll();
-             refreshFilterModel();
-             return true;
-         }
-     }
+    QString color = m_currentFilterLabels[index];
+    for (int i = 0; i < m_ActiveFilters.count(); i++)
+    {
+        if (color == m_ActiveFilters[i]->color())
+        {
+            filterModel->setData(filterModel->index(i, 5), exposure);
+            filterModel->submitAll();
+            refreshFilterModel();
+            return true;
+        }
+    }
 
-     return false;
+    return false;
 }
 
 bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
@@ -570,7 +589,7 @@ bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
         return false;
 
     QString color = m_currentFilterLabels[index];
-    for (int i=0; i < m_ActiveFilters.count(); i++)
+    for (int i = 0; i < m_ActiveFilters.count(); i++)
     {
         if (color == m_ActiveFilters[i]->color())
         {
@@ -587,8 +606,10 @@ bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
 QString FilterManager::getFilterLock(const QString &name) const
 {
     // Search for locked filter by filter color name
-    auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [name](OAL::Filter *oneFilter)
-    {return (oneFilter->color() == name);});
+    auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [name](OAL::Filter * oneFilter)
+    {
+        return (oneFilter->color() == name);
+    });
 
     if (pos != m_ActiveFilters.end())
         return (*pos)->lockedFilter();
@@ -598,7 +619,7 @@ QString FilterManager::getFilterLock(const QString &name) const
 }
 
 void FilterManager::removeDevice(ISD::GDInterface *device)
-{    
+{
     if (device == m_currentFilterDevice)
     {
         m_FilterNameProperty = nullptr;
@@ -620,22 +641,22 @@ void FilterManager::setFocusStatus(Ekos::FocusState focusState)
         switch (focusState)
         {
             case FOCUS_COMPLETE:
-            executeOperationQueue();
-            break;
+                executeOperationQueue();
+                break;
 
             case FOCUS_FAILED:
-            if (++retries == 3)
-            {
-                retries = 0;
-                emit failed();
-                return;
-            }
-            // Restart again
-            emit checkFocus(0.01);
-            break;
+                if (++retries == 3)
+                {
+                    retries = 0;
+                    emit failed();
+                    return;
+                }
+                // Restart again
+                emit checkFocus(0.01);
+                break;
 
-        default:
-            break;
+            default:
+                break;
 
         }
     }

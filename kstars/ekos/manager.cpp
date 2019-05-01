@@ -1632,6 +1632,9 @@ void Manager::processNewProperty(INDI::Property * prop)
     if (!strcmp(prop->getName(), "FILTER_NAME"))
         filterManager.data()->initFilterProperties();
 
+    if (!strcmp(prop->getName(), "CONFIRM_FILTER_SET"))
+        filterManager.data()->initFilterProperties();
+
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
         if (focusProcess.get() != nullptr)
