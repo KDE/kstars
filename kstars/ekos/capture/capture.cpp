@@ -1503,10 +1503,6 @@ bool Capture::setCaptureComplete()
         return true;
     }
 
-    // Check if meridian condition is met
-    if (checkMeridianFlip())
-        return true;
-
     return resumeSequence();
 }
 
@@ -1524,11 +1520,6 @@ void Capture::processJobCompletion()
     }
 
     stop();
-
-    // Check if meridian condition is met IF there are more pending jobs in the queue
-    // Otherwise, no need to check meridian flip is all jobs are over.
-    if (getPendingJobCount() > 0 && checkMeridianFlip())
-        return;
 
     // Check if there are more pending jobs and execute them
     if (resumeSequence())
