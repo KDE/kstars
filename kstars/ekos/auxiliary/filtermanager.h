@@ -150,7 +150,7 @@ private:
     QList<OAL::Filter *> m_ActiveFilters;
     OAL::Filter *targetFilter = { nullptr };
     OAL::Filter *currentFilter = { nullptr };
-    bool m_useTargetFilter = { false };
+    bool m_useTargetFilter = { false };    
 
     // Autofocus retries
     uint8_t retries = { 0 };
@@ -163,6 +163,7 @@ private:
     // INDI Properties of current active filter
     ITextVectorProperty *m_FilterNameProperty { nullptr };
     INumberVectorProperty *m_FilterPositionProperty { nullptr };
+    ISwitchVectorProperty *m_FilterConfirmSet { nullptr };
 
     // Operation stack
     void buildOperationQueue(FilterState operation);

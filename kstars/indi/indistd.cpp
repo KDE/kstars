@@ -123,7 +123,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         ITextVectorProperty *port = baseDevice->getText("DEVICE_PORT");
         if (svp && port)
         {
-            for (int i=0; i < svp->nsp; i++)
+            for (int i = 0; i < svp->nsp; i++)
             {
                 if (!strcmp(port->tp[0].text, svp->sp[i].name))
                 {
@@ -220,12 +220,12 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
     Q_UNUSED(interface);
 
     if (!strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK &&
-       ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
-         (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
+            ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
+              (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
     {
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
         dms lng, lat;
-        double elev=0;
+        double elev = 0;
         INumber *np = nullptr;
 
         np = IUFindNumber(nvp, "LONG");
@@ -245,7 +245,7 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
         lat.setD(np->value);
 
         // Double check we have valid values
-        if (lng.Degrees() == 0 && lat.Degrees() ==0)
+        if (lng.Degrees() == 0 && lat.Degrees() == 0)
         {
             qCWarning(KSTARS_INDI) << "Ignoring invalid device coordinates.";
             return;
@@ -305,8 +305,8 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
 {
     // Update KStars time once we receive update from INDI, if the source is set to DEVICE
     if (!strcmp(tvp->name, "TIME_UTC") && tvp->s == IPS_OK &&
-       ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
-         (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
+            ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
+              (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
     {
         IText *tp = nullptr;
         int d, m, y, min, sec, hour;
@@ -639,6 +639,16 @@ bool GenericDevice::runCommand(int command, void *ptr)
             nvp->np[0].value = requestedFilter;
 
             clientManager->sendNewNumber(nvp);
+        }
+        break;
+
+        case INDI_CONFIRM_FILTER:
+        {
+            ISwitchVectorProperty *svp = baseDevice->getSwitch("CONFIRM_FILTER_SET");
+            if (svp == nullptr)
+                return false;
+            svp->sp[0].s = ISS_ON;
+            clientManager->sendNewSwitch(svp);
         }
         break;
 
@@ -1059,7 +1069,7 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
 }
 
 #ifndef KSTARS_LITE
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
