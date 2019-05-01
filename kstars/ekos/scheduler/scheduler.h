@@ -27,7 +27,6 @@
 class QProgressIndicator;
 
 class GeoLocation;
-class KSMoon;
 class SchedulerJob;
 class SkyObject;
 
@@ -166,17 +165,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
          */
     void setSolverAction(Align::GotoMode mode);
-
-    /**
-         * @brief findAltitude Find altitude given a specific time
-         * @param target Target
-         * @param when date time to find altitude
-         * @param is_setting whether target is setting at the argument time (optional).
-         * @param debug outputs calculation to log file (optional).
-         * @return Altitude of the target at the specific date and time given.
-         * @warning This function uses the current KStars geolocation.
-         */
-    static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
 
     /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
          * Ekos::Align interface provides primary functions to run and stop the scheduler.
@@ -465,22 +453,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
     int16_t getDarkSkyScore(QDateTime const &when = QDateTime()) const;
 
     /**
-         * @brief getAltitudeScore Get the altitude score of an object. The higher the better
-         * @param job Target job
-         * @param when date and time to check the target altitude, now if omitted.
-         * @return Altitude score. Target altitude below minimum altitude required by job or setting target under 3 degrees below minimum altitude get bad score.
-         */
-    int16_t getAltitudeScore(SchedulerJob const *job, QDateTime const &when = QDateTime()) const;
-
-    /**
-         * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
-         * @param job Target job
-         * @param when date and time to check the moon separation, now if omitted.
-         * @return Moon separation score
-         */
-    int16_t getMoonSeparationScore(SchedulerJob const *job, QDateTime const &when = QDateTime()) const;
-
-    /**
          * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
          * @param job Target
          * @param when date and time to evaluate constraints, now if omitted.
@@ -493,25 +465,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @return If weather condition OK, return score 0, else bad score.
          */
     int16_t getWeatherScore() const;
-
-    /**
-         * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
-         * @param job active target
-         * @param minAltitude minimum altitude required
-         * @param minMoonAngle minimum separation from the moon. -1 to ignore.
-         * @param when date and time to start searching from, now if omitted.
-         * @return The date and time the target is at or above the argument altitude, valid if found, invalid if not achievable (always under altitude).
-         */
-    QDateTime calculateAltitudeTime(SchedulerJob const *job, double minAltitude, double minMoonAngle = -1, QDateTime const &when = QDateTime()) const;
-
-    /**
-         * @brief calculateCulmination find culmination time adjust for the job offset
-         * @param job active target
-         * @param offset_minutes offset in minutes before culmination to search for.
-         * @param when date and time to start searching from, now if omitted
-         * @return The date and time the target is in entering the culmination interval, valid if found, invalid if not achievable (currently always valid).
-         */
-    QDateTime calculateCulmination(SchedulerJob const *job, int offset_minutes, QDateTime const &when = QDateTime()) const;
 
     /**
          * @brief calculateDawnDusk Get dawn and dusk times for today
@@ -624,13 +577,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
     bool processJobInfo(XMLEle *root);
 
     /**
-         * @brief getCurrentMoonSeparation Get current moon separation in degrees at current time for the given job
-         * @param job scheduler job
-         * @return Separation in degrees
-         */
-    double getCurrentMoonSeparation(SchedulerJob const *job) const;
-
-    /**
          * @brief updatePreDawn Update predawn time depending on current time and user offset
          */
     void updatePreDawn();
@@ -713,8 +659,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
     QProgressIndicator *pi { nullptr };
     /// Are we editing a job right now? Job row index
     int jobUnderEdit { -1 };
-    /// Pointer to Moon object
-    KSMoon *moon { nullptr };
     /// Pointer to Geograpic locatoin
     GeoLocation *geo { nullptr };
     /// How many repeated job batches did we complete thus far?
