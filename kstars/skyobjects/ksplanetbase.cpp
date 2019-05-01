@@ -46,7 +46,7 @@ const SkyObject::UID KSPlanetBase::UID_SOL_ASTEROID = 1;
 const SkyObject::UID KSPlanetBase::UID_SOL_COMET    = 2;
 
 KSPlanetBase::KSPlanetBase(const QString &s, const QString &image_file, const QColor &c, double pSize)
-    : TrailObject(2, 0.0, 0.0, 0.0, s), Rearth(NaN::d)
+    : TrailObject(2, 0.0, 0.0, 0.0, s)
 {
     init(s, image_file, c, pSize);
 }
@@ -73,16 +73,13 @@ KSPlanetBase *KSPlanetBase::createPlanet(int n)
         case KSPlanetBase::URANUS:
         case KSPlanetBase::NEPTUNE:
             return new KSPlanet(n);
-            break;
         /*case KSPlanetBase::PLUTO:
             return new KSPluto();
             break;*/
         case KSPlanetBase::SUN:
             return new KSSun();
-            break;
         case KSPlanetBase::MOON:
-            return new KSMoon();
-            break;
+            return new KSMoon();            
     }
     return nullptr;
 }
@@ -146,7 +143,7 @@ void KSPlanetBase::findPosition(const KSNumbers *num, const CachingDms *lat, con
     if (type() == SkyObject::COMET)
     {
         // Compute tail size
-        KSComet *me = (KSComet *)this;
+        KSComet *me = static_cast<KSComet *>(this);
         double comaAngSize;
         // Convert the tail size in km to angular tail size (degrees)
         comaAngSize = asin(physicalSize() / Rearth / AU_KM) * 60.0 * 180.0 / dms::PI;
