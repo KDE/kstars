@@ -144,6 +144,7 @@ Capture::Capture()
     connect(queueSaveAsB, &QPushButton::clicked, this, &Ekos::Capture::saveSequenceQueueAs);
     connect(queueLoadB, &QPushButton::clicked, this, static_cast<void(Ekos::Capture::*)()>(&Ekos::Capture::loadSequenceQueue));
     connect(resetB, &QPushButton::clicked, this, &Ekos::Capture::resetJobs);
+    connect(queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &Ekos::Capture::selectedJobChanged);
     connect(queueTable, &QAbstractItemView::doubleClicked, this, &Ekos::Capture::editJob);
     connect(queueTable, &QTableWidget::itemSelectionChanged, this, &Ekos::Capture::resetJobEdit);
     connect(setTemperatureB, &QPushButton::clicked, [&]()
@@ -2441,6 +2442,15 @@ void Capture::removeJobFromQueue()
         currentRow = queueTable->rowCount() - 1;
 
     removeJob(currentRow);
+
+    // update selection
+    if (queueTable->rowCount() == 0)
+        return;
+
+    if (currentRow > queueTable->rowCount())
+        queueTable->selectRow(queueTable->rowCount()-1);
+    else
+        queueTable->selectRow(currentRow);
 }
 
 void Capture::removeJob(int index)
@@ -2589,6 +2599,10 @@ void Capture::prepareJob(SequenceJob * job)
     activeJob = job;
 
     qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
+
+    int index = jobs.indexOf(job);
+    if (index >= 0)
+        queueTable->selectRow(index);
 
     if (activeJob->getActiveCCD() != currentCCD)
     {
@@ -4043,8 +4057,17 @@ void Capture::syncGUIToJob(SequenceJob * job)
     emit settingsUpdated(settings);
 }
 
-void Capture::editJob(QModelIndex i)
+void Capture::selectedJobChanged(QModelIndex current, QModelIndex previous)
 {
+    Q_UNUSED(previous);
+    selectJob(current);
+}
+
+void Capture::selectJob(QModelIndex i)
+{
+    if (i.row() < 0 || (i.row()+1) > jobs.size())
+        return;
+
     SequenceJob * job = jobs.at(i.row());
 
     if (job == nullptr)
@@ -4052,6 +4075,16 @@ void Capture::editJob(QModelIndex i)
 
     syncGUIToJob(job);
 
+    if (isBusy || jobs.size() < 2)
+        return;
+
+    queueUpB->setEnabled(i.row() > 0);
+    queueDownB->setEnabled(i.row()+1 < jobs.size());
+}
+
+void Capture::editJob(QModelIndex i)
+{
+    selectJob(i);
     appendLogText(i18n("Editing job #%1...", i.row() + 1));
 
     addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
@@ -4264,10 +4297,10 @@ void Capture::clearSequenceQueue()
     activeJob = nullptr;
     //m_TargetName.clear();
     //stop();
-    qDeleteAll(jobs);
-    jobs.clear();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
+    qDeleteAll(jobs);
+    jobs.clear();
 }
 
 QString Capture::getSequenceQueueStatus()

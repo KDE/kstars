@@ -312,9 +312,21 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void setJobManipulation(bool can_reorder, bool can_delete);
 
     /**
+     * @brief set all GUI fields to the values of the given scheduler job
+     */
+    void syncGUIToJob(SchedulerJob *job);
+
+    /**
          * @brief jobSelectionChanged Update UI state when the job list is clicked once.
          */
     void clickQueueTable(QModelIndex index);
+
+    /**
+     * @brief Update scheduler parameters to the currently selected scheduler job
+     * @param current table position
+     * @param previous table position
+     */
+    void queueTableSelectionChanged(QModelIndex current, QModelIndex previous);
 
     /**
          * @brief reorderJobs Change the order of jobs in the UI based on a subset of its jobs.
@@ -727,6 +739,5 @@ class Scheduler : public QWidget, public Ui::Scheduler
     static const uint32_t FOCUS_INACTIVITY_TIMEOUT      = 120000;
     static const uint32_t CAPTURE_INACTIVITY_TIMEOUT    = 120000;
     static const uint16_t GUIDE_INACTIVITY_TIMEOUT      = 60000;
-
 };
 }

@@ -596,6 +596,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Jobs
         void resetJobs();
+    void selectJob(QModelIndex i);
         void editJob(QModelIndex i);
         void resetJobEdit();
         void executeJob();
@@ -709,6 +710,9 @@ class Capture : public QWidget, public Ui::Capture
 
         // If exposure timed out, let's handle it.
         void processCaptureTimeout();
+
+    // selection of a job
+    void selectedJobChanged(QModelIndex current, QModelIndex previous);
 
         /* Capture */
 
