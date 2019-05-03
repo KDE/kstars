@@ -614,6 +614,8 @@ void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
     if (m_MFStatus != status)
     {
         m_MFStatus = status;
+        qCDebug (KSTARS_EKOS_MOUNT) << "Setting meridian flip status to " << status;
+
         meridianFlipStatusChanged(status);
         emit newMeridianFlipStatus(status);
     }
@@ -889,6 +891,10 @@ bool Mount::slew(double RA, double DEC)
     delete currentTargetPosition;
     currentTargetPosition = new SkyPoint(RA, DEC);
 
+    qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
+                                  currentTargetPosition->ra().toHMSString() <<
+                                  "DEC=" << currentTargetPosition->dec().toDMSString();
+
     return currentTelescope->Slew(currentTargetPosition);
 }
 
@@ -935,6 +941,11 @@ bool Mount::checkMeridianFlip(dms lst)
             }
             else if (initialHA() < 0)
             {
+                qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
+                                             lst.toHMSString() <<
+                                             " scope RA=" << telescopeCoord.ra().toHMSString() <<
+                                             " and meridian diff=" << meridianFlipTimeBox->value();
+
                 setMeridianFlipStatus(FLIP_PLANNED);
                 return false;
             }
@@ -986,9 +997,9 @@ bool Mount::executeMeridianFlip()
         return false;
 
     // execute meridian flip
-    qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
-                               currentTargetPosition->ra().toHMSString() <<
-                               "DEC=" << currentTargetPosition->dec().toDMSString();
+    qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
+                                 currentTargetPosition->ra().toHMSString() <<
+                                 "DEC=" << currentTargetPosition->dec().toDMSString();
     setMeridianFlipStatus(FLIP_RUNNING);
 
     bool result = slew(currentTargetPosition->ra().Hours(), currentTargetPosition->dec().Degrees());
