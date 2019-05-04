@@ -69,42 +69,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_27">
-          <property name="enabled">
-           <bool>false</bool>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-          <property name="toolTip">
-           <string>Prevents creation of unnecessary files unused by Ekos.</string>
-          </property>
-          <property name="text">
-           <string>--no-plots</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBox_30">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="maximumSize">
+          <property name="sizeHint" stdset="0">
            <size>
-            <width>50</width>
-            <height>16777215</height>
+            <width>40</width>
+            <height>20</height>
            </size>
           </property>
-          <property name="toolTip">
-           <string>Overwrite already generated files. It must be checked to prevent solver failure.</string>
-          </property>
-          <property name="text">
-           <string>-O</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
+         </spacer>
         </item>
        </layout>
       </item>
