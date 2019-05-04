@@ -346,7 +346,7 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("show_mount_box"))
     {
-       ekosManager()->mountModule()->toggleMountToolBox();
+        ekosManager()->mountModule()->toggleMountToolBox();
     }
     else if (a == actionCollection()->action("show_sensor_fov"))
     {
@@ -400,7 +400,7 @@ void KStars::slotWizard()
     delete wizard;
 }
 
-void KStars::updateLocationFromWizard(const GeoLocation& geo)
+void KStars::updateLocationFromWizard(const GeoLocation &geo)
 {
     data()->setLocation(geo);
     // adjust local time to keep UT the same.
@@ -682,6 +682,14 @@ void KStars::slotINDIDriver()
 #ifdef HAVE_INDI
 #ifndef Q_OS_WIN
 
+    if (KMessageBox::warningContinueCancel(
+                nullptr,
+                i18n("INDI Device Manager should only be used by advanced technical users. It cannot be used with Ekos. Do you still want to open INDI device manager?"),
+                i18n("INDI Device Manager"),
+                KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                "indi_device_manager_warning") == KMessageBox::Cancel)
+        return;
+
     QString indiServerDir = Options::indiServer();
 
 #ifdef Q_OS_OSX
@@ -799,21 +807,22 @@ void KStars::slotINDITelescopeSlew(bool focused_object)
             {
                 if (m_SkyMap->focusObject() != nullptr)
                     telescope->Slew(m_SkyMap->focusObject());
-            } else
+            }
+            else
                 telescope->Slew(m_SkyMap->mousePoint());
 
             return;
         }
     }
 #else
-Q_UNUSED(focused_object)
+    Q_UNUSED(focused_object)
 #endif
 }
 
 void KStars::slotINDITelescopeSlewMousePointer()
 {
 #ifdef HAVE_INDI
-  slotINDITelescopeSlew(false);
+    slotINDITelescopeSlew(false);
 #endif
 }
 
@@ -833,21 +842,22 @@ void KStars::slotINDITelescopeSync(bool focused_object)
             {
                 if (m_SkyMap->focusObject() != nullptr)
                     telescope->Sync(m_SkyMap->focusObject());
-            } else
+            }
+            else
                 telescope->Sync(m_SkyMap->mousePoint());
 
             return;
         }
     }
 #else
-Q_UNUSED(focused_object)
+    Q_UNUSED(focused_object)
 #endif
 }
 
 void KStars::slotINDITelescopeSyncMousePointer()
 {
 #ifdef HAVE_INDI
-  slotINDITelescopeSync(false);
+    slotINDITelescopeSync(false);
 #endif
 }
 
@@ -1000,7 +1010,7 @@ void KStars::slotViewOps()
     KConfigDialog *dialog = new KConfigDialog(this, "settings", Options::self());
     // For some reason the dialog does not resize to contents
     // so we set initial 'resonable' size here. Any better way to do this?
-    dialog->resize(800,600);
+    dialog->resize(800, 600);
 #ifdef Q_OS_OSX
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
@@ -1174,7 +1184,8 @@ void KStars::slotOpenFITS()
 
     QPointer<FITSViewer> fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
 
-    connect(fv, &FITSViewer::loaded, [&,fv]() {
+    connect(fv, &FITSViewer::loaded, [ &, fv]()
+    {
         addFITSViewer(fv);
         fv->show();
     });
@@ -1191,7 +1202,7 @@ void KStars::slotExportImage()
     //As of 2014-07-19
     //QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
     QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Image"), QUrl(),
-                                               "Images (*.png *.jpeg *.gif *.bmp *.svg)");
+                   "Images (*.png *.jpeg *.gif *.bmp *.svg)");
 
     //User cancelled file selection dialog - abort image export
     if (fileURL.isEmpty())
@@ -1203,8 +1214,8 @@ void KStars::slotExportImage()
     if (QFile::exists(fileURL.toLocalFile()))
     {
         int r = KMessageBox::warningContinueCancel(
-            parentWidget(), i18n("A file named \"%1\" already exists. Overwrite it?", fileURL.fileName()),
-            i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+                    parentWidget(), i18n("A file named \"%1\" already exists. Overwrite it?", fileURL.fileName()),
+                    i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
             return;
     }
@@ -1218,7 +1229,7 @@ void KStars::slotExportImage()
     if (!m_ExportImageDialog)
     {
         m_ExportImageDialog = new ExportImageDialog(fileURL.toLocalFile(), QSize(map()->width(), map()->height()),
-                                                    KStarsData::Instance()->imageExporter());
+                KStarsData::Instance()->imageExporter());
     }
     else
     {
@@ -1232,8 +1243,8 @@ void KStars::slotExportImage()
 void KStars::slotRunScript()
 {
     QUrl fileURL = QFileDialog::getOpenFileUrl(
-        KStars::Instance(), QString(), QUrl(QDir::homePath()),
-        "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
+                       KStars::Instance(), QString(), QUrl(QDir::homePath()),
+                       "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
     QFile f;
     //QString fname;
 
@@ -1272,13 +1283,13 @@ void KStars::slotRunScript()
         {
             int answer;
             answer = KMessageBox::warningContinueCancel(
-                nullptr,
-                i18n("The selected script contains unrecognized elements, "
-                     "indicating that it was not created using the KStars script builder. "
-                     "This script may not function properly, and it may even contain malicious code. "
-                     "Would you like to execute it anyway?"),
-                i18n("Script Validation Failed"), KGuiItem(i18n("Run Nevertheless")), KStandardGuiItem::cancel(),
-                "daExecuteScript");
+                         nullptr,
+                         i18n("The selected script contains unrecognized elements, "
+                              "indicating that it was not created using the KStars script builder. "
+                              "This script may not function properly, and it may even contain malicious code. "
+                              "Would you like to execute it anyway?"),
+                         i18n("Script Validation Failed"), KGuiItem(i18n("Run Nevertheless")), KStandardGuiItem::cancel(),
+                         "daExecuteScript");
             if (answer == KMessageBox::Cancel)
                 return;
         }
@@ -1318,8 +1329,8 @@ void KStars::slotPrint()
 
         int answer;
         answer = KMessageBox::questionYesNoCancel(
-            nullptr, message, i18n("Switch to Star Chart Colors?"), KGuiItem(i18n("Switch Color Scheme")),
-            KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors");
+                     nullptr, message, i18n("Switch to Star Chart Colors?"), KGuiItem(i18n("Switch Color Scheme")),
+                     KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors");
 
         if (answer == KMessageBox::Cancel)
             return;
@@ -1402,8 +1413,8 @@ void KStars::slotTrack()
         Options::setIsTracking(false);
         actionCollection()->action("track_object")->setText(i18n("Engage &Tracking"));
         actionCollection()
-            ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-decrypt"));
+        ->action("track_object")
+        ->setIcon(QIcon::fromTheme("document-decrypt"));
 
         KSPlanetBase *planet = dynamic_cast<KSPlanetBase *>(map()->focusObject());
         if (planet && data()->temporaryTrail)
@@ -1425,8 +1436,8 @@ void KStars::slotTrack()
         Options::setIsTracking(true);
         actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
         actionCollection()
-            ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-encrypt"));
+        ->action("track_object")
+        ->setIcon(QIcon::fromTheme("document-encrypt"));
     }
 
     map()->forceUpdate();
@@ -1525,10 +1536,10 @@ void KStars::slotSetZoom()
     double maxAngle     = map()->width() / (MINZOOM * dms::DegToRad);
 
     double angSize = QInputDialog::getDouble(
-        nullptr,
-        i18nc("The user should enter an angle for the field-of-view of the display",
-              "Enter Desired Field-of-View Angle"),
-        i18n("Enter a field-of-view angle in degrees: "), currentAngle, minAngle, maxAngle, 1, &ok);
+                         nullptr,
+                         i18nc("The user should enter an angle for the field-of-view of the display",
+                               "Enter Desired Field-of-View Angle"),
+                         i18n("Enter a field-of-view angle in degrees: "), currentAngle, minAngle, maxAngle, 1, &ok);
 
     if (ok)
     {
@@ -1698,8 +1709,8 @@ void KStars::slotEyepieceView(SkyPoint *sp, const QString &imagePath)
         }
         nameToFovMap.insert(i18n("Attempt to determine from image"), nullptr);
         fov = nameToFovMap[QInputDialog::getItem(this, i18n("Eyepiece View: Choose a field-of-view"),
-                                                 i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0,
-                                                 false, &ok)];
+                                                       i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0,
+                                                       false, &ok)];
     }
     if (ok)
         m_EyepieceView->showEyepieceField(sp, fov, imagePath);
@@ -1827,7 +1838,7 @@ void KStars::slotAboutToQuit()
     //synch the config file with the Config object
     writeConfig();
 
-//Terminate Child Processes if on OS X
+    //Terminate Child Processes if on OS X
 #ifdef Q_OS_OSX
     QProcess *quit = new QProcess(this);
     quit->start("killall kdeinit5");
@@ -1860,7 +1871,7 @@ void KStars::slotShowPositionBar(SkyPoint *p)
         lastUpdate.setDJD(KStarsData::Instance()->updateNum()->getJD());
         QString sEpoch = QString::number(lastUpdate.epoch(), 'f', 1);
         QString s      = QString("%1, %2 (J%3)")
-                        .arg(p->ra().toHMSString(), p->dec().toDMSString(true), sEpoch); //true: force +/- symbol
+                         .arg(p->ra().toHMSString(), p->dec().toDMSString(true), sEpoch); //true: force +/- symbol
         //statusBar()->changeItem( s, 2 );
         RADecField.setText(s);
     }
@@ -1870,8 +1881,8 @@ void KStars::slotShowPositionBar(SkyPoint *p)
         SkyPoint p0;
         p0        = p->deprecess(KStarsData::Instance()->updateNum()); // deprecess to update RA0/Dec0 from RA/Dec
         QString s = QString("%1, %2 (J2000)")
-                        .arg(p0.ra().toHMSString(),
-                             p0.dec().toDMSString(true)); //true: force +/- symbol
+                    .arg(p0.ra().toHMSString(),
+                         p0.dec().toDMSString(true)); //true: force +/- symbol
         //statusBar()->changeItem( s, 2 );
         J2000RADecField.setText(s);
     }
