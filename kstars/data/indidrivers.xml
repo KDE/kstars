@@ -41,6 +41,10 @@
                 <driver name="LX200 GPS">indi_lx200gps</driver>
                 <version>2.0</version>
         </device>
+        <device label="EQ500X" manufacturer="Omegon">
+                <driver name="EQ500X">indi_eq500x_telescope</driver>
+                <version>1.0</version>
+        </device>
         <device label="AstroPhysics Experimental" manufacturer="Astrophysics">
                 <driver name="AstroPhysics Experimental">indi_lx200ap_experimental</driver>
                 <version>1.0</version>
@@ -209,6 +213,10 @@
         </device>
         <device label="Celestron SCT">
           <driver name="Celestron SCT">indi_celestron_sct_focus</driver>
+          <version>1.0</version>
+        </device>
+        <device label="AAF2">
+          <driver name="AAF2">indi_aaf2_focus</driver>
           <version>1.0</version>
         </device>
         <device label="Rigelsys NFocus">
@@ -419,7 +427,7 @@
 <devGroup group="Domes">
         <device label="ScopeDome Dome">
                 <driver name="ScopeDome Dome">indi_scopedome_dome</driver>
-                <version>1.0</version>
+                <version>1.2</version>
         </device>
         <device label="Baader Dome">
                 <driver name="Baader Dome">indi_baader_dome</driver>
@@ -503,13 +511,13 @@
 <devGroup group="CCDs">
         <device label="Apogee CCD">
                 <driver name="Apogee CCD">indi_apogee_ccd</driver>
-                <version>1.7</version>
+                <version>1.8</version>
         </device>
 </devGroup>
 <devGroup group="Filter Wheels">
         <device label="Apogee CFW">
                 <driver name="Agogee CFW">indi_apogee_wheel</driver>
-                <version>1.7</version>
+                <version>1.8</version>
         </device>
 </devGroup>
 </driversList>
@@ -529,26 +537,34 @@
 <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true">
                 <driver name="ZWO CCD">indi_asi_ccd</driver>
-                <version>1.1</version>
+                <version>1.3</version>
 	</device>
 </devGroup>
 <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true">
                 <driver name="ASI EFW">indi_asi_wheel</driver>
-                <version>1.1</version>
+                <version>1.3</version>
         </device>
 </devGroup>
 <devGroup group="Focusers">
         <device label="ASI EAF">
                 <driver name="ASI EAF">indi_asi_focuser</driver>
-                <version>1.1</version>
+                <version>1.3</version>
         </device>
 </devGroup>
 <devGroup group="Auxiliary">
         <device label="ASI ST4">
                 <driver name="ASI ST4">indi_asi_st4</driver>
-                <version>1.1</version>
+                <version>1.3</version>
         </device>
+</devGroup>
+</driversList>
+<driversList>
+<devGroup group="Focuser">
+    <device label="Astromechanics FOC">
+        <driver name="Astromechanics FOC">indi_astromechfoc</driver>
+        <version>0.1</version>
+    </device>
 </devGroup>
 </driversList>
 <driversList>
@@ -569,8 +585,24 @@
 <devGroup group="Telescopes">
     <device label="Avalon StarGo" manufacturer="Avalon">
         <driver name="LX200 StarGo">indi_lx200stargo</driver>
-        <version>1.0</version>
+        <version>1.4</version>
     </device>
+</devGroup>
+</driversList>
+<driversList>
+<devGroup group="Focusers">
+	<device label="Bee Focuser">
+    <driver name="Bee Focuser">indi_beefocus</driver>
+    <version>1.0</version>
+	</device>
+</devGroup>
+</driversList>
+<driversList>
+<devGroup group="Focusers">
+  <device label="DreamFocuser">
+    <driver name="DreamFocuser">indi_dreamfocuser_focus</driver>
+    <version>2.1</version>
+  </device>
 </devGroup>
 </driversList>
 <driversList>
@@ -630,15 +662,6 @@
                 <version>0.6</version>
 	</device>
 </devGroup>
-</driversList>
-<!--?xml version="1.0" encoding="UTF-8"?-->
-<driversList>
-  <devGroup group="Focusers">
-    <device label="Shoestring Astronomy FCUSB">
-      <driver name="FCUSB Focuser">indi_fcusb_focuser</driver>
-      <version>1.1</version>
-    </device>
-  </devGroup>
 </driversList>
 <driversList>
 <devGroup group="CCDs">
@@ -725,6 +748,14 @@
  </devGroup>
 </driversList>
 <driversList>
+    <devGroup group="Detectors">
+        <device label="LIME-SDR Receiver">
+                <driver name="LIME-SDR Receiver">indi_limesdr_detector</driver>
+                <version>1.0</version>
+	</device>
+    </devGroup>
+</driversList>
+<driversList>
 <devGroup group="Domes">
 	<device label="MaxDome II">
                 <driver name="MaxDome II">indi_maxdomeii</driver>
@@ -756,7 +787,7 @@
 <devGroup group="Domes">
 	<device label="NexDome">
                 <driver name="NexDome">indi_nexdome</driver>
-                <version>1.2</version>
+                <version>1.3</version>
 	</device>
 </devGroup>
 </driversList>
@@ -788,16 +819,8 @@
 <devGroup group="CCDs">
         <device label="QSI CCD">
                 <driver name="QSI CCD">indi_qsi_ccd</driver>
-                <version>0.8</version>
+                <version>0.9</version>
         </device>
-</devGroup>
-</driversList>
-<driversList>
-<devGroup group="Detectors">
-        <device label="RadioSim Receiver" mdpd="true">
-                <driver name="RadioSim Receiver">indi_radiosim_detector</driver>
-                <version>1.0</version>
-	</device>
 </devGroup>
 </driversList>
 <driversList>
@@ -817,6 +840,15 @@
     <device label="SBIG ST-I">
       <driver name="SBIG CCD">indi_sbig_ccd</driver>
       <version>2.1</version>
+    </device>
+  </devGroup>
+</driversList>
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<driversList>
+  <devGroup group="Focusers">
+    <device label="Shoestring Astronomy FCUSB">
+      <driver name="FCUSB Focuser">indi_fcusb_focuser</driver>
+      <version>1.1</version>
     </device>
   </devGroup>
 </driversList>
@@ -840,7 +872,7 @@
     <devGroup group="Telescopes">
         <device label="Starbook" manufacturer="Vixen">
             <driver name="Starbook">indi_starbook_telescope</driver>
-            <version>0.2</version>
+            <version>0.6</version>
         </device>
     </devGroup>
 </driversList>
