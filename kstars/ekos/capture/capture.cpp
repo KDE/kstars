@@ -1333,6 +1333,10 @@ bool Capture::startNextExposure()
         return false;
     }
 
+    if (checkMeridianFlip())
+        // execute flip before next capture
+        return false;
+
     if (seqDelay > 0)
     {
         secondsLabel->setText(i18n("Waiting..."));
@@ -4457,7 +4461,8 @@ bool Capture::checkMeridianFlip()
     if (activeJob && activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldSource() == SOURCE_WALL)
         return false;
 
-    if (meridianFlipStage == MF_NONE)
+    if (meridianFlipStage == MF_NONE || meridianFlipStage > MF_READY)
+        // if no flip has been requested or is already ongoing
         return false;
 
     // meridian flip requested or already in action
