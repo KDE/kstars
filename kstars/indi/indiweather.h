@@ -29,6 +29,14 @@ class Weather : public DeviceDecorator
     public:
         explicit Weather(GDInterface *iPtr);
 
+        typedef enum
+        {
+            WEATHER_IDLE,
+            WEATHER_OK,
+            WEATHER_WARNING,
+            WEATHER_ALERT,
+        } Status;
+
         void registerProperty(INDI::Property *prop) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
@@ -40,16 +48,21 @@ class Weather : public DeviceDecorator
             return dType;
         }
 
-        IPState getWeatherStatus();
-
-        uint16_t getUpdatePeriod();
+        Status getWeatherStatus();
+        quint16 getUpdatePeriod();
 
     signals:
-        void newStatus(IPState status);
+        void newStatus(Status status);
         void ready();
 
     private:
-        IPState m_WeatherStatus { IPS_IDLE };
+        Status m_WeatherStatus { WEATHER_IDLE };
         std::unique_ptr<QTimer> readyTimer;
 };
 }
+
+#ifndef KSTARS_LITE
+Q_DECLARE_METATYPE(ISD::Weather::Status)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Weather::Status &source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Weather::Status &dest);
+#endif

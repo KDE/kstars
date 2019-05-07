@@ -21,6 +21,9 @@ Weather::Weather()
 {
     new WeatherAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Weather", this);
+
+    qRegisterMetaType<ISD::Weather::Status>("ISD::Weather::Status");
+    qDBusRegisterMetaType<ISD::Weather::Status>();
 }
 
 void Weather::setWeather(ISD::GDInterface *newWeather)
@@ -31,17 +34,18 @@ void Weather::setWeather(ISD::GDInterface *newWeather)
     currentWeather = static_cast<ISD::Weather *>(newWeather);
     currentWeather->disconnect(this);
     connect(currentWeather, &ISD::Weather::newStatus, this, &Weather::newStatus);
+    connect(currentWeather, &ISD::Weather::ready, this, &Weather::ready);
 }
 
-IPState Weather::getWeatherStatus()
+ISD::Weather::Status Weather::status()
 {
     if (currentWeather == nullptr)
-        return IPS_ALERT;
+        return ISD::Weather::WEATHER_IDLE;
 
     return currentWeather->getWeatherStatus();
 }
 
-uint16_t Weather::getUpdatePeriod()
+quint16 Weather::getUpdatePeriod()
 {
     if (currentWeather == nullptr)
         return 0;
