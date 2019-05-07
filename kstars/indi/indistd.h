@@ -115,6 +115,7 @@ class GDInterface : public QObject
         void BLOBUpdated(IBLOB *bp);
         void messageUpdated(int messageID);
 
+        void interfaceDefined();
         void systemPortDetected();
         void propertyDefined(INDI::Property *prop);
         void propertyDeleted(INDI::Property *prop);
