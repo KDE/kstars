@@ -1030,8 +1030,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
     connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
-
-    syncActiveDevices();
+    connect(devInterface, &ISD::GDInterface::interfaceDefined, this, &Ekos::Manager::syncActiveDevices);
 
     if (currentProfile->isStellarMate)
     {
@@ -3150,26 +3149,22 @@ void Manager::syncActiveDevices()
 {
     for (auto mountDevice : genericDevices)
     {
-        uint32_t driverInterface = mountDevice->getDriverInterface();
-        if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
+        uint32_t mountInterface = mountDevice->getDriverInterface();
+        if (mountInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
         {
             for (auto otherDevice : genericDevices)
             {
                 if (otherDevice == mountDevice)
                     continue;
 
-                uint32_t driverInterface = mountDevice->getDriverInterface();
-                if (driverInterface & INDI::BaseDevice::AUX_INTERFACE)
+                ITextVectorProperty *tvp = otherDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+                if (tvp)
                 {
-                    ITextVectorProperty *tvp = otherDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
-                    if (tvp)
+                    IText *snoopMount = IUFindText(tvp, "ACTIVE_TELESCOPE");
+                    if (snoopMount && strcmp(snoopMount->text, mountDevice->getDeviceName()))
                     {
-                        IText *snoopMount = IUFindText(tvp, "ACTIVE_TELESCOPE");
-                        if (snoopMount && strcmp(snoopMount->text, mountDevice->getDeviceName()))
-                        {
-                            IUSaveText(snoopMount, mountDevice->getDeviceName());
-                            otherDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
-                        }
+                        IUSaveText(snoopMount, mountDevice->getDeviceName());
+                        otherDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
                 }
             }

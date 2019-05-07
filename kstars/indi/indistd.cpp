@@ -112,7 +112,10 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         {
             IText *tp = IUFindText(tvp, "DRIVER_INTERFACE");
             if (tp)
+            {
                 driverInterface = static_cast<uint32_t>(atoi(tp->text));
+                emit interfaceDefined();
+            }
         }
     }
     else if (!strcmp(prop->getName(), "SYSTEM_PORTS"))
