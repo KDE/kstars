@@ -25,49 +25,54 @@ namespace Ekos
  */
 class Weather : public QObject
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Weather")
-    Q_PROPERTY(uint32_t status READ getWeatherStatus)
-    Q_PROPERTY(uint16_t updatePeriod READ getUpdatePeriod)
+        Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Weather")
+        Q_PROPERTY(ISD::Weather::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(quint16 updatePeriod READ getUpdatePeriod)
 
-  public:
-    Weather();
-    virtual ~Weather() override = default;
+    public:
+        Weather();
+        virtual ~Weather() override = default;
 
-    /**
-     * @defgroup WeatherDBusInterface Ekos DBus Interface - Weather Interface
-     * Ekos::Weather interface provides basic weather operations.
-     */
+        /**
+         * @defgroup WeatherDBusInterface Ekos DBus Interface - Weather Interface
+         * Ekos::Weather interface provides basic weather operations.
+         */
 
-    /*@{*/
+        /*@{*/
 
-    /**
-     * DBUS interface function.
-     * Get Weather status.
-     * @return Either IPS_OK for OK acceptable weather, IPS_BUSY for weather in warning zone, and IPS_ALERT for weather in danger zone. The zones ranges are defined by the INDI weather driver.
-     */
-    Q_SCRIPTABLE IPState getWeatherStatus();
+        /**
+         * DBUS interface function.
+         * Get Weather status.
+         * @return Either IPS_OK for OK acceptable weather, IPS_BUSY for weather in warning zone, and IPS_ALERT for weather in danger zone. The zones ranges are defined by the INDI weather driver.
+         */
+        Q_SCRIPTABLE ISD::Weather::Status status();
 
-    /**
-     * DBUS interface function.
-     * Get Weather Update Period
-     * @return Return weather update period in minute. The weather is updated every X minutes from the weather source.
-     */
-    Q_SCRIPTABLE uint16_t getUpdatePeriod();
+        /**
+         * DBUS interface function.
+         * Get Weather Update Period
+         * @return Return weather update period in minute. The weather is updated every X minutes from the weather source.
+         */
+        Q_SCRIPTABLE quint16 getUpdatePeriod();
 
-    /** @}*/
+        /** @}*/
 
-    /**
-     * @brief setWeather set the Weather device
-     * @param newWeather pointer to Weather device.
-     */
-    void setWeather(ISD::GDInterface *newWeather);
+        /**
+         * @brief setWeather set the Weather device
+         * @param newWeather pointer to Weather device.
+         */
+        void setWeather(ISD::GDInterface *newWeather);
 
-  signals:
-    void newStatus(IPState status);
+    signals:
+        /**
+         * @brief newStatus Weather Status
+         * @param status IPS_OK --> Good, IPS_BUSY --> Warning, IPS_ALERT --> Alert
+         */
+        void newStatus(ISD::Weather::Status status);
+        void ready();
 
-  private:
-    // Devices needed for Weather operation
-    ISD::Weather *currentWeather { nullptr };
+    private:
+        // Devices needed for Weather operation
+        ISD::Weather *currentWeather { nullptr };
 };
 }

@@ -36,9 +36,10 @@ void Weather::processLight(ILightVectorProperty *lvp)
 {
     if (!strcmp(lvp->name, "WEATHER_STATUS"))
     {
-        if (lvp->s != m_WeatherStatus)
+        Status currentStatus = static_cast<Status>(lvp->s);
+        if (currentStatus != m_WeatherStatus)
         {
-            m_WeatherStatus = lvp->s;
+            m_WeatherStatus = currentStatus;
             emit newStatus(m_WeatherStatus);
         }
     }
@@ -61,25 +62,45 @@ void Weather::processText(ITextVectorProperty *tvp)
     DeviceDecorator::processText(tvp);
 }
 
-IPState Weather::getWeatherStatus()
+Weather::Status Weather::getWeatherStatus()
 {
     ILightVectorProperty *weatherLP = baseDevice->getLight("WEATHER_STATUS");
 
     if (weatherLP == nullptr)
-        return IPS_ALERT;
+        return WEATHER_IDLE;
 
-    m_WeatherStatus = weatherLP->s;
+    m_WeatherStatus = static_cast<Status>(weatherLP->s);
 
-    return weatherLP->s;
+    return static_cast<Status>(weatherLP->s);
 }
 
-uint16_t Weather::getUpdatePeriod()
+quint16 Weather::getUpdatePeriod()
 {
     INumberVectorProperty *updateNP = baseDevice->getNumber("WEATHER_UPDATE");
 
     if (updateNP == nullptr)
         return 0;
 
-    return static_cast<uint16_t>(updateNP->np[0].value);
+    return static_cast<quint16>(updateNP->np[0].value);
 }
 }
+
+#ifndef KSTARS_LITE
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Weather::Status &source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Weather::Status &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<ISD::Weather::Status>(a);
+    return argument;
+}
+#endif

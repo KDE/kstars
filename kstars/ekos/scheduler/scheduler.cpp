@@ -872,7 +872,7 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
     if (state != SCHEDULER_IDLE)
         return;
 
-    if (current.row() < 0 || (current.row()+1) > jobs.size())
+    if (current.row() < 0 || (current.row() + 1) > jobs.size())
         return;
 
     SchedulerJob * const job = jobs.at(current.row());
@@ -1397,7 +1397,7 @@ void Scheduler::evaluateJobs()
                 /* If job is aborted and we're running, keep its evaluation until there is nothing else to do */
                 if (state == SCHEDULER_RUNNING)
                     continue;
-                /* Fall through */
+            /* Fall through */
             case SchedulerJob::JOB_IDLE:
             case SchedulerJob::JOB_EVALUATION:
             default:
@@ -2082,9 +2082,9 @@ int16_t Scheduler::getWeatherScore() const
     if (weatherCheck->isEnabled() == false || weatherCheck->isChecked() == false)
         return 0;
 
-    if (weatherStatus == IPS_BUSY)
+    if (weatherStatus == ISD::Weather::WEATHER_WARNING)
         return BAD_SCORE / 2;
-    else if (weatherStatus == IPS_ALERT)
+    else if (weatherStatus == ISD::Weather::WEATHER_ALERT)
         return BAD_SCORE;
 
     return 0;
@@ -2306,7 +2306,6 @@ bool Scheduler::checkEkosState()
                 return false;
             }
         }
-        break;
 
         case EKOS_STARTING:
         {
@@ -2468,6 +2467,7 @@ bool Scheduler::checkINDIState()
                     stopEkos();
                 }
 
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "Dome unpark required but dome is not yet ready.";
                 return false;
             }
 
@@ -2482,6 +2482,7 @@ bool Scheduler::checkINDIState()
                     stopEkos();
                 }
 
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount unpark required but mount is not yet ready.";
                 return false;
             }
 
@@ -2496,6 +2497,7 @@ bool Scheduler::checkINDIState()
                     stopEkos();
                 }
 
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "Cap unpark required but cap is not yet ready.";
                 return false;
             }
 
@@ -2567,7 +2569,6 @@ bool Scheduler::checkINDIState()
             return true;
 #endif
         }
-        break;
 
         case INDI_READY:
             return true;
@@ -4768,19 +4769,19 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         bool lightFramesRequired = false;
         switch (oneJob->getCompletionCondition())
         {
-        case SchedulerJob::FINISH_SEQUENCE:
-        case SchedulerJob::FINISH_REPEAT:
-            for (SequenceJob *oneSeqJob : seqjobs)
-            {
-                QString const signature = oneSeqJob->getSignature();
-                /* If frame is LIGHT, how hany do we have left? */
-                if (oneSeqJob->getFrameType() == FRAME_LIGHT && oneSeqJob->getCount()*oneJob->getRepeatsRequired() > newFramesCount[signature])
-                    lightFramesRequired = true;
-            }
-            break;
-        default:
-            // in all other cases it does not depend on the number of captured frames
-            lightFramesRequired = true;
+            case SchedulerJob::FINISH_SEQUENCE:
+            case SchedulerJob::FINISH_REPEAT:
+                for (SequenceJob *oneSeqJob : seqjobs)
+                {
+                    QString const signature = oneSeqJob->getSignature();
+                    /* If frame is LIGHT, how hany do we have left? */
+                    if (oneSeqJob->getFrameType() == FRAME_LIGHT && oneSeqJob->getCount()*oneJob->getRepeatsRequired() > newFramesCount[signature])
+                        lightFramesRequired = true;
+                }
+                break;
+            default:
+                // in all other cases it does not depend on the number of captured frames
+                lightFramesRequired = true;
         }
 
 
@@ -5740,9 +5741,9 @@ void Scheduler::updatePreDawn()
 
 bool Scheduler::isWeatherOK(SchedulerJob *job)
 {
-    if (weatherStatus == IPS_OK || weatherCheck->isChecked() == false)
+    if (weatherStatus == ISD::Weather::WEATHER_OK || weatherCheck->isChecked() == false)
         return true;
-    else if (weatherStatus == IPS_IDLE)
+    else if (weatherStatus == ISD::Weather::WEATHER_IDLE)
     {
         if (indiState == INDI_READY)
             appendLogText(i18n("Weather information is pending..."));
@@ -5751,10 +5752,10 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
 
     // Temporary BUSY is ALSO accepted for now
     // TODO Figure out how to exactly handle this
-    if (weatherStatus == IPS_BUSY)
+    if (weatherStatus == ISD::Weather::WEATHER_WARNING)
         return true;
 
-    if (weatherStatus == IPS_ALERT)
+    if (weatherStatus == ISD::Weather::WEATHER_ALERT)
     {
         job->setState(SchedulerJob::JOB_ABORTED);
         appendLogText(i18n("Job '%1' suffers from bad weather, marking aborted.", job->getName()));
@@ -6444,7 +6445,7 @@ void Scheduler::registerNewModule(const QString &name)
                                               QDBusConnection::sessionBus(), this);
 
         connect(weatherInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(weatherInterface, SIGNAL(newStatus(uint32_t)), this, SLOT(setWeatherStatus(uint32_t)));
+        connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
     }
     else if (name == "DustCap")
     {
@@ -6490,7 +6491,7 @@ void Scheduler::syncProperties()
             weatherCheck->setEnabled(true);
 
             QVariant status = weatherInterface->property("status");
-            setWeatherStatus(status.toInt());
+            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
 
             //            if (updatePeriod.toInt() > 0)
             //            {
@@ -6835,22 +6836,22 @@ void Scheduler::setMountStatus(ISD::Telescope::Status status)
     }
 }
 
-void Scheduler::setWeatherStatus(uint32_t status)
+void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 {
-    IPState newStatus = static_cast<IPState>(status);
+    ISD::Weather::Status newStatus = status;
     QString statusString;
 
     switch (newStatus)
     {
-        case IPS_OK:
+        case ISD::Weather::WEATHER_OK:
             statusString = i18n("Weather conditions are OK.");
             break;
 
-        case IPS_BUSY:
+        case ISD::Weather::WEATHER_WARNING:
             statusString = i18n("Warning: weather conditions are in the WARNING zone.");
             break;
 
-        case IPS_ALERT:
+        case ISD::Weather::WEATHER_ALERT:
             statusString = i18n("Caution: weather conditions are in the DANGER zone!");
             break;
 
@@ -6864,18 +6865,18 @@ void Scheduler::setWeatherStatus(uint32_t status)
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
 
-        if (weatherStatus == IPS_OK)
+        if (weatherStatus == ISD::Weather::WEATHER_OK)
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-high")
                 .pixmap(QSize(32, 32)));
-        else if (weatherStatus == IPS_BUSY)
+        else if (weatherStatus == ISD::Weather::WEATHER_WARNING)
         {
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-medium")
                 .pixmap(QSize(32, 32)));
             KNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"));
         }
-        else if (weatherStatus == IPS_ALERT)
+        else if (weatherStatus == ISD::Weather::WEATHER_ALERT)
         {
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-low")
@@ -6895,7 +6896,7 @@ void Scheduler::setWeatherStatus(uint32_t status)
         emit weatherChanged(weatherStatus);
     }
 
-    if (weatherStatus == IPS_ALERT)
+    if (weatherStatus == ISD::Weather::WEATHER_ALERT)
     {
         appendLogText(i18n("Starting shutdown procedure due to severe weather."));
         if (currentJob)
