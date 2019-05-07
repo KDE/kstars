@@ -1030,6 +1030,9 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
     connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
+
+    syncActiveDevices();
+
     if (currentProfile->isStellarMate)
     {
         connect(devInterface, &ISD::GDInterface::systemPortDetected, [this, devInterface]()
@@ -3141,6 +3144,37 @@ void Manager::setEkosLiveUser(const QString &username, const QString &password)
 bool Manager::ekosLiveStatus()
 {
     return ekosLiveClient.get()->isConnected();
+}
+
+void Manager::syncActiveDevices()
+{
+    for (auto mountDevice : genericDevices)
+    {
+        uint32_t driverInterface = mountDevice->getDriverInterface();
+        if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
+        {
+            for (auto otherDevice : genericDevices)
+            {
+                if (otherDevice == mountDevice)
+                    continue;
+
+                uint32_t driverInterface = mountDevice->getDriverInterface();
+                if (driverInterface & INDI::BaseDevice::AUX_INTERFACE)
+                {
+                    ITextVectorProperty *tvp = otherDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+                    if (tvp)
+                    {
+                        IText *snoopMount = IUFindText(tvp, "ACTIVE_TELESCOPE");
+                        if (snoopMount && strcmp(snoopMount->text, mountDevice->getDeviceName()))
+                        {
+                            IUSaveText(snoopMount, mountDevice->getDeviceName());
+                            otherDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 }

@@ -400,6 +400,12 @@ class Manager : public QDialog, public Ui::Manager
         void loadDrivers();
         void loadProfiles();
 
+        /**
+         * @brief syncActiveDevices Syncs ACTIVE_DEVICES such as ACTIVE_TELESCOPE and ACTIVE_CCD
+         * to the currently detected devices.
+         */
+        void syncActiveDevices();
+
         // Connect Signals/Slots of Ekos modules
         void connectModules();
 
