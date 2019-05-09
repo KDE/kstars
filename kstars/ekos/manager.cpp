@@ -3147,23 +3147,28 @@ bool Manager::ekosLiveStatus()
 
 void Manager::syncActiveDevices()
 {
-    for (auto mountDevice : genericDevices)
+    for (auto oneDevice : genericDevices)
     {
-        uint32_t mountInterface = mountDevice->getDriverInterface();
-        if (mountInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
+        uint32_t devInterface = oneDevice->getDriverInterface();
+        if (devInterface & (INDI::BaseDevice::TELESCOPE_INTERFACE | INDI::BaseDevice::DOME_INTERFACE))
         {
             for (auto otherDevice : genericDevices)
             {
-                if (otherDevice == mountDevice)
+                if (otherDevice == oneDevice)
                     continue;
 
                 ITextVectorProperty *tvp = otherDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
                 if (tvp)
                 {
-                    IText *snoopMount = IUFindText(tvp, "ACTIVE_TELESCOPE");
-                    if (snoopMount && strcmp(snoopMount->text, mountDevice->getDeviceName()))
+                    IText *snoopProperty = nullptr;
+                    if (devInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
+                        snoopProperty = IUFindText(tvp, "ACTIVE_TELESCOPE");
+                    else
+                        snoopProperty = IUFindText(tvp, "ACTIVE_DOME");
+
+                    if (snoopProperty && strcmp(snoopProperty->text, oneDevice->getDeviceName()))
                     {
-                        IUSaveText(snoopMount, mountDevice->getDeviceName());
+                        IUSaveText(snoopProperty, oneDevice->getDeviceName());
                         otherDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
                 }
