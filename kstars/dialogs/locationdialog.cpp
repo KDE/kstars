@@ -69,7 +69,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     for (int i = 0; i < 25; ++i)
-        ld->TZBox->addItem(QLocale().toString((double)(i - 12)));
+        ld->TZBox->addItem(QLocale().toString(static_cast<double>(i - 12)));
 
     //Populate DSTRuleBox
     foreach (const QString &key, data->getRulebook().keys())
@@ -77,10 +77,6 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
         if (!key.isEmpty())
             ld->DSTRuleBox->addItem(key);
     }
-
-    ld->AddCityButton->setIcon(QIcon::fromTheme("list-add"));
-    ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove"));
-    ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update"));
 
     connect(ld->CityFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));
     connect(ld->ProvinceFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));
@@ -100,7 +96,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
     connect(ld->RemoveButton, SIGNAL(clicked()), this, SLOT(removeCity()));
     connect(ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
-// FIXME Disable this until Qt5 works with Geoclue2
+    // FIXME Disable this until Qt5 works with Geoclue2
 #ifdef HAVE_GEOCLUE_2
     source = QGeoPositionInfoSource::createDefaultSource(this);
     source->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
@@ -122,7 +118,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
 
     ld->errorLabel->setText(QString());
 
-// FIXME Disable this until Qt5 works with Geoclue2
+    // FIXME Disable this until Qt5 works with Geoclue2
 #ifdef HAVE_GEOCLUE_2
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLocationNameData(QNetworkReply*)));
@@ -207,8 +203,8 @@ void LocationDialog::filterCity()
             sp = loc->translatedProvince();
 
         if (sc.startsWith(ld->CityFilter->text(), Qt::CaseInsensitive) &&
-            sp.startsWith(ld->ProvinceFilter->text(), Qt::CaseInsensitive) &&
-            ss.startsWith(ld->CountryFilter->text(), Qt::CaseInsensitive))
+                sp.startsWith(ld->ProvinceFilter->text(), Qt::CaseInsensitive) &&
+                ss.startsWith(ld->CountryFilter->text(), Qt::CaseInsensitive))
         {
             ld->GeoBox->addItem(loc->fullName());
             filteredCityList.append(loc);
@@ -561,7 +557,7 @@ void LocationDialog::clearFields()
     ld->NewCountryName->clear();
     ld->NewLong->clearFields();
     ld->NewLat->clearFields();
-    ld->NewElev->setValue(-10);    
+    ld->NewElev->setValue(-10);
     ld->TZBox->setCurrentIndex(-1);
     // JM 2017-09-16: No, let's not assume it is 0. User have to explicitly set TZ so avoid mistakes.
     //ld->TZBox->lineEdit()->setText(QLocale().toString(0.0));
@@ -729,7 +725,7 @@ void LocationDialog::requestUpdate()
 
 void LocationDialog::positionUpdated(const QGeoPositionInfo &info)
 {
-        qDebug() << "Position updated:" << info;
+    qDebug() << "Position updated:" << info;
 }
 
 void LocationDialog::positionUpdateError(QGeoPositionInfoSource::Error error)
