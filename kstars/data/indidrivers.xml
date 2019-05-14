@@ -281,11 +281,11 @@
         </device>
         <device label="Optec TCF-S">
             <driver name="Optec TCF-S">indi_tcfs_focus</driver>
-            <version>0.1</version>
+            <version>0.3</version>
         </device>
         <device label="Optec TCF-S3">
             <driver name="Optec TCF-S">indi_tcfs3_focus</driver>
-            <version>0.1</version>
+            <version>0.3</version>
         </device>
         <device label="Sesto Senso">
             <driver name="Sesto Senso">indi_sestosenso_focus</driver>
@@ -564,7 +564,7 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Focuser">
+    <devGroup group="Focusers">
         <device label="Astromechanics FOC">
             <driver name="Astromechanics FOC">indi_astromechfoc</driver>
             <version>0.1</version>
@@ -847,6 +847,7 @@
         </device>
     </devGroup>
 </driversList>
+<!--?xml version="1.0" encoding="UTF-8"?-->
 <driversList>
     <devGroup group="Focusers">
         <device label="Shoestring Astronomy FCUSB">
@@ -875,7 +876,7 @@
     <devGroup group="Telescopes">
         <device label="Starbook" manufacturer="Vixen">
             <driver name="Starbook">indi_starbook_telescope</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
     </devGroup>
 </driversList>
