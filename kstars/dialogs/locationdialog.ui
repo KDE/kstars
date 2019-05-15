@@ -634,6 +634,7 @@
                </color>
               </brush>
              </colorrole>
+             <colorrole>
               <brush brushstyle="NoBrush">
                <color alpha="128">
                 <red>0</red>
@@ -662,6 +663,7 @@
                </color>
               </brush>
              </colorrole>
+             <colorrole>
               <brush brushstyle="NoBrush">
                <color alpha="128">
                 <red>0</red>
@@ -690,6 +692,7 @@
                </color>
               </brush>
              </colorrole>
+             <colorrole>
               <brush brushstyle="NoBrush">
                <color alpha="128">
                 <red>0</red>
