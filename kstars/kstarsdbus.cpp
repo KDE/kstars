@@ -300,17 +300,14 @@ bool KStars::setGPSLocation(double longitude, double latitude, double elevation,
 
     dms lng(longitude), lat(latitude);
 
-    if (geo->name() != newLocationName)
-    {
-        TimeZoneRule *rule = geo->tzrule();
-        tempGeo.reset(new GeoLocation(lng, lat, newLocationName, "", "", tz0, rule, elevation));
-        geo = tempGeo.get();
-    }
+    GeoLocation *nearest = data()->nearestLocation(longitude, latitude);
+
+    if (nearest)
+        tempGeo.reset(new GeoLocation(lng, lat, newLocationName, "", "", nearest->TZ0(), nearest->tzrule(), elevation));
     else
-    {
-        geo->setLong(lng);
-        geo->setLat(lat);
-    }
+        tempGeo.reset(new GeoLocation(lng, lat, newLocationName, "", "", tz0, new TimeZoneRule(), elevation));
+
+    geo = tempGeo.get();
 
     qCInfo(KSTARS) << "Setting location from DBus. Longitude:" << longitude << "Latitude:" << latitude;
 
