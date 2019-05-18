@@ -496,6 +496,8 @@ bool Manager::stop()
 
     profileGroup->setEnabled(true);
 
+    setWindowTitle(i18n("Ekos"));
+
     return true;
 }
 
@@ -832,6 +834,8 @@ bool Manager::start()
     //processINDIB->setText(i18n("Stop INDI"));
     processINDIB->setIcon(QIcon::fromTheme("media-playback-stop"));
     processINDIB->setToolTip(i18n("Stop"));
+
+    setWindowTitle(i18n("Ekos - %1 Profile", currentProfile->name));
 
     return true;
 }
