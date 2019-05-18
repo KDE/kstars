@@ -437,6 +437,8 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         capture->start();
     else if (command == commands[CAPTURE_STOP])
         capture->stop();
+    else if (command == commands[CAPTURE_LOOP])
+        capture->startFraming();
     else if (command == commands[CAPTURE_GET_SEQUENCES])
     {
         sendCaptureSequence(capture->getSequence());
@@ -501,6 +503,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->abort();
     else if (command == commands[FOCUS_RESET])
         focus->resetFrame();
+    else if (command == commands[FOCUS_IN])
+        focus->focusIn(payload["steps"].toInt());
+    else if (command == commands[FOCUS_OUT])
+        focus->focusOut(payload["steps"].toInt());
+    else if (command == commands[FOCUS_LOOP])
+        focus->startFraming();
 }
 
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)
