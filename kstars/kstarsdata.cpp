@@ -124,7 +124,7 @@ KStarsData::~KStarsData()
 {
     Q_ASSERT(pinstance);
 
-//delete locale;
+    //delete locale;
     qDeleteAll(geoList);
     geoList.clear();
     qDeleteAll(ADVtreeList);
@@ -158,12 +158,12 @@ bool KStarsData::initialize()
     /// geographic elevation.
     if (QFile::exists(dbfile))
     {
-            QSqlDatabase fixcitydb = QSqlDatabase::addDatabase("QSQLITE", "fixcitydb");
+        QSqlDatabase fixcitydb = QSqlDatabase::addDatabase("QSQLITE", "fixcitydb");
 
         fixcitydb.setDatabaseName(dbfile);
         fixcitydb.open();
 
-        if (fixcitydb.tables().contains("city",Qt::CaseInsensitive))
+        if (fixcitydb.tables().contains("city", Qt::CaseInsensitive))
         {
             QSqlRecord r = fixcitydb.record("city");
             if (!r.contains("Elevation"))
@@ -219,8 +219,8 @@ bool KStarsData::initialize()
         return false;
     QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"), 1, false);
 
-//#endif
-//emit progressText( i18n("Loading Variable Stars" ) );
+    //#endif
+    //emit progressText( i18n("Loading Variable Stars" ) );
 
 #ifndef KSTARS_LITE
     //Initialize Observing List
@@ -370,12 +370,31 @@ GeoLocation *KStarsData::locationNamed(const QString &city, const QString &provi
     foreach (GeoLocation *loc, geoList)
     {
         if (loc->translatedName() == city && (province.isEmpty() || loc->translatedProvince() == province) &&
-            (country.isEmpty() || loc->translatedCountry() == country))
+                (country.isEmpty() || loc->translatedCountry() == country))
         {
             return loc;
         }
     }
     return nullptr;
+}
+
+GeoLocation *KStarsData::nearestLocation(double longitude, double latitude)
+{
+    GeoLocation *nearest = nullptr;
+    double distance = 1e6;
+
+    dms lng(longitude), lat(latitude);
+    for (auto oneCity : geoList)
+    {
+        double newDistance = oneCity->distanceTo(lng, lat);
+        if (newDistance < distance)
+        {
+            distance = newDistance;
+            nearest = oneCity;
+        }
+    }
+
+    return nearest;
 }
 
 void KStarsData::setLocationFromOptions()
@@ -453,7 +472,7 @@ bool KStarsData::readCityData()
         double elevation     = get_query.value(8).toDouble();
 
         // appends city names to list
-        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, elevation, true,4));
+        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, elevation, true, 4));
     }
     citydb.close();
 
@@ -485,7 +504,7 @@ bool KStarsData::readCityData()
                 double elevation     = get_query.value(8).toDouble();
 
                 // appends city names to list
-                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, elevation, false,4));
+                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, elevation, false, 4));
             }
             mycitydb.close();
         }
@@ -510,9 +529,9 @@ bool KStarsData::readTimeZoneRulebook()
                 QStringList fields = line.split(' ', QString::SkipEmptyParts);
                 QString id         = fields[0];
                 QTime stime        = QTime(fields[3].leftRef(fields[3].indexOf(':')).toInt(),
-                                    fields[3].midRef(fields[3].indexOf(':') + 1, fields[3].length()).toInt());
+                                           fields[3].midRef(fields[3].indexOf(':') + 1, fields[3].length()).toInt());
                 QTime rtime        = QTime(fields[6].leftRef(fields[6].indexOf(':')).toInt(),
-                                    fields[6].midRef(fields[6].indexOf(':') + 1, fields[6].length()).toInt());
+                                           fields[6].midRef(fields[6].indexOf(':') + 1, fields[6].length()).toInt());
 
                 Rulebook[id] = TimeZoneRule(fields[1], fields[2], stime, fields[4], fields[5], rtime);
             }
@@ -659,7 +678,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                 else
                 {
                     qDebug() << "Failed to copy default URL file to locale folder, modifying default object links is "
-                                "not possible";
+                             "not possible";
                 }
                 fileFound = true;
             }
@@ -708,7 +727,7 @@ bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
             // Dirty hack to fix things up for planets
             SkyObject *o;
             if (name == "Mercury" || name == "Venus" || name == "Mars" || name == "Jupiter" || name == "Saturn" ||
-                name == "Uranus" || name == "Neptune" /* || name == "Pluto" */)
+                    name == "Uranus" || name == "Neptune" /* || name == "Pluto" */)
                 o = skyComposite()->findByName(i18n(name.toLocal8Bit().data()));
             else
                 o = skyComposite()->findByName(name);
@@ -1042,7 +1061,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
 
                     if (!ok)
                         qDebug() << QString("Unable to load color scheme named %1. Also tried %2.")
-                                        .arg(csName, filename);
+                                 .arg(csName, filename);
                 }
             }
             else if (fn[0] == "zoom" && fn.size() == 2)
@@ -1104,13 +1123,13 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                 else
                 {
                     qWarning() << ki18n("Could not set time: %1 / %2 / %3 ; %4:%5:%6")
-                                      .subs(day)
-                                      .subs(mth)
-                                      .subs(yr)
-                                      .subs(hr)
-                                      .subs(mnt)
-                                      .subs(sec)
-                                      .toString()
+                               .subs(day)
+                               .subs(mth)
+                               .subs(yr)
+                               .subs(hr)
+                               .subs(mnt)
+                               .subs(sec)
+                               .toString()
                                << endl;
                 }
             }
@@ -1442,8 +1461,8 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                 foreach (GeoLocation *loc, geoList)
                 {
                     if (loc->translatedName() == city &&
-                        (province.isEmpty() || loc->translatedProvince() == province) &&
-                        loc->translatedCountry() == country)
+                            (province.isEmpty() || loc->translatedProvince() == province) &&
+                            loc->translatedCountry() == country)
                     {
                         cityFound = true;
                         setLocation(*loc);

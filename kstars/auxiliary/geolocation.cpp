@@ -221,3 +221,19 @@ KStarsDateTime GeoLocation::LTtoUT(const KStarsDateTime &lt) const
 
     return ut;
 }
+
+double GeoLocation::distanceTo(const dms &longitude, const dms &latitude)
+{
+    const double R = 6378.135;
+
+    double diffLongitude = (Longitude - longitude).radians();
+    double diffLatitude  = (Latitude - latitude).radians();
+
+    double a = sin(diffLongitude / 2) * sin(diffLongitude / 2) + cos(Longitude.radians()) * cos(longitude.radians()) *
+               sin(diffLatitude / 2) * sin(diffLatitude / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    double distance = R * c;
+
+    return distance;
+}
