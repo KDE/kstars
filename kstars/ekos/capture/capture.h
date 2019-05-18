@@ -386,6 +386,11 @@ class Capture : public QWidget, public Ui::Capture
         void captureOne();
 
         /**
+         * @brief startFraming Like captureOne but repeating.
+         */
+        void startFraming();
+
+        /**
          * @brief setExposure Set desired exposure value in seconds
          * @param value exposure values in seconds
          */
@@ -596,7 +601,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Jobs
         void resetJobs();
-    void selectJob(QModelIndex i);
+        void selectJob(QModelIndex i);
         void editJob(QModelIndex i);
         void resetJobEdit();
         void executeJob();
@@ -711,8 +716,8 @@ class Capture : public QWidget, public Ui::Capture
         // If exposure timed out, let's handle it.
         void processCaptureTimeout();
 
-    // selection of a job
-    void selectedJobChanged(QModelIndex current, QModelIndex previous);
+        // selection of a job
+        void selectedJobChanged(QModelIndex current, QModelIndex previous);
 
         /* Capture */
 
@@ -735,6 +740,7 @@ class Capture : public QWidget, public Ui::Capture
         int nextSequenceID { 0 };
         int seqFileCount { 0 };
         bool isBusy { false };
+        bool m_isLooping { false };
 
         // Capture timeout timer
         QTimer captureTimeout;

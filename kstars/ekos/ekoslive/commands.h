@@ -68,6 +68,7 @@ enum COMMANDS
     CAPTURE_ADD_SEQUENCE,
     CAPTURE_REMOVE_SEQUENCE,
     CAPTURE_SET_SETTINGS,
+    CAPTURE_LOOP,
 
     // Mount
     MOUNT_PARK,
@@ -96,6 +97,9 @@ enum COMMANDS
     FOCUS_START,
     FOCUS_STOP,
     FOCUS_RESET,
+    FOCUS_IN,
+    FOCUS_OUT,
+    FOCUS_LOOP,
 
     // Guide
     GUIDE_START,
@@ -175,9 +179,10 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_START, "capture_start"},
     {CAPTURE_STOP, "capture_stop"},
     {CAPTURE_GET_SEQUENCES, "capture_get_sequences"},
-    {CAPTURE_SET_SETTINGS, "capture_set_settings"},
     {CAPTURE_ADD_SEQUENCE, "capture_add_sequence"},
     {CAPTURE_REMOVE_SEQUENCE, "capture_remove_sequence"},
+    {CAPTURE_SET_SETTINGS, "capture_set_settings"},
+    {CAPTURE_LOOP, "capture_loop"},
 
     {MOUNT_PARK, "mount_park"},
     {MOUNT_UNPARK, "mount_unpark"},
@@ -202,6 +207,9 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_START, "focus_start"},
     {FOCUS_STOP, "focus_stop"},
     {FOCUS_RESET, "focus_reset"},
+    {FOCUS_IN, "focus_in"},
+    {FOCUS_OUT, "focus_out"},
+    {FOCUS_LOOP, "focus_loop"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},

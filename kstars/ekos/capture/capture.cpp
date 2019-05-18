@@ -132,6 +132,7 @@ Capture::Capture()
         updateHFRThreshold();
     });
     connect(previewB, &QPushButton::clicked, this, &Ekos::Capture::captureOne);
+    connect(loopB, &QPushButton::clicked, this, &Ekos::Capture::startFraming);
 
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Ekos::Capture::checkSeqFile(QString)));
 
@@ -639,8 +640,11 @@ void Capture::stop(CaptureState targetState)
     calibrationStage = CAL_NONE;
     m_State            = targetState;
 
-    if (activeJob != nullptr)
-        emit newStatus(targetState);
+    //    if (activeJob != nullptr)
+    //        emit newStatus(targetState);
+
+    // JM 2019-05-18: Why we didn't emit the signal on preview before??
+    emit newStatus(targetState);
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (dustCap && dustCapLightEnabled)
@@ -673,6 +677,7 @@ void Capture::stop(CaptureState targetState)
     fullImgCountOUT->setText(QString());
     currentImgCountOUT->setText(QString());
     exposeOUT->setText(QString());
+    m_isLooping = false;
 
     setBusy(false);
 
@@ -1387,7 +1392,9 @@ void Capture::newFITS(IBLOB * bp)
         if (QString(bp->bvp->device) != currentCCD->getDeviceName() || m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
             return;
 
-        if (currentCCD->isLooping() == false)
+        // m_isLooping client-side looping (next capture starts after image is downloaded to client)
+        // currentCCD->isLooping driver side looping (without any delays, next capture starts after driver reads data)
+        if (m_isLooping == false && currentCCD->isLooping() == false)
         {
             disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
 
@@ -1421,6 +1428,15 @@ bool Capture::setCaptureComplete()
 {
     captureTimeout.stop();
     captureTimeoutCounter = 0;
+
+    // In case we're framing, let's start
+    if (m_isLooping)
+    {
+        sendNewImage(blobFilename, blobChip);
+        secondsLabel->setText(i18n("Framing..."));
+        activeJob->capture(darkSubCheck->isChecked() ? true : false);
+        return true;
+    }
 
     if (currentCCD->isLooping() == false)
     {
@@ -1802,6 +1818,13 @@ void Capture::captureOne()
 
     if (addJob(true))
         prepareJob(jobs.last());
+}
+
+void Capture::startFraming()
+{
+    m_isLooping = true;
+    appendLogText(i18n("Starting framing..."));
+    captureOne();
 }
 
 void Capture::captureImage()
@@ -2452,7 +2475,7 @@ void Capture::removeJobFromQueue()
         return;
 
     if (currentRow > queueTable->rowCount())
-        queueTable->selectRow(queueTable->rowCount()-1);
+        queueTable->selectRow(queueTable->rowCount() - 1);
     else
         queueTable->selectRow(currentRow);
 }
@@ -2499,7 +2522,7 @@ void Capture::removeJob(int index)
     if (index < queueTable->rowCount())
         queueTable->selectRow(index);
     else if (queueTable->rowCount() > 0)
-        queueTable->selectRow(queueTable->rowCount()-1);
+        queueTable->selectRow(queueTable->rowCount() - 1);
 
     if (queueTable->rowCount() == 0)
     {
@@ -2593,6 +2616,7 @@ void Capture::setBusy(bool enable)
 
     enable ? pi->startAnimation() : pi->stopAnimation();
     previewB->setEnabled(!enable);
+    loopB->setEnabled(!enable);
 
     foreach (QAbstractButton * button, queueEditButtonGroup->buttons())
         button->setEnabled(!enable);
@@ -2602,7 +2626,8 @@ void Capture::prepareJob(SequenceJob * job)
 {
     activeJob = job;
 
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
+    if (m_isLooping == false)
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
     int index = jobs.indexOf(job);
     if (index >= 0)
@@ -4069,7 +4094,7 @@ void Capture::selectedJobChanged(QModelIndex current, QModelIndex previous)
 
 void Capture::selectJob(QModelIndex i)
 {
-    if (i.row() < 0 || (i.row()+1) > jobs.size())
+    if (i.row() < 0 || (i.row() + 1) > jobs.size())
         return;
 
     SequenceJob * job = jobs.at(i.row());
@@ -4083,7 +4108,7 @@ void Capture::selectJob(QModelIndex i)
         return;
 
     queueUpB->setEnabled(i.row() > 0);
-    queueDownB->setEnabled(i.row()+1 < jobs.size());
+    queueDownB->setEnabled(i.row() + 1 < jobs.size());
 }
 
 void Capture::editJob(QModelIndex i)
