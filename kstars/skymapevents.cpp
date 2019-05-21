@@ -428,13 +428,13 @@ bool SkyMap::event(QEvent *event)
                     m_pinchScale = pinch->totalScaleFactor();
                     return true;
                 }
-                if (pinch->totalScaleFactor()-m_pinchScale > 0.1)
+                if (pinch->totalScaleFactor() - m_pinchScale > 0.1)
                 {
                     m_pinchScale = pinch->totalScaleFactor();
                     zoomInOrMagStep(0);
                     return true;
                 }
-                if (pinch->totalScaleFactor()-m_pinchScale < -0.1)
+                if (pinch->totalScaleFactor() - m_pinchScale < -0.1)
                 {
                     m_pinchScale = pinch->totalScaleFactor();
                     zoomOutOrMagStep(0);
@@ -622,7 +622,7 @@ void SkyMap::wheelEvent(QWheelEvent *e)
         zoomOutOrMagStep(e->modifiers());
 }
 
-void SkyMap::mouseReleaseEvent(QMouseEvent *)
+void SkyMap::mouseReleaseEvent(QMouseEvent *e)
 {
 #if !defined(KSTARS_LITE)
     if (m_touchMode)
@@ -665,6 +665,8 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *)
             else
                 setDestination(*focus());
         }
+        else if (Options::leftClickSelectsObject())
+            mouseDoubleClickEvent(e);
         forceUpdate(); // is needed because after moving the sky not all stars are shown
     }
     // if middle button was pressed unset here
@@ -753,7 +755,8 @@ void SkyMap::mousePressEvent(QMouseEvent *e)
                     }
                 }
                 break;
-            default:;
+            default:
+                ;
         }
     }
 }
