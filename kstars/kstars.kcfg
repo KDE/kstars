@@ -324,6 +324,11 @@
          <whatsthis>If true, focus changes will cause the sky to visibly spin to the new position. Otherwise, the display will "snap" instantly to the new position.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="LeftClickSelectsObject" type="Bool">
+         <label>Select objects on left click?</label>
+         <whatsthis>If true, clicking on the skymap will select the closest objects and highlights it.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="FOVNames" type="StringList">
          <label>Name of selected FOV indicators</label>
          <whatsthis>The names of the currently selected field-of-view indicators. The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
