@@ -326,7 +326,7 @@
       </entry>
       <entry name="LeftClickSelectsObject" type="Bool">
          <label>Select objects on left click?</label>
-         <whatsthis>If true, clicking on the skymap will select the closest objects and highlights it.</whatsthis>
+         <whatsthis>If true, clicking on the skymap will select the closest object and highlights it.</whatsthis>
          <default>false</default>
       </entry>
       <entry name="FOVNames" type="StringList">
