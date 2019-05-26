@@ -645,7 +645,9 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *e)
         float factor = float(width()) / float(ZoomRect.width());
         setZoomFactor(Options::zoomFactor() * factor);
     }
-    setDefaultMouseCursor();
+
+    setMouseCursorShape(static_cast<Cursor>(Options::defaultCursor()));
+
     ZoomRect = QRect(); //invalidate ZoomRect
 
     if (m_previewLegend)
