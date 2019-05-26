@@ -450,7 +450,7 @@ void Focus::checkFocuser(int FocuserNum)
 
         absTicksSpin->setEnabled(true);
         absTicksLabel->setEnabled(true);
-        setAbsTicksB->setEnabled(true);
+        startGotoB->setEnabled(true);
 
         absTicksSpin->setValue(currentPosition);
     }
@@ -458,7 +458,7 @@ void Focus::checkFocuser(int FocuserNum)
     {
         absTicksSpin->setEnabled(false);
         absTicksLabel->setEnabled(false);
-        setAbsTicksB->setEnabled(false);
+        startGotoB->setEnabled(false);
     }
 
     canRelMove = currentFocuser->canRelMove();
@@ -1989,7 +1989,7 @@ void Focus::autoFocusRel()
                     setAutoFocusResult(false);
                 }
             }
-            break;        
+            break;
     }
 }
 
@@ -2008,7 +2008,7 @@ void Focus::autoFocusRel()
 
         absTicksSpin->setEnabled(true);
         absTicksLabel->setEnabled(true);
-        setAbsTicksB->setEnabled(true);
+        startGotoB->setEnabled(true);
     }
 
     // Do not make unnecessary function call
@@ -2211,7 +2211,8 @@ void Focus::resetButtons()
         captureB->setEnabled(false);
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
-        setAbsTicksB->setEnabled(false);
+        startGotoB->setEnabled(false);
+        stopGotoB->setEnabled(false);
 
         resetFrameB->setEnabled(false);
 
@@ -2224,7 +2225,8 @@ void Focus::resetButtons()
         focusInB->setEnabled(true);
 
         startFocusB->setEnabled(focusType == FOCUS_AUTO);
-        setAbsTicksB->setEnabled(canAbsMove);
+        startGotoB->setEnabled(canAbsMove);
+        stopGotoB->setEnabled(true);
     }
     else
     {
@@ -2232,7 +2234,8 @@ void Focus::resetButtons()
         focusInB->setEnabled(false);
 
         startFocusB->setEnabled(false);
-        setAbsTicksB->setEnabled(false);
+        startGotoB->setEnabled(false);
+        stopGotoB->setEnabled(false);
     }
 
     stopFocusB->setEnabled(false);
@@ -2876,7 +2879,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         exposureIN->setValue(filterManager->getFilterExposure(text));
         //Options::setDefaultFocusFilterWheelFilter(text);
-    });    
+    });
 }
 
 void Focus::toggleVideo(bool enabled)
@@ -2964,15 +2967,15 @@ void Focus::syncSettings()
         else if (dsb == fullFieldInnerRing)
             Options::setFocusFullFieldInnerRadius(dsb->value());
         else if (dsb == fullFieldOuterRing)
-            Options::setFocusFullFieldOuterRadius(dsb->value());        
+            Options::setFocusFullFieldOuterRadius(dsb->value());
         else if (dsb == GuideSettleTime)
-            Options::setGuideSettleTime(dsb->value());                
+            Options::setGuideSettleTime(dsb->value());
         else if (dsb == maxTravelIN)
-                Options::setFocusMaxTravel(dsb->value());
+            Options::setFocusMaxTravel(dsb->value());
         else if (dsb == toleranceIN)
-                Options::setFocusTolerance(dsb->value());
+            Options::setFocusTolerance(dsb->value());
         else if (dsb == thresholdSpin)
-                Options::setFocusThreshold(dsb->value());
+            Options::setFocusThreshold(dsb->value());
     }
     else if ( (sb = qobject_cast<QSpinBox*>(sender())))
     {
@@ -3254,10 +3257,10 @@ void Focus::initConnections()
     // Use a subframe when capturing
     connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
     // Reset frame dimensions to default
-    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);    
+    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
     // Sync setting if full field setting is toggled.
     connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
-    {        
+    {
         fullFieldInnerRing->setEnabled(toggled);
         fullFieldOuterRing->setEnabled(toggled);
         if (toggled)
@@ -3281,7 +3284,12 @@ void Focus::initConnections()
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
 
     // Set focuser absolute position
-    connect(setAbsTicksB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
+    connect(startGotoB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
+    connect(stopGotoB, &QPushButton::clicked, [this]()
+    {
+        if (currentFocuser)
+            currentFocuser->stop();
+    });
     // Update the focuser box size used to enclose a star
     connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
 
