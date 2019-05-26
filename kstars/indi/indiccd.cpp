@@ -344,6 +344,31 @@ bool CCDChip::setFrame(int x, int y, int w, int h, bool force)
     return false;
 }
 
+//bool CCDChip::capture(double exposure)
+//{
+//    INumberVectorProperty *expProp = nullptr;
+
+//    switch (type)
+//    {
+//        case PRIMARY_CCD:
+//            expProp = baseDevice->getNumber("CCD_EXPOSURE");
+//            break;
+
+//        case GUIDE_CCD:
+//            expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
+//            break;
+//    }
+
+//    if (expProp == nullptr)
+//        return false;
+
+//    expProp->np[0].value = exposure;
+
+//    clientManager->sendNewNumber(expProp);
+
+//    return true;
+//}
+
 bool CCDChip::capture(double exposure)
 {
     INumberVectorProperty *expProp = nullptr;
@@ -362,9 +387,20 @@ bool CCDChip::capture(double exposure)
     if (expProp == nullptr)
         return false;
 
-    expProp->np[0].value = exposure;
+    // clone the INumberVectorProperty, to avoid modifications to the same
+    // property from two threads
+    INumber n;
+    strcpy(n.name, expProp->np[0].name);
+    n.value = exposure;
 
-    clientManager->sendNewNumber(expProp);
+    std::unique_ptr<INumberVectorProperty> newExpProp(new INumberVectorProperty());
+    strncpy(newExpProp->device, expProp->device, MAXINDIDEVICE);
+    strncpy(newExpProp->name, expProp->name, MAXINDINAME);
+    strncpy(newExpProp->label, expProp->label, MAXINDILABEL);
+    newExpProp->np = &n;
+    newExpProp->nnp = 1;
+
+    clientManager->sendNewNumber(newExpProp.get());
 
     return true;
 }
