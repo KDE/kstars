@@ -21,6 +21,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "skymap.h"
 #include "widgets/timespinbox.h"
 
 #include <KConfigDialog>
@@ -48,16 +49,26 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
 
     connect(kcfg_ObsListDemoteHole, &QCheckBox::toggled,
-            [this](bool state) { kcfg_ObsListHoleSize->setEnabled(state); });
+            [this](bool state)
+    {
+        kcfg_ObsListHoleSize->setEnabled(state);
+    });
 
-    connect(zoomScrollSlider, &QSlider::valueChanged, [&](int value) {
+    connect(zoomScrollSlider, &QSlider::valueChanged, [&](int value)
+    {
         kcfg_ZoomScrollFactor->setValue(value / 100.0);
+    });
+
+    connect(kcfg_DefaultCursor, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [](int index)
+    {
+        Options::setDefaultCursor(index);
+        SkyMap::Instance()->setMouseCursorShape(static_cast<SkyMap::Cursor>(index));
     });
 
     //Get a pointer to the KConfigDialog
     KConfigDialog *m_ConfigDialog = KConfigDialog::exists("settings");
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
-    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));    
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 }
 
 void OpsAdvanced::slotChangeTimeScale(float newScale)

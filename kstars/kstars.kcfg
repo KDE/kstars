@@ -329,6 +329,11 @@
          <whatsthis>If true, clicking on the skymap will select the closest object and highlights it.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="DefaultCursor" type="UInt">
+         <label>Select default Skymap cursor?</label>
+         <whatsthis>Type of cursor when exploring the sky map.</whatsthis>
+         <default>1</default>
+      </entry>
       <entry name="FOVNames" type="StringList">
          <label>Name of selected FOV indicators</label>
          <whatsthis>The names of the currently selected field-of-view indicators. The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>

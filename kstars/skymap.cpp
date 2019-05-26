@@ -107,6 +107,30 @@ QBitmap defaultCursorBitmap(int width)
     p.end();
     return b;
 }
+
+QBitmap circleCursorBitmap(int width)
+{
+    QBitmap b(32, 32);
+    b.fill(Qt::color0);
+    int mx = 16, my = 16;
+    // Begin drawing
+    QPainter p;
+    p.begin(&b);
+    p.setPen(QPen(Qt::color1, width));
+
+    // Circle
+    p.drawEllipse(mx - 8, my - 8, mx, my);
+    // 1. diagonal
+    p.drawLine(mx - 8, my - 8, 0, 0);
+    p.drawLine(mx + 8, my - 8, 32, 0);
+    // 2. diagonal
+    p.drawLine(mx - 8, my + 8, 0, 32);
+    p.drawLine(mx + 8, my + 8, 32, 32);
+
+    p.end();
+    return b;
+}
+
 }
 
 SkyMap *SkyMap::pinstance = nullptr;
@@ -135,7 +159,8 @@ SkyMap::SkyMap()
 
     ZoomRect = QRect();
 
-    setDefaultMouseCursor(); // set the cross cursor
+    // set the default cursor
+    setMouseCursorShape(static_cast<Cursor>(Options::defaultCursor()));
 
     QPalette p = palette();
     p.setColor(QPalette::Window, QColor(data->colorScheme()->colorNamed("SkyColor")));
@@ -381,8 +406,8 @@ void SkyMap::slotCenter()
     if (kstars)
     {
         kstars->actionCollection()
-                ->action("track_object")
-                ->setIcon(QIcon::fromTheme("document-encrypt"));
+        ->action("track_object")
+        ->setIcon(QIcon::fromTheme("document-encrypt"));
         kstars->actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
     }
 
@@ -419,8 +444,8 @@ void SkyMap::slotUpdateSky(bool now)
 
     if (now)
         QTimer::singleShot(
-                    0, this,
-                    SLOT(forceUpdateNow())); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha // --> Opening a neww thread? -- Valentin
+            0, this,
+            SLOT(forceUpdateNow())); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha // --> Opening a neww thread? -- Valentin
     else
         forceUpdate();
 }
@@ -450,8 +475,8 @@ void SkyMap::slotDSS()
     if (kstars)
     {
         new ImageViewer(
-                    url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
-                    this);
+            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
+            this);
         //iv->show();
     }
 }
@@ -653,15 +678,15 @@ void SkyMap::slotEndRulerMode()
                                     ((f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX()));
             }
             fov = nameToFovMap[QInputDialog::getItem(this, i18n("Star Hopper: Choose a field-of-view"),
-                                                     i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0,
-                                                     false, &ok)];
+                                                           i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0,
+                                                           false, &ok)];
         }
         else
         {
             // Ask the user to enter a field of view
             fov =
-                    QInputDialog::getDouble(this, i18n("Star Hopper: Enter field-of-view to use"),
-                                            i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok);
+                QInputDialog::getDouble(this, i18n("Star Hopper: Enter field-of-view to use"),
+                                        i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok);
         }
 
         Q_ASSERT(fov > 0.0);
@@ -1032,7 +1057,7 @@ void SkyMap::slewFocus()
     if (!mouseButtonDown)
     {
         bool goSlew = (Options::useAnimatedSlewing() && !data->snapNextFocus()) &&
-                !(data->clock()->isManualMode() && data->clock()->isActive());
+                      !(data->clock()->isManualMode() && data->clock()->isActive());
         if (goSlew)
         {
             double dX, dY;
@@ -1209,26 +1234,26 @@ void SkyMap::setupProjector()
         delete m_proj;
         switch (Options::projection())
         {
-        case Gnomonic:
-            m_proj = new GnomonicProjector(p);
-            break;
-        case Stereographic:
-            m_proj = new StereographicProjector(p);
-            break;
-        case Orthographic:
-            m_proj = new OrthographicProjector(p);
-            break;
-        case AzimuthalEquidistant:
-            m_proj = new AzimuthalEquidistantProjector(p);
-            break;
-        case Equirectangular:
-            m_proj = new EquirectangularProjector(p);
-            break;
-        case Lambert:
-        default:
-            //TODO: implement other projection classes
-            m_proj = new LambertProjector(p);
-            break;
+            case Gnomonic:
+                m_proj = new GnomonicProjector(p);
+                break;
+            case Stereographic:
+                m_proj = new StereographicProjector(p);
+                break;
+            case Orthographic:
+                m_proj = new OrthographicProjector(p);
+                break;
+            case AzimuthalEquidistant:
+                m_proj = new AzimuthalEquidistantProjector(p);
+                break;
+            case Equirectangular:
+                m_proj = new EquirectangularProjector(p);
+                break;
+            case Lambert:
+            default:
+                //TODO: implement other projection classes
+                m_proj = new LambertProjector(p);
+                break;
         }
     }
 }
@@ -1241,12 +1266,33 @@ void SkyMap::setZoomMouseCursor()
     setCursor(QCursor(cursor, mask));
 }
 
-void SkyMap::setDefaultMouseCursor()
+void SkyMap::setMouseCursorShape(Cursor type)
 {
-    mouseMoveCursor = false; // no mousemove cursor
-    QBitmap cursor  = defaultCursorBitmap(2);
-    QBitmap mask    = defaultCursorBitmap(3);
-    setCursor(QCursor(cursor, mask));
+    // no mousemove cursor
+    mouseMoveCursor = false;
+
+    switch (type)
+    {
+        case Cross:
+        {
+            QBitmap cursor  = defaultCursorBitmap(2);
+            QBitmap mask    = defaultCursorBitmap(3);
+            setCursor(QCursor(cursor, mask));
+        }
+        break;
+
+        case Circle:
+        {
+            QBitmap cursor  = circleCursorBitmap(2);
+            QBitmap mask    = circleCursorBitmap(3);
+            setCursor(QCursor(cursor, mask));
+        }
+        break;
+
+        case NoCursor:
+            setCursor(Qt::ArrowCursor);
+            break;
+    }
 }
 
 void SkyMap::setMouseMoveCursor()
