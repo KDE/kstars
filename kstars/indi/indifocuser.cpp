@@ -73,6 +73,19 @@ bool Focuser::focusIn()
     return true;
 }
 
+bool Focuser::stop()
+{
+    ISwitchVectorProperty *focusStop = baseDevice->getSwitch("FOCUS_ABORT_MOTION");
+
+    if (focusStop == nullptr)
+        return false;
+
+    focusStop->sp[0].s = ISS_ON;
+    clientManager->sendNewSwitch(focusStop);
+
+    return true;
+}
+
 bool Focuser::focusOut()
 {
     ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");

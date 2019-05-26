@@ -49,6 +49,7 @@ class Focuser : public DeviceDecorator
 
         bool focusIn();
         bool focusOut();
+        bool stop();
         bool moveByTimer(int msecs);
         bool moveAbs(int steps);
         bool moveRel(int steps);
