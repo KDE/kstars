@@ -634,17 +634,16 @@ void Capture::stop(CaptureState targetState)
             // Delete preview job
             delete (activeJob);
             activeJob = nullptr;
+
+            emit newStatus(targetState);
         }
     }
 
     calibrationStage = CAL_NONE;
     m_State            = targetState;
 
-    //    if (activeJob != nullptr)
-    //        emit newStatus(targetState);
-
-    // JM 2019-05-18: Why we didn't emit the signal on preview before??
-    emit newStatus(targetState);
+    if (activeJob != nullptr)
+        emit newStatus(targetState);
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (dustCap && dustCapLightEnabled)
