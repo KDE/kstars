@@ -19,26 +19,30 @@
 
 #include "indi/indiccd.h"
 
-namespace Ekos {
+namespace Ekos
+{
 class Capture;
 }
 
 class DSLRInfo : public QDialog, public Ui::DSLRInfo
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit DSLRInfo(QWidget *parent, ISD::CCD *ccd);
+    public:
+        explicit DSLRInfo(QWidget *parent, ISD::CCD *ccd);
 
-  protected slots:
-    void save();
+    protected slots:
+        void save();
 
-  private:
-    ISD::CCD *currentCCD = nullptr;
-    int sensorMaxWidth=0, sensorMaxHeight=0;
-    double sensorPixelW=0,sensorPixelH=0;
+    signals:
+        void infoChanged();
 
-  friend class Ekos::Capture;
+    private:
+        ISD::CCD *currentCCD = nullptr;
+        int sensorMaxWidth = 0, sensorMaxHeight = 0;
+        double sensorPixelW = 0, sensorPixelH = 0;
+
+        friend class Ekos::Capture;
 };
 
 #endif

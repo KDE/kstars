@@ -205,6 +205,8 @@ void Message::onTextReceived(const QString &message)
         processCapCommands(command, payload);
     else if (command.startsWith("option_"))
         processOptionsCommands(command, payload);
+    else if (command.startsWith("dslr_"))
+        processDSLRCommands(command, payload);
 }
 
 void Message::sendCameras()
@@ -861,6 +863,26 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     }
 
     sendScopes();
+}
+
+void Message::processDSLRCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[DSLR_SET_INFO])
+    {
+        if (m_Manager->captureModule())
+            m_Manager->captureModule()->addDSLRInfo(
+                payload["model"].toString(),
+                payload["width"].toInt(),
+                payload["height"].toInt(),
+                payload["pixelw"].toDouble(),
+                payload["pixelw"].toDouble());
+
+    }
+}
+
+void Message::requestDSLRInfo(const QString &cameraName)
+{
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(QJsonDocument::Compact));
 }
 
 void Message::sendResponse(const QString &command, const QJsonObject &payload)

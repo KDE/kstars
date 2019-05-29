@@ -49,4 +49,6 @@ void DSLRInfo::save()
     primaryChip->setFrame(sensorMaxWidth, sensorMaxHeight, sensorPixelW, sensorPixelH);
 
     currentCCD->setConfig(SAVE_CONFIG);
+
+    emit infoChanged();
 }

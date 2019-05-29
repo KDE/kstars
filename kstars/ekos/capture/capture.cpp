@@ -10,7 +10,6 @@
 #include "capture.h"
 
 #include "captureadaptor.h"
-#include "dslrinfodialog.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -888,11 +887,21 @@ void Capture::checkCCD(int ccdNum)
                 // The zeros above are the initial packets so we can safely ignore them
                 if (isModelInDB == false)
                 {
-                    DSLRInfo infoDialog(this, currentCCD);
-                    if (infoDialog.exec() == QDialog::Accepted)
+                    dslrInfoDialog.reset(new DSLRInfo(this, currentCCD));
+
+                    connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
                     {
-                        addDSLRInfo(QString(currentCCD->getDeviceName()), infoDialog.sensorMaxWidth, infoDialog.sensorMaxHeight, infoDialog.sensorPixelW, infoDialog.sensorPixelH);
-                    }
+                        addDSLRInfo(QString(currentCCD->getDeviceName()),
+                                    dslrInfoDialog->sensorMaxWidth,
+                                    dslrInfoDialog->sensorMaxHeight,
+                                    dslrInfoDialog->sensorPixelW,
+                                    dslrInfoDialog->sensorPixelH);
+
+                        dslrInfoDialog.reset();
+                    });
+                    dslrInfoDialog->show();
+
+                    emit dslrInfoRequested(currentCCD->getDeviceName());
                 }
                 else
                 {
@@ -5925,6 +5934,10 @@ void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, do
 
     KStarsData::Instance()->userdb()->AddDSLRInfo(oneDSLRInfo);
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
+
+    // In case the dialog was opened, let's close it
+    if (dslrInfoDialog)
+        dslrInfoDialog.reset();
 }
 
 bool Capture::isModelinDSLRInfo(const QString &model)
@@ -6031,6 +6044,12 @@ void Capture::setSettings(const QJsonObject &settings)
         }
 
         customPropertiesDialog->setCustomProperties(customProps);
+    }
+
+    int format = settings["format"].toInt(Ekos::INVALID_VALUE);
+    if (format != Ekos::INVALID_VALUE)
+    {
+        transferFormatCombo->setCurrentIndex(format);
     }
 
     frameTypeCombo->setCurrentIndex(settings["frameType"].toInt(0));
