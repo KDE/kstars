@@ -870,6 +870,7 @@ class Capture : public QWidget, public Ui::Capture
 
         std::unique_ptr<CustomProperties> customPropertiesDialog;
 
+        void createDSLRDialog();
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
         // Filter Manager

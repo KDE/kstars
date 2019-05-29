@@ -178,7 +178,12 @@ void Message::onTextReceived(const QString &message)
     if (command == commands[GET_STATES])
         sendStates();
     else if (command == commands[GET_CAMERAS])
+    {
         sendCameras();
+        // Try to trigger any signals based on current camera list
+        if (m_Manager->captureModule())
+            m_Manager->captureModule()->checkCCD();
+    }
     else if (command == commands[GET_MOUNTS])
         sendMounts();
     else if (command == commands[GET_FILTER_WHEELS])
