@@ -887,21 +887,7 @@ void Capture::checkCCD(int ccdNum)
                 // The zeros above are the initial packets so we can safely ignore them
                 if (isModelInDB == false)
                 {
-                    dslrInfoDialog.reset(new DSLRInfo(this, currentCCD));
-
-                    connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
-                    {
-                        addDSLRInfo(QString(currentCCD->getDeviceName()),
-                                    dslrInfoDialog->sensorMaxWidth,
-                                    dslrInfoDialog->sensorMaxHeight,
-                                    dslrInfoDialog->sensorPixelW,
-                                    dslrInfoDialog->sensorPixelH);
-
-                        dslrInfoDialog.reset();
-                    });
-                    dslrInfoDialog->show();
-
-                    emit dslrInfoRequested(currentCCD->getDeviceName());
+                    createDSLRDialog();
                 }
                 else
                 {
@@ -6087,13 +6073,7 @@ void Capture::clearCameraConfiguration()
     // For DSLRs, immediately ask them to enter the values again.
     if (ISOCombo->count() > 0)
     {
-        DSLRInfo infoDialog(this, currentCCD);
-        if (infoDialog.exec() == QDialog::Accepted)
-        {
-            addDSLRInfo(QString(currentCCD->getDeviceName()), infoDialog.sensorMaxWidth, infoDialog.sensorMaxHeight, infoDialog.sensorPixelW, infoDialog.sensorPixelH);
-            updateFrameProperties();
-            resetFrame();
-        }
+        createDSLRDialog();
     }
 }
 
@@ -6132,6 +6112,29 @@ void Capture::processCaptureTimeout()
 void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
 {
     m_GeneratedPreviewFITS = previewFITS;
+}
+
+void Capture::createDSLRDialog()
+{
+    dslrInfoDialog.reset(new DSLRInfo(this, currentCCD));
+
+    connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
+    {
+        addDSLRInfo(QString(currentCCD->getDeviceName()),
+                    dslrInfoDialog->sensorMaxWidth,
+                    dslrInfoDialog->sensorMaxHeight,
+                    dslrInfoDialog->sensorPixelW,
+                    dslrInfoDialog->sensorPixelH);
+
+        dslrInfoDialog.reset();
+
+        updateFrameProperties();
+        resetFrame();
+    });
+
+    dslrInfoDialog->show();
+
+    emit dslrInfoRequested(currentCCD->getDeviceName());
 }
 
 }
