@@ -5066,20 +5066,19 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     {
         if (schedJob->getLightFramesRequired())
         {
-            /* FIXME: estimation doesn't need to consider repeats, those will be optimized away by findNextJob (this is a regression) */
             /* FIXME: estimation should base on actual measure of each step, eventually with preliminary data as what it used now */
             // Are we doing tracking? It takes about 30 seconds
             if (schedJob->getStepPipeline() & SchedulerJob::USE_TRACK)
-                totalImagingTime += 30 * schedJob->getRepeatsRequired();
+                totalImagingTime += 30;
             // Are we doing initial focusing? That can take about 2 minutes
             if (schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS)
-                totalImagingTime += 120 * schedJob->getRepeatsRequired();
+                totalImagingTime += 120;
             // Are we doing astrometry? That can take about 30 seconds
             if (schedJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                totalImagingTime += 30 * schedJob->getRepeatsRequired();
+                totalImagingTime += 30;
             // Are we doing guiding? Calibration process can take about 2 mins
             if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                totalImagingTime += 120 * schedJob->getRepeatsRequired();
+                totalImagingTime += 120;
         }
 
         dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
