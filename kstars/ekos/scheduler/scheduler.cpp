@@ -4318,9 +4318,6 @@ void Scheduler::findNextJob()
     // Reset failed count
     alignFailureCount = guideFailureCount = focusFailureCount = captureFailureCount = 0;
 
-    // Always reset job stage
-    currentJob->setStage(SchedulerJob::STAGE_IDLE);
-
     /* FIXME: Other debug logs in that function probably */
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Find next job...";
 
@@ -4331,6 +4328,10 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         appendLogText(i18n("Job '%1' is terminated due to errors.", currentJob->getName()));
+
+        // Always reset job stage
+        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
@@ -4340,6 +4341,10 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         appendLogText(i18n("Job '%1' is aborted.", currentJob->getName()));
+
+        // Always reset job stage
+        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
@@ -4360,6 +4365,10 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         appendLogText(i18n("Job '%1' is complete.", currentJob->getName()));
+
+        // Always reset job stage
+        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
@@ -4461,6 +4470,10 @@ void Scheduler::findNextJob()
             appendLogText(i18np("Job '%1' stopping, reached completion time with #%2 batch done.",
                                 "Job '%1' stopping, reached completion time with #%2 batches done.",
                                 currentJob->getName(), captureBatch + 1));
+
+            // Always reset job stage
+            currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
             setCurrentJob(nullptr);
             schedulerTimer.start();
         }
@@ -4483,6 +4496,10 @@ void Scheduler::findNextJob()
     {
         /* Unexpected situation, mitigate by resetting the job and restarting the scheduler timer */
         qCDebug(KSTARS_EKOS_SCHEDULER) << "BUGBUG! Job '" << currentJob->getName() << "' timer elapsed, but no action to be taken.";
+
+        // Always reset job stage
+        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
