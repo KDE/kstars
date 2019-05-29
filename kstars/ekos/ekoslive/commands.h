@@ -131,6 +131,11 @@ enum COMMANDS
 
     // Storage Options
     SET_BLOBS,
+
+    // DSLRs
+    DSLR_GET_INFO,
+    DSLR_SET_INFO,
+    DSLR_SET_MODE
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -236,6 +241,10 @@ static QMap<COMMANDS, QString> const commands =
     {OPTION_SET_CLOUD_STORAGE, "option_set_cloud_storage"},
 
     {SET_BLOBS, "set_blobs"},
+
+    {DSLR_GET_INFO, "dslr_get_info"},
+    {DSLR_SET_INFO, "dslr_set_info"},
+    {DSLR_SET_MODE, "dslr_set_mode"}
 };
 
 }

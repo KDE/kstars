@@ -3075,6 +3075,14 @@ void Manager::connectModules()
         connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus, Qt::UniqueConnection);
     }
 
+    // Capture <---> EkosLive connections
+    if (captureProcess.get() && ekosLiveClient.get())
+    {
+        captureProcess.get()->disconnect(ekosLiveClient.get());
+
+        connect(captureProcess.get(), &Ekos::Capture::dslrInfoRequested, ekosLiveClient.get()->message(), &EkosLive::Message::requestDSLRInfo);
+    }
+
     // Focus <---> Align connections
     if (focusProcess.get() && alignProcess.get())
     {

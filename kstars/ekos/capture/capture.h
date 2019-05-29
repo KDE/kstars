@@ -21,6 +21,7 @@
 #include "indi/inditelescope.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
+#include "dslrinfodialog.h"
 
 #include <QTimer>
 #include <QUrl>
@@ -332,6 +333,16 @@ class Capture : public QWidget, public Ui::Capture
          * @param settings list of settings
          */
         void setSettings(const QJsonObject &settings);
+
+        /**
+         * @brief addDSLRInfo Save DSLR Info the in the database. If the interactive dialog was open, close it.
+         * @param model Camera name
+         * @param maxW Maximum width in pixels
+         * @param maxH Maximum height in pixels
+         * @param pixelW Pixel horizontal size in microns
+         * @param pixelH Pizel vertical size in microns
+         */
+        void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
 
     public slots:
 
@@ -677,6 +688,7 @@ class Capture : public QWidget, public Ui::Capture
         void settingsUpdated(const QJsonObject &settings);
         void newMeridianFlipStatus(Mount::MeridianFlipStatus status);
         void newMeridianFlipSetup(bool activate, double hours);
+        void dslrInfoRequested(const QString &cameraName);
 
     private:
         void setBusy(bool enable);
@@ -696,7 +708,6 @@ class Capture : public QWidget, public Ui::Capture
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
 
         // DSLR Info
-        void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
         void cullToDSLRLimits();
         //void syncDriverToDSLRLimits();
         bool isModelinDSLRInfo(const QString &model);
@@ -858,6 +869,8 @@ class Capture : public QWidget, public Ui::Capture
         uint8_t inSequenceFocusCounter { 0 };
 
         std::unique_ptr<CustomProperties> customPropertiesDialog;
+
+        std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
