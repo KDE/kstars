@@ -69,14 +69,14 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     m_skyLabeler.reset(SkyLabeler::Instance());
     m_skyMesh.reset(SkyMesh::Create(3)); // level 5 mesh = 8192 trixels
     m_skyMesh->debug(0);
-//  1 => print "indexing ..."
-//  2 => prints totals too
-// 10 => prints detailed lists
-// You can also set the debug level of individual
-// appendLine() and appendPoly() calls.
+    //  1 => print "indexing ..."
+    //  2 => prints totals too
+    // 10 => prints detailed lists
+    // You can also set the debug level of individual
+    // appendLine() and appendPoly() calls.
 
-//Add all components
-//Stars must come before constellation lines
+    //Add all components
+    //Stars must come before constellation lines
 #ifdef KSTARS_LITE
     addComponent(m_MilkyWay = new MilkyWay(this), 50);
     addComponent(m_Stars = StarComponent::Create(this), 10);
@@ -116,7 +116,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     for (int i = 0; i < allcatalogs.size(); ++i)
     {
         if (allcatalogs.at(i) == m_internetResolvedCat ||
-            allcatalogs.at(i) == m_manualAdditionsCat) // This is a special catalog
+                allcatalogs.at(i) == m_manualAdditionsCat) // This is a special catalog
             continue;
         m_CustomCatalogs->addComponent(new CatalogComponent(this, allcatalogs.at(i), false, i),
                                        6); // FIXME: Should this be 6 or 5? See SkyMapComposite::reloadDeepSky()
@@ -162,7 +162,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     for (int i = 0; i < allcatalogs.size(); ++i)
     {
         if (allcatalogs.at(i) == m_internetResolvedCat ||
-            allcatalogs.at(i) == m_manualAdditionsCat) // This is a special catalog
+                allcatalogs.at(i) == m_manualAdditionsCat) // This is a special catalog
             continue;
         m_CustomCatalogs->addComponent(new CatalogComponent(this, allcatalogs.at(i), false, i),
                                        6); // FIXME: Should this be 6 or 5? See SkyMapComposite::reloadDeepSky()
@@ -170,7 +170,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
 
     addComponent(m_SolarSystem = new SolarSystemComposite(this), 2);
 
-    addComponent(m_Flags = new FlagComponent(this), 4);       
+    addComponent(m_Flags = new FlagComponent(this), 4);
 
     addComponent(m_ObservingList =
                      new TargetListComponent(this, nullptr, QPen(), &Options::obsListSymbol, &Options::obsListText),
@@ -190,9 +190,9 @@ void SkyMapComposite::update(KSNumbers *num)
     //2. Coordinate grid
     //m_EquatorialCoordinateGrid->update( num );
     m_HorizontalCoordinateGrid->update(num);
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     m_LocalMeridianComponent->update(num);
-    #endif
+#endif
     //3. Constellation boundaries
     //m_CBounds->update( data, num );
     //4. Constellation lines
@@ -282,7 +282,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 
     // create the no-precess aperture if needed
     if (Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() ||
-        Options::showEquator())
+            Options::showEquator())
     {
         m_skyMesh->index(focus, radius + 1.0, NO_PRECESS_BUF);
     }
@@ -374,26 +374,26 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 
     m_skyMesh->inDraw(false);
 
-// DEBUG Edit. Keywords: Trixel boundaries. Currently works only in QPainter mode
-// -jbb uncomment these to see trixel outlines:
-/*
-    QPainter *psky = dynamic_cast< QPainter *>( skyp );
-    if( psky ) {
-        qCDebug(KSTARS) << "Drawing trixel boundaries for debugging.";
-        psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
-        m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
-        SkyMesh *p;
-        if( p = SkyMesh::Instance( 6 ) ) {
-            qCDebug(KSTARS) << "We have a deep sky mesh to draw";
-            p->draw( *psky, OBJ_NEAREST_BUF );
-        }
+    // DEBUG Edit. Keywords: Trixel boundaries. Currently works only in QPainter mode
+    // -jbb uncomment these to see trixel outlines:
+    /*
+        QPainter *psky = dynamic_cast< QPainter *>( skyp );
+        if( psky ) {
+            qCDebug(KSTARS) << "Drawing trixel boundaries for debugging.";
+            psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
+            m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
+            SkyMesh *p;
+            if( p = SkyMesh::Instance( 6 ) ) {
+                qCDebug(KSTARS) << "We have a deep sky mesh to draw";
+                p->draw( *psky, OBJ_NEAREST_BUF );
+            }
 
-        psky->setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-        m_skyMesh->draw( *psky, NO_PRECESS_BUF );
-        if( p )
-            p->draw( *psky, NO_PRECESS_BUF );
-    }
-    */
+            psky->setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+            m_skyMesh->draw( *psky, NO_PRECESS_BUF );
+            if( p )
+                p->draw( *psky, NO_PRECESS_BUF );
+        }
+        */
 #endif
 }
 
@@ -436,7 +436,7 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     {
         rBest = rTry;
         oBest = oTry;
-    }    
+    }
 
     for (auto &star : m_DeepStars)
     {
@@ -499,8 +499,8 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     rTry = maxrad;
     oTry = m_SolarSystem->objectNearest(p, rTry);
     if (!dynamic_cast<KSComet *>(oTry) &&
-        !dynamic_cast<KSAsteroid *>(
-            oTry)) // There are gazillions of faint asteroids and comets; we want to prevent them from getting precedence
+            !dynamic_cast<KSAsteroid *>(
+                oTry)) // There are gazillions of faint asteroids and comets; we want to prevent them from getting precedence
     {
         rTry *= 0.25; // this is either sun, moon, or one of the major planets or their moons.
     }
@@ -634,23 +634,23 @@ SkyObject *SkyMapComposite::findStarByGenetiveName(const QString name)
 KSPlanetBase *SkyMapComposite::planet(int n)
 {
     if (n == KSPlanetBase::SUN)
-        return (KSPlanetBase *)(m_SolarSystem->findByName("Sun"));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName("Sun")));
     if (n == KSPlanetBase::MERCURY)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Mercury")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Mercury"))));
     if (n == KSPlanetBase::VENUS)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Venus")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Venus"))));
     if (n == KSPlanetBase::MOON)
-        return (KSPlanetBase *)(m_SolarSystem->findByName("Moon"));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Moon"))));
     if (n == KSPlanetBase::MARS)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Mars")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Mars"))));
     if (n == KSPlanetBase::JUPITER)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Jupiter")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Jupiter"))));
     if (n == KSPlanetBase::SATURN)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Saturn")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Saturn"))));
     if (n == KSPlanetBase::URANUS)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Uranus")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Uranus"))));
     if (n == KSPlanetBase::NEPTUNE)
-        return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Neptune")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Neptune"))));
     //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Pluto" ) ) );
 
     return nullptr;
@@ -671,9 +671,9 @@ void SkyMapComposite::addCustomCatalog(const QString &filename, int index)
 
 void SkyMapComposite::removeCustomCatalog(const QString &name)
 {
-    foreach (SkyComponent *sc, m_CustomCatalogs->components())
+    for (auto sc : m_CustomCatalogs->components())
     {
-        CatalogComponent *ccc = (CatalogComponent *)sc;
+        CatalogComponent *ccc = dynamic_cast<CatalogComponent *>(sc);
 
         if (ccc->name() == name)
         {
@@ -682,7 +682,7 @@ void SkyMapComposite::removeCustomCatalog(const QString &name)
         }
     }
 
-    qWarning() << i18n("Could not find custom catalog component named %1.", name);
+    qCWarning(KSTARS) << i18n("Could not find custom catalog component named %1.", name);
 }
 
 void SkyMapComposite::reloadCLines()
@@ -760,7 +760,7 @@ void SkyMapComposite::reloadDeepSky()
     for (int i = 0; i < allcatalogs.size(); ++i)
     {
         if (allcatalogs.at(i) == m_internetResolvedCat ||
-            allcatalogs.at(i) == m_manualAdditionsCat) // These are special catalogs
+                allcatalogs.at(i) == m_manualAdditionsCat) // These are special catalogs
             continue;
         m_CustomCatalogs->addComponent(new CatalogComponent(this, allcatalogs.at(i), false, i),
                                        5); // FIXME: Should this be 6 or 5? See SkyMapComposite::SkyMapComposite()
@@ -847,35 +847,26 @@ const QList<SkyObject *> *SkyMapComposite::getSkyObjectsList(SkyObject::TYPE t)
     {
         case SkyObject::STAR:
             return &m_Stars->objectList();
-            break;
         case SkyObject::CATALOG_STAR:
             return nullptr;
-            break;
         case SkyObject::PLANET:
             return &m_SolarSystem->planetObjects();
-            break;
         case SkyObject::COMET:
             return &comets();
-            break;
         case SkyObject::ASTEROID:
             return &asteroids();
-            break;
         case SkyObject::MOON:
             return &m_SolarSystem->moons();
-            break;
         case SkyObject::GALAXY:
         case SkyObject::PLANETARY_NEBULA:
         case SkyObject::GASEOUS_NEBULA:
         case SkyObject::GLOBULAR_CLUSTER:
         case SkyObject::OPEN_CLUSTER:
             return nullptr;
-            break;
         case SkyObject::CONSTELLATION:
             return &constellationNames();
-            break;
         case SkyObject::SUPERNOVA:
             return &supernovae();
-            break;
         default:
             return nullptr;
     }
