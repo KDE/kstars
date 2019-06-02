@@ -65,10 +65,11 @@ double degToRad(double x)
 // 40    0.88  -11.5       100   0.41   -9.6       160   0.03  -3.4
 // 50    0.82  -11.2       110   0.33   -9.2
 static const double MagArray[19] = { -12.7, -12.4, -12.1, -11.8, -11.5, -11.2, -11.0, -10.8, -10.4, -10.0,
-                                     -9.6,  -9.2,  -8.7,  -8.2,  -7.6,  -6.7,  -3.4,  0,     0 };
+                                     -9.6,  -9.2,  -8.7,  -8.2,  -7.6,  -6.7,  -3.4,  0,     0
+                                   };
 }
 
-KSMoon::KSMoon() : KSPlanetBase(I18N_NOOP("Moon"), QString(), QColor("white"), 3474.8 /*diameter in km*/)
+KSMoon::KSMoon() : KSPlanetBase(i18n("Moon"), QString(), QColor("white"), 3474.8 /*diameter in km*/)
 {
     instance_count++;
     //Reset object type
