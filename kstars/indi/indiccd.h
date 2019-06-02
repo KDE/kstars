@@ -373,5 +373,7 @@ class CCD : public DeviceDecorator
 
         QPointer<FITSViewer> m_FITSViewerWindows;
         QPointer<ImageViewer> m_ImageViewerWindow;
+
+        QDateTime m_LastNotificationTS;
 };
 }

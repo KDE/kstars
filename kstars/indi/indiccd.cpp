@@ -817,6 +817,8 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
         if (!strcmp(device, getDeviceName()))
             emit newBLOBManager(prop);
     });
+
+    m_LastNotificationTS = QDateTime::currentDateTime();
 }
 
 void CCD::registerProperty(INDI::Property *prop)
@@ -1381,8 +1383,12 @@ void CCD::processBLOB(IBLOB *bp)
         qCInfo(KSTARS_INDI) << shortFormat.toUpper() << "file saved to" << filename;
     }
 
-    // FIXME: Why is this leaking memory in Valgrind??!
-    KNotification::event(QLatin1String("FITSReceived"), i18n("Image file is received"));
+    // Don't spam, just one notification per 3 seconds
+    if (QDateTime::currentDateTime().secsTo(m_LastNotificationTS) <= -3)
+    {
+        KNotification::event(QLatin1String("FITSReceived"), i18n("Image file is received"));
+        m_LastNotificationTS = QDateTime::currentDateTime();
+    }
 
     // Check if we need to process RAW or regular image
     if (BType == BLOB_IMAGE || BType == BLOB_RAW)
