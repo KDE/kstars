@@ -1,6 +1,6 @@
 package org.kde.kstars.math;
 
-import android.util.FloatMath;
+import android.util.Math;
 
 public class Util {
 	/**
@@ -21,7 +21,7 @@ public class Util {
 	 * @return
 	 */
 	public static float calcDistance(Vector3 a, Vector3 b) {
-		return FloatMath.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
+		return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class Util {
 	 * @return
 	 */
 	public static float calcRadius(float a, float b, float c) {
-		return (a * b * c) / FloatMath.sqrt((a + b + c) * (a - b + c) * (a + b - c) * (b + c - a));
+		return (a * b * c) / Math.sqrt((a + b + c) * (a - b + c) * (a + b - c) * (b + c - a));
 	}
 
 	/**
