@@ -24,7 +24,7 @@ import org.kde.kstars.math.Util;
 import org.kde.kstars.math.Vector3;
 import org.kde.kstars.math.Vector4;
 
-import android.util.FloatMath;
+import android.util.Math;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -298,7 +298,7 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
                     angle = left % POINTS_PER_SEGMENT * angleIncrement;
                     distLR = Util.calcDistance(mVertices.get(closestPoint), neighborPoint);
 
-                    deviceBearing = Util.floatrev(angle + angleIncrement * ((FloatMath.cos(Util.calcAngleClamp(distToR, Util.calcRadius(distToL, distToR, distLR))) * distToL) / distLR) - 180);
+                    deviceBearing = Util.floatrev(angle + angleIncrement * ((Math.cos(Util.calcAngleClamp(distToR, Util.calcRadius(distToL, distToR, distLR))) * distToL) / distLR) - 180);
             } else {
                     // calc current N Point distance from original compass points
                     mNorthAbsolute.set(0.5f * xScale, 0.2f * xScale + (yScale - xScale) / 2, 0);
@@ -358,9 +358,9 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
                             topBot = mSphereBottom;
                     }
 
-                    float adist = FloatMath.sqrt((upDown.x - mOriginPoint.x) * (upDown.x - mOriginPoint.x) + (upDown.y - mOriginPoint.y) * (upDown.y - mOriginPoint.y));
-                    float bdist = FloatMath.sqrt((upDown.x - topBot.x) * (upDown.x - topBot.x) + (upDown.y - topBot.y) * (upDown.y - topBot.y));
-                    float cdist = FloatMath.sqrt((mOriginPoint.x - topBot.x) * (mOriginPoint.x - topBot.x) + (mOriginPoint.y - topBot.y) * (mOriginPoint.y - topBot.y));
+                    float adist = Math.sqrt((upDown.x - mOriginPoint.x) * (upDown.x - mOriginPoint.x) + (upDown.y - mOriginPoint.y) * (upDown.y - mOriginPoint.y));
+                    float bdist = Math.sqrt((upDown.x - topBot.x) * (upDown.x - topBot.x) + (upDown.y - topBot.y) * (upDown.y - topBot.y));
+                    float cdist = Math.sqrt((mOriginPoint.x - topBot.x) * (mOriginPoint.x - topBot.x) + (mOriginPoint.y - topBot.y) * (mOriginPoint.y - topBot.y));
 
                     float val = ((adist * adist) + (cdist * cdist) - (bdist * bdist)) / (2 * adist * cdist);
                     if (val < 1) {
@@ -403,11 +403,11 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
 
             for (int j = 0; j < NUM_SEGMENTS; j++) {
                     int idx = j - 5;
-                    float jCosVal = FloatMath.cos(DEGREES_TO_RADIANS * (float) (idx * 15));
-                    float jCosValInv = FloatMath.cos(DEGREES_TO_RADIANS * (float) (90 - idx * 15));
+                    float jCosVal = Math.cos(DEGREES_TO_RADIANS * (float) (idx * 15));
+                    float jCosValInv = Math.cos(DEGREES_TO_RADIANS * (float) (90 - idx * 15));
                     for (int i = 0; i < POINTS_PER_SEGMENT; i++) {
-                            float sinVal = FloatMath.sin(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
-                            float cosVal = FloatMath.cos(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
+                            float sinVal = Math.sin(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
+                            float cosVal = Math.cos(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
                             mVertices.get(i + (POINTS_PER_SEGMENT * j)).set(sinVal * jCosVal * 1, -cosVal * jCosVal * 1, jCosValInv * 1);
                     }
             }
