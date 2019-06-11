@@ -8,6 +8,7 @@
  */
 
 #include "observatorydomemodel.h"
+#include <KLocalizedString>
 
 namespace Ekos
 {
@@ -45,7 +46,7 @@ void ObservatoryDomeModel::park()
     if (mDome == nullptr)
         return;
 
-    emit newLog("Parking dome...");
+    emit newLog(i18n("Parking dome..."));
     mDome->park();
 }
 
@@ -55,7 +56,7 @@ void ObservatoryDomeModel::unpark()
     if (mDome == nullptr)
         return;
 
-    emit newLog("Unparking dome...");
+    emit newLog(i18n("Unparking dome..."));
     mDome->unpark();
 }
 
@@ -64,7 +65,7 @@ void ObservatoryDomeModel::openShutter()
     if (mDome == nullptr)
         return;
 
-    emit newLog("Opening shutter...");
+    emit newLog(i18n("Opening shutter..."));
     mDome->controlShutter(true);
 }
 
@@ -73,7 +74,7 @@ void ObservatoryDomeModel::closeShutter()
     if (mDome == nullptr)
         return;
 
-    emit newLog("Closing shutter...");
+    emit newLog(i18n("Closing shutter..."));
     mDome->controlShutter(false);
 }
 

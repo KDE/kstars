@@ -9,6 +9,7 @@
 
 #include "observatoryweathermodel.h"
 #include "Options.h"
+#include <KLocalizedString>
 
 namespace Ekos
 {
@@ -41,8 +42,14 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
     alertTimer.setInterval(alertActions.delay * 1000);
     alertTimer.setSingleShot(true);
 
-    connect(&warningTimer, &QTimer::timeout, [this]() { execute(warningActions); });
-    connect(&alertTimer, &QTimer::timeout, [this]() { execute(alertActions); });
+    connect(&warningTimer, &QTimer::timeout, [this]()
+    {
+        execute(warningActions);
+    });
+    connect(&alertTimer, &QTimer::timeout, [this]()
+    {
+        execute(alertActions);
+    });
 
     if (mWeather->status() != ISD::Weather::WEATHER_IDLE)
         emit ready();
@@ -82,7 +89,8 @@ void ObservatoryWeatherModel::setAlertActionsActive(bool active)
         alertTimer.start();
 }
 
-void ObservatoryWeatherModel::setWarningActions(WeatherActions actions) {
+void ObservatoryWeatherModel::setWarningActions(WeatherActions actions)
+{
     warningActions = actions;
     Options::setWeatherWarningCloseDome(actions.parkDome);
     Options::setWeatherWarningCloseShutter(actions.closeShutter);
@@ -95,15 +103,15 @@ QString ObservatoryWeatherModel::getWarningActionsStatus()
 {
     if (warningTimer.isActive())
     {
-        QString status;
-        int remaining = warningTimer.remainingTime()/1000;
-        return status.sprintf("%02ds remaining", remaining);
+        int remaining = warningTimer.remainingTime() / 1000;
+        return i18np("%1 second remaining", "%1 seconds remaining", QString::number(remaining));
     }
 
-    return "Status: inactive";
+    return i18n("Status: inactive");
 }
 
-void ObservatoryWeatherModel::setAlertActions(WeatherActions actions) {
+void ObservatoryWeatherModel::setAlertActions(WeatherActions actions)
+{
     alertActions = actions;
     Options::setWeatherAlertCloseDome(actions.parkDome);
     Options::setWeatherAlertCloseShutter(actions.closeShutter);
@@ -115,12 +123,11 @@ QString ObservatoryWeatherModel::getAlertActionsStatus()
 {
     if (alertTimer.isActive())
     {
-        QString status;
-        int remaining = alertTimer.remainingTime()/1000;
-        return status.sprintf("%02ds remaining", remaining);
+        int remaining = alertTimer.remainingTime() / 1000;
+        return i18np("%1 second remaining", "%1 seconds remaining", QString::number(remaining));
     }
 
-    return "Status: inactive";
+    return i18n("Status: inactive");
 }
 
 void ObservatoryWeatherModel::updateWeatherStatus()
@@ -132,23 +139,24 @@ void ObservatoryWeatherModel::updateWeatherStatus()
 
 void ObservatoryWeatherModel::weatherChanged(ISD::Weather::Status status)
 {
-    switch (status) {
-    case ISD::Weather::WEATHER_OK:
-        warningTimer.stop();
-        alertTimer.stop();
-        break;
-    case ISD::Weather::WEATHER_WARNING:
-        if (warningActionsActive)
-            warningTimer.start();
-        alertTimer.stop();
-        break;
-    case ISD::Weather::WEATHER_ALERT:
-        warningTimer.stop();
-        if (alertActionsActive)
-            alertTimer.start();
-        break;
-    default:
-        break;
+    switch (status)
+    {
+        case ISD::Weather::WEATHER_OK:
+            warningTimer.stop();
+            alertTimer.stop();
+            break;
+        case ISD::Weather::WEATHER_WARNING:
+            if (warningActionsActive)
+                warningTimer.start();
+            alertTimer.stop();
+            break;
+        case ISD::Weather::WEATHER_ALERT:
+            warningTimer.stop();
+            if (alertActionsActive)
+                alertTimer.start();
+            break;
+        default:
+            break;
     }
     emit newStatus(status);
 }

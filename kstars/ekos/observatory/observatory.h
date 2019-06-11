@@ -19,72 +19,84 @@
 #include <QObject>
 #include "klocalizedstring.h"
 
-
 namespace Ekos
 {
 
 class Observatory : public QWidget, public Ui::Observatory
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Observatory")
-    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+        Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Observatory")
+        Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
-public:
-    Observatory();
-    ObservatoryDomeModel *getDomeModel() { return mObservatoryModel->getDomeModel(); }
-    ObservatoryWeatherModel *getWeatherModel() { return mObservatoryModel->getWeatherModel(); }
+    public:
+        Observatory();
+        ObservatoryDomeModel *getDomeModel()
+        {
+            return mObservatoryModel->getDomeModel();
+        }
+        ObservatoryWeatherModel *getWeatherModel()
+        {
+            return mObservatoryModel->getWeatherModel();
+        }
 
-    // Logging
-    QStringList logText() { return m_LogText; }
-    QString getLogText() { return m_LogText.join("\n"); }
+        // Logging
+        QStringList logText()
+        {
+            return m_LogText;
+        }
+        QString getLogText()
+        {
+            return m_LogText.join("\n");
+        }
 
-signals:
-    Q_SCRIPTABLE void newLog(const QString &text);
+        void clearLog();
 
-    /**
-     * @brief Signal a new observatory status
-     */
-    Q_SCRIPTABLE void newStatus(bool isReady);
+    signals:
+        Q_SCRIPTABLE void newLog(const QString &text);
 
-private:
-    ObservatoryModel *mObservatoryModel = nullptr;
+        /**
+         * @brief Signal a new observatory status
+         */
+        Q_SCRIPTABLE void newStatus(bool isReady);
 
-    void setDomeModel(ObservatoryDomeModel *model);
-    void setWeatherModel(ObservatoryWeatherModel *model);
+    private:
+        ObservatoryModel *mObservatoryModel = nullptr;
 
-    // Logging
-    QStringList m_LogText;
-    void appendLogText(const QString &);
-    void clearLog();
+        void setDomeModel(ObservatoryDomeModel *model);
+        void setWeatherModel(ObservatoryWeatherModel *model);
 
-    // timer for refreshing the observatory status
-    QTimer weatherStatusTimer;
+        // Logging
+        QStringList m_LogText;
+        void appendLogText(const QString &);
 
-    // reacting on weather changes
-    void setWarningActions(WeatherActions actions);
-    void setAlertActions(WeatherActions actions);
+        // timer for refreshing the observatory status
+        QTimer weatherStatusTimer;
 
-private slots:
-    // observatory status handling
-    void setObseratoryStatusControl(ObservatoryStatusControl control);
-    void statusControlSettingsChanged();
+        // reacting on weather changes
+        void setWarningActions(WeatherActions actions);
+        void setAlertActions(WeatherActions actions);
 
-    void initWeather();
-    void shutdownWeather();
-    void setWeatherStatus(ISD::Weather::Status status);
+    private slots:
+        // observatory status handling
+        void setObseratoryStatusControl(ObservatoryStatusControl control);
+        void statusControlSettingsChanged();
+
+        void initWeather();
+        void shutdownWeather();
+        void setWeatherStatus(ISD::Weather::Status status);
 
 
-    // reacting on weather changes
-    void weatherWarningSettingsChanged();
-    void weatherAlertSettingsChanged();
+        // reacting on weather changes
+        void weatherWarningSettingsChanged();
+        void weatherAlertSettingsChanged();
 
-    // reacting on observatory status changes
-    void observatoryStatusChanged(bool ready);
+        // reacting on observatory status changes
+        void observatoryStatusChanged(bool ready);
 
-    void initDome();
-    void shutdownDome();
+        void initDome();
+        void shutdownDome();
 
-    void setDomeStatus(ISD::Dome::Status status);
-    void setShutterStatus(ISD::Dome::ShutterStatus status);
+        void setDomeStatus(ISD::Dome::Status status);
+        void setShutterStatus(ISD::Dome::ShutterStatus status);
 };
 }
