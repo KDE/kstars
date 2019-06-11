@@ -366,11 +366,16 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             }
             else
             {
-                // settle completed after "guide" command
-
-                if (!error)
+                if (error)
                 {
+                    emit newLog(i18n("PHD2: Settling failed, aborted."));
+                    emit newStatus(GUIDE_ABORTED);
+                }
+                else
+                {
+                    // settle completed after "guide" command
                     emit newLog(i18n("PHD2: Settling complete, Guiding Started."));
+                    emit newStatus(GUIDE_GUIDING);
                 }
             }
         }
@@ -655,6 +660,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         //shutdown
 
         case STOP_CAPTURE_COMMAND_RECEIVED:         //stop_capture
+        emit newStatus(GUIDE_ABORTED);
             break;
     }
 

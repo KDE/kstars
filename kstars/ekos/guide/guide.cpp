@@ -1604,7 +1604,12 @@ void Guide::clearCalibration()
 void Guide::setStatus(Ekos::GuideState newState)
 {
     if (newState == state)
+    {
+        // pass through the aborted state
+        if (newState == GUIDE_ABORTED)
+            emit newStatus(state);
         return;
+    }
 
     GuideState previousState = state;
 
