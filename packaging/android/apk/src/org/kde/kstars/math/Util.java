@@ -1,6 +1,6 @@
 package org.kde.kstars.math;
 
-import android.util.Math;
+import java.lang.Math;
 
 public class Util {
 	/**
