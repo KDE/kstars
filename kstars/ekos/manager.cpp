@@ -1915,6 +1915,8 @@ void Manager::clearLog()
         mountProcess->clearLog();
     else if (currentWidget == schedulerProcess.get())
         schedulerProcess->clearLog();
+    else if (currentWidget == observatoryProcess.get())
+        observatoryProcess->clearLog();
 }
 
 void Manager::initCapture()

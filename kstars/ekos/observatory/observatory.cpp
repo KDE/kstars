@@ -64,27 +64,46 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
 
         connect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         connect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
-        connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i) { Q_UNUSED(i); weatherWarningSettingsChanged(); });
+        connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
+        {
+            Q_UNUSED(i);
+            weatherWarningSettingsChanged();
+        });
 
         connect(weatherAlertShutterCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
         connect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
-        connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i) { Q_UNUSED(i); weatherAlertSettingsChanged(); });
+        connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
+        {
+            Q_UNUSED(i);
+            weatherAlertSettingsChanged();
+        });
     }
     else
     {
         shutdownDome();
-        disconnect(model, &Ekos::ObservatoryDomeModel::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
-        disconnect(model, &Ekos::ObservatoryDomeModel::newStatus, this, &Ekos::Observatory::setDomeStatus);
-        disconnect(model, &Ekos::ObservatoryDomeModel::ready, this, &Ekos::Observatory::initDome);
-        disconnect(model, &Ekos::ObservatoryDomeModel::disconnected, this, &Ekos::Observatory::shutdownDome);
+
+
+        // JM 2019-06-11: You cannot disconnect a nullptr here.
+        //        disconnect(model, &Ekos::ObservatoryDomeModel::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
+        //        disconnect(model, &Ekos::ObservatoryDomeModel::newStatus, this, &Ekos::Observatory::setDomeStatus);
+        //        disconnect(model, &Ekos::ObservatoryDomeModel::ready, this, &Ekos::Observatory::initDome);
+        //        disconnect(model, &Ekos::ObservatoryDomeModel::disconnected, this, &Ekos::Observatory::shutdownDome);
 
         disconnect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         disconnect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
-        connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i) { Q_UNUSED(i); weatherWarningSettingsChanged(); });
+        connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
+        {
+            Q_UNUSED(i);
+            weatherWarningSettingsChanged();
+        });
 
         disconnect(weatherAlertShutterCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
         disconnect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
-        connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i) { Q_UNUSED(i); weatherWarningSettingsChanged(); });
+        connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
+        {
+            Q_UNUSED(i);
+            weatherWarningSettingsChanged();
+        });
     }
 }
 
@@ -150,74 +169,74 @@ void Observatory::shutdownDome()
 
 void Observatory::setDomeStatus(ISD::Dome::Status status)
 {
-    switch (status) {
-    case ISD::Dome::DOME_ERROR:
-        break;
-    case ISD::Dome::DOME_IDLE:
-        domePark->setChecked(false);
-        domePark->setText("PARK");
-        domeUnpark->setChecked(true);
-        domeUnpark->setText("UNPARKED");
-        appendLogText("Dome is unparked.");
-        break;
-    case ISD::Dome::DOME_MOVING:
-        appendLogText("Dome is moving...");
-        break;
-    case ISD::Dome::DOME_PARKED:
-        domePark->setChecked(true);
-        domePark->setText("PARKED");
-        domeUnpark->setChecked(false);
-        domeUnpark->setText("UNPARK");
-        appendLogText("Dome is parked.");
-        break;
-    case ISD::Dome::DOME_PARKING:
-        domePark->setText("PARKING");
-        domeUnpark->setText("UNPARK");
-        appendLogText("Dome is parking...");
-        break;
-    case ISD::Dome::DOME_UNPARKING:
-        domePark->setText("PARK");
-        domeUnpark->setText("UNPARKING");
-        appendLogText("Dome is unparking...");
-        break;
-    case ISD::Dome::DOME_TRACKING:
-        appendLogText("Dome is tracking.");
-        break;
-    default:
-        break;
+    switch (status)
+    {
+        case ISD::Dome::DOME_ERROR:
+            break;
+        case ISD::Dome::DOME_IDLE:
+            domePark->setChecked(false);
+            domePark->setText(i18n("Park"));
+            domeUnpark->setChecked(true);
+            domeUnpark->setText(i18n("UnParked"));
+            appendLogText(i18n("Dome is unparked."));
+            break;
+        case ISD::Dome::DOME_MOVING:
+            appendLogText(i18n("Dome is moving..."));
+            break;
+        case ISD::Dome::DOME_PARKED:
+            domePark->setChecked(true);
+            domePark->setText(i18n("Parked"));
+            domeUnpark->setChecked(false);
+            domeUnpark->setText(i18n("UnPark"));
+            appendLogText(i18n("Dome is parked."));
+            break;
+        case ISD::Dome::DOME_PARKING:
+            domePark->setText(i18n("Parking"));
+            domeUnpark->setText(i18n("UnPark"));
+            appendLogText(i18n("Dome is parking..."));
+            break;
+        case ISD::Dome::DOME_UNPARKING:
+            domePark->setText(i18n("Park"));
+            domeUnpark->setText(i18n("UnParking"));
+            appendLogText(i18n("Dome is unparking..."));
+            break;
+        case ISD::Dome::DOME_TRACKING:
+            appendLogText(i18n("Dome is tracking."));
+            break;
     }
 }
 
 
 void Observatory::setShutterStatus(ISD::Dome::ShutterStatus status)
 {
-    switch (status) {
-    case ISD::Dome::SHUTTER_OPEN:
-        shutterOpen->setChecked(true);
-        shutterClosed->setChecked(false);
-        shutterOpen->setText("OPEN");
-        shutterClosed->setText("CLOSE");
-        appendLogText("Shutter is open.");
-        break;
-    case ISD::Dome::SHUTTER_OPENING:
-        shutterOpen->setText("OPENING");
-        shutterClosed->setText("CLOSED");
-        appendLogText("Shutter is opening...");
-        break;
-    case ISD::Dome::SHUTTER_CLOSED:
-        shutterOpen->setChecked(false);
-        shutterClosed->setChecked(true);
-        shutterOpen->setText("OPEN");
-        shutterClosed->setText("CLOSED");
-        appendLogText("Shutter is closed.");
-        break;
-    case ISD::Dome::SHUTTER_CLOSING:
-        shutterOpen->setText("OPEN");
-        shutterClosed->setText("CLOSING");
-        appendLogText("Shutter is closing...");
-        break;
-    default:
-        break;
+    switch (status)
+    {
+        case ISD::Dome::SHUTTER_OPEN:
+            shutterOpen->setChecked(true);
+            shutterClosed->setChecked(false);
+            shutterOpen->setText(i18n("Opened"));
+            shutterClosed->setText(i18n("Close"));
+            appendLogText(i18n("Shutter is open."));
+            break;
+        case ISD::Dome::SHUTTER_OPENING:
+            shutterOpen->setText(i18n("Opening"));
+            shutterClosed->setText(i18n("Closed"));
+            appendLogText(i18n("Shutter is opening..."));
+            break;
+        case ISD::Dome::SHUTTER_CLOSED:
+            shutterOpen->setChecked(false);
+            shutterClosed->setChecked(true);
+            shutterOpen->setText(i18n("Open"));
+            shutterClosed->setText(i18n("Closed"));
+            appendLogText(i18n("Shutter is closed."));
+            break;
+        case ISD::Dome::SHUTTER_CLOSING:
+            shutterOpen->setText(i18n("Opened"));
+            shutterClosed->setText(i18n("Closing"));
+            appendLogText(i18n("Shutter is closing..."));
+            break;
+        default:
+            break;
     }
 }
 
@@ -245,12 +264,14 @@ void Observatory::setWeatherModel(ObservatoryWeatherModel *model)
     else
     {
         shutdownWeather();
-        disconnect(model, &Ekos::ObservatoryWeatherModel::newStatus, this, &Ekos::Observatory::setWeatherStatus);
-        disconnect(model, &Ekos::ObservatoryWeatherModel::disconnected, this, &Ekos::Observatory::shutdownWeather);
-        disconnect(model, &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
 
-        disconnect(weatherWarningBox, &QGroupBox::clicked, model, &ObservatoryWeatherModel::setWarningActionsActive);
-        disconnect(weatherAlertBox, &QGroupBox::clicked, model, &ObservatoryWeatherModel::setAlertActionsActive);
+        // 2019-06-11 JM: Cannot disconnect a nullptr
+        //        disconnect(model, &Ekos::ObservatoryWeatherModel::newStatus, this, &Ekos::Observatory::setWeatherStatus);
+        //        disconnect(model, &Ekos::ObservatoryWeatherModel::disconnected, this, &Ekos::Observatory::shutdownWeather);
+        //        disconnect(model, &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
+
+        //disconnect(weatherWarningBox, &QGroupBox::clicked, model, &ObservatoryWeatherModel::setWarningActionsActive);
+        //disconnect(weatherAlertBox, &QGroupBox::clicked, model, &ObservatoryWeatherModel::setAlertActionsActive);
     }
 }
 
@@ -280,26 +301,26 @@ void Observatory::shutdownWeather()
 void Observatory::setWeatherStatus(ISD::Weather::Status status)
 {
     std::string label;
-    switch (status) {
-    case ISD::Weather::WEATHER_OK:
-        label = "security-high";
-        appendLogText("Weather is OK.");
-        break;
-    case ISD::Weather::WEATHER_WARNING:
-        label = "security-medium";
-        appendLogText("Weather WARNING!");
-        break;
-    case ISD::Weather::WEATHER_ALERT:
-        label = "security-low";
-        appendLogText("!! WEATHER ALERT !!");
-        break;
-    default:
-        label = "";
-        break;
+    switch (status)
+    {
+        case ISD::Weather::WEATHER_OK:
+            label = "security-high";
+            appendLogText(i18n("Weather is OK"));
+            break;
+        case ISD::Weather::WEATHER_WARNING:
+            label = "security-medium";
+            appendLogText(i18n("Weather Warning"));
+            break;
+        case ISD::Weather::WEATHER_ALERT:
+            label = "security-low";
+            appendLogText(i18n("Weather Alert"));
+            break;
+        default:
+            label = "";
+            break;
     }
 
-    weatherStatusLabel->setPixmap(QIcon::fromTheme(label.c_str())
-                                  .pixmap(QSize(48, 48)));
+    weatherStatusLabel->setPixmap(QIcon::fromTheme(label.c_str()).pixmap(QSize(48, 48)));
 }
 
 

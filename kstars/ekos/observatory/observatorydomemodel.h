@@ -20,38 +20,43 @@ namespace Ekos
 
 class ObservatoryDomeModel: public QObject
 {
+        Q_OBJECT
 
-    Q_OBJECT
+    public:
+        ObservatoryDomeModel() = default;
 
-public:
-    ObservatoryDomeModel() = default;
+        void initModel(Dome *dome);
 
-    void initModel(Dome *dome);
+        ISD::Dome::Status status();
+        ISD::Dome::ShutterStatus shutterStatus();
 
-    ISD::Dome::Status status();
-    ISD::Dome::ShutterStatus shutterStatus();
+        // proxies to the underlying dome object
+        bool canPark()
+        {
+            return (mDome != nullptr && mDome->canPark());
+        }
+        void park();
+        void unpark();
+        bool hasShutter()
+        {
+            return (mDome != nullptr && mDome->hasShutter());
+        }
+        void openShutter();
+        void closeShutter();
 
-    // proxies to the underlying dome object
-    bool canPark() { return (mDome != nullptr && mDome->canPark()); }
-    void park();
-    void unpark();
-    bool hasShutter() { return (mDome != nullptr && mDome->hasShutter()); }
-    void openShutter();
-    void closeShutter();
-
-public slots:
-    void execute(WeatherActions actions);
+    public slots:
+        void execute(WeatherActions actions);
 
 
-private:
-    Dome *mDome;
+    private:
+        Dome *mDome;
 
-signals:
-    void newStatus(ISD::Dome::Status state);
-    void newShutterStatus(ISD::Dome::ShutterStatus status);
-    void ready();
-    void disconnected();
-    void newLog(const QString &text);
+    signals:
+        void newStatus(ISD::Dome::Status state);
+        void newShutterStatus(ISD::Dome::ShutterStatus status);
+        void ready();
+        void disconnected();
+        void newLog(const QString &text);
 };
 
 }
