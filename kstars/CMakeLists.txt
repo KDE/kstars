@@ -127,6 +127,7 @@ if (INDI_FOUND)
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
             ekos/guide/manualdither.ui
+            ekos/observatory/observatory.ui
             #TODO remove from GIT
             #ekos/guide/guider.ui
             #ekos/guide/rcalibration.ui
@@ -202,6 +203,12 @@ if (INDI_FOUND)
             # External Guide
             ekos/guide/externalguide/phd2.cpp
             ekos/guide/externalguide/linguider.cpp
+
+            #Observatory
+            ekos/observatory/observatory.cpp
+            ekos/observatory/observatorymodel.cpp
+            ekos/observatory/observatorydomemodel.cpp
+            ekos/observatory/observatoryweathermodel.cpp
 
             # Ekos Live
             ekos/ekoslive/ekosliveclient.cpp
@@ -939,6 +946,7 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_align_debug.h IDENTIFIER
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_guide_debug.h IDENTIFIER KSTARS_EKOS_GUIDE CATEGORY_NAME org.kde.kstars.ekos.guide)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER KSTARS_EKOS_MOUNT CATEGORY_NAME org.kde.kstars.ekos.mount)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDENTIFIER KSTARS_EKOS_OBSERVATORY CATEGORY_NAME org.kde.kstars.ekos.observatory)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
@@ -972,6 +980,7 @@ IF (NOT ANDROID)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
     ENDIF ()
 
     ki18n_wrap_ui(kstars_SRCS

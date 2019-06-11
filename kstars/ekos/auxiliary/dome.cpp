@@ -39,8 +39,11 @@ void Dome::setDome(ISD::GDInterface *newDome)
     connect(currentDome, &ISD::Dome::newStatus, this, &Dome::newStatus);
     connect(currentDome, &ISD::Dome::newParkStatus, this, &Dome::newParkStatus);
     connect(currentDome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status) {m_ParkStatus = status;});
+    connect(currentDome, &ISD::Dome::newShutterStatus, this, &Dome::newShutterStatus);
+    connect(currentDome, &ISD::Dome::newShutterStatus, [&](ISD::Dome::ShutterStatus status) {m_ShutterStatus = status;});
     connect(currentDome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
     connect(currentDome, &ISD::Dome::ready, this, &Dome::ready);
+    connect(currentDome, &ISD::Dome::Disconnected, this, &Dome::disconnected);
 }
 
 void Dome::setTelescope(ISD::GDInterface *newTelescope)
@@ -119,6 +122,23 @@ void Dome::setAzimuthPosition(double position)
 {
     if (currentDome)
         currentDome->setAzimuthPosition(position);
+}
+
+bool Dome::hasShutter()
+{
+    if (currentDome)
+        return currentDome->hasShutter();
+    // no dome, no shutter
+    return false;
+}
+
+bool Dome::controlShutter(bool open)
+{
+
+    if (currentDome)
+        return currentDome->ControlShutter(open);
+    // no dome, no shutter control
+    return false;
 }
 
 #if 0

@@ -1,0 +1,9 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.Observatory">
+    <property name="logText" type="as" access="read"/>
+    <signal name="newStatus">
+        <arg name="isReady" type="b" direction="out"/>
+    </signal>
+  </interface>
+</node>

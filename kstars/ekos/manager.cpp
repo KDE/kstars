@@ -431,6 +431,7 @@ void Manager::reset()
     alignProcess.reset();
     mountProcess.reset();
     weatherProcess.reset();
+    observatoryProcess.reset();
     dustCapProcess.reset();
 
     Ekos::CommunicationStatus previousStatus = m_ekosStatus;
@@ -1870,8 +1871,10 @@ void Manager::updateLog()
         ekosLogOut->setPlainText(guideProcess->getLogText());
     else if (currentWidget == mountProcess.get())
         ekosLogOut->setPlainText(mountProcess->getLogText());
-    if (currentWidget == schedulerProcess.get())
+    else if (currentWidget == schedulerProcess.get())
         ekosLogOut->setPlainText(schedulerProcess->getLogText());
+    else if (currentWidget == observatoryProcess.get())
+        ekosLogOut->setPlainText(observatoryProcess->getLogText());
 
 #ifdef Q_OS_OSX
     repaint(); //This is a band-aid for a bug in QT 5.10.0
@@ -2222,6 +2225,7 @@ void Manager::initDome()
         ekosLiveClient.get()->message()->updateDomeStatus(status);
     });
 
+    initObservatory(nullptr, domeProcess.get());
     emit newModule("Dome");
 
     ekosLiveClient->message()->sendDomes();
@@ -2233,8 +2237,30 @@ void Manager::initWeather()
         return;
 
     weatherProcess.reset(new Ekos::Weather());
+    initObservatory(weatherProcess.get(), nullptr);
 
     emit newModule("Weather");
+}
+
+void Manager::initObservatory(Weather *weather, Dome *dome)
+{
+    if (observatoryProcess.get() == nullptr)
+    {
+        // Initialize the Observatory Module
+        observatoryProcess.reset(new Ekos::Observatory());
+        int index = toolsWidget->addTab(observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"), "");
+        toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
+        connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
+    }
+
+    Observatory *obs = observatoryProcess.get();
+    if (weather != nullptr)
+        obs->getWeatherModel()->initModel(weather);
+    if (dome != nullptr)
+        obs->getDomeModel()->initModel(dome);
+
+    emit newModule("Observatory");
+
 }
 
 void Manager::initDustCap()
@@ -2293,6 +2319,7 @@ void Manager::removeTabs()
     mountProcess.reset();
     domeProcess.reset();
     weatherProcess.reset();
+    observatoryProcess.reset();
     dustCapProcess.reset();
 
     managedDevices.clear();
