@@ -24,7 +24,7 @@ import org.kde.kstars.math.Util;
 import org.kde.kstars.math.Vector3;
 import org.kde.kstars.math.Vector4;
 
-import android.util.Math;
+import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
