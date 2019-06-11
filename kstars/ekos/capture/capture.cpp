@@ -247,26 +247,11 @@ Capture::Capture()
         Options::setRefocusEveryN(refocusEveryN->value());
     });
 
-    // 7. Meridian Check
-    meridianCheck->setChecked(Options::autoMeridianFlip());
-    connect(meridianCheck, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        Options::setAutoMeridianFlip(checked);
-    });
-
-    // 8. Meridian hours
-    meridianHours->setValue(Options::autoMeridianHours());
-    connect(meridianHours, &QDoubleSpinBox::editingFinished, [ = ]()
-    {
-        Options::setAutoMeridianHours(meridianHours->value());
-    });
-
     QCheckBox * const checkBoxes[] =
     {
         guideDeviationCheck,
         refocusEveryNCheck,
         guideDeviationCheck,
-        meridianCheck
     };
     for (const QCheckBox * control : checkBoxes)
         connect(control, &QCheckBox::toggled, this, &Ekos::Capture::setDirty);
@@ -275,7 +260,6 @@ Capture::Capture()
     {
         HFRPixels,
         guideDeviation,
-        meridianHours
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Capture::setDirty);
@@ -308,10 +292,6 @@ Capture::Capture()
         customPropertiesDialog.get()->show();
         customPropertiesDialog.get()->raise();
     });
-
-    // meridian flip
-    connect(meridianCheck, &QCheckBox::toggled, this, &Ekos::Capture::meridianFlipSetupChanged);
-    connect(meridianHours, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Capture::meridianFlipSetupChanged);
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
     flatFieldDuration = static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex());
@@ -471,9 +451,6 @@ void Capture::start()
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
-
-    // propagate the meridian flip values
-    meridianFlipSetupChanged();
 
     // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
     ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
@@ -3391,8 +3368,6 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
             prefixIN->setText(target);
     });
 
-    meridianHours->setEnabled(true);
-
     syncTelescopeInfo();
 }
 
@@ -3513,8 +3488,10 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
-                    meridianCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    meridianHours->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                    // meridian flip is managed by the mount only
+                    // older files might nevertheless contain MF settings
+                    if (! strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                        appendLogText(i18n("Meridian flip configuration has been shifted to the mount module. Please configure the meridian flip there."));
                 }
                 else if (!strcmp(tagXMLEle(ep), "CCD"))
                 {
@@ -3861,8 +3838,6 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(Options::saveHFRToFile() ? HFRPixels->value() : 0) << "</Autofocus>" << endl;
     outstream << "<RefocusEveryN enabled='" << (refocusEveryNCheck->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(refocusEveryN->value()) << "</RefocusEveryN>" << endl;
-    outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(meridianHours->value()) << "</MeridianFlip>" << endl;
     foreach (SequenceJob * job, jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
@@ -4472,7 +4447,7 @@ void Capture::checkGuidingAfterFlip()
 
 bool Capture::checkMeridianFlip()
 {
-    if (currentTelescope == nullptr || meridianCheck->isChecked() == false)
+    if (currentTelescope == nullptr)
         return false;
 
     // If active job is taking flat field image at a wall source
@@ -4772,18 +4747,6 @@ void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
 void Capture::setDirty()
 {
     m_Dirty = true;
-}
-
-void Capture::meridianFlipSetupChanged()
-{
-    emit newMeridianFlipSetup(meridianCheck->isChecked(), meridianHours->value());
-}
-
-
-void Capture::setMeridianFlipValues(bool activate, double hours)
-{
-    meridianCheck->setChecked(activate);
-    meridianHours->setValue(hours);
 }
 
 

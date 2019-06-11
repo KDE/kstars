@@ -96,11 +96,6 @@
       <arg name="count" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setMeridianFlipValues">
-      <arg name="activate" type="b" direction="in"/>
-      <arg name="hours" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>
@@ -113,10 +108,6 @@
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CaptureState"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CaptureState"/>
-    </signal>
-    <signal name="newMeridianFlipSetup">
-        <arg name="activate" type="b" direction="in"/>
-        <arg name="hours" type="d" direction="in"/>
     </signal>
     <signal name="ready"/>
   </interface>

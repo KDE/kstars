@@ -370,7 +370,6 @@ private slots:
     void slewRateChanged(int index);
     void ready();
     void newMeridianFlipStatus(MeridianFlipStatus status);
-    void newMeridianFlipSetup(bool activate, double hours);
 
 private:
     void syncGPS();
