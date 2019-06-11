@@ -372,6 +372,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         void toggleScheduler();
         void pause();
+        void setPaused();
         void save();
         void saveAs();
         void load();

@@ -765,6 +765,14 @@
             <property name="toolTip">
              <string>Start Scheduler</string>
             </property>
+             <property name="styleSheet">
+               <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -796,8 +804,19 @@
             <property name="toolTip">
              <string>Pause Scheduler</string>
             </property>
+            <property name="styleSheet">
+               <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="checkable">
+               <bool>true</bool>
             </property>
            </widget>
           </item>
