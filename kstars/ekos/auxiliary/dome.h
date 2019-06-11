@@ -91,6 +91,9 @@ class Dome : public QObject
     Q_SCRIPTABLE double azimuthPosition();
     Q_SCRIPTABLE void setAzimuthPosition(double position);
 
+    Q_SCRIPTABLE bool hasShutter();
+    Q_SCRIPTABLE bool controlShutter(bool open);
+
     /** @}*/
 
     /**
@@ -106,18 +109,23 @@ class Dome : public QObject
     void setTelescope(ISD::GDInterface *newTelescope);
 
     ISD::Dome::Status status() { return currentDome->status(); }
+    ISD::Dome::ShutterStatus shutterStatus() { return currentDome->shutterStatus(); }
     ISD::ParkStatus parkStatus() { return m_ParkStatus; }
 
-  signals:
+signals:
     void newStatus(ISD::Dome::Status status);
     void newParkStatus(ISD::ParkStatus status);
+    void newShutterStatus(ISD::Dome::ShutterStatus status);
     void azimuthPositionChanged(double position);
     void ready();
+    // Signal when the underlying ISD::Dome signals a Disconnected()
+    void disconnected();
 
   private:
     // Devices needed for Dome operation
     ISD::Dome *currentDome { nullptr };
     ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
+    ISD::Dome::ShutterStatus m_ShutterStatus { ISD::Dome::SHUTTER_UNKNOWN };
 };
 
 }

@@ -288,7 +288,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 emit newFocuser(gd);
             }
 
-            else if (!strcmp(prop->getName(), "DOME_MOTION"))
+            else if (!strcmp(prop->getName(), "DOME_SHUTTER") ||
+                     !strcmp(prop->getName(), "DOME_MOTION"))
             {
                 if (gd->getType() == KSTARS_UNKNOWN)
                 {

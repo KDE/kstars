@@ -2306,4 +2306,58 @@
        <default>false</default>
     </entry>
    </group>
+   <group name="Observatory">
+   <entry name="warningActionsActive" type="Bool">
+      <label>Will be reacted upon warnings?</label>
+      <default>true</default>
+   </entry>
+   <entry name="alertActionsActive" type="Bool">
+      <label>Will be reacted upon alerts?</label>
+      <default>true</default>
+   </entry>
+   <entry name="weatherWarningCloseDome" type="Bool">
+      <label>Shall the dome being closed when a weather warning occurs?</label>
+      <default>false</default>
+   </entry>
+   <entry name="weatherWarningCloseShutter" type="Bool">
+      <label>Shall the shutter being closed when a weather warning occurs?</label>
+      <default>false</default>
+   </entry>
+   <entry name="weatherWarningStopScheduler" type="Bool">
+      <label>Shall the shutter being closed when a weather alert occurs?</label>
+      <default>true</default>
+   </entry>
+   <entry name="weatherWarningDelay" type="UInt">
+      <label>Delay for reacting upon a weather warning.</label>
+      <default>600</default>
+   </entry>
+   <entry name="weatherAlertCloseDome" type="Bool">
+      <label>Shall the dome being closed when a weather alert occurs?</label>
+      <default>true</default>
+   </entry>
+   <entry name="weatherAlertCloseShutter" type="Bool">
+      <label>Shall the shutter being closed when a weather alert occurs?</label>
+      <default>true</default>
+   </entry>
+   <entry name="weatherAlertStopScheduler" type="Bool">
+      <label>Shall the shutter being closed when a weather alert occurs?</label>
+      <default>true</default>
+   </entry>
+   <entry name="weatherAlertDelay" type="UInt">
+      <label>Delay for reacting upon a weather alert.</label>
+      <default>30</default>
+   </entry>
+   <entry name="observatoryStatusUseDome" type="Bool">
+      <label>Dome status relevant for the Observatory status.</label>
+      <default>true</default>
+   </entry>
+   <entry name="observatoryStatusUseShutter" type="Bool">
+      <label>Shutter status relevant for the Observatory status.</label>
+      <default>true</default>
+   </entry>
+   <entry name="observatoryStatusUseWeather" type="Bool">
+      <label>Weather status relevant for the Observatory status.</label>
+      <default>true</default>
+   </entry>
+   </group>
 </kcfg>

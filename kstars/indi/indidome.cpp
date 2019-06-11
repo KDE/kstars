@@ -51,6 +51,7 @@ void Dome::registerProperty(INDI::Property *prop)
                 if ((sp->s == ISS_ON) && svp->s == IPS_OK)
                 {
                     m_ParkStatus = PARK_PARKED;
+                    m_Status = DOME_PARKED;
                     emit newParkStatus(m_ParkStatus);
 
                     QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
@@ -63,6 +64,7 @@ void Dome::registerProperty(INDI::Property *prop)
                 else if ((sp->s == ISS_OFF) && svp->s == IPS_OK)
                 {
                     m_ParkStatus = PARK_UNPARKED;
+                    m_Status = DOME_IDLE;
                     emit newParkStatus(m_ParkStatus);
 
                     QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
@@ -82,6 +84,10 @@ void Dome::registerProperty(INDI::Property *prop)
     else if (!strcmp(prop->getName(), "DOME_ABORT_MOTION"))
     {
         m_CanAbort = true;
+    }
+    else if (!strcmp(prop->getName(), "DOME_SHUTTER"))
+    {
+        m_HasShutter = true;
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -225,7 +231,64 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             emit newStatus(m_Status);
         }
     }
+    else if (!strcmp(svp->name, "DOME_SHUTTER"))
+    {
+        if (svp->s == IPS_ALERT)
+        {
+            emit newShutterStatus(SHUTTER_ERROR);
 
+            // If alert, set shutter status to whatever it was opposite to. That is, if it was opening and failed
+            // then we set status to closed since it did not successfully complete opening.
+            if (m_ShutterStatus == SHUTTER_CLOSING)
+                m_ShutterStatus = SHUTTER_OPEN;
+            else if (m_ShutterStatus == SHUTTER_CLOSING)
+                m_ShutterStatus = SHUTTER_CLOSED;
+
+            emit newShutterStatus(m_ShutterStatus);
+        }
+
+        ShutterStatus status = shutterStatus(svp);
+
+        switch (status) {
+        case SHUTTER_CLOSING:
+            if (m_ShutterStatus != SHUTTER_CLOSING)
+            {
+                m_ShutterStatus = SHUTTER_CLOSING;
+                KNotification::event(QLatin1String("ShutterClosing"), i18n("Shutter closing is in progress"));
+                emit newShutterStatus(m_ShutterStatus);
+            }
+            break;
+        case SHUTTER_OPENING:
+            if (m_ShutterStatus != SHUTTER_OPENING)
+            {
+                m_ShutterStatus = SHUTTER_OPENING;
+                KNotification::event(QLatin1String("ShutterOpening"), i18n("Shutter opening is in progress"));
+                emit newShutterStatus(m_ShutterStatus);
+            }
+            break;
+        case SHUTTER_CLOSED:
+            if (m_ShutterStatus != SHUTTER_CLOSED)
+            {
+                m_ShutterStatus = SHUTTER_CLOSED;
+                KNotification::event(QLatin1String("ShutterClosed"), i18n("Shutter closed"));
+                emit newShutterStatus(m_ShutterStatus);
+            }
+            break;
+        case SHUTTER_OPEN:
+            if (m_ShutterStatus != SHUTTER_OPEN)
+            {
+                m_ShutterStatus = SHUTTER_OPEN;
+                KNotification::event(QLatin1String("ShutterOpened"), i18n("Shutter opened"));
+                emit newShutterStatus(m_ShutterStatus);
+            }
+            break;
+        default:
+            break;
+        }
+
+        return;
+
+    }
     DeviceDecorator::processSwitch(svp);
 }
 
@@ -323,6 +386,53 @@ bool Dome::setAzimuthPosition(double position)
     az->np[0].value = position;
     clientManager->sendNewNumber(az);
     return true;
+}
+
+bool Dome::ControlShutter(bool open)
+{
+    ISwitchVectorProperty *shutterSP = baseDevice->getSwitch("DOME_SHUTTER");
+
+    if (shutterSP == nullptr)
+        return false;
+
+    ISwitch *shutterSW = IUFindSwitch(shutterSP, open ? "SHUTTER_OPEN" : "SHUTTER_CLOSE");
+
+    if (shutterSW == nullptr)
+        return false;
+
+    IUResetSwitch(shutterSP);
+    shutterSW->s = ISS_ON;
+    clientManager->sendNewSwitch(shutterSP);
+
+    return true;
+}
+
+Dome::ShutterStatus Dome::shutterStatus()
+{
+    ISwitchVectorProperty *shutterSP = baseDevice->getSwitch("DOME_SHUTTER");
+
+    return shutterStatus(shutterSP);
+
+}
+
+Dome::ShutterStatus Dome::shutterStatus(ISwitchVectorProperty *svp)
+{
+    if (svp == nullptr)
+        return SHUTTER_UNKNOWN;
+
+    ISwitch *sp = IUFindSwitch(svp, "SHUTTER_OPEN");
+    if (sp == nullptr)
+        return SHUTTER_UNKNOWN;
+
+    if (svp->s == IPS_ALERT)
+        return SHUTTER_ERROR;
+    else if (svp->s == IPS_BUSY)
+        return (sp->s == ISS_ON) ? SHUTTER_OPENING : SHUTTER_CLOSING;
+    else if (svp->s == IPS_OK)
+        return (sp->s == ISS_ON) ? SHUTTER_OPEN : SHUTTER_CLOSED;
+
+    // this should not happen
+    return SHUTTER_UNKNOWN;
 }
 
 const QString Dome::getStatusString(Dome::Status status)

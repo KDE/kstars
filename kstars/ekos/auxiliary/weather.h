@@ -70,6 +70,8 @@ class Weather : public QObject
          */
         void newStatus(ISD::Weather::Status status);
         void ready();
+        // Signal when the underlying ISD::Weather signals a Disconnected()
+        void disconnected();
 
     private:
         // Devices needed for Weather operation
