@@ -185,6 +185,7 @@ Scheduler::Scheduler()
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
     pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    pauseB->setCheckable(false);
 
     connect(startB, &QPushButton::clicked, this, &Scheduler::toggleScheduler);
     connect(pauseB, &QPushButton::clicked, this, &Scheduler::pause);
@@ -1285,6 +1286,7 @@ void Scheduler::start()
             startB->setIcon(QIcon::fromTheme("media-playback-stop"));
             startB->setToolTip(i18n("Stop Scheduler"));
             pauseB->setEnabled(true);
+            pauseB->setChecked(false);
 
             /* Disable edit-related buttons */
             queueLoadB->setEnabled(false);
@@ -1301,6 +1303,7 @@ void Scheduler::start()
             emit newStatus(state);
             schedulerTimer.start();
 
+            appendLogText(i18n("Scheduler started."));
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler started.";
             break;
 
@@ -1308,14 +1311,19 @@ void Scheduler::start()
             /* Update UI to reflect resume */
             startB->setIcon(QIcon::fromTheme("media-playback-stop"));
             startB->setToolTip(i18n("Stop Scheduler"));
+            pauseB->setEnabled(true);
+            pauseB->setCheckable(false);
+            pauseB->setChecked(false);
 
             /* Edit-related buttons are still disabled */
 
             /* The end-user cannot update the schedule, don't re-evaluate jobs. Timer schedulerTimer is already running. */
             state = SCHEDULER_RUNNING;
             emit newStatus(state);
+            schedulerTimer.start();
 
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler paused.";
+            appendLogText(i18n("Scheduler resuming."));
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler resuming.";
             break;
 
         default:
@@ -1327,11 +1335,19 @@ void Scheduler::pause()
 {
     state = SCHEDULER_PAUSED;
     emit newStatus(state);
-    appendLogText(i18n("Scheduler paused."));
+    appendLogText(i18n("Scheduler pause planned..."));
     pauseB->setEnabled(false);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setToolTip(i18n("Resume Scheduler"));
+}
+
+void Scheduler::setPaused()
+{
+    pauseB->setCheckable(true);
+    pauseB->setChecked(true);
+    schedulerTimer.stop();
+    appendLogText(i18n("Scheduler paused."));
 }
 
 void Scheduler::setCurrentJob(SchedulerJob *job)
@@ -2938,7 +2954,25 @@ void Scheduler::checkProcessExit(int exitCode)
 bool Scheduler::checkStatus()
 {
     if (state == SCHEDULER_PAUSED)
-        return true;
+    {
+        if (currentJob == nullptr)
+        {
+            setPaused();
+            return false;
+        }
+        switch (currentJob->getState()) {
+        case  SchedulerJob::JOB_BUSY:
+            // do nothing
+            break;
+        case  SchedulerJob::JOB_COMPLETE:
+            // start finding next job before pausing
+            break;
+        default:
+            // in all other cases pause
+            setPaused();
+            break;
+        }
+    }
 
     // #1 If no current job selected, let's check if we need to shutdown or evaluate jobs
     if (currentJob == nullptr)
@@ -3035,8 +3069,12 @@ bool Scheduler::checkStatus()
         if (startupState > STARTUP_SCRIPT && startupState < STARTUP_ERROR && checkStartupState() == false)
             return false;
 
-        // #8 Execute the job
-        executeJob(currentJob);
+        // #8 Check it it already completed (should only happen starting a paused job)
+        //    Find the next job in this case, otherwise execute the current one
+        if (currentJob->getState() == SchedulerJob::JOB_COMPLETE)
+            findNextJob();
+        else
+            executeJob(currentJob);
     }
 
     return true;
@@ -3044,9 +3082,6 @@ bool Scheduler::checkStatus()
 
 void Scheduler::checkJobStage()
 {
-    if (state == SCHEDULER_PAUSED)
-        return;
-
     Q_ASSERT_X(currentJob, __FUNCTION__, "Actual current job is required to check job stage");
     if (!currentJob)
         return;
@@ -4322,6 +4357,13 @@ void Scheduler::startFocusing()
 
 void Scheduler::findNextJob()
 {
+    if (state == SCHEDULER_PAUSED)
+    {
+        // everything finished, we can pause
+        setPaused();
+        return;
+    }
+
     Q_ASSERT_X(currentJob->getState() == SchedulerJob::JOB_ERROR ||
                currentJob->getState() == SchedulerJob::JOB_ABORTED ||
                currentJob->getState() == SchedulerJob::JOB_COMPLETE,
@@ -6695,7 +6737,7 @@ GuideState Scheduler::getGuidingStatus()
 
 void Scheduler::setCaptureStatus(Ekos::CaptureState status)
 {
-    if (state == SCHEDULER_PAUSED || currentJob == nullptr)
+    if (currentJob == nullptr)
         return;
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status);
