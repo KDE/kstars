@@ -175,14 +175,6 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
 
-        /*
-         * @brief set meridian flip activation and hours
-         * @param activate true iff the meridian flip should be executed
-         * @param hours angle past the meridian when the flip should be delayed
-         */
-        Q_INVOKABLE Q_NOREPLY void setMeridianFlipValues(bool activate, double hours);
-
-
         /** DBUS interface function.
              * Does the CCD has a cooler control (On/Off) ?
              */
@@ -668,7 +660,6 @@ class Capture : public QWidget, public Ui::Capture
          */
         void registerNewModule(const QString &name);
 
-        void meridianFlipSetupChanged();
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();

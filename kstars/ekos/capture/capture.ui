@@ -1118,19 +1118,6 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="3" column="3">
-         <widget class="QLabel" name="textLabel1_2_6">
-          <property name="toolTip">
-           <string>Number of images to capture</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>hours</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="HFRPixels">
           <property name="enabled">
@@ -1195,19 +1182,6 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QCheckBox" name="meridianCheck">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Command a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Meridian Flip if HA &gt;</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
          <widget class="QCheckBox" name="autofocusCheck">
           <property name="enabled">
@@ -1258,28 +1232,6 @@ font-weight:bold;
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QDoubleSpinBox" name="meridianHours">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="decimals">
-           <number>2</number>
-          </property>
-          <property name="minimum">
-           <double>0.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>3.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.100000000000000</double>
-          </property>
-          <property name="value">
-           <double>0.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -2169,8 +2121,6 @@ font-weight:bold;
   <tabstop>guideDeviation</tabstop>
   <tabstop>autofocusCheck</tabstop>
   <tabstop>HFRPixels</tabstop>
-  <tabstop>meridianCheck</tabstop>
-  <tabstop>meridianHours</tabstop>
   <tabstop>darkSubCheck</tabstop>
   <tabstop>filterCombo</tabstop>
  </tabstops>
