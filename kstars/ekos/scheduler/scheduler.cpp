@@ -2226,8 +2226,8 @@ void Scheduler::calculateDawnDusk()
     Dawn = ksal.getDawnAstronomicalTwilight();
     Dusk = ksal.getDuskAstronomicalTwilight();
 
-    QTime now  = KStarsData::Instance()->lt().time();
-    QTime dawn = QTime(0, 0, 0).addSecs(Dawn * 24 * 3600);
+    //QTime now  = KStarsData::Instance()->lt().time();
+    //QTime dawn = QTime(0, 0, 0).addSecs(Dawn * 24 * 3600);
     QTime dusk = QTime(0, 0, 0).addSecs(Dusk * 24 * 3600);
 
     duskDateTime.setDate(KStars::Instance()->data()->lt().date());
@@ -6670,7 +6670,7 @@ void Scheduler::setGuideStatus(Ekos::GuideState status)
                 }
                 else
                 {
-                    appendLogText(i18n("Job '%1' is guiding, guiding procedure will be restarted in %2 seconds.", currentJob->getName(), (RESTART_GUIDING_DELAY_MS * guideFailureCount)/1000));
+                    appendLogText(i18n("Job '%1' is guiding, guiding procedure will be restarted in %2 seconds.", currentJob->getName(), (RESTART_GUIDING_DELAY_MS * guideFailureCount) / 1000));
                     restartGuidingTimer.start(RESTART_GUIDING_DELAY_MS * guideFailureCount);
                 }
             }
