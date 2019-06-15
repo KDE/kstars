@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>150</height>
+    <height>202</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -17,19 +17,6 @@
       <widget class="QCheckBox" name="kcfg_AstrometrySolverIsInternal">
        <property name="text">
         <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="5">
-      <widget class="QSpinBox" name="kcfg_AstrometryTimeout">
-       <property name="toolTip">
-        <string>Timeout in seconds to wait for astrometry solver to complete</string>
-       </property>
-       <property name="minimum">
-        <number>30</number>
-       </property>
-       <property name="maximum">
-        <number>600</number>
        </property>
       </widget>
      </item>
@@ -94,30 +81,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="5">
-      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
-       <property name="toolTip">
-        <string>Astrometry.net configuration file</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Time out:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLabel" name="label_17">
-       <property name="text">
-        <string>API Key:</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
        <property name="text">
@@ -160,6 +123,57 @@
       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Time out:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="5">
+      <widget class="QSpinBox" name="kcfg_AstrometryTimeout">
+       <property name="toolTip">
+        <string>Timeout in seconds to wait for astrometry solver to complete</string>
+       </property>
+       <property name="minimum">
+        <number>30</number>
+       </property>
+       <property name="maximum">
+        <number>600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="label_17">
+       <property name="text">
+        <string>API Key:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
+       <property name="toolTip">
+        <string>Astrometry.net configuration file</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="pythonLabel">
+       <property name="text">
+        <string>python:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QPushButton" name="SetupPython">
+       <property name="text">
+        <string>Setup</string>
        </property>
       </widget>
      </item>
