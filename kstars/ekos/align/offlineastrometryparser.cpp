@@ -301,24 +301,23 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     QString path            = env.value("PATH", "");
     if (Options::astrometrySolverIsInternal())
     {
-        env.insert("PATH", QCoreApplication::applicationDirPath() + "/netpbm/bin:" + QCoreApplication::applicationDirPath() + "/python/bin:/usr/local/bin:" + path);
-        env.insert("PYTHONPATH", QCoreApplication::applicationDirPath() + "/python/bin/site-packages");
+        env.insert("PATH", QCoreApplication::applicationDirPath() + "/netpbm/bin:/usr/local/opt/python/libexec/bin:/usr/local/bin:" + path);
     }
     else
     {
-        env.insert("PATH", "/usr/local/bin:" + path);
+        env.insert("PATH", "/usr/local/opt/python/libexec/bin:/usr/local/bin:" + path);
     }
     solver->setProcessEnvironment(env);
 
     if (Options::alignmentLogging())
     {
         align->appendLogText("export PATH=" + env.value("PATH", ""));
-        align->appendLogText("export PYTHONPATH=" + env.value("PYTHONPATH", ""));
     }
 
 #endif
 
     connect(solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
+    solver->setProcessChannelMode(QProcess::MergedChannels);
     connect(solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
 
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
