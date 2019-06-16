@@ -83,10 +83,10 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     double duration = 0.1;
     bool hasStreamExposure = currentCCD->getStreamExposure(&duration);
     if (hasStreamExposure)
-        targetFPSSpin->setValue(1.0 / duration);
+        targetFrameDurationSpin->setValue(duration * 1000000.0);
     else
     {
-        targetFPSSpin->setEnabled(false);
+        targetFrameDurationSpin->setEnabled(false);
         changeFPSB->setEnabled(false);
     }
 
@@ -176,7 +176,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     {
         if (currentCCD)
         {
-            currentCCD->setStreamExposure(1.0 / targetFPSSpin->value());
+            currentCCD->setStreamExposure(targetFrameDurationSpin->value() / 1000000.0);
             currentCCD->setVideoStreamEnabled(false);
             QTimer::singleShot(1000, this, [&]()
             {

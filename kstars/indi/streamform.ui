@@ -250,13 +250,16 @@
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="toolTip">
+        <string>Video frame duration in microseconds</string>
+       </property>
        <property name="text">
-        <string>FPS</string>
+        <string>Frame (μs)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="targetFPSSpin">
+      <widget class="QSpinBox" name="targetFrameDurationSpin">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -264,13 +267,19 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>Target FPS</string>
+        <string>Video frame duration in microseconds</string>
        </property>
        <property name="minimum">
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>60</number>
+        <number>1000000</number>
+       </property>
+       <property name="stepType">
+        <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+       </property>
+       <property name="value">
+        <number>1000</number>
        </property>
       </widget>
      </item>
