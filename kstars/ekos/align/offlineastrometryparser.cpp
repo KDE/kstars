@@ -299,13 +299,16 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 #ifdef Q_OS_OSX
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     QString path            = env.value("PATH", "");
+    QString pythonExecPath = "/usr/local/opt/python/libexec/bin";
+    if(!Options::useDefaultPython())
+        pythonExecPath = Options::pythonExecPath();
     if (Options::astrometrySolverIsInternal())
     {
-        env.insert("PATH", QCoreApplication::applicationDirPath() + "/netpbm/bin:/usr/local/opt/python/libexec/bin:/usr/local/bin:" + path);
+        env.insert("PATH", QCoreApplication::applicationDirPath() + ":" + pythonExecPath + ":/usr/local/bin:" + path);
     }
     else
     {
-        env.insert("PATH", "/usr/local/opt/python/libexec/bin:/usr/local/bin:" + path);
+        env.insert("PATH", pythonExecPath + ":/usr/local/bin:" + path);
     }
     solver->setProcessEnvironment(env);
 

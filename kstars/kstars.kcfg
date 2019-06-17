@@ -1945,6 +1945,16 @@
          <label>Internal or External Astrometry.net Conf File?</label>
          <default>false</default>
       </entry>
+      <entry name="UseDefaultPython" type="Bool">
+         <label>Use the Default System Python Path</label>
+         <default>true</default>
+      </entry>
+      <entry name="PythonExecPath" type="String">
+         <label></label>
+         <whatsthis>Folder in which the desired python executable or link to be used for astrometry.net resides.</whatsthis>
+         <default>/usr/local/opt/python/libexec/bin</default>
+      </entry>
+
       <entry name="AstrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>
          <whatsthis>Key to access astrometry.net online web services. You must register with astrometry.net to obtain a key.</whatsthis>

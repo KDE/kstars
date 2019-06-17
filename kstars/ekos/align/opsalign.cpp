@@ -48,12 +48,21 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     kcfg_AstrometryWCSIsInternal->setToolTip(i18n("Internal or External wcsinfo?"));
     if (Options::astrometryWCSIsInternal())
         kcfg_AstrometryWCSInfo->setEnabled(false);
+
+    connect(kcfg_UseDefaultPython, SIGNAL(clicked()), this, SLOT(togglePythonDefault()));
+    kcfg_PythonExecPath->setVisible(!Options::useDefaultPython());
+    SetupPython->setVisible(Options::useDefaultPython());
+
 #else
     kcfg_AstrometrySolverIsInternal->setVisible(false);
     kcfg_AstrometryConfFileIsInternal->setVisible(false);
     kcfg_AstrometryWCSIsInternal->setVisible(false);
+
+    kcfg_UseDefaultPython->setVisible(false);
     pythonLabel->setVisible(false);
     SetupPython->setVisible(false);
+    kcfg_PythonExecPath->setVisible(false);
+
 #endif
 
 #ifdef Q_OS_WIN
@@ -171,6 +180,13 @@ void OpsAlign::toggleWCSInternal()
         kcfg_AstrometryWCSInfo->setText("*Internal wcsinfo*");
     else
         kcfg_AstrometryWCSInfo->setText(KSUtils::getDefaultPath("AstrometryWCSInfo"));
+}
+
+void OpsAlign::togglePythonDefault()
+{
+    bool defaultPython = kcfg_UseDefaultPython->isChecked();
+    kcfg_PythonExecPath->setVisible(!defaultPython);
+    SetupPython->setVisible(defaultPython);
 }
 
 void OpsAlign::slotApply()
