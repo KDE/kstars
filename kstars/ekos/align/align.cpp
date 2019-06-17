@@ -2479,6 +2479,20 @@ bool Align::captureAndSolve()
     m_AlignTimer.stop();
     m_CaptureTimer.stop();
 
+    #ifdef Q_OS_OSX
+        if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+        {
+            if(Options::useDefaultPython())
+            {
+                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                {
+                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup buttton to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    return false;
+                }
+            }
+        }
+    #endif
+
     if (currentCCD == nullptr)
         return false;
 
@@ -4353,6 +4367,20 @@ bool Align::loadAndSlew(QString fileURL)
         loadSlewB->setEnabled(false);
         return;
     }*/
+
+    #ifdef Q_OS_OSX
+        if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+        {
+            if(Options::useDefaultPython())
+            {
+                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                {
+                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup buttton to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    return false;
+                }
+            }
+        }
+    #endif
 
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath,

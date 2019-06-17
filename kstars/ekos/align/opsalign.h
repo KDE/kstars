@@ -27,6 +27,9 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
   public:
     explicit OpsAlign(Align *parent);
     virtual ~OpsAlign() override = default;
+    bool brewInstalled();
+    bool pythonInstalled();
+    bool astropyInstalled();
 
   protected:
   private slots:
@@ -35,6 +38,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
     void toggleConfigInternal();
     void toggleWCSInternal();
     void slotApply();
+    void togglePythonDefault();
 
   signals:
     void settingsUpdated();
@@ -42,8 +46,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
   private:
     KConfigDialog *m_ConfigDialog { nullptr };
     Align *alignModule { nullptr };
-    bool brewInstalled();
-    bool pythonInstalled();
-    bool astropyInstalled();
+
+
 };
 }
