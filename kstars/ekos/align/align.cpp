@@ -2486,7 +2486,7 @@ bool Align::captureAndSolve()
             {
                 if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
                 {
-                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup buttton to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
                     return false;
                 }
             }
@@ -4375,7 +4375,7 @@ bool Align::loadAndSlew(QString fileURL)
             {
                 if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
                 {
-                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup buttton to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
                     return false;
                 }
             }
