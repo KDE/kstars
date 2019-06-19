@@ -391,6 +391,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             {
                 state = LOSTLOCK;
                 abortTimer->start(Options::guideLostStarTimeout() * 1000);
+                qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout started (" << Options::guideLostStarTimeout() << " sec)";
             }
             break;
 
@@ -1111,6 +1112,13 @@ bool PHD2::suspend()
 
     sendPHD2Request("set_paused", args);
 
+    if (abortTimer->isActive())
+    {
+        // Avoid that the a preceding lost star event leads to an abort while guiding is suspended.
+        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout cancelled.";
+        abortTimer->stop();
+    }
+
     return true;
 }
 
@@ -1129,6 +1137,12 @@ bool PHD2::resume()
     args << false;
 
     sendPHD2Request("set_paused", args);
+
+    if (state == LOSTLOCK)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout restarted.";
+        abortTimer->start(Options::guideLostStarTimeout() * 1000);
+    }
 
     return true;
 }
