@@ -786,6 +786,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
     else if (command == commands[STOP_PROFILE])
     {
         m_Manager->stop();
+
+        // Close all FITS Viewers
+        KStars::Instance()->clearAllViewers();
     }
     else if (command == commands[ADD_PROFILE])
     {

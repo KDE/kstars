@@ -666,3 +666,9 @@ void KStars::closeEvent(QCloseEvent *event)
     QWidget::closeEvent(event);
 }
 
+void KStars::clearAllViewers()
+{
+    qDeleteAll(m_FITSViewers);
+    QList<ImageViewer*> viewers = findChildren<ImageViewer*>();
+    qDeleteAll(viewers);
+}

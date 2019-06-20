@@ -199,6 +199,8 @@ class KStars : public KXmlGuiWindow
 
         void showWISettingsUI();
 
+        void clearAllViewers();
+
         void showWI(ObsConditions *obs);
 
         /** Load HIPS information and repopulate menu. */
