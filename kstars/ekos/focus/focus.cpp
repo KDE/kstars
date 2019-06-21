@@ -519,6 +519,8 @@ void Focus::getAbsFocusPosition()
         maxTravelIN->setMaximum(absMove->np[0].max);
 
         absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+
+        stepIN->setMaximum(absMove->np[0].max / 2);
         //absTicksSpin->setValue(currentPosition);
     }
 }
