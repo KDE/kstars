@@ -69,6 +69,10 @@
             <driver name="Celestron GPS">indi_celestron_gps</driver>
             <version>3.2</version>
         </device>
+        <device label="Celestron CGEM" manufacturer="Celestron">
+            <driver name="Celestron GPS">indi_celestron_gps</driver>
+            <version>3.2</version>
+        </device>
         <device label="Celestron CGX" manufacturer="Celestron">
             <driver name="Celestron GPS">indi_celestron_gps</driver>
             <version>3.2</version>
@@ -211,6 +215,10 @@
             <driver name="RoboFocus">indi_robo_focus</driver>
             <version>1.0</version>
         </device>
+        <device label="FCUSB">
+            <driver name="FCUSB">indi_fcusb_focus</driver>
+            <version>0.2</version>
+        </device>
         <device label="Celestron SCT">
             <driver name="Celestron SCT">indi_celestron_sct_focus</driver>
             <version>1.0</version>
@@ -289,7 +297,7 @@
         </device>
         <device label="Sesto Senso">
             <driver name="Sesto Senso">indi_sestosenso_focus</driver>
-            <version>1.2</version>
+            <version>1.4</version>
         </device>
         <device label="Lakeside">
             <driver name="Lakeside">indi_lakeside_focus</driver>
@@ -459,9 +467,13 @@
             <driver name="Weather Simulator">indi_simulator_weather</driver>
             <version>1.0</version>
         </device>
+        <device label="Astromechanics LPM">
+            <driver name="Astromechanics LPM">indi_astromech_lpm</driver>
+            <version>0.1</version>
+        </device>
         <device label="SQM">
             <driver name="SQM">indi_sqm_weather</driver>
-            <version>1.0</version>
+            <version>1.2</version>
         </device>
         <device label="Weather Meta">
             <driver name="Weather Meta">indi_meta_weather</driver>
@@ -579,13 +591,13 @@
     <devGroup group="CCDs">
         <device label="Atik CCD" mdpd="true">
             <driver name="Atik">indi_atik_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Atik EFW" mdpd="true">
             <driver name="Atik">indi_atik_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -860,14 +872,6 @@
         <device label="Shelyak SPOX">
             <driver name="Shelyak SPOX">indi_shelyakspox_spectrograph</driver>
             <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Focusers">
-        <device label="Shoestring Astronomy FCUSB">
-            <driver name="FCUSB Focuser">indi_fcusb_focuser</driver>
-            <version>1.1</version>
         </device>
     </devGroup>
 </driversList>
