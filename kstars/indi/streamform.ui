@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>356</height>
+    <width>539</width>
+    <height>285</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -251,32 +251,38 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="toolTip">
-        <string>Video frame duration in microseconds</string>
+        <string>Video frame duration in seconds</string>
        </property>
        <property name="text">
-        <string>Frame (μs)</string>
+        <string>Frame (s)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="targetFrameDurationSpin">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QDoubleSpinBox" name="targetFrameDurationSpin">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
        </property>
        <property name="toolTip">
-        <string>Video frame duration in microseconds</string>
+        <string>Video frame duration in seconds</string>
+       </property>
+       <property name="decimals">
+        <number>6</number>
        </property>
        <property name="minimum">
-        <number>1</number>
+        <double>0.000001000000000</double>
        </property>
        <property name="maximum">
-        <number>1000000</number>
+        <double>5.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.001000000000000</double>
        </property>
        <property name="value">
-        <number>1000</number>
+        <double>0.100000000000000</double>
        </property>
       </widget>
      </item>
@@ -377,6 +383,16 @@
    <header>indi/videowg.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>recordB</tabstop>
+  <tabstop>optionsB</tabstop>
+  <tabstop>resetFrameB</tabstop>
+  <tabstop>zoomLevelCombo</tabstop>
+  <tabstop>WESlider</tabstop>
+  <tabstop>NSSlider</tabstop>
+  <tabstop>targetFrameDurationSpin</tabstop>
+  <tabstop>changeFPSB</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
