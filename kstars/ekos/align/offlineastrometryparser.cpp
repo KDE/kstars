@@ -304,7 +304,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
         pythonExecPath = Options::pythonExecPath();
     if (Options::astrometrySolverIsInternal())
     {
-        env.insert("PATH", QCoreApplication::applicationDirPath() + ":" + pythonExecPath + ":/usr/local/bin:" + path);
+        env.insert("PATH", QCoreApplication::applicationDirPath() + "/netpbm/bin:" + pythonExecPath + ":/usr/local/bin:" + path);
     }
     else
     {
