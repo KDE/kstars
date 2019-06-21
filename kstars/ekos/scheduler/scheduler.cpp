@@ -2960,17 +2960,18 @@ bool Scheduler::checkStatus()
             setPaused();
             return false;
         }
-        switch (currentJob->getState()) {
-        case  SchedulerJob::JOB_BUSY:
-            // do nothing
-            break;
-        case  SchedulerJob::JOB_COMPLETE:
-            // start finding next job before pausing
-            break;
-        default:
-            // in all other cases pause
-            setPaused();
-            break;
+        switch (currentJob->getState())
+        {
+            case  SchedulerJob::JOB_BUSY:
+                // do nothing
+                break;
+            case  SchedulerJob::JOB_COMPLETE:
+                // start finding next job before pausing
+                break;
+            default:
+                // in all other cases pause
+                setPaused();
+                break;
         }
     }
 
@@ -6993,7 +6994,8 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
         emit weatherChanged(weatherStatus);
     }
 
-    if (weatherStatus == ISD::Weather::WEATHER_ALERT)
+    // Shutdown scheduler if it was started and not already in shutdown
+    if (weatherStatus == ISD::Weather::WEATHER_ALERT && state != Ekos::SCHEDULER_IDLE && state != Ekos::SCHEDULER_SHUTDOWN)
     {
         appendLogText(i18n("Starting shutdown procedure due to severe weather."));
         if (currentJob)
