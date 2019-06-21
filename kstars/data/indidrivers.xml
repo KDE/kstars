@@ -215,7 +215,7 @@
             <driver name="RoboFocus">indi_robo_focus</driver>
             <version>1.0</version>
         </device>
-        <device label="FCUSB">
+        <device label="Shoestring Astronomy FCUSB">
             <driver name="FCUSB">indi_fcusb_focus</driver>
             <version>0.2</version>
         </device>
