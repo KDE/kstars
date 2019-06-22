@@ -9,8 +9,7 @@
 
 #pragma once
 
-#include "../auxiliary/weather.h"
-#include "indiweather.h"
+#include "ekos/auxiliary/weather.h"
 
 #include <QObject>
 
