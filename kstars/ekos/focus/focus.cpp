@@ -2702,6 +2702,12 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
             captureB->setEnabled(false);
             startFocusB->setEnabled(false);
             startLoopB->setEnabled(false);
+
+            // If mount is moved while we have a star selected and subframed
+            // let us reset the frame.
+            if (subFramed)
+                resetFrame();
+
             break;
 
         default:
