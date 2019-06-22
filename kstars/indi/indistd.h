@@ -222,7 +222,7 @@ class DeviceDecorator : public GDInterface
 
     public:
         explicit DeviceDecorator(GDInterface *iPtr);
-        ~DeviceDecorator();
+        virtual ~DeviceDecorator() override;
 
         virtual void registerProperty(INDI::Property *prop) override;
         virtual void removeProperty(INDI::Property *prop) override;

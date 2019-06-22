@@ -169,6 +169,7 @@ class CCD : public DeviceDecorator
 
     public:
         explicit CCD(GDInterface *iPtr);
+        virtual ~CCD() override;
 
         typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
         typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
