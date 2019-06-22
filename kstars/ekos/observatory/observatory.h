@@ -13,11 +13,9 @@
 #include "observatorymodel.h"
 #include "observatorydomemodel.h"
 #include "observatoryweathermodel.h"
-#include "indiweather.h"
 
 #include <QWidget>
-#include <QObject>
-#include "klocalizedstring.h"
+#include <KLocalizedString>
 
 namespace Ekos
 {
