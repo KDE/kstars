@@ -821,6 +821,12 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     m_LastNotificationTS = QDateTime::currentDateTime();
 }
 
+CCD::~CCD()
+{
+    if (m_ImageViewerWindow)
+        m_ImageViewerWindow->close();
+}
+
 void CCD::registerProperty(INDI::Property *prop)
 {
     if (isConnected())
