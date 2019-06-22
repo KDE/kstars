@@ -668,7 +668,8 @@ void KStars::closeEvent(QCloseEvent *event)
 
 void KStars::clearAllViewers()
 {
-    qDeleteAll(m_FITSViewers);
-    QList<ImageViewer*> viewers = findChildren<ImageViewer*>();
-    qDeleteAll(viewers);
+    for (QPointer<FITSViewer> fv : m_FITSViewers)
+        fv->close();
+
+    m_FITSViewers.clear();
 }
