@@ -1446,7 +1446,9 @@ bool Capture::setCaptureComplete()
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
         m_State = CAPTURE_PAUSED;
-        setMeridianFlipStage(MF_READY);
+        // handle a requested meridian flip
+        if (meridianFlipStage != MF_NONE)
+            setMeridianFlipStage(MF_READY);
         return false;
     }
 
@@ -4399,7 +4401,7 @@ void Capture::processFlipCompleted()
 
 
     // resume only if capturing was running
-    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE)
+    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
         return;
 
     if (resumeAlignmentAfterFlip == true)
