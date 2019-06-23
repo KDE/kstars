@@ -883,7 +883,7 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
                 payload["width"].toInt(),
                 payload["height"].toInt(),
                 payload["pixelw"].toDouble(),
-                payload["pixelw"].toDouble());
+                payload["pixelh"].toDouble());
 
     }
 }
