@@ -214,6 +214,8 @@ void Message::onTextReceived(const QString &message)
         processOptionsCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
+    else if (command.startsWith("device_"))
+        processDeviceCommands(command, payload);
 }
 
 void Message::sendCameras()
@@ -932,6 +934,22 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         auto oneProperty = oneDevice->getJSONProperty(payload["property"].toString(), payload["compact"].toBool(true));
 
         m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET_PROPERTY]}, {"payload", oneProperty}}).toJson(QJsonDocument::Compact));
+    }
+    else if (command == commands[DEVICE_GET_PROPERTY])
+    {
+        QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
+        QString device = payload["device"].toString();
+        auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
+        {
+            return (QString(oneDevice->getDeviceName()) == device);
+        });
+
+        if (pos == devices.end())
+            return;
+
+        auto oneDevice = *pos;
+
+        oneDevice->setJSONProperty(payload["property"].toString(), payload["value"].toArray());
     }
 }
 

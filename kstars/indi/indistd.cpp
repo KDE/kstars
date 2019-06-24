@@ -743,7 +743,6 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             return true;
         }
-        break;
 
         case INDI_NUMBER:
         {
@@ -817,6 +816,74 @@ INDI::Property *GenericDevice::getProperty(const QString &propName)
     return nullptr;
 }
 
+bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &propValue)
+{
+    for (auto &oneProp : properties)
+    {
+        if (propName == QString(oneProp->getName()))
+        {
+            switch (oneProp->getType())
+            {
+                case INDI_SWITCH:
+                {
+                    ISwitchVectorProperty *svp = oneProp->getSwitch();
+                    if (svp->r == ISR_1OFMANY || svp->r == ISR_ATMOST1)
+                        IUResetSwitch(svp);
+
+                    for (auto oneElement : propValue)
+                    {
+                        ISwitch *sp = IUFindSwitch(svp, oneElement["name"].toString().toLatin1().constData());
+                        if (sp)
+                        {
+                            sp->s = static_cast<ISState>(oneElement["state"].toInt());
+                        }
+                    }
+
+                    clientManager->sendNewSwitch(svp);
+                    return true;
+                }
+
+                case INDI_NUMBER:
+                {
+                    INumberVectorProperty *nvp = oneProp->getNumber();
+                    for (auto oneElement : propValue)
+                    {
+                        INumber *np = IUFindNumber(nvp, oneElement["name"].toString().toLatin1().constData());
+                        if (np)
+                            np->value = oneElement["value"].toDouble();
+                    }
+
+                    clientManager->sendNewNumber(nvp);
+                    return true;
+                }
+
+                case INDI_TEXT:
+                {
+                    ITextVectorProperty *tvp = oneProp->getText();
+                    for (auto oneElement : propValue)
+                    {
+                        IText *tp = IUFindText(tvp, oneElement["name"].toString().toLatin1().constData());
+                        if (tp)
+                            IUSaveText(tp, oneElement["text"].toString().toLatin1().constData());
+                    }
+
+                    clientManager->sendNewText(tvp);
+                    return true;
+                }
+
+                case INDI_BLOB:
+                    // TODO
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    return false;
+}
+
 QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact)
 {
     for (auto &oneProp : properties)
@@ -851,28 +918,85 @@ QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact
 
                 case INDI_NUMBER:
                 {
-                    // TODO
+                    INumberVectorProperty *nvp = oneProp->getNumber();
+                    QJsonArray numbers;
+                    for (int i = 0; i < nvp->nnp; i++)
+                    {
+                        QJsonObject oneNumber = {{"name", nvp->np[i].name}, {"value", nvp->np[i].value}};
+                        if (!compact)
+                        {
+                            oneNumber.insert("label", nvp->np[i].label);
+                            oneNumber.insert("min", nvp->np[i].min);
+                            oneNumber.insert("mix", nvp->np[i].max);
+                            oneNumber.insert("step", nvp->np[i].step);
+                        }
+                        numbers.append(oneNumber);
+                    }
+
+                    QJsonObject numberVector = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
+                    if (!compact)
+                    {
+                        numberVector.insert("label", nvp->label);
+                        numberVector.insert("group", nvp->group);
+                        numberVector.insert("perm", nvp->p);
+                    };
+
+                    return numberVector;
                 }
-                break;
 
                 case INDI_TEXT:
                 {
-                    // TODO
+                    ITextVectorProperty *tvp = oneProp->getText();
+                    QJsonArray Texts;
+                    for (int i = 0; i < tvp->ntp; i++)
+                    {
+                        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"value", tvp->tp[i].text}};
+                        if (!compact)
+                        {
+                            oneText.insert("label", tvp->tp[i].label);
+                        }
+                        Texts.append(oneText);
+                    }
+
+                    QJsonObject TextVector = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
+                    if (!compact)
+                    {
+                        TextVector.insert("label", tvp->label);
+                        TextVector.insert("group", tvp->group);
+                        TextVector.insert("perm", tvp->p);
+                    };
+
+                    return TextVector;
                 }
-                break;
 
 
                 case INDI_LIGHT:
                 {
-                    // TODO
+                    ILightVectorProperty *tvp = oneProp->getLight();
+                    QJsonArray Lights;
+                    for (int i = 0; i < tvp->nlp; i++)
+                    {
+                        QJsonObject oneLight = {{"name", tvp->lp[i].name}, {"state", tvp->lp[i].s}};
+                        if (!compact)
+                        {
+                            oneLight.insert("label", tvp->lp[i].label);
+                        }
+                        Lights.append(oneLight);
+                    }
+
+                    QJsonObject LightVector = {{"name", tvp->name}, {"state", tvp->s}, {"lights", Lights}};
+                    if (!compact)
+                    {
+                        LightVector.insert("label", tvp->label);
+                        LightVector.insert("group", tvp->group);
+                    };
+
+                    return LightVector;
                 }
-                break;
 
                 case INDI_BLOB:
-                {
                     // TODO
-                }
-                break;
+                    break;
 
                 default:
                     break;
@@ -892,7 +1016,7 @@ void GenericDevice::resetWatchdog()
         clientManager->sendNewNumber(nvp);
 }
 
-DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
+DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
 {
     interfacePtr = iPtr;
 
@@ -921,32 +1045,32 @@ bool DeviceDecorator::runCommand(int command, void *ptr)
     return interfacePtr->runCommand(command, ptr);
 }
 
-bool DeviceDecorator::setProperty(QObject *setPropCommand)
+bool DeviceDecorator::setProperty(QObject * setPropCommand)
 {
     return interfacePtr->setProperty(setPropCommand);
 }
 
-void DeviceDecorator::processBLOB(IBLOB *bp)
+void DeviceDecorator::processBLOB(IBLOB * bp)
 {
     interfacePtr->processBLOB(bp);
 }
 
-void DeviceDecorator::processLight(ILightVectorProperty *lvp)
+void DeviceDecorator::processLight(ILightVectorProperty * lvp)
 {
     interfacePtr->processLight(lvp);
 }
 
-void DeviceDecorator::processNumber(INumberVectorProperty *nvp)
+void DeviceDecorator::processNumber(INumberVectorProperty * nvp)
 {
     interfacePtr->processNumber(nvp);
 }
 
-void DeviceDecorator::processSwitch(ISwitchVectorProperty *svp)
+void DeviceDecorator::processSwitch(ISwitchVectorProperty * svp)
 {
     interfacePtr->processSwitch(svp);
 }
 
-void DeviceDecorator::processText(ITextVectorProperty *tvp)
+void DeviceDecorator::processText(ITextVectorProperty * tvp)
 {
     interfacePtr->processText(tvp);
 }
@@ -956,12 +1080,12 @@ void DeviceDecorator::processMessage(int messageID)
     interfacePtr->processMessage(messageID);
 }
 
-void DeviceDecorator::registerProperty(INDI::Property *prop)
+void DeviceDecorator::registerProperty(INDI::Property * prop)
 {
     interfacePtr->registerProperty(prop);
 }
 
-void DeviceDecorator::removeProperty(INDI::Property *prop)
+void DeviceDecorator::removeProperty(INDI::Property * prop)
 {
     interfacePtr->removeProperty(prop);
 }
@@ -1021,6 +1145,11 @@ QJsonObject DeviceDecorator::getJSONProperty(const QString &propName, bool compa
     return interfacePtr->getJSONProperty(propName, compact);
 }
 
+bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propValue)
+{
+    return interfacePtr->setJSONProperty(propName, propValue);
+}
+
 bool DeviceDecorator::isConnected()
 {
     return interfacePtr->isConnected();
@@ -1036,8 +1165,8 @@ bool DeviceDecorator::Disconnect()
     return interfacePtr->Disconnect();
 }
 
-bool DeviceDecorator::getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
-                                    double *step)
+bool DeviceDecorator::getMinMaxStep(const QString &propName, const QString &elementName, double * min, double * max,
+                                    double * step)
 {
     return interfacePtr->getMinMaxStep(propName, elementName, min, max, step);
 }
@@ -1052,7 +1181,7 @@ IPerm DeviceDecorator::getPermission(const QString &propName)
     return interfacePtr->getPermission(propName);
 }
 
-ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
+ST4::ST4(INDI::BaseDevice * bdv, ClientManager * cm)
 {
     baseDevice    = bdv;
     clientManager = cm;
