@@ -94,6 +94,7 @@ class GDInterface : public QObject
         virtual IPerm getPermission(const QString &propName) = 0;
         virtual INDI::Property *getProperty(const QString &propName) = 0;
         virtual QJsonObject getJSONProperty(const QString &propName, bool compact) = 0;
+        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) = 0;
 
         virtual ~GDInterface() = default;
 
@@ -193,6 +194,7 @@ class GenericDevice : public GDInterface
         virtual IPerm getPermission(const QString &propName) override;
         virtual INDI::Property *getProperty(const QString &propName) override;
         virtual QJsonObject getJSONProperty(const QString &propName, bool compact) override;
+        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
 
     public slots:
         virtual bool Connect() override;
@@ -260,6 +262,7 @@ class DeviceDecorator : public GDInterface
         IPerm getPermission(const QString &propName) override;
         INDI::Property *getProperty(const QString &propName) override;
         QJsonObject getJSONProperty(const QString &propName, bool compact) override;
+        bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
 
     public slots:
         virtual bool Connect() override;
