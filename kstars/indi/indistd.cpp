@@ -116,6 +116,12 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 driverInterface = static_cast<uint32_t>(atoi(tp->text));
                 emit interfaceDefined();
             }
+
+            tp = IUFindText(tvp, "DRIVER_VERSION");
+            if (tp)
+            {
+                driverVersion = QString(tp->text);
+            }
         }
     }
     else if (!strcmp(prop->getName(), "SYSTEM_PORTS"))
@@ -229,9 +235,8 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
         dms lng, lat;
         double elev = 0;
-        INumber *np = nullptr;
 
-        np = IUFindNumber(nvp, "LONG");
+        INumber *np = IUFindNumber(nvp, "LONG");
         if (!np)
             return;
 
@@ -311,13 +316,12 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
             ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
               (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
     {
-        IText *tp = nullptr;
         int d, m, y, min, sec, hour;
         float utcOffset;
         QDate indiDate;
         QTime indiTime;
 
-        tp = IUFindText(tvp, "UTC");
+        IText *tp = IUFindText(tvp, "UTC");
 
         if (!tp)
         {
@@ -813,6 +817,72 @@ INDI::Property *GenericDevice::getProperty(const QString &propName)
     return nullptr;
 }
 
+QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact)
+{
+    for (auto &oneProp : properties)
+    {
+        if (propName == QString(oneProp->getName()))
+        {
+            switch (oneProp->getType())
+            {
+                case INDI_SWITCH:
+                {
+                    ISwitchVectorProperty *svp = oneProp->getSwitch();
+                    QJsonArray switches;
+                    for (int i = 0; i < svp->nsp; i++)
+                    {
+                        QJsonObject oneSwitch = {{"name", svp->sp[i].name}, {"state", svp->sp[i].s}};
+                        if (!compact)
+                            oneSwitch.insert("label", svp->sp[i].label);
+                        switches.append(oneSwitch);
+                    }
+
+                    QJsonObject switchVector = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
+                    if (!compact)
+                    {
+                        switchVector.insert("label", svp->label);
+                        switchVector.insert("group", svp->group);
+                        switchVector.insert("perm", svp->p);
+                        switchVector.insert("rule", svp->r);
+                    };
+
+                    return switchVector;
+                }
+
+                case INDI_NUMBER:
+                {
+                    // TODO
+                }
+                break;
+
+                case INDI_TEXT:
+                {
+                    // TODO
+                }
+                break;
+
+
+                case INDI_LIGHT:
+                {
+                    // TODO
+                }
+                break;
+
+                case INDI_BLOB:
+                {
+                    // TODO
+                }
+                break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    return QJsonObject();
+}
+
 void GenericDevice::resetWatchdog()
 {
     INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
@@ -931,6 +1001,11 @@ uint32_t DeviceDecorator::getDriverInterface()
     return interfacePtr->getDriverInterface();
 }
 
+QString DeviceDecorator::getDriverVersion()
+{
+    return interfacePtr->getDriverVersion();
+}
+
 QList<INDI::Property *> DeviceDecorator::getProperties()
 {
     return interfacePtr->getProperties();
@@ -939,6 +1014,11 @@ QList<INDI::Property *> DeviceDecorator::getProperties()
 INDI::Property *DeviceDecorator::getProperty(const QString &propName)
 {
     return interfacePtr->getProperty(propName);
+}
+
+QJsonObject DeviceDecorator::getJSONProperty(const QString &propName, bool compact)
+{
+    return interfacePtr->getJSONProperty(propName, compact);
 }
 
 bool DeviceDecorator::isConnected()

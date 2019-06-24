@@ -57,6 +57,7 @@ class Message : public QObject
         void sendDomes();
         void sendCaps();
         void sendDrivers();
+        void sendDevices();
 
     signals:
         void connected();
@@ -147,6 +148,9 @@ class Message : public QObject
 
         // DSLRs
         void processDSLRCommands(const QString &command, const QJsonObject &payload);
+
+        // Low-level Device commands
+        void processDeviceCommands(const QString &command, const QJsonObject &payload);
 
         QWebSocket m_WebSocket;
         QJsonObject m_AuthResponse;
