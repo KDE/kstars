@@ -720,7 +720,7 @@ void Capture::checkCCD(int ccdNum)
             return;
     }
 
-    if (ccdNum <= CCDs.count())
+    if (ccdNum < CCDs.count())
     {
         // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
