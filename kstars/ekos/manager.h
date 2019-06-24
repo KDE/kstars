@@ -416,6 +416,8 @@ class Manager : public QDialog, public Ui::Manager
 
         // Find List of devices of specific family type
         QList<ISD::GDInterface *> findDevices(DeviceFamily type);
+        // Get all detected devices
+        QList<ISD::GDInterface *> getAllDevices();
 
         ProfileInfo *getCurrentProfile();
         void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture);

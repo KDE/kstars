@@ -192,6 +192,8 @@ void Message::onTextReceived(const QString &message)
         sendDomes();
     else if (command == commands[GET_CAPS])
         sendCaps();
+    else if (command == commands[GET_DEVICES])
+        sendDevices();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
@@ -358,6 +360,29 @@ void Message::sendDrivers()
         return;
 
     sendResponse(commands[GET_DRIVERS], DriverManager::Instance()->getDriverList());
+}
+
+void Message::sendDevices()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonArray deviceList;
+
+    for(ISD::GDInterface *gd : m_Manager->getAllDevices())
+    {
+        QJsonObject oneDevice =
+        {
+            {"name", gd->getDeviceName()},
+            {"connected", gd->isConnected()},
+            {"version", gd->getDriverVersion()},
+            {"interface", static_cast<int>(gd->getDriverInterface())},
+        };
+
+        deviceList.append(oneDevice);
+    }
+
+    sendResponse(commands[GET_DEVICES], deviceList);
 }
 
 void Message::sendScopes()
@@ -885,6 +910,28 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
                 payload["pixelw"].toDouble(),
                 payload["pixelh"].toDouble());
 
+    }
+}
+
+void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[DEVICE_GET_PROPERTY])
+    {
+        QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
+        QString device = payload["device"].toString();
+        auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
+        {
+            return (QString(oneDevice->getDeviceName()) == device);
+        });
+
+        if (pos == devices.end())
+            return;
+
+        auto oneDevice = *pos;
+
+        auto oneProperty = oneDevice->getJSONProperty(payload["property"].toString(), payload["compact"].toBool(true));
+
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET_PROPERTY]}, {"payload", oneProperty}}).toJson(QJsonDocument::Compact));
     }
 }
 
