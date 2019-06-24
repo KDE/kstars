@@ -832,10 +832,11 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
 
                     for (auto oneElement : propValue)
                     {
-                        ISwitch *sp = IUFindSwitch(svp, oneElement["name"].toString().toLatin1().constData());
+                        QJsonObject oneElementObject = oneElement.toObject();
+                        ISwitch *sp = IUFindSwitch(svp, oneElementObject["name"].toString().toLatin1().constData());
                         if (sp)
                         {
-                            sp->s = static_cast<ISState>(oneElement["state"].toInt());
+                            sp->s = static_cast<ISState>(oneElementObject["state"].toInt());
                         }
                     }
 
@@ -848,9 +849,10 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                     INumberVectorProperty *nvp = oneProp->getNumber();
                     for (auto oneElement : propValue)
                     {
-                        INumber *np = IUFindNumber(nvp, oneElement["name"].toString().toLatin1().constData());
+                        QJsonObject oneElementObject = oneElement.toObject();
+                        INumber *np = IUFindNumber(nvp, oneElementObject["name"].toString().toLatin1().constData());
                         if (np)
-                            np->value = oneElement["value"].toDouble();
+                            np->value = oneElementObject["value"].toDouble();
                     }
 
                     clientManager->sendNewNumber(nvp);
@@ -862,9 +864,10 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                     ITextVectorProperty *tvp = oneProp->getText();
                     for (auto oneElement : propValue)
                     {
-                        IText *tp = IUFindText(tvp, oneElement["name"].toString().toLatin1().constData());
+                        QJsonObject oneElementObject = oneElement.toObject();
+                        IText *tp = IUFindText(tvp, oneElementObject["name"].toString().toLatin1().constData());
                         if (tp)
-                            IUSaveText(tp, oneElement["text"].toString().toLatin1().constData());
+                            IUSaveText(tp, oneElementObject["text"].toString().toLatin1().constData());
                     }
 
                     clientManager->sendNewText(tvp);

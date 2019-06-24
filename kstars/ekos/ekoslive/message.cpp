@@ -935,7 +935,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
 
         m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET_PROPERTY]}, {"payload", oneProperty}}).toJson(QJsonDocument::Compact));
     }
-    else if (command == commands[DEVICE_GET_PROPERTY])
+    else if (command == commands[DEVICE_SET_PROPERTY])
     {
         QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
         QString device = payload["device"].toString();
