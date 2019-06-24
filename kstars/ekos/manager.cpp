@@ -1720,6 +1720,14 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
+    if (!strcmp(prop->getName(), "CCD_ISO"))
+    {
+        if (captureProcess.get() != nullptr)
+            captureProcess->checkCCD();
+
+        return;
+    }
+
     if (!strcmp(prop->getName(), "TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (captureProcess.get() != nullptr)
