@@ -14,6 +14,7 @@
   <name xml:lang="en-GB">KStars</name>
   <name xml:lang="es">KStars</name>
   <name xml:lang="et">KStars</name>
+  <name xml:lang="eu">KStars</name>
   <name xml:lang="fi">KStars</name>
   <name xml:lang="fr">KStars</name>
   <name xml:lang="gl">KStars</name>
@@ -46,6 +47,7 @@
   <summary xml:lang="en-GB">Desktop Planetarium</summary>
   <summary xml:lang="es">Planetario para el escritorio</summary>
   <summary xml:lang="et">Töölaua planetaarium</summary>
+  <summary xml:lang="eu">Mahaigaineko planetarioa</summary>
   <summary xml:lang="fi">Työpöytäplanetaario</summary>
   <summary xml:lang="fr">Planétarium de bureau</summary>
   <summary xml:lang="gl">Planetario de escritorio</summary>
@@ -74,6 +76,7 @@
     <p xml:lang="ca-valencia">El KStars és un programari d'astronomia de llicència lliure, codi obert i multiplataforma, creat per la comunitat KDE.</p>
     <p xml:lang="en-GB">KStars is freely licensed, open source, cross-platform Astronomy Software by KDE.</p>
     <p xml:lang="es">KStars es un software astronómico de licencia libre, de código abierto y multiplataforma, creado por KDE.</p>
+    <p xml:lang="eu">KStars lizentzia askeko, sorburu irekiko, plataforma-anitzerako KDEk egindako astronomia softwarea da.</p>
     <p xml:lang="gl">KStars é un software de astronomía libre, de código aberto e compatíbel con múltiple plataformas creado por KDE.</p>
     <p xml:lang="id">KStars adalah Software Astronomi yang terlisensi secara bebas, sumber terbuka, lintas platform oleh KDE.</p>
     <p xml:lang="nl">KStars is een opensource Astronomieprogramma van KDE, met een vrije licentie, dat draait op allerlei verschillende soorten computers.</p>
@@ -91,6 +94,7 @@
     <p xml:lang="de">KStars simuliert präzise den Blick in den nächtlichen Himmel von jedem Punkt der Erde aus, zu jedem beliebigen Datum und Uhrzeit. Derzeit gibt es im Planetarium bis zu 100 Millionen Sterne, 13000 Deep-Sky-Objekte, alle acht Planeten, die Sonne und den Mond, sowie tausende Kometen, Asteroiden, Supernovae und Satelliten.</p>
     <p xml:lang="en-GB">It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="es">Proporciona una precisa simulación gráfica del cielo nocturno vista desde cualquier punto de la Tierra y para cualquier fecha y hora. La pantalla muestra unos 100 millones de estrellas, 13.000 objetos del espacio profundo, los 8 planetas, el Sol y la Luna, así como miles de cometas, asteroides, supernovas y satélites.</p>
+    <p xml:lang="eu">Gaueko zeruaren simulazio grafiko zehatza ematen du, lurreko edozein kokalekutik, edozein data eta ordutan. Bistaratzeak 100 milioi izar ditu, 13.000 zeru-sakoneko objektu, 8 planetak, eguzkia eta ilargia, eta milaka kometa, asteroide, supernoba, eta satelite.</p>
     <p xml:lang="gl">Fornece un simulador gráfico preciso do ceo nocturno desde calquera lugar do planeta en calquera momento. A visualización inclúe ata 100 millóns de estrelas, 13.000 obxectos do espazo profundo, os 8 planetas, o sol e a lúa, e milleiros de cometas, asteroides, supernovas e satélites.</p>
     <p xml:lang="id">Ini memberikan simulasi grafis yang akurat dari langit malam, dari lokasi mana pun di Bumi, pada tanggal dan waktu apa pun. Termasuk displai hingga 100 juta bintang, 13.000 objek langit, semua 8 planet, Matahari dan Rembulan, dan ribuan komet, asteroid, supernova, dan satelit.</p>
     <p xml:lang="nl">Het geeft een nauwkeurige grafische simulatie van de nachtelijke hemel, vanaf elke locatie op aarde, voor elke datum en op elk tijdstip. Er kunnen tot aan 100 miljoen sterren worden afgebeeld, 13000 zogenaamde deepsky-objecten, alle 8 planeten, de zon en de maan, en duizenden kometen, planetoïden, supernova's, en satellieten.</p>
@@ -110,6 +114,7 @@
     <p xml:lang="ca-valencia">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per predir conjuncions i molts càlculs astronòmics habituals.</p>
     <p xml:lang="en-GB">For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="es">Para estudiantes y profesores, permite ajustar la velocidad de simulación para poder ver fenómenos que ocurren a lo largo de mucho tiempo; la calculadora astronómica de KStars permite predecir conjunciones y realizar cálculos astronómicos comunes.</p>
+    <p xml:lang="eu">Ikasle eta irakasleentzat, simulazio abiadura erregulagarriak onartzen ditu denbora-eskala luzeetan gertatzen diren fenomenoak ikusi ahal izateko, KStars Astrokalkulagailua konjuntzioak kalkulatzeko, eta kalkulu astronomiko arrunt ugari.</p>
     <p xml:lang="gl">Para estudantes e profesores, permite axustar a velocidade da simulación para ver os fenómenos que se producen ao longo de moito tempo, a calculadora de astros de KStars para predicir aliñamentos, e moitos cálculos astronómicos comúns.</p>
     <p xml:lang="id">Bagi siswa dan guru, ini mendukung kecepatan simulasi yang disesuaikan untuk melihat fenomena yang terjadi dalam jangka waktu yang lama, KStars Astrocalculator untuk memprediksi konjungsi, dan banyak perhitungan astronomi umum.</p>
     <p xml:lang="nl">Voor leerlingen en docenten zijn aan te passen simulatiesnelheden mogelijk, om hemelverschijnselen zichtbaar te maken die in werkelijkheid heel veel tijd in beslag nemen. De Astrorekenmachine van KStars kan verduisteringen van te voren berekenen, en veel andere gewone sterrenkundige berekeningen uitvoeren.</p>
@@ -129,6 +134,7 @@
     <p xml:lang="ca-valencia">Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-ho. Descobreix objectes interessants amb l'eina «Què passa aquesta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimeix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per ajudar-vos a explorar l'univers!</p>
     <p xml:lang="en-GB">For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!</p>
     <p xml:lang="es">Para el astrónomo aficionado, proporciona un planificador de observaciones, una herramienta de calendario celeste y un editor de campo visual para calcular el campo visual de su equipo y poder mostrarlo. Descubra interesantes objetos con la herramienta «¿Qué ocurre esta noche?», muestre gráficos de altitud frente a hora para cualquier objeto, imprima mapas del cielo de gran calidad y obtenga acceso a gran cantidad de información y recursos que le ayudarán a explorar el universo.</p>
+    <p xml:lang="eu">Astronomia-zaleentzat, behaketa planifikatzaile bat dakar, zeruko egutegi tresna bat, eta FOV editore bat ekipamenduaren ikus-eremua kalkulatu eta bistaratzeko. Topatu objektu interesgarriak "Zer berri gaur gauean" tresnan, altitudea denborarekiko grafikoak trazatu edozein objekturentzat, inprimatu kalitate handiko zeruko diagramak, eta eskuratu ezazu unibertsoa esploratzen lagunduko dizun informazio eta baliabide ugarietara sarbidea!</p>
     <p xml:lang="gl">Para astrónomos afeccionados fornece un planificador de observación, unha ferramenta de calendario celeste, e un editor de campo de visión para calcular o campo de visión de equipamento e mostralo. Descobre obxectos interesantes coa ferramenta «Que pasa esta noite?», xera gráficos de altitude e tempo para calquera obxecto, imprime cartas celestes de gran calidade, e obtén acceso a unha morea de información e recursos para axudarte a explorar o universo.</p>
     <p xml:lang="id">Bagi astronom amatir, ia menyediakan perencana observasi, alat kalender langit, dan editor FOV untuk menghitung bidang pandang peralatan dan menampilkannya. Temukan benda-benda menarik di alat "What's up Tonight", plot ketinggian vs grafik waktu untuk objek apa pun, cetak bagan langit berkualitas tinggi, dan dapatkan akses ke banyak informasi dan sumberdaya untuk membantu Anda menjelajahi alam semesta!</p>
     <p xml:lang="nl">Voor de amateur astronoom is er een observatieplanner, een hemelkalender, en een GV-bewerker voor het berekenen van het gezichtsveld van apparatuur, en het afbeelden daarvan. Ontdek interessante waarneemobjecten in het hulpmiddel voor Wat er vanavond te zien is, hoogtes te berekenen van enig object, als functie van de tijd, zeer goede hemelkaarten af te drukken, en toegang te verkrijgen tot een enorm scala aan informatie en bronnen waarmee u het heelal kunt onderzoeken!</p>
@@ -148,6 +154,7 @@
     <p xml:lang="ca-valencia">Inclòs amb el KStars hi ha el paquet astrofotogràfic Ekos, una solució completa d'astrofotografia que pot controlar tots els dispositius INDI, inclosos nombrosos telescopis, CCD, DSLR, enfocadors, filtres i molt més. L'Ekos admet el seguiment d'alta precisió emprant el solucionador d'astrometria en línia i fora de línia, té capacitats d'enfocament automàtic i de guiatge automàtic, i permet capturar una o múltiples imatges emprant el potent gestor de seqüències integrat.</p>
     <p xml:lang="en-GB">Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.</p>
     <p xml:lang="es">KStars incluye la suite de astrofotografía Ekos, una completa solución de fotografía astronómica que puede controlar cualquier dispositivo INDI, como telescopios, cámaras CCD y DSLR, sistemas de enfoque y filtros, entre otros. Ekos permite un seguimiento de alta precisión mediante el uso de sistemas de identificación con y sin conexión, funciones de enfoque y de guiado automáticos, así como la captura de una o múltiples imágenes mediante el uso de potente gestor de secuencias que integra.</p>
+    <p xml:lang="eu">KStars-ekin batera Ekos astro-argazkigintza suitea dator, astro-argazkigintza soluzio oso bat INDI gailu guztiak kontrolatu ditzakeena tartean teleskopio ugari, CCDak, DSLRak, fokatzaileak, iragazkiak, eta askoz gehiago. Ekos-ek zehaztasun handiko jarraipena onartzen du lerroko eta lerroz kanpoko astrometria ebazleak erabiliz, auto-fokua eta auto-gidatze gaitasunak, eta irudi bakar edo anitzak atzematea barnean eraikia duen sekuentzia kudeatzaile ahaltsua erabiliz.</p>
     <p xml:lang="gl">KStar inclúe a colección de software de astrofotografía Ekos, unha solución completa de astrofotografía que pode controlar todos os dispositivos INDI, incluídos moitos telescopios, CCDs, DSLRs, enfocadores, filtros e moito máis. Ekos permite facer seguimentos moi precisos mediante un resolvedor de astrometría por internet e sen internet, goza de capacidade para enforcar e guiar automaticamente, e permite capturar unha ou varias imaxes usando un potente xestor de secuencias que vai incluído.</p>
     <p xml:lang="id">Yang termasuk dengan KStars adalah Ekos astrophotography suite, solusi astrophotography lengkap yang dapat mengendalikan semua perangkat INDI termasuk banyak teleskop, CCD, DSLR, fokus, filter, dan banyak lagi. Ekos mendukung pelacakan yang sangat akurat menggunakan pemecah astrometri online dan offline, kemampuan fokus otomatis dan autoguiding, dan menangkap gambar tunggal atau ganda menggunakan pengelola urutan yang kuat.</p>
     <p xml:lang="nl">Tot KStars behoren ook de programma's van Ekos Astrophotography, een complete oplossing voor sterrenfotografie, waarmee alle INDI-apparaten kunnen worden bestuurd, inclusief talloze telescopen, CCD's, DSLR's, focusers, filters, en veel meer. Met Ekos kunt u sterren zeer nauwkeurig volgen met behulp van online en offline astrometrische berekeningen, er zijn mogelijkheden voor autofocus en autovolgen, en voor opnames van enkele of meerdere afbeeldingen, met gebruik van een ingebouwde mogelijkheid tot het beheren van een serie opnames.</p>
@@ -171,6 +178,7 @@
     <p xml:lang="en-GB">Astronomical Catalogues:</p>
     <p xml:lang="es">Catálogos astronómicos:</p>
     <p xml:lang="et">Tähekataloogid:</p>
+    <p xml:lang="eu">Katalogo astronomikoak:</p>
     <p xml:lang="fi">Tähtitieteelliset luettelot:</p>
     <p xml:lang="gl">Catálogos astronómicos:</p>
     <p xml:lang="id">Katalog Astronomi:</p>
@@ -200,6 +208,7 @@
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="et">Vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
+      <li xml:lang="eu">Katalogo lehenetsia, 8 magnitude arteko izarrak dituena</li>
       <li xml:lang="fi">Oletusluettelo sisältää tähdet suuruusluokkaan 8 saakka</li>
       <li xml:lang="fr">Le catalogue par défaut contient des étoiles de magnitude 8</li>
       <li xml:lang="gl">Catálogo predeterminado composto de estrelas de magnitudes 8 e inferiores.</li>
@@ -226,6 +235,7 @@
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="et">Lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
+      <li xml:lang="eu">Katalogo gehigarriak, 16 magnitude arteko 100 milioi izar dituztenak</li>
       <li xml:lang="fi">Lisäluettelo sisältää 100 miljoonaa tähteä suuruusluokkaan 16 saakka</li>
       <li xml:lang="fr">D'autres catalogues contiennent 100 millions d'étoiles de magnitude 16</li>
       <li xml:lang="gl">Catálogos adicionais con 100 millóns de estrelas de magnitudes ata a 16.</li>
@@ -250,6 +260,7 @@
       <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog, Sharpless-Katalog und Lynds Dunkelnebel-Katalog</li>
       <li xml:lang="en-GB">Downloadable catalogues including Messier Images, Abell Planetary Nebulae, Sharpless Catalogue, Lynds Dark Nebula Catalogue</li>
       <li xml:lang="es">Los catálogos que puede descargar contienen imágenes de objetos Messier, Nebulosas planetarias Abell, el Catálogo Sharpless y el catálogo de nebulosas oscuras Lynds</li>
+      <li xml:lang="eu">Jaitsi daitezkeen katalogoak, haien artean Messier Irudiak, Abell Planeten Nebulosa, Sharpless Katalogoa, Lynds Nebulosa Iluna katalogoa</li>
       <li xml:lang="gl">Catálogos dispoñíbeis para descarga entre os que hai imaxes de Messier, as nebulosas planetarias Abell, o catálogo Sharpless ou o catálogo de nebulosa escura de Lynds.</li>
       <li xml:lang="id">Katalog yang dapat diunduh termasuk Messier Images, Abell Planetary Nebulae, Sharpless Catalogue, Lynds Dark Nebula Catalog</li>
       <li xml:lang="nl">Catalogi die kunnen worden gedownload, met inbegrip van Messier objecten, Abell planetaire nevels, Sharpless Catalogus, Lynds Dark Nebula Catalog (catalogus donkere nevels)</li>
@@ -272,6 +283,7 @@
       <li xml:lang="en-GB">Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="es">Correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="et">Pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
+      <li xml:lang="eu">Zuzenketak prezesioentzat, nutazioarentzat eta errefrakzio atmosferikoarentzat</li>
       <li xml:lang="fi">Korjaukset presessiolle, nutaatiolle ja ilmakehätaittumiselle</li>
       <li xml:lang="fr">Corrections pour la précession, la nutation et les réfractions atmosphériques.</li>
       <li xml:lang="gl">Correccións de precesión, nutación e refracción atmosférica.</li>
@@ -299,6 +311,7 @@
       <li xml:lang="en-GB">Tools for retrieval of data from online databases</li>
       <li xml:lang="es">Herramientas de obtención de datos de bases de datos en línea</li>
       <li xml:lang="et">Võimalus hankida andmeid võrguandmebaasidest</li>
+      <li xml:lang="eu">Lerroko datu-baseetatik datuak-berreskuratzerako tresnak</li>
       <li xml:lang="fi">Työkalut aineiston hakemiseen verkossa olevista tietokannoista</li>
       <li xml:lang="gl">Ferramentas para obter datos de bases de datos en internet.</li>
       <li xml:lang="id">Alat untuk penerimaan data dari database online</li>
@@ -327,6 +340,7 @@
       <caption xml:lang="ca-valencia">Finestra principal del KStars</caption>
       <caption xml:lang="en-GB">KStars main window</caption>
       <caption xml:lang="es">Ventana principal de KStars</caption>
+      <caption xml:lang="eu">Kstars leiho nagusia</caption>
       <caption xml:lang="gl">Xanela principal de KStars</caption>
       <caption xml:lang="id">Window utama KStars</caption>
       <caption xml:lang="nl">Het hoofdvenster van KStars</caption>
@@ -346,6 +360,7 @@
       <caption xml:lang="ca-valencia">Eina «Què hi ha d'interessant» al KStars</caption>
       <caption xml:lang="en-GB">"What's interesting" tool in KStars</caption>
       <caption xml:lang="es">Herramienta «Qué es interesante» de KStars</caption>
+      <caption xml:lang="eu">"Zer berri gaur gauean" tresna KStars-en</caption>
       <caption xml:lang="gl">Ferramenta de «Que hai de interesante» de KStars</caption>
       <caption xml:lang="id">Alat "What's interesting" di KStars</caption>
       <caption xml:lang="nl">Het hulpmiddel voor "Wat is interessant" in KStars</caption>
@@ -363,6 +378,7 @@
       <caption xml:lang="ca-valencia">Eina Ekos al KStars</caption>
       <caption xml:lang="en-GB">Ekos tool in KStars</caption>
       <caption xml:lang="es">Herramienta Ekos en KStars</caption>
+      <caption xml:lang="eu">Ekos tresnak KStars-en</caption>
       <caption xml:lang="gl">Ferramenta de Ekos de KStars</caption>
       <caption xml:lang="id">Alat Ekos di KStars</caption>
       <caption xml:lang="nl">Het hulpmiddel Ekos in KStars</caption>
@@ -380,6 +396,7 @@
       <caption xml:lang="ca-valencia">Planificador de l'observació del KStars</caption>
       <caption xml:lang="en-GB">Observation Planner of KStars</caption>
       <caption xml:lang="es">Planificador de observación de KStars</caption>
+      <caption xml:lang="eu">KStars-en behaketa planifikatzailea</caption>
       <caption xml:lang="gl">Planificador de observacións de KStars</caption>
       <caption xml:lang="id">Perencana Observasi KStars</caption>
       <caption xml:lang="nl">Plannen van waarnemingen in KStars</caption>
