@@ -5892,6 +5892,9 @@ void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, do
     KStarsData::Instance()->userdb()->AddDSLRInfo(oneDSLRInfo);
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
 
+    updateFrameProperties();
+    resetFrame();
+
     // In case the dialog was opened, let's close it
     if (dslrInfoDialog)
         dslrInfoDialog.reset();
@@ -6096,11 +6099,6 @@ void Capture::createDSLRDialog()
                     dslrInfoDialog->sensorMaxHeight,
                     dslrInfoDialog->sensorPixelW,
                     dslrInfoDialog->sensorPixelH);
-
-        dslrInfoDialog.reset();
-
-        updateFrameProperties();
-        resetFrame();
     });
 
     dslrInfoDialog->show();
