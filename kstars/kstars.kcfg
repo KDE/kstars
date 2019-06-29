@@ -1484,6 +1484,9 @@
        <label>Whether EkosLive connection mode is online.</label>
        <default>true</default>
     </entry>
+    <entry name="EkosLiveUsername" type="String">
+       <label>EkosLive username</label>
+    </entry>
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>
