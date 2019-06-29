@@ -337,6 +337,8 @@ void Client::setConfig(bool onlineService, bool rememberCredentials, bool autoCo
 void Client::setUser(const QString &user, const QString &pass)
 {
     username->setText(user);
+    Options::setEkosLiveUsername(user);
+
     password->setText(pass);
 }
 
