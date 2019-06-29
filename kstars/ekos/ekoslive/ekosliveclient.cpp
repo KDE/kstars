@@ -64,6 +64,12 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             connectAuthServer();
     });
 
+    connect(password, &QLineEdit::returnPressed, [ = ]()
+    {
+        if (!m_isConnected)
+            connectAuthServer();
+    });
+
     rememberCredentialsCheck->setChecked(Options::rememberCredentials());
     connect(rememberCredentialsCheck, &QCheckBox::toggled, [ = ](bool toggled)
     {
