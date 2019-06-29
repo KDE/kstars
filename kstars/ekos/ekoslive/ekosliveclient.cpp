@@ -56,6 +56,12 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
 
+    username->setText(Options::ekosLiveUsername());
+    connect(username, &QLineEdit::editingFinished, [ = ]()
+    {
+        Options::setEkosLiveUsername(username->text());
+    });
+
     connect(connectB, &QPushButton::clicked, [ = ]()
     {
         if (m_isConnected)
@@ -127,14 +133,17 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     {
         if (job->error() == false)
         {
-            QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
-            const QString usernameText = data["username"].toString();
-            const QString passwordText = data["password"].toString();
+            //QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
+            //const QString usernameText = data["username"].toString();
+            //const QString passwordText = data["password"].toString();
+
+            const auto passwordText = dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1();
 
             // Only set and attempt connection if the data is not empty
-            if (usernameText.isEmpty() == false && passwordText.isEmpty() == false)
+            //if (usernameText.isEmpty() == false && passwordText.isEmpty() == false)
+            if (passwordText.isEmpty() == false && username->text().isEmpty() == false)
             {
-                username->setText(usernameText);
+                //username->setText(usernameText);
                 password->setText(passwordText);
 
                 if (autoStartCheck->isChecked())
@@ -186,16 +195,17 @@ void Client::onConnected()
     if (rememberCredentialsCheck->isChecked())
     {
 #ifdef HAVE_KEYCHAIN
-        QJsonObject credentials =
-        {
-            {"username", username->text()},
-            {"password", password->text()}
-        };
+        //        QJsonObject credentials =
+        //        {
+        //            {"username", username->text()},
+        //            {"password", password->text()}
+        //        };
 
         QKeychain::WritePasswordJob *job = new QKeychain::WritePasswordJob(QLatin1String("kstars"));
         job->setAutoDelete(true);
         job->setKey(QLatin1String("ekoslive"));
-        job->setTextData(QJsonDocument(credentials).toJson());
+        //job->setTextData(QJsonDocument(credentials).toJson());
+        job->setTextData(password->text());
         job->start();
 #endif
     }
