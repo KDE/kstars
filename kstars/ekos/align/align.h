@@ -74,7 +74,7 @@ class Align : public QWidget, public Ui::Align
 
     public:
         explicit Align(ProfileInfo *activeProfile);
-        virtual ~Align();
+        virtual ~Align() override;
 
         typedef enum
         {
@@ -636,6 +636,8 @@ class Align : public QWidget, public Ui::Align
              * @return List of Solver options
              */
         QStringList getSolverOptionsFromFITS(const QString &filename);
+
+        uint8_t getSolverDownsample(uint16_t binnedW);
 
         /**
              * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.

@@ -1891,6 +1891,10 @@
          <label>Downsample factor</label>
          <default>2</default>
       </entry>
+      <entry name="AstrometryAutoDownsample" type="Bool">
+         <label>Automatically downsample based on image size.</label>
+         <default>true</default>
+      </entry>
       <entry name="AstrometryUsePosition" type="Bool">
          <label>Set estimated position to speed up astrometry solver as it does not have to search in other areas of the sky.</label>
          <default>true</default>

@@ -2418,7 +2418,16 @@ void Align::generateArgs()
         optionsMap["nofits2fits"] = true;
 
     if (Options::astrometryUseDownsample())
-        optionsMap["downsample"] = Options::astrometryDownsample();
+    {
+        if (Options::astrometryAutoDownsample() && ccd_width && ccd_height)
+        {
+            uint8_t bin = qMax(Options::solverBinningIndex() + 1, 1u);
+            uint16_t w = ccd_width / bin;
+            optionsMap["downsample"] = getSolverDownsample(w);
+        }
+        else
+            optionsMap["downsample"] = Options::astrometryDownsample();
+    }
 
     if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
     {
@@ -2479,19 +2488,19 @@ bool Align::captureAndSolve()
     m_AlignTimer.stop();
     m_CaptureTimer.stop();
 
-    #ifdef Q_OS_OSX
-        if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+#ifdef Q_OS_OSX
+    if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+    {
+        if(Options::useDefaultPython())
         {
-            if(Options::useDefaultPython())
+            if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
             {
-                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
-                {
-                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
-                    return false;
-                }
+                KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                return false;
             }
         }
-    #endif
+    }
+#endif
 
     if (currentCCD == nullptr)
         return false;
@@ -4368,19 +4377,19 @@ bool Align::loadAndSlew(QString fileURL)
         return;
     }*/
 
-    #ifdef Q_OS_OSX
-        if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+#ifdef Q_OS_OSX
+    if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+    {
+        if(Options::useDefaultPython())
         {
-            if(Options::useDefaultPython())
+            if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
             {
-                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
-                {
-                    KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
-                    return false;
-                }
+                KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                return false;
             }
         }
-    #endif
+    }
+#endif
 
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath,
@@ -4703,6 +4712,13 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         return solver_args;
     }
 
+    // If we need to auto downsample, let us figure out the scale and regenerate options
+    if (Options::astrometryAutoDownsample())
+    {
+        optionsMap["downsample"] = getSolverDownsample(fits_ccd_width);
+        solver_args = generateOptions(optionsMap);
+    }
+
     bool coord_ok = true;
 
     status = 0;
@@ -4828,6 +4844,24 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
                     << "aw";
 
     return solver_args;
+}
+
+uint8_t Align::getSolverDownsample(uint16_t binnedW)
+{
+    uint8_t downsample = Options::astrometryDownsample();
+
+    if (!Options::astrometryAutoDownsample())
+        return downsample;
+
+    while (downsample < 8)
+    {
+        if (binnedW / downsample <= 1024)
+            break;
+
+        downsample += 2;
+    }
+
+    return downsample;
 }
 
 void Align::saveSettleTime()
