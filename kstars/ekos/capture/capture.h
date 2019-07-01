@@ -327,6 +327,12 @@ class Capture : public QWidget, public Ui::Capture
         void setSettings(const QJsonObject &settings);
 
         /**
+         * @brief getSettings get current capture settings as a JSON Object
+         * @return settings as JSON object
+         */
+        QJsonObject getSettings();
+
+        /**
          * @brief addDSLRInfo Save DSLR Info the in the database. If the interactive dialog was open, close it.
          * @param model Camera name
          * @param maxW Maximum width in pixels
