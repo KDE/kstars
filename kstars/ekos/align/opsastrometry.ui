@@ -409,6 +409,16 @@
         </property>
        </spacer>
       </item>
+      <item row="3" column="4">
+       <widget class="QCheckBox" name="kcfg_AstrometryAutoDownsample">
+        <property name="toolTip">
+         <string>Automatically determine downsample value based on image size</string>
+        </property>
+        <property name="text">
+         <string>Auto</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -708,6 +718,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="../../data/kstars.qrc"/>
   <include location="../../data/kstars.qrc"/>
  </resources>
  <connections/>
