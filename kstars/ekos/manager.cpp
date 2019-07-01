@@ -1976,8 +1976,6 @@ void Manager::initCapture()
         }
     });
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
-    connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSequence);
-    connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSettings);
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
@@ -3128,6 +3126,8 @@ void Manager::connectModules()
         captureProcess.get()->disconnect(ekosLiveClient.get()->message());
 
         connect(captureProcess.get(), &Ekos::Capture::dslrInfoRequested, ekosLiveClient.get()->message(), &EkosLive::Message::requestDSLRInfo);
+        connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSequence);
+        connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSettings);
     }
 
     // Focus <---> Align connections

@@ -360,6 +360,8 @@ void Capture::addCCD(ISD::GDInterface * newCCD)
         syncFilterInfo();
 
     checkCCD();
+
+    emit settingsUpdated(getSettings());
 }
 
 void Capture::addGuideHead(ISD::GDInterface * newCCD)
@@ -390,6 +392,8 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
     checkFilter(1);
 
     FilterDevicesCombo->setCurrentIndex(1);
+
+    emit settingsUpdated(getSettings());
 }
 
 void Capture::pause()
@@ -4043,6 +4047,11 @@ void Capture::syncGUIToJob(SequenceJob * job)
     else
         rotatorSettings->setRotationEnforced(false);
 
+    emit settingsUpdated(getSettings());
+}
+
+QJsonObject Capture::getSettings()
+{
     QJsonObject settings;
 
     settings.insert("camera", CCDCaptureCombo->currentText());
@@ -4054,7 +4063,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("targetTemperature", temperatureIN->value());
 
-    emit settingsUpdated(settings);
+    return settings;
 }
 
 void Capture::selectedJobChanged(QModelIndex current, QModelIndex previous)
