@@ -636,9 +636,7 @@ QPointer<FITSViewer> KStars::genericFITSViewer()
 
     return m_GenericFITSViewer;
 }
-#endif
 
-#ifdef HAVE_CFITSIO
 void KStars::addFITSViewer(QPointer<FITSViewer> fv)
 {
     m_FITSViewers.append(fv);
@@ -647,24 +645,6 @@ void KStars::addFITSViewer(QPointer<FITSViewer> fv)
         m_FITSViewers.removeOne(fv);
     });
 }
-#endif
-#ifdef HAVE_INDI
-
-Ekos::Manager *KStars::ekosManager()
-{
-    if (m_EkosManager.isNull())
-        m_EkosManager = new Ekos::Manager(Options::independentWindowEkos() ? nullptr : this);
-
-    return m_EkosManager;
-}
-
-#endif
-
-void KStars::closeEvent(QCloseEvent *event)
-{
-    KStars::Closing = true;
-    QWidget::closeEvent(event);
-}
 
 void KStars::clearAllViewers()
 {
@@ -672,4 +652,21 @@ void KStars::clearAllViewers()
         fv->close();
 
     m_FITSViewers.clear();
+}
+#endif
+
+#ifdef HAVE_INDI
+Ekos::Manager *KStars::ekosManager()
+{
+    if (m_EkosManager.isNull())
+        m_EkosManager = new Ekos::Manager(Options::independentWindowEkos() ? nullptr : this);
+
+    return m_EkosManager;
+}
+#endif
+
+void KStars::closeEvent(QCloseEvent *event)
+{
+    KStars::Closing = true;
+    QWidget::closeEvent(event);
 }

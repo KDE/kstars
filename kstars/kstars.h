@@ -162,6 +162,7 @@ class KStars : public KXmlGuiWindow
 #ifdef HAVE_CFITSIO
         QPointer<FITSViewer> genericFITSViewer();
         void addFITSViewer(QPointer<FITSViewer> fv);
+        void clearAllViewers();
 #endif
 
 #ifdef HAVE_INDI
@@ -198,8 +199,6 @@ class KStars : public KXmlGuiWindow
         void selectPreviousFov();
 
         void showWISettingsUI();
-
-        void clearAllViewers();
 
         void showWI(ObsConditions *obs);
 
