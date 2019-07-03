@@ -5981,20 +5981,22 @@ void Capture::setSettings(const QJsonObject &settings)
 
     if (CCDCaptureCombo->currentText() != targetCamera)
     {
-        CCDCaptureCombo->setCurrentText(targetCamera);
-        checkCCD();
+
+        const int index = CCDCaptureCombo->findText(targetCamera);
+        CCDCaptureCombo->setCurrentIndex(index);
+        checkCCD(index);
     }
 
     if (!targetFW.isEmpty() && FilterDevicesCombo->currentText() != targetFW)
     {
-        FilterDevicesCombo->setCurrentText(targetFW);
-        checkFilter();
+        const int index = FilterDevicesCombo->findText(targetFW);
+        FilterDevicesCombo->setCurrentIndex(index);
+        checkFilter(index);
     }
 
     if (!targetFilter.isEmpty() && FilterPosCombo->currentText() != targetFilter)
     {
-        FilterPosCombo->setCurrentText(targetFilter);
-        updateHFRThreshold();
+        FilterPosCombo->setCurrentIndex(FilterPosCombo->findText(targetFilter));
     }
 
     exposureIN->setValue(settings["exp"].toDouble(1));
