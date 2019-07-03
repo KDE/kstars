@@ -41,6 +41,7 @@ void Dome::setDome(ISD::GDInterface *newDome)
     connect(currentDome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status) {m_ParkStatus = status;});
     connect(currentDome, &ISD::Dome::newShutterStatus, this, &Dome::newShutterStatus);
     connect(currentDome, &ISD::Dome::newShutterStatus, [&](ISD::Dome::ShutterStatus status) {m_ShutterStatus = status;});
+    connect(currentDome, &ISD::Dome::newAutoSyncStatus, this, &Dome::newAutoSyncStatus);
     connect(currentDome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
     connect(currentDome, &ISD::Dome::ready, this, &Dome::ready);
     connect(currentDome, &ISD::Dome::Disconnected, this, &Dome::disconnected);
@@ -111,6 +112,14 @@ bool Dome::canAbsoluteMove()
     return false;
 }
 
+bool Dome::canRelativeMove()
+{
+    if (currentDome)
+        return currentDome->canRelMove();
+
+    return false;
+}
+
 double Dome::azimuthPosition()
 {
     if (currentDome)
@@ -122,6 +131,28 @@ void Dome::setAzimuthPosition(double position)
 {
     if (currentDome)
         currentDome->setAzimuthPosition(position);
+}
+
+void Dome::setRelativePosition(double position)
+{
+    if (currentDome)
+        currentDome->setRelativePosition(position);
+}
+
+bool Dome::isAutoSync()
+{
+    if (currentDome)
+        return currentDome->isAutoSync();
+    // value could not be determined
+    return false;
+}
+
+bool Dome::setAutoSync(bool activate)
+{
+    if (currentDome)
+        return currentDome->setAutoSync(activate);
+    // not succeeded
+    return false;
 }
 
 bool Dome::hasShutter()

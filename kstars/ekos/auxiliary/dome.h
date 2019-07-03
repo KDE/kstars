@@ -31,6 +31,7 @@ class Dome : public QObject
     Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
     Q_PROPERTY(bool canPark READ canPark)
     Q_PROPERTY(bool canAbsoluteMove READ canAbsoluteMove)
+    Q_PROPERTY(bool canRelativeMove READ canRelativeMove)
     Q_PROPERTY(bool isMoving READ isMoving)
     Q_PROPERTY(double azimuthPosition READ azimuthPosition WRITE setAzimuthPosition NOTIFY azimuthPositionChanged)
 
@@ -65,6 +66,11 @@ class Dome : public QObject
 
     /**
      * DBUS interface function.
+     * Can dome move to an relative azimuth position?
+     */
+    Q_SCRIPTABLE bool canRelativeMove();
+    /**
+     * DBUS interface function.
      * Park dome
      */
     Q_SCRIPTABLE bool park();
@@ -90,6 +96,10 @@ class Dome : public QObject
 
     Q_SCRIPTABLE double azimuthPosition();
     Q_SCRIPTABLE void setAzimuthPosition(double position);
+    Q_SCRIPTABLE void setRelativePosition(double position);
+
+    Q_SCRIPTABLE bool isAutoSync();
+    Q_SCRIPTABLE bool setAutoSync(bool activate);
 
     Q_SCRIPTABLE bool hasShutter();
     Q_SCRIPTABLE bool controlShutter(bool open);
@@ -116,6 +126,7 @@ signals:
     void newStatus(ISD::Dome::Status status);
     void newParkStatus(ISD::ParkStatus status);
     void newShutterStatus(ISD::Dome::ShutterStatus status);
+    void newAutoSyncStatus(bool enabled);
     void azimuthPositionChanged(double position);
     void ready();
     // Signal when the underlying ISD::Dome signals a Disconnected()

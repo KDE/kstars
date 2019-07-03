@@ -81,6 +81,10 @@ void Dome::registerProperty(INDI::Property *prop)
     {
         m_CanAbsMove = true;
     }
+    else if (!strcmp(prop->getName(), "REL_DOME_POSITION"))
+    {
+        m_CanRelMove = true;
+    }
     else if (!strcmp(prop->getName(), "DOME_ABORT_MOTION"))
     {
         m_CanAbort = true;
@@ -289,6 +293,12 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
         return;
 
     }
+    else if (!strcmp(svp->name, "DOME_AUTOSYNC"))
+    {
+        ISwitch *sp = IUFindSwitch(svp, "DOME_AUTOSYNC_ENABLE");
+        if (sp != nullptr)
+            emit newAutoSyncStatus(sp->s == ISS_ON);
+    }
     DeviceDecorator::processSwitch(svp);
 }
 
@@ -385,6 +395,51 @@ bool Dome::setAzimuthPosition(double position)
 
     az->np[0].value = position;
     clientManager->sendNewNumber(az);
+    return true;
+}
+
+bool Dome::setRelativePosition(double position)
+{
+    INumberVectorProperty *azDiff = baseDevice->getNumber("REL_DOME_POSITION");
+
+    if (azDiff == nullptr)
+        return false;
+
+    azDiff->np[0].value = position;
+    clientManager->sendNewNumber(azDiff);
+    return true;
+}
+
+bool Dome::isAutoSync()
+{
+    ISwitchVectorProperty *autosync = baseDevice->getSwitch("DOME_AUTOSYNC");
+
+    if (autosync == nullptr)
+        return false;
+
+    ISwitch *autosyncSW = IUFindSwitch(autosync, "DOME_AUTOSYNC_ENABLE");
+
+    if (autosync == nullptr)
+        return false;
+    else
+        return (autosyncSW->s == ISS_ON);
+}
+
+bool Dome::setAutoSync(bool activate)
+{
+    ISwitchVectorProperty *autosync = baseDevice->getSwitch("DOME_AUTOSYNC");
+
+    if (autosync == nullptr)
+        return false;
+
+    ISwitch *autosyncSW = IUFindSwitch(autosync, activate ? "DOME_AUTOSYNC_ENABLE" : "DOME_AUTOSYNC_DISABLE");
+    if (autosyncSW == nullptr)
+        return false;
+
+    IUResetSwitch(autosync);
+    autosyncSW->s = ISS_ON;
+    clientManager->sendNewSwitch(autosync);
+
     return true;
 }
 

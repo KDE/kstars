@@ -34,11 +34,10 @@ Observatory::Observatory()
     statusDefinitionBox->setVisible(true);
     statusDefinitionBox->setEnabled(true);
     // make invisible, since not implemented yet
-    angleLabel->setVisible(false);
-    domeAngleSpinBox->setVisible(false);
-    setDomeAngleButton->setVisible(false);
     weatherWarningSchedulerCB->setVisible(false);
     weatherAlertSchedulerCB->setVisible(false);
+    motionCWButton->setVisible(false);
+    motionCCWButton->setVisible(false);
 }
 
 void Observatory::setObseratoryStatusControl(ObservatoryStatusControl control)
@@ -61,7 +60,24 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
         connect(model, &Ekos::ObservatoryDomeModel::disconnected, this, &Ekos::Observatory::shutdownDome);
         connect(model, &Ekos::ObservatoryDomeModel::newStatus, this, &Ekos::Observatory::setDomeStatus);
         connect(model, &Ekos::ObservatoryDomeModel::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
+        connect(model, &Ekos::ObservatoryDomeModel::azimuthPositionChanged, this, &Ekos::Observatory::domeAzimuthChanged);
+        connect(model, &Ekos::ObservatoryDomeModel::newAutoSyncStatus, this, &Ekos::Observatory::showAutoSync);
 
+        // motion controls
+        connect(motionMoveAbsButton, &QCheckBox::clicked, [this]()
+        {
+            mObservatoryModel->getDomeModel()->setAzimuthPosition(absoluteMotionSB->value());
+        });
+
+        connect(motionMoveRelButton, &QCheckBox::clicked, [this]()
+        {
+            mObservatoryModel->getDomeModel()->setRelativePosition(relativeMotionSB->value());
+        });
+
+        // abort button
+        connect(motionAbortButton, &QPushButton::clicked, model, &ObservatoryDomeModel::abort);
+
+        // weather controls
         connect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         connect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
@@ -82,12 +98,6 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
     {
         shutdownDome();
 
-
-        // JM 2019-06-11: You cannot disconnect a nullptr here.
-        //        disconnect(model, &Ekos::ObservatoryDomeModel::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
-        //        disconnect(model, &Ekos::ObservatoryDomeModel::newStatus, this, &Ekos::Observatory::setDomeStatus);
-        //        disconnect(model, &Ekos::ObservatoryDomeModel::ready, this, &Ekos::Observatory::initDome);
-        //        disconnect(model, &Ekos::ObservatoryDomeModel::disconnected, this, &Ekos::Observatory::shutdownDome);
 
         disconnect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         disconnect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
@@ -128,6 +138,9 @@ void Observatory::initDome()
             domeUnpark->setEnabled(false);
         }
 
+        // initialize the dome motion controls
+        domeAzimuthChanged(getDomeModel()->azimuthPosition());
+
         if (getDomeModel()->hasShutter())
         {
             shutterBox->setVisible(true);
@@ -144,8 +157,23 @@ void Observatory::initDome()
             weatherAlertShutterCB->setVisible(false);
         }
 
+        motionAbortButton->setEnabled(true);
+
+        // slaving
+        connect(slavingEnableButton, &QPushButton::clicked, this, [this]()
+        {
+            enableAutoSync(true);
+        });
+        connect(slavingDisableButton, &QPushButton::clicked, this, [this]()
+        {
+            enableAutoSync(false);
+        });
+
+
         setDomeStatus(getDomeModel()->status());
         setShutterStatus(getDomeModel()->shutterStatus());
+
+        enableAutoSync(getDomeModel()->isAutoSync());
     }
 
 }
@@ -159,9 +187,6 @@ void Observatory::shutdownDome()
     domeUnpark->setEnabled(false);
     shutterClosed->setEnabled(false);
     shutterOpen->setEnabled(false);
-    angleLabel->setEnabled(false);
-    domeAngleSpinBox->setEnabled(false);
-    setDomeAngleButton->setEnabled(false);
 
     disconnect(domePark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::park);
     disconnect(domeUnpark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::unpark);
@@ -178,9 +203,11 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             domePark->setText(i18n("Park"));
             domeUnpark->setChecked(true);
             domeUnpark->setText(i18n("UnParked"));
-            appendLogText(i18n("Dome is unparked."));
+            enableMotionControl(true);
+            appendLogText(i18n("Dome is idle."));
             break;
         case ISD::Dome::DOME_MOVING:
+            enableMotionControl(false);
             appendLogText(i18n("Dome is moving..."));
             break;
         case ISD::Dome::DOME_PARKED:
@@ -188,19 +215,23 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             domePark->setText(i18n("Parked"));
             domeUnpark->setChecked(false);
             domeUnpark->setText(i18n("UnPark"));
+            enableMotionControl(false);
             appendLogText(i18n("Dome is parked."));
             break;
         case ISD::Dome::DOME_PARKING:
             domePark->setText(i18n("Parking"));
             domeUnpark->setText(i18n("UnPark"));
+            enableMotionControl(false);
             appendLogText(i18n("Dome is parking..."));
             break;
         case ISD::Dome::DOME_UNPARKING:
             domePark->setText(i18n("Park"));
             domeUnpark->setText(i18n("UnParking"));
+            enableMotionControl(false);
             appendLogText(i18n("Dome is unparking..."));
             break;
         case ISD::Dome::DOME_TRACKING:
+            enableMotionControl(true);
             appendLogText(i18n("Dome is tracking."));
             break;
     }
@@ -262,17 +293,55 @@ void Observatory::setWeatherModel(ObservatoryWeatherModel *model)
         });
     }
     else
-    {
         shutdownWeather();
+}
 
-        // 2019-06-11 JM: Cannot disconnect a nullptr
-        //        disconnect(model, &Ekos::ObservatoryWeatherModel::newStatus, this, &Ekos::Observatory::setWeatherStatus);
-        //        disconnect(model, &Ekos::ObservatoryWeatherModel::disconnected, this, &Ekos::Observatory::shutdownWeather);
-        //        disconnect(model, &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
+void Observatory::enableMotionControl(bool enabled)
+{
+    MotionBox->setEnabled(enabled);
 
-        //disconnect(weatherWarningBox, &QGroupBox::clicked, model, &ObservatoryWeatherModel::setWarningActionsActive);
-        //disconnect(weatherAlertBox, &QGroupBox::clicked, model, &ObservatoryWeatherModel::setAlertActionsActive);
+    // absolute motion controls
+    if (getDomeModel()->canAbsoluteMove())
+    {
+        motionMoveAbsButton->setEnabled(enabled);
+        absoluteMotionSB->setEnabled(enabled);
     }
+    else
+    {
+        motionMoveAbsButton->setEnabled(false);
+        absoluteMotionSB->setEnabled(false);
+    }
+
+    // relative motion controls
+    if (getDomeModel()->canRelativeMove())
+    {
+        motionMoveRelButton->setEnabled(enabled);
+        relativeMotionSB->setEnabled(enabled);
+    }
+    else
+    {
+        motionMoveRelButton->setEnabled(false);
+        relativeMotionSB->setEnabled(false);
+    }
+
+
+}
+
+void Observatory::enableAutoSync(bool enabled)
+{
+    if (getDomeModel() == nullptr)
+        showAutoSync(false);
+    else
+    {
+        getDomeModel()->setAutoSync(enabled);
+        showAutoSync(enabled);
+    }
+}
+
+void Observatory::showAutoSync(bool enabled)
+{
+    slavingEnableButton->setChecked(enabled);
+    slavingDisableButton->setChecked(! enabled);
 }
 
 void Observatory::initWeather()
@@ -349,6 +418,11 @@ void Observatory::observatoryStatusChanged(bool ready)
     // statusReadyButton->setEnabled(!ready);
     statusReadyButton->setChecked(ready);
     emit newStatus(ready);
+}
+
+void Observatory::domeAzimuthChanged(double position)
+{
+    domeAzimuthPosition->setText(QString::number(position, 'f', 2));
 }
 
 
