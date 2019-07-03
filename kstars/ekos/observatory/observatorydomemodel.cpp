@@ -21,6 +21,8 @@ void ObservatoryDomeModel::initModel(Dome *dome)
     connect(mDome, &Dome::disconnected, this, &ObservatoryDomeModel::disconnected);
     connect(mDome, &Dome::newStatus, this, &ObservatoryDomeModel::newStatus);
     connect(mDome, &Dome::newShutterStatus, this, &ObservatoryDomeModel::newShutterStatus);
+    connect(mDome, &Dome::azimuthPositionChanged, this, &ObservatoryDomeModel::azimuthPositionChanged);
+    connect(mDome, &Dome::newAutoSyncStatus, this, &ObservatoryDomeModel::newAutoSyncStatus);
 
 }
 
@@ -58,6 +60,25 @@ void ObservatoryDomeModel::unpark()
 
     emit newLog(i18n("Unparking dome..."));
     mDome->unpark();
+}
+
+void ObservatoryDomeModel::setAutoSync(bool activate)
+{
+    if (mDome == nullptr)
+        return;
+
+    if (mDome->setAutoSync(activate))
+        emit newLog(i18n(activate ? "Slaving activated." : "Slaving deactivated."));
+
+}
+
+void ObservatoryDomeModel::abort()
+{
+    if (mDome == nullptr)
+        return;
+
+    emit newLog(i18n("Aborting..."));
+    mDome->abort();
 }
 
 void ObservatoryDomeModel::openShutter()

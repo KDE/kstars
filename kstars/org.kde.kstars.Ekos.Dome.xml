@@ -10,6 +10,7 @@
         <property name="azimuthPosition" type="d" access="readwrite"/>
         <property name="canPark" type="b" access="read"/>
         <property name="canAbsoluteMove" type="b" access="read"/>
+        <property name="canRelativeMove" type="b" access="read"/>
         <method name="abort">
             <arg type="b" direction="out"/>
         </method>

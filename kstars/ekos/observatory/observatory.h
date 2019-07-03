@@ -63,6 +63,13 @@ class Observatory : public QWidget, public Ui::Observatory
         void setDomeModel(ObservatoryDomeModel *model);
         void setWeatherModel(ObservatoryWeatherModel *model);
 
+        // motion control
+        void enableMotionControl(bool enabled);
+
+        // slaving control
+        void enableAutoSync(bool enabled);
+        void showAutoSync(bool enabled);
+
         // Logging
         QStringList m_LogText;
         void appendLogText(const QString &);
@@ -90,6 +97,7 @@ class Observatory : public QWidget, public Ui::Observatory
 
         // reacting on observatory status changes
         void observatoryStatusChanged(bool ready);
+        void domeAzimuthChanged(double position);
 
         void initDome();
         void shutdownDome();
