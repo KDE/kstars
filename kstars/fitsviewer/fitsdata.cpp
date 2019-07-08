@@ -1581,7 +1581,11 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
     double JMIndex = 100;
 #ifndef KSTARS_LITE
     if (histogram)
+    {
+        if (!histogram->isConstructed())
+            histogram->constructHistogram();
         JMIndex = histogram->getJMIndex();
+    }
 #endif
 
     float dispersion_ratio = 1.5;
@@ -2288,6 +2292,9 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
 #ifndef KSTARS_LITE
             if (histogram == nullptr)
                 return;
+
+            if (!histogram->isConstructed())
+                histogram->constructHistogram();
 
             T bufferVal                    = 0;
             QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();

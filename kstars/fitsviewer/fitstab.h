@@ -139,7 +139,7 @@ class FITSTab : public QWidget
         QString previewText;
         int uid { 0 };
 
-        QFuture<void> histogramFuture;
+        //QFuture<void> histogramFuture;
 
 
     signals:
