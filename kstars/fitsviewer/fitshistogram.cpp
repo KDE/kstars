@@ -127,6 +127,8 @@ FITSHistogram::FITSHistogram(QWidget * parent) : QDialog(parent)
 void FITSHistogram::showEvent(QShowEvent * event)
 {
     Q_UNUSED(event)
+    if (!m_Constructed)
+        constructHistogram();
     syncGUI();
 }
 
@@ -174,6 +176,7 @@ void FITSHistogram::constructHistogram()
             break;
     }
 
+    m_Constructed = true;
     if (isVisible())
         syncGUI();
 }
@@ -399,6 +402,9 @@ void FITSHistogram::syncGUI()
 
 void FITSHistogram::resizePlot()
 {
+    if (!m_Constructed)
+        constructHistogram();
+
     if (customPlot->width() < 300)
         customPlot->yAxis->setTickLabels(false);
     else

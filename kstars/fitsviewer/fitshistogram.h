@@ -37,12 +37,15 @@ class FITSHistogram : public QDialog
 
     public:
         explicit FITSHistogram(QWidget * parent);
-        ~FITSHistogram() = default;
 
         enum { RED_CHANNEL, GREEN_CHANNEL, BLUE_CHANNEL };
 
         void constructHistogram();
         void syncGUI();
+        void reset()
+        {
+            m_Constructed = false;
+        }
 
         void applyFilter(FITSScale ftype);
 
@@ -54,6 +57,12 @@ class FITSHistogram : public QDialog
         QVector<double> getCumulativeFrequency(int channel = 0) const;
 
         double getJMIndex() const;
+
+        bool isConstructed()
+        {
+            return m_Constructed;
+        }
+
 
     protected:
         void showEvent(QShowEvent * event) override;
@@ -92,6 +101,7 @@ class FITSHistogram : public QDialog
         int maxFrequency {0};
         FITSScale type { FITS_AUTO };
         bool isGUISynced { false};
+        bool m_Constructed { false };
         QCustomPlot * customPlot { nullptr };
 };
 
