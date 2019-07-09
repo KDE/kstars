@@ -1094,7 +1094,10 @@ void Manager::deviceConnected()
     if (Options::verboseLogging())
     {
         ISD::GDInterface * device = qobject_cast<ISD::GDInterface *>(sender());
-        qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected.";
+        qCInfo(KSTARS_EKOS) << device->getDeviceName()
+                            << "Version:" << device->getDriverVersion()
+                            << "Interface:" << device->getDriverInterface()
+                            << "is connected.";
     }
 
     int nConnectedDevices = 0;
