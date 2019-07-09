@@ -34,41 +34,42 @@
 #define NINDI_STD 35
 
 /* INDI standard property used across all clients to enable interoperability. */
-const char *indi_std[NINDI_STD] = { "CONNECTION",
-                                    "DEVICE_PORT",
-                                    "TIME_UTC",
-                                    "TIME_LST",
-                                    "GEOGRAPHIC_COORD",
-                                    "EQUATORIAL_COORD",
-                                    "EQUATORIAL_EOD_COORD",
-                                    "EQUATORIAL_EOD_COORD_REQUEST",
-                                    "HORIZONTAL_COORD",
-                                    "TELESCOPE_ABORT_MOTION",
-                                    "ON_COORD_SET",
-                                    "SOLAR_SYSTEM",
-                                    "TELESCOPE_MOTION_NS",
-                                    "TELESCOPE_MOTION_WE",
-                                    "TELESCOPE_PARK",
-                                    "DOME_PARK",
-                                    "GPS_REFRESH",
-                                    "WEATHER_STATUS",
-                                    "CCD_EXPOSURE",
-                                    "CCD_TEMPERATURE",
-                                    "CCD_FRAME",
-                                    "CCD_FRAME_TYPE",
-                                    "CCD_BINNING",
-                                    "CCD_INFO",
-                                    "CCD_VIDEO_STREAM",
-                                    "RAW_STREAM",
-                                    "IMAGE_STREAM",
-                                    "FOCUS_SPEED",
-                                    "FOCUS_MOTION",
-                                    "FOCUS_TIMER",
-                                    "FILTER_SLOT",
-                                    "WATCHDOG_HEARTBEAT",
-                                    "CAP_PARK",
-                                    "FLAT_LIGHT_CONTROL",
-                                    "FLAT_LIGHT_INTENSITY" };
+static const char *indi_std[NINDI_STD] = { "CONNECTION",
+                                           "DEVICE_PORT",
+                                           "TIME_UTC",
+                                           "TIME_LST",
+                                           "GEOGRAPHIC_COORD",
+                                           "EQUATORIAL_COORD",
+                                           "EQUATORIAL_EOD_COORD",
+                                           "EQUATORIAL_EOD_COORD_REQUEST",
+                                           "HORIZONTAL_COORD",
+                                           "TELESCOPE_ABORT_MOTION",
+                                           "ON_COORD_SET",
+                                           "SOLAR_SYSTEM",
+                                           "TELESCOPE_MOTION_NS",
+                                           "TELESCOPE_MOTION_WE",
+                                           "TELESCOPE_PARK",
+                                           "DOME_PARK",
+                                           "GPS_REFRESH",
+                                           "WEATHER_STATUS",
+                                           "CCD_EXPOSURE",
+                                           "CCD_TEMPERATURE",
+                                           "CCD_FRAME",
+                                           "CCD_FRAME_TYPE",
+                                           "CCD_BINNING",
+                                           "CCD_INFO",
+                                           "CCD_VIDEO_STREAM",
+                                           "RAW_STREAM",
+                                           "IMAGE_STREAM",
+                                           "FOCUS_SPEED",
+                                           "FOCUS_MOTION",
+                                           "FOCUS_TIMER",
+                                           "FILTER_SLOT",
+                                           "WATCHDOG_HEARTBEAT",
+                                           "CAP_PARK",
+                                           "FLAT_LIGHT_CONTROL",
+                                           "FLAT_LIGHT_INTENSITY"
+                                         };
 
 INDIListener *INDIListener::_INDIListener = nullptr;
 
@@ -145,9 +146,9 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
-    #if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
     connect(cm, SIGNAL(newINDIUniversalMessage(QString)), this, SLOT(processUniversalMessage(QString)));
-    #endif
+#endif
 }
 
 void INDIListener::removeClient(ClientManager *cm)
@@ -204,7 +205,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
 void INDIListener::removeDevice(DeviceInfo *dv)
 {
     qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << dv->getBaseDevice()->getDeviceName() << "with unique label "
-                 << dv->getDriverInfo()->getUniqueLabel();
+                         << dv->getDriverInfo()->getUniqueLabel();
 
     foreach (ISD::GDInterface *gd, devices)
     {
@@ -235,15 +236,15 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 
 void INDIListener::registerProperty(INDI::Property *prop)
 {
-   qCDebug(KSTARS_INDI) << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
+    qCDebug(KSTARS_INDI) << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
 
     foreach (ISD::GDInterface *gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName()))
         {
             if (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") ||
-                !strcmp(prop->getName(), "EQUATORIAL_COORD") ||
-                !strcmp(prop->getName(), "HORIZONTAL_COORD"))
+                    !strcmp(prop->getName(), "EQUATORIAL_COORD") ||
+                    !strcmp(prop->getName(), "HORIZONTAL_COORD"))
             {
                 if (gd->getType() == KSTARS_UNKNOWN)
                 {
@@ -453,7 +454,7 @@ void INDIListener::processUniversalMessage(const QString &message)
     // Remove timestamp info as it is not suitable for message box
     int colonIndex = displayMessage.indexOf(": ");
     if (colonIndex > 0)
-        displayMessage = displayMessage.mid(colonIndex+2);
+        displayMessage = displayMessage.mid(colonIndex + 2);
 
     // Special case for Alignment since it is not tied to a device
     if (displayMessage.startsWith("[ALIGNMENT]"))
@@ -465,7 +466,7 @@ void INDIListener::processUniversalMessage(const QString &message)
     if (Options::messageNotificationINDI())
     {
         KNotification::event(QLatin1String("IndiServerMessage"),
-                             displayMessage+" (INDI)");
+                             displayMessage + " (INDI)");
     }
     else
     {
