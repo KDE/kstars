@@ -1783,7 +1783,11 @@ void Scheduler::evaluateJobs()
                 if (dawnDateTime < currentJob->getStartupTime())
                 {
                     // Compute dusk time for the startup date of the job - no lead time on dusk
-                    QDateTime const duskDateTime(currentJob->getStartupTime().date(), QTime(0, 0).addSecs(Dusk * 24 * 3600));
+                    QDateTime duskDateTime(currentJob->getStartupTime().date(), QTime(0, 0).addSecs(Dusk * 24 * 3600));
+
+                    // Near summer solstice, dusk may happen before dawn on the same day, shift dusk by one day in that case
+                    if (duskDateTime < dawnDateTime)
+                        duskDateTime = duskDateTime.addDays(1);
 
                     // Check if the job starts before dusk
                     if (currentJob->getStartupTime() < duskDateTime)
