@@ -69,21 +69,21 @@ double KSConjunct::findInitialStep(long double startJD, long double stopJD)
 
     // FIXME: This can be done better, but for now, I'm doing it the dumb way -- asimha
     if (m_object1->name() == i18n("Neptune") || m_object2->name() == i18n("Neptune") || m_object1->name() == i18n("Uranus") ||
-        m_object2->name() == i18n("Uranus"))
+            m_object2->name() == i18n("Uranus"))
         if (step0 > 3652.5)
             step0 = 3652.5;
     if (m_object1->name() == i18n("Jupiter") || m_object2->name() == i18n("Jupiter") || m_object1->name() == i18n("Saturn") ||
-        m_object2->name() == i18n("Saturn"))
+            m_object2->name() == i18n("Saturn"))
         if (step0 > 365.25)
             step0 = 365;
     if (m_object1->name() == i18n("Mars") || m_object2->name() == i18n("Mars"))
         if (step0 > 10.0)
             step0 = 10.0;
     if (m_object1->name() == i18n("Venus") || m_object1->name() == i18n("Mercury") || m_object2->name() == i18n("Mercury") ||
-        m_object2->name() == i18n("Venus"))
+            m_object2->name() == i18n("Venus"))
         if (step0 > 5.0)
             step0 = 5.0;
-    if (m_object1->name() == "Moon" || m_object2->name() == "Moon")
+    if (m_object1->name() == i18n("Moon") || m_object2->name() == i18n("Moon"))
         if (step0 > 0.25)
             step0 = 0.25;
 

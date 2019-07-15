@@ -47,16 +47,13 @@ MilkyWay::MilkyWay(SkyComposite *parent) : LineListIndex(parent, i18n("Milky Way
 
 const IndexHash &MilkyWay::getIndexHash(LineList *lineList)
 {
-    // FIXME: EVIL!
-    SkipHashList *skipList = (SkipHashList *)lineList;
+    SkipHashList *skipList = dynamic_cast<SkipHashList *>(lineList);
     return skyMesh()->indexLine(skipList->points(), skipList->skipHash());
 }
 
 SkipHashList *MilkyWay::skipList(LineList *lineList)
 {
-    // FIXME: EVIL!
-    SkipHashList *skipList = (SkipHashList *)lineList;
-    return skipList;
+    return dynamic_cast<SkipHashList *>(lineList);
 }
 
 bool MilkyWay::selected()

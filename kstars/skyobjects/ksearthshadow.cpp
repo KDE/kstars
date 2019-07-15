@@ -19,7 +19,7 @@
 #include "ksmoon.h"
 
 KSEarthShadow::KSEarthShadow(const KSMoon *moon, const KSSun *sun, const KSPlanet * earth)
-    : KSPlanetBase ("Earth Shadow"), m_sun { sun }, m_moon { moon }, m_earth {earth}
+    : KSPlanetBase (i18n("Earth Shadow")), m_sun { sun }, m_moon { moon }, m_earth {earth}
 {
 }
 
@@ -38,13 +38,16 @@ KSEarthShadow::ECLIPSE_TYPE KSEarthShadow::getEclipseType()
 {
     double half_a_moon = m_moon->angSize() / 2;
     double dist = angularDistanceTo(m_moon).Degrees() * 60; // arcminutes
-    if (dist <= (m_penumbra_ang - half_a_moon)) {
+    if (dist <= (m_penumbra_ang - half_a_moon))
+    {
         if(dist <= (m_umbra_ang - half_a_moon))
             return FULL_UMBRA;
         else
             return FULL_PENUMBRA;
-    } else if ((dist - half_a_moon) <= m_penumbra_ang) {
-       return PARTIAL;
+    }
+    else if ((dist - half_a_moon) <= m_penumbra_ang)
+    {
+        return PARTIAL;
     }
 
     return NONE;
@@ -68,7 +71,7 @@ void KSEarthShadow::updateCoords()
     // flip the sun around to get the 'shadow coordinates'
     dms t_ra(m_sun->ra().Degrees() + 180);
     t_ra.reduceToRange(dms::ZERO_TO_2PI);
-    dms t_dec(-1*(m_sun->dec().Degrees()));
+    dms t_dec(-1 * (m_sun->dec().Degrees()));
 
     set(t_ra, t_dec);
     Rearth = m_moon->rearth();
@@ -83,8 +86,8 @@ void KSEarthShadow::calculateShadowRadius()
     double r_sun = m_sun->physicalSize() / 2;
     double r_earth = m_earth->physicalSize() / 2;
 
-    double umbraRad = 1.01 * r_earth + (r_earth-r_sun)/d_sun * d_moon;
-    double penumbraRad = 1.01 * r_earth+(r_sun+r_earth)/d_sun*d_moon;
+    double umbraRad = 1.01 * r_earth + (r_earth - r_sun) / d_sun * d_moon;
+    double penumbraRad = 1.01 * r_earth + (r_sun + r_earth) / d_sun * d_moon;
 
     m_umbra_ang = asin(umbraRad / d_moon) * 60. * 180. / dms::PI;
     m_penumbra_ang = asin(penumbraRad / d_moon) * 60. * 180. / dms::PI;

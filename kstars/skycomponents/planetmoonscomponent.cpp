@@ -21,13 +21,14 @@
 #include "Options.h"
 #include "skylabeler.h"
 #include "skypainter.h"
+#include "kssun.h"
 #include "solarsystemcomposite.h"
 #include "solarsystemsinglecomponent.h"
 #include "projections/projector.h"
 #include "skyobjects/jupitermoons.h"
 
 PlanetMoonsComponent::PlanetMoonsComponent(SkyComposite *p, SolarSystemSingleComponent *planetComponent,
-                                           KSPlanetBase::Planets& _planet)
+        KSPlanetBase::Planets &_planet)
     : SkyComponent(p), planet(_planet), m_Planet(planetComponent)
 {
     /*
@@ -37,15 +38,15 @@ PlanetMoonsComponent::PlanetMoonsComponent(SkyComposite *p, SolarSystemSingleCom
         pmoons = new SaturnMoons();
     */
     Q_ASSERT(planet == KSPlanetBase::JUPITER);
-//    delete pmoons;
+    //    delete pmoons;
     //    pmoons = new JupiterMoons();
-//    int nmoons = pmoons->nMoons();
+    //    int nmoons = pmoons->nMoons();
 
-//    for (int i = 0; i < nmoons; ++i)
-//    {
-        //        objectNames(SkyObject::MOON).append( pmoons->name(i) );
-        //        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
-//    }
+    //    for (int i = 0; i < nmoons; ++i)
+    //    {
+    //        objectNames(SkyObject::MOON).append( pmoons->name(i) );
+    //        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
+    //    }
 }
 
 bool PlanetMoonsComponent::selected()
@@ -66,7 +67,7 @@ void PlanetMoonsComponent::updateMoons(KSNumbers *num)
 {
     //FIXME: evil cast
     if (selected())
-        pmoons->findPosition(num, m_Planet->planet(), (KSSun *)(parent()->findByName("Sun")));
+        pmoons->findPosition(num, m_Planet->planet(), dynamic_cast<KSSun *>(parent()->findByName(i18n("Sun"))));
 }
 
 SkyObject *PlanetMoonsComponent::findByName(const QString &name)
@@ -77,8 +78,8 @@ SkyObject *PlanetMoonsComponent::findByName(const QString &name)
     {
         TrailObject *moon = pmoons->moon(i);
         if (QString::compare(moon->name(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(moon->longname(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(moon->name2(), name, Qt::CaseInsensitive) == 0)
+                QString::compare(moon->longname(), name, Qt::CaseInsensitive) == 0 ||
+                QString::compare(moon->name2(), name, Qt::CaseInsensitive) == 0)
             return moon;
     }
 

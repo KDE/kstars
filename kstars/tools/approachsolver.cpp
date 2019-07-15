@@ -21,7 +21,7 @@
 ApproachSolver::ApproachSolver(QObject *parent) : QObject(parent)
 {
     m_geoPlace = KStarsData::Instance()->geo();
-    m_Earth = KSPlanet(I18N_NOOP("Earth"), QString(), QColor("white"), 12756.28 /*diameter in km*/);
+    m_Earth = KSPlanet(i18n("Earth"), QString(), QColor("white"), 12756.28 /*diameter in km*/);
 }
 
 void ApproachSolver::setGeoLocation(GeoLocation *geo)
@@ -34,7 +34,7 @@ void ApproachSolver::setGeoLocation(GeoLocation *geo)
 
 // FIXME: We need a better algo for finding approaches!
 QMap<long double, dms> ApproachSolver::findClosestApproach(long double startJD,
-                                                       long double stopJD, std::function<void (long double, dms)> const & callback)
+        long double stopJD, std::function<void (long double, dms)> const &callback)
 {
     QMap<long double, dms> Separations;
     QPair<long double, dms> extremum;
@@ -100,8 +100,10 @@ QMap<long double, dms> ApproachSolver::findClosestApproach(long double startJD,
             }
 
             //	qCDebug(KSTARS) << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
-            if (findPrecise(&extremum, jd, step, Sign)){
-                if (extremum.second.radians() < getMaxSeparation()) {
+            if (findPrecise(&extremum, jd, step, Sign))
+            {
+                if (extremum.second.radians() < getMaxSeparation())
+                {
                     Separations.insert(extremum.first, extremum.second);
 
                     if(callback)
@@ -119,7 +121,7 @@ QMap<long double, dms> ApproachSolver::findClosestApproach(long double startJD,
 }
 
 bool ApproachSolver::findPrecise(QPair<long double, dms> *out, long double jd,
-                             double step, int prevSign)
+                                 double step, int prevSign)
 {
     dms prevDist;
     int Sign;

@@ -143,16 +143,16 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
         case SkyObject::PLANET:
         {
-            ps = (KSPlanetBase *)obj;
+            ps = dynamic_cast<KSPlanetBase *>(obj);
 
             objNamesVal = ps->longname();
             //Type is "G5 star" for Sun
-            if (ps->name() == "Sun")
+            if (ps->name() == i18n("Sun"))
             {
                 objTypeVal = i18n("G5 star");
             }
 
-            else if (ps->name() == "Moon")
+            else if (ps->name() == i18n("Moon"))
             {
                 objTypeVal = ps->translatedName();
             }
@@ -169,16 +169,16 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             }
 
             //Magnitude: The moon displays illumination fraction instead
-            if (obj->name() == "Moon")
+            if (obj->name() == i18n("Moon"))
             {
-                objIllumVal = QString("%1 %").arg(QLocale().toString(((KSMoon *)obj)->illum() * 100., 0));
+                objIllumVal = QString("%1 %").arg(QLocale().toString((dynamic_cast<KSMoon *>(obj))->illum() * 100., 0));
             }
 
             objMagVal =
                 i18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1)); //show to tenths place
 
             //Distance from Earth.  The moon requires a unit conversion
-            if (ps->name() == "Moon")
+            if (ps->name() == i18n("Moon"))
             {
                 objDistVal = i18nc("distance in kilometers", "%1 km", QLocale().toString(ps->rearth() * AU_KM));
             }
@@ -191,7 +191,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Angular size; moon and sun in arcmin, others in arcsec
             if (ps->angSize())
             {
-                if (ps->name() == "Sun" || ps->name() == "Moon")
+                if (ps->name() == i18n("Sun") || ps->name() == i18n("Moon"))
                 {
                     // Needn't be a plural form because sun / moon will never contract to 1 arcminute
                     objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(ps->angSize()));
@@ -409,7 +409,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
 
             // Rotation period
             rotPeriodVal = ast->getRotationPeriod() == 0 ? QString("--") :
-                                                           QString::number(ast->getRotationPeriod()) + QString(" h");
+                           QString::number(ast->getRotationPeriod()) + QString(" h");
 
             // Period
             periodVal = ast->getPeriod() == 0 ? QString("--") : QString::number(ast->getPeriod()) + QString(" y");
@@ -447,7 +447,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
 
             // Rotation period
             rotPeriodVal = com->getRotationPeriod() == 0 ? QString("--") :
-                                                           QString::number(com->getRotationPeriod()) + QString(" h");
+                           QString::number(com->getRotationPeriod()) + QString(" h");
 
             // Period
             periodVal = com->getPeriod() == 0 ? QString("--") : QString::number(com->getPeriod()) + QString(" y");
@@ -563,7 +563,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
         sgn = '-';
     }
     table->cellAt(3, 1).firstCursorPosition().insertText(QString("%1%2").arg(sgn).arg(ha.toHMSString()),
-                                                         m_ItemValueCharFormat);
+            m_ItemValueCharFormat);
 
     table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth:"), m_ItemNameCharFormat);
     table->cellAt(1, 2).firstCursorPosition().setBlockFormat(centered);
@@ -682,7 +682,7 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
     table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Transit time:"), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()),
-                                                         m_ItemValueCharFormat);
+            m_ItemValueCharFormat);
 
     table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Set time:"), m_ItemNameCharFormat);
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(centered);

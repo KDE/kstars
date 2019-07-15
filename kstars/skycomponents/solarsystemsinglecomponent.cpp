@@ -18,6 +18,7 @@
 #include "solarsystemsinglecomponent.h"
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
+#include <KLocalizedString>
 
 #include "dms.h"
 #include "kstarsdata.h"
@@ -37,7 +38,7 @@
 #include "projections/projector.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb,
-                                                       bool (*visibleMethod)(), bool isMoon)
+        bool (*visibleMethod)(), bool isMoon)
     : SkyComponent(parent), visible(visibleMethod), m_isMoon(isMoon), m_Earth(parent->earth()), m_Planet(kspb)
 {
     m_Planet->loadData();
@@ -68,8 +69,8 @@ bool SolarSystemSingleComponent::selected()
 SkyObject *SolarSystemSingleComponent::findByName(const QString &name)
 {
     if (QString::compare(m_Planet->name(), name, Qt::CaseInsensitive) == 0 ||
-        QString::compare(m_Planet->longname(), name, Qt::CaseInsensitive) == 0 ||
-        QString::compare(m_Planet->name2(), name, Qt::CaseInsensitive) == 0)
+            QString::compare(m_Planet->longname(), name, Qt::CaseInsensitive) == 0 ||
+            QString::compare(m_Planet->name2(), name, Qt::CaseInsensitive) == 0)
         return m_Planet;
     return nullptr;
 }

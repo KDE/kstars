@@ -262,8 +262,8 @@ void ModelManager::loadObjectList(QList<SkyObjItem *> &skyObjectList, int type)
 
         QPair<QString, const SkyObject *> pair = objects.value(i);
         const SkyObject *listObject            = pair.second;
-        if (listObject->name() != "Sun")
-            skyObjectList.append(new SkyObjItem((SkyObject *)(listObject)));
+        if (listObject->name() != i18n("Sun"))
+            skyObjectList.append(new SkyObjItem(const_cast<SkyObject *>(listObject)));
     }
     QString prevName;
     for (int i = 0; i < skyObjectList.size(); i++)

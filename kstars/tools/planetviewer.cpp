@@ -61,11 +61,11 @@ PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClo
 
     pw->map->setLimits(-48.0, 48.0, -48.0, 48.0);
     pw->map->axis(KPlotWidget::BottomAxis)
-        ->setLabel(i18nc("axis label for x-coordinate of solar system viewer.  AU means astronomical unit.",
-                         "X-position (AU)"));
+    ->setLabel(i18nc("axis label for x-coordinate of solar system viewer.  AU means astronomical unit.",
+                     "X-position (AU)"));
     pw->map->axis(KPlotWidget::LeftAxis)
-        ->setLabel(i18nc("axis label for y-coordinate of solar system viewer.  AU means astronomical unit.",
-                         "Y-position (AU)"));
+    ->setLabel(i18nc("axis label for y-coordinate of solar system viewer.  AU means astronomical unit.",
+                     "Y-position (AU)"));
 
     pw->TimeStep->setDaysOnly(true);
     pw->TimeStep->tsbox()->setValue(1); //start with 1-day timestep
@@ -82,7 +82,7 @@ PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClo
 
     PlanetList.append(KSPlanetBase::createPlanet(KSPlanetBase::MERCURY));
     PlanetList.append(KSPlanetBase::createPlanet(KSPlanetBase::VENUS));
-    PlanetList.append(new KSPlanet("Earth"));
+    PlanetList.append(new KSPlanet(i18n("Earth")));
     PlanetList.append(KSPlanetBase::createPlanet(KSPlanetBase::MARS));
     PlanetList.append(KSPlanetBase::createPlanet(KSPlanetBase::JUPITER));
     PlanetList.append(KSPlanetBase::createPlanet(KSPlanetBase::SATURN));
@@ -241,7 +241,7 @@ void PlanetViewer::initPlotObjects()
 
         QFile orbitFile;
         QString orbitFileName =
-            (p->isMajorPlanet() ? ((KSPlanet *)p)->untranslatedName().toLower() : p->name().toLower()) + ".orbit";
+            (p->isMajorPlanet() ? (dynamic_cast<KSPlanet *>(p))->untranslatedName().toLower() : p->name().toLower()) + ".orbit";
         if (KSUtils::openDataFile(orbitFile, orbitFileName))
         {
             KSFileReader fileReader(orbitFile); // close file is included
