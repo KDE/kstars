@@ -146,6 +146,8 @@ bool KSSun::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Ear
     setRA0(ra());
     setDec0(dec());
 
+    precess(num);
+
     aberrate(num);
 
     // We obtain the apparent geocentric ecliptic coordinates. That is, after
