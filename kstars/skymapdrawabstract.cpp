@@ -112,9 +112,9 @@ void SkyMapDrawAbstract::drawAngleRuler(QPainter &p)
     p.setPen(QPen(m_KStarsData->colorScheme()->colorNamed("AngularRuler"), 3.0, Qt::DotLine));
     p.drawLine(
         m_SkyMap->m_proj->toScreen(m_SkyMap->AngularRuler.point(
-            0)), // FIXME: More ugliness. m_proj should probably be a single-instance class, or we should have our own instance etc.
+                                       0)), // FIXME: More ugliness. m_proj should probably be a single-instance class, or we should have our own instance etc.
         m_SkyMap->m_proj->toScreen(m_SkyMap->AngularRuler.point(
-            1))); // FIXME: Again, AngularRuler should be something better -- maybe a class in itself. After all it's used for more than one thing after we integrate the StarHop feature.
+                                       1))); // FIXME: Again, AngularRuler should be something better -- maybe a class in itself. After all it's used for more than one thing after we integrate the StarHop feature.
 }
 
 void SkyMapDrawAbstract::drawZoomBox(QPainter &p)
@@ -144,7 +144,7 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
     bool drawComets    = drawPlanets && Options::showComets();
     bool drawAsteroids = drawPlanets && Options::showAsteroids();
     bool drawMessier   = Options::showDeepSky() && (Options::showMessier() || Options::showMessierImages()) &&
-                       !(checkSlewing && Options::hideMessier());
+                         !(checkSlewing && Options::hideMessier());
     bool drawNGC        = Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC());
     bool drawIC         = Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC());
     bool drawOther      = Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther());
@@ -164,7 +164,7 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
         //Only draw an attached label if the object is being drawn to the map
         //reproducing logic from other draw funcs here...not an optimal solution
         if (obj->type() == SkyObject::STAR || obj->type() == SkyObject::CATALOG_STAR ||
-            obj->type() == SkyObject::MULT_STAR)
+                obj->type() == SkyObject::MULT_STAR)
         {
             if (!drawStars)
                 continue;
@@ -176,13 +176,13 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
         {
             if (!drawPlanets)
                 continue;
-            if (obj->name() == "Sun" && !Options::showSun())
+            if (obj->name() == i18n("Sun") && !Options::showSun())
                 continue;
             if (obj->name() == i18n("Mercury") && !Options::showMercury())
                 continue;
             if (obj->name() == i18n("Venus") && !Options::showVenus())
                 continue;
-            if (obj->name() == "Moon" && !Options::showMoon())
+            if (obj->name() == i18n("Moon") && !Options::showMoon())
                 continue;
             if (obj->name() == i18n("Mars") && !Options::showMars())
                 continue;
@@ -197,8 +197,8 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
             //if ( obj->name() == i18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
         if ((obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
-            (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
-            (obj->type() == SkyObject::RADIO_SOURCE))
+                (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
+                (obj->type() == SkyObject::RADIO_SOURCE))
         {
             if (((DeepSkyObject *)obj)->isCatalogM() && !drawMessier)
                 continue;

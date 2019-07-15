@@ -78,7 +78,7 @@ void PWizObjectSelectionUI::slotShowDetails()
     if (m_ParentWizard->getSkyObject())
     {
         QPointer<DetailDialog> detailDlg(new DetailDialog(
-            m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), this));
+                                             m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), this));
         detailDlg->exec();
         delete detailDlg;
     }
@@ -127,12 +127,12 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
 
             //Type is "G5 star" for Sun
             QString type;
-            if (ps->name() == "Sun")
+            if (ps->name() == i18n("Sun"))
             {
                 type = i18n("G5 star");
             }
 
-            else if (ps->name() == "Moon")
+            else if (ps->name() == i18n("Moon"))
             {
                 type = ps->translatedName();
             }

@@ -178,6 +178,14 @@ QString KSPlanet::untranslatedName() const
         return "Uranus";
     else if (name() == i18n("Neptune"))
         return "Neptune";
+    else if (name() == i18n("Earth"))
+        return "Earth";
+    else if (name() == i18n("Earth Shadow"))
+        return "Earth Shadow";
+    else if (name() == i18n("Moon"))
+        return "Moon";
+    else if (name() == i18n("Sun"))
+        return "Sun";
     else
         return name();
 }

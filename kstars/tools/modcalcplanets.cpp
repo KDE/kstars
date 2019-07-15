@@ -74,7 +74,7 @@ void modCalcPlanets::slotComputePosition()
     CachingDms LST(geoPlace->GSTtoLST(dt.gst()));
 
     // Earth
-    KSPlanet Earth(I18N_NOOP("Earth"));
+    KSPlanet Earth(i18n("Earth"));
     Earth.findPosition(&num);
 
     // Earth is special case!
@@ -395,11 +395,11 @@ void modCalcPlanets::processLines(QTextStream &istream)
         /*if ( pn == "Pluto" ) {
             kspb = new KSPluto();
         } else*/
-        if (pn == "Sun")
+        if (pn == i18n("Sun"))
         {
             kspb = new KSSun();
         }
-        else if (pn == "Moon")
+        else if (pn == i18n("Moon"))
         {
             kspb = new KSMoon();
         }

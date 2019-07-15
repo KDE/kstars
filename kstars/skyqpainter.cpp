@@ -278,21 +278,21 @@ void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
     drawLine(aScreen, bScreen);
 
     //THREE CASES:
-//    if (aVisible && bVisible)
-//    {
-//        //Both a,b visible, so paint the line normally:
-//        drawLine(aScreen, bScreen);
-//    }
-//    else if (aVisible)
-//    {
-//        //a is visible but b isn't:
-//        drawLine(aScreen, m_proj->clipLine(a, b));
-//    }
-//    else if (bVisible)
-//    {
-//        //b is visible but a isn't:
-//        drawLine(bScreen, m_proj->clipLine(b, a));
-//    } //FIXME: what if both are offscreen but the line isn't?
+    //    if (aVisible && bVisible)
+    //    {
+    //        //Both a,b visible, so paint the line normally:
+    //        drawLine(aScreen, bScreen);
+    //    }
+    //    else if (aVisible)
+    //    {
+    //        //a is visible but b isn't:
+    //        drawLine(aScreen, m_proj->clipLine(a, b));
+    //    }
+    //    else if (bVisible)
+    //    {
+    //        //b is visible but a isn't:
+    //        drawLine(bScreen, m_proj->clipLine(b, a));
+    //    } //FIXME: what if both are offscreen but the line isn't?
 }
 
 void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList, LineListLabel *label)
@@ -419,7 +419,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
         fakeStarSize = 15.0;
 
     double size = planet->angSize() * dms::PI * Options::zoomFactor() / 10800.0;
-    if (size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon")
+    if (size < fakeStarSize && planet->name() != i18n("Sun") && planet->name() != i18n("Moon"))
     {
         // Draw them as bright stars of appropriate color instead of images
         char spType;
@@ -442,7 +442,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
     else
     {
         float sizemin = 1.0;
-        if (planet->name() == "Sun" || planet->name() == "Moon")
+        if (planet->name() == i18n("Sun") || planet->name() == i18n("Moon"))
             sizemin = 8.0;
 
         if (size < sizemin)
@@ -474,7 +474,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
 bool SkyQPainter::drawEarthShadow(KSEarthShadow *shadow)
 {
     if (!m_proj->checkVisibility(shadow))
-            return false;
+        return false;
 
     bool visible = false;
     QPointF pos  = m_proj->toScreen(shadow, true, &visible);
@@ -524,15 +524,16 @@ bool SkyQPainter::drawComet(KSComet *com)
             double comaAngle = m_proj->findPA(sun, pos.x(), pos.y());
 
             const QVector<QPoint> coma = { QPoint(pos.x() - size, pos.y()), QPoint(pos.x() + size, pos.y()),
-                                           QPoint(pos.x(), pos.y() + comaLength) };
+                                           QPoint(pos.x(), pos.y() + comaLength)
+                                         };
 
             QPolygon comaPoly(coma);
 
             comaPoly = QTransform()
-                           .translate(pos.x(), pos.y())
-                           .rotate(comaAngle) // Already + 180 Deg, because rotated from south, not north.
-                           .translate(-pos.x(), -pos.y())
-                           .map(comaPoly);
+                       .translate(pos.x(), pos.y())
+                       .rotate(comaAngle) // Already + 180 Deg, because rotated from south, not north.
+                       .translate(-pos.x(), -pos.y())
+                       .map(comaPoly);
 
             save();
 
@@ -565,8 +566,8 @@ bool SkyQPainter::drawPointSource(SkyPoint *loc, float mag, char sp)
     bool visible = false;
     QPointF pos  = m_proj->toScreen(loc, true, &visible);
     if (visible &&
-        m_proj->onScreen(
-            pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+            m_proj->onScreen(
+                pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
     {
         drawPointSource(pos, starWidth(mag), sp);
         return true;
@@ -745,22 +746,32 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
 
     if (Options::useAntialias())
     {
-        lambdaDrawEllipse = [this](float x, float y, float width, float height) {
+        lambdaDrawEllipse = [this](float x, float y, float width, float height)
+        {
             drawEllipse(QRectF(x, y, width, height));
         };
-        lambdaDrawLine  = [this](float x1, float y1, float x2, float y2) { drawLine(QLineF(x1, y1, x2, y2)); };
-        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY) {
+        lambdaDrawLine  = [this](float x1, float y1, float x2, float y2)
+        {
+            drawLine(QLineF(x1, y1, x2, y2));
+        };
+        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY)
+        {
             drawLine(QLineF(centerX - sizeX / 2., centerY, centerX + sizeX / 2., centerY));
             drawLine(QLineF(centerX, centerY - sizeY / 2., centerX, centerY + sizeY / 2.));
         };
     }
     else
     {
-        lambdaDrawEllipse = [this](float x, float y, float width, float height) {
+        lambdaDrawEllipse = [this](float x, float y, float width, float height)
+        {
             drawEllipse(QRect(x, y, width, height));
         };
-        lambdaDrawLine  = [this](float x1, float y1, float x2, float y2) { drawLine(QLine(x1, y1, x2, y2)); };
-        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY) {
+        lambdaDrawLine  = [this](float x1, float y1, float x2, float y2)
+        {
+            drawLine(QLine(x1, y1, x2, y2));
+        };
+        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY)
+        {
             drawLine(QLine(centerX - sizeX / 2., centerY, centerX + sizeX / 2., centerY));
             drawLine(QLine(centerX, centerY - sizeY / 2., centerX, centerY + sizeY / 2.));
         };
@@ -788,7 +799,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 psize *= 2.;
             if (size > 100.)
                 psize *= 2.;
-            auto putDot = [psize, &lambdaDrawEllipse](float x, float y) {
+            auto putDot = [psize, &lambdaDrawEllipse](float x, float y)
+            {
                 lambdaDrawEllipse(x - psize / 2., y - psize / 2., psize, psize);
             };
             putDot(xa, y1);

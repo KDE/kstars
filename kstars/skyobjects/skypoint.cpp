@@ -88,9 +88,9 @@ void SkyPoint::EquatorialToHorizontal(const CachingDms *LST, const CachingDms *l
     AltRad = asin(sinAlt);
 
     cosAlt = sqrt(
-        1 -
-        sinAlt *
-            sinAlt); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
+                 1 -
+                 sinAlt *
+                 sinAlt); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
     if (cosAlt == 0.)
         cosAlt = cos(AltRad);
 
@@ -248,7 +248,7 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
     long double now = num->julianDay();
     p1.precessFromAnyEpoch(now, epoch);
     if ((std::isnan(RA0.Degrees()) || std::isnan(Dec0.Degrees())) ||
-        (!std::isnan(Dec0.Degrees()) && fabs(Dec0.Degrees()) > 90.0))
+            (!std::isnan(Dec0.Degrees()) && fabs(Dec0.Degrees()) > 90.0))
     {
         // We have invalid RA0 and Dec0, so set them if epoch = J2000. Otherwise, do not touch.
         if (epoch == J2000)
@@ -335,7 +335,7 @@ bool SkyPoint::checkBendLight()
         if (skycomopsite == nullptr)
             return false;
 
-        m_Sun = (KSSun *)skycomopsite->findByName("Sun");
+        m_Sun = dynamic_cast<KSSun *>(skycomopsite->findByName(i18n("Sun")));
 
         if (m_Sun == nullptr)
             return false;
@@ -873,7 +873,7 @@ double SkyPoint::refract(const double alt)
     else
         return (alt +
                 corrCrit * (alt + 90) /
-                    (SkyPoint::altCrit + 90)); // Linear extrapolation from corrCrit at altCrit to 0 at -90 degrees
+                (SkyPoint::altCrit + 90)); // Linear extrapolation from corrCrit at altCrit to 0 at -90 degrees
 }
 
 // Found uncorrected value by solving equation. This is OK since

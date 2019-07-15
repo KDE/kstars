@@ -634,7 +634,7 @@ SkyObject *SkyMapComposite::findStarByGenetiveName(const QString name)
 KSPlanetBase *SkyMapComposite::planet(int n)
 {
     if (n == KSPlanetBase::SUN)
-        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName("Sun")));
+        return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Sun"))));
     if (n == KSPlanetBase::MERCURY)
         return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Mercury"))));
     if (n == KSPlanetBase::VENUS)

@@ -498,7 +498,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
     //Sun, Moon, Planets
     if (isItemSelected(i18n("Sun, moon, planets"), olw->TypeList))
     {
-        if (maglimit < data->skyComposite()->findByName("Sun")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Sun"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -508,11 +508,11 @@ void ObsListWizard::applyFilters(bool doBuildList)
             filterPass = true;
 
         if (needRegion && filterPass)
-            filterPass = applyRegionFilter(data->skyComposite()->findByName("Sun"), doBuildList);
+            filterPass = applyRegionFilter(data->skyComposite()->findByName(i18n("Sun")), doBuildList);
         if (olw->SelectByDate->isChecked() && filterPass)
-            applyObservableFilter(data->skyComposite()->findByName("Sun"), doBuildList);
+            applyObservableFilter(data->skyComposite()->findByName(i18n("Sun")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Moon")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Moon"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -522,11 +522,11 @@ void ObsListWizard::applyFilters(bool doBuildList)
             filterPass = true;
 
         if (needRegion && filterPass)
-            filterPass = applyRegionFilter(data->skyComposite()->findByName("Moon"), doBuildList);
+            filterPass = applyRegionFilter(data->skyComposite()->findByName(i18n("Moon")), doBuildList);
         if (olw->SelectByDate->isChecked() && filterPass)
-            applyObservableFilter(data->skyComposite()->findByName("Moon"), doBuildList);
+            applyObservableFilter(data->skyComposite()->findByName(i18n("Moon")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Mercury")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Mercury"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -539,7 +539,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Mercury")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Venus")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Venus"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -553,7 +553,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Venus")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Mars")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Mars"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -566,7 +566,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Mars")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Jupiter")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Jupiter"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -579,7 +579,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Jupiter")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Saturn")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Saturn"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -593,7 +593,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Saturn")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Uranus")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Uranus"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -607,7 +607,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Uranus")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Neptune")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Neptune"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;
@@ -621,7 +621,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Neptune")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName("Pluto")->mag())
+        if (maglimit < data->skyComposite()->findByName(i18n("Pluto"))->mag())
         {
             if (!doBuildList)
                 --ObjectCount;

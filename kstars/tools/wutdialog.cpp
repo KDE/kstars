@@ -190,7 +190,7 @@ void WUTDialog::init()
         WUT->NightDurationLabel->setText(i18n("Night duration: %1 minute", sDuration));
 
     // moon almanac information
-    KSMoon *oMoon = dynamic_cast<KSMoon *>(data->objectNamed("Moon"));
+    KSMoon *oMoon = dynamic_cast<KSMoon *>(data->objectNamed(i18n("Moon")));
     moonRise      = oMoon->riseSetTime(UT0, geo, true);
     moonSet       = oMoon->riseSetTime(UT0, geo, false);
 
@@ -286,12 +286,12 @@ void WUTDialog::slotLoadList(const QString &c)
 
             for (const auto &object : starObjects)
             {
-               const SkyObject *o =  object.second;
+                const SkyObject *o =  object.second;
 
-               if (checkVisibility(o) && o->mag() <= m_Mag)
-               {
-                   visibleObjects(c).insert(o);
-               }
+                if (checkVisibility(o) && o->mag() <= m_Mag)
+                {
+                    visibleObjects(c).insert(o);
+                }
             }
             m_CategoryInitialized[c] = true;
         }

@@ -31,15 +31,15 @@
 #include "skycomponents/skymapcomposite.h"
 
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() << QColor("slateblue") << //Mercury
-                                            QColor("lightgreen") <<                     //Venus
-                                            QColor("red") <<                            //Mars
-                                            QColor("goldenrod") <<                      //Jupiter
-                                            QColor("khaki") <<                          //Saturn
-                                            QColor("lightseagreen") <<                  //Uranus
-                                            QColor("skyblue") <<                        //Neptune
-                                            QColor("grey") <<                           //Pluto
-                                            QColor("yellow") <<                         //Sun
-                                            QColor("white");                            //Moon
+        QColor("lightgreen") <<                     //Venus
+        QColor("red") <<                            //Mars
+        QColor("goldenrod") <<                      //Jupiter
+        QColor("khaki") <<                          //Saturn
+        QColor("lightseagreen") <<                  //Uranus
+        QColor("skyblue") <<                        //Neptune
+        QColor("grey") <<                           //Pluto
+        QColor("yellow") <<                         //Sun
+        QColor("white");                            //Moon
 
 const SkyObject::UID KSPlanetBase::UID_SOL_BIGOBJ   = 0;
 const SkyObject::UID KSPlanetBase::UID_SOL_ASTEROID = 1;
@@ -79,7 +79,7 @@ KSPlanetBase *KSPlanetBase::createPlanet(int n)
         case KSPlanetBase::SUN:
             return new KSSun();
         case KSPlanetBase::MOON:
-            return new KSMoon();            
+            return new KSMoon();
     }
     return nullptr;
 }
@@ -155,7 +155,7 @@ void KSPlanetBase::findPosition(const KSNumbers *num, const CachingDms *lat, con
 bool KSPlanetBase::isMajorPlanet() const
 {
     if (name() == i18n("Mercury") || name() == i18n("Venus") || name() == i18n("Mars") || name() == i18n("Jupiter") ||
-        name() == i18n("Saturn") || name() == i18n("Uranus") || name() == i18n("Neptune"))
+            name() == i18n("Saturn") || name() == i18n("Uranus") || name() == i18n("Neptune"))
         return true;
     return false;
 }
@@ -212,12 +212,12 @@ void KSPlanetBase::setRearth(const KSPlanetBase *Earth)
     double x, y, z;
 
     //The Moon's Rearth is set in its findGeocentricPosition()...
-    if (name() == "Moon")
+    if (name() == i18n("Moon"))
     {
         return;
     }
 
-    if (name() == "Earth")
+    if (name() == i18n("Earth"))
     {
         Rearth = 0.0;
         return;
@@ -278,7 +278,7 @@ double KSPlanetBase::labelOffset() const
     double minsize = 4.;
     if (type() == SkyObject::ASTEROID || type() == SkyObject::COMET)
         minsize = 2.;
-    if (name() == "Sun" || name() == "Moon")
+    if (name() == i18n("Sun") || name() == i18n("Moon"))
         minsize = 8.;
     if (size < minsize)
         size = minsize;
@@ -292,7 +292,7 @@ double KSPlanetBase::labelOffset() const
 
 void KSPlanetBase::findPhase()
 {
-    if (2*rsun()*rearth() == 0)
+    if (2 * rsun()*rearth() == 0)
     {
         Phase = std::numeric_limits<double>::quiet_NaN();
         return;

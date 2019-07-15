@@ -151,9 +151,9 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
 
     // Fix some weird issue with what's interesting panel view under Windows
     // In Qt 5.9 it content is messed up and there is no way to close the panel
-    #ifdef Q_OS_WIN
-        m_BaseView->setFlags(Qt::WindowCloseButtonHint);
-    #endif
+#ifdef Q_OS_WIN
+    m_BaseView->setFlags(Qt::WindowCloseButtonHint);
+#endif
 
 
     connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject*)), this,
@@ -229,7 +229,7 @@ void WIView::updateObservingConditions()
 
     if (KStars::Instance()->getWIEquipSettings())
         telType = (equip == ObsConditions::Telescope) ? KStars::Instance()->getWIEquipSettings()->getTelType() :
-                                                        ObsConditions::Invalid;
+                  ObsConditions::Invalid;
     else
         telType = ObsConditions::Invalid;
 
@@ -319,9 +319,9 @@ void WIView::onCenterButtonClicked()
 void WIView::onSlewTelescopeButtonClicked()
 {
     if (KMessageBox::Continue ==
-        KMessageBox::warningContinueCancel(nullptr, "Are you sure you want your telescope to slew to this object?",
-                                           i18n("Continue Slew"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                           "continue_wi_slew_warning"))
+            KMessageBox::warningContinueCancel(nullptr, "Are you sure you want your telescope to slew to this object?",
+                    i18n("Continue Slew"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                    "continue_wi_slew_warning"))
     {
 #ifdef HAVE_INDI
 
@@ -455,7 +455,7 @@ void WIView::refreshListView()
         m_SoListObj->setProperty("currentIndex", m_CurIndex);
 }
 
-void WIView::updateModel(ObsConditions& obs)
+void WIView::updateModel(ObsConditions &obs)
 {
     if (!m_CurrentObjectListName.isEmpty())
     {
@@ -464,7 +464,7 @@ void WIView::updateModel(ObsConditions& obs)
     }
 }
 
-void WIView::inspectSkyObject(const QString& name)
+void WIView::inspectSkyObject(const QString &name)
 {
     if (!name.isEmpty() && name != "star")
     {
@@ -599,11 +599,11 @@ QString WIView::getWikipediaName(SkyObjItem *soitem)
         if (name.contains("Serpens"))
             name = "Serpens_(constellation)";
     }
-    else if (soitem->getTypeName() == "Asteroid")
+    else if (soitem->getTypeName() == i18n("Asteroid"))
         name = soitem->getName().remove(' ') + "_(asteroid)";
-    else if (soitem->getTypeName() == "Comet")
+    else if (soitem->getTypeName() == i18n("Comet"))
         name = soitem->getLongName();
-    else if (soitem->getType() == SkyObjItem::Planet && soitem->getName() != "Sun" && soitem->getName() != "Moon")
+    else if (soitem->getType() == SkyObjItem::Planet && soitem->getName() != i18n("Sun") && soitem->getName() != i18n("Moon"))
         name = soitem->getName().remove(' ') + "_(planet)";
     else if (soitem->getType() == SkyObjItem::Star)
     {
@@ -631,12 +631,14 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
     QUrl url("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + name + "&format=xml");
 
     QNetworkReply *response = manager->get(QNetworkRequest(url));
-    QTimer::singleShot(30000, response, [response] { //Shut it down after 30 sec.
+    QTimer::singleShot(30000, response, [response]   //Shut it down after 30 sec.
+    {
         response->abort();
         response->deleteLater();
         qDebug() << "Wikipedia Download Timed out.";
     });
-    connect(response, &QNetworkReply::finished, this, [soitem, this, response] {
+    connect(response, &QNetworkReply::finished, this, [soitem, this, response]
+    {
         response->deleteLater();
         if (response->error() != QNetworkReply::NoError)
             return;
@@ -656,18 +658,18 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
         int rightURL = result.indexOf("</Url>") - leftURL;
 
         QString srchtml =
-            "\n<p style=text-align:right>Source: (<a href='" + result.mid(leftURL, rightURL) + "'>" +
-            "Wikipedia</a>)"; //Note the \n is so that the description is put on another line in the file.  Doesn't affect the display but allows the source to be loaded in the details but not the list.
+        "\n<p style=text-align:right>Source: (<a href='" + result.mid(leftURL, rightURL) + "'>" +
+        "Wikipedia</a>)"; //Note the \n is so that the description is put on another line in the file.  Doesn't affect the display but allows the source to be loaded in the details but not the list.
         QString html = "<HTML>" + result.mid(leftPos, rightPos) + srchtml + "</HTML>";
 
         saveObjectInfoBoxText(soitem, "description", html);
 
-//TODO is this explicitly needed now with themes?
+        //TODO is this explicitly needed now with themes?
 #if 0
         QString color     = (Options::darkAppColors()) ? "red" : "white";
         QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
         html              = "<HTML><HEAD><style type=text/css>body {color:" + color +
-               ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
+        ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
 #endif
 
         if (soitem == m_CurSoItem)
@@ -693,8 +695,8 @@ void WIView::loadObjectDescription(SkyObjItem *soitem)
             QString linkColor = (isDarkTheme) ? "red" : "yellow";
 
             QString line      = "<HTML><HEAD><style type=text/css>body {color:" + color +
-                           ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY><BR>" +
-                           in.readAll() + "</BODY></HTML>";
+                                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY><BR>" +
+                                in.readAll() + "</BODY></HTML>";
             descTextObj->setProperty("text", line);
             file.close();
         }
@@ -727,11 +729,11 @@ void WIView::loadObjectInfoBox(SkyObjItem *soitem)
                     QUrl::fromLocalFile(
                         KSPaths::locate(QStandardPaths::GenericDataLocation,
                                         "descriptions/wikiImage-" + soitem->getName().toLower().remove(' ') + ".png"))
-                        .url();
+                    .url();
                 if (!wikiImageName.isEmpty())
                 {
                     int captionEnd = infoBoxHTML.indexOf(
-                        "</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
+                                         "</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
                     if (captionEnd == -1)
                         captionEnd = 0;
                     int leftImg    = infoBoxHTML.indexOf("src=\"", captionEnd) + 5;
@@ -782,17 +784,19 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
     QUrl url("https://en.wikipedia.org/w/index.php?action=render&title=" + name + "&redirects");
     QNetworkReply *response = manager->get(QNetworkRequest(url));
 
-    QTimer::singleShot(30000, response, [response] { //Shut it down after 30 sec.
+    QTimer::singleShot(30000, response, [response]   //Shut it down after 30 sec.
+    {
         response->abort();
         response->deleteLater();
         qDebug() << "Wikipedia Download Timed out.";
     });
-    connect(response, &QNetworkReply::finished, this, [name, response, soitem, this] {
+    connect(response, &QNetworkReply::finished, this, [name, response, soitem, this]
+    {
         response->deleteLater();
         if (response->error() == QNetworkReply::ContentNotFoundError)
         {
             QString html = "<BR>Sorry, No Wikipedia article with this object name seems to exist.  It is possible that "
-                           "one does exist but does not match the namimg scheme.";
+            "one does exist but does not match the namimg scheme.";
             saveObjectInfoBoxText(soitem, "infoText", html);
             infoBoxText->setProperty("text", html);
             return;
@@ -804,9 +808,10 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
         int rightPos   = result.indexOf("</table>", leftPos) - leftPos;
 
         if (leftPos == -1)
-        { //No InfoBox is Found
+        {
+            //No InfoBox is Found
             if (soitem->getType() == SkyObjItem::Star &&
-                name != soitem->getName().replace(' ', '_')) //For stars, the regular name rather than gname
+                    name != soitem->getName().replace(' ', '_')) //For stars, the regular name rather than gname
             {
                 tryToUpdateWikipediaInfo(soitem, soitem->getName().replace(' ', '_'));
                 return;
@@ -830,13 +835,13 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
 
         //This next section is for the headers in the colored boxes. It turns them black instead of white because they are more visible that way.
         infoText.replace("background: #", "color:black;background: #")
-            .replace("background-color: #", "color:black;background: #")
-            .replace("background:#", "color:black;background:#")
-            .replace("background-color:#", "color:black;background:#")
-            .replace("background: pink", "color:black;background: pink");
+        .replace("background-color: #", "color:black;background: #")
+        .replace("background:#", "color:black;background:#")
+        .replace("background-color:#", "color:black;background:#")
+        .replace("background: pink", "color:black;background: pink");
         infoText.replace("//", "http://"); //This is to fix links on wikipedia which are missing http from the url
         infoText.replace("https:http:", "https:")
-            .replace("http:http:", "http:"); //Just in case it was done to an actual complete url
+        .replace("http:http:", "http:"); //Just in case it was done to an actual complete url
 
         //This section is intended to remove links from the object name header at the top.  The links break up the header.
         int thLeft = infoText.indexOf("<th ");
@@ -868,7 +873,7 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
         saveInfoURL(soitem, "https://en.wikipedia.org/w/index.php?title=" + name + "&redirects");
 
         int captionEnd = infoText.indexOf(
-            "</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
+                             "</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
         if (captionEnd == -1)
             captionEnd = 0;
         int leftImg = infoText.indexOf("src=\"", captionEnd) + 5;
@@ -1005,12 +1010,14 @@ void WIView::downloadWikipediaImage(SkyObjItem *soitem, QString imageURL)
     QString fileN = filePath + '/' + fname;
 
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(imageURL)));
-    QTimer::singleShot(60000, response, [response] { //Shut it down after 60 sec.
+    QTimer::singleShot(60000, response, [response]   //Shut it down after 60 sec.
+    {
         response->abort();
         response->deleteLater();
         qDebug() << "Image Download Timed out.";
     });
-    connect(response, &QNetworkReply::finished, this, [fileN, response, this] {
+    connect(response, &QNetworkReply::finished, this, [fileN, response, this]
+    {
         response->deleteLater();
         if (response->error() != QNetworkReply::NoError)
             return;

@@ -26,7 +26,7 @@
 
 SchedulerJob::SchedulerJob()
 {
-    moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
+    moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Moon")));
 }
 
 void SchedulerJob::setName(const QString &value)
@@ -119,9 +119,9 @@ void SchedulerJob::setCompletionTime(const QDateTime &value)
 
     /* Invariants */
     Q_ASSERT_X(completionTime.isValid() ?
-            (FINISH_AT == completionCondition || FINISH_REPEAT == completionCondition || FINISH_SEQUENCE == completionCondition) :
-            FINISH_LOOP == completionCondition,
-            __FUNCTION__, "Valid completion time implies job is FINISH_AT/REPEAT/SEQUENCE, else job is FINISH_LOOP.");
+               (FINISH_AT == completionCondition || FINISH_REPEAT == completionCondition || FINISH_SEQUENCE == completionCondition) :
+               FINISH_LOOP == completionCondition,
+               __FUNCTION__, "Valid completion time implies job is FINISH_AT/REPEAT/SEQUENCE, else job is FINISH_LOOP.");
 }
 
 void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
@@ -133,7 +133,7 @@ void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
     {
         case FINISH_LOOP:
             setCompletionTime(QDateTime());
-            /* Fall through */
+        /* Fall through */
         case FINISH_AT:
             if (0 < getRepeatsRequired())
                 setRepeatsRequired(0);
@@ -149,7 +149,8 @@ void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
                 setRepeatsRequired(1);
             break;
 
-        default: break;
+        default:
+            break;
     }
 
     updateJobCells();
@@ -236,10 +237,10 @@ void SchedulerJob::setAltitudeCell(QTableWidgetItem *value)
     altitudeCell = value;
     if (nullptr != altitudeCell)
         altitudeCell->setToolTip(i18n("Current altitude of the target of job '%1'.\n"
-                                     "The altitude at startup, if available, is displayed between parentheses.\n"
-                                     "A rising target is indicated with an arrow going up.\n"
-                                     "A setting target is indicated with an arrow going down.",
-                                     name));
+                                      "The altitude at startup, if available, is displayed between parentheses.\n"
+                                      "A rising target is indicated with an arrow going up.\n"
+                                      "A setting target is indicated with an arrow going down.",
+                                      name));
 }
 
 void SchedulerJob::setStartupCell(QTableWidgetItem *value)
@@ -285,9 +286,9 @@ void SchedulerJob::setLeadTimeCell(QTableWidgetItem *value)
     leadTimeCell = value;
     if (nullptr != leadTimeCell)
         leadTimeCell->setToolTip(i18n("Time interval from the job which precedes job '%1'.\n"
-                                   "Adjust the Lead Time in Ekos options to increase that duration and leave time for jobs to complete.\n"
-                                   "Rearrange jobs to minimize that duration and optimize your imaging time.",
-                                   name));
+                                      "Adjust the Lead Time in Ekos options to increase that duration and leave time for jobs to complete.\n"
+                                      "Rearrange jobs to minimize that duration and optimize your imaging time.",
+                                      name));
 }
 
 void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
@@ -328,7 +329,7 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     /* Estimated time is generally the difference between startup and completion times:
      * - It is fixed when startup and completion times are fixed, that is, we disregard the argument
      * - Else mostly it pushes completion time from startup time
-     * 
+     *
      * However it cannot advance startup time when completion time is fixed because of the way jobs are scheduled.
      * This situation requires a warning in the user interface when there is not enough time for the job to process.
      */
@@ -371,8 +372,8 @@ void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
     estimatedTimeCell = value;
     if (estimatedTimeCell)
         estimatedTimeCell->setToolTip(i18n("Duration job '%1' will take to complete when started, as estimated by the Scheduler.\n"
-                                       "Depends on the actions to be run, and the sequence job to be processed.",
-                                       name));
+                                           "Depends on the actions to be run, and the sequence job to be processed.",
+                                           name));
 }
 
 void SchedulerJob::setLightFramesRequired(bool value)
@@ -415,7 +416,7 @@ void SchedulerJob::setCapturedFramesMap(const CapturedFramesMap &value)
     capturedFramesMap = value;
 }
 
-void SchedulerJob::setTargetCoords(dms& ra, dms& dec)
+void SchedulerJob::setTargetCoords(dms &ra, dms &dec)
 {
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);
@@ -471,9 +472,9 @@ void SchedulerJob::updateJobCells()
             stageStrings[STAGE_SLEWING] = i18n("Slewing");
             stageStrings[STAGE_SLEW_COMPLETE] = i18n("Slew complete");
             stageStrings[STAGE_FOCUSING] =
-                    stageStrings[STAGE_POSTALIGN_FOCUSING] = i18n("Focusing");
+                stageStrings[STAGE_POSTALIGN_FOCUSING] = i18n("Focusing");
             stageStrings[STAGE_FOCUS_COMPLETE] =
-                    stageStrings[STAGE_POSTALIGN_FOCUSING_COMPLETE ] = i18n("Focus complete");
+                stageStrings[STAGE_POSTALIGN_FOCUSING_COMPLETE ] = i18n("Focus complete");
             stageStrings[STAGE_ALIGNING] = i18n("Aligning");
             stageStrings[STAGE_ALIGN_COMPLETE] = i18n("Align complete");
             stageStrings[STAGE_RESLEWING] = i18n("Repositioning");
@@ -502,10 +503,10 @@ void SchedulerJob::updateJobCells()
         if (startupTime.isValid())
         {
             startupCell->setText(QString("%1%2%L3° %4")
-                    .arg(altitudeAtStartup < minAltitude ? QString(QChar(0x26A0)) : "")
-                    .arg(QChar(isSettingAtStartup ? 0x2193 : 0x2191))
-                    .arg(altitudeAtStartup, 0, 'f', 1)
-                    .arg(startupTime.toString(dateTimeDisplayFormat)));
+                                 .arg(altitudeAtStartup < minAltitude ? QString(QChar(0x26A0)) : "")
+                                 .arg(QChar(isSettingAtStartup ? 0x2193 : 0x2191))
+                                 .arg(altitudeAtStartup, 0, 'f', 1)
+                                 .arg(startupTime.toString(dateTimeDisplayFormat)));
 
             switch (fileStartupCondition)
             {
@@ -520,7 +521,8 @@ void SchedulerJob::updateJobCells()
                     startupCell->setIcon(QIcon());
                     break;
 
-                default: break;
+                default:
+                    break;
             }
         }
         /* Else do not display any startup time */
@@ -541,8 +543,8 @@ void SchedulerJob::updateJobCells()
         double const alt = findAltitude(targetCoords, QDateTime(), &is_setting);
 
         altitudeCell->setText(QString("%1%L2°")
-                .arg(QChar(is_setting ? 0x2193 : 0x2191))
-                .arg(alt, 0, 'f', 1));
+                              .arg(QChar(is_setting ? 0x2193 : 0x2191))
+                              .arg(alt, 0, 'f', 1));
 
         if (nullptr != altitudeCell->tableWidget())
             altitudeCell->tableWidget()->resizeColumnToContents(altitudeCell->column());
@@ -554,10 +556,10 @@ void SchedulerJob::updateJobCells()
         if (FINISH_LOOP != completionCondition && completionTime.isValid())
         {
             completionCell->setText(QString("%1%2%L3° %4")
-                    .arg(altitudeAtCompletion < minAltitude ? QString(QChar(0x26A0)) : "")
-                    .arg(QChar(isSettingAtCompletion ? 0x2193 : 0x2191))
-                    .arg(altitudeAtCompletion, 0, 'f', 1)
-                    .arg(completionTime.toString(dateTimeDisplayFormat)));
+                                    .arg(altitudeAtCompletion < minAltitude ? QString(QChar(0x26A0)) : "")
+                                    .arg(QChar(isSettingAtCompletion ? 0x2193 : 0x2191))
+                                    .arg(altitudeAtCompletion, 0, 'f', 1)
+                                    .arg(completionTime.toString(dateTimeDisplayFormat)));
 
             switch (completionCondition)
             {
@@ -587,7 +589,7 @@ void SchedulerJob::updateJobCells()
     {
         if (0 < estimatedTime)
             /* Seconds to ms - this doesn't follow dateTimeDisplayFormat, which renders YMD too */
-            estimatedTimeCell->setText(QTime::fromMSecsSinceStartOfDay(estimatedTime*1000).toString("HH:mm:ss"));
+            estimatedTimeCell->setText(QTime::fromMSecsSinceStartOfDay(estimatedTime * 1000).toString("HH:mm:ss"));
 #if 0
         else if(0 == estimatedTime)
             /* FIXME: this special case could be merged with the previous, kept for future to indicate actual duration */
@@ -612,7 +614,7 @@ void SchedulerJob::updateJobCells()
         switch (completionCondition)
         {
             case FINISH_AT:
-                // FIXME: Attempt to calculate the number of frames until end - requires detailed imaging time
+            // FIXME: Attempt to calculate the number of frames until end - requires detailed imaging time
 
             case FINISH_LOOP:
                 // If looping, display the count of completed frames
@@ -656,8 +658,8 @@ void SchedulerJob::updateJobCells()
 
             default:
                 leadTimeCell->setText(QString("%1%2")
-                        .arg(Options::leadTime() * 60 * 2 < leadTime ? QString(QChar(0x26A0)) : "")
-                        .arg(QTime::fromMSecsSinceStartOfDay(leadTime*1000).toString("HH:mm:ss")));
+                                      .arg(Options::leadTime() * 60 * 2 < leadTime ? QString(QChar(0x26A0)) : "")
+                                      .arg(QTime::fromMSecsSinceStartOfDay(leadTime * 1000).toString("HH:mm:ss")));
                 break;
         }
 
@@ -693,13 +695,13 @@ bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJo
 {
     bool A_is_setting = job1->isSettingAtStartup;
     double const altA = when.isValid() ?
-        findAltitude(job1->getTargetCoords(), when, &A_is_setting) :
-        job1->altitudeAtStartup;
+                        findAltitude(job1->getTargetCoords(), when, &A_is_setting) :
+                        job1->altitudeAtStartup;
 
     bool B_is_setting = job2->isSettingAtStartup;
     double const altB = when.isValid() ?
-        findAltitude(job2->getTargetCoords(), when, &B_is_setting) :
-        job2->altitudeAtStartup;
+                        findAltitude(job2->getTargetCoords(), when, &B_is_setting) :
+                        job2->altitudeAtStartup;
 
     // Sort with the setting target first
     if (A_is_setting && !B_is_setting)
