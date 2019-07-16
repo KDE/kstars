@@ -15,6 +15,7 @@
 #include "kstars.h"
 #include "Options.h"
 #include "fitsviewer/fitsviewer.h"
+#include "ksnotification.h"
 
 #include <KActionCollection>
 #include <KMessageBox>
@@ -139,8 +140,8 @@ void GUIManager::updateStatus(bool toggle_behavior)
 
     if (guidevices.count() == 0)
     {
-        KMessageBox::error(nullptr, i18n("No INDI devices currently running. To run devices, please select devices from the "
-                                         "Device Manager in the devices menu."));
+        KSNotification::error(i18n("No INDI devices currently running. To run devices, please select devices from the "
+                                   "Device Manager in the devices menu."));
         showINDIPanel->setChecked(false);
         showINDIPanel->setEnabled(false);
         return;

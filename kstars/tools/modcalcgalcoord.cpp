@@ -17,11 +17,10 @@
 
 #include "modcalcgalcoord.h"
 
+#include "ksnotification.h"
 #include "dialogs/finddialog.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/skypoint.h"
-
-#include <KMessageBox>
 
 #include <QTextStream>
 #include <QPointer>
@@ -200,8 +199,7 @@ void modCalcGalCoord::slotRunBatch()
         QFile f(inputFileName);
         if (!f.open(QIODevice::ReadOnly))
         {
-            QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(i18n("Could not open file %1.", f.fileName(), i18n("Could Not Open File")));
             return;
         }
 
@@ -214,7 +212,7 @@ void modCalcGalCoord::slotRunBatch()
     else
     {
         QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
+        KSNotification::sorry(message, i18n("Invalid file"));
         InputFileBoxBatch->setUrl(QUrl());
     }
 }

@@ -19,6 +19,7 @@
 #include "config-kstars.h"
 
 #include "kspaths.h"
+#include "ksnotification.h"
 #include "kstars.h"
 #include "kstars_debug.h"
 #include "kstarsdata.h"
@@ -75,7 +76,7 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
     //Set up the Table Views
     m_Model = new QStandardItemModel(0, 5, this);
     m_Model->setHorizontalHeaderLabels(QStringList() << i18nc("Right Ascension", "RA") << i18nc("Declination", "Dec")
-                                                     << i18n("Epoch") << i18n("Icon") << i18n("Label"));
+                                       << i18n("Epoch") << i18n("Icon") << i18n("Label"));
     m_SortModel = new QSortFilterProxyModel(this);
     m_SortModel->setSourceModel(m_Model);
     m_SortModel->setDynamicSortFilter(true);
@@ -181,7 +182,7 @@ bool FlagManager::validatePoint()
     //check if ra & dec values were successfully converted
     if (!raOk || !decOk)
     {
-        KMessageBox::error(KStars::Instance(), i18n("Invalid coordinates."));
+        KSNotification::error(i18n("Invalid coordinates."));
         return false;
     }
 
@@ -192,7 +193,7 @@ bool FlagManager::validatePoint()
         message += '\n' + i18n("The Declination value must be between -90.0 and 90.0.");
     if (!message.isEmpty())
     {
-        KMessageBox::sorry(nullptr, message, i18n("Invalid Coordinate Data"));
+        KSNotification::sorry(message, i18n("Invalid Coordinate Data"));
         return false;
     }
 
@@ -270,7 +271,7 @@ void FlagManager::slotCenterTelescope()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -286,8 +287,8 @@ void FlagManager::slotCenterTelescope()
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0,
-                               i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KSNotification::error(
+                i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -300,7 +301,7 @@ void FlagManager::slotCenterTelescope()
         return;
     }
 
-    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+    KSNotification::sorry(i18n("KStars did not find any active telescopes."));
 
 #endif
 }
@@ -323,8 +324,8 @@ void FlagManager::slotSaveChanges()
 
     //Update FlagComponent
     m_Ks->data()->skyComposite()->flags()->updateFlag(row, flagPoint, ui->epochBox->text(),
-                                                      ui->flagCombobox->currentText(), ui->flagLabel->text(),
-                                                      ui->labelColorcombo->color());
+            ui->flagCombobox->currentText(), ui->flagLabel->text(),
+            ui->labelColorcombo->color());
 
     //Save changes to file
     m_Ks->data()->skyComposite()->flags()->saveToFile();

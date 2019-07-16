@@ -13,6 +13,7 @@
 #include "align.h"
 #include "fov.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "Options.h"
 
 #include <KConfigDialog>
@@ -31,7 +32,7 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
-    connect(SetupPython,SIGNAL(clicked()),this,SLOT(setupPython()));
+    connect(SetupPython, SIGNAL(clicked()), this, SLOT(setupPython()));
 
 #ifdef Q_OS_OSX
     connect(kcfg_AstrometrySolverIsInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
@@ -76,12 +77,12 @@ void OpsAlign::setupPython()
 {
     if(brewInstalled() && pythonInstalled() && astropyInstalled())
     {
-        KMessageBox::information(nullptr, i18n("Homebrew, python, and astropy are already installed"));
+        KSNotification::info(i18n("Homebrew, python, and astropy are already installed"));
         return;
     }
 
-    if (KMessageBox::questionYesNo(nullptr, i18n("This installer will install the following requirements for astrometry.net if they are not installed:\nHomebrew -an OS X Unix Program Package Manager\nPython3 -A Powerful Scripting Language \nAstropy -Python Modules for Astronomy \n Do you wish to continue?"),
-                                   i18n("Install and Configure Python")) == KMessageBox::Yes)
+    if (Options::autonomousMode() || KMessageBox::questionYesNo(nullptr, i18n("This installer will install the following requirements for astrometry.net if they are not installed:\nHomebrew -an OS X Unix Program Package Manager\nPython3 -A Powerful Scripting Language \nAstropy -Python Modules for Astronomy \n Do you wish to continue?"),
+            i18n("Install and Configure Python")) == KMessageBox::Yes)
     {
         QProcess* install = new QProcess(this);
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -91,16 +92,16 @@ void OpsAlign::setupPython()
 
         if(!brewInstalled())
         {
-            KMessageBox::information(nullptr, i18n("Homebrew is not installed.  \nA Terminal window will pop up for you to install Homebrew.  \n When you are all done, then you can close the Terminal and click the setup button again."));
+            KSNotification::info(i18n("Homebrew is not installed.  \nA Terminal window will pop up for you to install Homebrew.  \n When you are all done, then you can close the Terminal and click the setup button again."));
             QStringList installArgs;
             QString homebrewInstallScript =
-                    "tell application \"Terminal\"\n"
-                    "    do script \"/usr/bin/ruby -e \\\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\\\"\"\n"
-                    "end tell\n";
+                "tell application \"Terminal\"\n"
+                "    do script \"/usr/bin/ruby -e \\\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\\\"\"\n"
+                "end tell\n";
             QString bringToFront =
-                    "tell application \"Terminal\"\n"
-                    "    activate\n"
-                    "end tell\n";
+                "tell application \"Terminal\"\n"
+                "    activate\n"
+                "end tell\n";
 
             QStringList processArguments;
             processArguments << "-l" << "AppleScript";
@@ -113,27 +114,27 @@ void OpsAlign::setupPython()
         }
         if(!pythonInstalled())
         {
-            KMessageBox::information(nullptr, i18n("Homebrew installed \nPython3 will install when you click Ok \nAstropy waiting . . . \n (Note: this might take a few minutes, please be patient.)"));
-            install->start("/usr/local/bin/brew" , QStringList() << "install" << "python3");
+            KSNotification::info(i18n("Homebrew installed \nPython3 will install when you click Ok \nAstropy waiting . . . \n (Note: this might take a few minutes, please be patient.)"));
+            install->start("/usr/local/bin/brew", QStringList() << "install" << "python3");
             install->waitForFinished();
             if(!pythonInstalled())
             {
-                KMessageBox::information(nullptr, i18n("Python install failure"));
+                KSNotification::info(i18n("Python install failure"));
                 return;
             }
         }
         if(!astropyInstalled())
         {
-           KMessageBox::information(nullptr, i18n("Homebrew installed \nPython3 installed \nAstropy will install when you click Ok \n (Note: this might take a few minutes, please be patient.)"));
-            install->start("/usr/local/bin/pip3" , QStringList() << "install" << "astropy");
+            KSNotification::info(i18n("Homebrew installed \nPython3 installed \nAstropy will install when you click Ok \n (Note: this might take a few minutes, please be patient.)"));
+            install->start("/usr/local/bin/pip3", QStringList() << "install" << "astropy");
             install->waitForFinished();
             if(!astropyInstalled())
             {
-                KMessageBox::information(nullptr, i18n("Astropy install failure"));
+                KSNotification::info(i18n("Astropy install failure"));
                 return;
             }
         }
-        KMessageBox::information(nullptr, i18n("All installations are complete and ready to use."));
+        KSNotification::info(i18n("All installations are complete and ready to use."));
     }
 }
 
@@ -151,7 +152,7 @@ bool OpsAlign::astropyInstalled()
     testAstropy.start("/usr/local/bin/pip3 list");
     testAstropy.waitForFinished();
     QString listPip(testAstropy.readAllStandardOutput());
-    qDebug()<<listPip;
+    qDebug() << listPip;
     return listPip.contains("astropy", Qt::CaseInsensitive);
 }
 

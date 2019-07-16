@@ -19,6 +19,8 @@
 #include "xplanetimageviewer.h"
 #include "Options.h"
 #include "dialogs/timedialog.h"
+#include "ksnotification.h"
+
 #include <QtConcurrent>
 
 #ifndef KSTARS_LITE
@@ -47,14 +49,16 @@
 #include <sys/stat.h>
 #include <QInputDialog>
 
-typedef enum {
-SUN,MERCURY,VENUS,
-EARTH,MOON,
-MARS,PHOBOS,DEIMOS,
-JUPITER,GANYMEDE,IO,CALLISTO,EUROPA,
-SATURN,TITAN,MIMAS,ENCELADUS,TETHYS,DIONE,RHEA,HYPERION,IAPETUS,PHOEBE,
-URANUS,UMBRIEL,ARIEL,MIRANDA,TITANIA,OBERON,
-NEPTUNE,TRITON } objects;
+typedef enum
+{
+    SUN, MERCURY, VENUS,
+    EARTH, MOON,
+    MARS, PHOBOS, DEIMOS,
+    JUPITER, GANYMEDE, IO, CALLISTO, EUROPA,
+    SATURN, TITAN, MIMAS, ENCELADUS, TETHYS, DIONE, RHEA, HYPERION, IAPETUS, PHOEBE,
+    URANUS, UMBRIEL, ARIEL, MIRANDA, TITANIA, OBERON,
+    NEPTUNE, TRITON
+} objects;
 
 XPlanetImageLabel::XPlanetImageLabel(QWidget *parent) : QFrame(parent)
 {
@@ -153,15 +157,15 @@ void XPlanetImageLabel::pinchTriggered(QPinchGesture *gesture)
 
 void XPlanetImageLabel::mousePressEvent(QMouseEvent *e)
 {
-     m_MouseButtonDown = true;
-     m_LastMousePoint = e->globalPos();
-     e->accept();
+    m_MouseButtonDown = true;
+    m_LastMousePoint = e->globalPos();
+    e->accept();
 }
 
 void XPlanetImageLabel::mouseReleaseEvent(QMouseEvent *e)
 {
-     m_MouseButtonDown = false;
-     e->accept();
+    m_MouseButtonDown = false;
+    e->accept();
 }
 
 void XPlanetImageLabel::mouseMoveEvent(QMouseEvent *e)
@@ -185,9 +189,9 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 #ifndef KSTARS_LITE
     m_LastFile = QDir::homePath();
 
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-    #endif
+#endif
     setAttribute(Qt::WA_DeleteOnClose, true);
     setModal(false);
     setWindowTitle(i18n("XPlanet Solar System Simulator: %1", obj));
@@ -202,7 +206,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     mainLayout->addWidget(page);
     setLayout(mainLayout);
 
-    QWidget *selectorsWidget= new QWidget(this);
+    QWidget *selectorsWidget = new QWidget(this);
     QHBoxLayout *selectorsLayout = new QHBoxLayout(selectorsWidget);
     selectorsLayout->setMargin(0);
     mainLayout->addWidget(selectorsWidget);
@@ -215,7 +219,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_objectDefaultFOVs << 0.00865          << 0.00002          << 0.00002;
     m_ObjectNames       << i18n("Jupiter")  << i18n("Ganymede") << i18n("Io")       << i18n("Callisto") << i18n("Europa");
     m_objectDefaultFOVs << 0.02             << 0.0005           << 0.0004           << 0.0005           << 0.0003;
-    m_ObjectNames       << i18n("Saturn")   << i18n("Titan")    << i18n("Mimas")    << i18n("Enceladus")<< i18n("Tethys")   << i18n("Dione")    << i18n("Rhea")     << i18n("Hyperion") << i18n("Iapetus")  << i18n("Phoebe");
+    m_ObjectNames       << i18n("Saturn")   << i18n("Titan")    << i18n("Mimas")    << i18n("Enceladus") << i18n("Tethys")   << i18n("Dione")    << i18n("Rhea")     << i18n("Hyperion") << i18n("Iapetus")  << i18n("Phoebe");
     m_objectDefaultFOVs << 0.02             << 0.0003            << 0.00002            << 0.00003            << 0.00007            << 0.00007            << 0.0001            << 0.00002            << 0.0001            << 0.00002;
     m_ObjectNames       << i18n("Uranus")   << i18n("Umbriel")  << i18n("Ariel")    << i18n("Miranda")  << i18n("Titania")  << i18n("Oberon");
     m_objectDefaultFOVs << 0.00256          << 0.00004            << 0.00004            << 0.00002            << 0.00005            << 0.00005;
@@ -238,7 +242,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_CurrentOriginIndex = EARTH;
     m_OriginName = m_ObjectNames.at(EARTH);
 
-    selectorsLayout->addWidget(new QLabel(i18n("from"),this));
+    selectorsLayout->addWidget(new QLabel(i18n("from"), this));
     m_OriginSelector = new QComboBox(this);
     m_OriginSelector->addItems(m_ObjectNames);
     m_OriginSelector->setToolTip(i18n("This allows you to select a viewing location"));
@@ -261,8 +265,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *resetXPlanetLocation = new QPushButton(this);
     resetXPlanetLocation->setIcon(QIcon::fromTheme("system-reboot"));
     resetXPlanetLocation->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetXPlanetLocation->setMaximumSize(QSize(32,32));
-    resetXPlanetLocation->setMinimumSize(QSize(32,32));
+    resetXPlanetLocation->setMaximumSize(QSize(32, 32));
+    resetXPlanetLocation->setMinimumSize(QSize(32, 32));
     resetXPlanetLocation->setToolTip(i18n("Reset XPlanet Location to the location specified in the XPlanet Options"));
     selectorsLayout->addWidget(resetXPlanetLocation);
     connect(resetXPlanetLocation, SIGNAL(clicked()), this, SLOT(resetLocation()));
@@ -270,8 +274,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_FreeRotate = new QPushButton(this);
     m_FreeRotate->setIcon(QIcon::fromTheme("object-rotate-left"));
     m_FreeRotate->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_FreeRotate->setMaximumSize(QSize(32,32));
-    m_FreeRotate->setMinimumSize(QSize(32,32));
+    m_FreeRotate->setMaximumSize(QSize(32, 32));
+    m_FreeRotate->setMinimumSize(QSize(32, 32));
     m_FreeRotate->setCheckable(true);
     m_FreeRotate->setToolTip(i18n("Hover over target and freely rotate view with mouse in XPlanet Viewer"));
     selectorsLayout->addWidget(m_FreeRotate);
@@ -280,8 +284,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *reCenterB = new QPushButton(this);
     reCenterB->setIcon(QIcon::fromTheme("snap-bounding-box-center"));
     reCenterB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    reCenterB->setMaximumSize(QSize(32,32));
-    reCenterB->setMinimumSize(QSize(32,32));
+    reCenterB->setMaximumSize(QSize(32, 32));
+    reCenterB->setMinimumSize(QSize(32, 32));
     reCenterB->setToolTip(i18n("Recenters the XPlanet image once it has been moved"));
     selectorsLayout->addWidget(reCenterB);
     connect(reCenterB, SIGNAL(clicked()), this, SLOT(reCenterXPlanet()));
@@ -289,13 +293,13 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *saveB = new QPushButton(this);
     saveB->setIcon(QIcon::fromTheme("document-save"));
     saveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    saveB->setMaximumSize(QSize(32,32));
-    saveB->setMinimumSize(QSize(32,32));
+    saveB->setMaximumSize(QSize(32, 32));
+    saveB->setMinimumSize(QSize(32, 32));
     saveB->setToolTip(i18n("Save the image to disk"));
     selectorsLayout->addWidget(saveB);
     connect(saveB, SIGNAL(clicked()), this, SLOT(saveFileToDisk()));
 
-    QWidget *viewControlsWidget= new QWidget(this);
+    QWidget *viewControlsWidget = new QWidget(this);
     QHBoxLayout *viewControlsLayout = new QHBoxLayout(viewControlsWidget);
     viewControlsLayout->setMargin(0);
     mainLayout->addWidget(viewControlsWidget);
@@ -306,7 +310,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_FOVEdit->setDecimals(5);
     QList<double> possibleValues;
     possibleValues << 0;
-    for(double i=.0001;i<100;i*=1.5)
+    for(double i = .0001; i < 100; i *= 1.5)
         possibleValues << i;
     m_FOVEdit->setRecommendedValues(possibleValues);
     m_FOVEdit->setToolTip(i18n("Sets the FOV to the Specified value.   Note: has no effect if hovering over object."));
@@ -323,8 +327,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_KStarsFOV = new QPushButton(this);
     m_KStarsFOV->setIcon(QIcon::fromTheme("zoom-fit-width"));
     m_KStarsFOV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_KStarsFOV->setMaximumSize(QSize(32,32));
-    m_KStarsFOV->setMinimumSize(QSize(32,32));
+    m_KStarsFOV->setMaximumSize(QSize(32, 32));
+    m_KStarsFOV->setMinimumSize(QSize(32, 32));
     m_KStarsFOV->setToolTip(i18n("Zoom to the current KStars FOV.   Note: has no effect if hovering over object."));
     viewControlsLayout->addWidget(m_KStarsFOV);
     connect(m_KStarsFOV, SIGNAL(clicked()), this, SLOT(setKStarsXPlanetFOV()));
@@ -332,8 +336,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_setFOV = new QPushButton(this);
     m_setFOV->setIcon(QIcon::fromTheme("view-list-details"));
     m_setFOV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_setFOV->setMaximumSize(QSize(32,32));
-    m_setFOV->setMinimumSize(QSize(32,32));
+    m_setFOV->setMaximumSize(QSize(32, 32));
+    m_setFOV->setMinimumSize(QSize(32, 32));
     m_setFOV->setToolTip(i18n("Zoom to a specific FOV. This has no effect when hovering over an object"));
     viewControlsLayout->addWidget(m_setFOV);
     connect(m_setFOV, SIGNAL(clicked()), this, SLOT(setFOVfromList()));
@@ -341,8 +345,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_NoFOV = new QPushButton(this);
     m_NoFOV->setIcon(QIcon::fromTheme("system-reboot"));
     m_NoFOV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_NoFOV->setMaximumSize(QSize(32,32));
-    m_NoFOV->setMinimumSize(QSize(32,32));
+    m_NoFOV->setMaximumSize(QSize(32, 32));
+    m_NoFOV->setMinimumSize(QSize(32, 32));
     m_NoFOV->setToolTip(i18n("Optimum FOV for the target, FOV parameter not specified.  Note: has no effect if hovering over object."));
     viewControlsLayout->addWidget(m_NoFOV);
     connect(m_NoFOV, SIGNAL(clicked()), this, SLOT(resetXPlanetFOV()));
@@ -363,8 +367,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *invertRotation = new QPushButton(this);
     invertRotation->setIcon(QIcon::fromTheme("object-flip-vertical"));
     invertRotation->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    invertRotation->setMaximumSize(QSize(32,32));
-    invertRotation->setMinimumSize(QSize(32,32));
+    invertRotation->setMaximumSize(QSize(32, 32));
+    invertRotation->setMinimumSize(QSize(32, 32));
     invertRotation->setToolTip(i18n("Rotate the view 180 degrees"));
     viewControlsLayout->addWidget(invertRotation);
     connect(invertRotation, SIGNAL(clicked()), this, SLOT(invertXPlanetRotation()));
@@ -372,8 +376,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *resetRotation = new QPushButton(this);
     resetRotation->setIcon(QIcon::fromTheme("system-reboot"));
     resetRotation->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetRotation->setMaximumSize(QSize(32,32));
-    resetRotation->setMinimumSize(QSize(32,32));
+    resetRotation->setMaximumSize(QSize(32, 32));
+    resetRotation->setMinimumSize(QSize(32, 32));
     resetRotation->setToolTip(i18n("Reset view rotation to 0"));
     viewControlsLayout->addWidget(resetRotation);
     connect(resetRotation, SIGNAL(clicked()), this, SLOT(resetXPlanetRotation()));
@@ -381,8 +385,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *optionsB = new QPushButton(this);
     optionsB->setIcon(QIcon::fromTheme("configure"));
     optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    optionsB->setMaximumSize(QSize(32,32));
-    optionsB->setMinimumSize(QSize(32,32));
+    optionsB->setMaximumSize(QSize(32, 32));
+    optionsB->setMinimumSize(QSize(32, 32));
     optionsB->setToolTip(i18n("Bring up XPlanet Options"));
     viewControlsLayout->addWidget(optionsB);
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
@@ -390,14 +394,14 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *invertB = new QPushButton(this);
     invertB->setIcon(QIcon::fromTheme("edit-select-invert"));
     invertB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    invertB->setMaximumSize(QSize(32,32));
-    invertB->setMinimumSize(QSize(32,32));
+    invertB->setMaximumSize(QSize(32, 32));
+    invertB->setMinimumSize(QSize(32, 32));
     invertB->setToolTip(i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects "
                              "only the display and not the saving."));
     viewControlsLayout->addWidget(invertB);
     connect(invertB, SIGNAL(clicked()), this, SLOT(invertColors()));
 
-    QWidget *timeWidget= new QWidget(this);
+    QWidget *timeWidget = new QWidget(this);
     QHBoxLayout *timeLayout = new QHBoxLayout(timeWidget);
     mainLayout->addWidget(timeWidget);
     timeLayout->setMargin(0);
@@ -407,8 +411,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *setTime = new QPushButton(this);
     setTime->setIcon(QIcon::fromTheme("clock"));
     setTime->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    setTime->setMaximumSize(QSize(32,32));
-    setTime->setMinimumSize(QSize(32,32));
+    setTime->setMaximumSize(QSize(32, 32));
+    setTime->setMinimumSize(QSize(32, 32));
     setTime->setToolTip(i18n("Allows you to set the XPlanet time to a different date/time from KStars"));
     timeLayout->addWidget(setTime);
     connect(setTime, SIGNAL(clicked()), this, SLOT(setXPlanetTime()));
@@ -416,8 +420,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *kstarsTime = new QPushButton(this);
     kstarsTime->setIcon(QIcon::fromTheme("system-reboot"));
     kstarsTime->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    kstarsTime->setMaximumSize(QSize(32,32));
-    kstarsTime->setMinimumSize(QSize(32,32));
+    kstarsTime->setMaximumSize(QSize(32, 32));
+    kstarsTime->setMinimumSize(QSize(32, 32));
     kstarsTime->setToolTip(i18n("Sets the XPlanet time to the current KStars time"));
     timeLayout->addWidget(kstarsTime);
     connect(kstarsTime, SIGNAL(clicked()), this, SLOT(setXPlanetTimetoKStarsTime()));
@@ -426,11 +430,11 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_XPlanetTimeDisplay->setToolTip(i18n("Current XPlanet Time"));
     timeLayout->addWidget(m_XPlanetTimeDisplay);
 
-    m_XPlanetTimeDisplay->setText(i18n("%1, %2", m_XPlanetTime.date().toString() , m_XPlanetTime.time().toString()));
+    m_XPlanetTimeDisplay->setText(i18n("%1, %2", m_XPlanetTime.date().toString(), m_XPlanetTime.time().toString()));
 
     m_TimeSlider = new QSlider(Qt::Horizontal, this);
     m_TimeSlider->setTracking(false);
-    connect(m_TimeSlider,SIGNAL(sliderMoved(int)),this,SLOT(timeSliderDisplay(int)));
+    connect(m_TimeSlider, SIGNAL(sliderMoved(int)), this, SLOT(timeSliderDisplay(int)));
     timeLayout->addWidget(m_TimeSlider);
     m_TimeSlider->setRange(-100, 100);
     m_TimeSlider->setToolTip(i18n("This sets the time step from the current XPlanet time, good for viewing events"));
@@ -464,8 +468,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_RunTime->setIcon(QIcon::fromTheme("media-playback-start"));
     m_RunTime->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     m_RunTime->setCheckable(true);
-    m_RunTime->setMaximumSize(QSize(32,32));
-    m_RunTime->setMinimumSize(QSize(32,32));
+    m_RunTime->setMaximumSize(QSize(32, 32));
+    m_RunTime->setMinimumSize(QSize(32, 32));
     m_RunTime->setToolTip(i18n("Lets you run the animation"));
     timeLayout->addWidget(m_RunTime);
     connect(m_RunTime, SIGNAL(clicked()), this, SLOT(toggleXPlanetRun()));
@@ -473,8 +477,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QPushButton *resetTime = new QPushButton(this);
     resetTime->setIcon(QIcon::fromTheme("system-reboot"));
     resetTime->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetTime->setMaximumSize(QSize(32,32));
-    resetTime->setMinimumSize(QSize(32,32));
+    resetTime->setMaximumSize(QSize(32, 32));
+    resetTime->setMinimumSize(QSize(32, 32));
     resetTime->setToolTip(i18n("Resets the animation to 0 timesteps from the current XPlanet Time"));
     timeLayout->addWidget(resetTime);
     connect(resetTime, SIGNAL(clicked()), this, SLOT(resetXPlanetTime()));
@@ -508,8 +512,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 #ifndef Q_OS_WIN
     if(Options::xplanetUseFIFO())
     {
-        connect(&watcherTimeout,SIGNAL(timeout()),&fifoImageLoadWatcher,SLOT(cancel()));
-        connect(&fifoImageLoadWatcher,SIGNAL(finished()),this,SLOT(showImage()));
+        connect(&watcherTimeout, SIGNAL(timeout()), &fifoImageLoadWatcher, SLOT(cancel()));
+        connect(&fifoImageLoadWatcher, SIGNAL(finished()), this, SLOT(showImage()));
     }
 #endif
 
@@ -546,7 +550,7 @@ void XPlanetImageViewer::startXplanet()
     // If Options::xplanetPath() is empty, return
     if (xPlanetLocation.isEmpty())
     {
-        KMessageBox::error(nullptr, i18n("Xplanet binary path is empty in config panel."));
+        KSNotification::error(i18n("Xplanet binary path is empty in config panel."));
         return;
     }
 
@@ -554,7 +558,7 @@ void XPlanetImageViewer::startXplanet()
     const QFileInfo xPlanetLocationInfo(xPlanetLocation);
     if (!xPlanetLocationInfo.exists() || !xPlanetLocationInfo.isExecutable())
     {
-        KMessageBox::error(nullptr, i18n("The configured Xplanet binary does not exist or is not executable."));
+        KSNotification::error(i18n("The configured Xplanet binary does not exist or is not executable."));
         return;
     }
 
@@ -579,7 +583,7 @@ void XPlanetImageViewer::startXplanet()
     if(m_FOV != 0)
         args << "-fov" << QString::number(m_FOV);
     //Need to convert to locale for places that don't use decimals??
-        //args << "-fov" << fov.setNum(fov());//.replace('.', ',');
+    //args << "-fov" << fov.setNum(fov());//.replace('.', ',');
 
     //This rotates the view for different object angles
     args << "-rotate" << QString::number(m_Rotation);
@@ -650,60 +654,60 @@ void XPlanetImageViewer::startXplanet()
     {
         switch (Options::xplanetProjection())
         {
-        case 1:
-            args << "-projection"
-                 << "ancient";
-            break;
-        case 2:
-            args << "-projection"
-                 << "azimuthal";
-            break;
-        case 3:
-            args << "-projection"
-                 << "bonne";
-            break;
-        case 4:
-            args << "-projection"
-                 << "gnomonic";
-            break;
-        case 5:
-            args << "-projection"
-                 << "hemisphere";
-            break;
-        case 6:
-            args << "-projection"
-                 << "lambert";
-            break;
-        case 7:
-            args << "-projection"
-                 << "mercator";
-            break;
-        case 8:
-            args << "-projection"
-                 << "mollweide";
-            break;
-        case 9:
-            args << "-projection"
-                 << "orthographic";
-            break;
-        case 10:
-            args << "-projection"
-                 << "peters";
-            break;
-        case 11:
-            args << "-projection"
-                 << "polyconic";
-            break;
-        case 12:
-            args << "-projection"
-                 << "rectangular";
-            break;
-        case 13:
-            args << "-projection"
-                 << "tsc";
-            break;
-        default:
-            break;
+            case 1:
+                args << "-projection"
+                     << "ancient";
+                break;
+            case 2:
+                args << "-projection"
+                     << "azimuthal";
+                break;
+            case 3:
+                args << "-projection"
+                     << "bonne";
+                break;
+            case 4:
+                args << "-projection"
+                     << "gnomonic";
+                break;
+            case 5:
+                args << "-projection"
+                     << "hemisphere";
+                break;
+            case 6:
+                args << "-projection"
+                     << "lambert";
+                break;
+            case 7:
+                args << "-projection"
+                     << "mercator";
+                break;
+            case 8:
+                args << "-projection"
+                     << "mollweide";
+                break;
+            case 9:
+                args << "-projection"
+                     << "orthographic";
+                break;
+            case 10:
+                args << "-projection"
+                     << "peters";
+                break;
+            case 11:
+                args << "-projection"
+                     << "polyconic";
+                break;
+            case 12:
+                args << "-projection"
+                     << "rectangular";
+                break;
+            case 13:
+                args << "-projection"
+                     << "tsc";
+                break;
+            default:
+                break;
         }
         if (Options::xplanetBackground())
         {
@@ -724,8 +728,8 @@ void XPlanetImageViewer::startXplanet()
 #endif
 
 #ifdef Q_OS_WIN
-        QString searchDir = xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet";
-        args << "-searchdir" << searchDir;
+    QString searchDir = xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet";
+    args << "-searchdir" << searchDir;
 #endif
 
     //This prevents it from running forever.
@@ -736,19 +740,19 @@ void XPlanetImageViewer::startXplanet()
     uint32_t timeout = Options::xplanetTimeout();
 
     //FIFO files don't work on windows
-    #ifndef Q_OS_WIN
-        if(Options::xplanetUseFIFO())
-        {
-            fifoImageLoadWatcher.setFuture(QtConcurrent::run(this, &XPlanetImageViewer::loadImage));
-            watcherTimeout.setSingleShot(true);
-            watcherTimeout.start(timeout);
-        }
-    #endif
+#ifndef Q_OS_WIN
+    if(Options::xplanetUseFIFO())
+    {
+        fifoImageLoadWatcher.setFuture(QtConcurrent::run(this, &XPlanetImageViewer::loadImage));
+        watcherTimeout.setSingleShot(true);
+        watcherTimeout.start(timeout);
+    }
+#endif
 
     xplanetProc->start(xPlanetLocation, args);
 
-   //Uncomment to print the XPlanet commands to the console
-   // qDebug() << "Run:" << xplanetProc->program() << args.join(" ");
+    //Uncomment to print the XPlanet commands to the console
+    // qDebug() << "Run:" << xplanetProc->program() << args.join(" ");
 
     bool XPlanetSucceeded = xplanetProc->waitForFinished(timeout);
     m_XPlanetRunning = false;
@@ -760,52 +764,51 @@ void XPlanetImageViewer::startXplanet()
             m_Caption->setText(i18n("XPlanet View: %1 from %2 on %3", m_ObjectName, m_OriginName, m_DateText));
         else
             m_Caption->setText(i18n("XPlanet View: %1 from %2 on %3 at FOV: %4 deg", m_ObjectName, m_OriginName, m_DateText, m_FOV));
-        #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
+        loadImage(); //This will also set imageLoadSucceeded based on whether it worked.
+#else
+        if(Options::xplanetUseFIFO())
+            return;  //The loading of the image is handled with the watcher
+        else
             loadImage(); //This will also set imageLoadSucceeded based on whether it worked.
-        #else
-            if(Options::xplanetUseFIFO())
-                return;  //The loading of the image is handled with the watcher
-            else
-                loadImage(); //This will also set imageLoadSucceeded based on whether it worked.
-        #endif
+#endif
 
         if(m_ImageLoadSucceeded)
-           showImage();
+            showImage();
         else
         {
-            QString text = i18n("Loading of the image of object %1 failed.", m_ObjectName);
-            KMessageBox::error(this, text);
+            KSNotification::error(i18n("Loading of the image of object %1 failed.", m_ObjectName));
         }
     }
     else
     {
         KStars::Instance()->statusBar()->showMessage(i18n("XPlanet failed to generate the image for object %1 before the timeout expired.", m_ObjectName));
-        #ifndef Q_OS_WIN
+#ifndef Q_OS_WIN
         if(Options::xplanetUseFIFO())
             fifoImageLoadWatcher.cancel();
-        #endif
+#endif
     }
 }
 
 bool XPlanetImageViewer::setupOutputFile()
 {
-    #ifndef Q_OS_WIN
-        if(Options::xplanetUseFIFO())
-        {
-            if(m_File.fileName().contains("xplanetfifo") && m_File.exists())
-                return true;
-            QDir kstarsTempDir(KSPaths::writableLocation(QStandardPaths::TempLocation));
-            kstarsTempDir.mkdir(kstarsTempDir.absolutePath());
-            m_File.setFileName(kstarsTempDir.absolutePath() + QDir::separator() + QString("xplanetfifo%1.png").arg(QUuid::createUuid().toString().mid(1, 8)).toLatin1());
-            int mkFifoSuccess = 0; //Note if the return value of the command is 0 it succeeded, -1 means it failed.
-            if ((mkFifoSuccess = mkfifo(m_File.fileName().toLatin1(), S_IRUSR | S_IWUSR) < 0))
-            {
-                KMessageBox::error(nullptr, i18n("Error making FIFO file %1: %2.", m_File.fileName(), strerror(errno)));
-                return false;
-            }
+#ifndef Q_OS_WIN
+    if(Options::xplanetUseFIFO())
+    {
+        if(m_File.fileName().contains("xplanetfifo") && m_File.exists())
             return true;
+        QDir kstarsTempDir(KSPaths::writableLocation(QStandardPaths::TempLocation));
+        kstarsTempDir.mkdir(kstarsTempDir.absolutePath());
+        m_File.setFileName(kstarsTempDir.absolutePath() + QDir::separator() + QString("xplanetfifo%1.png").arg(QUuid::createUuid().toString().mid(1, 8)).toLatin1());
+        int mkFifoSuccess = 0; //Note if the return value of the command is 0 it succeeded, -1 means it failed.
+        if ((mkFifoSuccess = mkfifo(m_File.fileName().toLatin1(), S_IRUSR | S_IWUSR) < 0))
+        {
+            KSNotification::error(i18n("Error making FIFO file %1: %2.", m_File.fileName(), strerror(errno)));
+            return false;
         }
-    #endif
+        return true;
+    }
+#endif
 
     //If the user is using windows or has not selected to use FIFO, it uses files in the KStars data directory.
     QDir writableDir;
@@ -855,7 +858,8 @@ void XPlanetImageViewer::updatePositionDisplay()
     m_PositionDisplay->setText(i18n("%1, %2, %3", QString::number(m_lat), QString::number(m_lon), QString::number(m_Radius)));
 }
 
-void XPlanetImageViewer::updateXPlanetTime(int timeShift){
+void XPlanetImageViewer::updateXPlanetTime(int timeShift)
+{
 
     KStarsDateTime shiftedXPlanetTime;
     switch(m_CurrentTimeUnitIndex)
@@ -893,14 +897,15 @@ void XPlanetImageViewer::updateXPlanetTime(int timeShift){
         startXplanet();
 }
 
-void XPlanetImageViewer::updateXPlanetObject(int objectIndex){
-    center = QPoint(0,0);
+void XPlanetImageViewer::updateXPlanetObject(int objectIndex)
+{
+    center = QPoint(0, 0);
     m_CurrentObjectIndex = objectIndex;
     m_ObjectName = m_ObjectNames.at(objectIndex);
 
     setWindowTitle(i18n("XPlanet Solar System Simulator: %1", m_ObjectName));
     if(m_FreeRotate->isChecked())
-            m_OriginSelector->setCurrentIndex(m_CurrentObjectIndex);
+        m_OriginSelector->setCurrentIndex(m_CurrentObjectIndex);
     if(m_CurrentObjectIndex == m_CurrentOriginIndex)
         startXplanet();
     else
@@ -909,7 +914,7 @@ void XPlanetImageViewer::updateXPlanetObject(int objectIndex){
 
 void XPlanetImageViewer::updateXPlanetOrigin(int originIndex)
 {
-    center = QPoint(0,0);
+    center = QPoint(0, 0);
     m_CurrentOriginIndex = originIndex;
     m_OriginName = m_ObjectNames.at(originIndex);
     if(m_CurrentObjectIndex == m_CurrentOriginIndex)
@@ -946,7 +951,7 @@ void XPlanetImageViewer::changeXPlanetPosition(QPoint delta)
 
 void XPlanetImageViewer::reCenterXPlanet()
 {
-    center = QPoint(0,0);
+    center = QPoint(0, 0);
     startXplanet();
 }
 
@@ -987,14 +992,15 @@ void XPlanetImageViewer::updateStates()
     }
 }
 
-void XPlanetImageViewer::setXPlanetDate(KStarsDateTime time){
+void XPlanetImageViewer::setXPlanetDate(KStarsDateTime time)
+{
     //Note Xplanet uses UT time for everything but we want the labels to all be LT
     KStarsDateTime utTime = KStarsData::Instance()->geo()->LTtoUT(time);
     m_Date = utTime.toString(Qt::ISODate)
-                   .replace("-",QString(""))
-                   .replace("T",".")
-                   .replace(":",QString(""))
-                   .replace("Z",QString(""));
+             .replace("-", QString(""))
+             .replace("T", ".")
+             .replace(":", QString(""))
+             .replace("Z", QString(""));
 }
 
 void XPlanetImageViewer::updateXPlanetTimeUnits(int units)
@@ -1047,7 +1053,7 @@ void XPlanetImageViewer::setXPlanetTime()
         m_XPlanetTime = timedialog->selectedDateTime();
         m_XPlanetTimeDisplay->setText(i18n("%1, %2", m_XPlanetTime.date().toString(), m_XPlanetTime.time().toString()));
         int timeShift = 0;
-        m_TimeSlider->setRange(-100,100);
+        m_TimeSlider->setRange(-100, 100);
         if(m_TimeSlider->value() != timeShift)
             m_TimeSlider->setValue(timeShift);
         else
@@ -1058,9 +1064,9 @@ void XPlanetImageViewer::setXPlanetTime()
 void XPlanetImageViewer::setXPlanetTimetoKStarsTime()
 {
     m_XPlanetTime = KStarsData::Instance()->lt();
-     m_XPlanetTimeDisplay->setText(i18n("%1, %2", m_XPlanetTime.date().toString(), m_XPlanetTime.time().toString()));
+    m_XPlanetTimeDisplay->setText(i18n("%1, %2", m_XPlanetTime.date().toString(), m_XPlanetTime.time().toString()));
     int timeShift = 0;
-    m_TimeSlider->setRange(-100,100);
+    m_TimeSlider->setRange(-100, 100);
     if(m_TimeSlider->value() != timeShift)
         m_TimeSlider->setValue(timeShift);
     else
@@ -1082,10 +1088,10 @@ void XPlanetImageViewer::toggleXPlanetRun()
     if(m_XPlanetTimer->isActive())
     {
         m_XPlanetTimer->stop();
-        #ifndef Q_OS_WIN
-            if(Options::xplanetUseFIFO())
-                fifoImageLoadWatcher.cancel();
-        #endif
+#ifndef Q_OS_WIN
+        if(Options::xplanetUseFIFO())
+            fifoImageLoadWatcher.cancel();
+#endif
     }
     else
     {
@@ -1126,8 +1132,8 @@ void XPlanetImageViewer::setFOVfromList()
         bool ok = false;
         const FOV *fov = nullptr;
         fov = nameToFovMap[QInputDialog::getItem(this, i18n("Choose a field-of-view"),
-                                                 i18n("FOV to render in XPlanet:"), nameToFovMap.uniqueKeys(), 0,
-                                                 false, &ok)];
+                                                       i18n("FOV to render in XPlanet:"), nameToFovMap.uniqueKeys(), 0,
+                                                       false, &ok)];
         if (ok)
         {
             m_FOV = fov->sizeX() / 60 ; //Converting from arcmin to degrees
@@ -1143,11 +1149,13 @@ void XPlanetImageViewer::updateXPlanetRotationEdit()
     startXplanet();
 }
 
-void XPlanetImageViewer::resetXPlanetRotation(){
+void XPlanetImageViewer::resetXPlanetRotation()
+{
     m_RotateEdit->setValue(0);
 }
 
-void XPlanetImageViewer::invertXPlanetRotation(){
+void XPlanetImageViewer::invertXPlanetRotation()
+{
     m_RotateEdit->setValue(180);
 }
 
@@ -1248,8 +1256,7 @@ void XPlanetImageViewer::saveFile(const QString &fileName)
 
     if (! m_Image.save(fileName, "png"))
     {
-        QString text = i18n("Saving of the image to %1 failed.", fileName);
-        KMessageBox::error(this, text);
+        KSNotification::error(i18n("Saving of the image to %1 failed.", fileName));
     }
     else
         KStars::Instance()->statusBar()->showMessage(i18n("Saved image to %1", fileName));

@@ -20,13 +20,14 @@
 #include "fitshistogram.h"
 #include "fitsview.h"
 #include "fitsviewer.h"
+#include "ksnotification.h"
 #include "kstars.h"
 #include "Options.h"
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
 
-#include <QtConcurrent>
 #include <KMessageBox>
+#include <QtConcurrent>
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
@@ -55,8 +56,12 @@ void FITSTab::saveUnsaved()
 
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
-    int ans =
-        KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+    int ans = 0;
+
+    if (Options::autonomousMode())
+        ans = KMessageBox::Yes;
+    else
+        ans = KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
     if (ans == KMessageBox::Yes)
         saveFile();
     if (ans == KMessageBox::No)
@@ -368,7 +373,7 @@ bool FITSTab::saveFile()
             char err_text[FLEN_STATUS];
             fits_get_errstatus(err_status, err_text);
             // Use KMessageBox or something here
-            KMessageBox::error(nullptr, i18n("FITS file save error: %1", QString::fromUtf8(err_text)), i18n("FITS Save"));
+            KSNotification::error(i18n("FITS file save error: %1", QString::fromUtf8(err_text)), i18n("FITS Save"));
             return false;
         }
 
@@ -381,7 +386,7 @@ bool FITSTab::saveFile()
     else
     {
         QString message = i18n("Invalid URL: %1", currentURL.url());
-        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         return false;
     }
 }

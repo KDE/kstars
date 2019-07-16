@@ -22,6 +22,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "ksnotification.h"
 #include "kstarsdatetime.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
@@ -162,7 +163,6 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-    ks = (KStars *)parent;
     sb = new ScriptBuilderUI(this);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -180,28 +180,28 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
 
     //Initialize function templates and descriptions
     KStarsFunctionList.append(new ScriptFunction("lookTowards",
-                                                 i18n("Point the display at the specified location. %1 can be the name "
-                                                      "of an object, a cardinal point on the compass, or 'zenith'.",
-                                                      QString("dir")),
-                                                 false, "QString", "dir"));
+                              i18n("Point the display at the specified location. %1 can be the name "
+                                   "of an object, a cardinal point on the compass, or 'zenith'.",
+                                   QString("dir")),
+                              false, "QString", "dir"));
     KStarsFunctionList.append(new ScriptFunction(
-        "addLabel", i18n("Add a name label to the object named %1.", QString("name")), false, "QString", "name"));
+                                  "addLabel", i18n("Add a name label to the object named %1.", QString("name")), false, "QString", "name"));
     KStarsFunctionList.append(
         new ScriptFunction("removeLabel", i18n("Remove the name label from the object named %1.", QString("name")),
                            false, "QString", "name"));
     KStarsFunctionList.append(new ScriptFunction(
-        "addTrail", i18n("Add a trail to the solar system body named %1.", QString("name")), false, "QString", "name"));
+                                  "addTrail", i18n("Add a trail to the solar system body named %1.", QString("name")), false, "QString", "name"));
     KStarsFunctionList.append(new ScriptFunction(
-        "removeTrail", i18n("Remove the trail from the solar system body named %1.", QString("name")), false, "QString",
-        "name"));
+                                  "removeTrail", i18n("Remove the trail from the solar system body named %1.", QString("name")), false, "QString",
+                                  "name"));
     KStarsFunctionList.append(new ScriptFunction("setRaDec",
-                                                 i18n("Point the display at the specified RA/Dec coordinates.  RA is "
-                                                      "expressed in Hours; Dec is expressed in Degrees."),
-                                                 false, "double", "ra", "double", "dec"));
+                              i18n("Point the display at the specified RA/Dec coordinates.  RA is "
+                                   "expressed in Hours; Dec is expressed in Degrees."),
+                              false, "double", "ra", "double", "dec"));
     KStarsFunctionList.append(new ScriptFunction(
-        "setAltAz",
-        i18n("Point the display at the specified Alt/Az coordinates.  Alt and Az are expressed in Degrees."), false,
-        "double", "alt", "double", "az"));
+                                  "setAltAz",
+                                  i18n("Point the display at the specified Alt/Az coordinates.  Alt and Az are expressed in Degrees."), false,
+                                  "double", "alt", "double", "az"));
     KStarsFunctionList.append(new ScriptFunction("zoomIn", i18n("Increase the display Zoom Level."), false));
     KStarsFunctionList.append(new ScriptFunction("zoomOut", i18n("Decrease the display Zoom Level."), false));
     KStarsFunctionList.append(
@@ -212,24 +212,24 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
         new ScriptFunction("setLocalTime", i18n("Set the system clock to the specified Local Time."), false, "int",
                            "year", "int", "month", "int", "day", "int", "hour", "int", "minute", "int", "second"));
     KStarsFunctionList.append(new ScriptFunction(
-        "waitFor", i18n("Pause script execution for specified number of seconds."), false, "double", "sec"));
+                                  "waitFor", i18n("Pause script execution for specified number of seconds."), false, "double", "sec"));
     KStarsFunctionList.append(new ScriptFunction("waitForKey",
-                                                 i18n("Halt script execution until the specified key is pressed.  Only "
-                                                      "single-key strokes are possible; use 'space' for the spacebar."),
-                                                 false, "QString", "key"));
+                              i18n("Halt script execution until the specified key is pressed.  Only "
+                                   "single-key strokes are possible; use 'space' for the spacebar."),
+                              false, "QString", "key"));
     KStarsFunctionList.append(new ScriptFunction(
-        "setTracking", i18n("Set whether the display is tracking the current location."), false, "bool", "track"));
+                                  "setTracking", i18n("Set whether the display is tracking the current location."), false, "bool", "track"));
     KStarsFunctionList.append(new ScriptFunction(
-        "changeViewOption", i18n("Change view option named %1 to value %2.", QString("opName"), QString("opValue")),
-        false, "QString", "opName", "QString", "opValue"));
+                                  "changeViewOption", i18n("Change view option named %1 to value %2.", QString("opName"), QString("opValue")),
+                                  false, "QString", "opName", "QString", "opValue"));
     KStarsFunctionList.append(new ScriptFunction(
-        "setGeoLocation", i18n("Set the geographic location to the city specified by city, province and country."),
-        false, "QString", "cityName", "QString", "provinceName", "QString", "countryName"));
+                                  "setGeoLocation", i18n("Set the geographic location to the city specified by city, province and country."),
+                                  false, "QString", "cityName", "QString", "provinceName", "QString", "countryName"));
     KStarsFunctionList.append(new ScriptFunction(
-        "setColor", i18n("Set the color named %1 to the value %2.", QString("colorName"), QString("value")), false,
-        "QString", "colorName", "QString", "value"));
+                                  "setColor", i18n("Set the color named %1 to the value %2.", QString("colorName"), QString("value")), false,
+                                  "QString", "colorName", "QString", "value"));
     KStarsFunctionList.append(new ScriptFunction("loadColorScheme", i18n("Load the color scheme specified by name."),
-                                                 false, "QString", "name"));
+                              false, "QString", "name"));
     KStarsFunctionList.append(
         new ScriptFunction("exportImage", i18n("Export the sky image to the file, with specified width and height."),
                            false, "QString", "fileName", "int", "width", "int", "height"));
@@ -242,9 +242,9 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     SimClockFunctionList.append(new ScriptFunction("stop", i18n("Halt the simulation clock."), true));
     SimClockFunctionList.append(new ScriptFunction("start", i18n("Start the simulation clock."), true));
     SimClockFunctionList.append(new ScriptFunction("setClockScale",
-                                                   i18n("Set the timescale of the simulation clock to specified scale. "
-                                                        " 1.0 means real-time; 2.0 means twice real-time; etc."),
-                                                   true, "double", "scale"));
+                                i18n("Set the timescale of the simulation clock to specified scale. "
+                                     " 1.0 means real-time; 2.0 means twice real-time; etc."),
+                                true, "double", "scale"));
 
     // JM: We're using QTreeWdiget for Qt4 now
     QTreeWidgetItem *kstars_tree   = new QTreeWidgetItem(sb->FunctionTree, QStringList("KStars"));
@@ -326,8 +326,8 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
 
     sb->ArgStack->setCurrentIndex(0);
 
-    snd = new ScriptNameDialog(ks);
-    otv = new OptionsTreeView(ks);
+    snd = new ScriptNameDialog(KStars::Instance());
+    otv = new OptionsTreeView(KStars::Instance());
 
     otv->resize(sb->width(), 0.5 * sb->height());
 
@@ -335,8 +335,8 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     otv->resizeColumns();
 
     //connect widgets in ScriptBuilderUI
-    connect(sb->FunctionTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotAddFunction()));
-    connect(sb->FunctionTree, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotShowDoc()));
+    connect(sb->FunctionTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(slotAddFunction()));
+    connect(sb->FunctionTree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotShowDoc()));
     connect(sb->UpButton, SIGNAL(clicked()), this, SLOT(slotMoveFunctionUp()));
     connect(sb->ScriptListBox, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotArgWidget()));
     connect(sb->DownButton, SIGNAL(clicked()), this, SLOT(slotMoveFunctionDown()));
@@ -764,9 +764,9 @@ void ScriptBuilder::initViewOptions()
     argChangeViewOption->OptionName->addItem("maxRadCometName");
 
     //init the list of color names and values
-    for (unsigned int i = 0; i < ks->data()->colorScheme()->numberOfColors(); ++i)
+    for (unsigned int i = 0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i)
     {
-        argSetColor->ColorName->addItem(ks->data()->colorScheme()->nameAt(i));
+        argSetColor->ColorName->addItem(KStarsData::Instance()->colorScheme()->nameAt(i));
     }
 
     //init list of color scheme names
@@ -823,8 +823,8 @@ void ScriptBuilder::slotOpen()
     if (!UnsavedChanges)
     {
         currentFileURL = QFileDialog::getOpenFileUrl(
-            KStars::Instance(), QString(), QUrl(currentDir),
-            "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
+                             KStars::Instance(), QString(), QUrl(currentDir),
+                             "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
 
         if (currentFileURL.isValid())
         {
@@ -843,14 +843,13 @@ void ScriptBuilder::slotOpen()
                 fname = tmpfile.fileName();
                 if (KIO::copy(currentFileURL, QUrl(fname))->exec() == false)
                     //if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
-                    KMessageBox::sorry(nullptr, i18n("Could not download remote file."), i18n("Download Error"));
+                    KSNotification::sorry(i18n("Could not download remote file."), i18n("Download Error"));
             }
 
             QFile f(fname);
             if (!f.open(QIODevice::ReadOnly))
             {
-                QString message = i18n("Could not open file %1.", f.fileName());
-                KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+                KSNotification::sorry(i18n("Could not open file %1.", f.fileName()), i18n("Could Not Open File"));
                 currentFileURL.clear();
                 return;
             }
@@ -862,8 +861,7 @@ void ScriptBuilder::slotOpen()
         }
         else if (!currentFileURL.url().isEmpty())
         {
-            QString message = i18n("Invalid URL: %1", currentFileURL.url());
-            KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
+            KSNotification::sorry(i18n("Invalid URL: %1", currentFileURL.url()), i18n("Invalid URL"));
             currentFileURL.clear();
         }
     }
@@ -893,8 +891,8 @@ void ScriptBuilder::slotSave()
     if (currentFileURL.isEmpty())
     {
         currentFileURL = QFileDialog::getSaveFileUrl(
-            KStars::Instance(), QString(), QUrl(currentDir),
-            "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
+                             KStars::Instance(), QString(), QUrl(currentDir),
+                             "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
         newFilename = true;
     }
 
@@ -910,10 +908,10 @@ void ScriptBuilder::slotSave()
             if (newFilename == true && QFile::exists(currentFileURL.toLocalFile()))
             {
                 int r = KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                                                           i18n("A file named \"%1\" already exists. "
-                                                                "Overwrite it?",
-                                                                currentFileURL.fileName()),
-                                                           i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+                        i18n("A file named \"%1\" already exists. "
+                             "Overwrite it?",
+                             currentFileURL.fileName()),
+                        i18n("Overwrite File?"), KStandardGuiItem::overwrite());
 
                 if (r == KMessageBox::Cancel)
                     return;
@@ -931,7 +929,7 @@ void ScriptBuilder::slotSave()
         if (!f.open(QIODevice::WriteOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(message, i18n("Could Not Open File"));
             currentFileURL.clear();
             return;
         }
@@ -952,7 +950,7 @@ void ScriptBuilder::slotSave()
             if (KIO::storedHttpPost(&tmpfile, currentFileURL)->exec() == false)
             {
                 QString message = i18n("Could not upload image to remote location: %1", currentFileURL.url());
-                KMessageBox::sorry(nullptr, message, i18n("Could not upload file"));
+                KSNotification::sorry(message, i18n("Could not upload file"));
             }
         }
 
@@ -961,7 +959,7 @@ void ScriptBuilder::slotSave()
     else
     {
         QString message = i18n("Invalid URL: %1", currentFileURL.url());
-        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         currentFileURL.clear();
     }
 }
@@ -1014,7 +1012,7 @@ void ScriptBuilder::slotRunScript()
     if (!f.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Could not open file %1.", f.fileName());
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         currentFileURL.clear();
         return;
     }
@@ -1546,8 +1544,8 @@ void ScriptBuilder::slotArgWidget()
             }
             else
             {
-                argExportImage->ExportWidth->setValue(ks->map()->width());
-                argExportImage->ExportHeight->setValue(ks->map()->height());
+                argExportImage->ExportWidth->setValue(SkyMap::Instance()->width());
+                argExportImage->ExportHeight->setValue(SkyMap::Instance()->height());
             }
         }
         else if (sf->name() == "printImage")
@@ -1634,7 +1632,7 @@ void ScriptBuilder::slotArgWidget()
             if (sf->argVal(0).isEmpty())
                 sf->setArg(0, "SkyColor"); //initialize default value
             argSetColor->ColorName->setCurrentIndex(
-                argSetColor->ColorName->findText(ks->data()->colorScheme()->nameFromKey(sf->argVal(0))));
+                argSetColor->ColorName->findText(KStarsData::Instance()->colorScheme()->nameFromKey(sf->argVal(0))));
             argSetColor->ColorValue->setColor(QColor(sf->argVal(1).remove('\\')));
         }
         else if (sf->name() == "loadColorScheme")
@@ -1789,7 +1787,7 @@ void ScriptBuilder::slotArgFindObject()
     ScriptFunction *sf = ScriptList[sb->ScriptListBox->currentRow()];
 
     if (sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" ||
-        sf->name() == "removeTrail")
+            sf->name() == "removeTrail")
     {
         setUnsavedChanges(true);
 
@@ -2238,8 +2236,8 @@ void ScriptBuilder::slotChangeColorName()
     {
         setUnsavedChanges(true);
 
-        argSetColor->ColorValue->setColor(ks->data()->colorScheme()->colorAt(argSetColor->ColorName->currentIndex()));
-        sf->setArg(0, ks->data()->colorScheme()->keyAt(argSetColor->ColorName->currentIndex()));
+        argSetColor->ColorValue->setColor(KStarsData::Instance()->colorScheme()->colorAt(argSetColor->ColorName->currentIndex()));
+        sf->setArg(0, KStarsData::Instance()->colorScheme()->keyAt(argSetColor->ColorName->currentIndex()));
         QString cname(argSetColor->ColorValue->color().name());
         //if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
         sf->setArg(1, cname);
@@ -2259,7 +2257,7 @@ void ScriptBuilder::slotChangeColor()
     {
         setUnsavedChanges(true);
 
-        sf->setArg(0, ks->data()->colorScheme()->keyAt(argSetColor->ColorName->currentIndex()));
+        sf->setArg(0, KStarsData::Instance()->colorScheme()->keyAt(argSetColor->ColorName->currentIndex()));
         QString cname(argSetColor->ColorValue->color().name());
         //if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
         sf->setArg(1, cname);

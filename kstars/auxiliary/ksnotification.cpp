@@ -10,6 +10,7 @@
 
 #include "ksnotification.h"
 #include "config-kstars.h"
+#include "Options.h"
 
 #ifdef KSTARS_LITE
 #include "kstarslite.h"
@@ -34,7 +35,8 @@ void error(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KMessageBox::error(nullptr, message, title);
+    if (!Options::autonomousMode())
+        KMessageBox::error(nullptr, message, title);
 #endif
 }
 
@@ -44,7 +46,8 @@ void sorry(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KMessageBox::sorry(nullptr, message, title);
+    if (!Options::autonomousMode())
+        KSNotification::sorry(message, title);
 #endif
 }
 
@@ -54,7 +57,8 @@ void info(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KMessageBox::information(nullptr, message, title);
+    if (!Options::autonomousMode())
+        KMessageBox::information(nullptr, message, title);
 #endif
 }
 

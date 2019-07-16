@@ -333,10 +333,10 @@ void Mount::syncTelescopeInfo()
         });
         connect(trackOffB, &QPushButton::clicked, [&]()
         {
-            if (KMessageBox::questionYesNo(KStars::Instance(),
-                                           i18n("Are you sure you want to turn off mount tracking?"),
-                                           i18n("Mount Tracking"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                           "turn_off_mount_tracking_dialog") == KMessageBox::Yes)
+            if (!Options::autonomousMode() && KMessageBox::questionYesNo(KStars::Instance(),
+                    i18n("Are you sure you want to turn off mount tracking?"),
+                    i18n("Mount Tracking"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                    "turn_off_mount_tracking_dialog") == KMessageBox::Yes)
                 currentTelescope->setTrackEnabled(false);
         });
     }
@@ -897,8 +897,8 @@ bool Mount::slew(double RA, double DEC)
     currentTargetPosition = new SkyPoint(RA, DEC);
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
-                                  currentTargetPosition->ra().toHMSString() <<
-                                  "DEC=" << currentTargetPosition->dec().toDMSString();
+                               currentTargetPosition->ra().toHMSString() <<
+                               "DEC=" << currentTargetPosition->dec().toDMSString();
 
     return currentTelescope->Slew(currentTargetPosition);
 }
@@ -947,9 +947,9 @@ bool Mount::checkMeridianFlip(dms lst)
             else if (initialHA() < 0)
             {
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
-                                             lst.toHMSString() <<
-                                             " scope RA=" << telescopeCoord.ra().toHMSString() <<
-                                             " and meridian diff=" << meridianFlipTimeBox->value();
+                                           lst.toHMSString() <<
+                                           " scope RA=" << telescopeCoord.ra().toHMSString() <<
+                                           " and meridian diff=" << meridianFlipTimeBox->value();
 
                 setMeridianFlipStatus(FLIP_PLANNED);
                 return false;
@@ -1003,8 +1003,8 @@ bool Mount::executeMeridianFlip()
 
     // execute meridian flip
     qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
-                                 currentTargetPosition->ra().toHMSString() <<
-                                 "DEC=" << currentTargetPosition->dec().toDMSString();
+                              currentTargetPosition->ra().toHMSString() <<
+                              "DEC=" << currentTargetPosition->dec().toDMSString();
     setMeridianFlipStatus(FLIP_RUNNING);
 
     bool result = slew(currentTargetPosition->ra().Hours(), currentTargetPosition->dec().Degrees());
@@ -1322,10 +1322,10 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
     //Options::setUseComputerSource(false);
     //Options::setUseDeviceSource(true);
 
-    if (Options::useGPSSource() == false && KMessageBox::questionYesNo(KStars::Instance(),
+    if (Options::useGPSSource() == false && (Options::autonomousMode() || KMessageBox::questionYesNo(KStars::Instance(),
             i18n("GPS is detected. Do you want to switch time and location source to GPS?"),
             i18n("GPS Settings"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-            "use_gps_source_dialog") == KMessageBox::Yes)
+            "use_gps_source_dialog") == KMessageBox::Yes))
     {
         Options::setUseKStarsSource(false);
         Options::setUseMountSource(false);

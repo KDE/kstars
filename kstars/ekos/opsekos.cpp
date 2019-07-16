@@ -31,7 +31,8 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     m_ConfigDialog = KConfigDialog::exists("settings");
 
     // Our refresh lambda
-    connect(this, &QTabWidget::currentChanged, this, [this](int index) {
+    connect(this, &QTabWidget::currentChanged, this, [this](int index)
+    {
         if (index == 4)
             refreshDarkData();
     });
@@ -43,13 +44,15 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     connect(clearExpiredB, SIGNAL(clicked()), this, SLOT(clearExpired()));
     connect(refreshB, SIGNAL(clicked()), this, SLOT(refreshDarkData()));
 
-    connect(clearDSLRInfoB, &QPushButton::clicked, [=] () {
+    connect(clearDSLRInfoB, &QPushButton::clicked, [ = ] ()
+    {
         KStarsData::Instance()->userdb()->DeleteAllDSLRInfo();
     });
 
     refreshDarkData();
 
-    connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]() {
+    connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]()
+    {
         if (Options::ekosTopIcons() != kcfg_EkosTopIcons->isChecked())
             KSNotification::info(i18n("You must restart KStars for this change to take effect."));
     });
@@ -61,7 +64,7 @@ void OpsEkos::clearExpired()
         return;
 
     // Anything before this must go
-    QDateTime expiredDate = QDateTime::currentDateTime().addDays(kcfg_DarkLibraryDuration->value()*-1);
+    QDateTime expiredDate = QDateTime::currentDateTime().addDays(kcfg_DarkLibraryDuration->value() * -1);
 
     QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
 
@@ -97,9 +100,9 @@ void OpsEkos::clearAll()
     if (darkFramesModel->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(KStars::Instance(),
-                                   i18n("Are you sure you want to delete all dark frames images and data?")) ==
-        KMessageBox::No)
+    if (!Options::autonomousMode() && KMessageBox::questionYesNo(KStars::Instance(),
+            i18n("Are you sure you want to delete all dark frames images and data?")) ==
+            KMessageBox::No)
         return;
 
     QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";

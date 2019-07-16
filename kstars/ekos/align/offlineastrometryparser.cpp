@@ -14,8 +14,7 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "kspaths.h"
-
-#include <KMessageBox>
+#include "ksnotification.h"
 
 namespace Ekos
 {
@@ -55,7 +54,7 @@ bool OfflineAstrometryParser::init()
 #ifdef Q_OS_OSX
     if (Options::astrometryConfFileIsInternal())
     {
-        if(KSUtils::configureAstrometry() == false)
+        if(KSUtils::configureAstrometry() == false && !Options::autonomousMode())
         {
             KMessageBox::information(
                 nullptr,
@@ -72,7 +71,7 @@ bool OfflineAstrometryParser::init()
 
     if (astrometryNetOK() == false)
     {
-        if (align && align->isEnabled())
+        if (align && align->isEnabled() && !Options::autonomousMode())
             KMessageBox::information(
                 nullptr,
                 i18n(
@@ -237,9 +236,9 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                         "configuration file full path in INDI options.",
-                                         Options::astrometryConfFile()));
+        KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+                                   "configuration file full path in INDI options.",
+                                   Options::astrometryConfFile()));
         return false;
     }
 
@@ -259,7 +258,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
         }
     }
 
-    KMessageBox::error(nullptr, i18n("Unable to find data dir in astrometry configuration file."));
+    KSNotification::error(i18n("Unable to find data dir in astrometry configuration file."));
     return false;
 }
 

@@ -100,6 +100,10 @@
          <label>Display CCD sensor angular size on the sky map?</label>
          <default>true</default>
       </entry>
+      <entry name="AutonomousMode" type="Bool">
+         <label>Run KStars in autonomous mode where no user interaction is expected.</label>
+         <default>false</default>
+      </entry>
       <entry name="WindowWidth" type="UInt">
          <label>Width of main window, in pixels</label>
          <default>1024</default>

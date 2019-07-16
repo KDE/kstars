@@ -19,6 +19,7 @@
 #include "kspaths.h"
 #include "kstars_debug.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "kstarsdatetime.h"
 #if defined(KSTARS_LITE)
 #include "kstarslite.h"
@@ -70,8 +71,7 @@ int main(int argc, char *argv[])
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
     if (!KSUtils::copyDataFolderFromAppBundleIfNeeded())
     {
-        KMessageBox::sorry(0,
-                           i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
+        KSNotification::sorry(i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
         return 1;
     }
 #endif
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
                         "http://www.indilib.org");
 
     // Active developers
-    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");    
+    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
     aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer & Ekos Improvements. KStars OSX Port"),
                         "rlancaste@gmail.com");
     aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");

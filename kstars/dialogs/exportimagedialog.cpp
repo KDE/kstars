@@ -21,6 +21,7 @@
 #include "kstars.h"
 #include "skymap.h"
 #include "skyqpainter.h"
+#include "ksnotification.h"
 #include "printing/legend.h"
 
 #include <KMessageBox>
@@ -133,6 +134,6 @@ void ExportImageDialog::exportImage()
     m_ImageExporter->includeLegend(m_DialogUI->addLegendCheckBox->isChecked());
     if (!m_ImageExporter->exportImage(m_Url))
     {
-        KMessageBox::sorry(nullptr, m_ImageExporter->getLastErrorMessage(), i18n("Could not export image"));
+        KSNotification::sorry(m_ImageExporter->getLastErrorMessage(), i18n("Could not export image"));
     }
 }

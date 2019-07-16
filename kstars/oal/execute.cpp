@@ -20,6 +20,7 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "observinglist.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
@@ -250,7 +251,8 @@ void Execute::loadObservers()
 
 void Execute::sortTargetList()
 {
-    auto timeLessThan = [](QSharedPointer<SkyObject> o1, QSharedPointer<SkyObject> o2) {
+    auto timeLessThan = [](QSharedPointer<SkyObject> o1, QSharedPointer<SkyObject> o2)
+    {
         QTime t1 = KStarsData::Instance()->observingList()->scheduledTime(o1.data());
         QTime t2 = KStarsData::Instance()->observingList()->scheduledTime(o2.data());
 
@@ -327,7 +329,7 @@ void Execute::slotEndSession()
             if (!f.open(QIODevice::WriteOnly))
             {
                 QString message = i18n("Could not open file %1", f.fileName());
-                KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+                KSNotification::sorry(message, i18n("Could Not Open File"));
                 return;
             }
             QTextStream ostream(&f);

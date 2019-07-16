@@ -654,7 +654,7 @@ bool Manager::start()
 
         if (haveCCD == false && haveGuider == false)
         {
-            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
+            KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
             managedDrivers.clear();
             return false;
         }
@@ -678,7 +678,7 @@ bool Manager::start()
 
         if (haveCCD == false && haveGuider == false)
         {
-            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
+            KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
             delete (remote_indi);
             nDevices = 0;
             return false;
@@ -704,8 +704,8 @@ bool Manager::start()
     {
         if (isRunning("PTPCamera"))
         {
-            if (KMessageBox::Yes ==
-                    (KMessageBox::questionYesNo(0,
+            if (Options::autonomousMode() || KMessageBox::Yes ==
+                    (KMessageBox::questionYesNo(nullptr,
                                                 i18n("Ekos detected that PTP Camera is running and may prevent a Canon or Nikon camera from connecting to Ekos. Do you want to quit PTP Camera now?"),
                                                 i18n("PTP Camera"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
                                                 "ekos_shutdown_PTPCamera")))
@@ -722,7 +722,7 @@ bool Manager::start()
     {
         if (isRunning("indiserver"))
         {
-            if (KMessageBox::Yes ==
+            if (Options::autonomousMode() || KMessageBox::Yes ==
                     (KMessageBox::questionYesNo(nullptr,
                                                 i18n("Ekos detected an instance of INDI server running. Do you wish to "
                                                         "shut down the existing instance before starting a new one?"),
@@ -2501,8 +2501,8 @@ void Manager::deleteProfile()
     if (currentProfile->name == "Simulators")
         return;
 
-    if (KMessageBox::questionYesNo(this, i18n("Are you sure you want to delete the profile?"),
-                                   i18n("Confirm Delete")) == KMessageBox::No)
+    if (!Options::autonomousMode() && KMessageBox::questionYesNo(this, i18n("Are you sure you want to delete the profile?"),
+            i18n("Confirm Delete")) == KMessageBox::No)
         return;
 
     KStarsData::Instance()->userdb()->DeleteProfile(currentProfile);

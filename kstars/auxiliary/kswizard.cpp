@@ -21,6 +21,7 @@
 #include "kspaths.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "ksutils.h"
 #include "Options.h"
 #include "widgets/dmsbox.h"
@@ -258,8 +259,8 @@ void KSWizard::slotFilterCities()
     foreach (GeoLocation *loc, KStarsData::Instance()->getGeoList())
     {
         if (hasPrefix(loc->translatedName(), location->CityFilter->text()) &&
-            hasPrefix(loc->translatedCountry(), location->CountryFilter->text()) &&
-            hasPrefix(loc->translatedProvince(), location->ProvinceFilter->text()))
+                hasPrefix(loc->translatedCountry(), location->CountryFilter->text()) &&
+                hasPrefix(loc->translatedProvince(), location->ProvinceFilter->text()))
         {
             location->CityListBox->addItem(loc->fullName());
             filteredCityList.append(loc);
@@ -295,7 +296,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
         if (! dataSourceDir.exists()) //If there is no default data directory in the app bundle
         {
-            KMessageBox::sorry(0, i18n("There was no default data directory found in the app bundle."));
+            KSNotification::sorry(i18n("There was no default data directory found in the app bundle."));
             return;
         }
         QDir writableDir;
@@ -304,8 +305,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
             QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
         if (dataLocation.isEmpty()) //If there *still* is not a kstars data directory
         {
-            KMessageBox::sorry(
-                0, i18n("There was a problem creating the data directory ~/Library/Application Support/."));
+            KSNotification::sorry(i18n("There was a problem creating the data directory ~/Library/Application Support/."));
             return;
         }
         KSUtils::copyRecursively(dataSourceDir.absolutePath(), dataLocation);
@@ -321,7 +321,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
     else
     {
         QUrl path = QUrl::fromLocalFile(
-            QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory));
+                        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory));
         QDesktopServices::openUrl(path);
     }
 
@@ -332,7 +332,7 @@ void KSWizard::slotInstallGSC()
 {
 #ifdef Q_OS_OSX
 
-    QNetworkAccessManager *manager= new QNetworkAccessManager();
+    QNetworkAccessManager *manager = new QNetworkAccessManager();
 
     QString location =
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
@@ -352,14 +352,16 @@ void KSWizard::slotInstallGSC()
     QMetaObject::Connection *replyConnection = new QMetaObject::Connection();
     QMetaObject::Connection *percentConnection = new QMetaObject::Connection();
 
-    *percentConnection=connect(response,&QNetworkReply::downloadProgress,
-    [=](qint64 bytesReceived, qint64 bytesTotal){
+    *percentConnection = connect(response, &QNetworkReply::downloadProgress,
+                                 [ = ](qint64 bytesReceived, qint64 bytesTotal)
+    {
         data->downloadProgress->setValue(bytesReceived);
         data->downloadProgress->setMaximum(bytesTotal);
     });
 
-    *cancelConnection=connect(data->gscInstallCancel, &QPushButton::clicked,
-    [=](){
+    *cancelConnection = connect(data->gscInstallCancel, &QPushButton::clicked,
+                                [ = ]()
+    {
         qDebug() << "Download Cancelled.";
 
         if(cancelConnection)
@@ -367,7 +369,8 @@ void KSWizard::slotInstallGSC()
         if(replyConnection)
             disconnect(*replyConnection);
 
-        if(response){
+        if(response)
+        {
             response->abort();
             response->deleteLater();
         }
@@ -383,9 +386,11 @@ void KSWizard::slotInstallGSC()
 
     });
 
-    *replyConnection=connect(response, &QNetworkReply::finished, this,
-    [=]() {
-        if(response){
+    *replyConnection = connect(response, &QNetworkReply::finished, this,
+                               [ = ]()
+    {
+        if(response)
+        {
 
             if(cancelConnection)
                 disconnect(*cancelConnection);
@@ -412,7 +417,7 @@ void KSWizard::slotInstallGSC()
             {
                 if (!file.open(QIODevice::WriteOnly))
                 {
-                    KMessageBox::error(0, i18n("File write error."));
+                    KSNotification::error( i18n("File write error."));
                     return;
                 }
                 else
@@ -424,7 +429,7 @@ void KSWizard::slotInstallGSC()
             }
             else
             {
-                KMessageBox::error(0, i18n("Data folder permissions error."));
+                KSNotification::error( i18n("Data folder permissions error."));
             }
         }
     });
@@ -442,7 +447,7 @@ void KSWizard::slotExtractGSC()
     connect(gscExtractor, SIGNAL(finished(int)), this, SLOT(gscExtractor.deleteLater()));
     gscExtractor->setWorkingDirectory(location);
     gscExtractor->start("unzip", QStringList() << "-ao"
-                                               << "gsc.zip");
+                        << "gsc.zip");
     gscMonitor->startAnimation();
 #endif
 }

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "addlinkdialog.h"
+#include "Options.h"
 
 #include <QPushButton>
 #include <QUrl>
@@ -69,8 +70,8 @@ void AddLinkDialog::checkURL(void)
         QString message =
             i18n("The URL is not valid. Would you like to open a browser window\nto the Google search engine?");
         QString caption = i18n("Invalid URL");
-        if (KMessageBox::warningYesNo(nullptr, message, caption, KGuiItem(i18n("Browse Google")),
-                                      KGuiItem(i18n("Do Not Browse"))) == KMessageBox::Yes)
+        if (Options::autonomousMode() || KMessageBox::warningYesNo(nullptr, message, caption, KGuiItem(i18n("Browse Google")),
+                KGuiItem(i18n("Do Not Browse"))) == KMessageBox::Yes)
         {
             QDesktopServices::openUrl(QUrl("http://www.google.com"));
         }

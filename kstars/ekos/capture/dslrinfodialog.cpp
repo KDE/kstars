@@ -10,8 +10,8 @@
 
 #include "dslrinfodialog.h"
 
-#include <KMessageBox>
 #include <KLocalizedString>
+#include "ksnotification.h"
 
 #include "Options.h"
 
@@ -40,7 +40,7 @@ void DSLRInfo::save()
 
     if (sensorMaxWidth == 0 || sensorMaxHeight == 0 || sensorPixelW == 0 || sensorPixelH == 0)
     {
-        KMessageBox::error(nullptr, i18n("Invalid values. Please set all values."));
+        KSNotification::error(i18n("Invalid values. Please set all values."));
         return;
     }
 

@@ -19,6 +19,7 @@
 
 #include "kspaths.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "modelmanager.h"
 #include "obsconditions.h"
 #include "Options.h"
@@ -327,7 +328,7 @@ void WIView::onSlewTelescopeButtonClicked()
 
         if (INDIListener::Instance()->size() == 0)
         {
-            KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+            KSNotification::sorry(i18n("KStars did not find any active telescopes."));
             return;
         }
 
@@ -343,8 +344,7 @@ void WIView::onSlewTelescopeButtonClicked()
 
             if (bd->isConnected() == false)
             {
-                KMessageBox::error(
-                    0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+                KSNotification::error(i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
                 return;
             }
 
@@ -359,7 +359,7 @@ void WIView::onSlewTelescopeButtonClicked()
             return;
         }
 
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
 
 #endif
     }

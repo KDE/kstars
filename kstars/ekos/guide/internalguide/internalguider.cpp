@@ -374,7 +374,7 @@ bool InternalGuider::calibrate()
 
     if (ccdInfo == false || scopeInfo == false)
     {
-        KMessageBox::error(nullptr, i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg),
+        KSNotification::error(i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg),
                            i18n("Missing Information"));
         return false;
     }

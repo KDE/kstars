@@ -21,6 +21,7 @@
 #include "geolocation.h"
 #include "ksnumbers.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "dialogs/locationdialog.h"
@@ -29,7 +30,6 @@
 #include "widgets/dmsbox.h"
 
 #include <KLocalizedString>
-#include <KMessageBox>
 
 #include <QPointer>
 #include <QFileDialog>
@@ -297,8 +297,7 @@ void modCalcVlsr::slotRunBatch()
         QFile f(inputFileName);
         if (!f.open(QIODevice::ReadOnly))
         {
-            QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(i18n("Could not open file %1.", f.fileName()), i18n("Could Not Open File"));
             return;
         }
 
@@ -310,8 +309,7 @@ void modCalcVlsr::slotRunBatch()
     }
     else
     {
-        QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
+        KSNotification::sorry(i18n("Invalid file: %1", inputFileName), i18n("Invalid file"));
         InputFileBoxBatch->setUrl(QUrl());
     }
 }

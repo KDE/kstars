@@ -5,6 +5,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "ksnotification.h"
 #include "ui_opsastrometrycfg.h"
 
 #include <KConfigDialog>
@@ -46,9 +47,9 @@ void OpsAstrometryCfg::slotLoadCFG()
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                         "configuration file full path in INDI options.",
-                                         Options::astrometryConfFile()));
+        KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+                                   "configuration file full path in INDI options.",
+                                   Options::astrometryConfFile()));
         return;
     }
 
@@ -82,13 +83,13 @@ void OpsAstrometryCfg::slotApply()
 
         QFile confFile(confPath);
         if (confFile.open(QIODevice::WriteOnly) == false)
-            KMessageBox::error(nullptr, i18n("Internal Astrometry configuration file write error."));
+            KSNotification::error(i18n("Internal Astrometry configuration file write error."));
         else
         {
             QTextStream out(&confFile);
             out << astrometryCFGDisplay->toPlainText();
             confFile.close();
-            KMessageBox::information(nullptr, i18n("Astrometry.cfg successfully saved."));
+            KSNotification::info(i18n("Astrometry.cfg successfully saved."));
             currentCFGText = astrometryCFGDisplay->toPlainText();
             QString astrometryDataDir;
 #ifdef Q_OS_OSX

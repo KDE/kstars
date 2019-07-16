@@ -19,10 +19,10 @@
 
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
+#include "ksnotification.h"
 #include "dialogs/locationdialog.h"
 
 #include <KLineEdit>
-#include <KMessageBox>
 
 #include <QTextStream>
 
@@ -210,7 +210,7 @@ void modCalcSidTime::slotRunBatch()
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(message, i18n("Could Not Open File"));
             inputFileName.clear();
             return;
         }
@@ -225,7 +225,7 @@ void modCalcSidTime::slotRunBatch()
     else
     {
         QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
+        KSNotification::sorry(message, i18n("Invalid file"));
         inputFileName.clear();
         return;
     }
@@ -283,7 +283,7 @@ void modCalcSidTime::processLines(QTextStream &istream)
                 }
 
                 geoBatch = KStarsData::Instance()->locationNamed(locationFields[0], locationFields[1],
-                                                                 locationFields[2]);
+                           locationFields[2]);
                 if (geoBatch == nullptr)
                 {
                     qDebug() << "Error: location not found in database: " << locationString;

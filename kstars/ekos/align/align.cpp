@@ -717,7 +717,7 @@ void Align::slotWizardAlignmentPoints()
         {
             if (decAngle < lat - 90 + minAlt) //Min altitude possible at minAlt deg above horizon
             {
-                KMessageBox::sorry(nullptr, i18n("DEC is below the altitude limit"));
+                KSNotification::sorry(i18n("DEC is below the altitude limit"));
                 return;
             }
         }
@@ -725,7 +725,7 @@ void Align::slotWizardAlignmentPoints()
         {
             if (decAngle > lat + 90 - minAlt) //Max altitude possible at minAlt deg above horizon
             {
-                KMessageBox::sorry(nullptr, i18n("DEC is below the altitude limit"));
+                KSNotification::sorry(i18n("DEC is below the altitude limit"));
                 return;
             }
         }
@@ -804,7 +804,7 @@ void Align::slotWizardAlignmentPoints()
 
         if (raIncrement == -1 || decIncrement == -1)
         {
-            KMessageBox::sorry(nullptr, i18n("Point calculation error."));
+            KSNotification::sorry(i18n("Point calculation error."));
             return;
         }
 
@@ -1151,7 +1151,7 @@ void Align::slotLoadAlignmentPoints()
     if (fileURL.isValid() == false)
     {
         QString message = i18n("Invalid URL: %1", fileURL.toLocalFile());
-        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         return;
     }
 
@@ -1170,7 +1170,7 @@ bool Align::loadAlignmentPoints(const QString &fileURL)
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open file %1", fileURL);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -1274,7 +1274,7 @@ void Align::slotSaveAlignmentPoints()
         if (alignURL.toLocalFile().endsWith(QLatin1String(".eal")) == false)
             alignURL.setPath(alignURL.toLocalFile() + ".eal");
 
-        if (QFile::exists(alignURL.toLocalFile()))
+        if (!Options::autonomousMode() && QFile::exists(alignURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(nullptr,
                     i18n("A file named \"%1\" already exists. "
@@ -1290,14 +1290,14 @@ void Align::slotSaveAlignmentPoints()
     {
         if ((saveAlignmentPoints(alignURL.toLocalFile())) == false)
         {
-            KMessageBox::error(KStars::Instance(), i18n("Failed to save alignment list"), i18n("Save"));
+            KSNotification::error(i18n("Failed to save alignment list"), i18n("Save"));
             return;
         }
     }
     else
     {
         QString message = i18n("Invalid URL: %1", alignURL.url());
-        KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
     }
 }
 
@@ -1308,7 +1308,7 @@ bool Align::saveAlignmentPoints(const QString &path)
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -1441,7 +1441,7 @@ void Align::exportSolutionPoints()
 
     QString path = exportFile.toLocalFile();
 
-    if (QFile::exists(path))
+    if (!Options::autonomousMode() && QFile::exists(path))
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
@@ -1455,7 +1455,7 @@ void Align::exportSolutionPoints()
     if (!exportFile.isValid())
     {
         QString message = i18n("Invalid URL: %1", exportFile.url());
-        KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         return;
     }
 
@@ -1464,7 +1464,7 @@ void Align::exportSolutionPoints()
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return;
     }
 
@@ -1485,7 +1485,7 @@ void Align::exportSolutionPoints()
 
         if (!raCell || !deCell || !objNameCell || !raErrorCell || !deErrorCell)
         {
-            KMessageBox::sorry(nullptr, i18n("Error in table structure."));
+            KSNotification::sorry(i18n("Error in table structure."));
             return;
         }
         dms raDMS = dms::fromString(raCell->text(), false);
@@ -1503,7 +1503,7 @@ void Align::slotClearAllSolutionPoints()
     if (solutionTable->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(
+    if (Options::autonomousMode() || KMessageBox::questionYesNo(
                 KStars::Instance(), i18n("Are you sure you want to clear all of the solution points?"),
                 i18n("Clear Solution Points"), KStandardGuiItem::yes(), KStandardGuiItem::no()) == KMessageBox::Yes)
     {
@@ -1521,8 +1521,8 @@ void Align::slotClearAllAlignPoints()
     if (mountModel.alignTable->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(&mountModelDialog, i18n("Are you sure you want to clear all the alignment points?"),
-                                   i18n("Clear Align Points")) == KMessageBox::Yes)
+    if (Options::autonomousMode() || KMessageBox::questionYesNo(&mountModelDialog, i18n("Are you sure you want to clear all the alignment points?"),
+            i18n("Clear Align Points")) == KMessageBox::Yes)
         mountModel.alignTable->setRowCount(0);
 
     if (previewShowing)
@@ -1704,7 +1704,7 @@ void Align::startStopAlignmentProcedure()
         {
             if (alignmentPointsAreBad())
             {
-                KMessageBox::error(nullptr, i18n("Please Check the Alignment Points."));
+                KSNotification::error(i18n("Please Check the Alignment Points."));
                 return;
             }
             if (currentGotoMode == GOTO_NOTHING)
@@ -2495,7 +2495,7 @@ bool Align::captureAndSolve()
         {
             if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
             {
-                KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
                 return false;
             }
         }
@@ -2530,15 +2530,13 @@ bool Align::captureAndSolve()
 
     if (focal_length == -1 || aperture == -1)
     {
-        KMessageBox::error(
-            nullptr,
-            i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
+        KSNotification::error(i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
         return false;
     }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
     {
-        KMessageBox::error(nullptr, i18n("CCD pixel size is missing. Please check your driver settings and try again."));
+        KSNotification::error(i18n("CCD pixel size is missing. Please check your driver settings and try again."));
         return false;
     }
 
@@ -2563,7 +2561,7 @@ bool Align::captureAndSolve()
 
     if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
     {
-        if (KMessageBox::questionYesNo(
+        if (Options::autonomousMode() || KMessageBox::questionYesNo(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
@@ -2882,11 +2880,17 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         KGuiItem existingItem(i18n("Use existing settings"), QString(),
                               i18n("Mount must be pointing close to the target location and current field of view must "
                                    "match the image's field of view."));
-        int rc = KMessageBox::questionYesNoCancel(nullptr,
-                 i18n("No metadata is available in this image. Do you want to use the "
-                      "blind solver or the existing solver settings?"),
-                 i18n("Astrometry solver"), blindItem, existingItem,
-                 KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
+
+        int rc = 0;
+
+        if (Options::autonomousMode())
+            rc = KMessageBox::Yes;
+        else rc = KMessageBox::questionYesNoCancel(nullptr,
+                      i18n("No metadata is available in this image. Do you want to use the "
+                           "blind solver or the existing solver settings?"),
+                      i18n("Astrometry solver"), blindItem, existingItem,
+                      KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
+
         if (rc == KMessageBox::Yes)
         {
             QVariantMap optionsMap;
@@ -3935,7 +3939,7 @@ void Align::measureAzError()
     static double initRA = 0, initDEC = 0, finalRA = 0, finalDEC = 0, initAz = 0;
 
     if (pahStage != PAH_IDLE &&
-            (KMessageBox::warningContinueCancel(KStars::Instance(),
+            (!Options::autonomousMode() && KMessageBox::warningContinueCancel(KStars::Instance(),
                     i18n("Polar Alignment Helper is still active. Do you want to continue "
                          "using legacy polar alignment tool?")) != KMessageBox::Continue))
         return;
@@ -3951,6 +3955,7 @@ void Align::measureAzError()
 
             // Display message box confirming user point scope near meridian and south
 
+            // N.B. This action cannot be automated.
             if (KMessageBox::warningContinueCancel(
                         nullptr,
                         hemisphere == NORTH_HEMISPHERE ?
@@ -4036,7 +4041,7 @@ void Align::measureAltError()
 {
     static double initRA = 0, initDEC = 0, finalRA = 0, finalDEC = 0, initAz = 0;
 
-    if (pahStage != PAH_IDLE &&
+    if (pahStage != PAH_IDLE && !Options::autonomousMode() &&
             (KMessageBox::warningContinueCancel(KStars::Instance(),
                     i18n("Polar Alignment Helper is still active. Do you want to continue "
                          "using legacy polar alignment tool?")) != KMessageBox::Continue))
@@ -4053,6 +4058,7 @@ void Align::measureAltError()
 
             // Display message box confirming user point scope near meridian and south
 
+            // N.B. This action cannot be automated.
             if (KMessageBox::warningContinueCancel(nullptr,
                                                    i18n("Point the telescope to the eastern or western horizon with a "
                                                            "minimum altitude of 20 degrees. Press continue when ready."),
@@ -4384,7 +4390,7 @@ bool Align::loadAndSlew(QString fileURL)
         {
             if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
             {
-                KMessageBox::error(nullptr, i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
                 return false;
             }
         }
@@ -4989,7 +4995,7 @@ void Align::stopPAHProcess()
     qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
 
     // Only display dialog if user explicitly restarts
-    if ((static_cast<QPushButton *>(sender()) == PAHStopB) &&
+    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && !Options::autonomousMode() &&
             KMessageBox::questionYesNo(KStars::Instance(),
                                        i18n("Are you sure you want to stop the polar alignment process?"),
                                        i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
@@ -5407,7 +5413,7 @@ void Align::setWCSToggled(bool result)
         if (pixelPoint.x() < (-1 * imageData->width()) || pixelPoint.x() > (imageData->width() * 2) ||
                 pixelPoint.y() < (-1 * imageData->height()) || pixelPoint.y() > (imageData->height() * 2))
         {
-            if (currentTelescope->canSync() &&
+            if (currentTelescope->canSync() && !Options::autonomousMode() &&
                     KMessageBox::questionYesNo(
                         nullptr, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
                                       "the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to "
@@ -6003,7 +6009,7 @@ void Align::syncFOV()
     }
     else
     {
-        KMessageBox::error(nullptr, i18n("Invalid FOV."));
+        KSNotification::error(i18n("Invalid FOV."));
         FOVOut->setStyleSheet("background-color:red");
     }
 }

@@ -19,13 +19,13 @@
 
 #include "dms.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "dialogs/finddialog.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/skypoint.h"
 #include "widgets/dmsbox.h"
 
 #include <KLocalizedString>
-#include <KMessageBox>
 
 #include <QTextStream>
 #include <QPointer>
@@ -140,7 +140,7 @@ void modCalcAngDist::slotRunBatch()
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(message, i18n("Could Not Open File"));
             inputFileName.clear();
             return;
         }
@@ -154,7 +154,7 @@ void modCalcAngDist::slotRunBatch()
     else
     {
         QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
+        KSNotification::sorry(message, i18n("Invalid file"));
         inputFileName.clear();
         InputLineEditBatch->setText(inputFileName);
         return;

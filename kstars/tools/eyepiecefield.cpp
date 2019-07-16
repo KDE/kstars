@@ -21,6 +21,7 @@
 #include "fov.h"
 #include "ksdssdownloader.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "Options.h"
 #include "skymap.h"
 #include "skyqpainter.h"
@@ -205,7 +206,7 @@ void EyepieceField::showEyepieceField(SkyPoint *sp, FOV const *const fov, const 
     {
         //Q_ASSERT( false );
         // Don't crash the program
-        KMessageBox::error(nullptr, i18n(("No image found. Please specify the exact FOV.")));
+        KSNotification::error(i18n(("No image found. Please specify the exact FOV.")));
         return;
     }
 
@@ -257,7 +258,7 @@ void EyepieceField::showEyepieceField(SkyPoint *sp, const double fovWidth, doubl
 }
 
 void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage *skyImage, const FOV *fov,
-                                         const QString &imagePath)
+        const QString &imagePath)
 {
     if (fov)
     {
@@ -270,7 +271,7 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
 }
 
 void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage *skyImage, double fovWidth,
-                                         double fovHeight, const QString &imagePath)
+        double fovHeight, const QString &imagePath)
 {
     SkyMap *map = SkyMap::Instance();
     KStars *ks  = KStars::Instance();
@@ -408,7 +409,7 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
         }
 
         QImage img     = rawImg.scaled(arcMinToScreen * dssWidth * 2.0, arcMinToScreen * dssHeight * 2.0,
-                                   Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                       Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         const auto ksd = KStarsData::Instance();
         sp->updateCoordsNow(ksd->updateNum());
 
@@ -477,7 +478,7 @@ void EyepieceField::renderEyepieceView(const QImage *skyChart, QPixmap *renderCh
     {
         QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed("SkyColor");
         QBitmap mask    = QBitmap::fromImage(
-            skyChart->createMaskFromColor(skyColor.rgb()).transformed(transform, Qt::SmoothTransformation));
+                              skyChart->createMaskFromColor(skyColor.rgb()).transformed(transform, Qt::SmoothTransformation));
         renderChart->setMask(mask);
         QPainter p(renderImage);
         p.drawImage(QPointF(renderImage->width() / 2.0 - renderChart->width() / 2.0,
@@ -542,10 +543,10 @@ void EyepieceField::render()
 
     if (!overlay)
         m_skyChartDisplay->setPixmap(m_renderChart.scaled(m_skyChartDisplay->width(), m_skyChartDisplay->height(),
-                                                          Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                                     Qt::KeepAspectRatio, Qt::SmoothTransformation));
     if (m_skyImage.get() != nullptr)
         m_skyImageDisplay->setPixmap(m_renderImage.scaled(m_skyImageDisplay->width(), m_skyImageDisplay->height(),
-                                                          Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                                     Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
     update();
     show();
@@ -579,7 +580,7 @@ void EyepieceField::slotDssDownloaded(bool success)
 {
     if (!success)
     {
-        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image."));
+        KSNotification::sorry(i18n("Failed to download DSS/SDSS image."));
         return;
     }
     else
@@ -627,9 +628,9 @@ dms EyepieceField::findNorthAngle(const SkyPoint *sp, const dms *lat)
         northAngle2 = -northAngle2;
     double northAngle = northAngle1 + northAngle2;
     qCDebug(KSTARS) << "Data: alt = " << sp->alt().toDMSString() << "; az = " << sp->az().toDMSString() << "; ra, dec ("
-             << sp->getLastPrecessJD() / 365.25 << ") = " << sp->ra().toHMSString() << "," << sp->dec().toDMSString()
-             << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
+                    << sp->getLastPrecessJD() / 365.25 << ") = " << sp->ra().toHMSString() << "," << sp->dec().toDMSString()
+                    << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
     qCDebug(KSTARS) << "PA corrections: precession cosine = " << cosNorthAngle1 << "; angle = " << northAngle1
-             << "; horizontal = " << cosNorthAngle2 << "; angle = " << northAngle2;
+                    << "; horizontal = " << cosNorthAngle2 << "; angle = " << northAngle2;
     return dms(northAngle * 180 / M_PI);
 }

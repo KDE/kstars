@@ -268,6 +268,7 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
         // since dark data is loaded from disk.
         if (hasNoShutter)
         {
+            // N.B. This action cannot be autonomous.
             if (KMessageBox::warningContinueCancel(
                         nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
                         KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -324,6 +325,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
 
     if (hasNoShutter)
     {
+        // N.B. This action cannot be autonomous.
         if (KMessageBox::warningContinueCancel(
                     nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
                     KStandardGuiItem::cont(), KStandardGuiItem::cancel(),

@@ -56,8 +56,8 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
     connected    = QIcon::fromTheme("network-connect");
     disconnected = QIcon::fromTheme("network-disconnect");
 
-    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this,
-            SLOT(makePortEditable(QTreeWidgetItem*,int)));
+    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this,
+            SLOT(makePortEditable(QTreeWidgetItem*, int)));
 }
 
 void DriverManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column)
@@ -110,8 +110,8 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
     connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
     connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
     connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-    connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateLocalTab()));
-    connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateClientTab()));
+    connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(updateLocalTab()));
+    connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(updateClientTab()));
     connect(ui->localTreeWidget, SIGNAL(expanded(QModelIndex)), this, SLOT(resizeDeviceColumn()));
 
     // Do not use KSPaths here, this is for INDI
@@ -275,8 +275,11 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
                 // Check if running already
                 if (dv->getClientState() || dv->getServerState())
                 {
-                    int ans = KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
+                    int ans = 0;
+                    if (Options::autonomousMode())
+                        ans = KMessageBox::Continue;
+                    else ans = KMessageBox::warningContinueCancel(
+                                       nullptr, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
                     if (ans == KMessageBox::Cancel)
                         continue;
                     else
@@ -679,7 +682,7 @@ void DriverManager::processRemoteTree(bool dState)
         //qDebug() << "dState is : " << (dState ? "True" : "False") << endl;
 
         if (currentItem->text(HOST_NAME_COLUMN) == dv->getName() &&
-            currentItem->text(HOST_PORT_COLUMN) == dv->getPort())
+                currentItem->text(HOST_PORT_COLUMN) == dv->getPort())
         {
             // Nothing changed, return
             if (dv->getClientState() == dState)
@@ -971,18 +974,18 @@ bool DriverManager::readXMLDrivers()
         if (fileInfo.fileName().endsWith(QLatin1String("_sk.xml")))
             continue;
 
-//        if (fileInfo.fileName() == "drivers.xml")
-//        {
-//            // Let first attempt to load the local version of drivers.xml
-//            driverName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "drivers.xml";
+        //        if (fileInfo.fileName() == "drivers.xml")
+        //        {
+        //            // Let first attempt to load the local version of drivers.xml
+        //            driverName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "drivers.xml";
 
-//            // If found, we continue, otherwise, we load the system file
-//            if (driverName.isEmpty() == false && QFile(driverName).exists())
-//            {
-//                processXMLDriver(driverName);
-//                continue;
-//            }
-//        }
+        //            // If found, we continue, otherwise, we load the system file
+        //            if (driverName.isEmpty() == false && QFile(driverName).exists())
+        //            {
+        //                processXMLDriver(driverName);
+        //                continue;
+        //            }
+        //        }
 
         processXMLDriver(fileInfo.absoluteFilePath());
     }
@@ -1139,13 +1142,13 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         skel = valuXMLAtt(ap);
 
     // Let's look for telescope-specific attributes: focal length and aperture
-//    ap = findXMLAtt(root, "focal_length");
-//    if (ap)
-//    {
-//        focal_length = QString(valuXMLAtt(ap)).toDouble();
-//        if (focal_length > 0)
-//            vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
-//    }
+    //    ap = findXMLAtt(root, "focal_length");
+    //    if (ap)
+    //    {
+    //        focal_length = QString(valuXMLAtt(ap)).toDouble();
+    //        if (focal_length > 0)
+    //            vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
+    //    }
 
     // Find MDPD: Multiple Devices Per Driver
     ap = findXMLAtt(root, "mdpd");
@@ -1156,13 +1159,13 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         vMap.insert("mdpd", mdpd);
     }
 
-//    ap = findXMLAtt(root, "aperture");
-//    if (ap)
-//    {
-//        aperture = QString(valuXMLAtt(ap)).toDouble();
-//        if (aperture > 0)
-//            vMap.insert("TELESCOPE_APERTURE", aperture);
-//    }
+    //    ap = findXMLAtt(root, "aperture");
+    //    if (ap)
+    //    {
+    //        aperture = QString(valuXMLAtt(ap)).toDouble();
+    //        if (aperture > 0)
+    //            vMap.insert("TELESCOPE_APERTURE", aperture);
+    //    }
 
     el = findXMLEle(root, "driver");
 
@@ -1186,7 +1189,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         return false;
 
     version = pcdataXMLEle(el);
-    bool versionOK=false;
+    bool versionOK = false;
     version.toDouble(&versionOK);
     if (versionOK == false)
         version = "1.0";
@@ -1247,7 +1250,7 @@ bool DriverManager::checkDriverAvailability(const QString &driver)
 
 void DriverManager::updateCustomDrivers()
 {
-    for (const QVariantMap & oneDriver : m_CustomDrivers->customDrivers())
+    for (const QVariantMap &oneDriver : m_CustomDrivers->customDrivers())
     {
         DriverInfo *dv = new DriverInfo(oneDriver["Name"].toString());
         dv->setLabel(oneDriver["Label"].toString());
@@ -1431,7 +1434,7 @@ void DriverManager::modifyINDIHost()
     foreach (DriverInfo *host, driversList)
     {
         if (currentItem->text(HOST_NAME_COLUMN) == host->getName() &&
-            currentItem->text(HOST_PORT_COLUMN) == host->getPort())
+                currentItem->text(HOST_PORT_COLUMN) == host->getPort())
         {
             hostConf.nameIN->setText(host->getName());
             hostConf.hostname->setText(host->getHost());
@@ -1462,7 +1465,7 @@ void DriverManager::removeINDIHost()
 
     foreach (DriverInfo *host, driversList)
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) == host->getName() &&
-            ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == host->getPort())
+                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == host->getPort())
         {
             if (host->getClientState())
             {
@@ -1470,11 +1473,11 @@ void DriverManager::removeINDIHost()
                 return;
             }
 
-            if (KMessageBox::warningContinueCancel(nullptr,
-                                                   i18n("Are you sure you want to remove the %1 client?",
-                                                        ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
-                                                   i18n("Delete Confirmation"),
-                                                   KStandardGuiItem::del()) != KMessageBox::Continue)
+            if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(nullptr,
+                    i18n("Are you sure you want to remove the %1 client?",
+                         ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
+                    i18n("Delete Confirmation"),
+                    KStandardGuiItem::del()) != KMessageBox::Continue)
                 return;
 
             driversList.removeOne(host);
@@ -1565,7 +1568,7 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
 
     for (auto &cm : clients)
     {
-        auto& devices = cm->getDevices();
+        auto &devices = cm->getDevices();
 
         for (auto &dv : devices)
         {

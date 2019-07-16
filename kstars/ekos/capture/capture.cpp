@@ -452,7 +452,7 @@ void Capture::start()
 {
     if (darkSubCheck->isChecked())
     {
-        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
+        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
 
@@ -492,7 +492,7 @@ void Capture::start()
 
         // If we only have completed jobs and we don't ignore job progress, ask the end-user what to do
         if (!ignoreJobProgress)
-            if(KMessageBox::warningContinueCancel(
+            if(!Options::autonomousMode() && KMessageBox::warningContinueCancel(
                         nullptr,
                         i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
                         i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -2206,19 +2206,19 @@ bool Capture::addJob(bool preview)
 
     if (preview == false && darkSubCheck->isChecked())
     {
-        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
+        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
         return false;
     }
 
     if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT && remoteDirIN->text().isEmpty())
     {
-        KMessageBox::error(this, i18n("You must set remote directory for Local & Both modes."));
+        KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
         return false;
     }
 
     if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_LOCAL && fitsDir->text().isEmpty())
     {
-        KMessageBox::error(this, i18n("You must set local directory for Client & Both modes."));
+        KSNotification::error(i18n("You must set local directory for Client & Both modes."));
         return false;
     }
 
@@ -3418,7 +3418,7 @@ void Capture::loadSequenceQueue()
     if (fileURL.isValid() == false)
     {
         QString message = i18n("Invalid URL: %1", fileURL.toLocalFile());
-        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         return;
     }
 
@@ -3433,7 +3433,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open file %1", fileURL);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -3784,7 +3784,7 @@ void Capture::saveSequenceQueue()
     {
         if ((saveSequenceQueue(m_SequenceURL.toLocalFile())) == false)
         {
-            KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("Save"));
+            KSNotification::error(i18n("Failed to save sequence queue"), i18n("Save"));
             return;
         }
 
@@ -3793,7 +3793,7 @@ void Capture::saveSequenceQueue()
     else
     {
         QString message = i18n("Invalid URL: %1", m_SequenceURL.url());
-        KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
     }
 }
 
@@ -3818,7 +3818,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(nullptr, message, i18n("Could not open file"));
+        KSNotification::sorry(message, i18n("Could not open file"));
         return false;
     }
 
@@ -3964,7 +3964,7 @@ void Capture::resetJobs()
     }
     else
     {
-        if (KMessageBox::warningContinueCancel(
+        if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(
                     nullptr, i18n("Are you sure you want to reset status of all jobs?"), i18n("Reset job status"),
                     KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "reset_job_status_warning") != KMessageBox::Continue)
         {
@@ -4875,7 +4875,7 @@ void Capture::openCalibrationDialog()
             else
             {
                 calibrationOptions.manualSourceC->setChecked(true);
-                KMessageBox::error(this, i18n("Wall coordinates are invalid."));
+                KSNotification::error(i18n("Wall coordinates are invalid."));
             }
         }
         else
@@ -4950,6 +4950,7 @@ IPState Capture::processPreCaptureCalibrationStage()
         else if (m_TelescopeCoveredDarkExposure || m_TelescopeCoveredFlatExposure)
         {
             // Uncover telescope
+            // N.B. This operation cannot be autonomous
             if (KMessageBox::warningContinueCancel(
                         nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Telescope Covered"),
                         KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -4994,6 +4995,7 @@ IPState Capture::processPreCaptureCalibrationStage()
         // If we have no information, we ask
         if (hasShutter == false && hasNoShutter == false)
         {
+            // This action cannot be autonomous
             if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
                                            i18n("Dark Exposure")) == KMessageBox::Yes)
             {
@@ -5012,6 +5014,7 @@ IPState Capture::processPreCaptureCalibrationStage()
         // If camera was flagged before as shutterless, or if it is a DSLR, then it is for sure shutterless.
         if (hasNoShutter)
         {
+            // This action cannot be autonomous
             if (KMessageBox::warningContinueCancel(
                         nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
                         KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -5039,6 +5042,7 @@ IPState Capture::processPreCaptureCalibrationStage()
             if (activeJob->getFrameType() == FRAME_FLAT &&
                     m_TelescopeCoveredFlatExposure == false)
             {
+                // This action cannot be autonomous
                 if (KMessageBox::warningContinueCancel(
                             nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
                             KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -5650,8 +5654,9 @@ void Capture::toggleVideo(bool enabled)
 
     if (currentCCD->isBLOBEnabled() == false)
     {
-
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+        if (Options::autonomousMode() ||
+                Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL ||
+                KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
             currentCCD->setBLOBEnabled(true);
         else
@@ -6052,7 +6057,7 @@ void Capture::setSettings(const QJsonObject &settings)
 
 void Capture::clearCameraConfiguration()
 {
-    if (KMessageBox::questionYesNo(nullptr, i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()), i18n("Confirmation")) == KMessageBox::No)
+    if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()), i18n("Confirmation")) == KMessageBox::No)
         return;
 
     currentCCD->setConfig(LOAD_DEFAULT_CONFIG);

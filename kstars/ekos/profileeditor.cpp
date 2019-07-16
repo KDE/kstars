@@ -11,6 +11,7 @@
 
 #include "geolocation.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "Options.h"
 #include "guide/guide.h"
 #include "indi/driverinfo.h"
@@ -141,7 +142,7 @@ void ProfileEditor::saveProfile()
 
     if (ui->profileIN->text().isEmpty())
     {
-        KMessageBox::error(this, i18n("Cannot save an empty profile."));
+        KSNotification::error(i18n("Cannot save an empty profile."));
         return;
     }
 

@@ -11,6 +11,7 @@
 
 #include "guideadaptor.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "opscalibration.h"
 #include "opsguide.h"
@@ -409,7 +410,7 @@ void Guide::exportGuideData()
 
     QString path = exportFile.toLocalFile();
 
-    if (QFile::exists(path))
+    if (!Options::autonomousMode() && QFile::exists(path))
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
@@ -423,7 +424,7 @@ void Guide::exportGuideData()
     if (!exportFile.isValid())
     {
         QString message = i18n("Invalid URL: %1", exportFile.url());
-        KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         return;
     }
 
@@ -432,7 +433,7 @@ void Guide::exportGuideData()
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return;
     }
 
@@ -1239,7 +1240,7 @@ void Guide::processRapidStarData(ISD::CCDChip * targetChip, double dx, double dy
     // Check if guide star is lost
     if (dx == -1 && dy == -1 && fit == -1)
     {
-        KMessageBox::error(nullptr, i18n("Lost track of the guide star. Rapid guide aborted."));
+        KSNotification::error(i18n("Lost track of the guide star. Rapid guide aborted."));
         guider->abort();
         return;
     }
@@ -1359,7 +1360,7 @@ bool Guide::guide()
 {
     if (Options::defaultCaptureCCD() == guiderCombo->currentText())
     {
-        if (KMessageBox::questionYesNo(nullptr, i18n("The guide camera is identical to the capture camera. Are you sure you want to continue?")) ==
+        if (Options::autonomousMode() || KMessageBox::questionYesNo(nullptr, i18n("The guide camera is identical to the capture camera. Are you sure you want to continue?")) ==
                 KMessageBox::No)
             return false;
     }

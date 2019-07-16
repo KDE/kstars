@@ -14,6 +14,7 @@
 #include "drivermanager.h"
 #include "auxiliary/kspaths.h"
 #include "Options.h"
+#include "ksnotification.h"
 
 #include <indidevapi.h>
 
@@ -24,7 +25,7 @@
 
 #include <indi_debug.h>
 
-ServerManager::ServerManager(const QString& inHost, uint inPort)
+ServerManager::ServerManager(const QString &inHost, uint inPort)
 {
     host          = inHost;
     port          = QString::number(inPort);
@@ -87,7 +88,7 @@ bool ServerManager::start()
 
     if ((fd = mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR) < 0))
     {
-        KMessageBox::error(nullptr, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+        KSNotification::error(i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
         return false;
     }
 
@@ -126,7 +127,7 @@ bool ServerManager::start()
         emit started();
     }
     else
-        KMessageBox::error(nullptr, i18n("INDI server failed to start: %1", serverProcess->errorString()));
+        KSNotification::error(i18n("INDI server failed to start: %1", serverProcess->errorString()));
 
     qCDebug(KSTARS_INDI) << "INDI Server Started? " << connected;
 
@@ -177,7 +178,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
     if (Options::indiServerIsInternal())
         indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
     if (Options::indiDriversAreInternal())
-         driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
+        driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
     else
         indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 #endif
@@ -199,9 +200,9 @@ bool ServerManager::startDriver(DriverInfo *dv)
         {
             if (QStandardPaths::findExecutable(dv->getExecutable(), paths).isEmpty())
             {
-                KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that "
-                                                 "provides the '%1' binary is installed.",
-                                                 dv->getExecutable()));
+                KSNotification::error(i18n("Driver %1 was not found on the system. Please make sure the package that "
+                                           "provides the '%1' binary is installed.",
+                                           dv->getExecutable()));
                 return false;
             }
         }
@@ -302,7 +303,7 @@ void ServerManager::processStandardError()
     QString stderr = serverProcess->readAllStandardError();
 
     for (auto &msg : stderr.split('\n'))
-             qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
+        qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
 
     if (driverCrashed == false && (stderr.contains("stdin EOF") || stderr.contains("stderr EOF")))
     {
@@ -314,10 +315,7 @@ void ServerManager::processStandardError()
                 driverCrashed      = true;
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
                 qCCritical(KSTARS_INDI) << "INDI driver " << driverName << " crashed!";
-                KMessageBox::information(
-                    nullptr,
-                    i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.",
-                         driverName));
+                KSNotification::info(i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
                 break;
             }
         }

@@ -3796,7 +3796,7 @@ void Scheduler::load()
     if (fileURL.isValid() == false)
     {
         QString message = i18n("Invalid URL: %1", fileURL.toLocalFile());
-        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
         return;
     }
 
@@ -3818,7 +3818,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open file %1", fileURL);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         state = old_state;
         return false;
     }
@@ -4105,7 +4105,7 @@ void Scheduler::save()
     {
         if ((saveScheduler(schedulerURL)) == false)
         {
-            KMessageBox::error(KStars::Instance(), i18n("Failed to save scheduler list"), i18n("Save"));
+            KSNotification::error(i18n("Failed to save scheduler list"), i18n("Save"));
             return;
         }
 
@@ -4114,7 +4114,7 @@ void Scheduler::save()
     else
     {
         QString message = i18n("Invalid URL: %1", schedulerURL.url());
-        KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
+        KSNotification::sorry(message, i18n("Invalid URL"));
     }
 }
 
@@ -4126,7 +4126,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", fileURL.toLocalFile());
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -5915,7 +5915,7 @@ void Scheduler::startMosaicTool()
         // Delete any prior jobs before saving
         if (!jobs.empty())
         {
-            if (KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
+            if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
             {
                 qDeleteAll(jobs);
                 jobs.clear();
@@ -5966,8 +5966,8 @@ XMLEle *Scheduler::getSequenceJobRoot()
 
     if (!sFile.open(QIODevice::ReadOnly))
     {
-        KMessageBox::sorry(KStars::Instance(), i18n("Unable to open file %1", sFile.fileName()),
-                           i18n("Could Not Open File"));
+        KSNotification::sorry(i18n("Unable to open file %1", sFile.fileName()),
+                              i18n("Could Not Open File"));
         return nullptr;
     }
 
@@ -5996,8 +5996,8 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
 
     if (!sFile.open(QIODevice::ReadOnly))
     {
-        KMessageBox::sorry(KStars::Instance(), i18n("Unable to open sequence file %1", sFile.fileName()),
-                           i18n("Could Not Open File"));
+        KSNotification::sorry(i18n("Unable to open sequence file %1", sFile.fileName()),
+                              i18n("Could Not Open File"));
         return false;
     }
 
@@ -6034,7 +6034,7 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
     if (outputFile == nullptr)
     {
         QString message = i18n("Unable to write to file %1", filename);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -6064,7 +6064,7 @@ void Scheduler::checkTwilightWarning(bool enabled)
     if (enabled)
         return;
 
-    if (KMessageBox::warningContinueCancel(
+    if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(
                 nullptr,
                 i18n("Turning off astronomial twilight check may cause the observatory "
                      "to run during daylight. This can cause irreversible damage to your equipment!"),
@@ -6102,7 +6102,7 @@ void Scheduler::runStartupProcedure()
             return;
         }
 
-        if (KMessageBox::questionYesNo(
+        if (!Options::autonomousMode() && KMessageBox::questionYesNo(
                     nullptr, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning: executing startup procedure manually..."));
@@ -6184,7 +6184,7 @@ void Scheduler::runShutdownProcedure()
 {
     if (shutdownState == SHUTDOWN_IDLE || shutdownState == SHUTDOWN_ERROR || shutdownState == SHUTDOWN_COMPLETE)
     {
-        if (KMessageBox::questionYesNo(
+        if (!Options::autonomousMode() && KMessageBox::questionYesNo(
                     nullptr, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning: executing shutdown procedure manually..."));
@@ -6268,7 +6268,7 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open sequence queue file '%1'", fileURL);
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
 

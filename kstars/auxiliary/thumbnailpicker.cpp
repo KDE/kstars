@@ -18,6 +18,7 @@
 #include "thumbnailpicker.h"
 
 #include "ksutils.h"
+#include "ksnotification.h"
 #include "thumbnaileditor.h"
 #include "dialogs/detaildialog.h"
 #include "skyobjects/skyobject.h"
@@ -96,7 +97,7 @@ void ThumbnailPicker::slotFillList()
     }
     QString query =
         QString("http://www.google.com/search?q=%1&tbs=itp:photo,isz:ex,iszw:200,iszh:200&tbm=isch&source=lnt")
-            .arg(sName);
+        .arg(sName);
     QUrlQuery gURL(query);
 
     //gURL.addQueryItem( "q", sName ); //add the Google-image query string
@@ -352,8 +353,7 @@ void ThumbnailPicker::slotSetFromURL()
 
             if (im.isNull())
             {
-                KMessageBox::sorry(nullptr, i18n("Failed to load image at %1", localFile.fileName()),
-                                   i18n("Failed to load image"));
+                KSNotification::sorry(i18n("Failed to load image at %1", localFile.fileName()), i18n("Failed to load image"));
                 return;
             }
 

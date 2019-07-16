@@ -19,6 +19,7 @@
 
 #include "dms.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "skyobjects/kssun.h"
 #include "widgets/dmsbox.h"
 
@@ -75,8 +76,7 @@ void modCalcEquinox::slotRunBatch()
         QFile f(inputFileName);
         if (!f.open(QIODevice::ReadOnly))
         {
-            QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(i18n("Could not open file %1.", f.fileName()), i18n("Could Not Open File"));
             inputFileName.clear();
             return;
         }
@@ -90,8 +90,7 @@ void modCalcEquinox::slotRunBatch()
     }
     else
     {
-        QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
+        KSNotification::sorry(i18n("Invalid file: %1", inputFileName), i18n("Invalid file"));
         inputFileName.clear();
         return;
     }
@@ -279,9 +278,10 @@ KStarsDateTime modCalcEquinox::findEquinox(int year, bool Spring, KPlotObject *e
         ++i;
         dec1 = dec2;
         dec2 = ecl->points().at(i)->y();
-    } while (dec1 * dec2 > 0.0); //when dec1*dec2<0.0, we bracket the zero
+    }
+    while (dec1 * dec2 > 0.0);   //when dec1*dec2<0.0, we bracket the zero
 
-    double x1 = ecl->points().at(i-1)->x();
+    double x1 = ecl->points().at(i - 1)->x();
     double x2 = ecl->points().at(i)->x();
     double d  = fabs(dec2 - dec1);
     double f  = 1.0 - fabs(dec2) / d; //fractional distance of the zero, from point1 to point2
@@ -321,11 +321,12 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
         y2 = y3;
         Sun.findPosition(&num);
         y3 = Sun.dec().Degrees();
-    } while (y3 * sgn > y2 * sgn);
+    }
+    while (y3 * sgn > y2 * sgn);
 
     //Ok, now y2 is larger(smaller) than both y3 and y1.
     // Never read back
-//    jd2 = jd3 - 1.0;
+    //    jd2 = jd3 - 1.0;
     jd1 = jd3 - 2.0;
 
     //Choose a new starting jd2 that follows the golden ratio:
@@ -355,7 +356,7 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
             {
                 jd3 = jd2;
                 // Never read back
-//                y3  = y2;
+                //                y3  = y2;
                 jd2 = jd4;
                 y2  = y4;
             }
@@ -366,7 +367,7 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
             {
                 jd3 = jd4;
                 // Never read back
-//                y3  = y4;
+                //                y3  = y4;
             }
             else
             {
