@@ -477,9 +477,9 @@ bool FilterManager::executeOperationQueue()
 
             if (m_FilterConfirmSet)
             {
-                if (KMessageBox::questionYesNo(KStars::Instance(),
-                                               i18n("Set filter to %1. Is filter set?", targetFilter->color()),
-                                               i18n("Confirm Filter")) == KMessageBox::Yes)
+                if (Options::autonomousMode() || KMessageBox::questionYesNo(KStars::Instance(),
+                        i18n("Set filter to %1. Is filter set?", targetFilter->color()),
+                        i18n("Confirm Filter")) == KMessageBox::Yes)
                     m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
             }
         }

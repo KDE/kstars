@@ -19,6 +19,8 @@
 
 #include "finderchart.h"
 #include "kstars.h"
+#include "ksnotification.h"
+#include "Options.h"
 #include "printingwizard.h"
 
 #include <KMessageBox>
@@ -80,11 +82,11 @@ void PWizPrintUI::slotExport()
     }
 
     //Warn user if file exists!
-    if (QFile::exists(url.toLocalFile()))
+    if (QFile::exists(url.toLocalFile()) && !Options::autonomousMode())
     {
         int r = KMessageBox::warningContinueCancel(
-            parentWidget(), i18n("A file named \"%1\" already exists. Overwrite it?", url.fileName()),
-            i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+                    parentWidget(), i18n("A file named \"%1\" already exists. Overwrite it?", url.fileName()),
+                    i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
             return;
     }
@@ -130,10 +132,10 @@ void PWizPrintUI::slotExport()
         {
             //attempt to upload image to remote location
             if (KIO::storedHttpPost(&tmpfile, url)->exec() == false)
-            //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
+                //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
                 QString message = i18n("Could not upload file to remote location: %1", url.url());
-                KMessageBox::sorry(nullptr, message, i18n("Could not upload file"));
+                KSNotification::sorry(message, i18n("Could not upload file"));
             }
         }
     }

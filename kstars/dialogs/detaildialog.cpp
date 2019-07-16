@@ -22,6 +22,7 @@
 #include "addlinkdialog.h"
 #include "kspaths.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "observinglist.h"
@@ -693,7 +694,7 @@ void DetailDialog::addLink()
             {
                 QString message =
                     i18n("Custom image-links file could not be opened.\nLink cannot be recorded for future sessions.");
-                KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+                KSNotification::sorry(message, i18n("Could Not Open File"));
                 delete adialog;
                 return;
             }
@@ -719,7 +720,7 @@ void DetailDialog::addLink()
             {
                 QString message = i18n(
                                       "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions.");
-                KMessageBox::sorry(nullptr, message, i18n("Could not Open File"));
+                KSNotification::sorry(message, i18n("Could not Open File"));
                 delete adialog;
                 return;
             }
@@ -977,9 +978,9 @@ void DetailDialog::removeLinkDialog()
     else
         return;
 
-    if (KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to remove the %1 link?", currentItemTitle),
-                                           i18n("Delete Confirmation"),
-                                           KStandardGuiItem::del()) != KMessageBox::Continue)
+    if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to remove the %1 link?", currentItemTitle),
+            i18n("Delete Confirmation"),
+            KStandardGuiItem::del()) != KMessageBox::Continue)
         return;
 
     if (type == 0)
@@ -1194,7 +1195,7 @@ void DetailDialog::centerTelescope()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -1210,15 +1211,16 @@ void DetailDialog::centerTelescope()
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0,
-                               i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KSNotification::error(
+                i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
         // Display Sun warning on slew
         if (selectedObject && selectedObject->name() == i18n("Sun"))
         {
-            if (KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
+            if (!Options::autonomousMode() &&
+                    KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
                     == KMessageBox::Cancel)
                 return;
         }
@@ -1231,7 +1233,7 @@ void DetailDialog::centerTelescope()
         return;
     }
 
-    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+    KSNotification::sorry(i18n("KStars did not find any active telescopes."));
 
 #endif
 }
@@ -1283,7 +1285,7 @@ void DetailDialog::updateThumbnail()
             bool rc = Data->Image->pixmap()->save(fname, "PNG");
             if (rc == false)
             {
-                KMessageBox::error(nullptr, i18n("Unable to save image to %1", fname), i18n("Save Thumbnail"));
+                KSNotification::error(i18n("Unable to save image to %1", fname), i18n("Save Thumbnail"));
             }
             else
                 *Thumbnail = *(Data->Image->pixmap());

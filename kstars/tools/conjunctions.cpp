@@ -27,6 +27,7 @@
 #include "geolocation.h"
 #include "ksconjunct.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "dialogs/finddialog.h"
@@ -87,7 +88,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
     connect(ComputeButton, &QPushButton::clicked, [this]()
     {
-       QtConcurrent::run(this, &ConjunctionsTool::slotCompute);
+        QtConcurrent::run(this, &ConjunctionsTool::slotCompute);
     });
     connect(FilterTypeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(slotFilterType(int)));
     connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClear()));
@@ -173,7 +174,8 @@ void ConjunctionsTool::slotFindObject()
 void ConjunctionsTool::setMode(int new_mode)
 {
     // unlikely to happen
-    if(new_mode == -1 || new_mode > 2){
+    if(new_mode == -1 || new_mode > 2)
+    {
         ModeSelector->setCurrentIndex(0);
         return;
     }
@@ -261,7 +263,7 @@ void ConjunctionsTool::slotCompute(void)
 
     if (!ok)
     {
-        KMessageBox::sorry(nullptr, i18n("Maximum separation entered is not a valid angle. Use the What's this help feature "
+        KSNotification::sorry(i18n("Maximum separation entered is not a valid angle. Use the What's this help feature "
                                    "for information on how to enter a valid angle"));
         return;
     }
@@ -269,15 +271,14 @@ void ConjunctionsTool::slotCompute(void)
     // Check if Object1 and Object2 are set
     if (FilterTypeComboBox->currentIndex() == 0 && Object1 == nullptr)
     {
-        KMessageBox::sorry(
-            nullptr, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
+        KSNotification::sorry(i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
         return;
     }
     Object2.reset(KSPlanetBase::createPlanet(Obj2ComboBox->currentIndex()));
     if (FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name())
     {
         // FIXME: Must free the created Objects
-        KMessageBox::sorry(nullptr, i18n("Please select two different objects to check conjunctions with."));
+        KSNotification::sorry(i18n("Please select two different objects to check conjunctions with."));
         return;
     }
 
@@ -336,7 +337,7 @@ void ConjunctionsTool::slotCompute(void)
     // Remove all Jupiter and Saturn moons
     // KStars crash if we compute a conjunction between a planet and one of this moon
     if (FilterTypeComboBox->currentIndex() == 1 || FilterTypeComboBox->currentIndex() == 3 ||
-        FilterTypeComboBox->currentIndex() == 6)
+            FilterTypeComboBox->currentIndex() == 6)
     {
         objects.removeAll("Io");
         objects.removeAll("Europa");

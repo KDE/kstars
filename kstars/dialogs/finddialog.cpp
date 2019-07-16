@@ -19,6 +19,7 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "Options.h"
 #include "detaildialog.h"
 #include "skymap.h"
@@ -418,7 +419,7 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
     if (selObj == nullptr)
     {
         QString message = i18n("No object named %1 found.", ui->SearchBox->text());
-        KMessageBox::sorry(nullptr, message, i18n("Bad object name"));
+        KSNotification::sorry(message, i18n("Bad object name"));
     }
     else
     {

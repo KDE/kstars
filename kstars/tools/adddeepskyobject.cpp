@@ -19,8 +19,7 @@
 
 #include "syncedcatalogcomponent.h"
 #include "skyobjects/skyobject.h"
-
-#include <KMessageBox>
+#include "ksnotification.h"
 
 #include <QInputDialog>
 #include <QRegularExpression>
@@ -136,13 +135,15 @@ void AddDeepSkyObject::fillFromText(const QString &text)
 
     // Note: The following method is a proxy to support older versions of Qt.
     // In Qt 5.5 and above, the QString::indexOf(const QRegularExpression &re, int from, QRegularExpressionMatch *rmatch) method obviates the need for the following.
-    auto indexOf = [](const QString &s, const QRegularExpression &regExp, int from, QRegularExpressionMatch *m) -> int {
+    auto indexOf = [](const QString & s, const QRegularExpression & regExp, int from, QRegularExpressionMatch * m) -> int
+    {
         *m = regExp.match(s, from);
         return m->capturedStart(0);
     };
 
-    auto countNonOverlappingMatches = [indexOf](const QString &string, const QRegularExpression &regExp,
-                                                QStringList *list = nullptr) -> int {
+    auto countNonOverlappingMatches = [indexOf](const QString & string, const QRegularExpression & regExp,
+                                      QStringList *list = nullptr) -> int
+    {
         int count           = 0;
         int matchIndex      = -1;
         int lastMatchLength = 1;
@@ -174,11 +175,11 @@ void AddDeepSkyObject::fillFromText(const QString &text)
     }
     if (!coordText.isEmpty())
     {
-//        int coord1 = indexOf(coordText, matchCoords, 0, &rmatch);
-//        Q_ASSERT(coord1 >= 0);
+        //        int coord1 = indexOf(coordText, matchCoords, 0, &rmatch);
+        //        Q_ASSERT(coord1 >= 0);
         RA         = dms(rmatch.captured(1) + ' ' + rmatch.captured(2) + ' ' + rmatch.captured(3), false);
-//        int coord2 = indexOf(coordText, matchCoords, coord1 + rmatch.captured(0).length(), &rmatch);
-//        Q_ASSERT(coord2 >= 0);
+        //        int coord2 = indexOf(coordText, matchCoords, coord1 + rmatch.captured(0).length(), &rmatch);
+        //        Q_ASSERT(coord2 >= 0);
         Dec = dms(rmatch.captured(1) + ' ' + rmatch.captured(2) + ' ' + rmatch.captured(3), true);
         qDebug() << "Extracted coordinates: " << RA.toHMSString() << " " << Dec.toDMSString();
         coordsFound = true;
@@ -300,7 +301,7 @@ void AddDeepSkyObject::fillFromText(const QString &text)
     else
     {
         qDebug()
-            << "Could not find size."; // FIXME: Improve to include separate major and minor axis matches, and size matches for round objects.
+                << "Could not find size."; // FIXME: Improve to include separate major and minor axis matches, and size matches for round objects.
         sizeFound = false;
     }
 
@@ -373,8 +374,8 @@ bool AddDeepSkyObject::slotOk()
     if (!success)
     {
         // Display error message
-        KMessageBox::sorry(nullptr, i18n("Could not add deep-sky object. See console for error message!"),
-                           i18n("Add deep-sky object"));
+        KSNotification::sorry(i18n("Could not add deep-sky object. See console for error message!"),
+                              i18n("Add deep-sky object"));
     }
     // Accept the dialog
 
@@ -385,7 +386,7 @@ void AddDeepSkyObject::slotFillFromText()
 {
     bool ok      = false;
     QString text = QInputDialog::getMultiLineText(this, i18n("Add deep-sky object : enter text"),
-                                                  i18n("Enter the data to guess parameters from:"), QString(), &ok);
+                   i18n("Enter the data to guess parameters from:"), QString(), &ok);
     if (ok)
         fillFromText(text);
 }

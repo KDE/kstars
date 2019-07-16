@@ -31,59 +31,67 @@ class QTreeWidget;
 class QTreeWidgetItem;
 class QTextStream;
 
-class KStars;
 class ScriptFunction;
 
 class OptionsTreeViewWidget : public QFrame, public Ui::OptionsTreeView
 {
-    Q_OBJECT
-  public:
-    explicit OptionsTreeViewWidget(QWidget *p);
+        Q_OBJECT
+    public:
+        explicit OptionsTreeViewWidget(QWidget *p);
 };
 
 class OptionsTreeView : public QDialog
 {
-    Q_OBJECT
-  public:
-    explicit OptionsTreeView(QWidget *p);
-    virtual ~OptionsTreeView() override = default;
+        Q_OBJECT
+    public:
+        explicit OptionsTreeView(QWidget *p);
+        virtual ~OptionsTreeView() override = default;
 
-    QTreeWidget *optionsList() { return otvw->OptionsList; }
-    void resizeColumns();
+        QTreeWidget *optionsList()
+        {
+            return otvw->OptionsList;
+        }
+        void resizeColumns();
 
-  private:
-    std::unique_ptr<OptionsTreeViewWidget> otvw;
+    private:
+        std::unique_ptr<OptionsTreeViewWidget> otvw;
 };
 
 class ScriptNameWidget : public QFrame, public Ui::ScriptNameDialog
 {
-    Q_OBJECT
-  public:
-    explicit ScriptNameWidget(QWidget *p);
+        Q_OBJECT
+    public:
+        explicit ScriptNameWidget(QWidget *p);
 };
 
 class ScriptNameDialog : public QDialog
 {
-    Q_OBJECT
-  public:
-    explicit ScriptNameDialog(QWidget *p);
-    ~ScriptNameDialog() override;
-    QString scriptName() const { return snw->ScriptName->text(); }
-    QString authorName() const { return snw->AuthorName->text(); }
+        Q_OBJECT
+    public:
+        explicit ScriptNameDialog(QWidget *p);
+        ~ScriptNameDialog() override;
+        QString scriptName() const
+        {
+            return snw->ScriptName->text();
+        }
+        QString authorName() const
+        {
+            return snw->AuthorName->text();
+        }
 
-  private slots:
-    void slotEnableOkButton();
+    private slots:
+        void slotEnableOkButton();
 
-  private:
-    ScriptNameWidget *snw { nullptr };
-    QPushButton *okB { nullptr };
+    private:
+        ScriptNameWidget *snw { nullptr };
+        QPushButton *okB { nullptr };
 };
 
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder
 {
-    Q_OBJECT
-  public:
-    explicit ScriptBuilderUI(QWidget *p);
+        Q_OBJECT
+    public:
+        explicit ScriptBuilderUI(QWidget *p);
 };
 
 /**
@@ -95,60 +103,63 @@ class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder
  */
 class ScriptBuilder : public QDialog
 {
-    Q_OBJECT
-  public:
-    explicit ScriptBuilder(QWidget *parent);
-    ~ScriptBuilder() override;
+        Q_OBJECT
+    public:
+        explicit ScriptBuilder(QWidget *parent);
+        ~ScriptBuilder() override;
 
-    bool unsavedChanges() const { return UnsavedChanges; }
-    void setUnsavedChanges(bool b = true);
-    void saveWarning();
-    void readScript(QTextStream &istream);
-    void writeScript(QTextStream &ostream);
-    bool parseFunction(QString fn_name, QStringList &fn);
+        bool unsavedChanges() const
+        {
+            return UnsavedChanges;
+        }
+        void setUnsavedChanges(bool b = true);
+        void saveWarning();
+        void readScript(QTextStream &istream);
+        void writeScript(QTextStream &ostream);
+        bool parseFunction(QString fn_name, QStringList &fn);
 
-  public slots:
-    void slotAddFunction();
-    void slotMoveFunctionUp();
-    void slotMoveFunctionDown();
-    void slotArgWidget();
-    void slotShowDoc();
+    public slots:
+        void slotAddFunction();
+        void slotMoveFunctionUp();
+        void slotMoveFunctionDown();
+        void slotArgWidget();
+        void slotShowDoc();
 
-    void slotNew();
-    void slotOpen();
-    void slotSave();
-    void slotSaveAs();
-    void slotRunScript();
-    void slotClose();
+        void slotNew();
+        void slotOpen();
+        void slotSave();
+        void slotSaveAs();
+        void slotRunScript();
+        void slotClose();
 
-    void slotCopyFunction();
-    void slotRemoveFunction();
+        void slotCopyFunction();
+        void slotRemoveFunction();
 
-    void slotFindCity();
-    void slotFindObject();
-    void slotShowOptions();
-    void slotLookToward();
-    void slotArgFindObject();
-    void slotRa();
-    void slotDec();
-    void slotAz();
-    void slotAlt();
-    void slotChangeDate();
-    void slotChangeTime();
-    void slotWaitFor();
-    void slotWaitForKey();
-    void slotTracking();
-    void slotViewOption();
-    void slotChangeCity();
-    void slotChangeProvince();
-    void slotChangeCountry();
-    void slotTimeScale();
-    void slotZoom();
-    void slotExportImage();
-    void slotPrintImage();
-    void slotChangeColor();
-    void slotChangeColorName();
-    void slotLoadColorScheme();
+        void slotFindCity();
+        void slotFindObject();
+        void slotShowOptions();
+        void slotLookToward();
+        void slotArgFindObject();
+        void slotRa();
+        void slotDec();
+        void slotAz();
+        void slotAlt();
+        void slotChangeDate();
+        void slotChangeTime();
+        void slotWaitFor();
+        void slotWaitForKey();
+        void slotTracking();
+        void slotViewOption();
+        void slotChangeCity();
+        void slotChangeProvince();
+        void slotChangeCountry();
+        void slotTimeScale();
+        void slotZoom();
+        void slotExportImage();
+        void slotPrintImage();
+        void slotChangeColor();
+        void slotChangeColorName();
+        void slotLoadColorScheme();
 
 #if 0
         void slotINDIWaitCheck(bool toggleState);
@@ -177,39 +188,38 @@ class ScriptBuilder : public QDialog
         void slotINDISetFilterNum();
 #endif
 
-  private:
-    void initViewOptions();
-    void warningMismatch(const QString &expected) const;
+    private:
+        void initViewOptions();
+        void warningMismatch(const QString &expected) const;
 
-    ScriptBuilderUI *sb { nullptr };
+        ScriptBuilderUI *sb { nullptr };
 
-    KStars *ks { nullptr }; //parent needed for sub-dialogs
-    QList<ScriptFunction *> KStarsFunctionList;
-    QList<ScriptFunction *> SimClockFunctionList;
+        QList<ScriptFunction *> KStarsFunctionList;
+        QList<ScriptFunction *> SimClockFunctionList;
 
 #if 0
         QList<ScriptFunction *> INDIFunctionList;
 #endif
 
-    QList<ScriptFunction *> ScriptList;
+        QList<ScriptFunction *> ScriptList;
 
-    QWidget *argBlank { nullptr };
-    ArgLookToward *argLookToward { nullptr };
-    ArgFindObject *argFindObject { nullptr };
-    ArgSetRaDec *argSetRaDec { nullptr };
-    ArgSetAltAz *argSetAltAz { nullptr };
-    ArgSetLocalTime *argSetLocalTime { nullptr };
-    ArgWaitFor *argWaitFor { nullptr };
-    ArgWaitForKey *argWaitForKey { nullptr };
-    ArgSetTrack *argSetTracking { nullptr };
-    ArgChangeViewOption *argChangeViewOption { nullptr };
-    ArgSetGeoLocation *argSetGeoLocation { nullptr };
-    ArgTimeScale *argTimeScale { nullptr };
-    ArgZoom *argZoom { nullptr };
-    ArgExportImage *argExportImage { nullptr };
-    ArgPrintImage *argPrintImage { nullptr };
-    ArgSetColor *argSetColor { nullptr };
-    ArgLoadColorScheme *argLoadColorScheme { nullptr };
+        QWidget *argBlank { nullptr };
+        ArgLookToward *argLookToward { nullptr };
+        ArgFindObject *argFindObject { nullptr };
+        ArgSetRaDec *argSetRaDec { nullptr };
+        ArgSetAltAz *argSetAltAz { nullptr };
+        ArgSetLocalTime *argSetLocalTime { nullptr };
+        ArgWaitFor *argWaitFor { nullptr };
+        ArgWaitForKey *argWaitForKey { nullptr };
+        ArgSetTrack *argSetTracking { nullptr };
+        ArgChangeViewOption *argChangeViewOption { nullptr };
+        ArgSetGeoLocation *argSetGeoLocation { nullptr };
+        ArgTimeScale *argTimeScale { nullptr };
+        ArgZoom *argZoom { nullptr };
+        ArgExportImage *argExportImage { nullptr };
+        ArgPrintImage *argPrintImage { nullptr };
+        ArgSetColor *argSetColor { nullptr };
+        ArgLoadColorScheme *argLoadColorScheme { nullptr };
 
 #if 0
         ArgStartINDI * argStartINDI;
@@ -233,21 +243,21 @@ class ScriptBuilder : public QDialog
         ArgSetFilterNumINDI * argSetFilterNumINDI;
 #endif
 
-    ScriptNameDialog *snd { nullptr };
-    OptionsTreeView *otv { nullptr };
+        ScriptNameDialog *snd { nullptr };
+        OptionsTreeView *otv { nullptr };
 
-    QTreeWidgetItem *opsGUI { nullptr };
-    QTreeWidgetItem *opsToolbar { nullptr };
-    QTreeWidgetItem *opsShowObj { nullptr };
-    QTreeWidgetItem *opsShowOther { nullptr };
-    QTreeWidgetItem *opsCName { nullptr };
-    QTreeWidgetItem *opsHide { nullptr };
-    QTreeWidgetItem *opsSkymap { nullptr };
-    QTreeWidgetItem *opsLimit { nullptr };
+        QTreeWidgetItem *opsGUI { nullptr };
+        QTreeWidgetItem *opsToolbar { nullptr };
+        QTreeWidgetItem *opsShowObj { nullptr };
+        QTreeWidgetItem *opsShowOther { nullptr };
+        QTreeWidgetItem *opsCName { nullptr };
+        QTreeWidgetItem *opsHide { nullptr };
+        QTreeWidgetItem *opsSkymap { nullptr };
+        QTreeWidgetItem *opsLimit { nullptr };
 
-    bool UnsavedChanges { false };
-    bool checkForChanges { false };
-    QUrl currentFileURL;
-    QString currentDir;
-    QString currentScriptName, currentAuthor;
+        bool UnsavedChanges { false };
+        bool checkForChanges { false };
+        QUrl currentFileURL;
+        QString currentDir;
+        QString currentScriptName, currentAuthor;
 };

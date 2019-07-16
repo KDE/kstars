@@ -19,6 +19,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
+#include "ksnotification.h"
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
@@ -227,12 +228,12 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
                 x         = KSUtils::clamp(x, 1.0, width);
                 y         = KSUtils::clamp(y, 1.0, height);
                 int index = x + y * width;
-                if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
-                                                 nullptr,
-                                                 "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() +
-                                                     "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
-                                                 i18n("Continue Slew"), KStandardGuiItem::cont(),
-                                                 KStandardGuiItem::cancel(), "continue_slew_warning"))
+                if (Options::autonomousMode() || KMessageBox::Continue == KMessageBox::warningContinueCancel(
+                            nullptr,
+                            "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() +
+                            "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
+                            i18n("Continue Slew"), KStandardGuiItem::cont(),
+                            KStandardGuiItem::cancel(), "continue_slew_warning"))
                 {
                     centerTelescope(wcs_coord[index].ra / 15.0, wcs_coord[index].dec);
                     view->setCursorMode(view->lastMouseMode);
@@ -296,7 +297,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         if (view->getCursorMode() == FITSView::selectCursor)
             emit pointSelected(x, y);
         else if (view->getCursorMode() == FITSView::crosshairCursor)
-            emit pointSelected(x+5/scale, y+5/scale);
+            emit pointSelected(x + 5 / scale, y + 5 / scale);
     }
 }
 
@@ -321,7 +322,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -337,7 +338,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(nullptr, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KSNotification::error(i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -356,7 +357,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
         return;
     }
 
-    KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
+    KSNotification::sorry(i18n("KStars did not find any active telescopes."));
 
 #else
 

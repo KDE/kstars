@@ -95,9 +95,15 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotCancel()));
 
     // Keep track of changes
-    connect(CatalogList, &QListWidget::itemChanged, this, [&]() { isDirty = true; });
+    connect(CatalogList, &QListWidget::itemChanged, this, [&]()
+    {
+        isDirty = true;
+    });
     connect(catalogButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
-            [&]() { isDirty = true; });
+            [&]()
+    {
+        isDirty = true;
+    });
 
     isDirty = false;
 }
@@ -156,9 +162,9 @@ void OpsCatalog::selectCatalog()
 
     //isDirty = true;
 
-    foreach (SkyComponent *sc, KStars::Instance()->data()->skyComposite()->customCatalogs())
+    for (auto sc : KStars::Instance()->data()->skyComposite()->customCatalogs())
     {
-        CatalogComponent *cc = (CatalogComponent *)sc;
+        CatalogComponent *cc = dynamic_cast<CatalogComponent *>(sc);
         if (CatalogList->currentItem()->text() == cc->name())
         {
             RemoveCatalog->setEnabled(true);
@@ -202,10 +208,9 @@ void OpsCatalog::refreshCatalogList()
 void OpsCatalog::slotRemoveCatalog()
 {
     if (KMessageBox::warningYesNo(
-            nullptr, i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"),
-            i18n("Delete Catalog?")) == KMessageBox::No)
+                nullptr, i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"),
+                i18n("Delete Catalog?")) == KMessageBox::No)
     {
-        KMessageBox::information(nullptr, "Catalog deletion cancelled.");
         return;
     }
 
@@ -260,7 +265,7 @@ void OpsCatalog::slotApply()
     //FIXME: need to add the ShowDeepSky meta-option to the config dialog!
     //For now, I'll set showDeepSky to true if any catalog options changed
     if (m_ShowMessier != Options::showMessier() || m_ShowMessImages != Options::showMessierImages() ||
-        m_ShowNGC != Options::showNGC() || m_ShowIC != Options::showIC())
+            m_ShowNGC != Options::showNGC() || m_ShowIC != Options::showIC())
     {
         Options::setShowDeepSky(true);
     }

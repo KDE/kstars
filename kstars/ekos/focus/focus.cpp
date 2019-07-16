@@ -2898,7 +2898,9 @@ void Focus::toggleVideo(bool enabled)
     if (currentCCD->isBLOBEnabled() == false)
     {
 
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL
+                || Options::autonomousMode() ||
+                KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
             currentCCD->setBLOBEnabled(true);
         else

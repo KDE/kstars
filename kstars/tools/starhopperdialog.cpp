@@ -20,6 +20,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "skymap.h"
+#include "ksnotification.h"
 #include "skymapcomposite.h"
 #include "starhopper.h"
 #include "targetlistcomponent.h"
@@ -71,8 +72,8 @@ void StarHopperDialog::starHop(const SkyPoint &startHop, const SkyPoint &stopHop
     else
     {
         delete starList;
-        KMessageBox::error(this, i18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a "
-                                      "smaller FOV or changing the source point"));
+        KSNotification::error(i18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a "
+                                   "smaller FOV or changing the source point"));
     }
 }
 

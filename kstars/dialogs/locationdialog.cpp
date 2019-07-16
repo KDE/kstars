@@ -19,6 +19,8 @@
 
 #include "kspaths.h"
 #include "kstarsdata.h"
+#include "Options.h"
+#include "ksnotification.h"
 #include "kstars_debug.h"
 #include "ksutils.h"
 
@@ -303,13 +305,13 @@ bool LocationDialog::updateCity(CityOperation operation)
     if (operation == CITY_REMOVE)
     {
         QString message = i18n("Are you sure you want to remove %1?", selectedCityName());
-        if (KMessageBox::questionYesNo(nullptr, message, i18n("Remove City?")) == KMessageBox::No)
+        if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, message, i18n("Remove City?")) == KMessageBox::No)
             return false; //user answered No.
     }
     else if (!nameModified && !dataModified)
     {
         QString message = i18n("This city already exists in the database.");
-        KMessageBox::sorry(nullptr, message, i18n("Error: Duplicate Entry"));
+        KSNotification::sorry(message, i18n("Error: Duplicate Entry"));
         return false;
     }
 
@@ -324,19 +326,19 @@ bool LocationDialog::updateCity(CityOperation operation)
     if (ld->NewCityName->text().isEmpty() || ld->NewCountryName->text().isEmpty())
     {
         QString message = i18n("All fields (except province) must be filled to add this location.");
-        KMessageBox::sorry(nullptr, message, i18n("Fields are Empty"));
+        KSNotification::sorry(message, i18n("Fields are Empty"));
         return false;
     }
     else if (!latOk || !lngOk)
     {
         QString message = i18n("Could not parse the Latitude/Longitude.");
-        KMessageBox::sorry(nullptr, message, i18n("Bad Coordinates"));
+        KSNotification::sorry(message, i18n("Bad Coordinates"));
         return false;
     }
     else if (!tzOk)
     {
         QString message = i18n("UTC Offset must be selected.");
-        KMessageBox::sorry(nullptr, message, i18n("UTC Offset"));
+        KSNotification::sorry(message, i18n("UTC Offset"));
         return false;
     }
 

@@ -17,6 +17,7 @@
 
 #include "ksutils.h"
 #include "config-kstars.h"
+#include "ksnotification.h"
 
 #include "deepskyobject.h"
 #ifndef KSTARS_LITE
@@ -1212,9 +1213,9 @@ bool getAstrometryDataDir(QString &dataDir)
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                         "configuration file full path in INDI options.",
-                                         Options::astrometryConfFile()));
+        KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+                                   "configuration file full path in INDI options.",
+                                   Options::astrometryConfFile()));
         return false;
     }
 
@@ -1234,7 +1235,7 @@ bool getAstrometryDataDir(QString &dataDir)
         }
     }
 
-    KMessageBox::error(nullptr, i18n("Unable to find data dir in astrometry configuration file."));
+    KSNotification::error(i18n("Unable to find data dir in astrometry configuration file."));
     return false;
 }
 
@@ -1252,7 +1253,7 @@ bool setAstrometryDataDir(QString dataDir)
     QString contents;
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(0, i18n("Astrometry Configuration File Read Error."));
+        KSNotification::error( i18n("Astrometry Configuration File Read Error."));
         return false;
     }
     else
@@ -1287,7 +1288,7 @@ bool setAstrometryDataDir(QString dataDir)
         {
             if (confFile.open(QIODevice::WriteOnly) == false)
             {
-                KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
+                KSNotification::error( i18n("Internal Astrometry Configuration File Write Error."));
                 return false;
             }
             else
@@ -1313,7 +1314,7 @@ bool configureAstrometry()
     }
     if(Options::astrometryIndexFileLocation() != astrometryDataDir)
     {
-        if (KMessageBox::warningYesNo(
+        if (Options::autonomousMode() || KMessageBox::warningYesNo(
                     nullptr, i18n("The Astrometry Index File Location Stored in KStars: \n %1 \n does not match the Index file location in the config file: \n %2 \n  Do you want to update the config file?", Options::astrometryIndexFileLocation(), astrometryDataDir),
                     i18n("Update Config File?")) == KMessageBox::Yes)
         {
@@ -1327,17 +1328,17 @@ bool configureAstrometry()
     }
     if (QDir(astrometryDataDir).exists() == false)
     {
-        if (KMessageBox::warningYesNo(
+        if (Options::autonomousMode() || KMessageBox::warningYesNo(
                     nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?", astrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
         {
             if(QDir(astrometryDataDir).mkdir(astrometryDataDir))
             {
-                KMessageBox::information(nullptr, i18n("The Astrometry Index File Location was created."));
+                KSNotification::info(i18n("The Astrometry Index File Location was created."));
             }
             else
             {
-                KMessageBox::sorry(nullptr, i18n("The Astrometry Index File Directory does not exist and was not able to be created."));
+                KSNotification::sorry(i18n("The Astrometry Index File Directory does not exist and was not able to be created."));
             }
         }
         else

@@ -16,6 +16,7 @@
 #include "indidevice.h"
 
 #include "kstars.h"
+#include "ksnotification.h"
 
 #include <indicom.h>
 
@@ -627,16 +628,16 @@ void INDI_E::browseBlob()
 
     if (!fp.open(QIODevice::ReadOnly))
     {
-        KMessageBox::error(0, i18n("Cannot open file %1 for reading", filename));
+        KSNotification::error( i18n("Cannot open file %1 for reading", filename));
         return;
     }
 
     bp->bloblen = bp->size = fp.size();
 
-    bp->blob = (uint8_t *)realloc(bp->blob, bp->size);
+    bp->blob = static_cast<uint8_t *>(realloc(bp->blob, bp->size));
     if (bp->blob == nullptr)
     {
-        KMessageBox::error(0, i18n("Not enough memory for file %1", filename));
+        KSNotification::error( i18n("Not enough memory for file %1", filename));
         fp.close();
         return;
     }

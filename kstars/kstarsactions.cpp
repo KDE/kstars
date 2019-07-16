@@ -202,7 +202,7 @@ void KStars::slotViewToolBar()
     else if (a == actionCollection()->action("show_horizon"))
     {
         Options::setShowGround(a->isChecked());
-        if (!a->isChecked() && Options::useRefraction())
+        if (!a->isChecked() && Options::useRefraction() && !Options::autonomousMode())
         {
             QString caption = i18n("Refraction effects disabled");
             QString message = i18n("When the horizon is switched off, refraction effects are temporarily disabled.");
@@ -278,7 +278,7 @@ void KStars::slotINDIToolBar()
     {
         if (INDIListener::Instance()->size() == 0)
         {
-            KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
+            KSNotification::sorry(i18n("KStars did not find any active telescopes."));
             return;
         }
 
@@ -307,7 +307,7 @@ void KStars::slotINDIToolBar()
 
         if (oneScope == nullptr)
         {
-            KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
+            KSNotification::sorry(i18n("KStars did not find any active telescopes."));
             return;
         }
 
@@ -631,8 +631,8 @@ void KStars::slotTelescopeWizard()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides "
-                                             "the 'indiserver' binary is installed."));
+            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+                                       "the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -667,8 +667,8 @@ void KStars::slotINDIPanel()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides "
-                                             "the 'indiserver' binary is installed."));
+            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+                                       "the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -707,8 +707,8 @@ void KStars::slotINDIDriver()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides "
-                                             "the 'indiserver' binary is installed."));
+            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+                                       "the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -745,8 +745,8 @@ void KStars::slotEkos()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides "
-                                             "the 'indiserver' binary is installed."));
+            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+                                       "the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -1252,7 +1252,7 @@ void KStars::slotRunScript()
     {
         if (fileURL.isLocalFile() == false)
         {
-            KMessageBox::sorry(nullptr, i18n("Executing remote scripts is not supported."));
+            KSNotification::sorry(i18n("Executing remote scripts is not supported."));
             return;
         }
 
@@ -1261,7 +1261,7 @@ void KStars::slotRunScript()
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1", f.fileName());
-            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+            KSNotification::sorry(message, i18n("Could Not Open File"));
             return;
         }
 
@@ -1327,10 +1327,13 @@ void KStars::slotPrint()
                                "color scheme, which uses a white background. Would you like to "
                                "temporarily switch to the Star Chart color scheme for printing?");
 
-        int answer;
-        answer = KMessageBox::questionYesNoCancel(
-                     nullptr, message, i18n("Switch to Star Chart Colors?"), KGuiItem(i18n("Switch Color Scheme")),
-                     KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors");
+        int answer = 0;
+        if (Options::autonomousMode())
+            answer = KMessageBox::Yes;
+        else
+            answer = KMessageBox::questionYesNoCancel(
+                         nullptr, message, i18n("Switch to Star Chart Colors?"), KGuiItem(i18n("Switch Color Scheme")),
+                         KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors");
 
         if (answer == KMessageBox::Cancel)
             return;

@@ -12,6 +12,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "linelist.h"
+#include "ksnotification.h"
 #include "Options.h"
 #include "skymap.h"
 #include "projections/projector.h"
@@ -69,7 +70,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     // Set up List view
     m_RegionsModel = new QStandardItemModel(0, 3, this);
     m_RegionsModel->setHorizontalHeaderLabels(QStringList()
-                                              << i18n("Region") << i18nc("Azimuth", "Az") << i18nc("Altitude", "Alt"));
+            << i18n("Region") << i18nc("Azimuth", "Az") << i18nc("Altitude", "Alt"));
 
     connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(checkRegionState(QStandardItem*)));
 
@@ -94,7 +95,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
 
         SkyList *points = horizon->list()->points();
 
-        for (auto& p : *points)
+        for (auto &p : *points)
         {
             QList<QStandardItem *> pointsList;
             pointsList << new QStandardItem("") << new QStandardItem(p->az().toDMSString())
@@ -124,7 +125,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     if (m_HorizonList->count() > 0)
     {
         ui->regionsList->selectionModel()->setCurrentIndex(m_RegionsModel->index(0, 0),
-                                                           QItemSelectionModel::SelectCurrent);
+                QItemSelectionModel::SelectCurrent);
         showRegion(0);
     }
 }
@@ -262,8 +263,8 @@ void HorizonManager::slotSaveChanges()
     {
         if (validatePolygon(i) == false)
         {
-            KMessageBox::error(KStars::Instance(), i18n("%1 polygon is invalid.",
-                                                        m_RegionsModel->item(i, 0)->data(Qt::DisplayRole).toString()));
+            KSNotification::error(i18n("%1 polygon is invalid.",
+                                       m_RegionsModel->item(i, 0)->data(Qt::DisplayRole).toString()));
             return;
         }
     }
@@ -381,7 +382,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
         firstAlt = dms::fromString(item->child(0, 2)->data(Qt::DisplayRole).toString(), true);
 
         if (fabs(firstAz.Degrees() - point->az().Degrees()) <= 2 &&
-            fabs(firstAlt.Degrees() - point->alt().Degrees()) <= 2)
+                fabs(firstAlt.Degrees() - point->alt().Degrees()) <= 2)
         {
             point->setAz(firstAz.Degrees());
             point->setAlt(0);
@@ -451,7 +452,7 @@ void HorizonManager::slotAddPoint()
     regionItem->appendRow(pointsList);
 
     m_RegionsModel->setHorizontalHeaderLabels(QStringList()
-                                              << i18n("Region") << i18nc("Azimuth", "Az") << i18nc("Altitude", "Alt"));
+            << i18n("Region") << i18nc("Azimuth", "Az") << i18nc("Altitude", "Alt"));
     ui->pointsList->setColumnHidden(0, true);
     ui->pointsList->setRootIndex(regionItem->index());
 }
@@ -542,8 +543,7 @@ void HorizonManager::verifyItemValue(QStandardItem *item)
         if ((item->column() == 1 && azOK == false) || (item->column() == 2 && altOK == false))
 
         {
-            KMessageBox::error(KStars::Instance(),
-                               i18n("Invalid angle value: %1", item->data(Qt::DisplayRole).toString()));
+            KSNotification::error(i18n("Invalid angle value: %1", item->data(Qt::DisplayRole).toString()));
             item->setData(QVariant(0), Qt::DisplayRole);
             return;
         }

@@ -24,6 +24,8 @@
 #include "kspaths.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "ksnotification.h"
+#include "kstars_debug.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #else
@@ -88,9 +90,6 @@ bool CometsComponent::selected()
 void CometsComponent::loadData()
 {
     QString name, orbit_id, orbit_class, dimensions;
-    bool neo;
-    double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
-    float M1, M2, K1, K2, diameter, albedo, rot_period, period;
 
     emitProgressText(i18n("Loading comets"));
 
@@ -133,6 +132,9 @@ void CometsComponent::loadData()
         row_content  = cometParser.ReadNextRow();
         name         = row_content["full name"].toString();
         name         = name.trimmed();
+        bool neo;
+        double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
+        float M1, M2, K1, K2, diameter, albedo, rot_period, period;
         q            = row_content["q"].toDouble();
         e            = row_content["e"].toDouble();
         dble_i       = row_content["i"].toDouble();
@@ -195,9 +197,9 @@ void CometsComponent::draw(SkyPainter *skyp)
     skyp->setPen(QPen(QColor("transparent")));
     skyp->setBrush(QBrush(QColor("white")));
 
-    foreach (SkyObject *so, m_ObjectList)
+    for (auto so : m_ObjectList)
     {
-        KSComet *com = (KSComet *)so;
+        KSComet *com = dynamic_cast<KSComet *>(so);
         double mag   = com->mag();
         if (std::isnan(mag) == 0)
         {
@@ -211,6 +213,7 @@ void CometsComponent::draw(SkyPainter *skyp)
 
 void CometsComponent::updateDataFile(bool isAutoUpdate)
 {
+    delete (downloadJob);
     downloadJob = new FileDownloader();
 
     if (isAutoUpdate == false)
@@ -259,10 +262,7 @@ void CometsComponent::downloadReady()
 
 void CometsComponent::downloadError(const QString &errorString)
 {
-#ifndef KSTARS_LITE
-    KMessageBox::error(nullptr, i18n("Error downloading asteroids data: %1", errorString));
-#else
-    qDebug() << i18n("Error downloading comets data: %1", errorString);
-#endif
+    KSNotification::error(i18n("Error downloading asteroids data: %1", errorString));
+    qCCritical(KSTARS) << errorString;
     downloadJob->deleteLater();
 }

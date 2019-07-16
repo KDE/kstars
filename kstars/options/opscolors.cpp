@@ -21,6 +21,7 @@
 #include "config-kstars.h"
 #include "kspaths.h"
 #include "kstars.h"
+#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "thememanager.h"
@@ -104,11 +105,11 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
     if (KStarsData::Instance()->colorScheme()->starColorMode() != 0) //mode is not "Real Colors"
         kcfg_StarColorIntensity->setEnabled(false);
     else
-        kcfg_StarColorIntensity->setEnabled(true);    
+        kcfg_StarColorIntensity->setEnabled(true);
 
     connect(ColorPalette, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(newColor(QListWidgetItem*)));
     connect(kcfg_StarColorIntensity, SIGNAL(valueChanged(int)), this, SLOT(slotStarColorIntensity(int)));
-    connect(kcfg_StarColorMode, SIGNAL(activated(int)), this, SLOT(slotStarColorMode(int)));    
+    connect(kcfg_StarColorMode, SIGNAL(activated(int)), this, SLOT(slotStarColorMode(int)));
     connect(PresetBox, SIGNAL(currentRowChanged(int)), this, SLOT(slotPreset(int)));
     connect(AddPreset, SIGNAL(clicked()), this, SLOT(slotAddPreset()));
     connect(RemovePreset, SIGNAL(clicked()), this, SLOT(slotRemovePreset()));
@@ -139,12 +140,12 @@ void OpsColors::newColor(QListWidgetItem *item)
 
     //NewColor will only be valid if the above if statement was found to be true during one of the for loop iterations
     if (NewColor.isValid())
-    {        
+    {
         pixmap.fill(NewColor);
         item->setData(Qt::DecorationRole, pixmap);
         item->setData(ItemColorData, NewColor);
         KStarsData::Instance()->colorScheme()->setColor(KStarsData::Instance()->colorScheme()->keyAt(index),
-                                                        NewColor.name());
+                NewColor.name());
     }
 
     if (PresetBox->currentRow() > 3)
@@ -161,7 +162,7 @@ void OpsColors::newColor(QListWidgetItem *item)
 
 void OpsColors::slotPreset(int index)
 {
-    QString sPreset = PresetFileList.at(index);    
+    QString sPreset = PresetFileList.at(index);
     setColors(sPreset);
 }
 
@@ -171,7 +172,7 @@ bool OpsColors::setColors(const QString &filename)
 
     //check if colorscheme is removable...
     QFile test;
-     //try filename in local user KDE directory tree.
+    //try filename in local user KDE directory tree.
     test.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename);
     if (test.exists())
     {
@@ -192,7 +193,7 @@ bool OpsColors::setColors(const QString &filename)
     qApp->processEvents();
 
     kcfg_StarColorMode->setCurrentIndex(KStarsData::Instance()->colorScheme()->starColorMode());
-    kcfg_StarColorIntensity->setValue(KStarsData::Instance()->colorScheme()->starColorIntensity());    
+    kcfg_StarColorIntensity->setValue(KStarsData::Instance()->colorScheme()->starColorIntensity());
 
     for (unsigned int i = 0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i)
     {
@@ -261,7 +262,7 @@ void OpsColors::slotRemovePreset()
     if (!cdatFile.exists() || !cdatFile.open(QIODevice::ReadWrite))
     {
         QString message = i18n("Local color scheme index file could not be opened.\nScheme cannot be removed.");
-        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
+        KSNotification::sorry(message, i18n("Could Not Open File"));
     }
     else
     {
@@ -295,7 +296,7 @@ void OpsColors::slotRemovePreset()
             if (!colorFile.remove())
             {
                 QString message = i18n("Could not delete the file: %1", colorFile.fileName());
-                KMessageBox::sorry(nullptr, message, i18n("Error Deleting File"));
+                KSNotification::sorry(message, i18n("Error Deleting File"));
             }
 
             //remove the old colors.dat file, and rebuild it with the modified string list.
@@ -308,7 +309,7 @@ void OpsColors::slotRemovePreset()
         else
         {
             QString message = i18n("Could not find an entry named %1 in colors.dat.", name);
-            KMessageBox::sorry(nullptr, message, i18n("Scheme Not Found"));
+            KSNotification::sorry(message, i18n("Scheme Not Found"));
         }
         cdatFile.close();
     }

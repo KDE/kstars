@@ -28,10 +28,6 @@
 #include "skyqpainter.h"
 #endif
 
-#ifndef KSTARS_LITE
-#include <KMessageBox>
-#endif
-
 ColorScheme::ColorScheme() : FileName()
 {
     //Each color has two names associated with it.  The KeyName is its
@@ -216,7 +212,7 @@ bool ColorScheme::load(const QString &name)
         line = stream.readLine();
 
         if (line.count(':') ==
-            1) //the new color preset format contains a ":" in each line, followed by the name of the color
+                1) //the new color preset format contains a ":" in each line, followed by the name of the color
         {
             ++inew;
             if (iold)

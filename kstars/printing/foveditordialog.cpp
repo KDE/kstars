@@ -18,6 +18,7 @@
 #include "foveditordialog.h"
 
 #include "kstars.h"
+#include "ksnotification.h"
 #include "printingwizard.h"
 
 #include <KJob>
@@ -127,8 +128,8 @@ void FovEditorDialog::slotSaveImage()
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
     QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Image"), QUrl(QDir::homePath()),
-                                              "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp")
-                      .url();
+                  "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp")
+                  .url();
     QUrl fileUrl;
     if (!url.contains(QDir::separator()))
     {
@@ -205,7 +206,7 @@ void FovEditorDialog::slotSaveImage()
         if (uploadJob->exec() == false)
         {
             QString message = i18n("Could not upload image to remote location: %1", fileUrl.url());
-            KMessageBox::sorry(nullptr, message, i18n("Could not upload file"));
+            KSNotification::sorry(message, i18n("Could not upload file"));
         }
         uploadJob->kill();
     }
