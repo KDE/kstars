@@ -25,6 +25,7 @@
 #include "fov.h"
 #include "imageviewer.h"
 #include "ksalmanac.h"
+#include "ksnotification.h"
 #include "ksdssdownloader.h"
 #include "kspaths.h"
 #include "kstars.h"
