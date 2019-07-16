@@ -22,6 +22,7 @@
 #include "imageexporter.h"
 #include "kstarsdata.h"
 #include "kstars_debug.h"
+#include "ksnotification.h"
 #include "kswizard.h"
 #include "Options.h"
 #include "skymap.h"
