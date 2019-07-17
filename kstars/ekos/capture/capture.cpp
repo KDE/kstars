@@ -1607,7 +1607,7 @@ bool Capture::resumeSequence()
         }
 
         // Dither either when guiding or IF Non-Guide either option is enabled
-        if ( Options::ditherEnabled()
+        if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
                 // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
                 && meridianFlipStage != MF_GUIDING
                 // If CCD is looping, we cannot dither UNLESS a different camera and NOT a guide chip is doing the guiding for us.
