@@ -5030,8 +5030,11 @@ void Align::stopPAHProcess()
     disconnect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
     disconnect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector);
 
-    currentTelescope->Park();
-    appendLogText(i18n("Parking the mount..."));
+    if (Options::pAHAutoPark())
+    {
+        currentTelescope->Park();
+        appendLogText(i18n("Parking the mount..."));
+    }
 
     state = ALIGN_IDLE;
     emit newStatus(state);

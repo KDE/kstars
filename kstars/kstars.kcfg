@@ -1987,6 +1987,10 @@
          <label>Speed index to set mount in Polar Alignment Assistant Tool.</label>
          <default>-1</default>
       </entry>
+      <entry name="PAHAutoPark" type="Bool">
+         <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="Guide">
       <entry name="DefaultGuideCCD" type="String">
