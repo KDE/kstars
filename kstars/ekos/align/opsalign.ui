@@ -235,6 +235,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="kcfg_PAHAutoPark">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically park mount after completing Polar Alignment Assistant Tools. Beware that turning this option off might lead to inaccurate results.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Auto Park</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
