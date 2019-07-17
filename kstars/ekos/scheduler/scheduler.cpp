@@ -2297,6 +2297,10 @@ void Scheduler::executeJob(SchedulerJob *job)
 
     updatePreDawn();
 
+    // Reset autofocus so that focus step is applied properly when checked
+    // When the focus step is not checked, the capture module will eventually run focus periodically
+    autofocusCompleted = false;
+
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << currentJob->getName();
 
     currentJob->setState(SchedulerJob::JOB_BUSY);
