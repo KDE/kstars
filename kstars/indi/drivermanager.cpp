@@ -346,7 +346,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
             return false;
         }
 
-        serverManager = new ServerManager(qdv.at(0)->getHost(), ((uint)port));
+        serverManager = new ServerManager(qdv.at(0)->getHost(), port);
 
         if (serverManager == nullptr)
         {
@@ -392,7 +392,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         connect(clientManager, SIGNAL(connectionFailure(ClientManager*)), this,
                 SLOT(processClientTermination(ClientManager*)));
 
-        clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), ((uint)port));
+        clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), port);
 
         GUIManager::Instance()->addClient(clientManager);
         INDIListener::Instance()->addClient(clientManager);
