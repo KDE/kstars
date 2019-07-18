@@ -544,7 +544,9 @@ void FilterManager::setFocusOffsetComplete()
 
 double FilterManager::getFilterExposure(const QString &name) const
 {
-    if (m_currentFilterLabels.empty())
+    if (m_currentFilterLabels.empty() ||
+            m_currentFilterPosition < 1 ||
+            m_currentFilterPosition > m_currentFilterLabels.count())
         return 1;
 
     QString color = name;
