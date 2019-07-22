@@ -6060,7 +6060,7 @@ void Capture::clearCameraConfiguration()
     if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()), i18n("Confirmation")) == KMessageBox::No)
         return;
 
-    currentCCD->setConfig(LOAD_DEFAULT_CONFIG);
+    currentCCD->setConfig(PURGE_CONFIG);
     KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
 
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();

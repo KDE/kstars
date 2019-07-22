@@ -477,9 +477,8 @@ bool Telescope::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_
     if (canGuide() == false)
         return false;
 
-    bool raOK = false, decOK = false;
-    raOK  = doPulse(ra_dir, ra_msecs);
-    decOK = doPulse(dec_dir, dec_msecs);
+    bool raOK  = doPulse(ra_dir, ra_msecs);
+    bool decOK = doPulse(dec_dir, dec_msecs);
 
     if (raOK && decOK)
         return true;
@@ -1145,6 +1144,23 @@ bool Telescope::setAlignmentModelEnabled(bool enable)
     }
 
     return wasExecuted;
+}
+
+bool Telescope::clearParking()
+{
+    ISwitchVectorProperty *parkSwitch  = baseDevice->getSwitch("TELESCOPE_PARK_OPTION");
+    if (!parkSwitch)
+        return false;
+
+    ISwitch *clearParkSW = IUFindSwitch(parkSwitch, "PARK_PURGE_DATA");
+    if (!clearParkSW)
+        return false;
+
+    IUResetSwitch(parkSwitch);
+    clearParkSW->s = ISS_ON;
+
+    clientManager->sendNewSwitch(parkSwitch);
+    return true;
 }
 
 bool Telescope::clearAlignmentModel()

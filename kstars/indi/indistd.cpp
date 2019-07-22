@@ -498,6 +498,15 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
             IUResetSwitch(svp);
             sp->s = ISS_ON;
             break;
+
+        case PURGE_CONFIG:
+            sp = IUFindSwitch(svp, "CONFIG_PURGE");
+            if (sp == nullptr)
+                return false;
+
+            IUResetSwitch(svp);
+            sp->s = ISS_ON;
+            break;
     }
 
     clientManager->sendNewSwitch(svp);
