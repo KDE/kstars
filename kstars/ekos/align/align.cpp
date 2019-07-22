@@ -3491,10 +3491,17 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
         switch (nvp->s)
         {
+            // Idle --> Mount not tracking or slewing
+            case IPS_IDLE:
+                m_wasSlewStarted = false;
+                break;
+
+            // Ok --> Mount Tracking. If m_wasSlewStarted is true
+            // then it just finished slewing
             case IPS_OK:
             {
                 // Update the boxes as the mount just finished slewing
-                if (isSlewDirty && Options::astrometryAutoUpdatePosition())
+                if (m_wasSlewStarted && Options::astrometryAutoUpdatePosition())
                 {
                     opsAstrometry->estRA->setText(ra_dms);
                     opsAstrometry->estDec->setText(dec_dms);
@@ -3512,9 +3519,10 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     return;
                 }
 
-                if (isSlewDirty && pahStage == PAH_FIND_CP)
+                // If we are looking for celestial pole
+                if (m_wasSlewStarted && pahStage == PAH_FIND_CP)
                 {
-                    isSlewDirty = false;
+                    m_wasSlewStarted = false;
                     appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
                     setSolverAction(GOTO_NOTHING);
                     pahStage = PAH_FIRST_CAPTURE;
@@ -3522,9 +3530,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     return;
                 }
 
-                //            if (isSlewDirty && pahStage == PAH_FIRST_ROTATE)
+                //            if (m_wasSlewStarted && pahStage == PAH_FIRST_ROTATE)
                 //            {
-                //                isSlewDirty = false;
+                //                m_wasSlewStarted = false;
 
                 //                appendLogText(i18n("Mount first rotation is complete."));
 
@@ -3540,9 +3548,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 //                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
                 //                return;
                 //            }
-                //            else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
+                //            else if (m_wasSlewStarted && pahStage == PAH_SECOND_ROTATE)
                 //            {
-                //                isSlewDirty = false;
+                //                m_wasSlewStarted = false;
 
                 //                appendLogText(i18n("Mount second rotation is complete."));
 
@@ -3566,7 +3574,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     case ALIGN_SYNCING:
                     {
-                        isSlewDirty = false;
+                        m_wasSlewStarted = false;
                         if (currentGotoMode == GOTO_SLEW)
                         {
                             Slew();
@@ -3588,10 +3596,11 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     break;
 
                     case ALIGN_SLEWING:
-                        if (isSlewDirty == false)
+                        // If mount has not started slewing yet, then skip
+                        if (m_wasSlewStarted == false)
                             break;
 
-                        isSlewDirty = false;
+                        m_wasSlewStarted = false;
                         if (loadSlewState == IPS_BUSY)
                         {
                             loadSlewState = IPS_IDLE;
@@ -3638,21 +3647,25 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     default:
                     {
-                        isSlewDirty = false;
+                        m_wasSlewStarted = false;
                     }
                     break;
                 }
             }
             break;
 
+            // Busy --> Mount Slewing or Moving (NSWE buttons)
             case IPS_BUSY:
             {
-                isSlewDirty = true;
+                m_wasSlewStarted = true;
             }
             break;
 
+            // Alert --> Mount has problem moving or communicating.
             case IPS_ALERT:
             {
+                m_wasSlewStarted = false;
+
                 if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
                 {
                     if (state == ALIGN_SYNCING)
@@ -3864,7 +3877,7 @@ void Align::Slew()
     state = ALIGN_SLEWING;
     emit newStatus(state);
 
-    isSlewDirty = currentTelescope->Slew(&targetCoord);
+    m_wasSlewStarted = currentTelescope->Slew(&targetCoord);
 
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(),
                        targetCoord.dec().toDMSString()));

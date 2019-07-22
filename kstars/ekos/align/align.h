@@ -749,7 +749,7 @@ class Align : public QWidget, public Ui::Align
         static const double SIDRATE;
 
         /// Have we slewed?
-        bool isSlewDirty { false };
+        bool m_wasSlewStarted { false };
 
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
