@@ -81,6 +81,29 @@ Mount::Mount()
         resetModel();
     });
 
+    connect(clearParkingB, &QPushButton::clicked, this, [this]()
+    {
+        if (currentTelescope)
+            currentTelescope->clearParking();
+
+    });
+
+    connect(purgeConfigB, &QPushButton::clicked, this, [this]()
+    {
+        if (currentTelescope)
+        {
+            if (Options::autonomousMode() || KMessageBox::questionYesNo(KStars::Instance(),
+                    i18n("Are you sure you want to clear all mount configurations?"),
+                    i18n("Mount Configuration"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                    "purge_mount_settings_dialog") == KMessageBox::Yes)
+            {
+                resetModel();
+                currentTelescope->clearParking();
+                currentTelescope->setConfig(PURGE_CONFIG);
+            }
+        }
+    });
+
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
@@ -958,11 +981,9 @@ bool Mount::checkMeridianFlip(dms lst)
 
         case FLIP_PLANNED:
             return false;
-            break;
 
         case FLIP_ACCEPTED:
             return true;
-            break;
 
         case FLIP_RUNNING:
             if (currentTelescope->isTracking())

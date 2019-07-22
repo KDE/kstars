@@ -96,7 +96,7 @@ typedef enum { SERVER_CLIENT, SERVER_ONLY } ServerMode;
 
 typedef enum { DATA_FITS, DATA_VIDEO, DATA_CCDPREVIEW, DATA_ASCII, DATA_OTHER } INDIDataTypes;
 
-typedef enum { LOAD_LAST_CONFIG, SAVE_CONFIG, LOAD_DEFAULT_CONFIG } INDIConfig;
+typedef enum { LOAD_LAST_CONFIG, SAVE_CONFIG, LOAD_DEFAULT_CONFIG, PURGE_CONFIG } INDIConfig;
 
 typedef enum { NO_DIR = 0, RA_INC_DIR, RA_DEC_DIR, DEC_INC_DIR, DEC_DEC_DIR } GuideDirection;
 
@@ -150,7 +150,8 @@ enum stdProperties
 }; /* Watchdog */
 
 /* Devices families that we explicitly support (i.e. with std properties) */
-typedef enum {
+typedef enum
+{
     KSTARS_ADAPTIVE_OPTICS,
     KSTARS_AGENT,
     KSTARS_AUXILIARY,
@@ -166,7 +167,8 @@ typedef enum {
     KSTARS_UNKNOWN
 } DeviceFamily;
 
-const QMap<DeviceFamily, QString> DeviceFamilyLabels = {
+const QMap<DeviceFamily, QString> DeviceFamilyLabels =
+{
     {KSTARS_ADAPTIVE_OPTICS, "Adaptive Optics"},
     {KSTARS_AGENT, "Agent"},
     {KSTARS_AUXILIARY, "Auxiliary"},
@@ -186,7 +188,8 @@ typedef enum { FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, FRAME_FLAT } CCDFrameType;
 
 typedef enum { SINGLE_BIN, DOUBLE_BIN, TRIPLE_BIN, QUADRAPLE_BIN } CCDBinType;
 
-typedef enum {
+typedef enum
+{
     INDI_SEND_COORDS,
     INDI_ENGAGE_TRACKING,
     INDI_CENTER_LOCK,
