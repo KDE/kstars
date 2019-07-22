@@ -1290,6 +1290,12 @@ void Focus::setCaptureComplete()
                 return;
             }
 
+            // set the tracking box on maxStar
+            starCenter.setX(maxStar->x);
+            starCenter.setY(maxStar->y);
+            starCenter.setZ(subBinX);
+            syncTrackingBoxPosition();
+
             // Do we need to subframe?
             if (subFramed == false && useSubFrame->isEnabled() && useSubFrame->isChecked())
             {
@@ -1352,7 +1358,6 @@ void Focus::setCaptureComplete()
                     capture();
             }
 
-            syncTrackingBoxPosition();
             defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
             return;
         }
