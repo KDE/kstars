@@ -682,6 +682,7 @@ set(kstars_extra_SRCS
     auxiliary/QRoundProgressBar.cpp
     auxiliary/skyobjectlistmodel.cpp
     auxiliary/ksnotification.cpp
+    auxiliary/ksmessagebox.cpp
     auxiliary/QProgressIndicator.cpp
     auxiliary/ctkrangeslider.cpp
     time/simclock.cpp
