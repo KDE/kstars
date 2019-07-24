@@ -5006,6 +5006,8 @@ IPState Capture::processPreCaptureCalibrationStage()
 
         return IPS_OK;
     }
+    // If we are capturing a dark frame, let's check if the telescope is already covered IF
+    // the camera does not have a shutter. With mechanical shutters, we continue.
     else if (activeJob->getFrameType() == FRAME_DARK &&
              m_TelescopeCoveredDarkExposure == false &&
              (dustCap == nullptr || activeJob->getFlatFieldSource() == SOURCE_MANUAL))
@@ -5054,6 +5056,9 @@ IPState Capture::processPreCaptureCalibrationStage()
         }
     }
 
+    // If we are currently guide and the frame is NOT a light frame, then we shopld suspend.
+    // N.B. The guide camera could be on its own scope unaffected but it doesn't hurt to stop
+    // guiding since it is no longer used anyway.
     if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
     {
         appendLogText(i18n("Autoguiding suspended."));
