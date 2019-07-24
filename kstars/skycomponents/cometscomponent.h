@@ -19,10 +19,11 @@
 
 #include "ksparser.h"
 #include "solarsystemlistcomponent.h"
+#include "filedownloader.h"
 
 #include <QList>
+#include <QPointer>
 
-class FileDownloader;
 class SkyLabeler;
 
 /**
@@ -35,28 +36,28 @@ class SkyLabeler;
  */
 class CometsComponent : public QObject, public SolarSystemListComponent
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /**
-     * @short Default constructor.
-     *
-     * @p parent pointer to the parent SolarSystemComposite
-     */
-    explicit CometsComponent(SolarSystemComposite *parent);
+    public:
+        /**
+         * @short Default constructor.
+         *
+         * @p parent pointer to the parent SolarSystemComposite
+         */
+        explicit CometsComponent(SolarSystemComposite *parent);
 
-    virtual ~CometsComponent() override = default;
+        virtual ~CometsComponent() override = default;
 
-    bool selected() override;
-    void draw(SkyPainter *skyp) override;
-    void updateDataFile(bool isAutoUpdate=false);
+        bool selected() override;
+        void draw(SkyPainter *skyp) override;
+        void updateDataFile(bool isAutoUpdate = false);
 
-  protected slots:
-    void downloadReady();
-    void downloadError(const QString &errorString);
+    protected slots:
+        void downloadReady();
+        void downloadError(const QString &errorString);
 
-  private:
-    void loadData();
+    private:
+        void loadData();
 
-    FileDownloader *downloadJob { nullptr };
+        QPointer<FileDownloader> downloadJob;
 };

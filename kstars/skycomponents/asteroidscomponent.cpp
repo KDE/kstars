@@ -239,9 +239,9 @@ SkyObject *AsteroidsComponent::objectNearest(SkyPoint *p, double &maxrad)
     if (!selected())
         return nullptr;
 
-    foreach (SkyObject *o, m_ObjectList)
+    for (auto o : m_ObjectList)
     {
-        if (!(((KSAsteroid*)o)->toDraw()))
+        if (!((dynamic_cast<KSAsteroid*>(o)->toDraw())))
             continue;
 
         double r = o->angularDistanceTo(p).Degrees();
@@ -257,6 +257,7 @@ SkyObject *AsteroidsComponent::objectNearest(SkyPoint *p, double &maxrad)
 
 void AsteroidsComponent::updateDataFile(bool isAutoUpdate)
 {
+    delete(downloadJob);
     downloadJob = new FileDownloader();
 
     if (isAutoUpdate == false)
