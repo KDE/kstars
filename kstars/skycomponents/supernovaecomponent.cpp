@@ -18,6 +18,7 @@
 #include "kstarslite.h"
 #endif
 #include "dms.h"
+#include "kstars_debug.h"
 #include "ksnotification.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -44,7 +45,7 @@ void SupernovaeComponent::update(KSNumbers *num)
         return;
 
     KStarsData *data = KStarsData::Instance();
-    foreach (SkyObject *so, m_ObjectList)
+    for (auto so : m_ObjectList)
     {
         if (num)
             so->updateCoords(num);
@@ -89,14 +90,14 @@ void SupernovaeComponent::loadData()
 
     if (sNova.isArray() == false)
     {
-        qCritical() << "Invalid document format! No JSON array.";
+        qCCritical(KSTARS) << "Invalid document format! No JSON array.";
         return;
     }
 
     QJsonArray sArray = sNova.array();
     bool ok           = false;
 
-    foreach (const QJsonValue &snValue, sArray)
+    for (const auto snValue : sArray)
     {
         const QJsonObject propObject = snValue.toObject();
         mag                          = 99.9;
@@ -145,7 +146,7 @@ SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)
     SkyObject *oBest = nullptr;
     double rBest     = maxrad;
 
-    foreach (SkyObject *so, m_ObjectList)
+    for (auto so : m_ObjectList)
     {
         double r = so->angularDistanceTo(p).Degrees();
         //qDebug()<<r;
@@ -176,9 +177,9 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
     double maglim = zoomMagnitudeLimit();
 
-    foreach (SkyObject *so, m_ObjectList)
+    for (auto so : m_ObjectList)
     {
-        Supernova *sup = (Supernova *)so;
+        Supernova *sup = dynamic_cast<Supernova *>(so);
         float mag      = sup->mag();
 
         if (mag > float(Options::magnitudeLimitShowSupernovae()))
@@ -216,14 +217,15 @@ void SupernovaeComponent::notifyNewSupernovae()
         ui->addItems(latestList);
         ui->show();
     }
-//     if (!latest.empty())
-//         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
+    //     if (!latest.empty())
+    //         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
 #endif
 }
 #endif
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
+    delete(downloadJob);
     downloadJob = new FileDownloader();
 
     downloadJob->setProgressDialogEnabled(true, i18n("Supernovae Update"), i18n("Downloading Supernovae updates..."));

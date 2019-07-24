@@ -22,11 +22,10 @@
 #include "typedef.h"
 #include "skyobjects/ksasteroid.h"
 #include "solarsystemlistcomponent.h"
+#include "filedownloader.h"
 
 #include <QList>
 #include <QPointer>
-
-class FileDownloader;
 
 /**
  * @class AsteroidsComponent
@@ -36,34 +35,34 @@ class FileDownloader;
  * @version 0.1
  */
 class AsteroidsComponent : public QObject, public SolarSystemListComponent,
-       virtual public BinaryListComponent<KSAsteroid, AsteroidsComponent>
+    virtual public BinaryListComponent<KSAsteroid, AsteroidsComponent>
 {
-    Q_OBJECT
+        Q_OBJECT
 
-    friend class BinaryListComponent<KSAsteroid, AsteroidsComponent>;
-  public:
-    /**
-     * @short Default constructor.
-     *
-     * @p parent pointer to the parent SolarSystemComposite
-     */
-    explicit AsteroidsComponent(SolarSystemComposite *parent);
-    virtual ~AsteroidsComponent() override = default;
+        friend class BinaryListComponent<KSAsteroid, AsteroidsComponent>;
+    public:
+        /**
+         * @short Default constructor.
+         *
+         * @p parent pointer to the parent SolarSystemComposite
+         */
+        explicit AsteroidsComponent(SolarSystemComposite *parent);
+        virtual ~AsteroidsComponent() override = default;
 
-    void draw(SkyPainter *skyp) override;
-    bool selected() override;
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
+        void draw(SkyPainter *skyp) override;
+        bool selected() override;
+        SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
-    void updateDataFile(bool isAutoUpdate=false);
+        void updateDataFile(bool isAutoUpdate = false);
 
-    QString ans();
+        QString ans();
 
-  protected slots:
-    void downloadReady();
-    void downloadError(const QString &errorString);
+    protected slots:
+        void downloadReady();
+        void downloadError(const QString &errorString);
 
-  private:
-    void loadDataFromText() override;
+    private:
+        void loadDataFromText() override;
 
-    FileDownloader *downloadJob { nullptr };
+        QPointer<FileDownloader> downloadJob;
 };
