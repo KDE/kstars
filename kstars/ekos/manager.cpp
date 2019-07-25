@@ -714,7 +714,7 @@ bool Manager::start()
     {
         if (isRunning("PTPCamera"))
         {
-            if (Options::autonomousMode() || KMessageBox::Yes ==
+            if (KMessageBox::Yes ==
                     (KMessageBox::questionYesNo(nullptr,
                                                 i18n("Ekos detected that PTP Camera is running and may prevent a Canon or Nikon camera from connecting to Ekos. Do you want to quit PTP Camera now?"),
                                                 i18n("PTP Camera"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
