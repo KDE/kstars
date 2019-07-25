@@ -481,7 +481,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         }
         else
         {
-            if (Options::autonomousMode() || KMessageBox::Continue == KMessageBox::warningContinueCancel(
+            if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
                         nullptr, i18n("Are you sure you want to delete these index files? %1", indexSeriesName),
                         i18n("Delete File(s)"), KStandardGuiItem::cont(),
                         KStandardGuiItem::cancel(), "delete_index_files_warning"))

@@ -5919,7 +5919,7 @@ void Scheduler::startMosaicTool()
         // Delete any prior jobs before saving
         if (!jobs.empty())
         {
-            if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
+            if (KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
             {
                 qDeleteAll(jobs);
                 jobs.clear();
@@ -6068,7 +6068,7 @@ void Scheduler::checkTwilightWarning(bool enabled)
     if (enabled)
         return;
 
-    if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(
+    if (KMessageBox::warningContinueCancel(
                 nullptr,
                 i18n("Turning off astronomial twilight check may cause the observatory "
                      "to run during daylight. This can cause irreversible damage to your equipment!"),
@@ -6106,7 +6106,7 @@ void Scheduler::runStartupProcedure()
             return;
         }
 
-        if (!Options::autonomousMode() && KMessageBox::questionYesNo(
+        if (KMessageBox::questionYesNo(
                     nullptr, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning: executing startup procedure manually..."));
@@ -6188,7 +6188,7 @@ void Scheduler::runShutdownProcedure()
 {
     if (shutdownState == SHUTDOWN_IDLE || shutdownState == SHUTDOWN_ERROR || shutdownState == SHUTDOWN_COMPLETE)
     {
-        if (!Options::autonomousMode() && KMessageBox::questionYesNo(
+        if (KMessageBox::questionYesNo(
                     nullptr, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning: executing shutdown procedure manually..."));

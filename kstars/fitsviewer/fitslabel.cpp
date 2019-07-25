@@ -228,7 +228,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
                 x         = KSUtils::clamp(x, 1.0, width);
                 y         = KSUtils::clamp(y, 1.0, height);
                 int index = x + y * width;
-                if (Options::autonomousMode() || KMessageBox::Continue == KMessageBox::warningContinueCancel(
+                if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
                             nullptr,
                             "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() +
                             "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),

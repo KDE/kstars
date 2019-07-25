@@ -19,6 +19,7 @@
 #include "skymap.h"
 #include "auxiliary/darklibrary.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "auxiliary/ksmessagebox.h"
 #include "capture/sequencejob.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
@@ -141,6 +142,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     });
     connect(ekosLiveClient.get()->media(), &EkosLive::Media::newBoundingRect, ekosLiveClient.get()->message(), &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
+    connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(), &EkosLive::Message::sendDialog);
 
     // Serial Port Assistat
     connect(serialPortAssistantB, &QPushButton::clicked, [&]()
@@ -524,6 +526,14 @@ bool Manager::start()
 
     reset();
 
+    //    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+    //    {
+    //        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+    //        qDebug() << "Dialog was accepted!";
+    //    });
+    //    KSMessageBox::Instance()->questionYesNo("Do you want to proceed?", "Confirm", 21);
+
+
     currentProfile = getCurrentProfile();
     m_LocalMode      = currentProfile->isLocal();
 
@@ -722,7 +732,7 @@ bool Manager::start()
     {
         if (isRunning("indiserver"))
         {
-            if (Options::autonomousMode() || KMessageBox::Yes ==
+            if (KMessageBox::Yes ==
                     (KMessageBox::questionYesNo(nullptr,
                                                 i18n("Ekos detected an instance of INDI server running. Do you wish to "
                                                         "shut down the existing instance before starting a new one?"),
@@ -2501,8 +2511,8 @@ void Manager::deleteProfile()
     if (currentProfile->name == "Simulators")
         return;
 
-    if (!Options::autonomousMode() && KMessageBox::questionYesNo(this, i18n("Are you sure you want to delete the profile?"),
-            i18n("Confirm Delete")) == KMessageBox::No)
+    if (KMessageBox::questionYesNo(this, i18n("Are you sure you want to delete the profile?"),
+                                   i18n("Confirm Delete")) == KMessageBox::No)
         return;
 
     KStarsData::Instance()->userdb()->DeleteProfile(currentProfile);

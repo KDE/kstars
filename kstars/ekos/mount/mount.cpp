@@ -92,10 +92,10 @@ Mount::Mount()
     {
         if (currentTelescope)
         {
-            if (Options::autonomousMode() || KMessageBox::questionYesNo(KStars::Instance(),
-                    i18n("Are you sure you want to clear all mount configurations?"),
-                    i18n("Mount Configuration"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                    "purge_mount_settings_dialog") == KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(KStars::Instance(),
+                                           i18n("Are you sure you want to clear all mount configurations?"),
+                                           i18n("Mount Configuration"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                                           "purge_mount_settings_dialog") == KMessageBox::Yes)
             {
                 resetModel();
                 currentTelescope->clearParking();
@@ -356,10 +356,10 @@ void Mount::syncTelescopeInfo()
         });
         connect(trackOffB, &QPushButton::clicked, [&]()
         {
-            if (!Options::autonomousMode() && KMessageBox::questionYesNo(KStars::Instance(),
-                    i18n("Are you sure you want to turn off mount tracking?"),
-                    i18n("Mount Tracking"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                    "turn_off_mount_tracking_dialog") == KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(KStars::Instance(),
+                                           i18n("Are you sure you want to turn off mount tracking?"),
+                                           i18n("Mount Tracking"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                                           "turn_off_mount_tracking_dialog") == KMessageBox::Yes)
                 currentTelescope->setTrackEnabled(false);
         });
     }
@@ -1343,7 +1343,7 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
     //Options::setUseComputerSource(false);
     //Options::setUseDeviceSource(true);
 
-    if (Options::useGPSSource() == false && (Options::autonomousMode() || KMessageBox::questionYesNo(KStars::Instance(),
+    if (Options::useGPSSource() == false && (KMessageBox::questionYesNo(KStars::Instance(),
             i18n("GPS is detected. Do you want to switch time and location source to GPS?"),
             i18n("GPS Settings"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
             "use_gps_source_dialog") == KMessageBox::Yes))

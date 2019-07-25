@@ -978,9 +978,9 @@ void DetailDialog::removeLinkDialog()
     else
         return;
 
-    if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to remove the %1 link?", currentItemTitle),
-            i18n("Delete Confirmation"),
-            KStandardGuiItem::del()) != KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to remove the %1 link?", currentItemTitle),
+                                           i18n("Delete Confirmation"),
+                                           KStandardGuiItem::del()) != KMessageBox::Continue)
         return;
 
     if (type == 0)
@@ -1219,8 +1219,7 @@ void DetailDialog::centerTelescope()
         // Display Sun warning on slew
         if (selectedObject && selectedObject->name() == i18n("Sun"))
         {
-            if (!Options::autonomousMode() &&
-                    KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
+            if (KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
                     == KMessageBox::Cancel)
                 return;
         }

@@ -14,6 +14,7 @@
 #include "kstars.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksmessagebox.h"
 #include "ekos/auxiliary/filterdelegate.h"
 
 #include <QTimer>
@@ -477,10 +478,18 @@ bool FilterManager::executeOperationQueue()
 
             if (m_FilterConfirmSet)
             {
-                if (Options::autonomousMode() || KMessageBox::questionYesNo(KStars::Instance(),
-                        i18n("Set filter to %1. Is filter set?", targetFilter->color()),
-                        i18n("Confirm Filter")) == KMessageBox::Yes)
+                //                if (KMessageBox::questionYesNo(KStars::Instance(),
+                //                        i18n("Set filter to %1. Is filter set?", targetFilter->color()),
+                //                        i18n("Confirm Filter")) == KMessageBox::Yes)
+                //                    m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
+
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+                {
+                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
+                });
+                KSMessageBox::Instance()->questionYesNo(i18n("Set filter to %1. Is filter set?", targetFilter->color()),
+                                                        i18n("Confirm Filter"));
             }
         }
         break;

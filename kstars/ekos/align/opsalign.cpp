@@ -81,8 +81,8 @@ void OpsAlign::setupPython()
         return;
     }
 
-    if (Options::autonomousMode() || KMessageBox::questionYesNo(nullptr, i18n("This installer will install the following requirements for astrometry.net if they are not installed:\nHomebrew -an OS X Unix Program Package Manager\nPython3 -A Powerful Scripting Language \nAstropy -Python Modules for Astronomy \n Do you wish to continue?"),
-            i18n("Install and Configure Python")) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(nullptr, i18n("This installer will install the following requirements for astrometry.net if they are not installed:\nHomebrew -an OS X Unix Program Package Manager\nPython3 -A Powerful Scripting Language \nAstropy -Python Modules for Astronomy \n Do you wish to continue?"),
+                                   i18n("Install and Configure Python")) == KMessageBox::Yes)
     {
         QProcess* install = new QProcess(this);
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();

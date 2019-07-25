@@ -305,7 +305,7 @@ bool LocationDialog::updateCity(CityOperation operation)
     if (operation == CITY_REMOVE)
     {
         QString message = i18n("Are you sure you want to remove %1?", selectedCityName());
-        if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, message, i18n("Remove City?")) == KMessageBox::No)
+        if (KMessageBox::questionYesNo(nullptr, message, i18n("Remove City?")) == KMessageBox::No)
             return false; //user answered No.
     }
     else if (!nameModified && !dataModified)

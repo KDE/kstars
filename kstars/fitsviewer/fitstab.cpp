@@ -56,12 +56,8 @@ void FITSTab::saveUnsaved()
 
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
-    int ans = 0;
 
-    if (Options::autonomousMode())
-        ans = KMessageBox::Yes;
-    else
-        ans = KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+    int ans = KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
     if (ans == KMessageBox::Yes)
         saveFile();
     if (ans == KMessageBox::No)

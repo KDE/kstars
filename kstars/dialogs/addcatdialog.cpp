@@ -230,9 +230,9 @@ void AddCatDialog::slotCreateCatalog()
         if (QFile::exists(acd->CatalogURL->url().toLocalFile()))
         {
             QUrl u(acd->CatalogURL->url());
-            if (!Options::autonomousMode() && (KMessageBox::warningContinueCancel(nullptr,
-                                               i18n("A file named \"%1\" already exists. Overwrite it?", u.fileName()),
-                                               i18n("Overwrite File?"), KStandardGuiItem::overwrite()) == KMessageBox::Cancel))
+            if ((KMessageBox::warningContinueCancel(nullptr,
+                                                    i18n("A file named \"%1\" already exists. Overwrite it?", u.fileName()),
+                                                    i18n("Overwrite File?"), KStandardGuiItem::overwrite()) == KMessageBox::Cancel))
                 return;
         }
 

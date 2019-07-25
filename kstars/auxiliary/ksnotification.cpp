@@ -35,8 +35,7 @@ void error(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    if (!Options::autonomousMode())
-        KMessageBox::error(nullptr, message, title);
+    KMessageBox::error(nullptr, message, title);
 #endif
 }
 
@@ -46,8 +45,7 @@ void sorry(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    if (!Options::autonomousMode())
-        KSNotification::sorry(message, title);
+    KSNotification::sorry(message, title);
 #endif
 }
 
@@ -57,8 +55,7 @@ void info(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    if (!Options::autonomousMode())
-        KMessageBox::information(nullptr, message, title);
+    KMessageBox::information(nullptr, message, title);
 #endif
 }
 

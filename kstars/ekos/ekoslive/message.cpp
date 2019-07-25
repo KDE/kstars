@@ -14,6 +14,7 @@
 #include "commands.h"
 #include "profileinfo.h"
 #include "indi/drivermanager.h"
+#include "auxiliary/ksmessagebox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
@@ -194,6 +195,8 @@ void Message::onTextReceived(const QString &message)
         sendCaps();
     else if (command == commands[GET_DEVICES])
         sendDevices();
+    else if (command == commands[DIALOG_GET_RESPONSE])
+        processDialogResponse(payload);
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
@@ -958,6 +961,11 @@ void Message::requestDSLRInfo(const QString &cameraName)
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(QJsonDocument::Compact));
 }
 
+void Message::sendDialog(const QJsonObject &message)
+{
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(QJsonDocument::Compact));
+}
+
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
@@ -1101,5 +1109,10 @@ void Message::setBoundingRect(QRect rect, QSize view)
 {
     boundingRect = rect;
     viewSize = view;
+}
+
+void Message::processDialogResponse(const QJsonObject &payload)
+{
+    KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 }

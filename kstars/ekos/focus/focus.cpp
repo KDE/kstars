@@ -14,6 +14,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksmessagebox.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "fitsviewer/fitsdata.h"
@@ -2903,16 +2904,20 @@ void Focus::toggleVideo(bool enabled)
     if (currentCCD->isBLOBEnabled() == false)
     {
 
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL
-                || Options::autonomousMode() ||
-                KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
-                KMessageBox::Yes)
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL)
             currentCCD->setBLOBEnabled(true);
         else
-            return;
+        {
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, enabled]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                currentCCD->setVideoStreamEnabled(enabled);
+            });
+            KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"));
+        }
     }
-
-    currentCCD->setVideoStreamEnabled(enabled);
+    else
+        currentCCD->setVideoStreamEnabled(enabled);
 }
 
 void Focus::setVideoStreamEnabled(bool enabled)

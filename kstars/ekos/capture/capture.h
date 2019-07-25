@@ -112,6 +112,13 @@ class Capture : public QWidget, public Ui::Capture
             CAL_DUSTCAP_UNPARKING,
             CAL_DUSTCAP_UNPARKED
         } CalibrationStage;
+
+        typedef enum
+        {
+            CAL_CHECK_TASK,
+            CAL_CHECK_CONFIRMATION,
+        } CalibrationCheckType;
+
         typedef bool (Capture::*PauseFunctionPointer)();
 
         Capture();
@@ -545,6 +552,11 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief prepareActiveJob Reset calibration state machine and prepare capture job actions.
+         */
+        void prepareActiveJob();
+
+        /**
              * @brief preparePreCaptureActions Check if we need to update filter position or CCD temperature before starting capture process
              */
         void preparePreCaptureActions();
@@ -635,6 +647,13 @@ class Capture : public QWidget, public Ui::Capture
         IPState processPreCaptureCalibrationStage();
         bool processPostCaptureCalibrationStage();
         void updatePreCaptureCalibrationStatus();
+
+        // Frame Type calibration checks
+        IPState checkLightFramePendingTasks();
+        IPState checkLightFrameAuxiliaryTasks();
+
+        IPState checkFlatFramePendingTasks();
+        IPState checkDarkFramePendingTasks();
 
         // Send image info
         void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
@@ -831,6 +850,7 @@ class Capture : public QWidget, public Ui::Capture
         FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
         FlatFieldSource flatFieldSource { SOURCE_MANUAL };
         CalibrationStage calibrationStage { CAL_NONE };
+        CalibrationCheckType calibrationCheckType { CAL_CHECK_TASK };
         bool dustCapLightEnabled { false };
         bool lightBoxLightEnabled { false };
         bool m_TelescopeCoveredDarkExposure { false };

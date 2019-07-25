@@ -100,8 +100,8 @@ void OpsEkos::clearAll()
     if (darkFramesModel->rowCount() == 0)
         return;
 
-    if (!Options::autonomousMode() && KMessageBox::questionYesNo(KStars::Instance(),
-            i18n("Are you sure you want to delete all dark frames images and data?")) ==
+    if (KMessageBox::questionYesNo(KStars::Instance(),
+                                   i18n("Are you sure you want to delete all dark frames images and data?")) ==
             KMessageBox::No)
         return;
 

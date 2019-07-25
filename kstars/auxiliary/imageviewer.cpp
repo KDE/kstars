@@ -181,7 +181,7 @@ ImageViewer::~ImageViewer()
     QString filename = file.fileName();
     if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
     {
-        if (Options::autonomousMode() || m_ImageUrl.isEmpty() == false ||
+        if (m_ImageUrl.isEmpty() == false ||
                 KMessageBox::questionYesNo(nullptr, i18n("Remove temporary file %1 from disk?", filename),
                                            i18n("Confirm Removal"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
                                            "imageviewer_temporary_file_removal") == KMessageBox::Yes)
@@ -325,12 +325,11 @@ void ImageViewer::saveFileToDisc()
         QFile f(newURL.toLocalFile());
         if (f.exists())
         {
-            if (!Options::autonomousMode() &&
-                    (KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                            i18n("A file named \"%1\" already exists. "
-                                 "Overwrite it?",
-                                 newURL.fileName()),
-                            i18n("Overwrite File?"), KStandardGuiItem::overwrite()) == KMessageBox::Cancel))
+            if ((KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
+                                                    i18n("A file named \"%1\" already exists. "
+                                                            "Overwrite it?",
+                                                            newURL.fileName()),
+                                                    i18n("Overwrite File?"), KStandardGuiItem::overwrite()) == KMessageBox::Cancel))
                 return;
 
             f.remove();
