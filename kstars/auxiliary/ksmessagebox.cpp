@@ -39,29 +39,24 @@ KSMessageBox * KSMessageBox::Instance()
 KSMessageBox::KSMessageBox() : QMessageBox()
 {
     setDefaultButton(StandardButton::Ok);
+    setIcon(QMessageBox::Information);
 
-    m_ProgressIndicator.reset(new QRoundProgressBar(this));
-    m_ProgressIndicator->setDecimals(0);
-    m_ProgressIndicator->setFormat("%v");
-    m_ProgressIndicator->setBarStyle(QRoundProgressBar::StyleLine);
-    m_ProgressIndicator->setMinimumSize(QSize(50, 50));
-
-    //horizontalLayout->addWidget(m_ProgressIndicator.get());
-    //horizontalLayout->setAlignment(m_ProgressIndicator.get(), Qt::AlignHCenter);
-
-    QGridLayout *gridLayout = qobject_cast<QGridLayout*>(layout());
-    if (gridLayout)
-    {
-        qDebug() << "Rows" << gridLayout->rowCount() << " colmumns" << gridLayout->columnCount();
-        gridLayout->addWidget(m_ProgressIndicator.get(), 1,
-                              1,  2, 2, Qt::AlignHCenter);
-
-
-    }
+    setWindowFlags(Qt::WindowStaysOnTopHint);
 
     m_ProgressTimer.setInterval(1000);
     m_ProgressTimer.setSingleShot(false);
     connect(&m_ProgressTimer, &QTimer::timeout, this, &KSMessageBox::timerTick);
+
+    connect(this, &KSMessageBox::rejected, [this]()
+    {
+        m_ProgressTimer.stop();
+        emit newMessage(QJsonObject());
+    });
+
+    connect(this, &KSMessageBox::accepted, [this]()
+    {
+        emit newMessage(QJsonObject());
+    });
 }
 
 void KSMessageBox::error(const QString &message, const QString &title)
@@ -71,6 +66,14 @@ void KSMessageBox::error(const QString &message, const QString &title)
     KStarsLite::Instance()->notificationMessage(message);
 #else
     //KMessageBox::error(nullptr, message, title);
+    reset();
+
+    setIcon(QMessageBox::Critical);
+    setText(message);
+    setWindowTitle(title);
+    open();
+
+    emit newMessage(createMessageObject());
 #endif
 }
 
@@ -81,6 +84,14 @@ void KSMessageBox::sorry(const QString &message, const QString &title)
     KStarsLite::Instance()->notificationMessage(message);
 #else
     //KSNotification::sorry(message, title);
+    reset();
+
+    setIcon(QMessageBox::Warning);
+    setText(message);
+    setWindowTitle(title);
+    open();
+
+    emit newMessage(createMessageObject());
 #endif
 }
 
@@ -91,20 +102,114 @@ void KSMessageBox::info(const QString &message, const QString &title)
     KStarsLite::Instance()->notificationMessage(message);
 #else
     //KMessageBox::information(nullptr, message, title);
+    reset();
+
+    setIcon(QMessageBox::Information);
     setText(message);
     setWindowTitle(title);
-
-    if (m_Timeout > 0)
-    {
-        m_ProgressTimer.start();
-        m_ProgressIndicator->setRange(0, m_Timeout);
-        m_ProgressIndicator->setValue(static_cast<int>(m_Timeout));
-    }
-
     open();
+
+    emit newMessage(createMessageObject());
 
 
 #endif
+}
+
+void KSMessageBox::setupTimeout()
+{
+    if (m_Timeout == 0)
+        return;
+
+    m_ProgressLabel = new QLabel(this);
+    m_ProgressLabel->setText(i18n("Auto close in ..."));
+
+    m_ProgressIndicator = new QRoundProgressBar(this);
+    m_ProgressIndicator->setDecimals(0);
+    m_ProgressIndicator->setFormat("%v");
+    m_ProgressIndicator->setBarStyle(QRoundProgressBar::StyleLine);
+    m_ProgressIndicator->setFixedSize(QSize(32, 32));
+
+    QPointer<QHBoxLayout> hbox = new QHBoxLayout(this);
+    hbox->addWidget(m_ProgressLabel);
+    hbox->addWidget(m_ProgressIndicator);
+
+    QGridLayout *gridLayout = qobject_cast<QGridLayout*>(layout());
+    if (gridLayout)
+    {
+        //gridLayout->addWidget(m_ProgressLabel.get(), 1, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+        //gridLayout->addWidget(m_ProgressIndicator.get(), 1, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+        gridLayout->addItem(hbox, 1, 2, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter);
+    }
+
+    m_ProgressTimer.start();
+    m_ProgressIndicator->setRange(0, m_Timeout);
+    m_ProgressIndicator->setValue(static_cast<int>(m_Timeout));
+}
+
+void KSMessageBox::reset()
+{
+    m_Timeout = 0;
+
+    QList<QPushButton *> allButtons = findChildren<QPushButton*>();
+    qDeleteAll(allButtons);
+
+    delete (m_ProgressIndicator);
+    delete (m_ProgressLabel);
+}
+
+void KSMessageBox::questionYesNo(const QString &message, const QString &title, quint32 timeout, bool defaultToYes, const QString &yesText, const QString &noText)
+{
+    reset();
+
+    setIcon(QMessageBox::Question);
+    setText(message);
+    setWindowTitle(title);
+
+    QPushButton *yesButton = new QPushButton(yesText, this);
+    QPushButton *noButton = new QPushButton(noText, this);
+
+    addButton(yesButton, QMessageBox::AcceptRole);
+    addButton(noButton, QMessageBox::RejectRole);
+
+    setDefaultButton(defaultToYes ? yesButton : noButton);
+    yesButton->setDefault(defaultToYes);
+    noButton->setDefault(!defaultToYes);
+
+    m_Timeout = timeout;
+
+    setupTimeout();
+
+    open();
+
+    emit newMessage(createMessageObject());
+}
+
+void KSMessageBox::warningContinueCancel(const QString &message, const QString &title, quint32 timeout, bool defaultToContinue,
+        const QString &continueText, const QString &cancelText)
+{
+    reset();
+
+    setIcon(QMessageBox::Warning);
+    setText(message);
+    setWindowTitle(title);
+
+    QPushButton *continueButton = new QPushButton(continueText, this);
+    QPushButton *cancelButton = new QPushButton(cancelText, this);
+
+    addButton(continueButton, QMessageBox::AcceptRole);
+    addButton(cancelButton, QMessageBox::RejectRole);
+
+    setDefaultButton(defaultToContinue ? continueButton : cancelButton);
+    continueButton->setDefault(defaultToContinue);
+    cancelButton->setDefault(!defaultToContinue);
+
+    m_Timeout = timeout;
+
+    setupTimeout();
+
+    open();
+
+    emit newMessage(createMessageObject());
 }
 
 void KSMessageBox::transient(const QString &message, const QString &title)
@@ -136,4 +241,40 @@ void KSMessageBox::timerTick()
         else
             reject();
     }
+}
+
+QJsonObject KSMessageBox::createMessageObject()
+{
+    QJsonObject message;
+    QJsonArray buttons;
+
+    message.insert("title", windowTitle());
+    message.insert("message", text());
+    message.insert("icon", icon());
+    message.insert("timeout", static_cast<int32_t>(m_Timeout));
+
+    for (const auto oneButton : findChildren<QPushButton*>())
+    {
+        buttons.append(oneButton->text());
+        if (oneButton == defaultButton())
+            message.insert("default", oneButton->text());
+    }
+
+    message.insert("buttons", buttons);
+
+    return message;
+}
+
+bool KSMessageBox::selectResponse(const QString &button)
+{
+    for (const auto oneButton : findChildren<QPushButton*>())
+    {
+        if (button == oneButton->text())
+        {
+            oneButton->animateClick();
+            return true;
+        }
+    }
+
+    return false;
 }

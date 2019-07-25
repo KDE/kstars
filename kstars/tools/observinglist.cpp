@@ -900,7 +900,7 @@ void ObservingList::slotClearList()
         return;
 
     QString message = i18n("Are you sure you want to clear all objects?");
-    if (Options::autonomousMode() || KMessageBox::questionYesNo(this, message, i18n("Clear all?")) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, message, i18n("Clear all?")) == KMessageBox::Yes)
     {
         // Did I forget anything else to remove?
         ui->avt->removeAllPlotObjects();

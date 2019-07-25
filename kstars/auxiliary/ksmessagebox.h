@@ -12,12 +12,15 @@
 
 #pragma once
 
-#include <memory>
-
 #include <KLocalizedString>
+
 #include <QMessageBox>
+#include <QPointer>
 #include <QTimer>
 #include <QRoundProgressBar.h>
+#include <QJsonObject>
+#include <QJsonArray>
+
 
 /**
  * @class KSMessageBox
@@ -27,12 +30,16 @@
  */
 class KSMessageBox: public QMessageBox
 {
-    Q_OBJECT
-    Q_PROPERTY(quint32 timeout MEMBER m_Timeout)
+        Q_OBJECT
+        Q_PROPERTY(quint32 timeout MEMBER m_Timeout)
 
     public:
         static KSMessageBox *Instance();
 
+        void questionYesNo(const QString &message, const QString &title = i18n("Question"), quint32 timeout = 0,
+                           bool defaultToYes = true, const QString &yesText = i18n("Yes"), const QString &noText = i18n("No"));
+        void warningContinueCancel(const QString &message, const QString &title = i18n("Warning"), quint32 timeout = 0,
+                                   bool defaultToContinue = true, const QString &continueText = i18n("Continue"), const QString &cancelText = i18n("Cancel"));
         void error(const QString &message, const QString &title = i18n("Error"));
         void sorry(const QString &message, const QString &title = i18n("Sorry"));
         void info(const QString &message, const QString &title = i18n("Info"));
@@ -43,19 +50,32 @@ class KSMessageBox: public QMessageBox
          */
         void transient(const QString &message, const QString &title);
 
-    protected:
+        /**
+         * @brief selectResponse Programatically select one the buttons in the dialog.
+         * @param button text of button to click
+         * @return True if button is found and clicked, false otherwise.
+         */
+        bool selectResponse(const QString &button);
 
+    signals:
+        void newMessage(const QJsonObject &message);
+
+    protected:
         void timerTick();
 
     private:
         // Dialog timeout in seconds
-        quint32 m_Timeout {30};
+        quint32 m_Timeout {60};
 
         static KSMessageBox *m_Instance;
 
+        void reset();
+        void setupTimeout();
+        QJsonObject createMessageObject();
         KSMessageBox();
 
-        std::unique_ptr<QRoundProgressBar> m_ProgressIndicator;
+        QPointer<QRoundProgressBar> m_ProgressIndicator;
+        QPointer<QLabel> m_ProgressLabel;
 
         QTimer m_ProgressTimer;
 };

@@ -142,6 +142,10 @@ enum COMMANDS
     NEW_DEVICE_STATE,
     DEVICE_GET_PROPERTY,
     DEVICE_SET_PROPERTY,
+
+    // Dialogs
+    DIALOG_GET_INFO,
+    DIALOG_GET_RESPONSE,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -255,7 +259,10 @@ static QMap<COMMANDS, QString> const commands =
     {GET_DEVICES, "get_devices"},
     {NEW_DEVICE_STATE, "new_device_state"},
     {DEVICE_GET_PROPERTY, "device_get_property"},
-    {DEVICE_SET_PROPERTY, "device_set_property"}
+    {DEVICE_SET_PROPERTY, "device_set_property"},
+
+    {DIALOG_GET_INFO, "dialog_get_info"},
+    {DIALOG_GET_RESPONSE, "dialog_get_response"}
 };
 
 }

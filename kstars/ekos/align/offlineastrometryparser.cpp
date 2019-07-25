@@ -71,7 +71,7 @@ bool OfflineAstrometryParser::init()
 
     if (astrometryNetOK() == false)
     {
-        if (align && align->isEnabled() && !Options::autonomousMode())
+        if (align && align->isEnabled())
             KMessageBox::information(
                 nullptr,
                 i18n(

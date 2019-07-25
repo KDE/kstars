@@ -70,18 +70,14 @@ bool nonFatalErrorMessage(QString fname)
     Q_UNUSED(fname);
     return true;
 #else
-    int res = 0;
-    if (Options::autonomousMode())
-        res = KMessageBox::Continue;
-    else
-        res = KMessageBox::warningContinueCancel(nullptr,
-                i18n("The file %1 could not be found. "
-                     "KStars can still run without this file. "
-                     "KStars search for this file in following locations:\n\n\t"
-                     "%2\n\n"
-                     "It appears that you setup is broken. Press Continue to run KStars without this file ",
-                     fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
-                i18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
+    int res = KMessageBox::warningContinueCancel(nullptr,
+              i18n("The file %1 could not be found. "
+                   "KStars can still run without this file. "
+                   "KStars search for this file in following locations:\n\n\t"
+                   "%2\n\n"
+                   "It appears that you setup is broken. Press Continue to run KStars without this file ",
+                   fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
+              i18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
     if( res != KMessageBox::Continue )
         qApp->exit(1);
     return res == KMessageBox::Continue;

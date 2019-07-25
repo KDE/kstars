@@ -18,6 +18,7 @@
 #include "skymap.h"
 #include "ui_calibrationoptions.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "auxiliary/ksmessagebox.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "fitsviewer/fitsdata.h"
@@ -492,7 +493,7 @@ void Capture::start()
 
         // If we only have completed jobs and we don't ignore job progress, ask the end-user what to do
         if (!ignoreJobProgress)
-            if(!Options::autonomousMode() && KMessageBox::warningContinueCancel(
+            if(KMessageBox::warningContinueCancel(
                         nullptr,
                         i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
                         i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -2749,18 +2750,41 @@ void Capture::prepareJob(SequenceJob * job)
     if (currentCCD->isBLOBEnabled() == false)
     {
         // FIXME: Move this warning pop-up elsewhere, it will interfere with automation.
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
-                KMessageBox::Yes)
+        //        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+        //                KMessageBox::Yes)
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL)
         {
             currentCCD->setBLOBEnabled(true);
         }
         else
         {
-            setBusy(false);
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                currentCCD->setBLOBEnabled(true);
+                prepareActiveJob();
+
+            });
+            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                currentCCD->setBLOBEnabled(true);
+                setBusy(false);
+            });
+
+            KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"),
+                                                    i18n("Image Transfer"), 15);
+
             return;
         }
     }
 
+    prepareActiveJob();
+
+}
+
+void Capture::prepareActiveJob()
+{
     // Just notification of active job stating up
     emit newImage(activeJob);
 
@@ -2769,7 +2793,7 @@ void Capture::prepareJob(SequenceJob * job)
     // Reset calibration stage
     if (calibrationStage == CAL_CAPTURING)
     {
-        if (job->getFrameType() != FRAME_LIGHT)
+        if (activeJob->getFrameType() != FRAME_LIGHT)
             calibrationStage = CAL_PRECAPTURE_COMPLETE;
         else
             calibrationStage = CAL_NONE;
@@ -2846,7 +2870,6 @@ void Capture::prepareJob(SequenceJob * job)
 
     preparePreCaptureActions();
 }
-
 void Capture::preparePreCaptureActions()
 {
     // Update position
@@ -2926,6 +2949,8 @@ void Capture::executeJob()
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     syncGUIToJob(activeJob);
+
+    calibrationCheckType = CAL_CHECK_TASK;
 
     updatePreCaptureCalibrationStatus();
 
@@ -3983,7 +4008,7 @@ void Capture::resetJobs()
     }
     else
     {
-        if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(
+        if (KMessageBox::warningContinueCancel(
                     nullptr, i18n("Are you sure you want to reset status of all jobs?"), i18n("Reset job status"),
                     KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "reset_job_status_warning") != KMessageBox::Continue)
         {
@@ -4923,21 +4948,94 @@ void Capture::openCalibrationDialog()
     }
 }
 
-IPState Capture::processPreCaptureCalibrationStage()
+IPState Capture::checkLightFrameAuxiliaryTasks()
 {
-    // Unpark dust cap if we have to take light images.
-    if (activeJob->getFrameType() == FRAME_LIGHT)
+    // step 2: check if meridian flip already is ongoing
+    if (meridianFlipStage != MF_NONE)
+        return IPS_BUSY;
+    // step 3: check if meridian flip is required
+    if (checkMeridianFlip())
+        return IPS_BUSY;
+    // step 4: check if re-focusing is required
+    if (m_State == CAPTURE_FOCUSING || startFocusIfRequired())
     {
-        // step 1: unpark dust cap
-        if (dustCap != nullptr)
-        {
-            if (dustCap->isLightOn() == true)
+        m_State = CAPTURE_FOCUSING;
+        return IPS_BUSY;
+    }
+
+    if (guideState == GUIDE_SUSPENDED)
+    {
+        appendLogText(i18n("Autoguiding resumed."));
+        emit resumeGuiding();
+    }
+
+    calibrationStage = CAL_PRECAPTURE_COMPLETE;
+
+    return IPS_OK;
+}
+
+IPState Capture::checkLightFramePendingTasks()
+{
+    switch (activeJob->getFlatFieldSource())
+    {
+        // All these are considered MANUAL when it comes to light frames
+        case SOURCE_MANUAL:
+        case SOURCE_DAWN_DUSK:
+        case SOURCE_WALL:
+            // If telescopes were MANUALLY covered before
+            // we need to manually uncover them.
+            if (m_TelescopeCoveredDarkExposure || m_TelescopeCoveredFlatExposure)
+            {
+                // Uncover telescope
+                // N.B. This operation cannot be autonomous
+                //        if (KMessageBox::warningContinueCancel(
+                //                    nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Telescope Covered"),
+                //                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                //                    "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+                //        {
+                //            return IPS_ALERT;
+                //        }
+
+                // If we already asked for confirmation and waiting for it
+                // let us see if the confirmation is fullfilled
+                // otherwise we return.
+                if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
+                    return IPS_BUSY;
+
+                // Otherwise, we ask user to confirm manually
+                calibrationCheckType = CAL_CHECK_CONFIRMATION;
+
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+                {
+                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    m_TelescopeCoveredDarkExposure = false;
+                    m_TelescopeCoveredFlatExposure = false;
+                    calibrationCheckType = CAL_CHECK_TASK;
+                });
+
+                KSMessageBox::Instance()->questionYesNo(i18n("Remove cover from the telescope in order to continue."),
+                                                        i18n("Telescope Covered"),
+                                                        Options::manualCoverTimeout());
+
+                return IPS_BUSY;
+            }
+            break;
+        case SOURCE_FLATCAP:
+        case SOURCE_DARKCAP:
+            if (!dustCap)
+            {
+                appendLogText(i18n("Cap device is missing but the job requires flat or dark cap device."));
+                return IPS_ALERT;
+            }
+
+            // If dust cap HAS light and light is ON, then turn it off.
+            if (dustCap->hasLight() && dustCap->isLightOn() == true)
             {
                 dustCapLightEnabled = false;
                 dustCap->SetLightEnabled(false);
             }
 
-            // If cap is not unparked, unpark it
+            // If cap is parked, we need to unpark it
             if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked())
             {
                 if (dustCap->UnPark())
@@ -4965,264 +5063,304 @@ IPState Capture::processPreCaptureCalibrationStage()
                     appendLogText(i18n("Dust cap unparked."));
                 }
             }
-        }
-        else if (m_TelescopeCoveredDarkExposure || m_TelescopeCoveredFlatExposure)
-        {
-            // Uncover telescope
-            // N.B. This operation cannot be autonomous
-            if (KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Telescope Covered"),
-                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                        "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-            {
-                return IPS_ALERT;
-            }
-
-            m_TelescopeCoveredDarkExposure = false;
-            m_TelescopeCoveredFlatExposure = false;
-        }
-
-        // step 2: check if meridian flip already is ongoing
-        if (meridianFlipStage != MF_NONE)
-            return IPS_BUSY;
-        // step 3: check if meridian flip is required
-        if (checkMeridianFlip())
-            return IPS_BUSY;
-        // step 4: check if re-focusing is required
-        if (m_State == CAPTURE_FOCUSING || startFocusIfRequired())
-        {
-            m_State = CAPTURE_FOCUSING;
-            return IPS_BUSY;
-        }
-
-        calibrationStage = CAL_PRECAPTURE_COMPLETE;
-
-        if (guideState == GUIDE_SUSPENDED)
-        {
-            appendLogText(i18n("Autoguiding resumed."));
-            emit resumeGuiding();
-        }
-
-
-        return IPS_OK;
+            break;
     }
-    // If we are capturing a dark frame, let's check if the telescope is already covered IF
-    // the camera does not have a shutter. With mechanical shutters, we continue.
-    else if (activeJob->getFrameType() == FRAME_DARK &&
-             m_TelescopeCoveredDarkExposure == false &&
-             (dustCap == nullptr || activeJob->getFlatFieldSource() == SOURCE_MANUAL))
+
+    return checkLightFrameAuxiliaryTasks();
+}
+
+IPState Capture::checkDarkFramePendingTasks()
+{
+    QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+    QStringList shutterlessCCDs = Options::shutterlessCCDs();
+    QString deviceName = currentCCD->getDeviceName();
+
+    bool hasShutter   = shutterfulCCDs.contains(deviceName);
+    bool hasNoShutter = shutterlessCCDs.contains(deviceName) || ISOCombo->count() > 0;
+
+    // If we have no information, we ask before we proceed.
+    if (hasShutter == false && hasNoShutter == false)
     {
-        QStringList shutterfulCCDs  = Options::shutterfulCCDs();
-        QStringList shutterlessCCDs = Options::shutterlessCCDs();
-        QString deviceName = currentCCD->getDeviceName();
+        // Awaiting user input
+        if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
+            return IPS_BUSY;
 
-        bool hasShutter   = shutterfulCCDs.contains(deviceName);
-        bool hasNoShutter = shutterlessCCDs.contains(deviceName) || ISOCombo->count() > 0;
+        //        // This action cannot be autonomous
+        //        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
+        //                                       i18n("Dark Exposure")) == KMessageBox::Yes)
+        //        {
+        //            hasNoShutter = false;
+        //            shutterfulCCDs.append(deviceName);
+        //            Options::setShutterfulCCDs(shutterfulCCDs);
+        //        }
+        //        else
+        //        {
+        //            hasNoShutter = true;
+        //            shutterlessCCDs.append(deviceName);
+        //            Options::setShutterlessCCDs(shutterlessCCDs);
+        //        }
 
-        // If we have no information, we ask
-        if (hasShutter == false && hasNoShutter == false)
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
         {
-            // This action cannot be autonomous
-            if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
-                                           i18n("Dark Exposure")) == KMessageBox::Yes)
-            {
-                hasNoShutter = false;
-                shutterfulCCDs.append(deviceName);
-                Options::setShutterfulCCDs(shutterfulCCDs);
-            }
-            else
-            {
-                hasNoShutter = true;
-                shutterlessCCDs.append(deviceName);
-                Options::setShutterlessCCDs(shutterlessCCDs);
-            }
-        }
-
-        // If camera was flagged before as shutterless, or if it is a DSLR, then it is for sure shutterless.
-        if (hasNoShutter)
+            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+            QString deviceName = currentCCD->getDeviceName();
+            shutterfulCCDs.append(deviceName);
+            Options::setShutterfulCCDs(shutterfulCCDs);
+            calibrationCheckType = CAL_CHECK_TASK;
+        });
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
         {
-            // This action cannot be autonomous
-            if (KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
-                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                        "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+            QStringList shutterlessCCDs = Options::shutterlessCCDs();
+            QString deviceName = currentCCD->getDeviceName();
+            shutterlessCCDs.append(deviceName);
+            Options::setShutterlessCCDs(shutterlessCCDs);
+            calibrationCheckType = CAL_CHECK_TASK;
+        });
+
+        calibrationCheckType = CAL_CHECK_CONFIRMATION;
+
+        KSMessageBox::Instance()->questionYesNo(i18n("Does %1 have a shutter?", deviceName),
+                                                i18n("Dark Exposure"));
+
+        return IPS_BUSY;
+    }
+
+    switch (activeJob->getFlatFieldSource())
+    {
+        // All these are manual when it comes to dark frames
+        case SOURCE_MANUAL:
+        case SOURCE_DAWN_DUSK:
+            // For cameras without a shutter, we need to ask the user to cover the telescope
+            // if the telescope is not already covered.
+            if (hasNoShutter && !m_TelescopeCoveredDarkExposure)
             {
+                if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
+                    return IPS_BUSY;
+
+                // Continue
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                {
+                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    m_TelescopeCoveredDarkExposure = true;
+                    m_TelescopeCoveredFlatExposure = false;
+                    calibrationCheckType = CAL_CHECK_TASK;
+                });
+
+                // Cancel
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                {
+                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    calibrationCheckType = CAL_CHECK_TASK;
+                    abort();
+                });
+
+                //            if (KMessageBox::warningContinueCancel(
+                //                        nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
+                //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                //                        "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+                //            {
+                //                abort();
+                //                return IPS_ALERT;
+                //            }
+
+                calibrationCheckType = CAL_CHECK_CONFIRMATION;
+
+                KSMessageBox::Instance()->warningContinueCancel(i18n("Cover the telescope in order to take a dark exposure.")
+                        , i18n("Dark Exposure"),
+                        Options::manualCoverTimeout());
+
+                return IPS_BUSY;
+            }
+            break;
+        case SOURCE_FLATCAP:
+        case SOURCE_DARKCAP:
+            // When using a cap, we need to park, if not already parked.
+            // Need to turn off light, if light exists and was on.
+            if (!dustCap)
+            {
+                appendLogText(i18n("Cap device is missing but the job requires flat or dark cap device."));
                 abort();
                 return IPS_ALERT;
             }
 
-            m_TelescopeCoveredDarkExposure = true;
-            m_TelescopeCoveredFlatExposure = false;
-        }
-    }
-
-    // If we are currently guide and the frame is NOT a light frame, then we shopld suspend.
-    // N.B. The guide camera could be on its own scope unaffected but it doesn't hurt to stop
-    // guiding since it is no longer used anyway.
-    if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
-    {
-        appendLogText(i18n("Autoguiding suspended."));
-        emit suspendGuiding();
-    }
-
-    // Let's check what actions to be taken, if any, for the flat field source
-    switch (activeJob->getFlatFieldSource())
-    {
-        case SOURCE_MANUAL:
-            if (activeJob->getFrameType() == FRAME_FLAT &&
-                    m_TelescopeCoveredFlatExposure == false)
+            // If cap is not park, park it
+            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false)
             {
-                // This action cannot be autonomous
-                if (KMessageBox::warningContinueCancel(
-                            nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
-                            KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                            "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+                if (dustCap->Park())
                 {
+                    calibrationStage = CAL_DUSTCAP_PARKING;
+                    appendLogText(i18n("Parking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("Parking dust cap failed, aborting..."));
                     abort();
                     return IPS_ALERT;
                 }
-                m_TelescopeCoveredFlatExposure = true;
-                m_TelescopeCoveredDarkExposure = false;
             }
-            break;
-        case SOURCE_DAWN_DUSK: // Not yet implemented
-            break;
 
-        // For Dark, Flat, Bias: Park cap, if not parked. Turn on Light For Flat. Turn off Light for Bias + Darks
-        // For Lights: Unpark cap and turn off light
-        case SOURCE_FLATCAP:
-            if (dustCap)
+            // Wait until cap is parked
+            if (calibrationStage == CAL_DUSTCAP_PARKING)
             {
-                // If cap is not park, park it
-                if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false)
+                if (dustCap->isParked() == false)
+                    return IPS_BUSY;
+                else
                 {
-                    if (dustCap->Park())
-                    {
-                        calibrationStage = CAL_DUSTCAP_PARKING;
-                        appendLogText(i18n("Parking dust cap..."));
-                        return IPS_BUSY;
-                    }
-                    else
-                    {
-                        appendLogText(i18n("Parking dust cap failed, aborting..."));
-                        abort();
-                        return IPS_ALERT;
-                    }
-                }
-
-                // Wait until cap is parked
-                if (calibrationStage == CAL_DUSTCAP_PARKING)
-                {
-                    if (dustCap->isParked() == false)
-                        return IPS_BUSY;
-                    else
-                    {
-                        calibrationStage = CAL_DUSTCAP_PARKED;
-                        appendLogText(i18n("Dust cap parked."));
-                    }
-                }
-
-                // If light is not on, turn it on. For flat frames only
-                if (activeJob->getFrameType() == FRAME_FLAT && dustCap->isLightOn() == false)
-                {
-                    dustCapLightEnabled = true;
-                    dustCap->SetLightEnabled(true);
-                }
-                else if (activeJob->getFrameType() != FRAME_FLAT && dustCap->isLightOn() == true)
-                {
-                    dustCapLightEnabled = false;
-                    dustCap->SetLightEnabled(false);
+                    calibrationStage = CAL_DUSTCAP_PARKED;
+                    appendLogText(i18n("Dust cap parked."));
                 }
             }
-            else
-                appendLogText(i18n("Warning: Flat cap is selected in Calibration but none detected."));
-            break;
 
-        // Park cap, if not parked and not flat frame
-        // Unpark cap, if flat frame
-        // Turn on Light
-        case SOURCE_DARKCAP:
-            if (dustCap)
+            // Turn off light if it exists and was on.
+            if (dustCap->hasLight() && dustCap->isLightOn() == true)
             {
-                // If cap is not park, park it if not flat frame. (external lightsource)
-                if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false &&
-                        activeJob->getFrameType() != FRAME_FLAT)
-                {
-                    if (dustCap->Park())
-                    {
-                        calibrationStage = CAL_DUSTCAP_PARKING;
-                        appendLogText(i18n("Parking dust cap..."));
-                        return IPS_BUSY;
-                    }
-                    else
-                    {
-                        appendLogText(i18n("Parking dust cap failed, aborting..."));
-                        abort();
-                        return IPS_ALERT;
-                    }
-                }
-
-                // Wait until  cap is parked
-                if (calibrationStage == CAL_DUSTCAP_PARKING)
-                {
-                    if (dustCap->isParked() == false)
-                        return IPS_BUSY;
-                    else
-                    {
-                        calibrationStage = CAL_DUSTCAP_PARKED;
-                        appendLogText(i18n("Dust cap parked."));
-                    }
-                }
-
-                // If cap is parked, unpark it if flat frame. (external lightsource)
-                if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked() == true &&
-                        activeJob->getFrameType() == FRAME_FLAT)
-                {
-                    if (dustCap->UnPark())
-                    {
-                        calibrationStage = CAL_DUSTCAP_UNPARKING;
-                        appendLogText(i18n("UnParking dust cap..."));
-                        return IPS_BUSY;
-                    }
-                    else
-                    {
-                        appendLogText(i18n("UnParking dust cap failed, aborting..."));
-                        abort();
-                        return IPS_ALERT;
-                    }
-                }
-
-                // Wait until  cap is parked
-                if (calibrationStage == CAL_DUSTCAP_UNPARKING)
-                {
-                    if (dustCap->isParked() == true)
-                        return IPS_BUSY;
-                    else
-                    {
-                        calibrationStage = CAL_DUSTCAP_UNPARKED;
-                        appendLogText(i18n("Dust cap unparked."));
-                    }
-                }
-
-                // If light is not on, turn it on. For flat frames only
-                if (activeJob->getFrameType() == FRAME_FLAT && dustCap->isLightOn() == false)
-                {
-                    dustCapLightEnabled = true;
-                    dustCap->SetLightEnabled(true);
-                }
-                else if (activeJob->getFrameType() != FRAME_FLAT && dustCap->isLightOn() == true)
-                {
-                    dustCapLightEnabled = false;
-                    dustCap->SetLightEnabled(false);
-                }
+                dustCapLightEnabled = false;
+                dustCap->SetLightEnabled(false);
             }
-            else
-                appendLogText(i18n("Warning: Dark cap is selected in Calibration but none detected."));
             break;
 
-        // Go to wall coordinates
         case SOURCE_WALL:
-            if (currentTelescope && activeJob->getFrameType() == FRAME_FLAT)
+            if (currentTelescope)
+            {
+                if (calibrationStage < CAL_SLEWING)
+                {
+                    wallCoord = activeJob->getWallCoord();
+                    wallCoord.HorizontalToEquatorial(KStarsData::Instance()->lst(),
+                                                     KStarsData::Instance()->geo()->lat());
+                    currentTelescope->Slew(&wallCoord);
+                    appendLogText(i18n("Mount slewing to wall position..."));
+                    calibrationStage = CAL_SLEWING;
+                    return IPS_BUSY;
+                }
+
+                // Check if slewing is complete
+                if (calibrationStage == CAL_SLEWING)
+                {
+                    if (currentTelescope->isSlewing() == false)
+                    {
+                        // Disable mount tracking if supported by the driver.
+                        currentTelescope->setTrackEnabled(false);
+                        calibrationStage = CAL_SLEWING_COMPLETE;
+                        appendLogText(i18n("Slew to wall position complete."));
+                    }
+                    else
+                        return IPS_BUSY;
+                }
+
+                if (lightBox && lightBox->isLightOn() == true)
+                {
+                    lightBoxLightEnabled = false;
+                    lightBox->SetLightEnabled(false);
+                }
+            }
+            break;
+    }
+
+    calibrationStage = CAL_PRECAPTURE_COMPLETE;
+
+    return IPS_OK;
+}
+
+IPState Capture::checkFlatFramePendingTasks()
+{
+    switch (activeJob->getFlatFieldSource())
+    {
+        case SOURCE_MANUAL:
+            // Manual mode we need to cover mount with evenly illuminated field.
+            if (m_TelescopeCoveredFlatExposure == false)
+            {
+                if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
+                    return IPS_BUSY;
+                // This action cannot be autonomous
+                //            if (KMessageBox::warningContinueCancel(
+                //                        nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
+                //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                //                        "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+                //            {
+                //                abort();
+                //                return IPS_ALERT;
+                //            }
+                //            m_TelescopeCoveredFlatExposure = true;
+                //            m_TelescopeCoveredDarkExposure = false;
+
+                // Continue
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                {
+                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    m_TelescopeCoveredFlatExposure = true;
+                    m_TelescopeCoveredDarkExposure = false;
+                    calibrationCheckType = CAL_CHECK_TASK;
+                });
+
+                // Cancel
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                {
+                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    calibrationCheckType = CAL_CHECK_TASK;
+                    abort();
+                });
+
+                calibrationCheckType = CAL_CHECK_CONFIRMATION;
+
+                KSMessageBox::Instance()->warningContinueCancel(i18n("Cover telescope with evenly illuminated light source."),
+                        i18n("Flat Frame"),
+                        Options::manualCoverTimeout());
+
+                return IPS_BUSY;
+            }
+            break;
+        // Not implemented.
+        case SOURCE_DAWN_DUSK:
+            break;
+        case SOURCE_FLATCAP:
+            if (!dustCap)
+            {
+                appendLogText(i18n("Cap device is missing but the job requires flat cap device."));
+                abort();
+                return IPS_ALERT;
+            }
+
+            // If cap is not park, park it
+            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false)
+            {
+                if (dustCap->Park())
+                {
+                    calibrationStage = CAL_DUSTCAP_PARKING;
+                    appendLogText(i18n("Parking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("Parking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until cap is parked
+            if (calibrationStage == CAL_DUSTCAP_PARKING)
+            {
+                if (dustCap->isParked() == false)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_PARKED;
+                    appendLogText(i18n("Dust cap parked."));
+                }
+            }
+
+            // If light is not on, turn it on.
+            if (dustCap->hasLight() && dustCap->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                dustCap->SetLightEnabled(true);
+            }
+            break;
+        case SOURCE_WALL:
+            if (currentTelescope)
             {
                 if (calibrationStage < CAL_SLEWING)
                 {
@@ -5263,6 +5401,51 @@ IPState Capture::processPreCaptureCalibrationStage()
                         lightBox->SetLightEnabled(false);
                     }
                 }
+            }
+            break;
+
+
+        case SOURCE_DARKCAP:
+            if (!dustCap)
+            {
+                appendLogText(i18n("Cap device is missing but the job requires dark cap device."));
+                abort();
+                return IPS_ALERT;
+            }
+            // If cap is parked, unpark it since dark cap uses external light source.
+            if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked() == true)
+            {
+                if (dustCap->UnPark())
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKING;
+                    appendLogText(i18n("UnParking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("UnParking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until cap is unparked
+            if (calibrationStage == CAL_DUSTCAP_UNPARKING)
+            {
+                if (dustCap->isParked() == true)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKED;
+                    appendLogText(i18n("Dust cap unparked."));
+                }
+            }
+
+            // If light is off, turn it on.
+            if (dustCap->hasLight() && dustCap->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                dustCap->SetLightEnabled(true);
             }
             break;
     }
@@ -5349,6 +5532,35 @@ IPState Capture::processPreCaptureCalibrationStage()
     }
 
     calibrationStage = CAL_PRECAPTURE_COMPLETE;
+
+    return IPS_OK;
+
+}
+
+IPState Capture::processPreCaptureCalibrationStage()
+{
+    // If we are currently guide and the frame is NOT a light frame, then we shopld suspend.
+    // N.B. The guide camera could be on its own scope unaffected but it doesn't hurt to stop
+    // guiding since it is no longer used anyway.
+    if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
+    {
+        appendLogText(i18n("Autoguiding suspended."));
+        emit suspendGuiding();
+    }
+
+    // Run necessary tasks for each frame type
+    switch (activeJob->getFrameType())
+    {
+        case FRAME_LIGHT:
+            return checkLightFramePendingTasks();
+
+        case FRAME_BIAS:
+        case FRAME_DARK:
+            return checkDarkFramePendingTasks();
+
+        case FRAME_FLAT:
+            return checkFlatFramePendingTasks();
+    }
 
     return IPS_OK;
 }
@@ -5684,13 +5896,22 @@ void Capture::toggleVideo(bool enabled)
 
     if (currentCCD->isBLOBEnabled() == false)
     {
-        if (Options::autonomousMode() ||
-                Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL ||
-                KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
-                KMessageBox::Yes)
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL)
             currentCCD->setBLOBEnabled(true);
         else
+        {
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, enabled]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                currentCCD->setBLOBEnabled(true);
+                currentCCD->setVideoStreamEnabled(enabled);
+            });
+
+            KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"),
+                                                    i18n("Image Transfer"), 15);
+
             return;
+        }
     }
 
     currentCCD->setVideoStreamEnabled(enabled);
@@ -6087,33 +6308,40 @@ void Capture::setSettings(const QJsonObject &settings)
 
 void Capture::clearCameraConfiguration()
 {
-    if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()), i18n("Confirmation")) == KMessageBox::No)
-        return;
+    //if (!Options::autonomousMode() && KMessageBox::questionYesNo(nullptr, i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()), i18n("Confirmation")) == KMessageBox::No)
+    //    return;
 
-    currentCCD->setConfig(PURGE_CONFIG);
-    KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
-
-    QStringList shutterfulCCDs  = Options::shutterfulCCDs();
-    QStringList shutterlessCCDs = Options::shutterlessCCDs();
-
-    // Remove camera from shutterful and shutterless CCDs
-    if (shutterfulCCDs.contains(currentCCD->getDeviceName()))
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
     {
-        shutterfulCCDs.removeOne(currentCCD->getDeviceName());
-        Options::setShutterfulCCDs(shutterfulCCDs);
-    }
-    if (shutterlessCCDs.contains(currentCCD->getDeviceName()))
-    {
-        shutterlessCCDs.removeOne(currentCCD->getDeviceName());
-        Options::setShutterlessCCDs(shutterlessCCDs);
-    }
+        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        currentCCD->setConfig(PURGE_CONFIG);
+        KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
+
+        QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+        QStringList shutterlessCCDs = Options::shutterlessCCDs();
+
+        // Remove camera from shutterful and shutterless CCDs
+        if (shutterfulCCDs.contains(currentCCD->getDeviceName()))
+        {
+            shutterfulCCDs.removeOne(currentCCD->getDeviceName());
+            Options::setShutterfulCCDs(shutterfulCCDs);
+        }
+        if (shutterlessCCDs.contains(currentCCD->getDeviceName()))
+        {
+            shutterlessCCDs.removeOne(currentCCD->getDeviceName());
+            Options::setShutterlessCCDs(shutterlessCCDs);
+        }
 
 
-    // For DSLRs, immediately ask them to enter the values again.
-    if (ISOCombo->count() > 0)
-    {
-        createDSLRDialog();
-    }
+        // For DSLRs, immediately ask them to enter the values again.
+        if (ISOCombo->count() > 0)
+        {
+            createDSLRDialog();
+        }
+    });
+
+    KSMessageBox::Instance()->questionYesNo( i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()),
+            i18n("Confirmation"), 30);
 }
 
 void Capture::setCoolerToggled(bool enabled)

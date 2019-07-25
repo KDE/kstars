@@ -203,7 +203,7 @@ void KStars::slotViewToolBar()
     else if (a == actionCollection()->action("show_horizon"))
     {
         Options::setShowGround(a->isChecked());
-        if (!a->isChecked() && Options::useRefraction() && !Options::autonomousMode())
+        if (!a->isChecked() && Options::useRefraction())
         {
             QString caption = i18n("Refraction effects disabled");
             QString message = i18n("When the horizon is switched off, refraction effects are temporarily disabled.");
@@ -1328,11 +1328,7 @@ void KStars::slotPrint()
                                "color scheme, which uses a white background. Would you like to "
                                "temporarily switch to the Star Chart color scheme for printing?");
 
-        int answer = 0;
-        if (Options::autonomousMode())
-            answer = KMessageBox::Yes;
-        else
-            answer = KMessageBox::questionYesNoCancel(
+        int answer = KMessageBox::questionYesNoCancel(
                          nullptr, message, i18n("Switch to Star Chart Colors?"), KGuiItem(i18n("Switch Color Scheme")),
                          KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors");
 

@@ -696,7 +696,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
     if (targetAlt < 0)
     {
-        if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(
+        if (KMessageBox::warningContinueCancel(
                     nullptr, i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"),
                     i18n("Telescope Motion"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                     QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel)
@@ -723,7 +723,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         // Sun Warning
         if (currentObject->name() == i18n("Sun"))
         {
-            if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(
+            if (KMessageBox::warningContinueCancel(
                         nullptr, i18n("Warning! Looking at the Sun without proper protection can lead to irreversible eye damage!"),
                         i18n("Sun Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                         QString("telescope_ignore_sun_warning")) == KMessageBox::Cancel)

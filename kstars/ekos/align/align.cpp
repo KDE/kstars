@@ -28,6 +28,7 @@
 #include "skymapcomposite.h"
 #include "starobject.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "auxiliary/ksmessagebox.h"
 #include "dialogs/finddialog.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
@@ -1274,7 +1275,7 @@ void Align::slotSaveAlignmentPoints()
         if (alignURL.toLocalFile().endsWith(QLatin1String(".eal")) == false)
             alignURL.setPath(alignURL.toLocalFile() + ".eal");
 
-        if (!Options::autonomousMode() && QFile::exists(alignURL.toLocalFile()))
+        if (QFile::exists(alignURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(nullptr,
                     i18n("A file named \"%1\" already exists. "
@@ -1441,7 +1442,7 @@ void Align::exportSolutionPoints()
 
     QString path = exportFile.toLocalFile();
 
-    if (!Options::autonomousMode() && QFile::exists(path))
+    if (QFile::exists(path))
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
@@ -1503,17 +1504,33 @@ void Align::slotClearAllSolutionPoints()
     if (solutionTable->rowCount() == 0)
         return;
 
-    if (Options::autonomousMode() || KMessageBox::questionYesNo(
-                KStars::Instance(), i18n("Are you sure you want to clear all of the solution points?"),
-                i18n("Clear Solution Points"), KStandardGuiItem::yes(), KStandardGuiItem::no()) == KMessageBox::Yes)
+    //    if (Options::autonomousMode() || KMessageBox::questionYesNo(
+    //                KStars::Instance(), i18n("Are you sure you want to clear all of the solution points?"),
+    //                i18n("Clear Solution Points"), KStandardGuiItem::yes(), KStandardGuiItem::no()) == KMessageBox::Yes)
+    //    {
+    //        solutionTable->setRowCount(0);
+    //        alignPlot->graph(0)->data()->clear();
+    //        alignPlot->clearItems();
+    //        buildTarget();
+
+    //        slotAutoScaleGraph();
+    //    }
+
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
     {
+        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+
         solutionTable->setRowCount(0);
         alignPlot->graph(0)->data()->clear();
         alignPlot->clearItems();
         buildTarget();
 
         slotAutoScaleGraph();
-    }
+
+    });
+
+    KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to clear all of the solution points?"),
+                                            i18n("Clear Solution Points"), 60);
 }
 
 void Align::slotClearAllAlignPoints()
@@ -1521,8 +1538,8 @@ void Align::slotClearAllAlignPoints()
     if (mountModel.alignTable->rowCount() == 0)
         return;
 
-    if (Options::autonomousMode() || KMessageBox::questionYesNo(&mountModelDialog, i18n("Are you sure you want to clear all the alignment points?"),
-            i18n("Clear Align Points")) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(&mountModelDialog, i18n("Are you sure you want to clear all the alignment points?"),
+                                   i18n("Clear Align Points")) == KMessageBox::Yes)
         mountModel.alignTable->setRowCount(0);
 
     if (previewShowing)
@@ -2561,7 +2578,7 @@ bool Align::captureAndSolve()
 
     if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
     {
-        if (Options::autonomousMode() || KMessageBox::questionYesNo(
+        if (KMessageBox::questionYesNo(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
@@ -2881,15 +2898,11 @@ void Align::startSolving(const QString &filename, bool isGenerated)
                               i18n("Mount must be pointing close to the target location and current field of view must "
                                    "match the image's field of view."));
 
-        int rc = 0;
-
-        if (Options::autonomousMode())
-            rc = KMessageBox::Yes;
-        else rc = KMessageBox::questionYesNoCancel(nullptr,
-                      i18n("No metadata is available in this image. Do you want to use the "
-                           "blind solver or the existing solver settings?"),
-                      i18n("Astrometry solver"), blindItem, existingItem,
-                      KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
+        int rc = KMessageBox::questionYesNoCancel(nullptr,
+                 i18n("No metadata is available in this image. Do you want to use the "
+                      "blind solver or the existing solver settings?"),
+                 i18n("Astrometry solver"), blindItem, existingItem,
+                 KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
 
         if (rc == KMessageBox::Yes)
         {
@@ -3952,7 +3965,7 @@ void Align::measureAzError()
     static double initRA = 0, initDEC = 0, finalRA = 0, finalDEC = 0, initAz = 0;
 
     if (pahStage != PAH_IDLE &&
-            (!Options::autonomousMode() && KMessageBox::warningContinueCancel(KStars::Instance(),
+            (KMessageBox::warningContinueCancel(KStars::Instance(),
                     i18n("Polar Alignment Helper is still active. Do you want to continue "
                          "using legacy polar alignment tool?")) != KMessageBox::Continue))
         return;
@@ -4054,10 +4067,9 @@ void Align::measureAltError()
 {
     static double initRA = 0, initDEC = 0, finalRA = 0, finalDEC = 0, initAz = 0;
 
-    if (pahStage != PAH_IDLE && !Options::autonomousMode() &&
-            (KMessageBox::warningContinueCancel(KStars::Instance(),
-                    i18n("Polar Alignment Helper is still active. Do you want to continue "
-                         "using legacy polar alignment tool?")) != KMessageBox::Continue))
+    if (pahStage != PAH_IDLE && (KMessageBox::warningContinueCancel(KStars::Instance(),
+                                 i18n("Polar Alignment Helper is still active. Do you want to continue "
+                                      "using legacy polar alignment tool?")) != KMessageBox::Continue))
         return;
 
     pahStage = PAH_IDLE;
@@ -5008,11 +5020,10 @@ void Align::stopPAHProcess()
     qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
 
     // Only display dialog if user explicitly restarts
-    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && !Options::autonomousMode() &&
-            KMessageBox::questionYesNo(KStars::Instance(),
-                                       i18n("Are you sure you want to stop the polar alignment process?"),
-                                       i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                       "restart_PAA_process_dialog") == KMessageBox::No)
+    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && KMessageBox::questionYesNo(KStars::Instance(),
+            i18n("Are you sure you want to stop the polar alignment process?"),
+            i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+            "restart_PAA_process_dialog") == KMessageBox::No)
         return;
 
     stopB->click();
@@ -5429,7 +5440,7 @@ void Align::setWCSToggled(bool result)
         if (pixelPoint.x() < (-1 * imageData->width()) || pixelPoint.x() > (imageData->width() * 2) ||
                 pixelPoint.y() < (-1 * imageData->height()) || pixelPoint.y() > (imageData->height() * 2))
         {
-            if (currentTelescope->canSync() && !Options::autonomousMode() &&
+            if (currentTelescope->canSync() &&
                     KMessageBox::questionYesNo(
                         nullptr, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
                                       "the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to "

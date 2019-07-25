@@ -410,7 +410,7 @@ void Guide::exportGuideData()
 
     QString path = exportFile.toLocalFile();
 
-    if (!Options::autonomousMode() && QFile::exists(path))
+    if (QFile::exists(path))
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
@@ -1360,7 +1360,7 @@ bool Guide::guide()
 {
     if (Options::defaultCaptureCCD() == guiderCombo->currentText())
     {
-        if (Options::autonomousMode() || KMessageBox::questionYesNo(nullptr, i18n("The guide camera is identical to the capture camera. Are you sure you want to continue?")) ==
+        if (KMessageBox::questionYesNo(nullptr, i18n("The guide camera is identical to the capture camera. Are you sure you want to continue?")) ==
                 KMessageBox::No)
             return false;
     }

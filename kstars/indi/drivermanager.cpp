@@ -275,11 +275,8 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
                 // Check if running already
                 if (dv->getClientState() || dv->getServerState())
                 {
-                    int ans = 0;
-                    if (Options::autonomousMode())
-                        ans = KMessageBox::Continue;
-                    else ans = KMessageBox::warningContinueCancel(
-                                       nullptr, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
+                    int ans = KMessageBox::warningContinueCancel(
+                                  nullptr, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
                     if (ans == KMessageBox::Cancel)
                         continue;
                     else
@@ -1473,11 +1470,11 @@ void DriverManager::removeINDIHost()
                 return;
             }
 
-            if (!Options::autonomousMode() && KMessageBox::warningContinueCancel(nullptr,
-                    i18n("Are you sure you want to remove the %1 client?",
-                         ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
-                    i18n("Delete Confirmation"),
-                    KStandardGuiItem::del()) != KMessageBox::Continue)
+            if (KMessageBox::warningContinueCancel(nullptr,
+                                                   i18n("Are you sure you want to remove the %1 client?",
+                                                           ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
+                                                   i18n("Delete Confirmation"),
+                                                   KStandardGuiItem::del()) != KMessageBox::Continue)
                 return;
 
             driversList.removeOne(host);
