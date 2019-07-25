@@ -2790,7 +2790,11 @@ bool Guide::executeOneOperation(GuideState operation)
 
                 darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, &Ekos::Guide::setCaptureComplete);
+                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, [&](bool completed)
+                {
+                    setDarkFrameEnabled(completed);
+                    setCaptureComplete();
+                });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Guide::appendLogText);
 
                 actionRequired = true;
@@ -2802,9 +2806,7 @@ bool Guide::executeOneOperation(GuideState operation)
                                                       offsetY);
                 else
                 {
-                    bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(),
-                              offsetX, offsetY);
-                    setDarkFrameEnabled(rc);
+                    DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
                 }
             }
         }

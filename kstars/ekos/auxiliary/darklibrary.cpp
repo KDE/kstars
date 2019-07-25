@@ -8,6 +8,7 @@
  */
 
 #include "darklibrary.h"
+#include "auxiliary/ksmessagebox.h"
 
 #include "Options.h"
 
@@ -168,7 +169,7 @@ bool DarkLibrary::saveDarkFile(FITSData *darkData)
     return true;
 }
 
-bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
+void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
                            uint16_t offsetY)
 {
     Q_ASSERT(darkData);
@@ -177,42 +178,60 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     switch (darkData->property("dataType").toInt())
     {
         case TBYTE:
-            return subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TSHORT:
-            return subtract<int16_t>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<int16_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TUSHORT:
-            return subtract<uint16_t>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<uint16_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TLONG:
-            return subtract<int32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<int32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TULONG:
-            return subtract<uint32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<uint32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TFLOAT:
-            return subtract<float>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<float>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TLONGLONG:
-            return subtract<int64_t>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<int64_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TDOUBLE:
-            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
+            subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         default:
             break;
     }
-
-    return false;
 }
 
 template <typename T>
-bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
+void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
                            uint16_t offsetY)
 {
-    FITSData *lightData = lightImage->getImageData();
+    //    if (m_ConfirmationPending)
+    //    {
+    //        // We're done, telescope is no longer covered.
+    //        if (!m_TelescopeCovered)
+    //            return;
 
+    //        // Otherwise, call this function again
+    //        QTimer::singleShot(1000, this, [&]
+    //        {
+    //            subtract(darkData, lightImage, filter, offsetX, offsetY);
+    //        });
+    //    }
+
+    FITSData *lightData = lightImage->getImageData();
 
     T *lightBuffer = reinterpret_cast<T *>(lightData->getImageBuffer());
     int lightW      = lightData->width();
@@ -268,25 +287,41 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
         // since dark data is loaded from disk.
         if (hasNoShutter)
         {
-            if (KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
-                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                        "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
             {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                m_ConfirmationPending = false;
+                emit darkFrameCompleted(true);
+            });
+            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                m_ConfirmationPending = false;
                 emit darkFrameCompleted(false);
-                return false;
-            }
-            else
-                m_TelescopeCovered = false;
+            });
+
+            m_ConfirmationPending = true;
+
+            KSMessageBox::Instance()->questionYesNo(i18n("Does %1 have a shutter?", deviceName),
+                                                    i18n("Dark Exposure"));
+
+            //            if (KMessageBox::warningContinueCancel(
+            //                        nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
+            //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+            //                        "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            //            {
+            //                emit darkFrameCompleted(false);
+            //                return false;
+            //            }
+            //            else
+            //                m_TelescopeCovered = false;
         }
     }
-
-    emit darkFrameCompleted(true);
-
-    return true;
+    else
+        emit darkFrameCompleted(true);
 }
 
-bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetImage, double duration, uint16_t offsetX,
+void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetImage, double duration, uint16_t offsetX,
                                      uint16_t offsetY)
 {
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
@@ -299,6 +334,14 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     // If no information is available either way, then ask the user
     if (hasShutter == false && hasNoShutter == false)
     {
+        if (m_ConfirmationPending)
+        {
+            QTimer::singleShot(1000, this, [ = ]()
+            {
+                captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
+            });
+            return;
+        }
         // If DSLR then it is considered to have no shutter
         // since the camera needs to open the shutter to take dark frames
         if (targetChip->getISOList().empty() == false)
@@ -307,36 +350,106 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             shutterlessCCDs.append(deviceName);
             Options::setShutterlessCCDs(shutterlessCCDs);
         }
-        else if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
-                                            i18n("Dark Exposure")) == KMessageBox::Yes)
-        {
-            hasNoShutter = false;
-            shutterfulCCDs.append(deviceName);
-            Options::setShutterfulCCDs(shutterfulCCDs);
-        }
         else
         {
-            hasNoShutter = true;
-            shutterlessCCDs.append(deviceName);
-            Options::setShutterlessCCDs(shutterlessCCDs);
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+                QString deviceName = targetChip->getCCD()->getDeviceName();
+                shutterfulCCDs.append(deviceName);
+                Options::setShutterfulCCDs(shutterfulCCDs);
+                m_ConfirmationPending = false;
+            });
+            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                QStringList shutterlessCCDs = Options::shutterlessCCDs();
+                QString deviceName = targetChip->getCCD()->getDeviceName();
+                shutterlessCCDs.append(deviceName);
+                Options::setShutterlessCCDs(shutterlessCCDs);
+                m_ConfirmationPending = false;
+            });
+
+            m_ConfirmationPending = true;
+
+            KSMessageBox::Instance()->questionYesNo(i18n("Does %1 have a shutter?", deviceName),
+                                                    i18n("Dark Exposure"));
+
+            QTimer::singleShot(1000, this, [ = ]()
+            {
+                captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
+            });
+
+            return;
         }
     }
 
     if (hasNoShutter)
     {
-        if (KMessageBox::warningContinueCancel(
-                    nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
-                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                    "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+
+        if (hasNoShutter && !m_TelescopeCovered)
         {
-            emit newLog(i18n("Dark frame capture cancelled."));
-            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-            emit darkFrameCompleted(false);
-            return false;
+            if (m_ConfirmationPending)
+            {
+                QTimer::singleShot(1000, this, [ = ]()
+                {
+                    captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
+                });
+                return;
+            }
+
+            // Continue
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                m_TelescopeCovered = true;
+                m_ConfirmationPending = false;
+            });
+
+            // Cancel
+            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                m_ConfirmationPending = false;
+                emit darkFrameCompleted(false);
+            });
+
+            //            if (KMessageBox::warningContinueCancel(
+            //                        nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
+            //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+            //                        "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+            //            {
+            //                abort();
+            //                return IPS_ALERT;
+            //            }
+
+            m_ConfirmationPending = true;
+
+            KSMessageBox::Instance()->warningContinueCancel(i18n("Cover the telescope in order to take a dark exposure.")
+                    , i18n("Dark Exposure"),
+                    Options::manualCoverTimeout());
+
+            QTimer::singleShot(1000, this, [ = ]()
+            {
+                captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
+            });
+            return;
         }
-        else
-            m_TelescopeCovered = true;
     }
+
+    //        if (KMessageBox::warningContinueCancel(
+    //                    nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
+    //                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+    //                    "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
+    //        {
+    //            emit newLog(i18n("Dark frame capture cancelled."));
+    //            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    //            emit darkFrameCompleted(false);
+    //            return;
+    //        }
+    //        else
+    //            m_TelescopeCovered = true;
 
     targetChip->resetFrame();
     targetChip->setCaptureMode(FITS_CALIBRATE);
@@ -353,11 +466,9 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     emit newLog(i18n("Capturing dark frame..."));
 
     targetChip->capture(duration);
-
-    return true;
 }
 
-void DarkLibrary::newFITS(IBLOB *bp)
+void DarkLibrary::newFITS(IBLOB * bp)
 {
     INDI_UNUSED(bp);
 
