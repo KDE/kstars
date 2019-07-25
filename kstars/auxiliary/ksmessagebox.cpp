@@ -269,7 +269,9 @@ bool KSMessageBox::selectResponse(const QString &button)
 {
     for (const auto oneButton : findChildren<QPushButton*>())
     {
-        if (button == oneButton->text())
+        const QString buttonText = oneButton->text().remove("&");
+
+        if (button == buttonText)
         {
             oneButton->animateClick();
             return true;
