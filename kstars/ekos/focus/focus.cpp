@@ -945,7 +945,11 @@ void Focus::newFITS(IBLOB *bp)
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
-        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, &Ekos::Focus::setCaptureComplete);
+        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, [&](bool completed)
+        {
+            darkFrameCheck->setChecked(completed);
+            setCaptureComplete();
+        });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 
         targetChip->setCaptureFilter(defaultScale);
@@ -954,9 +958,7 @@ void Focus::newFITS(IBLOB *bp)
             DarkLibrary::Instance()->subtract(darkData, focusView, defaultScale, offsetX, offsetY);
         else
         {
-            bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX,
-                      offsetY);
-            darkFrameCheck->setChecked(rc);
+            DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX, offsetY);
         }
 
         return;
