@@ -54,7 +54,7 @@ bool OfflineAstrometryParser::init()
 #ifdef Q_OS_OSX
     if (Options::astrometryConfFileIsInternal())
     {
-        if(KSUtils::configureAstrometry() == false && !Options::autonomousMode())
+        if(KSUtils::configureAstrometry() == false)
         {
             KMessageBox::information(
                 nullptr,

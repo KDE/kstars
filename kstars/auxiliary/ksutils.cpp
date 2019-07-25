@@ -1314,7 +1314,7 @@ bool configureAstrometry()
     }
     if(Options::astrometryIndexFileLocation() != astrometryDataDir)
     {
-        if (Options::autonomousMode() || KMessageBox::warningYesNo(
+        if (KMessageBox::warningYesNo(
                     nullptr, i18n("The Astrometry Index File Location Stored in KStars: \n %1 \n does not match the Index file location in the config file: \n %2 \n  Do you want to update the config file?", Options::astrometryIndexFileLocation(), astrometryDataDir),
                     i18n("Update Config File?")) == KMessageBox::Yes)
         {
@@ -1328,7 +1328,7 @@ bool configureAstrometry()
     }
     if (QDir(astrometryDataDir).exists() == false)
     {
-        if (Options::autonomousMode() || KMessageBox::warningYesNo(
+        if (KMessageBox::warningYesNo(
                     nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?", astrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
         {
