@@ -1597,7 +1597,7 @@ bool Capture::resumeSequence()
         //            requiredAutoFocusStarted = false;
 
         // Reset HFR pixels to file value after meridian flip
-        if (isInSequenceFocus && meridianFlipStage != MF_NONE)
+        if (isInSequenceFocus && meridianFlipStage != MF_NONE && meridianFlipStage != MF_READY)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
             //firstAutoFocus = true;
@@ -2982,7 +2982,7 @@ void Capture::updatePreCaptureCalibrationStatus()
     else if (rc == IPS_BUSY)
     {
         // Clear the label if we are neither executing a meridian flip nor re-focusing
-        if (meridianFlipStage == MF_NONE && m_State != CAPTURE_FOCUSING)
+        if ((meridianFlipStage == MF_NONE || meridianFlipStage == MF_READY) && m_State != CAPTURE_FOCUSING)
             secondsLabel->clear();
         QTimer::singleShot(1000, this, &Ekos::Capture::updatePreCaptureCalibrationStatus);
         return;
@@ -4510,7 +4510,7 @@ bool Capture::checkMeridianFlip()
     if (activeJob && activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldSource() == SOURCE_WALL)
         return false;
 
-    if (meridianFlipStage == MF_NONE || meridianFlipStage > MF_READY)
+    if (meridianFlipStage != MF_REQUESTED)
         // if no flip has been requested or is already ongoing
         return false;
 
@@ -4951,7 +4951,7 @@ void Capture::openCalibrationDialog()
 IPState Capture::checkLightFrameAuxiliaryTasks()
 {
     // step 2: check if meridian flip already is ongoing
-    if (meridianFlipStage != MF_NONE)
+    if (meridianFlipStage != MF_NONE && meridianFlipStage != MF_READY)
         return IPS_BUSY;
     // step 3: check if meridian flip is required
     if (checkMeridianFlip())
