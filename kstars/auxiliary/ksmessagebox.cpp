@@ -23,7 +23,6 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QLayout>
-#include <QHBoxLayout>
 #include <QSpacerItem>
 
 KSMessageBox * KSMessageBox::m_Instance = nullptr;
@@ -40,6 +39,7 @@ KSMessageBox::KSMessageBox() : QMessageBox()
 {
     setDefaultButton(StandardButton::Ok);
     setIcon(QMessageBox::Information);
+    setObjectName("KSMessageBox");
 
     setWindowFlags(Qt::WindowStaysOnTopHint);
 
@@ -129,16 +129,17 @@ void KSMessageBox::setupTimeout()
     m_ProgressIndicator->setBarStyle(QRoundProgressBar::StyleLine);
     m_ProgressIndicator->setFixedSize(QSize(32, 32));
 
-    QPointer<QHBoxLayout> hbox = new QHBoxLayout(this);
-    hbox->addWidget(m_ProgressLabel);
-    hbox->addWidget(m_ProgressIndicator);
+    m_ProgressLayout = new QHBoxLayout();
+    m_ProgressLayout->setObjectName("ProgressLayout");
+    m_ProgressLayout->addWidget(m_ProgressLabel);
+    m_ProgressLayout->addWidget(m_ProgressIndicator);
 
     QGridLayout *gridLayout = qobject_cast<QGridLayout*>(layout());
     if (gridLayout)
     {
         //gridLayout->addWidget(m_ProgressLabel.get(), 1, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
         //gridLayout->addWidget(m_ProgressIndicator.get(), 1, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
-        gridLayout->addItem(hbox, 1, 2, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter);
+        gridLayout->addItem(m_ProgressLayout, 1, 2, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
     m_ProgressTimer.start();
@@ -155,6 +156,12 @@ void KSMessageBox::reset()
 
     delete (m_ProgressIndicator);
     delete (m_ProgressLabel);
+    if (m_ProgressLayout)
+    {
+        layout()->removeItem(m_ProgressLayout);
+        delete (m_ProgressLayout);
+    }
+
 }
 
 void KSMessageBox::questionYesNo(const QString &message, const QString &title, quint32 timeout, bool defaultToYes, const QString &yesText, const QString &noText)

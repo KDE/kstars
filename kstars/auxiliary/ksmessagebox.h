@@ -20,7 +20,7 @@
 #include <QRoundProgressBar.h>
 #include <QJsonObject>
 #include <QJsonArray>
-
+#include <QHBoxLayout>
 
 /**
  * @class KSMessageBox
@@ -76,6 +76,7 @@ class KSMessageBox: public QMessageBox
 
         QPointer<QRoundProgressBar> m_ProgressIndicator;
         QPointer<QLabel> m_ProgressLabel;
+        QPointer<QHBoxLayout> m_ProgressLayout;
 
         QTimer m_ProgressTimer;
 };
