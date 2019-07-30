@@ -2511,15 +2511,23 @@ void Manager::deleteProfile()
     if (currentProfile->name == "Simulators")
         return;
 
-    if (KMessageBox::questionYesNo(this, i18n("Are you sure you want to delete the profile?"),
-                                   i18n("Confirm Delete")) == KMessageBox::No)
-        return;
+    auto executeDeleteProfile = [&]()
+    {
+        KStarsData::Instance()->userdb()->DeleteProfile(currentProfile);
+        profiles.clear();
+        loadProfiles();
+        currentProfile = getCurrentProfile();
+    };
 
-    KStarsData::Instance()->userdb()->DeleteProfile(currentProfile);
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeDeleteProfile]()
+    {
+        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        executeDeleteProfile();
+    });
 
-    profiles.clear();
-    loadProfiles();
-    currentProfile = getCurrentProfile();
+    KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to delete the profile?"),
+                                            i18n("Confirm Delete"));
+
 }
 
 void Manager::wizardProfile()

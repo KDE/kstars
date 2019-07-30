@@ -11,6 +11,7 @@
 
 #include "guideadaptor.h"
 #include "kstars.h"
+#include "ksmessagebox.h"
 #include "ksnotification.h"
 #include "kstarsdata.h"
 #include "opscalibration.h"
@@ -1358,24 +1359,36 @@ bool Guide::calibrate()
 
 bool Guide::guide()
 {
+    auto executeGuide = [this]()
+    {
+        if(guiderType != GUIDE_PHD2)
+        {
+            if (calibrationComplete == false)
+            {
+                calibrate();
+                return;
+            }
+        }
+
+        saveSettings();
+        guider->guide();
+    };
+
     if (Options::defaultCaptureCCD() == guiderCombo->currentText())
     {
-        if (KMessageBox::questionYesNo(nullptr, i18n("The guide camera is identical to the capture camera. Are you sure you want to continue?")) ==
-                KMessageBox::No)
-            return false;
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeGuide]()
+        {
+            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            executeGuide();
+        });
+
+        KSMessageBox::Instance()->questionYesNo(i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
+
+        return false;
     }
 
-    if(guiderType != GUIDE_PHD2)
-    {
-        if (calibrationComplete == false)
-            return calibrate();
-    }
-
-    saveSettings();
-
-    bool rc = guider->guide();
-
-    return rc;
+    executeGuide();
+    return true;
 }
 
 bool Guide::dither()

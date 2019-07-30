@@ -18,6 +18,7 @@
 
 #include "Options.h"
 
+#include "ksmessagebox.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
@@ -1340,28 +1341,33 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
     if (newGPS == currentGPS)
         return;
 
-    //Options::setUseComputerSource(false);
-    //Options::setUseDeviceSource(true);
-
-    if (Options::useGPSSource() == false && (KMessageBox::questionYesNo(KStars::Instance(),
-            i18n("GPS is detected. Do you want to switch time and location source to GPS?"),
-            i18n("GPS Settings"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-            "use_gps_source_dialog") == KMessageBox::Yes))
+    auto executeSetGPS = [this, newGPS]()
     {
-        Options::setUseKStarsSource(false);
-        Options::setUseMountSource(false);
-        Options::setUseGPSSource(true);
-    }
+        currentGPS = newGPS;
+        connect(newGPS, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+
+        appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
+
+        syncGPS();
+    };
 
     if (Options::useGPSSource() == false)
-        return;
+    {
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeSetGPS]()
+        {
+            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            Options::setUseKStarsSource(false);
+            Options::setUseMountSource(false);
+            Options::setUseGPSSource(true);
+            executeSetGPS();
+        });
 
-    currentGPS = newGPS;
-    connect(newGPS, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-
-    appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
-
-    syncGPS();
+        KSMessageBox::Instance()->questionYesNo(i18n("GPS is detected. Do you want to switch time and location source to GPS?"),
+                                                i18n("GPS Settings"),
+                                                10);
+    }
+    else
+        executeSetGPS();
 }
 
 void Mount::syncGPS()
