@@ -6298,7 +6298,7 @@ void Capture::setSettings(const QJsonObject &settings)
         transferFormatCombo->setCurrentIndex(format);
     }
 
-    frameTypeCombo->setCurrentIndex(settings["frameType"].toInt(0));
+    frameTypeCombo->setCurrentIndex(qMin(0, settings["frameType"].toInt(0)));
 
     // ISO
     int isoIndex = settings["iso"].toInt(-1);

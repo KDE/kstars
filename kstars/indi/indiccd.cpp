@@ -1456,6 +1456,8 @@ void CCD::processBLOB(IBLOB *bp)
                 m_ImageViewerWindow = new ImageViewer(getDeviceName(), KStars::Instance());
 
             m_ImageViewerWindow->loadImage(filename);
+
+            emit previewJPEGGenerated(filename, m_ImageViewerWindow->metadata());
         }
     }
     // Unless we have cfitsio, we're done.

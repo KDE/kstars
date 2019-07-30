@@ -331,6 +331,7 @@ class CCD : public DeviceDecorator
         void newVideoFrame(std::unique_ptr<QImage> &frame);
         void coolerToggled(bool enabled);
         void previewFITSGenerated(const QString &previewFITS);
+        void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
         void ready();
 
     private:

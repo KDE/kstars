@@ -144,6 +144,23 @@ void Media::onBinaryReceived(const QByteArray &message)
     align->loadAndSlew(filename);
 }
 
+void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
+{
+    QString uuid = QUuid::createUuid().toString();
+    uuid = uuid.remove(QRegularExpression("[-{}]"));
+
+    metadata.insert("uuid", uuid);
+
+    QFile jpegFile(filename);
+    if (!jpegFile.open(QFile::ReadOnly))
+        return;
+
+    QByteArray jpegData = jpegFile.readAll();
+
+    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+    emit newImage(jpegData);
+}
+
 void Media::sendPreviewImage(const QString &filename, const QString &uuid)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
