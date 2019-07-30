@@ -21,11 +21,13 @@
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #include <KMessageBox>
+#include <KFormat>
 #endif
 
 #include "ksnotification.h"
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QJsonObject>
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStatusBar>
@@ -372,5 +374,20 @@ void ImageViewer::invertColors()
     // Invert colors
     m_View->invertPixels();
     m_View->update();
+#endif
+}
+
+QJsonObject ImageViewer::metadata()
+{
+#ifndef KSTARS_LITE
+    QJsonObject md;
+    if (m_View && !m_View->m_Image.isNull())
+    {
+        md.insert("resolution", QString("%1x%2").arg(m_View->m_Image.width()).arg(m_View->m_Image.height()));
+        md.insert("size", KFormat().formatByteSize(m_View->m_Image.sizeInBytes()));
+        md.insert("bin", "1x1");
+        md.insert("bpp", QString::number(m_View->m_Image.bytesPerLine() / m_View->m_Image.width() * 8));
+    }
+    return md;
 #endif
 }

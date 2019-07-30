@@ -30,20 +30,21 @@ class QLabel;
 
 class ImageLabel : public QFrame
 {
-    Q_OBJECT
-  public:
-    explicit ImageLabel(QWidget *parent);
-    ~ImageLabel() override = default;
-    void setImage(const QImage &img);
-    void invertPixels();
+        Q_OBJECT
+    public:
+        explicit ImageLabel(QWidget *parent);
+        ~ImageLabel() override = default;
+        void setImage(const QImage &img);
+        void invertPixels();
 
-    QImage m_Image; // ImageViewer needs access to the image in order to modify it
-  protected:
-    void paintEvent(QPaintEvent *e) override;
-    void resizeEvent(QResizeEvent *) override;
+        // ImageViewer needs access to the image in order to modify it
+        QImage m_Image;
+    protected:
+        void paintEvent(QPaintEvent *e) override;
+        void resizeEvent(QResizeEvent *) override;
 
-  private:
-    QPixmap pix;
+    private:
+        QPixmap pix;
 };
 
 /**
@@ -65,65 +66,67 @@ class ImageLabel : public QFrame
  */
 class ImageViewer : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /** Creates empty viewer. */
-    explicit ImageViewer(const QString &caption, QWidget *parent = nullptr);
+    public:
+        /** Creates empty viewer. */
+        explicit ImageViewer(const QString &caption, QWidget *parent = nullptr);
 
-    /** Create image viewer from URL with caption */
-    explicit ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = nullptr);
+        /** Create image viewer from URL with caption */
+        explicit ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = nullptr);
 
-    /** Destructor. If there is a partially downloaded image file, delete it.*/
-    ~ImageViewer() override;
+        /** Destructor. If there is a partially downloaded image file, delete it.*/
+        ~ImageViewer() override;
 
-    /**
-     * @brief loadImage Load image from local file and display it
-     * @param filename path to local image
-     * @return True if opened and displayed, false otherwise
-     */
-    bool loadImage(const QString &filename);
+        /**
+         * @brief loadImage Load image from local file and display it
+         * @param filename path to local image
+         * @return True if opened and displayed, false otherwise
+         */
+        bool loadImage(const QString &filename);
 
-  private:
-    /**
-     * Display the downloaded image.  Resize the window to fit the image,  If the image is
-     * larger than the screen, make the image as large as possible while preserving the
-     * original aspect ratio
-     */
-    bool showImage();
+        QJsonObject metadata();
 
-    /** Download the image file pointed to by the URL string. */
-    void loadImageFromURL();
+    private:
+        /**
+         * Display the downloaded image.  Resize the window to fit the image,  If the image is
+         * larger than the screen, make the image as large as possible while preserving the
+         * original aspect ratio
+         */
+        bool showImage();
 
-    /** Save the downloaded image to a local file. */
-    void saveFile(QUrl &url);
+        /** Download the image file pointed to by the URL string. */
+        void loadImageFromURL();
 
-    QFile file;
+        /** Save the downloaded image to a local file. */
+        void saveFile(QUrl &url);
 
-    const QUrl m_ImageUrl;
-    bool fileIsImage { false };
-    QString filename;
+        QFile file;
 
-    FileDownloader downloadJob;
+        const QUrl m_ImageUrl;
+        bool fileIsImage { false };
+        QString filename;
 
-    ImageLabel *m_View { nullptr };
-    QLabel *m_Caption { nullptr };
+        FileDownloader downloadJob;
 
-    // Share among image viewers
-    static QUrl lastURL;
+        ImageLabel *m_View { nullptr };
+        QLabel *m_Caption { nullptr };
 
-  private slots:
-    /** Initialize (common part of onstructors) */
-    void init(QString caption, QString capText);
-    /** Make sure download has finished, then make sure file exists, then display the image */
-    //void downloadReady (KJob *);
+        // Share among image viewers
+        static QUrl lastURL;
 
-    void downloadReady();
-    void downloadError(const QString &errorString);
+    private slots:
+        /** Initialize (common part of onstructors) */
+        void init(QString caption, QString capText);
+        /** Make sure download has finished, then make sure file exists, then display the image */
+        //void downloadReady (KJob *);
 
-    /** Saves file to disc. */
-    void saveFileToDisc();
+        void downloadReady();
+        void downloadError(const QString &errorString);
 
-    /** Inverts colors **/
-    void invertColors();
+        /** Saves file to disc. */
+        void saveFileToDisc();
+
+        /** Inverts colors **/
+        void invertColors();
 };
