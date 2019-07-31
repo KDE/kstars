@@ -16,14 +16,14 @@ namespace Ekos
 
 void ObservatoryWeatherModel::initModel(Weather *weather)
 {
-    mWeather = weather;
+    weatherInterface = weather;
 
     // ensure that we start the timers if required
     weatherChanged(status());
 
-    connect(mWeather, &Weather::ready, this, &ObservatoryWeatherModel::updateWeatherStatus);
-    connect(mWeather, &Weather::newStatus, this, &ObservatoryWeatherModel::weatherChanged);
-    connect(mWeather, &Weather::disconnected, this, &ObservatoryWeatherModel::disconnected);
+    connect(weatherInterface, &Weather::ready, this, &ObservatoryWeatherModel::updateWeatherStatus);
+    connect(weatherInterface, &Weather::newStatus, this, &ObservatoryWeatherModel::weatherChanged);
+    connect(weatherInterface, &Weather::disconnected, this, &ObservatoryWeatherModel::disconnected);
 
     // read the default values
     warningActionsActive = Options::warningActionsActive();
@@ -51,16 +51,16 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
         execute(alertActions);
     });
 
-    if (mWeather->status() != ISD::Weather::WEATHER_IDLE)
+    if (weatherInterface->status() != ISD::Weather::WEATHER_IDLE)
         emit ready();
 }
 
 ISD::Weather::Status ObservatoryWeatherModel::status()
 {
-    if (mWeather == nullptr)
+    if (weatherInterface == nullptr)
         return ISD::Weather::WEATHER_IDLE;
 
-    return mWeather->status();
+    return weatherInterface->status();
 }
 
 void ObservatoryWeatherModel::setWarningActionsActive(bool active)
@@ -72,7 +72,7 @@ void ObservatoryWeatherModel::setWarningActionsActive(bool active)
     if (!active && warningTimer.isActive())
         warningTimer.stop();
     // start warning timer if activated
-    else if (active && !warningTimer.isActive() && mWeather->status() == ISD::Weather::WEATHER_WARNING)
+    else if (active && !warningTimer.isActive() && weatherInterface->status() == ISD::Weather::WEATHER_WARNING)
         warningTimer.start();
 }
 
@@ -85,7 +85,7 @@ void ObservatoryWeatherModel::setAlertActionsActive(bool active)
     if (!active && alertTimer.isActive())
         alertTimer.stop();
     // start alert timer if activated
-    else if (active && !alertTimer.isActive() && mWeather->status() == ISD::Weather::WEATHER_ALERT)
+    else if (active && !alertTimer.isActive() && weatherInterface->status() == ISD::Weather::WEATHER_ALERT)
         alertTimer.start();
 }
 

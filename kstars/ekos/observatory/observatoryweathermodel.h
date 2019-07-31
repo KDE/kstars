@@ -72,7 +72,7 @@ class ObservatoryWeatherModel : public QObject
         void setAlertActionsActive(bool active);
 
     private:
-        Weather *mWeather;
+        Weather *weatherInterface;
         QTimer warningTimer, alertTimer;
         struct WeatherActions warningActions, alertActions;
         bool warningActionsActive, alertActionsActive;

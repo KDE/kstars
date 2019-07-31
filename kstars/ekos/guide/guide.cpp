@@ -3400,4 +3400,46 @@ void Guide::initConnections()
     connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::onInfoRateChanged);
 }
 
+void Guide::removeDevice(ISD::GDInterface *device)
+{
+    device->disconnect(this);
+    if (device == currentTelescope)
+    {
+        currentTelescope = nullptr;
+    }
+    else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    {
+        CCDs.removeOne(static_cast<ISD::CCD *>(device));
+        guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName()));
+        if (CCDs.empty())
+            currentCCD = nullptr;
+        checkCCD();
+    }
+
+    auto st4 = std::find_if(ST4List.begin(), ST4List.end(), [device](ISD::ST4 * st)
+    {
+        return !strcmp(st->getDeviceName(), device->getDeviceName());
+    });
+
+    if (st4 != ST4List.end())
+    {
+        ST4List.removeOne(*st4);
+
+        if (AODriver && !strcmp(device->getDeviceName(), AODriver->getDeviceName()))
+            AODriver = nullptr;
+
+        ST4Combo->removeItem(ST4Combo->findText(device->getDeviceName()));
+        if (ST4List.empty())
+        {
+            ST4Driver = GuideDriver = nullptr;
+        }
+        else
+        {
+            setST4(ST4Combo->currentText());
+        }
+    }
+
+}
+
+
 }

@@ -96,7 +96,8 @@ void ClientManager::newProperty(INDI::Property *prop)
     {
         QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop->getBaseDevice()->getDeviceName(), prop->getName());
         connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
-        connect(bm.data(), &BlobManager::connected, [prop,this]() {
+        connect(bm.data(), &BlobManager::connected, [prop, this]()
+        {
             emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
         });
         blobManagers.append(bm);
@@ -125,9 +126,9 @@ void ClientManager::removeProperty(INDI::Property *prop)
 
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
-    foreach (DriverInfo *driverInfo, managedDrivers)
+    for (auto driverInfo : managedDrivers)
     {
-        foreach (DeviceInfo *deviceInfo, driverInfo->getDevices())
+        for (auto deviceInfo : driverInfo->getDevices())
         {
             if (deviceInfo->getBaseDevice() == dp)
             {
@@ -141,10 +142,16 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
                 driverInfo->removeDevice(deviceInfo);
 
                 if (driverInfo->isEmpty())
+                {
                     managedDrivers.removeOne(driverInfo);
+                    if (driverInfo->getDriverSource() == GENERATED_SOURCE)
+                        delete (driverInfo);
+                }
 
-                qDeleteAll(blobManagers);
-                blobManagers.clear();
+                blobManagers.erase(std::remove_if(blobManagers.begin(), blobManagers.end(), [dp](QPointer<BlobManager> oneManager)
+                {
+                    return oneManager->property("device").toString() == QString(dp->getDeviceName());
+                }), blobManagers.end());
 
                 return;
             }
@@ -158,7 +165,7 @@ void ClientManager::newBLOB(IBLOB *bp)
 }
 
 void ClientManager::newSwitch(ISwitchVectorProperty *svp)
-{    
+{
     emit newINDISwitch(svp);
 }
 
@@ -206,12 +213,15 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
 
     dv->setClientState(false);
 
-    foreach (DeviceInfo *di, dv->getDevices())
+    for (auto di : dv->getDevices())
     {
         //emit removeINDIDevice(di);
+
         INDIListener::Instance()->removeDevice(di);
         GUIManager::Instance()->removeDevice(di);
         dv->removeDevice(di);
+
+        // Remove from base client as well
     }
 
     /*foreach(DriverInfo *dv, managedDrivers)
@@ -293,10 +303,10 @@ void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QS
         }
     }
 
-//    if (property.isEmpty())
-//        setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData());
-//    else
-//        setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData(), property.toLatin1().constData());
+    //    if (property.isEmpty())
+    //        setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData());
+    //    else
+    //        setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData(), property.toLatin1().constData());
 }
 
 bool ClientManager::isBLOBEnabled(const QString &device, const QString &property)
@@ -305,10 +315,10 @@ bool ClientManager::isBLOBEnabled(const QString &device, const QString &property
     {
         if (bm->property("device") == device && bm->property("property") == property)
             return bm->property("enabled").toBool();
-//        if (bm->property("device") == device && bm->property("property") == property)
-//        {
-//            return (getBLOBMode(device.toLatin1().constData(), property.toLatin1().constData()) != B_NEVER);
-//        }
+        //        if (bm->property("device") == device && bm->property("property") == property)
+        //        {
+        //            return (getBLOBMode(device.toLatin1().constData(), property.toLatin1().constData()) != B_NEVER);
+        //        }
     }
 
     return false;

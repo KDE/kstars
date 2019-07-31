@@ -2022,6 +2022,40 @@ void Align::setDome(ISD::GDInterface *newDome)
     connect(currentDome, &ISD::GDInterface::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
 }
 
+void Align::removeDevice(ISD::GDInterface *device)
+{
+    device->disconnect(this);
+    if (device == currentTelescope)
+    {
+        currentTelescope = nullptr;
+        m_isRateSynced = false;
+    }
+    else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    {
+        CCDs.removeOne(static_cast<ISD::CCD *>(device));
+        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
+        if (CCDs.empty())
+            currentCCD = nullptr;
+        checkCCD();
+    }
+    else if (device == currentDome)
+    {
+        currentDome = nullptr;
+    }
+    else if (Filters.contains(static_cast<ISD::Filter *>(device)))
+    {
+        Filters.removeOne(static_cast<ISD::Filter *>(device));
+        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
+        if (Filters.empty())
+            currentFilter = nullptr;
+        checkFilter();
+    }
+    else if (device == currentRotator)
+    {
+        currentRotator = nullptr;
+    }
+}
+
 bool Align::syncTelescopeInfo()
 {
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
@@ -4503,7 +4537,7 @@ FOV *Align::getSolverFOV()
 
 void Align::addFilter(ISD::GDInterface *newFilter)
 {
-    foreach (ISD::GDInterface *filter, Filters)
+    for (auto filter : Filters)
     {
         if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
             return;

@@ -33,38 +33,38 @@ class ObservatoryDomeModel: public QObject
         // proxies to the underlying dome object
         bool canPark()
         {
-            return (mDome != nullptr && mDome->canPark());
+            return (domeInterface != nullptr && domeInterface->canPark());
         }
         void park();
         void unpark();
 
         double azimuthPosition()
         {
-            return mDome->azimuthPosition();
+            return domeInterface->azimuthPosition();
         }
         void setAzimuthPosition(double position)
         {
-            mDome->setAzimuthPosition(position);
+            domeInterface->setAzimuthPosition(position);
         }
 
         bool canAbsoluteMove()
         {
-            return (mDome != nullptr && mDome->canAbsoluteMove());
+            return (domeInterface != nullptr && domeInterface->canAbsoluteMove());
         }
 
         void setRelativePosition(double position)
         {
-            mDome->setRelativePosition(position);
+            domeInterface->setRelativePosition(position);
         }
 
         bool canRelativeMove()
         {
-            return (mDome != nullptr && mDome->canRelativeMove());
+            return (domeInterface != nullptr && domeInterface->canRelativeMove());
         }
 
         bool isAutoSync()
         {
-            return (mDome != nullptr && mDome->isAutoSync());
+            return (domeInterface != nullptr && domeInterface->isAutoSync());
         }
 
         void setAutoSync(bool activate);
@@ -73,7 +73,7 @@ class ObservatoryDomeModel: public QObject
 
         bool hasShutter()
         {
-            return (mDome != nullptr && mDome->hasShutter());
+            return (domeInterface != nullptr && domeInterface->hasShutter());
         }
         void openShutter();
         void closeShutter();
@@ -83,7 +83,7 @@ class ObservatoryDomeModel: public QObject
 
 
     private:
-        Dome *mDome;
+        Dome *domeInterface;
 
     signals:
         void newStatus(ISD::Dome::Status state);

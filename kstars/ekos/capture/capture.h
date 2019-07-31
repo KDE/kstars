@@ -291,16 +291,17 @@ class Capture : public QWidget, public Ui::Capture
         void addFilter(ISD::GDInterface *newFilter);
         void setDome(ISD::GDInterface *device)
         {
-            dome = dynamic_cast<ISD::Dome *>(device);
+            currentDome = dynamic_cast<ISD::Dome *>(device);
         }
         void setDustCap(ISD::GDInterface *device)
         {
-            dustCap = dynamic_cast<ISD::DustCap *>(device);
+            currentDustCap = dynamic_cast<ISD::DustCap *>(device);
         }
         void setLightBox(ISD::GDInterface *device)
         {
-            lightBox = dynamic_cast<ISD::LightBox *>(device);
+            currentLightBox = dynamic_cast<ISD::LightBox *>(device);
         }
+        void removeDevice(ISD::GDInterface *device);
         void addGuideHead(ISD::GDInterface *newCCD);
         void syncFrameType(ISD::GDInterface *ccd);
         void setTelescope(ISD::GDInterface *newTelescope);
@@ -798,9 +799,9 @@ class Capture : public QWidget, public Ui::Capture
         ISD::CCD *currentCCD { nullptr };
         ISD::GDInterface *currentFilter { nullptr };
         ISD::GDInterface *currentRotator { nullptr };
-        ISD::DustCap *dustCap { nullptr };
-        ISD::LightBox *lightBox { nullptr };
-        ISD::Dome *dome { nullptr };
+        ISD::DustCap *currentDustCap { nullptr };
+        ISD::LightBox *currentLightBox { nullptr };
+        ISD::Dome *currentDome { nullptr };
 
         QPointer<QDBusInterface> mountInterface { nullptr };
 

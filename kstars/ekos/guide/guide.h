@@ -196,6 +196,7 @@ class Guide : public QWidget, public Ui::Guide
         void setTelescope(ISD::GDInterface *newTelescope);
         void addST4(ISD::ST4 *setST4);
         void setAO(ISD::ST4 *newAO);
+        void removeDevice(ISD::GDInterface *device);
 
         bool isDithering();
 

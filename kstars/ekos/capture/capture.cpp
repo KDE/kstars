@@ -627,15 +627,15 @@ void Capture::stop(CaptureState targetState)
         emit newStatus(targetState);
 
     // Turn off any calibration light, IF they were turned on by Capture module
-    if (dustCap && dustCapLightEnabled)
+    if (currentDustCap && dustCapLightEnabled)
     {
         dustCapLightEnabled = false;
-        dustCap->SetLightEnabled(false);
+        currentDustCap->SetLightEnabled(false);
     }
-    if (lightBox && lightBoxLightEnabled)
+    if (currentLightBox && lightBoxLightEnabled)
     {
         lightBoxLightEnabled = false;
-        lightBox->SetLightEnabled(false);
+        currentLightBox->SetLightEnabled(false);
     }
 
     if (meridianFlipStage == MF_NONE)
@@ -4444,7 +4444,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty * nvp)
 void Capture::processFlipCompleted()
 {
     // If dome is syncing, wait until it stops
-    if (dome && dome->isMoving())
+    if (currentDome && currentDome->isMoving())
         return;
 
     appendLogText(i18n("Telescope completed the meridian flip."));
@@ -4846,9 +4846,9 @@ void Capture::openCalibrationDialog()
     else
         calibrationOptions.parkMountC->setEnabled(false);
 
-    if (dome)
+    if (currentDome)
     {
-        calibrationOptions.parkDomeC->setEnabled(dome->canPark());
+        calibrationOptions.parkDomeC->setEnabled(currentDome->canPark());
         calibrationOptions.parkDomeC->setChecked(preDomePark);
     }
     else
@@ -5013,32 +5013,32 @@ IPState Capture::checkLightFramePendingTasks()
                     calibrationCheckType = CAL_CHECK_TASK;
                 });
 
-                KSMessageBox::Instance()->questionYesNo(i18n("Remove cover from the telescope in order to continue."),
-                                                        i18n("Telescope Covered"),
-                                                        Options::manualCoverTimeout());
+                KSMessageBox::Instance()->warningContinueCancel(i18n("Remove cover from the telescope in order to continue."),
+                        i18n("Telescope Covered"),
+                        Options::manualCoverTimeout());
 
                 return IPS_BUSY;
             }
             break;
         case SOURCE_FLATCAP:
         case SOURCE_DARKCAP:
-            if (!dustCap)
+            if (!currentDustCap)
             {
                 appendLogText(i18n("Cap device is missing but the job requires flat or dark cap device."));
                 return IPS_ALERT;
             }
 
             // If dust cap HAS light and light is ON, then turn it off.
-            if (dustCap->hasLight() && dustCap->isLightOn() == true)
+            if (currentDustCap->hasLight() && currentDustCap->isLightOn() == true)
             {
                 dustCapLightEnabled = false;
-                dustCap->SetLightEnabled(false);
+                currentDustCap->SetLightEnabled(false);
             }
 
             // If cap is parked, we need to unpark it
-            if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked())
+            if (calibrationStage < CAL_DUSTCAP_UNPARKING && currentDustCap->isParked())
             {
-                if (dustCap->UnPark())
+                if (currentDustCap->UnPark())
                 {
                     calibrationStage = CAL_DUSTCAP_UNPARKING;
                     appendLogText(i18n("Unparking dust cap..."));
@@ -5055,7 +5055,7 @@ IPState Capture::checkLightFramePendingTasks()
             // Wait until cap is unparked
             if (calibrationStage == CAL_DUSTCAP_UNPARKING)
             {
-                if (dustCap->isUnParked() == false)
+                if (currentDustCap->isUnParked() == false)
                     return IPS_BUSY;
                 else
                 {
@@ -5178,7 +5178,7 @@ IPState Capture::checkDarkFramePendingTasks()
         case SOURCE_DARKCAP:
             // When using a cap, we need to park, if not already parked.
             // Need to turn off light, if light exists and was on.
-            if (!dustCap)
+            if (!currentDustCap)
             {
                 appendLogText(i18n("Cap device is missing but the job requires flat or dark cap device."));
                 abort();
@@ -5186,9 +5186,9 @@ IPState Capture::checkDarkFramePendingTasks()
             }
 
             // If cap is not park, park it
-            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false)
+            if (calibrationStage < CAL_DUSTCAP_PARKING && currentDustCap->isParked() == false)
             {
-                if (dustCap->Park())
+                if (currentDustCap->Park())
                 {
                     calibrationStage = CAL_DUSTCAP_PARKING;
                     appendLogText(i18n("Parking dust cap..."));
@@ -5205,7 +5205,7 @@ IPState Capture::checkDarkFramePendingTasks()
             // Wait until cap is parked
             if (calibrationStage == CAL_DUSTCAP_PARKING)
             {
-                if (dustCap->isParked() == false)
+                if (currentDustCap->isParked() == false)
                     return IPS_BUSY;
                 else
                 {
@@ -5215,10 +5215,10 @@ IPState Capture::checkDarkFramePendingTasks()
             }
 
             // Turn off light if it exists and was on.
-            if (dustCap->hasLight() && dustCap->isLightOn() == true)
+            if (currentDustCap->hasLight() && currentDustCap->isLightOn() == true)
             {
                 dustCapLightEnabled = false;
-                dustCap->SetLightEnabled(false);
+                currentDustCap->SetLightEnabled(false);
             }
             break;
 
@@ -5250,10 +5250,10 @@ IPState Capture::checkDarkFramePendingTasks()
                         return IPS_BUSY;
                 }
 
-                if (lightBox && lightBox->isLightOn() == true)
+                if (currentLightBox && currentLightBox->isLightOn() == true)
                 {
                     lightBoxLightEnabled = false;
-                    lightBox->SetLightEnabled(false);
+                    currentLightBox->SetLightEnabled(false);
                 }
             }
             break;
@@ -5316,7 +5316,7 @@ IPState Capture::checkFlatFramePendingTasks()
         case SOURCE_DAWN_DUSK:
             break;
         case SOURCE_FLATCAP:
-            if (!dustCap)
+            if (!currentDustCap)
             {
                 appendLogText(i18n("Cap device is missing but the job requires flat cap device."));
                 abort();
@@ -5324,9 +5324,9 @@ IPState Capture::checkFlatFramePendingTasks()
             }
 
             // If cap is not park, park it
-            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false)
+            if (calibrationStage < CAL_DUSTCAP_PARKING && currentDustCap->isParked() == false)
             {
-                if (dustCap->Park())
+                if (currentDustCap->Park())
                 {
                     calibrationStage = CAL_DUSTCAP_PARKING;
                     appendLogText(i18n("Parking dust cap..."));
@@ -5343,7 +5343,7 @@ IPState Capture::checkFlatFramePendingTasks()
             // Wait until cap is parked
             if (calibrationStage == CAL_DUSTCAP_PARKING)
             {
-                if (dustCap->isParked() == false)
+                if (currentDustCap->isParked() == false)
                     return IPS_BUSY;
                 else
                 {
@@ -5353,10 +5353,10 @@ IPState Capture::checkFlatFramePendingTasks()
             }
 
             // If light is not on, turn it on.
-            if (dustCap->hasLight() && dustCap->isLightOn() == false)
+            if (currentDustCap->hasLight() && currentDustCap->isLightOn() == false)
             {
                 dustCapLightEnabled = true;
-                dustCap->SetLightEnabled(true);
+                currentDustCap->SetLightEnabled(true);
             }
             break;
         case SOURCE_WALL:
@@ -5387,18 +5387,18 @@ IPState Capture::checkFlatFramePendingTasks()
                         return IPS_BUSY;
                 }
 
-                if (lightBox)
+                if (currentLightBox)
                 {
                     // Check if we have a light box to turn on
-                    if (activeJob->getFrameType() == FRAME_FLAT && lightBox->isLightOn() == false)
+                    if (activeJob->getFrameType() == FRAME_FLAT && currentLightBox->isLightOn() == false)
                     {
                         lightBoxLightEnabled = true;
-                        lightBox->SetLightEnabled(true);
+                        currentLightBox->SetLightEnabled(true);
                     }
-                    else if (activeJob->getFrameType() != FRAME_FLAT && lightBox->isLightOn() == true)
+                    else if (activeJob->getFrameType() != FRAME_FLAT && currentLightBox->isLightOn() == true)
                     {
                         lightBoxLightEnabled = false;
-                        lightBox->SetLightEnabled(false);
+                        currentLightBox->SetLightEnabled(false);
                     }
                 }
             }
@@ -5406,16 +5406,16 @@ IPState Capture::checkFlatFramePendingTasks()
 
 
         case SOURCE_DARKCAP:
-            if (!dustCap)
+            if (!currentDustCap)
             {
                 appendLogText(i18n("Cap device is missing but the job requires dark cap device."));
                 abort();
                 return IPS_ALERT;
             }
             // If cap is parked, unpark it since dark cap uses external light source.
-            if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked() == true)
+            if (calibrationStage < CAL_DUSTCAP_UNPARKING && currentDustCap->isParked() == true)
             {
-                if (dustCap->UnPark())
+                if (currentDustCap->UnPark())
                 {
                     calibrationStage = CAL_DUSTCAP_UNPARKING;
                     appendLogText(i18n("UnParking dust cap..."));
@@ -5432,7 +5432,7 @@ IPState Capture::checkFlatFramePendingTasks()
             // Wait until cap is unparked
             if (calibrationStage == CAL_DUSTCAP_UNPARKING)
             {
-                if (dustCap->isParked() == true)
+                if (currentDustCap->isParked() == true)
                     return IPS_BUSY;
                 else
                 {
@@ -5442,10 +5442,10 @@ IPState Capture::checkFlatFramePendingTasks()
             }
 
             // If light is off, turn it on.
-            if (dustCap->hasLight() && dustCap->isLightOn() == false)
+            if (currentDustCap->hasLight() && currentDustCap->isLightOn() == false)
             {
                 dustCapLightEnabled = true;
-                dustCap->SetLightEnabled(true);
+                currentDustCap->SetLightEnabled(true);
             }
             break;
     }
@@ -5485,11 +5485,11 @@ IPState Capture::checkFlatFramePendingTasks()
     }
 
     // Check if we need to perform dome prepark
-    if (preDomePark && dome)
+    if (preDomePark && currentDome)
     {
-        if (calibrationStage < CAL_DOME_PARKING && dome->isParked() == false)
+        if (calibrationStage < CAL_DOME_PARKING && currentDome->isParked() == false)
         {
-            if (dome->Park())
+            if (currentDome->Park())
             {
                 calibrationStage = CAL_DOME_PARKING;
                 //emit mountParking();
@@ -5508,7 +5508,7 @@ IPState Capture::checkFlatFramePendingTasks()
         {
             // If not parked yet, check again in 1 second
             // Otherwise proceed to the rest of the algorithm
-            if (dome->isParked() == false)
+            if (currentDome->isParked() == false)
                 return IPS_BUSY;
             else
             {
@@ -6397,6 +6397,40 @@ void Capture::createDSLRDialog()
     dslrInfoDialog->show();
 
     emit dslrInfoRequested(currentCCD->getDeviceName());
+}
+
+void Capture::removeDevice(ISD::GDInterface *device)
+{
+    device->disconnect(this);
+    if (device == currentTelescope)
+    {
+        currentTelescope = nullptr;
+    }
+    else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    {
+        CCDs.removeOne(static_cast<ISD::CCD *>(device));
+        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
+        if (CCDs.empty())
+            currentCCD = nullptr;
+        checkCCD();
+    }
+    else if (device == currentDome)
+    {
+        currentDome = nullptr;
+    }
+    else if (Filters.contains(static_cast<ISD::Filter *>(device)))
+    {
+        Filters.removeOne(static_cast<ISD::Filter *>(device));
+        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
+        if (Filters.empty())
+            currentFilter = nullptr;
+        checkFilter();
+    }
+    else if (device == currentRotator)
+    {
+        currentRotator = nullptr;
+        rotatorB->setEnabled(false);
+    }
 }
 
 }

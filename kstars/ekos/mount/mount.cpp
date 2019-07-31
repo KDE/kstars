@@ -257,6 +257,24 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     emit newParkStatus(m_ParkStatus);
 }
 
+void Mount::removeDevice(ISD::GDInterface *device)
+{
+    if (device == currentTelescope)
+    {
+        currentTelescope->disconnect(this);
+        updateTimer.stop();
+        m_BaseView->hide();
+
+        qCDebug(KSTARS_EKOS_MOUNT) << "Removing mount driver" << device->getDeviceName();
+
+        currentTelescope = nullptr;
+    }
+    else if (device == currentGPS)
+    {
+        currentGPS->disconnect(this);
+        currentGPS = nullptr;
+    }
+}
 void Mount::syncTelescopeInfo()
 {
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
