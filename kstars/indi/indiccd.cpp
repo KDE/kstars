@@ -812,12 +812,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     m_Media.reset(new WSMedia(this));
     connect(m_Media.get(), &WSMedia::newFile, this, &CCD::setWSBLOB);
 
-    connect(clientManager, &ClientManager::newBLOBManager, [&](const char *device, INDI::Property * prop)
-    {
-        if (!strcmp(device, getDeviceName()))
-            emit newBLOBManager(prop);
-    });
-
+    connect(clientManager, &ClientManager::newBLOBManager, this, &CCD::setBLOBManager, Qt::UniqueConnection);
     m_LastNotificationTS = QDateTime::currentDateTime();
 }
 
@@ -825,6 +820,12 @@ CCD::~CCD()
 {
     if (m_ImageViewerWindow)
         m_ImageViewerWindow->close();
+}
+
+void CCD::setBLOBManager(const char *device, INDI::Property *prop)
+{
+    if (!strcmp(device, getDeviceName()))
+        emit newBLOBManager(prop);
 }
 
 void CCD::registerProperty(INDI::Property *prop)

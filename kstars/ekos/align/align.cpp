@@ -2030,30 +2030,35 @@ void Align::removeDevice(ISD::GDInterface *device)
         currentTelescope = nullptr;
         m_isRateSynced = false;
     }
-    else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
-    {
-        CCDs.removeOne(static_cast<ISD::CCD *>(device));
-        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
-        if (CCDs.empty())
-            currentCCD = nullptr;
-        checkCCD();
-    }
     else if (device == currentDome)
     {
         currentDome = nullptr;
-    }
-    else if (Filters.contains(static_cast<ISD::Filter *>(device)))
-    {
-        Filters.removeOne(static_cast<ISD::Filter *>(device));
-        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
-        if (Filters.empty())
-            currentFilter = nullptr;
-        checkFilter();
     }
     else if (device == currentRotator)
     {
         currentRotator = nullptr;
     }
+
+    if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    {
+        CCDs.removeAll(static_cast<ISD::CCD *>(device));
+        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
+        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName() + QString(" Guider")));
+        if (CCDs.empty())
+            currentCCD = nullptr;
+        checkCCD();
+    }
+
+    if (Filters.contains(static_cast<ISD::Filter *>(device)))
+    {
+        Filters.removeAll(static_cast<ISD::Filter *>(device));
+        filterManager->removeDevice(device);
+        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
+        if (Filters.empty())
+            currentFilter = nullptr;
+        checkFilter();
+    }
+
 }
 
 bool Align::syncTelescopeInfo()

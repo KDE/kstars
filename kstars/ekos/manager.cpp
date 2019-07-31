@@ -1465,14 +1465,14 @@ void Manager::setLightBox(ISD::GDInterface * lightBoxDevice)
 
 void Manager::removeDevice(ISD::GDInterface * devInterface)
 {
-    switch (devInterface->getType())
-    {
-        case KSTARS_CCD:
-            removeTabs();
-            break;
-        default:
-            break;
-    }
+    //    switch (devInterface->getType())
+    //    {
+    //        case KSTARS_CCD:
+    //            removeTabs();
+    //            break;
+    //        default:
+    //            break;
+    //    }
 
     if (alignProcess)
         alignProcess->removeDevice(devInterface);
@@ -1497,27 +1497,31 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
     // Generic devices are ALL the devices we receive from INDI server
     // Whether Ekos cares about them (i.e. selected equipment) or extra devices we
     // do not care about
-    foreach (ISD::GDInterface * genericDevice, genericDevices)
-        if (!strcmp(genericDevice->getDeviceName(), devInterface->getDeviceName()))
+    for (auto &device : genericDevices)
+    {
+        if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
         {
-            genericDevices.removeOne(genericDevice);
-            break;
+            genericDevices.removeOne(device);
         }
+    }
 
     // #2 Remove from Ekos Managed Device
     // Managed devices are devices selected by the user in the device profile
-    foreach (ISD::GDInterface * device, managedDevices.values())
+    for (auto &device : managedDevices.values())
     {
-        if (device == devInterface)
+        if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
         {
             managedDevices.remove(managedDevices.key(device));
 
             if (managedDevices.count() == 0)
                 cleanDevices();
 
-            break;
+            //break;
         }
     }
+
+    if (managedDevices.isEmpty())
+        removeTabs();
 }
 
 void Manager::processNewText(ITextVectorProperty * tvp)
