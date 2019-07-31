@@ -746,7 +746,7 @@ void Capture::checkCCD(int ccdNum)
         if (targetChip && targetChip->isCapturing())
             return;
 
-        foreach (ISD::CCD * ccd, CCDs)
+        for (auto &ccd : CCDs)
         {
             disconnect(ccd, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber);
             disconnect(ccd, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
@@ -6406,30 +6406,36 @@ void Capture::removeDevice(ISD::GDInterface *device)
     {
         currentTelescope = nullptr;
     }
-    else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
-    {
-        CCDs.removeOne(static_cast<ISD::CCD *>(device));
-        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
-        if (CCDs.empty())
-            currentCCD = nullptr;
-        checkCCD();
-    }
     else if (device == currentDome)
     {
         currentDome = nullptr;
-    }
-    else if (Filters.contains(static_cast<ISD::Filter *>(device)))
-    {
-        Filters.removeOne(static_cast<ISD::Filter *>(device));
-        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
-        if (Filters.empty())
-            currentFilter = nullptr;
-        checkFilter();
     }
     else if (device == currentRotator)
     {
         currentRotator = nullptr;
         rotatorB->setEnabled(false);
+    }
+
+    if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    {
+        ISD::CCD *oneCCD = static_cast<ISD::CCD *>(device);
+        CCDs.removeAll(oneCCD);
+        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
+        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName() + QString(" Guider")));
+
+        if (CCDs.empty())
+            currentCCD = nullptr;
+        checkCCD();
+    }
+
+    if (Filters.contains(static_cast<ISD::Filter *>(device)))
+    {
+        Filters.removeOne(static_cast<ISD::Filter *>(device));
+        filterManager->removeDevice(device);
+        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
+        if (Filters.empty())
+            currentFilter = nullptr;
+        checkFilter();
     }
 }
 

@@ -1031,6 +1031,8 @@ void GenericDevice::resetWatchdog()
 DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
 {
     interfacePtr = iPtr;
+    baseDevice    = interfacePtr->getBaseDevice();
+    clientManager = interfacePtr->getDriverInfo()->getClientManager();
 
     connect(iPtr, SIGNAL(Connected()), this, SIGNAL(Connected()));
     connect(iPtr, SIGNAL(Disconnected()), this, SIGNAL(Disconnected()));
@@ -1042,9 +1044,6 @@ DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
     connect(iPtr, SIGNAL(textUpdated(ITextVectorProperty*)), this, SIGNAL(textUpdated(ITextVectorProperty*)));
     connect(iPtr, SIGNAL(BLOBUpdated(IBLOB*)), this, SIGNAL(BLOBUpdated(IBLOB*)));
     connect(iPtr, SIGNAL(lightUpdated(ILightVectorProperty*)), this, SIGNAL(lightUpdated(ILightVectorProperty*)));
-
-    baseDevice    = interfacePtr->getBaseDevice();
-    clientManager = interfacePtr->getDriverInfo()->getClientManager();
 }
 
 DeviceDecorator::~DeviceDecorator()

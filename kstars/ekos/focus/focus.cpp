@@ -2790,7 +2790,7 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     {
         if (focuser == deviceRemoved)
         {
-            Focusers.removeOne(dynamic_cast<ISD::Focuser*>(focuser));
+            Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
             focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
             checkFocuser();
             resetButtons();
@@ -2803,11 +2803,11 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     {
         if (ccd == deviceRemoved)
         {
-            CCDs.removeOne(dynamic_cast<ISD::CCD*>(ccd));
+            CCDs.removeAll(dynamic_cast<ISD::CCD*>(ccd));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName()));
+            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName() + QString(" Guider")));
             checkCCD();
             resetButtons();
-            return;
         }
     }
 
@@ -2816,11 +2816,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     {
         if (filter == deviceRemoved)
         {
-            Filters.removeOne(filter);
+            Filters.removeAll(filter);
             filterCombo->removeItem(filterCombo->findText(filter->getDeviceName()));
+            if (Filters.empty())
+                currentFilter = nullptr;
             checkFilter();
             resetButtons();
-            return;
         }
     }
 }

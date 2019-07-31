@@ -381,21 +381,23 @@ void ServerManager::processStandardError()
 
         //KSNotification::info(i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
 
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, driverExec]()
+        auto crashedDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(),
+                                          [driverExec](DriverInfo * dv)
         {
-            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
-            auto crashedDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(),
-                                              [driverExec](DriverInfo * dv)
-            {
-                return dv->getExecutable() == driverExec;
-            });
-
-            if (crashedDriver != managedDrivers.end())
-                restartDriver(*crashedDriver);
+            return dv->getExecutable() == driverExec;
         });
 
-        KSMessageBox::Instance()->questionYesNo(i18n("KStars detected INDI driver %1 crashed. Restart driver?", driverExec),
-                                                i18n("Driver crash"), 10);
+        if (crashedDriver != managedDrivers.end())
+        {
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, crashedDriver]()
+            {
+                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                restartDriver(*crashedDriver);
+            });
+
+            KSMessageBox::Instance()->warningContinueCancel(i18n("INDI Driver <b>%1</b> crashed. Restart it?", (*crashedDriver)->getUniqueLabel()),
+                    i18n("Driver crash"), 10);
+        }
     }
 #endif
 }

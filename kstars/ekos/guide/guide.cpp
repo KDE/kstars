@@ -3409,8 +3409,9 @@ void Guide::removeDevice(ISD::GDInterface *device)
     }
     else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
     {
-        CCDs.removeOne(static_cast<ISD::CCD *>(device));
+        CCDs.removeAll(static_cast<ISD::CCD *>(device));
         guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName()));
+        guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName() + QString(" Guider")));
         if (CCDs.empty())
             currentCCD = nullptr;
         checkCCD();

@@ -314,6 +314,8 @@ class CCD : public DeviceDecorator
     public slots:
         void FITSViewerDestroyed();
         void StreamWindowHidden();
+        // Blob manager
+        void setBLOBManager(const char *device, INDI::Property * prop);
 
     protected slots:
         void setWSBLOB(const QByteArray &message, const QString &extension);

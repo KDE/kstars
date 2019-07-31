@@ -148,10 +148,18 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
                         delete (driverInfo);
                 }
 
-                blobManagers.erase(std::remove_if(blobManagers.begin(), blobManagers.end(), [dp](QPointer<BlobManager> oneManager)
+                for (auto &oneManager : blobManagers)
                 {
-                    return oneManager->property("device").toString() == QString(dp->getDeviceName());
-                }), blobManagers.end());
+                    if (oneManager->property("device").toString() == QString(dp->getDeviceName()))
+                    {
+                        oneManager->disconnect();
+                        blobManagers.removeOne(oneManager);
+                    }
+                }
+                //                blobManagers.erase(std::remove_if(blobManagers.begin(), blobManagers.end(), [dp](QPointer<BlobManager> oneManager)
+                //                {
+                //                    return oneManager->property("device").toString() == QString(dp->getDeviceName());
+                //                }), blobManagers.end());
 
                 return;
             }

@@ -94,6 +94,13 @@ void FilterManager::refreshFilterModel()
     //delete (filterModel);
 
     //filterModel = new QSqlTableModel(this, userdb);
+    if (!filterModel)
+    {
+        QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+        userdb.open();
+        filterModel = new QSqlTableModel(this, userdb);
+        filterView->setModel(filterModel);
+    }
     filterModel->setTable("filter");
     filterModel->setFilter(QString("vendor='%1'").arg(vendor));
     filterModel->select();
