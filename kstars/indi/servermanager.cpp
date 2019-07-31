@@ -11,8 +11,10 @@
 #include "servermanager.h"
 
 #include "driverinfo.h"
+#include "clientmanager.h"
 #include "drivermanager.h"
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksmessagebox.h"
 #include "Options.h"
 #include "ksnotification.h"
 
@@ -86,7 +88,7 @@ bool ServerManager::start()
 
     QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
-    if ((fd = mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR) < 0))
+    if ((fd = mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR)) < 0)
     {
         KSNotification::error(i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
         return false;
@@ -94,7 +96,7 @@ bool ServerManager::start()
 
     indiFIFO.setFileName(fifoFile);
 
-    driverCrashed = false;
+    //driverCrashed = false;
 
     if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
     {
@@ -102,7 +104,7 @@ bool ServerManager::start()
         return false;
     }
 
-    args << "-f" << fifoFile;
+    args << "-r" << "0" << "-f" << fifoFile;
 
     qCDebug(KSTARS_INDI) << "Starting INDI Server: " << args << "-f" << fifoFile;
 
@@ -244,6 +246,67 @@ void ServerManager::stopDriver(DriverInfo *dv)
     dv->setPort(dv->getUserPort());
 }
 
+
+bool ServerManager::restartDriver(DriverInfo *dv)
+{
+
+    ClientManager *cm = dv->getClientManager();
+
+    stopDriver(dv);
+
+    cm->removeManagedDriver(dv);
+
+    // Wait 1 second before starting the driver again.
+    QTimer::singleShot(1000, this, [this, dv, cm]()
+    {
+        cm->appendManagedDriver(dv);
+
+        QTextStream out(&indiFIFO);
+
+        QString driversDir    = Options::indiDriversDir();
+        QString indiServerDir = Options::indiServer();
+
+#ifdef Q_OS_OSX
+        if (Options::indiServerIsInternal())
+            indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
+        if (Options::indiDriversAreInternal())
+            driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
+        else
+            indiServerDir = QFileInfo(Options::indiServer()).dir().path();
+#endif
+
+        if (dv->getRemoteHost().isEmpty() == false)
+        {
+            QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
+            qCDebug(KSTARS_INDI) << "Restarting Remote INDI Driver" << driverString;
+            out << "start " << driverString << endl;
+            out.flush();
+        }
+        else
+        {
+            QStringList paths;
+            paths << "/usr/bin"
+                  << "/usr/local/bin" << driversDir << indiServerDir;
+
+            qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getExecutable();
+
+            out << "start " << dv->getExecutable();
+            if (dv->getUniqueLabel().isEmpty() == false)
+                out << " -n \"" << dv->getUniqueLabel() << "\"";
+            if (dv->getSkeletonFile().isEmpty() == false)
+                out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+            out << endl;
+
+            out.flush();
+
+            dv->setServerState(true);
+            dv->setPort(port);
+        }
+    });
+
+    return true;
+}
+
 void ServerManager::stop()
 {
     if (serverProcess.get() == nullptr)
@@ -305,25 +368,35 @@ void ServerManager::processStandardError()
     for (auto &msg : stderr.split('\n'))
         qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
 
-    if (driverCrashed == false && (stderr.contains("stdin EOF") || stderr.contains("stderr EOF")))
-    {
-        QStringList parts = stderr.split("Driver");
-        for (auto &driver : parts)
-        {
-            if (driver.contains("stdin EOF") || driver.contains("stderr EOF"))
-            {
-                driverCrashed      = true;
-                QString driverName = driver.left(driver.indexOf(':')).trimmed();
-                qCCritical(KSTARS_INDI) << "INDI driver " << driverName << " crashed!";
-                KSNotification::info(i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
-                break;
-            }
-        }
-    }
-
     serverBuffer.write(stderr.toLatin1());
-
     emit newServerLog();
+
+    //if (driverCrashed == false && (stderr.contains("stdin EOF") || stderr.contains("stderr EOF")))
+    QRegularExpression re("Driver (.*): Terminated after #0 restarts");
+    QRegularExpressionMatch match = re.match(stderr);
+    if (match.hasMatch())
+    {
+        QString driverExec = match.captured(1);
+        qCCritical(KSTARS_INDI) << "INDI driver " << driverExec << " crashed!";
+
+        //KSNotification::info(i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
+
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, driverExec]()
+        {
+            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            auto crashedDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(),
+                                              [driverExec](DriverInfo * dv)
+            {
+                return dv->getExecutable() == driverExec;
+            });
+
+            if (crashedDriver != managedDrivers.end())
+                restartDriver(*crashedDriver);
+        });
+
+        KSMessageBox::Instance()->questionYesNo(i18n("KStars detected INDI driver %1 crashed. Restart driver?", driverExec),
+                                                i18n("Driver crash"), 10);
+    }
 #endif
 }
 

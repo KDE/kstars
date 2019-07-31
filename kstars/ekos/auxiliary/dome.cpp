@@ -38,31 +38,37 @@ void Dome::setDome(ISD::GDInterface *newDome)
 
     connect(currentDome, &ISD::Dome::newStatus, this, &Dome::newStatus);
     connect(currentDome, &ISD::Dome::newParkStatus, this, &Dome::newParkStatus);
-    connect(currentDome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status) {m_ParkStatus = status;});
+    connect(currentDome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status)
+    {
+        m_ParkStatus = status;
+    });
     connect(currentDome, &ISD::Dome::newShutterStatus, this, &Dome::newShutterStatus);
-    connect(currentDome, &ISD::Dome::newShutterStatus, [&](ISD::Dome::ShutterStatus status) {m_ShutterStatus = status;});
+    connect(currentDome, &ISD::Dome::newShutterStatus, [&](ISD::Dome::ShutterStatus status)
+    {
+        m_ShutterStatus = status;
+    });
     connect(currentDome, &ISD::Dome::newAutoSyncStatus, this, &Dome::newAutoSyncStatus);
     connect(currentDome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
     connect(currentDome, &ISD::Dome::ready, this, &Dome::ready);
     connect(currentDome, &ISD::Dome::Disconnected, this, &Dome::disconnected);
 }
 
-void Dome::setTelescope(ISD::GDInterface *newTelescope)
-{
-    if (currentDome == nullptr)
-        return;
+//void Dome::setTelescope(ISD::GDInterface *newTelescope)
+//{
+//    if (currentDome == nullptr)
+//        return;
 
-    ITextVectorProperty *activeDevices = currentDome->getBaseDevice()->getText("ACTIVE_DEVICES");
-    if (activeDevices)
-    {
-        IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
-        if (activeTelescope)
-        {
-            IUSaveText(activeTelescope, newTelescope->getDeviceName());
-            currentDome->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
-        }
-    }
-}
+//    ITextVectorProperty *activeDevices = currentDome->getBaseDevice()->getText("ACTIVE_DEVICES");
+//    if (activeDevices)
+//    {
+//        IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
+//        if (activeTelescope)
+//        {
+//            IUSaveText(activeTelescope, newTelescope->getDeviceName());
+//            currentDome->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+//        }
+//    }
+//}
 
 bool Dome::canPark()
 {
@@ -207,4 +213,14 @@ Dome::ParkingStatus Dome::getParkingStatus()
     return PARKING_ERROR;
 }
 #endif
+
+void Dome::removeDevice(ISD::GDInterface *device)
+{
+    device->disconnect(this);
+    if (device == currentDome)
+    {
+        currentDome = nullptr;
+    }
+}
+
 }

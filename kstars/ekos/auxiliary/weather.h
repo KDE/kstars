@@ -63,6 +63,8 @@ class Weather : public QObject
          */
         void setWeather(ISD::GDInterface *newWeather);
 
+        void removeDevice(ISD::GDInterface *device);
+
     signals:
         /**
          * @brief newStatus Weather Status

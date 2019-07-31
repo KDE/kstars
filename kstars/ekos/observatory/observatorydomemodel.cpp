@@ -15,88 +15,87 @@ namespace Ekos
 
 void ObservatoryDomeModel::initModel(Dome *dome)
 {
-    mDome = dome;
+    domeInterface = dome;
 
-    connect(mDome, &Dome::ready, this, &ObservatoryDomeModel::ready);
-    connect(mDome, &Dome::disconnected, this, &ObservatoryDomeModel::disconnected);
-    connect(mDome, &Dome::newStatus, this, &ObservatoryDomeModel::newStatus);
-    connect(mDome, &Dome::newShutterStatus, this, &ObservatoryDomeModel::newShutterStatus);
-    connect(mDome, &Dome::azimuthPositionChanged, this, &ObservatoryDomeModel::azimuthPositionChanged);
-    connect(mDome, &Dome::newAutoSyncStatus, this, &ObservatoryDomeModel::newAutoSyncStatus);
+    connect(domeInterface, &Dome::ready, this, &ObservatoryDomeModel::ready);
+    connect(domeInterface, &Dome::disconnected, this, &ObservatoryDomeModel::disconnected);
+    connect(domeInterface, &Dome::newStatus, this, &ObservatoryDomeModel::newStatus);
+    connect(domeInterface, &Dome::newShutterStatus, this, &ObservatoryDomeModel::newShutterStatus);
+    connect(domeInterface, &Dome::azimuthPositionChanged, this, &ObservatoryDomeModel::azimuthPositionChanged);
+    connect(domeInterface, &Dome::newAutoSyncStatus, this, &ObservatoryDomeModel::newAutoSyncStatus);
 
 }
 
-
 ISD::Dome::Status ObservatoryDomeModel::status()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return ISD::Dome::DOME_IDLE;
 
-    return mDome->status();
+    return domeInterface->status();
 }
 
 ISD::Dome::ShutterStatus ObservatoryDomeModel::shutterStatus()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return ISD::Dome::SHUTTER_UNKNOWN;
 
-    return mDome->shutterStatus();
+    return domeInterface->shutterStatus();
 }
 
 void ObservatoryDomeModel::park()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return;
 
     emit newLog(i18n("Parking dome..."));
-    mDome->park();
+    domeInterface->park();
 }
 
 
 void ObservatoryDomeModel::unpark()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return;
 
     emit newLog(i18n("Unparking dome..."));
-    mDome->unpark();
+    domeInterface->unpark();
 }
 
 void ObservatoryDomeModel::setAutoSync(bool activate)
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return;
 
-    if (mDome->setAutoSync(activate))
+    if (domeInterface->setAutoSync(activate))
         emit newLog(i18n(activate ? "Slaving activated." : "Slaving deactivated."));
 
 }
 
 void ObservatoryDomeModel::abort()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return;
 
     emit newLog(i18n("Aborting..."));
-    mDome->abort();
+    domeInterface->abort();
 }
 
 void ObservatoryDomeModel::openShutter()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return;
 
     emit newLog(i18n("Opening shutter..."));
-    mDome->controlShutter(true);
+    domeInterface->controlShutter(true);
 }
 
 void ObservatoryDomeModel::closeShutter()
 {
-    if (mDome == nullptr)
+    if (domeInterface == nullptr)
         return;
 
     emit newLog(i18n("Closing shutter..."));
-    mDome->controlShutter(false);
+    domeInterface->controlShutter(false);
 }
 
 void ObservatoryDomeModel::execute(WeatherActions actions)

@@ -252,6 +252,8 @@ class Align : public QWidget, public Ui::Align
 
         void setRotator(ISD::GDInterface *newRotator);
 
+        void removeDevice(ISD::GDInterface *device);
+
         /* @brief Set telescope and guide scope info. All measurements is in millimeters.
         * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
         * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.

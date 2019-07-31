@@ -39,6 +39,15 @@ void DustCap::setDustCap(ISD::GDInterface *newDustCap)
     connect(currentDustCap, &ISD::DustCap::ready, this, &DustCap::ready);
 }
 
+void DustCap::removeDevice(ISD::GDInterface *device)
+{
+    device->disconnect(this);
+    if (device == currentDustCap)
+    {
+        currentDustCap = nullptr;
+    }
+}
+
 void DustCap::processProp(INDI::Property *prop)
 {
     if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
@@ -69,31 +78,31 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
 
         switch (svp->s)
         {
-        case IPS_IDLE:
-            if (svp->sp[0].s == ISS_ON)
-                newStatus = ISD::PARK_PARKED;
-            else if (svp->sp[1].s == ISS_ON)
-                newStatus = ISD::PARK_UNPARKED;
-            else
-                newStatus = ISD::PARK_UNKNOWN;
-            break;
+            case IPS_IDLE:
+                if (svp->sp[0].s == ISS_ON)
+                    newStatus = ISD::PARK_PARKED;
+                else if (svp->sp[1].s == ISS_ON)
+                    newStatus = ISD::PARK_UNPARKED;
+                else
+                    newStatus = ISD::PARK_UNKNOWN;
+                break;
 
-        case IPS_OK:
-            if (svp->sp[0].s == ISS_ON)
-                newStatus = ISD::PARK_PARKED;
-            else
-                newStatus = ISD::PARK_UNPARKED;
-            break;
+            case IPS_OK:
+                if (svp->sp[0].s == ISS_ON)
+                    newStatus = ISD::PARK_PARKED;
+                else
+                    newStatus = ISD::PARK_UNPARKED;
+                break;
 
-        case IPS_BUSY:
-            if (svp->sp[0].s == ISS_ON)
-                newStatus = ISD::PARK_PARKING;
-            else
-                newStatus = ISD::PARK_UNPARKING;
-            break;
+            case IPS_BUSY:
+                if (svp->sp[0].s == ISS_ON)
+                    newStatus = ISD::PARK_PARKING;
+                else
+                    newStatus = ISD::PARK_UNPARKING;
+                break;
 
-        case IPS_ALERT:
-            newStatus = ISD::PARK_ERROR;
+            case IPS_ALERT:
+                newStatus = ISD::PARK_ERROR;
         }
 
         if (newStatus != m_ParkStatus)

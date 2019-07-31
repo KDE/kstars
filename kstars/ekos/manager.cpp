@@ -1273,8 +1273,8 @@ void Manager::setTelescope(ISD::GDInterface * scopeDevice)
         alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
     }
 
-    if (domeProcess.get() != nullptr)
-        domeProcess->setTelescope(scopeDevice);
+    //    if (domeProcess.get() != nullptr)
+    //        domeProcess->setTelescope(scopeDevice);
 
     ekosLiveClient->message()->sendMounts();
     ekosLiveClient->message()->sendScopes();
@@ -1419,8 +1419,8 @@ void Manager::setDome(ISD::GDInterface * domeDevice)
     if (alignProcess.get() != nullptr)
         alignProcess->setDome(domeDevice);
 
-    if (managedDevices.contains(KSTARS_TELESCOPE))
-        domeProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+    //    if (managedDevices.contains(KSTARS_TELESCOPE))
+    //        domeProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
@@ -1470,24 +1470,26 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
         case KSTARS_CCD:
             removeTabs();
             break;
-
-        case KSTARS_TELESCOPE:
-            if (mountProcess.get() != nullptr)
-            {
-                mountProcess.reset();
-            }
-            break;
-
-        case KSTARS_FOCUSER:
-            // TODO this should be done for all modules
-            if (focusProcess.get() != nullptr)
-                focusProcess.get()->removeDevice(devInterface);
-            break;
-
         default:
             break;
     }
 
+    if (alignProcess)
+        alignProcess->removeDevice(devInterface);
+    if (captureProcess)
+        captureProcess->removeDevice(devInterface);
+    if (focusProcess)
+        focusProcess->removeDevice(devInterface);
+    if (mountProcess)
+        mountProcess->removeDevice(devInterface);
+    if (guideProcess)
+        guideProcess->removeDevice(devInterface);
+    if (domeProcess)
+        domeProcess->removeDevice(devInterface);
+    if (weatherProcess)
+        weatherProcess->removeDevice(devInterface);
+    if (dustCapProcess)
+        dustCapProcess->removeDevice(devInterface);
 
     appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
@@ -3232,7 +3234,10 @@ void Manager::syncActiveDevices()
     for (auto oneDevice : genericDevices)
     {
         uint32_t devInterface = oneDevice->getDriverInterface();
-        if (devInterface & (INDI::BaseDevice::TELESCOPE_INTERFACE | INDI::BaseDevice::DOME_INTERFACE))
+        if (devInterface & (INDI::BaseDevice::TELESCOPE_INTERFACE |
+                            INDI::BaseDevice::DOME_INTERFACE |
+                            INDI::BaseDevice::GPS_INTERFACE |
+                            INDI::BaseDevice::FILTER_INTERFACE))
         {
             for (auto otherDevice : genericDevices)
             {
@@ -3245,8 +3250,12 @@ void Manager::syncActiveDevices()
                     IText *snoopProperty = nullptr;
                     if (devInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
                         snoopProperty = IUFindText(tvp, "ACTIVE_TELESCOPE");
-                    else
+                    else if (devInterface & INDI::BaseDevice::DOME_INTERFACE)
                         snoopProperty = IUFindText(tvp, "ACTIVE_DOME");
+                    else if (devInterface & INDI::BaseDevice::GPS_INTERFACE)
+                        snoopProperty = IUFindText(tvp, "ACTIVE_GPS");
+                    else if (devInterface & INDI::BaseDevice::FILTER_INTERFACE)
+                        snoopProperty = IUFindText(tvp, "ACTIVE_FILTER");
 
                     if (snoopProperty && strcmp(snoopProperty->text, oneDevice->getDeviceName()))
                     {
