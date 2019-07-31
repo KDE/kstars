@@ -175,8 +175,8 @@ void KSMessageBox::questionYesNo(const QString &message, const QString &title, q
     QPushButton *yesButton = new QPushButton(yesText, this);
     QPushButton *noButton = new QPushButton(noText, this);
 
-    addButton(yesButton, QMessageBox::AcceptRole);
     addButton(noButton, QMessageBox::RejectRole);
+    addButton(yesButton, QMessageBox::AcceptRole);
 
     setDefaultButton(defaultToYes ? yesButton : noButton);
     yesButton->setDefault(defaultToYes);
@@ -203,8 +203,8 @@ void KSMessageBox::warningContinueCancel(const QString &message, const QString &
     QPushButton *continueButton = new QPushButton(continueText, this);
     QPushButton *cancelButton = new QPushButton(cancelText, this);
 
-    addButton(continueButton, QMessageBox::AcceptRole);
     addButton(cancelButton, QMessageBox::RejectRole);
+    addButton(continueButton, QMessageBox::AcceptRole);
 
     setDefaultButton(defaultToContinue ? continueButton : cancelButton);
     continueButton->setDefault(defaultToContinue);
