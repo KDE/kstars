@@ -384,7 +384,8 @@ QJsonObject ImageViewer::metadata()
     if (m_View && !m_View->m_Image.isNull())
     {
         md.insert("resolution", QString("%1x%2").arg(m_View->m_Image.width()).arg(m_View->m_Image.height()));
-        md.insert("size", KFormat().formatByteSize(m_View->m_Image.sizeInBytes()));
+        // sizeInBytes is only available in 5.10+
+        md.insert("size", KFormat().formatByteSize(m_View->m_Image.bytesPerLine() * m_View->m_Image.height()));
         md.insert("bin", "1x1");
         md.insert("bpp", QString::number(m_View->m_Image.bytesPerLine() / m_View->m_Image.width() * 8));
     }
