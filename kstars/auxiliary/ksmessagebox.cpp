@@ -175,8 +175,12 @@ void KSMessageBox::questionYesNo(const QString &message, const QString &title, q
     QPushButton *yesButton = new QPushButton(yesText, this);
     QPushButton *noButton = new QPushButton(noText, this);
 
-    addButton(noButton, QMessageBox::RejectRole);
-    addButton(yesButton, QMessageBox::AcceptRole);
+    connect(yesButton, &QPushButton::clicked, this, &KSMessageBox::accepted);
+    connect(noButton, &QPushButton::clicked, this, &KSMessageBox::rejected);
+
+    addButton(yesButton, QMessageBox::ActionRole);
+    addButton(noButton, QMessageBox::ActionRole);
+
 
     setDefaultButton(defaultToYes ? yesButton : noButton);
     yesButton->setDefault(defaultToYes);
@@ -203,8 +207,11 @@ void KSMessageBox::warningContinueCancel(const QString &message, const QString &
     QPushButton *continueButton = new QPushButton(continueText, this);
     QPushButton *cancelButton = new QPushButton(cancelText, this);
 
-    addButton(cancelButton, QMessageBox::RejectRole);
-    addButton(continueButton, QMessageBox::AcceptRole);
+    connect(continueButton, &QPushButton::clicked, this, &KSMessageBox::accepted);
+    connect(cancelButton, &QPushButton::clicked, this, &KSMessageBox::rejected);
+
+    addButton(continueButton, QMessageBox::ActionRole);
+    addButton(cancelButton, QMessageBox::ActionRole);
 
     setDefaultButton(defaultToContinue ? continueButton : cancelButton);
     continueButton->setDefault(defaultToContinue);
