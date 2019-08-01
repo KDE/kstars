@@ -289,13 +289,15 @@ void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 m_ConfirmationPending = false;
                 emit darkFrameCompleted(true);
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 m_ConfirmationPending = false;
                 emit darkFrameCompleted(false);
             });
@@ -354,7 +356,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 QStringList shutterfulCCDs  = Options::shutterfulCCDs();
                 QString deviceName = targetChip->getCCD()->getDeviceName();
                 shutterfulCCDs.append(deviceName);
@@ -363,7 +366,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 QStringList shutterlessCCDs = Options::shutterlessCCDs();
                 QString deviceName = targetChip->getCCD()->getDeviceName();
                 shutterlessCCDs.append(deviceName);
@@ -402,7 +406,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             // Continue
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 m_TelescopeCovered = true;
                 m_ConfirmationPending = false;
             });
@@ -410,7 +415,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             // Cancel
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 m_ConfirmationPending = false;
                 emit darkFrameCompleted(false);
             });

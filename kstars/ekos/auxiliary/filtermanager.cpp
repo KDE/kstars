@@ -477,6 +477,9 @@ bool FilterManager::executeOperationQueue()
     {
         case FILTER_CHANGE:
         {
+            if (m_ConfirmationPending)
+                return true;
+
             state = FILTER_CHANGE;
             if (m_useTargetFilter)
                 targetFilterPosition = m_ActiveFilters.indexOf(targetFilter) + 1;
@@ -492,9 +495,20 @@ bool FilterManager::executeOperationQueue()
 
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
+                    m_ConfirmationPending = false;
                     m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
                 });
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+                {
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
+                    m_ConfirmationPending = false;
+                });
+
+                m_ConfirmationPending = true;
+
                 KSMessageBox::Instance()->questionYesNo(i18n("Set filter to %1. Is filter set?", targetFilter->color()),
                                                         i18n("Confirm Filter"));
             }

@@ -2528,7 +2528,8 @@ void Manager::deleteProfile()
 
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeDeleteProfile]()
     {
-        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        KSMessageBox::Instance()->disconnect(this);
         executeDeleteProfile();
     });
 

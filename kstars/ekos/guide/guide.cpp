@@ -1378,7 +1378,8 @@ bool Guide::guide()
     {
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeGuide]()
         {
-            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            KSMessageBox::Instance()->disconnect(this);
             executeGuide();
         });
 

@@ -2760,14 +2760,16 @@ void Capture::prepareJob(SequenceJob * job)
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 currentCCD->setBLOBEnabled(true);
                 prepareActiveJob();
 
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 currentCCD->setBLOBEnabled(true);
                 setBusy(false);
             });
@@ -5007,7 +5009,8 @@ IPState Capture::checkLightFramePendingTasks()
 
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredDarkExposure = false;
                     m_TelescopeCoveredFlatExposure = false;
                     calibrationCheckType = CAL_CHECK_TASK;
@@ -5102,7 +5105,8 @@ IPState Capture::checkDarkFramePendingTasks()
 
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
         {
-            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            KSMessageBox::Instance()->disconnect(this);
             QStringList shutterfulCCDs  = Options::shutterfulCCDs();
             QString deviceName = currentCCD->getDeviceName();
             shutterfulCCDs.append(deviceName);
@@ -5111,7 +5115,8 @@ IPState Capture::checkDarkFramePendingTasks()
         });
         connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
         {
-            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+            KSMessageBox::Instance()->disconnect(this);
             QStringList shutterlessCCDs = Options::shutterlessCCDs();
             QString deviceName = currentCCD->getDeviceName();
             shutterlessCCDs.append(deviceName);
@@ -5142,7 +5147,8 @@ IPState Capture::checkDarkFramePendingTasks()
                 // Continue
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
                 {
-                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredDarkExposure = true;
                     m_TelescopeCoveredFlatExposure = false;
                     calibrationCheckType = CAL_CHECK_TASK;
@@ -5151,7 +5157,8 @@ IPState Capture::checkDarkFramePendingTasks()
                 // Cancel
                 connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
                 {
-                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
                     abort();
                 });
@@ -5289,7 +5296,8 @@ IPState Capture::checkFlatFramePendingTasks()
                 // Continue
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
                 {
-                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredFlatExposure = true;
                     m_TelescopeCoveredDarkExposure = false;
                     calibrationCheckType = CAL_CHECK_TASK;
@@ -5298,7 +5306,8 @@ IPState Capture::checkFlatFramePendingTasks()
                 // Cancel
                 connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
                 {
-                    QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
                     abort();
                 });
@@ -5902,7 +5911,8 @@ void Capture::toggleVideo(bool enabled)
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, enabled]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 currentCCD->setBLOBEnabled(true);
                 currentCCD->setVideoStreamEnabled(enabled);
             });
@@ -6313,7 +6323,8 @@ void Capture::clearCameraConfiguration()
 
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
     {
-        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        KSMessageBox::Instance()->disconnect(this);
         currentCCD->setConfig(PURGE_CONFIG);
         KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
 
