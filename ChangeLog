@@ -4,6 +4,53 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.3.3 (Canis):
+
+13bca1735 2019-08-01 Jasem Mutlaq         qMin --> qMax since we need rate 0 to 3
+fe3c4d97c 2019-08-01 Jasem Mutlaq         Fix proper disconnection for KSMessageBox signals
+dba03213e 2019-08-01 Jasem Mutlaq         Another attempt at fixing odd behavior of accept and reject roles. Now using ActionRole and simply connecting the button click to the dialog accept ..
+ef59fcceb 2019-07-31 Jasem Mutlaq         Further improvements to the reliability of the system after a crashed driver is restarted
+5df509c57 2019-07-31 Jasem Mutlaq         Add support to restarting crashed drivers for local servers
+18999483d 2019-07-31 Jasem Mutlaq         Seems like reversing order of accept and reject roles fixes the button order in MacOS. It has no effect on Linux
+e7f35fce9 2019-07-31 Jasem Mutlaq         sizeInBytes is only available in Qt 5.10+, thanks to jpaana for the heads up
+ae9f44bba 2019-07-31 l10n daemon script   GIT_SILENT made messages (after extraction)
+6db7d8c0e 2019-07-30 Jasem Mutlaq         Send preview JPEGs when they are generated to the client
+5446b14cb 2019-07-30 Jasem Mutlaq         Migrate more KMessageBox --> KSMessageBox
+3a64d4f93 2019-07-30 Jasem Mutlaq         Try to solve Qt warning about adding to existing layout
+44fe84d14 2019-07-29 Wolfgang Reissenberger Bug fix paused during dithering not resuming
+c8d48978f 2019-07-29 Jasem Mutlaq         Fix minor warning
+738dc7a47 2019-07-26 Jasem Mutlaq         INDI drivers sync
+8b0be80c3 2019-07-26 Jasem Mutlaq         Migrate dark library to async KSMessageBox
+0361dbf91 2019-07-26 Jasem Mutlaq         Remove rest of autonomous option that was deleted
+bdbbf55bc 2019-07-25 Jasem Mutlaq         remove & when comparing button texts
+69c58c89a 2019-07-25 Jasem Mutlaq         Removing unnecessary autonomous option for dialog with the instroduction of the new KSMessageBox class that open message box asynchronous and can be..
+19460c0b8 2019-07-24 Jasem Mutlaq         Fix crash in downloadJob due to possible using raw pointer before
+b2d276de3 2019-07-24 Jasem Mutlaq         Add new KSMessageBox class to fulfill some KStars specific requirements
+e656f1ee8 2019-07-24 Jasem Mutlaq         Add helpful comments
+d90beac90 2019-07-24 Wolfgang Reissenberger Autofocus disturbing meridian flip corrected
+d9c6acc1c 2019-07-22 Wolfgang Reissenberger Show the tracking box on the inital focusing frame
+a5b559fa4 2019-07-22 Jasem Mutlaq         refactor isSlewDirty and set it as false in cases of IDLE and ALERT states for EqNP.
+c9afb11cd 2019-07-22 Wolfgang Reissenberger Check for refocus also during the calibration stage
+0391998ff 2019-07-22 Jasem Mutlaq         Add support to CONFIG_PURGE and add more options to clear some mount data in case of trouble
+796d0b15c 2019-07-18 Jasem Mutlaq         Add more protection boundary checks
+4d5adb07b 2019-07-18 Jasem Mutlaq         remove unnecessary cast
+8ca63444b 2019-07-17 Eric Dejouhanet      Reset autofocus when executing a job, so that focus step is applied properly when checked.
+d65071a02 2019-07-17 Jasem Mutlaq         Fix regression for non-guide dithering and re-arrange guide option to make dither frequency has its own row
+f134b5ee5 2019-07-17 Jasem Mutlaq         Add option to control auto park post PAA tool operation
+2f2ab1b39 2019-07-16 Jasem Mutlaq         Another missing header
+fa2458d60 2019-07-16 Jasem Mutlaq         Add missing header
+a1692871c 2019-07-16 Jasem Mutlaq         Introduce autonomousMode option to run KStars in autonomous mode whereas user interaction is not expected so popup dialogs are suppressed whenever p..
+fb5d192a8 2019-07-15 Jasem Mutlaq         KStars v3.3.3
+4ca0b2ab1 2019-07-15 Jasem Mutlaq         Fix translation issues with solar system objects
+c211fc0a5 2019-07-15 Jasem Mutlaq         Precess sun to get correct accurate geocentric coordinates
+03317cc17 2019-07-14 Eric Dejouhanet      When evaluating twilight restriction, shift dusk to next day when it happens before dawn on the same day.
+7e3757a96 2019-07-09 Jasem Mutlaq         Display more information about version and interface once device is online
+a5b719580 2019-07-09 Jasem Mutlaq         Fix non-static warning
+7a29a2a8e 2019-07-08 Jasem Mutlaq         Only construct histogram synchronously when required
+968c0263d 2019-07-04 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+99835cca2 2019-07-03 Jasem Mutlaq         Explicitly use setCurrentIndex since setCurrentText is problematic
+7d6fbb121 2019-07-03 Wolfgang Reissenberger Motion control for domes added
+
 3.2.0 (Ivy):
 
 596569b5a 2019-04-18 Jasem Mutlaq         Including missing header
