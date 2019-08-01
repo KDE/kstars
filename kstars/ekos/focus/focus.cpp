@@ -2913,7 +2913,8 @@ void Focus::toggleVideo(bool enabled)
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, enabled]()
             {
-                QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                KSMessageBox::Instance()->disconnect(this);
                 currentCCD->setVideoStreamEnabled(enabled);
             });
             KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"));

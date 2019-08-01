@@ -1518,7 +1518,8 @@ void Align::slotClearAllSolutionPoints()
 
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
     {
-        QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+        KSMessageBox::Instance()->disconnect(this);
 
         solutionTable->setRowCount(0);
         alignPlot->graph(0)->data()->clear();

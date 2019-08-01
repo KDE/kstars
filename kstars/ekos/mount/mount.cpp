@@ -1373,7 +1373,8 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
     {
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeSetGPS]()
         {
-            QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+            KSMessageBox::Instance()->disconnect(this);
             Options::setUseKStarsSource(false);
             Options::setUseMountSource(false);
             Options::setUseGPSSource(true);

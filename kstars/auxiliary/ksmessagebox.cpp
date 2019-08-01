@@ -55,6 +55,7 @@ KSMessageBox::KSMessageBox() : QMessageBox()
 
     connect(this, &KSMessageBox::accepted, [this]()
     {
+        m_ProgressTimer.stop();
         emit newMessage(QJsonObject());
     });
 }
@@ -149,6 +150,7 @@ void KSMessageBox::setupTimeout()
 
 void KSMessageBox::reset()
 {
+    m_ProgressTimer.stop();
     m_Timeout = 0;
 
     QList<QPushButton *> allButtons = findChildren<QPushButton*>();
