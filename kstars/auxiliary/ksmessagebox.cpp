@@ -24,6 +24,7 @@
 #include <QCheckBox>
 #include <QLayout>
 #include <QSpacerItem>
+#include <QLabel>
 
 KSMessageBox * KSMessageBox::m_Instance = nullptr;
 
