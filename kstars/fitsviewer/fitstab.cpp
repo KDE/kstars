@@ -165,8 +165,9 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
             if (fitsSplitter->sizes().at(0) != 0)
             {
                 histogram->constructHistogram();
-                evaluateStats();
             }
+
+            evaluateStats();
 
             //            if (histogram == nullptr)
             //            {
