@@ -358,9 +358,9 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
                             topBot = mSphereBottom;
                     }
 
-                    float adist = Math.sqrt((upDown.x - mOriginPoint.x) * (upDown.x - mOriginPoint.x) + (upDown.y - mOriginPoint.y) * (upDown.y - mOriginPoint.y));
-                    float bdist = Math.sqrt((upDown.x - topBot.x) * (upDown.x - topBot.x) + (upDown.y - topBot.y) * (upDown.y - topBot.y));
-                    float cdist = Math.sqrt((mOriginPoint.x - topBot.x) * (mOriginPoint.x - topBot.x) + (mOriginPoint.y - topBot.y) * (mOriginPoint.y - topBot.y));
+                    float adist = (float) Math.sqrt((upDown.x - mOriginPoint.x) * (upDown.x - mOriginPoint.x) + (upDown.y - mOriginPoint.y) * (upDown.y - mOriginPoint.y));
+                    float bdist = (float) Math.sqrt((upDown.x - topBot.x) * (upDown.x - topBot.x) + (upDown.y - topBot.y) * (upDown.y - topBot.y));
+                    float cdist = (float) Math.sqrt((mOriginPoint.x - topBot.x) * (mOriginPoint.x - topBot.x) + (mOriginPoint.y - topBot.y) * (mOriginPoint.y - topBot.y));
 
                     float val = ((adist * adist) + (cdist * cdist) - (bdist * bdist)) / (2 * adist * cdist);
                     if (val < 1) {
@@ -403,11 +403,11 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
 
             for (int j = 0; j < NUM_SEGMENTS; j++) {
                     int idx = j - 5;
-                    float jCosVal = Math.cos(DEGREES_TO_RADIANS * (float) (idx * 15));
-                    float jCosValInv = Math.cos(DEGREES_TO_RADIANS * (float) (90 - idx * 15));
+                    float jCosVal = (float) Math.cos(DEGREES_TO_RADIANS * (float) (idx * 15));
+                    float jCosValInv = (float) Math.cos(DEGREES_TO_RADIANS * (float) (90 - idx * 15));
                     for (int i = 0; i < POINTS_PER_SEGMENT; i++) {
-                            float sinVal = Math.sin(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
-                            float cosVal = Math.cos(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
+                            float sinVal = (float) Math.sin(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
+                            float cosVal = (float) Math.cos(DEGREES_TO_RADIANS * (float) (i * (360 / POINTS_PER_SEGMENT)));
                             mVertices.get(i + (POINTS_PER_SEGMENT * j)).set(sinVal * jCosVal * 1, -cosVal * jCosVal * 1, jCosValInv * 1);
                     }
             }

@@ -21,7 +21,7 @@ public class Util {
 	 * @return
 	 */
 	public static float calcDistance(Vector3 a, Vector3 b) {
-		return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
+		return (float) Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class Util {
 	 * @return
 	 */
 	public static float calcRadius(float a, float b, float c) {
-		return (a * b * c) / Math.sqrt((a + b + c) * (a - b + c) * (a + b - c) * (b + c - a));
+		return (a * b * c) / (float) Math.sqrt((a + b + c) * (a - b + c) * (a + b - c) * (b + c - a));
 	}
 
 	/**
