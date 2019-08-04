@@ -10,6 +10,7 @@
 #pragma once
 
 #include "indi/indiccd.h"
+#include "indi/indicap.h"
 
 #include <QObject>
 
@@ -36,6 +37,9 @@ class DarkLibrary : public QObject
         void captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetImage, double duration, uint16_t offsetX,
                                 uint16_t offsetY);
         void refreshFromDB();
+
+        void setRemoteCap(ISD::GDInterface *remoteCap);
+        void removeDevice(ISD::GDInterface *device);
 
     signals:
         void darkFrameCompleted(bool);
@@ -75,5 +79,9 @@ class DarkLibrary : public QObject
 
         bool m_TelescopeCovered { false };
         bool m_ConfirmationPending { false };
+
+
+        QTimer captureSubtractTimer;
+        ISD::DustCap *m_RemoteCap {nullptr};
 };
 }

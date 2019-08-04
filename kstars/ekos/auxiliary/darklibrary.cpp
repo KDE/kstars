@@ -42,6 +42,9 @@ DarkLibrary::DarkLibrary(QObject *parent) : QObject(parent)
 
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks");
+
+    captureSubtractTimer.setInterval(1000);
+    captureSubtractTimer.setSingleShot(true);
 }
 
 DarkLibrary::~DarkLibrary()
@@ -218,18 +221,64 @@ template <typename T>
 void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
                            uint16_t offsetY)
 {
-    //    if (m_ConfirmationPending)
-    //    {
-    //        // We're done, telescope is no longer covered.
-    //        if (!m_TelescopeCovered)
-    //            return;
+    // If telescope is covered, let's uncover it
+    auto checkTelescopeCover = [this]()
+    {
+        if (m_RemoteCap && subtractParams.targetChip &&
+                subtractParams.targetChip->getCCD()->getTelescopeType() == ISD::CCD::TELESCOPE_PRIMARY)
+        {
+            // Uncover dust cap if it was covered already
+            if (m_RemoteCap->isUnParked() == false && m_RemoteCap->status() != ISD::DustCap::CAP_UNPARKING)
+            {
+                emit newLog(i18n("UnParking dust cap..."));
+                m_RemoteCap->UnPark();
 
-    //        // Otherwise, call this function again
-    //        QTimer::singleShot(1000, this, [&]
-    //        {
-    //            subtract(darkData, lightImage, filter, offsetX, offsetY);
-    //        });
-    //    }
+            }
+        }
+        else if (!m_ConfirmationPending)
+        {
+            QString deviceName = subtractParams.targetChip->getCCD()->getDeviceName();
+            bool hasNoShutter = Options::shutterlessCCDs().contains(deviceName);
+            if (hasNoShutter)
+                // Only ask if no shutter and is temporary file
+                // For regular files, the data is already loaded so no need to ask user to remove cover
+                // since dark data is loaded from disk.
+            {
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                {
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
+                    m_ConfirmationPending = false;
+                    m_TelescopeCovered = false;
+                });
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                {
+                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
+                    KSMessageBox::Instance()->disconnect(this);
+                    m_ConfirmationPending = false;
+                    emit darkFrameCompleted(false);
+                });
+
+                m_ConfirmationPending = true;
+
+                KSMessageBox::Instance()->warningContinueCancel(i18n("Remove cover from the telescope in order to continue."),
+                        i18n("Dark Exposure"));
+            }
+        }
+    };
+
+    if (m_TelescopeCovered)
+    {
+        checkTelescopeCover();
+
+        // Otherwise, call this function again
+        QTimer::singleShot(1000, this, [this, darkData, lightImage, filter, offsetX, offsetY]
+        {
+            subtract(darkData, lightImage, filter, offsetX, offsetY);
+        });
+
+        return;
+    }
 
     FITSData *lightData = lightImage->getImageData();
 
@@ -277,55 +326,23 @@ void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     lightImage->rescale(ZOOM_KEEP_LEVEL);
     lightImage->updateFrame();
 
-    // If telescope is covered, let's uncover it
-    if (m_TelescopeCovered)
-    {
-        QString deviceName = subtractParams.targetChip->getCCD()->getDeviceName();
-        bool hasNoShutter = Options::shutterlessCCDs().contains(deviceName);
-        // Only ask if no shutter and is temporary file
-        // For regular files, the data is already loaded so no need to ask user to remove cover
-        // since dark data is loaded from disk.
-        if (hasNoShutter)
-        {
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
-            {
-                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
-                KSMessageBox::Instance()->disconnect(this);
-                m_ConfirmationPending = false;
-                emit darkFrameCompleted(true);
-            });
-            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
-            {
-                //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
-                KSMessageBox::Instance()->disconnect(this);
-                m_ConfirmationPending = false;
-                emit darkFrameCompleted(false);
-            });
-
-            m_ConfirmationPending = true;
-
-            KSMessageBox::Instance()->questionYesNo(i18n("Does %1 have a shutter?", deviceName),
-                                                    i18n("Dark Exposure"));
-
-            //            if (KMessageBox::warningContinueCancel(
-            //                        nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
-            //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-            //                        "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-            //            {
-            //                emit darkFrameCompleted(false);
-            //                return false;
-            //            }
-            //            else
-            //                m_TelescopeCovered = false;
-        }
-    }
-    else
-        emit darkFrameCompleted(true);
+    emit darkFrameCompleted(true);
 }
 
 void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetImage, double duration, uint16_t offsetX,
                                      uint16_t offsetY)
 {
+    auto startTimer = [this, targetChip, targetImage, duration, offsetX, offsetY]()
+    {
+        captureSubtractTimer.disconnect(this);
+        connect(&captureSubtractTimer, &QTimer::timeout, this, [this, targetChip, targetImage, duration, offsetX, offsetY]()
+        {
+            captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
+        });
+        captureSubtractTimer.start();
+    };
+
+
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
     QString deviceName          = targetChip->getCCD()->getDeviceName();
@@ -338,10 +355,7 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     {
         if (m_ConfirmationPending)
         {
-            QTimer::singleShot(1000, this, [ = ]()
-            {
-                captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
-            });
+            startTimer();
             return;
         }
         // If DSLR then it is considered to have no shutter
@@ -354,22 +368,20 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
         }
         else
         {
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ &, deviceName]()
             {
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
                 QStringList shutterfulCCDs  = Options::shutterfulCCDs();
-                QString deviceName = targetChip->getCCD()->getDeviceName();
                 shutterfulCCDs.append(deviceName);
                 Options::setShutterfulCCDs(shutterfulCCDs);
                 m_ConfirmationPending = false;
             });
-            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ &, deviceName]()
             {
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
                 QStringList shutterlessCCDs = Options::shutterlessCCDs();
-                QString deviceName = targetChip->getCCD()->getDeviceName();
                 shutterlessCCDs.append(deviceName);
                 Options::setShutterlessCCDs(shutterlessCCDs);
                 m_ConfirmationPending = false;
@@ -380,26 +392,34 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             KSMessageBox::Instance()->questionYesNo(i18n("Does %1 have a shutter?", deviceName),
                                                     i18n("Dark Exposure"));
 
-            QTimer::singleShot(1000, this, [ = ]()
-            {
-                captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
-            });
-
+            startTimer();
             return;
         }
     }
 
-    if (hasNoShutter)
+    // Check if we have a dust cap and the current chip belongs on the primary scope the cap
+    // is covering
+    if (m_RemoteCap && targetChip->getCCD()->getTelescopeType() == ISD::CCD::TELESCOPE_PRIMARY)
     {
+        // Cover dust cap if we have one
+        if (m_RemoteCap->isParked() == false && m_RemoteCap->status() != ISD::DustCap::CAP_PARKING)
+        {
+            emit newLog(i18n("Parking dust cap..."));
+            m_RemoteCap->Park();
+            startTimer();
+            return;
+        }
 
-        if (hasNoShutter && !m_TelescopeCovered)
+        if (m_RemoteCap->hasLight() && m_RemoteCap->isLightOn())
+            m_RemoteCap->SetLightEnabled(false);
+    }
+    else if (hasNoShutter)
+    {
+        if (!m_TelescopeCovered)
         {
             if (m_ConfirmationPending)
             {
-                QTimer::singleShot(1000, this, [ = ]()
-                {
-                    captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
-                });
+                startTimer();
                 return;
             }
 
@@ -417,6 +437,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             {
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
+                captureSubtractTimer.stop();
+                m_TelescopeCovered = false;
                 m_ConfirmationPending = false;
                 emit darkFrameCompleted(false);
             });
@@ -436,26 +458,10 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
                     , i18n("Dark Exposure"),
                     Options::manualCoverTimeout());
 
-            QTimer::singleShot(1000, this, [ = ]()
-            {
-                captureAndSubtract(targetChip, targetImage, duration, offsetX, offsetY);
-            });
+            startTimer();
             return;
         }
     }
-
-    //        if (KMessageBox::warningContinueCancel(
-    //                    nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
-    //                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-    //                    "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-    //        {
-    //            emit newLog(i18n("Dark frame capture cancelled."));
-    //            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    //            emit darkFrameCompleted(false);
-    //            return;
-    //        }
-    //        else
-    //            m_TelescopeCovered = true;
 
     targetChip->resetFrame();
     targetChip->setCaptureMode(FITS_CALIBRATE);
@@ -508,4 +514,27 @@ void DarkLibrary::newFITS(IBLOB * bp)
         emit newLog(i18n("Warning: Cannot load calibration file %1", calibrationView->getImageData()->filename()));
     }
 }
+
+void DarkLibrary::setRemoteCap(ISD::GDInterface *remoteCap)
+{
+    if (m_RemoteCap)
+        m_RemoteCap->disconnect(this);
+
+    m_RemoteCap = dynamic_cast<ISD::DustCap*>(remoteCap);
+
+    connect(m_RemoteCap, &ISD::DustCap::newStatus, this, [this](ISD::DustCap::Status status)
+    {
+        m_TelescopeCovered = (status == ISD::DustCap::CAP_PARKED);
+    });
+
+}
+void DarkLibrary::removeDevice(ISD::GDInterface *device)
+{
+    if (m_RemoteCap && !strcmp(m_RemoteCap->getDeviceName(), device->getDeviceName()))
+    {
+        m_RemoteCap->disconnect(this);
+        m_RemoteCap = nullptr;
+    }
+}
+
 }

@@ -29,18 +29,20 @@
 #define DEF_SQR_3 (64 - 0)
 #define DEF_SQR_4 (128 - 0)
 
-const guide_square_t guide_squares[] = {
+const guide_square_t guide_squares[] =
+{
     { DEF_SQR_0, DEF_SQR_0 *DEF_SQR_0 * 1.0 }, { DEF_SQR_1, DEF_SQR_1 *DEF_SQR_1 * 1.0 },
     { DEF_SQR_2, DEF_SQR_2 *DEF_SQR_2 * 1.0 }, { DEF_SQR_3, DEF_SQR_3 *DEF_SQR_3 * 1.0 },
     { DEF_SQR_4, DEF_SQR_4 *DEF_SQR_4 * 1.0 }, { -1, -1 }
 };
 
 const square_alg_t guide_square_alg[] = { { SMART_THRESHOLD, "Smart" },
-                                          { SEP_THRESHOLD, "SEP" },
-                                          { CENTROID_THRESHOLD, "Fast" },
-                                          { AUTO_THRESHOLD, "Auto" },
-                                          { NO_THRESHOLD, "No thresh." },
-                                          { -1, { 0 } } };
+    { SEP_THRESHOLD, "SEP" },
+    { CENTROID_THRESHOLD, "Fast" },
+    { AUTO_THRESHOLD, "Auto" },
+    { NO_THRESHOLD, "No thresh." },
+    { -1, { 0 } }
+};
 
 struct Peak
 {
@@ -50,7 +52,10 @@ struct Peak
 
     Peak() = default;
     Peak(int x_, int y_, float val_) : x(x_), y(y_), val(val_) { }
-    bool operator<(const Peak& rhs) const { return val < rhs.val; }
+    bool operator<(const Peak &rhs) const
+    {
+        return val < rhs.val;
+    }
 };
 
 // JM: Why not use QPoint?
@@ -164,7 +169,7 @@ void cgmath::createGuideLog()
     out << "Aperture,mm: " << aperture << endl;
     out << "F/D: " << focal / aperture << endl;
     out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error "
-           "(arcsec), DEC Correction (ms), DEC Correction Direction"
+        "(arcsec), DEC Correction (ms), DEC Correction Direction"
         << endl;
 
     logTime.restart();
@@ -250,13 +255,13 @@ void cgmath::getStarScreenPosition(double *dx, double *dy) const
 
 bool cgmath::reset(void)
 {
-//    square_alg_idx = AUTO_THRESHOLD;
+    //    square_alg_idx = AUTO_THRESHOLD;
 
-//    // sky coord. system vars.
-//    star_pos     = Vector(0);
-//    scr_star_pos = Vector(0);
+    //    // sky coord. system vars.
+    //    star_pos     = Vector(0);
+    //    scr_star_pos = Vector(0);
 
-//    setReticleParameters(video_width / 2, video_height / 2, 0.0);
+    //    setReticleParameters(video_width / 2, video_height / 2, 0.0);
 
     ticks = 0;
     channel_ticks[GUIDE_RA] = channel_ticks[GUIDE_DEC] = 0;
@@ -777,35 +782,27 @@ Vector cgmath::findLocalStarPosition(void) const
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();
-            break;
 
         case TSHORT:
             return findLocalStarPosition<int16_t>();
-            break;
 
         case TUSHORT:
             return findLocalStarPosition<uint16_t>();
-            break;
 
         case TLONG:
             return findLocalStarPosition<int32_t>();
-            break;
 
         case TULONG:
             return findLocalStarPosition<uint32_t>();
-            break;
 
         case TFLOAT:
             return findLocalStarPosition<float>();
-            break;
 
         case TLONGLONG:
             return findLocalStarPosition<int64_t>();
-            break;
 
         case TDOUBLE:
             return findLocalStarPosition<double>();
-            break;
 
         default:
             break;
@@ -817,8 +814,8 @@ Vector cgmath::findLocalStarPosition(void) const
 template <typename T>
 Vector cgmath::findLocalStarPosition(void) const
 {
-    static double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074,
-                  P8 = -0.094;
+    static const double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074,
+                        P8 = -0.094;
 
     Vector ret;
     int i, j;
@@ -851,7 +848,7 @@ Vector cgmath::findLocalStarPosition(void) const
                 ret = Vector(star->x, star->y, 0);
             else
                 ret = Vector(-1, -1, -1);
-                //ret = Vector(star->x, star->y, 0) - Vector(trackingBox.x(), trackingBox.y(), 0);
+            //ret = Vector(star->x, star->y, 0) - Vector(trackingBox.x(), trackingBox.y(), 0);
         }
         else
             ret = Vector(-1, -1, -1);
@@ -983,8 +980,8 @@ Vector cgmath::findLocalStarPosition(void) const
                     i8 += *p++;
                     average = (i0 + i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8) / 85.0;
                     fit     = P0 * (i0 - average) + P1 * (i1 - 4 * average) + P2 * (i2 - 4 * average) +
-                          P3 * (i3 - 4 * average) + P4 * (i4 - 8 * average) + P5 * (i5 - 4 * average) +
-                          P6 * (i6 - 4 * average) + P7 * (i7 - 8 * average) + P8 * (i8 - 48 * average);
+                              P3 * (i3 - 4 * average) + P4 * (i4 - 8 * average) + P5 * (i5 - 4 * average) +
+                              P6 * (i6 - 4 * average) + P7 * (i7 - 8 * average) + P8 * (i8 - 48 * average);
                     if (bestFit < fit)
                     {
                         bestFit = fit;
@@ -1024,7 +1021,8 @@ Vector cgmath::findLocalStarPosition(void) const
         {
             point_t bbox_lt = { trackingBox.x() - SMART_FRAME_WIDTH, trackingBox.y() - SMART_FRAME_WIDTH };
             point_t bbox_rb = { trackingBox.x() + trackingBox.width() + SMART_FRAME_WIDTH,
-                                trackingBox.y() + trackingBox.width() + SMART_FRAME_WIDTH };
+                                trackingBox.y() + trackingBox.width() + SMART_FRAME_WIDTH
+                              };
             int offset      = 0;
 
             // clip frame
@@ -1228,7 +1226,7 @@ void cgmath::process_axes(void)
         {
             t_delta += drift[k][idx];
 
-             qCDebug(KSTARS_EKOS_GUIDE) << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta;
+            qCDebug(KSTARS_EKOS_GUIDE) << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta;
 
             if (idx > 0)
                 --idx;
@@ -1248,15 +1246,15 @@ void cgmath::process_axes(void)
         out_params.pulse_length[k] =
             fabs(out_params.delta[k] * in_params.proportional_gain[k] + drift_integral[k] * in_params.integral_gain[k]);
         out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ?
-                                         out_params.pulse_length[k] :
-                                         in_params.max_pulse_length[k];
+                                     out_params.pulse_length[k] :
+                                     in_params.max_pulse_length[k];
 
         qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length  [" << k << "]= " << out_params.pulse_length[k];
 
         // calc direction
         // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
         if (!in_params.enabled[k] || (out_params.delta[k] > 0 && !in_params.enabled_axis1[k]) ||
-            (out_params.delta[k] < 0 && !in_params.enabled_axis2[k]))
+                (out_params.delta[k] < 0 && !in_params.enabled_axis2[k]))
         {
             out_params.pulse_dir[k]    = NO_DIR;
             out_params.pulse_length[k] = 0;
@@ -1352,7 +1350,7 @@ void cgmath::performProcessing(void)
 
     qCDebug(KSTARS_EKOS_GUIDE) << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
     qCDebug(KSTARS_EKOS_GUIDE) << "RA channel ticks: " << channel_ticks[GUIDE_RA]
-                 << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
+                               << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
     // make decision by axes
     process_axes();
 
@@ -1511,15 +1509,15 @@ static void psf_conv(float *dst, const float *src, int width, int height)
 
             double mean = (A + B1 + B2 + C1 + C2 + C3 + D1 + D2 + D3) / 81.0;
             double PSF_fit = PSF[0] * (A - mean) + PSF[1] * (B1 - 4.0 * mean) + PSF[2] * (B2 - 4.0 * mean) +
-                PSF[3] * (C1 - 4.0 * mean) + PSF[4] * (C2 - 8.0 * mean) + PSF[5] * (C3 - 4.0 * mean) +
-                PSF[6] * (D1 - 4.0 * mean) + PSF[7] * (D2 - 8.0 * mean) + PSF[8] * (D3 - 44.0 * mean);
+                             PSF[3] * (C1 - 4.0 * mean) + PSF[4] * (C2 - 8.0 * mean) + PSF[5] * (C3 - 4.0 * mean) +
+                             PSF[6] * (D1 - 4.0 * mean) + PSF[7] * (D2 - 8.0 * mean) + PSF[8] * (D3 - 44.0 * mean);
 
             dst[width * y + x] = (float) PSF_fit;
         }
     }
 }
 
-static void GetStats(double *mean, double *stdev, int width, const float *img, const QRect& win)
+static void GetStats(double *mean, double *stdev, int width, const float *img, const QRect &win)
 {
     // Determine the mean and standard deviation
     double sum = 0.0;
@@ -1534,7 +1532,7 @@ static void GetStats(double *mean, double *stdev, int width, const float *img, c
         const float *end = p0 + win.height();
         for (const float *p = p0; p < end; p++)
         {
-            double const x = (double) *p;
+            double const x = (double) * p;
             sum += x;
             double const a0 = a;
             a += (x - a) / k;
@@ -1549,7 +1547,7 @@ static void GetStats(double *mean, double *stdev, int width, const float *img, c
     *stdev = sqrt(q / km1);
 }
 
-static void RemoveItems(std::set<Peak>& stars, const std::set<int>& to_erase)
+static void RemoveItems(std::set<Peak> &stars, const std::set<int> &to_erase)
 {
     int n = 0;
     for (std::set<Peak>::iterator it = stars.begin(); it != stars.end(); n++)
@@ -1582,7 +1580,7 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
 
     int subW = smoothed->width();
     int subH = smoothed->height();
-    int size = subW*subH;
+    int size = subW * subH;
 
     // convert to floating point
     float *conv = createFloatImage(smoothed);
@@ -1590,7 +1588,7 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
     // run the PSF convolution
     {
         float *tmp = new float[size];
-        memset(tmp, 0, size*sizeof(float));
+        memset(tmp, 0, size * sizeof(float));
         psf_conv(tmp, conv, subW, subH);
         delete [] conv;
         // Swap
@@ -1658,7 +1656,7 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
             }
 
             // coordinates on the original image
-            int downsample =1;
+            int downsample = 1;
             int imgx = x * downsample + downsample / 2;
             int imgy = y * downsample + downsample / 2;
 
@@ -1669,12 +1667,12 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
     }
 
     //for (std::set<Peak>::const_reverse_iterator it = stars.rbegin(); it != stars.rend(); ++it)
-        //qCDebug(KSTARS_EKOS_GUIDE) << "AutoFind: local max [" << it->x << "," << it->y << "]" << it->val;
+    //qCDebug(KSTARS_EKOS_GUIDE) << "AutoFind: local max [" << it->x << "," << it->y << "]" << it->val;
 
     // merge stars that are very close into a single star
     {
         const int minlimitsq = 5 * 5;
-    repeat:
+repeat:
         for (std::set<Peak>::const_iterator a = stars.begin(); a != stars.end(); ++a)
         {
             std::set<Peak>::const_iterator b = a;
@@ -1744,7 +1742,7 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
             std::set<Peak>::iterator next = it;
             ++next;
             if (it->x <= edgeDist || it->x >= subW - edgeDist ||
-                it->y <= edgeDist || it->y >= subH - edgeDist)
+                    it->y <= edgeDist || it->y >= subH - edgeDist)
             {
                 //Debug.Write(wxString::Format("AutoFind: too close to edge [%d, %d] %.1f\n", it->x, it->y, it->val));
                 stars.erase(it);
