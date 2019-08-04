@@ -948,7 +948,10 @@ void Focus::newFITS(IBLOB *bp)
         connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, [&](bool completed)
         {
             darkFrameCheck->setChecked(completed);
-            setCaptureComplete();
+            if (completed)
+                setCaptureComplete();
+            else
+                abort();
         });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 

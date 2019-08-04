@@ -721,6 +721,9 @@ void Guide::updateGuideParams()
         return;
     }
 
+    if (targetChip->getFrameType() != FRAME_LIGHT)
+        return;
+
     binningCombo->setEnabled(targetChip->canBin());
     int subBinX = 1, subBinY = 1;
     if (targetChip->canBin())
@@ -1117,7 +1120,7 @@ void Guide::setCaptureComplete()
         return;
     }
 
-    DarkLibrary::Instance()->disconnect(this);
+    //DarkLibrary::Instance()->disconnect(this);
 
     switch (state)
     {
@@ -2797,17 +2800,21 @@ bool Guide::executeOneOperation(GuideState operation)
             // Do we need to take a dark frame?
             if (Options::guideDarkFrameEnabled())
             {
-                FITSData *darkData   = nullptr;
                 QVariantMap settings = frameSettings[targetChip];
                 uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
                 uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
-                darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+                FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, [&](bool completed)
+                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {
-                    setDarkFrameEnabled(completed);
-                    setCaptureComplete();
+                    DarkLibrary::Instance()->disconnect(this);
+                    if (completed != darkFrameCheck->isChecked())
+                        setDarkFrameEnabled(completed);
+                    if (completed)
+                        setCaptureComplete();
+                    else
+                        abort();
                 });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Guide::appendLogText);
 

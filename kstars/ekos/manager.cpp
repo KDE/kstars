@@ -1450,6 +1450,9 @@ void Manager::setDustCap(ISD::GDInterface * dustCapDevice)
 
     if (captureProcess.get() != nullptr)
         captureProcess->setDustCap(dustCapDevice);
+
+    DarkLibrary::Instance()->setRemoteCap(dustCapDevice);
+
 }
 
 void Manager::setLightBox(ISD::GDInterface * lightBoxDevice)
@@ -1489,7 +1492,10 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
     if (weatherProcess)
         weatherProcess->removeDevice(devInterface);
     if (dustCapProcess)
+    {
         dustCapProcess->removeDevice(devInterface);
+        DarkLibrary::Instance()->removeDevice(devInterface);
+    }
 
     appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
