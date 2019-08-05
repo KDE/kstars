@@ -1114,13 +1114,13 @@ void Guide::newFITS(IBLOB *bp)
 
 void Guide::setCaptureComplete()
 {
+    DarkLibrary::Instance()->disconnect(this);
+
     if (operationStack.isEmpty() == false)
     {
         executeOperationStack();
         return;
     }
-
-    //DarkLibrary::Instance()->disconnect(this);
 
     switch (state)
     {

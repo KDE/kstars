@@ -2843,10 +2843,14 @@ void Align::newFITS(IBLOB *bp)
                 uint16_t offsetY = y / biny;
                 FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, [&](bool completed)
+                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {
+                    DarkLibrary::Instance()->disconnect(this);
                     alignDarkFrameCheck->setChecked(completed);
-                    setCaptureComplete();
+                    if (completed)
+                        setCaptureComplete();
+                    else
+                        abort();
                 });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
 

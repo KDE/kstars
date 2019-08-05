@@ -945,8 +945,9 @@ void Focus::newFITS(IBLOB *bp)
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
-        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, [&](bool completed)
+        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
         {
+            DarkLibrary::Instance()->disconnect(this);
             darkFrameCheck->setChecked(completed);
             if (completed)
                 setCaptureComplete();

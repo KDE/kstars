@@ -1385,7 +1385,15 @@ void Capture::newFITS(IBLOB * bp)
                 uint16_t offsetX       = activeJob->getSubX() / activeJob->getXBin();
                 uint16_t offsetY       = activeJob->getSubY() / activeJob->getYBin();
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, &Ekos::Capture::setCaptureComplete);
+                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
+                {
+                    if (currentCCD->isLooping() == false)
+                        DarkLibrary::Instance()->disconnect(this);
+                    if (completed)
+                        setCaptureComplete();
+                    else
+                        abort();
+                });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
 
                 if (darkData)
