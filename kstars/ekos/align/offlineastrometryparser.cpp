@@ -172,6 +172,8 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
 #ifdef Q_OS_OSX
     if (KSUtils::getAstrometryDataDir(astrometryDataDir) == false)
         return;
+#else
+    getAstrometryDataDir(astrometryDataDir);
 #endif
 
     QStringList nameFilter("*.fits");
