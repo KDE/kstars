@@ -11,6 +11,7 @@
 
 #include <QQuickView>
 #include <QQuickItem>
+#include <indicom.h>
 
 #include <KNotifications/KNotification>
 #include <KLocalizedContext>
@@ -928,8 +929,9 @@ bool Mount::slew(double RA, double DEC)
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     double HA = lst.Hours() - RA;
-    if (HA > 12.0)
-        HA -= 24.0;
+    HA = rangeHA(HA);
+    //    if (HA > 12.0)
+    //        HA -= 24.0;
     setInitialHA(HA);
     // reset the meridian flip status if the slew is not the meridian flip itself
     if (m_MFStatus != FLIP_RUNNING)
@@ -963,6 +965,7 @@ bool Mount::checkMeridianFlip(dms lst)
 
 
     double deltaHA = meridianFlipTimeBox->value() - lst.Hours() + telescopeCoord.ra().Hours();
+    deltaHA = rangeHA(deltaHA);
     int hh = static_cast<int> (deltaHA);
     int mm = static_cast<int> ((deltaHA - hh) * 60);
     int ss = static_cast<int> ((deltaHA - hh - mm / 60.0) * 3600);
@@ -1173,12 +1176,13 @@ double Mount::hourAngle()
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     dms ha(lst.Degrees() - telescopeCoord.ra().Degrees());
-    double HA = ha.Hours();
+    double HA = rangeHA(ha.Hours());
 
-    if (HA > 12.0)
-        return (HA - 24.0);
-    else
-        return HA;
+    return HA;
+    //    if (HA > 12.0)
+    //        return (HA - 24.0);
+    //    else
+    //        return HA;
 }
 
 QList<double> Mount::telescopeInfo()
