@@ -225,8 +225,8 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
 void GenericDevice::processNumber(INumberVectorProperty *nvp)
 {
     QString deviceName = getDeviceName();
-    uint32_t interface = getDriverInterface();
-    Q_UNUSED(interface);
+    //    uint32_t interface = getDriverInterface();
+    //    Q_UNUSED(interface);
 
     if (!strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK &&
             ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
