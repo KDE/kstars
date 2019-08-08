@@ -37,6 +37,7 @@ class ObservatoryDomeModel: public QObject
         }
         void park();
         void unpark();
+        ISD::ParkStatus parkStatus();
 
         double azimuthPosition()
         {
@@ -62,6 +63,11 @@ class ObservatoryDomeModel: public QObject
             return (domeInterface != nullptr && domeInterface->canRelativeMove());
         }
 
+        bool isRolloffRoof()
+        {
+            return (domeInterface != nullptr && domeInterface->isRolloffRoof());
+        }
+
         bool isAutoSync()
         {
             return (domeInterface != nullptr && domeInterface->isAutoSync());
@@ -78,6 +84,8 @@ class ObservatoryDomeModel: public QObject
         void openShutter();
         void closeShutter();
 
+        bool moveDome(bool moveCW, bool start);
+
     public slots:
         void execute(WeatherActions actions);
 
@@ -87,6 +95,7 @@ class ObservatoryDomeModel: public QObject
 
     signals:
         void newStatus(ISD::Dome::Status state);
+        void newParkStatus(ISD::ParkStatus status);
         void newShutterStatus(ISD::Dome::ShutterStatus status);
         void newAutoSyncStatus(bool enabled);
         void azimuthPositionChanged(double position);

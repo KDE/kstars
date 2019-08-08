@@ -81,6 +81,11 @@ class Observatory : public QWidget, public Ui::Observatory
         void setWarningActions(WeatherActions actions);
         void setAlertActions(WeatherActions actions);
 
+        // button handling
+        void toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart, QString titleCounterpart);
+        void activateButton(QPushButton *button, QString title);
+        void buttonPressed(QPushButton *button, QString title);
+
     private slots:
         // observatory status handling
         void setObseratoryStatusControl(ObservatoryStatusControl control);
@@ -103,6 +108,7 @@ class Observatory : public QWidget, public Ui::Observatory
         void shutdownDome();
 
         void setDomeStatus(ISD::Dome::Status status);
+        void setDomeParkStatus(ISD::ParkStatus status);
         void setShutterStatus(ISD::Dome::ShutterStatus status);
 };
 }

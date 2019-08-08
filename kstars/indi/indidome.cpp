@@ -219,12 +219,19 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
     {
         Status lastStatus = m_Status;
 
-        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING && lastStatus != DOME_PARKING && lastStatus != DOME_UNPARKING)
+        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING_CW && lastStatus != DOME_MOVING_CCW && lastStatus != DOME_PARKING && lastStatus != DOME_UNPARKING)
         {
-            m_Status = DOME_MOVING;
+            m_Status = svp->sp->s == ISS_ON ? DOME_MOVING_CW : DOME_MOVING_CCW;
             emit newStatus(m_Status);
+
+            // rolloff roofs: cw = opening = unparking, ccw = closing = parking
+            if (!canAbsMove() && !canRelMove())
+            {
+                m_ParkStatus = m_Status == DOME_MOVING_CW ? PARK_UNPARKING : PARK_PARKING;
+                emit newParkStatus(m_ParkStatus);
+            }
         }
-        else if (svp->s == IPS_OK && lastStatus == DOME_MOVING)
+        else if (svp->s == IPS_OK && (lastStatus == DOME_MOVING_CW || lastStatus == DOME_MOVING_CCW))
         {
             m_Status = DOME_TRACKING;
             emit newStatus(m_Status);
@@ -443,6 +450,21 @@ bool Dome::setAutoSync(bool activate)
     return true;
 }
 
+bool Dome::moveDome(DomeDirection dir, DomeMotionCommand operation)
+{
+    ISwitchVectorProperty *domeMotion = baseDevice->getSwitch("DOME_MOTION");
+    if (domeMotion == nullptr)
+        return false;
+
+    ISwitch *opSwitch = IUFindSwitch(domeMotion, dir == DomeDirection::DOME_CW ? "DOME_CW": "DOME_CCW");
+    IUResetSwitch(domeMotion);
+    opSwitch->s = (operation == DomeMotionCommand::MOTION_START ? ISS_ON : ISS_OFF);
+
+    clientManager->sendNewSwitch(domeMotion);
+
+    return true;
+}
+
 bool Dome::ControlShutter(bool open)
 {
     ISwitchVectorProperty *shutterSP = baseDevice->getSwitch("DOME_SHUTTER");
@@ -506,8 +528,11 @@ const QString Dome::getStatusString(Dome::Status status)
         case ISD::Dome::DOME_UNPARKING:
             return i18n("UnParking");
 
-        case ISD::Dome::DOME_MOVING:
-            return i18n("Moving");
+        case ISD::Dome::DOME_MOVING_CW:
+            return i18n("Moving clockwise");
+
+        case ISD::Dome::DOME_MOVING_CCW:
+            return i18n("Moving counter clockwise");
 
         case ISD::Dome::DOME_TRACKING:
             return i18n("Tracking");

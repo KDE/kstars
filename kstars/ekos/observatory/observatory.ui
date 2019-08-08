@@ -50,7 +50,7 @@
          <property name="title">
           <string>Dome</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="leftMargin">
            <number>3</number>
           </property>
@@ -63,230 +63,8 @@
           <property name="bottomMargin">
            <number>3</number>
           </property>
-          <item row="1" column="0" colspan="6">
+          <item>
            <layout class="QGridLayout" name="domeStatusBox">
-            <item row="8" column="0" colspan="4">
-             <layout class="QHBoxLayout" name="parkingBox">
-              <item>
-               <widget class="QPushButton" name="domePark">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Park the dome. For advanced control of the dome please use the INDI tab.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>Park</string>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="domeUnpark">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Unpark the dome. For advanced control of the dome please use the INDI tab.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>UnPark</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="motionAbortButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Abort dome motion</string>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>Abort</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="1" column="2" rowspan="2" colspan="2">
-             <layout class="QGridLayout" name="MotionBox">
-              <item row="4" column="3">
-               <widget class="QDoubleSpinBox" name="relativeMotionSB">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip">
-                 <string>Relative position the dome should move.</string>
-                </property>
-                <property name="minimum">
-                 <double>-999.990000000000009</double>
-                </property>
-                <property name="maximum">
-                 <double>999.990000000000009</double>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="4">
-               <widget class="QPushButton" name="motionMoveRelButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Move the dome for the given degrees and direction.</string>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>Move (rel)</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="QDoubleSpinBox" name="absoluteMotionSB">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip">
-                 <string>Absolute position the dome should move.</string>
-                </property>
-                <property name="maximum">
-                 <double>999.990000000000009</double>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="4">
-               <widget class="QPushButton" name="motionMoveAbsButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Move the dome to the given absolute position.</string>
-                </property>
-                <property name="text">
-                 <string>Move (abs)</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
             <item row="1" column="0" rowspan="2">
              <widget class="QLabel" name="domeAzimuthPosition">
               <property name="minimumSize">
@@ -309,72 +87,336 @@ font-weight:bold;
                </font>
               </property>
               <property name="text">
-               <string>0</string>
+               <string notr="true">0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
-            <item row="3" column="3">
-             <widget class="QPushButton" name="motionCCWButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>96</width>
-                <height>36</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>96</width>
-                <height>36</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Rotate counter clockwise</string>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-              </property>
-              <property name="text">
-               <string>CCW</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2" colspan="2">
-             <widget class="QLabel" name="motionLabel">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Motion:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" colspan="2">
-             <widget class="QLabel" name="motionStatusLabel">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+            <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignTop">
              <widget class="QLabel" name="domeAzimuthPositionLabel">
               <property name="text">
                <string>Position</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="2">
-             <widget class="QPushButton" name="motionCWButton">
+            <item row="4" column="0" colspan="4">
+             <widget class="QLabel" name="motionStatusLabel">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2" rowspan="3" colspan="2">
+             <widget class="QWidget" name="MotionBox" native="true">
+              <layout class="QFormLayout" name="formLayout">
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="motionLabel">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Motion</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QDoubleSpinBox" name="absoluteMotionSB">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Absolute position the dome should move.</string>
+                 </property>
+                 <property name="maximum">
+                  <double>999.990000000000009</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="motionMoveAbsButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Move the dome to the given absolute position.</string>
+                 </property>
+                 <property name="text">
+                  <string>Move (abs)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QDoubleSpinBox" name="relativeMotionSB">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Relative position the dome should move.</string>
+                 </property>
+                 <property name="minimum">
+                  <double>-999.990000000000009</double>
+                 </property>
+                 <property name="maximum">
+                  <double>999.990000000000009</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QPushButton" name="motionMoveRelButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Move the dome for the given degrees and direction.</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Move (rel)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QPushButton" name="motionCWButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Rotate clockwise</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>&amp;CW</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QPushButton" name="motionCCWButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>96</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Rotate counter clockwise</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>CCW</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QWidget" name="SlavingBox" native="true">
+            <layout class="QHBoxLayout" name="slavingBox">
+             <property name="leftMargin">
+              <number>3</number>
+             </property>
+             <property name="topMargin">
+              <number>3</number>
+             </property>
+             <property name="rightMargin">
+              <number>3</number>
+             </property>
+             <property name="bottomMargin">
+              <number>3</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Slaving</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="slavingEnableButton">
+               <property name="minimumSize">
+                <size>
+                 <width>96</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>96</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable slaving, dome motion &lt;span style=&quot; font-weight:600;&quot;&gt;follows telescope motion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+               </property>
+               <property name="text">
+                <string>Enable</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="slavingDisableButton">
+               <property name="minimumSize">
+                <size>
+                 <width>96</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>96</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Disable slaving, dome &lt;span style=&quot; font-weight:600;&quot;&gt;does not follow telescope motion&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+               </property>
+               <property name="text">
+                <string>Disable</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="parkingBox">
+            <property name="leftMargin">
+             <number>3</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <property name="rightMargin">
+             <number>3</number>
+            </property>
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="domePark">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -391,7 +433,7 @@ font-weight:bold;
                </size>
               </property>
               <property name="toolTip">
-               <string>Rotate clockwise</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Park the dome. For advanced control of the dome please use the INDI tab.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton:checked
@@ -402,99 +444,103 @@ font-weight:bold;
 }</string>
               </property>
               <property name="text">
-               <string>&amp;CW</string>
+               <string>Park</string>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>32</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
-            <item row="5" column="0" colspan="4">
-             <layout class="QHBoxLayout" name="slavingBox">
-              <item>
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Slaving</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="slavingEnableButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable slaving, dome motion &lt;span style=&quot; font-weight:600;&quot;&gt;follows telescope motion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton:checked
+            <item>
+             <widget class="QPushButton" name="domeUnpark">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>96</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>96</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Unpark the dome. For advanced control of the dome please use the INDI tab.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked
 {
 background-color: maroon;
 border: 1px outset;
 font-weight:bold;
 }</string>
-                </property>
-                <property name="text">
-                 <string>Enable</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="slavingDisableButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>96</width>
-                  <height>36</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Disable slaving, dome &lt;span style=&quot; font-weight:600;&quot;&gt;does not follow telescope motion&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton:checked
+              </property>
+              <property name="text">
+               <string>UnPark</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="motionAbortButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>96</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>96</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Abort dome motion</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked
 {
 background-color: maroon;
 border: 1px outset;
 font-weight:bold;
 }</string>
-                </property>
-                <property name="text">
-                 <string>Disable</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
+              </property>
+              <property name="text">
+               <string>Abort</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -576,7 +622,7 @@ font-weight:bold;
              </size>
             </property>
             <property name="checkable">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -612,7 +658,7 @@ font-weight:bold;
              <string>Open</string>
             </property>
             <property name="checkable">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="checked">
              <bool>false</bool>
@@ -853,7 +899,7 @@ font-weight:bold;
                 <item>
                  <widget class="QLabel" name="weatherWarningDelayLabel">
                   <property name="text">
-                   <string>Delay (sec):</string>
+                   <string>Delay (se&amp;c):</string>
                   </property>
                  </widget>
                 </item>
@@ -945,7 +991,7 @@ font-weight:bold;
                 <item>
                  <widget class="QLabel" name="weatherAlertDelayLabel">
                   <property name="text">
-                   <string>Delay (sec):</string>
+                   <string>De&amp;lay (sec):</string>
                   </property>
                  </widget>
                 </item>

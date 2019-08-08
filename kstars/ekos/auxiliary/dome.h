@@ -93,10 +93,14 @@ class Dome : public QObject
          */
         Q_SCRIPTABLE bool isMoving();
 
+        Q_SCRIPTABLE bool isRolloffRoof();
 
         Q_SCRIPTABLE double azimuthPosition();
         Q_SCRIPTABLE void setAzimuthPosition(double position);
         Q_SCRIPTABLE void setRelativePosition(double position);
+
+        Q_SCRIPTABLE bool moveDome(bool moveCW, bool start);
+
 
         Q_SCRIPTABLE bool isAutoSync();
         Q_SCRIPTABLE bool setAutoSync(bool activate);
@@ -148,6 +152,7 @@ class Dome : public QObject
         ISD::Dome *currentDome { nullptr };
         ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
         ISD::Dome::ShutterStatus m_ShutterStatus { ISD::Dome::SHUTTER_UNKNOWN };
+        void setStatus(ISD::Dome::Status status);
 };
 
 }
