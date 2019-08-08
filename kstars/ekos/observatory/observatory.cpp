@@ -36,8 +36,6 @@ Observatory::Observatory()
     // make invisible, since not implemented yet
     weatherWarningSchedulerCB->setVisible(false);
     weatherAlertSchedulerCB->setVisible(false);
-    motionCWButton->setVisible(false);
-    motionCCWButton->setVisible(false);
 }
 
 void Observatory::setObseratoryStatusControl(ObservatoryStatusControl control)
@@ -59,6 +57,7 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
         connect(model, &Ekos::ObservatoryDomeModel::ready, this, &Ekos::Observatory::initDome);
         connect(model, &Ekos::ObservatoryDomeModel::disconnected, this, &Ekos::Observatory::shutdownDome);
         connect(model, &Ekos::ObservatoryDomeModel::newStatus, this, &Ekos::Observatory::setDomeStatus);
+        connect(model, &Ekos::ObservatoryDomeModel::newParkStatus, this, &Ekos::Observatory::setDomeParkStatus);
         connect(model, &Ekos::ObservatoryDomeModel::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
         connect(model, &Ekos::ObservatoryDomeModel::azimuthPositionChanged, this, &Ekos::Observatory::domeAzimuthChanged);
         connect(model, &Ekos::ObservatoryDomeModel::newAutoSyncStatus, this, &Ekos::Observatory::showAutoSync);
@@ -125,6 +124,10 @@ void Observatory::initDome()
     {
         connect(getDomeModel(), &Ekos::ObservatoryDomeModel::newLog, this, &Ekos::Observatory::appendLogText);
 
+        // dome motion buttons
+        connect(motionCWButton, &QPushButton::clicked, [=](bool checked) {getDomeModel()->moveDome(true, checked);});
+        connect(motionCCWButton, &QPushButton::clicked, [=](bool checked) {getDomeModel()->moveDome(false, checked);});
+
         if (getDomeModel()->canPark())
         {
             connect(domePark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::park);
@@ -138,9 +141,30 @@ void Observatory::initDome()
             domeUnpark->setEnabled(false);
         }
 
-        // initialize the dome motion controls
-        domeAzimuthChanged(getDomeModel()->azimuthPosition());
+        if (getDomeModel()->isRolloffRoof())
+        {
+            SlavingBox->setVisible(false);
+            domeAzimuthPosition->setText("N/A");
+            enableMotionControl(true);
+        }
+        else
+        {
+            // initialize the dome motion controls
+            domeAzimuthChanged(getDomeModel()->azimuthPosition());
 
+            // slaving
+            showAutoSync(getDomeModel()->isAutoSync());
+            connect(slavingEnableButton, &QPushButton::clicked, this, [this]()
+            {
+                enableAutoSync(true);
+            });
+            connect(slavingDisableButton, &QPushButton::clicked, this, [this]()
+            {
+                enableAutoSync(false);
+            });
+        }
+
+        // shutter handling
         if (getDomeModel()->hasShutter())
         {
             shutterBox->setVisible(true);
@@ -149,31 +173,22 @@ void Observatory::initDome()
             connect(shutterClosed, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::closeShutter);
             shutterClosed->setEnabled(true);
             shutterOpen->setEnabled(true);
+            setShutterStatus(getDomeModel()->shutterStatus());
+            useShutterCB->setVisible(true);
         }
         else
         {
             shutterBox->setVisible(false);
             weatherWarningShutterCB->setVisible(false);
             weatherAlertShutterCB->setVisible(false);
+            useShutterCB->setVisible(false);
         }
 
+        // abort button should always be available
         motionAbortButton->setEnabled(true);
-
-        // slaving
-        connect(slavingEnableButton, &QPushButton::clicked, this, [this]()
-        {
-            enableAutoSync(true);
-        });
-        connect(slavingDisableButton, &QPushButton::clicked, this, [this]()
-        {
-            enableAutoSync(false);
-        });
-
-
+        // update the dome status
         setDomeStatus(getDomeModel()->status());
-        setShutterStatus(getDomeModel()->shutterStatus());
-
-        enableAutoSync(getDomeModel()->isAutoSync());
+        setDomeParkStatus(getDomeModel()->parkStatus());
     }
 
 }
@@ -194,76 +209,159 @@ void Observatory::shutdownDome()
 
 void Observatory::setDomeStatus(ISD::Dome::Status status)
 {
+    qCDebug(KSTARS_EKOS_OBSERVATORY) << "Setting dome status to " << status;
+
     switch (status)
     {
         case ISD::Dome::DOME_ERROR:
             break;
         case ISD::Dome::DOME_IDLE:
-            domePark->setChecked(false);
-            domePark->setText(i18n("Park"));
-            domeUnpark->setChecked(true);
-            domeUnpark->setText(i18n("UnParked"));
-            enableMotionControl(true);
+            motionCWButton->setChecked(false);
+            motionCWButton->setEnabled(true);
+            motionCCWButton->setChecked(false);
+            motionCCWButton->setEnabled(true);
+
             appendLogText(i18n("Dome is idle."));
             break;
-        case ISD::Dome::DOME_MOVING:
-            enableMotionControl(false);
-            appendLogText(i18n("Dome is moving..."));
+
+        case ISD::Dome::DOME_MOVING_CW:
+            motionCWButton->setChecked(true);
+            motionCCWButton->setEnabled(true);
+            motionCCWButton->setChecked(false);
+            if (getDomeModel()->isRolloffRoof())
+            {
+                domeAzimuthPosition->setText(i18n("Opening"));
+                toggleButtons(domeUnpark, i18n("Unparking"), domePark, i18n("Park"));
+                appendLogText(i18n("Dome is opening..."));
+            }
+            else
+            {
+                appendLogText(i18n("Dome is moving clockwise..."));
+            }
             break;
+
+        case ISD::Dome::DOME_MOVING_CCW:
+            motionCWButton->setChecked(false);
+            motionCWButton->setEnabled(true);
+            motionCCWButton->setChecked(true);
+            if (getDomeModel()->isRolloffRoof())
+            {
+                domeAzimuthPosition->setText(i18n("Closing"));
+                toggleButtons(domePark, i18n("Parking"), domeUnpark, i18n("Unpark"));
+                appendLogText(i18n("Dome is closing..."));
+            }
+            else
+            {
+                appendLogText(i18n("Dome is moving counter clockwise..."));
+            }
+        break;
+
         case ISD::Dome::DOME_PARKED:
-            domePark->setChecked(true);
-            domePark->setText(i18n("Parked"));
-            domeUnpark->setChecked(false);
-            domeUnpark->setText(i18n("UnPark"));
-            enableMotionControl(false);
+            setDomeParkStatus(ISD::PARK_PARKED);
+
             appendLogText(i18n("Dome is parked."));
             break;
+
         case ISD::Dome::DOME_PARKING:
-            domePark->setText(i18n("Parking"));
-            domeUnpark->setText(i18n("UnPark"));
-            enableMotionControl(false);
+            toggleButtons(domePark, i18n("Parking"), domeUnpark, i18n("Unpark"));
+            motionCWButton->setEnabled(true);
+
+            if (getDomeModel()->isRolloffRoof())
+                domeAzimuthPosition->setText(i18n("Closing"));
+            else
+                enableMotionControl(false);
+
+            motionCWButton->setChecked(false);
+            motionCCWButton->setChecked(true);
+
             appendLogText(i18n("Dome is parking..."));
             break;
+
         case ISD::Dome::DOME_UNPARKING:
-            domePark->setText(i18n("Park"));
-            domeUnpark->setText(i18n("UnParking"));
-            enableMotionControl(false);
+            toggleButtons(domeUnpark, i18n("Unparking"), domePark, i18n("Park"));
+            motionCCWButton->setEnabled(true);
+
+            if (getDomeModel()->isRolloffRoof())
+                domeAzimuthPosition->setText(i18n("Opening"));
+            else
+                enableMotionControl(false);
+
+            motionCWButton->setChecked(true);
+            motionCCWButton->setChecked(false);
+
             appendLogText(i18n("Dome is unparking..."));
             break;
+
         case ISD::Dome::DOME_TRACKING:
             enableMotionControl(true);
+            motionCWButton->setEnabled(true);
+            motionCCWButton->setChecked(true);
             appendLogText(i18n("Dome is tracking."));
             break;
+    }
+}
+
+void Observatory::setDomeParkStatus(ISD::ParkStatus status)
+{
+    qCDebug(KSTARS_EKOS_OBSERVATORY) << "Setting dome park status to " << status;
+    switch (status)
+    {
+    case ISD::PARK_UNPARKED:
+        activateButton(domePark, i18n("Park"));
+        buttonPressed(domeUnpark, i18n("Unparked"));
+        motionCWButton->setChecked(false);
+        motionCWButton->setEnabled(false);
+        motionCCWButton->setChecked(false);
+
+        if (getDomeModel()->isRolloffRoof())
+            domeAzimuthPosition->setText(i18n("Open"));
+        else
+            enableMotionControl(true);
+        break;
+
+    case ISD::PARK_PARKED:
+        buttonPressed(domePark, i18n("Parked"));
+        activateButton(domeUnpark, i18n("Unpark"));
+        motionCWButton->setChecked(false);
+        motionCCWButton->setChecked(false);
+        motionCCWButton->setEnabled(false);
+
+        if (getDomeModel()->isRolloffRoof())
+            domeAzimuthPosition->setText(i18n("Closed"));
+        else
+            enableMotionControl(false);
+        break;
+
+    default:
+        break;
     }
 }
 
 
 void Observatory::setShutterStatus(ISD::Dome::ShutterStatus status)
 {
+    qCDebug(KSTARS_EKOS_OBSERVATORY) << "Setting shutter status to " << status;
+
     switch (status)
     {
         case ISD::Dome::SHUTTER_OPEN:
-            shutterOpen->setChecked(true);
-            shutterClosed->setChecked(false);
-            shutterOpen->setText(i18n("Opened"));
-            shutterClosed->setText(i18n("Close"));
+            buttonPressed(shutterOpen, i18n("Opened"));
+            activateButton(shutterClosed, i18n("Close"));
             appendLogText(i18n("Shutter is open."));
             break;
+
         case ISD::Dome::SHUTTER_OPENING:
-            shutterOpen->setText(i18n("Opening"));
-            shutterClosed->setText(i18n("Closed"));
+            toggleButtons(shutterOpen, i18n("Opening"), shutterClosed, i18n("Close"));
             appendLogText(i18n("Shutter is opening..."));
             break;
+
         case ISD::Dome::SHUTTER_CLOSED:
-            shutterOpen->setChecked(false);
-            shutterClosed->setChecked(true);
-            shutterOpen->setText(i18n("Open"));
-            shutterClosed->setText(i18n("Closed"));
+            buttonPressed(shutterClosed, i18n("Closed"));
+            activateButton(shutterOpen, i18n("Open"));
             appendLogText(i18n("Shutter is closed."));
             break;
         case ISD::Dome::SHUTTER_CLOSING:
-            shutterOpen->setText(i18n("Opened"));
-            shutterClosed->setText(i18n("Closing"));
+            toggleButtons(shutterClosed, i18n("Closing"), shutterOpen, i18n("Open"));
             appendLogText(i18n("Shutter is closing..."));
             break;
         default:
@@ -317,14 +415,29 @@ void Observatory::enableMotionControl(bool enabled)
     {
         motionMoveRelButton->setEnabled(enabled);
         relativeMotionSB->setEnabled(enabled);
+        motionCWButton->setEnabled(enabled);
+        motionCCWButton->setEnabled(enabled);
     }
     else
     {
         motionMoveRelButton->setEnabled(false);
         relativeMotionSB->setEnabled(false);
+        motionCWButton->setEnabled(false);
+        motionCCWButton->setEnabled(false);
     }
 
-
+    // special case for rolloff roofs
+    if (getDomeModel()->isRolloffRoof())
+    {
+        motionCWButton->setText(i18n("Open"));
+        motionCCWButton->setText(i18n("Close"));
+        motionCWButton->setEnabled(enabled);
+        motionCCWButton->setEnabled(enabled);
+        motionMoveAbsButton->setVisible(false);
+        motionMoveRelButton->setVisible(false);
+        absoluteMotionSB->setVisible(false);
+        relativeMotionSB->setVisible(false);
+    }
 }
 
 void Observatory::enableAutoSync(bool enabled)
@@ -440,6 +553,34 @@ void Observatory::setAlertActions(WeatherActions actions)
     weatherAlertShutterCB->setChecked(actions.closeShutter);
     weatherAlertDelaySB->setValue(actions.delay);
 }
+
+void Observatory::toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart, QString titleCounterpart)
+{
+    buttonPressed->setEnabled(false);
+    buttonPressed->setText(titlePressed);
+
+    buttonCounterpart->setEnabled(true);
+    buttonCounterpart->setChecked(false);
+    buttonCounterpart->setCheckable(false);
+    buttonCounterpart->setText(titleCounterpart);
+}
+
+void Observatory::activateButton(QPushButton *button, QString title)
+{
+    button->setEnabled(true);
+    button->setCheckable(false);
+    button->setText(title);
+}
+
+void Observatory::buttonPressed(QPushButton *button, QString title)
+{
+    button->setEnabled(false);
+    button->setCheckable(true);
+    button->setChecked(true);
+    button->setText(title);
+
+}
+
 
 void Observatory::statusControlSettingsChanged()
 {

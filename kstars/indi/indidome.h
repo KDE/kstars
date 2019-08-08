@@ -18,7 +18,7 @@ namespace ISD
 {
 /**
  * @class Dome
- * Focuser class handles control of INDI dome devices. Both open and closed loop (senor feedback) domes are supported.
+ * Class handles control of INDI dome devices. Both open and closed loop (sensor feedback) domes are supported.
  *
  * @author Jasem Mutlaq
  */
@@ -31,7 +31,8 @@ public:
     typedef enum
     {
         DOME_IDLE,
-        DOME_MOVING,
+        DOME_MOVING_CW,
+        DOME_MOVING_CCW,
         DOME_TRACKING,
         DOME_PARKING,
         DOME_UNPARKING,
@@ -48,6 +49,19 @@ public:
         SHUTTER_CLOSING,
         SHUTTER_ERROR
     } ShutterStatus;
+
+    typedef enum
+    {
+        DOME_CW,
+        DOME_CCW
+    } DomeDirection;
+
+    typedef enum
+    {
+        MOTION_START,
+        MOTION_STOP
+    } DomeMotionCommand;
+
 
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
@@ -86,6 +100,7 @@ public:
         bool setAzimuthPosition(double position);
         bool setRelativePosition(double position);
 
+        bool moveDome(DomeDirection dir, DomeMotionCommand operation);
 
         bool hasShutter() const
         {

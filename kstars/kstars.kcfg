@@ -1383,6 +1383,10 @@
          <whatsthis>Log Ekos Mount Module activity.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="ObservatoryLogging" type="Bool">
+         <whatsthis>Log Ekos Observatory Module activity.</whatsthis>
+         <default>false</default>
+      </entry>
    </group>
    <group name="FITSViewer">
    <entry name="useFITSViewer" type="Bool">

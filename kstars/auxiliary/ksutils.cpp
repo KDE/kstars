@@ -1029,8 +1029,7 @@ void Logging::SyncFilterRules()
                             "org.kde.kstars.ekos.guide.debug=%6\n"
                             "org.kde.kstars.ekos.align.debug=%7\n"
                             "org.kde.kstars.ekos.mount.debug=%8\n"
-                            "org.kde.kstars.ekos.scheduler.debug=%9\n"
-                            "org.kde.kstars.debug=%1").arg(
+                            "org.kde.kstars.ekos.scheduler.debug=%9\n").arg(
                         Options::verboseLogging() ? "true" : "false",
                         Options::iNDILogging() ? "true" : "false",
                         Options::fITSLogging() ? "true" : "false",
@@ -1039,8 +1038,11 @@ void Logging::SyncFilterRules()
                         Options::guideLogging() ? "true" : "false",
                         Options::alignmentLogging() ? "true" : "false",
                         Options::mountLogging() ? "true" : "false",
-                        Options::schedulerLogging() ? "true" : "false"
-                    );
+                        Options::schedulerLogging() ? "true" : "false")
+            .append(QString("org.kde.kstars.ekos.observatory.debug=%2\n"
+                            "org.kde.kstars.debug=%1").arg(
+                        Options::verboseLogging() ? "true" : "false",
+                        Options::observatoryLogging() ? "true" : "false"));
 
     QLoggingCategory::setFilterRules(rules);
 }

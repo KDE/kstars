@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>309</height>
+    <width>501</width>
+    <height>400</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -71,11 +71,126 @@
       <string>Logs</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="1" colspan="2">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Output:</string>
+      <item row="0" column="8" colspan="3">
+       <widget class="QRadioButton" name="kcfg_DisableLogging">
+        <property name="toolTip">
+         <string>Disable all logging output</string>
         </property>
+        <property name="text">
+         <string>&amp;Disable</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">verbosityButtonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="2" column="0" rowspan="2" colspan="13">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="7">
+       <widget class="QCheckBox" name="kcfg_INDIWeatherLogging">
+        <property name="text">
+         <string>Weather</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Verbosity:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="7" colspan="2">
+       <widget class="QCheckBox" name="kcfg_INDIFocuserLogging">
+        <property name="text">
+         <string>Focuser</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="9">
+       <widget class="QCheckBox" name="kcfg_SchedulerLogging">
+        <property name="toolTip">
+         <string>Log Ekos Scheduler module activity</string>
+        </property>
+        <property name="text">
+         <string>Scheduler</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QCheckBox" name="kcfg_INDILogging">
+        <property name="toolTip">
+         <string>Log INDI devices activity</string>
+        </property>
+        <property name="text">
+         <string>INDI</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="11" column="2" colspan="2">
+       <widget class="QCheckBox" name="kcfg_INDIMountLogging">
+        <property name="text">
+         <string>Mount</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="7">
+       <widget class="QCheckBox" name="kcfg_FocusLogging">
+        <property name="toolTip">
+         <string>Log Ekos Focus module activity</string>
+        </property>
+        <property name="text">
+         <string>Focus</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="14" column="2">
+       <widget class="QCheckBox" name="kcfg_INDIRotatorLogging">
+        <property name="text">
+         <string>Rotator</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="3" colspan="3">
+       <widget class="QRadioButton" name="kcfg_VerboseLogging">
+        <property name="toolTip">
+         <string>Enable verbose debug output</string>
+        </property>
+        <property name="text">
+         <string>&amp;Verbose</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">verbosityButtonGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="7" column="5" colspan="2">
@@ -91,13 +206,69 @@
         </attribute>
        </widget>
       </item>
-      <item row="11" column="9">
-       <widget class="QCheckBox" name="kcfg_INDIAuxiliaryLogging">
+      <item row="11" column="5">
+       <widget class="QCheckBox" name="kcfg_INDICCDLogging">
         <property name="text">
-         <string>Auxiliary</string>
+         <string>CCD</string>
         </property>
         <attribute name="buttonGroup">
          <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="14" column="5">
+       <widget class="QCheckBox" name="kcfg_INDIGPSLogging">
+        <property name="text">
+         <string>GPS</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Output:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1" rowspan="4">
+       <widget class="QLabel" name="label_9">
+        <property name="toolTip">
+         <string>Have problems with INDI drivers? Turn on logging for drivers that exhibit issues.</string>
+        </property>
+        <property name="text">
+         <string>Drivers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6" colspan="2">
+       <widget class="QRadioButton" name="kcfg_RegularLogging">
+        <property name="toolTip">
+         <string>Enable regular debug output</string>
+        </property>
+        <property name="text">
+         <string>Reg&amp;ular</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">verbosityButtonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="7" column="9">
+       <widget class="QCheckBox" name="kcfg_FITSLogging">
+        <property name="toolTip">
+         <string>Log FITS processing activity</string>
+        </property>
+        <property name="text">
+         <string>FITS</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
         </attribute>
        </widget>
       </item>
@@ -114,23 +285,46 @@
         </attribute>
        </widget>
       </item>
-      <item row="1" column="6" colspan="2">
-       <widget class="QRadioButton" name="kcfg_LogToFile">
-        <property name="toolTip">
-         <string>Log output to log file</string>
-        </property>
+      <item row="12" column="2">
+       <widget class="QCheckBox" name="kcfg_INDIDomeLogging">
         <property name="text">
-         <string>File</string>
+         <string>Dome</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
-      <item row="7" column="7" colspan="2">
-       <widget class="QCheckBox" name="kcfg_MountLogging">
+      <item row="14" column="7">
+       <widget class="QCheckBox" name="kcfg_INDIAOLogging">
         <property name="toolTip">
-         <string>Log Ekos Mount module activity</string>
+         <string>Adaptive Optics</string>
         </property>
         <property name="text">
-         <string>Mount</string>
+         <string>AO</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="12" column="5">
+       <widget class="QCheckBox" name="kcfg_INDIDetectorLogging">
+        <property name="text">
+         <string>Detector</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="5">
+       <widget class="QCheckBox" name="kcfg_CaptureLogging">
+        <property name="toolTip">
+         <string>Log Ekos Capture module activity</string>
+        </property>
+        <property name="text">
+         <string>Capture</string>
         </property>
         <attribute name="buttonGroup">
          <string notr="true">modulesGroup</string>
@@ -160,7 +354,20 @@
         </property>
        </widget>
       </item>
-      <item row="10" column="9" colspan="3">
+      <item row="7" column="7" colspan="2">
+       <widget class="QCheckBox" name="kcfg_MountLogging">
+        <property name="toolTip">
+         <string>Log Ekos Mount module activity</string>
+        </property>
+        <property name="text">
+         <string>Mount</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="11" column="9" colspan="3">
        <widget class="QCheckBox" name="kcfg_INDIFilterWheelLogging">
         <property name="text">
          <string>Filter Wheel</string>
@@ -170,237 +377,43 @@
         </attribute>
        </widget>
       </item>
-      <item row="8" column="0" colspan="13">
+      <item row="9" column="0" colspan="13">
        <widget class="Line" name="line_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="0" column="8" colspan="3">
-       <widget class="QRadioButton" name="kcfg_DisableLogging">
-        <property name="toolTip">
-         <string>Disable all logging output</string>
-        </property>
+      <item row="12" column="9">
+       <widget class="QCheckBox" name="kcfg_INDIAuxiliaryLogging">
         <property name="text">
-         <string>&amp;Disable</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">verbosityButtonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="0" column="3" colspan="3">
-       <widget class="QRadioButton" name="kcfg_VerboseLogging">
-        <property name="toolTip">
-         <string>Enable verbose debug output</string>
-        </property>
-        <property name="text">
-         <string>&amp;Verbose</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">verbosityButtonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="2" column="0" rowspan="2" colspan="13">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="2" colspan="2">
-       <widget class="QCheckBox" name="kcfg_INDIMountLogging">
-        <property name="text">
-         <string>Mount</string>
+         <string>Auxiliary</string>
         </property>
         <attribute name="buttonGroup">
          <string notr="true">driversGroup</string>
         </attribute>
        </widget>
       </item>
-      <item row="0" column="6" colspan="2">
-       <widget class="QRadioButton" name="kcfg_RegularLogging">
+      <item row="1" column="6" colspan="2">
+       <widget class="QRadioButton" name="kcfg_LogToFile">
         <property name="toolTip">
-         <string>Enable regular debug output</string>
+         <string>Log output to log file</string>
         </property>
         <property name="text">
-         <string>Reg&amp;ular</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">verbosityButtonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="2">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Verbosity:</string>
+         <string>File</string>
         </property>
        </widget>
       </item>
-      <item row="11" column="7">
-       <widget class="QCheckBox" name="kcfg_INDIWeatherLogging">
-        <property name="text">
-         <string>Weather</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="10" column="1" rowspan="4">
-       <widget class="QLabel" name="label_9">
+      <item row="8" column="2" colspan="4">
+       <widget class="QCheckBox" name="kcfg_ObservatoryLogging">
         <property name="toolTip">
-         <string>Have problems with INDI drivers? Turn on logging for drivers that exhibit issues.</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Log Ekos Observatory module activity&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Drivers</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="7" colspan="2">
-       <widget class="QCheckBox" name="kcfg_INDIFocuserLogging">
-        <property name="text">
-         <string>Focuser</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QCheckBox" name="kcfg_INDILogging">
-        <property name="toolTip">
-         <string>Log INDI devices activity</string>
-        </property>
-        <property name="text">
-         <string>INDI</string>
+         <string>Observatory</string>
         </property>
         <attribute name="buttonGroup">
          <string notr="true">modulesGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="11" column="2">
-       <widget class="QCheckBox" name="kcfg_INDIDomeLogging">
-        <property name="text">
-         <string>Dome</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="11" column="5">
-       <widget class="QCheckBox" name="kcfg_INDIDetectorLogging">
-        <property name="text">
-         <string>Detector</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="4" column="5">
-       <widget class="QCheckBox" name="kcfg_CaptureLogging">
-        <property name="toolTip">
-         <string>Log Ekos Capture module activity</string>
-        </property>
-        <property name="text">
-         <string>Capture</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">modulesGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="4" column="7">
-       <widget class="QCheckBox" name="kcfg_FocusLogging">
-        <property name="toolTip">
-         <string>Log Ekos Focus module activity</string>
-        </property>
-        <property name="text">
-         <string>Focus</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">modulesGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="4" column="9">
-       <widget class="QCheckBox" name="kcfg_SchedulerLogging">
-        <property name="toolTip">
-         <string>Log Ekos Scheduler module activity</string>
-        </property>
-        <property name="text">
-         <string>Scheduler</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">modulesGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="7" column="9">
-       <widget class="QCheckBox" name="kcfg_FITSLogging">
-        <property name="toolTip">
-         <string>Log FITS processing activity</string>
-        </property>
-        <property name="text">
-         <string>FITS</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">modulesGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="10" column="5">
-       <widget class="QCheckBox" name="kcfg_INDICCDLogging">
-        <property name="text">
-         <string>CCD</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="13" column="5">
-       <widget class="QCheckBox" name="kcfg_INDIGPSLogging">
-        <property name="text">
-         <string>GPS</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="13" column="2">
-       <widget class="QCheckBox" name="kcfg_INDIRotatorLogging">
-        <property name="text">
-         <string>Rotator</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="13" column="7">
-       <widget class="QCheckBox" name="kcfg_INDIAOLogging">
-        <property name="toolTip">
-         <string>Adaptive Optics</string>
-        </property>
-        <property name="text">
-         <string>AO</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
         </attribute>
        </widget>
       </item>
@@ -497,11 +510,11 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="verbosityButtonGroup"/>
  </buttongroups>
 </ui>
