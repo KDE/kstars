@@ -1021,30 +1021,50 @@ void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
 
 void Logging::SyncFilterRules()
 {
-    QString rules = QString("org.kde.kstars.ekos.debug=%1\n"
-                            "org.kde.kstars.indi.debug=%2\n"
-                            "org.kde.kstars.fits.debug=%3\n"
-                            "org.kde.kstars.ekos.capture.debug=%4\n"
-                            "org.kde.kstars.ekos.focus.debug=%5\n"
-                            "org.kde.kstars.ekos.guide.debug=%6\n"
-                            "org.kde.kstars.ekos.align.debug=%7\n"
-                            "org.kde.kstars.ekos.mount.debug=%8\n"
-                            "org.kde.kstars.ekos.scheduler.debug=%9\n").arg(
-                        Options::verboseLogging() ? "true" : "false",
-                        Options::iNDILogging() ? "true" : "false",
-                        Options::fITSLogging() ? "true" : "false",
-                        Options::captureLogging() ? "true" : "false",
-                        Options::focusLogging() ? "true" : "false",
-                        Options::guideLogging() ? "true" : "false",
-                        Options::alignmentLogging() ? "true" : "false",
-                        Options::mountLogging() ? "true" : "false",
-                        Options::schedulerLogging() ? "true" : "false")
-            .append(QString("org.kde.kstars.ekos.observatory.debug=%2\n"
-                            "org.kde.kstars.debug=%1").arg(
-                        Options::verboseLogging() ? "true" : "false",
-                        Options::observatoryLogging() ? "true" : "false"));
+    //    QString rules = QString("org.kde.kstars.ekos.debug=%1\n"
+    //                            "org.kde.kstars.indi.debug=%2\n"
+    //                            "org.kde.kstars.fits.debug=%3\n"
+    //                            "org.kde.kstars.ekos.capture.debug=%4\n"
+    //                            "org.kde.kstars.ekos.focus.debug=%5\n"
+    //                            "org.kde.kstars.ekos.guide.debug=%6\n"
+    //                            "org.kde.kstars.ekos.align.debug=%7\n"
+    //                            "org.kde.kstars.ekos.mount.debug=%8\n"
+    //                            "org.kde.kstars.ekos.scheduler.debug=%9\n").arg(
+    //                        Options::verboseLogging() ? "true" : "false",
+    //                        Options::iNDILogging() ? "true" : "false",
+    //                        Options::fITSLogging() ? "true" : "false",
+    //                        Options::captureLogging() ? "true" : "false",
+    //                        Options::focusLogging() ? "true" : "false",
+    //                        Options::guideLogging() ? "true" : "false",
+    //                        Options::alignmentLogging() ? "true" : "false",
+    //                        Options::mountLogging() ? "true" : "false",
+    //                        Options::schedulerLogging() ? "true" : "false")
+    //            .append(QString("org.kde.kstars.ekos.observatory.debug=%2\n"
+    //                            "org.kde.kstars.debug=%1").arg(
+    //                        Options::verboseLogging() ? "true" : "false",
+    //                        Options::observatoryLogging() ? "true" : "false"));
 
-    QLoggingCategory::setFilterRules(rules);
+    QStringList rules;
+
+    rules << "org.kde.kstars.ekos.debug" << (Options::verboseLogging() ? "true" : "false");
+    rules << "org.kde.kstars.indi.debug" << (Options::iNDILogging() ? "true" : "false");
+    rules << "org.kde.kstars.fits.debug" << (Options::fITSLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.capture.debug" << (Options::captureLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.focus.debug" << (Options::focusLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.guide.debug" << (Options::guideLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.align.debug" << (Options::alignmentLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.mount.debug" << (Options::mountLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.scheduler.debug" << (Options::schedulerLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.observatory.debug" << (Options::observatoryLogging() ? "true" : "false");
+    rules << "org.kde.kstars.debug" << (Options::verboseLogging() ? "true" : "false");
+
+    QString formattedRules;
+    for (int i = 0; i < rules.size(); i += 2)
+        formattedRules.append(QString("%1=%2\n").arg(rules[i], rules[i + 1]));
+
+    qDebug() << formattedRules;
+
+    QLoggingCategory::setFilterRules(formattedRules);
 }
 
 /**
