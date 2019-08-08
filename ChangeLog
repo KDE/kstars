@@ -4,6 +4,22 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.3.4 (Dormi):
+
+d3323c608 2019-08-08 Jasem Mutlaq         Use i18nc for Not Applicable                                                                                                                          
+9d6ecf5d3 2019-08-08 Jasem Mutlaq         Clean up how group debug options are parsed                                                                                                           
+abe69b6da 2019-08-08 Wolfgang Reissenberger Rolloff roof handling introduced                                                                                                                      
+7fb0266f0 2019-08-08 Jasem Mutlaq         Comment unused variable                                                                                                                               
+a4d10fdcb 2019-08-06 Jasem Mutlaq         KStars v3.3.4 release                                                                                                                                 
+da4661ca6 2019-08-06 Jasem Mutlaq         use rangeHA to make sure -12 < HA <= 12                                                                                                               
+fda55706a 2019-08-05 Jasem Mutlaq         v3.3.3 version code 15 for KStars Lite on Android                                                                                                     
+4228d5ccc 2019-08-05 Jasem Mutlaq         Proper disconnection of Dark Library signals and slots in various Ekos modules.                                                                       
+569b147f1 2019-08-05 Jasem Mutlaq         Read astrometry config file on other platforms                                                                                                        
+b17fe7453 2019-08-04 Jasem Mutlaq         This should fix #410573 in addition to initial support for dust caps in Dark Library.                                                                 
+02fc8bfaf 2019-08-03 Jasem Mutlaq         always evaluate statistics after opening regardless of histogram                                                                                      
+e7d78e838 2019-08-03 Nicolas Fella        Fix double/float conversion in Java code                                                                                                              
+37f8576cc 2019-08-02 Nicolas Fella        Fix missing include in Android build
+
 3.3.3 (Canis):
 
 13bca1735 2019-08-01 Jasem Mutlaq         qMin --> qMax since we need rate 0 to 3
