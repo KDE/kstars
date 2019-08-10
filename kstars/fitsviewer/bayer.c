@@ -842,6 +842,105 @@ dc1394error_t dc1394_bayer_Simple(const uint8_t *bayer, uint8_t *rgb, int sx, in
 
 /* 16-bits versions */
 
+dc1394error_t dc1394_bayer16_RGBX_NearestNeighbor(const uint16_t *bayer, uint16_t *rgbx, int sx, int sy, int tile)
+{
+    const int bayerStep  = sx;
+    const int rgbStep    = 4 * sx;
+    int width            = sx;
+    int height           = sy;
+    int blue             = (tile == DC1394_COLOR_FILTER_BGGR || tile == DC1394_COLOR_FILTER_GBRG) ? -1 : 1;
+    int start_with_green = (tile == DC1394_COLOR_FILTER_GBRG || tile == DC1394_COLOR_FILTER_GRBG) ? 1 : 0;
+
+    if ((tile > DC1394_COLOR_FILTER_MAX) || (tile < DC1394_COLOR_FILTER_MIN))
+        return DC1394_INVALID_COLOR_FILTER;
+
+    /* add black border */
+#if 0
+    int i, iinc, imax;
+    imax = sx * sy * 4;
+    for (i = sx * (sy - 1) * 4; i < imax; i++)
+    {
+        rgbx[i] = 0;
+    }
+    iinc = (sx - 1) * 4;
+    for (i = (sx - 1) * 4; i < imax; i += iinc)
+    {
+        rgbx[i++] = 0;
+        rgbx[i++] = 0;
+        rgbx[i++] = 0;
+        rgbx[i++] = 0;
+    }
+
+    rgbx += 1;
+    height -= 1;
+    width -= 1;
+#endif
+
+    for (; height--; bayer += bayerStep, rgbx += rgbStep)
+    {
+        const uint16_t *bayerEnd = bayer + width;
+
+        if (start_with_green)
+        {
+            rgbx[-blue] = bayer[1];
+            rgbx[0]     = bayer[bayerStep + 1];
+            rgbx[blue]  = bayer[bayerStep];
+            rgbx[2]     = 0xFFFF;
+            bayer++;
+            rgbx += 4;
+        }
+
+        if (blue > 0)
+        {
+            for (; bayer <= bayerEnd - 2; bayer += 2, rgbx += 8)
+            {
+                rgbx[-1] = bayer[0];
+                rgbx[0]  = bayer[1];
+                rgbx[1]  = bayer[bayerStep + 1];
+                rgbx[2]  = 0xFFFF;
+
+                rgbx[3] = bayer[2];
+                rgbx[4] = bayer[bayerStep + 2];
+                rgbx[5] = bayer[bayerStep + 1];
+                rgbx[6] = 0xFFFF;
+            }
+        }
+        else
+        {
+            for (; bayer <= bayerEnd - 2; bayer += 2, rgbx += 8)
+            {
+                rgbx[2] = 0xFFFF;
+                rgbx[1]  = bayer[0];
+                rgbx[0]  = bayer[1];
+                rgbx[-1] = bayer[bayerStep + 1];
+
+                rgbx[6] = 0xFFFF;
+                rgbx[5] = bayer[2];
+                rgbx[4] = bayer[bayerStep + 2];
+                rgbx[3] = bayer[bayerStep + 1];
+            }
+        }
+
+        if (bayer < bayerEnd)
+        {
+            rgbx[-blue] = bayer[0];
+            rgbx[0]     = bayer[1];
+            rgbx[blue]  = bayer[bayerStep + 1];
+            rgbx[2]     = 0xFFFF;
+            bayer++;
+            rgbx += 4;
+        }
+
+        bayer -= width;
+        rgbx -= width * 4;
+
+        blue             = -blue;
+        start_with_green = !start_with_green;
+    }
+
+    return DC1394_SUCCESS;
+}
+
 /* insprired by OpenCV's Bayer decoding */
 dc1394error_t dc1394_bayer_NearestNeighbor_uint16(const uint16_t *bayer, uint16_t *rgb, int sx,
                                                   int sy, int tile, int bits)

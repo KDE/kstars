@@ -858,8 +858,10 @@ void Capture::checkCCD(int ccdNum)
             // 2018-05-07 JM: Set value to the value in options
             transferFormatCombo->setCurrentIndex(Options::captureFormatIndex());
 
+            uint16_t w, h;
+            uint8_t bbp {8};
             double pixelX = 0, pixelY = 0;
-            bool rc = targetChip->getPixelSize(pixelX, pixelY);
+            bool rc = targetChip->getImageInfo(w, h, pixelX, pixelY, bbp);
             bool isModelInDB = isModelinDSLRInfo(QString(currentCCD->getDeviceName()));
             // If rc == true, then the property has been defined by the driver already
             // Only then we check if the pixels are zero

@@ -187,7 +187,7 @@ bool CCDChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, doubl
     return true;
 }
 
-bool CCDChip::getPixelSize(double &x, double &y)
+bool CCDChip::getImageInfo(uint16_t &width, uint16_t &height, double &pixelX, double &pixelY, uint8_t &bitdepth)
 {
     INumberVectorProperty *ccdInfoProp = nullptr;
 
@@ -205,14 +205,24 @@ bool CCDChip::getPixelSize(double &x, double &y)
     if (ccdInfoProp == nullptr)
         return false;
 
-    INumber *pixelX = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_X");
-    INumber *pixelY = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_Y");
+    width    = ccdInfoProp->np[0].value;
+    height   = ccdInfoProp->np[1].value;
+    pixelX   = ccdInfoProp->np[2].value;
+    pixelY   = ccdInfoProp->np[3].value;
+    bitdepth = ccdInfoProp->np[5].value;
 
-    if (pixelX == nullptr || pixelY == nullptr)
+    return true;
+}
+
+bool CCDChip::getBayerInfo(uint16_t &offsetX, uint16_t &offsetY, QString &pattern)
+{
+    ITextVectorProperty * bayerTP = baseDevice->getText("CCD_CFA");
+    if (!bayerTP)
         return false;
 
-    x = pixelX->value;
-    y = pixelY->value;
+    offsetX = QString(bayerTP->tp[0].text).toInt();
+    offsetY = QString(bayerTP->tp[1].text).toInt();
+    pattern = QString(bayerTP->tp[2].text);
 
     return true;
 }

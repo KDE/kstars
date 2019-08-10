@@ -54,6 +54,7 @@
         <file>icons/kstars_satellites_visible.svg</file>
         <file>icons/cloud-online.svg</file>
         <file>icons/ekos_observatory.png</file>
+        <file>icons/cfa.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
