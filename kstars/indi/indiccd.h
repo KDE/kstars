@@ -85,8 +85,10 @@ class CCDChip
 
         // Set Image Info
         bool setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth);
-        // Get Pixel size
-        bool getPixelSize(double &x, double &y);
+        // Get Image Info
+        bool getImageInfo(uint16_t &width, uint16_t &height, double &pixelX, double &pixelY, uint8_t &bitdepth);
+        // Bayer Info
+        bool getBayerInfo(uint16_t &offsetX, uint16_t &offsetY, QString &pattern);
 
         bool isCapturing();
         bool abortExposure();

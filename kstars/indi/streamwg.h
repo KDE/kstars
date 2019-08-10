@@ -13,7 +13,7 @@
 #include "indi/indiccd.h"
 #include "ui_streamform.h"
 #include "ui_recordingoptions.h"
-
+#include "fitsviewer/bayer.h"
 #include <indidevapi.h>
 
 #include <QCloseEvent>
@@ -79,6 +79,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         void toggleRecord();
         void updateRecordStatus(bool enabled);
         void resetFrame();
+        void syncDebayerParameters();
 
     protected slots:
         void setStreamingFrame(QRect newFrame);
@@ -89,11 +90,20 @@ class StreamWG : public QDialog, public Ui::streamForm
         void imageChanged(std::unique_ptr<QImage> &frame);
 
     private:
+        bool queryDebayerParameters();
+
         bool processStream;
         int streamWidth, streamHeight;
         bool colorFrame, isRecording;
         QIcon recordIcon, stopIcon;
-        ISD::CCD *currentCCD;
+        ISD::CCD *currentCCD {nullptr};
+
+        // Debayer
+        BayerParams m_DebayerParams;
+        uint8_t m_BBP {8};
+        uint16_t offsetX, offsetY;
+        double pixelX, pixelY;
+        bool m_DebayerActive { false }, m_DebayerSupported { false };
 
         // For Canon DSLRs
         INDI::Property *eoszoom {nullptr}, *eoszoomposition {nullptr};

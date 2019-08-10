@@ -16,6 +16,9 @@
 #include "clientmanager.h"
 #include "kstars.h"
 #include "Options.h"
+#include "kstars_debug.h"
+
+#include <basedevice.h>
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -172,6 +175,11 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     }
 
     connect(currentCCD, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
+    connect(currentCCD, &ISD::CCD::numberUpdated, this, [this](INumberVectorProperty * nvp)
+    {
+        if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "CCD_CFA"))
+            syncDebayerParameters();
+    });
     connect(changeFPSB, &QPushButton::clicked, this, [&]()
     {
         if (currentCCD)
@@ -185,6 +193,57 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
         }
     });
 
+    debayerB->setIcon(QIcon(":/icons/cfa.svg"));
+    connect(debayerB, &QPushButton::clicked, this, [this]()
+    {
+        m_DebayerActive = !m_DebayerActive;
+    });
+    syncDebayerParameters();
+}
+
+void StreamWG::syncDebayerParameters()
+{
+    m_DebayerSupported = queryDebayerParameters();
+    debayerB->setEnabled(m_DebayerSupported);
+    if (!m_DebayerSupported)
+        m_DebayerActive = false;
+}
+
+bool StreamWG::queryDebayerParameters()
+{
+    if (!currentCCD)
+        return false;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (!targetChip)
+        return false;
+
+    uint16_t w, h;
+    QString pattern;
+
+    if (targetChip->getImageInfo(w, h, pixelX, pixelY, m_BBP) == false)
+        return false;
+
+    // Limit only to 8 and 16 bit, nothing in between or less or more.
+    if (m_BBP > 8)
+        m_BBP = 16;
+    else
+        m_BBP = 8;
+
+    if (targetChip->getBayerInfo(offsetX, offsetY, pattern) == false)
+        return false;
+
+    m_DebayerParams.method = DC1394_BAYER_METHOD_NEAREST;
+    m_DebayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+
+    if (pattern == "GBRG")
+        m_DebayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+    else if (pattern == "GRBG")
+        m_DebayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+    else if (pattern == "BGGR")
+        m_DebayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+
+    return true;
 }
 
 QSize StreamWG::sizeHint() const
@@ -318,10 +377,10 @@ void StreamWG::toggleRecord()
 
 void StreamWG::newFrame(IBLOB *bp)
 {
-    bool rc = videoFrame->newFrame(bp);
+    bool rc = (m_DebayerActive) ? videoFrame->newBayerFrame(bp, m_DebayerParams) : videoFrame->newFrame(bp);
 
     if (rc == false)
-        qWarning() << "Failed to load video frame.";
+        qCWarning(KSTARS) << "Failed to load video frame.";
 }
 
 void StreamWG::resetFrame()
@@ -343,7 +402,7 @@ void StreamWG::setStreamingFrame(QRect newFrame)
 
 void StreamWG::updateFPS(double instantFPS, double averageFPS)
 {
-    Q_UNUSED(instantFPS);
+    Q_UNUSED(instantFPS)
     //instFPS->setText(QString::number(instantFPS, 'f', 1));
     avgFPS->setText(QString::number(averageFPS, 'f', 1));
 }

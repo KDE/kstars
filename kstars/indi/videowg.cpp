@@ -10,6 +10,8 @@
 
 #include "videowg.h"
 
+#include "kstars_debug.h"
+
 #include <QImageReader>
 #include <QMouseEvent>
 #include <QResizeEvent>
@@ -25,25 +27,35 @@ VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
         grayTable[i] = qRgb(i, i, i);
 }
 
+bool VideoWG::newBayerFrame(IBLOB *bp, const BayerParams &params)
+{
+    return debayer(bp, params);
+}
+
 bool VideoWG::newFrame(IBLOB *bp)
 {
     if (bp->size <= 0)
         return false;
 
-    QString format(bp->format);
-    format.remove('.');
-    format.remove("stream_");
     bool rc = false;
+    QString format(bp->format);
+    if (m_RawFormat != format)
+    {
+        format.remove('.');
+        format.remove("stream_");
+        m_RawFormatSupported = QImageReader::supportedImageFormats().contains(format.toLatin1());
+        m_RawFormat = format;
+    }
 
-    if (QImageReader::supportedImageFormats().contains(format.toLatin1()))
-        rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);    
+    if (m_RawFormatSupported)
+        rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
         streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8));
         streamImage->setColorTable(grayTable);
         rc = !streamImage->isNull();
     }
-    else if (static_cast<uint32_t>(bp->size) == totalBaseCount*3)
+    else if (static_cast<uint32_t>(bp->size) == totalBaseCount * 3)
     {
         streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888));
         rc = !streamImage->isNull();
@@ -114,3 +126,52 @@ void VideoWG::mouseReleaseEvent(QMouseEvent *)
     // determine selection, for example using QRect::intersects()
     // and QRect::contains().
 }
+
+bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
+{
+    uint32_t rgb_size = streamW * streamH * 3;
+    auto * destinationBuffer = new uint8_t[rgb_size];
+
+    if (destinationBuffer == nullptr)
+    {
+        qCCritical(KSTARS) << "Unable to allocate memory for temporary bayer buffer.";
+        return false;
+    }
+
+    int ds1394_height = streamH;
+
+    uint8_t * dc1394_source = reinterpret_cast<uint8_t*>(bp->blob);
+    if (params.offsetY == 1)
+    {
+        dc1394_source += streamW;
+        ds1394_height--;
+    }
+    if (params.offsetX == 1)
+    {
+        dc1394_source++;
+    }
+    dc1394error_t error_code = dc1394_bayer_decoding_8bit(dc1394_source, destinationBuffer, streamW, ds1394_height,
+                               params.filter, params.method);
+
+    if (error_code != DC1394_SUCCESS)
+    {
+        qCCritical(KSTARS) << "Debayer failed" << error_code;
+        delete[] destinationBuffer;
+        return false;
+    }
+
+    streamImage.reset(new QImage(destinationBuffer, streamW, streamH, QImage::Format_RGB888));
+    bool rc = !streamImage->isNull();
+
+    if (rc)
+    {
+        kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+        setPixmap(kPix);
+    }
+
+    emit imageChanged(streamImage);
+
+    delete[] destinationBuffer;
+    return rc;
+}
+

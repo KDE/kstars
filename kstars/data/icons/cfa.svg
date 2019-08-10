@@ -1,0 +1,16 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+
+ <metadata id="metadata824">image/svg+xml</metadata>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="66" width="66" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer1">
+   <rect fill="#008000" stroke="#ffffff" stroke-width="1.322917" stroke-miterlimit="4" stroke-dashoffset="0" y="-23.359384" x="-37.078803" height="113.03387" width="139.4306" id="rect1372"/>
+   <rect fill="#aa0000" stroke="#ffffff" stroke-width="1.322917" stroke-miterlimit="4" stroke-dashoffset="0" y="-23.359384" x="-37.078803" height="56.275623" width="69.431175" id="rect1374"/>
+   <rect fill="#0000ff" stroke="#ffffff" stroke-width="1.322917" stroke-miterlimit="4" stroke-dashoffset="0" y="32.916238" x="32.352369" height="56.75824" width="69.999435" id="rect1376"/>
+  </g>
+ </g>
+</svg>
