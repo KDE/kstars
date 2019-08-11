@@ -1062,8 +1062,6 @@ void Logging::SyncFilterRules()
     for (int i = 0; i < rules.size(); i += 2)
         formattedRules.append(QString("%1=%2\n").arg(rules[i], rules[i + 1]));
 
-    qDebug() << formattedRules;
-
     QLoggingCategory::setFilterRules(formattedRules);
 }
 
