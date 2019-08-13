@@ -88,7 +88,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="format-align-vertical-top"/>
+             <iconset theme="format-align-vertical-top">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -164,7 +165,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="run-build"/>
+             <iconset theme="run-build">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -221,7 +223,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="process-stop"/>
+             <iconset theme="process-stop">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -277,7 +280,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="format-align-vertical-bottom"/>
+             <iconset theme="format-align-vertical-bottom">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -318,7 +322,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="media-playlist-repeat"/>
+             <iconset theme="media-playlist-repeat">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -346,7 +351,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="camera-photo"/>
+             <iconset theme="camera-photo">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -824,52 +830,13 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="4" column="3">
-             <widget class="QComboBox" name="focusAlgorithmCombo">
-              <item>
-               <property name="text">
-                <string>Iterative</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Polynomial</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QDoubleSpinBox" name="thresholdSpin">
-              <property name="enabled">
-               <bool>false</bool>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_12">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum travel in steps before the autofocus process aborts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
-              <property name="minimum">
-               <double>90.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>500.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>150.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QDoubleSpinBox" name="maxTravelIN">
-              <property name="minimum">
-               <double>10.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>100000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>1000.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>10000.000000000000000</double>
+              <property name="text">
+               <string>Max Travel:</string>
               </property>
              </widget>
             </item>
@@ -889,23 +856,72 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_10">
-              <property name="whatsThis">
-               <string>Delay between two consequent focus images</string>
+            <item row="0" column="3">
+             <widget class="QDoubleSpinBox" name="maxTravelIN">
+              <property name="minimum">
+               <double>10.000000000000000</double>
               </property>
-              <property name="text">
-               <string>Box Size:</string>
+              <property name="maximum">
+               <double>100000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>1000.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>10000.000000000000000</double>
               </property>
              </widget>
             </item>
-            <item row="5" column="2">
-             <widget class="QLabel" name="label_5">
+            <item row="4" column="3">
+             <widget class="QComboBox" name="focusAlgorithmCombo">
+              <item>
+               <property name="text">
+                <string>Iterative</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Polynomial</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QSpinBox" name="focusFramesSpin">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select star detection algorithm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>Number of frames to average</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="toolTip">
+               <string>Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.</string>
               </property>
               <property name="text">
-               <string>Detection:</string>
+               <string>Threshold (%):</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QDoubleSpinBox" name="thresholdSpin">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimum">
+               <double>90.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>500.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>150.000000000000000</double>
               </property>
              </widget>
             </item>
@@ -938,6 +954,31 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_10">
+              <property name="whatsThis">
+               <string>Delay between two consequent focus images</string>
+              </property>
+              <property name="text">
+               <string>Box Size:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QLabel" name="label_21">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select focus process algorithm:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;Iterative&lt;/b&gt;: Moves focuser by discreet steps initially decided by the step size. Once a curve slope is calculated, further step sizes are calculated to reach optimal solution. The algorithm stops when the measured HFR is within percentage tolerance of the minimum HFR recorded in the procedure.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Polynomial&lt;/b&gt;: Starts with iterative method. Upon crossing to the other side of the V-Curve, polynomial fitting coefficients along with possible minimum solution are calculated. This algorithm can be faster than purely iterative approach given a good data set.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Algorithm:</string>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="1">
              <widget class="QSpinBox" name="stepIN">
               <property name="minimum">
@@ -954,16 +995,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="label_12">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum travel in steps before the autofocus process aborts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Max Travel:</string>
-              </property>
-             </widget>
-            </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_3">
               <property name="toolTip">
@@ -971,41 +1002,6 @@
               </property>
               <property name="text">
                <string>Frames:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QSpinBox" name="focusFramesSpin">
-              <property name="toolTip">
-               <string>Number of frames to average</string>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="toolTip">
-               <string>Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.</string>
-              </property>
-              <property name="text">
-               <string>Threshold (%):</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QLabel" name="label_21">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select focus process algorithm:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;b&gt;Iterative&lt;/b&gt;: Moves focuser by discreet steps initially decided by the step size. Once a curve slope is calculated, further step sizes are calculated to reach optimal solution. The algorithm stops when the measured HFR is within percentage tolerance of the minimum HFR recorded in the procedure.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Polynomial&lt;/b&gt;: Starts with iterative method. Upon crossing to the other side of the V-Curve, polynomial fitting coefficients along with possible minimum solution are calculated. This algorithm can be faster than purely iterative approach given a good data set.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Algorithm:</string>
               </property>
              </widget>
             </item>
@@ -1033,6 +1029,16 @@
               </item>
              </widget>
             </item>
+            <item row="5" column="2">
+             <widget class="QLabel" name="label_5">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select star detection algorithm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Detection:</string>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="2">
              <widget class="QLabel" name="label_4">
               <property name="toolTip">
@@ -1043,14 +1049,14 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="0">
+            <item row="7" column="0">
              <widget class="QLabel" name="label_9">
               <property name="text">
                <string>Settle:</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="1" colspan="3">
+            <item row="7" column="1">
              <widget class="QDoubleSpinBox" name="FocusSettleTime">
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wait for this many seconds after moving the focuser before capturing the next image during Auto Focus.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1062,6 +1068,16 @@
                <double>30.000000000000000</double>
               </property>
              </widget>
+            </item>
+            <item row="7" column="2">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Backlash:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="3">
+             <widget class="QSpinBox" name="focusBacklashSpin"/>
             </item>
            </layout>
           </item>

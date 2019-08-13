@@ -438,7 +438,7 @@ void Focus::checkFocuser(int FocuserNum)
     filterManager->setFocusReady(currentFocuser->isConnected());
 
     // Disconnect all focusers
-    foreach (ISD::Focuser *oneFocuser, Focusers)
+    for (auto &oneFocuser : Focusers)
     {
         disconnect(oneFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber);
     }
@@ -477,6 +477,28 @@ void Focus::checkFocuser(int FocuserNum)
     canTimerMove = currentFocuser->canTimerMove();
 
     focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
+
+    bool hasBacklash = currentFocuser->hasBacklash();
+    focusBacklashSpin->setEnabled(hasBacklash);
+    focusBacklashSpin->disconnect(this);
+    if (hasBacklash)
+    {
+        double min = 0, max = 0, step = 0;
+        currentFocuser->getMinMaxStep("FOCUS_BACKLASH_STEPS", "FOCUS_BACKLASH_VALUE", &min, &max, &step);
+        focusBacklashSpin->setMinimum(min);
+        focusBacklashSpin->setMaximum(max);
+        focusBacklashSpin->setSingleStep(step);
+        focusBacklashSpin->setValue(currentFocuser->getBacklash());
+        connect(focusBacklashSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int value)
+        {
+            if (currentFocuser)
+                currentFocuser->setBacklash(value);
+        });
+    }
+    else
+    {
+        focusBacklashSpin->setValue(0);
+    }
 
     connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
     //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
