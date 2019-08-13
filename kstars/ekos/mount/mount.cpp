@@ -260,7 +260,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
 void Mount::removeDevice(ISD::GDInterface *device)
 {
-    if (device == currentTelescope)
+    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
     {
         currentTelescope->disconnect(this);
         updateTimer.stop();
@@ -270,7 +270,7 @@ void Mount::removeDevice(ISD::GDInterface *device)
 
         currentTelescope = nullptr;
     }
-    else if (device == currentGPS)
+    else if (currentGPS && !strcmp(currentGPS->getDeviceName(), device->getDeviceName()))
     {
         currentGPS->disconnect(this);
         currentGPS = nullptr;

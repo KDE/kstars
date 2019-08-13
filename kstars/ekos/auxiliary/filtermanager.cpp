@@ -652,7 +652,7 @@ QString FilterManager::getFilterLock(const QString &name) const
 
 void FilterManager::removeDevice(ISD::GDInterface *device)
 {
-    if (device == m_currentFilterDevice)
+    if (m_currentFilterDevice && !strcmp(m_currentFilterDevice->getDeviceName(), device->getDeviceName()))
     {
         m_FilterNameProperty = nullptr;
         m_FilterPositionProperty = nullptr;

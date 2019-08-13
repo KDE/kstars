@@ -181,7 +181,7 @@ bool Dome::controlShutter(bool open)
 void Dome::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (device == currentDome)
+    if (currentDome && !strcmp(currentDome->getDeviceName(), device->getDeviceName()))
     {
         currentDome = nullptr;
     }
