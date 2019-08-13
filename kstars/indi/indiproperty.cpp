@@ -460,6 +460,7 @@ void INDI_P::sendText()
                 el->updateNP();
 
             pg->getDevice()->getClientManager()->sendNewNumber(nvp);
+            break;
 
         default:
             break;
@@ -646,12 +647,12 @@ void INDI_P::newTime()
         QDate newDate(timedialog.selectedDate());
 
         timeEle->setText(QString("%1-%2-%3T%4:%5:%6")
-                             .arg(newDate.year())
-                             .arg(newDate.month())
-                             .arg(newDate.day())
-                             .arg(newTime.hour())
-                             .arg(newTime.minute())
-                             .arg(newTime.second()));
+                         .arg(newDate.year())
+                         .arg(newDate.month())
+                         .arg(newDate.day())
+                         .arg(newTime.hour())
+                         .arg(newTime.minute())
+                         .arg(newTime.second()));
 
         offsetEle->setText(QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2));
 
