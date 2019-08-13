@@ -214,4 +214,51 @@ bool Focuser::setmaxPosition(uint32_t steps)
     return true;
 }
 
+bool Focuser::hasBacklash()
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
+    return (focusProp != nullptr);
+}
+
+bool Focuser::setBacklash(int32_t steps)
+{
+    ISwitchVectorProperty *focusToggle = baseDevice->getSwitch("FOCUS_BACKLASH_TOGGLE");
+    if (!focusToggle)
+        return false;
+
+    // Make sure focus compensation is enabled.
+    if (steps != 0 && focusToggle->sp[0].s != ISS_ON)
+    {
+        IUResetSwitch(focusToggle);
+        focusToggle->sp[0].s = ISS_ON;
+        focusToggle->sp[1].s = ISS_OFF;
+        clientManager->sendNewSwitch(focusToggle);
+    }
+
+    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
+    if (!focusProp)
+        return false;
+
+    focusProp->np[0].value = steps;
+    clientManager->sendNewNumber(focusProp);
+
+    // If steps = 0, disable compensation
+    if (steps == 0 && focusToggle->sp[0].s == ISS_ON)
+    {
+        IUResetSwitch(focusToggle);
+        focusToggle->sp[0].s = ISS_OFF;
+        focusToggle->sp[1].s = ISS_ON;
+        clientManager->sendNewSwitch(focusToggle);
+    }
+    return true;
+}
+
+int32_t Focuser::getBacklash()
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
+    if (!focusProp)
+        return -1;
+
+    return focusProp->np[0].value;
+}
 }
