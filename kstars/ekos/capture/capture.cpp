@@ -4124,7 +4124,7 @@ QJsonObject Capture::getSettings()
 
 void Capture::selectedJobChanged(QModelIndex current, QModelIndex previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     selectJob(current);
 }
 
@@ -6072,10 +6072,10 @@ int Capture::getRefocusEveryNTimerElapsedSec()
 
 void Capture::setAlignResults(double orientation, double ra, double de, double pixscale)
 {
-    Q_UNUSED(orientation);
-    Q_UNUSED(ra);
-    Q_UNUSED(de);
-    Q_UNUSED(pixscale);
+    Q_UNUSED(orientation)
+    Q_UNUSED(ra)
+    Q_UNUSED(de)
+    Q_UNUSED(pixscale)
 
     if (currentRotator == nullptr)
         return;
@@ -6423,15 +6423,15 @@ void Capture::createDSLRDialog()
 void Capture::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (device == currentTelescope)
+    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
     {
         currentTelescope = nullptr;
     }
-    else if (device == currentDome)
+    else if (currentDome && !strcmp(currentDome->getDeviceName(), device->getDeviceName()))
     {
         currentDome = nullptr;
     }
-    else if (device == currentRotator)
+    else if (currentRotator && !strcmp(currentRotator->getDeviceName(), device->getDeviceName()))
     {
         currentRotator = nullptr;
         rotatorB->setEnabled(false);

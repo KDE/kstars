@@ -2792,20 +2792,19 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     // Check in Focusers
     for (ISD::GDInterface *focuser : Focusers)
     {
-        if (focuser == deviceRemoved)
+        if (!strcmp(focuser->getDeviceName(), deviceRemoved->getDeviceName()))
         {
             Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
             focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
             checkFocuser();
             resetButtons();
-            return;
         }
     }
 
     // Check in CCDs
     for (ISD::GDInterface *ccd : CCDs)
     {
-        if (ccd == deviceRemoved)
+        if (!strcmp(ccd->getDeviceName(), deviceRemoved->getDeviceName()))
         {
             CCDs.removeAll(dynamic_cast<ISD::CCD*>(ccd));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName()));
@@ -2818,10 +2817,10 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     // Check in Filters
     for (ISD::GDInterface *filter : Filters)
     {
-        if (filter == deviceRemoved)
+        if (!strcmp(filter->getDeviceName(), deviceRemoved->getDeviceName()))
         {
             Filters.removeAll(filter);
-            filterCombo->removeItem(filterCombo->findText(filter->getDeviceName()));
+            FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(filter->getDeviceName()));
             if (Filters.empty())
                 currentFilter = nullptr;
             checkFilter();

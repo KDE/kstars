@@ -3411,7 +3411,7 @@ void Guide::initConnections()
 void Guide::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (device == currentTelescope)
+    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
     {
         currentTelescope = nullptr;
     }
