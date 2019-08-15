@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
+    <width>565</width>
     <height>285</height>
    </rect>
   </property>
@@ -331,6 +331,9 @@
          <width>24</width>
          <height>24</height>
         </size>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
