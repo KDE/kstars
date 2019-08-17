@@ -5239,8 +5239,10 @@ void Align::calculatePAHError()
 
     PAHErrorLabel->setText(polarError.toDMSString());
 
-    correctionVector.setP1(celestialPolePoint);
-    correctionVector.setP2(RACenterPoint);
+    // JM 2019-08-17: Flip for southern hemisphere.
+    // Possible fix for: https://indilib.org/forum/ekos/5558-ekos-polar-alignment-vector-backwards.html
+    correctionVector.setP1((hemisphere == NORTH_HEMISPHERE) ? celestialPolePoint : RACenterPoint);
+    correctionVector.setP2((hemisphere == NORTH_HEMISPHERE) ? RACenterPoint : celestialPolePoint);
 
     /*
     bool RAAxisInside = imageData->contains(RACenterPoint);
