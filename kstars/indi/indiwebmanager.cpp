@@ -98,9 +98,7 @@ bool isOnline(ProfileInfo *pi)
 {
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/server/status").arg(pi->host).arg(pi->INDIWebManagerPort));
-
     QNetworkReply *response = manager.get(QNetworkRequest(url));
-
     // Wait synchronously
     QEventLoop event;
     QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
@@ -108,8 +106,24 @@ bool isOnline(ProfileInfo *pi)
 
     if (response->error() == QNetworkReply::NoError)
         return true;
-    else
-        return false;
+    // Fallback to default if DNS lookup fails for .local
+    else if (pi->host.contains(".local"))
+    {
+        QUrl url(QString("http://10.250.250.1:8624/api/server/status"));
+        QNetworkReply *response = manager.get(QNetworkRequest(url));
+        // Wait synchronously
+        QEventLoop event;
+        QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
+        event.exec();
+
+        if (response->error() == QNetworkReply::NoError)
+        {
+            pi->host = "10.250.250.1";
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool isStellarMate(ProfileInfo *pi)
@@ -153,7 +167,9 @@ bool syncCustomDrivers(ProfileInfo *pi)
     for (auto label : customDriversLabels)
     {
         auto pos = std::find_if(customDrivers.begin(), customDrivers.end(), [label](QVariantMap oneDriver)
-        {return (oneDriver["Label"] == label);});
+        {
+            return (oneDriver["Label"] == label);
+        });
 
         if (pos == customDrivers.end())
             continue;
