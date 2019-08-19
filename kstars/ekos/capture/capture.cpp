@@ -1471,9 +1471,13 @@ bool Capture::setCaptureComplete()
         return false;
     }
 
-    /* Increase the sequence's current capture count */
     if (! activeJob->isPreview())
+    {
+        /* Increase the sequence's current capture count */
         activeJob->setCompleted(activeJob->getCompleted() + 1);
+        /* Decrease the counter for in-sequence focusing */
+        inSequenceFocusCounter--;
+    }
 
     sendNewImage(blobFilename, blobChip);
 
@@ -1755,7 +1759,7 @@ bool Capture::startFocusIfRequired()
         emit newStatus(Ekos::CAPTURE_FOCUSING);
         return true;
     }
-    else if (isInSequenceFocus && --inSequenceFocusCounter == 0)
+    else if (isInSequenceFocus && inSequenceFocusCounter <= 0)
     {
         inSequenceFocusCounter = Options::inSequenceCheckFrames();
 
