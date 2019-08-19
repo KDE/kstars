@@ -3548,15 +3548,15 @@ void Align::processNumber(INumberVectorProperty *nvp)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        qCDebug(KSTARS_EKOS_ALIGN) << "## RA" << ra_dms << "DE" << dec_dms
-                                   << "state:" << pstateStr(nvp->s) << "slewStarted?" << m_wasSlewStarted;
+        //        qCDebug(KSTARS_EKOS_ALIGN) << "## RA" << ra_dms << "DE" << dec_dms
+        //                                   << "state:" << pstateStr(nvp->s) << "slewStarted?" << m_wasSlewStarted;
 
         switch (nvp->s)
         {
             // Idle --> Mount not tracking or slewing
             case IPS_IDLE:
                 m_wasSlewStarted = false;
-                qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_IDLE --> setting slewStarted to FALSE";
+                //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_IDLE --> setting slewStarted to FALSE";
                 break;
 
             // Ok --> Mount Tracking. If m_wasSlewStarted is true
@@ -3566,7 +3566,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 // Update the boxes as the mount just finished slewing
                 if (m_wasSlewStarted && Options::astrometryAutoUpdatePosition())
                 {
-                    qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_OK --> Auto Update Position...";
+                    //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_OK --> Auto Update Position...";
                     opsAstrometry->estRA->setText(ra_dms);
                     opsAstrometry->estDec->setText(dec_dms);
 
@@ -3586,7 +3586,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 // If we are looking for celestial pole
                 if (m_wasSlewStarted && pahStage == PAH_FIND_CP)
                 {
-                    qCDebug(KSTARS_EKOS_ALIGN) << "## PAH_FIND_CP--> setting slewStarted to FALSE";
+                    //qCDebug(KSTARS_EKOS_ALIGN) << "## PAH_FIND_CP--> setting slewStarted to FALSE";
                     m_wasSlewStarted = false;
                     appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
                     setSolverAction(GOTO_NOTHING);
@@ -3640,7 +3640,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     case ALIGN_SYNCING:
                     {
                         m_wasSlewStarted = false;
-                        qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SYNCING --> setting slewStarted to FALSE";
+                        //qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SYNCING --> setting slewStarted to FALSE";
                         if (currentGotoMode == GOTO_SLEW)
                         {
                             Slew();
@@ -3663,11 +3663,11 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     case ALIGN_SLEWING:
                         // If mount has not started slewing yet, then skip
-                        qCDebug(KSTARS_EKOS_ALIGN) << "## Mount has not started slewing yet...";
+                        //qCDebug(KSTARS_EKOS_ALIGN) << "## Mount has not started slewing yet...";
                         if (m_wasSlewStarted == false)
                             break;
 
-                        qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SLEWING --> setting slewStarted to FALSE";
+                        //qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SLEWING --> setting slewStarted to FALSE";
                         m_wasSlewStarted = false;
                         if (loadSlewState == IPS_BUSY)
                         {
@@ -3715,7 +3715,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     default:
                     {
-                        qCDebug(KSTARS_EKOS_ALIGN) << "## Align State " << state << "--> setting slewStarted to FALSE";
+                        //qCDebug(KSTARS_EKOS_ALIGN) << "## Align State " << state << "--> setting slewStarted to FALSE";
                         m_wasSlewStarted = false;
                     }
                     break;
@@ -3726,7 +3726,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             // Busy --> Mount Slewing or Moving (NSWE buttons)
             case IPS_BUSY:
             {
-                qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_BUSY --> setting slewStarted to TRUE";
+                //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_BUSY --> setting slewStarted to TRUE";
                 m_wasSlewStarted = true;
             }
             break;
@@ -3734,7 +3734,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             // Alert --> Mount has problem moving or communicating.
             case IPS_ALERT:
             {
-                qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_ALERT --> setting slewStarted to FALSE";
+                //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_ALERT --> setting slewStarted to FALSE";
                 m_wasSlewStarted = false;
 
                 if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
@@ -3760,9 +3760,6 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                 return;
             }
-
-            default:
-                break;
         }
 
         if (pahStage == PAH_FIRST_ROTATE)
@@ -3948,9 +3945,9 @@ void Align::Slew()
     state = ALIGN_SLEWING;
     emit newStatus(state);
 
-    qCDebug(KSTARS_EKOS_ALIGN) << "## Before SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
+    //qCDebug(KSTARS_EKOS_ALIGN) << "## Before SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
     m_wasSlewStarted = currentTelescope->Slew(&targetCoord);
-    qCDebug(KSTARS_EKOS_ALIGN) << "## After SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
+    //qCDebug(KSTARS_EKOS_ALIGN) << "## After SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
 
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(),
                        targetCoord.dec().toDMSString()));
@@ -4322,9 +4319,6 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                         break;
                 }
             }
-            break;
-
-        default:
             break;
     }
 
