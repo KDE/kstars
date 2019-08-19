@@ -229,12 +229,13 @@ template <typename T> void FITSHistogram::constructHistogram()
             uint32_t offset = n * samples;
             int32_t id = 0;
 
-            for (uint32_t i = 0; i < samples; i++)
+            const int sampleBy = samples > 1000000 ? samples / 1000000 : 1;
+            for (uint32_t i = 0; i < samples; i += sampleBy)
             {
                 id = rint((buffer[i + offset] - FITSMin[n]) / binWidth[n]);
                 if (id < 0)
                     id = 0;
-                frequency[n][id]++;
+                frequency[n][id] += sampleBy;
             }
         }));
     }
