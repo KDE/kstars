@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>592</width>
-    <height>375</height>
+    <height>411</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -353,10 +353,25 @@
             <string>Meridian Flip</string>
            </property>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="1">
-             <widget class="QDoubleSpinBox" name="meridianFlipTimeBox">
-              <property name="singleStep">
-               <double>0.100000000000000</double>
+            <property name="leftMargin">
+             <number>3</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <property name="rightMargin">
+             <number>3</number>
+            </property>
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item row="3" column="0" colspan="3">
+             <widget class="QLabel" name="meridianFlipStatusText">
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -370,18 +385,37 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="hourLabel">
+            <item row="2" column="1">
+             <widget class="QRadioButton" name="meridianFlipDegreesR">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. Add 1 degree to the mount meridian flip setting. For example, if the mount meridian flip limit is set to 5 degrees, set the value here to be &lt;span style=&quot; font-weight:600;&quot;&gt;at least&lt;/span&gt; 6 degrees to ensure a successful meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
               <property name="text">
-               <string>h</string>
+               <string>Degrees</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">meridianFlipUnit</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="1" colspan="2">
+             <widget class="QDoubleSpinBox" name="meridianFlipTimeBox">
+              <property name="singleStep">
+               <double>0.100000000000000</double>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" colspan="2">
-             <widget class="QLabel" name="meridianFlipStatusText">
-              <property name="text">
-               <string/>
+            <item row="1" column="0" rowspan="2">
+             <widget class="QRadioButton" name="meridianFlipHoursR">
+              <property name="toolTip">
+               <string>Set Hour Angle unit to Hours</string>
               </property>
+              <property name="text">
+               <string>Hours</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">meridianFlipUnit</string>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -414,7 +448,8 @@
                <string>Clear Parking</string>
               </property>
               <property name="icon">
-               <iconset theme="xml-attribute-delete"/>
+               <iconset theme="xml-attribute-delete">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -433,7 +468,8 @@
                <string>Clear  Model</string>
               </property>
               <property name="icon">
-               <iconset theme="edit-clear-all"/>
+               <iconset theme="edit-clear-all">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -449,7 +485,8 @@
                <string>Purge all configuration</string>
               </property>
               <property name="icon">
-               <iconset theme="delete"/>
+               <iconset theme="delete">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -953,4 +990,7 @@ font-weight:bold;
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="meridianFlipUnit"/>
+ </buttongroups>
 </ui>
