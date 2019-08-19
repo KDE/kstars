@@ -112,10 +112,20 @@ Mount::Mount()
 
     // meridian flip
     meridianFlipCheckBox->setChecked(Options::executeMeridianFlip());
-    meridianFlipTimeBox->setValue(Options::meridianFlipOffset());
+
+    // This is always in hours
+    double offset = Options::meridianFlipOffset();
+    // Hours --> Degrees
+    if (meridianFlipDegreesR->isChecked())
+        offset *= 15.0;
+    meridianFlipTimeBox->setValue(offset);
     connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
     connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Mount::meridianFlipSetupChanged);
-
+    meridianFlipDegreesR->setChecked(Options::meridianFlipUnitDegrees());
+    connect(meridianFlipDegreesR, &QRadioButton::toggled, this, [this]()
+    {
+        Options::setMeridianFlipUnitDegrees(meridianFlipDegreesR->isChecked());
+    });
 
     updateTimer.setInterval(UPDATE_DELAY);
     connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
@@ -641,9 +651,16 @@ bool Mount::setSlewRate(int index)
 void Mount::setMeridianFlipValues(bool activate, double hours)
 {
     meridianFlipCheckBox->setChecked(activate);
-    meridianFlipTimeBox->setValue(hours);
+    // Hours --> Degrees
+    if (meridianFlipDegreesR->isChecked())
+        meridianFlipTimeBox->setValue(hours * 15.0);
+    else
+        meridianFlipTimeBox->setValue(hours);
+
     Options::setExecuteMeridianFlip(meridianFlipCheckBox->isChecked());
-    Options::setMeridianFlipOffset(meridianFlipTimeBox->value());
+
+    // It is always saved in hours
+    Options::setMeridianFlipOffset(hours);
 }
 
 void Mount::meridianFlipSetupChanged()
@@ -653,7 +670,13 @@ void Mount::meridianFlipSetupChanged()
         setMeridianFlipStatus(FLIP_NONE);
 
     Options::setExecuteMeridianFlip(meridianFlipCheckBox->isChecked());
-    Options::setMeridianFlipOffset(meridianFlipTimeBox->value());
+
+    double offset = meridianFlipTimeBox->value();
+    // Degrees --> Hours
+    if (meridianFlipDegreesR->isChecked())
+        offset /= 15.0;
+    // It is always saved in hours
+    Options::setMeridianFlipOffset(offset);
 }
 
 
@@ -963,8 +986,12 @@ bool Mount::checkMeridianFlip(dms lst)
         return false;
     }
 
+    double offset = meridianFlipTimeBox->value();
+    // Degrees --> Hours
+    if (meridianFlipDegreesR->isChecked())
+        offset = rangeHA(offset / 15.0);
 
-    double deltaHA = meridianFlipTimeBox->value() - lst.Hours() + telescopeCoord.ra().Hours();
+    double deltaHA =  offset - lst.Hours() + telescopeCoord.ra().Hours();
     deltaHA = rangeHA(deltaHA);
     int hh = static_cast<int> (deltaHA);
     int mm = static_cast<int> ((deltaHA - hh) * 60);
@@ -991,10 +1018,15 @@ bool Mount::checkMeridianFlip(dms lst)
             }
             else if (initialHA() < 0)
             {
+                double offset = meridianFlipTimeBox->value();
+                // Degrees --> Hours
+                if (meridianFlipDegreesR->isChecked())
+                    offset = rangeHA(offset / 15.0);
+
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
                                            lst.toHMSString() <<
                                            " scope RA=" << telescopeCoord.ra().toHMSString() <<
-                                           " and meridian diff=" << meridianFlipTimeBox->value();
+                                           " and meridian diff=" << offset;
 
                 setMeridianFlipStatus(FLIP_PLANNED);
                 return false;

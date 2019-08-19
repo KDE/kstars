@@ -1551,6 +1551,10 @@
          <label>Flips the mount when reaching the meridian, if supported.</label>
          <default>false</default>
       </entry>
+      <entry name="MeridianFlipUnitDegrees" type="Bool">
+         <label>Sets the display unit for meridian flip to degrees.</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="Capture">
       <entry name="DefaultCaptureCCD" type="String">
