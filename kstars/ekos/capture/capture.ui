@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>547</height>
+    <width>638</width>
+    <height>559</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
@@ -521,22 +521,6 @@
           </item>
          </layout>
         </item>
-        <item row="4" column="5" colspan="2">
-         <widget class="QComboBox" name="ISOCombo">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>ISO settings</string>
-          </property>
-         </widget>
-        </item>
         <item row="5" column="0">
          <widget class="QLabel" name="textLabel1_17">
           <property name="toolTip">
@@ -613,7 +597,7 @@
          </layout>
         </item>
         <item row="10" column="0" colspan="7">
-         <layout class="QGridLayout" name="gridLayout_3">
+         <layout class="QGridLayout" name="fileSettingsGridLayout">
           <property name="spacing">
            <number>2</number>
           </property>
@@ -811,7 +795,7 @@
          </layout>
         </item>
         <item row="0" column="0" colspan="7">
-         <layout class="QGridLayout" name="gridLayout_4">
+         <layout class="QGridLayout" name="ccdGridLayout">
           <property name="spacing">
            <number>2</number>
           </property>
@@ -1659,7 +1643,8 @@ font-weight:bold;
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="camera-photo"/>
+            <iconset theme="camera-photo">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1684,7 +1669,8 @@ font-weight:bold;
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="media-playlist-repeat"/>
+            <iconset theme="media-playlist-repeat">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
