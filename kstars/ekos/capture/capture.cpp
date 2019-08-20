@@ -831,24 +831,60 @@ void Capture::checkCCD(int ccdNum)
         }
 
         QStringList isoList = targetChip->getISOList();
-        ISOCombo->clear();
+        //ISOCombo->clear();
 
         transferFormatCombo->blockSignals(true);
         transferFormatCombo->clear();
 
+        delete (ISOCombo);
+        delete (GainSpin);
+        ISOLabel->hide();
+
         if (isoList.isEmpty())
         {
-            ISOCombo->setEnabled(false);
-            ISOLabel->setEnabled(false);
             // Only one transfer format
             transferFormatCombo->addItem(i18n("FITS"));
+
+            if (currentCCD->hasGain())
+            {
+                ISOLabel->setText(QString("%1:").arg(i18nc("Camera Gain", "Gain")));
+                ISOLabel->show();
+
+                GainSpin = new QDoubleSpinBox(CCDFWGroup);
+                double min, max, step, value, targetCustomGain;
+                currentCCD->getGainMinMaxStep(&min, &max, &step);
+                GainSpin->setRange(min, max);
+                GainSpin->setSingleStep(step);
+                currentCCD->getGain(&value);
+
+                targetCustomGain = getGain();
+
+                // Set the custom gain if we have one
+                // otherwise just put the current ccd actual gain value
+                if (targetCustomGain > 0)
+                    GainSpin->setValue(targetCustomGain);
+                else
+                    GainSpin->setValue(value);
+
+                GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+                connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
+                {
+                    setGain(GainSpin->value());
+                });
+
+                gridLayout->addWidget(GainSpin, 4, 5, 1, 2);
+            }
         }
         else
         {
-            ISOCombo->setEnabled(true);
-            ISOLabel->setEnabled(true);
+            ISOLabel->setText(QString("%1:").arg(i18nc("Camera ISO", "ISO")));
+            ISOLabel->show();
+
+            ISOCombo = new QComboBox(CCDFWGroup);
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+            gridLayout->addWidget(ISOCombo, 4, 5, 1, 2);
 
             // DSLRs have two transfer formats
             transferFormatCombo->addItem(i18n("FITS"));
@@ -2255,7 +2291,7 @@ bool Capture::addJob(bool preview)
         return false;
     }
 
-    if (ISOCombo->isEnabled())
+    if (ISOCombo)
         job->setISOIndex(ISOCombo->currentIndex());
 
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
@@ -2397,7 +2433,7 @@ bool Capture::addJob(bool preview)
     jsonJob.insert("Exp", exp->text());
 
     QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
-    if (ISOCombo->currentIndex() != -1)
+    if (ISOCombo && ISOCombo->currentIndex() != -1)
     {
         iso->setText(ISOCombo->currentText());
         jsonJob.insert("ISO", iso->text());
@@ -3689,7 +3725,7 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
-            if (ISOCombo->isEnabled())
+            if (ISOCombo)
                 ISOCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
@@ -4094,8 +4130,14 @@ void Capture::syncGUIToJob(SequenceJob * job)
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
 
-    if (ISOCombo->isEnabled())
+    if (ISOCombo)
         ISOCombo->setCurrentIndex(job->getISOIndex());
+    if (GainSpin)
+    {
+        double value = getGain();
+        if (value > 0)
+            GainSpin->setValue(value);
+    }
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
@@ -4119,7 +4161,7 @@ QJsonObject Capture::getSettings()
     settings.insert("filter", FilterPosCombo->currentText());
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", binXIN->value());
-    settings.insert("iso", ISOCombo->currentIndex());
+    settings.insert("iso", ISOCombo ? ISOCombo->currentIndex() : -1);
     settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("targetTemperature", temperatureIN->value());
 
@@ -5093,7 +5135,7 @@ IPState Capture::checkDarkFramePendingTasks()
     QString deviceName = currentCCD->getDeviceName();
 
     bool hasShutter   = shutterfulCCDs.contains(deviceName);
-    bool hasNoShutter = shutterlessCCDs.contains(deviceName) || ISOCombo->count() > 0;
+    bool hasNoShutter = shutterlessCCDs.contains(deviceName) || (ISOCombo && ISOCombo->count() > 0);
 
     // If we have no information, we ask before we proceed.
     if (hasShutter == false && hasNoShutter == false)
@@ -6294,26 +6336,7 @@ void Capture::setSettings(const QJsonObject &settings)
     double gain = settings["gain"].toDouble(Ekos::INVALID_VALUE);
     if (gain != Ekos::INVALID_VALUE && currentCCD)
     {
-        QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
-
-        // Gain is manifested in two forms
-        // Property CCD_GAIN and
-        // Part of CCD_CONTROLS properties.
-        // Therefore, we have to find what the currently camera supports first.
-        if (currentCCD->getProperty("CCD_GAIN"))
-        {
-            QMap<QString, double> ccdGain;
-            ccdGain["GAIN"] = gain;
-            customProps["CCD_GAIN"] = ccdGain;
-        }
-        else if (currentCCD->getProperty("CCD_CONTROLS"))
-        {
-            QMap<QString, double> ccdGain;
-            ccdGain["Gain"] = gain;
-            customProps["CCD_CONTROLS"] = ccdGain;
-        }
-
-        customPropertiesDialog->setCustomProperties(customProps);
+        setGain(gain);
     }
 
     int format = settings["format"].toInt(Ekos::INVALID_VALUE);
@@ -6357,9 +6380,8 @@ void Capture::clearCameraConfiguration()
             Options::setShutterlessCCDs(shutterlessCCDs);
         }
 
-
         // For DSLRs, immediately ask them to enter the values again.
-        if (ISOCombo->count() > 0)
+        if (ISOCombo && ISOCombo->count() > 0)
         {
             createDSLRDialog();
         }
@@ -6462,6 +6484,50 @@ void Capture::removeDevice(ISD::GDInterface *device)
             currentFilter = nullptr;
         checkFilter();
     }
+}
+
+void Capture::setGain(double value)
+{
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+    // Gain is manifested in two forms
+    // Property CCD_GAIN and
+    // Part of CCD_CONTROLS properties.
+    // Therefore, we have to find what the currently camera supports first.
+    if (currentCCD->getProperty("CCD_GAIN"))
+    {
+        QMap<QString, double> ccdGain;
+        ccdGain["GAIN"] = value;
+        customProps["CCD_GAIN"] = ccdGain;
+    }
+    else if (currentCCD->getProperty("CCD_CONTROLS"))
+    {
+        QMap<QString, double> ccdGain;
+        ccdGain["Gain"] = value;
+        customProps["CCD_CONTROLS"] = ccdGain;
+    }
+
+    customPropertiesDialog->setCustomProperties(customProps);
+}
+
+double Capture::getGain()
+{
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+    // Gain is manifested in two forms
+    // Property CCD_GAIN and
+    // Part of CCD_CONTROLS properties.
+    // Therefore, we have to find what the currently camera supports first.
+    if (currentCCD->getProperty("CCD_GAIN"))
+    {
+        return customProps["CCD_GAIN"].value("GAIN", -1);
+    }
+    else if (currentCCD->getProperty("CCD_CONTROLS"))
+    {
+        return customProps["CCD_CONTROLS"].value("Gain", -1);
+    }
+
+    return -1;
 }
 
 }

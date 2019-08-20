@@ -724,6 +724,12 @@ class Capture : public QWidget, public Ui::Capture
         double setCurrentADU(double value);
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
 
+        // Gain
+        // This sets and gets the custom properties target gain
+        // it does not access the ccd gain property
+        void setGain(double value);
+        double getGain();
+
         // DSLR Info
         void cullToDSLRLimits();
         //void syncDriverToDSLRLimits();
@@ -903,5 +909,9 @@ class Capture : public QWidget, public Ui::Capture
         // Execute the meridian flip
         void setMeridianFlipStage(MFStage status);
         void processFlipCompleted();
+
+        // Controls
+        QPointer<QComboBox> ISOCombo;
+        QPointer<QDoubleSpinBox> GainSpin;
 };
 }
