@@ -231,7 +231,12 @@ void Focus::checkCCD(int ccdNum)
                     gainIN->setMaximum(max);
                     if (step > 0)
                         gainIN->setSingleStep(step);
-                    gainIN->setValue(gain);
+
+                    double defaultGain = Options::focusGain();
+                    if (defaultGain > 0)
+                        gainIN->setValue(defaultGain);
+                    else
+                        gainIN->setValue(gain);
                 }
             }
             else
