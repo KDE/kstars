@@ -113,6 +113,9 @@ Mount::Mount()
     // meridian flip
     meridianFlipCheckBox->setChecked(Options::executeMeridianFlip());
 
+    // Meridian Flip Unit
+    meridianFlipDegreesR->setChecked(Options::meridianFlipUnitDegrees());
+
     // This is always in hours
     double offset = Options::meridianFlipOffset();
     // Hours --> Degrees
@@ -121,10 +124,15 @@ Mount::Mount()
     meridianFlipTimeBox->setValue(offset);
     connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
     connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Mount::meridianFlipSetupChanged);
-    meridianFlipDegreesR->setChecked(Options::meridianFlipUnitDegrees());
     connect(meridianFlipDegreesR, &QRadioButton::toggled, this, [this]()
     {
         Options::setMeridianFlipUnitDegrees(meridianFlipDegreesR->isChecked());
+        // Hours ---> Degrees
+        if (meridianFlipDegreesR->isChecked())
+            meridianFlipTimeBox->setValue(meridianFlipTimeBox->value() * 15.0);
+        // Degrees --> Hours
+        else
+            meridianFlipTimeBox->setValue(rangeHA(meridianFlipTimeBox->value() / 15.0));
     });
 
     updateTimer.setInterval(UPDATE_DELAY);
