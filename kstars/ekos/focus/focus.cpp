@@ -437,7 +437,7 @@ void Focus::checkFocuser(int FocuserNum)
         return;
     }
 
-    if (FocuserNum <= Focusers.count())
+    if (FocuserNum < Focusers.count())
         currentFocuser = Focusers.at(FocuserNum);
 
     filterManager->setFocusReady(currentFocuser->isConnected());
@@ -2069,6 +2069,12 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     // Return if it is not our current focuser
     if (strcmp(nvp->device, currentFocuser->getDeviceName()))
         return;
+
+    if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
+    {
+        focusBacklashSpin->setValue(nvp->np[0].value);
+        return;
+    }
 
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
