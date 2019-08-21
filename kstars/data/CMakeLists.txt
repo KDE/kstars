@@ -22,7 +22,7 @@ install(FILES
     mercury.orbit venus.orbit earth.orbit mars.orbit jupiter.orbit
     saturn.orbit uranus.orbit neptune.orbit pluto.orbit
     asteroids.dat comets.dat wzserialportassistant.png
-    wzstars.png wzgeo.png wzscope.png wzdownload.png wzekos.png windi.png ekoslive.png
+    wzstars.png wzgeo.png wzscope.png wzdownload.png wzekos.png ekoslive.png
     chart.colors classic.colors moonless-night.colors night.colors
     tips TZrules.dat Interesting.dat PlanetFacts.dat indidrivers.xml
     advinterface.dat catalog.min.json satellites.dat glossary.xml defaultflag.gif

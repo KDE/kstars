@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
+    <width>651</width>
     <height>366</height>
    </rect>
   </property>
@@ -352,10 +352,11 @@ Tutorials</string>
            </property>
            <property name="text">
             <string>Equipment is attached
-to this computer</string>
+to this device</string>
            </property>
            <property name="icon">
-            <iconset theme="computer"/>
+            <iconset theme="computer">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -394,11 +395,12 @@ to this computer</string>
               <enum>Qt::ClickFocus</enum>
              </property>
              <property name="text">
-              <string>Equipment is attached
-to a remote computer</string>
+              <string>Equipment is attached to
+a remote device</string>
              </property>
              <property name="icon">
-              <iconset theme="applications-internet"/>
+              <iconset theme="applications-internet">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -407,53 +409,6 @@ to a remote computer</string>
               </size>
              </property>
              <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="stellarMateEquipmentB">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>Arial Black</family>
-               <pointsize>12</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::ClickFocus</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Equipment is attached
-to StellarMate</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../data/kstars.qrc">
-               <normaloff>:/icons/stellarmate.svg</normaloff>:/icons/stellarmate.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>64</width>
-               <height>64</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="default">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
               <bool>false</bool>
              </property>
             </widget>
@@ -462,7 +417,122 @@ to StellarMate</string>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="remoteEquipmentPage">
+       <widget class="QWidget" name="remoteEquipmentSelectionPage">
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QLabel" name="label_22">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial Black</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Which &lt;span style=&quot; color:#ff5500;&quot;&gt;remote&lt;/span&gt; device is the equipment connected to?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="equipmentStellarmateB">
+               <property name="minimumSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>128</width>
+                 <height>128</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>StellarMate</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normalon>:/icons/stellarmate.svg</normalon>
+                </iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>48</width>
+                 <height>48</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="equipmentAtikbaseB">
+               <property name="minimumSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>128</width>
+                 <height>128</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>AtikBase</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="equipmentOtherB">
+               <property name="minimumSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>128</width>
+                 <height>128</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Other</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QSvgWidget" name="remoteEquipmentSVG" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>99</width>
+               <height>250</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>99</width>
+               <height>250</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="genericEquipmentPage">
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <widget class="QLabel" name="label_2">
@@ -638,7 +708,7 @@ to StellarMate</string>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="stellarMatePage">
+       <widget class="QWidget" name="piPage">
         <layout class="QVBoxLayout" name="verticalLayout_10">
          <item>
           <widget class="QLabel" name="label_8">
@@ -655,7 +725,7 @@ to StellarMate</string>
             </font>
            </property>
            <property name="text">
-            <string>Enter StellarMate host name. If you do not know, click Auto Detect:</string>
+            <string>Enter host name and port. If you do not know, leave as is.</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -672,7 +742,7 @@ to StellarMate</string>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="stellarMateHost">
+            <widget class="QLineEdit" name="PiHost">
              <property name="text">
               <string>stellarmate.local</string>
              </property>
@@ -682,7 +752,10 @@ to StellarMate</string>
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QPushButton" name="stellarMateAutoDetectB">
+            <widget class="QPushButton" name="PiAutoDetectB">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Auto Detect</string>
              </property>
@@ -696,7 +769,7 @@ to StellarMate</string>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="stellarMatePort">
+            <widget class="QLineEdit" name="PiPort">
              <property name="text">
               <string>7624</string>
              </property>
@@ -762,121 +835,12 @@ to StellarMate</string>
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To use Ekos with your equipment locally on Windows, you need to download and install &lt;a href=&quot;http://www.cloudmakers.eu/windi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;INDI Server for Windows&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Using Ekos locally on Windows is not supported. You must connect to a remote gadget to control devices.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QLabel" name="windiPix">
-             <property name="minimumSize">
-              <size>
-               <width>130</width>
-               <height>130</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>130</width>
-               <height>130</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="openExternalLinks">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;After installing &lt;span style=&quot; font-style:italic;&quot;&gt;INDI Server for Windows (wINDI)&lt;/span&gt;, establish connection with your equipment. wINDI requires &lt;a href=&quot;http://www.ascom-standards.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;ASCOM&lt;/span&gt;&lt;/a&gt; drivers for all your equipment, so make sure to install all necessary ASCOM drivers for your gear.&lt;/p&gt;&lt;p&gt;After successfully starting INDI Server in wINDI, click &lt;span style=&quot; font-weight:600;&quot;&gt;Ready&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_19">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tip&lt;/span&gt;: INDI Server for Windows functionality is limited compared to the native INDI drivers on Linux. It is recommended to install native INDI on an embedded Linux device such as &lt;a href=&quot;http://indilib.org/support/tutorials/169-ekos-on-raspberry-pi-complete-guide.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Raspberry PI&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <spacer name="horizontalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="windowsReadyB">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>64</height>
-              </size>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::ClickFocus</enum>
-             </property>
-             <property name="text">
-              <string>Ready</string>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>
@@ -917,7 +881,8 @@ to StellarMate</string>
 Server</string>
            </property>
            <property name="icon">
-            <iconset theme="kstars_indi"/>
+            <iconset theme="kstars_indi">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -952,7 +917,8 @@ Server</string>
 Server</string>
            </property>
            <property name="icon">
-            <iconset theme="draw-cuboid"/>
+            <iconset theme="draw-cuboid">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1232,7 +1198,16 @@ Select Devices</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QSvgWidget</class>
+   <extends>QWidget</extends>
+   <header>qsvgwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
+  <include location="../data/kstars.qrc"/>
   <include location="../data/kstars.qrc"/>
  </resources>
  <connections/>

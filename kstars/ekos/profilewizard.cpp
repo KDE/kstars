@@ -32,49 +32,65 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzekos.png")))
         wizardPix->setPixmap(im);
 
-    if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "windi.png")))
-        windiPix->setPixmap(im);
+    remoteEquipmentSVG->load(QString(":/icons/pi.svg"));
 
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-    connect(buttonBox, &QDialogButtonBox::helpRequested, this, []() { KStars::Instance()->appHelpActivated(); });
-    connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button) {
+    connect(buttonBox, &QDialogButtonBox::helpRequested, this, []()
+    {
+        KStars::Instance()->appHelpActivated();
+    });
+    connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton * button)
+    {
         if (button == buttonBox->button(QDialogButtonBox::Reset))
             reset();
     });
 
     connect(discoverEkosB, &QPushButton::clicked, this,
-            []() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
+            []()
+    {
+        QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html"));
+    });
     connect(videoTutorialsB, &QPushButton::clicked, this,
-            []() { QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy")); });
+            []()
+    {
+        QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy"));
+    });
     connect(INDIInfoB, &QPushButton::clicked, this,
-            []() { QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html")); });
+            []()
+    {
+        QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html"));
+    });
 
     // Intro actions
     connect(introNextB, &QPushButton::clicked, this,
-            [this]() { wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION); });
+            [this]()
+    {
+        wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION);
+    });
 
     // Equipment Location actions
     connect(localEquipmentB, SIGNAL(clicked()), this, SLOT(processLocalEquipment()));
     connect(remoteEquipmentB, &QPushButton::clicked, this,
-            [this]() { wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT); });
-    connect(stellarMateEquipmentB, &QPushButton::clicked, this,
-            [this]() { wizardContainer->setCurrentIndex(STELLARMATE_EQUIPMENT); });
+            [this]()
+    {
+        wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT_SELECTION);
+    });
+    connect(equipmentStellarmateB, &QPushButton::clicked, this, &ProfileWizard::processRemoteEquipmentSelection);
+    connect(equipmentAtikbaseB, &QPushButton::clicked, this, &ProfileWizard::processRemoteEquipmentSelection);
+    connect(equipmentOtherB, &QPushButton::clicked, this, &ProfileWizard::processRemoteEquipmentSelection);
 
     // Remote Equipment Action
     connect(remoteEquipmentNextB, SIGNAL(clicked()), this, SLOT(processRemoteEquipment()));
 
     // StellarMate Equipment Action
-    connect(stellarMateEquipmentNextB, SIGNAL(clicked()), this, SLOT(processStellarMateEquipment()));
+    connect(stellarMateEquipmentNextB, SIGNAL(clicked()), this, SLOT(processPiEquipment()));
 #ifdef Q_OS_WIN
     // Auto Detect does not work on Windows yet for some reason.
     // Packet is sent correctly, but no replies are received from anything on the LAN outside of PC.
     stellarMateAutoDetectB->setEnabled(false);
 #else
-    connect(stellarMateAutoDetectB, SIGNAL(clicked()), this, SLOT(detectStellarMate()));
+    connect(PiAutoDetectB, SIGNAL(clicked()), this, SLOT(detectStellarMate()));
 #endif
-
-    // Local Windows
-    connect(windowsReadyB, SIGNAL(clicked()), this, SLOT(processLocalWindows()));
 
     // Local Mac
     connect(useExternalINDIB, SIGNAL(clicked()), this, SLOT(processLocalMac()));
@@ -156,16 +172,16 @@ void ProfileWizard::processRemoteEquipment()
     wizardContainer->setCurrentIndex(CREATE_PROFILE);
 }
 
-void ProfileWizard::processStellarMateEquipment()
+void ProfileWizard::processPiEquipment()
 {
-    if (stellarMateHost->text().isEmpty())
+    if (PiHost->text().isEmpty())
     {
         KSNotification::error(i18n("Host name cannot be empty."));
         return;
     }
 
-    host = stellarMateHost->text();
-    port = stellarMatePort->text();
+    host = PiHost->text();
+    port = PiPort->text();
 
     useInternalServer = false;
     useWebManager = true;
@@ -174,20 +190,6 @@ void ProfileWizard::processStellarMateEquipment()
     useRemoteAstrometryCheck->setEnabled(true);
     useWatchDogCheck->setEnabled(true);
     useSkySafariCheck->setEnabled(true);
-
-    wizardContainer->setCurrentIndex(CREATE_PROFILE);
-}
-
-void ProfileWizard::processLocalWindows()
-{
-    useInternalServer = false;
-    host              = "localhost";
-    port              = "7624";
-
-    useJoystickCheck->setEnabled(false);
-    useRemoteAstrometryCheck->setEnabled(false);
-    useWatchDogCheck->setEnabled(false);
-    useSkySafariCheck->setEnabled(false);
 
     wizardContainer->setCurrentIndex(CREATE_PROFILE);
 }
@@ -278,14 +280,14 @@ void ProfileWizard::detectStellarMate()
         qMDNS::getInstance()->disconnect();
     });
     connect(qMDNS::getInstance(), SIGNAL(hostFound(QHostInfo)), this, SLOT(processHostInfo(QHostInfo)));
-    QTimer::singleShot(120*1000, this, SLOT(detectStellarMateTimeout()));
+    QTimer::singleShot(120 * 1000, this, SLOT(detectStellarMateTimeout()));
 
     qMDNS::getInstance()->lookup("stellarmate");
 }
 
 void ProfileWizard::processHostInfo(QHostInfo info)
 {
-    stellarMateHost->setText(info.hostName());
+    PiHost->setText(info.hostName());
     qMDNS::getInstance()->disconnect();
     stellarMateDetectDialog->close();
 }
@@ -296,5 +298,27 @@ void ProfileWizard::detectStellarMateTimeout()
     {
         KSNotification::error(i18n("Failed to detect any StellarMate gadget. Make sure it is powered and on the same network."));
         stellarMateDetectDialog->close();
+    }
+}
+
+void ProfileWizard::processRemoteEquipmentSelection()
+{
+    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    if (!button)
+        return;
+
+    if (button == equipmentStellarmateB)
+    {
+        PiHost->setText("stellarmate.local");
+        wizardContainer->setCurrentIndex(PI_EQUIPMENT);
+    }
+    else if (button == equipmentAtikbaseB)
+    {
+        PiHost->setText("atikbase.local");
+        wizardContainer->setCurrentIndex(PI_EQUIPMENT);
+    }
+    else
+    {
+        wizardContainer->setCurrentIndex(GENERIC_EQUIPMENT);
     }
 }
