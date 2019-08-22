@@ -45,7 +45,7 @@ void sorry(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KSNotification::sorry(message, title);
+    KMessageBox::sorry(nullptr, message, title);
 #endif
 }
 
