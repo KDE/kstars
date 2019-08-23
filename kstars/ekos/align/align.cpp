@@ -894,7 +894,7 @@ void Align::calculateAngleForRALine(double &raIncrement, double &initRA, double 
 
         initRA = spWest.ra().Degrees();
         if (raPoints > 1)
-            raIncrement = angleSep.Degrees() / (raPoints - 1);
+            raIncrement = abs(angleSep.Degrees() / (raPoints - 1));
         else
             raIncrement = 0;
     }
@@ -1100,13 +1100,10 @@ bool Align::isVisible(const SkyObject *so)
 double Align::getAltitude(const SkyObject *so)
 {
     KStarsData *data  = KStarsData::Instance();
-    GeoLocation *geo  = data->geo();
-    CachingDms *lst   = data->lst();
-    KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
-    SkyPoint sp       = so->recomputeCoords(ut, geo);
+    SkyPoint sp       = so->recomputeCoords(data->ut(), data->geo());
 
     //check altitude of object at this time.
-    sp.EquatorialToHorizontal(lst, geo->lat());
+    sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
 
     return sp.alt().Degrees();
 }
