@@ -125,6 +125,15 @@ class Align : public QWidget, public Ui::Align
             INFINITE_CIRCLE_SOLUTION
         };
 
+        enum ModelObjectType
+        {
+            OBJECT_ANY_STAR,
+            OBJECT_NAMED_STAR,
+            OBJECT_ANY_OBJECT,
+            OBJECT_FIXED_DEC,
+            OBJECT_FIXED_GRID
+        };
+
         /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
              * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
             */
@@ -543,7 +552,7 @@ class Align : public QWidget, public Ui::Align
         void finishAlignmentPoint(bool solverSucceeded);
         void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
         void exportSolutionPoints();
-        void alignTypeChanged(const QString alignType);
+        void alignTypeChanged(int alignType);
         void togglePreviewAlignPoints();
         void slotSortAlignmentPoints();
         void slotAutoScaleGraph();
