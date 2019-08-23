@@ -477,7 +477,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(solutionTable, &QTableWidget::cellClicked, this, &Ekos::Align::selectSolutionTableRow);
 
     connect(mountModel.wizardAlignB, &QPushButton::clicked, this, &Ekos::Align::slotWizardAlignmentPoints);
-    connect(mountModel.alignTypeBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
+    connect(mountModel.alignTypeBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Align::alignTypeChanged);
 
     connect(mountModel.starListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
@@ -710,7 +710,7 @@ void Align::slotWizardAlignmentPoints()
     GeoLocation *geo = data->geo();
     double lat       = geo->lat()->Degrees();
 
-    if (mountModel.alignTypeBox->currentText() == "Fixed DEC")
+    if (mountModel.alignTypeBox->currentIndex() == OBJECT_FIXED_DEC)
     {
         double decAngle = mountModel.alignDec->value();
         //Dec that never rises.
@@ -746,7 +746,7 @@ void Align::slotWizardAlignmentPoints()
     double initDEC      = -1;
     SkyPoint spTest;
 
-    if (mountModel.alignTypeBox->currentText() == "Fixed DEC")
+    if (mountModel.alignTypeBox->currentIndex() == OBJECT_FIXED_DEC)
     {
         decPoints    = 1;
         initDEC      = mountModel.alignDec->value();
@@ -787,7 +787,7 @@ void Align::slotWizardAlignmentPoints()
         else
             dec = initDEC - d * decIncrement;
 
-        if (mountModel.alignTypeBox->currentText() == "Fixed DEC")
+        if (mountModel.alignTypeBox->currentIndex() == OBJECT_FIXED_DEC)
         {
             raPoints = points;
         }
@@ -922,13 +922,25 @@ void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest)
 const SkyObject *Align::getWizardAlignObject(double ra, double dec)
 {
     double maxSearch = 5.0;
-    if (mountModel.alignTypeBox->currentText() == "Any Object")
-        return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
-    else if (mountModel.alignTypeBox->currentText() == "Fixed DEC" ||
-             mountModel.alignTypeBox->currentText() == "Fixed Grid")
-        return nullptr;
-    else if (mountModel.alignTypeBox->currentText() == "Any Stars")
-        return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+    switch (mountModel.alignTypeBox->currentIndex())
+    {
+        case OBJECT_ANY_OBJECT:
+            return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+        case OBJECT_FIXED_DEC:
+        case OBJECT_FIXED_GRID:
+            return nullptr;
+
+        case OBJECT_ANY_STAR:
+            return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+    }
+
+    //    if (mountModel.alignTypeBox->currentText() == "Any Object")
+    //        return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+    //    else if (mountModel.alignTypeBox->currentText() == "Fixed DEC" ||
+    //             mountModel.alignTypeBox->currentText() == "Fixed Grid")
+    //        return nullptr;
+    //    else if (mountModel.alignTypeBox->currentText() == "Any Stars")
+    //        return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
 
     //If they want named stars, then try to search for and return the closest Align Star to the requested location
 
@@ -956,9 +968,9 @@ const SkyObject *Align::getWizardAlignObject(double ra, double dec)
     return alignStars.value(index);
 }
 
-void Align::alignTypeChanged(const QString alignType)
+void Align::alignTypeChanged(int alignType)
 {
-    if (alignType == "Fixed DEC")
+    if (alignType == OBJECT_FIXED_DEC)
         mountModel.alignDec->setEnabled(true);
     else
         mountModel.alignDec->setEnabled(false);
@@ -3946,8 +3958,12 @@ void Align::Slew()
     emit newStatus(state);
 
     //qCDebug(KSTARS_EKOS_ALIGN) << "## Before SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
-    m_wasSlewStarted = currentTelescope->Slew(&targetCoord);
+    //m_wasSlewStarted = currentTelescope->Slew(&targetCoord);
     //qCDebug(KSTARS_EKOS_ALIGN) << "## After SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
+
+    // JM 2019-08-23: Do not assume that slew was started immediately. Wait until IPS_BUSY state is triggered
+    // from Goto
+    currentTelescope->Slew(&targetCoord);
 
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(),
                        targetCoord.dec().toDMSString()));
