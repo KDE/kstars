@@ -128,7 +128,10 @@ void WUTDialog::init()
     }
 
     // sun almanac information
-    KSSun *oSun     = dynamic_cast<KSSun *>(data->objectNamed("Sun"));
+    KSSun *oSun     = dynamic_cast<KSSun *>(data->objectNamed(i18n("Sun")));
+
+    Q_ASSERT(oSun);
+
     sunRiseTomorrow = oSun->riseSetTime(TomorrowUT, geo, true);
     sunSetToday     = oSun->riseSetTime(EveningUT, geo, false);
     sunRiseToday    = oSun->riseSetTime(EveningUT, geo, true);
