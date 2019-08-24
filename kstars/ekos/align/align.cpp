@@ -827,7 +827,7 @@ void Align::slotWizardAlignmentPoints()
             else
             {
                 getFormattedCoords(dms(ra).Hours(), dec, ra_report, dec_report);
-                name = "None";
+                name = i18n("Sky Point");
             }
 
             int currentRow = mountModel.alignTable->rowCount();
