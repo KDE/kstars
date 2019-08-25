@@ -9,6 +9,7 @@ export ANDROID_ARCHITECTURE=arm
 export ANDROID_ABI=armeabi-v7a
 export ANDROID_TOOLCHAIN=arm-linux-androideabi
 export ANDROID_NATIVE_API_LEVEL=android-$ANDROID_API_LEVEL
+export ANDROID_STL=c++_static
 
  # Get the directory where the script is stored
 SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -33,7 +34,7 @@ sed -i -- 's/make-options -j8/make-options -j4 VERBOSE=1/g' kdesrc-conf-android/
 
 if [ -e $qt_android_libs ]
 then
-    sed -E -i "s|-DCMAKE_PREFIX_PATH=.*?\\ |-DCMAKE_PREFIX_PATH=$QT_ANDROID- -DCMAKE_ANDROID_NDK=$CMAKE_ANDROID_NDK -DECM_ADDITIONAL_FIND_ROOT_PATH=$QT_ANDROID\;$CURDIR/kf5/kde/install -DANDROID_STL=gnustl_static -DCMAKE_TOOLCHAIN_FILE=/usr/share/ECM/toolchain/Android.cmake -DKCONFIG_USE_DBUS=OFF |g" kdesrc-conf-android/kdesrc-buildrc
+    sed -E -i "s|-DCMAKE_PREFIX_PATH=.*?\\ |-DCMAKE_PREFIX_PATH=$QT_ANDROID- -DCMAKE_ANDROID_NDK=$CMAKE_ANDROID_NDK -DECM_ADDITIONAL_FIND_ROOT_PATH=$QT_ANDROID\;$CURDIR/kf5/kde/install -DANDROID_STL=c++_shared -DCMAKE_TOOLCHAIN_FILE=$CURDIR/kf5/kde/src/frameworks/extra-cmake-modules/toolchain/Android.cmake -DKCONFIG_USE_DBUS=OFF |g" kdesrc-conf-android/kdesrc-buildrc
 else
     echo "Qt Android libraries path doesn't exist. Exiting."
     exit
@@ -42,10 +43,11 @@ fi
 sed -E -i "s|use-modules.+|use-modules kconfig ki18n kplotting|g" kdesrc-conf-android/kdesrc-buildrc
 rm -rf ${kf5_android_path}/kde/build/${android_architecture}/* # clean build folders
 # Build ki18n first to get the sources, it needs to be patched
-./kdesrc-build libintl-lite ki18n
-sed -i -- 's/check_cxx_source_compiles/#check_cxx_source_compiles/g' kde/src/frameworks/ki18n/cmake/FindLibIntl.cmake
+./kdesrc-build extra-cmake-modules
+./kdesrc-build libintl-lite
+./kdesrc-build ki18n
 sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt5::Qml Qt5::Core)/target_link_libraries(ktranscript PRIVATE Qt5::Qml Qt5::Core -l:libc.a -Wl,--exclude-libs=ALL)/g' $CURDIR/kf5/kde/src/frameworks/ki18n/src/CMakeLists.txt
-./kdesrc-build libintl-lite extra-cmake-modules frameworks-android
+./kdesrc-build frameworks-android
 
 # Fix some config files
 sed -i '/find_package(PythonInterp/ s/^/#/' kde/install/lib/cmake/KF5I18n/KF5I18nMacros.cmake
