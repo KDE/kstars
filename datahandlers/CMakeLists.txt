@@ -25,6 +25,7 @@ add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRC})
 # Added this because includedir was missing, is this required?
 if (ANDROID)
     target_link_libraries(LibKSDataHandlers KF5::I18n Qt5::Sql Qt5::Core Qt5::Gui)
+    target_compile_options(LibKSDataHandlers PRIVATE ${KSTARSLITE_CPP_OPTIONS} -DUSE_QT5_INDI -DKSTARS_LITE)
 else ()
     target_link_libraries(LibKSDataHandlers KF5::WidgetsAddons KF5::I18n Qt5::Sql Qt5::Core Qt5::Gui)
 endif ()

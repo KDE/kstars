@@ -2,10 +2,8 @@
 Only Linux cross-compilation to Android is supported.
 
 Prerequisites:
-- Install Android NDK and Android SDK
-- Install Qt 5.7+ for Android under your home directory to be writable. Unfortunately, there is a Qt bug
-  (https://bugreports.qt.io/browse/QTBUG-54666) what can be fixed by only patching one cmake config file.
-  The build files will comment the problematic line.
+- Install Android NDK (android-ndk-r17c-linux-x86_64.zip) and Android SDK (SDK Tools 25.2.5 and Platform-tools 29.0.2 are known to work)
+- Install Qt 5.12+ for Android
 - Get KStars source code from Github or KDE
 - Some tools are needed for the compilation: sudo apt-get install dos2unix ccache
 
@@ -37,7 +35,7 @@ When KF5 are ready, build KStars Lite for Android:
 
 cmake -B. -H$KSTARS_ROOT -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=$CMAKE_ANDROID_NDK/build/cmake/android.toolchain.cmake \
       -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3/ -DCMAKE_INSTALL_PREFIX=$(pwd)/android/export -DCMAKE_BUILD_TYPE=MinSizeRel \
-      -DECM_DIR=/usr/share/ECM/cmake/ -DCMAKE_PREFIX_PATH=$QT_ANDROID \
+      -DBUILD_KSTARS_LITE=ON -DECM_DIR=/usr/share/ECM/cmake/ -DCMAKE_PREFIX_PATH=$QT_ANDROID \
       -DCMAKE_AR=${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
 
 - Compile:
@@ -48,22 +46,9 @@ make -j4
 
 make convert_translations_to_android
 
-If the above command dies with the error message:
-
-releaseme/lib/releaseme/l10n.rb:195:in `verify_pot': l10n pot appears to be a variable. cannot resolve $potfile.pot (RuntimeError)
-
-...then comment out this line in the Ruby script and the execution will be fine next time.
-
-
 - Install:
 
 make -j4 install
-
-- Qt does not work with the newest SDK Tools, you must use v25 as suggested here:
-  https://stackoverflow.com/questions/42754878/qt-creator-wont-list-any-available-android-build-sdks/42811774#42811774
-
-  Basically, download https://dl.google.com/android/repository/tools_r25.2.5-linux.zip and replace the ANDROID_SDK_DIR/tools directory or
-  just use the Android SDK download tool to use this version.
 
 - Generate the Android debug package:
 
