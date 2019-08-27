@@ -388,7 +388,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
         CachingDms LST = edt.gst() + longB;
 
         KSNumbers num(edt.djd());
-        KSPlanet Earth(I18N_NOOP("Earth"));
+        KSPlanet Earth(i18n("Earth"));
         Earth.findPosition(&num);
 
         // FIXME: allocate new object for every iteration is probably not wisest idea.
