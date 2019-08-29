@@ -52,6 +52,7 @@ enum COMMANDS
     GET_PROFILE,
     DELETE_PROFILE,
     UPDATE_PROFILE,
+    SET_PROFILE_MAPPING,
 
     // SCOPES
     GET_SCOPES,
@@ -183,6 +184,7 @@ static QMap<COMMANDS, QString> const commands =
     {GET_PROFILE, "profile_get"},
     {DELETE_PROFILE, "profile_delete"},
     {UPDATE_PROFILE, "profile_update"},
+    {SET_PROFILE_MAPPING, "profile_set_mapping"},
 
     {GET_SCOPES, "get_scopes"},
     {ADD_SCOPE, "scope_add"},
