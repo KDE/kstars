@@ -5055,7 +5055,7 @@ IPState Capture::checkLightFramePendingTasks()
                 //        }
 
                 // If we already asked for confirmation and waiting for it
-                // let us see if the confirmation is fullfilled
+                // let us see if the confirmation is fulfilled
                 // otherwise we return.
                 if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
                     return IPS_BUSY;

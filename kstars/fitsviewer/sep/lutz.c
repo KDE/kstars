@@ -137,7 +137,7 @@ int lutz(pliststruct *plistin,
 
   iscan = objrootsubmap + (sty-suby)*subw + (stx-subx);
 
-  /* As we only analyse a fraction of the map, a step occurs between lines */
+  /* As we only analyze a fraction of the map, a step occurs between lines */
   step = subw - (++enx-stx);
   eny++;
 
