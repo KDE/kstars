@@ -206,8 +206,13 @@ Mount::Mount()
     m_Park         = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
     m_Unpark       = m_BaseObj->findChild<QQuickItem *>("unparkButtonObject");
     m_statusText   = m_BaseObj->findChild<QQuickItem *>("statusTextObject");
-    m_equatorialCheck   = m_BaseObj->findChild<QQuickItem *>("equatorialCheckObject");
-    m_horizontalCheck    = m_BaseObj->findChild<QQuickItem *>("horizontalCheckObject");
+    m_equatorialCheck = m_BaseObj->findChild<QQuickItem *>("equatorialCheckObject");
+    m_horizontalCheck = m_BaseObj->findChild<QQuickItem *>("horizontalCheckObject");
+    m_leftRightCheck = m_BaseObj->findChild<QQuickItem *>("leftRightCheckObject");
+    m_upDownCheck = m_BaseObj->findChild<QQuickItem *>("upDownCheckObject");
+
+    m_leftRightCheck->setProperty("checked", Options::leftRightReversed());
+    m_upDownCheck->setProperty("checked", Options::upDownReversed());
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -656,6 +661,16 @@ bool Mount::setSlewRate(int index)
     return false;
 }
 
+void Mount::setUpDownReversed(bool enabled)
+{
+    Options::setUpDownReversed(enabled);
+}
+
+void Mount::setLeftRightReversed(bool enabled)
+{
+    Options::setLeftRightReversed(enabled);
+}
+
 void Mount::setMeridianFlipValues(bool activate, double hours)
 {
     meridianFlipCheckBox->setChecked(activate);
@@ -751,12 +766,16 @@ void Mount::motionCommand(int command, int NS, int WE)
 {
     if (NS != -1)
     {
+        if (Options::upDownReversed())
+            NS = !NS;
         currentTelescope->MoveNS(static_cast<ISD::Telescope::TelescopeMotionNS>(NS),
                                  static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
     }
 
     if (WE != -1)
     {
+        if (Options::leftRightReversed())
+            WE = !WE;
         currentTelescope->MoveWE(static_cast<ISD::Telescope::TelescopeMotionWE>(WE),
                                  static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
     }
