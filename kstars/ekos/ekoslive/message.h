@@ -115,6 +115,7 @@ class Message : public QObject
     private:
         // Profiles
         void sendProfiles();
+        void setProfileMapping(const QJsonObject &payload);
         void sendStates();
 
         // Capture

@@ -1600,8 +1600,28 @@ void Manager::processNewProperty(INDI::Property * prop)
 
     if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
     {
-        deviceInterface->Connect();
+        // Check if we need to do any mappings
+        const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
+        // If we don't have port mapping, then we connect immediately.
+        if (port.isEmpty())
+            deviceInterface->Connect();
         return;
+    }
+
+    if (!strcmp(prop->getName(), "DEVICE_PORT"))
+    {
+        // Check if we need to do any mappings
+        const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
+        if (!port.isEmpty())
+        {
+            ITextVectorProperty *tvp = prop->getText();
+            IUSaveText(&(tvp->tp[0]), port.toLatin1().data());
+            deviceInterface->getDriverInfo()->getClientManager()->sendNewText(tvp);
+            // Now connect if we need to.
+            if (currentProfile->autoConnect)
+                deviceInterface->Connect();
+            return;
+        }
     }
 
     // Check if we need to turn on DEBUG for logging purposes

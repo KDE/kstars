@@ -518,7 +518,7 @@ void Message::sendAlignSettings(const QJsonObject &settings)
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
-    Q_UNUSED(payload);
+    Q_UNUSED(payload)
 
     if (command == commands[GUIDE_START])
     {
@@ -533,7 +533,7 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Focus *focus = m_Manager->focusModule();
-    Q_UNUSED(payload);
+    Q_UNUSED(payload)
 
     if (command == commands[FOCUS_START])
         focus->start();
@@ -738,7 +738,7 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
-    Q_UNUSED(stage);
+    Q_UNUSED(stage)
     Ekos::Align *align = m_Manager->alignModule();
 
     QJsonObject polarState =
@@ -839,6 +839,10 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
     {
         m_Manager->deleteNamedProfile(payload["name"].toString());
         sendProfiles();
+    }
+    else if (command == commands[SET_PROFILE_MAPPING])
+    {
+        m_Manager->setProfileMapping(payload);
     }
 }
 

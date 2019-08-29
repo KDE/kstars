@@ -422,6 +422,10 @@ class Manager : public QDialog, public Ui::Manager
         ProfileInfo *getCurrentProfile();
         void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture);
         void updateProfileLocation(ProfileInfo *pi);
+        void setProfileMapping(const QJsonObject &payload)
+        {
+            m_ProfileMapping = payload;
+        }
 
         bool useGuideHead { false };
         bool useST4 { false };
@@ -467,6 +471,7 @@ class Manager : public QDialog, public Ui::Manager
 
         std::unique_ptr<QStandardItemModel> profileModel;
         QList<std::shared_ptr<ProfileInfo>> profiles;
+        QJsonObject m_ProfileMapping;
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
