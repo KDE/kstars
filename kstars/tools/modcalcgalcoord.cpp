@@ -199,7 +199,7 @@ void modCalcGalCoord::slotRunBatch()
         QFile f(inputFileName);
         if (!f.open(QIODevice::ReadOnly))
         {
-            KSNotification::sorry(i18n("Could not open file %1.", f.fileName(), i18n("Could Not Open File")));
+            KSNotification::sorry(i18n("Could not open file %1.", f.fileName()), i18n("Could Not Open File"));
             return;
         }
 
