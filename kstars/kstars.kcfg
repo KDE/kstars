@@ -1555,6 +1555,14 @@
          <label>Sets the display unit for meridian flip to degrees.</label>
          <default>true</default>
       </entry>
+      <entry name="LeftRightReversed" type="Bool">
+         <label>Reverse the direction of right and left buttons in mount control.</label>
+         <default>false</default>
+      </entry>
+      <entry name="UpDownReversed" type="Bool">
+         <label>Reverse the direction of update and down buttons in mount control.</label>
+         <default>false</default>
+      </entry>
    </group>
    <group name="Capture">
       <entry name="DefaultCaptureCCD" type="String">

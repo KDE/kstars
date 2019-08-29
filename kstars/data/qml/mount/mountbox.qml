@@ -266,6 +266,33 @@ Rectangle {
 
 
         RowLayout {
+            id: mountReverseLayout
+            Layout.fillWidth: true
+
+            Label
+            {
+                text: qsTr("Reverse")
+            }
+
+            CheckBox
+            {
+                id: updownReverse
+                text: qsTr("Up/Down")
+                objectName: "upDownCheckObject"
+                onClicked: mount.setUpDownReversed(checked)
+            }
+
+            CheckBox
+            {
+                id: leftRightReverse
+                text: qsTr("Left/Right")
+                objectName: "leftRightCheckObject"
+                onClicked: mount.setLeftRightReversed(checked)
+            }
+
+        }
+
+        RowLayout {
             id: mountSpeedLayout
             anchors.horizontalCenter: parent.Center
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
