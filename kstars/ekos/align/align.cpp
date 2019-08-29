@@ -894,7 +894,7 @@ void Align::calculateAngleForRALine(double &raIncrement, double &initRA, double 
 
         initRA = spWest.ra().Degrees();
         if (raPoints > 1)
-            raIncrement = abs(angleSep.Degrees() / (raPoints - 1));
+            raIncrement = fabs(angleSep.Degrees() / (raPoints - 1));
         else
             raIncrement = 0;
     }
