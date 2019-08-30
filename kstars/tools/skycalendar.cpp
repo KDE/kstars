@@ -25,12 +25,12 @@
 
 #include <KPlotObject>
 
-#include <QDesktopWidget>
 #include <QPainter>
 #include <QPixmap>
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QPushButton>
+#include <QScreen>
 #include <QtConcurrent>
 
 SkyCalendarUI::SkyCalendarUI(QWidget *parent) : QFrame(parent)
@@ -67,7 +67,7 @@ SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
     setModal(false);
 
     //Adjust minimum size for small screens:
-    if (QApplication::desktop()->availableGeometry().height() <= scUI->CalendarView->height())
+    if (QGuiApplication::primaryScreen()->geometry().height() <= scUI->CalendarView->height())
     {
         scUI->CalendarView->setMinimumSize(400, 600);
     }

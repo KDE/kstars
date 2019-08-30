@@ -28,10 +28,11 @@
 #include <KJobUiDelegate>
 
 #include <QDebug>
-#include <QDesktopWidget>
+
 #include <QLineEdit>
 #include <QPainter>
 #include <QPointer>
+#include <QScreen>
 #include <QUrlQuery>
 
 ThumbnailPickerUI::ThumbnailPickerUI(QWidget *parent) : QFrame(parent)
@@ -188,7 +189,7 @@ void ThumbnailPicker::slotJobResult(KJob *job)
     uint h = pm->height();
     uint pad =
         0; /*FIXME LATER 4* QDialogBase::marginHint() + 2*ui->SearchLabel->height() + QDialogBase::actionButton( QDialogBase::Ok )->height() + 25;*/
-    uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
+    uint hDesk = QGuiApplication::primaryScreen()->geometry().height() - pad;
 
     if (h > hDesk)
         *pm = pm->scaled(w * hDesk / h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -361,7 +362,7 @@ void ThumbnailPicker::slotSetFromURL()
             uint h = im.height();
             uint pad =
                 0; /* FIXME later 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25; */
-            uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
+            uint hDesk = QGuiApplication::primaryScreen()->geometry().height() - pad;
 
             if (h > hDesk)
                 im = im.scaled(w * hDesk / h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

@@ -31,7 +31,6 @@
 #include <KMessageBox>
 #endif
 
-#include <QDesktopWidget>
 #include <QFileDialog>
 #include <QPainter>
 #include <QResizeEvent>
@@ -40,6 +39,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QApplication>
+#include <QScreen>
 #include <QSlider>
 #include "skymap.h"
 #include "kspaths.h"
@@ -1182,7 +1182,7 @@ bool XPlanetImageViewer::showImage()
 
     //If the image is larger than screen width and/or screen height,
     //shrink it to fit the screen
-    QRect deskRect = QApplication::desktop()->availableGeometry();
+    QRect deskRect = QGuiApplication::primaryScreen()->geometry();
     int w          = deskRect.width();  // screen width
     int h          = deskRect.height(); // screen height
 

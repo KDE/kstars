@@ -96,7 +96,8 @@ void eqPlotWidget::paintEvent(QPaintEvent *e)
         }
         QRect r(-16, -8, 32, 16);
         r.moveCenter(c);
-        p.drawText(r, Qt::AlignCenter, QDate::shortMonthName(i + 1));
+        QLocale locale;
+        p.drawText(r, Qt::AlignCenter, locale.monthName(i + 1, QLocale::ShortFormat));
     }
     p.restore();
     p.end();
