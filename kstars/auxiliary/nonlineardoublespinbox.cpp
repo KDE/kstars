@@ -62,7 +62,7 @@ void NonLinearDoubleSpinBox::addRecommendedValue(double v)
 
 void NonLinearDoubleSpinBox::updateRecommendedValues()
 {
-    qSort(m_Values);  //This will make sure they are all in order.
+    std::sort(m_Values.begin(), m_Values.end());  //This will make sure they are all in order.
     m_idx = m_Values.indexOf(value());  //This will update the _idx variable to the index of the new value.  It will search for current value in the new list or set it to negative 1 if it isn't in the list.
     setRange(m_Values.first() , m_Values.last());
     //This makes sure all the values are in the range.  The range is expanded if necessary.
