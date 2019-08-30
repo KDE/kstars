@@ -286,11 +286,12 @@ void CalendarWidget::drawAxes(QPainter *p)
         // Draw month labels
         QRectF rMonth(mapToWidget(QPointF(0.0, float(dt.daysInYear() - dt.addMonths(-1).dayOfYear()))),
                       mapToWidget(QPointF(dataRect().left() - 0.1, doy)));
-        p->drawText(rMonth, Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip, QDate::shortMonthName(imonth - 1));
+        QLocale locale;
+        p->drawText(rMonth, Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip, locale.monthName(imonth - 1, QLocale::ShortFormat));
         if (imonth == 12) // December
         {
             rMonth = QRectF(mapToWidget(QPointF(0.0, doy)), mapToWidget(QPointF(dataRect().left() - 0.1, 0.0)));
-            p->drawText(rMonth, Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip, QDate::shortMonthName(imonth));
+            p->drawText(rMonth, Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip, locale.monthName(imonth, QLocale::ShortFormat));
         }
 
         // Draw dividers

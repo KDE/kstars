@@ -219,7 +219,7 @@ void QRoundProgressBar::paintEvent(QPaintEvent * /*event*/)
 
 void QRoundProgressBar::drawBackground(QPainter &p, const QRectF &baseRect)
 {
-    p.fillRect(baseRect, palette().background());
+    p.fillRect(baseRect, palette().window());
 }
 
 void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect)

@@ -181,7 +181,7 @@ void ObsListWizard::setItemSelected(const QString &name, QListWidget *listWidget
     if (ok)
         *ok = items.size();
     if (items.size())
-        listWidget->setItemSelected(items[0], value);
+        items[0]->setSelected(value);
 }
 
 //Advance to the next page in the stack.  However, on page 2 the user
@@ -248,7 +248,7 @@ void ObsListWizard::slotPrevPage()
 void ObsListWizard::slotAllButton()
 {
     for (int i = 0; i < olw->TypeList->count(); ++i)
-        olw->TypeList->setItemSelected(olw->TypeList->item(i), true);
+        olw->TypeList->item(i)->setSelected(true);
 }
 
 void ObsListWizard::slotNoneButton()

@@ -234,19 +234,15 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setText(i18n("Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
 
-    QSignalMapper *filterMapper = new QSignalMapper(this);
-
     int filterCounter = 1;
 
     for (auto& filter : FITSViewer::filterTypes)
     {
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
         action->setText(i18n(filter.toUtf8().constData()));
-        filterMapper->setMapping(action, filterCounter++);
-        connect(action, SIGNAL(triggered()), filterMapper, SLOT(map()));
+        connect(action, &QAction::triggered, this, [this, filterCounter] { applyFilter(filterCounter);});
+        filterCounter++; 
     }
-
-    connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
 
     /* Create GUI */
     createGUI("fitsviewerui.rc");

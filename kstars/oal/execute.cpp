@@ -267,7 +267,7 @@ void Execute::sortTargetList()
         return (t1 < t2);
     };
 
-    qSort(KStarsData::Instance()->observingList()->sessionList().begin(),
+    std::sort(KStarsData::Instance()->observingList()->sessionList().begin(),
           KStarsData::Instance()->observingList()->sessionList().end(), timeLessThan);
 }
 

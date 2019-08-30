@@ -1756,7 +1756,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
     int width_sum = 0;
 
     // Let's sort edges, starting with widest
-    qSort(edges.begin(), edges.end(), greaterThan);
+    std::sort(edges.begin(), edges.end(), greaterThan);
 
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i = 0; i < edges.count(); i++)
@@ -4804,7 +4804,7 @@ int FITSData::findSEPStars(const QRect &boundary)
     }
 
     // Let's sort edges, starting with widest
-    qSort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->width > edge2->width;});
+    std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->width > edge2->width;});
 
     // Take only the first 100 stars
     {

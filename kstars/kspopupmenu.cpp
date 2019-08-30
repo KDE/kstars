@@ -52,7 +52,6 @@
 
 #include <KLocalizedString>
 
-#include <QSignalMapper>
 #include <QWidgetAction>
 
 namespace
@@ -563,8 +562,6 @@ void KSPopupMenu::addINDI()
                                              || QString(pp->getName()).startsWith("TELESCOPE_MOTION"))
                 continue;
 
-            QSignalMapper *sMapper = new QSignalMapper(this);
-
             ISwitchVectorProperty *svp = pp->getSwitch();
 
             for (int i = 0; i < svp->nsp; i++)
@@ -580,9 +577,7 @@ void KSPopupMenu::addINDI()
                 ISD::GDSetCommand *cmd =
                     new ISD::GDSetCommand(INDI_SWITCH, pp->getName(), svp->sp[i].name, ISS_ON, this);
 
-                sMapper->setMapping(a, cmd);
-
-                connect(a, SIGNAL(triggered()), sMapper, SLOT(map()));
+                connect(a, &QAction::triggered, gd, [gd, cmd] { gd->setProperty(cmd); });
 
                 if (!strcmp(svp->sp[i].name, "SLEW") || !strcmp(svp->sp[i].name, "SYNC") ||
                     !strcmp(svp->sp[i].name, "TRACK"))
@@ -591,17 +586,10 @@ void KSPopupMenu::addINDI()
 
                     if (telescope)
                     {
-                        QSignalMapper *scopeMapper = new QSignalMapper(this);
-                        scopeMapper->setMapping(a, INDI_SEND_COORDS);
-
-                        connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
-
-                        connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
+                        connect(a, &QAction::triggered, this, [this, telescope] { telescope->runCommand(INDI_SEND_COORDS); });;
                     }
                 }
             }
-
-            connect(sMapper, SIGNAL(mapped(QObject*)), gd, SLOT(setProperty(QObject*)));
 
             if (menuDevice != nullptr)
                 menuDevice->addSeparator();
