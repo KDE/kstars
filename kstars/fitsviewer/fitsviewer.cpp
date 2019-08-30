@@ -779,12 +779,12 @@ void FITSViewer::updateButtonStatus(const QString& action, const QString& item, 
 
     if (showing)
     {
-        a->setText("Hide " + item);
+        a->setText(i18n("Hide %1", item));
         a->setChecked(true);
     }
     else
     {
-        a->setText("Show " + item);
+        a->setText(i18n("Show %1", item));
         a->setChecked(false);
     }
 }
