@@ -864,14 +864,14 @@ void FITSViewer::toggleCrossHair()
     if (fitsTabs.empty())
         return;
     getCurrentView()->toggleCrosshair();
-    updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
+    updateButtonStatus("view_crosshair", i18n("Cross Hairs"), getCurrentView()->isCrosshairShown());
 }
 void FITSViewer::toggleEQGrid()
 {
     if (fitsTabs.empty())
         return;
     getCurrentView()->toggleEQGrid();
-    updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+    updateButtonStatus("view_eq_grid", i18n("Equatorial Gridlines"), getCurrentView()->isEQGridShown());
 }
 
 void FITSViewer::toggleObjects()
@@ -879,7 +879,7 @@ void FITSViewer::toggleObjects()
     if (fitsTabs.empty())
         return;
     getCurrentView()->toggleObjects();
-    updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
+    updateButtonStatus("view_objects", i18n("Objects in Image"), getCurrentView()->areObjectsShown());
 }
 
 void FITSViewer::togglePixelGrid()
@@ -887,7 +887,7 @@ void FITSViewer::togglePixelGrid()
     if (fitsTabs.empty())
         return;
     getCurrentView()->togglePixelGrid();
-    updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+    updateButtonStatus("view_pixel_grid", i18n("Pixel Gridlines"), getCurrentView()->isPixelGridShown());
 }
 
 void FITSViewer::toggle3DGraph()
@@ -895,7 +895,7 @@ void FITSViewer::toggle3DGraph()
     if (fitsTabs.empty())
         return;
     getCurrentView()->toggleStarProfile();
-    updateButtonStatus("toggle_3D_graph", "View 3D Graph", getCurrentView()->isStarProfileShown());
+    updateButtonStatus("toggle_3D_graph", i18n("View 3D Graph"), getCurrentView()->isStarProfileShown());
 }
 
 void FITSViewer::toggleStars()
