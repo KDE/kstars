@@ -1560,7 +1560,7 @@
          <default>false</default>
       </entry>
       <entry name="UpDownReversed" type="Bool">
-         <label>Reverse the direction of update and down buttons in mount control.</label>
+         <label>Reverse the direction of up and down buttons in mount control.</label>
          <default>false</default>
       </entry>
    </group>
