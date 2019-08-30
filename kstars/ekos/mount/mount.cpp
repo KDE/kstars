@@ -270,6 +270,11 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     {
         m_ParkStatus = status;
         emit newParkStatus(status);
+
+        // If mount is unparked AND every day auto-paro check is ON
+        // AND auto park timer is not yet started, we try to initiate it.
+        if (status == ISD::PARK_UNPARKED && everyDayCheck->isChecked() && autoParkTimer.isActive() == false)
+            startTimerB->animateClick();
     });
     connect(currentTelescope, &ISD::Telescope::ready, this, &Mount::ready);
 
@@ -1547,7 +1552,7 @@ int Mount::slewRate()
 
 void Mount::startParkTimer()
 {
-    if (currentTelescope == nullptr)
+    if (currentTelescope == nullptr || m_ParkStatus == ISD::PARK_UNKNOWN)
         return;
 
     if (currentTelescope->isParked())
@@ -1558,37 +1563,49 @@ void Mount::startParkTimer()
 
     QTime parkTime = startupTimeEdit->time();
 
+    qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << parkTime.toString();
     QDateTime currentDateTime = KStarsData::Instance()->lt();
     QDateTime parkDateTime(currentDateTime);
 
     parkDateTime.setTime(parkTime);
-    qint64 parkSeconds = parkDateTime.msecsTo(currentDateTime);
-    if (parkSeconds > 0)
+    qint64 parkMilliSeconds = parkDateTime.msecsTo(currentDateTime);
+    qCDebug(KSTARS_EKOS_MOUNT) << "Until parking time:" << parkMilliSeconds << "ms or" << parkMilliSeconds / (60 * 60 * 1000)
+                               << "hours";
+    if (parkMilliSeconds > 0)
     {
+        qCDebug(KSTARS_EKOS_MOUNT) << "Added a day to parking time...";
         parkDateTime = parkDateTime.addDays(1);
-        parkSeconds = parkDateTime.msecsTo(currentDateTime);
+        parkMilliSeconds = parkDateTime.msecsTo(currentDateTime);
 
-        if (parkSeconds > 0)
+        int hours = parkMilliSeconds / (1000 * 60 * 60);
+        if (hours > 0)
         {
-            appendLogText(i18n("Parking time cannot be in the past."));
+            // No need to display warning for every day check
+            if (everyDayCheck->isChecked() == false)
+                appendLogText(i18n("Parking time cannot be in the past."));
+            return;
+        }
+        else if (std::abs(hours) > 12)
+        {
+            qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << hours << "which exceeds 12 hours, auto park is disabled.";
             return;
         }
     }
 
-    parkSeconds = std::abs(parkSeconds);
+    parkMilliSeconds = std::abs(parkMilliSeconds);
 
-    if (parkSeconds > 24 * 60 * 60 * 1000)
+    if (parkMilliSeconds > 24 * 60 * 60 * 1000)
     {
         appendLogText(i18n("Parking time must be within 24 hours of current time."));
         return;
     }
 
-    if (parkSeconds > 12 * 60 * 60 * 1000)
+    if (parkMilliSeconds > 12 * 60 * 60 * 1000)
         appendLogText(i18n("Warning! Parking time is more than 12 hours away."));
 
     appendLogText(i18n("Caution: do not use Auto Park while scheduler is active."));
 
-    autoParkTimer.setInterval(parkSeconds);
+    autoParkTimer.setInterval(parkMilliSeconds);
     autoParkTimer.start();
 
     startTimerB->setEnabled(false);
