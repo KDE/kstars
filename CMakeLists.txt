@@ -419,7 +419,7 @@ add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
 IF (NOT ANDROID)
-    IF (BUILD_TESTING)
+    IF (BUILD_TESTING AND NOT MSVC)
     enable_testing(true)
     add_subdirectory(Tests)
     ENDIF()
