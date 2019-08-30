@@ -1563,6 +1563,14 @@
          <label>Reverse the direction of up and down buttons in mount control.</label>
          <default>false</default>
       </entry>
+      <entry name="ParkEveryDay" type="Bool">
+         <label>Automatically start parking timer on startup.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ParkTime" type="String">
+         <label>Park mount at this time in 12 hour format.</label>
+         <default>3:00 AM</default>
+      </entry>
    </group>
    <group name="Capture">
       <entry name="DefaultCaptureCCD" type="String">

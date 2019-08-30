@@ -530,12 +530,23 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="startupTimeEdit">
-            <property name="displayFormat">
-             <string>dd/MM/yy hh:mm</string>
+           <widget class="QTimeEdit" name="startupTimeEdit">
+            <property name="time">
+             <time>
+              <hour>3</hour>
+              <minute>0</minute>
+              <second>0</second>
+             </time>
             </property>
-            <property name="calendarPopup">
-             <bool>true</bool>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="everyDayCheck">
+            <property name="toolTip">
+             <string>Automatically start the park timer on startup</string>
+            </property>
+            <property name="text">
+             <string>Every day</string>
             </property>
            </widget>
           </item>

@@ -138,16 +138,26 @@ Mount::Mount()
     updateTimer.setInterval(UPDATE_DELAY);
     connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
 
-    QDateTime now = KStarsData::Instance()->lt();
-    // Set seconds to zero
-    now = now.addSecs(now.time().second() * -1);
-    startupTimeEdit->setDateTime(now);
+    everyDayCheck->setChecked(Options::parkEveryDay());
+    connect(everyDayCheck, &QCheckBox::toggled, this, [](bool toggled)
+    {
+        Options::setParkEveryDay(toggled);
+    });
+
+    startupTimeEdit->setTime(QTime::fromString(Options::parkTime()));
+    connect(startupTimeEdit, &QTimeEdit::editingFinished, this, [this]()
+    {
+        Options::setParkTime(startupTimeEdit->time().toString());
+    });
 
     connect(&autoParkTimer, &QTimer::timeout, this, &Mount::startAutoPark);
     connect(startTimerB, &QPushButton::clicked, this, &Mount::startParkTimer);
     connect(stopTimerB, &QPushButton::clicked, this, &Mount::stopParkTimer);
 
     stopTimerB->setEnabled(false);
+
+    if (everyDayCheck->isChecked())
+        startTimerB->animateClick();
 
     // QML Stuff
     m_BaseView = new QQuickView();
@@ -1546,12 +1556,23 @@ void Mount::startParkTimer()
         return;
     }
 
-    QDateTime parkTime = startupTimeEdit->dateTime();
-    qint64 parkSeconds = parkTime.msecsTo(KStarsData::Instance()->lt());
+    QTime parkTime = startupTimeEdit->time();
+
+    QDateTime currentDateTime = KStarsData::Instance()->lt();
+    QDateTime parkDateTime(currentDateTime);
+
+    parkDateTime.setTime(parkTime);
+    qint64 parkSeconds = parkDateTime.msecsTo(currentDateTime);
     if (parkSeconds > 0)
     {
-        appendLogText(i18n("Parking time cannot be in the past."));
-        return;
+        parkDateTime = parkDateTime.addDays(1);
+        parkSeconds = parkDateTime.msecsTo(currentDateTime);
+
+        if (parkSeconds > 0)
+        {
+            appendLogText(i18n("Parking time cannot be in the past."));
+            return;
+        }
     }
 
     parkSeconds = std::abs(parkSeconds);
@@ -1561,6 +1582,9 @@ void Mount::startParkTimer()
         appendLogText(i18n("Parking time must be within 24 hours of current time."));
         return;
     }
+
+    if (parkSeconds > 12 * 60 * 60 * 1000)
+        appendLogText(i18n("Warning! Parking time is more than 12 hours away."));
 
     appendLogText(i18n("Caution: do not use Auto Park while scheduler is active."));
 
