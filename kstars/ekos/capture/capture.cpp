@@ -214,7 +214,7 @@ Capture::Capture()
     });
 
     // #2 Guide Deviation Value
-    guideDeviation->setValue(Options::hFRDeviation());
+    guideDeviation->setValue(Options::guideDeviation());
     connect(guideDeviation, &QDoubleSpinBox::editingFinished, [ = ]()
     {
         Options::setGuideDeviation(guideDeviation->value());
@@ -246,6 +246,27 @@ Capture::Capture()
     connect(refocusEveryN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
         Options::setRefocusEveryN(refocusEveryN->value());
+    });
+
+    // 7. File settings: filter name
+    filterCheck->setChecked(Options::fileSettingsUseFilter());
+    connect(filterCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setFileSettingsUseFilter(checked);
+    });
+
+    // 8. File settings: duration
+    expDurationCheck->setChecked(Options::fileSettingsUseDuration());
+    connect(expDurationCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setFileSettingsUseDuration(checked);
+    });
+
+    // 9. File settings: timestamp
+    ISOCheck->setChecked(Options::fileSettingsUseTimestamp());
+    connect(ISOCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setFileSettingsUseTimestamp(checked);
     });
 
     QCheckBox * const checkBoxes[] =
