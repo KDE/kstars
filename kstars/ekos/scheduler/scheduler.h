@@ -90,6 +90,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
             PARKWAIT_ERROR
         } ParkWaitStatus;
 
+        /** @brief options what should happen if an error or abort occurs */
+        typedef enum
+        {
+            ERROR_DONT_RESTART,
+            ERROR_RESTART_AFTER_TERMINATION,
+            ERROR_RESTART_IMMEDIATELY
+        } ErrorHandlingStrategy;
+
         /** @brief Columns, in the same order as UI. */
         typedef enum
         {
@@ -223,6 +231,16 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             return schedulerProfileCombo->currentText();
         }
+
+        /**
+         * @brief retrieve the error handling strategy from the UI
+         */
+        ErrorHandlingStrategy getErrorHandlingStrategy();
+
+        /**
+         * @brief select the error handling strategy (no restart, restart after all terminated, restart immediately)
+         */
+        void setErrorHandlingStrategy (ErrorHandlingStrategy strategy);
 
         /** @}*/
 
