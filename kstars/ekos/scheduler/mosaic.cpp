@@ -287,7 +287,9 @@ void Mosaic::updateTargetFOV()
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    map->setFocusObject(nullptr);
+    //map->setFocusObject(nullptr);
+    //map->setFocusPoint(&center);
+    map->setClickedObject(nullptr);
     map->setClickedPoint(&center);
     map->slotCenter();
     qApp->processEvents();
