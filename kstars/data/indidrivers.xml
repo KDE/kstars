@@ -19,7 +19,7 @@
         </device>
         <device label="LX200 OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
         <device label="LX200 16" manufacturer="Meade">
             <driver name="LX200 16">indi_lx200_16</driver>
@@ -413,7 +413,7 @@
         </device>
         <device label="Pegasus UPB">
             <driver name="Pegasus UPB">indi_pegasus_upb</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="WatchDog">
             <driver name="WatchDog">indi_watchdog</driver>
@@ -509,7 +509,7 @@
         </device>
         <device label="MBox">
             <driver name="MBox">indi_mbox_weather</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="Vantage">
             <driver name="Vantage">indi_vantage_weather</driver>
@@ -541,23 +541,15 @@
 </driversList>
 <driversList>
     <devGroup group="CCDs">
-        <device label="Altair" mdpd="true">
-            <driver name="Altair">indi_altair_ccd</driver>
-            <version>0.2</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="CCDs">
         <device label="Apogee CCD">
             <driver name="Apogee CCD">indi_apogee_ccd</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Apogee CFW">
             <driver name="Agogee CFW">indi_apogee_wheel</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
 </driversList>
@@ -611,13 +603,13 @@
     <devGroup group="CCDs">
         <device label="Atik CCD" mdpd="true">
             <driver name="Atik">indi_atik_ccd</driver>
-            <version>2.2</version>
+            <version>2.4</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Atik EFW" mdpd="true">
             <driver name="Atik">indi_atik_wheel</driver>
-            <version>2.2</version>
+            <version>2.4</version>
         </device>
     </devGroup>
 </driversList>
@@ -699,7 +691,7 @@
     <devGroup group="Telescopes">
         <device label="EQMod Mount" manufacturer="SkyWatcher">
             <driver name="EQMod Mount">indi_eqmod_telescope</driver>
-            <version>0.6</version>
+            <version>0.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -767,7 +759,7 @@
     <devGroup group="Auxiliary">
         <device label="GPSD">
             <driver name="GPSD">indi_gpsd</driver>
-            <version>0.4</version>
+            <version>0.5</version>
         </device>
     </devGroup>
 </driversList>
@@ -883,12 +875,15 @@
         </device>
     </devGroup>
 </driversList>
-<!--?xml version="1.0" encoding="UTF-8"?-->
 <driversList>
-    <devGroup group="Focusers">
-        <device label="Shoestring Astronomy FCUSB">
-            <driver name="FCUSB Focuser">indi_fcusb_focuser</driver>
-            <version>1.1</version>
+    <devGroup group="Spectrographs">
+        <device label="Shelyak eShel">
+            <driver name="Shelyak eShel">indi_shelyakeshel_spectrograph</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Shelyak SPOX">
+            <driver name="Shelyak SPOX">indi_shelyakspox_spectrograph</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -912,7 +907,7 @@
     <devGroup group="Telescopes">
         <device label="Starbook" manufacturer="Vixen">
             <driver name="Starbook">indi_starbook_telescope</driver>
-            <version>0.7</version>
+            <version>0.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -940,7 +935,19 @@
     <devGroup group="CCDs">
         <device label="ToupCam" mdpd="true">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.1</version>
+            <version>0.2</version>
+        </device>
+        <device label="Altair" mdpd="true">
+            <driver name="Altair">indi_altair_ccd</driver>
+            <version>0.2</version>
+        </device>
+        <device label="StartshootG" mdpd="true">
+            <driver name="StartshootG">indi_starshootg_ccd</driver>
+            <version>0.2</version>
+        </device>
+        <device label="Levenhuk" mdpd="true">
+            <driver name="Levenhuk">indi_nncam_ccd</driver>
+            <version>0.2</version>
         </device>
     </devGroup>
 </driversList>
