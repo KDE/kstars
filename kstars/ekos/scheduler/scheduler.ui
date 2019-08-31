@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
-    <height>522</height>
+    <width>721</width>
+    <height>541</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1324,7 +1324,7 @@ font-weight:bold;
      <item>
       <widget class="QGroupBox" name="errorHandlingGroup">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define what should happen when a job steps into an error or aborts:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;don't restart&lt;/span&gt;: Don't restart the job in case of an error or an abort.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;re-schedule after all terminated&lt;/span&gt;: If a job gets aborted, the scheduler will only re-schedule it if when all jobs are finished or aborted. If this is the case, the scheduler re-schedules all aborted jobs and sleeps for the given delay.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;re-schedule immediately&lt;/span&gt;: As soon as a job gets aborted, the scheduler will re-schedule it and waits the given delay.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;If the option for re-scheduling errors is selected, errors are handled like aborts. Otherwise, jobs that step into an error are never re-scheduled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define what should happen when a job steps into an error or aborts:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Don't restart&lt;/span&gt;: Don't restart the job in case of an error or an abort.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Re-schedule after all terminated&lt;/span&gt;: If a job gets aborted, the scheduler will only re-schedule it if when all jobs are finished or aborted. If this is the case, the scheduler re-schedules all aborted jobs and sleeps for the given delay.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Re-schedule immediately&lt;/span&gt;: As soon as a job gets aborted, the scheduler will re-schedule it and waits the given delay.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;If the option for re-scheduling errors is selected, errors are handled like aborts. Otherwise, jobs that step into an error are never re-scheduled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
         <string>Handling of aborted jobs</string>
@@ -1342,7 +1342,7 @@ font-weight:bold;
            <string>Do not re-schedule aborted jobs.</string>
           </property>
           <property name="text">
-           <string>don'&amp;t re-schedule</string>
+           <string>Don'&amp;t re-schedule</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">errorHandlingButtonGroup</string>
@@ -1368,7 +1368,7 @@ font-weight:bold;
            <string>Re-schedule aborted jobs as soon as all executable jobs are either completed or aborted.</string>
           </property>
           <property name="text">
-           <string>re-s&amp;chedule after all finished</string>
+           <string>Re-s&amp;chedule after all finished</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">errorHandlingButtonGroup</string>
@@ -1381,7 +1381,7 @@ font-weight:bold;
            <string>Treat errors like aborts.</string>
           </property>
           <property name="text">
-           <string>re-schedule errors</string>
+           <string>Re-schedule errors</string>
           </property>
          </widget>
         </item>
@@ -1401,7 +1401,7 @@ font-weight:bold;
            <string>Re-schedule an aborted job immediately.</string>
           </property>
           <property name="text">
-           <string>re-s&amp;chedule immediately</string>
+           <string>Re-s&amp;chedule immediately</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">errorHandlingButtonGroup</string>
@@ -1841,24 +1841,24 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
