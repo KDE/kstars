@@ -67,6 +67,22 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     fd->raBox->setDegType(false); //RA box should be HMS-style
     fd->raBox->setFocus();        //set input focus
 
+    SkyPoint *center {nullptr};
+    if (SkyMap::Instance()->focusObject())
+        center = dynamic_cast<SkyPoint*>(SkyMap::Instance()->focusObject());
+    else
+        center = SkyMap::Instance()->focusPoint();
+
+    if (center)
+    {
+        center->deprecess(KStarsData::Instance()->updateNum());
+        fd->raBox->setDMS(center->ra0().toHMSString());
+        fd->decBox->setDMS(center->dec0().toDMSString());
+
+        fd->azBox->setDMS(center->az().toDMSString());
+        fd->altBox->setDMS(center->alt().toDMSString());
+    }
+
     connect(fd->raBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
     connect(fd->decBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
     connect(fd->azBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
@@ -156,7 +172,7 @@ void FocusDialog::validatePoint()
 
 QSize FocusDialog::sizeHint() const
 {
-    return QSize(240, 210);
+    return QSize(300, 210);
 }
 
 void FocusDialog::activateAzAltPage() const
