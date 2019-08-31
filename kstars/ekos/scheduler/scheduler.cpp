@@ -196,6 +196,28 @@ Scheduler::Scheduler()
 
     connect(twilightCheck, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
+    // restore default values for error handling strategy
+    setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
+    errorHandlingRescheduleErrorsCB->setChecked(Options::rescheduleErrors());
+    errorHandlingDelaySB->setValue(Options::errorHandlingStrategyDelay());
+
+    // save new default values for error handling strategy
+
+    connect(errorHandlingRescheduleErrorsCB, &QPushButton::clicked, [this](bool checked)
+    {
+        Options::setRescheduleErrors(checked);
+    });
+    connect(errorHandlingButtonGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), [this](QAbstractButton *button)
+    {
+        Q_UNUSED(button);
+        Options::setErrorHandlingStrategy(getErrorHandlingStrategy());
+    });
+    connect(errorHandlingDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int value)
+    {
+        Options::setErrorHandlingStrategyDelay(value);
+    });
+
+
     loadProfiles();
 
     watchJobChanges(true);
@@ -238,6 +260,7 @@ void Scheduler::watchJobChanges(bool enable)
     QButtonGroup * const buttonGroups[] =
     {
         stepsButtonGroup,
+        errorHandlingButtonGroup,
         startupButtonGroup,
         constraintButtonGroup,
         completionButtonGroup,
@@ -245,11 +268,17 @@ void Scheduler::watchJobChanges(bool enable)
         shutdownProcedureGroup
     };
 
+    QAbstractButton * const buttons[] =
+    {
+        errorHandlingRescheduleErrorsCB
+    };
+
     QSpinBox * const spinBoxes[] =
     {
         culminationOffset,
         repeatsSpin,
-        prioritySpin
+        prioritySpin,
+        errorHandlingDelaySB
     };
 
     QDoubleSpinBox * const dspinBoxes[] =
@@ -289,6 +318,11 @@ void Scheduler::watchJobChanges(bool enable)
         {
             setDirty();
         });
+        for (auto * const control : buttons)
+            connect(control, static_cast<void (QAbstractButton::*)(bool)>(&QAbstractButton::clicked), this, [this](bool)
+        {
+            setDirty();
+        });
         for (auto * const control : spinBoxes)
             connect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]()
         {
@@ -313,6 +347,8 @@ void Scheduler::watchJobChanges(bool enable)
             disconnect(control, &QDateTimeEdit::editingFinished, this, nullptr);
         for (auto * const control : comboBoxes)
             disconnect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, nullptr);
+        for (auto * const control : buttons)
+            disconnect(control, static_cast<void (QAbstractButton::*)(bool)>(&QAbstractButton::clicked), this, nullptr);
         for (auto * const control : buttonGroups)
             disconnect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, nullptr);
         for (auto * const control : spinBoxes)
@@ -1393,10 +1429,6 @@ void Scheduler::evaluateJobs()
     /* First, filter out non-schedulable jobs */
     /* FIXME: jobs in state JOB_ERROR should not be in the list, reorder states */
     QList<SchedulerJob *> sortedJobs = jobs;
-    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
-    {
-        return SchedulerJob::JOB_ABORTED < job->getState();
-    }), sortedJobs.end());
 
     /* Then enumerate SchedulerJobs to consolidate imaging time */
     foreach (SchedulerJob *job, sortedJobs)
@@ -1408,18 +1440,18 @@ void Scheduler::evaluateJobs()
                 /* If job is scheduled, keep it for evaluation against others */
                 break;
 
-            case SchedulerJob::JOB_ERROR:
             case SchedulerJob::JOB_INVALID:
             case SchedulerJob::JOB_COMPLETE:
-                /* If job is in error, invalid or complete, bypass evaluation */
+                /* If job is invalid or complete, bypass evaluation */
                 continue;
 
             case SchedulerJob::JOB_BUSY:
                 /* If job is busy, edge case, bypass evaluation */
                 continue;
 
+            case SchedulerJob::JOB_ERROR:
             case SchedulerJob::JOB_ABORTED:
-                /* If job is aborted and we're running, keep its evaluation until there is nothing else to do */
+                /* If job is in error or aborted and we're running, keep its evaluation until there is nothing else to do */
                 if (state == SCHEDULER_RUNNING)
                     continue;
             /* Fall through */
@@ -1502,6 +1534,13 @@ void Scheduler::evaluateJobs()
         return SchedulerJob::JOB_EVALUATION != s && SchedulerJob::JOB_ABORTED != s;
     };
 
+    /* This predicate matches jobs neither being evaluated nor aborted nor in error state */
+    auto neither_evaluated_nor_aborted_nor_error = [](SchedulerJob const * const job)
+    {
+        SchedulerJob::JOBStatus const s = job->getState();
+        return SchedulerJob::JOB_EVALUATION != s && SchedulerJob::JOB_ABORTED != s && SchedulerJob::JOB_ERROR != s;
+    };
+
     /* This predicate matches jobs that aborted, or completed for whatever reason */
     auto finished_or_aborted = [](SchedulerJob const * const job)
     {
@@ -1509,8 +1548,11 @@ void Scheduler::evaluateJobs()
         return SchedulerJob::JOB_ERROR <= s || SchedulerJob::JOB_ABORTED == s;
     };
 
+    bool nea  = std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_evaluated_nor_aborted);
+    bool neae = std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_evaluated_nor_aborted_nor_error);
+
     /* If there are no jobs left to run in the filtered list, stop evaluation */
-    if (sortedJobs.isEmpty() || std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_evaluated_nor_aborted))
+    if (sortedJobs.isEmpty() || (!errorHandlingRescheduleErrorsCB->isChecked() && nea) || (errorHandlingRescheduleErrorsCB->isChecked() && neae))
     {
         appendLogText(i18n("No jobs left in the scheduler queue."));
         setCurrentJob(nullptr);
@@ -1519,14 +1561,36 @@ void Scheduler::evaluateJobs()
     }
 
     /* If there are only aborted jobs that can run, reschedule those */
-    if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted))
+    if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted) &&
+            errorHandlingDontRestartButton->isChecked() == false)
     {
-        appendLogText(i18n("Only aborted jobs left in the scheduler queue, rescheduling those."));
-        std::for_each(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
+        appendLogText(i18n("Only %1 jobs left in the scheduler queue, rescheduling those.",
+                           errorHandlingRescheduleErrorsCB->isChecked() ? "aborted or error" : "aborted"));
+
+        // set aborted and error jobs to evaluation state
+        for (int index = 0; index < sortedJobs.size(); index++)
         {
-            if (SchedulerJob::JOB_ABORTED == job->getState())
+            SchedulerJob * const job = sortedJobs.at(index);
+            if (SchedulerJob::JOB_ABORTED == job->getState() ||
+                    (errorHandlingRescheduleErrorsCB->isChecked() && SchedulerJob::JOB_ERROR == job->getState()))
                 job->setState(SchedulerJob::JOB_EVALUATION);
-        });
+        }
+
+        if (errorHandlingRestartAfterAllButton->isChecked())
+        {
+            // interrupt regular status checks during the sleep time
+            schedulerTimer.stop();
+
+            // but before we restart them, we wait for the given delay.
+            appendLogText(i18n("All jobs aborted. Waiting %1 seconds to re-schedule.", errorHandlingDelaySB->value()));
+
+            // wait the given delay until the jobs will be evaluated again
+            sleepTimer.setInterval(( errorHandlingDelaySB->value() * 1000));
+            sleepTimer.start();
+            sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
+            sleepLabel->show();
+            // we continue to determine which job should be running, when the delay is over
+        }
     }
 
     /* If option says so, reorder by altitude and priority before sequencing */
@@ -1536,10 +1600,6 @@ void Scheduler::evaluateJobs()
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
     if (Options::sortSchedulerJobs())
     {
-        // If we reorder, remove all non-runnable jobs so that they end up at the end of the list and do not disturb the reorder
-        // We tested that the list could not be empty after that operation above
-        sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), neither_evaluated_nor_aborted), sortedJobs.end());
-
         using namespace std::placeholders;
         std::stable_sort(sortedJobs.begin(), sortedJobs.end(),
                          std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, KStarsData::Instance()->lt()));
@@ -2003,13 +2063,6 @@ void Scheduler::evaluateJobs()
         }
     }
 
-    /* Remove unscheduled jobs that may have appeared during the last step - safeguard */
-    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
-    {
-        SchedulerJob::JOBStatus const s = job->getState();
-        return SchedulerJob::JOB_SCHEDULED != s && SchedulerJob::JOB_ABORTED != s;
-    }), sortedJobs.end());
-
     /* Apply sorting to queue table, and mark it for saving if it changes */
     mDirty = reorderJobs(sortedJobs) | mDirty;
 
@@ -2041,7 +2094,8 @@ void Scheduler::evaluateJobs()
         return;
     }
     /* If there are only aborted jobs that can run, reschedule those and let Scheduler restart one loop */
-    else if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted))
+    else if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted) &&
+             errorHandlingDontRestartButton->isChecked() == false)
     {
         appendLogText(i18n("Only aborted jobs left in the scheduler queue after evaluating, rescheduling those."));
         std::for_each(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
@@ -3116,7 +3170,7 @@ void Scheduler::checkJobStage()
         {
             appendLogText(i18n("Job '%1' reached completion time %2, stopping.", currentJob->getName(),
                                currentJob->getCompletionTime().toString(currentJob->getDateTimeDisplayFormat())));
-            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
             stopCurrentJobAction();
             stopGuiding();
             findNextJob();
@@ -3142,7 +3196,7 @@ void Scheduler::checkJobStage()
                                    QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals()),
                                    QString("%L1").arg(currentJob->getMinAltitude(), 0, 'f', minAltitude->decimals())));
 
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 stopCurrentJobAction();
                 stopGuiding();
                 findNextJob();
@@ -3168,7 +3222,7 @@ void Scheduler::checkJobStage()
                                    "degrees), marking aborted.",
                                    moonSeparation, currentJob->getName(), currentJob->getMinMoonSeparation()));
 
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 stopCurrentJobAction();
                 stopGuiding();
                 findNextJob();
@@ -3187,7 +3241,7 @@ void Scheduler::checkJobStage()
             appendLogText(i18n(
                               "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking aborted.",
                               preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
-            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
             stopCurrentJobAction();
             stopGuiding();
             findNextJob();
@@ -3224,7 +3278,7 @@ void Scheduler::checkJobStage()
                     }
                     else
                     {
-                        appendLogText(i18n("Warning: job '%1' alignment procedure failed, aborting job.", currentJob->getName()));
+                        appendLogText(i18n("Warning: job '%1' alignment procedure failed, marking aborted.", currentJob->getName()));
                         currentJob->setState(SchedulerJob::JOB_ABORTED);
                         findNextJob();
                     }
@@ -3250,7 +3304,7 @@ void Scheduler::checkJobStage()
                     }
                     else
                     {
-                        appendLogText(i18n("Warning: job '%1' capture procedure failed, aborting job.", currentJob->getName()));
+                        appendLogText(i18n("Warning: job '%1' capture procedure failed, marking aborted.", currentJob->getName()));
                         currentJob->setState(SchedulerJob::JOB_ABORTED);
                         findNextJob();
                     }
@@ -3275,7 +3329,7 @@ void Scheduler::checkJobStage()
                     }
                     else
                     {
-                        appendLogText(i18n("Warning: job '%1' focusing procedure failed, aborting job.", currentJob->getName()));
+                        appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", currentJob->getName()));
                         currentJob->setState(SchedulerJob::JOB_ABORTED);
                         findNextJob();
                     }
@@ -3299,7 +3353,7 @@ void Scheduler::checkJobStage()
                     }
                     else
                     {
-                        appendLogText(i18n("Warning: job '%1' guiding procedure failed, aborting job.", currentJob->getName()));
+                        appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking aborted.", currentJob->getName()));
                         currentJob->setState(SchedulerJob::JOB_ABORTED);
                         findNextJob();
                     }
@@ -3840,7 +3894,11 @@ bool Scheduler::loadScheduler(const QString &fileURL)
     char errmsg[MAXRBUF];
     XMLEle *root = nullptr;
     XMLEle *ep   = nullptr;
+    XMLEle *subEP = nullptr;
     char c;
+
+    // We expect all data read from the XML to be in the C locale - QLocale::c()
+    QLocale cLocale = QLocale::c();
 
     while (sFile.getChar(&c))
     {
@@ -3856,6 +3914,18 @@ bool Scheduler::loadScheduler(const QString &fileURL)
                 else if (!strcmp(tag, "Profile"))
                 {
                     schedulerProfileCombo->setCurrentText(pcdataXMLEle(ep));
+                }
+                else if (!strcmp(tag, "ErrorHandlingStrategy"))
+                {
+                    setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(cLocale.toInt(findXMLAttValu(ep, "value"))));
+
+                    subEP = findXMLEle(ep, "delay");
+                    if (subEP)
+                    {
+                        errorHandlingDelaySB->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                    }
+                    subEP = findXMLEle(ep, "RescheduleErrors");
+                        errorHandlingRescheduleErrorsCB->setChecked(subEP != nullptr);
                 }
                 else if (!strcmp(tag, "StartupProcedure"))
                 {
@@ -4207,6 +4277,12 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "</Job>" << endl;
     }
 
+    outstream << "<ErrorHandlingStrategy value='" << getErrorHandlingStrategy() << "'>" << endl;
+    if (errorHandlingRescheduleErrorsCB->isChecked())
+        outstream << "<RescheduleErrors />" << endl;
+    outstream << "<delay>" << errorHandlingDelaySB->value() << "</delay>" << endl;
+    outstream << "</ErrorHandlingStrategy>" << endl;
+
     outstream << "<StartupProcedure>" << endl;
     if (startupScript->text().isEmpty() == false)
         outstream << "<Procedure value='" << startupScript->text() << "'>StartupScript</Procedure>" << endl;
@@ -4386,30 +4462,39 @@ void Scheduler::findNextJob()
     /* FIXME: Other debug logs in that function probably */
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Find next job...";
 
-    if (currentJob->getState() == SchedulerJob::JOB_ERROR)
+    if (currentJob->getState() == SchedulerJob::JOB_ERROR || currentJob->getState() == SchedulerJob::JOB_ABORTED)
     {
         captureBatch = 0;
         // Stop Guiding if it was used
         stopGuiding();
 
-        appendLogText(i18n("Job '%1' is terminated due to errors.", currentJob->getName()));
+        if (currentJob->getState() == SchedulerJob::JOB_ERROR)
+            appendLogText(i18n("Job '%1' is terminated due to errors.", currentJob->getName()));
+        else
+            appendLogText(i18n("Job '%1' is aborted.", currentJob->getName()));
 
         // Always reset job stage
         currentJob->setStage(SchedulerJob::STAGE_IDLE);
 
-        setCurrentJob(nullptr);
-        schedulerTimer.start();
-    }
-    else if (currentJob->getState() == SchedulerJob::JOB_ABORTED)
-    {
-        // Stop Guiding if it was used
-        stopGuiding();
+        // restart aborted jobs immediately, if error handling strategy is set to "restart immediately"
+        if (errorHandlingRestartImmediatelyButton->isChecked() &&
+                (currentJob->getState() == SchedulerJob::JOB_ABORTED ||
+                 (currentJob->getState() == SchedulerJob::JOB_ERROR && errorHandlingRescheduleErrorsCB->isChecked())))
+        {
+            // reset the state so that it will be restarted
+            currentJob->setState(SchedulerJob::JOB_SCHEDULED);
 
-        appendLogText(i18n("Job '%1' is aborted.", currentJob->getName()));
+            appendLogText(i18n("Waiting %1 seconds to restart job '%2'.", errorHandlingDelaySB->value(), currentJob->getName()));
 
-        // Always reset job stage
-        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+            // wait the given delay until the jobs will be evaluated again
+            sleepTimer.setInterval(( errorHandlingDelaySB->value() * 1000));
+            sleepTimer.start();
+            sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
+            sleepLabel->show();
+            return;
+        }
 
+        // otherwise start re-evaluation
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
@@ -5818,6 +5903,7 @@ void Scheduler::sortJobsPerAltitude()
     }
 }
 
+
 void Scheduler::updatePreDawn()
 {
     double earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
@@ -5865,6 +5951,38 @@ void Scheduler::resumeCheckStatus()
     disconnect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
     schedulerTimer.start();
 }
+
+Scheduler::ErrorHandlingStrategy Scheduler::getErrorHandlingStrategy()
+{
+    // The UI holds the state
+    if (errorHandlingRestartAfterAllButton->isChecked())
+        return ERROR_RESTART_AFTER_TERMINATION;
+    else if (errorHandlingRestartImmediatelyButton->isChecked())
+        return ERROR_RESTART_IMMEDIATELY;
+    else
+        return ERROR_DONT_RESTART;
+
+}
+
+void Scheduler::setErrorHandlingStrategy(Scheduler::ErrorHandlingStrategy strategy)
+{
+    errorHandlingWaitLabel->setEnabled(strategy != ERROR_DONT_RESTART);
+    errorHandlingDelaySB->setEnabled(strategy != ERROR_DONT_RESTART);
+
+    switch (strategy) {
+    case ERROR_RESTART_AFTER_TERMINATION:
+       errorHandlingRestartAfterAllButton->setChecked(true);
+        break;
+    case ERROR_RESTART_IMMEDIATELY:
+       errorHandlingRestartImmediatelyButton->setChecked(true);
+        break;
+    default:
+        errorHandlingDontRestartButton->setChecked(true);
+        break;
+    }
+}
+
+
 
 void Scheduler::startMosaicTool()
 {
@@ -6653,7 +6771,7 @@ void Scheduler::setAlignStatus(Ekos::AlignState status)
             }
             else
             {
-                appendLogText(i18n("Warning: job '%1' alignment procedure failed, aborting job.", currentJob->getName()));
+                appendLogText(i18n("Warning: job '%1' alignment procedure failed, marking aborted.", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
 
                 findNextJob();
@@ -6727,8 +6845,8 @@ void Scheduler::setGuideStatus(Ekos::GuideState status)
             }
             else
             {
-                appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking terminated due to errors.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ERROR);
+                appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking aborted.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
 
                 findNextJob();
             }
@@ -6864,8 +6982,8 @@ void Scheduler::setFocusStatus(Ekos::FocusState status)
             }
             else
             {
-                appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking terminated due to errors.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ERROR);
+                appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
 
                 findNextJob();
             }

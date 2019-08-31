@@ -641,11 +641,14 @@ void Capture::stop(CaptureState targetState)
         }
     }
 
+    // Only emit a new status if there is an active job or if capturing is suspended.
+    // The latter is necessary since suspending clears the active job, but the Capture
+    // module keeps the control.
+    if (activeJob != nullptr || m_State == CAPTURE_SUSPENDED)
+        emit newStatus(targetState);
+
     calibrationStage = CAL_NONE;
     m_State            = targetState;
-
-    if (activeJob != nullptr)
-        emit newStatus(targetState);
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (currentDustCap && dustCapLightEnabled)

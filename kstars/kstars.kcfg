@@ -2326,6 +2326,18 @@
          <label>Position angle of the camera with respect to north.</label>
          <default>0</default>
       </entry>
+      <entry name="ErrorHandlingStrategy" type="UInt">
+         <label>Strategy how to react, when a job aborts or steps into an error.</label>
+         <default>1</default>
+      </entry>
+      <entry name="ErrorHandlingStrategyDelay" type="UInt">
+         <label>Delay in minutes how long the scheduler should pause before restarting an aborted job or a job that ran into an error.</label>
+         <default>0</default>
+      </entry>
+      <entry name="RescheduleErrors" type="Bool">
+         <label>Re-schedule jobs that ran into errors.</label>
+         <default>false</default>
+      </entry>
    </group>
    <group name="INDI Lite">
       <entry name="LastServer" type="String">
