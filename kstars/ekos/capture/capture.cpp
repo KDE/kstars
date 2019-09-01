@@ -4187,6 +4187,8 @@ QJsonObject Capture::getSettings()
     settings.insert("bin", binXIN->value());
     settings.insert("iso", ISOCombo ? ISOCombo->currentIndex() : -1);
     settings.insert("frameType", frameTypeCombo->currentIndex());
+    settings.insert("format", transferFormatCombo->currentIndex());
+    settings.insert("gain", GainSpin ? GainSpin->value() : -1);
     settings.insert("targetTemperature", temperatureIN->value());
 
     return settings;
@@ -6358,7 +6360,7 @@ void Capture::setSettings(const QJsonObject &settings)
     }
 
     double gain = settings["gain"].toDouble(Ekos::INVALID_VALUE);
-    if (gain != Ekos::INVALID_VALUE && currentCCD)
+    if (gain != Ekos::INVALID_VALUE && gain >= 0 && currentCCD)
     {
         setGain(gain);
     }
