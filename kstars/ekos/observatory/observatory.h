@@ -15,6 +15,7 @@
 #include "observatoryweathermodel.h"
 
 #include <QWidget>
+#include <QLineEdit>
 #include <KLocalizedString>
 
 namespace Ekos
@@ -85,6 +86,11 @@ class Observatory : public QWidget, public Ui::Observatory
         void toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart, QString titleCounterpart);
         void activateButton(QPushButton *button, QString title);
         void buttonPressed(QPushButton *button, QString title);
+
+        // weather sensor data
+        QFormLayout* sensorDataBoxLayout;
+        QList<QPair<QLabel*, QLineEdit*>*> sensorDataWidgets;
+
 
     private slots:
         // observatory status handling

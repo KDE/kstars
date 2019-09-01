@@ -23,6 +23,7 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
 
     connect(weatherInterface, &Weather::ready, this, &ObservatoryWeatherModel::updateWeatherStatus);
     connect(weatherInterface, &Weather::newStatus, this, &ObservatoryWeatherModel::weatherChanged);
+    connect(weatherInterface, &Weather::newWeatherData, this, &ObservatoryWeatherModel::updateWeatherData);
     connect(weatherInterface, &Weather::disconnected, this, &ObservatoryWeatherModel::disconnected);
 
     // read the default values
@@ -37,9 +38,9 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
     alertActions.stopScheduler = Options::weatherAlertStopScheduler();
     alertActions.delay = Options::weatherAlertDelay();
 
-    warningTimer.setInterval(warningActions.delay * 1000);
+    warningTimer.setInterval(static_cast<int>(warningActions.delay * 1000));
     warningTimer.setSingleShot(true);
-    alertTimer.setInterval(alertActions.delay * 1000);
+    alertTimer.setInterval(static_cast<int>(alertActions.delay * 1000));
     alertTimer.setSingleShot(true);
 
     connect(&warningTimer, &QTimer::timeout, [this]()
@@ -95,7 +96,7 @@ void ObservatoryWeatherModel::setWarningActions(WeatherActions actions)
     Options::setWeatherWarningCloseDome(actions.parkDome);
     Options::setWeatherWarningCloseShutter(actions.closeShutter);
     Options::setWeatherWarningDelay(actions.delay);
-    warningTimer.setInterval(actions.delay * 1000);
+    warningTimer.setInterval(static_cast<int>(actions.delay * 1000));
 }
 
 
@@ -116,7 +117,7 @@ void ObservatoryWeatherModel::setAlertActions(WeatherActions actions)
     Options::setWeatherAlertCloseDome(actions.parkDome);
     Options::setWeatherAlertCloseShutter(actions.closeShutter);
     Options::setWeatherAlertDelay(actions.delay);
-    alertTimer.setInterval(actions.delay * 1000);
+    alertTimer.setInterval(static_cast<int>(actions.delay * 1000));
 }
 
 QString ObservatoryWeatherModel::getAlertActionsStatus()
@@ -161,4 +162,32 @@ void ObservatoryWeatherModel::weatherChanged(ISD::Weather::Status status)
     emit newStatus(status);
 }
 
+void ObservatoryWeatherModel::updateWeatherData(std::vector<ISD::Weather::WeatherData> entries)
+{
+    // add or update all received values
+    for (std::vector<ISD::Weather::WeatherData>::iterator entry = entries.begin(); entry != entries.end(); ++entry)
+    {
+        // update if already existing
+        unsigned long pos = findWeatherData(entry->name);
+        if (pos < m_WeatherData.size())
+            m_WeatherData[pos].value = entry->value;
+        // new weather sensor?
+        else if (entry->name.startsWith("WEATHER_"))
+            m_WeatherData.push_back({QString(entry->name), QString(entry->label), entry->value});
+    }
+    // update UI
+    emit newStatus(status());
+}
+
+unsigned long ObservatoryWeatherModel::findWeatherData(const QString name)
+{
+    unsigned long i;
+    for (i = 0; i < m_WeatherData.size(); i++)
+    {
+        if (m_WeatherData[i].name.compare(name) == 0)
+            return i;
+    }
+    // none found
+    return i;
+}
 } // Ekos

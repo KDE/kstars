@@ -36,6 +36,9 @@ Observatory::Observatory()
     // make invisible, since not implemented yet
     weatherWarningSchedulerCB->setVisible(false);
     weatherAlertSchedulerCB->setVisible(false);
+    // initialize the weather sensor data group box
+    sensorDataBoxLayout = new QFormLayout();
+    sensorDataBox->setLayout(sensorDataBoxLayout);
 }
 
 void Observatory::setObseratoryStatusControl(ObservatoryStatusControl control)
@@ -509,6 +512,33 @@ void Observatory::setWeatherStatus(ISD::Weather::Status status)
     }
 
     weatherStatusLabel->setPixmap(QIcon::fromTheme(label.c_str()).pixmap(QSize(48, 48)));
+
+    std::vector<ISD::Weather::WeatherData> weatherData = getWeatherModel()->getWeatherData();
+
+    // update weather sensor data
+    int row_nr = 0;
+    std::vector<ISD::Weather::WeatherData>::iterator it;
+    for (it=weatherData.begin(); it != weatherData.end(); ++it)
+    {
+        if (sensorDataBoxLayout->rowCount() > row_nr)
+        {
+            sensorDataWidgets.value(row_nr)->first->setText(QString(it->label));
+            sensorDataWidgets.value(row_nr)->second->setText(QString().setNum(it->value, 'f', 2));
+         }
+        else
+        {
+            QLabel* labelWidget = new QLabel(it->label);
+            QLineEdit* valueWidget = new QLineEdit(QString().setNum(it->value, 'f', 2));
+            valueWidget->setReadOnly(false);
+            valueWidget->setAlignment(Qt::AlignRight);
+
+            sensorDataWidgets.append(new QPair<QLabel*, QLineEdit*>(labelWidget, valueWidget));
+
+            sensorDataBoxLayout->addRow(labelWidget, valueWidget);
+        }
+        row_nr++;
+    }
+
 }
 
 
@@ -517,7 +547,7 @@ void Observatory::weatherWarningSettingsChanged()
     struct WeatherActions actions;
     actions.parkDome = weatherWarningDomeCB->isChecked();
     actions.closeShutter = weatherWarningShutterCB->isChecked();
-    actions.delay = weatherWarningDelaySB->value();
+    actions.delay = static_cast<unsigned int>(weatherWarningDelaySB->value());
 
     getWeatherModel()->setWarningActions(actions);
 }
@@ -527,7 +557,7 @@ void Observatory::weatherAlertSettingsChanged()
     struct WeatherActions actions;
     actions.parkDome = weatherAlertDomeCB->isChecked();
     actions.closeShutter = weatherAlertShutterCB->isChecked();
-    actions.delay = weatherAlertDelaySB->value();
+    actions.delay = static_cast<unsigned int>(weatherAlertDelaySB->value());
 
     getWeatherModel()->setAlertActions(actions);
 }
@@ -549,7 +579,7 @@ void Observatory::setWarningActions(WeatherActions actions)
 {
     weatherWarningDomeCB->setChecked(actions.parkDome);
     weatherWarningShutterCB->setChecked(actions.closeShutter);
-    weatherWarningDelaySB->setValue(actions.delay);
+    weatherWarningDelaySB->setValue(static_cast<int>(actions.delay));
 }
 
 
@@ -557,7 +587,7 @@ void Observatory::setAlertActions(WeatherActions actions)
 {
     weatherAlertDomeCB->setChecked(actions.parkDome);
     weatherAlertShutterCB->setChecked(actions.closeShutter);
-    weatherAlertDelaySB->setValue(actions.delay);
+    weatherAlertDelaySB->setValue(static_cast<int>(actions.delay));
 }
 
 void Observatory::toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart, QString titleCounterpart)
