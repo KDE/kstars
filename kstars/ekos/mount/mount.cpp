@@ -1411,7 +1411,7 @@ void Mount::findTarget()
 void Mount::centerMount()
 {
     if (currentTelescope)
-        currentTelescope->runCommand(INDI_ENGAGE_TRACKING);
+        currentTelescope->runCommand(INDI_FIND_TELESCOPE);
 }
 
 bool Mount::resetModel()

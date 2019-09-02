@@ -103,6 +103,11 @@ void Telescope::registerProperty(INDI::Property *prop)
         if (aperture_ok && focal_ok)
             clientManager->sendNewNumber(ti);
     }
+    else if (!strcmp(prop->getName(), "ON_COORD_SET"))
+    {
+        m_canGoto = IUFindSwitch(prop->getSwitch(), "TRACK") != nullptr;
+        m_canSync = IUFindSwitch(prop->getSwitch(), "SYNC") != nullptr;
+    }
     // Telescope Park
     else if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
@@ -172,6 +177,8 @@ void Telescope::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_RATE"))
         m_hasCustomTrackRate = true;
+    else if (!strcmp(prop->getName(), "TELESCOPE_ABORT_MOTION"))
+        m_canAbort = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_PARK_OPTION"))
         m_hasCustomParking = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_SLEW_RATE"))
@@ -186,9 +193,13 @@ void Telescope::registerProperty(INDI::Property *prop)
         }
     }
     else if (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD"))
+    {
         m_isJ2000 = false;
+    }
     else if (!strcmp(prop->getName(), "EQUATORIAL_COORD"))
+    {
         m_isJ2000 = true;
+    }
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -433,18 +444,6 @@ bool Telescope::canGuide()
         return false;
 }
 
-bool Telescope::canSync()
-{
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
-
-    if (motionSP == nullptr)
-        return false;
-
-    ISwitch *syncSW = IUFindSwitch(motionSP, "SYNC");
-
-    return (syncSW != nullptr);
-}
-
 bool Telescope::canPark()
 {
     ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
@@ -571,12 +570,15 @@ bool Telescope::runCommand(int command, void *ptr)
 
             break;
 
-        case INDI_ENGAGE_TRACKING:
+        case INDI_FIND_TELESCOPE:
         {
             SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
             J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
             currentCoord.setRA0(J2000Coord.ra());
             currentCoord.setDec0(J2000Coord.dec());
+            double maxrad = 1000.0 / Options::zoomFactor();
+            SkyObject *currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoord, maxrad);
+            KStars::Instance()->map()->setFocusObject(currentObject);
             KStars::Instance()->map()->setDestination(currentCoord);
         }
         break;
