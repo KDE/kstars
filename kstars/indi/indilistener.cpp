@@ -242,7 +242,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName()))
         {
-            if (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") ||
+            if (!strcmp(prop->getName(), "ON_COORD_SET") ||
+                    !strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") ||
                     !strcmp(prop->getName(), "EQUATORIAL_COORD") ||
                     !strcmp(prop->getName(), "HORIZONTAL_COORD"))
             {

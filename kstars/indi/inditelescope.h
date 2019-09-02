@@ -71,11 +71,18 @@ class Telescope : public DeviceDecorator
         // Slew
         bool Slew(SkyPoint *ScopeTarget);
         bool Slew(double ra, double dec);
+        bool canGoto()
+        {
+            return m_canGoto;
+        }
 
         // Sync
         bool Sync(SkyPoint *ScopeTarget);
         bool Sync(double ra, double dec);
-        bool canSync();
+        bool canSync()
+        {
+            return m_canSync;
+        }
 
         // Tracking
         bool canControlTrack() const
@@ -105,6 +112,10 @@ class Telescope : public DeviceDecorator
         bool StopWE();
         bool isSlewing();
         bool isInMotion();
+        bool canAbort()
+        {
+            return m_canAbort;
+        }
         QString getManualMotionString() const;
 
         // Guiding
@@ -200,6 +211,9 @@ class Telescope : public DeviceDecorator
 
         bool m_hasAlignmentModel = { false };
         bool m_canControlTrack = { false };
+        bool m_canGoto { false};
+        bool m_canSync { false};
+        bool m_canAbort { false };
         bool m_hasTrackModes { false};
         bool m_hasCustomTrackRate { false};
         bool m_hasCustomParking { false };
