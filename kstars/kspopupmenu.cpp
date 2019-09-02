@@ -275,17 +275,17 @@ void KSPopupMenu::createSatelliteMenu(Satellite *satellite)
     addSeparator();
 
     //Insert item for centering on object
-    addAction(i18n("Center && Track"), ks->map(), SLOT(slotCenter()));
+    addAction(QIcon::fromTheme("snap-nodes-center"), i18n("Center && Track"), ks->map(), SLOT(slotCenter()));
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction(i18n("Angular Distance To...            ["), ks->map(), SLOT(slotBeginAngularDistance()));
-    addAction(i18n("Starhop from here to...            "), ks->map(), SLOT(slotBeginStarHop()));
+    addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), ks->map(), SLOT(slotBeginAngularDistance()));
+    addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), ks->map(), SLOT(slotBeginStarHop()));
 
     //Insert "Add/Remove Label" item
     if (ks->map()->isObjectLabeled(satellite))
-        addAction(i18n("Remove Label"), ks->map(), SLOT(slotRemoveObjectLabel()));
+        addAction(QIcon::fromTheme("list-remove"), i18n("Remove Label"), ks->map(), SLOT(slotRemoveObjectLabel()));
     else
-        addAction(i18n("Attach Label"), ks->map(), SLOT(slotAddObjectLabel()));
+        addAction(QIcon::fromTheme("label"), i18n("Attach Label"), ks->map(), SLOT(slotAddObjectLabel()));
 }
 
 void KSPopupMenu::createSupernovaMenu(Supernova *supernova)
@@ -340,7 +340,7 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     }
 
     //Insert item for centering on object
-    addAction(i18n("Center && Track"), map, SLOT(slotCenter()));
+    addAction(QIcon::fromTheme("snap-nodes-center"), i18n("Center && Track"), map, SLOT(slotCenter()));
 
     if (showFlags)
     {
@@ -350,34 +350,34 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
 
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction(i18n("Angular Distance To...            ["), map, SLOT(slotBeginAngularDistance()));
-    addAction(i18n("Starhop from here to...            "), map, SLOT(slotBeginStarHop()));
+    addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), map, SLOT(slotBeginAngularDistance()));
+    addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), map, SLOT(slotBeginStarHop()));
 
     //Insert item for Showing details dialog
     if (showDetails)
-        addAction(i18nc("Show Detailed Information Dialog", "Details"), map, SLOT(slotDetail()));
+        addAction(QIcon::fromTheme("view-list-details"), i18nc("Show Detailed Information Dialog", "Details"), map, SLOT(slotDetail()));
 
-    addAction(i18n("Copy Coordinates"), map, SLOT(slotCopyCoordinates()));
+    addAction(QIcon::fromTheme("edit-copy"), i18n("Copy Coordinates"), map, SLOT(slotCopyCoordinates()));
 
     //Insert "Add/Remove Label" item
     if (showLabel)
     {
         if (map->isObjectLabeled(obj))
         {
-            addAction(i18n("Remove Label"), map, SLOT(slotRemoveObjectLabel()));
+            addAction(QIcon::fromTheme("list-remove"), i18n("Remove Label"), map, SLOT(slotRemoveObjectLabel()));
         }
         else
         {
-            addAction(i18n("Attach Label"), map, SLOT(slotAddObjectLabel()));
+            addAction(QIcon::fromTheme("label"), i18n("Attach Label"), map, SLOT(slotAddObjectLabel()));
         }
     }
     // Should show observing list
     if (showObsList)
     {
         if (data->observingList()->contains(obj))
-            addAction(i18n("Remove From Observing WishList"), data->observingList(), SLOT(slotRemoveObject()));
+            addAction(QIcon::fromTheme("list-remove"), i18n("Remove From Observing WishList"), data->observingList(), SLOT(slotRemoveObject()));
         else
-            addAction(i18n("Add to Observing WishList"), data->observingList(), SLOT(slotAddObject()));
+            addAction(QIcon::fromTheme("bookmarks"), i18n("Add to Observing WishList"), data->observingList(), SLOT(slotAddObject()));
     }
     // Should we show trail actions
     TrailObject *t = dynamic_cast<TrailObject *>(obj);
@@ -389,7 +389,7 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
             addAction(i18n("Add Trail"), map, SLOT(slotAddPlanetTrail()));
     }
 
-    addAction(i18n("Simulate eyepiece view"), map, SLOT(slotEyepieceView()));
+    addAction(QIcon::fromTheme("redeyes"), i18n("Simulate eyepiece view"), map, SLOT(slotEyepieceView()));
 
     addSeparator();
     if (obj->isSolarSystem() &&
@@ -401,7 +401,7 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     addSeparator();
     addINDI();
 
-    addAction(i18n("View in What's Interesting"), this, SLOT(slotViewInWI()));
+    addAction(QIcon::fromTheme("view-list-details"), i18n("View in What's Interesting"), this, SLOT(slotViewInWI()));
 
 
 }
@@ -415,14 +415,14 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
     if (flags.isEmpty())
     {
         // There is no flag around clicked SkyObject
-        addAction(i18n("Add flag..."), ks->map(), SLOT(slotAddFlag()));
+        addAction(QIcon::fromTheme("flag"), i18n("Add flag..."), ks->map(), SLOT(slotAddFlag()));
     }
 
     else if (flags.size() == 1)
     {
         // There is only one flag around clicked SkyObject
-        addAction(i18n("Edit flag"), this, SLOT(slotEditFlag()));
-        addAction(i18n("Delete flag"), this, SLOT(slotDeleteFlag()));
+        addAction(QIcon::fromTheme("document-edit"), i18n("Edit flag"), this, SLOT(slotEditFlag()));
+        addAction(QIcon::fromTheme("delete"), i18n("Delete flag"), this, SLOT(slotDeleteFlag()));
 
         m_CurrentFlagIdx = flags.first();
     }
@@ -431,7 +431,9 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
     {
         // There are more than one flags around clicked SkyObject - we need to create submenus
         QMenu *editMenu   = new QMenu(i18n("Edit flag..."), KStars::Instance());
+        editMenu->setIcon(QIcon::fromTheme("document-edit"));
         QMenu *deleteMenu = new QMenu(i18n("Delete flag..."), KStars::Instance());
+        deleteMenu->setIcon(QIcon::fromTheme("delete"));
 
         connect(editMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotEditFlag(QAction*)));
         connect(deleteMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotDeleteFlag(QAction*)));
