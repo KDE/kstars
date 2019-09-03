@@ -256,6 +256,9 @@ void Message::sendCameras()
     }
 
     sendResponse(commands[GET_CAMERAS], cameraList);
+
+    if (m_Manager->captureModule())
+        sendCaptureSettings(m_Manager->captureModule()->getSettings());
 }
 
 void Message::sendMounts()
