@@ -1005,6 +1005,8 @@ IF (NOT ANDROID)
     )
 
     add_library(KStarsLib STATIC ${kstars_SRCS})
+    include(GenerateExportHeader)
+    generate_export_header(KStarsLib)
 
     target_link_libraries(KStarsLib
         LibKSDataHandlers

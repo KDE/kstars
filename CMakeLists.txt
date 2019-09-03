@@ -11,7 +11,7 @@ option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 
 # minimal requirements
-cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.4.0 FATAL_ERROR)
 
 # KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
