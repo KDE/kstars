@@ -4180,15 +4180,29 @@ QJsonObject Capture::getSettings()
 {
     QJsonObject settings;
 
+    // Try to get settings value
+    // if not found, fallback to camera value
+    double gain = -1;
+    if (GainSpin)
+        gain = GainSpin->value();
+    else if (currentCCD && currentCCD->hasGain())
+        currentCCD->getGain(&gain);
+
+    int iso = -1;
+    if (ISOCombo)
+        iso = ISOCombo->currentIndex();
+    else if (currentCCD)
+        iso = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex();
+
     settings.insert("camera", CCDCaptureCombo->currentText());
     settings.insert("fw", FilterDevicesCombo->currentText());
     settings.insert("filter", FilterPosCombo->currentText());
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", binXIN->value());
-    settings.insert("iso", ISOCombo ? ISOCombo->currentIndex() : -1);
+    settings.insert("iso", iso);
     settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("format", transferFormatCombo->currentIndex());
-    settings.insert("gain", GainSpin ? GainSpin->value() : -1);
+    settings.insert("gain", gain);
     settings.insert("targetTemperature", temperatureIN->value());
 
     return settings;
