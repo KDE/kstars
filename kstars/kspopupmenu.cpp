@@ -647,12 +647,14 @@ void KSPopupMenu::addINDI()
             {
                 QAction *a = mountMenu->addAction(QIcon::fromTheme("object-rotate-right"),
                                                   i18nc("Move mount to target", "Goto"));
+                a->setEnabled(!mount->isParked());
                 connect(a, &QAction::triggered, [mount] {mount->Slew(SkyMap::Instance()->clickedPoint());});
             }
             if (mount->canSync())
             {
                 QAction *a = mountMenu->addAction(QIcon::fromTheme("media-record"),
                                                   i18nc("Synchronize mount to target", "Sync"));
+                a->setEnabled(!mount->isParked());
                 connect(a, &QAction::triggered, [mount] {mount->Sync(SkyMap::Instance()->clickedPoint());});
             }
 
@@ -663,6 +665,7 @@ void KSPopupMenu::addINDI()
         {
             QAction *a = mountMenu->addAction(QIcon::fromTheme("process-stop"),
                                               i18n("Abort"));
+            a->setEnabled(!mount->isParked());
             connect(a, &QAction::triggered, [mount] {mount->Abort();});
             mountMenu->addSeparator();
         }
@@ -684,6 +687,7 @@ void KSPopupMenu::addINDI()
         {
             QAction *a = mountMenu->addAction(QIcon::fromTheme("go-jump-declaration"),
                                               i18n("Goto && Set As Parking Position"));
+            a->setEnabled(!mount->isParked());
             connect(a, &QAction::triggered, [mount] {mount->runCommand(INDI_CUSTOM_PARKING);});
         }
 
