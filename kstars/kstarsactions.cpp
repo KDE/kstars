@@ -1446,8 +1446,10 @@ void KStars::slotTrack()
 void KStars::slotManualFocus()
 {
     QPointer<FocusDialog> focusDialog = new FocusDialog();
-    if (Options::useAltAz())
-        focusDialog->activateAzAltPage();
+
+    // JM 2019-09-04: Should default to RA/DE always
+    //    if (Options::useAltAz())
+    //        focusDialog->activateAzAltPage();
 
     if (focusDialog->exec() == QDialog::Accepted)
     {
