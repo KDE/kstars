@@ -27,10 +27,10 @@ class SkyPoint;
 
 class FocusDialogUI : public QFrame, public Ui::FocusDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit FocusDialogUI(QWidget *parent = nullptr);
+    public:
+        explicit FocusDialogUI(QWidget *parent = nullptr);
 };
 
 /**
@@ -42,37 +42,44 @@ class FocusDialogUI : public QFrame, public Ui::FocusDialog
  */
 class FocusDialog : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /** Constructor. */
-    FocusDialog();
+    public:
+        /** Constructor. */
+        FocusDialog();
 
-    /** @return pointer to the SkyPoint described by the entered RA, Dec */
-    inline SkyPoint *point() { return Point; }
+        /** @return pointer to the SkyPoint described by the entered RA, Dec */
+        inline SkyPoint *point()
+        {
+            return Point;
+        }
 
-    /** @return suggested size of focus window. */
-    QSize sizeHint() const override;
+        /** @return suggested size of focus window. */
+        QSize sizeHint() const override;
 
-    /** @return whether user set the AltAz coords */
-    inline bool usedAltAz() const { return UsedAltAz; }
+        /** @return whether user set the AltAz coords */
+        inline bool usedAltAz() const
+        {
+            return UsedAltAz;
+        }
 
-    /** Show the Az/Alt page instead of the RA/Dec page. */
-    void activateAzAltPage() const;
+        /** Show the Az/Alt page instead of the RA/Dec page. */
+        void activateAzAltPage() const;
 
-  public slots:
-    /** If text has been entered in both KLineEdits, enable the Ok button. */
-    void checkLineEdits();
+    public slots:
+        /** If text has been entered in both KLineEdits, enable the Ok button. */
+        void checkLineEdits();
 
-    /**
-     * Attempt to interpret the text in the KLineEdits as Ra and Dec values.
-   	 * If the point is validated, close the window.
-     */
-    void validatePoint();
+        /**
+         * Attempt to interpret the text in the KLineEdits as Ra and Dec values.
+         * If the point is validated, close the window.
+         */
+        void validatePoint();
 
-  private:
-    SkyPoint *Point { nullptr };
-    FocusDialogUI *fd { nullptr };
-    bool UsedAltAz { false };
-    QPushButton *okB { nullptr };
+    private:
+        SkyPoint *Point { nullptr };
+        FocusDialogUI *fd { nullptr };
+        bool UsedAltAz { false };
+        QPushButton *okB { nullptr };
+        bool UseJNow { true };
 };

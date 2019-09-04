@@ -60,6 +60,12 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     okB = buttonBox->button(QDialogButtonBox::Ok);
     okB->setEnabled(false);
 
+    // When editing epoch, set JNow to false.
+    connect(fd->epochBox, &QLineEdit::editingFinished, [this]()
+    {
+        UseJNow = false;
+    });
+    fd->epochBox->setText(QString::number(KStarsData::Instance()->lt().epoch(), 'f', 3));
     fd->epochBox->setValidator(new QDoubleValidator(fd->epochBox));
     fd->raBox->setMinimumWidth(fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width());
     fd->azBox->setMinimumWidth(fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width());
@@ -76,17 +82,31 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     if (center)
     {
         center->deprecess(KStarsData::Instance()->updateNum());
-        fd->raBox->setDMS(center->ra0().toHMSString());
-        fd->decBox->setDMS(center->dec0().toDMSString());
+        fd->raBox->setDMS(center->ra().toHMSString());
+        fd->decBox->setDMS(center->dec().toDMSString());
 
         fd->azBox->setDMS(center->az().toDMSString());
         fd->altBox->setDMS(center->alt().toDMSString());
+
+        checkLineEdits();
     }
 
     connect(fd->raBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
     connect(fd->decBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
     connect(fd->azBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
     connect(fd->altBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
+
+    connect(fd->J2000B, &QPushButton::clicked, [this]()
+    {
+        fd->epochBox->setText("2000.0");
+        UseJNow = false;
+    });
+    connect(fd->JNowB, &QPushButton::clicked, [this]()
+    {
+        fd->epochBox->setText(QString::number(KStarsData::Instance()->lt().epoch(), 'f', 3));
+        UseJNow = true;
+    });
+
 }
 
 void FocusDialog::checkLineEdits()
@@ -130,9 +150,13 @@ void FocusDialog::validatePoint()
         Point->set(ra, dec);
         bool ok;
 
-        double epoch0   = KStarsDateTime::stringToEpoch(fd->epochBox->text(), ok);
-        long double jd0 = KStarsDateTime::epochToJd(epoch0);
-        Point->apparentCoord(jd0, KStarsData::Instance()->ut().djd());
+        if (!UseJNow)
+        {
+            double epoch0   = KStarsDateTime::stringToEpoch(fd->epochBox->text(), ok);
+            long double jd0 = KStarsDateTime::epochToJd(epoch0);
+            Point->apparentCoord(jd0, KStarsData::Instance()->ut().djd());
+        }
+
         Point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         QDialog::accept();
@@ -172,7 +196,7 @@ void FocusDialog::validatePoint()
 
 QSize FocusDialog::sizeHint() const
 {
-    return QSize(300, 210);
+    return QSize(350, 210);
 }
 
 void FocusDialog::activateAzAltPage() const
