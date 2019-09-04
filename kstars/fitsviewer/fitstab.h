@@ -46,7 +46,20 @@ class FITSTab : public QWidget
         Q_OBJECT
     public:
         explicit FITSTab(FITSViewer *parent);
-        virtual ~FITSTab();
+        virtual ~FITSTab() override;
+
+        enum
+        {
+            STAT_WIDTH,
+            STAT_HEIGHT,
+            STAT_BITPIX,
+            STAT_HFR,
+            STAT_MIN,
+            STAT_MAX,
+            STAT_MEAN,
+            STAT_MEDIAN,
+            STAT_STDDEV
+        };
 
         void clearRecentFITS();
         void selectRecentFITS(int i);

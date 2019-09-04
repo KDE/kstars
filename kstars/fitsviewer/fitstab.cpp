@@ -110,6 +110,20 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
         fitsTools = new QToolBox();
 
         stat.setupUi(statWidget);
+
+        for (int i = 0; i <= STAT_STDDEV; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                stat.statsTable->setItem(i, j, new QTableWidgetItem());
+                stat.statsTable->item(i, j)->setTextAlignment(Qt::AlignHCenter);
+            }
+
+            // Set col span for items up to HFR
+            if (i <= STAT_HFR)
+                stat.statsTable->setSpan(i, 0, 1, 3);
+        }
+
         fitsTools->addItem(statWidget, i18n("Statistics"));
 
         fitsTools->addItem(histogram, i18n("Histogram"));
@@ -260,20 +274,41 @@ void FITSTab::evaluateStats()
 {
     FITSData *image_data = view->getImageData();
 
-    stat.widthOUT->setText(QString::number(image_data->width()));
-    stat.heightOUT->setText(QString::number(image_data->height()));
-    stat.bitpixOUT->setText(QString::number(image_data->bpp()));
-    stat.maxOUT->setText(QString::number(image_data->getMax(), 'f', 3));
-    stat.minOUT->setText(QString::number(image_data->getMin(), 'f', 3));
-    stat.meanOUT->setText(QString::number(image_data->getMean(), 'f', 3));
-    stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'f', 3));
-    stat.HFROUT->setText(QString::number(image_data->getHFR(), 'f', 3));
+    stat.statsTable->item(STAT_WIDTH, 0)->setText(QString::number(image_data->width()));
+    stat.statsTable->item(STAT_HEIGHT, 0)->setText(QString::number(image_data->height()));
+    stat.statsTable->item(STAT_BITPIX, 0)->setText(QString::number(image_data->bpp()));
+    stat.statsTable->item(STAT_HFR, 0)->setText(QString::number(image_data->getHFR(), 'f', 3));
+
+    if (image_data->channels() == 1)
+    {
+        for (int i = STAT_MIN; i <= STAT_STDDEV; i++)
+            stat.statsTable->setSpan(i, 0, 1, 3);
+
+        stat.statsTable->horizontalHeaderItem(0)->setText(i18n("Value"));
+        stat.statsTable->hideColumn(1);
+        stat.statsTable->hideColumn(2);
+    }
+    else
+    {
+        for (int i = STAT_MIN; i <= STAT_STDDEV; i++)
+            stat.statsTable->setSpan(i, 0, 1, 1);
+
+        stat.statsTable->horizontalHeaderItem(0)->setText(i18nc("Red", "R"));
+        stat.statsTable->showColumn(1);
+        stat.statsTable->showColumn(2);
+    }
 
     if (image_data->getMedian() == 0.0 && !histogram->isConstructed())
         histogram->constructHistogram();
-    stat.medianOUT->setText(QString::number(image_data->getMedian(), 'f', 3));
 
-    stat.SNROUT->setText(QString::number(image_data->getSNR(), 'f', 3));
+    for (int i = 0; i < image_data->channels(); i++)
+    {
+        stat.statsTable->item(STAT_MIN, i)->setText(QString::number(image_data->getMin(i), 'f', 3));
+        stat.statsTable->item(STAT_MAX, i)->setText(QString::number(image_data->getMax(i), 'f', 3));
+        stat.statsTable->item(STAT_MEAN, i)->setText(QString::number(image_data->getMean(i), 'f', 3));
+        stat.statsTable->item(STAT_MEDIAN, i)->setText(QString::number(image_data->getMedian(i), 'f', 3));
+        stat.statsTable->item(STAT_STDDEV, i)->setText(QString::number(image_data->getStdDev(i), 'f', 3));
+    }
 }
 
 void FITSTab::statFITS()
