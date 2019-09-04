@@ -2289,7 +2289,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                 histogram->constructHistogram();
 
             T bufferVal                    = 0;
-            QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
+            QVector<uint32_t> cumulativeFreq = histogram->getCumulativeFrequency();
 
             double coeff = 255.0 / (height * width);
             uint32_t row = 0;

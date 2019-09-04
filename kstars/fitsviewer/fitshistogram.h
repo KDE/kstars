@@ -54,7 +54,7 @@ class FITSHistogram : public QDialog
             return binWidth[channel];
         }
 
-        QVector<double> getCumulativeFrequency(int channel = 0) const;
+        QVector<uint32_t> getCumulativeFrequency(int channel = 0) const;
 
         double getJMIndex() const;
 
@@ -81,7 +81,7 @@ class FITSHistogram : public QDialog
         histogramUI * ui { nullptr };
         FITSTab * tab { nullptr };
 
-        QVector<QVector<double>> cumulativeFrequency;
+        QVector<QVector<uint32_t>> cumulativeFrequency;
         QVector<QVector<double>> intensity;
         QVector<QVector<double>> frequency;
         QVector<QVector<QWidget *>> rgbWidgets;
