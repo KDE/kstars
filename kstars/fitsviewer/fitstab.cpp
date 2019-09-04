@@ -268,7 +268,11 @@ void FITSTab::evaluateStats()
     stat.meanOUT->setText(QString::number(image_data->getMean(), 'f', 3));
     stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'f', 3));
     stat.HFROUT->setText(QString::number(image_data->getHFR(), 'f', 3));
+
+    if (image_data->getMedian() == 0.0 && !histogram->isConstructed())
+        histogram->constructHistogram();
     stat.medianOUT->setText(QString::number(image_data->getMedian(), 'f', 3));
+
     stat.SNROUT->setText(QString::number(image_data->getSNR(), 'f', 3));
 }
 
