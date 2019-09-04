@@ -227,12 +227,11 @@ template <typename T> void FITSHistogram::constructHistogram()
         futures.append(QtConcurrent::run([ = ]()
         {
             uint32_t offset = n * samples;
-            int32_t id = 0;
 
             const int sampleBy = samples > 1000000 ? samples / 1000000 : 1;
             for (uint32_t i = 0; i < samples; i += sampleBy)
             {
-                id = rint((buffer[i + offset] - FITSMin[n]) / binWidth[n]);
+                int32_t id = rint((buffer[i + offset] - FITSMin[n]) / binWidth[n]);
                 if (id < 0)
                     id = 0;
                 frequency[n][id] += sampleBy;
@@ -269,10 +268,10 @@ template <typename T> void FITSHistogram::constructHistogram()
         {
             double median[3] = {0};
             bool cutoffSpikes = ui->hideSaturated->isChecked();
-            uint32_t halfCumulative = static_cast<int>(cumulativeFrequency[n][binCount - 1] / 2);
+            uint32_t halfCumulative = cumulativeFrequency[n][binCount - 1] / 2;
             for (int i = 0; i < binCount; i++)
             {
-                if (cumulativeFrequency[n][i] >= halfCumulative)
+                if (cumulativeFrequency[n][i] > halfCumulative)
                 {
                     median[n] = round(i * binWidth[n] + FITSMin[n]);
                     break;
@@ -452,7 +451,7 @@ void FITSHistogram::applyFilter(FITSScale ftype)
     tab->getUndoStack()->push(histC);
 }
 
-QVector<double> FITSHistogram::getCumulativeFrequency(int channel) const
+QVector<uint32_t> FITSHistogram::getCumulativeFrequency(int channel) const
 {
     return cumulativeFrequency[channel];
 }
