@@ -214,8 +214,8 @@ class FITSView : public QScrollArea
 
         void centerTelescope();
 
-        void processPointSelection(int x, int y);
-        void processMarkerSelection(int x, int y);
+        virtual void processPointSelection(int x, int y);
+        virtual void processMarkerSelection(int x, int y);
         void move3DTrackingBox(int x, int y);
         void resizeTrackingBox(int newSize);
 

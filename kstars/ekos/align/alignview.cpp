@@ -106,7 +106,7 @@ void AlignView::setCorrectionOffset(QPointF &newOffset)
         markerCrosshair  = newOffset;
 
         emit newCorrectionVector(correctionLine);
-    }    
+    }
 
     updateFrame();
 }
@@ -190,4 +190,10 @@ void AlignView::setRefreshEnabled(bool enable)
         setCursorMode(crosshairCursor);
     else
         setCursorMode(selectCursor);
+}
+
+void AlignView::processMarkerSelection(int x, int y)
+{
+    Q_UNUSED(x)
+    Q_UNUSED(y)
 }
