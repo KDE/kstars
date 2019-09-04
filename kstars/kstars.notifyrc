@@ -1,5 +1,6 @@
 [Global]
 IconName=kstars
+DesktopEntry=org.kde.kstars
 Comment=KStars
 Comment[ar]=نجوم‌ك
 Comment[ca]=KStars
