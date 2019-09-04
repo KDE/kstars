@@ -59,7 +59,7 @@ If the mouse button is released, it resets mouseButtonDown variable and the mous
  */
 void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     if (view->getCursorMode() == FITSView::dragCursor)
     {
         mouseButtonDown = false;
@@ -102,47 +102,47 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
 
-    emit newStatus(QString("X:%1 Y:%2").arg((int)x).arg((int)y), FITS_POSITION);
+    emit newStatus(QString("X:%1 Y:%2").arg(static_cast<int>(x)).arg(static_cast<int>(y)), FITS_POSITION);
 
     // Range is 0 to dim-1 when accessing array
     x -= 1;
     y -= 1;
 
+    int index = y * width + x;
     QString stringValue;
 
     switch (view_data->property("dataType").toInt())
     {
         case TBYTE:
-            stringValue = QLocale().toString(buffer[(int)(y * width + x)]);
+            stringValue = QLocale().toString(buffer[index]);
             break;
 
         case TSHORT:
-            stringValue = QLocale().toString((reinterpret_cast<int16_t *>(buffer))[(int)(y * width + x)]);
+            stringValue = QLocale().toString((reinterpret_cast<int16_t *>(buffer))[index]);
             break;
 
         case TUSHORT:
-            stringValue = QLocale().toString((reinterpret_cast<uint16_t *>(buffer))[(int)(y * width + x)]);
+            stringValue = QLocale().toString((reinterpret_cast<uint16_t *>(buffer))[index]);
             break;
 
         case TLONG:
-            stringValue = QLocale().toString((reinterpret_cast<int32_t *>(buffer))[(int)(y * width + x)]);
+            stringValue = QLocale().toString((reinterpret_cast<int32_t *>(buffer))[index]);
             break;
 
         case TULONG:
-            stringValue = QLocale().toString((reinterpret_cast<uint32_t *>(buffer))[(int)(y * width + x)]);
+            stringValue = QLocale().toString((reinterpret_cast<uint32_t *>(buffer))[index]);
             break;
 
         case TFLOAT:
-            stringValue = QLocale().toString((reinterpret_cast<float *>(buffer))[(int)(y * width + x)], 'f', 5);
+            stringValue = QLocale().toString((reinterpret_cast<float *>(buffer))[index], 'f', 5);
             break;
 
         case TLONGLONG:
-            stringValue =
-                QLocale().toString(static_cast<int>((reinterpret_cast<int64_t *>(buffer))[(int)(y * width + x)]));
+            stringValue = QLocale().toString(static_cast<int>((reinterpret_cast<int64_t *>(buffer))[index]));
             break;
 
         case TDOUBLE:
-            stringValue = QLocale().toString((reinterpret_cast<float *>(buffer))[(int)(y * width + x)], 'f', 5);
+            stringValue = QLocale().toString((reinterpret_cast<float *>(buffer))[index], 'f', 5);
 
             break;
 
