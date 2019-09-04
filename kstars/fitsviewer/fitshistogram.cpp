@@ -274,7 +274,7 @@ template <typename T> void FITSHistogram::constructHistogram()
             {
                 if (cumulativeFrequency[n][i] >= halfCumulative)
                 {
-                    median[n] = i * binWidth[n] + FITSMin[n];
+                    median[n] = round(i * binWidth[n] + FITSMin[n]);
                     break;
                 }
             }
