@@ -6,182 +6,124 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>172</width>
-    <height>390</height>
+    <width>211</width>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Statistics</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
    <property name="leftMargin">
-    <number>4</number>
+    <number>3</number>
    </property>
    <property name="topMargin">
-    <number>4</number>
+    <number>3</number>
    </property>
    <property name="rightMargin">
-    <number>4</number>
+    <number>3</number>
    </property>
    <property name="bottomMargin">
-    <number>4</number>
+    <number>3</number>
    </property>
-   <property name="verticalSpacing">
-    <number>-1</number>
-   </property>
-   <item row="4" column="3">
-    <widget class="QLabel" name="stdDevLabel">
-     <property name="toolTip">
-      <string>Standard Deviation</string>
+   <item>
+    <widget class="QTableWidget" name="statsTable">
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-     <property name="text">
-      <string>Std. dev:</string>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QLabel" name="heightLabel">
-     <property name="text">
-      <string>Height:</string>
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::AdjustToContents</enum>
      </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="bitPixLabel">
-     <property name="text">
-      <string>Bitpix:</string>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="widthLabel">
-     <property name="text">
-      <string>Width:</string>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="meanOUT">
-     <property name="readOnly">
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>50</number>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="3">
-    <widget class="QLineEdit" name="medianOUT">
-     <property name="readOnly">
+     </attribute>
+     <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
       <bool>true</bool>
-     </property>
+     </attribute>
+     <row>
+      <property name="text">
+       <string>Width</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Height</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Bitpix</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>HFR</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Min</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Max</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Mean</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Median</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Std. Dev</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>R</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>G</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>B</string>
+      </property>
+     </column>
     </widget>
    </item>
-   <item row="9" column="1">
-    <widget class="QLineEdit" name="HFROUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="3">
-    <widget class="QLineEdit" name="SNROUT">
-     <property name="text">
-      <string comment="Half Flux Radius"/>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="3">
-    <widget class="QLineEdit" name="stddevOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="widthOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QLineEdit" name="heightOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="minOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QLineEdit" name="maxOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLineEdit" name="bitpixOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="minLabel">
-     <property name="text">
-      <string>Min:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QLabel" name="meanLabel">
-     <property name="text">
-      <string>Mean:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QLabel" name="maxLabel">
-     <property name="text">
-      <string>Max:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QLabel" name="meanLabel_2">
-     <property name="text">
-      <string>Median</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QLabel" name="HFRLabel">
-     <property name="toolTip">
-      <string>Half-Flux Radius</string>
-     </property>
-     <property name="text">
-      <string comment="Half Flux Radius">HFR:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="3">
-    <widget class="QLabel" name="HFRLabel_2">
-     <property name="toolTip">
-      <string>Signal to Noise Ratio</string>
-     </property>
-     <property name="text">
-      <string comment="Half Flux Radius">SNR:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -196,15 +138,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>widthOUT</tabstop>
-  <tabstop>heightOUT</tabstop>
-  <tabstop>bitpixOUT</tabstop>
-  <tabstop>maxOUT</tabstop>
-  <tabstop>minOUT</tabstop>
-  <tabstop>meanOUT</tabstop>
-  <tabstop>stddevOUT</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
