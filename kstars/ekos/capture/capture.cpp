@@ -6367,14 +6367,14 @@ void Capture::setSettings(const QJsonObject &settings)
     setBinning(bin, bin);
 
     double temperature = settings["temperature"].toDouble(Ekos::INVALID_VALUE);
-    if (temperature != Ekos::INVALID_VALUE)
+    if (temperature != Ekos::INVALID_VALUE && currentCCD && currentCCD->hasCoolerControl())
     {
         setForceTemperature(true);
         setTargetTemperature(temperature);
     }
 
     double gain = settings["gain"].toDouble(Ekos::INVALID_VALUE);
-    if (gain != Ekos::INVALID_VALUE && gain >= 0 && currentCCD)
+    if (gain != Ekos::INVALID_VALUE && gain >= 0 && currentCCD && currentCCD->hasGain())
     {
         setGain(gain);
     }
