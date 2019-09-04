@@ -243,10 +243,8 @@ void Message::sendCameras()
             {"name", oneCCD->getDeviceName()},
             {"canBin", primaryChip->canBin()},
             {"hasTemperature", oneCCD->hasCooler()},
-            {"temperature", temperature},
             {"canCool", oneCCD->canCool()},
             {"isoList", QJsonArray::fromStringList(oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOList())},
-            {"iso", oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex()},
             {"hasVideo", oneCCD->hasVideoStream()},
             {"hasGain", oneCCD->hasGain()}
         };
@@ -291,7 +289,11 @@ void Message::sendMounts()
     {
         ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
 
-        QJsonObject slewRate = {{"slewRate", oneTelescope->getSlewRate() }};
+        QJsonObject slewRate =
+        {
+            {"name", oneTelescope->getDeviceName() },
+            {"slewRate", oneTelescope->getSlewRate() }
+        };
 
         sendResponse(commands[NEW_MOUNT_STATE], slewRate);
     }
@@ -326,12 +328,14 @@ void Message::sendDomes()
     {
         ISD::Dome *oneDome = dynamic_cast<ISD::Dome*>(gd);
 
-        if (oneDome->canAbsMove())
+        QJsonObject status =
         {
-            QJsonObject status = {{"az", oneDome->azimuthPosition() }};
-            sendResponse(commands[NEW_DOME_STATE], status);
-            break;
-        }
+            { "name", oneDome->getDeviceName()},
+            { "status", ISD::Dome::getStatusString(oneDome->status())}
+        };
+        if (oneDome->canAbsMove())
+            status["az"] = oneDome->azimuthPosition();
+        sendResponse(commands[NEW_DOME_STATE], status);
     }
 }
 
@@ -360,6 +364,22 @@ void Message::sendCaps()
     }
 
     sendResponse(commands[GET_CAPS], capList);
+
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_AUXILIARY))
+    {
+        if (gd->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+        {
+            ISD::DustCap *dustCap = dynamic_cast<ISD::DustCap*>(gd);
+            QJsonObject status =
+            {
+                { "name", dustCap->getDeviceName()},
+                { "status", ISD::DustCap::getStatusString(dustCap->status())},
+                { "lightS", dustCap->isLightOn()}
+            };
+
+            updateCapStatus(status);
+        }
+    }
 }
 
 void Message::sendDrivers()
