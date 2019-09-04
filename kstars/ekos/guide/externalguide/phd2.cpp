@@ -284,8 +284,9 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
         case StartGuiding:
             setEquipmentConnected();
             updateGuideParameters();
-            emit newLog(i18n("PHD2: Guiding Started."));
-            emit newStatus(Ekos::GUIDE_GUIDING);
+            // Do not report guiding as started as it will start scheduled capture before SettleDone
+            // just print the log message
+            emit newLog(i18n("PHD2: Waiting for guiding to settle."));
             break;
 
         case Paused:
