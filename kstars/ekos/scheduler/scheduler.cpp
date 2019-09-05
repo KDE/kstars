@@ -5232,14 +5232,28 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             // Are we doing initial focusing? That can take about 2 minutes
             if (schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS)
                 totalImagingTime += 120;
-            // Are we doing astrometry? That can take about 30 seconds
+            // Are we doing astrometry? That can take about 60 seconds
             if (schedJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                totalImagingTime += 30;
-            // Are we doing guiding? Calibration process can take about 2 mins
+            {
+                totalImagingTime += 60;
+            }
+            // Are we doing guiding? 
             if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                totalImagingTime += 120;
-        }
+            {
+                // Looping, finding guide star, settling takes 15 sec
+                totalImagingTime += 15;
 
+                // Add guiding settle time from dither setting (used by phd2::guide())
+                totalImagingTime += Options::ditherSettle();
+                // Add guiding settle time from ekos sccheduler setting
+                totalImagingTime += Options::guidingSettle();
+
+                // If calibration always cleared
+                // then calibration process can take about 2 mins
+                if(Options::resetGuideCalibration())
+                    totalImagingTime += 120;    
+            }
+        }
         dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
         schedJob->setEstimatedTime(totalImagingTime);
 
