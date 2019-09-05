@@ -4203,7 +4203,7 @@ QJsonObject Capture::getSettings()
     settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("format", transferFormatCombo->currentIndex());
     settings.insert("gain", gain);
-    settings.insert("targetTemperature", temperatureIN->value());
+    settings.insert("temperature", temperatureIN->value());
 
     return settings;
 }
@@ -6366,21 +6366,21 @@ void Capture::setSettings(const QJsonObject &settings)
     int bin = settings["bin"].toInt(1);
     setBinning(bin, bin);
 
-    double temperature = settings["temperature"].toDouble(Ekos::INVALID_VALUE);
-    if (temperature != Ekos::INVALID_VALUE && currentCCD && currentCCD->hasCoolerControl())
+    double temperature = settings["temperature"].toDouble(100);
+    if (temperature < 100 && currentCCD && currentCCD->hasCoolerControl())
     {
         setForceTemperature(true);
         setTargetTemperature(temperature);
     }
 
-    double gain = settings["gain"].toDouble(Ekos::INVALID_VALUE);
-    if (gain != Ekos::INVALID_VALUE && gain >= 0 && currentCCD && currentCCD->hasGain())
+    double gain = settings["gain"].toDouble(-1);
+    if (gain >= 0 && currentCCD && currentCCD->hasGain())
     {
         setGain(gain);
     }
 
-    int format = settings["format"].toInt(Ekos::INVALID_VALUE);
-    if (format != Ekos::INVALID_VALUE)
+    int format = settings["format"].toInt(-1);
+    if (format >= 0)
     {
         transferFormatCombo->setCurrentIndex(format);
     }
