@@ -28,6 +28,7 @@ enum COMMANDS
     GET_DRIVERS,
     NEW_CONNECTION_STATE,
     NEW_MOUNT_STATE,
+    NEW_CAMERA_STATE,
     NEW_CAPTURE_STATE,
     NEW_GUIDE_STATE,
     NEW_FOCUS_STATE,
@@ -63,6 +64,7 @@ enum COMMANDS
     // Capture
     CAPTURE_PREVIEW,
     CAPTURE_TOGGLE_VIDEO,
+    CAPTURE_TOGGLE_CAMERA,
     CAPTURE_START,
     CAPTURE_STOP,
     CAPTURE_GET_SEQUENCES,
@@ -161,6 +163,7 @@ static QMap<COMMANDS, QString> const commands =
     {GET_DRIVERS, "get_drivers"},
     {NEW_CONNECTION_STATE, "new_connection_state"},
     {NEW_MOUNT_STATE, "new_mount_state"},
+    {NEW_CAMERA_STATE, "new_camera_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
@@ -193,6 +196,7 @@ static QMap<COMMANDS, QString> const commands =
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
+    {CAPTURE_TOGGLE_CAMERA, "capture_toggle_camera"},
     {CAPTURE_START, "capture_start"},
     {CAPTURE_STOP, "capture_stop"},
     {CAPTURE_GET_SEQUENCES, "capture_get_sequences"},

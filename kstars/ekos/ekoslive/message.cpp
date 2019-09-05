@@ -254,6 +254,31 @@ void Message::sendCameras()
 
     sendResponse(commands[GET_CAMERAS], cameraList);
 
+    // Send initial state as well.
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
+    {
+        ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
+        QJsonObject state = {{"name", oneCCD->getDeviceName()}};
+        double value = 0;
+
+        if (oneCCD->canCool())
+        {
+            oneCCD->getTemperature(&value);
+            state["temperature"] = value;
+        }
+        if (oneCCD->hasGain())
+        {
+            oneCCD->getGain(&value);
+            state["gain"] = value;
+        }
+        if (oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex() >= 0)
+        {
+            state["iso"] = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex();
+        }
+
+        sendResponse(commands[NEW_CAMERA_STATE], state);
+    }
+
     if (m_Manager->captureModule())
         sendCaptureSettings(m_Manager->captureModule()->getSettings());
 }
@@ -436,10 +461,10 @@ void Message::sendTemperature(double value)
     QJsonObject temperature =
     {
         {"name", oneCCD->getDeviceName()},
-        {"value", value}
+        {"temperature", value}
     };
 
-    sendResponse(commands[NEW_TEMPERATURE], temperature);
+    sendResponse(commands[NEW_CAMERA_STATE], temperature);
 }
 
 void Message::sendFilterWheels()
@@ -488,6 +513,11 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     {
         setCaptureSettings(payload);
         capture->captureOne();
+    }
+    else if (command == commands[CAPTURE_TOGGLE_CAMERA])
+    {
+        capture->setCamera(payload["camera"].toString());
+        sendCaptureSettings(capture->getSettings());
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
