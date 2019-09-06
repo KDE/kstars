@@ -18,6 +18,10 @@
 #include "indi/drivermanager.h"
 #include "oal/equipmentwriter.h"
 
+#include "ekos_debug.h"
+
+#include <QNetworkInterface>
+
 ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -71,6 +75,8 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
         delete equipmentdlg;
         loadScopeEquipment();
     });
+
+    connect(ui->scanB, &QPushButton::clicked, this, &ProfileEditor::scanNetwork);
 
 #ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
@@ -999,4 +1005,89 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->aux2Combo->setCurrentText(profile["aux2"].toString("--"));
     ui->aux3Combo->setCurrentText(profile["aux3"].toString("--"));
     ui->aux4Combo->setCurrentText(profile["aux4"].toString("--"));
+}
+
+void ProfileEditor::scanNetwork()
+{
+    delete (m_ProgressDialog);
+    m_ProgressDialog = new QProgressDialog(this);
+    m_ProgressDialog->setWindowTitle(i18n("Scanning Network"));
+    m_ProgressDialog->setLabelText(i18n("Scanning network for INDI Web Managers..."));
+    connect(m_ProgressDialog, &QProgressDialog::canceled, this, [this]()
+    {
+        m_CancelScan = true;
+        clearAllRequests();
+    });
+    m_ProgressDialog->setMinimum(0);
+    m_ProgressDialog->setMaximum(0);
+    m_ProgressDialog->show();
+    m_ProgressDialog->raise();
+
+    m_CancelScan = false;
+
+    QList<QHostAddress> addresses = QNetworkInterface::allAddresses();
+    std::sort(addresses.begin(), addresses.end(), [](const QHostAddress & a, const QHostAddress & b) -> bool
+    { return a.toString() < b.toString();});
+
+    for(QHostAddress address : addresses)
+    {
+        if (address.isLoopback() || address.protocol() & QAbstractSocket::IPv6Protocol)
+            continue;
+
+        QString ipv4 = address.toString();
+
+        if (ipv4.startsWith("10.250"))
+        {
+            scanIP("10.250.250.1");
+        }
+        else
+        {
+            QString prefixIP = ipv4.remove(ipv4.lastIndexOf("."), 10);
+            // Blind search all over subnet
+            // TODO better subnet detection instead of assuming it finishes at 254
+            for (int i = 1; i <= 254; i++)
+            {
+                scanIP(prefixIP + "." + QString::number(i));
+            }
+        }
+    }
+
+}
+
+void ProfileEditor::scanIP(const QString &ip)
+{
+    QUrl url(QString("http://%1:8624/api/server/status").arg(ip));
+
+    qCDebug(KSTARS_EKOS) << "Scanning" << url;
+
+    QNetworkReply *response = m_Manager.get(QNetworkRequest(url));
+    m_Replies.append(response);
+    connect(response, &QNetworkReply::finished, [this, response, ip]()
+    {
+        m_Replies.removeOne(response);
+        response->deleteLater();
+        if (m_CancelScan)
+            return;
+        if (response->error() == QNetworkReply::NoError)
+        {
+            clearAllRequests();
+            m_ProgressDialog->close();
+            ui->remoteHost->setText(ip);
+
+            qCDebug(KSTARS_EKOS) << "Found Web Manager server at" << ip;
+
+            KSNotification::info(i18n("Found INDI Web Manager at %1", ip));
+        }
+    });
+}
+
+void ProfileEditor::clearAllRequests()
+{
+    for (QNetworkReply *oneReply : m_Replies)
+    {
+        oneReply->abort();
+        oneReply->deleteLater();
+    }
+
+    m_Replies.clear();
 }

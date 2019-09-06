@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
+    <width>424</width>
     <height>370</height>
    </rect>
   </property>
@@ -73,19 +73,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="loadSiteCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Load current site settings when Ekos is online. This option should only be used when connecting to a remote geographic site.</string>
-          </property>
-          <property name="text">
-           <string>Site Info</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -98,11 +85,24 @@
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QCheckBox" name="loadSiteCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Load current site settings when Ekos is online. This option should only be used when connecting to a remote geographic site.</string>
+          </property>
+          <property name="text">
+           <string>Site Info</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="2" column="8">
+        <item row="2" column="9">
          <widget class="QLineEdit" name="INDIWebManagerPort">
           <property name="enabled">
            <bool>false</bool>
@@ -121,7 +121,26 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="7">
+        <item row="2" column="7">
+         <widget class="QPushButton" name="scanB">
+          <property name="toolTip">
+           <string>Scan local network for INDI web managers.</string>
+          </property>
+          <property name="text">
+           <string>Scan</string>
+          </property>
+          <property name="icon">
+           <iconset theme="search"/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="8">
          <widget class="QLabel" name="remotePortLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -131,10 +150,137 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="6">
+        <item row="0" column="9">
+         <widget class="QLineEdit" name="remotePort">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Remote INDI Server Port</string>
+          </property>
+          <property name="text">
+           <string>7624</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="guidingTypeLabel">
+          <property name="text">
+           <string>Guiding:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="8">
+         <widget class="QLabel" name="INDIWebManagerPortLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Port:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="8">
+         <widget class="QLabel" name="externalGuidePortLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Port:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="9">
+         <widget class="QLineEdit" name="externalGuidePort">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="modeLabel">
+          <property name="text">
+           <string>Mode:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QComboBox" name="guideTypeCombo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>Internal</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>PHD2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>LinGuider</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QCheckBox" name="INDIWebManagerCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.</string>
+          </property>
+          <property name="text">
+           <string>INDI Web Manager</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="localMode">
+          <property name="text">
+           <string>&amp;Local</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="remoteMode">
+          <property name="text">
+           <string>Re&amp;mote</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3" colspan="4">
          <widget class="QPushButton" name="openWebManagerB">
           <property name="enabled">
            <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
           <property name="toolTip">
            <string>Open Web Manager in browser</string>
@@ -154,31 +300,17 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="guidingTypeLabel">
-          <property name="text">
-           <string>Guiding:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="7">
-         <widget class="QLabel" name="INDIWebManagerPortLabel">
+        <item row="1" column="3">
+         <widget class="QLabel" name="externalGuideHostLabel">
           <property name="enabled">
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Port:</string>
+           <string>Host:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="modeLabel">
-          <property name="text">
-           <string>Mode:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
+        <item row="0" column="3">
          <widget class="QLabel" name="remoteHostLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -188,75 +320,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="8">
-         <widget class="QLineEdit" name="externalGuidePort">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="5">
-         <widget class="QCheckBox" name="INDIWebManagerCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.</string>
-          </property>
-          <property name="text">
-           <string>INDI Web Manager</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="8">
-         <widget class="QLineEdit" name="remotePort">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Remote INDI Server Port</string>
-          </property>
-          <property name="text">
-           <string>7624</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="6">
-         <widget class="QLineEdit" name="externalGuideHost">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>localhost</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3" colspan="2">
-         <widget class="QRadioButton" name="remoteMode">
-          <property name="text">
-           <string>Re&amp;mote</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
+        <item row="0" column="4" colspan="4">
          <widget class="QLineEdit" name="remoteHost">
           <property name="enabled">
            <bool>false</bool>
@@ -272,53 +336,20 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="5">
-         <widget class="QLabel" name="externalGuideHostLabel">
+        <item row="1" column="4" colspan="4">
+         <widget class="QLineEdit" name="externalGuideHost">
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="text">
-           <string>Host:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="7">
-         <widget class="QLabel" name="externalGuidePortLabel">
-          <property name="enabled">
-           <bool>false</bool>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
           <property name="text">
-           <string>Port:</string>
+           <string>localhost</string>
           </property>
-         </widget>
-        </item>
-        <item row="0" column="1" colspan="2">
-         <widget class="QRadioButton" name="localMode">
-          <property name="text">
-           <string>&amp;Local</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="4">
-         <widget class="QComboBox" name="guideTypeCombo">
-          <item>
-           <property name="text">
-            <string>Internal</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>PHD2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>LinGuider</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -715,7 +746,6 @@
  <tabstops>
   <tabstop>profileIN</tabstop>
   <tabstop>localMode</tabstop>
-  <tabstop>remoteMode</tabstop>
   <tabstop>remoteHost</tabstop>
   <tabstop>remotePort</tabstop>
   <tabstop>INDIWebManagerCheck</tabstop>
