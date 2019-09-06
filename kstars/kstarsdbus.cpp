@@ -237,6 +237,24 @@ void KStars::drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*spee
     //Draw a line on the skymap display
 }
 
+QString KStars::location()
+{
+    GeoLocation *currentLocation = data()->geo();
+
+    QJsonObject locationInfo =
+    {
+        {"name", currentLocation->name()},
+        {"province", currentLocation->province()},
+        {"country", currentLocation->country()},
+        {"longitude", currentLocation->lng()->Degrees()},
+        {"latitude", currentLocation->lat()->Degrees()},
+        {"tz0", currentLocation->TZ0()},
+        {"tz", currentLocation->TZ()}
+    };
+
+    return QJsonDocument(locationInfo).toJson(QJsonDocument::Compact);
+}
+
 bool KStars::setGeoLocation(const QString &city, const QString &province, const QString &country)
 {
     //Set the geographic location
