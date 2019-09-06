@@ -3401,10 +3401,10 @@ void Guide::initConnections()
                            showGuideRateToolTipB);
     });
 
-
     connect(manualDitherB, &QPushButton::clicked, this, &Guide::handleManualDither);
 
     // Guiding Rate - Advisory only
+    onInfoRateChanged(spinBox_GuideRate->value());
     connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::onInfoRateChanged);
 }
 
