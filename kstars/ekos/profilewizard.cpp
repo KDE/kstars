@@ -75,8 +75,12 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     {
         wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT_SELECTION);
     });
+    equipmentStellarmateB->setIcon(QIcon(":/icons/stellarmate.svg"));
     connect(equipmentStellarmateB, &QPushButton::clicked, this, &ProfileWizard::processRemoteEquipmentSelection);
+
+    equipmentAtikbaseB->setIcon(QIcon(":/icons/atikbase.svg"));
     connect(equipmentAtikbaseB, &QPushButton::clicked, this, &ProfileWizard::processRemoteEquipmentSelection);
+
     connect(equipmentOtherB, &QPushButton::clicked, this, &ProfileWizard::processRemoteEquipmentSelection);
 
     // Remote Equipment Action
@@ -303,7 +307,7 @@ void ProfileWizard::detectStellarMateTimeout()
 
 void ProfileWizard::processRemoteEquipmentSelection()
 {
-    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    QToolButton *button = qobject_cast<QToolButton*>(sender());
     if (!button)
         return;
 
