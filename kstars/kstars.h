@@ -370,6 +370,19 @@ class KStars : public KXmlGuiWindow
              */
         Q_SCRIPTABLE bool setGeoLocation(const QString &city, const QString &province, const QString &country);
 
+        /**
+         * @brief location Returns a JSON Object (as string) that contains the following information:
+         * name: String
+         * province: String
+         * country: String
+         * longitude: Double (-180 to +180)
+         * latitude: Double (-90 to +90)
+         * tz0 (Time zone without DST): Double
+         * tz (Time zone with DST): Double
+         * @return Stringified JSON object as described above.
+         */
+        Q_SCRIPTABLE QString location();
+
         /** DBUS interface function.  Set the GPS geographic location.
              * @param longitude longitude in degrees (-180 West to +180 East)
              * @param latitude latitude in degrees (-90 South to +90 North)

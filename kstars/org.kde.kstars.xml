@@ -99,6 +99,9 @@
       <arg name="country" type="s" direction="in"/>
       <arg type="b" direction="out"/>
     </method>
+    <method name="location">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="setGPSLocation">
       <arg name="longitude" type="d" direction="in"/>
       <arg name="latitude" type="d" direction="in"/>
