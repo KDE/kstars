@@ -16,6 +16,9 @@
 #include <QFrame>
 #include <QString>
 #include <QStringList>
+#include <QPointer>
+#include <QProgressDialog>
+#include <QNetworkAccessManager>
 
 class ProfileInfo;
 class QStandardItemModel;
@@ -60,12 +63,21 @@ class ProfileEditor : public QDialog
 
     private slots:
         void updateGuiderSelection(int id);
+        void scanNetwork();
 
     private:
         QString getTooltip(DriverInfo *dv);
+        void scanIP(const QString &ip);
+        void clearAllRequests();
 
         ProfileEditorUI *ui { nullptr };
         ProfileInfo *pi { nullptr };
         QList<OAL::Scope *> m_scopeList;
         QStandardItemModel *m_MountModel { nullptr };
+
+        QPointer<QProgressDialog> m_ProgressDialog;
+        QNetworkAccessManager m_Manager;
+        QList<QNetworkReply*> m_Replies;
+
+        bool m_CancelScan { false };
 };
