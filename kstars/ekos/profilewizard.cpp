@@ -91,7 +91,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 #ifdef Q_OS_WIN
     // Auto Detect does not work on Windows yet for some reason.
     // Packet is sent correctly, but no replies are received from anything on the LAN outside of PC.
-    stellarMateAutoDetectB->setEnabled(false);
+    PiAutoDetectB->setEnabled(false);
 #else
     connect(PiAutoDetectB, SIGNAL(clicked()), this, SLOT(detectStellarMate()));
 #endif
