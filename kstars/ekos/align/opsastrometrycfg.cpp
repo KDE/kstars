@@ -33,6 +33,10 @@ OpsAstrometryCfg::OpsAstrometryCfg(Align *parent) : QDialog(KStars::Instance())
     connect(removeIndexFilePath, SIGNAL(clicked()), this, SLOT(slotRemoveAstrometryIndexFileLocation()));
 
     connect(AstrometryIndexFileLocations, &QListWidget::itemDoubleClicked, this, &OpsAstrometryCfg::slotClickAstrometryIndexFileLocation);
+    connect(AstrometryIndexFileLocations, &QListWidget::itemActivated, this, [this]()
+    {
+        removeIndexFilePath->setEnabled(AstrometryIndexFileLocations->selectedItems().count() > 0);
+    });
 
     slotLoadCFG();
 }
@@ -79,7 +83,7 @@ void OpsAstrometryCfg::slotLoadCFG()
     confFile.close();
     AstrometryIndexFileLocations->clear();
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    for(QString astrometryDataDir:astrometryDataDirs)
+    for(QString astrometryDataDir : astrometryDataDirs)
     {
         QListWidgetItem *item = new QListWidgetItem(astrometryDataDir);
         item->setIcon(QIcon::fromTheme("stock_folder"));
@@ -101,18 +105,18 @@ void OpsAstrometryCfg::slotAddAstrometryIndexFileLocation()
 
 void OpsAstrometryCfg::slotRemoveAstrometryIndexFileLocation()
 {
-    if(AstrometryIndexFileLocations->selectedItems().count() == 0)
-    {
-        KSNotification::error(i18n("Please select an Index Path to remove first."));
+    const QString folder = AstrometryIndexFileLocations->selectedItems().first()->text();
+    if (KMessageBox::questionYesNo(nullptr, i18n("Are you sure you want to remove %1 folder from astrometry configuration?", folder))
+            == KMessageBox::No)
         return;
-    }
-    KSUtils::removeAstrometryDataDir(AstrometryIndexFileLocations->selectedItems().first()->text());
+
+    KSUtils::removeAstrometryDataDir(folder);
     slotLoadCFG();
 }
 
 void OpsAstrometryCfg::slotClickAstrometryIndexFileLocation(QListWidgetItem *item)
 {
-    if(AstrometryIndexFileLocations->count()==0)
+    if(AstrometryIndexFileLocations->count() == 0)
         return;
     QUrl path = QUrl::fromLocalFile(item->text());
     QDesktopServices::openUrl(path);
