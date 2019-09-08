@@ -1407,14 +1407,15 @@ bool createLocalAstrometryConf()
 
 QString getAstrometryConfFilePath()
 {
-    if (Options::astrometryConfFileIsInternal())
 #if defined(Q_OS_LINUX)
+    if (Options::astrometryConfFileIsInternal())
         return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
 #elif defined(Q_OS_OSX)
+    if (Options::astrometryConfFileIsInternal())
         return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
 #endif
-    else
-        return Options::astrometryConfFile();
+
+    return Options::astrometryConfFile();
 }
 
 QStringList getAstrometryDataDirs()
