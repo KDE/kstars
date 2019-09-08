@@ -48,8 +48,6 @@ class OfflineAstrometryParser : public AstrometryParser
 
   private:
     bool astrometryNetOK();
-    bool createLocalAstrometryConf();
-    bool getAstrometryDataDir(QString &dataDir);
 
     QMap<float, QString> astrometryIndex;
     QString parity;

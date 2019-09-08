@@ -7,9 +7,11 @@
 #include "Options.h"
 #include "ksnotification.h"
 #include "ui_opsastrometrycfg.h"
+#include "kspaths.h"
 
 #include <KConfigDialog>
 #include <KMessageBox>
+#include <QFileDialog>
 
 namespace Ekos
 {
@@ -27,19 +29,22 @@ OpsAstrometryCfg::OpsAstrometryCfg(Align *parent) : QDialog(KStars::Instance())
     connect(astrometryCFGDisplay, SIGNAL(textChanged()), SLOT(slotCFGEditorUpdated()));
 
     connect(loadCFG, SIGNAL(clicked()), this, SLOT(slotLoadCFG()));
-    connect(setIndexFileB, SIGNAL(clicked()), this, SLOT(slotSetAstrometryIndexFileLocation()));
+    connect(addIndexFilePath, SIGNAL(clicked()), this, SLOT(slotAddAstrometryIndexFileLocation()));
+    connect(removeIndexFilePath, SIGNAL(clicked()), this, SLOT(slotRemoveAstrometryIndexFileLocation()));
 
+    connect(AstrometryIndexFileLocations, &QListWidget::itemDoubleClicked, this, &OpsAstrometryCfg::slotClickAstrometryIndexFileLocation);
+
+    slotLoadCFG();
+}
+
+void OpsAstrometryCfg::showEvent(QShowEvent *)
+{
     slotLoadCFG();
 }
 
 void OpsAstrometryCfg::slotLoadCFG()
 {
-    QString confPath;
-
-    if (Options::astrometryConfFileIsInternal())
-        confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
-    else
-        confPath = Options::astrometryConfFile();
+    QString confPath = KSUtils::getAstrometryConfFilePath();
 
     QFile confFile(confPath);
 
@@ -47,10 +52,22 @@ void OpsAstrometryCfg::slotLoadCFG()
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                   "configuration file full path in INDI options.",
-                                   Options::astrometryConfFile()));
-        return;
+        bool confFileExists = false;
+        if(Options::astrometryConfFileIsInternal())
+        {
+            if(KSUtils::configureLocalAstrometryConfIfNecessary())
+            {
+                if (confFile.open(QIODevice::ReadOnly))
+                    confFileExists = true;
+            }
+        }
+        if(!confFileExists)
+        {
+            KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+                                       "configuration file full path in INDI options.",
+                                       confPath));
+            return;
+        }
     }
 
     QTextStream in(&confFile);
@@ -60,26 +77,52 @@ void OpsAstrometryCfg::slotLoadCFG()
     astrometryCFGDisplay->setPlainText(currentCFGText);
 
     confFile.close();
+    AstrometryIndexFileLocations->clear();
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
+    for(QString astrometryDataDir:astrometryDataDirs)
+    {
+        QListWidgetItem *item = new QListWidgetItem(astrometryDataDir);
+        item->setIcon(QIcon::fromTheme("stock_folder"));
+        AstrometryIndexFileLocations->addItem(item);
+    }
 }
 
-void OpsAstrometryCfg::slotSetAstrometryIndexFileLocation()
+void OpsAstrometryCfg::slotAddAstrometryIndexFileLocation()
 {
-#ifdef Q_OS_OSX
-    KSUtils::setAstrometryDataDir(kcfg_AstrometryIndexFileLocation->text());
-#endif
+    QString dir =
+        QFileDialog::getExistingDirectory(KStars::Instance(), i18n("Index File Directory"), QDir::homePath());
+
+    if (dir.isEmpty())
+        return;
+
+    KSUtils::addAstrometryDataDir(dir);
     slotLoadCFG();
+}
+
+void OpsAstrometryCfg::slotRemoveAstrometryIndexFileLocation()
+{
+    if(AstrometryIndexFileLocations->selectedItems().count() == 0)
+    {
+        KSNotification::error(i18n("Please select an Index Path to remove first."));
+        return;
+    }
+    KSUtils::removeAstrometryDataDir(AstrometryIndexFileLocations->selectedItems().first()->text());
+    slotLoadCFG();
+}
+
+void OpsAstrometryCfg::slotClickAstrometryIndexFileLocation(QListWidgetItem *item)
+{
+    if(AstrometryIndexFileLocations->count()==0)
+        return;
+    QUrl path = QUrl::fromLocalFile(item->text());
+    QDesktopServices::openUrl(path);
 }
 
 void OpsAstrometryCfg::slotApply()
 {
     if (currentCFGText != astrometryCFGDisplay->toPlainText())
     {
-        QString confPath;
-
-        if (Options::astrometryConfFileIsInternal())
-            confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
-        else
-            confPath = Options::astrometryConfFile();
+        QString confPath = KSUtils::getAstrometryConfFilePath();
 
         QFile confFile(confPath);
         if (confFile.open(QIODevice::WriteOnly) == false)
@@ -91,12 +134,8 @@ void OpsAstrometryCfg::slotApply()
             confFile.close();
             KSNotification::info(i18n("Astrometry.cfg successfully saved."));
             currentCFGText = astrometryCFGDisplay->toPlainText();
-            QString astrometryDataDir;
-#ifdef Q_OS_OSX
-            KSUtils::getAstrometryDataDir(astrometryDataDir);
-#endif
-            if(astrometryDataDir != kcfg_AstrometryIndexFileLocation->text())
-                kcfg_AstrometryIndexFileLocation->setText(astrometryDataDir);
+            AstrometryIndexFileLocations->clear();
+            AstrometryIndexFileLocations->addItems(KSUtils::getAstrometryDataDirs());
         }
     }
 }

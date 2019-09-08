@@ -218,11 +218,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page = dialog->addPage(opsAstrometry, i18n("Solver Options"));
     page->setIcon(QIcon::fromTheme("configure"));
 
-#ifdef Q_OS_OSX
     opsAstrometryCfg = new OpsAstrometryCfg(this);
     page = dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
     page->setIcon(QIcon::fromTheme("document-edit"));
-#endif
 
 #ifndef Q_OS_WIN
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);

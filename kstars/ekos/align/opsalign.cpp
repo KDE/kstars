@@ -34,16 +34,17 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
     connect(SetupPython, SIGNAL(clicked()), this, SLOT(setupPython()));
 
-#ifdef Q_OS_OSX
-    connect(kcfg_AstrometrySolverIsInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
-    kcfg_AstrometrySolverIsInternal->setToolTip(i18n("Internal or External Plate Solver?"));
-    if (Options::astrometrySolverIsInternal())
-        kcfg_AstrometrySolverBinary->setEnabled(false);
 
     connect(kcfg_AstrometryConfFileIsInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
     kcfg_AstrometryConfFileIsInternal->setToolTip(i18n("Internal or External astrometry.cfg?"));
     if (Options::astrometryConfFileIsInternal())
         kcfg_AstrometryConfFile->setEnabled(false);
+
+#ifdef Q_OS_OSX
+    connect(kcfg_AstrometrySolverIsInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
+    kcfg_AstrometrySolverIsInternal->setToolTip(i18n("Internal or External Plate Solver?"));
+    if (Options::astrometrySolverIsInternal())
+        kcfg_AstrometrySolverBinary->setEnabled(false);
 
     connect(kcfg_AstrometryWCSIsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
     kcfg_AstrometryWCSIsInternal->setToolTip(i18n("Internal or External wcsinfo?"));
@@ -56,7 +57,6 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
 #else
     kcfg_AstrometrySolverIsInternal->setVisible(false);
-    kcfg_AstrometryConfFileIsInternal->setVisible(false);
     kcfg_AstrometryWCSIsInternal->setVisible(false);
 
     kcfg_UseDefaultPython->setVisible(false);

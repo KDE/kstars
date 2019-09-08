@@ -3,6 +3,7 @@
 
 #include "align.h"
 #include "kstars.h"
+#include "ksutils.h"
 #include "Options.h"
 #include "kspaths.h"
 #include "ksnotification.h"
@@ -48,9 +49,11 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
 
+    connect(indexLocations,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OpsAstrometryIndexFiles::slotUpdate);
+
     for (auto &checkBox : checkboxes)
     {
-        connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(downloadOrDeleteIndexFiles(bool)));
+        connect(checkBox, &QCheckBox::clicked, this,&OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles);
     }
 
     QList<QProgressBar *> progressBars = findChildren<QProgressBar *>();
@@ -85,11 +88,29 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
 {
+    QStringList astrometryDataDirs =KSUtils::getAstrometryDataDirs();
+
+    if (astrometryDataDirs.count() == 0)
+        return;
+    indexLocations->clear();
+    if(astrometryDataDirs.count()>1)
+        indexLocations->addItem("All Sources");
+    indexLocations->addItems(astrometryDataDirs);
     slotUpdate();
 }
 
 void OpsAstrometryIndexFiles::slotUpdate()
 {
+    QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
+
+    for (auto &checkBox : checkboxes)
+    {
+        checkBox->setChecked(false);
+    }
+
+    if(indexLocations->count()==0)
+        return;
+
     double fov_w, fov_h, fov_pixscale;
 
     // Values in arcmins. Scale in arcsec per pixel
@@ -99,45 +120,67 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     FOVOut->setText(QString("%1' x %2'").arg(QString::number(fov_w, 'f', 2), QString::number(fov_h, 'f', 2)));
 
-    QString astrometryDataDir;
-
-    if (getAstrometryDataDir(astrometryDataDir) == false)
-        return;
-
-    indexLocation->setText(astrometryDataDir);
-
     QStringList nameFilter("*.fits");
-    QDir directory(astrometryDataDir);
-    QStringList indexList = directory.entryList(nameFilter);
 
-    // JM 2018-09-26: Also add locally stored indexes.
-#ifdef Q_OS_LINUX
-    QDir localAstrometry(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
-    indexList << localAstrometry.entryList(nameFilter);
-#endif
+    if (Options::astrometrySolverIsInternal())
+        KSUtils::configureLocalAstrometryConfIfNecessary();
 
-    for (auto &indexName : indexList)
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();;
+
+    bool allDirsSelected = (indexLocations->currentIndex() == 0 && astrometryDataDirs.count() > 1);
+    bool folderIsWriteable;
+
+    QStringList astrometryDataDirsToIndex;
+
+    if(allDirsSelected)
     {
-#ifdef Q_OS_LINUX
-        if (fileCountMatches(directory, indexName) || fileCountMatches(localAstrometry, indexName))
-#else
-        if (fileCountMatches(directory, indexName))
-#endif
+        folderDetails->setText(i18n("Downloads Disabled, this is not a directory, it is a list of all index files."));
+        folderIsWriteable = false;
+        astrometryDataDirsToIndex = astrometryDataDirs;
+        openIndexFileDirectory->setEnabled(false);
+    }
+    else
+    {
+        QString folderPath = indexLocations->currentText();
+        folderIsWriteable = QFileInfo(folderPath).isWritable();
+        if(folderIsWriteable)
+            folderDetails->setText(i18n("Downloads Enabled, the directory exists and is writeable."));
+        else
+            folderDetails->setText(i18n("Downloads Disabled, directory permissions issue."));
+        if(!QFileInfo(folderPath).exists())
+            folderDetails->setText(i18n("Downloads Disabled, directory does not exist."));
+        astrometryDataDirsToIndex << folderPath;
+        openIndexFileDirectory->setEnabled(true);
+    }
+    folderDetails->setCursorPosition(0);
 
+    //This loop checks all the folders that are supposed to be checked for the files
+    //It checks the box if it finds them
+    for(QString astrometryDataDir:astrometryDataDirsToIndex)
+    {
+        QDir directory(astrometryDataDir);
+        QStringList indexList = directory.entryList(nameFilter);
+
+        for (auto &indexName : indexList)
         {
-            indexName                = indexName.replace('-', '_').left(10);
-            QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
-            if (indexCheckBox)
-                indexCheckBox->setChecked(true);
+            if (fileCountMatches(directory, indexName))
+            {
+                indexName                = indexName.replace('-', '_').left(10);
+                QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
+                if (indexCheckBox)
+                    indexCheckBox->setChecked(true);
+            }
         }
     }
 
-    QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
+
 
     for (auto &checkBox : checkboxes)
     {
+        checkBox->setEnabled(folderIsWriteable);
         checkBox->setIcon(QIcon(":/icons/astrometry-optional.svg"));
         checkBox->setToolTip(i18n("Optional"));
+        checkBox->setStyleSheet("");
     }
 
     float last_skymarksize = 2;
@@ -182,6 +225,26 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
         last_skymarksize = skymarksize;
     }
+
+    //This loop goes over all the directories and adds a stylesheet to change the look of the checkbox text
+    //if the File is installed in any directory.  Note that this indicator is then used below in the
+    //Index File download function to check if they really want to do install a file that is installed.
+    for(QString astrometryDataDir:astrometryDataDirs)
+    {
+        QDir directory(astrometryDataDir);
+        QStringList indexList = directory.entryList(nameFilter);
+
+        for (auto &indexName : indexList)
+        {
+            if (fileCountMatches(directory, indexName))
+            {
+                indexName                = indexName.replace('-', '_').left(10);
+                QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
+                if (indexCheckBox)
+                    indexCheckBox->setStyleSheet("QCheckBox{font-weight: bold; color:green}");
+            }
+        }
+    }
 }
 
 bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName)
@@ -200,50 +263,10 @@ bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName
 
 void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
 {
-    QString astrometryDataDir;
-    if (getAstrometryDataDir(astrometryDataDir) == false)
+    if(indexLocations->count()==0)
         return;
-    QUrl path = QUrl::fromLocalFile(astrometryDataDir);
+    QUrl path = QUrl::fromLocalFile(indexLocations->currentText());
     QDesktopServices::openUrl(path);
-}
-
-bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
-{
-    QString confPath;
-
-    if (Options::astrometryConfFileIsInternal())
-        confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
-    else
-        confPath = Options::astrometryConfFile();
-
-    QFile confFile(confPath);
-
-    if (confFile.open(QIODevice::ReadOnly) == false)
-    {
-        KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                   "configuration file full path in INDI options.",
-                                   Options::astrometryConfFile()));
-        return false;
-    }
-
-    QTextStream in(&confFile);
-    QString line;
-    while (!in.atEnd())
-    {
-        line = in.readLine();
-        if (line.isEmpty() || line.startsWith('#'))
-            continue;
-
-        line = line.trimmed();
-        if (line.startsWith(QLatin1String("add_path")))
-        {
-            dataDir = line.mid(9).trimmed();
-            return true;
-        }
-    }
-
-    KSNotification::error(i18n("Unable to find data dir in astrometry configuration file."));
-    return false;
 }
 
 bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
@@ -421,7 +444,6 @@ void OpsAstrometryIndexFiles::setDownloadInfoVisible(QString indexSeriesName, QC
         indexDownloadCancel->setVisible(set);
     if (indexDownloadPerc)
         indexDownloadPerc->setVisible(set);
-    checkBox->setEnabled(!set);
 }
 void OpsAstrometryIndexFiles::disconnectDownload(QMetaObject::Connection *cancelConnection, QMetaObject::Connection *replyConnection, QMetaObject::Connection *percentConnection)
 {
@@ -437,23 +459,35 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 {
     QCheckBox *checkBox = qobject_cast<QCheckBox *>(QObject::sender());
 
-    QString astrometryDataDir;
-    if (getAstrometryDataDir(astrometryDataDir) == false)
+    if (indexLocations->count() == 0)
         return;
+
+    QString astrometryDataDir = indexLocations->currentText();
+    if(!QFileInfo(astrometryDataDir).exists())
+    {
+        KSNotification::sorry(i18n("The selected Index File directory does not exist.  Please either create it or choose another."));
+    }
 
     if (checkBox)
     {
         QString indexSeriesName = checkBox->text().remove('&');
-#ifdef Q_OS_LINUX
-        QString filePath        = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + '/' + indexSeriesName;
-#else
         QString filePath        = astrometryDataDir + '/' + indexSeriesName;
-#endif
         QString fileNumString   = indexSeriesName.mid(8, 2);
         int indexFileNum        = fileNumString.toInt();
 
         if (checked)
         {
+            if(checkBox->styleSheet() != "") //This means that the checkbox has a stylesheet so the index file was installed someplace.
+            {
+                if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(
+                            nullptr, i18n("The file %1 already exists in another directory.  Are you sure you want to download it to this directory as well?", indexSeriesName),
+                            i18n("Install File(s)"), KStandardGuiItem::cont(),
+                            KStandardGuiItem::cancel(), "install_index_files_warning"))
+                {
+                    slotUpdate();
+                    return;
+                }
+            }
             checkBox->setChecked(!checked);
             if (astrometryIndicesAreAvailable())
             {
@@ -486,8 +520,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                         i18n("Delete File(s)"), KStandardGuiItem::cont(),
                         KStandardGuiItem::cancel(), "delete_index_files_warning"))
             {
-                bool filesDeleted = false;
-                // Try to delete local files first
+                if (QFileInfo(astrometryDataDir).isWritable())
                 {
                     QStringList nameFilter("*.fits");
                     QDir directory(astrometryDataDir);
@@ -502,37 +535,14 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                                 slotUpdate();
                                 return;
                             }
-
-                            filesDeleted = true;
+                            slotUpdate();
                         }
                     }
                 }
-
-                if (filesDeleted)
+                else
                 {
-                    if (QFileInfo(astrometryDataDir).isWritable())
-                    {
-                        QStringList nameFilter("*.fits");
-                        QDir directory(astrometryDataDir);
-                        QStringList indexList = directory.entryList(nameFilter);
-                        for (auto &fileName : indexList)
-                        {
-                            if (fileName.contains(indexSeriesName.left(10)))
-                            {
-                                if (!directory.remove(fileName))
-                                {
-                                    KSNotification::error(i18n("File Delete Error"));
-                                    slotUpdate();
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        KSNotification::error(i18n("Astrometry Folder Permissions Error"));
-                        slotUpdate();
-                    }
+                    KSNotification::error(i18n("Astrometry Folder Permissions Error"));
+                    slotUpdate();
                 }
             }
         }
