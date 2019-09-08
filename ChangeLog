@@ -4,6 +4,90 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.3.5 (Eridani):
+
+31f986600 2019-09-08 Jasem Mutlaq         Add confirmation when deleting index folder, improve GUI a bit
+53305c7ee 2019-09-08 Robert Lancaster     Improving Astrometry Conf file support for Linux and OS X
+0a3661c78 2019-09-06 Jasem Mutlaq         Add indi web manager scanner for the local network in the profile editor
+09156232e 2019-09-06 Jasem Mutlaq         Adding icon for atikbase
+c582e031a 2019-09-06 Jasem Mutlaq         Initilize the recommended gain properly on startup.
+f5db90ab0 2019-09-06 Jasem Mutlaq         Add DBus function to get location info
+3973c3b89 2019-09-05 Jasem Mutlaq         Improvements is estimateJobTime
+fad803969 2019-09-05 Jasem Mutlaq         Send camera state instead of just temperature
+423c190cf 2019-09-05 Jasem Mutlaq         Do not set temperature or gain unless supported
+c4541528e 2019-09-04 Jasem Mutlaq         Send states after defining the device capabilities
+9da186174 2019-09-04 Jasem Mutlaq         Do not exclude Windows from testing. The windows build was failing due to another reason
+361a0163e 2019-09-04 Jasem Mutlaq         processMarkSelection should be overridden in align view to prevent double clicking from moving the marker by mistake
+61ae6f3fc 2019-09-04 Jasem Mutlaq         Fix few warnings
+db6aba4a6 2019-09-04 Jasem Mutlaq         Improve set coordinates manually by adding switches for JNow and J2000 settings
+c169fdaec 2019-09-04 Jasem Mutlaq         Set coordinates manually should always default to RA-DE tab
+db6742a36 2019-09-04 Jasem Mutlaq         Do not report guiding as started in PHD2::StartGuiding Event handler because it will start scheduled capture prematurely (before Settle is complete).
+a196bf114 2019-09-04 Jasem Mutlaq         Use table for statistics to show all channels
+c58562e35 2019-09-04 Jasem Mutlaq         No need to use double for frequency
+048dd2ea4 2019-09-04 Laurent Montel       Add DesktopEntry to notifyrc
+8d96f935b 2019-09-04 Jasem Mutlaq         Compute histogram is median value is missing
+c04e9f588 2019-09-04 Jasem Mutlaq         Median value should be an integer
+c2d379f95 2019-09-03 Jasem Mutlaq         In case setting is missing, use camera value
+a5c088c0a 2019-09-03 Jasem Mutlaq         Use generate_export_header to fix compile issue on Windows
+9dc806afa 2019-09-03 Jasem Mutlaq         Send settings along with camera info
+59cc4f96c 2019-09-03 Jasem Mutlaq         Disable actions when parked
+83a9b0600 2019-09-02 Jasem Mutlaq         Use icons for the menu
+12c89412c 2019-09-02 Jasem Mutlaq         Use more intuitive telescope popup menu in the sky map
+872f2354b 2019-09-02 Wolfgang Reissenberger Display of weather sensor data added to Observatory module
+9c9dd4140 2019-09-02 Jasem Mutlaq         Insert format and gain values in the settings
+abf0ec3a4 2019-09-01 Yuri Chornoivan      Sync the tip with GUI label
+861b1866c 2019-08-31 Jasem Mutlaq         Improve set coordinates manually dialog by initializing it to the current selected coordinates first
+299c60b74 2019-08-31 Jasem Mutlaq         Set clicked object to nullptr in order to correctly recenter on clicked point
+1a1185841 2019-08-31 Jasem Mutlaq         INDI drivers sync
+1a77e6822 2019-08-31 Jasem Mutlaq         Minor UI changes
+54b7ed8e7 2019-08-31 Yuri Chornoivan      Fix minor EBN issues
+a8dd7687c 2019-08-31 Wolfgang Reissenberger Adding error handling strategy control to Scheduler
+cc05215c5 2019-08-31 Wolfgang Reissenberger Filename options selection preserved
+69fb7e9a8 2019-08-31 Jasem Mutlaq         Try disabling testing on Windows
+df36c16f5 2019-08-30 Jasem Mutlaq         Further improvements to the auto-park functionality
+8f4ed5f74 2019-08-30 Jasem Mutlaq         Add support to automatically starting auto-park feature on startup to park the mount at a specific time
+a99fd95aa 2019-08-30 Yuri Chornoivan      Replace the last overlooked qSort()
+9a3ab3221 2019-08-30 Yuri Chornoivan      Replace obsolete methods with non-obsolete ones
+60332d1e4 2019-08-30 Yuri Chornoivan      Fix typos, make the button tooltips translatable
+7c873442b 2019-08-30 Yuri Chornoivan      Make the tooltips translatable
+ebdfc0eb5 2019-08-30 Yuri Chornoivan      Fix minor typo
+a4a1e0775 2019-08-29 Jasem Mutlaq         Add support to reverse axis in mount control panel
+848b15b2e 2019-08-29 Jasem Mutlaq         Add support to profile mappings
+a882598c6 2019-08-29 Yuri Chornoivan      Fix minor typos
+8ea9a8f0a 2019-08-29 Yuri Chornoivan      Fix i18n()
+b45556c5b 2019-08-29 Robert Lancaster     Should be fabs not abs, abs is ambiguous.
+55831a86c 2019-08-27 Jasem Mutlaq         NOOP --> i18n
+bef790752 2019-08-25 Jasem Mutlaq         Fix the Android build with the latest Qt, Android NDK and SDK tools
+ddbf38859 2019-08-25 Jasem Mutlaq         Add cr3 to list of RAW formats
+d7981710e 2019-08-24 Robert Lancaster     changing name to sky point
+0fa7df3d8 2019-08-23 Robert Lancaster     Fixing bug in Mount Model and Simplifying function
+4f006707e 2019-08-23 Jasem Mutlaq         Fix using i18n for Sun object
+e8b1be7ee 2019-08-23 Jasem Mutlaq         + Do not set m_wasSlewStarted explicity when issusing GOTO command. Wait for IPS_BUSY from mount driver. + Using Enums instead of string comprison f..
+4b19a3d44 2019-08-22 Jasem Mutlaq         Make display format in planet viewer to be dd/MM/yyyy
+7d7fbe0a5 2019-08-22 Jasem Mutlaq         Update install instructions
+669835dae 2019-08-22 Jasem Mutlaq         Preparing for 3.3.5 release
+5072faa20 2019-08-22 Jasem Mutlaq         Driver sync
+1b0d4b17c 2019-08-22 Jasem Mutlaq         Fix infinite loop
+0cb19ee3a 2019-08-21 Jasem Mutlaq         Profile wizard revamp to remove confusion by some end users
+1ee36d436 2019-08-21 Jasem Mutlaq         Update backlash value from driver as it arrives
+0e1d35d2a 2019-08-20 Jasem Mutlaq         Fix toggle of meridian flip unit
+1d0803895 2019-08-20 Jasem Mutlaq         Fix gain behavior setting in focus module. It should use value stored in config unless changed by user
+eb075bbed 2019-08-20 Jasem Mutlaq         Add support for direct gain setting in capture module
+82509989c 2019-08-20 Jasem Mutlaq         INDI drivers sync
+d83e7d82d 2019-08-19 Jasem Mutlaq         Fallback to default configs in case dns lookup fails for .local addresses
+7f4b8b10f 2019-08-19 Wolfgang Reissenberger Bugfix for focus looping with HFR setup
+151f405c5 2019-08-19 Hy Murveit           Sample the fits viewer's histogram calculation
+836679ea6 2019-08-19 Jasem Mutlaq         Make the meridian flip hour angle unit to be in degrees by default since this is a common settings used by many mounts. The meridian flip value is s..
+03a943060 2019-08-19 Jasem Mutlaq         Remove debug that was added by mistake
+e7de7ff60 2019-08-17 Jasem Mutlaq         Flip correction vector for southern hemisphere
+b197a2a0a 2019-08-15 Jasem Mutlaq         Set the exposure restart button as default since it was defaulting to record which should not be the case
+54d617fa4 2019-08-13 Jasem Mutlaq         Add support to setting backlash directly in Ekos focus module IF supported by the INDI driver.
+ce8e6c967 2019-08-13 Jasem Mutlaq         Check against device name and not pointer when removing
+5031aa100 2019-08-13 Jasem Mutlaq         Fix minor warning
+4add11efd 2019-08-13 Jasem Mutlaq         INDI drivers sync
+0e9825067 2019-08-11 Jasem Mutlaq         remove unnecessary debug message
+c395e4580 2019-08-11 Jasem Mutlaq         Adding support for debayer in video stream window
+
 3.3.4 (Dormi):
 
 d3323c608 2019-08-08 Jasem Mutlaq         Use i18nc for Not Applicable                                                                                                                          
