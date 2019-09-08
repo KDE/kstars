@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>768</width>
-    <height>852</height>
+    <height>888</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -188,26 +188,6 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_27">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the path to the folder for the Astrometry Index Files on your computer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Index Files Location: </string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="indexLocation">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the path to the folder for the Astrometry Index Files on your computer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="openIndexFileDirectory">
        <property name="toolTip">
@@ -218,7 +198,10 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="0" column="1">
+      <widget class="QComboBox" name="indexLocations"/>
+     </item>
+     <item row="2" column="0">
       <widget class="QLabel" name="label_28">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the current CCD field of view that will be used to calculate which index files are needed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -228,25 +211,39 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_27">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the path to the folder for the Astrometry Index Files on your computer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Index Files Location: </string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_31">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the current CCD field of view that will be used to calculate which index files are needed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Folder Details:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="folderDetails">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
       <widget class="QLineEdit" name="FOVOut">
        <property name="readOnly">
         <bool>true</bool>
        </property>
       </widget>
-     </item>
-     <item row="1" column="2">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>

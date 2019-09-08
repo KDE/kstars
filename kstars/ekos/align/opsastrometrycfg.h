@@ -19,9 +19,14 @@ class OpsAstrometryCfg : public QDialog, public Ui::OpsAstrometryCfg
     explicit OpsAstrometryCfg(Align *parent);
     virtual ~OpsAstrometryCfg() override = default;
 
+  protected:
+    void showEvent(QShowEvent *) override;
+
   private slots:
     void slotLoadCFG();
-    void slotSetAstrometryIndexFileLocation();
+    void slotAddAstrometryIndexFileLocation();
+    void slotRemoveAstrometryIndexFileLocation();
+    void slotClickAstrometryIndexFileLocation(QListWidgetItem *item);
     void slotApply();
     void slotCFGEditorUpdated();
 

@@ -1983,14 +1983,9 @@
          <whatsthis>Path to astrometry.net file location.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("AstrometryConfFile")</default>
       </entry>
-      <entry name="AstrometryIndexFileLocation" type="String">
-         <label>Astrometry.net Index files Location</label>
-         <whatsthis>Astrometry.net Index files Location.</whatsthis>
-         <default code="true">KSUtils::getDefaultPath("AstrometryIndexFileLocation")</default>
-      </entry>
       <entry name="AstrometryConfFileIsInternal" type="Bool">
          <label>Internal or External Astrometry.net Conf File?</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="UseDefaultPython" type="Bool">
          <label>Use the Default System Python Path</label>
