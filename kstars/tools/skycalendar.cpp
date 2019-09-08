@@ -82,7 +82,7 @@ SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
     plotButtonText = scUI->CreateButton->text();
     connect(scUI->CreateButton, &QPushButton::clicked, [this]()
     {
-        scUI->CreateButton->setText(i18n("Please Wait")+"...");
+        scUI->CreateButton->setText(i18n("Please Wait") + "...");
         QtConcurrent::run(this, &SkyCalendar::slotFillCalendar);
     });
 
@@ -95,8 +95,8 @@ int SkyCalendar::year()
 }
 
 void SkyCalendar::slotFillCalendar()
-{    
-    scUI->CreateButton->setEnabled(false);    
+{
+    scUI->CreateButton->setEnabled(false);
 
     scUI->CalendarView->resetPlot();
     scUI->CalendarView->setHorizon();
@@ -122,38 +122,38 @@ void SkyCalendar::slotFillCalendar()
     //if ( scUI->checkBox_Pluto->isChecked() )
     //addPlanetEvents( KSPlanetBase::PLUTO );
 
-/*
-  {
-    QMutexLocker locker(&calculationMutex);
+    /*
+      {
+        QMutexLocker locker(&calculationMutex);
 
-    calculating = false;
-    scUI->CreateButton->setEnabled(true);
-    scUI->CalendarView->update();
-  }
-  */
+        calculating = false;
+        scUI->CreateButton->setEnabled(true);
+        scUI->CalendarView->update();
+      }
+      */
 }
 
 #if 0
 void SkyCalendar::slotCalculating()
 {
-  while (calculating)
-  {
-    //QMutexLocker locker(&calculationMutex);
+    while (calculating)
+    {
+        //QMutexLocker locker(&calculationMutex);
 
-    if (!calculating)
-      continue;
+        if (!calculating)
+            continue;
 
-    scUI->CreateButton->setText(i18n("Please Wait")+".  ");
-    scUI->CreateButton->repaint();
-    QThread::msleep(200);
-    scUI->CreateButton->setText(i18n("Please Wait")+".. ");
-    scUI->CreateButton->repaint();
-    QThread::msleep(200);
+        scUI->CreateButton->setText(i18n("Please Wait") + ".  ");
+        scUI->CreateButton->repaint();
+        QThread::msleep(200);
+        scUI->CreateButton->setText(i18n("Please Wait") + ".. ");
+        scUI->CreateButton->repaint();
+        QThread::msleep(200);
 
-    scUI->CreateButton->repaint();
-    QThread::msleep(200);
-  }
-  scUI->CreateButton->setText(plotButtonText);
+        scUI->CreateButton->repaint();
+        QThread::msleep(200);
+    }
+    scUI->CreateButton->setText(plotButtonText);
 }
 #endif
 
@@ -185,10 +185,11 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
 {
     KSPlanetBase *ksp = KStarsData::Instance()->skyComposite()->planet(nPlanet);
     QColor pColor     = ksp->color();
-    QVector<QPointF> vRise, vSet, vTransit;
+    //QVector<QPointF> vRise, vSet, vTransit;
+    std::vector<QPointF> vRise, vSet, vTransit;
 
     for (KStarsDateTime kdt(QDate(year(), 1, 1), QTime(12, 0, 0)); kdt.date().year() == year();
-         kdt = kdt.addDays(scUI->spinBox_Interval->value()))
+            kdt = kdt.addDays(scUI->spinBox_Interval->value()))
     {
         float rTime, sTime, tTime;
 
@@ -242,9 +243,9 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
             tTime = -12.0 - tTime;
 
         float dy = kdt.date().daysInYear() - kdt.date().dayOfYear();
-        vRise << QPointF(rTime, dy);
-        vSet << QPointF(sTime, dy);
-        vTransit << QPointF(tTime, dy);
+        vRise.push_back(QPointF(rTime, dy));
+        vSet.push_back(QPointF(sTime, dy));
+        vTransit.push_back(QPointF(tTime, dy));
     }
 
     //Now, find continuous segments in each QVector and add each segment
@@ -275,7 +276,7 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
     }
     maxRiseTime = qFloor(maxRiseTime) - 1.0;
 
-    for (int i = 0; i < vRise.size(); ++i)
+    for (uint32_t i = 0; i < vRise.size(); ++i)
     {
         if (initialRise && (vRise.at(i).x() > defaultSetTime && vRise.at(i).x() < defaultRiseTime))
         {
