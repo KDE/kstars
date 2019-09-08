@@ -116,7 +116,7 @@ bool OfflineAstrometryParser::astrometryNetOK()
         KSUtils::configureLocalAstrometryConfIfNecessary();
 #if defined(Q_OS_LINUX)
         solverFileInfo = QFileInfo(Options::astrometrySolverBinary());
-#elif (Q_OS_OSX)
+#elif defined(Q_OS_OSX)
         solverFileInfo = QFileInfo(QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field");
 #endif
     }
