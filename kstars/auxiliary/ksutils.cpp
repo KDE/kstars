@@ -65,16 +65,14 @@ bool openDataFile(QFile &file, const QString &s)
 
 QString getDSSURL(const SkyPoint *const p)
 {
-    const DeepSkyObject *dso = nullptr;
     double height, width;
-
     double dss_default_size = Options::defaultDSSImageSize();
     double dss_padding      = Options::dSSPadding();
 
     Q_ASSERT(p);
     Q_ASSERT(dss_default_size > 0.0 && dss_padding >= 0.0);
 
-    dso = dynamic_cast<const DeepSkyObject *>(p);
+    const DeepSkyObject *dso = dynamic_cast<const DeepSkyObject *>(p);
 
     // Decide what to do about the height and width
     if (dso)
@@ -1084,7 +1082,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "indiServer")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return "/usr/local/bin/indiserver";
 #endif
         if (flat.isEmpty() == false)
@@ -1094,7 +1092,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "indiDriversDir")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return "/usr/local/share/indi";
 #elif defined(Q_OS_LINUX)
         if (flat.isEmpty() == false)
@@ -1107,7 +1105,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "AstrometrySolverBinary")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return "/usr/local/bin/solve-field";
 #endif
         if (flat.isEmpty() == false)
@@ -1117,7 +1115,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "AstrometryWCSInfo")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return "/usr/local/bin/wcsinfo";
 #endif
         if (flat.isEmpty() == false)
@@ -1127,7 +1125,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "AstrometryConfFile")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return "/usr/local/etc/astrometry.cfg";
 #endif
         if (flat.isEmpty() == false)
@@ -1137,7 +1135,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "AstrometryIndexFileLocation")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
 #endif
         if (flat.isEmpty() == false)
@@ -1147,7 +1145,7 @@ QString getDefaultPath(QString option)
     }
     else if (option == "XplanetPath")
     {
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
         return "/usr/local/bin/xplanet";
 #endif
         if (flat.isEmpty() == false)
@@ -1159,7 +1157,7 @@ QString getDefaultPath(QString option)
     return QString();
 }
 
-#ifdef Q_OS_OSX
+#if defined(Q_OS_OSX)
 //Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
 void copyResourcesFolderFromAppBundle(QString folder)
 {
@@ -1271,7 +1269,7 @@ bool replaceIndexFileNotYetSet()
         QByteArray fileContent = confFile.readAll();
         confFile.close();
         QString contents = QString::fromLatin1(fileContent);
-        contents.replace("IndexFileLocationNotYetSet",getDefaultPath("AstrometryIndexFileLocation"));
+        contents.replace("IndexFileLocationNotYetSet", getDefaultPath("AstrometryIndexFileLocation"));
 
         if (confFile.open(QIODevice::WriteOnly) == false)
         {
@@ -1325,15 +1323,14 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 //One is createLocalAstrometryConf and the other is configureAstrometry
 bool configureLocalAstrometryConfIfNecessary()
 {
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
     QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
     if (QFileInfo(confPath).exists() == false)
     {
         if(createLocalAstrometryConf() == false)
             return false;
     }
-
-#else //Mac
+#elif defined(Q_OS_OSX)
     if(configureAstrometry() == false)
     {
         KMessageBox::information(
@@ -1411,11 +1408,11 @@ bool createLocalAstrometryConf()
 QString getAstrometryConfFilePath()
 {
     if (Options::astrometryConfFileIsInternal())
-        #ifdef Q_OS_LINUX
-            return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
-        #else //Mac
-            return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
-        #endif
+#if defined(Q_OS_LINUX)
+        return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
+#elif defined(Q_OS_OSX)
+        return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
+#endif
     else
         return Options::astrometryConfFile();
 }
@@ -1461,7 +1458,7 @@ QStringList getAstrometryDataDirs()
             dataDirs << line.mid(9).trimmed();
         }
     }
-   // if(dataDirs.size()==0)
+    // if(dataDirs.size()==0)
     //    KSNotification::error(i18n("Unable to find data dir in astrometry configuration file."));
 
     return dataDirs;
@@ -1497,7 +1494,7 @@ bool addAstrometryDataDir(QString dataDir)
                 if (!foundSpot)
                 {
                     foundSpot = true;
-                    for(QString astrometryDataDir:astrometryDataDirs)
+                    for(QString astrometryDataDir : astrometryDataDirs)
                         contents += "add_path " + astrometryDataDir + '\n';
                     contents += "add_path " + dataDir + '\n';
                 }
@@ -1513,7 +1510,7 @@ bool addAstrometryDataDir(QString dataDir)
         }
         if(!foundSpot)
         {
-            for(QString astrometryDataDir:astrometryDataDirs)
+            for(QString astrometryDataDir : astrometryDataDirs)
                 contents += "add_path " + astrometryDataDir + '\n';
             contents += "add_path " + dataDir + '\n';
         }
