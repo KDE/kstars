@@ -114,11 +114,11 @@ bool OfflineAstrometryParser::astrometryNetOK()
     if (Options::astrometrySolverIsInternal())
     {
         KSUtils::configureLocalAstrometryConfIfNecessary();
-        #ifdef Q_OS_LINUX
-            solverFileInfo = QFileInfo(Options::astrometrySolverBinary());
-        #else //Mac
-            solverFileInfo = QFileInfo(QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field");
-        #endif
+#if defined(Q_OS_LINUX)
+        solverFileInfo = QFileInfo(Options::astrometrySolverBinary());
+#elif (Q_OS_OSX)
+        solverFileInfo = QFileInfo(QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field");
+#endif
     }
     else
         solverFileInfo = QFileInfo(Options::astrometrySolverBinary());
@@ -158,7 +158,7 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
 
     QStringList nameFilter("*.fits");
     QStringList indexList;
-    for(QString astrometryDataDir:astrometryDataDirs)
+    for(QString astrometryDataDir : astrometryDataDirs)
     {
         QDir directory(astrometryDataDir);
         indexList << directory.entryList(nameFilter);
@@ -168,7 +168,7 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     QString startIndex, lastIndex;
     unsigned int missingIndexes = 0;
 
-    for (float skymarksize: astrometryIndex.keys())
+    for (float skymarksize : astrometryIndex.keys())
     {
         if (skymarksize >= fov_lower && skymarksize <= fov_upper)
         {
