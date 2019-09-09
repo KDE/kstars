@@ -945,7 +945,7 @@ bool DriverManager::readXMLDrivers()
         processXMLDriver(indiDriversXML);
     */
 
-    processXMLDriver(QLatin1Literal(":/indidrivers.xml"));
+    processXMLDriver(QLatin1String(":/indidrivers.xml"));
 
     QString driversDir = Options::indiDriversDir();
 #ifdef Q_OS_OSX

@@ -6559,11 +6559,11 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 
     /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in capture.cpp */
     if (targetName.isEmpty())
-        directoryPostfix = QLatin1Literal("/") + frameType;
+        directoryPostfix = QLatin1String("/") + frameType;
     else
-        directoryPostfix = QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
+        directoryPostfix = QLatin1String("/") + targetName + QLatin1String("/") + frameType;
     if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
-        directoryPostfix += QLatin1Literal("/") + filterType;
+        directoryPostfix += QLatin1String("/") + filterType;
 
     job->setDirectoryPostfix(directoryPostfix);
 
