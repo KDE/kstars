@@ -105,7 +105,7 @@ QString ObservatoryWeatherModel::getWarningActionsStatus()
     if (warningTimer.isActive())
     {
         int remaining = warningTimer.remainingTime() / 1000;
-        return i18np("%1 second remaining", "%1 seconds remaining", QString::number(remaining));
+        return i18np("%1 second remaining", "%1 seconds remaining", remaining);
     }
 
     return i18n("Status: inactive");
@@ -125,7 +125,7 @@ QString ObservatoryWeatherModel::getAlertActionsStatus()
     if (alertTimer.isActive())
     {
         int remaining = alertTimer.remainingTime() / 1000;
-        return i18np("%1 second remaining", "%1 seconds remaining", QString::number(remaining));
+        return i18np("%1 second remaining", "%1 seconds remaining", remaining);
     }
 
     return i18n("Status: inactive");
