@@ -1417,7 +1417,7 @@ void CCD::processBLOB(IBLOB *bp)
         if (BType == BLOB_RAW && (useFITSViewer || useDSLRViewer))
         {
             QString rawFileName  = filename;
-            rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+            rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1String("/")));
 
             QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath(), rawFileName);
             QTemporaryFile imgPreview(templateName);

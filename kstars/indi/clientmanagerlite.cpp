@@ -1087,7 +1087,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
 #undef OUT
 
             QString rawFileName  = filename;
-            rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+            rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1String("/")));
             QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
             QTemporaryFile jpgPreview(templateName);
             jpgPreview.setAutoRemove(false);
@@ -1107,7 +1107,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
             {
                 QProcess dcraw;
                 QString rawFileName  = filename;
-                rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+                rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1String("/")));
                 QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
                 QTemporaryFile jpgPreview(templateName);
                 jpgPreview.setAutoRemove(false);

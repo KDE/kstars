@@ -732,7 +732,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
     int width =  jsonStarFrame["width"].toInt();
     int height = jsonStarFrame["height"].toInt();
 
-    QTemporaryFile tempfile(KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1Literal("phd2_XXXXXX"));
+    QTemporaryFile tempfile(KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1String("phd2_XXXXXX"));
     tempfile.setAutoRemove(false);
     if (!tempfile.open())
     {

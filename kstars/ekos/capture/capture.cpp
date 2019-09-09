@@ -2402,11 +2402,11 @@ bool Capture::addJob(bool preview)
 
     /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
     if (m_TargetName.isEmpty())
-        directoryPostfix = QLatin1Literal("/") + frameTypeCombo->currentText();
+        directoryPostfix = QLatin1String("/") + frameTypeCombo->currentText();
     else
-        directoryPostfix = QLatin1Literal("/") + m_TargetName + QLatin1Literal("/") + frameTypeCombo->currentText();
+        directoryPostfix = QLatin1String("/") + m_TargetName + QLatin1String("/") + frameTypeCombo->currentText();
     if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) &&  job->getFilterName().isEmpty() == false)
-        directoryPostfix += QLatin1Literal("/") + job->getFilterName();
+        directoryPostfix += QLatin1String("/") + job->getFilterName();
 
     job->setDirectoryPostfix(directoryPostfix);
 

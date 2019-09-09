@@ -1324,7 +1324,7 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 bool configureLocalAstrometryConfIfNecessary()
 {
 #if defined(Q_OS_LINUX)
-    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
+    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") + QLatin1String("/astrometry.cfg");
     if (QFileInfo(confPath).exists() == false)
     {
         if(createLocalAstrometryConf() == false)
@@ -1349,14 +1349,14 @@ bool createLocalAstrometryConf()
 {
     bool rc = false;
 
-    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
+    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") + QLatin1String("/astrometry.cfg");
     QString systemConfPath = "/etc/astrometry.cfg";
 
     // Check if directory already exists, if it doesn't create one
-    QDir writableDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
+    QDir writableDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry"));
     if (writableDir.exists() == false)
     {
-        rc = writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
+        rc = writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry"));
 
         if (rc == false)
         {
@@ -1409,7 +1409,7 @@ QString getAstrometryConfFilePath()
 {
 #if defined(Q_OS_LINUX)
     if (Options::astrometryConfFileIsInternal())
-        return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
+        return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") + QLatin1String("/astrometry.cfg");
 #elif defined(Q_OS_OSX)
     if (Options::astrometryConfFileIsInternal())
         return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
