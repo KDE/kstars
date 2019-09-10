@@ -100,7 +100,7 @@ class Mount : public QWidget, public Ui::Mount
 
         /** DBUS interface function.
              * Returns the mount altitude limits.
-             * @return Returns array of doubles. First item is minimum altititude in degrees. Second item is maximum altitude limit in degrees.
+             * @return Returns array of doubles. First item is minimum altitude in degrees. Second item is maximum altitude limit in degrees.
              */
         Q_SCRIPTABLE QList<double> altitudeLimits();
 

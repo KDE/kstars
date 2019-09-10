@@ -80,7 +80,7 @@ void Message::onConnected()
 
 void Message::onDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disonnected from Message Websocket server.";
+    qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server.";
     m_isConnected = false;
     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived);
 

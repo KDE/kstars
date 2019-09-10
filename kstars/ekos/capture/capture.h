@@ -43,7 +43,7 @@ class RotatorSettings;
  * - Control your telescope, CCD (& DSLRs), filter wheel, focuser, guider, adaptive optics unit, and any INDI-compatible auxiliary device from Ekos.
  * - Extremely accurate GOTOs using astrometry.net solver (both Online and Offline solvers supported).
  * - Load & Slew: Load a FITS image, slew to solved coordinates, and center the mount on the exact image coordinates in order to get the same desired frame.
- * - Measure & Correct Polar Alignment errors using astromety.net solver.
+ * - Measure & Correct Polar Alignment errors using astrometry.net solver.
  * - Auto and manual focus modes using Half-Flux-Radius (HFR) method.
  * - Automated unattended meridian flip. Ekos performs post meridian flip alignment, calibration, and guiding to resume the capture session.
  * - Automatic focus between exposures when a user-configurable HFR limit is exceeded.
@@ -841,7 +841,7 @@ class Capture : public QWidget, public Ui::Capture
         int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
         QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 
-        // Meridan flip
+        // Meridian flip
         SkyPoint initialMountCoords;
         bool resumeAlignmentAfterFlip { false };
         bool resumeGuidingAfterFlip { false };

@@ -56,7 +56,7 @@
 
 namespace Ekos
 {
-// 30 arcmiutes RA movement
+// 30 arcminutes RA movement
 const double Align::RAMotion = 0.5;
 // Sidereal rate, degrees/s
 const double Align::SIDRATE = 0.004178;
@@ -2383,7 +2383,7 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap)
     // -4 Expected DEC
     // -5 Radius (deg)
     // -L lower scale of image in arcminutes
-    // -H upper scale of image in arcmiutes
+    // -H upper scale of image in arcminutes
     // -u aw set scale to be in arcminutes
     // -W solution.wcs name of solution file
     // apog1.jpg name of target file to analyze
@@ -2464,7 +2464,7 @@ void Align::generateArgs()
     // -4 Expected DEC
     // -5 Radius (deg)
     // -L lower scale of image in arcminutes
-    // -H upper scale of image in arcmiutes
+    // -H upper scale of image in arcminutes
     // -u aw set scale to be in arcminutes
     // -W solution.wcs name of solution file
     // apog1.jpg name of target file to analyze
@@ -3775,7 +3775,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             if(!PAHManual->isChecked())
             {
                 double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
-                qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remainging degrees:" << deltaAngle;
+                qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remaining degrees:" << deltaAngle;
                 if (deltaAngle <= PAH_ROTATION_THRESHOLD)
                 {
                     currentTelescope->StopWE();
@@ -3807,7 +3807,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             if(!PAHManual->isChecked())
             {
                 double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
-                qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remainging degrees:" << deltaAngle;
+                qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remaining degrees:" << deltaAngle;
                 if (deltaAngle <= PAH_ROTATION_THRESHOLD)
                 {
                     currentTelescope->StopWE();
@@ -3907,7 +3907,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
         }
     }
 
-    // N.B. Ekos::Manager already mananges TELESCOPE_INFO, why here again?
+    // N.B. Ekos::Manager already manages TELESCOPE_INFO, why here again?
     //if (!strcmp(coord->name, "TELESCOPE_INFO"))
     //syncTelescopeInfo();
 }
@@ -4041,7 +4041,7 @@ void Align::measureAzError()
     pahStage = PAH_IDLE;
     emit newPAHStage(pahStage);
 
-    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measureing Azimuth Error...";
+    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measuring Azimuth Error...";
 
     switch (azStage)
     {
@@ -4143,7 +4143,7 @@ void Align::measureAltError()
     pahStage = PAH_IDLE;
     emit newPAHStage(pahStage);
 
-    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measureing Altitude Error...";
+    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measuring Altitude Error...";
 
     switch (altStage)
     {

@@ -2058,7 +2058,7 @@ bool Capture::resumeCapture()
 
     // FIXME ought to be able to combine these - only different is value passed
     //       to checkFocus()
-    // 2018-08-23 Jasem: For now in-sequence-focusing takes precedense.
+    // 2018-08-23 Jasem: For now in-sequence-focusing takes precedence.
     if (isInSequenceFocus && requiredAutoFocusStarted == false)
     {
         requiredAutoFocusStarted = true;

@@ -79,7 +79,7 @@ void Media::onConnected()
 
 void Media::onDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disonnected from media Websocket server.";
+    qCInfo(KSTARS_EKOS) << "Disconnected from media Websocket server.";
     m_isConnected = false;
 
     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
