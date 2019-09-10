@@ -6033,7 +6033,7 @@ void Scheduler::startMosaicTool()
         // #1.2 Set directory to output/Target-Part#
 
         // #2 Save all sequence files in Jobs dir
-        // #3 Set as currnet Sequence file
+        // #3 Set as current Sequence file
         // #4 Change Target name to Target-Part#
         // #5 Update J2000 coords
         // #6 Repeat and save Ekos Scheduler List in the output directory

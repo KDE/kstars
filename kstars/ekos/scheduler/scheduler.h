@@ -714,7 +714,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QProgressIndicator *pi { nullptr };
         /// Are we editing a job right now? Job row index
         int jobUnderEdit { -1 };
-        /// Pointer to Geograpic locatoin
+        /// Pointer to Geographic location
         GeoLocation *geo { nullptr };
         /// How many repeated job batches did we complete thus far?
         uint16_t captureBatch { 0 };

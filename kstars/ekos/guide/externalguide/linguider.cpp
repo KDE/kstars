@@ -322,7 +322,7 @@ void LinGuider::sendCommand(LinGuiderCommand command, const QString &args)
 
 bool LinGuider::calibrate()
 {
-    // Let's start calibraiton. It is already calibrated but in this step we auto-select and star and set the square
+    // Let's start calibration. It is already calibrated but in this step we auto-select and star and set the square
     emit newStatus(Ekos::GUIDE_CALIBRATING);
 
     sendCommand(FIND_STAR);

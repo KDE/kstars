@@ -75,7 +75,7 @@ const int IP4_LENGTH = IPI_LENGTH + 4;
 const int IP6_LENGTH = IPI_LENGTH + 16;
 
 /**
- * Encondes the 16-bit \a number as two 8-bit numbers in a byte array
+ * Encodes the 16-bit \a number as two 8-bit numbers in a byte array
  */
 QByteArray ENCODE_16_BIT (quint16 number) {
     QByteArray data;

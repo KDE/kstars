@@ -145,7 +145,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::previewJPEGGenerated, ekosLiveClient.get()->media(), &EkosLive::Media::sendPreviewJPEG);
     connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(), &EkosLive::Message::sendDialog);
 
-    // Serial Port Assistat
+    // Serial Port Assistant
     connect(serialPortAssistantB, &QPushButton::clicked, [&]()
     {
         serialPortAssistant->show();

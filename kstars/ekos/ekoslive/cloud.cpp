@@ -81,7 +81,7 @@ void Cloud::onConnected()
 
 void Cloud::onDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disonnected from Cloud Websocket server.";
+    qCInfo(KSTARS_EKOS) << "Disconnected from Cloud Websocket server.";
     m_isConnected = false;
 
     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Cloud::onTextReceived);

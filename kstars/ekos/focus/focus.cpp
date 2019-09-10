@@ -1177,7 +1177,7 @@ void Focus::setCaptureComplete()
         // If we have a valid HFR value
         if (currentHFR > 0)
         {
-            // Check if we're done from polynomail fitting algorithm
+            // Check if we're done from polynomial fitting algorithm
             if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
             {
                 polySolutionFound = 0;
@@ -1766,7 +1766,7 @@ void Focus::autoFocusAbs()
                 {
                     minHFR    = lastHFR;
                     minHFRPos = currentPosition;
-                    qCDebug(KSTARS_EKOS_FOCUS) << "new minHFR " << minHFR << " @ positioin " << minHFRPos;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "new minHFR " << minHFR << " @ position " << minHFRPos;
                 }
 
                 lastHFRPos = currentPosition;
@@ -3138,7 +3138,7 @@ void Focus::loadSettings()
     maxTravelIN->setValue(Options::focusMaxTravel());
     // Step
     stepIN->setValue(Options::focusTicks());
-    // Tolernace
+    // Tolerance
     toleranceIN->setValue(Options::focusTolerance());
     // Threshold spin
     thresholdSpin->setValue(Options::focusThreshold());
@@ -3312,7 +3312,7 @@ void Focus::initConnections()
 
     // Capture a single frame
     connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
-    // Start continious capture
+    // Start continuous capture
     connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
     // Use a subframe when capturing
     connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
