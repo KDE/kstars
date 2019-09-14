@@ -437,6 +437,8 @@ void Manager::reset()
     observatoryProcess.reset();
     dustCapProcess.reset();
 
+    DarkLibrary::Instance()->reset();
+
     Ekos::CommunicationStatus previousStatus = m_ekosStatus;
     m_ekosStatus   = Ekos::Idle;
     if (previousStatus != m_ekosStatus)
