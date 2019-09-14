@@ -225,6 +225,8 @@ Capture::Capture()
     connect(autofocusCheck, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceAutofocus(checked);
+        if (checked == false)
+            isInSequenceFocus = false;
     });
 
     // 4. Autofocus HFR Deviation
@@ -1819,7 +1821,7 @@ bool Capture::startFocusIfRequired()
         emit newStatus(Ekos::CAPTURE_FOCUSING);
         return true;
     }
-    else if (isInSequenceFocus && inSequenceFocusCounter <= 0)
+    else if (isInSequenceFocus && inSequenceFocusCounter == 0)
     {
         inSequenceFocusCounter = Options::inSequenceCheckFrames();
 
