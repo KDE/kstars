@@ -29,6 +29,7 @@
 
 #include <KNotifications/KNotification>
 
+#include <fitsio.h>
 #include <ekos_scheduler_debug.h>
 
 #define BAD_SCORE                -1000
@@ -207,7 +208,7 @@ Scheduler::Scheduler()
     {
         Options::setRescheduleErrors(checked);
     });
-    connect(errorHandlingButtonGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), [this](QAbstractButton *button)
+    connect(errorHandlingButtonGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), [this](QAbstractButton * button)
     {
         Q_UNUSED(button);
         Options::setErrorHandlingStrategy(getErrorHandlingStrategy());
@@ -431,7 +432,88 @@ void Scheduler::selectFITS()
     addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
     mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
 
+    processFITSSelection();
+
     setDirty();
+}
+
+void Scheduler::processFITSSelection()
+{
+    const QString filename = fitsEdit->text();
+    int status = 0;
+    double ra = 0, dec = 0;
+    dms raDMS, deDMS;
+    char comment[128], error_status[512];
+    fitsfile *fptr = nullptr;
+
+    if (fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString::fromUtf8(error_status);
+        return;
+    }
+
+    status = 0;
+    if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString::fromUtf8(error_status);
+        return;
+    }
+
+    status = 0;
+    char objectra_str[32] = {0};
+    if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
+    {
+        if (fits_read_key(fptr, TDOUBLE, "RA", &ra, comment, &status))
+        {
+            fits_report_error(stderr, status);
+            fits_get_errstatus(status, error_status);
+            appendLogText(i18n("FITS header: cannot find OBJCTRA (%1).", QString(error_status)));
+            return;
+        }
+
+        raDMS.setD(ra);
+    }
+    else
+    {
+        raDMS = dms::fromString(objectra_str, false);
+    }
+
+    status = 0;
+    char objectde_str[32] = {0};
+    if (fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
+    {
+        if (fits_read_key(fptr, TDOUBLE, "DEC", &dec, comment, &status))
+        {
+            fits_report_error(stderr, status);
+            fits_get_errstatus(status, error_status);
+            appendLogText(i18n("FITS header: cannot find OBJCTDEC (%1).", QString(error_status)));
+            return;
+        }
+
+        deDMS.setD(dec);
+    }
+    else
+    {
+        deDMS = dms::fromString(objectde_str, true);
+    }
+
+    raBox->setDMS(raDMS.toHMSString());
+    decBox->setDMS(deDMS.toDMSString());
+
+    char object_str[256] = {0};
+    if (fits_read_key(fptr, TSTRING, "OBJECT", object_str, comment, &status))
+    {
+        QFileInfo info(filename);
+        nameEdit->setText(info.baseName());
+    }
+    else
+    {
+        nameEdit->setText(object_str);
+    }
 }
 
 void Scheduler::selectSequence()
@@ -3925,7 +4007,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
                         errorHandlingDelaySB->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
                     }
                     subEP = findXMLEle(ep, "RescheduleErrors");
-                        errorHandlingRescheduleErrorsCB->setChecked(subEP != nullptr);
+                    errorHandlingRescheduleErrorsCB->setChecked(subEP != nullptr);
                 }
                 else if (!strcmp(tag, "StartupProcedure"))
                 {
@@ -5237,7 +5319,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             {
                 totalImagingTime += 60;
             }
-            // Are we doing guiding? 
+            // Are we doing guiding?
             if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
             {
                 // Looping, finding guide star, settling takes 15 sec
@@ -5251,7 +5333,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                 // If calibration always cleared
                 // then calibration process can take about 2 mins
                 if(Options::resetGuideCalibration())
-                    totalImagingTime += 120;    
+                    totalImagingTime += 120;
             }
         }
         dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
@@ -5983,16 +6065,17 @@ void Scheduler::setErrorHandlingStrategy(Scheduler::ErrorHandlingStrategy strate
     errorHandlingWaitLabel->setEnabled(strategy != ERROR_DONT_RESTART);
     errorHandlingDelaySB->setEnabled(strategy != ERROR_DONT_RESTART);
 
-    switch (strategy) {
-    case ERROR_RESTART_AFTER_TERMINATION:
-       errorHandlingRestartAfterAllButton->setChecked(true);
-        break;
-    case ERROR_RESTART_IMMEDIATELY:
-       errorHandlingRestartImmediatelyButton->setChecked(true);
-        break;
-    default:
-        errorHandlingDontRestartButton->setChecked(true);
-        break;
+    switch (strategy)
+    {
+        case ERROR_RESTART_AFTER_TERMINATION:
+            errorHandlingRestartAfterAllButton->setChecked(true);
+            break;
+        case ERROR_RESTART_IMMEDIATELY:
+            errorHandlingRestartImmediatelyButton->setChecked(true);
+            break;
+        default:
+            errorHandlingDontRestartButton->setChecked(true);
+            break;
     }
 }
 
