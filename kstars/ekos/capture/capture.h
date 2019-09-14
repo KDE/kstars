@@ -62,7 +62,7 @@ class RotatorSettings;
  * interface to enable unattended scripting.
  *
  * @author Jasem Mutlaq
- * @version 1.7
+ * @version 1.8
  */
 namespace Ekos
 {
@@ -118,6 +118,12 @@ class Capture : public QWidget, public Ui::Capture
             CAL_CHECK_TASK,
             CAL_CHECK_CONFIRMATION,
         } CalibrationCheckType;
+
+        typedef enum
+        {
+            ADU_LEAST_SQUARES,
+            ADU_POLYNOMIAL
+        } ADUAlgorithm;
 
         typedef bool (Capture::*PauseFunctionPointer)();
 
@@ -851,6 +857,7 @@ class Capture : public QWidget, public Ui::Capture
         QVector<double> ExpRaw, ADURaw;
         double targetADU { 0 };
         double targetADUTolerance { 1000 };
+        ADUAlgorithm targetADUAlgorithm { ADU_LEAST_SQUARES};
         SkyPoint wallCoord;
         bool preMountPark { false };
         bool preDomePark { false };

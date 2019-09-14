@@ -4792,28 +4792,50 @@ double Capture::setCurrentADU(double value)
 
             coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
             qCDebug(KSTARS_EKOS_CAPTURE) << "Running polynomial fitting. Found " << coeff.size() << " coefficients.";
-            for (size_t i = 0; i < coeff.size(); i++)
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Coeff #" << i << "=" << coeff[i];
+            if (std::isnan(coeff[0]) || std::isinf(coeff[0]))
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Coefficients are invalid.";
+                targetADUAlgorithm = ADU_LEAST_SQUARES;
+            }
+            else
+            {
+                nextExposure = coeff[0] + (coeff[1] * targetADU) + (coeff[2] * pow(targetADU, 2));
+                // If exposure is not valid or does not make sense, then we fall back to least squares
+                if (nextExposure < 0 || (nextExposure > ExpRaw.last() || targetADU < ADURaw.last())
+                        || (nextExposure < ExpRaw.last() || targetADU > ADURaw.last()))
+                {
+                    nextExposure = 0;
+                    targetADUAlgorithm = ADU_LEAST_SQUARES;
+                }
+                else
+                {
+                    targetADUAlgorithm = ADU_POLYNOMIAL;
+                    for (size_t i = 0; i < coeff.size(); i++)
+                        qCDebug(KSTARS_EKOS_CAPTURE) << "Coeff #" << i << "=" << coeff[i];
+                }
+            }
         }
 
         bool looping = false;
         if (ExpRaw.count() >= 10)
         {
             int size = ExpRaw.count();
-            looping  = (ExpRaw[size - 1] == ExpRaw[size - 2]) && (ExpRaw[size - 2] == ExpRaw[size - 3]);
-            if (looping)
+            looping  = (std::fabs(ExpRaw[size - 1] - ExpRaw[size - 2] < 0.01)) &&
+                       (std::fabs(ExpRaw[size - 2] - ExpRaw[size - 3] < 0.01));
+            if (looping && targetADUAlgorithm == ADU_POLYNOMIAL)
+            {
                 qWarning(KSTARS_EKOS_CAPTURE) << "Detected looping in polynomial results. Falling back to llsqr.";
+                targetADUAlgorithm = ADU_LEAST_SQUARES;
+            }
         }
 
         // If we get invalid data, let's fall back to llsq
         // Since polyfit can be unreliable at low counts, let's only use it at the 5th exposure
         // if we don't have results already.
-        if (looping || ExpRaw.count() < 5 || std::isnan(coeff[0]) || std::isinf(coeff[0]))
+        if (targetADUAlgorithm == ADU_LEAST_SQUARES)
         {
             double a = 0, b = 0;
             llsq(ExpRaw, ADURaw, a, b);
-
-            qWarning(KSTARS_EKOS_CAPTURE) << "Polynomial fitting invalid, falling back to llsq. a=" << a << " b=" << b;
 
             // If we have valid results, let's calculate next exposure
             if (a != 0)
@@ -4822,18 +4844,6 @@ double Capture::setCurrentADU(double value)
                 // If we get invalid value, let's just proceed iteratively
                 if (nextExposure < 0)
                     nextExposure = 0;
-            }
-        }
-        else if (coeff.size() == 3)
-        {
-            nextExposure = coeff[0] + (coeff[1] * targetADU) + (coeff[2] * pow(targetADU, 2));
-            // If we get invalid exposure time, let's try to capture again and discard last point.
-            if (nextExposure < 0)
-            {
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Invalid polynomial exposure" << nextExposure << "Will discard last result.";
-                ExpRaw.removeLast();
-                ADURaw.removeLast();
-                nextExposure = activeJob->getExposure();
             }
         }
     }
