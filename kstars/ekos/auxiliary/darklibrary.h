@@ -41,6 +41,8 @@ class DarkLibrary : public QObject
         void setRemoteCap(ISD::GDInterface *remoteCap);
         void removeDevice(ISD::GDInterface *device);
 
+        void reset();
+
     signals:
         void darkFrameCompleted(bool);
         void newLog(const QString &message);

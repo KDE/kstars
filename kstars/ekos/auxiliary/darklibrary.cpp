@@ -537,4 +537,13 @@ void DarkLibrary::removeDevice(ISD::GDInterface *device)
     }
 }
 
+void DarkLibrary::reset()
+{
+    m_RemoteCap = nullptr;
+    subtractParams.duration    = 0;
+    subtractParams.offsetX     = 0;
+    subtractParams.offsetY     = 0;
+    subtractParams.targetChip  = nullptr;
+    subtractParams.targetImage = nullptr;
+}
 }
