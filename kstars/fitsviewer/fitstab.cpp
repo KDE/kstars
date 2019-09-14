@@ -282,7 +282,10 @@ void FITSTab::evaluateStats()
     if (image_data->channels() == 1)
     {
         for (int i = STAT_MIN; i <= STAT_STDDEV; i++)
-            stat.statsTable->setSpan(i, 0, 1, 3);
+        {
+            if (stat.statsTable->columnSpan(i, 0) != 3)
+                stat.statsTable->setSpan(i, 0, 1, 3);
+        }
 
         stat.statsTable->horizontalHeaderItem(0)->setText(i18n("Value"));
         stat.statsTable->hideColumn(1);
@@ -291,7 +294,10 @@ void FITSTab::evaluateStats()
     else
     {
         for (int i = STAT_MIN; i <= STAT_STDDEV; i++)
-            stat.statsTable->setSpan(i, 0, 1, 1);
+        {
+            if (stat.statsTable->columnSpan(i, 0) != 1)
+                stat.statsTable->setSpan(i, 0, 1, 1);
+        }
 
         stat.statsTable->horizontalHeaderItem(0)->setText(i18nc("Red", "R"));
         stat.statsTable->showColumn(1);
