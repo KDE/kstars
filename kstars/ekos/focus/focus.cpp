@@ -1471,7 +1471,7 @@ void Focus::setCaptureComplete()
     drawProfilePlot();
 
     // If focus logging is enabled, let's save the frame.
-    if (Options::focusLogging())
+    if (Options::focusLogging() && Options::saveFocusImages())
     {
         QDir dir;
         QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus/" +
