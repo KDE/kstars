@@ -169,6 +169,10 @@
          <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="SaveFocusImages" type="Bool">
+         <label>Save autofocus images on disk?</label>
+         <default>false</default>
+      </entry>
       <entry name="messageNotificationINDI" type="Bool">
          <label>INDI message notifications</label>
          <whatsthis>Show INDI messages as desktop notifications instead of dialogs.</whatsthis>
