@@ -519,6 +519,11 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         capture->setCamera(payload["camera"].toString());
         sendCaptureSettings(capture->getSettings());
     }
+    else if (command == commands[CAPTURE_TOGGLE_FILTER_WHEEL])
+    {
+        capture->setFilterWheel(payload["fw"].toString());
+        sendCaptureSettings(capture->getSettings());
+    }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
         capture->toggleVideo(payload["enabled"].toBool());

@@ -1262,9 +1262,17 @@ bool Capture::setFilterWheel(const QString &device)
 {
     bool deviceFound = false;
 
-    for (int i = 1; i < FilterDevicesCombo->count(); i++)
+    for (int i = 0; i < FilterDevicesCombo->count(); i++)
         if (device == FilterDevicesCombo->itemText(i))
         {
+            // Check Combo if it was set to something else.
+            if (FilterDevicesCombo->currentIndex() != i)
+            {
+                FilterDevicesCombo->blockSignals(true);
+                FilterDevicesCombo->setCurrentIndex(i);
+                FilterDevicesCombo->blockSignals(false);
+            }
+
             checkFilter(i);
             deviceFound = true;
             break;
