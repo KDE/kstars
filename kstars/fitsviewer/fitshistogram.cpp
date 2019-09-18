@@ -21,6 +21,7 @@
 #include <KMessageBox>
 
 #include <QtConcurrent>
+#include <type_traits>
 #include <zlib.h>
 
 histogramUI::histogramUI(QDialog * parent) : QDialog(parent)
@@ -201,7 +202,7 @@ template <typename T> void FITSHistogram::constructHistogram()
     //binCount = static_cast<uint16_t>(sqrt(samples));
     binCount = qMin(FITSMax[0] - FITSMin[0], 400.0);
     if (binCount <= 0)
-        binCount = 100;
+      binCount = 400;
 
     for (int n = 0; n < channels; n++)
     {
@@ -267,17 +268,76 @@ template <typename T> void FITSHistogram::constructHistogram()
         futures.append(QtConcurrent::run([ = ]()
         {
             double median[3] = {0};
-            bool cutoffSpikes = ui->hideSaturated->isChecked();
-            uint32_t halfCumulative = cumulativeFrequency[n][binCount - 1] / 2;
+            const bool cutoffSpikes = ui->hideSaturated->isChecked();
+            const uint32_t halfCumulative = cumulativeFrequency[n][binCount - 1] / 2;
+
+            // Find which bin contains the median.
+            int median_bin = -1;
             for (int i = 0; i < binCount; i++)
             {
                 if (cumulativeFrequency[n][i] > halfCumulative)
                 {
-                    median[n] = round(i * binWidth[n] + FITSMin[n]);
+                    median_bin = i;
                     break;
                 }
             }
+
+            if (median_bin >= 0)
+            {
+                // Resample the data, only looking at samples whose values are in the "median bin".
+                // Count the frequency of those samples to determine the median.
+                // Since it's possible that type T is double with samples in the 0.0 to 1.0 range,
+                // we may need to count sample intervals that aren't integers.
+
+                const int sampleBy = samples > 1000000 ? samples / 1000000 : 1;
+                // The lowest sample value to consider (bottom of the median bin).
+                const T lowValue = (median_bin - 0.5) * binWidth[n] + FITSMin[n];
+                // The highest sample value to consider.
+                const T highValue = lowValue + binWidth[n];
+                // discrete_type is true if T is a float or double.
+                const bool discrete_type = !(std::is_same<T, double>::value || std::is_same<T, float>::value);
+                // If discrete is true, we count how many times the different integers between lowValue
+                // and highValue occur. If it's false, we need to break up the range into intervals
+                // that are not of size 1.0.
+                const bool discrete = discrete_type || binWidth[n] >= 50;
+                constexpr int continuous_num_bins = 100;
+                const int median_num_bins = discrete ? binWidth[n] : continuous_num_bins;
+                const double bin_sample_width = discrete ? 1.0 : binWidth[n] / continuous_num_bins;
+
+                // This will contain the frequency counts 
+                QVector<uint32_t> median_bin_frequency;
+                median_bin_frequency.fill(0, median_num_bins);
+
+                uint32_t offset = n * samples;
+                for (uint32_t i = 0; i < samples; i += sampleBy) 
+                {
+                    const T value = buffer[i + offset];
+                    if (value >= lowValue && value < highValue)
+                    {
+                      const int id = discrete ?
+                        value - lowValue :
+                        qMin(median_num_bins - 1, (int) rint((value - lowValue) / bin_sample_width));
+                      median_bin_frequency[id] += sampleBy;
+                    }
+                }
+
+                // Search the median bin's histogram to find the exact median value.
+                uint32_t sum = 0;
+                if (median_bin > 0) {
+                    sum = cumulativeFrequency[n][median_bin - 1];
+                }
+                for (int i = 0; i < median_num_bins; ++i)
+                {
+                    sum += median_bin_frequency[i];
+                    if (sum >= halfCumulative)
+                    {
+                        median[n] = lowValue + i * bin_sample_width;
+                        break;
+                    }
+                }
+            }
             imageData->setMedian(median[n], n);
+
             if (cutoffSpikes)
             {
                 QVector<double> sortedFreq = frequency[n];
