@@ -1,3 +1,87 @@
+kstars-bleeding (6:3.3.6) bionic; urgency=medium
+
+  * 3.3.6 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sun, 09 Sep 2019 22:30:00 +0300
+
+kstars-bleeding (6:3.3.5) bionic; urgency=medium
+
+  * 3.3.5 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Thu, 22 Aug 2019 19:30:00 +0300
+
+kstars-bleeding (6:3.3.4) bionic; urgency=medium
+
+  * 3.3.4 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Wed, 07 Aug 2019 19:30:00 +0300
+
+kstars-bleeding (6:3.3.3) bionic; urgency=medium
+
+  * 3.3.3 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Wed, 17 Jul 2019 19:30:00 +0300
+
+kstars-bleeding (6:3.3.2) bionic; urgency=medium
+
+  * 3.3.2 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Tue, 02 Jul 2019 19:30:00 +0300
+
+kstars-bleeding (6:3.3.1) bionic; urgency=medium
+
+  * 3.3.1 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sun, 23 Jun 2019 00:30:00 +0300
+
+kstars-bleeding (6:3.3.0) bionic; urgency=medium
+
+  * 3.3.0 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Fri, 21 Jun 2019 13:00:00 +0300
+
+kstars-bleeding (6:3.2.3) bionic; urgency=medium
+
+  * 3.2.3 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sat, 18 May 2019 14:00:00 +0300
+
+kstars-bleeding (6:3.2.2) bionic; urgency=medium
+
+  * 3.2.2 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sat, 11 May 2019 13:00:00 +0300
+
+kstars-bleeding (6:3.2.1) bionic; urgency=medium
+
+  * 3.2.1 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Wed, 24 Apr 2019 18:00:00 +0300
+
+kstars-bleeding (6:3.2.0) bionic; urgency=medium
+
+  * 3.2.0 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sat, 09 Mar 2019 18:00:00 +0300
+
+kstars-bleeding (6:3.1.1) bionic; urgency=medium
+
+  * 3.1.1 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Fri, 28 Feb 2018 01:00:00 +0300
+
+kstars-bleeding (6:3.1.0) bionic; urgency=medium
+
+  * 3.1.0 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Thu, 27 Dec 2018 01:00:00 +0300
+
+kstars-bleeding (6:3.0.0) bionic; urgency=medium
+
+  * 3.0.0 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Thu, 27 Sep 2018 01:00:00 +0300
+
 kstars-bleeding (6:2.9.8) bionic; urgency=medium
 
   * 2.9.8 Upstream release.
@@ -39,7 +123,7 @@ kstars-bleeding (5:17.08) zesty; urgency=medium
   * 17.08 Rolling Release. Version 2.8.2
 
  -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sun, 27 Aug 2017 00:30:00 +0300
- 
+
 kstars-bleeding (5:17.04) zesty; urgency=medium
 
   * 17.04 Rolling Release. Version 2.7.5
@@ -75,13 +159,13 @@ kstars-bleeding (5:15.04) vivid; urgency=medium
   * 15.04 Rolling Release
 
  -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sun, 15 Feb 2015 15:00:00 +0300
- 
+
 kstars-bleeding (5:14.12) utopic; urgency=medium
 
   * KF5 release
 
  -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Wed, 05 Nov 2014 15:00:00 +0300
- 
+
 kstars-bleeding (4:4.14) trusty; urgency=medium
 
   * Upsteam 4.14 release
