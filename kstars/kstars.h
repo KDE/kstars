@@ -37,6 +37,7 @@ class QActionGroup;
 class QDockWidget;
 class QPalette;
 class KActionMenu;
+class KConfigDialog;
 
 class KStarsData;
 class SkyPoint;
@@ -781,6 +782,9 @@ class KStars : public KXmlGuiWindow
 
         /** Initialize Menu bar, toolbars and all Actions. */
         void initActions();
+
+        /** Prepare options dialog. */
+        KConfigDialog* prepareOps();
 
         /** Initialize Status bar. */
         void initStatusBar();
