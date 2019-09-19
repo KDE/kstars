@@ -374,6 +374,9 @@ void KStars::initActions()
     KStandardAction::configureNotifications(this, SLOT(slotConfigureNotifications()), actionCollection());
 #endif
 
+    // Prepare the options dialog early for modules to connect signals
+    prepareOps();
+
     ka = actionCollection()->addAction(KStandardAction::Preferences, "configure", this, SLOT(slotViewOps()));
     //I am not sure what icon preferences is supposed to be.
     //ka->setIcon( QIcon::fromTheme(""));

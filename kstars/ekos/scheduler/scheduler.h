@@ -30,6 +30,7 @@ class QProgressIndicator;
 class GeoLocation;
 class SchedulerJob;
 class SkyObject;
+class KConfigDialog;
 
 namespace Ekos
 {
@@ -127,6 +128,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
             return m_LogText.join("\n");
         }
         void clearLog();
+        void applyConfig();
 
         void addObject(SkyObject *object);
 

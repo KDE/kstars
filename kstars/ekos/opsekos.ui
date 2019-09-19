@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>379</height>
+    <width>478</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -56,7 +56,7 @@
          <item>
           <widget class="QRadioButton" name="kcfg_loadDefaultConfig">
            <property name="text">
-            <string>Always &amp;load defaults</string>
+            <string>Alwa&amp;ys load defaults</string>
            </property>
           </widget>
          </item>
@@ -99,7 +99,7 @@
          <string>Ekos module icons are placed to the left of pages</string>
         </property>
         <property name="text">
-         <string>Left</string>
+         <string>&amp;Left</string>
         </property>
         <attribute name="buttonGroup">
          <string notr="true">ekosIconsPositionGroup</string>
@@ -210,6 +210,52 @@
         </item>
         <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_SettingAltitudeCutoff"/>
+        </item>
+        <item row="4" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
+          <property name="minimum">
+           <double>-24.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>24.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.500000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
+          <property name="minimum">
+           <double>-24.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>24.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.500000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="duskOffsetLabel">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Dusk Offset</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="dawnOffsetLabel">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Dawn Offset</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

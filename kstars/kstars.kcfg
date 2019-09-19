@@ -2301,6 +2301,14 @@
          <label>Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.</label>
          <default>3</default>
       </entry>
+      <entry name="DawnOffset" type="Double">
+         <label>Offset astronomical dawn by this many hours to relax twilight restriction when using narrowband filters.</label>
+         <default>0</default>
+      </entry>
+      <entry name="DuskOffset" type="Double">
+         <label>Offset astronomical dusk by this many hours to relax twilight restriction when using narrowband filters.</label>
+         <default>0</default>
+      </entry>
       <entry name="TelescopeFocalLength" type="Double">
          <label>Telescope focal length in millimeters.</label>
          <default>0</default>

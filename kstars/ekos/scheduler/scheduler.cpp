@@ -28,6 +28,7 @@
 #include "skyobjects/starobject.h"
 
 #include <KNotifications/KNotification>
+#include <KConfigDialog>
 
 #include <fitsio.h>
 #include <ekos_scheduler_debug.h>
@@ -218,6 +219,9 @@ Scheduler::Scheduler()
         Options::setErrorHandlingStrategyDelay(value);
     });
 
+    connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::applyConfig);
+
+    calculateDawnDusk();
 
     loadProfiles();
 
@@ -380,6 +384,17 @@ void Scheduler::clearLog()
 {
     m_LogText.clear();
     emit newLog(QString());
+}
+
+void Scheduler::applyConfig()
+{
+    calculateDawnDusk();
+
+    if (SCHEDULER_RUNNING != state)
+    {
+        jobEvaluationOnly = true;
+        evaluateJobs();
+    }
 }
 
 void Scheduler::selectObject()
@@ -2379,19 +2394,16 @@ int16_t Scheduler::calculateJobScore(SchedulerJob const *job, QDateTime const &w
 void Scheduler::calculateDawnDusk()
 {
     KSAlmanac ksal;
-    Dawn = ksal.getDawnAstronomicalTwilight();
-    Dusk = ksal.getDuskAstronomicalTwilight();
+    Dawn = ksal.getDawnAstronomicalTwilight() + Options::dawnOffset() / 24.0;
+    Dusk = ksal.getDuskAstronomicalTwilight() + Options::duskOffset() / 24.0;
 
-    //QTime now  = KStarsData::Instance()->lt().time();
-    //QTime dawn = QTime(0, 0, 0).addSecs(Dawn * 24 * 3600);
-    QTime dusk = QTime(0, 0, 0).addSecs(Dusk * 24 * 3600);
+    QTime const dawn = QTime(0, 0, 0).addSecs(Dawn * 24 * 3600);
+    QTime const dusk = QTime(0, 0, 0).addSecs(Dusk * 24 * 3600);
 
     duskDateTime.setDate(KStars::Instance()->data()->lt().date());
     duskDateTime.setTime(dusk);
 
-    // FIXME: reduce spam by moving twilight time to a text label
-    //appendLogText(i18n("Astronomical twilight: dusk at %1, dawn at %2, and current time is %3",
-    //                   dusk.toString(), dawn.toString(), now.toString()));
+    nightTime->setText(i18n("%1 - %2", dusk.toString("hh:mm"), dawn.toString("hh:mm")));
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
@@ -6062,7 +6074,6 @@ Scheduler::ErrorHandlingStrategy Scheduler::getErrorHandlingStrategy()
 
 void Scheduler::setErrorHandlingStrategy(Scheduler::ErrorHandlingStrategy strategy)
 {
-    errorHandlingWaitLabel->setEnabled(strategy != ERROR_DONT_RESTART);
     errorHandlingDelaySB->setEnabled(strategy != ERROR_DONT_RESTART);
 
     switch (strategy)
