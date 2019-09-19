@@ -5557,7 +5557,7 @@ IPState Capture::checkFlatFramePendingTasks()
             // Wait until cap is unparked
             if (calibrationStage == CAL_DUSTCAP_UNPARKING)
             {
-                if (currentDustCap->isParked() == true)
+                if (currentDustCap->isUnParked() == false)
                     return IPS_BUSY;
                 else
                 {
