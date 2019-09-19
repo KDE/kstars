@@ -880,9 +880,6 @@ void FITSView::drawOverlay(QPainter * painter)
 {
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
-    if (markStars)
-        drawStarCentroid(painter);
-
     if (trackingBoxEnabled && getCursorMode() != FITSView::scopeCursor)
         drawTrackingBox(painter);
 
@@ -900,6 +897,9 @@ void FITSView::drawOverlay(QPainter * painter)
 
     if (showPixelGrid)
         drawPixelGrid(painter);
+
+    if (markStars)
+        drawStarCentroid(painter);
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -938,19 +938,49 @@ void FITSView::drawMarker(QPainter * painter)
 
 void FITSView::drawStarCentroid(QPainter * painter)
 {
+    float const ratio = currentZoom / ZOOM_DEFAULT;
+
+    if (showStarsHFR)
+    {
+        QFont painterFont;
+
+        // If we need to print the HFR out, give an arbitrarily sized font to the painter
+        painterFont.setPointSizeF(painterFont.pointSizeF() * 3 * ratio);
+        painter->setFont(painterFont);
+    }
+
     painter->setPen(QPen(Qt::red, 2));
 
-    // image_data->getStarCenter();
+    QFontMetrics const fontMetrics = painter->fontMetrics();
+    QRect const boundingRect(0, 0, painter->device()->width(), painter->device()->height());
 
-    QList<Edge *> starCenters = imageData->getStarCenters();
-
-    for (int i = 0; i < starCenters.count(); i++)
+    foreach (auto const &starCenter, imageData->getStarCenters())
     {
-        int x1 = (starCenters[i]->x - starCenters[i]->width / 2) * (currentZoom / ZOOM_DEFAULT);
-        int y1 = (starCenters[i]->y - starCenters[i]->width / 2) * (currentZoom / ZOOM_DEFAULT);
-        int w  = (starCenters[i]->width) * (currentZoom / ZOOM_DEFAULT);
+        int const x1 = std::round((starCenter->x - starCenter->width / 2.0f) * ratio);
+        int const y1 = std::round((starCenter->y - starCenter->width / 2.0f) * ratio);
+        int const w  = std::round(starCenter->width * ratio);
 
+        // Draw a circle around the detected star
         painter->drawEllipse(x1, y1, w, w);
+
+        if (showStarsHFR)
+        {
+            // Ask the painter how large will the HFR text be
+            QString const hfr = QString("%1").arg(starCenter->HFR, 0, 'f', 2);
+            QSize const hfrSize = fontMetrics.size(Qt::TextSingleLine, hfr);
+
+            // Store the HFR text in a rect
+            QPoint const hfrBottomLeft(x1+w+5, y1+w/2);
+            QRect const hfrRect(hfrBottomLeft.x(), hfrBottomLeft.y() - hfrSize.height(), hfrSize.width(), hfrSize.height());
+
+            // Render the HFR text only if it can be displayed entirely
+            if (boundingRect.contains(hfrRect))
+            {
+                painter->setPen(QPen(Qt::red, 3));
+                painter->drawText(hfrBottomLeft, hfr);
+                painter->setPen(QPen(Qt::red, 2));
+            }
+        }
     }
 }
 
@@ -1927,4 +1957,9 @@ void FITSView::setStarsEnabled(bool enable)
             }
         }
     }
+}
+
+void FITSView::setStarsHFREnabled(bool enable)
+{
+    showStarsHFR = enable;
 }
