@@ -1097,7 +1097,7 @@ void Focus::setCaptureComplete()
         }
 
         // Let's now report the current HFR
-        qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars " << (starSelected ? 1 : image_data->getDetectedStars());
         // Add it to existing frames in case we need to take an average
         HFRFrames.append(currentHFR);
 
@@ -1169,6 +1169,7 @@ void Focus::setCaptureComplete()
         // Format the HFR value into a string
         QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
         HFROut->setText(HFRText);
+        starsOut->setText(QString("%1").arg(image_data->getDetectedStars()));
 
         // Display message in case _last_ HFR was negative
         if (lastHFR == -1)
@@ -3389,6 +3390,7 @@ void Focus::initView()
     focusingWidget->setLayout(vlayout);
     connect(focusView, &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
     focusView->setStarsEnabled(true);
+    focusView->setStarsHFREnabled(true);
 }
 
 }

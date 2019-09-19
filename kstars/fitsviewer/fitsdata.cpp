@@ -1954,7 +1954,7 @@ double FITSData::getHFR(HFRType type)
         HFRs << center->HFR;
     std::sort(HFRs.begin(), HFRs.end());
 
-    double sum = std::accumulate(HFRs.begin(), HFRs.end(), 0);
+    double sum = std::accumulate(HFRs.begin(), HFRs.end(), 0.0);
     double m =  sum / HFRs.size();
 
     if (HFRs.size() > 3)
@@ -1977,7 +1977,7 @@ double FITSData::getHFR(HFRType type)
         });
 
         // New mean
-        sum = std::accumulate(HFRs.begin(), HFRs.end(), 0);
+        sum = std::accumulate(HFRs.begin(), HFRs.end(), 0.0);
         m = sum / HFRs.size();
     }
 
