@@ -38,7 +38,7 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
 
     propertyContainer = new QFrame(idv);
     propertyLayout    = new QVBoxLayout(propertyContainer);
-    propertyLayout->setMargin(20);
+    propertyLayout->setContentsMargins(20, 20, 20, 20);
     VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
     propertyLayout->addItem(VerticalSpacer);

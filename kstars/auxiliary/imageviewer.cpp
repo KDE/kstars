@@ -160,7 +160,7 @@ void ImageViewer::init(QString caption, QString capText)
     // Add layout
     QVBoxLayout *vlay = new QVBoxLayout(page);
     vlay->setSpacing(0);
-    vlay->setMargin(0);
+    vlay->setContentsMargins(0, 0, 0, 0);
     vlay->addWidget(m_View);
     vlay->addWidget(m_Caption);
 

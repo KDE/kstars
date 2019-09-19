@@ -58,7 +58,7 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 #endif
 
     mainLayout = new QVBoxLayout(this);
-    mainLayout->setMargin(10);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
     mainLayout->setSpacing(10);
 
     mainTabWidget = new QTabWidget(this);

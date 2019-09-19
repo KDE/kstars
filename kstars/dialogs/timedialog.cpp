@@ -57,7 +57,7 @@ TimeDialog::TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *pa
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     vlay = new QVBoxLayout(page);
-    vlay->setMargin(2);
+    vlay->setContentsMargins(2, 2, 2, 2);
     vlay->setSpacing(2);
     hlay = new QHBoxLayout(); //this layout will be added to the VLayout
     hlay->setSpacing(2);

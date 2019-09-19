@@ -45,7 +45,7 @@ INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
     dataProp = dProp;
 
     EHBox = new QHBoxLayout;
-    EHBox->setMargin(0);
+    EHBox->setContentsMargins(0, 0, 0, 0);
 }
 
 INDI_E::~INDI_E()

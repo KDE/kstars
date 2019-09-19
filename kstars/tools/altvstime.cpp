@@ -61,7 +61,7 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
 
     QVBoxLayout *topLayout = new QVBoxLayout;
     setLayout(topLayout);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
     avtUI = new AltVsTimeUI(this);
 
     // Layers for setting up the plot's priority: the current curve should be above the other curves.
