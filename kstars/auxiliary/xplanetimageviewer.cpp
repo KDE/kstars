@@ -208,7 +208,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 
     QWidget *selectorsWidget = new QWidget(this);
     QHBoxLayout *selectorsLayout = new QHBoxLayout(selectorsWidget);
-    selectorsLayout->setMargin(0);
+    selectorsLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(selectorsWidget);
 
     m_ObjectNames       << i18n("Sun")      << i18n("Mercury")  << i18n("Venus");
@@ -301,7 +301,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 
     QWidget *viewControlsWidget = new QWidget(this);
     QHBoxLayout *viewControlsLayout = new QHBoxLayout(viewControlsWidget);
-    viewControlsLayout->setMargin(0);
+    viewControlsLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(viewControlsWidget);
 
     viewControlsLayout->addWidget(new QLabel(i18n("FOV:"), this));
@@ -404,7 +404,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     QWidget *timeWidget = new QWidget(this);
     QHBoxLayout *timeLayout = new QHBoxLayout(timeWidget);
     mainLayout->addWidget(timeWidget);
-    timeLayout->setMargin(0);
+    timeLayout->setContentsMargins(0, 0, 0, 0);
 
     m_XPlanetTime = KStarsData::Instance()->lt();
 
@@ -492,7 +492,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     // Add layout
     QVBoxLayout *vlay = new QVBoxLayout(page);
     vlay->setSpacing(0);
-    vlay->setMargin(0);
+    vlay->setContentsMargins(0, 0, 0, 0);
     vlay->addWidget(m_View);
     vlay->addWidget(m_Caption);
 

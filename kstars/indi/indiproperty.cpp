@@ -45,9 +45,9 @@ INDI_P::INDI_P(INDI_G *ipg, INDI::Property *prop)
     name = QString(prop->getName());
 
     PHBox.reset(new QHBoxLayout());
-    PHBox->setMargin(0);
+    PHBox->setContentsMargins(0, 0, 0, 0);
     PVBox = new QVBoxLayout();
-    PVBox->setMargin(0);
+    PVBox->setContentsMargins(0, 0, 0, 0);
 
     initGUI();
 }

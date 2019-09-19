@@ -43,7 +43,7 @@ TimeStepBox::TimeStepBox(QWidget *parent, bool daysonly) : QWidget(parent)
              "higher/lower unit of time.  For example, if the timescale is currently \"1 min\", the right up button "
              "will make it \"1 hour\", and the right down button will make it \"1 sec\""));
     hlay = new QHBoxLayout(this);
-    hlay->setMargin(0);
+    hlay->setContentsMargins(0, 0, 0, 0);
     hlay->setSpacing(0);
     hlay->addWidget(timeBox);
     hlay->addWidget(unitBox);

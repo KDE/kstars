@@ -42,7 +42,7 @@ JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 #endif
 
     QVBoxLayout *vlay = new QVBoxLayout;
-    vlay->setMargin(0);
+    vlay->setContentsMargins(0, 0, 0, 0);
     vlay->setSpacing(0);
 
     setLayout(vlay);
