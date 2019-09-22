@@ -259,6 +259,10 @@
             <driver name="MoonLite DRO">indi_moonlitedro_focus</driver>
             <version>1.0</version>
         </device>
+        <device label="MyFocuserPro2">
+            <driver name="MyFocuserPro2">indi_myfocuserpro2_focus</driver>
+            <version>0.1</version>
+        </device>
         <device label="DeepSkyDad AF1">
             <driver name="DeepSkyDad AF1">indi_deepskydad_af1_focus</driver>
             <version>1.0</version>
@@ -293,6 +297,10 @@
         </device>
         <device label="Baader SteelDrive">
             <driver name="Baader SteelDrive">indi_steeldrive_focus</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Baader SteelDriveII">
+            <driver name="Baader SteelDriveII">indi_steeldrive2_focus</driver>
             <version>1.0</version>
         </device>
         <device label="HitecAstro DC">
@@ -467,6 +475,10 @@
         </device>
         <device label="Baader Dome">
             <driver name="Baader Dome">indi_baader_dome</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Pulsar Dome">
+            <driver name="Rigel Dome">indi_rigel_dome</driver>
             <version>1.0</version>
         </device>
         <device label="Dome Simulator">
@@ -843,7 +855,7 @@
     <devGroup group="CCDs">
         <device label="QHY CCD" mdpd="true">
             <driver name="QHY CCD">indi_qhy_ccd</driver>
-            <version>2.4</version>
+            <version>2.5</version>
         </device>
     </devGroup>
 </driversList>
