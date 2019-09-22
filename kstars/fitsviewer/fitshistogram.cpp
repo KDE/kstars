@@ -202,7 +202,7 @@ template <typename T> void FITSHistogram::constructHistogram()
     //binCount = static_cast<uint16_t>(sqrt(samples));
     binCount = qMin(FITSMax[0] - FITSMin[0], 400.0);
     if (binCount <= 0)
-      binCount = 400;
+        binCount = 400;
 
     for (int n = 0; n < channels; n++)
     {
@@ -304,26 +304,27 @@ template <typename T> void FITSHistogram::constructHistogram()
                 const int median_num_bins = discrete ? binWidth[n] : continuous_num_bins;
                 const double bin_sample_width = discrete ? 1.0 : binWidth[n] / continuous_num_bins;
 
-                // This will contain the frequency counts 
+                // This will contain the frequency counts
                 QVector<uint32_t> median_bin_frequency;
                 median_bin_frequency.fill(0, median_num_bins);
 
                 uint32_t offset = n * samples;
-                for (uint32_t i = 0; i < samples; i += sampleBy) 
+                for (uint32_t i = 0; i < samples; i += sampleBy)
                 {
                     const T value = buffer[i + offset];
                     if (value >= lowValue && value < highValue)
                     {
-                      const int id = discrete ?
-                        value - lowValue :
-                        qMin(median_num_bins - 1, (int) rint((value - lowValue) / bin_sample_width));
-                      median_bin_frequency[id] += sampleBy;
+                        const int id = discrete ?
+                                       value - lowValue :
+                                       qMin(median_num_bins - 1, (int) rint((value - lowValue) / bin_sample_width));
+                        median_bin_frequency[id] += sampleBy;
                     }
                 }
 
                 // Search the median bin's histogram to find the exact median value.
                 uint32_t sum = 0;
-                if (median_bin > 0) {
+                if (median_bin > 0)
+                {
                     sum = cumulativeFrequency[n][median_bin - 1];
                 }
                 for (int i = 0; i < median_num_bins; ++i)
@@ -357,7 +358,10 @@ template <typename T> void FITSHistogram::constructHistogram()
         future.waitForFinished();
 
     // Custom index to indicate the overall contrast of the image
-    JMIndex = cumulativeFrequency[RED_CHANNEL][binCount / 8] / cumulativeFrequency[RED_CHANNEL][binCount / 4];
+    if (cumulativeFrequency[RED_CHANNEL][binCount / 4] > 0)
+        JMIndex = cumulativeFrequency[RED_CHANNEL][binCount / 8] / cumulativeFrequency[RED_CHANNEL][binCount / 4];
+    else
+        JMIndex = 1;
     qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
 
     sliderTick.clear();
