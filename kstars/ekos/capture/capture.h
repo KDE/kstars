@@ -745,6 +745,9 @@ class Capture : public QWidget, public Ui::Capture
         bool checkMeridianFlip();
         void checkGuidingAfterFlip();
 
+        // check if a pause has been planned
+        bool checkPausing();
+
         // Remaining Time in seconds
         int getJobRemainingTime(SequenceJob *job);
 

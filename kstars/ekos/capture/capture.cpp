@@ -422,6 +422,15 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
 
 void Capture::pause()
 {
+    if (m_State != CAPTURE_CAPTURING)
+    {
+        // Ensure that the pause function is only called during frame capturing
+        // Handling it this way is by far easier than trying to enable/disable the pause button
+        // Fixme: make pausing possible at all stages. This makes it necessary to separate the pausing states from CaptureState.
+        appendLogText(i18n("Pausing only possible while frame capture is running."));
+        qCInfo(KSTARS_EKOS_CAPTURE) << "Pause button pressed while not capturing.";
+        return;
+    }
     pauseFunction = nullptr;
     m_State         = CAPTURE_PAUSE_PLANNED;
     emit newStatus(Ekos::CAPTURE_PAUSE_PLANNED);
@@ -1376,13 +1385,10 @@ void Capture::syncFilterInfo()
 
 bool Capture::startNextExposure()
 {
-    if (m_State == CAPTURE_PAUSE_PLANNED)
+    // check if pausing has been requested
+    if (checkPausing() == true)
     {
         pauseFunction = &Capture::startNextExposure;
-        appendLogText(i18n("Sequence paused."));
-        secondsLabel->setText(i18n("Paused..."));
-        m_State = CAPTURE_PAUSED;
-        setMeridianFlipStage(MF_READY);
         return false;
     }
 
@@ -1529,15 +1535,10 @@ bool Capture::setCaptureComplete()
         return true;
     }
 
-    if (m_State == CAPTURE_PAUSE_PLANNED)
+    // check if pausing has been requested
+    if (checkPausing() == true)
     {
         pauseFunction = &Capture::setCaptureComplete;
-        appendLogText(i18n("Sequence paused."));
-        secondsLabel->setText(i18n("Paused..."));
-        m_State = CAPTURE_PAUSED;
-        // handle a requested meridian flip
-        if (meridianFlipStage != MF_NONE)
-            setMeridianFlipStage(MF_READY);
         return false;
     }
 
@@ -4605,6 +4606,23 @@ void Capture::checkGuidingAfterFlip()
         setMeridianFlipStage(MF_GUIDING);
         emit meridianFlipCompleted();
     }
+}
+
+bool Capture::checkPausing()
+{
+    if (m_State == CAPTURE_PAUSE_PLANNED)
+    {
+        appendLogText(i18n("Sequence paused."));
+        secondsLabel->setText(i18n("Paused..."));
+        m_State = CAPTURE_PAUSED;
+        // handle a requested meridian flip
+        if (meridianFlipStage != MF_NONE)
+            setMeridianFlipStage(MF_READY);
+        // pause
+        return true;
+    }
+    // no pause
+    return false;
 }
 
 
