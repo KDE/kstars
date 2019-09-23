@@ -1288,10 +1288,7 @@ void Scheduler::stop()
         foreach (SchedulerJob *job, jobs)
         {
             if (job == currentJob)
-            {
                 stopCurrentJobAction();
-                stopGuiding();
-            }
 
             if (job->getState() <= SchedulerJob::JOB_BUSY)
             {
@@ -3266,7 +3263,6 @@ void Scheduler::checkJobStage()
                                currentJob->getCompletionTime().toString(currentJob->getDateTimeDisplayFormat())));
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             stopCurrentJobAction();
-            stopGuiding();
             findNextJob();
             return;
         }
@@ -3292,7 +3288,6 @@ void Scheduler::checkJobStage()
 
                 currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 stopCurrentJobAction();
-                stopGuiding();
                 findNextJob();
                 return;
             }
@@ -3318,7 +3313,6 @@ void Scheduler::checkJobStage()
 
                 currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 stopCurrentJobAction();
-                stopGuiding();
                 findNextJob();
                 return;
             }
@@ -3337,7 +3331,6 @@ void Scheduler::checkJobStage()
                               preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             stopCurrentJobAction();
-            stopGuiding();
             findNextJob();
             return;
         }
@@ -3860,17 +3853,8 @@ void Scheduler::stopCurrentJobAction()
                 alignInterface->call(QDBus::AutoDetect, "abort");
                 break;
 
-            //case SchedulerJob::STAGE_CALIBRATING:
-            //        guideInterface->call(QDBus::AutoDetect,"stopCalibration");
-            //    break;
-
-            case SchedulerJob::STAGE_GUIDING:
-                stopGuiding();
-                break;
-
             case SchedulerJob::STAGE_CAPTURING:
                 captureInterface->call(QDBus::AutoDetect, "abort");
-                //stopGuiding();
                 break;
 
             default:
@@ -3880,6 +3864,9 @@ void Scheduler::stopCurrentJobAction()
         /* Reset interrupted job stage */
         currentJob->setStage(SchedulerJob::STAGE_IDLE);
     }
+
+    /* Guiding being a parallel process, check to stop it */
+    stopGuiding();
 }
 
 bool Scheduler::manageConnectionLoss()
@@ -3926,9 +3913,6 @@ bool Scheduler::manageConnectionLoss()
 
     // Stop actions of the current job
     stopCurrentJobAction();
-
-    // Stop guiding, in case we are using it
-    stopGuiding();
 
     // Acknowledge INDI and Ekos disconnections
     disconnectINDI();
@@ -4410,7 +4394,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
 void Scheduler::startSlew()
 {
-    Q_ASSERT(currentJob != nullptr);
+    Q_ASSERT_X(nullptr != currentJob, __FUNCTION__, "Job starting slewing must be valid");
 
     // If the mount was parked by a pause or the end-user, unpark
     if (isMountParked())
@@ -4443,6 +4427,8 @@ void Scheduler::startSlew()
 
 void Scheduler::startFocusing()
 {
+    Q_ASSERT_X(nullptr != currentJob, __FUNCTION__, "Job starting focusing must be valid");
+
     // 2017-09-30 Jasem: We're skipping post align focusing now as it can be performed
     // when first focus request is made in capture module
     if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
@@ -4638,7 +4624,6 @@ void Scheduler::findNextJob()
         if (currentJob == nullptr || currentJob->getRepeatsRemaining() == 0)
         {
             stopCurrentJobAction();
-            stopGuiding();
 
             if (currentJob != nullptr)
             {
@@ -4708,7 +4693,7 @@ void Scheduler::findNextJob()
                 if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
                     a_job->setState(SchedulerJob::JOB_IDLE);
             stopCurrentJobAction();
-            stopGuiding();
+
             captureBatch = 0;
 
             appendLogText(i18np("Job '%1' stopping, reached completion time with #%2 batch done.",
@@ -4751,6 +4736,8 @@ void Scheduler::findNextJob()
 
 void Scheduler::startAstrometry()
 {
+    Q_ASSERT_X(nullptr != currentJob, __FUNCTION__, "Job starting aligning must be valid");
+
     QDBusMessage reply;
     setSolverAction(Align::GOTO_SLEW);
 
@@ -4796,6 +4783,8 @@ void Scheduler::startAstrometry()
 
 void Scheduler::startGuiding(bool resetCalibration)
 {
+    Q_ASSERT_X(nullptr != currentJob, __FUNCTION__, "Job starting guiding must be valid");
+
     // avoid starting the guider twice
     if (resetCalibration == false && getGuidingStatus() == GUIDE_GUIDING)
     {
@@ -4828,6 +4817,8 @@ void Scheduler::startGuiding(bool resetCalibration)
 
 void Scheduler::startCapture(bool restart)
 {
+    Q_ASSERT_X(nullptr != currentJob, __FUNCTION__, "Job starting capturing must be valid");
+
     captureInterface->setProperty("targetName", currentJob->getName().replace(' ', ""));
 
     QString url = currentJob->getSequenceFile().toLocalFile();
@@ -4905,21 +4896,17 @@ void Scheduler::startCapture(bool restart)
 
 void Scheduler::stopGuiding()
 {
+    // Tell guider to abort if the current job requires guiding - end-user may enable guiding manually before observation
     if (nullptr != currentJob && (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE))
     {
-        switch (currentJob->getStage())
-        {
-            case SchedulerJob::STAGE_GUIDING_COMPLETE:
-            case SchedulerJob::STAGE_CAPTURING:
-                qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is stopping guiding...").arg(currentJob->getName());
-                guideInterface->call(QDBus::AutoDetect, "abort");
-                guideFailureCount = 0;
-                break;
-
-            default:
-                break;
-        }
+        qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is stopping guiding...").arg(currentJob->getName());
+        guideInterface->call(QDBus::AutoDetect, "abort");
+        guideFailureCount = 0;
     }
+
+    // In any case, stop the automatic guider restart
+    if (restartGuidingTimer.isActive())
+        restartGuidingTimer.stop();
 }
 
 void Scheduler::setSolverAction(Align::GotoMode mode)
@@ -7236,7 +7223,7 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
         {
             currentJob->setState(SchedulerJob::JOB_ABORTED);
             stopCurrentJobAction();
-            stopGuiding();
+
             jobTimer.stop();
         }
         checkShutdownState();
