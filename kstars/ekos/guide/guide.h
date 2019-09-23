@@ -394,6 +394,7 @@ class Guide : public QWidget, public Ui::Guide
         void setDECSwap(bool enable);
 
         void refreshColorScheme();
+        void setupNSEWLabels();
 
         //plot slots
         void handleVerticalPlotSizeChange();

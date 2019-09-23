@@ -250,6 +250,78 @@ void Guide::clearGuideGraphs()
     driftGraph->clearItems();  //Clears dither text items from the graph
     driftGraph->replot();
     driftPlot->replot();
+
+    //Since the labels got cleared with clearItems above.
+    setupNSEWLabels();
+}
+
+void Guide::setupNSEWLabels()
+{
+    //Labels for N/S/E/W
+    QColor raLabelColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
+    QColor deLabelColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
+
+    //DriftGraph
+    {
+        QCPItemText *northLabel = new QCPItemText(driftGraph);
+        northLabel->setColor(deLabelColor);
+        northLabel->setText(i18nc("North","N"));
+        northLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        northLabel->position->setCoords(0.6,0.1);
+        northLabel->setVisible(true);
+
+        QCPItemText *southLabel = new QCPItemText(driftGraph);
+        southLabel->setColor(deLabelColor);
+        southLabel->setText(i18nc("South","S"));
+        southLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        southLabel->position->setCoords(0.6,0.8);
+        southLabel->setVisible(true);
+
+        QCPItemText *eastLabel = new QCPItemText(driftGraph);
+        eastLabel->setColor(raLabelColor);
+        eastLabel->setText(i18nc("East","E"));
+        eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        eastLabel->position->setCoords(0.8,0.8);
+        eastLabel->setVisible(true);
+
+        QCPItemText *westLabel = new QCPItemText(driftGraph);
+        westLabel->setColor(raLabelColor);
+        westLabel->setText(i18nc("West","W"));
+        westLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        westLabel->position->setCoords(0.8,0.1);
+        westLabel->setVisible(true);
+    }
+
+    //DriftPlot
+    {
+        QCPItemText *northLabel = new QCPItemText(driftPlot);
+        northLabel->setColor(deLabelColor);
+        northLabel->setText(i18nc("North","N"));
+        northLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        northLabel->position->setCoords(0.8,0.75);
+        northLabel->setVisible(true);
+
+        QCPItemText *southLabel = new QCPItemText(driftPlot);
+        southLabel->setColor(deLabelColor);
+        southLabel->setText(i18nc("South","S"));
+        southLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        southLabel->position->setCoords(0.3,0.75);
+        southLabel->setVisible(true);
+
+        QCPItemText *eastLabel = new QCPItemText(driftPlot);
+        eastLabel->setColor(raLabelColor);
+        eastLabel->setText(i18nc("East","E"));
+        eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        eastLabel->position->setCoords(0.25,0.7);
+        eastLabel->setVisible(true);
+
+        QCPItemText *westLabel = new QCPItemText(driftPlot);
+        westLabel->setColor(raLabelColor);
+        westLabel->setText(i18nc("West","W"));
+        westLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        westLabel->position->setCoords(0.25,0.2);
+        westLabel->setVisible(true);
+    }
 }
 
 void Guide::slotAutoScaleGraphs()
@@ -3092,6 +3164,8 @@ void Guide::initPlots()
     driftGraph->yAxis2->setLabelPadding(1);
     driftGraph->yAxis->setLabel(i18n("drift (arcsec)"));
     driftGraph->yAxis2->setLabel(i18n("pulse (ms)"));
+
+    setupNSEWLabels();
 
     //Sets the default ranges
     driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
