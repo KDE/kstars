@@ -277,6 +277,13 @@ void Guide::setupNSEWLabels()
         southLabel->position->setCoords(0.6,0.8);
         southLabel->setVisible(true);
 
+        QCPItemText *westLabel = new QCPItemText(driftGraph);
+        westLabel->setColor(raLabelColor);
+        westLabel->setText(i18nc("West","W"));
+        westLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        westLabel->position->setCoords(0.8,0.1);
+        westLabel->setVisible(true);
+
         QCPItemText *eastLabel = new QCPItemText(driftGraph);
         eastLabel->setColor(raLabelColor);
         eastLabel->setText(i18nc("East","E"));
@@ -284,12 +291,6 @@ void Guide::setupNSEWLabels()
         eastLabel->position->setCoords(0.8,0.8);
         eastLabel->setVisible(true);
 
-        QCPItemText *westLabel = new QCPItemText(driftGraph);
-        westLabel->setColor(raLabelColor);
-        westLabel->setText(i18nc("West","W"));
-        westLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        westLabel->position->setCoords(0.8,0.1);
-        westLabel->setVisible(true);
     }
 
     //DriftPlot
@@ -298,29 +299,29 @@ void Guide::setupNSEWLabels()
         northLabel->setColor(deLabelColor);
         northLabel->setText(i18nc("North","N"));
         northLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        northLabel->position->setCoords(0.8,0.75);
+        northLabel->position->setCoords(0.25,0.2);
         northLabel->setVisible(true);
 
         QCPItemText *southLabel = new QCPItemText(driftPlot);
         southLabel->setColor(deLabelColor);
         southLabel->setText(i18nc("South","S"));
         southLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        southLabel->position->setCoords(0.3,0.75);
+        southLabel->position->setCoords(0.25,0.7);
         southLabel->setVisible(true);
-
-        QCPItemText *eastLabel = new QCPItemText(driftPlot);
-        eastLabel->setColor(raLabelColor);
-        eastLabel->setText(i18nc("East","E"));
-        eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        eastLabel->position->setCoords(0.25,0.7);
-        eastLabel->setVisible(true);
 
         QCPItemText *westLabel = new QCPItemText(driftPlot);
         westLabel->setColor(raLabelColor);
         westLabel->setText(i18nc("West","W"));
         westLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        westLabel->position->setCoords(0.25,0.2);
+        westLabel->position->setCoords(0.8,0.75);
         westLabel->setVisible(true);
+
+        QCPItemText *eastLabel = new QCPItemText(driftPlot);
+        eastLabel->setColor(raLabelColor);
+        eastLabel->setText(i18nc("East","E"));
+        eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
+        eastLabel->position->setCoords(0.3,0.75);
+        eastLabel->setVisible(true);
     }
 }
 
