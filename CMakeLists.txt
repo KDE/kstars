@@ -187,17 +187,17 @@ if (ANDROID)
     endif()
     externalproject_add(indi SOURCE_DIR "${CMAKE_BINARY_DIR}/packaging/android/indi"
         URL https://github.com/indilib/indi/archive/master.zip
-        CONFIGURE_COMMAND cd libindi && cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
+        CONFIGURE_COMMAND cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
              -DINDI_BUILD_POSIX_CLIENT=OFF -DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_UNITTESTS=OFF \\
              -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON \\
              -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio -DQT_ANDROID=${QT_ANDROID} -DCMAKE_PREFIX_PATH=${QT_ANDROID} ${extra_cmake}
-        BUILD_COMMAND make -C libindi
+        BUILD_COMMAND make
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")
 
     set(INDI_FOUND TRUE)
-    set(INDI_INCLUDE_DIR ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi/libs/indibase ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi/libs)
-    set(INDI_CLIENT_ANDROID_LIBRARIES ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi/libindiclientqt.a)
+    set(INDI_INCLUDE_DIR ${CMAKE_BINARY_DIR}/packaging/android/indi/libs/indibase ${CMAKE_BINARY_DIR}/packaging/android/indi ${CMAKE_BINARY_DIR}/packaging/android/indi/libs)
+    set(INDI_CLIENT_ANDROID_LIBRARIES ${CMAKE_BINARY_DIR}/packaging/android/indi/libindiclientqt.a)
 else ()
     find_package(INDI 1.7.1)
 endif ()
