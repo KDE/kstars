@@ -7,6 +7,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "kstarsdata.h"
+
 #include "observatory.h"
 
 #include "ekos_observatory_debug.h"
@@ -631,7 +633,7 @@ void Observatory::statusControlSettingsChanged()
 void Observatory::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                              QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_OBSERVATORY) << text;
 

@@ -1955,7 +1955,7 @@ void Manager::updateLog()
 void Manager::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                              QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS) << text;
 

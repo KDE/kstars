@@ -198,6 +198,9 @@ Scheduler::Scheduler()
 
     connect(twilightCheck, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
+    // Connect simulation clock scale
+    connect(KStarsData::Instance()->clock(), &SimClock::scaleChanged, this, &Scheduler::simClockScaleChanged);
+
     // restore default values for error handling strategy
     setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
     errorHandlingRescheduleErrorsCB->setChecked(Options::rescheduleErrors());
@@ -373,7 +376,7 @@ void Scheduler::appendLogText(const QString &text)
         m_LogText.removeLast();
 
     m_LogText.prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                            KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << text;
 
@@ -1679,7 +1682,7 @@ void Scheduler::evaluateJobs()
             appendLogText(i18n("All jobs aborted. Waiting %1 seconds to re-schedule.", errorHandlingDelaySB->value()));
 
             // wait the given delay until the jobs will be evaluated again
-            sleepTimer.setInterval(( errorHandlingDelaySB->value() * 1000));
+            sleepTimer.setInterval(std::lround((errorHandlingDelaySB->value() * 1000) / KStarsData::Instance()->clock()->scale()));
             sleepTimer.start();
             sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
             sleepLabel->show();
@@ -4567,7 +4570,7 @@ void Scheduler::findNextJob()
             appendLogText(i18n("Waiting %1 seconds to restart job '%2'.", errorHandlingDelaySB->value(), currentJob->getName()));
 
             // wait the given delay until the jobs will be evaluated again
-            sleepTimer.setInterval(( errorHandlingDelaySB->value() * 1000));
+            sleepTimer.setInterval(std::lround((errorHandlingDelaySB->value() * 1000) / KStarsData::Instance()->clock()->scale()));
             sleepTimer.start();
             sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
             sleepLabel->show();
@@ -6690,6 +6693,20 @@ void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
     m_EkosCommunicationStatus = status;
 }
 
+void Scheduler::simClockScaleChanged(float newScale)
+{
+    if (sleepTimer.isActive())
+    {
+        QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround((double) sleepTimer.remainingTime()
+                                                                                  * KStarsData::Instance()->clock()->scale()
+                                                                                  / newScale));
+        appendLogText(i18n("Sleeping for %2 on simulation clock update until observation job %1 is ready...", currentJob->getName(),
+                           remainingTimeMs.toString("hh:mm:ss")));
+        sleepTimer.stop();
+        sleepTimer.start(remainingTimeMs.msecsSinceStartOfDay());
+    }
+}
+
 void Scheduler::registerNewModule(const QString &name)
 {
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Registering new Module (" << name << ")";
@@ -7259,7 +7276,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
         // Wake up when job is due.
         // FIXME: Implement waking up periodically before job is due for weather check.
         // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
-        sleepTimer.setInterval( (nextObservationTime + 1) * 1000);
+        sleepTimer.setInterval(std::lround(((nextObservationTime + 1) * 1000) / KStarsData::Instance()->clock()->scale()));
         sleepTimer.start();
 
         return true;
@@ -7309,7 +7326,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
         // Wake up when job is due.
         // FIXME: Implement waking up periodically before job is due for weather check.
         // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
-        sleepTimer.setInterval(( (nextObservationTime + 1) * 1000));
+        sleepTimer.setInterval(std::lround(((nextObservationTime + 1) * 1000) / KStarsData::Instance()->clock()->scale()));
         sleepTimer.start();
 
         return true;

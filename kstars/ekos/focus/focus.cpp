@@ -1475,12 +1475,13 @@ void Focus::setCaptureComplete()
     if (Options::focusLogging() && Options::saveFocusImages())
     {
         QDir dir;
+        QDateTime now = KStarsData::Instance()->lt();
         QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus/" +
-                       QDateTime::currentDateTime().toString("yyyy-MM-dd");
+                       now.toString("yyyy-MM-dd");
         dir.mkpath(path);
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
-        QString name     = "autofocus_frame_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".fits";
+        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
         focusView->getImageData()->saveFITS(filename);
     }
@@ -2197,7 +2198,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 void Focus::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                              QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_FOCUS) << text;
 

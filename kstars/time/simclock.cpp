@@ -182,6 +182,7 @@ void SimClock::setClockScale(float s)
     if (Scale != s)
     {
         qCInfo(KSTARS) << "New clock scale: " << s << " sec";
+        emit scaleChanged(s);
         Scale = s;
         if (tmr.isActive())
         {
@@ -189,6 +190,5 @@ void SimClock::setClockScale(float s)
             sysmark.start();
             lastelapsed = 0;
         }
-        emit scaleChanged(s);
     }
 }
