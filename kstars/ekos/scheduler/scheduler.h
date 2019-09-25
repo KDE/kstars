@@ -476,6 +476,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void setINDICommunicationStatus(Ekos::CommunicationStatus status);
         void setEkosCommunicationStatus(Ekos::CommunicationStatus status);
 
+        void simClockScaleChanged(float);
+
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::SchedulerState state);
