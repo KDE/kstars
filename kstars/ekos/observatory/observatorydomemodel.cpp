@@ -48,7 +48,7 @@ void ObservatoryDomeModel::park()
     if (domeInterface == nullptr)
         return;
 
-    emit newLog(i18n("Parking dome..."));
+    emit newLog(i18n("Parking %1...", isRolloffRoof() ? i18n("rolloff roof") : i18n("dome")));
     domeInterface->park();
 }
 
@@ -58,7 +58,7 @@ void ObservatoryDomeModel::unpark()
     if (domeInterface == nullptr)
         return;
 
-    emit newLog(i18n("Unparking dome..."));
+    emit newLog(i18n("Unparking %1...", isRolloffRoof() ? i18n("rolloff roof") : i18n("dome")));
     domeInterface->unpark();
 }
 
@@ -85,7 +85,7 @@ void ObservatoryDomeModel::setAutoSync(bool activate)
         return;
 
     if (domeInterface->setAutoSync(activate))
-        emit newLog(i18n(activate ? "Slaving activated." : "Slaving deactivated."));
+        emit newLog(activate ? i18n("Slaving activated.") : i18n("Slaving deactivated."));
 
 }
 
@@ -121,7 +121,10 @@ bool ObservatoryDomeModel::moveDome(bool moveCW, bool start)
     if (domeInterface == nullptr)
         return false;
 
-    emit newLog(i18n("%2 dome motion %1...", moveCW ? "clockwise" : "counter clockwise", start ? "Starting" : "Stopping"));
+    if (isRolloffRoof())
+        emit newLog(i18nc("%2 dome or rolloff roof motion %1...", "%2 rolloff roof %1...", moveCW ? i18n("opening") : i18n("closing"), start ? i18n("Start") : i18n("Stop")));
+    else
+        emit newLog(i18nc("%2 dome or rolloff roof motion %1...", "%2 dome motion %1...", moveCW ? i18n("clockwise") : i18n("counter clockwise"), start ? i18n("Start") : i18n("Stop")));
     return domeInterface->moveDome(moveCW, start);
 }
 

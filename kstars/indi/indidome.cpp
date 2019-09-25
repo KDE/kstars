@@ -241,6 +241,11 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             m_Status = DOME_IDLE;
             emit newStatus(m_Status);
         }
+        else if (svp->s == IPS_ALERT)
+        {
+            m_Status = DOME_ERROR;
+            emit newStatus(m_Status);
+        }
     }
     else if (!strcmp(svp->name, "DOME_SHUTTER"))
     {

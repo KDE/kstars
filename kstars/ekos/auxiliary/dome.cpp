@@ -14,6 +14,7 @@
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 #include "kstars.h"
+#include "ekos_debug.h"
 
 #include <basedevice.h>
 
@@ -68,6 +69,7 @@ bool Dome::park()
     if (currentDome == nullptr || currentDome->canPark() == false)
         return false;
 
+    qCDebug(KSTARS_EKOS) << "Parking dome...";
     return currentDome->Park();
 }
 
@@ -76,6 +78,7 @@ bool Dome::unpark()
     if (currentDome == nullptr || currentDome->canPark() == false)
         return false;
 
+    qCDebug(KSTARS_EKOS) << "Unparking dome...";
     return currentDome->UnPark();
 }
 
@@ -84,6 +87,7 @@ bool Dome::abort()
     if (currentDome == nullptr)
         return false;
 
+    qCDebug(KSTARS_EKOS) << "Aborting...";
     return currentDome->Abort();
 }
 
@@ -141,6 +145,10 @@ bool Dome::moveDome(bool moveCW, bool start)
     if (currentDome == nullptr)
         return false;
 
+    if (isRolloffRoof())
+        qCDebug(KSTARS_EKOS) << (moveCW ? "Opening" : "Closing") << "rolloff roof" << (start ? "started." : "stopped.");
+    else
+        qCDebug(KSTARS_EKOS) << "Moving dome" << (moveCW ? "" : "counter") << "clockwise" << (start ? "started." : "stopped.");
     return currentDome->moveDome(moveCW ? ISD::Dome::DOME_CW : ISD::Dome::DOME_CCW,
                                  start  ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
 }
@@ -173,7 +181,10 @@ bool Dome::controlShutter(bool open)
 {
 
     if (currentDome)
+    {
+        qCDebug(KSTARS_EKOS) << (open ? "Opening" : "Closing") << " shutter...";
         return currentDome->ControlShutter(open);
+    }
     // no dome, no shutter control
     return false;
 }
@@ -192,17 +203,23 @@ void Dome::setStatus(ISD::Dome::Status status)
     // special case for rolloff roofs.
     if (isRolloffRoof())
     {
-        // if a parked rollof roof starts to move, its state changes to unparking
+        // if a parked rolloff roof starts to move, its state changes to unparking
         if (status == ISD::Dome::DOME_MOVING_CW && (m_ParkStatus == ISD::PARK_PARKED || m_ParkStatus == ISD::PARK_PARKING))
         {
             m_ParkStatus = ISD::PARK_UNPARKING;
+            qCDebug(KSTARS_EKOS) << "Unparking rolloff roof (status = " << status << ").";
             emit newParkStatus(m_ParkStatus);
         }
-        // if a unparked rollof roof starts to move, its state changes to parking
+        // if a unparked rolloff roof starts to move, its state changes to parking
         else if (status == ISD::Dome::DOME_MOVING_CCW && (m_ParkStatus == ISD::PARK_UNPARKED || m_ParkStatus == ISD::PARK_UNPARKING))
         {
             m_ParkStatus = ISD::PARK_PARKING;
+            qCDebug(KSTARS_EKOS) << "Parking rolloff roof (status = " << status << ").";
             emit newParkStatus(m_ParkStatus);
+        }
+        else
+        {
+            qCDebug(KSTARS_EKOS) << "Rolloff roof status = " << status << ".";
         }
     }
     // in all other cases, do nothing
