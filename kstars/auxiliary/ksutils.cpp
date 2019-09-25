@@ -18,7 +18,7 @@
 #include "ksutils.h"
 #include "config-kstars.h"
 #include "ksnotification.h"
-#include "ekos_align_debug.h"
+#include "kstars_debug.h"
 
 #include "deepskyobject.h"
 #ifndef KSTARS_LITE
@@ -1360,7 +1360,7 @@ bool createLocalAstrometryConf()
 
         if (rc == false)
         {
-            qCCritical(KSTARS_EKOS_ALIGN) << "Failed to create local astrometry directory";
+            qCCritical(KSTARS) << "Failed to create local astrometry directory";
             return false;
         }
     }
@@ -1370,7 +1370,7 @@ bool createLocalAstrometryConf()
 
     if (rc == false)
     {
-        qCCritical(KSTARS_EKOS_ALIGN) << "Failed to copy" << systemConfPath << "to" << confPath;
+        qCCritical(KSTARS) << "Failed to copy" << systemConfPath << "to" << confPath;
         return false;
     }
 
@@ -1401,7 +1401,7 @@ bool createLocalAstrometryConf()
         return true;
     }
 
-    qCCritical(KSTARS_EKOS_ALIGN) << "Failed to open local astrometry config" << confPath;
+    qCCritical(KSTARS) << "Failed to open local astrometry config" << confPath;
     return false;
 }
 
