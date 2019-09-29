@@ -271,13 +271,13 @@ Rectangle {
 
             Label
             {
-                text: qsTr("Reverse")
+                text: i18n("Reverse")
             }
 
             CheckBox
             {
                 id: updownReverse
-                text: qsTr("Up/Down")
+                text: i18n("Up/Down")
                 objectName: "upDownCheckObject"
                 onClicked: mount.setUpDownReversed(checked)
             }
@@ -285,7 +285,7 @@ Rectangle {
             CheckBox
             {
                 id: leftRightReverse
-                text: qsTr("Left/Right")
+                text: i18n("Left/Right")
                 objectName: "leftRightCheckObject"
                 onClicked: mount.setLeftRightReversed(checked)
             }
@@ -321,7 +321,7 @@ Rectangle {
                 id: speedLabel
                 width: 75
                 objectName: "speedLabelObject"
-                text: qsTr("1x")
+                text: i18n("1x")
                 horizontalAlignment: Text.AlignHCenter
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.maximumWidth: 75
@@ -349,7 +349,7 @@ Rectangle {
 
             Label {
                 id: raLabel
-                text: qsTr("RA:")
+                text: i18n("RA:")
                 font.pointSize: 9
                 font.bold: true
                 color: "white"
@@ -369,7 +369,7 @@ Rectangle {
             Label {
                 id: azLabel
                 color: "#ffffff"
-                text: qsTr("AZ:")
+                text: i18n("AZ:")
                 Layout.fillWidth: false
                 fontSizeMode: Text.Fit
                 font.bold: true
@@ -388,7 +388,7 @@ Rectangle {
             Label {
                 id: deLabel
                 color: "#ffffff"
-                text: qsTr("DE:")
+                text: i18n("DE:")
                 font.pointSize: 10
                 fontSizeMode: Text.Fit
                 font.bold: true
@@ -407,7 +407,7 @@ Rectangle {
             Label {
                 id: altLabel
                 color: "#ffffff"
-                text: qsTr("AL:")
+                text: i18n("AL:")
                 font.pointSize: 9
                 fontSizeMode: Text.Fit
                 font.bold: true
@@ -426,7 +426,7 @@ Rectangle {
             Label {
                 id: haLabel
                 color: "#ffffff"
-                text: qsTr("HA:")
+                text: i18n("HA:")
                 font.pointSize: 9
                 fontSizeMode: Text.Fit
                 font.bold: true
@@ -445,7 +445,7 @@ Rectangle {
             Label {
                 id: zaLabel
                 color: "#ffffff"
-                text: qsTr("ZA:")
+                text: i18n("ZA:")
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -474,7 +474,7 @@ Rectangle {
             Label {
                 id: targetLabel
                 color: "#ffffff"
-                text: qsTr("Target:")
+                text: i18n("Target:")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: false
@@ -532,7 +532,7 @@ Rectangle {
             Label {
                 id: targetRALabel
                 color: "#ffffff"
-                text: qsTr("RA/AZ:")
+                text: i18n("RA/AZ:")
                 font.pointSize: 12
             }
 
@@ -550,7 +550,7 @@ Rectangle {
             Label {
                 id: targetDELabel
                 color: "#ffffff"
-                text: qsTr("DE/AL:")
+                text: i18n("DE/AL:")
                 font.pointSize: 12
             }
 
@@ -567,7 +567,7 @@ Rectangle {
 
             Label {
                 id: coordLabel
-                text: qsTr("Type:")
+                text: i18n("Type:")
             }
 
             RowLayout
@@ -577,7 +577,7 @@ Rectangle {
                     id: equatorialCheck
                     objectName: "equatorialCheckObject"
                     checked: true
-                    text: qsTr("RA/DE")
+                    text: i18n("RA/DE")
                     exclusiveGroup: coordGroup
 
                     onCheckedChanged: checked ? targetRAText.placeholderText = "HH:MM:SS" : targetRAText.placeholderText = "DDD:MM:SS"
@@ -586,14 +586,14 @@ Rectangle {
                 RadioButton {
                     id: horizontalCheck
                     objectName: "horizontalCheckObject"
-                    text: qsTr("AZ/AL")
+                    text: i18n("AZ/AL")
                     exclusiveGroup: coordGroup
                 }
             }
 
             Label {
                 id: epochLabel
-                text: qsTr("Epoch:")
+                text: i18n("Epoch:")
             }
 
             RowLayout
@@ -603,14 +603,14 @@ Rectangle {
                     id: jnowCheck
                     objectName: "jnowCheckObject"
                     checked: true
-                    text: qsTr("JNow")
+                    text: i18n("JNow")
                     exclusiveGroup: epochGroup
                 }
 
                 RadioButton {
                     id: j2000Check
                     objectName: "j2000CheckObject"
-                    text: qsTr("J2000")
+                    text: i18n("J2000")
                     exclusiveGroup: epochGroup
                 }
             }
@@ -629,7 +629,7 @@ Rectangle {
 
             Button {
                 id: gotoButton
-                text: qsTr("GOTO")
+                text: i18n("GOTO")
                 Layout.fillWidth: true
 
                 onClicked:
@@ -640,7 +640,7 @@ Rectangle {
 
             Button {
                 id: syncButton
-                text: qsTr("SYNC")
+                text: i18n("SYNC")
                 Layout.fillWidth: true
 
                 onClicked:
@@ -652,7 +652,7 @@ Rectangle {
             Button {
                 id: parkButton
                 objectName: "parkButtonObject"
-                text: qsTr("PARK")
+                text: i18n("PARK")
                 Layout.fillWidth: true
 
                 onClicked:
@@ -664,7 +664,7 @@ Rectangle {
             Button {
                 id: unparkButton
                 objectName: "unparkButtonObject"
-                text: qsTr("UNPARK")
+                text: i18n("UNPARK")
                 Layout.fillWidth: true
 
                 onClicked:
@@ -683,7 +683,7 @@ Rectangle {
             Label {
                 id: statusLabel
                 color: "#ffffff"
-                text: qsTr("Status:")
+                text: i18n("Status:")
                 font.pointSize: 12
                 font.bold: true
             }
@@ -692,7 +692,7 @@ Rectangle {
                 id: statusText
                 objectName: "statusTextObject"
                 color: "#ffffff"
-                text: qsTr("Idle")
+                text: i18n("Idle")
                 Layout.fillWidth: true
                 Layout.minimumWidth: 100
                 font.pointSize: 12
