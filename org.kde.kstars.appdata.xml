@@ -338,6 +338,7 @@
       <caption>KStars main window</caption>
       <caption xml:lang="ca">Finestra principal del KStars</caption>
       <caption xml:lang="ca-valencia">Finestra principal del KStars</caption>
+      <caption xml:lang="cs">Hlavní okno KStars</caption>
       <caption xml:lang="en-GB">KStars main window</caption>
       <caption xml:lang="es">Ventana principal de KStars</caption>
       <caption xml:lang="eu">Kstars leiho nagusia</caption>
@@ -358,6 +359,7 @@
       <caption>"What's interesting" tool in KStars</caption>
       <caption xml:lang="ca">Eina «Què hi ha d'interessant» al KStars</caption>
       <caption xml:lang="ca-valencia">Eina «Què hi ha d'interessant» al KStars</caption>
+      <caption xml:lang="cs">Nástroj "Co je zajímavé! v KStars</caption>
       <caption xml:lang="en-GB">"What's interesting" tool in KStars</caption>
       <caption xml:lang="es">Herramienta «Qué es interesante» de KStars</caption>
       <caption xml:lang="eu">"Zer berri gaur gauean" tresna KStars-en</caption>
@@ -394,6 +396,7 @@
       <caption>Observation Planner of KStars</caption>
       <caption xml:lang="ca">Planificador de l'observació del KStars</caption>
       <caption xml:lang="ca-valencia">Planificador de l'observació del KStars</caption>
+      <caption xml:lang="cs">Plánovač pozorování KStars</caption>
       <caption xml:lang="en-GB">Observation Planner of KStars</caption>
       <caption xml:lang="es">Planificador de observación de KStars</caption>
       <caption xml:lang="eu">KStars-en behaketa planifikatzailea</caption>
