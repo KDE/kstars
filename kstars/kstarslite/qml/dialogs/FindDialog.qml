@@ -58,7 +58,7 @@ KSPage {
                 right: parent.right
             }
             KSLabel {
-                text: "Filter by type: "
+                text: xi18n("Filter by type: ")
             }
 
             Item {
@@ -104,14 +104,14 @@ KSPage {
                 id: searchInInternet
                 enabled: searchQuery.text.length > 0 && FindDialogLite.isResolveEnabled
 
-                text: "Search in internet"
+                text: xi18n("Search in internet")
                 onClicked: {
                     FindDialogLite.resolveInInternet(searchQuery.text)
                 }
             }
 
             KSButton {
-                text: "Cancel"
+                text: xi18n("Cancel")
                 onClicked: {
                     stackView.pop()
                 }

@@ -19,7 +19,7 @@ import "../constants" 1.0
 KSPage {
     id: indiPage
     objectName: "indiControlPanel"
-    title: "INDI Control Panel"
+    title: xi18n("INDI Control Panel")
 
     property bool connected: ClientManagerLite.connected
     property alias webMStatusText: webMStatusLabel.text

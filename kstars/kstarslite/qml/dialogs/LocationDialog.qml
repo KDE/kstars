@@ -131,7 +131,7 @@ KSPage {
                 bottom: parent.bottom
             }
 
-            text: "Add Location"
+            text: xi18n("Add Location")
             onClicked: {
                 locationEdit.openAdd()
             }
@@ -143,7 +143,7 @@ KSPage {
                 right: parent.right
             }
 
-            text: "Set from GPS"
+            text: xi18n("Set from GPS")
             onClicked: {
                 locationEdit.setAutomaticallyFromGPS()
             }

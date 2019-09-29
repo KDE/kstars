@@ -237,7 +237,7 @@ KSPage {
                         ColumnLayout {
                             KSLabel {
                                 id:labelYear
-                                text: "Year"
+                                text: xi18n("Year")
                             }
                             Tumbler {
                                 id: tumblerYear
@@ -279,7 +279,7 @@ KSPage {
                             Layout.fillHeight: true
                             KSLabel {
                                 id:labelMonth
-                                text: "Month"
+                                text: xi18n("Month")
                             }
 
                             Tumbler {
@@ -332,7 +332,7 @@ KSPage {
                             visible: false
                             KSLabel {
                                 id:labelWeek
-                                text: "Week"
+                                text: xi18n("Week")
                             }
 
                             Tumbler {
@@ -378,7 +378,7 @@ KSPage {
                         ColumnLayout {
                             KSLabel {
                                 id:labelDay
-                                text: "Day"
+                                text: xi18n("Day")
                             }
 
                             Tumbler {
@@ -440,7 +440,7 @@ KSPage {
                             setCurrentDate()
                         }
 
-                        text: "Now"
+                        text: xi18n("Now")
                     }
 
                     GroupBox {
@@ -452,7 +452,7 @@ KSPage {
                             ColumnLayout {
                                 KSLabel {
                                     id: labelHour
-                                    text: "Hour"
+                                    text: xi18n("Hour")
                                 }
 
                                 Tumbler {
@@ -483,7 +483,7 @@ KSPage {
                             ColumnLayout {
                                 KSLabel {
                                     id:labelMinute
-                                    text: "Min."
+                                    text: xi18n("Min.")
                                 }
 
                                 Tumbler {
@@ -534,12 +534,12 @@ KSPage {
                         console.log(Projector)
                     }
 
-                    text: "Now"
+                    text: xi18n("Now")
                 }
 
                 Button {
                     visible: !window.isPortrait
-                    text: "Ok"
+                    text: xi18n("Ok")
                     anchors {
                         left: parent.left
                     }
@@ -557,7 +557,7 @@ KSPage {
 
                     Button {
                         visible: window.isPortrait
-                        text: "Ok"
+                        text: xi18n("Ok")
                         onClicked: {
                             var date = new Date(userYear, userMonth, userDay, userHour, userMinutes)
                             KStarsLite.slotSetTime(date)
@@ -567,7 +567,7 @@ KSPage {
                     }
 
                     Button {
-                        text: "Cancel"
+                        text: xi18n("Cancel")
                         onClicked: {
                             stackView.pop()
                         }

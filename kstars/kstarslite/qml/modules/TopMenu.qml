@@ -120,7 +120,7 @@ ColumnLayout {
                 TopMenuButton {
                     id: autoModeButton
                     iconSrc: "../../images/kstars_automode.png"
-                    title: "Automatic mode"
+                    title: xi18n("Automatic mode")
                     titlePlural: false
                     visible: Qt.platform.os == "android"
 
@@ -145,7 +145,7 @@ ColumnLayout {
 
             TopMenuButton {
                 iconSrc: "../../images/kstars_stars.png"
-                title: "Stars"
+                title: xi18n("Stars")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Stars)
                 onClicked: {
@@ -154,7 +154,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_deepsky.png"
-                title: "DeepSky Objects"
+                title: xi18n("DeepSky Objects")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.DeepSky)
                 onClicked: {
@@ -163,7 +163,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_planets.png"
-                title: "Solar System"
+                title: xi18n("Solar System")
                 titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Planets)
@@ -173,7 +173,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_supernovae.png"
-                title: "Supernovae"
+                title: xi18n("Supernovae")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Supernovae)
                 onClicked: {
@@ -182,7 +182,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_satellites.png"
-                title: "Satellites"
+                title: xi18n("Satellites")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Satellites)
                 onClicked: {
@@ -191,7 +191,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_clines.png"
-                title: "Constellation Lines"
+                title: xi18n("Constellation Lines")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.CLines)
                 onClicked: {
@@ -200,7 +200,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_cnames.png"
-                title: "Constellation Names"
+                title: xi18n("Constellation Names")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.CNames)
                 onClicked: {
@@ -210,7 +210,7 @@ ColumnLayout {
 
             TopMenuButton {
                 iconSrc: "../../images/kstars_constellationart.png"
-                title: "Constellation Art"
+                title: xi18n("Constellation Art")
                 titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.ConstellationArt)
@@ -221,7 +221,7 @@ ColumnLayout {
 
             TopMenuButton {
                 iconSrc: "../../images/kstars_cbound.png"
-                title: "Constellation Bounds"
+                title: xi18n("Constellation Bounds")
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.CBounds)
                 onClicked: {
@@ -230,7 +230,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_mw.png"
-                title: "Milky Way"
+                title: xi18n("Milky Way")
                 titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.MilkyWay)
@@ -240,7 +240,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_grid.png"
-                title: "Equatorial Grid"
+                title: xi18n("Equatorial Grid")
                 titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.EquatorialGrid)
@@ -250,7 +250,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_hgrid.png"
-                title: "Horizontal Grid"
+                title: xi18n("Horizontal Grid")
                 titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.HorizontalGrid)
@@ -260,7 +260,7 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: "../../images/kstars_horizon.png"
-                title: "Horizon"
+                title: xi18n("Horizon")
                 titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Ground)

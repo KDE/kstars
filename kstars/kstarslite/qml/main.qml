@@ -166,7 +166,7 @@ ApplicationWindow {
 
     Page {
         id: initPage
-        title: "Sky Map"
+        title: xi18n("Sky Map")
         padding: 0
 
         Rectangle {
