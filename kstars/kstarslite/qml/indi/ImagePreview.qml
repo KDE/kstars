@@ -19,7 +19,7 @@ import QtQuick.Dialogs 1.2 as Dialogs
 KSPage {
     id: imagePreview
     anchors.fill: parent
-    title: "Image Preview - " + deviceName
+    title: xi18n("Image Preview - %1", deviceName)
 
     property string deviceName
     property Item buttonRow: null
@@ -40,7 +40,7 @@ KSPage {
             spacing: 5 * Num.dp
 
             Button {
-                text: "Save As"
+                text: xi18n("Save As")
 
                 onClicked: {
                     ClientManagerLite.saveDisplayImage()

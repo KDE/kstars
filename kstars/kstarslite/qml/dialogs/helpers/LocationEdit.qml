@@ -356,7 +356,7 @@ KSPage {
 
             Button {
                 visible: !isReadOnly
-                text: "Set from GPS"
+                text: xi18n("Set from GPS")
                 enabled: isAvailable
                 onClicked: {
                     positionSource.stop()
