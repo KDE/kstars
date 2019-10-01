@@ -104,9 +104,15 @@ void VideoWG::mouseMoveEvent(QMouseEvent *event)
     rubberBand->setGeometry(QRect(origin, event->pos()).normalized());
 }
 
-void VideoWG::mouseReleaseEvent(QMouseEvent *)
+void VideoWG::mouseReleaseEvent(QMouseEvent *event)
 {
     rubberBand->hide();
+
+    if (event->button() == Qt::RightButton)
+    {
+        emit newSelection(QRect());
+        return;
+    }
 
     QRect rawSelection = rubberBand->geometry();
     int pixmapX        = (width() - kPix.width()) / 2;
