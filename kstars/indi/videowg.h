@@ -44,7 +44,7 @@ class VideoWG : public QLabel
         virtual void resizeEvent(QResizeEvent *ev) override;
         void mousePressEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
-        void mouseReleaseEvent(QMouseEvent *) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
 
     signals:
         void newSelection(QRect);

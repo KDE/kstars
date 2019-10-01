@@ -390,6 +390,15 @@ void StreamWG::resetFrame()
 
 void StreamWG::setStreamingFrame(QRect newFrame)
 {
+    if (newFrame.isNull())
+    {
+        resetFrame();
+        return;
+    }
+
+    if (newFrame.width() < 5 || newFrame.height() < 5)
+        return;
+
     int w = newFrame.width();
     // Must be divisable by 4
     while (w % 4)
