@@ -854,28 +854,6 @@ dc1394error_t dc1394_bayer16_RGBX_NearestNeighbor(const uint16_t *bayer, uint16_
     if ((tile > DC1394_COLOR_FILTER_MAX) || (tile < DC1394_COLOR_FILTER_MIN))
         return DC1394_INVALID_COLOR_FILTER;
 
-    /* add black border */
-#if 0
-    int i, iinc, imax;
-    imax = sx * sy * 4;
-    for (i = sx * (sy - 1) * 4; i < imax; i++)
-    {
-        rgbx[i] = 0;
-    }
-    iinc = (sx - 1) * 4;
-    for (i = (sx - 1) * 4; i < imax; i += iinc)
-    {
-        rgbx[i++] = 0;
-        rgbx[i++] = 0;
-        rgbx[i++] = 0;
-        rgbx[i++] = 0;
-    }
-
-    rgbx += 1;
-    height -= 1;
-    width -= 1;
-#endif
-
     for (; height--; bayer += bayerStep, rgbx += rgbStep)
     {
         const uint16_t *bayerEnd = bayer + width;
