@@ -67,7 +67,7 @@ PHD2::PHD2()
 
     //This list of available PHD Methods is on https://github.com/OpenPHDGuiding/phd2/wiki/EventMonitoring
     //Only some of the methods are implemented.  The ones that say COMMAND_RECEIVED simply return a 0 saying the command was received.
-    //capture_single_frame
+    methodResults["capture_single_frame"]   = CAPTURE_SINGLE_FRAME;
     methodResults["clear_calibration"]      = CLEAR_CALIBRATION_COMMAND_RECEIVED;
     methodResults["dither"]                 = DITHER_COMMAND_RECEIVED;
     //find_star
@@ -79,11 +79,11 @@ PHD2::PHD2()
     //get_calibration_data
     methodResults["get_connected"]          = IS_EQUIPMENT_CONNECTED;
     //get_cooler_status
-    //get_current_equipment
+    methodResults["get_current_equipment"]  = GET_CURRENT_EQUIPMENT;
     methodResults["get_dec_guide_mode"]     = DEC_GUIDE_MODE;
     methodResults["get_exposure"]           = EXPOSURE_TIME;
     methodResults["get_exposure_durations"] = EXPOSURE_DURATIONS;
-    //get_lock_position
+    methodResults["get_lock_position"]      = LOCK_POSITION;
     //get_lock_shift_enabled
     //get_lock_shift_params
     //get_paused
@@ -96,13 +96,13 @@ PHD2::PHD2()
     //get_use_subframes
     methodResults["guide"]                  = GUIDE_COMMAND_RECEIVED;
     //guide_pulse
-    //loop
+    methodResults["loop"]                   = LOOP;
     //save_image
     //set_algo_param
     methodResults["set_connected"]          = CONNECTION_RESULT;
     methodResults["set_dec_guide_mode"]     = SET_DEC_GUIDE_MODE_COMMAND_RECEIVED;
     methodResults["set_exposure"]           = SET_EXPOSURE_COMMAND_RECEIVED;
-    //set_lock_position
+    methodResults["set_lock_position"]      = SET_LOCK_POSITION;
     //set_lock_shift_enabled
     //set_lock_shift_params
     methodResults["set_paused"]             = SET_PAUSED_COMMAND_RECEIVED;
@@ -284,6 +284,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
         case StartGuiding:
             setEquipmentConnected();
             updateGuideParameters();
+            requestCurrentEquipmentUpdate();
             // Do not report guiding as started because it will start scheduled capture before guiding is settled
             // just print the log message and GUIDE_STARTED status will be set in SettleDone
             // phd2 will always send SettleDone event
@@ -473,8 +474,13 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 emit newAxisSigma(sqrt(total_sqr_RA_error / errorLog.size()), sqrt(total_sqr_DE_error / errorLog.size()));
 
             }
-
-            requestStarImage(32); //This requests a star image for the guide view.  32 x 32 pixels
+            //Note that if it is receiving full size remote images, it should not get the guide star image.
+            //But if it is not getting the full size images, or if the current camera is not in Ekos, it should get the guide star image
+            //If we are getting the full size image, we will want to know the lock position for the image that loads in the viewer.
+            if ( Options::guideSubframeEnabled() || currentCameraIsNotInEkos )
+                requestStarImage(32); //This requests a star image for the guide view.  32 x 32 pixels
+            else
+                requestLockPosition();
         }
         break;
 
@@ -542,7 +548,9 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             //Ekos didn't ask for this result?
             break;
 
-        //capture_single_frame
+        case CAPTURE_SINGLE_FRAME:                  //capture_single_frame
+            break;
+
         case CLEAR_CALIBRATION_COMMAND_RECEIVED:    //clear_calibration
             break;
 
@@ -574,7 +582,18 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         break;
 
         //get_cooler_status
-        //get_current_equipment
+        case GET_CURRENT_EQUIPMENT:                 //get_current_equipment
+        {
+            QJsonObject equipObject = jsonObj["result"].toObject();
+            currentCamera = equipObject["camera"].toObject()["name"].toString();
+            currentMount = equipObject["mount"].toObject()["name"].toString();
+            currentAuxMount = equipObject["aux_mount"].toObject()["name"].toString();
+
+            emit guideEquipmentUpdated();
+
+            break;
+        }
+
 
         case DEC_GUIDE_MODE:                        //get_dec_guide_mode
         {
@@ -606,7 +625,21 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             emit newLog(logValidExposureTimes);
             break;
         }
-        //get_lock_position
+        case LOCK_POSITION:                         //get_lock_position
+        {
+            if(jsonObj["result"].toArray().count()==2)
+            {
+                double x  = jsonObj["result"].toArray().at(0).toDouble();
+                double y  = jsonObj["result"].toArray().at(1).toDouble();
+                QVector3D newStarCenter(x, y, 0);
+                emit newStarPosition(newStarCenter, true);
+
+                //This is needed so that PHD2 sends the new star pixmap when
+                //remote images are enabled.
+                emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
+            }
+            break;
+        }
         //get_lock_shift_enabled
         //get_lock_shift_params
         //get_paused
@@ -636,8 +669,12 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
 
         case GUIDE_COMMAND_RECEIVED:                //guide
             break;
+
         //guide_pulse
-        //loop
+
+        case LOOP:                                  //loop
+            break;
+
         //save_image
         //set_algo_param
 
@@ -653,7 +690,9 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             requestExposureTime(); //This will check what it was set to and print a message as to what it is.
             break;
 
-        //set_lock_position
+        case SET_LOCK_POSITION:                     //set_lock_position
+            break;
+
         //set_lock_shift_enabled
         //set_lock_shift_params
 
@@ -824,6 +863,7 @@ void PHD2::setEquipmentConnected()
         emit newStatus(Ekos::GUIDE_CONNECTED);
         updateGuideParameters();
         requestExposureDurations();
+        requestCurrentEquipmentUpdate();
     }
 }
 
@@ -838,6 +878,10 @@ void PHD2::updateGuideParameters()
 //This section handles the methods/requests sent to PHD2, some are not implemented.
 
 //capture_single_frame
+void PHD2::captureSingleFrame()
+{
+    sendPHD2Request("capture_single_frame");
+}
 
 //clear_calibration
 bool PHD2::clearCalibration()
@@ -931,6 +975,10 @@ void PHD2::checkIfEquipmentConnected()
 
 //get_cooler_status
 //get_current_equipment
+void PHD2::requestCurrentEquipmentUpdate()
+{
+    sendPHD2Request("get_current_equipment");
+}
 
 //get_dec_guide_mode
 void PHD2::checkDEGuideMode()
@@ -951,6 +999,10 @@ void PHD2::requestExposureDurations()
 }
 
 //get_lock_position
+void PHD2::requestLockPosition()
+{
+    sendPHD2Request("get_lock_position");
+}
 //get_lock_shift_enabled
 //get_lock_shift_params
 //get_paused
@@ -969,9 +1021,6 @@ void PHD2::requestPixelScale()
 //get_star_image
 void PHD2::requestStarImage(int size)
 {
-    //    if (!Options::guideRemoteImagesEnabled())
-    //        return;
-
     if (starImageRequested)
     {
         if (Options::verboseLogging())
@@ -1027,6 +1076,10 @@ bool PHD2::guide()
 
 //guide_pulse
 //loop
+void PHD2::loop()
+{
+    sendPHD2Request("loop");
+}
 //save_image
 //set_algo_param
 
@@ -1093,6 +1146,13 @@ void PHD2::requestSetExposureTime(int time) //Note: time is in milliseconds
 }
 
 //set_lock_position
+void PHD2::setLockPosition(double x,double y)
+{
+    // Note: false will mean if a guide star is near the coordinates, it will use that.
+    QJsonArray args;
+    args << x << y << false;
+    sendPHD2Request("set_lock_position", args);
+}
 //set_lock_shift_enabled
 //set_lock_shift_params
 

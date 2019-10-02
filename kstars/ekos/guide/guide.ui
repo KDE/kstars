@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>736</width>
+    <width>782</width>
     <height>568</height>
    </rect>
   </property>
@@ -57,10 +57,30 @@
           <property name="spacing">
            <number>3</number>
           </property>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="autoStarCheck">
+            <property name="toolTip">
+             <string>Automatically select the calibration star.</string>
+            </property>
+            <property name="text">
+             <string>Auto Star</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="captureB">
             <property name="text">
              <string>Capture</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QPushButton" name="stopB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Stop</string>
             </property>
            </widget>
           </item>
@@ -83,13 +103,6 @@
             </property>
             <property name="text">
              <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="loopB">
-            <property name="text">
-             <string>Loop</string>
             </property>
            </widget>
           </item>
@@ -160,26 +173,6 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QPushButton" name="stopB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Stop</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="subFrameCheck">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star. Before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Subframe</string>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="1">
            <widget class="QCheckBox" name="darkFrameCheck">
             <property name="toolTip">
@@ -190,13 +183,10 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="autoStarCheck">
-            <property name="toolTip">
-             <string>Automatically select the calibration star.</string>
-            </property>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="loopB">
             <property name="text">
-             <string>Auto Star</string>
+             <string>Loop</string>
             </property>
            </widget>
           </item>
@@ -219,6 +209,16 @@
             </property>
             <property name="default">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="subFrameCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star.  Or for PHD2, receive the Guide Star Image instead of the full image frame.  For the Internal Guider, before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Subframe</string>
             </property>
            </widget>
           </item>

@@ -91,7 +91,7 @@ class PHD2 : public GuideInterface
         enum PHD2ResultType
         {
             NO_RESULT,
-            //capture_single_frame
+            CAPTURE_SINGLE_FRAME,                   //capture_single_frame
             CLEAR_CALIBRATION_COMMAND_RECEIVED,     //clear_calibration
             DITHER_COMMAND_RECEIVED,                //dither
             //find_star
@@ -103,11 +103,11 @@ class PHD2 : public GuideInterface
             //get_calibration_data
             IS_EQUIPMENT_CONNECTED,                 //get_connected
             //get_cooler_status
-            //get_current_equipment
+            GET_CURRENT_EQUIPMENT,                  //get_current_equipment
             DEC_GUIDE_MODE,                         //get_dec_guide_mode
             EXPOSURE_TIME,                          //get_exposure
             EXPOSURE_DURATIONS,                     //get_exposure_durations
-            //get_lock_position
+            LOCK_POSITION,                          //get_lock_position
             //get_lock_shift_enabled
             //get_lock_shift_params
             //get_paused
@@ -120,13 +120,13 @@ class PHD2 : public GuideInterface
             //get_use_subframes
             GUIDE_COMMAND_RECEIVED,                 //guide
             //guide_pulse
-            //loop
+            LOOP,                                   //loop
             //save_image
             //set_algo_param
             CONNECTION_RESULT,                      //set_connected
             SET_DEC_GUIDE_MODE_COMMAND_RECEIVED,    //set_dec_guide_mode
             SET_EXPOSURE_COMMAND_RECEIVED,          //set_exposure
-            //set_lock_position
+            SET_LOCK_POSITION,                      //set_lock_position
             //set_lock_shift_enabled
             //set_lock_shift_params
             SET_PAUSED_COMMAND_RECEIVED,            //set_paused
@@ -148,7 +148,7 @@ class PHD2 : public GuideInterface
 
         //These are the PHD2 Methods.  Only some are implemented in Ekos.
 
-        //capture_single_frame
+        void captureSingleFrame();              //capture_single_frame
         bool clearCalibration() override;       //clear_calibration
         bool dither(double pixels) override;    //dither
         //find_star
@@ -160,11 +160,11 @@ class PHD2 : public GuideInterface
         //get_calibration_data
         void checkIfEquipmentConnected();       //get_connected
         //get_cooler_status
-        //get_current_equipment
+        void requestCurrentEquipmentUpdate();     //get_current_equipment
         void checkDEGuideMode();                //get_dec_guide_mode
         void requestExposureTime();             //get_exposure
         void requestExposureDurations();        //get_exposure_durations
-        //get_lock_position
+        void requestLockPosition();             //get_lock_position
         //get_lock_shift_enabled
         //get_lock_shift_params
         //get_paused
@@ -177,13 +177,13 @@ class PHD2 : public GuideInterface
         //get_use_subframes
         bool guide() override;                  //guide
         //guide_pulse
-        //loop
+        void loop();                            //loop
         //save_image
         //set_algo_param
         void connectEquipment(bool enable);//set_connected
         void requestSetDEGuideMode(bool deEnabled, bool nEnabled, bool sEnabled);           //set_dec_guide_mode
         void requestSetExposureTime(int time);  //set_exposure
-        //set_lock_position
+        void setLockPosition(double x, double y); //set_lock_position
         //set_lock_shift_enabled
         //set_lock_shift_params
         bool suspend() override;                //set_paused
@@ -194,6 +194,13 @@ class PHD2 : public GuideInterface
 
         bool calibrate() override; //Note PHD2 does not have a separate calibrate command.  This is unused.
         void setGuideView(FITSView *guideView);
+
+        QString getCurrentCamera(){ return currentCamera; }
+        QString getCurrentMount(){ return currentMount; }
+        QString getCurrentAuxMount(){ return currentAuxMount; }
+
+        bool isCurrentCameraNotInEkos(){ return currentCameraIsNotInEkos; }
+        void setCurrentCameraIsNotInEkos(bool enable) {currentCameraIsNotInEkos = enable;}
 
     private slots:
 
@@ -253,6 +260,12 @@ class PHD2 : public GuideInterface
         double pixelScale = 0;
 
         QString logValidExposureTimes;
+
+        QString currentCamera;
+        QString currentMount;
+        QString currentAuxMount;
+        bool currentCameraIsNotInEkos;
+
 };
 
 }
