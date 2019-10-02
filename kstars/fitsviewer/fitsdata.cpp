@@ -1967,18 +1967,19 @@ double FITSData::getHFR(HFRType type)
         double stddev = sqrt(accum / (HFRs.size() - 1));
 
         // Remove stars over 2 standard deviations away.
-        std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
+        auto end1 = std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
         {
             return hfr > (m + stddev * 2);
         });
-        std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
+        auto end2 = std::remove_if(HFRs.begin(), end1, [m, stddev](const double hfr)
         {
             return hfr < (m - stddev * 2);
         });
 
         // New mean
-        sum = std::accumulate(HFRs.begin(), HFRs.end(), 0.0);
-        m = sum / HFRs.size();
+        sum = std::accumulate(HFRs.begin(), end2, 0.0);
+        const int num_remaining = std::distance(HFRs.begin(), end2);
+        if (num_remaining > 0) m = sum / num_remaining;
     }
 
     return m;
