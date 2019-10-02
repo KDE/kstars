@@ -75,12 +75,6 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     redScopePixmap = QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
     magentaScopePixmap = QPixmap(":/icons/center_telescope_magenta.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
-
-    //if (fitsMode == FITS_GUIDE)
-    //connect(image_frame.get(), SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
-
-    // Default size
-    //resize(INITIAL_W, INITIAL_H);
 }
 
 FITSView::~FITSView()
@@ -157,132 +151,6 @@ void FITSView::resizeEvent(QResizeEvent * event)
     QScrollArea::resizeEvent(event);
 }
 
-#if 0
-
-bool FITSView::loadFITS(const QString &inFilename, bool silent)
-{
-    if (floatingToolBar != nullptr)
-    {
-        floatingToolBar->setVisible(true);
-    }
-
-    QProgressDialog fitsProg(this);
-
-    bool setBayerParams = false;
-
-    BayerParams param;
-    if ((imageData != nullptr) && imageData->hasDebayer())
-    {
-        setBayerParams = true;
-        imageData->getBayerParams(&param);
-    }
-
-    // In case loadWCS is still running for previous image data, let's wait until it's over
-    wcsWatcher.waitForFinished();
-
-    delete imageData;
-    imageData = nullptr;
-
-    filterStack.clear();
-    filterStack.push(FITS_NONE);
-    if (filter != FITS_NONE)
-        filterStack.push(filter);
-
-    imageData = new FITSData(mode);
-
-    if (setBayerParams)
-        imageData->setBayerParams(&param);
-
-    if (mode == FITS_NORMAL)
-    {
-        fitsProg.setWindowModality(Qt::WindowModal);
-        fitsProg.setLabelText(i18n("Please hold while loading FITS file..."));
-        fitsProg.setWindowTitle(i18n("Loading FITS"));
-        fitsProg.setValue(10);
-        qApp->processEvents();
-    }
-
-    if (!imageData->loadFITS(inFilename, silent))
-        return false;
-
-    if (mode == FITS_NORMAL)
-    {
-        if (fitsProg.wasCanceled())
-            return false;
-        else
-        {
-            fitsProg.setValue(65);
-            qApp->processEvents();
-        }
-    }
-
-    emit debayerToggled(imageData->hasDebayer());
-
-    currentWidth = imageData->width();
-    currentHeight = imageData->height();
-
-    image_width  = currentWidth;
-    image_height = currentHeight;
-
-    image_frame->setSize(image_width, image_height);
-
-    initDisplayImage();
-
-    // Rescale to fits window
-    if (firstLoad)
-    {
-        currentZoom = 100;
-
-        if (rescale(ZOOM_FIT_WINDOW) != 0)
-            return false;
-
-        firstLoad = false;
-    }
-    else
-    {
-        if (rescale(ZOOM_KEEP_LEVEL) != 0)
-            return false;
-    }
-
-    if (mode == FITS_NORMAL)
-    {
-        if (fitsProg.wasCanceled())
-            return false;
-        else
-        {
-            fitsProg.setValue(100);
-            qApp->processEvents();
-        }
-    }
-
-    setAlignment(Qt::AlignCenter);
-
-    // Load WCS data now if selected and image contains valid WCS header
-    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN) && !wcsWatcher.isRunning())
-    {
-        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
-        wcsWatcher.setFuture(future);
-    }
-    else
-        syncWCSState();
-
-    if (isVisible())
-        emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
-
-    if (showStarProfile)
-    {
-        if(floatingToolBar != nullptr)
-            toggleProfileAction->setChecked(true);
-        QTimer::singleShot(100, this, SLOT(viewStarProfile()));    //Need to wait till the Focus module finds stars, if its the Focus module.
-    }
-
-    updateFrame();
-
-    emit imageLoaded();
-
-    return true;
-}
-#endif
 
 void FITSView::loadFITS(const QString &inFilename, bool silent)
 {
@@ -348,22 +216,7 @@ void FITSView::loadInFrame()
 
     uint8_t * ASImageBuffer = nullptr;
 
-    //    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
-    //    {
-    //         // If we perform autostretch, we need to create a buffer to save the raw image data before
-    //         // autostretch filter operation changes the data.
-    //         // After rescaling is done, we
-    //         uint32_t totalBytes = image_width * image_height *imageData->channels() * imageData->getBytesPerPixel();
-    //         ASImageBuffer = new uint8_t[totalBytes];
-    //         memcpy(ASImageBuffer, imageData->getImageBuffer(), totalBytes);
-    //         imageData->applyFilter(FITS_AUTO_STRETCH);
-    //    }
-    //    else
-    //        imageData->applyFilter(filter);
-
     imageData->applyFilter(filter);
-    //    if (Options::autoStretch())
-    //        imageData->applyFilter(FITS_AUTO_STRETCH);
 
     // Rescale to fits window on first load
     if (firstLoad)
@@ -390,12 +243,6 @@ void FITSView::loadInFrame()
             return;
         }
     }
-
-    // Restore original raw buffer after Autostretch if applicable
-    //    if (ASImageBuffer)
-    //    {
-    //        imageData->setImageBuffer(ASImageBuffer);
-    //    }
 
     setAlignment(Qt::AlignCenter);
 
@@ -532,32 +379,6 @@ bool FITSView::rescale(FITSZoom type)
         }
     }
 
-#if 0
-    int BBP = imageData->getBytesPerPixel();
-    filter = filterStack.last();
-
-    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
-    {
-        image_buffer = new uint8_t[size * imageData->channels() * BBP];
-        memcpy(image_buffer, imageData->getImageBuffer(), size * imageData->channels() * BBP);
-
-        displayBuffer = true;
-
-        double data_min = -1;
-        double data_max = -1;
-
-        imageData->applyFilter(FITS_AUTO_STRETCH, image_buffer, &data_min, &data_max);
-
-        min = data_min;
-        max = data_max;
-    }
-    else
-    {
-        imageData->applyFilter(filter);
-        imageData->getMinMax(&min, &max);
-    }
-#endif
-
     scaledImage = QImage();
 
     auto * buffer = reinterpret_cast<T *>(displayBuffer);
@@ -643,43 +464,6 @@ bool FITSView::rescale(FITSZoom type)
                 future.waitForFinished();
         }
 
-#if 0
-        if (imageData->getNumOfChannels() == 1)
-        {
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < image_height; j++)
-            {
-                unsigned char * scanLine = display_image->scanLine(j);
-
-                for (int i = 0; i < image_width; i++)
-                {
-                    val         = buffer[j * image_width + i] * bscale + bzero;
-                    scanLine[i] = qBound(0.0, val, 255.0);
-                }
-            }
-        }
-        else
-        {
-            double rval = 0, gval = 0, bval = 0;
-            QRgb value;
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < image_height; j++)
-            {
-                QRgb * scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
-
-                for (int i = 0; i < image_width; i++)
-                {
-                    rval = buffer[j * image_width + i];
-                    gval = buffer[j * image_width + i + size];
-                    bval = buffer[j * image_width + i + size * 2];
-
-                    value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
-
-                    scanLine[i] = value;
-                }
-            }
-        }
-#endif
     }
 
     // Clear memory if it was allocated.
@@ -1610,12 +1394,6 @@ void FITSView::toggleStars(bool enable)
 
 void FITSView::processPointSelection(int x, int y)
 {
-    //if (mode != FITS_GUIDE)
-    //return;
-
-    //image_data->getCenterSelection(&x, &y);
-
-    //setGuideSquare(x,y);
     emit trackingStarSelected(x, y);
 }
 

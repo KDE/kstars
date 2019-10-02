@@ -484,12 +484,6 @@ class FITSData : public QObject
         int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
         void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
 
-#if 0
-        QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
-        QVector<float> threshold(int thLow, int thHi, const QVector<float> &image);
-        QVector<int> hysteresis(int width, int height, const QVector<int> &image);
-#endif
-
 #ifndef KSTARS_LITE
         FITSHistogram *histogram { nullptr }; // Pointer to the FITS data histogram
 #endif
