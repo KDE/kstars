@@ -32,12 +32,6 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("guidesettings");
 
-    connect(kcfg_GuideRemoteImagesEnabled, &QCheckBox::toggled, this, [this] ()
-    {
-        if (Options::guideRemoteImagesEnabled() != kcfg_GuideRemoteImagesEnabled->isChecked())
-            KSNotification::info(i18n("You must restart KStars for this change to take effect."));
-    });
-
     connect(kcfg_DitherNoGuiding, &QCheckBox::toggled, this, [&](bool checked) {
         if (checked && kcfg_DitherEnabled->isChecked())
         {

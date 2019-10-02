@@ -69,6 +69,8 @@ class GuideInterface : public QObject
 
     void frameCaptureRequested();
 
+    void guideEquipmentUpdated();
+
   protected:
     Ekos::GuideState state { GUIDE_IDLE };
     double ccdPixelSizeX { 0 };
