@@ -1700,6 +1700,10 @@
          <label>Display every captured DSLR image in the Image Viewer window.</label>
          <default>!KSUtils::isHardwareLimited()</default>
       </entry>
+      <entry name="ForceDSLRPresets" type="Bool">
+         <label>Force exposure times to align with DSLR exposure presets. This insures accurate exposure times for sub-second exposures.</label>
+         <default>true</default>
+      </entry>
       <entry name="CaptureFormatIndex" type="UInt">
          <label>Index of desired capture format (FITS or Native).</label>
          <default>0</default>

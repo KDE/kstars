@@ -313,6 +313,15 @@ class CCD : public DeviceDecorator
         }
         bool setExposureLoopCount(uint32_t count);
 
+        const QMap<QString, double> &getExposurePresets() const
+        {
+            return m_ExposurePresets;
+        }
+        const QPair<double, double> getExposurePresetsMinMax() const
+        {
+            return m_ExposurePresetsMinMax;
+        }
+
     public slots:
         void FITSViewerDestroyed();
         void StreamWindowHidden();
@@ -381,5 +390,9 @@ class CCD : public DeviceDecorator
         QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;
+
+        // Typically for DSLRs
+        QMap<QString, double> m_ExposurePresets;
+        QPair<double, double> m_ExposurePresetsMinMax;
 };
 }
