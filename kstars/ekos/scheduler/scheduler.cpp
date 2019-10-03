@@ -1430,8 +1430,6 @@ void Scheduler::start()
             startupB->setEnabled(false);
             shutdownB->setEnabled(false);
 
-            /* Reset and re-evaluate all scheduler jobs, then start the Scheduler */
-            startJobEvaluation();
             state = SCHEDULER_RUNNING;
             emit newStatus(state);
             schedulerTimer.start();
@@ -1563,10 +1561,10 @@ void Scheduler::evaluateJobs()
         switch (job->getCompletionCondition())
         {
             case SchedulerJob::FINISH_AT:
-                /* Job is complete if its fixed completion time is passed */
+                /* If planned finishing time has passed, the job is set to IDLE waiting for a next chance to run */
                 if (job->getCompletionTime().isValid() && job->getCompletionTime() < now)
                 {
-                    job->setState(SchedulerJob::JOB_COMPLETE);
+                    job->setState(SchedulerJob::JOB_IDLE);
                     continue;
                 }
                 break;
@@ -3109,6 +3107,9 @@ void Scheduler::checkProcessExit(int exitCode)
 
 bool Scheduler::checkStatus()
 {
+    for (auto job: jobs)
+        job->updateJobCells();
+
     if (state == SCHEDULER_PAUSED)
     {
         if (currentJob == nullptr)
@@ -3285,11 +3286,11 @@ void Scheduler::checkJobStage()
             if (isMountParked() == false)
             {
                 appendLogText(i18n("Job '%1' current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), "
-                                   "marking aborted.", currentJob->getName(),
+                                   "marking idle.", currentJob->getName(),
                                    QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals()),
                                    QString("%L1").arg(currentJob->getMinAltitude(), 0, 'f', minAltitude->decimals())));
 
-                currentJob->setState(SchedulerJob::JOB_COMPLETE);
+                currentJob->setState(SchedulerJob::JOB_IDLE);
                 stopCurrentJobAction();
                 findNextJob();
                 return;
@@ -3311,10 +3312,10 @@ void Scheduler::checkJobStage()
             if (isMountParked() == false)
             {
                 appendLogText(i18n("Job '%2' current moon separation (%1 degrees) is lower than minimum constraint (%3 "
-                                   "degrees), marking aborted.",
+                                   "degrees), marking idle.",
                                    moonSeparation, currentJob->getName(), currentJob->getMinMoonSeparation()));
 
-                currentJob->setState(SchedulerJob::JOB_COMPLETE);
+                currentJob->setState(SchedulerJob::JOB_IDLE);
                 stopCurrentJobAction();
                 findNextJob();
                 return;
@@ -3330,9 +3331,9 @@ void Scheduler::checkJobStage()
         {
             // Minute is a DOUBLE value, do not use i18np
             appendLogText(i18n(
-                              "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking aborted.",
+                              "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking idle.",
                               preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
-            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+            currentJob->setState(SchedulerJob::JOB_IDLE);
             stopCurrentJobAction();
             findNextJob();
             return;
@@ -4534,8 +4535,9 @@ void Scheduler::findNextJob()
 
     Q_ASSERT_X(currentJob->getState() == SchedulerJob::JOB_ERROR ||
                currentJob->getState() == SchedulerJob::JOB_ABORTED ||
-               currentJob->getState() == SchedulerJob::JOB_COMPLETE,
-               __FUNCTION__, "Finding next job requires current to be in error, aborted or complete");
+               currentJob->getState() == SchedulerJob::JOB_COMPLETE ||
+               currentJob->getState() == SchedulerJob::JOB_IDLE,
+               __FUNCTION__, "Finding next job requires current to be in error, aborted, idle or complete");
 
     jobTimer.stop();
 
@@ -4578,6 +4580,12 @@ void Scheduler::findNextJob()
         }
 
         // otherwise start re-evaluation
+        setCurrentJob(nullptr);
+        schedulerTimer.start();
+    }
+    else if (currentJob->getState() == SchedulerJob::JOB_IDLE)
+    {
+        // job constraints no longer valid, start re-evaluation
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
@@ -6700,7 +6708,7 @@ void Scheduler::simClockScaleChanged(float newScale)
         QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround((double) sleepTimer.remainingTime()
                                                                                   * KStarsData::Instance()->clock()->scale()
                                                                                   / newScale));
-        appendLogText(i18n("Sleeping for %2 on simulation clock update until observation job %1 is ready...", currentJob->getName(),
+        appendLogText(i18n("Sleeping for %1 on simulation clock update until next observation job is ready...",
                            remainingTimeMs.toString("hh:mm:ss")));
         sleepTimer.stop();
         sleepTimer.start(remainingTimeMs.msecsSinceStartOfDay());
@@ -7250,6 +7258,8 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 
 bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
 {
+    Q_ASSERT_X(nullptr != currentJob, __FUNCTION__, "There must be a valid current job for Scheduler to test sleep requirement");
+
     if (currentJob->getLightFramesRequired() == false)
         return false;
 
@@ -7311,7 +7321,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
         sleepLabel->show();
 
         // Warn the user if the next job is really far away - 60/5 = 12 times the lead time
-        if (nextObservationTime > Options::leadTime() * 60 * 12)
+        if (nextObservationTime > Options::leadTime() * 60 * 12 && !Options::preemptiveShutdown())
         {
             dms delay(static_cast<double>(nextObservationTime * 15.0 / 3600.0));
             appendLogText(i18n(
