@@ -397,6 +397,37 @@ bool CCDChip::capture(double exposure)
     if (expProp == nullptr)
         return false;
 
+    // If we have exposure presets, let's limit the exposure value
+    // to the preset values if it falls within their range of max/min
+    if (Options::forceDSLRPresets())
+    {
+        QMap<QString, double> exposurePresets = parentCCD->getExposurePresets();
+        if (!exposurePresets.isEmpty())
+        {
+            double min, max;
+            QPair<double, double> minmax = parentCCD->getExposurePresetsMinMax();
+            min = minmax.first;
+            max = minmax.second;
+            if (exposure > min && exposure < max)
+            {
+                double diff = 1e6;
+                double closestMatch = exposure;
+                for (auto oneValue : exposurePresets.values())
+                {
+                    double newDiff = std::fabs(exposure - oneValue);
+                    if (newDiff < diff)
+                    {
+                        closestMatch = oneValue;
+                        diff = newDiff;
+                    }
+                }
+
+                qCDebug(KSTARS_INDI) << "Requested exposure" << exposure << "closes match is" << closestMatch;
+                exposure = closestMatch;
+            }
+        }
+    }
+
     // clone the INumberVectorProperty, to avoid modifications to the same
     // property from two threads
     INumber n;
@@ -921,6 +952,46 @@ void CCD::registerProperty(INDI::Property *prop)
                 transferFormat = FORMAT_NATIVE;
             else
                 transferFormat = FORMAT_FITS;
+        }
+    }
+    else if (!strcmp(prop->getName(), "CCD_EXPOSURE_PRESETS"))
+    {
+        ISwitchVectorProperty *svp = prop->getSwitch();
+        if (svp)
+        {
+            bool ok = false;
+            for (int i = 0; i < svp->nsp; i++)
+            {
+                QString key = QString(svp->sp[i].label);
+                double value = key.toDouble(&ok);
+                if (!ok)
+                {
+                    QStringList parts = key.split("/");
+                    if (parts.count() == 2)
+                    {
+                        bool numOk = false, denOk = false;
+                        double numerator = parts[0].toDouble(&numOk);
+                        double denominator = parts[1].toDouble(&denOk);
+                        if (numOk && denOk && denominator > 0)
+                        {
+                            ok = true;
+                            value = numerator / denominator;
+                        }
+                    }
+                }
+                if (ok)
+                    m_ExposurePresets.insert(key, value);
+
+                double min = 1e6, max = 1e-6;
+                for (auto oneValue : m_ExposurePresets.values())
+                {
+                    if (oneValue < min)
+                        min = oneValue;
+                    if (oneValue > max)
+                        max = oneValue;
+                }
+                m_ExposurePresetsMinMax = qMakePair<double, double>(min, max);
+            }
         }
     }
     else if (!strcmp(prop->getName(), "CCD_EXPOSURE_LOOP"))
