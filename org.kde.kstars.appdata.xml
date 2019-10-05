@@ -417,6 +417,6 @@
     <binary>kstars</binary>
   </provides>
   <custom>
-     <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9pprz2qhlxtg</value>
+    <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9pprz2qhlxtg</value>
   </custom>
 </component>
