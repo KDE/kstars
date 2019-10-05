@@ -33,7 +33,6 @@ SequenceJob::SequenceJob()
 
     prepareActions[ACTION_FILTER] = true;
     prepareActions[ACTION_TEMPERATURE] = true;
-    //prepareActions[ACTION_POST_FOCUS] = true;
     prepareActions[ACTION_ROTATOR] = true;
 }
 
@@ -75,55 +74,6 @@ void SequenceJob::prepareCapture()
     setAllActionsReady();
 
     activeChip->setBatchMode(!preview);
-
-    if (localDirectory.isEmpty() == false)
-        activeCCD->setFITSDir(localDirectory + directoryPostfix);
-
-    activeCCD->setISOMode(timeStampPrefixEnabled);
-
-    activeCCD->setSeqPrefix(fullPrefix);
-
-    activeCCD->setUploadMode(uploadMode);
-
-    // Set all custom properties
-    //if (preview == false)
-    //{
-    QMapIterator<QString, QMap<QString, double>> i(customProperties);
-    while (i.hasNext())
-    {
-        i.next();
-        INDI::Property *customProp = activeCCD->getProperty(i.key());
-        if (customProp)
-        {
-            QMap<QString, double> numbers = i.value();
-            QMapIterator<QString, double> j(numbers);
-            INumberVectorProperty *np = customProp->getNumber();
-            while (j.hasNext())
-            {
-                j.next();
-                INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
-                if (oneNumber)
-                    oneNumber->value = j.value();
-            }
-
-            activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
-        }
-    }
-    //}
-
-    if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
-        activeCCD->updateUploadSettings(remoteDirectory + directoryPostfix);
-
-    if (isoIndex != -1)
-    {
-        if (isoIndex != activeChip->getISOIndex())
-            activeChip->setISOIndex(isoIndex);
-    }
-
-    if (gain != -1)
-    {
-        activeCCD->setGain(gain);
-    }
 
     // Check if we need to change filter wheel
     if (frameType == FRAME_LIGHT && targetFilter != -1 && activeFilter != nullptr)
@@ -269,21 +219,59 @@ bool SequenceJob::areActionsReady()
     return true;
 }
 
-//SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 {
-    // If focusing is busy, return error
-    //if (activeChip->getCaptureMode() == FITS_FOCUS)
-    //  return CAPTURE_FOCUS_ERROR;
-
     activeChip->setBatchMode(!preview);
+
+    if (localDirectory.isEmpty() == false)
+        activeCCD->setFITSDir(localDirectory + directoryPostfix);
+
+    activeCCD->setISOMode(timeStampPrefixEnabled);
+
+    activeCCD->setSeqPrefix(fullPrefix);
+
+    activeCCD->setUploadMode(uploadMode);
+
+    QMapIterator<QString, QMap<QString, double>> i(customProperties);
+    while (i.hasNext())
+    {
+        i.next();
+        INDI::Property *customProp = activeCCD->getProperty(i.key());
+        if (customProp)
+        {
+            QMap<QString, double> numbers = i.value();
+            QMapIterator<QString, double> j(numbers);
+            INumberVectorProperty *np = customProp->getNumber();
+            while (j.hasNext())
+            {
+                j.next();
+                INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
+                if (oneNumber)
+                    oneNumber->value = j.value();
+            }
+
+            activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+        }
+    }
+
+    if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
+        activeCCD->updateUploadSettings(remoteDirectory + directoryPostfix);
+
+    if (isoIndex != -1)
+    {
+        if (isoIndex != activeChip->getISOIndex())
+            activeChip->setISOIndex(isoIndex);
+    }
+
+    if (gain != -1)
+    {
+        activeCCD->setGain(gain);
+    }
 
     if (targetFilter != -1 && activeFilter != nullptr)
     {
         if (targetFilter != currentFilter)
         {
-            //activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
-
             FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
             // Don't perform autofocus on preview
             if (isPreview())
@@ -292,12 +280,6 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
             filterManager->setFilterPosition(targetFilter, policy);
             return CAPTURE_FILTER_BUSY;
         }
-    }
-
-    if (isoIndex != -1)
-    {
-        if (isoIndex != activeChip->getISOIndex())
-            activeChip->setISOIndex(isoIndex);
     }
 
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
@@ -394,7 +376,6 @@ void SequenceJob::setCurrentTemperature(double value)
     if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         prepareActions[ACTION_TEMPERATURE] = true;
 
-    //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
     if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
@@ -586,14 +567,11 @@ void SequenceJob::setCurrentFilter(int value)
     if (currentFilter == targetFilter)
         prepareActions[ACTION_FILTER] = true;
 
-    //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
     if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
         emit prepareComplete();
     }
-    //else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
-    //emit checkFocus();
 }
 
 void SequenceJob::setCurrentRotation(double value)
@@ -603,7 +581,6 @@ void SequenceJob::setCurrentRotation(double value)
     if (fabs(currentRotation - targetRotation) * 60 <= Options::astrometryRotatorThreshold())
         prepareActions[ACTION_ROTATOR] = true;
 
-    //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
     if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
