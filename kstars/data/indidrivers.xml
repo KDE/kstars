@@ -329,7 +329,7 @@
         </device>
         <device label="FocusLynx">
             <driver name="FocusLynx">indi_lynx_focus</driver>
-            <version>0.1</version>
+            <version>1.44</version>
         </device>
         <device label="PerfectStar">
             <driver name="PerfectStar">indi_perfectstar_focus</driver>
@@ -421,7 +421,7 @@
         </device>
         <device label="Pegasus UPB">
             <driver name="Pegasus UPB">indi_pegasus_upb</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
         <device label="WatchDog">
             <driver name="WatchDog">indi_watchdog</driver>
@@ -629,7 +629,7 @@
     <devGroup group="Telescopes">
         <device label="Avalon StarGo" manufacturer="Avalon">
             <driver name="LX200 StarGo">indi_lx200stargo</driver>
-            <version>1.5</version>
+            <version>1.7</version>
         </device>
     </devGroup>
 </driversList>
@@ -831,7 +831,7 @@
     <devGroup group="Domes">
         <device label="NexDome">
             <driver name="NexDome">indi_nexdome</driver>
-            <version>1.3</version>
+            <version>1.4</version>
         </device>
     </devGroup>
 </driversList>
