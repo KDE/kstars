@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
-    <height>458</height>
+    <width>802</width>
+    <height>426</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1">
@@ -141,6 +141,9 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -358,6 +361,9 @@
             <property name="text">
              <string/>
             </property>
+            <property name="icon">
+             <iconset theme="search"/>
+            </property>
            </widget>
           </item>
           <item row="0" column="2">
@@ -393,6 +399,9 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -510,7 +519,16 @@
                   <blue>0</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </active>
               <inactive>
                <colorrole role="WindowText">
@@ -539,7 +557,16 @@
                   <blue>0</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </inactive>
               <disabled>
                <colorrole role="WindowText">
@@ -568,12 +595,34 @@
                   <blue>162</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </disabled>
              </palette>
             </property>
             <property name="text">
              <string notr="true">*</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="copySkyCenterB">
+            <property name="toolTip">
+             <string>Fill coordinates with Sky Map center</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="snap-orthogonal"/>
             </property>
            </widget>
           </item>
@@ -2124,25 +2173,25 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
