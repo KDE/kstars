@@ -1150,7 +1150,7 @@ void Scheduler::moveJobDown()
         return;
 
     /* Swap jobs in the list */
-    jobs.swapItemsAt(currentRow, destinationRow);
+    jobs.swap(currentRow, destinationRow);
 
     /* Reassign status cells */
     setJobStatusCells(currentRow);
@@ -4907,6 +4907,9 @@ void Scheduler::startCapture(bool restart)
 
 void Scheduler::stopGuiding()
 {
+    if (!guideInterface)
+        return;
+
     // Tell guider to abort if the current job requires guiding - end-user may enable guiding manually before observation
     if (nullptr != currentJob && (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE))
     {
