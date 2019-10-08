@@ -1150,7 +1150,7 @@ void Scheduler::moveJobDown()
         return;
 
     /* Swap jobs in the list */
-    jobs.swap(currentRow, destinationRow);
+    jobs.swapItemsAt(currentRow, destinationRow);
 
     /* Reassign status cells */
     setJobStatusCells(currentRow);
@@ -3107,7 +3107,7 @@ void Scheduler::checkProcessExit(int exitCode)
 
 bool Scheduler::checkStatus()
 {
-    for (auto job: jobs)
+    for (auto job : jobs)
         job->updateJobCells();
 
     if (state == SCHEDULER_PAUSED)
@@ -6706,8 +6706,8 @@ void Scheduler::simClockScaleChanged(float newScale)
     if (sleepTimer.isActive())
     {
         QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround((double) sleepTimer.remainingTime()
-                                                                                  * KStarsData::Instance()->clock()->scale()
-                                                                                  / newScale));
+                                      * KStarsData::Instance()->clock()->scale()
+                                      / newScale));
         appendLogText(i18n("Sleeping for %1 on simulation clock update until next observation job is ready...",
                            remainingTimeMs.toString("hh:mm:ss")));
         sleepTimer.stop();

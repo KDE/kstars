@@ -11,6 +11,12 @@
   <property name="fov" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
+  <property name="cameraInfo" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
+  <property name="telescopeInfo" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
   <property name="solverArguments" type="s" access="readwrite"/>
     <method name="abort">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

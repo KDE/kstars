@@ -194,6 +194,8 @@ Mosaic::Mosaic()
     selectJobsDirB->setIcon(
         QIcon::fromTheme("document-open-folder"));
 
+    connect(fetchB, &QPushButton::clicked, this, &Mosaic::fetchINDIInformation);
+
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
     // scene.addItem(mosaicTile);
@@ -505,4 +507,26 @@ void Mosaic::createJobs()
 
     accept();
 }
+
+void Mosaic::fetchINDIInformation()
+{
+    QPointer<QDBusInterface> alignInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
+            QDBusConnection::sessionBus(), this);
+
+    //    QDBusReply cameraInfo = alignInterface->property("cameraInfo");
+    //    if (cameraInfo.isValid())
+    //    {
+    //        QList<QVariant> info = cameraInfo.toList();
+
+    //        double cameraW = info[0].toDouble();
+    //        double cameraH = info[1].toDouble();
+    //        double pixelW  = info[2].toDouble();
+    //        double pixelH  = info[3].toDouble();
+    //    }
+
+    //    QVariant telescopeInfo = alignInterface->property("cameraInfo");
+
+
+}
+
 }

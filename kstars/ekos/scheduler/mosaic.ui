@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>728</width>
-    <height>478</height>
+    <width>738</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -229,6 +229,16 @@
            <widget class="QLabel" name="label_6">
             <property name="text">
              <string>E of N</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="fetchB">
+            <property name="text">
+             <string>Fetch</string>
+            </property>
+            <property name="icon">
+             <iconset theme="download"/>
             </property>
            </widget>
           </item>
