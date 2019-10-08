@@ -152,7 +152,7 @@ Rectangle {
                             onExited: sunText.state = ""
                             onClicked: {
                                 viewsRow.inspectSkyObject("Sun")
-                                catTitle.text = "Sun"
+                                catTitle.text = xi18n("Sun")
                                 container.state = "singleItemSelected"
                             }
                         }
@@ -183,7 +183,7 @@ Rectangle {
                             onExited: moonText.state = ""
                             onClicked: {
                                 viewsRow.inspectSkyObject("Moon")
-                                catTitle.text = "Moon"
+                                catTitle.text = xi18n("Moon")
                                 container.state = "singleItemSelected"
                             }
                         }
@@ -216,7 +216,7 @@ Rectangle {
                             onExited: planetText.state = ""
                             onClicked: {
                                 viewsRow.categorySelected("planets")
-                                catTitle.text = "Planets"
+                                catTitle.text = xi18n("Planets")
                                 container.state = "objectFromListSelected"
                             }
                         }
@@ -246,7 +246,7 @@ Rectangle {
                             onExited: satelliteText.state = ""
                             onClicked: {
                                 viewsRow.categorySelected("satellites")
-                                catTitle.text = "Satellites"
+                                catTitle.text = xi18n("Satellites")
                                 container.state = "objectFromListSelected"
                             }
                         }
@@ -278,7 +278,7 @@ Rectangle {
                             onExited: starText.state = ""
                             onClicked: {
                                 viewsRow.categorySelected("stars")
-                                catTitle.text = "Stars"
+                                catTitle.text = xi18n("Stars")
                                 container.state = "objectFromListSelected"
                             }
                         }
@@ -308,7 +308,7 @@ Rectangle {
                             onExited: conText.state = ""
                             onClicked: {
                                 viewsRow.categorySelected("constellations")
-                                catTitle.text = "Constellations"
+                                catTitle.text = xi18n("Constellations")
                                 container.state = "objectFromListSelected"
                             }
                         }
@@ -359,7 +359,7 @@ Rectangle {
                             onExited: asteroidText.state = ""
                             onClicked: {
                                 viewsRow.categorySelected("asteroids")
-                                catTitle.text = "Asteroids"
+                                catTitle.text = xi18n("Asteroids")
                                 container.state = "objectFromListSelected"
                             }
                         }
@@ -391,7 +391,7 @@ Rectangle {
                             onExited: cometText.state = ""
                             onClicked: {
                                 viewsRow.categorySelected("comets")
-                                catTitle.text = "Comets"
+                                catTitle.text = xi18n("Comets")
                                 container.state = "objectFromListSelected"
                             }
                         }
@@ -426,7 +426,7 @@ Rectangle {
 							onExited: galText.state = ""
 							onClicked: {
 								viewsRow.categorySelected("galaxies")
-								catTitle.text = "Galaxies"
+								catTitle.text = xi18n("Galaxies")
 								container.state = "objectFromListSelected"
 							}
 						}
@@ -458,7 +458,7 @@ Rectangle {
 							onExited: nebText.state = ""
 							onClicked: {
 								viewsRow.categorySelected("nebulas")
-								catTitle.text = "Nebulas"
+								catTitle.text = xi18n("Nebulas")
 								container.state = "objectFromListSelected"
 							}
 						}
@@ -490,7 +490,7 @@ Rectangle {
 							onExited: clustText.state = ""
 							onClicked: {
 								viewsRow.categorySelected("clusters")
-								catTitle.text = "Clusters"
+								catTitle.text = xi18n("Clusters")
 								container.state = "objectFromListSelected"
 							}
 						}
@@ -522,7 +522,7 @@ Rectangle {
 							onExited: superText.state = ""
 							onClicked: {
 								viewsRow.categorySelected("supernovas")
-								catTitle.text = "Supernovae"
+								catTitle.text = xi18n("Supernovae")
 								container.state = "objectFromListSelected"
 							}
 						}
