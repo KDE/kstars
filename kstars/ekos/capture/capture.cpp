@@ -319,7 +319,7 @@ Capture::Capture()
     connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, [&]()
     {
         const double newGain = getGain();
-        if (newGain >= 0)
+        if (GainSpin && newGain >= 0)
             GainSpin->setValue(newGain);
     });
 
@@ -2341,7 +2341,8 @@ bool Capture::addJob(bool preview)
     if (ISOCombo)
         job->setISOIndex(ISOCombo->currentIndex());
 
-    if (getGain() != -1) job->setGain(getGain());
+    if (getGain() >= 0)
+        job->setGain(getGain());
 
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
@@ -3812,7 +3813,8 @@ bool Capture::processJobInfo(XMLEle * root)
 
             customPropertiesDialog->setCustomProperties(propertyMap);
             const double gain = getGain();
-            if (gain != -1) GainSpin->setValue(gain);
+            if (GainSpin && gain >= 0)
+                GainSpin->setValue(gain);
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -4190,10 +4192,14 @@ void Capture::syncGUIToJob(SequenceJob * job)
     if (ISOCombo)
         ISOCombo->setCurrentIndex(job->getISOIndex());
 
-    double value = getGain();
-    if (value != -1)
-        GainSpin->setValue(value);
-    else GainSpin->setValue(GainSpinSpecialValue);
+    if (GainSpin)
+    {
+        double value = getGain();
+        if (value >= 0)
+            GainSpin->setValue(value);
+        else
+            GainSpin->setValue(GainSpinSpecialValue);
+    }
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
@@ -6613,7 +6619,8 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
-    if (!GainSpin) return -1;
+    if (!GainSpin)
+        return -1;
 
     QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
 
