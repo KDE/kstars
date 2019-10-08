@@ -104,7 +104,7 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
 
     public:
         Mosaic();
-        ~Mosaic();
+        ~Mosaic() override;
 
         void setCameraSize(uint16_t width, uint16_t height);
         void setPixelSize(double pixelWSize, double pixelHSize);
@@ -139,6 +139,8 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
         void createJobs();
 
         void render();
+
+        void fetchINDIInformation();
 
     private:
         SkyPoint center;

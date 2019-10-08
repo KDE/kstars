@@ -2262,6 +2262,24 @@ QList<double> Align::fov()
     return result;
 }
 
+QList<double> Align::cameraInfo()
+{
+    QList<double> result;
+
+    result << ccd_width << ccd_height << ccd_hor_pixel << ccd_ver_pixel;
+
+    return result;
+}
+
+QList<double> Align::telescopeInfo()
+{
+    QList<double> result;
+
+    result << focal_length << aperture;
+
+    return result;
+}
+
 void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale)
 {
     // FOV in arcsecs

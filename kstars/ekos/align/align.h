@@ -70,6 +70,8 @@ class Align : public QWidget, public Ui::Align
         Q_PROPERTY(QString filter READ filter WRITE setFilter)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
         Q_PROPERTY(QList<double> fov READ fov)
+        Q_PROPERTY(QList<double> cameraInfo READ cameraInfo)
+        Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo)
         Q_PROPERTY(QString solverArguments READ solverArguments WRITE setSolverArguments)
 
     public:
@@ -232,6 +234,18 @@ class Align : public QWidget, public Ui::Align
         {
             return FOVScopeCombo->currentIndex();
         }
+
+        /** DBUS interface function.
+         * Get currently active camera info in this order:
+         * width, height, pixel_size_x, pixel_size_y
+         */
+        Q_SCRIPTABLE QList<double> cameraInfo();
+
+        /** DBUS interface function.
+         * Get current active telescope info in this order:
+         * focal length, aperture
+         */
+        Q_SCRIPTABLE QList<double> telescopeInfo();
 
         /** @}*/
 
