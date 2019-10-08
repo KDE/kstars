@@ -510,23 +510,38 @@ void Mosaic::createJobs()
 
 void Mosaic::fetchINDIInformation()
 {
-    QPointer<QDBusInterface> alignInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
-            QDBusConnection::sessionBus(), this);
+    QDBusInterface alignInterface("org.kde.kstars",
+                                  "/KStars/Ekos/Align",
+                                  "org.kde.kstars.Ekos.Align",
+                                  QDBusConnection::sessionBus());
 
-    //    QDBusReply cameraInfo = alignInterface->property("cameraInfo");
-    //    if (cameraInfo.isValid())
-    //    {
-    //        QList<QVariant> info = cameraInfo.toList();
+    QDBusReply<QList<double>> cameraReply = alignInterface.call("cameraInfo");
+    if (cameraReply.isValid())
+    {
+        QList<double> values = cameraReply.value();
 
-    //        double cameraW = info[0].toDouble();
-    //        double cameraH = info[1].toDouble();
-    //        double pixelW  = info[2].toDouble();
-    //        double pixelH  = info[3].toDouble();
-    //    }
+        cameraWSpin->setValue(values[0]);
+        cameraHSpin->setValue(values[1]);
+        pixelWSizeSpin->setValue(values[2]);
+        pixelHSizeSpin->setValue(values[3]);
+    }
 
-    //    QVariant telescopeInfo = alignInterface->property("cameraInfo");
+    QDBusReply<QList<double>> telescopeReply = alignInterface.call("telescopeInfo");
+    if (telescopeReply.isValid())
+    {
+        QList<double> values = telescopeReply.value();
+        focalLenSpin->setValue(values[0]);
+    }
 
+    QDBusReply<QList<double>> solutionReply = alignInterface.call("getSolutionResult");
+    if (solutionReply.isValid())
+    {
+        QList<double> values = solutionReply.value();
+        if (values[0] != -1)
+            rotationSpin->setValue(values[0]);
+    }
 
+    constructMosaic();
 }
 
 }
