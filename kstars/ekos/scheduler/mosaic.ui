@@ -721,6 +721,9 @@
            <property name="text">
             <string>Update</string>
            </property>
+           <property name="default">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>

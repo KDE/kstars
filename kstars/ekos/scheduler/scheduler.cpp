@@ -16,6 +16,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "skymap.h"
 #include "mosaic.h"
 #include "Options.h"
 #include "scheduleradaptor.h"
@@ -165,7 +166,6 @@ Scheduler::Scheduler()
     connect(startupB, &QPushButton::clicked, this, &Scheduler::runStartupProcedure);
     connect(shutdownB, &QPushButton::clicked, this, &Scheduler::runShutdownProcedure);
 
-    selectObjectB->setIcon(QIcon::fromTheme("edit-find"));
     connect(selectObjectB, &QPushButton::clicked, this, &Scheduler::selectObject);
     connect(selectFITSB, &QPushButton::clicked, this, &Scheduler::selectFITS);
     connect(loadSequenceB, &QPushButton::clicked, this, &Scheduler::selectSequence);
@@ -208,18 +208,26 @@ Scheduler::Scheduler()
 
     // save new default values for error handling strategy
 
-    connect(errorHandlingRescheduleErrorsCB, &QPushButton::clicked, [this](bool checked)
+    connect(errorHandlingRescheduleErrorsCB, &QPushButton::clicked, [](bool checked)
     {
         Options::setRescheduleErrors(checked);
     });
     connect(errorHandlingButtonGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), [this](QAbstractButton * button)
     {
-        Q_UNUSED(button);
+        Q_UNUSED(button)
         Options::setErrorHandlingStrategy(getErrorHandlingStrategy());
     });
-    connect(errorHandlingDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int value)
+    connect(errorHandlingDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [](int value)
     {
         Options::setErrorHandlingStrategyDelay(value);
+    });
+
+    connect(copySkyCenterB, &QPushButton::clicked, this, [this]()
+    {
+        SkyPoint center = SkyMap::Instance()->getCenterPoint();
+        center.deprecess(KStarsData::Instance()->updateNum());
+        raBox->setDMS(center.ra0().toHMSString());
+        decBox->setDMS(center.dec0().toDMSString());
     });
 
     connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::applyConfig);
