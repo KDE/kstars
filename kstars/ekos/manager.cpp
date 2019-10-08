@@ -1123,8 +1123,8 @@ void Manager::deviceConnected()
 
     qCDebug(KSTARS_EKOS) << nConnectedDevices << " devices connected out of " << genericDevices.count();
 
-    //if (nConnectedDevices >= pi->drivers.count())
-    if (nConnectedDevices >= genericDevices.count())
+    if (nConnectedDevices >= currentProfile->drivers.count())
+        //if (nConnectedDevices >= genericDevices.count())
     {
         m_indiStatus = Ekos::Success;
         qCInfo(KSTARS_EKOS) << "All INDI devices are now connected.";
