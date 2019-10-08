@@ -301,7 +301,7 @@ Capture::Capture()
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Capture::processCaptureTimeout);
 
     // Post capture script
-    connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode)>(&QProcess::finished), this, &Ekos::Capture::postScriptFinished);
+    connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished), this, &Ekos::Capture::postScriptFinished);
 
     // Remote directory
     connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
@@ -318,8 +318,9 @@ Capture::Capture()
     });
     connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, [&]()
     {
-      const double newGain = getGain();
-      if (newGain != -1) GainSpin->setValue(newGain);
+        const double newGain = getGain();
+        if (newGain >= 0)
+            GainSpin->setValue(newGain);
     });
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
@@ -895,7 +896,7 @@ void Capture::checkCCD(int ccdNum)
                 currentCCD->getGainMinMaxStep(&min, &max, &step);
 
                 // Allow the possibility of no gain value at all.
-                GainSpinSpecialValue = min-step;
+                GainSpinSpecialValue = min - step;
                 GainSpin->setRange(GainSpinSpecialValue, max);
                 GainSpin->setSpecialValueText(i18n("--"));
 
@@ -2341,7 +2342,7 @@ bool Capture::addJob(bool preview)
         job->setISOIndex(ISOCombo->currentIndex());
 
     if (getGain() != -1) job->setGain(getGain());
-    
+
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
@@ -2486,8 +2487,8 @@ bool Capture::addJob(bool preview)
         iso->setText(ISOCombo->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (GainSpin && GainSpin->value() != -1 &&
-        GainSpin->value() != GainSpinSpecialValue)
+    else if (GainSpin && GainSpin->value() >= 0 &&
+             std::fabs(GainSpin->value() - GainSpinSpecialValue) > 0)
     {
         iso->setText(GainSpin->cleanText());
         jsonJob.insert("ISO/Gain", iso->text());
@@ -4191,7 +4192,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
 
     double value = getGain();
     if (value != -1)
-      GainSpin->setValue(value);
+        GainSpin->setValue(value);
     else GainSpin->setValue(GainSpinSpecialValue);
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
@@ -5911,8 +5912,10 @@ void Capture::startPostFilterAutoFocus()
 }
 */
 
-void Capture::postScriptFinished(int exitCode)
+void Capture::postScriptFinished(int exitCode, QProcess::ExitStatus status)
 {
+    Q_UNUSED(status);
+
     appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
     // If we're done, proceed to completion.
@@ -6610,9 +6613,9 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
-  if (!GainSpin) return -1;
-  
-  QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+    if (!GainSpin) return -1;
+
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
     // Property CCD_GAIN and

@@ -669,7 +669,7 @@ class Capture : public QWidget, public Ui::Capture
         bool setCaptureComplete();
 
         // post capture script
-        void postScriptFinished(int exitCode);
+        void postScriptFinished(int exitCode, QProcess::ExitStatus status);
 
         void setVideoStreamEnabled(bool enabled);
 
