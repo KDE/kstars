@@ -923,5 +923,6 @@ class Capture : public QWidget, public Ui::Capture
         // Controls
         QPointer<QComboBox> ISOCombo;
         QPointer<QDoubleSpinBox> GainSpin;
+        double GainSpinSpecialValue;
 };
 }

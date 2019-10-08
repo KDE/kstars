@@ -1572,7 +1572,7 @@ font-weight:bold;
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
             <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>85</number>
+             <number>80</number>
             </attribute>
             <attribute name="horizontalHeaderMinimumSectionSize">
              <number>30</number>
@@ -1604,7 +1604,7 @@ font-weight:bold;
             </column>
             <column>
              <property name="text">
-              <string>ISO</string>
+              <string>ISO/Gain</string>
              </property>
             </column>
             <column>

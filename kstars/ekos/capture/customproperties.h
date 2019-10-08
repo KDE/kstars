@@ -27,6 +27,9 @@ public:
     QMap<QString, QMap<QString, double> > getCustomProperties() const;
     void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
 
+signals:
+    void valueChanged();
+
 private slots:
     void slotAdd();
     void slotRemove();

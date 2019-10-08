@@ -316,6 +316,11 @@ Capture::Capture()
         customPropertiesDialog.get()->show();
         customPropertiesDialog.get()->raise();
     });
+    connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, [&]()
+    {
+      const double newGain = getGain();
+      if (newGain != -1) GainSpin->setValue(newGain);
+    });
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
     flatFieldDuration = static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex());
@@ -888,24 +893,30 @@ void Capture::checkCCD(int ccdNum)
                 GainSpin = new QDoubleSpinBox(CCDFWGroup);
                 double min, max, step, value, targetCustomGain;
                 currentCCD->getGainMinMaxStep(&min, &max, &step);
-                GainSpin->setRange(min, max);
+
+                // Allow the possibility of no gain value at all.
+                GainSpinSpecialValue = min-step;
+                GainSpin->setRange(GainSpinSpecialValue, max);
+                GainSpin->setSpecialValueText(i18n("--"));
+
                 GainSpin->setSingleStep(step);
                 currentCCD->getGain(&value);
 
                 targetCustomGain = getGain();
 
                 // Set the custom gain if we have one
-                // otherwise just put the current ccd actual gain value
+                // otherwise it will not have an effect.
                 if (targetCustomGain > 0)
                     GainSpin->setValue(targetCustomGain);
                 else
-                    GainSpin->setValue(value);
+                    GainSpin->setValue(GainSpinSpecialValue);
 
                 GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
 
                 connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
                 {
-                    setGain(GainSpin->value());
+                    if (GainSpin->value() != GainSpinSpecialValue)
+                        setGain(GainSpin->value());
                 });
 
                 gridLayout->addWidget(GainSpin, 4, 5, 1, 2);
@@ -2329,6 +2340,8 @@ bool Capture::addJob(bool preview)
     if (ISOCombo)
         job->setISOIndex(ISOCombo->currentIndex());
 
+    if (getGain() != -1) job->setGain(getGain());
+    
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
@@ -2471,12 +2484,18 @@ bool Capture::addJob(bool preview)
     if (ISOCombo && ISOCombo->currentIndex() != -1)
     {
         iso->setText(ISOCombo->currentText());
-        jsonJob.insert("ISO", iso->text());
+        jsonJob.insert("ISO/Gain", iso->text());
+    }
+    else if (GainSpin && GainSpin->value() != -1 &&
+        GainSpin->value() != GainSpinSpecialValue)
+    {
+        iso->setText(GainSpin->cleanText());
+        jsonJob.insert("ISO/Gain", iso->text());
     }
     else
     {
         iso->setText("--");
-        jsonJob.insert("ISO", "--");
+        jsonJob.insert("ISO/Gain", "--");
     }
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -3791,6 +3810,8 @@ bool Capture::processJobInfo(XMLEle * root)
             }
 
             customPropertiesDialog->setCustomProperties(propertyMap);
+            const double gain = getGain();
+            if (gain != -1) GainSpin->setValue(gain);
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -4167,12 +4188,11 @@ void Capture::syncGUIToJob(SequenceJob * job)
 
     if (ISOCombo)
         ISOCombo->setCurrentIndex(job->getISOIndex());
-    if (GainSpin)
-    {
-        double value = getGain();
-        if (value > 0)
-            GainSpin->setValue(value);
-    }
+
+    double value = getGain();
+    if (value != -1)
+      GainSpin->setValue(value);
+    else GainSpin->setValue(GainSpinSpecialValue);
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
@@ -4194,7 +4214,7 @@ QJsonObject Capture::getSettings()
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (GainSpin)
+    if (GainSpin && GainSpin->value() != GainSpinSpecialValue)
         gain = GainSpin->value();
     else if (currentCCD && currentCCD->hasGain())
         currentCCD->getGain(&gain);
@@ -6590,7 +6610,9 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
-    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+  if (!GainSpin) return -1;
+  
+  QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
     // Property CCD_GAIN and

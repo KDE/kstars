@@ -128,6 +128,6 @@ void CustomProperties::slotApply()
     }
 
     customProperties = newMap;
-
     close();
+    emit valueChanged();
 }
