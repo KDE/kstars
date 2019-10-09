@@ -55,7 +55,7 @@
         <enum>QFrame::Plain</enum>
        </property>
        <property name="text">
-        <string>&lt;b&gt;Name:&lt;/b&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Name &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -647,7 +647,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Detect from INDI</string>
+            <string>Detect from Ekos</string>
            </property>
           </widget>
          </item>
@@ -1231,7 +1231,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
            <property name="text">
             <string/>
            </property>
-           <property name="color">
+           <property name="color" stdset="0">
             <color>
              <red>255</red>
              <green>255</green>

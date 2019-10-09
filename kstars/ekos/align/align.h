@@ -743,9 +743,9 @@ class Align : public QWidget, public Ui::Align
         int ccd_height { 0 };
 
         // Keep track of solver results
-        double sOrientation { -1 };
-        double sRA { -1 };
-        double sDEC { -1 };
+        double sOrientation { INVALID_VALUE };
+        double sRA { INVALID_VALUE };
+        double sDEC { INVALID_VALUE };
 
         /// Solver alignment coordinates
         SkyPoint alignCoord;
