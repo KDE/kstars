@@ -238,9 +238,9 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
     connect(ui->ComputeTLengthFromFNum1, SIGNAL(clicked()), SLOT(slotComputeTelescopeFL()));
     connect(ui->DetectFromINDI, SIGNAL(clicked()), SLOT(slotDetectFromINDI()));
 
-    #ifndef HAVE_INDI
+#ifndef HAVE_INDI
     ui->DetectFromINDI->setEnabled(false);
-    #endif
+#endif
 
     // Populate eyepiece AFOV options. The userData field contains the apparent FOV associated with that option
     ui->EyepieceAFOV->insertItem(0, i18nc("Specify the apparent field of view (AFOV) manually", "Specify AFOV"), -1);
@@ -363,6 +363,41 @@ void NewFOV::slotComputeTelescopeFL()
     delete telescopeFLDialog;
 }
 
+void NewFOV::slotDetectFromINDI()
+{
+    QDBusInterface alignInterface("org.kde.kstars",
+                                  "/KStars/Ekos/Align",
+                                  "org.kde.kstars.Ekos.Align",
+                                  QDBusConnection::sessionBus());
+
+    QDBusReply<QList<double>> cameraReply = alignInterface.call("cameraInfo");
+    if (cameraReply.isValid())
+    {
+        QList<double> values = cameraReply.value();
+
+        ui->cameraWidth->setValue(values[0]);
+        ui->cameraHeight->setValue(values[1]);
+        ui->cameraPixelSizeW->setValue(values[2]);
+        ui->cameraPixelSizeH->setValue(values[3]);
+    }
+
+    QDBusReply<QList<double>> telescopeReply = alignInterface.call("telescopeInfo");
+    if (telescopeReply.isValid())
+    {
+        QList<double> values = telescopeReply.value();
+        ui->TLength2->setValue(values[0]);
+    }
+
+    QDBusReply<QList<double>> solutionReply = alignInterface.call("getSolutionResult");
+    if (solutionReply.isValid())
+    {
+        QList<double> values = solutionReply.value();
+        if (values[0] > -1e6)
+            ui->FOVEditRotation->setText(QString::number(values[0]));
+    }
+}
+
+
 //-------------TelescopeFL------------------//
 
 TelescopeFL::TelescopeFL(QWidget *parent) : QDialog(parent), aperture(nullptr), fNumber(nullptr), apertureUnit(nullptr)
@@ -406,16 +441,11 @@ double TelescopeFL::computeFL() const
     const double inch_to_mm = 25.4; // 1 inch, by definition, is 25.4 mm
     return (aperture->value() * fNumber->value() *
             ((apertureUnit->currentIndex() == 1) ?
-                 inch_to_mm :
-                 1.0)); // Focal Length = Aperture * F-Number, by definition of F-Number
+             inch_to_mm :
+             1.0)); // Focal Length = Aperture * F-Number, by definition of F-Number
 }
 
 unsigned int FOVDialog::currentItem() const
 {
     return fov->FOVListBox->currentRow();
-}
-
-void FOVDialog::slotDetectFromINDI()
-{
-    // TODO
 }

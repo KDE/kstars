@@ -537,7 +537,7 @@ void Mosaic::fetchINDIInformation()
     if (solutionReply.isValid())
     {
         QList<double> values = solutionReply.value();
-        if (values[0] != -1)
+        if (values[0] > INVALID_VALUE)
             rotationSpin->setValue(values[0]);
     }
 
