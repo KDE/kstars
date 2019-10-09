@@ -458,7 +458,7 @@ Rectangle {
 							onExited: nebText.state = ""
 							onClicked: {
 								viewsRow.categorySelected("nebulas")
-								catTitle.text = xi18n("Nebulas")
+								catTitle.text = xi18n("Nebulae")
 								container.state = "objectFromListSelected"
 							}
 						}
