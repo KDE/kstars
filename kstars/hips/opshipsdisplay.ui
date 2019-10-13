@@ -19,6 +19,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_HIPSPanning">
+     <property name="text">
+      <string>Show HiPS While Panning</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="kcfg_HIPSBiLinearInterpolation">
      <property name="text">
       <string>Linear Interpolation</string>
