@@ -19,6 +19,10 @@
       <arg name="type" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setAstrometrySolverType">
+      <arg name="type" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="captureAndSolve">
       <arg type="b" direction="out"/>
     </method>

@@ -1862,7 +1862,11 @@
          <default>30</default>
       </entry>
       <entry name="SolverType" type="UInt">
-         <label>Set solver type (online, offline, remote).</label>
+         <whatsthis>Solver type (0 ASTAP, 1 astrometry.net).</whatsthis>
+         <default>1</default>
+      </entry>
+      <entry name="AstrometrySolverType" type="UInt">
+         <label>Set astrometry.net solver type (online, offline, remote).</label>
          <default>0</default>
       </entry>
       <entry name="SolverScopeType" type="UInt">
@@ -2441,6 +2445,40 @@
    </entry>
    <entry name="observatoryStatusUseWeather" type="Bool">
       <label>Weather status relevant for the Observatory status.</label>
+      <default>true</default>
+   </entry>
+   </group>
+   <group name="ASTAP">
+   <entry name="ASTAPExecutable" type="String">
+      <label>Full path to the ASTAP executable.</label>
+      <default code="true">KSUtils::getDefaultPath("ASTAP")</default>
+   </entry>
+   <entry name="ASTAPDownSample" type="Bool">
+      <label>Down sample prior to solving. Also called binning. A value 0 will result in auto selection downsampling.</label>
+      <default>false</default>
+   </entry>
+   <entry name="ASTAPDownSampleValue" type="Double">
+      <label>Down sample prior to solving. Also called binning. A value 0 will result in auto selection downsampling.</label>
+      <default>0</default>
+   </entry>
+   <entry name="ASTAPSearchRadius" type="Bool">
+      <label>The program will search in a square spiral around the start position up to this radius.</label>
+      <default>true</default>
+   </entry>
+   <entry name="ASTAPSearchRadiusValue" type="Double">
+      <label>The program will search in a square spiral around the start position up to this radius.</label>
+      <default>30</default>
+   </entry>
+   <entry name="ASTAPTolerance" type="Bool">
+      <label>Tolerance used to compare tetrahedrons. Typical values 0.003 to 0.007.</label>
+      <default>false</default>
+   </entry>
+   <entry name="ASTAPToleranceValue" type="Double">
+      <label>Tolerance used to compare tetrahedrons. Typical values 0.003 to 0.007.</label>
+      <default>0.005</default>
+   </entry>
+   <entry name="ASTAPUpdateFITS" type="Bool">
+      <label>Update the fits header with the found solution.</label>
       <default>true</default>
    </entry>
    </group>
