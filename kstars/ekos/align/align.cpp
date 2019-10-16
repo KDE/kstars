@@ -18,7 +18,9 @@
 #include "ksuserdb.h"
 #include "offlineastrometryparser.h"
 #include "onlineastrometryparser.h"
+#include "astapastrometryparser.h"
 #include "opsalign.h"
+#include "opsastap.h"
 #include "opsastrometry.h"
 #include "opsastrometrycfg.h"
 #include "opsastrometryindexfiles.h"
@@ -228,6 +230,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page->setIcon(QIcon::fromTheme("map-flat"));
 #endif
 
+    opsASTAP = new OpsASTAP(this);
+    page = dialog->addPage(opsASTAP, i18n("ASTAP"));
+    page->setIcon(QIcon(":/icons/astap.ico"));
+
     connect(editOptionsB, &QPushButton::clicked, dialog, &QDialog::show);
 
     appendLogText(i18n("Idle."));
@@ -248,6 +254,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     rememberSolverWCS = Options::astrometrySolverWCS();
     rememberAutoWCS   = Options::autoWCS();
 
+#if 0
     // Online/Offline/Remote solver check
     solverTypeGroup->setId(onlineSolverR, SOLVER_ONLINE);
     solverTypeGroup->setId(offlineSolverR, SOLVER_OFFLINE);
@@ -257,26 +264,48 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     offlineSolverR->setToolTip(
         i18n("Offline solver is not supported under Windows. Please use either the Online or Remote solvers."));
 #endif
+#endif
+
+    solverTypeGroup->setId(astapSolverR, SOLVER_ASTAP);
+    solverTypeGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
     solverTypeGroup->button(Options::solverType())->setChecked(true);
     connect(solverTypeGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
             this, &Align::setSolverType);
 
+    astrometryTypeCombo->addItem(i18n("Online"));
+#ifndef Q_OS_WIN
+    astrometryTypeCombo->addItem(i18n("Offline"));
+#endif
+    astrometryTypeCombo->addItem(i18n("Remote"));
+
     switch (solverTypeGroup->checkedId())
     {
-        case SOLVER_ONLINE:
-            onlineParser.reset(new Ekos::OnlineAstrometryParser());
-            parser = onlineParser.get();
+        case SOLVER_ASTAP:
+            astapParser.reset(new Ekos::ASTAPAstrometryParser());
+            parser = astapParser.get();
             break;
 
-        case SOLVER_OFFLINE:
-            offlineParser.reset(new OfflineAstrometryParser());
-            parser = offlineParser.get();
-            break;
+        case SOLVER_ASTROMETRYNET:
+        {
+            switch (astrometryTypeCombo->currentIndex())
+            {
+                case SOLVER_ONLINE:
+                    onlineParser.reset(new Ekos::OnlineAstrometryParser());
+                    parser = onlineParser.get();
+                    break;
 
-        case SOLVER_REMOTE:
-            remoteParser.reset(new RemoteAstrometryParser());
-            parser = remoteParser.get();
-            break;
+                case SOLVER_OFFLINE:
+                    offlineParser.reset(new OfflineAstrometryParser());
+                    parser = offlineParser.get();
+                    break;
+
+                case SOLVER_REMOTE:
+                    remoteParser.reset(new RemoteAstrometryParser());
+                    parser = remoteParser.get();
+                    break;
+            }
+        }
+        break;
     }
 
     parser->setAlign(this);
@@ -5851,7 +5880,6 @@ void Align::setMountStatus(ISD::Telescope::Status newState)
 void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
 {
     remoteParserDevice = newAstrometry;
-    remoteSolverR->setEnabled(true);
 
     if (remoteParser.get() != nullptr)
     {
@@ -6015,7 +6043,6 @@ QString Align::getPAHMessage() const
     {
         case PAH_IDLE:
         case PAH_FIND_CP:
-        default:
             return introText->text();
         case PAH_FIRST_CAPTURE:
             return firstCaptureText->text();
