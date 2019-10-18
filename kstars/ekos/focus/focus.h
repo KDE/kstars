@@ -345,6 +345,8 @@ class Focus : public QWidget, public Ui::Focus
 
         void processCaptureTimeout();
 
+        void processCaptureFailure();
+
         void setCaptureComplete();
 
         void showFITSViewer();
@@ -587,6 +589,7 @@ class Focus : public QWidget, public Ui::Focus
         // Capture timeout timer
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
+        uint8_t captureFailureCounter { 0 };
 
         // Guide Suspend
         bool m_GuidingSuspended { false };
