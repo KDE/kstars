@@ -346,6 +346,7 @@ class CCD : public DeviceDecorator
         void previewFITSGenerated(const QString &previewFITS);
         void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
         void ready();
+        void captureFailed();
 
     private:
         void addFITSKeywords(const QString &filename);
