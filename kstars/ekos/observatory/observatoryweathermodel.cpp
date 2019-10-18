@@ -31,12 +31,14 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
     warningActions.parkDome = Options::weatherWarningCloseDome();
     warningActions.closeShutter = Options::weatherWarningCloseShutter();
     warningActions.delay = Options::weatherWarningDelay();
-    warningActions.stopScheduler = Options::weatherAlertStopScheduler();
     alertActionsActive = Options::alertActionsActive();
     alertActions.parkDome = Options::weatherAlertCloseDome();
     alertActions.closeShutter = Options::weatherAlertCloseShutter();
-    alertActions.stopScheduler = Options::weatherAlertStopScheduler();
     alertActions.delay = Options::weatherAlertDelay();
+
+    // not implemented yet
+    warningActions.stopScheduler = false;
+    alertActions.stopScheduler = false;
 
     warningTimer.setInterval(static_cast<int>(warningActions.delay * 1000));
     warningTimer.setSingleShot(true);
@@ -73,8 +75,19 @@ void ObservatoryWeatherModel::setWarningActionsActive(bool active)
     if (!active && warningTimer.isActive())
         warningTimer.stop();
     // start warning timer if activated
-    else if (active && !warningTimer.isActive() && weatherInterface->status() == ISD::Weather::WEATHER_WARNING)
-        warningTimer.start();
+    else if (weatherInterface->status() == ISD::Weather::WEATHER_WARNING)
+        startWarningTimer();
+}
+
+void ObservatoryWeatherModel::startWarningTimer()
+{
+    if (warningActionsActive && (warningActions.parkDome || warningActions.closeShutter || warningActions.stopScheduler))
+    {
+        if (!warningTimer.isActive())
+            warningTimer.start();
+    }
+    else if (warningTimer.isActive())
+        warningTimer.stop();
 }
 
 void ObservatoryWeatherModel::setAlertActionsActive(bool active)
@@ -86,8 +99,19 @@ void ObservatoryWeatherModel::setAlertActionsActive(bool active)
     if (!active && alertTimer.isActive())
         alertTimer.stop();
     // start alert timer if activated
-    else if (active && !alertTimer.isActive() && weatherInterface->status() == ISD::Weather::WEATHER_ALERT)
-        alertTimer.start();
+    else if (weatherInterface->status() == ISD::Weather::WEATHER_ALERT)
+        startAlertTimer();
+}
+
+void ObservatoryWeatherModel::startAlertTimer()
+{
+    if (alertActionsActive && (alertActions.parkDome || alertActions.closeShutter || alertActions.stopScheduler))
+    {
+        if (!alertTimer.isActive())
+            alertTimer.start();
+    }
+    else if (alertTimer.isActive())
+        alertTimer.stop();
 }
 
 void ObservatoryWeatherModel::setWarningActions(WeatherActions actions)
@@ -96,7 +120,11 @@ void ObservatoryWeatherModel::setWarningActions(WeatherActions actions)
     Options::setWeatherWarningCloseDome(actions.parkDome);
     Options::setWeatherWarningCloseShutter(actions.closeShutter);
     Options::setWeatherWarningDelay(actions.delay);
-    warningTimer.setInterval(static_cast<int>(actions.delay * 1000));
+    if (!warningTimer.isActive())
+        warningTimer.setInterval(static_cast<int>(actions.delay * 1000));
+
+    if (weatherInterface->status() == ISD::Weather::WEATHER_WARNING)
+        startWarningTimer();
 }
 
 
@@ -117,7 +145,11 @@ void ObservatoryWeatherModel::setAlertActions(WeatherActions actions)
     Options::setWeatherAlertCloseDome(actions.parkDome);
     Options::setWeatherAlertCloseShutter(actions.closeShutter);
     Options::setWeatherAlertDelay(actions.delay);
-    alertTimer.setInterval(static_cast<int>(actions.delay * 1000));
+    if (!alertTimer.isActive())
+        alertTimer.setInterval(static_cast<int>(actions.delay * 1000));
+
+    if (weatherInterface->status() == ISD::Weather::WEATHER_ALERT)
+        startAlertTimer();
 }
 
 QString ObservatoryWeatherModel::getAlertActionsStatus()
@@ -147,14 +179,12 @@ void ObservatoryWeatherModel::weatherChanged(ISD::Weather::Status status)
             alertTimer.stop();
             break;
         case ISD::Weather::WEATHER_WARNING:
-            if (warningActionsActive)
-                warningTimer.start();
             alertTimer.stop();
+            startWarningTimer();
             break;
         case ISD::Weather::WEATHER_ALERT:
             warningTimer.stop();
-            if (alertActionsActive)
-                alertTimer.start();
+            startAlertTimer();
             break;
         default:
             break;
