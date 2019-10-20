@@ -1961,7 +1961,7 @@ font-weight:bold;
                  </size>
                 </property>
                 <property name="text">
-                 <string notr="true">second left</string>
+                 <string>second left</string>
                 </property>
                </widget>
               </item>
