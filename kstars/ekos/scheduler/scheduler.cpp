@@ -6163,6 +6163,10 @@ void Scheduler::startMosaicTool()
             }
         }
 
+        // We do not want FITS image for mosaic job since each job has its own calculated center
+        QString fitsFileBackup = fitsEdit->text();
+        fitsEdit->clear();
+
         foreach (OneTile *oneJob, mosaicTool.getJobs())
         {
             QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
@@ -6195,6 +6199,8 @@ void Scheduler::startMosaicTool()
         {
             appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.toLocalFile()));
         }
+
+        fitsEdit->setText(fitsFileBackup);
     }
 }
 
