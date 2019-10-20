@@ -33,6 +33,8 @@ class ObservatoryWeatherModel : public QObject
         void initModel(Weather *weather);
         ISD::Weather::Status status();
 
+        bool refresh();
+
         /**
          * @brief Actions to be taken when a weather warning occurs
          */

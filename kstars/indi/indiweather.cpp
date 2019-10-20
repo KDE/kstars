@@ -96,6 +96,26 @@ quint16 Weather::getUpdatePeriod()
 
     return static_cast<quint16>(updateNP->np[0].value);
 }
+
+bool Weather::refresh()
+{
+    ISwitchVectorProperty *refreshSP = baseDevice->getSwitch("WEATHER_REFRESH");
+
+    if (refreshSP == nullptr)
+        return false;
+
+    ISwitch *refreshSW = IUFindSwitch(refreshSP, "REFRESH");
+
+    if (refreshSW == nullptr)
+        return false;
+
+    IUResetSwitch(refreshSP);
+    refreshSW->s = ISS_ON;
+    clientManager->sendNewSwitch(refreshSP);
+
+    return true;
+
+}
 }
 
 #ifndef KSTARS_LITE

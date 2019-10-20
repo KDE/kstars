@@ -52,6 +52,7 @@ class Weather : public DeviceDecorator
 
         Status getWeatherStatus();
         quint16 getUpdatePeriod();
+        bool refresh();
 
     signals:
         void newStatus(Status status);

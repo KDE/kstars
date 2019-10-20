@@ -66,6 +66,11 @@ ISD::Weather::Status ObservatoryWeatherModel::status()
     return weatherInterface->status();
 }
 
+bool ObservatoryWeatherModel::refresh()
+{
+    return weatherInterface->refresh();
+}
+
 void ObservatoryWeatherModel::setWarningActionsActive(bool active)
 {
     warningActionsActive = active;
