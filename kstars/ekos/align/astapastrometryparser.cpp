@@ -40,15 +40,59 @@ bool ASTAPAstrometryParser::startSovler(const QString &filename, const QStringLi
 {
     INDI_UNUSED(generated);
 
-    align->appendLogText(i18n("Starting ASTAP solver..."));
+    QStringList solverArgs = args;
+
+    solverArgs << "-f" << filename;
+
+    QString solutionFile = QDir::tempPath() + "/solution";
+    solverArgs << "-o" << solutionFile;
+
+    solver.clear();
+    solver = new QProcess(this);
+
+    connect(solver, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus exitStatus)>(&QProcess::finished),
+            this, &ASTAPAstrometryParser::solverComplete);
+    //    solver->setProcessChannelMode(QProcess::MergedChannels);
+    //    connect(solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
+#if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
+    connect(solver.data(), &QProcess::errorOccurred, this, [&]()
+    {
+        align->appendLogText(i18n("Error starting solver: %1", solver->errorString()));
+        emit solverFailed();
+    });
+#else
+    connect(solver, SIGNAL(error(QProcess::ProcessError)), this, SIGNAL(solverFailed()));
+#endif
+
     solverTimer.start();
+
+    QString solverPath = Options::aSTAPExecutable();
+
+    solver->start(solverPath, solverArgs);
+
+    align->appendLogText(i18n("Starting solver..."));
+
+    if (Options::alignmentLogging())
+    {
+        QString command = solverPath + ' ' + solverArgs.join(' ');
+        align->appendLogText(command);
+    }
 
     return true;
 }
 
+void ASTAPAstrometryParser::solverComplete(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    Q_UNUSED(exitCode)
+    Q_UNUSED(exitStatus)
+
+    // TODO
+
+}
+
 bool ASTAPAstrometryParser::stopSolver()
-{   
-    solverRunning = false;
+{
+    // TODO
     return true;
 }
 }
