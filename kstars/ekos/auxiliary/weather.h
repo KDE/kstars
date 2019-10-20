@@ -55,6 +55,12 @@ class Weather : public QObject
          */
         Q_SCRIPTABLE quint16 getUpdatePeriod();
 
+        /**
+         * DBUS interface function.
+         * @brief Refresh the weather status
+         */
+        Q_SCRIPTABLE bool refresh();
+
         /** @}*/
 
         /**

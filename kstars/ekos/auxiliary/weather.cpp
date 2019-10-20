@@ -64,4 +64,11 @@ quint16 Weather::getUpdatePeriod()
 
     return currentWeather->getUpdatePeriod();
 }
+
+bool Weather::refresh()
+{
+    return currentWeather->refresh();
+
+}
+
 }

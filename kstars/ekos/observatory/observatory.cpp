@@ -402,7 +402,7 @@ void Observatory::clearSensorDataHistory()
             QCPGraphData last = graphDataVector->last();
             graphDataVector->clear();
             QDateTime when = QDateTime();
-            when.setSecsSinceEpoch(static_cast<int>(last.key));
+            when.setTime_t(static_cast<uint>(last.key));
             updateSensorGraph(it->first, when, last.value);
         }
     }
@@ -522,6 +522,8 @@ void Observatory::initWeather()
     setWarningActions(getWeatherModel()->getWarningActions());
     setAlertActions(getWeatherModel()->getAlertActions());
     weatherStatusTimer.start(1000);
+    if (getWeatherModel()->refresh() == false)
+        appendLogText(i18n("Refreshing weather data failed."));
 }
 
 void Observatory::shutdownWeather()
@@ -545,11 +547,17 @@ void Observatory::updateSensorGraph(QString label, QDateTime now, double value)
     }
 
     // store the data
-    sensorGraphData[id]->append(QCPGraphData(static_cast<double>(now.toSecsSinceEpoch()), value));
+    sensorGraphData[id]->append(QCPGraphData(static_cast<double>(now.toTime_t()), value));
 
     // add data for the graphs we display
     if (selectedSensorID == id)
     {
+        // display first point in scattered style
+        if (sensorGraphData[id]->size() == 1)
+            sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 0), QBrush(Qt::green), 5));
+        else
+            sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssNone));
+
         // display data point
         sensorGraphs->graph()->addData(sensorGraphData[id]->last().key, sensorGraphData[id]->last().value);
         sensorGraphs->rescaleAxes();
@@ -624,11 +632,12 @@ void Observatory::mouseOverLine(QMouseEvent *event)
     if (graph)
     {
         int index = sensorGraphs->graph(0)->findBegin(key);
-        double value = sensorGraphs->graph(0)->dataMainValue(index);
+        double value   = sensorGraphs->graph(0)->dataMainValue(index);
+        QDateTime when = QDateTime::fromTime_t(sensorGraphs->graph(0)->dataMainKey(index));
 
         QToolTip::showText(
             event->globalPos(),
-            i18n("%1 = %2", selectedSensorID, value));
+            i18n("%1 = %2 @ %3", selectedSensorID, value, when.toString("hh:mm")));
     }
     else {
         QToolTip::hideText();
@@ -732,8 +741,7 @@ void Observatory::initSensorGraphs()
 
     // create the universal graph
     QCPGraph *graph = sensorGraphs->addGraph();
-    graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 0), QBrush(Qt::green), 5));
-    graph->setPen(QPen(Qt::darkGreen));
+    graph->setPen(QPen(Qt::darkGreen, 2));
     graph->setBrush(QColor(10, 100, 50, 70));
 
     // ensure that the 0-line is visible
@@ -787,16 +795,32 @@ void Observatory::domeAzimuthChanged(double position)
 
 void Observatory::setWarningActions(WeatherActions actions)
 {
-    weatherWarningDomeCB->setChecked(actions.parkDome);
-    weatherWarningShutterCB->setChecked(actions.closeShutter);
+    if (getDomeModel() != nullptr)
+        weatherWarningDomeCB->setChecked(actions.parkDome);
+    else
+        weatherWarningDomeCB->setChecked(actions.parkDome);
+
+    if (getDomeModel() != nullptr && getDomeModel()->hasShutter())
+        weatherWarningShutterCB->setChecked(actions.closeShutter);
+    else
+        weatherWarningShutterCB->setChecked(actions.closeShutter);
+
     weatherWarningDelaySB->setValue(static_cast<int>(actions.delay));
 }
 
 
 void Observatory::setAlertActions(WeatherActions actions)
 {
-    weatherAlertDomeCB->setChecked(actions.parkDome);
-    weatherAlertShutterCB->setChecked(actions.closeShutter);
+    if (getDomeModel() != nullptr)
+        weatherAlertDomeCB->setChecked(actions.parkDome);
+    else
+        weatherAlertDomeCB->setChecked(false);
+
+    if (getDomeModel() != nullptr && getDomeModel()->hasShutter())
+        weatherAlertShutterCB->setChecked(actions.closeShutter);
+    else
+        weatherAlertShutterCB->setChecked(false);
+
     weatherAlertDelaySB->setValue(static_cast<int>(actions.delay));
 }
 
