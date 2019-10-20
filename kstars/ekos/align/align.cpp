@@ -2309,6 +2309,9 @@ void Align::calculateFOV()
     fov_x /= 60.0;
     fov_y /= 60.0;
 
+    double calculated_fov_x = fov_x;
+    double calculated_fov_y = fov_y;
+
     QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
     // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
     // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
@@ -2319,9 +2322,13 @@ void Align::calculateFOV()
     {
         //FOVOut->setReadOnly(false);
         FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>", calculatedFOV));
+        fov_x = calculated_fov_x;
+        fov_y = calculated_fov_y;
+        m_EffectiveFOVPending = true;
     }
     else
     {
+        m_EffectiveFOVPending = false;
         FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p>"));
         //FOVOut->setReadOnly(true);
     }
@@ -2463,12 +2470,20 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap)
 }
 
 //This will generate the high and low scale of the imager field size based on the stated units.
-void Align::generateFOVBounds(double fov_h, double fov_v, QString &fov_low, QString &fov_high)
+void Align::generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance)
 {
-    double fov_lower, fov_upper;
+    // This sets the percentage we search outside the lower and upper boundary limits
+    // by default, we stretch the limits by 5% (tolerance = 0.05)
+    double lower_boundary = 1.0 - tolerance;
+    double upper_boundary = 1.0 + tolerance;
+
     // let's stretch the boundaries by 5%
-    fov_lower = ((fov_h < fov_v) ? (fov_h * 0.95) : (fov_v * 0.95));
-    fov_upper = ((fov_h > fov_v) ? (fov_h * 1.05) : (fov_v * 1.05));
+    //    fov_lower = ((fov_h < fov_v) ? (fov_h * lower_boundary) : (fov_v * lower_boundary));
+    //    fov_upper = ((fov_h > fov_v) ? (fov_h * upper_boundary) : (fov_v * upper_boundary));
+
+    // JM 2019-10-20: The bounds consider image width only, not height.
+    double fov_lower = fov_h * lower_boundary;
+    double fov_upper = fov_h * upper_boundary;
 
     //No need to do anything if they are aw, since that is the default
     fov_low  = QString::number(fov_lower);
@@ -2531,7 +2546,8 @@ void Align::generateArgs()
                 fov_h = fov_pixscale;
             }
 
-            generateFOVBounds(fov_w, fov_h, fov_low, fov_high);
+            // If effective FOV is pending, let's set a wider tolerance range
+            generateFOVBounds(fov_w, fov_low, fov_high, m_EffectiveFOVPending ? 0.3 : 0.05);
 
             optionsMap["scaleL"]     = fov_low;
             optionsMap["scaleH"]     = fov_high;
@@ -3082,12 +3098,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 #endif
 
-    if (fov_x == 0 && pixscale > 0)
+    if ( (fov_x == 0 || m_EffectiveFOVPending) && pixscale > 0)
     {
         double newFOVW = ccd_width * pixscale / binx / 60.0;
         double newFOVH = ccd_height * pixscale / biny / 60.0;
 
         saveNewEffectiveFOV(newFOVW, newFOVH);
+
+        m_EffectiveFOVPending = false;
     }
 
     alignCoord.setRA0(ra / 15.0);
@@ -6015,7 +6033,6 @@ QString Align::getPAHMessage() const
     {
         case PAH_IDLE:
         case PAH_FIND_CP:
-        default:
             return introText->text();
         case PAH_FIRST_CAPTURE:
             return firstCaptureText->text();
@@ -6035,6 +6052,8 @@ QString Align::getPAHMessage() const
         case PAH_ERROR:
             return PAHErrorDescriptionLabel->text();
     }
+
+    return QString();
 }
 
 void Align::zoomAlignView()

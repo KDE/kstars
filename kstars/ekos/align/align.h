@@ -362,7 +362,7 @@ class Align : public QWidget, public Ui::Align
              * @return String List of valid astrometry.net options
              */
         static QStringList generateOptions(const QVariantMap &optionsMap);
-        static void generateFOVBounds(double fov_h, double fov_v, QString &fov_low, QString &fov_high);
+        static void generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance = 0.05);
 
     public slots:
 
@@ -717,6 +717,8 @@ class Align : public QWidget, public Ui::Align
         QList<QVariantMap> effectiveFOVs;
         void syncFOV();
 
+        // We are using calculated FOV now until a more accurate effective FOV is found.
+        bool m_EffectiveFOVPending { false };
         /// Which chip should we invoke in the current CCD?
         bool useGuideHead { false };
         /// Can the mount sync its coordinates to those set by Ekos?
