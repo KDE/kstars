@@ -522,6 +522,8 @@ void Observatory::initWeather()
     setWarningActions(getWeatherModel()->getWarningActions());
     setAlertActions(getWeatherModel()->getAlertActions());
     weatherStatusTimer.start(1000);
+    if (getWeatherModel()->refresh() == false)
+        appendLogText(i18n("Refreshing weather data failed."));
 }
 
 void Observatory::shutdownWeather()
@@ -550,6 +552,12 @@ void Observatory::updateSensorGraph(QString label, QDateTime now, double value)
     // add data for the graphs we display
     if (selectedSensorID == id)
     {
+        // display first point in scattered style
+        if (sensorGraphData[id]->size() == 1)
+            sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 0), QBrush(Qt::green), 5));
+        else
+            sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssNone));
+
         // display data point
         sensorGraphs->graph()->addData(sensorGraphData[id]->last().key, sensorGraphData[id]->last().value);
         sensorGraphs->rescaleAxes();
