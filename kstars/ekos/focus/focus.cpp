@@ -706,12 +706,14 @@ void Focus::stop(bool aborted)
     //starSelected       = false;
     polySolutionFound  = 0;
     captureInProgress  = false;
+    captureFailureCounter = 0;
     minimumRequiredHFR = -1;
     noStarCount        = 0;
     HFRFrames.clear();
     //maxHFR=1;
 
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
+    disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -835,6 +837,7 @@ void Focus::capture()
         currentCCD->setGain(gainIN->value());
 
     connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
+    connect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
     targetChip->setFrameType(FRAME_LIGHT);
 
@@ -964,6 +967,7 @@ void Focus::newFITS(IBLOB *bp)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
+    disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
     if (darkFrameCheck->isChecked())
     {
@@ -2779,7 +2783,6 @@ bool Focus::findMinimum(double expected, double *position, double *hfr)
     double m = expected;
     double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
     double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
-    ;
     gsl_function F;
 
     F.function = &Focus::fn1;
@@ -2926,7 +2929,6 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     connect(filterManager.data(), &FilterManager::exposureChanged, this, [this]()
     {
         exposureIN->setValue(filterManager->getFilterExposure());
-        ;
     });
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
@@ -3000,6 +3002,31 @@ void Focus::processCaptureTimeout()
     targetChip->abortExposure();
     targetChip->capture(exposureIN->value());
     captureTimeout.start(exposureIN->value() * 1000 + FOCUS_TIMEOUT_THRESHOLD);
+}
+
+void Focus::processCaptureFailure()
+{
+    captureFailureCounter++;
+
+    if (captureFailureCounter >= 3)
+    {
+        captureFailureCounter = 0;
+        appendLogText(i18n("Exposure failure. Aborting..."));
+        abort();
+        if (inAutoFocus)
+            setAutoFocusResult(false);
+        else if (m_GuidingSuspended)
+        {
+            emit resumeGuiding();
+            m_GuidingSuspended = false;
+        }
+        return;
+    }
+
+    appendLogText(i18n("Exposure failure. Restarting exposure..."));
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    targetChip->abortExposure();
+    targetChip->capture(exposureIN->value());
 }
 
 void Focus::syncSettings()

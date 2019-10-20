@@ -1078,6 +1078,8 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
         if (np)
             emit newExposureValue(primaryChip.get(), np->value, nvp->s);
+        if (nvp->s == IPS_ALERT)
+            emit captureFailed();
     }
     else if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
     {

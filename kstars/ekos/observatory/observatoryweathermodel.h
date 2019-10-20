@@ -33,6 +33,8 @@ class ObservatoryWeatherModel : public QObject
         void initModel(Weather *weather);
         ISD::Weather::Status status();
 
+        bool refresh();
+
         /**
          * @brief Actions to be taken when a weather warning occurs
          */
@@ -83,13 +85,16 @@ class ObservatoryWeatherModel : public QObject
         struct WeatherActions warningActions, alertActions;
         bool warningActionsActive, alertActionsActive;
 
+        void startAlertTimer();
+        void startWarningTimer();
+
         // hold all sensor data received from the weather station
         std::vector<ISD::Weather::WeatherData> m_WeatherData;
         // update the stored values
         void updateWeatherData(std::vector<ISD::Weather::WeatherData> entries);
         unsigned long findWeatherData(QString name);
 
-    private slots:
+private slots:
         void weatherChanged(ISD::Weather::Status status);
         void updateWeatherStatus();
 
