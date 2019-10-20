@@ -364,7 +364,7 @@ class Align : public QWidget, public Ui::Align
              * @param optionsMap List of key=value pairs for all astrometry.net options
              * @return String List of valid astrometry.net options
              */
-        static QStringList generateOptions(const QVariantMap &optionsMap);
+        static QStringList generateOptions(const QVariantMap &optionsMap, uint8_t solverType = SOLVER_ASTROMETRYNET);
         static void generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance = 0.05);
 
     public slots:

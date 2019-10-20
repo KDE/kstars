@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>694</width>
-    <height>541</height>
+    <width>709</width>
+    <height>543</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -673,7 +673,7 @@
           <item>
            <widget class="QRadioButton" name="astapSolverR">
             <property name="toolTip">
-             <string>Use online astrometry.net solver to solve the image. You must have an Internet connection and a valid API key.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use ASTAP external solver. ASTAP must be installed and configured.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>ASTAP</string>
@@ -689,10 +689,10 @@
           <item>
            <widget class="QRadioButton" name="astrometrySolverR">
             <property name="toolTip">
-             <string>Use offline astrometry.net solver. You must install all the necessary index files for your field of view.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry.net solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Astrometry.net</string>
+             <string>Astro.net</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">solverTypeGroup</string>

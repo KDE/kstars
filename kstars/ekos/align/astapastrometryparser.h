@@ -12,6 +12,9 @@
 #include "astrometryparser.h"
 #include "indi/indiccd.h"
 
+#include <QPointer>
+#include <QProcess>
+
 namespace Ekos
 {
 class Align;
@@ -40,14 +43,11 @@ class ASTAPAstrometryParser : public AstrometryParser
         virtual bool stopSolver() override;
 
     public slots:
-        void checkStatus(ISwitchVectorProperty *svp);
-        void checkResults(INumberVectorProperty *nvp);
+        void solverComplete(int exitCode, QProcess::ExitStatus exitStatus);
 
     private:
-        bool solverRunning { false };
-        bool captureRunning { false };
         Align *align { nullptr };
         QTime solverTimer;
-        QString targetCCD;
+        QPointer<QProcess> solver;
 };
 }

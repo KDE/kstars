@@ -37,7 +37,7 @@
         <item row="3" column="0">
          <widget class="QCheckBox" name="kcfg_ASTAPTolerance">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A value &amp;quot;0&amp;quot; will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tolerance used to compare tetrahedrons. Typical values 0.003 to 0.007.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Tolerance</string>
@@ -50,7 +50,7 @@
         <item row="2" column="0">
          <widget class="QCheckBox" name="kcfg_ASTAPDownSample">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A value &amp;quot;0&amp;quot; will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A zero value 0 will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Down Sample</string>
@@ -63,7 +63,7 @@
         <item row="2" column="1">
          <widget class="QSpinBox" name="kcfg_ASTAPDownSampleValue">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A value &amp;quot;0&amp;quot; will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A zero value 0 will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <number>0</number>
@@ -78,6 +78,9 @@
         </item>
         <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_ASTAPToleranceValue">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tolerance used to compare tetrahedrons. Typical values 0.003 to 0.007.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="decimals">
            <number>3</number>
           </property>
@@ -103,6 +106,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Full path to the ASTAP executable application.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -110,6 +116,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="kcfg_ASTAPSearchRadiusValue">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The program will search in a square spiral around the start position up to this radius.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -131,7 +140,7 @@
         <item row="4" column="0">
          <widget class="QCheckBox" name="kcfg_ASTAPUpdateFITS">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A value &amp;quot;0&amp;quot; will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update the fits header with the found solution.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Update FITS</string>
@@ -144,7 +153,7 @@
         <item row="1" column="0">
          <widget class="QCheckBox" name="kcfg_ASTAPSearchRadius">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A value &amp;quot;0&amp;quot; will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The program will search in a square spiral around the start position up to this radius.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Search Radius</string>
@@ -172,7 +181,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset theme="document-open"/>
+           <iconset theme="document-open">
+            <normaloff>.</normaloff>.</iconset>
           </property>
           <property name="iconSize">
            <size>

@@ -184,9 +184,11 @@ if (INDI_FOUND)
             ekos/align/opsalign.cpp
             ekos/align/opsastrometrycfg.cpp
             ekos/align/opsastrometryindexfiles.cpp
+            ekos/align/opsastap.cpp
             ekos/align/offlineastrometryparser.cpp
             ekos/align/onlineastrometryparser.cpp
             ekos/align/remoteastrometryparser.cpp
+            ekos/align/astapastrometryparser.cpp
 
             # Guide
             ekos/guide/guide.cpp
