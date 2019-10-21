@@ -1,35 +1,24 @@
-#"US": DST starts on the first Sunday of April, reverts on the 
-#      last Sunday of October (2:00 am).  Canada uses this 
+#"US": DST starts on the first Sunday of April, reverts on the
+#      last Sunday of October (2:00 am).  Canada uses this
 #      rule as well.
 US  Mar  2Sun  02:00  Nov  1Sun  02:00
 
-#"MX": DST starts on the 1st Sunday of May, and switch back on 
+#"MX": DST starts on the 1st Sunday of May, and switch back on
 #      the last Sunday of September (2:00 am). (Mexico)
 MX  Apr  1Sun  02:00  Oct   Sun  02:00
 
-#"EU": DST starts on the last Sunday of March, reverts on last 
+#"EU": DST starts on the last Sunday of March, reverts on last
 #      Sunday of October (1:00 am)
 EU  Mar   Sun  01:00  Oct   Sun  01:00
 
 #"EE": Same as EU but changes at 0:00 instead of 1:00 (East Europe)
 EE  Mar   Sun  00:00  Oct   Sun  00:00
 
-#"CH": DST starts 2nd Sun in Apr, reverts 2nd Sun in Sept (0:00) 
-#      (China; the dates are rather uncertain...)
-CH  Apr  2Sun  00:00  Sep  2Sun  00:00
-
-#"HK": DST starts 2nd Sun in May, reverts 3rd Sun in Oct (3:30) 
-#      (Hong Kong)
-HK  May  2Sun  03:30  Oct  3Sun  03:30
-
 #"IR": DST starts Mar 21, reverts Sep 22 (0:00) (note: these
-#      dates are approximate, since Iran doesn't use the 
-#      Gregorian calendar.  Dates vary between March 20-21 and 
+#      dates are approximate, since Iran doesn't use the
+#      Gregorian calendar.  Dates vary between March 20-21 and
 #      Sep 22-23)
 IR  Mar    21  00:00  Sep    21  00:00
-
-#"IQ": DST starts Apr 1, reverts Oct 1 (3:00). (Iraq)
-IQ  Apr     1  03:00  Oct     1  00:00
 
 #"ZN": DST starts Apr 1, reverts Oct 1 (1:00).  Israel has no
 #      fixed law for start/end dates, so these are approximate.
@@ -38,10 +27,6 @@ ZN  Mar     Fri  01:00  Oct     Sun  00:00
 #"JD": DST starts last Thu of Mar, reverts last Thu of Sep (0:00)
 #      (Jordan)
 JD  Mar   Thu  00:00  Oct   Fri  00:00
-
-#"SK": DST starts 2nd Sun in May, reverts 2nd Sun in Oct (0:00)
-#(South Korea)
-SK  May  2Sun  00:00  Oct  2Sun  00:00
 
 #"LB": DST starts last Sun in March, reverts last Sun in Oct (0:00)
 #(Lebanon)
@@ -78,10 +63,6 @@ CL  Aug  2Sun  04:00  May  2Sun  03:00
 #"PY": DST starts 1st Sun in Oct, reverts 1st Sun in Mar (0:00)
 #(Paraguay)
 PY  Oct  1Sun  00:00  Mar  Sun  00:00
-
-#"EG": DST starts last Fri in Apr, reverts last Thu in Sep (0:00)
-#(Egypt)
-EG  Apr   Fri  00:00  Sep   Thu  00:00
 
 #"NB": DST starts 1st Sun in Sep, reverts 1st Sun in Apr (2:00)
 #(Namibia)
