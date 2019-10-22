@@ -119,7 +119,7 @@ void ASTAPAstrometryParser::solverComplete(int exitCode, QProcess::ExitStatus ex
             dec = ini[1].trimmed().toDouble(&ok[1]);
         else if (ini[0] == "CDELT1")
             pixscale = ini[1].trimmed().toDouble(&ok[2]) * 3600.0;
-        else if (ini[0] == "CROTA2")
+        else if (ini[0] == "CROTA1")
             orientation = ini[1].trimmed().toDouble(&ok[3]);
 
         line = in.readLine();
