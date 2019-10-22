@@ -1891,6 +1891,14 @@ void Align::checkAlignmentTimeout()
     {
         appendLogText(i18n("Solver timed out."));
         parser->stopSolver();
+
+        int currentRow = solutionTable->rowCount() - 1;
+        solutionTable->setCellWidget(currentRow, 3, new QWidget());
+        QTableWidgetItem *statusReport = new QTableWidgetItem();
+        statusReport->setIcon(QIcon(":/icons/timedout.svg"));
+        statusReport->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, 3, statusReport);
+
         captureAndSolve();
     }
     // TODO must also account for loadAndSlew. Retain file name
@@ -3571,7 +3579,6 @@ void Align::solverFailed()
     emit newStatus(state);
 
     int currentRow = solutionTable->rowCount() - 1;
-
     solutionTable->setCellWidget(currentRow, 3, new QWidget());
     QTableWidgetItem *statusReport = new QTableWidgetItem();
     statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
