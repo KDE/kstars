@@ -1153,6 +1153,18 @@ QString getDefaultPath(QString option)
         else
             return snap + "/usr/bin/xplanet";
     }
+    else if (option == "ASTAP")
+    {
+#if defined(Q_OS_OSX)
+        return "/usr/local/bin/aspat";
+#elif defined(Q_OS_WIN)
+        return "C:\Program Files\astap\astap.exe";
+#endif
+        if (flat.isEmpty() == false)
+            return flat + "/bin/astap";
+        else
+            return snap + "/usr/local/bin/astap";
+    }
 
     return QString();
 }

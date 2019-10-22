@@ -42,8 +42,10 @@ class AstrometryParser;
 class OnlineAstrometryParser;
 class OfflineAstrometryParser;
 class RemoteAstrometryParser;
+class ASTAPAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;
+class OpsASTAP;
 class OpsAstrometryCfg;
 class OpsAstrometryIndexFiles;
 
@@ -99,7 +101,8 @@ class Align : public QWidget, public Ui::Align
             ALT_FINISHED
         } ALTStage;
         typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
-        typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE } SolverType;
+        typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE } AstrometrySolverType;
+        typedef enum { SOLVER_ASTAP, SOLVER_ASTROMETRYNET } SolverType;
         typedef enum
         {
             PAH_IDLE,
@@ -361,7 +364,7 @@ class Align : public QWidget, public Ui::Align
              * @param optionsMap List of key=value pairs for all astrometry.net options
              * @return String List of valid astrometry.net options
              */
-        static QStringList generateOptions(const QVariantMap &optionsMap);
+        static QStringList generateOptions(const QVariantMap &optionsMap, uint8_t solverType = SOLVER_ASTROMETRYNET);
         static void generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance = 0.05);
 
     public slots:
@@ -415,9 +418,15 @@ class Align : public QWidget, public Ui::Align
 
         /** DBUS interface function.
              * Select the solver type
-             * @param type Set solver type. 0 online, 1 offline, 2 remote
+             * @param type Set solver type. 0 ASTAP, 1 astrometry.net
              */
         Q_SCRIPTABLE Q_NOREPLY void setSolverType(int type);
+
+        /** DBUS interface function.
+             * Select the astrometry solver type
+             * @param type Set solver type. 0 online, 1 offline, 2 remote
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setAstrometrySolverType(int type);
 
         /** DBUS interface function.
              * Capture and solve an image using the astrometry.net engine
@@ -786,6 +795,8 @@ class Align : public QWidget, public Ui::Align
         std::unique_ptr<RemoteAstrometryParser> remoteParser;
         ISD::GDInterface *remoteParserDevice { nullptr };
 
+        std::unique_ptr<ASTAPAstrometryParser> astapParser;
+
         // Pointers to our devices
         ISD::Telescope *currentTelescope { nullptr };
         ISD::Dome *currentDome { nullptr };
@@ -883,6 +894,7 @@ class Align : public QWidget, public Ui::Align
         OpsAlign *opsAlign { nullptr };
         OpsAstrometryCfg *opsAstrometryCfg { nullptr };
         OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
+        OpsASTAP *opsASTAP { nullptr };
         QCPCurve *centralTarget { nullptr };
         QCPCurve *yellowTarget { nullptr };
         QCPCurve *redTarget { nullptr };
