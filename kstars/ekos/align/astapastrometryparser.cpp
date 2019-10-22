@@ -86,13 +86,66 @@ void ASTAPAstrometryParser::solverComplete(int exitCode, QProcess::ExitStatus ex
     Q_UNUSED(exitCode)
     Q_UNUSED(exitStatus)
 
-    // TODO
+    QFile solution(QDir::tempPath() + "/solution.ini");
 
+    if (!solution.open(QIODevice::ReadOnly))
+    {
+        qCritical(KSTARS_EKOS_ALIGN) << "Failed to open solution file" << QDir::tempPath() + "/solution.ini";
+        emit solverFailed();
+        return;
+    }
+
+    QTextStream in(&solution);
+    QString line = in.readLine();
+
+    QStringList ini = line.split("=");
+    if (ini[1] == "F")
+    {
+        align->appendLogText(i18n("Solver failed. Try again."));
+        emit solverFailed();
+        return;
+    }
+
+    double ra = 0, dec = 0, orientation = 0, pixscale = 0;
+    bool ok[4] = {false};
+
+    line = in.readLine();
+    while (!line.isNull())
+    {
+        QStringList ini = line.split("=");
+        if (ini[0] == "CRVAL1")
+            ra = ini[1].trimmed().toDouble(&ok[0]);
+        else if (ini[0] == "CRVAL2")
+            dec = ini[1].trimmed().toDouble(&ok[1]);
+        else if (ini[0] == "CDELT1")
+            pixscale = ini[1].trimmed().toDouble(&ok[2]) * 3600.0;
+        else if (ini[0] == "CROTA2")
+            orientation = ini[1].trimmed().toDouble(&ok[3]);
+
+        line = in.readLine();
+    }
+
+    if (ok[0] && ok[1] && ok[2] && ok[3])
+    {
+        int elapsed = static_cast<int>(round(solverTimer.elapsed() / 1000.0));
+        align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
+        emit solverFinished(orientation, ra, dec, pixscale);
+    }
+    else
+    {
+        align->appendLogText(i18n("Solver failed. Try again."));
+        emit solverFailed();
+    }
 }
 
 bool ASTAPAstrometryParser::stopSolver()
 {
-    // TODO
+    if (solver.isNull() == false)
+    {
+        solver->terminate();
+        solver->disconnect();
+    }
+
     return true;
 }
 }
