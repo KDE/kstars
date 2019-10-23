@@ -6233,7 +6233,7 @@ QJsonObject Align::getSettings() const
     settings.insert("bin", binningCombo->currentIndex() + 1);
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
     //settings.insert("solverType", solverTypeGroup->checkedId());
-    // TODO must update EkosLive to accomodate multiple solver types
+    // TODO must update EkosLive to accommodate multiple solver types
     // i.e. ASTAP
     settings.insert("solverType", astrometryTypeCombo->currentIndex());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());

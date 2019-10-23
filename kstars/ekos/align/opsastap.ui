@@ -50,7 +50,7 @@
         <item row="2" column="0">
          <widget class="QCheckBox" name="kcfg_ASTAPDownSample">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A zero value 0 will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A zero value will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Down Sample</string>
@@ -63,7 +63,7 @@
         <item row="2" column="1">
          <widget class="QSpinBox" name="kcfg_ASTAPDownSampleValue">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A zero value 0 will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Down sample prior to solving. Also called binning. A zero value will result in auto selection downsampling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <number>0</number>
