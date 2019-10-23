@@ -31,6 +31,8 @@
 **
 ****************************************************************************/
 
+#pragma once
+
 #include <qguiapplication.h>
 
 #include <qsgmaterial.h>
