@@ -76,6 +76,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
+        - "-DBUILD_DOC=OFF"
         - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kde-frameworks-5-env:
         plugin: dump

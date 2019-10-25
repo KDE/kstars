@@ -7,6 +7,9 @@ set (CMAKE_CXX_STANDARD 11)
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 
+# Build KStars documentation
+option(BUILD_DOC "Build Documentation" ON)
+
 # Fetch translations with -DFETCH_TRANSLATIONS=ON
 option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 
@@ -414,7 +417,10 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
 # let our config.h be found first in any case
 include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 
-add_subdirectory(doc)
+if (BUILD_DOC)
+    add_subdirectory(doc)
+endif()
+
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
