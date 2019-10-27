@@ -189,19 +189,35 @@ void FITSView::loadFITS(const QString &inFilename, bool silent)
     fitsWatcher.setFuture(imageData->loadFITS(inFilename, silent));
 }
 
-void FITSView::loadInFrame()
+bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
 {
-    // Check if the loading was OK
-    if (fitsWatcher.result() == false)
+    if (imageData != nullptr)
     {
-        m_LastError = imageData->getLastError();
-        emit failed();
-        return;
+      delete imageData;
+      imageData = nullptr;
     }
 
-    // Notify if there is debayer data.
-    emit debayerToggled(imageData->hasDebayer());
+    if (floatingToolBar != nullptr)
+    {
+        floatingToolBar->setVisible(true);
+    }
 
+    // In case loadWCS is still running for previous image data, let's wait until it's over
+    wcsWatcher.waitForFinished();
+
+    filterStack.clear();
+    filterStack.push(FITS_NONE);
+    if (filter != FITS_NONE)
+        filterStack.push(filter);
+
+    // Takes control of the objects passed in.
+    imageData = data;
+
+    return processData();
+}
+
+bool FITSView::processData()
+{
     // Set current width and height
     currentWidth = imageData->width();
     currentHeight = imageData->height();
@@ -214,8 +230,6 @@ void FITSView::loadInFrame()
     // Init the display image
     initDisplayImage();
 
-    uint8_t * ASImageBuffer = nullptr;
-
     imageData->applyFilter(filter);
 
     // Rescale to fits window on first load
@@ -226,9 +240,7 @@ void FITSView::loadInFrame()
         if (rescale(ZOOM_FIT_WINDOW) == false)
         {
             m_LastError = i18n("Rescaling image failed.");
-            delete [] ASImageBuffer;
-            emit failed();
-            return;
+            return false;
         }
 
         firstLoad = false;
@@ -238,9 +250,7 @@ void FITSView::loadInFrame()
         if (rescale(ZOOM_KEEP_LEVEL) == false)
         {
             m_LastError = i18n("Rescaling image failed.");
-            delete [] ASImageBuffer;
-            emit failed();
-            return;
+            return false;
         }
     }
 
@@ -268,8 +278,26 @@ void FITSView::loadInFrame()
 
     scaledImage = QImage();
     updateFrame();
+    return true;
+}
 
-    emit loaded();
+void FITSView::loadInFrame()
+{
+    // Check if the loading was OK
+    if (fitsWatcher.result() == false)
+    {
+        m_LastError = imageData->getLastError();
+        emit failed();
+        return;
+    }
+
+    // Notify if there is debayer data.
+    emit debayerToggled(imageData->hasDebayer());
+
+    if (processData())
+      emit loaded();
+    else
+      emit failed();
 }
 
 int FITSView::saveFITS(const QString &newFilename)

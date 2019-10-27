@@ -18,6 +18,7 @@
 
 #include <QStringList>
 #include <QPointer>
+#include <QtConcurrent>
 
 #include <memory>
 
@@ -349,8 +350,14 @@ class CCD : public DeviceDecorator
         void captureFailed();
 
     private:
-        void addFITSKeywords(const QString &filename);
-        void loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip);
+        void processStream(IBLOB *bp);
+        void loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data);
+        bool generateFilename(const QString &format, bool batch_mode, QString *filename);
+        // Saves an image to disk on a separate thread.
+        bool WriteImageFile(IBLOB *bp, const QString &format, bool is_fits,
+                            bool batch_mode, QString *filename);
+        // Creates or finds the FITSViewer.
+        void setupFITSViewerWindows();
 
         QString filter;
         bool ISOMode { true };
@@ -395,5 +402,10 @@ class CCD : public DeviceDecorator
         // Typically for DSLRs
         QMap<QString, double> m_ExposurePresets;
         QPair<double, double> m_ExposurePresetsMinMax;
+
+        // Used when writing the image fits file to disk in a separate thread.
+        char *fileWriteBuffer { nullptr };
+        int fileWriteBufferSize { 0 };
+        QFuture<void> fileWriteThread;
 };
 }

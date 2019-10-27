@@ -149,6 +149,17 @@ class FITSData : public QObject
          * @return A QFuture that can be watched until the async operation is complete.
          */
         QFuture<bool> loadFITS(const QString &inFilename, bool silent = true);
+
+        /**
+         * @brief loadFITSFromMemory Loading FITS from memory buffer.
+         * @param inFilename Potential future path to FITS file (or compressed fits.gz), stored in a fitsdata class variable
+         * @param fits_buffer The memory buffer containing the fits data.
+         * @param fits_buffer_size The size in bytes of the buffer.
+         * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
+         * @return bool indicating success or failure.
+         */
+        bool loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
+                                size_t fits_buffer_size, bool silent);
         /* Save FITS */
         int saveFITS(const QString &newFilename);
         /* Rescale image lineary from image_buffer, fit to window if desired */
@@ -431,7 +442,8 @@ class FITSData : public QObject
         void converted(QImage);
 
     private:
-        bool privateLoad(bool silent);
+        void loadCommon(const QString &inFilename);
+        bool privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent);
         void rotWCSFITS(int angle, int mirror);
         bool checkCollision(Edge *s1, Edge *s2);
         int calculateMinMax(bool refresh = false);

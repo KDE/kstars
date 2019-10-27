@@ -34,6 +34,7 @@
 class FITSHistogram;
 class FITSView;
 class FITSViewer;
+class FITSData;
 
 /**
  * @brief The FITSTab class holds information on the current view (drawing area) in addition to the undo/redo stacks
@@ -63,7 +64,12 @@ class FITSTab : public QWidget
 
         void clearRecentFITS();
         void selectRecentFITS(int i);
-        void loadFITS(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
+        void loadFITS(const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
+                      FITSScale filter = FITS_NONE, bool silent = true);
+
+        bool loadFITSFromData(FITSData *data, const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
+                              FITSScale filter = FITS_NONE);
+  
         int saveFITS(const QString &filename);
 
         inline QUndoStack *getUndoStack()
@@ -122,6 +128,9 @@ class FITSTab : public QWidget
         virtual void closeEvent(QCloseEvent *ev) override;
 
     private:
+        bool setupView(FITSMode mode, FITSScale filter);
+        void processData();
+
         /** Ask user whether he wants to save changes and save if he do. */
 
         /// The FITSTools Toolbox
