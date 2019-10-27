@@ -330,6 +330,78 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
     }
 }
 
+bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
+                               FITSMode mode, const QString &previewText)
+{
+    int tabIndex = fitsTabWidget->indexOf(tab);
+    if (tabIndex != -1)
+      return false;
+
+    lastURL = QUrl(imageName.url(QUrl::RemoveFilename));
+
+    QApplication::restoreOverrideCursor();
+    tab->setPreviewText(previewText);
+
+    // Connect tab signals
+    connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
+    connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
+    connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
+    // Connect tab view signals
+    connect(tab->getView(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
+    connect(tab->getView(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
+    connect(tab->getView(),&FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
+
+    switch (mode)
+    {
+    case FITS_NORMAL:
+	fitsTabWidget->addTab(tab, previewText.isEmpty() ? imageName.fileName() : previewText);
+	break;
+
+    case FITS_CALIBRATE:
+	fitsTabWidget->addTab(tab, i18n("Calibrate"));
+	break;
+
+    case FITS_FOCUS:
+	fitsTabWidget->addTab(tab, i18n("Focus"));
+	break;
+
+    case FITS_GUIDE:
+	fitsTabWidget->addTab(tab, i18n("Guide"));
+	break;
+
+    case FITS_ALIGN:
+	fitsTabWidget->addTab(tab, i18n("Align"));
+	break;
+    }
+
+    saveFileAction->setEnabled(true);
+    saveFileAsAction->setEnabled(true);
+
+    undoGroup->addStack(tab->getUndoStack());
+
+    fitsTabs.push_back(tab);
+
+    fitsMap[fitsID] = tab;
+
+    fitsTabWidget->setCurrentWidget(tab);
+
+    actionCollection()->action("fits_debayer")->setEnabled(tab->getView()->getImageData()->hasDebayer());
+
+    tab->tabPositionUpdated();
+
+    tab->setUID(fitsID);
+
+    led.setColor(Qt::green);
+
+    updateStatusBar(i18n("Ready."), FITS_MESSAGE);
+
+    tab->getView()->setCursorMode(FITSView::dragCursor);
+
+    updateWCSFunctions();
+
+    return true;
+}
+
 void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
     led.setColor(Qt::yellow);
@@ -350,77 +422,38 @@ void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter,
     });
 
     connect(tab, &FITSTab::loaded, [=]() {
-
-        int tabIndex = fitsTabWidget->indexOf(tab);
-        if (tabIndex != -1)
-            return;
-
-        lastURL = QUrl(imageName.url(QUrl::RemoveFilename));
-
-        QApplication::restoreOverrideCursor();
-        tab->setPreviewText(previewText);
-
-        // Connect tab signals
-        connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
-        connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
-        connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
-        // Connect tab view signals
-        connect(tab->getView(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
-        connect(tab->getView(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
-        connect(tab->getView(),&FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
-
-        switch (mode)
-        {
-        case FITS_NORMAL:
-            fitsTabWidget->addTab(tab, previewText.isEmpty() ? imageName.fileName() : previewText);
-            break;
-
-        case FITS_CALIBRATE:
-            fitsTabWidget->addTab(tab, i18n("Calibrate"));
-            break;
-
-        case FITS_FOCUS:
-            fitsTabWidget->addTab(tab, i18n("Focus"));
-            break;
-
-        case FITS_GUIDE:
-            fitsTabWidget->addTab(tab, i18n("Guide"));
-            break;
-
-        case FITS_ALIGN:
-            fitsTabWidget->addTab(tab, i18n("Align"));
-            break;
-        }
-
-        saveFileAction->setEnabled(true);
-        saveFileAsAction->setEnabled(true);
-
-        undoGroup->addStack(tab->getUndoStack());
-
-        fitsTabs.push_back(tab);
-
-        fitsMap[fitsID] = tab;
-
-        fitsTabWidget->setCurrentWidget(tab);
-
-        actionCollection()->action("fits_debayer")->setEnabled(tab->getView()->getImageData()->hasDebayer());
-
-        tab->tabPositionUpdated();
-
-        tab->setUID(fitsID);
-
-        led.setColor(Qt::green);
-
-        updateStatusBar(i18n("Ready."), FITS_MESSAGE);
-
-        tab->getView()->setCursorMode(FITSView::dragCursor);
-
-        updateWCSFunctions();
-
-        emit loaded(fitsID++);
+          if (addFITSCommon(tab, imageName, mode, previewText))
+          emit loaded(fitsID++);
     });
 
     tab->loadFITS(imageName, mode, filter, silent);
+}
+
+bool FITSViewer::addFITSFromData(FITSData *data, const QUrl &imageName, int *tab_uid,
+				 FITSMode mode, FITSScale filter, const QString &previewText)
+{
+    led.setColor(Qt::yellow);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    FITSTab *tab = new FITSTab(this);
+
+    if (!tab->loadFITSFromData(data, imageName, mode, filter)) {
+        QApplication::restoreOverrideCursor();
+        led.setColor(Qt::red);
+        if (fitsTabs.size() == 0)
+        {
+            // Close FITS Viewer and let KStars know it is no longer needed in memory.
+            close();
+        }
+        emit failed();
+	return false;
+    }
+
+    if (!addFITSCommon(tab, imageName, mode, previewText))
+      return false;
+    
+    *tab_uid = fitsID++;
+    return true;
 }
 
 bool FITSViewer::removeFITS(int fitsUID)
@@ -461,32 +494,61 @@ void FITSViewer::updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter
     // On tab load success
     auto conn = std::make_shared<QMetaObject::Connection>();
     *conn = connect(tab, &FITSTab::loaded, this, [=]() {
-        int tabIndex = fitsTabWidget->indexOf(tab);
-        if (tabIndex == -1)
-            return;
-
-        if (tab->getView()->getMode() == FITS_NORMAL)
+        if (updateFITSCommon(tab, imageName))
         {
-            if ((imageName.path().startsWith(QLatin1String("/tmp")) || imageName.path().contains("/Temp")) &&
-                Options::singlePreviewFITS())
-                fitsTabWidget->setTabText(tabIndex,
-                                    tab->getPreviewText().isEmpty() ? i18n("Preview") : tab->getPreviewText());
-            else
-                fitsTabWidget->setTabText(tabIndex, imageName.fileName());
+            QObject::disconnect(*conn);
+            emit loaded(tab->getUID());
         }
-
-        tab->getUndoStack()->clear();
-
-        if (tab->isVisible())
-            led.setColor(Qt::green);
-
-        QObject::disconnect(*conn);
-
-        emit loaded(tab->getUID());
-
         });
 
     tab->loadFITS(imageName, tab->getView()->getMode(), filter, silent);
+}
+
+bool FITSViewer::updateFITSCommon(FITSTab *tab, const QUrl &imageName)
+{
+    // On tab load success
+    int tabIndex = fitsTabWidget->indexOf(tab);
+    if (tabIndex == -1)
+      return false;
+
+    if (tab->getView()->getMode() == FITS_NORMAL)
+    {
+      if ((imageName.path().startsWith(QLatin1String("/tmp")) ||
+	   imageName.path().contains("/Temp")) &&
+	  Options::singlePreviewFITS())
+	fitsTabWidget->setTabText(tabIndex,
+				  tab->getPreviewText().isEmpty() ? i18n("Preview") : tab->getPreviewText());
+      else
+	fitsTabWidget->setTabText(tabIndex, imageName.fileName());
+    }
+
+    tab->getUndoStack()->clear();
+
+    if (tab->isVisible())
+      led.setColor(Qt::green);
+
+    return true;
+}
+
+bool FITSViewer::updateFITSFromData(FITSData *data, const QUrl &imageName, int fitsUID,
+				    int *tab_uid, FITSScale filter)
+{
+    FITSTab *tab = fitsMap.value(fitsUID);
+
+    if (tab == nullptr)
+        return false;
+
+    if (tab->isVisible())
+        led.setColor(Qt::yellow);
+
+    if (!tab->loadFITSFromData(data, imageName, tab->getView()->getMode(), filter))
+        return false;
+
+    if (!updateFITSCommon(tab, imageName))
+        return false;
+    
+    *tab_uid = tab->getUID();
+    return true;
 }
 
 void FITSViewer::tabFocusUpdated(int currentIndex)

@@ -58,13 +58,20 @@ class FITSView : public QScrollArea
         typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
 
         /**
-         * @brief loadFITS Loads FITS data and display it in FITSView frame
+         * @brief loadFITS Loads FITS data and displays it in a FITSView frame
          * @param inFilename FITS File name
          * @param silent if set, error popups are suppressed.
          * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
          * Obtain error by calling lastError()
          */
         void loadFITS(const QString &inFilename, bool silent = true);
+
+        /**
+         * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
+         * @param inFilename FITS File name to use
+         */
+         bool loadFITSFromData(FITSData *data, const QString &inFilename);
+  
         // Save FITS
         int saveFITS(const QString &newFilename);
         // Rescale image lineary from image_buffer, fit to window if desired
@@ -256,6 +263,8 @@ class FITSView : public QScrollArea
         double currentZoom { 0 };
 
     private:
+        bool processData();
+
         QLabel *noImageLabel { nullptr };
         QPixmap noImage;
 

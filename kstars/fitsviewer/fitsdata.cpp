@@ -117,7 +117,7 @@ FITSData::~FITSData()
     qDeleteAll(records);
 }
 
-QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
+void FITSData::loadCommon(const QString &inFilename)
 {
     int status = 0;
     qDeleteAll(starCenters);
@@ -138,25 +138,51 @@ QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
     }
 
     m_Filename = inFilename;
+}
 
+bool FITSData::loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
+                                  size_t fits_buffer_size, bool silent)
+{
+    loadCommon(inFilename);
+    qCInfo(KSTARS_FITS) << "Reading FITS file buffer ";
+    return privateLoad(fits_buffer, fits_buffer_size, silent);
+}
+
+QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
+{
+    loadCommon(inFilename);
     qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
-
-    QFuture<bool> result = QtConcurrent::run(this, &FITSData::privateLoad, silent);
+    QFuture<bool> result = QtConcurrent::run(
+        this, &FITSData::privateLoad, nullptr, 0, silent);
 
     return result;
 }
 
-bool FITSData::privateLoad(bool silent)
+namespace {
+// Common code for reporting fits read errors. Always returns false.
+bool fitsOpenError(int status, const QString& message, bool silent)
+{
+    char error_status[512];
+    fits_report_error(stderr, status);
+    fits_get_errstatus(status, error_status);
+    QString errMessage = message;
+    errMessage.append(i18n(" Error: %1", QString::fromUtf8(error_status)));
+    if (!silent)
+        KSNotification::error(errMessage, i18n("FITS Open"));
+    qCCritical(KSTARS_FITS) << errMessage;
+    return false;
+}
+}
+
+bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent)
 {
     int status = 0, anynull = 0;
     long naxes[3];
-    char error_status[512];
     QString errMessage;
 
-    if (m_Filename.startsWith(m_TemporaryPath))
-        m_isTemporary = true;
+    m_isTemporary = m_Filename.startsWith(m_TemporaryPath);
 
-    if (m_Filename.endsWith(".fz"))
+    if (fits_buffer == nullptr && m_Filename.endsWith(".fz"))
     {
         // Store so we don't lose.
         m_compressedFilename = m_Filename;
@@ -182,42 +208,32 @@ bool FITSData::privateLoad(bool silent)
         m_isCompressed = true;
     }
 
-    // Use open diskfile as it does not use extended file names which has problems opening
-    // files with [ ] or ( ) in their names.
-    if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
+    if (fits_buffer == nullptr)
     {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        errMessage = i18n("Could not open file %1. Error %2", m_Filename, QString::fromUtf8(error_status));
-        if (!silent)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        qCCritical(KSTARS_FITS) << errMessage;
-        return false;
+        // Use open diskfile as it does not use extended file names which has problems opening
+        // files with [ ] or ( ) in their names.
+        if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
+          return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
+        else
+          stats.size = QFile(m_Filename).size();
     }
-
-    stats.size = QFile(m_Filename).size();
-
+    else
+    {
+        // Read the FITS file from a memory buffer.
+        void *temp_buffer = fits_buffer;
+        size_t temp_size = fits_buffer_size;
+        if (fits_open_memfile(&fptr, m_Filename.toLatin1().data(), READONLY,
+                              &temp_buffer, &temp_size, 0, nullptr, &status))
+          return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
+        else
+          stats.size = fits_buffer_size;
+    }
+    
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        errMessage = i18n("Could not locate image HDU. Error %1", QString::fromUtf8(error_status));
-        if (!silent)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        qCCritical(KSTARS_FITS) << errMessage;
-        return false;
-    }
+      return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
     if (fits_get_img_param(fptr, 3, &(stats.bitpix), &(stats.ndim), naxes, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
-        if (!silent)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        qCCritical(KSTARS_FITS) << errMessage;
-        return false;
-    }
+      return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
     if (stats.ndim < 2)
     {
@@ -297,9 +313,7 @@ bool FITSData::privateLoad(bool silent)
     if (m_Mode != FITS_NORMAL || !Options::auto3DCube())
         m_Channels = 1;
 
-    //image_buffer = new float[stats.samples_per_channel * channels];
     m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
-    //if (image_buffer == nullptr)
     if (m_ImageBuffer == nullptr)
     {
         qCWarning(KSTARS_FITS) << "FITSData: Not enough memory for image_buffer channel. Requested: "
@@ -314,16 +328,7 @@ bool FITSData::privateLoad(bool silent)
     long nelements = stats.samples_per_channel * m_Channels;
 
     if (fits_read_img(fptr, m_DataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
-    {
-        char errmsg[512];
-        fits_get_errstatus(status, errmsg);
-        errMessage = i18n("Error reading image: %1", QString(errmsg));
-        if (!silent)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        fits_report_error(stderr, status);
-        qCCritical(KSTARS_FITS) << errMessage;
-        return false;
-    }
+      return fitsOpenError(status, i18n("Error reading image."), silent);
 
     parseHeader();
 

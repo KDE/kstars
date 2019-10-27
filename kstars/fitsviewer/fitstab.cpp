@@ -98,7 +98,7 @@ void FITSTab::clearRecentFITS()
     connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
 }
 
-void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
+bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 {
     if (view.get() == nullptr)
     {
@@ -165,60 +165,21 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
         // On Failure to load
         connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
 
+        return true;
+    }
+
+    // returns false if no setup needed.
+    return false;
+}
+
+void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
+{
+  if (setupView(mode, filter)) {
+
         // On Success loading image
         connect(view.get(), &FITSView::loaded, [&]()
         {
-            // If it was already running make sure it's done
-            //histogramFuture.waitForFinished();
-            FITSData *image_data = view->getImageData();
-            histogram->reset();
-            image_data->setHistogram(histogram);
-
-            // Only construct histogram if it is actually visible
-            // Otherwise wait until histogram is needed before creating it.
-            if (fitsSplitter->sizes().at(0) != 0)
-            {
-                histogram->constructHistogram();
-            }
-
-            evaluateStats();
-
-            //            if (histogram == nullptr)
-            //            {
-            //                histogram = new FITSHistogram(this);
-            //                image_data->setHistogram(histogram);
-            //            }
-
-            //histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram(); evaluateStats();});
-
-            //if(histogram->isVisible())
-            //    histogramFuture.waitForFinished();
-
-            //            if (filter != FITS_NONE)
-            //            {
-            //                image_data->applyFilter(filter);
-            //                view->rescale(ZOOM_KEEP_LEVEL);
-            //            }
-
-            if (viewer->isStarsMarked())
-                view->toggleStars(true);
-
-
-            loadFITSHeader();
-
-            if(recentImages->findItems(currentURL.toLocalFile(), Qt::MatchExactly).count() == 0) //Don't add it to the list if it is already there
-            {
-                if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
-                {
-                    disconnect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
-                    recentImages->addItem(currentURL.toLocalFile());
-                    recentImages->setCurrentRow(recentImages->count() - 1);
-                    connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
-                }
-            }
-
-            view->updateFrame();
-
+            processData();
             emit loaded();
         });
     }
@@ -228,6 +189,63 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
     view->setFilter(filter);
 
     view->loadFITS(imageURL.toLocalFile(), silent);
+}
+
+void FITSTab::processData()
+{
+    FITSData *image_data = view->getImageData();
+    histogram->reset();
+    image_data->setHistogram(histogram);
+
+    // Only construct histogram if it is actually visible
+    // Otherwise wait until histogram is needed before creating it.
+    if (fitsSplitter->sizes().at(0) != 0)
+    {
+      histogram->constructHistogram();
+    }
+
+    evaluateStats();
+
+    if (viewer->isStarsMarked())
+      view->toggleStars(true);
+
+    loadFITSHeader();
+
+    // Don't add it to the list if it is already there
+    if (recentImages->findItems(currentURL.toLocalFile(), Qt::MatchExactly).count() == 0)
+    {
+      if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
+      {
+        disconnect(recentImages, &QListWidget::currentRowChanged, this,
+                   &FITSTab::selectRecentFITS);
+        recentImages->addItem(currentURL.toLocalFile());
+        recentImages->setCurrentRow(recentImages->count() - 1);
+        connect(recentImages, &QListWidget::currentRowChanged,  this,
+                &FITSTab::selectRecentFITS);
+      }
+    }
+        
+    view->updateFrame();
+}
+
+bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL,
+                               FITSMode mode, FITSScale filter)
+{
+    setupView(mode, filter);
+
+    currentURL = imageURL;
+
+    view->setFilter(filter);
+
+    if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
+    {
+      // On Failure to load
+      // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
+      return false;
+    }
+
+    processData();
+    return true;
 }
 
 void FITSTab::modifyFITSState(bool clean)

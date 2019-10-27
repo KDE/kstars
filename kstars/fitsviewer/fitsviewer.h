@@ -44,6 +44,7 @@ class QTabWidget;
 class FITSDebayer;
 class FITSTab;
 class FITSView;
+class FITSData;
 
 /**
  * @class FITSViewer
@@ -65,7 +66,13 @@ class FITSViewer : public KXmlGuiWindow
         void addFITS(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
                      const QString &previewText = QString(), bool silent = true);
 
+        bool addFITSFromData(FITSData *data, const QUrl &imageName, int *tab_uid,
+			     FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
+			     const QString &previewText = QString());
+
         void updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE, bool silent = true);
+        bool updateFITSFromData(FITSData *data, const QUrl &imageName, int fitsUID,
+				int *tab_uid, FITSScale filter = FITS_NONE);
         bool removeFITS(int fitsUID);
 
         bool isStarsMarked()
@@ -130,7 +137,11 @@ class FITSViewer : public KXmlGuiWindow
 
     private:
         void updateButtonStatus(const QString &action, const QString &item, bool showing);
-
+        // Shared utilites between the standard and "FromData" addFITS and updateFITS.
+        bool addFITSCommon(FITSTab *tab, const QUrl &imageName,
+                           FITSMode mode, const QString &previewText);
+        bool updateFITSCommon(FITSTab *tab, const QUrl &imageName);
+  
         QTabWidget *fitsTabWidget { nullptr };
         QUndoGroup *undoGroup { nullptr };
         FITSDebayer *debayerDialog { nullptr };
