@@ -1,8 +1,8 @@
 ---
 name: kstars
-version: 3.3.6
-confinement: strict
-grade: stable
+version: 3.3.7
+confinement: classic
+grade: devel
 base: core18
 adopt-info: kstars
 apps:
@@ -61,6 +61,7 @@ parts:
         stage-packages:
         - astrometry.net
         - indi-bin
+        - indi-full
         - xplanet
         - libcfitsio5
         - libnova-0.16-0
@@ -70,7 +71,7 @@ parts:
         - libpgsbox5
         - libwcs5
         - libqt5keychain1
-        source: http://download.kde.org/stable/kstars/kstars-3.3.6.tar.xz
+        source: https://anongit.kde.org/kstars.git
         configflags:
         - "-DCMAKE_INSTALL_PREFIX=/usr"
         - "-DCMAKE_BUILD_TYPE=Release"
