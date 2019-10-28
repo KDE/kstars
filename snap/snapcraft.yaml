@@ -1,7 +1,7 @@
 ---
 name: kstars
 version: 3.3.7
-confinement: classic
+confinement: strict
 grade: devel
 base: core18
 adopt-info: kstars
