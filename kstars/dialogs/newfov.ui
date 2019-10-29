@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>430</height>
+    <width>720</width>
+    <height>423</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1259,7 +1259,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
            </property>
            <item>
             <property name="text">
-             <string>Square</string>
+             <string>Rectangle</string>
             </property>
            </item>
            <item>
