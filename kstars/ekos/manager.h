@@ -416,6 +416,8 @@ class Manager : public QDialog, public Ui::Manager
 
         // Find List of devices of specific family type
         QList<ISD::GDInterface *> findDevices(DeviceFamily type);
+        // Find list of devices by device interface
+        QList<ISD::GDInterface *> findDevicesByInterface(uint32_t interface);
         // Get all detected devices
         QList<ISD::GDInterface *> getAllDevices();
 
