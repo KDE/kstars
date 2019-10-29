@@ -121,6 +121,7 @@ class Observatory : public QWidget, public Ui::Observatory
 
         // sensor data graphs
         void mouseOverLine(QMouseEvent *event);
+        void refreshSensorGraph();
 
         // reacting on weather changes
         void weatherWarningSettingsChanged();

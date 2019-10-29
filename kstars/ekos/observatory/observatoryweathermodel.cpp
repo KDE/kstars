@@ -35,6 +35,7 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
     alertActions.parkDome = Options::weatherAlertCloseDome();
     alertActions.closeShutter = Options::weatherAlertCloseShutter();
     alertActions.delay = Options::weatherAlertDelay();
+    m_autoScaleValues = Options::weatherAutoScaleValues();
 
     // not implemented yet
     warningActions.stopScheduler = false;
@@ -106,6 +107,12 @@ void ObservatoryWeatherModel::setAlertActionsActive(bool active)
     // start alert timer if activated
     else if (weatherInterface->status() == ISD::Weather::WEATHER_ALERT)
         startAlertTimer();
+}
+
+void ObservatoryWeatherModel::setAutoScaleValues(bool value)
+{
+    m_autoScaleValues = value;
+    Options::setWeatherAutoScaleValues(value);
 }
 
 void ObservatoryWeatherModel::startAlertTimer()

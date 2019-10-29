@@ -386,6 +386,7 @@ void Observatory::enableWeather(bool enable)
     weatherBox->setEnabled(enable);
     clearGraphHistory->setVisible(enable);
     clearGraphHistory->setEnabled(enable);
+    autoscaleValuesCB->setVisible(enable);
     sensorGraphs->setVisible(enable);
 }
 
@@ -507,6 +508,11 @@ void Observatory::initWeather()
     connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::newStatus, this, &Ekos::Observatory::setWeatherStatus);
     connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::disconnected, this, &Ekos::Observatory::shutdownWeather);
     connect(clearGraphHistory, &QPushButton::clicked, this, &Observatory::clearSensorDataHistory);
+    connect(autoscaleValuesCB, &QCheckBox::clicked, [this](bool checked)
+    {
+        getWeatherModel()->setAutoScaleValues(checked);
+        this->refreshSensorGraph();
+    });
     connect(&weatherStatusTimer, &QTimer::timeout, [this]()
     {
         weatherWarningStatusLabel->setText(getWeatherModel()->getWarningActionsStatus());
@@ -514,6 +520,7 @@ void Observatory::initWeather()
     });
 
     weatherBox->setEnabled(true);
+    autoscaleValuesCB->setChecked(getWeatherModel()->autoScaleValues());
     weatherActionsBox->setVisible(true);
     weatherActionsBox->setEnabled(true);
     weatherWarningBox->setChecked(getWeatherModel()->getWarningActionsActive());
@@ -524,6 +531,8 @@ void Observatory::initWeather()
     weatherStatusTimer.start(1000);
     if (getWeatherModel()->refresh() == false)
         appendLogText(i18n("Refreshing weather data failed."));
+    // avoid double init
+    disconnect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
 }
 
 void Observatory::shutdownWeather()
@@ -560,17 +569,12 @@ void Observatory::updateSensorGraph(QString label, QDateTime now, double value)
 
         // display data point
         sensorGraphs->graph()->addData(sensorGraphData[id]->last().key, sensorGraphData[id]->last().value);
-        sensorGraphs->rescaleAxes();
-        // ensure that the 0-line is visible
+
+        // determine where the x axis is relatively to the value ranges
         if ((sensorRanges[id] > 0 && value < 0) || (sensorRanges[id] < 0 && value > 0))
             sensorRanges[id] = 0;
 
-        // ensure visibility of the 0-line on the y-axis
-        if (sensorRanges[id] > 0)
-            sensorGraphs->yAxis->setRangeLower(0);
-        else if (sensorRanges[id] < 0)
-            sensorGraphs->yAxis->setRangeUpper(0);
-        sensorGraphs->replot();
+        refreshSensorGraph();
     }
 }
 
@@ -645,6 +649,23 @@ void Observatory::mouseOverLine(QMouseEvent *event)
 }
 
 
+void Observatory::refreshSensorGraph()
+{
+
+    sensorGraphs->rescaleAxes();
+
+    // restrict the y-Axis to the values range
+    if (getWeatherModel()->autoScaleValues() == false)
+    {
+        if (sensorRanges[selectedSensorID] > 0)
+            sensorGraphs->yAxis->setRangeLower(0);
+        else if (sensorRanges[selectedSensorID] < 0)
+            sensorGraphs->yAxis->setRangeUpper(0);
+    }
+
+    sensorGraphs->replot();
+}
+
 void Observatory::selectedSensorChanged(QString id)
 {
     QVector<QCPGraphData> *data = sensorGraphData[id];
@@ -657,9 +678,8 @@ void Observatory::selectedSensorChanged(QString id)
             container->add(QCPGraphData(it->key, it->value));
 
         sensorGraphs->graph()->setData(QSharedPointer<QCPGraphDataContainer>(container));
-        sensorGraphs->rescaleAxes();
-        sensorGraphs->replot();
         selectedSensorID = id;
+        refreshSensorGraph();
     }
 }
 
@@ -765,6 +785,8 @@ void Observatory::weatherWarningSettingsChanged()
     struct WeatherActions actions;
     actions.parkDome = weatherWarningDomeCB->isChecked();
     actions.closeShutter = weatherWarningShutterCB->isChecked();
+    // Fixme: not implemented yet
+    actions.stopScheduler = false;
     actions.delay = static_cast<unsigned int>(weatherWarningDelaySB->value());
 
     getWeatherModel()->setWarningActions(actions);
@@ -775,6 +797,8 @@ void Observatory::weatherAlertSettingsChanged()
     struct WeatherActions actions;
     actions.parkDome = weatherAlertDomeCB->isChecked();
     actions.closeShutter = weatherAlertShutterCB->isChecked();
+    // Fixme: not implemented yet
+    actions.stopScheduler = false;
     actions.delay = static_cast<unsigned int>(weatherAlertDelaySB->value());
 
     getWeatherModel()->setAlertActions(actions);
