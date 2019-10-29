@@ -1656,6 +1656,12 @@ void Manager::processNewProperty(INDI::Property * prop)
         }
     }
 
+    if (!strcmp(prop->getName(), "ACTIVE_DEVICES"))
+    {
+        if (deviceInterface->getDriverInterface() > 0)
+            syncActiveDevices();
+    }
+
     if (!strcmp(prop->getName(), "TELESCOPE_INFO") || !strcmp(prop->getName(), "TELESCOPE_SLEW_RATE")
             || !strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
@@ -1864,6 +1870,20 @@ QList<ISD::GDInterface *> Manager::findDevices(DeviceFamily type)
 
         if (i.key() == type)
             deviceList.append(i.value());
+    }
+
+    return deviceList;
+}
+
+QList<ISD::GDInterface *> Manager::findDevicesByInterface(uint32_t interface)
+{
+    QList<ISD::GDInterface *> deviceList;
+
+    for (const auto dev : genericDevices)
+    {
+        uint32_t devInterface = dev->getDriverInterface();
+        if (devInterface & interface)
+            deviceList.append(dev);
     }
 
     return deviceList;
@@ -3272,6 +3292,9 @@ void Manager::syncActiveDevices()
                             INDI::BaseDevice::GPS_INTERFACE |
                             INDI::BaseDevice::FILTER_INTERFACE))
         {
+            // #1 Make sure all PREVIOUSLY defined drivers
+            // are properly updated.
+#if 0
             for (auto otherDevice : genericDevices)
             {
                 if (otherDevice == oneDevice)
@@ -3294,6 +3317,46 @@ void Manager::syncActiveDevices()
                     {
                         IUSaveText(snoopProperty, oneDevice->getDeviceName());
                         otherDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                    }
+                }
+            }
+#endif
+
+            // #2 Make sure CURRENT driver is updated
+            ITextVectorProperty *tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+            if (tvp)
+            {
+                for (int i = 0; i < tvp->ntp; i++)
+                {
+                    QList<ISD::GDInterface *> devs;
+                    if (!strcmp(tvp->tp[i].name, "ACTIVE_TELESCOPE"))
+                    {
+                        devs = findDevicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
+                    }
+                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_DOME"))
+                    {
+                        devs = findDevicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
+                    }
+                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_GPS"))
+                    {
+                        devs = findDevicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
+                    }
+                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
+                    {
+                        devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+                    }
+                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
+                    {
+                        devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
+                    }
+
+                    if (!devs.empty())
+                    {
+                        if (strcmp(tvp->tp[i].text, devs.first()->getDeviceName()))
+                        {
+                            IUSaveText(&tvp->tp[i], devs.first()->getDeviceName());
+                            oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                        }
                     }
                 }
             }
