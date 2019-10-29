@@ -584,7 +584,8 @@ void Mount::updateTelescopeCoords()
         bool isTracking = (currentStatus == ISD::Telescope::MOUNT_TRACKING);
         if (m_Status != currentStatus)
         {
-            qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << m_Status << " to " << currentStatus;
+            qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << currentTelescope->getStatusString(m_Status)
+                                       << " to " << currentTelescope->getStatusString(currentStatus);
             // If we just finished a slew, let's update initialHA and the current target's position
             if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING)
             {
