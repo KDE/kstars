@@ -154,6 +154,19 @@ void Guide::handleVerticalPlotSizeChange()
     driftPlot->replot();
 }
 
+void Guide::guideAfterMeridianFlip()
+{
+    //This will clear the tracking box selection
+    //The selected guide star is no longer valid due to the flip
+    guideView->setTrackingBoxEnabled(false);
+    starCenter = QVector3D();
+
+    if (Options::resetGuideCalibration())
+        clearCalibration();
+    guide();
+
+}
+
 void Guide::resizeEvent(QResizeEvent *event)
 {
     if (event->oldSize().width() != -1)
