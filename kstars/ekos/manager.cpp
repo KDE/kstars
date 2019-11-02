@@ -3136,12 +3136,7 @@ void Manager::connectModules()
 
         // Meridian Flip
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort, Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), [&]()
-        {
-            if (Options::resetGuideCalibration())
-                guideProcess->clearCalibration();
-            guideProcess->guide();
-        });
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), &Ekos::Guide::guideAfterMeridianFlip, Qt::UniqueConnection);
     }
 
     // Guide <---> Mount connections

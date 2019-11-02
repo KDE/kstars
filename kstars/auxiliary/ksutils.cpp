@@ -1156,7 +1156,7 @@ QString getDefaultPath(QString option)
     else if (option == "ASTAP")
     {
 #if defined(Q_OS_OSX)
-        return "/usr/local/bin/aspat";
+        return "/Applications/ASTAP.app/Contents/MacOS/astap";
 #elif defined(Q_OS_WIN)
         return "C:\Program Files\astap\astap.exe";
 #endif

@@ -415,6 +415,7 @@ class Guide : public QWidget, public Ui::Guide
 
         void updateDirectionsFromPHD2(QString mode);
 
+        void guideAfterMeridianFlip();
 
     protected slots:
         void updateTelescopeType(int index);
