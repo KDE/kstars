@@ -1807,11 +1807,8 @@ bool Capture::resumeSequence()
 
 bool Capture::startFocusIfRequired()
 {
-    if (activeJob->getFrameType() != FRAME_LIGHT)
+    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT)
         return false;
-
-    //    if (autoFocusReady == false)
-    //        return false;
 
     // check if time for forced refocus
     if (refocusEveryNCheck->isChecked())
@@ -3451,7 +3448,7 @@ void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
             else
             {
                 // If we are autoguiding, we should resume autoguiding after flip
-                resumeGuidingAfterFlip = (guideState == GUIDE_GUIDING);
+                resumeGuidingAfterFlip = isGuidingActive();
 
                 if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
                 {
@@ -4529,7 +4526,6 @@ QString Capture::getSequenceQueueStatus()
 
     if (aborted > 0)
     {
-        //if (guideState >= GUIDE_GUIDING && deviationDetected)
         if (m_State == CAPTURE_SUSPENDED)
             return "Suspended";
         else
@@ -4743,12 +4739,16 @@ void Capture::setAlignStatus(AlignState state)
 
 void Capture::setGuideStatus(GuideState state)
 {
+    if (state != guideState)
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Guiding state changed from" << getGuideStatusString(guideState)
+                                     << "to" << getGuideStatusString(state);
+
     switch (state)
     {
         case GUIDE_IDLE:
         case GUIDE_ABORTED:
             // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-            if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE &&
+            if (isGuidingActive() && meridianFlipStage == MF_NONE &&
                     ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
                      this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
             {
@@ -4790,7 +4790,10 @@ void Capture::setGuideStatus(GuideState state)
             else
             {
                 appendLogText(i18n("Dither complete."));
-                resumeCapture();
+                qCInfo(KSTARS_EKOS_CAPTURE) << "Dither complete, capture state" << getCaptureStatusString(m_State);
+                // resume only if nothing happened during dithering
+                if (m_State == CAPTURE_DITHERING)
+                    resumeCapture();
             }
             break;
 
@@ -5942,124 +5945,6 @@ void Capture::postScriptFinished(int exitCode, QProcess::ExitStatus status)
     }
 }
 
-// FIXME Migrate to Filter Manager
-#if 0
-void Capture::loadFilterOffsets()
-{
-    // Get all OAL equipment filter list
-    KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
-    filterFocusOffsets.clear();
-
-    for (int i = 0; i < FilterPosCombo->count(); i++)
-    {
-        FocusOffset * oneOffset = new FocusOffset;
-        oneOffset->filter      = FilterPosCombo->itemText(i);
-        oneOffset->offset      = 0;
-
-        // Find matching filter if any and loads its offset
-        foreach (OAL::Filter * o, m_filterList)
-        {
-            if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
-            {
-                oneOffset->offset = o->offset().toInt();
-                break;
-            }
-        }
-
-        filterFocusOffsets.append(oneOffset);
-    }
-}
-
-void Capture::showFilterOffsetDialog()
-{
-    loadFilterOffsets();
-
-    QDialog filterOffsetDialog;
-
-    filterOffsetDialog.setWindowTitle(i18n("Filter Focus Offsets"));
-
-    QDialogButtonBox * buttonBox =
-        new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &filterOffsetDialog);
-
-    connect(buttonBox, SIGNAL(accepted()), &filterOffsetDialog, &Ekos::Capture::accept()));
-    connect(buttonBox, SIGNAL(rejected()), &filterOffsetDialog, &Ekos::Capture::reject()));
-
-    QVBoxLayout * mainLayout = new QVBoxLayout(&filterOffsetDialog);
-    QGridLayout * grid       = new QGridLayout(&filterOffsetDialog);
-    QHBoxLayout * tipLayout  = new QHBoxLayout(&filterOffsetDialog);
-
-    QLabel * tipIcon = new QLabel(&filterOffsetDialog);
-    QLabel * tipText = new QLabel(&filterOffsetDialog);
-
-    tipIcon->setPixmap(
-        QIcon::fromTheme("kstars_flag").pixmap(QSize(32, 32)));
-    tipIcon->setFixedSize(32, 32);
-
-    tipText->setText(i18n("Set <em>relative</em> filter focus offset in steps."));
-
-    tipLayout->addWidget(tipIcon);
-    tipLayout->addWidget(tipText);
-
-    mainLayout->addLayout(grid);
-    mainLayout->addLayout(tipLayout);
-    mainLayout->addWidget(buttonBox);
-
-    //filterOffsetDialog.setLayout(mainLayout);
-
-    for (int i = 0; i < filterFocusOffsets.count(); i++)
-{
-    FocusOffset * oneOffset = filterFocusOffsets.at(i);
-
-        QLabel * label  = new QLabel(oneOffset->filter, &filterOffsetDialog);
-        QSpinBox * spin = new QSpinBox(&filterOffsetDialog);
-        spin->setMinimum(-10000);
-        spin->setMaximum(10000);
-        spin->setSingleStep(100);
-        spin->setValue(oneOffset->offset);
-
-        grid->addWidget(label, i, 0);
-        grid->addWidget(spin, i, 1);
-    }
-
-    if (filterOffsetDialog.exec() == QDialog::Accepted)
-{
-    for (int i = 0; i < filterFocusOffsets.count(); i++)
-        {
-            FocusOffset * oneOffset = filterFocusOffsets.at(i);
-            oneOffset->offset      = static_cast<QSpinBox *>(grid->itemAtPosition(i, 1)->widget())->value();
-
-            // Find matching filter if any and save its offset
-            OAL::Filter * matchedFilter = nullptr;
-
-            foreach (OAL::Filter * o, m_filterList)
-            {
-                if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
-                {
-                    o->setOffset(QString::number(oneOffset->offset));
-                    matchedFilter = o;
-                    break;
-                }
-            }
-
-#if 0
-            // If no filter exists, let's create one
-            if (matchedFilter == nullptr)
-            {
-                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "",
-                        QString::number(oneOffset->offset), oneOffset->filter, "1");
-            }
-            // Or update Existing one
-            else
-            {
-                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "",
-                        QString::number(oneOffset->offset), oneOffset->filter,
-                        matchedFilter->exposure(), matchedFilter->id());
-            }
-#endif
-        }
-    }
-}
-#endif
 
 void Capture::toggleVideo(bool enabled)
 {

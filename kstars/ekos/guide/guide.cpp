@@ -753,31 +753,6 @@ void Guide::checkCCD(int ccdNum)
         connect(currentCCD, &ISD::CCD::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
         connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
-        // If guider is external and already connected and remote images option was disabled AND it was already
-        // disabled, then let's go ahead and disable it.
-#if 0
-        if (guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false && guider->isConnected())
-        {
-            for (int i = 0; i < CCDs.count(); i++)
-            {
-                ISD::CCD * oneCCD = CCDs[i];
-                if (i == ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") != B_NEVER)
-                {
-                    appendLogText(i18n("Disabling remote image reception from %1", oneCCD->getDeviceName()));
-                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD1");
-                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD2");
-                }
-                // If it was already disabled, enable it back
-                else if (i != ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") == B_NEVER)
-                {
-                    appendLogText(i18n("Enabling remote image reception from %1", oneCCD->getDeviceName()));
-                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD1");
-                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD2");
-                }
-            }
-        }
-#endif
-
         targetChip->setImageView(guideView, FITS_GUIDE);
 
         syncCCDInfo();
@@ -1091,21 +1066,6 @@ bool Guide::captureOneFrame()
                              settings["h"].toInt());
     }
 
-#if 0
-    switch (state)
-    {
-        case GUIDE_GUIDING:
-            if (Options::rapidGuideEnabled() == false)
-                connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, &Ekos::Guide::newFITS(IBLOB *)), Qt::UniqueConnection);
-                targetChip->capture(seqExpose);
-                return true;
-                break;
-
-            default:
-                    break;
-                }
-#endif
-
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
     connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS, Qt::UniqueConnection);
@@ -1405,90 +1365,6 @@ QStringList Guide::getST4Devices()
     return devices;
 }
 
-#if 0
-void Guide::processRapidStarData(ISD::CCDChip * targetChip, double dx, double dy, double fit)
-{
-    // Check if guide star is lost
-    if (dx == -1 && dy == -1 && fit == -1)
-    {
-        KSNotification::error(i18n("Lost track of the guide star. Rapid guide aborted."));
-        guider->abort();
-        return;
-    }
-
-    FITSView * targetImage = targetChip->getImage(FITS_GUIDE);
-
-    if (targetImage == nullptr)
-    {
-        pmath->setImageView(nullptr);
-        guider->setImageView(nullptr);
-        calibration->setImageView(nullptr);
-    }
-
-    if (rapidGuideReticleSet == false)
-    {
-        // Let's set reticle parameter on first capture to those of the star, then we check if there
-        // is any set
-        double x, y, angle;
-        pmath->getReticleParameters(&x, &y, &angle);
-        pmath->setReticleParameters(dx, dy, angle);
-        rapidGuideReticleSet = true;
-    }
-
-    pmath->setRapidStarData(dx, dy);
-
-    if (guider->isDithering())
-    {
-        pmath->performProcessing();
-        if (guider->dither() == false)
-        {
-            appendLogText(i18n("Dithering failed. Autoguiding aborted."));
-            emit newStatus(GUIDE_DITHERING_ERROR);
-            guider->abort();
-            //emit ditherFailed();
-        }
-    }
-    else
-    {
-        guider->guide();
-        capture();
-    }
-
-}
-
-void Guide::startRapidGuide()
-{
-    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-    if (currentCCD->setRapidGuide(targetChip, true) == false)
-    {
-        appendLogText(i18n("The CCD does not support Rapid Guiding. Aborting..."));
-        guider->abort();
-        return;
-    }
-
-    rapidGuideReticleSet = false;
-
-    pmath->setRapidGuide(true);
-    currentCCD->configureRapidGuide(targetChip, true);
-    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip*, double, double, double)), this, &Ekos::Guide::processRapidStarData(ISD::CCDChip *, double, double, double)));
-}
-
-void Guide::stopRapidGuide()
-{
-    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-    pmath->setRapidGuide(false);
-
-    rapidGuideReticleSet = false;
-
-    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip*, double, double, double)));
-
-    currentCCD->configureRapidGuide(targetChip, false, false, false);
-
-    currentCCD->setRapidGuide(targetChip, false);
-}
-#endif
 
 bool Guide::calibrate()
 {
@@ -1766,12 +1642,6 @@ void Guide::setSubFrameEnabled(bool enable)
         setExternalGuiderBLOBEnabled(!enable);
 }
 
-#if 0
-void Guide::setGuideRapidEnabled(bool enable)
-{
-    //guider->setGuideOptions(guider->getAlgorithm(), guider->useSubFrame() , enable);
-}
-#endif
 
 void Guide::setDitherSettings(bool enable, double value)
 {
@@ -1779,33 +1649,6 @@ void Guide::setDitherSettings(bool enable, double value)
     Options::setDitherPixels(value);
 }
 
-#if 0
-void Guide::startAutoCalibrateGuide()
-{
-    // A must for auto stuff
-    Options::setGuideAutoStarEnabled(true);
-
-    if (Options::resetGuideCalibration())
-        clearCalibration();
-
-    guide();
-
-#if 0
-    if (guiderType == GUIDE_INTERNAL)
-    {
-        calibrationComplete = false;
-        autoCalibrateGuide  = true;
-        calibrate();
-    }
-    else
-    {
-        calibrationComplete = true;
-        autoCalibrateGuide  = true;
-        guide();
-    }
-#endif
-}
-#endif
 
 void Guide::clearCalibration()
 {
@@ -2468,25 +2311,6 @@ void Guide::updateDirectionsFromPHD2(QString mode)
     connect(southControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
 }
 
-#if 0
-void Guide::onRapidGuideChanged(bool enable)
-{
-    if (m_isStarted)
-    {
-        guideModule->appendLogText(i18n("You must stop auto guiding before changing this setting."));
-        return;
-    }
-
-    m_useRapidGuide = enable;
-
-    if (m_useRapidGuide)
-    {
-        guideModule->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
-    }
-    else
-        guideModule->appendLogText(i18n("Rapid Guiding is disabled."));
-}
-#endif
 
 void Guide::loadSettings()
 {
