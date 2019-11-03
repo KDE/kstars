@@ -353,23 +353,13 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="dDE">
-          <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in Declination</string>
-          </property>
-          <property name="text">
-           <string>dDE</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="dRA">
+         <widget class="QLabel" name="err">
           <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
           </property>
           <property name="text">
-           <string>dRA:</string>
+           <string>Err:</string>
           </property>
          </widget>
         </item>
@@ -400,19 +390,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QLineEdit" name="dDEOut">
-          <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in Declination</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font-weight: bold;</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="2">
          <widget class="QLabel" name="label_6">
           <property name="text">
@@ -420,13 +397,13 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="dRAOut">
+        <item row="1" column="1" colspan="3">
+         <widget class="QLineEdit" name="errOut">
           <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-weight: bold;</string>
+          <property name="text">
+           <string/>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -1760,8 +1737,7 @@
   <tabstop>delaySpin</tabstop>
   <tabstop>SolverRAOut</tabstop>
   <tabstop>SolverDecOut</tabstop>
-  <tabstop>dRAOut</tabstop>
-  <tabstop>dDEOut</tabstop>
+  <tabstop>errOut</tabstop>
   <tabstop>pixScaleOut</tabstop>
   <tabstop>RotOut</tabstop>
   <tabstop>FOVOut</tabstop>
