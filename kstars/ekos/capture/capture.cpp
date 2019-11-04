@@ -4781,6 +4781,11 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_DITHERING_SUCCESS:
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering succeeded, capture state" << getCaptureStatusString(m_State);
+            // do nothing if something happened during dithering
+            if (m_State != CAPTURE_DITHERING)
+                break;
+
             if (Options::guidingSettle() > 0)
             {
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
@@ -4790,14 +4795,15 @@ void Capture::setGuideStatus(GuideState state)
             else
             {
                 appendLogText(i18n("Dither complete."));
-                qCInfo(KSTARS_EKOS_CAPTURE) << "Dither complete, capture state" << getCaptureStatusString(m_State);
-                // resume only if nothing happened during dithering
-                if (m_State == CAPTURE_DITHERING)
-                    resumeCapture();
+                resumeCapture();
             }
             break;
 
         case GUIDE_DITHERING_ERROR:
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering failed, capture state" << getCaptureStatusString(m_State);
+            if (m_State != CAPTURE_DITHERING)
+                break;
+
             if (Options::guidingSettle() > 0)
             {
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
