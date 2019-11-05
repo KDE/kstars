@@ -356,6 +356,8 @@ class Capture : public QWidget, public Ui::Capture
          */
         void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
 
+        double getEstimatedDownloadTime();
+
     public slots:
 
         /** \addtogroup CaptureDBusInterface
@@ -701,6 +703,8 @@ class Capture : public QWidget, public Ui::Capture
          */
         void registerNewModule(const QString &name);
 
+        void setDownloadProgress();
+
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
@@ -716,6 +720,7 @@ class Capture : public QWidget, public Ui::Capture
         void resumeGuiding();
         void newImage(Ekos::SequenceJob *job);
         void newExposureProgress(Ekos::SequenceJob *job);
+        void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
         void newMeridianFlipStatus(Mount::MeridianFlipStatus status);
@@ -933,5 +938,9 @@ class Capture : public QWidget, public Ui::Capture
         QPointer<QComboBox> ISOCombo;
         QPointer<QDoubleSpinBox> GainSpin;
         double GainSpinSpecialValue;
+
+        QList<double> downloadTimes;
+        QTime downloadTimer;
+        QTimer downloadProgressTimer;
 };
 }
