@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>382</width>
-    <height>357</height>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,6 +72,9 @@
      </item>
      <item>
       <widget class="QGroupBox" name="targetPAGroup">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the &lt;span style=&quot; font-weight:600;&quot;&gt;desired&lt;/span&gt; target position angle for a sequence job. Click OK then add the sequence job to the sequence queue. When the job is executed, the position angle is first set to this target value prior to capturing the image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="title">
         <string>Target Position Angle</string>
        </property>
