@@ -2473,17 +2473,13 @@
       <label>The program will search in a square spiral around the start position up to this radius.</label>
       <default>30</default>
    </entry>
-   <entry name="ASTAPTolerance" type="Bool">
-      <label>Tolerance used to compare tetrahedrons. Typical values 0.003 to 0.007.</label>
-      <default>false</default>
-   </entry>
-   <entry name="ASTAPToleranceValue" type="Double">
-      <label>Tolerance used to compare tetrahedrons. Typical values 0.003 to 0.007.</label>
-      <default>0.005</default>
-   </entry>
    <entry name="ASTAPUpdateFITS" type="Bool">
       <label>Update the fits header with the found solution.</label>
-      <default>true</default>
+      <default>false</default>
+   </entry>
+   <entry name="ASTAPLargeSearchWindow" type="Bool">
+      <label>Increase search window size.</label>
+      <default>false</default>
    </entry>
    </group>
 </kcfg>

@@ -2484,9 +2484,9 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solver
         if (optionsMap.contains("downsample"))
             solver_args << "-z" << QString::number(optionsMap.value("downsample", 0).toInt());
 
-        // Tolerance
-        if (optionsMap.contains("tolerance"))
-            solver_args << "-t" << QString::number(optionsMap.value("tolerance").toDouble());
+        // Speed
+        if (optionsMap.contains("speed"))
+            solver_args << "-speed" << optionsMap.value("speed").toString();
 
         if (optionsMap.contains("update"))
             solver_args << "-update";
@@ -2612,8 +2612,7 @@ void Align::generateArgs()
         if (Options::aSTAPDownSample() && Options::aSTAPDownSampleValue() > 0)
             optionsMap["downsample"] = Options::aSTAPDownSampleValue();
 
-        if (Options::aSTAPTolerance())
-            optionsMap["tolerance"] = Options::aSTAPToleranceValue();
+        optionsMap["speed"] = Options::aSTAPLargeSearchWindow() ? "slow" : "auto";
 
         if (Options::aSTAPUpdateFITS())
             optionsMap["update"] = true;
@@ -3159,9 +3158,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     targetDiff = sqrt(raDiff * raDiff + deDiff * deDiff);
 
     errOut->setText(QString("%1 arcsec. RA:%2 DE:%3").arg(
-        QString::number(targetDiff, 'f', 0),
-        QString::number(raDiff, 'f', 0),
-        QString::number(deDiff, 'f', 0)));
+                        QString::number(targetDiff, 'f', 0),
+                        QString::number(raDiff, 'f', 0),
+                        QString::number(deDiff, 'f', 0)));
     if (targetDiff <= static_cast<double>(accuracySpin->value()))
         errOut->setStyleSheet("color:green");
     else if (targetDiff < 1.5 * accuracySpin->value())
@@ -4756,8 +4755,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         if (Options::aSTAPDownSample() && Options::aSTAPDownSampleValue() > 0)
             optionsMap["downsample"] = Options::aSTAPDownSampleValue();
 
-        if (Options::aSTAPTolerance())
-            optionsMap["tolerance"] = Options::aSTAPToleranceValue();
+        optionsMap["speed"] = Options::aSTAPLargeSearchWindow() ? "slow" : "auto";
 
         if (Options::aSTAPUpdateFITS())
             optionsMap["update"] = true;
