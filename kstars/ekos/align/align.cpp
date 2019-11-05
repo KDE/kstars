@@ -46,6 +46,7 @@
 #include <KActionCollection>
 
 #include <basedevice.h>
+#include <indicom.h>
 
 #include <memory>
 
@@ -3168,20 +3169,20 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     else
         errOut->setStyleSheet("color:red");
 
+    double solverPA = orientation;
+    // TODO 2019-11-06 JM: KStars needs to support "upside-down" displays since this is a hack.
     // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
     // PA = Orientation + 180
-    double solverPA = orientation + 180;
+    double solverFlippedPA = orientation + 180;
     // Limit PA to -180 to +180
-    if (solverPA > 180)
-        solverPA -= 360;
-    if (solverPA < -180)
-        solverPA += 360;
-
+    if (solverFlippedPA > 180)
+        solverFlippedPA -= 360;
+    if (solverFlippedPA < -180)
+        solverFlippedPA += 360;
     solverFOV->setCenter(alignCoord);
-    solverFOV->setPA(solverPA);
+    sensorFOV->setPA(solverFlippedPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
-
-    sensorFOV->setPA(solverPA);
+    sensorFOV->setPA(solverFlippedPA);
 
     QString ra_dms, dec_dms;
     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -3316,7 +3317,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 // PA = RawAngle * Multiplier + Offset
                 currentRotatorPA = solverPA;
                 double rawAngle = absAngle->np[0].value;
-                double offset = solverPA - (rawAngle * Options::pAMultiplier());
+                double offset = range360(solverPA - (rawAngle * Options::pAMultiplier()));
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA << "Rotator Offset:" << offset;
                 Options::setPAOffset(offset);
@@ -3324,11 +3325,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
             if (absAngle && std::isnan(loadSlewTargetPA) == false && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
-                double rawAngle = (loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier();
-                if (rawAngle < 0)
-                    rawAngle += 360;
-                else if (rawAngle > 360)
-                    rawAngle -= 360;
+                double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
+                //                if (rawAngle < 0)
+                //                    rawAngle += 360;
+                //                else if (rawAngle > 360)
+                //                    rawAngle -= 360;
                 absAngle->np[0].value = rawAngle;
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
