@@ -2043,6 +2043,7 @@ void Manager::initCapture()
                 summaryPreview->loadFITS(filename);
         }
     });
+    connect(captureProcess.get(), &Ekos::Capture::newDownloadProgress, this, &Ekos::Manager::updateDownloadProgress);
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
@@ -2810,10 +2811,17 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
     }
 }
 
+void Manager::updateDownloadProgress(double timeLeft)
+{
+    imageCountDown.setHMS(0, 0, 0);
+    imageCountDown = imageCountDown.addSecs(timeLeft);
+    imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
+}
+
 void Manager::updateExposureProgress(Ekos::SequenceJob * job)
 {
     imageCountDown.setHMS(0, 0, 0);
-    imageCountDown = imageCountDown.addSecs(job->getExposeLeft());
+    imageCountDown = imageCountDown.addSecs(job->getExposeLeft() + captureProcess->getEstimatedDownloadTime());
     if (imageCountDown.hour() == 23)
         imageCountDown.setHMS(0, 0, 0);
 

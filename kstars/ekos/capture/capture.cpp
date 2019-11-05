@@ -363,6 +363,13 @@ Capture::Capture()
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    //This Timer will update the Exposure time in the capture module to display the estimated download time left
+    //It will also update the Exposure time left in the Summary Screen.
+    //It fires every 100 ms while images are downloading.
+    downloadProgressTimer.setInterval(100);
+    connect(&downloadProgressTimer, &QTimer::timeout, this, &Ekos::Capture::setDownloadProgress);
+
 }
 
 Capture::~Capture()
@@ -1507,6 +1514,16 @@ bool Capture::setCaptureComplete()
     captureTimeout.stop();
     captureTimeoutCounter = 0;
 
+    downloadProgressTimer.stop();
+
+    //This determines the time since the image started downloading
+    //Then it gets the estimated time left and displays it in the log.
+    double currentDownloadTime = downloadTimer.elapsed()/1000.0;
+    downloadTimes << currentDownloadTime;
+    QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
+    QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
+    appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
+
     // In case we're framing, let's start
     if (m_isLooping)
     {
@@ -2194,6 +2211,20 @@ void Capture::clearLog()
     emit newLog(QString());
 }
 
+//This method will update the Capture Module and Summary Screen's estimate of how much time is left in the download
+void Capture::setDownloadProgress()
+{
+    if (activeJob)
+    {
+        double downloadTimeLeft = getEstimatedDownloadTime() - downloadTimer.elapsed()/1000.0;
+        if(downloadTimeLeft > 0)
+        {
+            exposeOUT->setText(QString("%L1").arg(downloadTimeLeft, 0, 'd', 2));
+            emit newDownloadProgress(downloadTimeLeft);
+        }
+    }
+}
+
 void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState state)
 {
     if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
@@ -2254,6 +2285,11 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         }
 
         secondsLabel->setText(i18n("Downloading..."));
+
+        //This will start the clock to see how long the download takes.
+        downloadTimer.start();
+        downloadProgressTimer.start();
+
 
         //disconnect(currentCCD, &ISD::CCD::newExposureValue(ISD::CCDChip*,double,IPState)), this, &Ekos::Capture::updateCaptureProgress(ISD::CCDChip*,double,IPState)));
     }
@@ -4430,13 +4466,10 @@ double Capture::getJobExposureDuration(int id)
 
 int Capture::getJobRemainingTime(SequenceJob * job)
 {
-    int remaining = 0;
+    int remaining = (job->getExposure() + getEstimatedDownloadTime() + job->getDelay() / 1000) * (job->getCount() - job->getCompleted());
 
     if (job->getStatus() == SequenceJob::JOB_BUSY)
-        remaining += (job->getExposure() + job->getDelay() / 1000) * (job->getCount() - job->getCompleted()) +
-                     job->getExposeLeft();
-    else
-        remaining += (job->getExposure() + job->getDelay() / 1000) * (job->getCount() - job->getCompleted());
+        remaining += job->getExposeLeft() + getEstimatedDownloadTime();
 
     return remaining;
 }
@@ -6529,6 +6562,17 @@ double Capture::getGain()
     }
 
     return -1;
+}
+
+double Capture::getEstimatedDownloadTime()
+{
+    double total=0;
+    foreach(double dlTime, downloadTimes)
+        total+=dlTime;
+    if(downloadTimes.count()==0)
+        return 0;
+    else
+        return total/downloadTimes.count();
 }
 
 }
