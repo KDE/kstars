@@ -4,6 +4,111 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.3.7 (Carina):
+
+f38d8378c 2019-11-07 Jasem Mutlaq         Sync INDI drivers
+864905553 2019-11-06 Jasem Mutlaq         Fix few issues with rotation angle
+883d26df3 2019-11-06 Jasem Mutlaq         Add tooltip tp explain the purpose of desired target PA
+28c513adf 2019-11-05 Jasem Mutlaq         Update ASTAP config as per Hans recommendations
+ae7219c65 2019-11-05 Robert Lancaster     Keeping track of download times for more reliable time estimates.
+9a734d1e7 2019-11-04 Wolfgang Reissenberger Handle guiding problems during dithering
+16171346e 2019-11-03 Hy Murveit           Directly specify arcsecond error in Align UI.
+e1d19eb38 2019-11-02 Wolfgang Reissenberger Dithering while crossing the meridian recognized as guiding
+b1f390ebf 2019-11-02 Wolfgang Reissenberger Ensure that guiding is running when capture is started
+b30a9d850 2019-11-02 Robert Lancaster     Fixing ASTAP Path on OS X and Setting Autostar as default for PHD2 Guiding
+02d191bae 2019-10-29 Jasem Mutlaq         Use status string for better logging
+bf020d440 2019-10-29 Wolfgang Reissenberger Making display of x axis cofigurable
+a6f633b49 2019-10-29 Jasem Mutlaq         square --> rectangle
+15ef142d8 2019-10-29 Jasem Mutlaq         Implement a more reliable way to sync ACTIVE_DEVICES
+565ed5fc6 2019-10-28 Jasem Mutlaq         Back to string confinement since classic confinement does not work with plugs
+4ec7d0b68 2019-10-28 Jasem Mutlaq         Update snap to build from git
+c72edccbc 2019-10-27 Hy Murveit           Write FITS file on separate thread
+104c0ee03 2019-10-25 Jasem Mutlaq         Make documentation building as a CMake option and disable it for snaps
+9c5cb4136 2019-10-25 Jasem Mutlaq         Test release build effectiveness
+6248d6adc 2019-10-24 Jasem Mutlaq         Update OpenNGC to v20191019
+1407f3fcb 2019-10-23 Jasem Mutlaq         Update snapcraft from Neon sources and move it to top level so we can build it with Launchpad
+5f4b269cc 2019-10-23 Yuri Chornoivan      Fix minor EBN issues
+a12df4a85 2019-10-22 Jasem Mutlaq         Use CROTA1 for rotation instead of CROTA2
+ae3b27018 2019-10-22 Jasem Mutlaq         Merge branch 'astap_work'
+8e48df369 2019-10-22 Jasem Mutlaq         Process astap solver solution
+8f0e4319e 2019-10-22 Jasem Mutlaq         Timed out solutions should be marked as such
+c0f8d5c4f 2019-10-21 Jasem Mutlaq         Fix TZ rules for a few countries.
+4388cf0ec 2019-10-21 Yuri Chornoivan      More updates to libindi strings
+56e035095 2019-10-20 Yuri Chornoivan      Translate UI string
+86c0823fc 2019-10-20 Yuri Chornoivan      Update libindi strings
+dc3b30b5f 2019-10-20 Jasem Mutlaq         Do not save FITS file in mosaic job scheduler list since each job has its own unique calculated location.
+d2eb24f2c 2019-10-20 Jasem Mutlaq         More progress in supporting ASTAP. Need to process output to determine if the solver completed successfully
+ea5a3a384 2019-10-20 Jasem Mutlaq         Merge branch 'master' into astap_work
+8aa121e0f 2019-10-20 Jasem Mutlaq         FOV was set to default to 0x0 to force astrometry.net to blind solve and measure the effective FOV.
+cf5a252a4 2019-10-20 Wolfgang Reissenberger Immediate refresh weather data on startup
+c4e8b95f7 2019-10-18 Jasem Mutlaq         Add focus handling for aborted images
+86eb5cb61 2019-10-18 Wolfgang Reissenberger Bugfixing and small enhancements for weather display
+edba67eb6 2019-10-16 Jasem Mutlaq         Starting work on supporting ASTAP as alternative solver
+52fe2eaf5 2019-10-16 Wolfgang Reissenberger Weather sensor data graph display
+61729fdff 2019-10-13 Hy Murveit           Adds an option to mouse-pan the HiPS graphics.
+b926ba790 2019-10-11 Nicolas Fella        Use AppDataLocation on Android
+576e9ab55 2019-10-10 Jasem Mutlaq         Add JNow to indicate the epoch for both telescope and solution coordinates
+9cfac15cf 2019-10-09 Jasem Mutlaq         implement detect from ekos in FOV editor. Use INVALID_VALUE instead of -1 when there is no solution available yet
+b3fda7efe 2019-10-09 Jasem Mutlaq         Fix placeholder since it depends on Qt 5.12+
+5f80fd584 2019-10-09 Yuri Chornoivan      Be consistent (Nebulas -> Nebulae)
+bc69693b5 2019-10-08 Yuri Chornoivan      Some i18n fixes
+9422bc453 2019-10-08 Jasem Mutlaq         Only report success when the number of connected devices equal the number of drivers. Generic drivers would always equal connected devices
+edffb8760 2019-10-08 Jasem Mutlaq         Check if GainSpin exists before using it otherwise it causes a crash.
+c1c5e52a9 2019-10-08 Jasem Mutlaq         Add a button to scheduler to snap the sky map center coordinate
+1cbccc85a 2019-10-08 Jasem Mutlaq         Adding a fetch button to the mosaic wizard to sync its value from the active Ekos profile via DBus
+b753dabe2 2019-10-08 Jasem Mutlaq         swapItemAt is too new so it is removed for now, we need to add a check later.
+60ba9044d 2019-10-08 Jasem Mutlaq         Initial work for fetching camera and telescope info over dbus in mosaic planner
+ee7e22b07 2019-10-08 Jasem Mutlaq         Fix few warnings
+a2f50ed3f 2019-10-08 Hy Murveit           Complete the implementation of Capture tab gain control.
+722159dcf 2019-10-08 Jasem Mutlaq         Add counter-weight down to make sure parking is correct
+d5e7c1b5e 2019-10-07 Jasem Mutlaq         INDI drivers sync
+27a1278e2 2019-10-05 Hy Murveit           Set gain each capture
+318a545be 2019-10-04 Carl Schwan          Add Windows Store link in AppStream metadata
+30af73a77 2019-10-03 Wolfgang Reissenberger Hitting a constraint sets a job to IDLE instead of COMPLETE so that it might be restarted later
+f4fb3326d 2019-10-03 Jasem Mutlaq         Add force DSLR presets option to ensure accurate DSLR exposure times when possible
+e2f9690aa 2019-10-03 Ron Huizer           Update readme taking into account latest releaeses
+4925404d3 2019-10-02 Jasem Mutlaq         Use the same green and red color code as mount parking for dome parking to be consistent
+847aca910 2019-10-02 Hy Murveit           Remove dead code from fitsviewer
+728a55f6e 2019-10-02 Robert Lancaster     PHD2 Enhancements
+faec39c2d 2019-10-02 Hy Murveit           Fix focus HFR-averaging bug
+9ba205842 2019-10-01 Jasem Mutlaq         Right click would restore the frame to full size. If selection is too small do not zoom
+9dbd7cdc1 2019-09-29 Yuri Chornoivan      Use i18n()
+8db9af129 2019-09-29 Yuri Chornoivan      More i18n()
+255f207aa 2019-09-25 Wolfgang Reissenberger Handling of aborts during parking/unparking of rolloff roofs corrected
+0ffd9c6ec 2019-09-25 Eric Dejouhanet      Summary: Connect Scheduler sleep timer to Simulation Clock scale change.
+234a1d28f 2019-09-25 Jasem Mutlaq         Use KSTARS instead of KSTARS_EKOS_ALIGN in utils
+a77e03bb8 2019-09-24 Jasem Mutlaq         Update the INDI build script to reflect the repo split
+471943e41 2019-09-23 Robert Lancaster     Fixing an RA/DEC swap issue
+d3860aa52 2019-09-23 Wolfgang Reissenberger Location of M 102 corrected
+f1c5444bd 2019-09-23 Jasem Mutlaq         Update debian changelog for v3.3.7
+96a57b6e6 2019-09-23 Eric Dejouhanet      Fix crash when guiding unexpectedly restarting with no current job.
+b4e6b826f 2019-09-23 Wolfgang Reissenberger Restrict pausing to image capturing
+715afccc0 2019-09-23 Jasem Mutlaq         Preparing for v3.3.7 release
+b6eeb8928 2019-09-23 Robert Lancaster     Guiding Labels
+76aba5fa3 2019-09-22 Jasem Mutlaq         Avoid division by zero condition
+c7d784293 2019-09-22 Jasem Mutlaq         INDI driver sync
+2af2a8694 2019-09-21 Jasem Mutlaq         Remove placeholdertext that failed to build on older Qt versions
+09c88490c 2019-09-19 Jasem Mutlaq         Fix check for unparked state
+3af77247f 2019-09-19 Jasem Mutlaq         removed top spacer from scheduler ui
+269e6fca8 2019-09-19 Jasem Mutlaq         Fix HFR calculation, add HFR on focus view, adjust focus UI.
+f7a06d684 2019-09-19 Jasem Mutlaq         Use reasonable minimum that does not squish the GUI
+dd0e00586 2019-09-19 Laurent Montel       Port to setContentsMargins
+eaba32948 2019-09-19 Eric Dejouhanet      Implement customizable dusk and dawn offsets.
+cefa36d91 2019-09-18 Jasem Mutlaq         Add websocket command to toggle filter wheel
+3a3d41731 2019-09-18 Hy Murveit           # Enter a commit message. # # Changes: # #     kstars/fitsviewer/fitshistogram.cpp
+f84708e85 2019-09-18 Jasem Mutlaq         Add debian patches set
+4ae670a34 2019-09-18 Jasem Mutlaq         Update kstars debian files
+50bd34941 2019-09-15 Jasem Mutlaq         Update INSTALL instructions.
+fab755ffe 2019-09-15 Jasem Mutlaq         Add option to save focus frames. Warn about storage space.
+5c5f27a3c 2019-09-15 Jasem Mutlaq         Disable autofocus when the HFR checkbox is toggled.
+64d7eb749 2019-09-14 Jasem Mutlaq         Improve reliability of flat field ADU algorithms
+c2de9690d 2019-09-14 Jasem Mutlaq         Fix warning about single cell span
+3dbf09cac 2019-09-14 Jasem Mutlaq         Add reset to dark library in case of Ekos shutdown to clean its state
+76d95edea 2019-09-14 Jasem Mutlaq         When adding a FITS file to the scheduler, check the header to see if the information about the object RA and DEC and its name are available so they ..
+3e5fa041d 2019-09-11 Jasem Mutlaq         Do not init astrometry config on Windows.
+58d94662d 2019-09-10 Yuri Chornoivan      Fix minor typos
+5c64ccd43 2019-09-09 Jasem Mutlaq         Use int and not QString when using i18np
+
 3.3.6 (Fomalhaut):
 
 37015dc91 2019-09-08 Robert Lancaster     Fixing a little typo
