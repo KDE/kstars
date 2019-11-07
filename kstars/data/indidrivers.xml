@@ -209,17 +209,17 @@
             <driver name="Digital Setting Circle">indi_dsc_telescope</driver>
             <version>1.0</version>
         </device>
-        <device label="Explore Scientific PMC-Eight" manufacturer="Explore Scientific">
+        <device label="ES G-11 PMC-Eight" manufacturer="Explore Scientific">
             <driver name="PMC8">indi_pmc8_telescope</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
-        <device label="Explore Scientific EXOS2" manufacturer="Explore Scientific">
+        <device label="ES EXOS2-GT PMC-Eight" manufacturer="Explore Scientific">
             <driver name="PMC8">indi_pmc8_telescope</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
-        <device label="Explore Scientific iEXOS100" manufacturer="Explore Scientific">
+        <device label="ES iEXOS100 PMC-Eight" manufacturer="Explore Scientific">
             <driver name="PMC8">indi_pmc8_telescope</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
@@ -261,7 +261,7 @@
         </device>
         <device label="MyFocuserPro2">
             <driver name="MyFocuserPro2">indi_myfocuserpro2_focus</driver>
-            <version>0.1</version>
+            <version>0.6</version>
         </device>
         <device label="DeepSkyDad AF1">
             <driver name="DeepSkyDad AF1">indi_deepskydad_af1_focus</driver>
@@ -269,6 +269,10 @@
         </device>
         <device label="DeepSkyDad AF2">
             <driver name="DeepSkyDad AF2">indi_deepskydad_af2_focus</driver>
+            <version>1.0</version>
+        </device>
+        <device label="DeepSkyDad AF3">
+            <driver name="DeepSkyDad AF3">indi_deepskydad_af3_focus</driver>
             <version>1.0</version>
         </device>
         <device label="OnFocus">
@@ -552,6 +556,14 @@
     </devGroup>
 </driversList>
 <driversList>
+    <devGroup group="Telescopes">
+        <device label="AOK Skywalker" manufacturer="AOKSwiss/Magnetdrives">
+            <driver name="LX200 AOK">indi_lx200aok</driver>
+            <version>0.8</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
     <devGroup group="CCDs">
         <device label="Apogee CCD">
             <driver name="Apogee CCD">indi_apogee_ccd</driver>
@@ -629,7 +641,7 @@
     <devGroup group="Telescopes">
         <device label="Avalon StarGo" manufacturer="Avalon">
             <driver name="LX200 StarGo">indi_lx200stargo</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -747,23 +759,23 @@
     <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true">
             <driver name="Canon DSLR">indi_canon_ccd</driver>
-            <version>2.8</version>
+            <version>2.9</version>
         </device>
         <device label="Nikon DSLR" mdpd="true">
             <driver name="Nikon DSLR">indi_nikon_ccd</driver>
-            <version>2.8</version>
+            <version>2.9</version>
         </device>
         <device label="Pentax DSLR" mdpd="true">
             <driver name="Pentax DSLR">indi_pentax_ccd</driver>
-            <version>2.8</version>
+            <version>2.9</version>
         </device>
         <device label="Sony DSLR" mdpd="true">
             <driver name="Sony DSLR">indi_sony_ccd</driver>
-            <version>2.8</version>
+            <version>2.9</version>
         </device>
         <device label="GPhoto CCD">
             <driver name="GPhoto CCD">indi_gphoto_ccd</driver>
-            <version>2.8</version>
+            <version>2.9</version>
         </device>
     </devGroup>
 </driversList>
