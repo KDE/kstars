@@ -109,6 +109,8 @@ int main(int argc, char *argv[])
                         "rlancaste@gmail.com");
     aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
     aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com", i18n("Ekos Scheduler Improvements"));
+    aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(), "sterne-jaeger@t-online.de", i18n("Ekos Scheduler & Observatory Improvements"));
+    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS Improvements"));
 
     // Inactive developers
     aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
