@@ -257,6 +257,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     solverTypeGroup->setId(astapSolverR, SOLVER_ASTAP);
     solverTypeGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
+
+    // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
+    // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accomodate that.
+    if (Options::solverType() > SOLVER_ASTROMETRYNET)
+    {
+        Options::setSolverType(SOLVER_ASTROMETRYNET);
+    }
+
     solverTypeGroup->button(Options::solverType())->setChecked(true);
     connect(solverTypeGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
             this, &Align::setSolverType);
