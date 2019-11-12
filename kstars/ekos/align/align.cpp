@@ -1844,6 +1844,13 @@ void Align::setSolverType(int type)
     // ASTAP solver
     else
     {
+        if (!QFile::exists(Options::aSTAPExecutable()))
+        {
+            KSMessageBox::Instance()->error(i18n("No valid ASTAP installation found. Install ASTAP and select the path to ASTAP executable in options."));
+            KConfigDialog::showDialog("alignsettings");
+            return;
+        }
+
         if (astapParser.get() != nullptr)
             parser = astapParser.get();
         else

@@ -29,14 +29,7 @@ ASTAPAstrometryParser::ASTAPAstrometryParser() : AstrometryParser()
 
 bool ASTAPAstrometryParser::init()
 {
-    bool validFile = QFile::exists(Options::aSTAPExecutable());
-    if (!validFile)
-    {
-        align->appendLogText(i18n("No valid ASTAP installation found. Select the path to ASTAP executable in options."));
-    }
-
-    return validFile;
-
+    return QFile::exists(Options::aSTAPExecutable());
 }
 
 void ASTAPAstrometryParser::verifyIndexFiles(double, double)
