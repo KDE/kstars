@@ -3188,8 +3188,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     if (solverFlippedPA < -180)
         solverFlippedPA += 360;
     solverFOV->setCenter(alignCoord);
-    sensorFOV->setPA(solverFlippedPA);
+    solverFOV->setPA(solverFlippedPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
+    // Sensor FOV as well
     sensorFOV->setPA(solverFlippedPA);
 
     QString ra_dms, dec_dms;
@@ -5353,7 +5354,7 @@ void Align::setPAHRefreshComplete()
 
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
-    QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
+    //QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
 
     if (pahStage == PAH_FIND_CP)
     {
@@ -5381,7 +5382,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         {
             appendLogText(i18n("Please wait while WCS data is processed..."));
             connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-            alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+            alignView->injectWCS(orientation, ra, dec, pixscale);
             return;
         }
 
@@ -5409,7 +5410,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         {
             appendLogText(i18n("Please wait while WCS data is processed..."));
             connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-            alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+            alignView->injectWCS(orientation, ra, dec, pixscale);
             return;
         }
 
@@ -5434,7 +5435,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         appendLogText(i18n("Please wait while WCS data is processed..."));
         connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        alignView->injectWCS(orientation, ra, dec, pixscale);
         return;
     }
 }

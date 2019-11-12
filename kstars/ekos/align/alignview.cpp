@@ -40,9 +40,9 @@ void AlignView::drawOverlay(QPainter *painter)
         drawLine(painter);
 }
 
-bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
+bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale)
 {
-    bool rc = imageData->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+    bool rc = imageData->injectWCS(orientation, ra, dec, pixscale);
     // If file fails to load, then no WCS data
     if (rc == false)
     {

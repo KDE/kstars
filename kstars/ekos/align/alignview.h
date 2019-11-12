@@ -24,7 +24,7 @@ class AlignView : public FITSView
         explicit AlignView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
         /* Calculate WCS header info and update WCS info */
-        bool createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale);
+        bool injectWCS(double orientation, double ra, double dec, double pixscale);
 
         void drawOverlay(QPainter *) override;
 

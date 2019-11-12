@@ -350,16 +350,14 @@ class FITSData : public QObject
         bool pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord);
 
         /**
-             * @brief createWCSFile Create a new FITS file given the WCS information supplied. Construct the necessary WCS keywords and save the
-             * new file as the current active file
-             * @param newWCSFile New file name
+             * @brief injectWCS Add WCS keywords to file
              * @param orientation Solver orientation, degrees E of N.
              * @param ra J2000 Right Ascension
              * @param dec J2000 Declination
              * @param pixscale Pixel scale in arcsecs per pixel
-             * @return  True if file is successfully created and saved, false otherwise.
+             * @return  True if file is successfully updated with WCS info.
              */
-        bool createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale);
+        bool injectWCS(double orientation, double ra, double dec, double pixscale);
 
         // Debayer
         bool hasDebayer()

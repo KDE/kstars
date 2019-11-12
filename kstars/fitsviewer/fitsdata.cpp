@@ -153,14 +153,15 @@ QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
     loadCommon(inFilename);
     qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
     QFuture<bool> result = QtConcurrent::run(
-        this, &FITSData::privateLoad, nullptr, 0, silent);
+                               this, &FITSData::privateLoad, nullptr, 0, silent);
 
     return result;
 }
 
-namespace {
+namespace
+{
 // Common code for reporting fits read errors. Always returns false.
-bool fitsOpenError(int status, const QString& message, bool silent)
+bool fitsOpenError(int status, const QString &message, bool silent)
 {
     char error_status[512];
     fits_report_error(stderr, status);
@@ -213,9 +214,9 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
         if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
-          return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
+            return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         else
-          stats.size = QFile(m_Filename).size();
+            stats.size = QFile(m_Filename).size();
     }
     else
     {
@@ -224,16 +225,16 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         size_t temp_size = fits_buffer_size;
         if (fits_open_memfile(&fptr, m_Filename.toLatin1().data(), READONLY,
                               &temp_buffer, &temp_size, 0, nullptr, &status))
-          return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
+            return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
         else
-          stats.size = fits_buffer_size;
+            stats.size = fits_buffer_size;
     }
-    
+
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
-      return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
+        return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
     if (fits_get_img_param(fptr, 3, &(stats.bitpix), &(stats.ndim), naxes, &status))
-      return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
+        return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
     if (stats.ndim < 2)
     {
@@ -328,7 +329,7 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     long nelements = stats.samples_per_channel * m_Channels;
 
     if (fits_read_img(fptr, m_DataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
-      return fitsOpenError(status, i18n("Error reading image."), silent);
+        return fitsOpenError(status, i18n("Error reading image."), silent);
 
     parseHeader();
 
@@ -415,11 +416,11 @@ int FITSData::saveFITS(const QString &newFilename)
         return status;
     }
 
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_report_error(stderr, status);
-        return status;
-    }
+    //    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
+    //    {
+    //        fits_report_error(stderr, status);
+    //        return status;
+    //    }
 
     if (fits_copy_header(fptr, new_fptr, &status))
     {
@@ -3894,7 +3895,8 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     return true;
 }
 
-bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
+#if 0
+bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
 {
     int status = 0, exttype = 0;
     long nelements;
@@ -4079,6 +4081,63 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     WCSLoaded = false;
 
     qCDebug(KSTARS_FITS) << "Finished creating WCS file: " << newWCSFile;
+
+    return true;
+}
+#endif
+
+bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale)
+{
+    int status = 0;
+
+    fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
+    fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
+
+    int epoch = 2000;
+
+    fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
+
+    fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
+    fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
+
+    char radecsys[8] = "FK5";
+    char ctype1[16]  = "RA---TAN";
+    char ctype2[16]  = "DEC--TAN";
+
+    fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
+    fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
+    fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
+
+    double crpix1 = width() / 2.0;
+    double crpix2 = height() / 2.0;
+
+    fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
+    fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
+
+    // Arcsecs per Pixel
+    double secpix1 = pixscale;
+    double secpix2 = pixscale;
+
+    fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
+    fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
+
+    double degpix1 = secpix1 / 3600.0;
+    double degpix2 = secpix2 / 3600.0;
+
+    fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
+    fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
+
+    // Rotation is CW, we need to convert it to CCW per CROTA1 definition
+    double rotation = 360 - orientation;
+    if (rotation > 360)
+        rotation -= 360;
+
+    fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
+    fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
+
+    WCSLoaded = false;
+
+    qCDebug(KSTARS_FITS) << "Finished update WCS info.";
 
     return true;
 }
