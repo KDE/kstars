@@ -255,19 +255,19 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     rememberSolverWCS = Options::astrometrySolverWCS();
     rememberAutoWCS   = Options::autoWCS();
 
-    solverTypeGroup->setId(astapSolverR, SOLVER_ASTAP);
-    solverTypeGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
+    solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
+    solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
 
     // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
     // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accomodate that.
-    if (Options::solverType() > SOLVER_ASTROMETRYNET)
+    if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
     {
-        Options::setSolverType(SOLVER_ASTROMETRYNET);
+        Options::setSolverBackend(SOLVER_ASTROMETRYNET);
     }
 
-    solverTypeGroup->button(Options::solverType())->setChecked(true);
-    connect(solverTypeGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-            this, &Align::setSolverType);
+    solverBackendGroup->button(Options::solverBackend())->setChecked(true);
+    connect(solverBackendGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
+            this, &Align::setSolverBackend);
 
     astrometryTypeCombo->addItem(i18n("Online"));
 #ifndef Q_OS_WIN
@@ -278,7 +278,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
     connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::setAstrometrySolverType);
 
-    setSolverType(solverTypeGroup->checkedId());
+    setSolverBackend(solverBackendGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
@@ -1828,11 +1828,11 @@ void Align::checkAlignmentTimeout()
     // TODO must also account for loadAndSlew. Retain file name
 }
 
-void Align::setSolverType(int type)
+void Align::setSolverBackend(int type)
 {
     if (sender() == nullptr && type >= 0 && type <= 1)
     {
-        solverTypeGroup->button(type)->setChecked(true);
+        solverBackendGroup->button(type)->setChecked(true);
     }
 
     // Astrometry solver
@@ -1871,7 +1871,7 @@ void Align::setSolverType(int type)
         astrometryTypeCombo->setEnabled(false);
     }
 
-    Options::setSolverType(type);
+    Options::setSolverBackend(type);
 
     generateArgs();
 
@@ -1880,7 +1880,7 @@ void Align::setSolverType(int type)
 void Align::setAstrometrySolverType(int type)
 {
     //    if (sender() == nullptr && type >= 0 && type <= 2)
-    //        solverTypeGroup->button(type)->setChecked(true);
+    //        solverBackendGroup->button(type)->setChecked(true);
 
     if (type == SOLVER_REMOTE && remoteParserDevice == nullptr)
     {
@@ -1994,7 +1994,7 @@ void Align::checkCCD(int ccdNum)
     if (targetChip && targetChip->isCapturing())
         return;
 
-    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
         (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
 
     syncCCDInfo();
@@ -2537,7 +2537,7 @@ void Align::generateArgs()
 {
     QVariantMap optionsMap;
 
-    if (solverTypeGroup->checkedId() == SOLVER_ASTROMETRYNET)
+    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET)
     {
         // -O overwrite
         // -3 Expected RA
@@ -2634,7 +2634,7 @@ void Align::generateArgs()
             optionsMap["update"] = true;
     }
 
-    QStringList solverArgs = generateOptions(optionsMap, solverTypeGroup->checkedId());
+    QStringList solverArgs = generateOptions(optionsMap, solverBackendGroup->checkedId());
     QString options = solverArgs.join(" ");
     solverOptions->setText(options);
     solverOptions->setToolTip(options);
@@ -2646,7 +2646,7 @@ bool Align::captureAndSolve()
     m_CaptureTimer.stop();
 
 #ifdef Q_OS_OSX
-    if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
     {
         if(Options::useDefaultPython())
         {
@@ -2755,7 +2755,7 @@ bool Align::captureAndSolve()
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     // In case of remote solver, check if we need to update active CCD
-    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
         ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
@@ -2924,7 +2924,7 @@ void Align::newFITS(IBLOB *bp)
 
     appendLogText(i18n("Image received."));
 
-    if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
+    if (solverBackendGroup->checkedId() != SOLVER_REMOTE)
     {
         if (blobType == ISD::CCD::BLOB_FITS)
         {
@@ -2980,7 +2980,7 @@ void Align::setCaptureComplete()
 
     emit newImage(alignView);
 
-    if (solverTypeGroup->checkedId() == SOLVER_ASTROMETRYNET &&
+    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET &&
             astrometryTypeCombo->currentIndex() == SOLVER_ONLINE &&
             Options::astrometryUseJPEG())
     {
@@ -3066,7 +3066,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
             if (Options::astrometryUseDownsample())
                 optionsMap["downsample"] = Options::astrometryDownsample();
 
-            solverArgs = generateOptions(optionsMap, solverTypeGroup->checkedId());
+            solverArgs = generateOptions(optionsMap, solverBackendGroup->checkedId());
         }
         else if (rc == KMessageBox::No)
             solverArgs = options.split(' ');
@@ -3126,7 +3126,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     m_AlignTimer.stop();
 
-    if (solverTypeGroup->checkedId() == SOLVER_ASTROMETRYNET &&
+    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET &&
             astrometryTypeCombo->currentIndex() == SOLVER_REMOTE &&
             remoteParser.get() != nullptr)
     {
@@ -4502,7 +4502,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
-    if(solverTypeGroup->checkedId() == SOLVER_OFFLINE)
+    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
     {
         if(Options::useDefaultPython())
         {
@@ -4764,7 +4764,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     QVariantMap optionsMap;
 
     // For ASTAP, we just default settings
-    if (solverTypeGroup->checkedId() == SOLVER_ASTAP)
+    if (solverBackendGroup->checkedId() == SOLVER_ASTAP)
     {
         if (Options::aSTAPSearchRadius())
             optionsMap["radius"] = Options::aSTAPSearchRadiusValue();
@@ -4777,7 +4777,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         if (Options::aSTAPUpdateFITS())
             optionsMap["update"] = true;
 
-        return generateOptions(optionsMap, solverTypeGroup->checkedId());
+        return generateOptions(optionsMap, solverBackendGroup->checkedId());
 
     }
 
@@ -4804,7 +4804,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     if (Options::astrometryCustomOptions().isEmpty() == false)
         optionsMap["custom"] = Options::astrometryCustomOptions();
 
-    solver_args = generateOptions(optionsMap, solverTypeGroup->checkedId());
+    solver_args = generateOptions(optionsMap, solverBackendGroup->checkedId());
 
     status = 0;
 
@@ -5955,7 +5955,7 @@ QStringList Align::getActiveSolvers() const
 
 int Align::getActiveSolverIndex() const
 {
-    return solverTypeGroup->checkedId();
+    return solverBackendGroup->checkedId();
 }
 
 QString Align::getPAHMessage() const
@@ -6004,7 +6004,7 @@ QJsonObject Align::getSettings() const
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", binningCombo->currentIndex() + 1);
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
-    settings.insert("solverType", solverTypeGroup->checkedId());
+    settings.insert("solverBackend", solverBackendGroup->checkedId());
     settings.insert("astrometrySolverType", astrometryTypeCombo->currentIndex());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
 
@@ -6021,8 +6021,20 @@ void Align::setSettings(const QJsonObject &settings)
     binningCombo->setCurrentIndex(settings["bin"].toInt() - 1);
 
     gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
-    //solverTypeGroup->button(settings["solverType"].toInt(1))->click();
-    astrometryTypeCombo->setCurrentIndex(settings["solverType"].toInt(1));
+
+    int solverBackend = settings["solverBackend"].toInt(1);
+    int solverType = settings["astrometrySolverType"].toInt(1);
+
+    if (solverBackend == SOLVER_ASTROMETRYNET)
+    {
+        Options::setAstrometrySolverType(solverType);
+        astrometryTypeCombo->setCurrentIndex(solverType);
+        solverBackendGroup->button(SOLVER_ASTROMETRYNET)->animateClick();
+    }
+    else
+    {
+        solverBackendGroup->button(SOLVER_ASTAP)->animateClick();
+    }
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 }
 

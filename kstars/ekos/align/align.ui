@@ -659,7 +659,7 @@
              <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">solverTypeGroup</string>
+             <string notr="true">solverBackendGroup</string>
             </attribute>
            </widget>
           </item>
@@ -672,7 +672,7 @@
              <string>Astro.net</string>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">solverTypeGroup</string>
+             <string notr="true">solverBackendGroup</string>
             </attribute>
            </widget>
           </item>
@@ -1808,7 +1808,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="solverTypeGroup"/>
+  <buttongroup name="solverBackendGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>
