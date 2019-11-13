@@ -6002,10 +6002,10 @@ QJsonObject Align::getSettings() const
     settings.insert("fw", FilterDevicesCombo->currentText());
     settings.insert("filter", FilterPosCombo->currentText());
     settings.insert("exp", exposureIN->value());
-    settings.insert("bin", binningCombo->currentIndex() + 1);
+    settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
     settings.insert("solverBackend", solverBackendGroup->checkedId());
-    settings.insert("astrometrySolverType", astrometryTypeCombo->currentIndex());
+    settings.insert("solverType", astrometryTypeCombo->currentIndex());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
 
     return settings;
@@ -6023,7 +6023,7 @@ void Align::setSettings(const QJsonObject &settings)
     gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
 
     int solverBackend = settings["solverBackend"].toInt(1);
-    int solverType = settings["astrometrySolverType"].toInt(1);
+    int solverType = settings["solverType"].toInt(1);
 
     if (solverBackend == SOLVER_ASTROMETRYNET)
     {
