@@ -1861,8 +1861,8 @@
          <whatsthis>Threshold between measured and FITS position angles in arcminutes to consider the load and slew operation successful.</whatsthis>
          <default>30</default>
       </entry>
-      <entry name="SolverType" type="UInt">
-         <whatsthis>Solver type (0 ASTAP, 1 astrometry.net).</whatsthis>
+      <entry name="SolverBackend" type="UInt">
+         <whatsthis>Solver backend (0 ASTAP, 1 astrometry.net).</whatsthis>
          <default>1</default>
       </entry>
       <entry name="AstrometrySolverType" type="UInt">

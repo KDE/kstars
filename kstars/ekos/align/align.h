@@ -102,7 +102,7 @@ class Align : public QWidget, public Ui::Align
         } ALTStage;
         typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
         typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE } AstrometrySolverType;
-        typedef enum { SOLVER_ASTAP, SOLVER_ASTROMETRYNET } SolverType;
+        typedef enum { SOLVER_ASTAP, SOLVER_ASTROMETRYNET } SolverBackend;
         typedef enum
         {
             PAH_IDLE,
@@ -420,7 +420,7 @@ class Align : public QWidget, public Ui::Align
              * Select the solver type
              * @param type Set solver type. 0 ASTAP, 1 astrometry.net
              */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverType(int type);
+        Q_SCRIPTABLE Q_NOREPLY void setSolverBackend(int type);
 
         /** DBUS interface function.
              * Select the astrometry solver type

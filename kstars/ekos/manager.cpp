@@ -1905,18 +1905,18 @@ void Manager::processTabChange()
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
                 //#ifdef Q_OS_WIN
-                else
+                else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
                 {
                     // If current setting is remote astrometry and profile doesn't contain
                     // remote astrometry, then we switch to online solver. Otherwise, the whole align
                     // module remains disabled and the user cannot change re-enable it since he cannot select online solver
                     ProfileInfo * pi = getCurrentProfile();
-                    if (Options::solverType() == Ekos::Align::SOLVER_REMOTE && pi->aux1() != "Astrometry" && pi->aux2() != "Astrometry"
+                    if (Options::astrometrySolverType() == Ekos::Align::SOLVER_REMOTE && pi->aux1() != "Astrometry" && pi->aux2() != "Astrometry"
                             && pi->aux3() != "Astrometry" && pi->aux4() != "Astrometry")
                     {
 
-                        Options::setSolverType(Ekos::Align::SOLVER_ONLINE);
-                        alignModule()->setSolverType(Ekos::Align::SOLVER_ONLINE);
+                        Options::setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
+                        alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
                         alignProcess->setEnabled(true);
                     }
                 }

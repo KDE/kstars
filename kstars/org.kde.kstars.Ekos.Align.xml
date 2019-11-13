@@ -15,7 +15,7 @@
     <method name="abort">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setSolverType">
+    <method name="setSolverBackend">
       <arg name="type" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
