@@ -1189,6 +1189,7 @@ void Focus::setCaptureComplete()
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
+                graphPolynomialFunction();
                 return;
             }
             Edge *maxStarHFR = nullptr;
@@ -1517,6 +1518,10 @@ void Focus::clearDataPoints()
     maxHFR = 1;
     hfr_position.clear();
     hfr_value.clear();
+    polynomialGraph->data()->clear();
+    focusPoint->data()->clear();
+    polynomialGraphIsShown = false;
+    HFRPlot->clearItems();
 
     drawHFRPlot();
 }
@@ -1529,13 +1534,13 @@ void Focus::drawHFRPlot()
     {
         //HFRPlot->xAxis->setLabel(i18n("Position"));
         HFRPlot->xAxis->setRange(minPos - pulseDuration, maxPos + pulseDuration);
-        HFRPlot->yAxis->setRange(currentHFR / 1.5, maxHFR);
+        HFRPlot->yAxis->setRange(currentHFR / 2.5, maxHFR);
     }
     else
     {
         //HFRPlot->xAxis->setLabel(i18n("Iteration"));
         HFRPlot->xAxis->setRange(1, hfr_value.count() + 1);
-        HFRPlot->yAxis->setRange(currentHFR / 1.5, maxHFR * 1.25);
+        HFRPlot->yAxis->setRange(currentHFR / 2.5, maxHFR * 1.25);
     }
 
     HFRPlot->replot();
@@ -1703,6 +1708,9 @@ void Focus::autoFocusAbs()
                     appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                     stop();
                     setAutoFocusResult(true);
+
+                    if (focusAlgorithm == FOCUS_POLYNOMIAL)
+                        graphPolynomialFunction();
                 }
                 break;
             }
@@ -1847,6 +1855,24 @@ void Focus::autoFocusAbs()
                         polySolutionFound++;
                         targetPosition = floor(min_position);
                         appendLogText(i18n("Found polynomial solution @ %1", QString::number(min_position, 'f', 0)));
+
+                        graphPolynomialFunction();
+                        focusPoint->data()->clear();
+                        focusPoint->addData(min_position, min_hfr);
+
+                        HFRPlot->clearItems();
+
+                        QCPItemText *textLabel = new QCPItemText(HFRPlot);
+                        textLabel->setPositionAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+                        textLabel->position->setType(QCPItemPosition::ptPlotCoords);
+                        textLabel->position->setCoords(min_position, min_hfr / 2);
+                        textLabel->setColor(Qt::red);
+                        textLabel->setPadding(QMargins(0, 0, 0, 0));
+                        textLabel->setBrush(Qt::white);
+                        textLabel->setPen(Qt::NoPen);
+                        textLabel->setFont(QFont(font().family(), 8));
+                        textLabel->setText(QString::number(min_position));
+
                     }
                 }
 
@@ -1889,6 +1915,8 @@ void Focus::autoFocusAbs()
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
+                if (focusAlgorithm == FOCUS_POLYNOMIAL)
+                    graphPolynomialFunction();
                 return;
             }
 
@@ -1951,6 +1979,24 @@ void Focus::autoFocusAbs()
     }
 }
 
+void Focus::graphPolynomialFunction()
+{
+    if(polynomialGraph)
+    {
+        polynomialGraph->data()->clear();
+        QCPRange range = HFRPlot->xAxis->range();
+        double interval = range.size()/20.0;
+
+        for(double x = range.lower ; x < range.upper ; x+=interval)
+        {
+            double y = fn1(x, this);
+            polynomialGraph->addData(x,y);
+        }
+        HFRPlot->replot();
+        polynomialGraphIsShown = true;
+    }
+}
+
 void Focus::autoFocusRel()
 {
     static int noStarCount = 0;
@@ -1999,6 +2045,8 @@ void Focus::autoFocusRel()
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
+                if (focusAlgorithm == FOCUS_POLYNOMIAL)
+                    graphPolynomialFunction();
                 break;
             }
             else if (currentHFR < lastHFR)
@@ -2771,7 +2819,10 @@ double Focus::fn1(double x, void *params)
 {
     Focus *module = static_cast<Focus *>(params);
 
-    return (module->coeff[0] + module->coeff[1] * x + module->coeff[2] * pow(x, 2) + module->coeff[3] * pow(x, 3));
+    if(module)
+        return (module->coeff[0] + module->coeff[1] * x + module->coeff[2] * pow(x, 2) + module->coeff[3] * pow(x, 3));
+    else
+        return -1;
 }
 
 bool Focus::findMinimum(double expected, double *position, double *hfr)
@@ -3297,9 +3348,55 @@ void Focus::initPlots()
     HFRPlot->setInteractions(QCP::iRangeZoom);
     HFRPlot->setInteraction(QCP::iRangeDrag, true);
 
+    polynomialGraph = HFRPlot->addGraph();
+    polynomialGraph->setLineStyle(QCPGraph::lsLine);
+    polynomialGraph->setPen(QPen(QColor(140, 140, 140), 2, Qt::DotLine));
+    polynomialGraph->setScatterStyle(QCPScatterStyle::ssNone);
+
+    connect(HFRPlot->xAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged), this, [this](){
+        if(polynomialGraphIsShown)
+        {
+            if (focusAlgorithm == FOCUS_POLYNOMIAL)
+                graphPolynomialFunction();
+        }
+    });
+
+    connect(HFRPlot, &QCustomPlot::mouseMove, this, [this](QMouseEvent *event)
+    {
+         double key = HFRPlot->xAxis->pixelToCoord(event->localPos().x());
+         if (HFRPlot->xAxis->range().contains(key))
+         {
+             QCPGraph *graph = qobject_cast<QCPGraph *>(HFRPlot->plottableAt(event->pos(), false));
+
+             if (graph)
+             {
+                 if(graph == v_graph)
+                 {
+                     int positionKey = v_graph->findBegin(key);
+                     double focusPosition = v_graph->dataMainKey(positionKey);
+                     double halfFluxRadius = v_graph->dataMainValue(positionKey);
+                     QToolTip::showText(
+                         event->globalPos(),
+                         i18nc("HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux Radius;",
+                               "<table>"
+                               "<tr><td>POS:   </td><td>%1</td></tr>"
+                               "<tr><td>HFR:   </td><td>%2</td></tr>"
+                               "</table>",
+                               QString::number(focusPosition, 'f', 0),
+                               QString::number(halfFluxRadius, 'f', 2)));
+                 }
+             }
+         }
+    });
+
+    focusPoint = HFRPlot->addGraph();
+    focusPoint->setLineStyle(QCPGraph::lsImpulse);
+    focusPoint->setPen(QPen(QColor(140, 140, 140), 2, Qt::SolidLine));
+    focusPoint->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::yellow, 10));
+
     v_graph = HFRPlot->addGraph();
     v_graph->setLineStyle(QCPGraph::lsNone);
-    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 3));
+    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 5));
 
 }
 
