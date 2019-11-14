@@ -357,6 +357,8 @@ class Focus : public QWidget, public Ui::Focus
 
         void syncSettings();
 
+        void graphPolynomialFunction();
+
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::FocusState state);
@@ -585,6 +587,9 @@ class Focus : public QWidget, public Ui::Focus
         /// Polynomial fitting coefficients
         std::vector<double> coeff;
         int polySolutionFound { 0 };
+        QCPGraph *polynomialGraph = nullptr;
+        QCPGraph *focusPoint = nullptr;
+        bool polynomialGraphIsShown = false;
 
         // Capture timeout timer
         QTimer captureTimeout;
