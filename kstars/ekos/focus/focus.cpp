@@ -1985,12 +1985,12 @@ void Focus::graphPolynomialFunction()
     {
         polynomialGraph->data()->clear();
         QCPRange range = HFRPlot->xAxis->range();
-        double interval = range.size()/20.0;
+        double interval = range.size() / 20.0;
 
-        for(double x = range.lower ; x < range.upper ; x+=interval)
+        for(double x = range.lower ; x < range.upper ; x += interval)
         {
             double y = fn1(x, this);
-            polynomialGraph->addData(x,y);
+            polynomialGraph->addData(x, y);
         }
         HFRPlot->replot();
         polynomialGraphIsShown = true;
@@ -2819,7 +2819,7 @@ double Focus::fn1(double x, void *params)
 {
     Focus *module = static_cast<Focus *>(params);
 
-    if(module)
+    if(module && !module->coeff.empty())
         return (module->coeff[0] + module->coeff[1] * x + module->coeff[2] * pow(x, 2) + module->coeff[3] * pow(x, 3));
     else
         return -1;
@@ -3353,7 +3353,8 @@ void Focus::initPlots()
     polynomialGraph->setPen(QPen(QColor(140, 140, 140), 2, Qt::DotLine));
     polynomialGraph->setScatterStyle(QCPScatterStyle::ssNone);
 
-    connect(HFRPlot->xAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged), this, [this](){
+    connect(HFRPlot->xAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged), this, [this]()
+    {
         if(polynomialGraphIsShown)
         {
             if (focusAlgorithm == FOCUS_POLYNOMIAL)
@@ -3361,32 +3362,32 @@ void Focus::initPlots()
         }
     });
 
-    connect(HFRPlot, &QCustomPlot::mouseMove, this, [this](QMouseEvent *event)
+    connect(HFRPlot, &QCustomPlot::mouseMove, this, [this](QMouseEvent * event)
     {
-         double key = HFRPlot->xAxis->pixelToCoord(event->localPos().x());
-         if (HFRPlot->xAxis->range().contains(key))
-         {
-             QCPGraph *graph = qobject_cast<QCPGraph *>(HFRPlot->plottableAt(event->pos(), false));
+        double key = HFRPlot->xAxis->pixelToCoord(event->localPos().x());
+        if (HFRPlot->xAxis->range().contains(key))
+        {
+            QCPGraph *graph = qobject_cast<QCPGraph *>(HFRPlot->plottableAt(event->pos(), false));
 
-             if (graph)
-             {
-                 if(graph == v_graph)
-                 {
-                     int positionKey = v_graph->findBegin(key);
-                     double focusPosition = v_graph->dataMainKey(positionKey);
-                     double halfFluxRadius = v_graph->dataMainValue(positionKey);
-                     QToolTip::showText(
-                         event->globalPos(),
-                         i18nc("HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux Radius;",
-                               "<table>"
-                               "<tr><td>POS:   </td><td>%1</td></tr>"
-                               "<tr><td>HFR:   </td><td>%2</td></tr>"
-                               "</table>",
-                               QString::number(focusPosition, 'f', 0),
-                               QString::number(halfFluxRadius, 'f', 2)));
-                 }
-             }
-         }
+            if (graph)
+            {
+                if(graph == v_graph)
+                {
+                    int positionKey = v_graph->findBegin(key);
+                    double focusPosition = v_graph->dataMainKey(positionKey);
+                    double halfFluxRadius = v_graph->dataMainValue(positionKey);
+                    QToolTip::showText(
+                        event->globalPos(),
+                        i18nc("HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux Radius;",
+                              "<table>"
+                              "<tr><td>POS:   </td><td>%1</td></tr>"
+                              "<tr><td>HFR:   </td><td>%2</td></tr>"
+                              "</table>",
+                              QString::number(focusPosition, 'f', 0),
+                              QString::number(halfFluxRadius, 'f', 2)));
+                }
+            }
+        }
     });
 
     focusPoint = HFRPlot->addGraph();
