@@ -204,6 +204,7 @@ void Dome::setStatus(ISD::Dome::Status status)
     if (isRolloffRoof())
     {
         // if a parked rolloff roof starts to move, its state changes to unparking
+        // CW ==> Opening = Unparking
         if (status == ISD::Dome::DOME_MOVING_CW && (m_ParkStatus == ISD::PARK_PARKED || m_ParkStatus == ISD::PARK_PARKING))
         {
             m_ParkStatus = ISD::PARK_UNPARKING;
@@ -211,6 +212,7 @@ void Dome::setStatus(ISD::Dome::Status status)
             emit newParkStatus(m_ParkStatus);
         }
         // if a unparked rolloff roof starts to move, its state changes to parking
+        // CCW ==> Closing = Parking
         else if (status == ISD::Dome::DOME_MOVING_CCW && (m_ParkStatus == ISD::PARK_UNPARKED || m_ParkStatus == ISD::PARK_UNPARKING))
         {
             m_ParkStatus = ISD::PARK_PARKING;
