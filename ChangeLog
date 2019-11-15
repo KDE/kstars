@@ -4,6 +4,23 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.3.8 (Obaidy):
+
+8da28c636 2019-11-16 Jasem Mutlaq         KStars v3.3.8 release
+5653f65a9 2019-11-16 Jasem Mutlaq         Fix dome status for rolloff dome when sending status messages
+b2c4c4fd8 2019-11-15 Jasem Mutlaq         INDI drivers sync
+34ffb6db5 2019-11-15 Jasem Mutlaq         Disable the move to polar message action and just display it as a message instead to alert the user
+511a8cd8a 2019-11-14 Jasem Mutlaq         Fix another crash in poly plotting. Check if array is empty
+a8c59b592 2019-11-14 Robert Lancaster     Adding the polynomial and focus position to the focus graph as well as tooltips
+46d4ea32f 2019-11-13 Jasem Mutlaq         Fix incorrect labels
+d3645e7da 2019-11-13 Jasem Mutlaq         Use backend instead of type to avoid confusion
+c7fa46d29 2019-11-12 Jasem Mutlaq         Add solver and astrometry solver types
+205c9d4db 2019-11-12 Jasem Mutlaq         Add error dialog if astap is not found and open options dialog automatically after that
+edadd4a66 2019-11-12 Jasem Mutlaq         Solve crashing in creating WCS file and use simpler WCS update
+fb5d677a4 2019-11-10 Jasem Mutlaq         Add warning about missing ASTAP
+a1089b1d5 2019-11-10 Jasem Mutlaq         Fix condition where previous values of solver type can cause crash in the 3.3.7 version
+fa45d7b52 2019-11-08 Jasem Mutlaq         Adding Wolfgang and Hy to authors
+
 3.3.7 (Carina):
 
 f38d8378c 2019-11-07 Jasem Mutlaq         Sync INDI drivers
