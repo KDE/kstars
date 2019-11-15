@@ -2306,6 +2306,15 @@ void Manager::initDome()
 
     connect(domeProcess.get(), &Ekos::Dome::newStatus, [&](ISD::Dome::Status newStatus)
     {
+        // For roll-off domes
+        // cw ---> unparking
+        // ccw --> parking
+        if (domeProcess->isRolloffRoof() &&
+                (newStatus == ISD::Dome::DOME_MOVING_CW || newStatus == ISD::Dome::DOME_MOVING_CCW))
+        {
+            newStatus = (newStatus == ISD::Dome::DOME_MOVING_CW) ? ISD::Dome::DOME_UNPARKING :
+                        ISD::Dome::DOME_PARKING;
+        }
         QJsonObject status = { { "status", ISD::Dome::getStatusString(newStatus)} };
         ekosLiveClient.get()->message()->updateDomeStatus(status);
     });
