@@ -5487,6 +5487,8 @@ void Align::setWCSToggled(bool result)
         if (pixelPoint.x() < (-1 * imageData->width()) || pixelPoint.x() > (imageData->width() * 2) ||
                 pixelPoint.y() < (-1 * imageData->height()) || pixelPoint.y() > (imageData->height() * 2))
         {
+            // JM 2019-11-15: This creates more problems at times, better leave it off
+#if 0
             if (currentTelescope->canSync() &&
                     KMessageBox::questionYesNo(
                         nullptr, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
@@ -5506,6 +5508,7 @@ void Align::setWCSToggled(bool result)
                 return;
             }
             else
+#endif
                 appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
         }
 
