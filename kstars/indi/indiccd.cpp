@@ -35,7 +35,8 @@
 
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw" };
 
-namespace {
+namespace
+{
 void addFITSKeywords(const QString &filename, const QString &filter_used)
 {
 #ifdef HAVE_CFITSIO
@@ -75,28 +76,28 @@ void addFITSKeywords(const QString &filename, const QString &filter_used)
 }
 
 // Internal function to write an image blob to disk.
-bool WriteImageFileInternal(const QString& filename, char *buffer, const size_t size,
+bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size,
                             bool add_fits_keywords, const QString &filter)
 {
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
     {
-      qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open write file: " <<
-        filename;
-      return false;
+        qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open write file: " <<
+                                filename;
+        return false;
     }
     size_t n = 0;
     QDataStream out(&file);
     for (size_t nr = 0; nr < size; nr += n)
-      n = out.writeRawData(buffer + nr, size - nr);
+        n = out.writeRawData(buffer + nr, size - nr);
     file.close();
     if (add_fits_keywords)
-      addFITSKeywords(filename, filter);
+        addFITSKeywords(filename, filter);
     return true;
 }
 
 // Internal function to write a temporary file image blob to disk.
-bool WriteTempImageFile(const QString& format, char * buffer, size_t size, QString *filename)
+bool WriteTempImageFile(const QString &format, char * buffer, size_t size, QString *filename)
 {
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX" + format);
     tmpFile.setAutoRemove(false);
@@ -104,7 +105,7 @@ bool WriteTempImageFile(const QString& format, char * buffer, size_t size, QStri
     if (!tmpFile.open())
     {
         qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open tempfile: " <<
-            tmpFile.fileName();
+                                tmpFile.fileName();
         return false;
     }
 
@@ -441,7 +442,7 @@ bool CCDChip::setFrame(int x, int y, int w, int h, bool force)
 
 bool CCDChip::capture(double exposure)
 {
-    qCDebug(KSTARS_INDI) << "IndiCCD: capture()" << (type==PRIMARY_CCD?"CCD":"Guide");
+    //qCDebug(KSTARS_INDI) << "IndiCCD: capture()" << (type==PRIMARY_CCD?"CCD":"Guide");
     INumberVectorProperty *expProp = nullptr;
 
     switch (type)
@@ -920,10 +921,10 @@ CCD::~CCD()
 {
     if (m_ImageViewerWindow)
         m_ImageViewerWindow->close();
-    if (fileWriteThread.isRunning()) 
-      fileWriteThread.waitForFinished();
+    if (fileWriteThread.isRunning())
+        fileWriteThread.waitForFinished();
     if (fileWriteBuffer != nullptr)
-      delete fileWriteBuffer;
+        delete fileWriteBuffer;
 }
 
 void CCD::setBLOBManager(const char *device, INDI::Property *prop)
@@ -1367,7 +1368,6 @@ void CCD::processStream(IBLOB *bp)
     if (streamWindow->isStreamEnabled() == false)
         return;
 
-    qCDebug(KSTARS_INDI) << "processStream()";
     INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
     INumber *w = nullptr, *h = nullptr;
 
@@ -1408,10 +1408,10 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
         currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
 
     if (QDir(currentDir).exists() == false)
-      QDir().mkpath(currentDir);
+        QDir().mkpath(currentDir);
 
     if (currentDir.endsWith('/') == false)
-      currentDir.append('/');
+        currentDir.append('/');
 
     // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
     // The timestamp is no longer ISO8601 but it should solve interoperality issues
@@ -1420,20 +1420,20 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
 
     if (seqPrefix.contains("_ISO8601"))
     {
-      QString finalPrefix = seqPrefix;
-      finalPrefix.replace("ISO8601", ts);
-      *filename = currentDir + finalPrefix +
-        QString("_%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
+        QString finalPrefix = seqPrefix;
+        finalPrefix.replace("ISO8601", ts);
+        *filename = currentDir + finalPrefix +
+                    QString("_%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
     }
     else
-      *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-        QString("%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
+        *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
+                    QString("%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
     {
-      qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << test_file.fileName();
-      return false;
+        qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << test_file.fileName();
+        return false;
     }
     test_file.close();
     return true;
@@ -1443,38 +1443,43 @@ bool CCD::WriteImageFile(IBLOB *bp, const QString &format, bool is_fits,
                          bool batch_mode, QString *filename)
 {
     if (!generateFilename(format, batch_mode, filename))
-      return false;
+        return false;
 
     // TODO: Not yet threading the writes for non-fits files.
     // Would need to deal with the raw conversion, etc.
-    if (is_fits) {
+    if (is_fits)
+    {
 
-      // Check if the last write is still ongoing, and if so wait.
-      // It is using the fileWriteBuffer.
-      if (fileWriteThread.isRunning()) {
-        fileWriteThread.waitForFinished();
-      }
+        // Check if the last write is still ongoing, and if so wait.
+        // It is using the fileWriteBuffer.
+        if (fileWriteThread.isRunning())
+        {
+            fileWriteThread.waitForFinished();
+        }
 
-      // Will write blob data in a separate thread, and can't depend on the blob
-      // memory, so copy it first.
+        // Will write blob data in a separate thread, and can't depend on the blob
+        // memory, so copy it first.
 
-      // Check buffer size.
-      if (fileWriteBufferSize < bp->size) {
-        if (fileWriteBuffer != nullptr) delete fileWriteBuffer;
-        fileWriteBufferSize = bp->size;
-        fileWriteBuffer = new char[fileWriteBufferSize];
-      }
+        // Check buffer size.
+        if (fileWriteBufferSize < bp->size)
+        {
+            if (fileWriteBuffer != nullptr) delete fileWriteBuffer;
+            fileWriteBufferSize = bp->size;
+            fileWriteBuffer = new char[fileWriteBufferSize];
+        }
 
-      // Copy memory, and write file on a separate thread.
-      // Probably too late to return an error if the file couldn't write.
-      memcpy(fileWriteBuffer, bp->blob, bp->size);
-      fileWriteThread = QtConcurrent::run(WriteImageFileInternal, *filename,
-                                          fileWriteBuffer, bp->size, is_fits, filter);
-      filter = "";
-    } else {
-      if (!WriteImageFileInternal(*filename, static_cast<char*>(bp->blob), bp->size,
-                                  false, filter))
-        return false;
+        // Copy memory, and write file on a separate thread.
+        // Probably too late to return an error if the file couldn't write.
+        memcpy(fileWriteBuffer, bp->blob, bp->size);
+        fileWriteThread = QtConcurrent::run(WriteImageFileInternal, *filename,
+                                            fileWriteBuffer, bp->size, is_fits, filter);
+        filter = "";
+    }
+    else
+    {
+        if (!WriteImageFileInternal(*filename, static_cast<char*>(bp->blob), bp->size,
+                                    false, filter))
+            return false;
     }
     return true;
 }
@@ -1520,8 +1525,8 @@ void CCD::processBLOB(IBLOB *bp)
     // If stream, process it first
     if (format.contains("stream") && streamWindow.get() != nullptr)
     {
-      processStream(bp);
-      return;
+        processStream(bp);
+        return;
     }
 
     // Format without leading . (.jpg --> jpg)
@@ -1548,31 +1553,31 @@ void CCD::processBLOB(IBLOB *bp)
     else
         targetChip = primaryChip.get();
 
-    qCDebug(KSTARS_INDI) << "processBLOB() mode " << targetChip->getCaptureMode();
-    
+    //qCDebug(KSTARS_INDI) << "processBLOB() mode " << targetChip->getCaptureMode();
+
     // Create temporary name if ANY of the following conditions are met:
     // 1. file is preview or batch mode is not enabled
     // 2. file type is not FITS_NORMAL (focus, guide..etc)
     QString filename;
     if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
     {
-      if (!WriteTempImageFile(format, static_cast<char *>(bp->blob), bp->size, &filename))
+        if (!WriteTempImageFile(format, static_cast<char *>(bp->blob), bp->size, &filename))
         {
-          emit BLOBUpdated(nullptr);
-          return;
+            emit BLOBUpdated(nullptr);
+            return;
         }
-      if (BType == BLOB_FITS)
-        addFITSKeywords(filename, filter);
+        if (BType == BLOB_FITS)
+            addFITSKeywords(filename, filter);
 
     }
     // Create file name for others
     else
     {
-      if (!WriteImageFile(bp, format, BType == BLOB_FITS, targetChip->isBatchMode(), &filename))
-      {
-        emit BLOBUpdated(nullptr);
-        return;
-      }
+        if (!WriteImageFile(bp, format, BType == BLOB_FITS, targetChip->isBatchMode(), &filename))
+        {
+            emit BLOBUpdated(nullptr);
+            return;
+        }
     }
 
     // store file name
@@ -1598,7 +1603,7 @@ void CCD::processBLOB(IBLOB *bp)
     if (BType == BLOB_IMAGE || BType == BLOB_RAW)
     {
         bool useFITSViewer = Options::autoImageToFITS() &&
-          (Options::useFITSViewer() || (Options::useDSLRImageViewer() == false && targetChip->isBatchMode() == false));
+                             (Options::useFITSViewer() || (Options::useDSLRImageViewer() == false && targetChip->isBatchMode() == false));
         bool useDSLRViewer = (Options::useDSLRImageViewer() || targetChip->isBatchMode() == false);
         // For raw image, we only process them to JPG if we need to open them in the image viewer
         if (BType == BLOB_RAW && (useFITSViewer || useDSLRViewer))
@@ -1664,8 +1669,8 @@ void CCD::processBLOB(IBLOB *bp)
         if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
         {
             if (m_FITSViewerWindows.isNull() &&
-                (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
-              setupFITSViewerWindows();
+                    (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
+                setupFITSViewerWindows();
         }
 
         FITSData *blob_fits_data = new FITSData(targetChip->getCaptureMode());
@@ -1674,11 +1679,11 @@ void CCD::processBLOB(IBLOB *bp)
         {
             // If reading the blob fails, we treat it the same as exposure failure
             // and recapture again if possible
-            qCDebug(KSTARS_INDI) << "failed reading FITS memory buffer";
+            qCCritical(KSTARS_INDI) << "failed reading FITS memory buffer";
             emit newExposureValue(targetChip, 0, IPS_ALERT);
             return;
         }
-          
+
         switch (captureMode)
         {
             case FITS_NORMAL:
@@ -1708,27 +1713,27 @@ void CCD::processBLOB(IBLOB *bp)
                                 // Otherwise, just use "Preview"
                                 previewTitle = i18n("Preview");
                         }
-                      
+
                         success = m_FITSViewerWindows->addFITSFromData(
-                            blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
-                            previewTitle);
+                                      blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
+                                      previewTitle);
                     }
                     else
                         success = m_FITSViewerWindows->updateFITSFromData(
-                            blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
+                                      blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
 
                     if (!success)
                     {
                         // If opening file fails, we treat it the same as exposure failure
                         // and recapture again if possible
-                        qCDebug(KSTARS_INDI) << "error adding/updating FITS";
+                        qCCritical(KSTARS_INDI) << "error adding/updating FITS";
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
                         return;
                     }
                     *tabID = tabIndex;
                     targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
                     if (Options::focusFITSOnNewImage())
-                      m_FITSViewerWindows->raise();
+                        m_FITSViewerWindows->raise();
 
                     emit BLOBUpdated(bp);
                 }
@@ -1770,8 +1775,8 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data)
         // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
         // NORMAL is used for raw INDI drivers without Ekos.
         if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) &&
-             (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
-          m_FITSViewerWindows->show();
+                (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
+            m_FITSViewerWindows->show();
 
         emit BLOBUpdated(bp);
     }
