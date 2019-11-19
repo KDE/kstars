@@ -19,6 +19,7 @@
 #include "Options.h"
 #include "skymap.h"
 #include "fits_debug.h"
+#include "stretch.h"
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
@@ -41,8 +42,28 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
+namespace
+{
+
+void doStretch(FITSData *data, QImage *outputImage, bool stretchOn)
+{
+    if (outputImage->isNull())
+        return;
+    Stretch stretch(static_cast<int>(data->width()),
+                    static_cast<int>(data->height()),
+                    data->channels(), data->property("dataType").toInt());
+    if (stretchOn)
+      stretch.setParams(stretch.computeParams(data->getImageBuffer()));
+    stretch.run(data->getImageBuffer(), outputImage);
+}
+
+}  // namespace
+
+
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), zoomFactor(1.2)
 {
+    stretchImage = Options::autoStretch();
+  
     grabGesture(Qt::PinchGesture);
 
     image_frame.reset(new FITSLabel(this));
@@ -384,119 +405,24 @@ bool FITSView::rescale(FITSZoom type)
 {
     if (rawImage.isNull())
         return false;
-
-    uint8_t * imageBuffer = imageData->getImageBuffer();
-    uint8_t * displayBuffer = nullptr;
-    uint32_t size = imageData->width() * imageData->height();
-
-    QVector<double> min(3), max(3);
-
-    if (Options::autoStretch())
+    if (true || image_height != imageData->height() || image_width != imageData->width())
     {
-        displayBuffer = new uint8_t[size * imageData->channels() * imageData->getBytesPerPixel()];
-        memcpy(displayBuffer, imageBuffer, size * imageData->channels() * imageData->getBytesPerPixel());
-        imageData->applyFilter(FITS_AUTO_STRETCH, displayBuffer, &min, &max);
-    }
-    else
-    {
-        displayBuffer = imageBuffer;
-        for (int i = 0; i < 3; i++)
-        {
-            min[i] = imageData->getMin(i);
-            max[i] = imageData->getMax(i);
-        }
+      image_width  = imageData->width();
+      image_height = imageData->height();
+
+      initDisplayImage();
+
+      if (isVisible())
+        emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
     }
 
+    image_frame->setScaledContents(true);
+    currentWidth  = rawImage.width();
+    currentHeight = rawImage.height();
+
+    doStretch(imageData, &rawImage, stretchImage);
+    
     scaledImage = QImage();
-
-    auto * buffer = reinterpret_cast<T *>(displayBuffer);
-
-    if (min[0] == max[0])
-    {
-        rawImage.fill(Qt::white);
-        emit newStatus(i18n("Image is saturated."), FITS_MESSAGE);
-    }
-    else
-    {
-        if (image_height != imageData->height() || image_width != imageData->width())
-        {
-            image_width  = imageData->width();
-            image_height = imageData->height();
-
-            initDisplayImage();
-
-            if (isVisible())
-                emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
-        }
-
-        image_frame->setScaledContents(true);
-        currentWidth  = rawImage.width();
-        currentHeight = rawImage.height();
-
-        if (imageData->channels() == 1)
-        {
-            double range = max[0] - min[0];
-            double bscale = 255. / range;
-            double bzero  = (-min[0]) * (255. / range);
-
-            QVector<QFuture<void>> futures;
-
-            /* Fill in pixel values using indexed map, linear scale */
-            for (uint32_t j = 0; j < image_height; j++)
-            {
-                futures.append(QtConcurrent::run([ = ]()
-                {
-                    T * runningBuffer = buffer + j * image_width;
-                    uint8_t * scanLine = rawImage.scanLine(j);
-                    for (uint32_t i = 0; i < image_width; i++)
-                    {
-                        //scanLine[i] = qBound(0, static_cast<uint8_t>(runningBuffer[i] * bscale + bzero), 255);
-                        scanLine[i] = qBound(0.0, runningBuffer[i] * bscale + bzero, 255.0);
-                    }
-                }));
-            }
-
-            for(QFuture<void> future : futures)
-                future.waitForFinished();
-        }
-        else
-        {
-            QVector<QFuture<void>> futures;
-            double bscale[3], bzero[3];
-            for (int i = 0; i < 3; i++)
-            {
-                bscale[i] = 255. / (max[i] - min[i]);
-                bzero[i]  = (-min[i]) * (255. / (max[i] - min[i]));
-            }
-
-            /* Fill in pixel values using indexed map, linear scale */
-            for (uint32_t j = 0; j < image_height; j++)
-            {
-                futures.append(QtConcurrent::run([ = ]()
-                {
-                    auto * scanLine = reinterpret_cast<QRgb *>((rawImage.scanLine(j)));
-                    T * runningBufferR = buffer + j * image_width;
-                    T * runningBufferG = buffer + j * image_width + size;
-                    T * runningBufferB = buffer + j * image_width + size * 2;
-
-                    for (uint32_t i = 0; i < image_width; i++)
-                    {
-                        scanLine[i] = qRgb(runningBufferR[i] * bscale[0] + bzero[0],
-                                           runningBufferG[i] * bscale[1] + bzero[1],
-                                           runningBufferB[i] * bscale[2] + bzero[2]);
-                    }
-                }));
-            }
-
-            for(QFuture<void> future : futures)
-                future.waitForFinished();
-        }
-
-    }
-
-    // Clear memory if it was allocated.
-    if (displayBuffer != imageBuffer)
-        delete [] displayBuffer;
 
     switch (type)
     {
@@ -627,6 +553,9 @@ void FITSView::updateFrame()
 {
     bool ok = false;
 
+    if (toggleStretchAction)
+      toggleStretchAction->setChecked(stretchImage);
+    
     if (currentZoom != ZOOM_DEFAULT)
     {
         // Only scale when necessary
@@ -1215,6 +1144,11 @@ void FITSView::resizeTrackingBox(int newSize)
     setTrackingBox(QRect( x - delta, y - delta, newSize, newSize));
 }
 
+bool FITSView::isImageStretched()
+{
+    return stretchImage;
+}
+
 bool FITSView::isCrosshairShown()
 {
     return showCrosshair;
@@ -1276,6 +1210,13 @@ void FITSView::toggleStars()
     toggleStars(!markStars);
     if (image_frame != nullptr)
         updateFrame();
+}
+
+void FITSView::toggleStretch()
+{
+    stretchImage = !stretchImage;
+    if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+      updateFrame();
 }
 
 void FITSView::toggleStarProfile()
@@ -1634,6 +1575,12 @@ void FITSView::createFloatingToolBar()
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width"),
                                i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
+
+    toggleStretchAction = floatingToolBar->addAction(QIcon::fromTheme("transform-move"),
+                                                     i18n("Toggle Stretch"),
+                                                     this, SLOT(toggleStretch()));
+    toggleStretchAction->setCheckable(true);
+    
 
     floatingToolBar->addSeparator();
 

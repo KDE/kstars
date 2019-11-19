@@ -240,6 +240,7 @@ if (CFITSIO_FOUND)
     set (fits_SRCS
         fitsviewer/fitslabel.cpp
         fitsviewer/fitsviewer.cpp
+        fitsviewer/stretch.cpp
         fitsviewer/fitstab.cpp
         fitsviewer/fitsdebayer.cpp
         fitsviewer/opsfits.cpp
