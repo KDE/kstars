@@ -150,10 +150,11 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(debayerFITS()));
 
     action = actionCollection()->addAction("image_stretch");
-    action->setText(i18n("Auto stretch"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(stretchFITS()));
+    action->setText(i18n("Toggle Auto stretch"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleStretch()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::SelectAll);
-    action->setIcon(QIcon::fromTheme("transform-move"));
+    action->setIcon(QIcon::fromTheme("transform-move"));  
 
     action = KStandardAction::close(this, SLOT(close()), actionCollection());
     action->setIcon(QIcon::fromTheme("window-close"));
@@ -397,6 +398,8 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
 
     tab->getView()->setCursorMode(FITSView::dragCursor);
 
+    updateButtonStatus("image_stretch", i18n("Toggle Auto stretch"), tab->getView()->isImageStretched());
+
     updateWCSFunctions();
 
     return true;
@@ -592,6 +595,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     updateButtonStatus("view_eq_grid", i18n("Equatorial Gridines"), getCurrentView()->isEQGridShown());
     updateButtonStatus("view_objects", i18n("Objects in Image"), getCurrentView()->areObjectsShown());
     updateButtonStatus("view_pixel_grid", i18n("Pixel Gridlines"), getCurrentView()->isPixelGridShown());
+
+    fprintf(stderr, "Updating button status to %s\n", getCurrentView()->isImageStretched() ? "true" : "false");
+    updateButtonStatus("image_stretch", i18n("Toggle Auto stretch"), getCurrentView()->isImageStretched());
     updateScopeButton();
     updateWCSFunctions();
 }
@@ -663,11 +669,6 @@ void FITSViewer::statFITS()
         return;
 
     fitsTabs[fitsTabWidget->currentIndex()]->statFITS();
-}
-
-void FITSViewer::stretchFITS()
-{
-    applyFilter(FITS_AUTO_STRETCH);
 }
 
 void FITSViewer::rotateCW()
@@ -987,6 +988,23 @@ void FITSViewer::applyFilter(int ftype)
     fitsTabs[fitsTabWidget->currentIndex()]->getHistogram()->applyFilter(static_cast<FITSScale>(ftype));
     qApp->processEvents();
     fitsTabs[fitsTabWidget->currentIndex()]->getView()->updateFrame();
+    QApplication::restoreOverrideCursor();
+    updateStatusBar(i18n("Ready."), FITS_MESSAGE);
+}
+
+void FITSViewer::toggleStretch()
+{
+    if (fitsTabs.empty())
+        return;
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    updateStatusBar(i18n("Processing toggle stretch"), FITS_MESSAGE);
+    qApp->processEvents();
+    fitsTabs[fitsTabWidget->currentIndex()]->getView()->toggleStretch();
+
+    updateButtonStatus("image_stretch", i18n("Toggle Auto stretch"),
+                       getCurrentView()->isImageStretched());
+    
     QApplication::restoreOverrideCursor();
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 }

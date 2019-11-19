@@ -108,7 +108,6 @@ class FITSViewer : public KXmlGuiWindow
         void headerFITS();
         void debayerFITS();
         void histoFITS();
-        void stretchFITS();
         void tabFocusUpdated(int currentIndex);
         void updateStatusBar(const QString &msg, FITSBar id);
         void ZoomIn();
@@ -128,6 +127,7 @@ class FITSViewer : public KXmlGuiWindow
         void centerTelescope();
         void updateWCSFunctions();
         void applyFilter(int ftype);
+        void toggleStretch();
         void rotateCW();
         void rotateCCW();
         void flipHorizontal();

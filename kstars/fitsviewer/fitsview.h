@@ -126,12 +126,14 @@ class FITSView : public QScrollArea
         void drawObjectNames(QPainter *painter);
         void drawPixelGrid(QPainter *painter);
 
+        bool isImageStretched();
         bool isCrosshairShown();
         bool areObjectsShown();
         bool isEQGridShown();
         bool isPixelGridShown();
         bool imageHasWCS();
 
+        // Setup the graphics.
         void updateFrame();
 
         bool isTelescopeActive();
@@ -222,6 +224,8 @@ class FITSView : public QScrollArea
 
         void centerTelescope();
 
+        void toggleStretch();
+
         virtual void processPointSelection(int x, int y);
         virtual void processMarkerSelection(int x, int y);
         void move3DTrackingBox(int x, int y);
@@ -300,6 +304,8 @@ class FITSView : public QScrollArea
         bool showPixelGrid { false };
         bool showStarsHFR { false };
 
+        bool stretchImage { false };
+  
         struct
         {
             bool used() const
@@ -339,6 +345,8 @@ class FITSView : public QScrollArea
         QAction *toggleObjectsAction { nullptr };
         QAction *toggleStarsAction { nullptr };
         QAction *toggleProfileAction { nullptr };
+        QAction *toggleStretchAction { nullptr };
+  
 
         //Star Profile Viewer
 #ifdef HAVE_DATAVISUALIZATION
