@@ -771,23 +771,16 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
     int width =  jsonStarFrame["width"].toInt();
     int height = jsonStarFrame["height"].toInt();
 
-    QTemporaryFile tempfile(KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1String("phd2_XXXXXX"));
-    tempfile.setAutoRemove(false);
-    if (!tempfile.open())
-    {
-        qCWarning(KSTARS_EKOS_GUIDE) << "could not create temp file for PHD2 star image";
-        return;
-    }
-    QString filename = tempfile.fileName();
-
     //This section sets up the FITS File
     fitsfile *fptr = nullptr;
     int status = 0;
-    long  fpixel = 1, naxis = 2, nelements, exposure;
+    long fpixel = 1, naxis = 2, nelements, exposure;
     long naxes[2] = { width, height };
     char error_status[512] = {0};
 
-    if (fits_create_file(&fptr, QString('!' + filename).toLatin1().data(), &status))
+    void* fits_buffer = nullptr;
+    size_t fits_buffer_size = 0;
+    if (fits_create_memfile(&fptr, &fits_buffer, &fits_buffer_size, 4096, realloc, &status))
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_file failed:" << error_status;
         return;
@@ -798,6 +791,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
         qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_img failed:" << error_status;
         status = 0;
         fits_close_file(fptr, &status);
+        free(fits_buffer);
         return;
     }
 
@@ -818,6 +812,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
         qCWarning(KSTARS_EKOS_GUIDE) << "fits_write_img failed:" << error_status;
         status = 0;
         fits_close_file(fptr, &status);
+        free(fits_buffer);
         return;
     }
 
@@ -827,6 +822,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
         qCWarning(KSTARS_EKOS_GUIDE) << "fits_flush_file failed:" << error_status;
         status = 0;
         fits_close_file(fptr, &status);
+        free(fits_buffer);
         return;
     }
 
@@ -834,24 +830,20 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
     {
         fits_get_errstatus(status, error_status);
         qCWarning(KSTARS_EKOS_GUIDE) << "fits_close_file failed:" << error_status;
+        free(fits_buffer);
         return;
     }
 
     //This loads the FITS file in the Guide FITSView
     //Then it updates the Summary Screen
-    auto conn = std::make_shared<QMetaObject::Connection>();
-    *conn = connect(guideFrame, &FITSView::loaded, [this, conn, width, height]()
-    {
-        // we'll take care of deleting the temp file
-        //guideFrame->getImageData()->setAutoRemoveTemporaryFITS(false);
-        guideFrame->updateFrame();
-        guideFrame->setTrackingBox(QRect(0, 0, width, height));
-        emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
+    FITSData* fdata = new FITSData();
+    fdata->loadFITSFromMemory("guideframe.fits", fits_buffer, fits_buffer_size, true);
+    free(fits_buffer);
+    guideFrame->loadFITSFromData(fdata, "guideframe.fits");
 
-        QObject::disconnect(*conn);
-    });
-
-    guideFrame->loadFITS(filename, true);
+    guideFrame->updateFrame();
+    guideFrame->setTrackingBox(QRect(0, 0, width, height));
+    emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
 }
 
 void PHD2::setEquipmentConnected()
