@@ -1163,7 +1163,7 @@ QString getDefaultPath(QString option)
         if (flat.isEmpty() == false)
             return flat + "/bin/astap";
         else
-            return snap + "/usr/local/bin/astap";
+            return snap + "/opt/astap/astap";
     }
 
     return QString();
