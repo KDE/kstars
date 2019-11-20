@@ -505,7 +505,7 @@ Align::~Align()
 }
 void Align::selectSolutionTableRow(int row, int column)
 {
-    Q_UNUSED(column);
+    Q_UNUSED(column)
 
     solutionTable->selectRow(row);
     for (int i = 0; i < alignPlot->itemCount(); i++)
@@ -1552,7 +1552,7 @@ void Align::slotRemoveAlignPoint()
 
 void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex)
 {
-    Q_UNUSED(logicalIndex);
+    Q_UNUSED(logicalIndex)
 
     for (int i = 0; i < mountModel.alignTable->columnCount(); i++)
     {
@@ -1879,8 +1879,13 @@ void Align::setSolverBackend(int type)
 
 void Align::setAstrometrySolverType(int type)
 {
-    //    if (sender() == nullptr && type >= 0 && type <= 2)
-    //        solverBackendGroup->button(type)->setChecked(true);
+    // For Windows, we only have two items in the combo box (Online & Remote)
+    // When Remote is clicked, type = 1 is sent which is SOLVER_OFFLINE
+    // We need to change that to SOLVER_REMOTE.
+#ifdef Q_OS_WIN
+    if (type == SOLVER_OFFLINE)
+        type = SOLVER_REMOTE;
+#endif
 
     if (type == SOLVER_REMOTE && remoteParserDevice == nullptr)
     {
