@@ -1158,7 +1158,7 @@ QString getDefaultPath(QString option)
 #if defined(Q_OS_OSX)
         return "/Applications/ASTAP.app/Contents/MacOS/astap";
 #elif defined(Q_OS_WIN)
-        return "C:\Program Files\astap\astap.exe";
+        return "C:/Program Files/astap/astap.exe";
 #endif
         if (flat.isEmpty() == false)
             return flat + "/bin/astap";
