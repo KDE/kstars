@@ -33,7 +33,7 @@ T median(T *values, int size, int sampleBy)
 {
   const int downsampled_size = size / sampleBy;
   std::vector<T> samples(downsampled_size);
-  for (int index = 0, i = 0; index < size; ++i, index += sampleBy)
+  for (int index = 0, i = 0; i < downsampled_size; ++i, index += sampleBy)
     samples[i] = values[index];
   return median(samples);
 }
@@ -221,7 +221,7 @@ void computeParamsOneChannel(T *buffer, StretchParams1Channel *params,
   // Find the Median deviation: 1.4826 * median of abs(sample[i] - median).
   const int numSamples = width * height / sampleBy;
   std::vector<T> deviations(numSamples);
-  for (int index = 0, i = 0; index < size; ++i, index += sampleBy)
+  for (int index = 0, i = 0; i < numSamples; ++i, index += sampleBy)
   {
     if (medianSample > buffer[index])
       deviations[i] = medianSample - buffer[index];
