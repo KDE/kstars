@@ -715,6 +715,16 @@ class Align : public QWidget, public Ui::Align
         int findClosestAlignmentPointToTelescope();
         void swapAlignPoints(int firstPt, int secondPt);
 
+        /**
+         * @brief React when a mount motion has been detected
+         */
+        void handleMountMotion();
+
+        /**
+         * @brief Continue aligning according to the current mount status
+         */
+        void handleMountStatus();
+
         // Effective FOV
 
         /**
