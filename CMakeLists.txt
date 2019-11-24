@@ -298,8 +298,12 @@ IF (UNIX OR APPLE OR ANDROID)
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SEC_COMP_FLAGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEC_COMP_FLAGS}")
     SET(SEC_LINK_FLAGS "")
+
+    include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/CheckNodump.cmake")
+    check_nodump(NODUMP_FLAGS)
+
     IF (NOT APPLE)
-        SET(SEC_LINK_FLAGS "${SEC_LINK_FLAGS} -Wl,-z,nodump -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now")
+        SET(SEC_LINK_FLAGS "${SEC_LINK_FLAGS} ${NODUMP_FLAGS} -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now")
     ENDIF ()
     IF (NOT ANDROID AND NOT APPLE)
         SET(SEC_LINK_FLAGS "${SEC_LINK_FLAGS} -pie")
