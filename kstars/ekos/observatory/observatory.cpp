@@ -540,6 +540,10 @@ void Observatory::shutdownWeather()
     weatherStatusTimer.stop();
     setWeatherStatus(ISD::Weather::WEATHER_IDLE);
     enableWeather(false);
+    // catch re-connect
+    if (getWeatherModel() != nullptr)
+        connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
+
 }
 
 
