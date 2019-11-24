@@ -54,6 +54,7 @@
 
 #define PAH_CUTOFF_FOV            10 // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS 10
+#define CAPTURE_RETRY_DELAY       10000
 
 #define AL_FORMAT_VERSION 1.0
 
@@ -176,7 +177,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     });
 
     m_CaptureTimer.setSingleShot(true);
-    m_CaptureTimer.setInterval(10000);
+    m_CaptureTimer.setInterval(CAPTURE_RETRY_DELAY);
     connect(&m_CaptureTimer, &QTimer::timeout, [&]()
     {
         if (m_CaptureTimeoutCounter++ > 3)
@@ -189,6 +190,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
             ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
             if (targetChip->isCapturing())
             {
+                appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval()/500));
                 targetChip->abortExposure();
                 m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
             }
@@ -2030,6 +2032,7 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
     currentTelescope->disconnect(this);
 
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
     connect(currentTelescope, &ISD::GDInterface::Disconnected, this, [this]()
     {
         m_isRateSynced = false;
@@ -2742,15 +2745,15 @@ bool Align::captureAndSolve()
 
     if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in 10 seconds..."));
-        m_CaptureTimer.start();
+        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY/1000));
+        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return false;
     }
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in 10 seconds..."));
-        m_CaptureTimer.start();
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY/1000));
+        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return false;
     }
 
@@ -3496,6 +3499,7 @@ void Align::solverFailed()
 
 void Align::abort()
 {
+    m_CaptureTimer.stop();
     parser->stopSolver();
     pi->stopAnimation();
     stopB->setEnabled(false);
@@ -3599,17 +3603,21 @@ void Align::processSwitch(ISwitchVectorProperty *svp)
             domeReady = true;
             // trigger process number for mount so that it proceeds with normal workflow since
             // it was stopped by dome not being ready
-            INumberVectorProperty *nvp = nullptr;
-
-            if (currentTelescope->isJ2000())
-                nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
-            else
-                nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
-
-            if (nvp)
-                processNumber(nvp);
+            handleMountStatus();
         }
-    }
+    } else if ((!strcmp(svp->name, "TELESCOPE_MOTION_NS") || !strcmp(svp->name, "TELESCOPE_MOTION_WE")))
+        switch (svp->s) {
+        case IPS_BUSY:
+            // react upon mount motion
+            handleMountMotion();
+            m_wasSlewStarted = true;
+            break;
+        default:
+            qCDebug(KSTARS_EKOS_ALIGN) << "Mount motion finished.";
+            handleMountStatus();
+            break;
+        }
+
 }
 
 void Align::processNumber(INumberVectorProperty *nvp)
@@ -3638,15 +3646,15 @@ void Align::processNumber(INumberVectorProperty *nvp)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        //        qCDebug(KSTARS_EKOS_ALIGN) << "## RA" << ra_dms << "DE" << dec_dms
-        //                                   << "state:" << pstateStr(nvp->s) << "slewStarted?" << m_wasSlewStarted;
+        qCDebug(KSTARS_EKOS_ALIGN) << "## RA" << ra_dms << "DE" << dec_dms
+                                   << "state:" << pstateStr(nvp->s) << "slewStarted?" << m_wasSlewStarted;
 
         switch (nvp->s)
         {
             // Idle --> Mount not tracking or slewing
             case IPS_IDLE:
                 m_wasSlewStarted = false;
-                //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_IDLE --> setting slewStarted to FALSE";
+                qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_IDLE --> setting slewStarted to FALSE";
                 break;
 
             // Ok --> Mount Tracking. If m_wasSlewStarted is true
@@ -3656,7 +3664,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 // Update the boxes as the mount just finished slewing
                 if (m_wasSlewStarted && Options::astrometryAutoUpdatePosition())
                 {
-                    //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_OK --> Auto Update Position...";
+                    qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_OK --> Auto Update Position...";
                     opsAstrometry->estRA->setText(ra_dms);
                     opsAstrometry->estDec->setText(dec_dms);
 
@@ -3693,7 +3701,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     case ALIGN_SYNCING:
                     {
                         m_wasSlewStarted = false;
-                        //qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SYNCING --> setting slewStarted to FALSE";
+                        qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SYNCING --> setting slewStarted to FALSE";
                         if (currentGotoMode == GOTO_SLEW)
                         {
                             Slew();
@@ -3715,12 +3723,15 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     break;
 
                     case ALIGN_SLEWING:
-                        // If mount has not started slewing yet, then skip
-                        //qCDebug(KSTARS_EKOS_ALIGN) << "## Mount has not started slewing yet...";
-                        if (m_wasSlewStarted == false)
-                            break;
 
-                        //qCDebug(KSTARS_EKOS_ALIGN) << "## ALIGN_SLEWING --> setting slewStarted to FALSE";
+                        if (m_wasSlewStarted == false)
+                        {
+                            // If mount has not started slewing yet, then skip
+                            qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
+                            break;
+                        }
+
+                        qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew completed.";
                         m_wasSlewStarted = false;
                         if (loadSlewState == IPS_BUSY)
                         {
@@ -3733,7 +3744,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                             if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
-                            QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                            m_CaptureTimer.start(delaySpin->value());
                             return;
                         }
                         else if (differentialSlewingActivated)
@@ -3761,7 +3772,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                             if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
-                            QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                            m_CaptureTimer.start(delaySpin->value());
                             return;
                         }
                         break;
@@ -3779,15 +3790,17 @@ void Align::processNumber(INumberVectorProperty *nvp)
             // Busy --> Mount Slewing or Moving (NSWE buttons)
             case IPS_BUSY:
             {
-                //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_BUSY --> setting slewStarted to TRUE";
+                qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew running.";
                 m_wasSlewStarted = true;
+
+                handleMountMotion();
             }
             break;
 
             // Alert --> Mount has problem moving or communicating.
             case IPS_ALERT:
             {
-                //qCDebug(KSTARS_EKOS_ALIGN) << "## IPS_ALERT --> setting slewStarted to FALSE";
+                qCDebug(KSTARS_EKOS_ALIGN) << "IPS_ALERT --> setting slewStarted to FALSE";
                 m_wasSlewStarted = false;
 
                 if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
@@ -3835,7 +3848,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
                         appendLogText(i18n("Settling..."));
-                    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                    m_CaptureTimer.start(delaySpin->value());
                 }
                 // If for some reason we didn't stop, let's stop if we get too far
                 else if (deltaAngle > PAHRotationSpin->value() * 1.25)
@@ -3868,7 +3881,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
                         appendLogText(i18n("Settling..."));
-                    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                    m_CaptureTimer.start(delaySpin->value());
                 }
                 // If for some reason we didn't stop, let's stop if we get too far
                 else if (deltaAngle > PAHRotationSpin->value() * 1.25)
@@ -3957,6 +3970,41 @@ void Align::processNumber(INumberVectorProperty *nvp)
     //if (!strcmp(coord->name, "TELESCOPE_INFO"))
     //syncTelescopeInfo();
 }
+
+void Align::handleMountMotion()
+{
+    if (state == ALIGN_PROGRESS)
+    {
+        // whoops, mount slews during alignment
+        appendLogText(i18n("Slew detected, aborting solving..."));
+        abort();
+        // reset the state to busy so that solving restarts after slewing finishes
+        loadSlewState = IPS_BUSY;
+        // if mount model is running, retry the current alignment point
+        if (mountModelRunning)
+        {
+            appendLogText(i18n("Restarting alignment point %1", currentAlignmentPoint+1));
+            if (currentAlignmentPoint > 0)
+                currentAlignmentPoint--;
+        }
+
+        state = ALIGN_SLEWING;
+    }
+}
+
+void Align::handleMountStatus()
+{
+    INumberVectorProperty *nvp = nullptr;
+
+    if (currentTelescope->isJ2000())
+        nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
+    else
+        nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
+
+    if (nvp)
+        processNumber(nvp);
+}
+
 
 void Align::executeGOTO()
 {
@@ -4206,7 +4254,7 @@ void Align::measureAltError()
             altStage = ALT_FIRST_TARGET;
             if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
                 appendLogText(i18n("Settling..."));
-            QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+            m_CaptureTimer.start(delaySpin->value());
             break;
 
         case ALT_FIRST_TARGET:
@@ -4244,7 +4292,7 @@ void Align::measureAltError()
 
             if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
                 appendLogText(i18n("Settling..."));
-            QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+            m_CaptureTimer.start(delaySpin->value());
             break;
 
         case ALT_FINISHED:
@@ -5012,7 +5060,7 @@ void Align::setCaptureStatus(CaptureState newState)
                 qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (mountModelReset ? "successful." : "failed.");
             }
 
-            QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::captureAndSolve);
+            m_CaptureTimer.start(Options::settlingTime());
             break;
 
         default:
@@ -5327,7 +5375,7 @@ void Align::setPAHSlewDone()
     }
     if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
         appendLogText(i18n("Settling..."));
-    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+    m_CaptureTimer.start(delaySpin->value());
 }
 
 
