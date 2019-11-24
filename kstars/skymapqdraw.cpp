@@ -20,6 +20,7 @@
 #include "skymap.h"
 #include "projections/projector.h"
 #include "printing/legend.h"
+#include "kstars_debug.h"
 
 SkyMapQDraw::SkyMapQDraw(SkyMap *sm) : QWidget(sm), SkyMapDrawAbstract(sm)
 {
@@ -33,11 +34,11 @@ SkyMapQDraw::~SkyMapQDraw()
 
 void SkyMapQDraw::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
     if (m_DrawLock)
     {
-        qDebug() << "I just prevented a recursive / concurrent draw!";
+        qCDebug(KSTARS) << "Prevented a recursive / concurrent draw!";
         return;
     }
     setDrawLock(true);
@@ -105,7 +106,7 @@ void SkyMapQDraw::paintEvent(QPaintEvent *event)
 
 void SkyMapQDraw::resizeEvent(QResizeEvent *e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     delete m_SkyPixmap;
     m_SkyPixmap = new QPixmap(width(), height());
 }
