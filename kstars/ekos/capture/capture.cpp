@@ -1936,7 +1936,30 @@ void Capture::captureImage()
         abort();
         return;
     }
+    // This test must be placed before the FOCUS_PROGRESS test,
+    // as sometimes the FilterManager can cause an auto-focus.
+    // If the filterManager is not IDLE, then try again in 1 second.
+    switch (filterManagerState)
+    {
+        case FILTER_IDLE:
+        secondsLabel->clear();
+        break;
 
+        case FILTER_AUTOFOCUS:
+        secondsLabel->setText(i18n("Focusing..."));
+        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+        return;
+
+        case FILTER_CHANGE:
+        secondsLabel->setText(i18n("Changing Filters..."));
+        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+        return;
+
+        case FILTER_OFFSET:
+        secondsLabel->setText(i18n("Adjusting Filter Offset..."));
+        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+        return;
+    }
     if (focusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
@@ -2065,6 +2088,7 @@ void Capture::captureImage()
 
         case SequenceJob::CAPTURE_FILTER_BUSY:
             // Try again in 1 second if filter is busy
+            secondsLabel->setText(i18n("Changing filter..."));
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
 
@@ -6192,6 +6216,7 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(filterManager.data(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
     {
+        filterManagerState = filterState;
         if (m_State == CAPTURE_CHANGING_FILTER)
         {
             secondsLabel->setText(Ekos::getFilterStatusString(filterState));
