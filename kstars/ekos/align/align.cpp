@@ -2718,7 +2718,9 @@ bool Align::captureAndSolve()
         if (targetPosition > 0 && targetPosition != currentFilterPosition)
         {
             filterPositionPending    = true;
-            filterManager->setFilterPosition(targetPosition);
+            // Disabling the autofocus policy for align.
+            filterManager->setFilterPosition(
+                targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
             state = ALIGN_PROGRESS;
             return true;
         }

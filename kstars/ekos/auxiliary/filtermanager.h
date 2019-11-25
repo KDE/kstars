@@ -41,7 +41,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             CHANGE_POLICY    = 1 << 0,
             OFFSET_POLICY    = 1 << 1,
             AUTOFOCUS_POLICY = 1 << 2,
-            ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY
+            ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY,
+            NO_AUTOFOCUS_POLICY = CHANGE_POLICY | OFFSET_POLICY
         } FilterPolicy;
 
         FilterManager();

@@ -900,6 +900,7 @@ class Capture : public QWidget, public Ui::Capture
         FocusState focusState { FOCUS_IDLE };
         GuideState guideState { GUIDE_IDLE };
         AlignState alignState { ALIGN_IDLE };
+        FilterState filterManagerState { FILTER_IDLE };
 
         PauseFunctionPointer pauseFunction;
 
