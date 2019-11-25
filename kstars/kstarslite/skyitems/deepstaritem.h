@@ -35,24 +35,24 @@ class StarBlockList;
  */
 class DeepStarItem : public SkyItem
 {
-  public:
-    /**
-     * @short Constructor. Instantiates nodes for static stars
-     * @param deepStarComp - pointer to DeepStarComponent that handles data
-     * @param rootNode - parent RootNode that instantiated this object
-     */
-    DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode);
+    public:
+        /**
+         * @short Constructor. Instantiates nodes for static stars
+         * @param deepStarComp - pointer to DeepStarComponent that handles data
+         * @param rootNode - parent RootNode that instantiated this object
+         */
+        DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode);
 
-    /**
-     * @short updates all trixels that contain stars
-     */
-    virtual void update();
+        /**
+         * @short updates all trixels that contain stars
+         */
+        virtual void update() override;
 
-  private:
-    SkyMesh *m_skyMesh { nullptr };
-    StarBlockFactory *m_StarBlockFactory { nullptr };
+    private:
+        SkyMesh *m_skyMesh { nullptr };
+        StarBlockFactory *m_StarBlockFactory { nullptr };
 
-    DeepStarComponent *m_deepStarComp { nullptr };
-    QVector<std::shared_ptr<StarBlockList>> *m_starBlockList { nullptr };
-    bool m_staticStars { false };
+        DeepStarComponent *m_deepStarComp { nullptr };
+        QVector<std::shared_ptr<StarBlockList>> *m_starBlockList { nullptr };
+        bool m_staticStars { false };
 };

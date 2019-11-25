@@ -32,22 +32,22 @@ class LineListIndex;
  */
 class EquatorItem : public SkyItem
 {
-  public:
-    /**
-     * @short Constructor. Creates TrixelNodes for lines and LabelNodes for compass labels
-     * @param equatorComp Equator that needs to be represented in SkyMapLite
-     * @param rootNode parent RootNode that instantiated this object
-     */
+    public:
+        /**
+         * @short Constructor. Creates TrixelNodes for lines and LabelNodes for compass labels
+         * @param equatorComp Equator that needs to be represented in SkyMapLite
+         * @param rootNode parent RootNode that instantiated this object
+         */
 
-    EquatorItem(Equator *equatorComp, RootNode *rootNode);
+        EquatorItem(Equator *equatorComp, RootNode *rootNode);
 
-    /**
-     * @short updates positions of lines and compass labels
-     */
-    virtual void update();
+        /**
+         * @short updates positions of lines and compass labels
+         */
+        virtual void update() override;
 
-  private:
-    Equator *m_equatorComp { nullptr };
-    //Holds compass labels each associated with SkyPoint that is coordinate of this label
-    QMap<SkyPoint *, LabelNode *> m_compassLabels;
+    private:
+        Equator *m_equatorComp { nullptr };
+        //Holds compass labels each associated with SkyPoint that is coordinate of this label
+        QMap<SkyPoint *, LabelNode *> m_compassLabels;
 };

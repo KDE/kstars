@@ -102,7 +102,7 @@ int SkyMapLite::starColorMode = 0;
 SkyMapLite::SkyMapLite()
     : data(KStarsData::Instance())
 #if defined(Q_OS_ANDROID)
-      ,
+    ,
       m_deviceOrientation(new DeviceOrientation(this))
 #endif
 {
@@ -134,9 +134,15 @@ SkyMapLite::SkyMapLite()
     ClientManagerLite *clientMng = KStarsLite::Instance()->clientManagerLite();
 
     connect(clientMng, &ClientManagerLite::telescopeAdded,
-            [this](TelescopeLite *newTelescope) { this->m_newTelescopes.append(newTelescope->getDevice()); });
+            [this](TelescopeLite * newTelescope)
+    {
+        this->m_newTelescopes.append(newTelescope->getDevice());
+    });
     connect(clientMng, &ClientManagerLite::telescopeRemoved,
-            [this](TelescopeLite *newTelescope) { this->m_delTelescopes.append(newTelescope->getDevice()); });
+            [this](TelescopeLite * newTelescope)
+    {
+        this->m_delTelescopes.append(newTelescope->getDevice());
+    });
 #if defined(Q_OS_ANDROID)
     //Automatic mode
     automaticModeTimer.setInterval(5);
@@ -347,7 +353,7 @@ void SkyMapLite::slotCenter()
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
     if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > -1.0 &&
-        focusPoint()->alt().Degrees() < -1.0)
+            focusPoint()->alt().Degrees() < -1.0)
     {
         QString caption = i18n("Requested Position Below Horizon");
         QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
@@ -669,7 +675,7 @@ void SkyMapLite::forceUpdate()
 
         // create the no-precess aperture if needed
         if (Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() ||
-            Options::showEquator())
+                Options::showEquator())
         {
             m_skyMesh->index(&Focus, radius + 1.0, NO_PRECESS_BUF);
         }
@@ -1032,6 +1038,7 @@ void SkyMapLite::initStarImages()
                 ColorMap.insert('G', QColor::fromRgb(255, 255, 255));
                 ColorMap.insert('K', QColor::fromRgb(255, 255, 255));
                 ColorMap.insert('M', QColor::fromRgb(255, 255, 255));
+                break;
             case 0:  // Real color
             default: // And use real color for everything else
                 ColorMap.insert('O', QColor::fromRgb(0, 0, 255));
@@ -1041,6 +1048,7 @@ void SkyMapLite::initStarImages()
                 ColorMap.insert('G', QColor::fromRgb(255, 255, 0));
                 ColorMap.insert('K', QColor::fromRgb(255, 100, 0));
                 ColorMap.insert('M', QColor::fromRgb(255, 0, 0));
+                break;
         }
 
         for (char color : ColorMap.keys())
@@ -1092,7 +1100,7 @@ void SkyMapLite::initStarImages()
             for (int size = 1; size < nStarSizes; size++)
             {
                 pmap->append(new QPixmap(
-                    BigImage.scaled(size * ratio, size * ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+                                 BigImage.scaled(size * ratio, size * ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
             }
         }
         //}

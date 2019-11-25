@@ -37,69 +37,84 @@ class SkyOpacityNode;
  */
 class SkyNode : public QSGTransformNode
 {
-  public:
-    /**
-     * @brief Constructor
-     * @param skyObject that is represented on the SkyMapLIte
-     */
-    explicit SkyNode(SkyObject *skyObject);
-    SkyNode();
+    public:
+        /**
+         * @brief Constructor
+         * @param skyObject that is represented on the SkyMapLIte
+         */
+        explicit SkyNode(SkyObject *skyObject);
+        SkyNode();
 
-    virtual ~SkyNode() {}
+        virtual ~SkyNode() {}
 
-    inline const Projector *projector() { return SkyMapLite::Instance()->projector(); }
+        inline const Projector *projector()
+        {
+            return SkyMapLite::Instance()->projector();
+        }
 
-    /**
-     * @short short function to access SkyMapLite
-     * @return pointer to instance of SkyMapLite class
-     */
-    inline SkyMapLite *map() const { return SkyMapLite::Instance(); }
+        /**
+         * @short short function to access SkyMapLite
+         * @return pointer to instance of SkyMapLite class
+         */
+        inline SkyMapLite *map() const
+        {
+            return SkyMapLite::Instance();
+        }
 
-    /** Updates coordinate of the object on SkyMapLite */
-    virtual void update() {}
+        /** Updates coordinate of the object on SkyMapLite */
+        virtual void update() {}
 
-    /**
-     * @short sets m_drawLabel to true if it is needed to be drawn and calls update()
-     * @param drawLabel true of label has to be drawn
-     */
-    void update(bool drawLabel);
+        /**
+         * @short sets m_drawLabel to true if it is needed to be drawn and calls update()
+         * @param drawLabel true of label has to be drawn
+         */
+        void update(bool drawLabel);
 
-    void addChildNode(QSGNode *node);
+        void addChildNode(QSGNode *node);
 
-    /**
-     * @short hides all child nodes (sets opacity of m_opacity to 0)
-     */
-    virtual void hide();
+        /**
+         * @short hides all child nodes (sets opacity of m_opacity to 0)
+         */
+        virtual void hide();
 
-    /**
-     * @short shows all child nodes (sets opacity of m_opacity to 1)
-     */
-    virtual void show();
+        /**
+         * @short shows all child nodes (sets opacity of m_opacity to 1)
+         */
+        virtual void show();
 
-    inline int hideCount() { return m_hideCount; }
+        inline int hideCount()
+        {
+            return m_hideCount;
+        }
 
-    /**
-     * @short changes the position of SkyNode on SkyMapLite. Has to be overridden by the classes
-     * that support moving
-     * @param pos new position
-     */
-    virtual void changePos(QPointF pos) { Q_UNUSED(pos); }
+        /**
+         * @short changes the position of SkyNode on SkyMapLite. Has to be overridden by the classes
+         * that support moving
+         * @param pos new position
+         */
+        virtual void changePos(QPointF pos)
+        {
+            Q_UNUSED(pos)
+        }
 
-    /**
-     * @return true if object is visible (m_opacity->opacity() != 0) else returns false
-     */
-    bool visible();
+        /**
+         * @return true if object is visible (m_opacity->opacity() != 0) else returns false
+         */
+        bool visible();
 
-    /**
-     * @short returns SkyObject associated with this SkyNode
-     * @return pointer to the object of type SkyObject
-     */
-    SkyObject *skyObject() const { return m_skyObject; }
+        /**
+         * @short returns SkyObject associated with this SkyNode
+         * @return pointer to the object of type SkyObject
+         */
+        SkyObject *skyObject() const
+        {
+            return m_skyObject;
+        }
 
-    SkyOpacityNode *m_opacity { nullptr };
+        SkyOpacityNode *m_opacity { nullptr };
 
-  protected:
-    SkyObject *m_skyObject { nullptr };
-    bool m_drawLabel { false };
-    int m_hideCount { 0 };
+    protected:
+        SkyObject *m_skyObject { nullptr };
+        bool m_drawLabel { false };
+        int m_hideCount { 0 };
 };
