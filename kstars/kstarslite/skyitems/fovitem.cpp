@@ -42,12 +42,14 @@ void FOVItem::update()
 
     QSGNode *n = firstChild();
     int index  = 0;
-    while (n != 0)
+    while (n)
     {
         FOVSymbolNode *fov = static_cast<FOVSymbolNode *>(n);
         if (map->isFOVVisible(index))
         {
-            fov->update(zoomFactor);
+            // JM 2019-11-25: Had to multiply by 2 to fix the FOV
+            // As it was exactly half expected for some reason.
+            fov->update(zoomFactor * 2);
         }
         else
         {
