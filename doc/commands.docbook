@@ -1038,8 +1038,8 @@ button. You can also use the Download Extra Data Files tool later, by selecting 
 <para>
 Additionally &kstars; has the common &kde; <guimenu>Settings</guimenu> and <guimenu>Help</guimenu>
 menu items, for more information read the sections about the
-<ulink url="help:/fundamentals/ui.html#menus-settings">Settings Menu</ulink> and
-<ulink url="help:/fundamentals/ui.html#menus-help">Help Menu</ulink>
+<ulink url="help:/fundamentals/menus.html#menus-settings">Settings Menu</ulink> and
+<ulink url="help:/fundamentals/menus.html#menus-help">Help Menu</ulink>
 of the &kde; Fundamentals.
 </para>
 
@@ -1049,7 +1049,7 @@ of the &kde; Fundamentals.
 <title>Help Menu</title>
 <para>
 &kstars; has the common &kde; <guimenu>Help</guimenu> menu item, for more information read the section
-about the <ulink url="help:/fundamentals/ui.html#menus-help">Help Menu</ulink> of the &kde; Fundamentals.
+about the <ulink url="help:/fundamentals/menus.html#menus-help">Help Menu</ulink> of the &kde; Fundamentals.
 </para>
 
 </sect2>
