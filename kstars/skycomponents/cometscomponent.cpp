@@ -251,15 +251,17 @@ void CometsComponent::downloadReady()
     QString focusedComet;
 
 #ifdef KSTARS_LITE
-    if (KStarsLite::Instance()->map()->focusObject()->type() == SkyObject::COMET)
+    SkyObject *foc = KStarsLite::Instance()->map()->focusObject();
+    if (foc && foc->type() == SkyObject::COMET)
     {
-        focusedComet = KStarsLite::Instance()->map()->focusObject()->name();
+        focusedComet = foc->name();
         KStarsLite::Instance()->map()->setFocusObject(nullptr);
     }
 #else
-    if (KStars::Instance()->map()->focusObject()->type() == SkyObject::COMET)
+    SkyObject *foc = KStars::Instance()->map()->focusObject();
+    if (foc && foc->type() == SkyObject::COMET)
     {
-        focusedComet = KStars::Instance()->map()->focusObject()->name();
+        focusedComet = foc->name();
         KStars::Instance()->map()->setFocusObject(nullptr);
     }
 #endif
