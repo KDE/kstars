@@ -350,7 +350,7 @@ void SequenceJob::setExposeLeft(double value)
 void SequenceJob::setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled,
                                     bool tsEnabled)
 {
-    rawPrefix              = rawFilePrefix;
+    m_RawPrefix            = rawFilePrefix;
     filterPrefixEnabled    = filterEnabled;
     expPrefixEnabled       = exposureEnabled;
     timeStampPrefixEnabled = tsEnabled;
@@ -358,7 +358,7 @@ void SequenceJob::setPrefixSettings(const QString &rawFilePrefix, bool filterEna
 
 void SequenceJob::getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
 {
-    rawFilePrefix   = rawPrefix;
+    rawFilePrefix   = m_RawPrefix;
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
     tsEnabled       = timeStampPrefixEnabled;
