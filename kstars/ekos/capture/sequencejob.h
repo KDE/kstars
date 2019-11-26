@@ -29,6 +29,7 @@ class SequenceJob : public QObject
 {
         Q_OBJECT
         Q_PROPERTY(QString filename MEMBER m_filename)
+        Q_PROPERTY(QString rawPrefix MEMBER m_RawPrefix)
 
     public:
         typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
@@ -81,10 +82,6 @@ class SequenceJob : public QObject
         int getCompleted()
         {
             return completed;
-        }
-        const QString &getRawPrefix()
-        {
-            return rawPrefix;
         }
         double getExposure() const
         {
@@ -384,7 +381,7 @@ class SequenceJob : public QObject
         bool filterPrefixEnabled { false };
         bool expPrefixEnabled { false };
         bool timeStampPrefixEnabled { false };
-        QString rawPrefix;
+        QString m_RawPrefix;
 
         QString m_filename;
 
@@ -405,7 +402,7 @@ class SequenceJob : public QObject
 
         QMap<PrepareActions, bool> prepareActions;
 
-        QMap<QString, QMap<QString,double>> customProperties;
+        QMap<QString, QMap<QString, double>> customProperties;
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
