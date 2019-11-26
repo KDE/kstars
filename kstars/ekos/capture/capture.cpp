@@ -1518,7 +1518,7 @@ bool Capture::setCaptureComplete()
 
     //This determines the time since the image started downloading
     //Then it gets the estimated time left and displays it in the log.
-    double currentDownloadTime = downloadTimer.elapsed()/1000.0;
+    double currentDownloadTime = downloadTimer.elapsed() / 1000.0;
     downloadTimes << currentDownloadTime;
     QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
     QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
@@ -1942,23 +1942,23 @@ void Capture::captureImage()
     switch (filterManagerState)
     {
         case FILTER_IDLE:
-        secondsLabel->clear();
-        break;
+            secondsLabel->clear();
+            break;
 
         case FILTER_AUTOFOCUS:
-        secondsLabel->setText(i18n("Focusing..."));
-        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
-        return;
+            secondsLabel->setText(i18n("Focusing..."));
+            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            return;
 
         case FILTER_CHANGE:
-        secondsLabel->setText(i18n("Changing Filters..."));
-        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
-        return;
+            secondsLabel->setText(i18n("Changing Filters..."));
+            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            return;
 
         case FILTER_OFFSET:
-        secondsLabel->setText(i18n("Adjusting Filter Offset..."));
-        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
-        return;
+            secondsLabel->setText(i18n("Adjusting Filter Offset..."));
+            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            return;
     }
     if (focusState >= FOCUS_PROGRESS)
     {
@@ -2240,7 +2240,7 @@ void Capture::setDownloadProgress()
 {
     if (activeJob)
     {
-        double downloadTimeLeft = getEstimatedDownloadTime() - downloadTimer.elapsed()/1000.0;
+        double downloadTimeLeft = getEstimatedDownloadTime() - downloadTimer.elapsed() / 1000.0;
         if(downloadTimeLeft > 0)
         {
             exposeOUT->setText(QString("%L1").arg(downloadTimeLeft, 0, 'd', 2));
@@ -2427,6 +2427,15 @@ bool Capture::addJob(bool preview)
     job->setTargetADUTolerance(targetADUTolerance);
 
     imagePrefix = prefixIN->text();
+
+    // JM 2019-11-26: In case there is no raw prefix set
+    // BUT target name is set, we update the prefix to include
+    // the target name, which is usually set by the scheduler.
+    if (imagePrefix.isEmpty() && !m_TargetName.isEmpty())
+    {
+        prefixIN->setText(m_TargetName);
+        imagePrefix = m_TargetName;
+    }
 
     constructPrefix(imagePrefix);
 
@@ -3096,13 +3105,14 @@ void Capture::executeJob()
     activeJob->disconnect(this);
 
     QMap<QString, QString> FITSHeader;
+    QString rawPrefix = activeJob->property("rawPrefix").toString();
     if (m_ObserverName.isEmpty() == false)
         FITSHeader["FITS_OBSERVER"] = m_ObserverName;
     if (m_TargetName.isEmpty() == false)
         FITSHeader["FITS_OBJECT"] = m_TargetName;
-    else if (activeJob->getRawPrefix().isEmpty() == false)
+    else if (rawPrefix.isEmpty() == false)
     {
-        FITSHeader["FITS_OBJECT"] = activeJob->getRawPrefix();
+        FITSHeader["FITS_OBJECT"] = rawPrefix;
     }
 
     if (FITSHeader.count() > 0)
@@ -5892,7 +5902,7 @@ bool Capture::processPostCaptureCalibrationStage()
 
                     // Get raw prefix
                     exposureIN->setValue(activeJob->getExposure());
-                    QString imagePrefix = activeJob->getRawPrefix();
+                    QString imagePrefix = activeJob->property("rawPrefix").toString();
                     constructPrefix(imagePrefix);
                     activeJob->setFullPrefix(imagePrefix);
                     seqPrefix = imagePrefix;
@@ -6591,13 +6601,13 @@ double Capture::getGain()
 
 double Capture::getEstimatedDownloadTime()
 {
-    double total=0;
+    double total = 0;
     foreach(double dlTime, downloadTimes)
-        total+=dlTime;
-    if(downloadTimes.count()==0)
+        total += dlTime;
+    if(downloadTimes.count() == 0)
         return 0;
     else
-        return total/downloadTimes.count();
+        return total / downloadTimes.count();
 }
 
 }
