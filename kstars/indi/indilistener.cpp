@@ -391,7 +391,7 @@ void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 
 void INDIListener::processNumber(INumberVectorProperty *nvp)
 {
-    qCDebug(KSTARS_INDI) << "Process number vector " << nvp->label << "(" << nvp->name << ")@" << nvp->device << " status=" << nvp->s;
+    //qCDebug(KSTARS_INDI) << "Process number vector " << nvp->label << "(" << nvp->name << ")@" << nvp->device << " status=" << nvp->s;
     foreach (ISD::GDInterface *gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), nvp->device))
