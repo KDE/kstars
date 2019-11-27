@@ -1554,15 +1554,25 @@ void Guide::setPierSide(ISD::Telescope::PierSide newSide)
 
 void Guide::setMountStatus(ISD::Telescope::Status newState)
 {
-    // If we're guiding, and the mount either slews or parks, then we abort.
-    if ((state == GUIDE_GUIDING || state == GUIDE_DITHERING) && (newState == ISD::Telescope::MOUNT_PARKING || newState == ISD::Telescope::MOUNT_SLEWING))
+    if (newState == ISD::Telescope::MOUNT_PARKING || newState == ISD::Telescope::MOUNT_SLEWING)
     {
+        // reset the calibration if "Always reset calibration" is selected and the mount moves
+        if (Options::resetGuideCalibration())
+        {
+            appendLogText(i18n("Mount is moving. Resetting calibration..."));
+            clearCalibration();
+        }
+
+        // If we're guiding, and the mount either slews or parks, then we abort.
+        if (state == GUIDE_GUIDING || state == GUIDE_DITHERING)
+        {
         if (newState == ISD::Telescope::MOUNT_PARKING)
             appendLogText(i18n("Mount is parking. Aborting guide..."));
         else
             appendLogText(i18n("Mount is slewing. Aborting guide..."));
 
         abort();
+        }
     }
 
     if (guiderType != GUIDE_INTERNAL)
