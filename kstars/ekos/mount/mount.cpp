@@ -552,6 +552,7 @@ void Mount::updateTelescopeCoords()
                     appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
                                        QString::number(minAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
+                    currentTelescope->setTrackEnabled(false);
                     //KNotification::event( QLatin1String( "OperationFailed" ));
                     KNotification::beep();
                     abortDispatch++;
@@ -567,6 +568,7 @@ void Mount::updateTelescopeCoords()
                     appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
                                        QString::number(maxAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
+                    currentTelescope->setTrackEnabled(false);
                     //KNotification::event( QLatin1String( "OperationFailed" ));
                     KNotification::beep();
                     abortDispatch++;

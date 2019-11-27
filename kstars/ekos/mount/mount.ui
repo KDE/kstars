@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>411</height>
+    <width>577</width>
+    <height>419</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -846,6 +846,9 @@ font-weight:bold;
        </item>
        <item>
         <widget class="QGroupBox" name="LimitGroup">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="title">
           <string>Limits</string>
          </property>
@@ -876,6 +879,9 @@ font-weight:bold;
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="maximum">
              <double>90.000000000000000</double>
             </property>
@@ -894,6 +900,9 @@ font-weight:bold;
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="minimum">
              <double>-10.000000000000000</double>
@@ -918,6 +927,9 @@ font-weight:bold;
           </item>
           <item row="3" column="0" colspan="2">
            <widget class="QCheckBox" name="enableLimitsCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="text">
              <string>Enable Limits</string>
             </property>
