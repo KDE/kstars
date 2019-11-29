@@ -266,12 +266,23 @@ void Client::onResult(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError)
     {
+        // If connection refused, retry up to 3 times
+        if (reply->error() == QNetworkReply::ConnectionRefusedError && m_AuthReconnectTries++ < RECONNECT_MAX_TRIES)
+        {
+            reply->deleteLater();
+            QTimer::singleShot(RECONNECT_INTERVAL, this, &Client::connectAuthServer);
+            return;
+        }
+
+        m_AuthReconnectTries = 0;
         pi->stopAnimation();
         connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
         KSNotification::error(i18n("Error authentication with Ekos Live server: %1", reply->errorString()));
+        reply->deleteLater();
         return;
     }
 
+    m_AuthReconnectTries = 0;
     QJsonParseError error;
     auto response = QJsonDocument::fromJson(reply->readAll(), &error);
 
@@ -280,6 +291,7 @@ void Client::onResult(QNetworkReply *reply)
         pi->stopAnimation();
         connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
         KSNotification::error(i18n("Error parsing server response: %1", error.errorString()));
+        reply->deleteLater();
         return;
     }
 
@@ -290,6 +302,7 @@ void Client::onResult(QNetworkReply *reply)
         pi->stopAnimation();
         connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
         KSNotification::error(authResponse["message"].toString());
+        reply->deleteLater();
         return;
     }
 
@@ -313,6 +326,8 @@ void Client::onResult(QNetworkReply *reply)
     modeLabel->setEnabled(false);
     ekosLiveOnlineR->setEnabled(false);
     ekosLiveOfflineR->setEnabled(false);
+
+    reply->deleteLater();
 }
 
 void Client::setConnected(bool enabled)
