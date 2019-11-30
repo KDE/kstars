@@ -1036,7 +1036,7 @@ IF (NOT ANDROID)
         )
 
     if (Qt5Keychain_FOUND)
-        include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
+        target_include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
     endif(Qt5Keychain_FOUND)
 
