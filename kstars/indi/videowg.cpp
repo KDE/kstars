@@ -84,11 +84,11 @@ void VideoWG::setSize(uint16_t w, uint16_t h)
     totalBaseCount = w * h;
 }
 
-void VideoWG::resizeEvent(QResizeEvent *ev)
-{
-    setPixmap(QPixmap::fromImage(streamImage->scaled(ev->size(), Qt::KeepAspectRatio)));
-    ev->accept();
-}
+//void VideoWG::resizeEvent(QResizeEvent *ev)
+//{
+//    setPixmap(QPixmap::fromImage(streamImage->scaled(ev->size(), Qt::KeepAspectRatio)));
+//    ev->accept();
+//}
 
 void VideoWG::mousePressEvent(QMouseEvent *event)
 {

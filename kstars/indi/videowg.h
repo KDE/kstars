@@ -41,7 +41,7 @@ class VideoWG : public QLabel
         void setSize(uint16_t w, uint16_t h);
 
     protected:
-        virtual void resizeEvent(QResizeEvent *ev) override;
+        //virtual void resizeEvent(QResizeEvent *ev) override;
         void mousePressEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
