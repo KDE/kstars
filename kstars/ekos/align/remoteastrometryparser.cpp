@@ -29,7 +29,13 @@ RemoteAstrometryParser::RemoteAstrometryParser() : AstrometryParser()
 
 bool RemoteAstrometryParser::init()
 {
-    return remoteAstrometry != nullptr;
+    if (remoteAstrometry == nullptr)
+    {
+        align->appendLogText(i18n("Cannot set solver to remote. The Ekos equipment profile must include the astrometry Auxiliary driver."));
+        return false;
+    }
+
+    return true;
 }
 
 void RemoteAstrometryParser::verifyIndexFiles(double, double)
@@ -117,7 +123,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
     // Add parity option if none is give and we already know parity before
     // and is NOT a blind solve
     if (Options::astrometryDetectParity() && parity.isEmpty() == false && args.contains("parity") == false &&
-        (args.contains("-3") || args.contains("-L")))
+            (args.contains("-3") || args.contains("-L")))
         solverArgs << "--parity" << parity;
 
     for (int i = 0; i < solverSettings->ntp; i++)

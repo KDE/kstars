@@ -190,7 +190,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
             ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
             if (targetChip->isCapturing())
             {
-                appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval()/500));
+                appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval() / 500));
                 targetChip->abortExposure();
                 m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
             }
@@ -1798,6 +1798,8 @@ void Align::finishAlignmentPoint(bool solverSucceeded)
 
 bool Align::isParserOK()
 {
+    Q_ASSERT_X(parser, __FUNCTION__, "Astrometry parser is not valid.");
+
     bool rc = parser->init();
 
     if (rc)
@@ -1888,13 +1890,6 @@ void Align::setAstrometrySolverType(int type)
     if (type == SOLVER_OFFLINE)
         type = SOLVER_REMOTE;
 #endif
-
-    if (type == SOLVER_REMOTE && remoteParserDevice == nullptr)
-    {
-        appendLogText(i18n("Cannot set solver to remote. The Ekos equipment profile must include the astrometry Auxiliary driver."));
-        astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
-        return;
-    }
 
     if (sender() == nullptr && type >= 0 && type <= 2)
     {
@@ -2747,14 +2742,14 @@ bool Align::captureAndSolve()
 
     if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY/1000));
+        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return false;
     }
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY/1000));
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return false;
     }
@@ -3607,17 +3602,19 @@ void Align::processSwitch(ISwitchVectorProperty *svp)
             // it was stopped by dome not being ready
             handleMountStatus();
         }
-    } else if ((!strcmp(svp->name, "TELESCOPE_MOTION_NS") || !strcmp(svp->name, "TELESCOPE_MOTION_WE")))
-        switch (svp->s) {
-        case IPS_BUSY:
-            // react upon mount motion
-            handleMountMotion();
-            m_wasSlewStarted = true;
-            break;
-        default:
-            qCDebug(KSTARS_EKOS_ALIGN) << "Mount motion finished.";
-            handleMountStatus();
-            break;
+    }
+    else if ((!strcmp(svp->name, "TELESCOPE_MOTION_NS") || !strcmp(svp->name, "TELESCOPE_MOTION_WE")))
+        switch (svp->s)
+        {
+            case IPS_BUSY:
+                // react upon mount motion
+                handleMountMotion();
+                m_wasSlewStarted = true;
+                break;
+            default:
+                qCDebug(KSTARS_EKOS_ALIGN) << "Mount motion finished.";
+                handleMountStatus();
+                break;
         }
 
 }
@@ -3985,7 +3982,7 @@ void Align::handleMountMotion()
         // if mount model is running, retry the current alignment point
         if (mountModelRunning)
         {
-            appendLogText(i18n("Restarting alignment point %1", currentAlignmentPoint+1));
+            appendLogText(i18n("Restarting alignment point %1", currentAlignmentPoint + 1));
             if (currentAlignmentPoint > 0)
                 currentAlignmentPoint--;
         }
