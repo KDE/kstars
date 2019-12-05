@@ -173,14 +173,14 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2019</year>
+<year>2001-2020</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2019-02-01</date>
-<releaseinfo>3.1.0</releaseinfo>
+<date>2019-12-04</date>
+<releaseinfo>3.3.9</releaseinfo>
 
 <abstract>
 <para>
@@ -216,7 +216,7 @@ asteroids, the Milky Way, 88 constellations, and guide lines such as the <link l
 </para>
 <para>
 However, &kstars; is more than a simple night-sky simulator.  The display provides a compelling interface to a number of tools with which you can learn more about astronomy and the night sky.  There is
-a context-sensitive <link linkend="popup-menu">popup menu</link> attached to each displayed object, which displays object-specific information and actions.  Hundreds of objects provide links in their 
+a context-sensitive <link linkend="popup-menu">popup menu</link> attached to each displayed object, which displays object-specific information and actions.  Hundreds of objects provide links in their
 popup menus to informative web pages and beautiful images taken by the Hubble Space Telescope and other observatories.
 </para><para>
 From an object's popup menu, you can open its <link linkend="tool-details">Detailed Information Window</link>, where you can examine positional data about the object, and query a huge treasury of online databases for professional-grade astronomical data and literature references about the object.  You can even attach your own Internet links, images and text notes, making &kstars; a graphical front-end to your observing logs and your personal astronomical notebook.
@@ -243,9 +243,9 @@ Enable <link linkend="hips">HiPS all-sky progressive overlay</link> to fetch hig
 This features requires a fast internet connection in order to download the images. The images are cached locally to reduce bandwidth. You can optimize the caching options to best balance between disk space versus bandwidth.
 </para>
 <para>
-However, &kstars; is not just for students.  You can control telescopes and cameras with &kstars;, using the elegant and powerful <link linkend="indi">INDI</link> protocol.  &kstars; supports several popular 
-telescopes including Meade's LX200 family and Celestron GPS.  Several popular CCD cameras, webcams, and computerized focusers are also supported.  Simple slew/track commands are integrated directly into the main window's 
-popup menu, and the INDI Control Panel provides full access to all of your telescope's functions. INDI's Client/Server 
+However, &kstars; is not just for students.  You can control telescopes and cameras with &kstars;, using the elegant and powerful <link linkend="indi">INDI</link> protocol.  &kstars; supports several popular
+telescopes including Meade's LX200 family and Celestron GPS.  Several popular CCD cameras, webcams, and computerized focusers are also supported.  Simple slew/track commands are integrated directly into the main window's
+popup menu, and the INDI Control Panel provides full access to all of your telescope's functions. INDI's Client/Server
 architecture allows for seamless control of any number of <link linkend="indi-kstars-setup">local</link> or <link linkend="indi-remote-control">remote</link> telescopes using a single
 &kstars; session.For advanced users, &kstars; provides Ekos, a complete astrophotography suite for Linux. <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors , auto-focus and auto-guide capabilities,
 and capture of single or stack of images with filter wheel support.
