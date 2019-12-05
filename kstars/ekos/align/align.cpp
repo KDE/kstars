@@ -1883,6 +1883,11 @@ void Align::setSolverBackend(int type)
 
 void Align::setAstrometrySolverType(int type)
 {
+    if (sender() == nullptr && type >= 0 && type <= 2)
+    {
+        astrometryTypeCombo->setCurrentIndex(type);
+    }
+
     // For Windows, we only have two items in the combo box (Online & Remote)
     // When Remote is clicked, type = 1 is sent which is SOLVER_OFFLINE
     // We need to change that to SOLVER_REMOTE.
@@ -1890,11 +1895,6 @@ void Align::setAstrometrySolverType(int type)
     if (type == SOLVER_OFFLINE)
         type = SOLVER_REMOTE;
 #endif
-
-    if (sender() == nullptr && type >= 0 && type <= 2)
-    {
-        astrometryTypeCombo->setCurrentIndex(type);
-    }
 
     syncSettings();
 
