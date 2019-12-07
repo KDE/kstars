@@ -6328,6 +6328,13 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
         }
     }
 
+    QString targetName = schedJob->getName().remove(' ');
+
+    // Because scheduler sets the target name in capture module
+    // it would be the same as the raw prefix
+    if (targetName.isEmpty() == false && rawPrefix.isEmpty())
+        rawPrefix = targetName;
+
     // Make full prefix
     QString imagePrefix = rawPrefix;
 
@@ -6352,9 +6359,6 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     }
 
     job->setFullPrefix(imagePrefix);
-
-
-    QString targetName = schedJob->getName().remove(' ');
 
     // Directory postfix
     QString directoryPostfix;
