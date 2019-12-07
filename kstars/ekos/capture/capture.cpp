@@ -791,7 +791,7 @@ void Capture::checkCCD(int ccdNum)
         }
 
         // Do not change any settings if we are capturing.
-        if (targetChip && targetChip->isCapturing())
+        if ( (targetChip && targetChip->isCapturing()) || targetChip->getCCD()->getBaseDevice() == nullptr)
             return;
 
         for (auto &ccd : CCDs)
