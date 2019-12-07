@@ -790,8 +790,10 @@ void Capture::checkCCD(int ccdNum)
             useGuideHead = false;
         }
 
-        // Do not change any settings if we are capturing.
-        if ( (targetChip && targetChip->isCapturing()) || targetChip->getCCD()->getBaseDevice() == nullptr)
+        // Make sure we have a valid chip and valid base device.
+        // Make sure we are not in capture process.
+        if (!targetChip || !targetChip->getCCD() || !targetChip->getCCD()->getBaseDevice() ||
+                targetChip->isCapturing())
             return;
 
         for (auto &ccd : CCDs)
@@ -5996,7 +5998,7 @@ void Capture::startPostFilterAutoFocus()
 
 void Capture::postScriptFinished(int exitCode, QProcess::ExitStatus status)
 {
-    Q_UNUSED(status);
+    Q_UNUSED(status)
 
     appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
