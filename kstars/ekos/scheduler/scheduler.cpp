@@ -4773,6 +4773,8 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
 bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 {
+    static SchedulerJob *jobWarned = nullptr;
+
     /* updateCompletedJobsCount(); */
 
     // Load the sequence job associated with the argument scheduler job.
@@ -4787,8 +4789,12 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     // FIXME: setting in-sequence focus should be done in XML processing.
     schedJob->setInSequenceFocus(hasAutoFocus);
 
-    if (hasAutoFocus && !(schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS))
+    // Stop spam of log on re-evaluation. If we display the warning once, then that's it.
+    if (schedJob != jobWarned && hasAutoFocus && !(schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS))
+    {
         appendLogText(i18n("Warning: Job '%1' has its focus step disabled, periodic and/or HFR procedures currently set in its sequence will not occur.", schedJob->getName()));
+        jobWarned = schedJob;
+    }
 
     /* This is the map of captured frames for this scheduler job, keyed per storage signature.
      * It will be forwarded to the Capture module in order to capture only what frames are required.
