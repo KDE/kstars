@@ -106,7 +106,7 @@ KSNumbers::KSNumbers(long double jd)
 {
     K.setD(20.49552 / 3600.); //set the constant of aberration
 
-    // ecliptic longitude of earth's perihelion, source: http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html; FIXME: We should correct this, as it changes with time. See the commit log for an order of magnitude estimate of the error.
+    // ecliptic longitude of earth's perihelion, source: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html; FIXME: We should correct this, as it changes with time. See the commit log for an order of magnitude estimate of the error.
     // FIXME: FIXME above seems to have been addressed? What is deltaEcLong? -- asimha
     P.setD(102.94719);
 

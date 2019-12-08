@@ -132,7 +132,7 @@ class EclipseHandler : public ApproachSolver
 public:
     typedef QVector<EclipseEvent_s> EclipseVector;
 
-    EclipseHandler(QObject * parent = nullptr);
+    explicit EclipseHandler(QObject * parent = nullptr);
     virtual ~EclipseHandler() override;
 
     /**

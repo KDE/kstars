@@ -39,7 +39,7 @@ class EclipseModel : public QAbstractTableModel
         Q_OBJECT
     public:
         // This is reimplemented boilerplate from QAbstractModel
-        EclipseModel(QObject * parent = nullptr);
+        explicit EclipseModel(QObject * parent = nullptr);
         int rowCount(const QModelIndex &parent = QModelIndex()) const override;
         int columnCount(const QModelIndex &parent = QModelIndex()) const override
         {

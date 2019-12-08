@@ -605,7 +605,7 @@ void Guide::configurePHD2Camera()
         return;
     //This way it doesn't check if the equipment List has not been received yet.
     //It will ask for the list.  When the list is received it will check again.
-    if(phd2Guider->getCurrentCamera() == "")
+    if(phd2Guider->getCurrentCamera().isEmpty())
     {
         phd2Guider->requestCurrentEquipmentUpdate();
         return;

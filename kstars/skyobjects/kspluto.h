@@ -33,7 +33,7 @@
 	*of each orbital element with time.
 	*
 	*The orbital element data (including the time-derivatives) come from
-	*the NASA/JPL website:  http://ssd.jpl.nasa.gov/elem_planets.html
+	*the NASA/JPL website:  https://ssd.jpl.nasa.gov/?planets#elem
 	*
 	*@short Provides necessary information about Pluto.
 	*@author Jason Harris

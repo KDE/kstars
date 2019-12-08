@@ -27,7 +27,7 @@ class Media : public QObject
         Q_OBJECT
 
     public:
-        Media(Ekos::Manager * manager);
+        explicit Media(Ekos::Manager * manager);
         virtual ~Media() = default;
 
         void sendResponse(const QString &command, const QJsonObject &payload);

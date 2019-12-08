@@ -477,7 +477,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 
         if (checked)
         {
-            if(checkBox->styleSheet() != "") //This means that the checkbox has a stylesheet so the index file was installed someplace.
+            if(!checkBox->styleSheet().isEmpty()) //This means that the checkbox has a stylesheet so the index file was installed someplace.
             {
                 if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(
                             nullptr, i18n("The file %1 already exists in another directory.  Are you sure you want to download it to this directory as well?", indexSeriesName),

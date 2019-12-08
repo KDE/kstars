@@ -409,7 +409,7 @@ void Observatory::clearSensorDataHistory()
     }
 
     // force an update to the current graph
-    if (selectedSensorID != "")
+    if (!selectedSensorID.isEmpty())
         selectedSensorChanged(selectedSensorID);
 }
 
@@ -613,7 +613,7 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
             sensorDataBoxLayout->addWidget(valueWidget, sensorDataBoxLayout->rowCount()-1, 1);
 
             // initial graph selection
-            if (selectedSensorID == "" && id.indexOf('(') > 0 && id.indexOf('(') < id.indexOf(')'))
+            if (!selectedSensorID.isEmpty() && id.indexOf('(') > 0 && id.indexOf('(') < id.indexOf(')'))
             {
                 selectedSensorID = id;
                 labelWidget->setChecked(true);
