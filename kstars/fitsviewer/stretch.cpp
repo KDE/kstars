@@ -16,7 +16,7 @@
 
 namespace {
 
-// Returns the median v of the vector. 
+// Returns the median value of the vector.
 // The vector is modified in an undefined way.
 template <typename T>
 T median(std::vector<T>& values)
@@ -24,6 +24,17 @@ T median(std::vector<T>& values)
   const int middle = values.size() / 2;
   std::nth_element(values.begin(), values.begin() + middle, values.end());
   return values[middle];
+}
+
+// Returns the rough max of the buffer.
+template <typename T>
+T sampledMax(T *values, int size, int sampleBy)
+{
+    T maxVal = 0;
+    for (int i = 0; i < size; i+= sampleBy)
+        if (maxVal < values[i])
+            maxVal = values[i];
+    return  maxVal;
 }
 
 // Returns the median of the sample values.
@@ -43,10 +54,12 @@ T median(T *values, int size, int sampleBy)
 // http://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
 // Uses multiple threads, blocks until done.
 // The extension parameters are not used.
+// Sampling is applied to the output (that is, with sampling=2, we compute every other output
+// sample both in width and height, so the output would have about 4X fewer pixels.
 template <typename T>
 void stretchOneChannel(T *input_buffer, QImage *output_image,
                        const StretchParams& stretch_params, 
-		       int input_range, int image_height, int image_width)
+                       int input_range, int image_height, int image_width, int sampling)
 {
   QVector<QFuture<void>> futures;
 
@@ -62,7 +75,7 @@ void stretchOneChannel(T *input_buffer, QImage *output_image,
 
   // Precomputed expressions moved out of the loop.
   // hightlights - shadows, protecting for divide-by-0, in a 0->1.0 scale.
-  const float hsRangeFactor = highlights == shadows ? 1.0 : 1.0 / (highlights - shadows);
+  const float hsRangeFactor = highlights == shadows ? 1.0f : 1.0f / (highlights - shadows);
   // Shadow and highlight values translated to the ADU scale.
   const T nativeShadows = shadows * maxInput;
   const T nativeHighlights = highlights * maxInput;
@@ -70,22 +83,23 @@ void stretchOneChannel(T *input_buffer, QImage *output_image,
   const float k1 = (midtones - 1) * hsRangeFactor * maxOutput / maxInput;
   const float k2 = ((2 * midtones) - 1) * hsRangeFactor / maxInput;
   
-  for (int j = 0; j < image_height; j++)
+  // Increment the input index by the sampling, the output index increments by 1.
+  for (int j = 0, jout = 0; j < image_height; j+=sampling, jout++)
   {
     futures.append(QtConcurrent::run([ = ]()
     {
         T * inputLine  = input_buffer + j * image_width;
-        auto * scanLine = output_image->scanLine(j);
+        auto * scanLine = output_image->scanLine(jout);
         
-	for (int i = 0; i < image_width; i++)
+    for (int i = 0, iout = 0; i < image_width; i+=sampling, iout++)
         {
           const T input = inputLine[i];
-          if (input < nativeShadows) scanLine[i] = 0;
-          else if (input >= nativeHighlights) scanLine[i] = maxOutput;
+          if (input < nativeShadows) scanLine[iout] = 0;
+          else if (input >= nativeHighlights) scanLine[iout] = maxOutput;
           else 
           {
             const T inputFloored = (input - nativeShadows);
-            scanLine[i] = (inputFloored * k1) / (inputFloored * k2 - midtones);
+            scanLine[iout] = (inputFloored * k1) / (inputFloored * k2 - midtones);
 	  }
         }
     }));
@@ -99,10 +113,12 @@ void stretchOneChannel(T *input_buffer, QImage *output_image,
 // into a single qRgb value at the end, so it seems the simplest thing is to
 // replicate the code. It is assume the colors are not interleaved--the red image
 // is stored fully, then the green, then the blue.
+// Sampling is applied to the output (that is, with sampling=2, we compute every other output
+// sample both in width and height, so the output would have about 4X fewer pixels.
 template <typename T>
 void stretchThreeChannels(T *inputBuffer, QImage *outputImage,
                           const StretchParams& stretchParams, 
-                          int inputRange, int imageHeight, int imageWidth)
+                          int inputRange, int imageHeight, int imageWidth, int sampling)
 {
   QVector<QFuture<void>> futures;
 
@@ -124,9 +140,9 @@ void stretchThreeChannels(T *inputBuffer, QImage *outputImage,
 
   // Precomputed expressions moved out of the loop.
   // hightlights - shadows, protecting for divide-by-0, in a 0->1.0 scale.
-  const float hsRangeFactorR = highlightsR == shadowsR ? 1.0 : 1.0 / (highlightsR - shadowsR);
-  const float hsRangeFactorG = highlightsG == shadowsG ? 1.0 : 1.0 / (highlightsG - shadowsG);
-  const float hsRangeFactorB = highlightsB == shadowsB ? 1.0 : 1.0 / (highlightsB - shadowsB);
+  const float hsRangeFactorR = highlightsR == shadowsR ? 1.0f : 1.0f / (highlightsR - shadowsR);
+  const float hsRangeFactorG = highlightsG == shadowsG ? 1.0f : 1.0f / (highlightsG - shadowsG);
+  const float hsRangeFactorB = highlightsB == shadowsB ? 1.0f : 1.0f / (highlightsB - shadowsB);
   // Shadow and highlight values translated to the ADU scale.
   const T nativeShadowsR = shadowsR * maxInput;
   const T nativeShadowsG = shadowsG * maxInput;
@@ -144,7 +160,7 @@ void stretchThreeChannels(T *inputBuffer, QImage *outputImage,
   
   const int size = imageWidth * imageHeight;
   
-  for (int j = 0; j < imageHeight; j++)
+  for (int j = 0, jout = 0; j < imageHeight; j+=sampling, jout++)
   {
     futures.append(QtConcurrent::run([ = ]()
     {
@@ -153,9 +169,9 @@ void stretchThreeChannels(T *inputBuffer, QImage *outputImage,
         T * inputLineG  = inputLineR + size;
         T * inputLineB  = inputLineG + size;
         
-        auto * scanLine = reinterpret_cast<QRgb*>(outputImage->scanLine(j));
+        auto * scanLine = reinterpret_cast<QRgb*>(outputImage->scanLine(jout));
         
-	for (int i = 0; i < imageWidth; i++)
+    for (int i = 0, iout = 0; i < imageWidth; i+=sampling, iout++)
         {
           const T inputR = inputLineR[i];
           const T inputG = inputLineG[i];
@@ -186,7 +202,7 @@ void stretchThreeChannels(T *inputBuffer, QImage *outputImage,
             const T inputFloored = (inputB - nativeShadowsB);
             blue = (inputFloored * k1B) / (inputFloored * k2B - midtonesB);
 	  }
-          scanLine[i] = qRgb(red, green, blue);
+          scanLine[iout] = qRgb(red, green, blue);
         }
     }));
   }
@@ -197,14 +213,14 @@ void stretchThreeChannels(T *inputBuffer, QImage *outputImage,
 template <typename T>
 void stretchChannels(T *input_buffer, QImage *output_image,
                        const StretchParams& stretch_params, 
-                     int input_range, int image_height, int image_width, int num_channels)
+                     int input_range, int image_height, int image_width, int num_channels, int sampling)
 {
     if (num_channels == 1)
       stretchOneChannel(input_buffer, output_image, stretch_params, input_range,
-                        image_height, image_width);
+                        image_height, image_width, sampling);
     else if (num_channels == 3)
       stretchThreeChannels(input_buffer, output_image, stretch_params, input_range,
-                           image_height, image_width);
+                           image_height, image_width, sampling);
 }
   
 // See section 8.5.7 in above link  http://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
@@ -215,9 +231,8 @@ void computeParamsOneChannel(T *buffer, StretchParams1Channel *params,
   // Find the median sample.
   constexpr int maxSamples = 500000;
   const int sampleBy = width * height < maxSamples ? 1 : width * height / maxSamples;
-  const int size = width * height;
-  T medianSample = median(buffer, width * height, sampleBy);
 
+  T medianSample = median(buffer, width * height, sampleBy);
   // Find the Median deviation: 1.4826 * median of abs(sample[i] - median).
   const int numSamples = width * height / sampleBy;
   std::vector<T> deviations(numSamples);
@@ -252,9 +267,9 @@ void computeParamsOneChannel(T *buffer, StretchParams1Channel *params,
     M = highlights - normalizedMedian;
   }
   float midtones;
-  if (X == 0) midtones = 0;
-  else if (X == M) midtones = 0.5;
-  else if (X == 1) midtones = 1.0;
+  if (X == 0) midtones = 0.0f;
+  else if (X == M) midtones = 0.5f;
+  else if (X == 1) midtones = 1.0f;
   else midtones = ((M - 1) * X) / ((2 * M - 1) * X - M);
 
   // Store the params.
@@ -275,28 +290,20 @@ int getRange(int data_type)
     {
         case TBYTE:
             return 256;
-            break;
         case TSHORT:
             return 64*1024;
-            break;
         case TUSHORT:
             return 64*1024;
-            break;
         case TLONG:
             return 64*1024;
-            break;
         case TFLOAT:
             return 64*1024;
-            break;
         case TLONGLONG:
             return 64*1024;
-            break;
         case TDOUBLE:
             return 64*1024;
-            break;
         default:
             return 64*1024;
-            break;
     }
 }
   
@@ -311,45 +318,65 @@ Stretch::Stretch(int width, int height, int channels, int data_type)
   input_range = getRange(dataType);
 }
 
-void Stretch::run(uint8_t *input, QImage *outputImage)
+void Stretch::run(uint8_t *input, QImage *outputImage, int sampling)
 {
+    Q_ASSERT(outputImage->width() == (image_width + sampling - 1) / sampling);
+    Q_ASSERT(outputImage->height() == (image_height + sampling - 1) / sampling);
+    recalculateInputRange(input);
+
     switch (dataType)
     {
         case TBYTE:
             stretchChannels(reinterpret_cast<uint8_t*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         case TSHORT:
             stretchChannels(reinterpret_cast<short*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         case TUSHORT:
             stretchChannels(reinterpret_cast<unsigned short*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         case TLONG:
             stretchChannels(reinterpret_cast<long*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         case TFLOAT:
             stretchChannels(reinterpret_cast<float*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         case TLONGLONG:
             stretchChannels(reinterpret_cast<long long*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         case TDOUBLE:
             stretchChannels(reinterpret_cast<double*>(input), outputImage, params,
-                            input_range, image_height, image_width, image_channels);
+                            input_range, image_height, image_width, image_channels, sampling);
             break;
         default:
         break;
     }
 }
 
+// The input range for float/double is ambiguous, and we can't tell without the buffer,
+// so we set it to 64K and possibly reduce it when we see the data.
+void Stretch::recalculateInputRange(uint8_t *input)
+{
+    if (input_range <= 1) return;
+    if (dataType != TFLOAT && dataType != TDOUBLE) return;
+
+    float mx = 0;
+    if (dataType == TFLOAT)
+        mx = sampledMax(reinterpret_cast<float*>(input), image_height * image_width, 1000);
+    else if (dataType == TDOUBLE)
+        mx = sampledMax(reinterpret_cast<double*>(input), image_height * image_width, 1000);
+    if (mx <= 1.01f) input_range = 1;
+}
+
 StretchParams Stretch::computeParams(uint8_t *input)
 {
+  recalculateInputRange(input);
   StretchParams result;
   for (int channel = 0; channel < image_channels; ++channel)
   {

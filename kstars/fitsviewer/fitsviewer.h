@@ -127,7 +127,6 @@ class FITSViewer : public KXmlGuiWindow
         void centerTelescope();
         void updateWCSFunctions();
         void applyFilter(int ftype);
-        void toggleStretch();
         void rotateCW();
         void rotateCCW();
         void flipHorizontal();

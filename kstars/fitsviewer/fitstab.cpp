@@ -28,6 +28,14 @@
 
 #include <KMessageBox>
 #include <QtConcurrent>
+#include <QIcon>
+
+
+namespace {
+const char kAutoToolTip[] = "Automatically find stretch parameters";
+const char kStretchOffToolTip[] = "Stretch the image";
+const char kStretchOnToolTip[] = "Disable stretching of the image.";
+}  // namespace
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
@@ -98,6 +106,236 @@ void FITSTab::clearRecentFITS()
     connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
 }
 
+namespace {
+
+// Sets the text value in the slider's value display, and if adjustSlider is true,
+// moves the slider to the correct position.
+void setSlider(QSlider *slider, QLabel *label, float value, float maxValue, bool adjustSlider)
+{
+    if (adjustSlider)
+        slider->setValue(static_cast<int>(value * 10000 / maxValue));
+    QString valStr = QString("%1").arg(static_cast<double>(value), 5, 'f', 4);
+    label->setText(valStr);
+}
+
+// Adds the following to a horizontal layout (left to right): a vertical line,
+// a label with the slider's name, a slider, and a text field to display the slider's value.
+void setupStretchSlider(QSlider *slider, QLabel *label, QLabel *val, int fontSize,
+                        const QString& name, QHBoxLayout *layout)
+{
+    QFrame* line = new QFrame();
+    line->setFrameShape(QFrame::VLine);
+    line->setFrameShadow(QFrame::Sunken);
+    layout->addWidget(line);
+    QFont font = label->font();
+    font.setPointSize(fontSize);
+
+    label->setText(name);
+    label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    label->setFont(font);
+    layout->addWidget(label);
+    slider->setMinimum(0);
+    slider->setMaximum(10000);
+    slider->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    layout->addWidget(slider);
+    val->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    val->setFont(font);
+    layout->addWidget(val);
+}
+
+// Adds a button with the icon and tooltip to the layout.
+void setupStretchButton(QPushButton *button, const QString &iconName, const QString &tip, QHBoxLayout *layout)
+{
+    button->setIcon(QIcon::fromTheme(iconName));
+    button->setIconSize(QSize(22, 22));
+    button->setToolTip(tip);
+    button->setCheckable(true);
+    button->setChecked(true);
+    button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    layout->addWidget(button);
+}
+
+}  // namespace
+
+// Updates all the widgets in the stretch area to display the view's stretch parameters.
+void FITSTab::setStretchUIValues(bool adjustSliders)
+{
+    StretchParams1Channel params = view->getStretchParams().grey_red;
+    setSlider(shadowsSlider.get(), shadowsVal.get(), params.shadows, maxShadows, adjustSliders);
+    setSlider(midtonesSlider.get(), midtonesVal.get(), params.midtones, maxMidtones, adjustSliders);
+    setSlider(highlightsSlider.get(), highlightsVal.get(), params.highlights, maxHighlights, adjustSliders);
+
+
+    bool stretchActive = view->isImageStretched();
+    if (stretchActive)
+    {
+        stretchButton->setChecked(true);
+        stretchButton->setToolTip(kStretchOnToolTip);
+    }
+    else
+    {
+        stretchButton->setChecked(false);
+        stretchButton->setToolTip(kStretchOffToolTip);
+    }
+
+    // Only activeate the auto button if stretching is on and auto-stretching is not set.
+    if (stretchActive && !view->getAutoStretch())
+    {
+        autoButton->setEnabled(true);
+        autoButton->setIcon(QIcon::fromTheme("tools-wizard"));
+        autoButton->setIconSize(QSize(22, 22));
+        autoButton->setToolTip(kAutoToolTip);
+    }
+    else
+    {
+        autoButton->setEnabled(false);
+        autoButton->setIcon(QIcon());
+        autoButton->setIconSize(QSize(22, 22));
+        autoButton->setToolTip("");
+    }
+    autoButton->setChecked(view->getAutoStretch());
+
+    // Disable most of the UI if stretching is not active.
+    shadowsSlider->setEnabled(stretchActive);
+    shadowsVal->setEnabled(stretchActive);
+    shadowsLabel->setEnabled(stretchActive);
+    midtonesSlider->setEnabled(stretchActive);
+    midtonesVal->setEnabled(stretchActive);
+    midtonesLabel->setEnabled(stretchActive);
+    highlightsSlider->setEnabled(stretchActive);
+    highlightsVal->setEnabled(stretchActive);
+    highlightsLabel->setEnabled(stretchActive);
+}
+
+// Adjusts the maxShadows value so that we have room to adjust the slider.
+void FITSTab::rescaleShadows()
+{
+    if (!view) return;
+    StretchParams1Channel params = view->getStretchParams().grey_red;
+    maxShadows = std::max(0.002f, std::min(1.0f, params.shadows * 2.0f));
+    setStretchUIValues(true);
+}
+
+// Adjusts the maxMidtones value so that we have room to adjust the slider.
+void FITSTab::rescaleMidtones()
+{
+    if (!view) return;
+    StretchParams1Channel params = view->getStretchParams().grey_red;
+    maxMidtones = std::max(.002f, std::min(1.0f, params.midtones * 2.0f));
+    setStretchUIValues(true);
+}
+
+QHBoxLayout* FITSTab::setupStretchBar()
+{
+    constexpr int fontSize = 12;
+
+    QHBoxLayout *stretchBarLayout = new QHBoxLayout();
+
+    stretchButton.reset(new QPushButton());
+    setupStretchButton(stretchButton.get(), "transform-move", kStretchOffToolTip, stretchBarLayout);
+
+    // Shadows
+    shadowsLabel.reset(new QLabel());
+    shadowsVal.reset(new QLabel());
+    shadowsSlider.reset(new QSlider(Qt::Horizontal, this));
+    setupStretchSlider(shadowsSlider.get(), shadowsLabel.get(), shadowsVal.get(), fontSize, "Shadows", stretchBarLayout);
+
+    // Midtones
+    midtonesLabel.reset(new QLabel());
+    midtonesVal.reset(new QLabel());
+    midtonesSlider.reset(new QSlider(Qt::Horizontal, this));
+    setupStretchSlider(midtonesSlider.get(), midtonesLabel.get(), midtonesVal.get(), fontSize, "Midtones", stretchBarLayout);
+
+    // Highlights
+    highlightsLabel.reset(new QLabel());
+    highlightsVal.reset(new QLabel());
+    highlightsSlider.reset(new QSlider(Qt::Horizontal, this));
+    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Hightlights", stretchBarLayout);
+
+    // Separator
+    QFrame* line4 = new QFrame();
+    line4->setFrameShape(QFrame::VLine);
+    line4->setFrameShadow(QFrame::Sunken);
+    stretchBarLayout->addWidget(line4);
+
+    autoButton.reset(new QPushButton());
+    setupStretchButton(autoButton.get(), "tools-wizard", kAutoToolTip, stretchBarLayout);
+
+    connect(stretchButton.get(), &QPushButton::clicked, [=]() {
+        // This will toggle whether we're currently stretching.
+        view->setStretch(!view->isImageStretched());
+    });
+
+    // Make rough displays for the slider movement.
+    connect(shadowsSlider.get(), &QSlider::sliderMoved, [=](int value) {
+        StretchParams params = view->getStretchParams();
+        params.grey_red.shadows = this->maxShadows * value / 10000.0f;
+        view->setSampling(4);
+        view->setStretchParams(params);
+        view->setSampling(1);
+      });
+    connect(midtonesSlider.get(), &QSlider::sliderMoved, [=](int value) {
+        StretchParams params = view->getStretchParams();
+        params.grey_red.midtones = this->maxMidtones * value / 10000.0f;
+        view->setSampling(4);
+        view->setStretchParams(params);
+        view->setSampling(1);
+    });
+    connect(highlightsSlider.get(), &QSlider::sliderMoved, [=](int value) {
+        StretchParams params = view->getStretchParams();
+        params.grey_red.highlights = this->maxHighlights * value / 10000.0f;
+        view->setSampling(4);
+        view->setStretchParams(params);
+        view->setSampling(1);
+    });
+
+    // Make a final full-res display when the slider is released.
+    connect(shadowsSlider.get(), &QSlider::sliderReleased, [=]() {
+        if (!view) return;
+        rescaleShadows();
+        StretchParams params = view->getStretchParams();
+        view->setStretchParams(params);
+    });
+    connect(midtonesSlider.get(), &QSlider::sliderReleased, [=]() {
+        if (!view) return;
+        rescaleMidtones();
+        StretchParams params = view->getStretchParams();
+        view->setStretchParams(params);
+    });
+    connect(highlightsSlider.get(), &QSlider::sliderReleased, [=]() {
+        if (!view) return;
+        StretchParams params = view->getStretchParams();
+        view->setStretchParams(params);
+    });
+
+    connect(autoButton.get(), &QPushButton::clicked, [=]() {
+        // If we're not currently using automatic stretch parameters, turn that on.
+        // If we're already using automatic parameters, don't do anything.
+        // User can just move the sliders to take manual control.
+        if (!view->getAutoStretch())
+            view->setAutoStretchParams();
+        else
+            KMessageBox::information(this, "You are already using automatic stretching. To manually stretch, drag a slider.");
+        setStretchUIValues(false);
+    });
+
+    // This is mostly useful right at the start, when the image is displayed without any user interaction.
+    // Check for slider-in-use, as we don't wont to rescale while the user is active.
+    connect(view.get(), &FITSView::newStatus, [=](const QString &ignored) {
+        Q_UNUSED(ignored)
+        bool slidersInUse = shadowsSlider->isSliderDown() || midtonesSlider->isSliderDown() ||
+                highlightsSlider->isSliderDown();
+        if (!slidersInUse)
+        {
+            rescaleShadows();
+            rescaleMidtones();
+        }
+        setStretchUIValues(!slidersInUse);
+    });
+
+    return stretchBarLayout;
+}
+
 bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 {
     if (view.get() == nullptr)
@@ -154,9 +392,9 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         fitsSplitter->setSizes(QList<int>() << 0 << view->width() );
 
         vlayout->addWidget(fitsSplitter);
+        vlayout->addLayout(setupStretchBar());
 
         connect(fitsSplitter, &QSplitter::splitterMoved, histogram, &FITSHistogram::resizePlot);
-
 
         setLayout(vlayout);
         connect(view.get(), &FITSView::newStatus, this, &FITSTab::newStatus);
