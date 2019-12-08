@@ -73,7 +73,7 @@ void AddLinkDialog::checkURL(void)
         if (KMessageBox::warningYesNo(nullptr, message, caption, KGuiItem(i18n("Browse Google")),
                                       KGuiItem(i18n("Do Not Browse"))) == KMessageBox::Yes)
         {
-            QDesktopServices::openUrl(QUrl("http://www.google.com"));
+            QDesktopServices::openUrl(QUrl("https://www.google.com"));
         }
     }
 }

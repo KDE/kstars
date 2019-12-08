@@ -25,7 +25,7 @@
 /**
  * @class EquirectangularProjector
  *
- * Implememntation of <a href="http://en.wikipedia.org/wiki/Equirectangular_projection">Equirectangular projection</a>
+ * Implememntation of <a href="https://en.wikipedia.org/wiki/Equirectangular_projection">Equirectangular projection</a>
  *
  */
 class EquirectangularProjector : public Projector

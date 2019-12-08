@@ -1,7 +1,7 @@
 /*  Non Linear Spin Box
     Copyright (C) 2017 Robert Lancaster <rlancaste@gmail.com>
 
-    Based on an idea discussed in the QT Centre: http://www.qtcentre.org/threads/47535-QDoubleSpinBox-with-nonlinear-values
+    Based on an idea discussed in the QT Centre: https://www.qtcentre.org/threads/47535-QDoubleSpinBox-with-nonlinear-values
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public

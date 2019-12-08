@@ -43,7 +43,7 @@ const QString &getSchedulerStatusString(FilterState state)
     return schedulerStates[state];
 }
 
-/* Taken from http://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
+/* Taken from https://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq)
 {

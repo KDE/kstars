@@ -66,7 +66,7 @@ class StarHopper
 
     /**
      * @short For internal use by the A* Search Algorithm. Completes
-     * the star-hop path. See http://en.wikipedia.org/wiki/A*_search_algorithm for details
+     * the star-hop path. See https://en.wikipedia.org/wiki/A*_search_algorithm for details
      */
     void reconstructPath(SkyPoint const *curr_node);
 

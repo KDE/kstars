@@ -252,7 +252,7 @@ typedef struct
  *                       http://www-ise.stanford.edu/~tingchen/algodep/vargra.html              *
  *                       Sources import from DCRAW by Frederic Devernay. DCRAW is a RAW         *
  *                       converter program by Dave Coffin. URL:                                 *
- *                       http://www.cybercom.net/~dcoffin/dcraw/                                *
+ *                       https://dechifro.org/dcraw/                                            *
  *  - AHD              : Adaptive Homogeneity-Directed Demosaicing Algorithm, by K. Hirakawa    *
  *                       and T.W. Parks, IEEE Transactions on Image Processing, Vol. 14, Nr. 3, *
  *                       March 2005, pp. 360 - 369.                                             *

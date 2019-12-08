@@ -25,7 +25,7 @@
 /**
  * @class AzimuthalEquidistantProjector
  *
- * Implememntation of <a href="http://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">Azimuthal equidistant projection</a>
+ * Implememntation of <a href="https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">Azimuthal equidistant projection</a>
  *
  */
 class AzimuthalEquidistantProjector : public Projector

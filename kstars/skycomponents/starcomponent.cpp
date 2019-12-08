@@ -236,7 +236,7 @@ float StarComponent::zoomMagnitudeLimit()
      Estimates from a sample of 125000 stars shows that, magnitude
      limit vs. number of stars follows the formula:
        nStars = 10^(.45 * maglim + .95)
-     (A better formula is available here: http://www.astro.uu.nl/~strous/AA/en/antwoorden/magnituden.html
+     (A better formula is available here: https://www.aa.quae.nl/en/antwoorden/magnituden.html
       which we do not implement for simplicity)
      We want to keep the star density on screen a constant. This is directly proportional to the number of stars
      and directly proportional to the area on screen. The area is in turn inversely proportional to the square

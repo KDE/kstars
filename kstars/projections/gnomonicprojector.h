@@ -25,7 +25,7 @@
 /**
  * @class GnomonicProjector
  *
- * Implememntation of <a href="http://en.wikipedia.org/wiki/Gnomonic_projection">Gnomonic projection</a>
+ * Implememntation of <a href="https://en.wikipedia.org/wiki/Gnomonic_projection">Gnomonic projection</a>
  *
  */
 class GnomonicProjector : public Projector
