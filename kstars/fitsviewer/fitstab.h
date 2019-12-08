@@ -28,6 +28,9 @@
 #include <QFuture>
 #include <QPointer>
 #include <QListWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QSlider>
 
 #include <memory>
 
@@ -129,6 +132,12 @@ class FITSTab : public QWidget
 
     private:
         bool setupView(FITSMode mode, FITSScale filter);
+
+        QHBoxLayout* setupStretchBar();
+        void setStretchUIValues(bool adjustSliders);
+        void rescaleShadows();
+        void rescaleMidtones();
+
         void processData();
 
         /** Ask user whether he wants to save changes and save if he do. */
@@ -161,10 +170,16 @@ class FITSTab : public QWidget
         QString previewText;
         int uid { 0 };
 
+        // Stretch bar widgets
+        std::unique_ptr<QLabel> shadowsLabel, midtonesLabel, highlightsLabel;
+        std::unique_ptr<QLabel> shadowsVal, midtonesVal, highlightsVal;
+        std::unique_ptr<QSlider> shadowsSlider, midtonesSlider, highlightsSlider;
+        std::unique_ptr<QPushButton> stretchButton, autoButton;
+        float maxShadows {0.5}, maxMidtones {0.5}, maxHighlights {1.0};
+
         //QFuture<void> histogramFuture;
 
-
-    signals:
+signals:
         void debayerToggled(bool);
         void newStatus(const QString &msg, FITSBar id);
         void changeStatus(bool clean);

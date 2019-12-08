@@ -36,34 +36,115 @@
 #include <QGestureEvent>
 
 #define BASE_OFFSET    50
-#define ZOOM_DEFAULT   100.0
+#define ZOOM_DEFAULT   100.0f
 #define ZOOM_MIN       10
 #define ZOOM_MAX       400
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-namespace
-{
+namespace  {
 
-void doStretch(FITSData *data, QImage *outputImage, bool stretchOn)
+// Derive the Green and Blue stretch parameters from their previous values and the
+// changes made to the Red parameters. We apply the same offsets used for Red to the
+// other channels' parameters, but clip them.
+void ComputeGBStretchParams(const StretchParams &newParams, StretchParams* params) {
+    float shadow_diff = newParams.grey_red.shadows - params->grey_red.shadows;
+    float highlight_diff = newParams.grey_red.highlights - params->grey_red.highlights;
+    float midtones_diff = newParams.grey_red.midtones - params->grey_red.midtones;
+
+    params->green.shadows = params->green.shadows + shadow_diff;
+    params->green.shadows = KSUtils::clamp(params->green.shadows, 0.0f, 1.0f);
+    params->green.highlights = params->green.highlights + highlight_diff;
+    params->green.highlights = KSUtils::clamp(params->green.highlights, 0.0f, 1.0f);
+    params->green.midtones = params->green.midtones + midtones_diff;
+    params->green.midtones = std::max(params->green.midtones, 0.0f);
+
+    params->blue.shadows = params->blue.shadows + shadow_diff;
+    params->blue.shadows = KSUtils::clamp(params->blue.shadows, 0.0f, 1.0f);
+    params->blue.highlights = params->blue.highlights + highlight_diff;
+    params->blue.highlights = KSUtils::clamp(params->blue.highlights, 0.0f, 1.0f);
+    params->blue.midtones = params->blue.midtones + midtones_diff;
+    params->blue.midtones = std::max(params->blue.midtones, 0.0f);
+}
+
+}  // namespace
+
+// Runs the stretch checking the variables to see which parameters to use.
+// We call stretch even if we're not stretching, as the stretch code still
+// converts the image to the uint8 output image which will be displayed.
+// In that case, it will use an identity stretch.
+void FITSView::doStretch(FITSData *data, QImage *outputImage)
 {
     if (outputImage->isNull())
         return;
     Stretch stretch(static_cast<int>(data->width()),
                     static_cast<int>(data->height()),
                     data->channels(), data->property("dataType").toInt());
-    if (stretchOn)
-      stretch.setParams(stretch.computeParams(data->getImageBuffer()));
-    stretch.run(data->getImageBuffer(), outputImage);
+
+    StretchParams tempParams;
+    if (!stretchImage)
+        tempParams = StretchParams();  // Keeping it linear
+    else if (autoStretch)
+    {
+        // Compute new auto-stretch params.
+        stretchParams = stretch.computeParams(data->getImageBuffer());
+        tempParams = stretchParams;
+    }
+    else
+        // Use the existing stretch params.
+        tempParams = stretchParams;
+
+    stretch.setParams(tempParams);
+    stretch.run(data->getImageBuffer(), outputImage, sampling);
 }
 
-}  // namespace
+// Store stretch parameters, and turn on stretching if it isn't already on.
+void FITSView::setStretchParams(const StretchParams& params)
+{
+    if (imageData->channels() == 3)
+        ComputeGBStretchParams(params, &stretchParams);
 
+    stretchParams.grey_red = params.grey_red;
+    stretchParams.grey_red.shadows = std::max(stretchParams.grey_red.shadows, 0.0f);
+    stretchParams.grey_red.highlights = std::max(stretchParams.grey_red.highlights, 0.0f);
+    stretchParams.grey_red.midtones = std::max(stretchParams.grey_red.midtones, 0.0f);
+
+    autoStretch = false;
+    stretchImage = true;
+
+    if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+      updateFrame();
+}
+
+// Turn on or off stretching, and if on, use whatever parameters are currently stored.
+void FITSView::setStretch(bool onOff)
+{
+    if (stretchImage != onOff)
+    {
+        stretchImage = onOff;
+        if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+            updateFrame();
+    }
+}
+
+// Turn on stretching, using automatically generated parameters.
+void FITSView::setAutoStretchParams()
+{
+    stretchImage = true;
+    autoStretch = true;
+    if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+        updateFrame();
+}
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), zoomFactor(1.2)
 {
+    // stretchImage is whether to stretch or not--the stretch may or may not use automatically generated parameters.
+    // The user may enter his/her own.
     stretchImage = Options::autoStretch();
-  
+    // autoStretch means use automatically-generated parameters. This is the default, unless the user overrides
+    // by adjusting the stretchBar's sliders.
+    autoStretch = true;
+
     grabGesture(Qt::PinchGesture);
 
     image_frame.reset(new FITSLabel(this));
@@ -212,6 +293,7 @@ void FITSView::loadFITS(const QString &inFilename, bool silent)
 
 bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
 {
+    Q_UNUSED(inFilename)
     if (imageData != nullptr)
     {
       delete imageData;
@@ -240,11 +322,12 @@ bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
 bool FITSView::processData()
 {
     // Set current width and height
+    if (!imageData) return false;
     currentWidth = imageData->width();
     currentHeight = imageData->height();
 
-    image_width  = currentWidth;
-    image_height = currentHeight;
+    int image_width  = currentWidth;
+    int image_height = currentHeight;
 
     image_frame->setSize(image_width, image_height);
 
@@ -405,29 +488,20 @@ bool FITSView::rescale(FITSZoom type)
 {
     if (rawImage.isNull())
         return false;
-    if (true || image_height != imageData->height() || image_width != imageData->width())
-    {
-      image_width  = imageData->width();
-      image_height = imageData->height();
 
-      initDisplayImage();
+    if (!imageData) return false;
+    int image_width  = imageData->width();
+    int image_height = imageData->height();
+    currentWidth  = image_width;
+    currentHeight = image_height;
 
-      if (isVisible())
-        emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
-    }
-
-    image_frame->setScaledContents(true);
-    currentWidth  = rawImage.width();
-    currentHeight = rawImage.height();
-
-    doStretch(imageData, &rawImage, stretchImage);
-    
-    scaledImage = QImage();
+    if (isVisible())
+      emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
     switch (type)
     {
         case ZOOM_FIT_WINDOW:
-            if ((rawImage.width() > width() || rawImage.height() > height()))
+            if ((image_width > width() || image_height > height()))
             {
                 double w = baseSize().width() - BASE_OFFSET;
                 double h = baseSize().height() - BASE_OFFSET;
@@ -470,10 +544,14 @@ bool FITSView::rescale(FITSZoom type)
             break;
     }
 
+    initDisplayImage();
+    image_frame->setScaledContents(true);
+    doStretch(imageData, &rawImage);
+    scaledImage = QImage();
     setWidget(image_frame.get());
 
-    if (type != ZOOM_KEEP_LEVEL)
-        emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    // This is needed by fitstab, even if the zoom doesn't change, to change the stretch UI.
+    emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
     return true;
 }
@@ -498,8 +576,9 @@ void FITSView::ZoomIn()
         emit actionUpdated("view_zoom_in", false);
     }
 
-    currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
-    currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
+    if (!imageData) return;
+    currentWidth  = imageData->width() * (currentZoom / ZOOM_DEFAULT);
+    currentHeight = imageData->height() * (currentZoom / ZOOM_DEFAULT);
 
     updateFrame();
 
@@ -521,8 +600,9 @@ void FITSView::ZoomOut()
 
     emit actionUpdated("view_zoom_in", true);
 
-    currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
-    currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
+    if (!imageData) return;
+    currentWidth  = imageData->width() * (currentZoom / ZOOM_DEFAULT);
+    currentHeight = imageData->height() * (currentZoom / ZOOM_DEFAULT);
 
     updateFrame();
 
@@ -606,8 +686,8 @@ void FITSView::ZoomDefault()
         emit actionUpdated("view_zoom_in", true);
 
         currentZoom   = ZOOM_DEFAULT;
-        currentWidth  = image_width;
-        currentHeight = image_height;
+        currentWidth  = imageData->width();
+        currentHeight = imageData->height();
 
         updateFrame();
 
@@ -746,6 +826,9 @@ This Method draws a large Crosshair in the center of the image, it is like a set
 
 void FITSView::drawCrosshair(QPainter * painter)
 {
+    if (!imageData) return;
+    int image_width = imageData->width();
+    int image_height = imageData->height();
     float scale = (currentZoom / ZOOM_DEFAULT);
     QPointF c   = QPointF((qreal)image_width / 2 * scale, (qreal)image_height / 2 * scale);
     float midX  = (float)image_width / 2 * scale;
@@ -784,12 +867,12 @@ be in the center of the image.
 void FITSView::drawPixelGrid(QPainter * painter)
 {
     float scale   = (currentZoom / ZOOM_DEFAULT);
-    double width  = image_width * scale;
-    double height = image_height * scale;
-    double cX     = width / 2;
-    double cY     = height / 2;
-    double deltaX = width / 10;
-    double deltaY = height / 10;
+    float width  = imageData->width() * scale;
+    float height = imageData->height() * scale;
+    float cX     = width / 2;
+    float cY     = height / 2;
+    float deltaX = width / 10;
+    float deltaY = height / 10;
     //draw the Axes
     painter->setPen(QPen(Qt::red));
     painter->drawText(cX - 30, height - 5, QString::number((int)((cX) / scale)));
@@ -846,6 +929,8 @@ to draw gridlines at those specific RA and Dec values.
 void FITSView::drawEQGrid(QPainter * painter)
 {
     float scale = (currentZoom / ZOOM_DEFAULT);
+    int image_width = imageData->width();
+    int image_height = imageData->height();
 
     if (imageData->hasWCS())
     {
@@ -1033,6 +1118,8 @@ void FITSView::drawEQGrid(QPainter * painter)
 
 bool FITSView::pointIsInImage(QPointF pt, bool scaled)
 {
+    int image_width = imageData->width();
+    int image_height = imageData->height();
     float scale = (currentZoom / ZOOM_DEFAULT);
     if (scaled)
         return pt.x() < image_width * scale && pt.y() < image_height * scale && pt.x() > 0 && pt.y() > 0;
@@ -1042,6 +1129,8 @@ bool FITSView::pointIsInImage(QPointF pt, bool scaled)
 
 QPointF FITSView::getPointForGridLabel()
 {
+    int image_width = imageData->width();
+    int image_height = imageData->height();
     float scale = (currentZoom / ZOOM_DEFAULT);
 
     //These get the maximum X and Y points in the list that are in the image
@@ -1453,9 +1542,13 @@ QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 
 void FITSView::initDisplayImage()
 {
+    // Account for leftover when sampling. Thus a 5-wide image sampled by 2
+    // would result in a width of 3 (samples 0, 2 and 4).
+    int w = (imageData->width() + sampling - 1) / sampling;
+    int h = (imageData->height() + sampling - 1) / sampling;
     if (imageData->channels() == 1)
     {
-        rawImage = QImage(image_width, image_height, QImage::Format_Indexed8);
+        rawImage = QImage(w, h, QImage::Format_Indexed8);
 
         rawImage.setColorCount(256);
         for (int i = 0; i < 256; i++)
@@ -1463,7 +1556,7 @@ void FITSView::initDisplayImage()
     }
     else
     {
-        rawImage = QImage(image_width, image_height, QImage::Format_RGB32);
+        rawImage = QImage(w, h, QImage::Format_RGB32);
     }
 }
 

@@ -74,10 +74,19 @@ class Stretch
         /**
          * @brief run run the stretch algorithm according to the params given
          * placing the output in output_image.
+         * @param input the raw data buffer.
+         * @param output_image a QImage pointer that should be the same size as the input if
+         * sampling is 1 otherwise, the proper size if the input is downsampled by sampling.
+         * @param sampling The sampling parameter. Applies to both width and height.
+         * Sampling is applied to the output (that is, with sampling=2, we compute every other output
+         * sample both in width and height, so the output would have about 4X fewer pixels.
          */
-        void run(uint8_t *input, QImage *output_image);
+        void run(uint8_t *input, QImage *output_image, int sampling=1);
 
  private:
+        // Adjusts input_range for float and double types.
+        void recalculateInputRange(uint8_t *input);
+
         // Inputs.
         int image_width;
         int image_height;

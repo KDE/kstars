@@ -13,6 +13,7 @@
 #include "fitscommon.h"
 
 #include <config-kstars.h>
+#include "stretch.h"
 
 #ifdef HAVE_DATAVISUALIZATION
 #include "starprofileviewer.h"
@@ -203,6 +204,28 @@ class FITSView : public QScrollArea
 
         //void setLoadWCSEnabled(bool value);
 
+        // Returns the params set to stretch the image.
+        StretchParams getStretchParams() const { return stretchParams; }
+
+        // Returns true if we're automatically generating stretch parameters.
+        // Note: this is not whether we're stretching, that's controlled by stretchImage.
+        bool getAutoStretch() const { return autoStretch; }
+
+        // Sets the params for stretching. Will also stretch and re-display the image.
+        // This only sets the first channel stretch params. For RGB images, the G&B channel
+        // stretch parameters are a function of the Red input param and the existing RGB params.
+        void setStretchParams(const StretchParams& params);
+
+        // Sets whether to stretch the image or not.
+        // Will also re-display the image if onOff != stretchImage.
+        void setStretch(bool onOff);
+
+        // Automatically generates stretch parameters and use them to re-display the image.
+        void setAutoStretchParams();
+
+        // When sampling is > 1, we will display the image at a lower resolution.
+        void setSampling(int value) { if (value > 0) sampling = value; }
+
     public slots:
         void wheelEvent(QWheelEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;
@@ -268,6 +291,7 @@ class FITSView : public QScrollArea
 
     private:
         bool processData();
+        void doStretch(FITSData *data, QImage *outputImage);
 
         QLabel *noImageLabel { nullptr };
         QPixmap noImage;
@@ -275,9 +299,6 @@ class FITSView : public QScrollArea
         QVector<QPointF> eqGridPoints;
 
         std::unique_ptr<FITSLabel> image_frame;
-
-        uint32_t image_width { 0 };
-        uint32_t image_height { 0 };
 
         /// Current width due to zoom
         uint16_t currentWidth { 0 };
@@ -304,8 +325,21 @@ class FITSView : public QScrollArea
         bool showPixelGrid { false };
         bool showStarsHFR { false };
 
+        // Should the image be displayed in linear (false) or stretched (true).
+        // Initial value controlled by Options::autoStretch.
         bool stretchImage { false };
-  
+
+        // When stretching, should we automatically compute parameters.
+        // When first displaying, this should be true, but may be set to false
+        // if the user has overridden the automatically set parameters.
+        bool autoStretch { true };
+
+        // Params for stretching image.
+        StretchParams stretchParams;
+
+        // Resolution for display. Sampling=2 means display every other sample.
+        int sampling { 1 };
+
         struct
         {
             bool used() const
@@ -353,7 +387,7 @@ class FITSView : public QScrollArea
         QPointer<StarProfileViewer> starProfileWidget;
 #endif
 
-    signals:
+signals:
         void newStatus(const QString &msg, FITSBar id);
         void debayerToggled(bool);
         void wcsToggled(bool);
