@@ -1,5 +1,3 @@
-#include "stretch.h"
-
 /*  Stretch
 
     This application is free software; you can redistribute it and/or

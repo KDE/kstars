@@ -97,11 +97,11 @@ int main(int argc, char *argv[])
     KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
                          "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"),
                          i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, i18n(notice)),
-                         "http://edu.kde.org/kstars");
+                         "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
                         "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com",
-                        "http://www.indilib.org");
+                        "https://www.indilib.org");
 
     // Active developers
     aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
     aboutData.addAuthor(i18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
     aboutData.addAuthor(i18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
-    aboutData.addAuthor(i18n("Heiko Evermann"), QString(), "heiko@evermann.de", "http://www.evermann.de");
+    aboutData.addAuthor(i18n("Heiko Evermann"), QString(), "heiko@evermann.de", "https://www.evermann.de");
     aboutData.addAuthor(i18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
     aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
     aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");

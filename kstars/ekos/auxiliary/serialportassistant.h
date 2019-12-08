@@ -24,7 +24,7 @@
 class SerialPortAssistant : public QDialog, public Ui::SerialPortAssistant
 {
 public:
-    SerialPortAssistant(ProfileInfo *profile, QWidget *parent = nullptr);
+    explicit SerialPortAssistant(ProfileInfo *profile, QWidget *parent = nullptr);
 
     void addDevice(ISD::GDInterface *device);
 

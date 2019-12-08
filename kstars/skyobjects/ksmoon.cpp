@@ -161,7 +161,7 @@ bool KSMoon::loadData()
 bool KSMoon::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *)
 {
     //Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
-    //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
+    //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  https://www.willbell.com/math/mc1.htm)
     //updated to Jean Messus (1998, Willmann-Bell, http://www.naughter.com/aa.html )
 
     double T, L, D, M, M1, F, A1, A2, A3;

@@ -145,7 +145,7 @@ void KSComet::findPhysicalParameters()
 {
     // Compute and store the estimated Physical size of the comet's coma, tail and nucleus
     // References:
-    // * http://www.projectpluto.com/update7b.htm#comet_tail_formula [Project Pluto / GUIDE]
+    // * https://www.projectpluto.com/update7b.htm#comet_tail_formula [Project Pluto / GUIDE]
     // * http://articles.adsabs.harvard.edu//full/1978BAICz..29..103K/0000113.000.html [Kresak, 1978a, "Passages of comets and asteroids near the earth"]
     NuclearSize   = pow(10, 2.1 - 0.2 * M1);
     double mHelio = M1 + K1 * log10(rsun());

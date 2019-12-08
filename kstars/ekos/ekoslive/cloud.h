@@ -27,7 +27,7 @@ class Cloud : public QObject
         Q_OBJECT
 
     public:
-        Cloud(Ekos::Manager * manager);
+        explicit Cloud(Ekos::Manager * manager);
         virtual ~Cloud() = default;
 
         void sendResponse(const QString &command, const QJsonObject &payload);

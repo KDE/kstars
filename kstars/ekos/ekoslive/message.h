@@ -25,7 +25,7 @@ class Message : public QObject
         Q_OBJECT
 
     public:
-        Message(Ekos::Manager *manager);
+        explicit Message(Ekos::Manager *manager);
         virtual ~Message() = default;
 
         void sendResponse(const QString &command, const QJsonObject &payload);
