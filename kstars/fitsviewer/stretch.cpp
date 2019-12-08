@@ -49,7 +49,7 @@ T median(T *values, int size, int sampleBy)
 
 // This stretches one channel given the input parameters.
 // Based on the spec in section 8.5.6
-// http://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
+// https://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
 // Uses multiple threads, blocks until done.
 // The extension parameters are not used.
 // Sampling is applied to the output (that is, with sampling=2, we compute every other output
@@ -221,7 +221,7 @@ void stretchChannels(T *input_buffer, QImage *output_image,
                            image_height, image_width, sampling);
 }
   
-// See section 8.5.7 in above link  http://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
+// See section 8.5.7 in above link  https://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
 template <typename T>
 void computeParamsOneChannel(T *buffer, StretchParams1Channel *params, 
                              int inputRange, int height, int width)

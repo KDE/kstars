@@ -193,12 +193,12 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
         if (missingIndexes == 1)
             align->appendLogText(
                 i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you "
-                     "install the missing index files. Download the index files from http://www.astrometry.net",
+                     "install the missing index files. Download the index files from http://astrometry.net",
                      startIndex));
         else
             align->appendLogText(i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to "
                                       "adequately solve plates until you install the missing index files. Download the "
-                                      "index files from http://www.astrometry.net",
+                                      "index files from http://astrometry.net",
                                       startIndex, lastIndex));
     }
 }

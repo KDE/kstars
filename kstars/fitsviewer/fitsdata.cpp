@@ -3491,7 +3491,7 @@ double FITSData::getADU() const
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Email   : hipersayan DOT x AT gmail DOT com
- * Web-Site: http://github.com/hipersayanX/CannyDetector
+ * Web-Site: https://github.com/hipersayanX/CannyDetector
  */
 
 template <typename T>

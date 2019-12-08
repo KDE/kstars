@@ -1,7 +1,7 @@
 /*  StarProfileViewer
     Copyright (C) 2017 Robert Lancaster <rlancaste@gmail.com>
 
-    Based on the QT Surface Example http://doc.qt.io/qt-5.9/qtdatavisualization-surface-example.html
+    Based on the QT Surface Example https://doc.qt.io/qt-5.9/qtdatavisualization-surface-example.html
     and the QT Bars Example https://doc-snapshots.qt.io/qt5-5.9/qtdatavisualization-bars-example.html
 
     This application is free software; you can redistribute it and/or

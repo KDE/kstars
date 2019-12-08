@@ -36,7 +36,7 @@ class KSSun;
  *
  * This tool shows a moon phase calendar for an entire month in the
  * same spirit as this website:
- * http://stardate.org/nightsky/moon/index.php
+ * https://stardate.org/nightsky/moon
  *
  * It uses a clone of KSMoon in the backend to perform the phase
  * computation and uses the moon images for the various phases to

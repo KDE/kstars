@@ -261,7 +261,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
 
     // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
-    // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accomodate that.
+    // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accommodate that.
     if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
     {
         Options::setSolverBackend(SOLVER_ASTROMETRYNET);

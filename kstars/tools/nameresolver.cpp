@@ -252,7 +252,7 @@ SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType(const Q
     // accept. Otherwise, or if NED did not return a result, re-run
     // the query on SIMBAD and VizieR and use that result, if any.
 
-    // See http://cds.u-strasbg.fr/cgi-bin/Otype?IR for Object Classification in SIMBAD
+    // See https://simbad.u-strasbg.fr/simbad/sim-display?data=otypes for Object Classification in SIMBAD
 
     // Highest likelihood is a galaxy of some form, so we process that first
     const QString &s       = typeString; // To make the code compact

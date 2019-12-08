@@ -25,7 +25,7 @@
 /**
  * @class OrthographicProjector
  *
- * Implememntation of <a href="http://en.wikipedia.org/wiki/Orthographic_projection">Orthographic projection</a>
+ * Implememntation of <a href="https://en.wikipedia.org/wiki/Orthographic_projection">Orthographic projection</a>
  *
  */
 class OrthographicProjector : public Projector

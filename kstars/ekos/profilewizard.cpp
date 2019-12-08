@@ -48,7 +48,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     connect(discoverEkosB, &QPushButton::clicked, this,
             []()
     {
-        QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html"));
+        QDesktopServices::openUrl(QUrl("https://www.indilib.org/about/ekos.html"));
     });
     connect(videoTutorialsB, &QPushButton::clicked, this,
             []()
@@ -58,7 +58,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     connect(INDIInfoB, &QPushButton::clicked, this,
             []()
     {
-        QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html"));
+        QDesktopServices::openUrl(QUrl("https://indilib.org/about/discover-indi.html"));
     });
 
     // Intro actions

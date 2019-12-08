@@ -1743,7 +1743,7 @@ dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, i
     return DC1394_SUCCESS;
 }
 
-/* Variable Number of Gradients, from dcraw <http://www.cybercom.net/~dcoffin/dcraw/> */
+/* Variable Number of Gradients, from dcraw <https://dechifro.org/dcraw/> */
 /* Ported to libdc1394 by Frederic Devernay */
 
 #define FORC3 for (c = 0; c < 3; c++)

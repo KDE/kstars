@@ -144,7 +144,7 @@
      <item>
       <widget class="QLabel" name="bortleHelpText">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;For help: &lt;a href=&quot;http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#004183;&quot;&gt;Wikipedia Link for Bortle dark-sky scale&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;For help: &lt;a href=&quot;https://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#004183;&quot;&gt;Wikipedia Link for Bortle dark-sky scale&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>

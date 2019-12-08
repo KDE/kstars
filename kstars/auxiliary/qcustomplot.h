@@ -18,7 +18,7 @@
 **                                                                        **
 ****************************************************************************
 **           Author: Emanuel Eichhammer                                   **
-**  Website/Contact: http://www.qcustomplot.com/                          **
+**  Website/Contact: https://www.qcustomplot.com/                         **
 **             Date: 13.09.16                                             **
 **          Version: 2.0.0-beta                                           **
 ****************************************************************************/
