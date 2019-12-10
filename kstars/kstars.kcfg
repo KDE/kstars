@@ -1835,6 +1835,10 @@
          <label>Number of focus frames to average for HFR calculations.</label>
          <default>1</default>
       </entry>
+      <entry name="FocusMaxSingleStep" type="UInt">
+         <label>Maximum single step the focus algorithm is permitted to command.</label>
+         <default>100000</default>
+      </entry>
    </group>
    <group name="Align">
       <entry name="DefaultAlignCCD" type="String">

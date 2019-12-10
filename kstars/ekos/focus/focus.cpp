@@ -1961,6 +1961,15 @@ void Focus::autoFocusAbs()
             delta = (targetPosition - currentPosition);
 
             qCDebug(KSTARS_EKOS_FOCUS) << "delta (targetPosition - currentPosition) " << delta;
+
+            // Limit to Maximum permitted delta (Max Single Step Size)
+            double limitedDelta = qMax(-1.0 * maxSingleStepIN->value(), qMin(1.0 * maxSingleStepIN->value(), delta));
+            if (std::fabs(limitedDelta - delta) > 0)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << "Limited delta to maximum permitted single step " << maxSingleStepIN->value();
+                delta = limitedDelta;
+            }
+
             qCDebug(KSTARS_EKOS_FOCUS) << "Focusing " << ((delta < 0) ? "IN" : "OUT");
 
             // Now cross your fingers and wait
@@ -3126,6 +3135,8 @@ void Focus::syncSettings()
             Options::setFocusBoxSize(sb->value());
         else if (sb == stepIN)
             Options::setFocusTicks(sb->value());
+        else if (sb == maxSingleStepIN)
+            Options::setFocusMaxSingleStep(sb->value());
         else if (sb == focusFramesSpin)
             Options::setFocusFramesCount(sb->value());
     }
@@ -3218,6 +3229,8 @@ void Focus::loadSettings()
     maxTravelIN->setValue(Options::focusMaxTravel());
     // Step
     stepIN->setValue(Options::focusTicks());
+    // Single Max Step
+    maxSingleStepIN->setValue(Options::focusMaxSingleStep());
     // Tolerance
     toleranceIN->setValue(Options::focusTolerance());
     // Threshold spin
@@ -3265,6 +3278,7 @@ void Focus::initSettingsConnections()
     connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(maxTravelIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(maxSingleStepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
