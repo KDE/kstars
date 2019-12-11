@@ -4392,8 +4392,13 @@ void Capture::constructPrefix(QString &imagePrefix)
             // Whole number
             imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
         else
+        {
             // Decimal
-            imagePrefix += QString::number(exposureIN->value(), 'f', 3) + QString("_secs");
+            if (exposureIN->value() >= 0.001)
+                imagePrefix += QString::number(exposureIN->value(), 'f', 3) + QString("_secs");
+            else
+                imagePrefix += QString::number(exposureIN->value(), 'f', 6) + QString("_secs");
+        }
     }
     if (ISOCheck->isChecked())
     {
