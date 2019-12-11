@@ -376,6 +376,7 @@
       <caption xml:lang="nl">Het hulpmiddel voor "Wat is interessant" in KStars</caption>
       <caption xml:lang="pl">Narzędzie "Co jest interesującego" w KStars</caption>
       <caption xml:lang="pt">Ferramenta "O que há de interessante" no KStars</caption>
+      <caption xml:lang="pt-BR">Ferramenta "O que há de interessante..." no KStars</caption>
       <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
       <caption xml:lang="uk">Інструмент «Цікаві об'єкти» у KStars</caption>
       <caption xml:lang="x-test">xx"What's interesting" tool in KStarsxx</caption>
@@ -395,6 +396,7 @@
       <caption xml:lang="nl">Het hulpmiddel Ekos in KStars</caption>
       <caption xml:lang="pl">Narzędzie Ekos w KStars</caption>
       <caption xml:lang="pt">Ferramenta do Ekos no KStars</caption>
+      <caption xml:lang="pt-BR">Ferramenta Ekos no KStars</caption>
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
       <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
       <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
@@ -415,6 +417,7 @@
       <caption xml:lang="nl">Plannen van waarnemingen in KStars</caption>
       <caption xml:lang="pl">Planista obserwacji w KStars</caption>
       <caption xml:lang="pt">Planeamento de Observações do KStars</caption>
+      <caption xml:lang="pt-BR">Planejador de observação do KStars</caption>
       <caption xml:lang="sv">Observationsplanering i Kstars</caption>
       <caption xml:lang="uk">Планування спостережень у KStars</caption>
       <caption xml:lang="x-test">xxObservation Planner of KStarsxx</caption>
