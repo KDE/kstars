@@ -376,12 +376,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     alignPlot->resize(190, 190);
     alignPlot->replot();
 
-    solutionTable->setColumnWidth(0, 70);
-    solutionTable->setColumnWidth(1, 75);
-    solutionTable->setColumnWidth(2, 80);
-    solutionTable->setColumnWidth(3, 30);
-    solutionTable->setColumnWidth(4, 100);
-    solutionTable->setColumnWidth(5, 100);
+    solutionTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     clearAllSolutionsB->setIcon(
         QIcon::fromTheme("application-exit"));
