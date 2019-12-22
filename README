@@ -1,49 +1,36 @@
+# A Desktop Planetarium for KDE
 
-      *****************************************************
-      **   KStars 3.1.0: A Desktop Planetarium for KDE   **
-      *****************************************************
+Important Note: **Do not submit Pull Requests to Github**. KStars repository on Github is just a mirror. All PRs will be closed automatically. To send patches to KStars, please use KDE's [Phabricator](https://community.kde.org/Infrastructure/Phabricator) system.
 
-Copyright (c) 2001 - 2019 by The KStars Team:
+KStars is free, open source, cross-platform Astronomy Software.
 
-Jason Harris <kstars@30doradus.org>
-Jasem Mutlaq <mutlaqja@ikarustech.com>
-Akarsh Simha <akarsh.simha@kdemail.net>
-James Bowlin <bowlin@mindspring.com>
-Heiko Evermann <heiko@evermann.de>
-Thomas Kabelmann <tk78@gmx.de>
-Pablo de Vicente <pvicentea@wanadoo.es>
-Mark Hollomon <mhh@mindspring.com>
-Carsten Niehaus <cniehaus@kde.org>
-Médéric Boquien <mboquien@free.fr>
-Alexey Khudyakov <alexey.skladnoy@gmail.com>
-Jérôme Sonrier <jsid@emor3j.fr.eu.org>
-Harry de Valence <hdevalence@gmail.com>
-Victor Carbune <victor.carbune@kdemail.net>
-Rafał Kułaga <rl.kulaga@gmail.com>
-Samikshan Bairagya <samikshan@gmail.com>
-Rishab Arora <ra.rishab@gmail.com>
-Robert Lancaster <rlancaste@gmail.com>
+It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. 
 
-KStars is Free Software, released under the GNU Public License.
-See COPYING for GPL license information.
------------------------------------------------------------------
+For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!
 
+Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.
 
-1.  Important URLs and files.
------------------------------
+## Copyright
 
-The KStars homepage is: http://edu.kde.org/kstars/
+Copyright (c) 2001 - 2020 by The KStars Team:
 
-You can obtain the latest version via git from:
-git://anongit.kde.org/kstars
+KStars is Free Software, released under the GNU Public License. See COPYING for GPL license information.
 
-Installation instructions are in the file INSTALL.
+## Downloads
 
-This is the file README.
+KStars is available for Windows, MacOS, and Linux. You can download the latest version from [KStars official website](https://edu.kde.org/kstars).
 
+On Linux, it is available for most Linux distributions.
 
-2. KStars documentation
------------------------
+Latest stable version is v3.3.8
+
+## Important URLs and files.
+
+* The [KStars homepage](https://edu.kde.org/kstars)
+* KDE [KStars Git Repository](git://anongit.kde.org/kstars).You can obtain the latest version via git from:
+* KStars [Web Chat](https://webchat.kde.org/#/room/#kstars:kde.org)
+
+## KStars documentation
 
 The KStars handbook can be found in your $(KDEDIR)/share/doc/HTML/<lang>/kstars/
 directory.  You can also easily access it from the Help menu, or by pressing
@@ -58,9 +45,8 @@ README.images:      Copyright information for images used in KStars.
 README.i18n:        Instructions for translators
 
 
-3. Credits
-----------
-A. The KStars Team
+## Credits
+### The KStars Team
 
 Main contributors:
    Jason Harris <kstars@30doradus.org>
@@ -82,7 +68,7 @@ Main contributors:
    Rishab Arora <ra.rishab@gmail.com>
    Robert Lancaster <rlancaste@gmail.com>
 
-B. Data Sources:
+### Data Sources:
 
  Most of the catalog data came from the Astronomical Data Center, run by
  NASA.  The website is:
@@ -116,7 +102,7 @@ B. Data Sources:
  Credits for each image used in the program are listed in README.images
 
 
-C. Acknowledgements
+# Acknowledgements
 
  KStars is a labor of love.  It started as a personal hobby of mine, but
  very soon after I first posted the code on Sourceforge, it started to
