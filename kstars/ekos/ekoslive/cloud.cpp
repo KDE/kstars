@@ -43,11 +43,13 @@ void Cloud::connectServer()
 {
     QUrl requestURL(m_URL);
 
-    QString token = m_AuthResponse.contains("remoteToken") ? m_AuthResponse["remoteToken"].toString()
-                    : m_AuthResponse["token"].toString();
     QUrlQuery query;
     query.addQueryItem("username", m_AuthResponse["username"].toString());
-    query.addQueryItem("token", token);
+    query.addQueryItem("token", m_AuthResponse["token"].toString());
+    if (m_AuthResponse.contains("remoteToken"))
+        query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
+    if (m_Options[OPTION_SET_CLOUD_STORAGE])
+        query.addQueryItem("cloudEnabled", "true");
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
@@ -223,6 +225,27 @@ void Cloud::uploadMetadata(const QByteArray &metadata)
 void Cloud::uploadImage(const QByteArray &image)
 {
     m_WebSocket.sendBinaryMessage(image);
+}
+
+void Cloud::setOptions(QMap<int, bool> options)
+{
+    bool cloudEnabled = m_Options[OPTION_SET_CLOUD_STORAGE];
+    m_Options = options;
+
+    // In case cloud storage is toggled, inform cloud
+    // websocket channel of this change.
+    if (cloudEnabled != m_Options[OPTION_SET_CLOUD_STORAGE])
+    {
+        bool enabled = m_Options[OPTION_SET_CLOUD_STORAGE];
+        QJsonObject payload = {{"value", enabled}};
+        QJsonObject message =
+        {
+            {"type",  commands[OPTION_SET_CLOUD_STORAGE]},
+            {"payload", payload}
+        };
+
+        m_WebSocket.sendTextMessage(QJsonDocument(message).toJson(QJsonDocument::Compact));
+    }
 }
 
 }

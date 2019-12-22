@@ -112,9 +112,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             m_wsURL.setUrl("ws://localhost:3000");
             m_Message->setURL(m_wsURL);
             m_Media->setURL(m_wsURL);
-            // Offline does not support cloud
-            //m_Cloud->setURL(m_wsURL);
-            m_Cloud->setURL(QUrl("wss://live.stellarmate.com"));
+            m_Cloud->setURL(m_wsURL);
         }
     }
            );
@@ -173,7 +171,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     m_Cloud = new Cloud(m_Manager);
     connect(m_Message, &Message::optionsChanged, m_Cloud, &Cloud::setOptions);
-    m_Cloud->setURL(QUrl("wss://live.stellarmate.com"));
+    m_Cloud->setURL(m_wsURL);
 }
 
 Client::~Client()
