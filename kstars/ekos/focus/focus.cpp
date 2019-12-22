@@ -2581,6 +2581,20 @@ void Focus::setAutoFocusResult(bool status)
 {
     qCDebug(KSTARS_EKOS_FOCUS) << "AutoFocus result:" << status;
 
+    if (status)
+    {
+        // CR add auto focus position, temperature and filter to log in CSV format
+        // this will help with setting up focus offsets and temperature compensation
+        INDI::Property * np = currentFocuser->getProperty("TemperatureNP");
+        double temperature = -274;      // impossible temperature as a signal that it isn't available
+        if (np != nullptr)
+        {
+            INumberVectorProperty * tnp = np->getNumber();
+            temperature = tnp->np[0].value;
+        }
+        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, " << temperature << ", filter, " << filter();
+    }
+
     // In case of failure, go back to last position if the focuser is absolute
     if (status == false && canAbsMove && currentFocuser && currentFocuser->isConnected() &&
             initialFocuserAbsPosition >= 0)
