@@ -10,6 +10,7 @@
 #include "focus.h"
 
 #include "focusadaptor.h"
+#include "focusalgorithms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -660,6 +661,24 @@ void Focus::start()
 
     KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
 
+    if (focusAlgorithm == FOCUS_LINEAR && (canAbsMove || canRelMove))
+    {
+        const int position = static_cast<int>(currentPosition);
+        FocusAlgorithmInterface::FocusParams params(
+                    maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
+                    MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0);
+        linearFocuser.reset(MakeLinearFocuser(params));
+        const int newPosition = linearFocuser->initialPosition();
+        if (newPosition != position)
+        {
+            if (!changeFocus(newPosition - position)) {
+                abort();
+                setAutoFocusResult(false);
+            }
+            // Avoid the capture below.
+            return;
+        }
+    }
     capture();
 }
 
@@ -874,45 +893,21 @@ void Focus::capture()
 
 bool Focus::focusIn(int ms)
 {
-    if (currentFocuser == nullptr)
-        return false;
-
-    if (currentFocuser->isConnected() == false)
-    {
-        appendLogText(i18n("Error: Lost connection to Focuser."));
-        return false;
-    }
-
     if (ms == -1)
         ms = stepIN->value();
-
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus in (" << ms << ")";
-
-    lastFocusDirection = FOCUS_IN;
-
-    currentFocuser->focusIn();
-
-    if (canAbsMove)
-    {
-        currentFocuser->moveAbs(currentPosition - ms);
-        appendLogText(i18n("Focusing inward by %1 steps...", ms));
-    }
-    else if (canRelMove)
-    {
-        currentFocuser->moveRel(ms);
-        appendLogText(i18n("Focusing inward by %1 steps...", ms));
-    }
-    else
-    {
-        currentFocuser->moveByTimer(ms);
-        appendLogText(i18n("Focusing inward by %1 ms...", ms));
-    }
-
-    return true;
+    return changeFocus(-ms);
 }
 
 bool Focus::focusOut(int ms)
 {
+    if (ms == -1)
+        ms = stepIN->value();
+    return changeFocus(ms);
+}
+
+// If amount > 0 we focus out, otherwise in.
+bool Focus::changeFocus(int amount)
+{   
     if (currentFocuser == nullptr)
         return false;
 
@@ -922,29 +917,32 @@ bool Focus::focusOut(int ms)
         return false;
     }
 
-    lastFocusDirection = FOCUS_OUT;
+    const int absAmount = abs(amount);
+    const bool focusingOut = amount > 0;
+    const QString dirStr = focusingOut ? i18n("outward") : i18n("inward");
+    lastFocusDirection = focusingOut ? FOCUS_OUT : FOCUS_IN;
 
-    if (ms == -1)
-        ms = stepIN->value();
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus " << dirStr << " (" << absAmount << ")";
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus out (" << ms << ")";
-
-    currentFocuser->focusOut();
-
+    if (focusingOut)
+      currentFocuser->focusOut();
+    else
+      currentFocuser->focusIn();
+     
     if (canAbsMove)
     {
-        currentFocuser->moveAbs(currentPosition + ms);
-        appendLogText(i18n("Focusing outward by %1 steps...", ms));
+        currentFocuser->moveAbs(currentPosition + amount);
+        appendLogText(i18n("Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else if (canRelMove)
     {
-        currentFocuser->moveRel(ms);
-        appendLogText(i18n("Focusing outward by %1 steps...", ms));
+        currentFocuser->moveRel(amount);
+        appendLogText(i18np("Focusing %2 by %1 step...", "Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else
     {
-        currentFocuser->moveByTimer(ms);
-        appendLogText(i18n("Focusing outward by %1 ms...", ms));
+        currentFocuser->moveByTimer(amount);
+        appendLogText(i18n("Focusing %2 by %1 ms...", absAmount, dirStr));
     }
 
     return true;
@@ -1530,11 +1528,15 @@ void Focus::drawHFRPlot()
 {
     v_graph->setData(hfr_position, hfr_value);
 
+    double minHFRVal = currentHFR / 2.5;
+    if (hfr_value.size() > 0)
+        minHFRVal = std::max(0, static_cast<int>(0.9 * *std::min_element(hfr_value.begin(), hfr_value.end())));
+
     if (inFocusLoop == false && (canAbsMove || canRelMove))
     {
         //HFRPlot->xAxis->setLabel(i18n("Position"));
         HFRPlot->xAxis->setRange(minPos - pulseDuration, maxPos + pulseDuration);
-        HFRPlot->yAxis->setRange(currentHFR / 2.5, maxHFR);
+        HFRPlot->yAxis->setRange(minHFRVal, maxHFR);
     }
     else
     {
@@ -1664,6 +1666,38 @@ void Focus::autoFocusAbs()
 
     drawHFRPlot();
 
+    if (focusAlgorithm == FOCUS_LINEAR) {
+        const int nextPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
+        if (nextPosition == -1)
+        {
+            if (linearFocuser->isDone() && linearFocuser->solution() != -1)
+            {
+                appendLogText(i18np("Autofocus complete after %1 iteration.",
+                                    "Autofocus complete after %1 iterations.", hfr_position.count()));
+                stop();
+                setAutoFocusResult(true);
+            }
+            else
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
+                appendLogText("Linear autofocus algorithm aborted.");
+                abort();
+                setAutoFocusResult(false);
+            }
+            return;
+        }
+        else
+        {
+            delta = nextPosition - currentPosition;
+            if (!changeFocus(static_cast<int>(delta)))
+            {
+                abort();
+                setAutoFocusResult(false);
+            }
+            return;
+        }
+    }
+  
     switch (lastFocusDirection)
     {
         case FOCUS_NONE:
@@ -1675,7 +1709,7 @@ void Focus::autoFocusAbs()
             HFRInc                    = 0;
             focusOutLimit             = 0;
             focusInLimit              = 0;
-            if (focusOut(pulseDuration) == false)
+            if (!changeFocus(pulseDuration))
             {
                 abort();
                 setAutoFocusResult(false);
@@ -1970,16 +2004,8 @@ void Focus::autoFocusAbs()
                 delta = limitedDelta;
             }
 
-            qCDebug(KSTARS_EKOS_FOCUS) << "Focusing " << ((delta < 0) ? "IN" : "OUT");
-
             // Now cross your fingers and wait
-            bool rc = false;
-            if (delta > 0)
-                rc = focusOut(delta);
-            else
-                rc = focusIn(fabs(delta));
-
-            if (rc == false)
+            if (!changeFocus(delta))
             {
                 abort();
                 setAutoFocusResult(false);
@@ -2044,7 +2070,7 @@ void Focus::autoFocusRel()
         case FOCUS_NONE:
             lastHFR = currentHFR;
             minHFR  = 1e6;
-            focusIn(pulseDuration);
+            changeFocus(-pulseDuration);
             break;
 
         case FOCUS_IN:
@@ -2064,10 +2090,7 @@ void Focus::autoFocusRel()
                     minHFR = currentHFR;
 
                 lastHFR = currentHFR;
-                if (lastFocusDirection == FOCUS_IN)
-                    focusIn(pulseDuration);
-                else
-                    focusOut(pulseDuration);
+                changeFocus(lastFocusDirection == FOCUS_IN ? -pulseDuration : pulseDuration);
                 HFRInc = 0;
             }
             else
@@ -2080,14 +2103,7 @@ void Focus::autoFocusRel()
 
                 pulseDuration *= 0.75;
 
-                bool rc = false;
-
-                if (lastFocusDirection == FOCUS_IN)
-                    rc = focusOut(pulseDuration);
-                else
-                    rc = focusIn(pulseDuration);
-
-                if (rc == false)
+                if (!changeFocus(lastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration))
                 {
                     abort();
                     setAutoFocusResult(false);
@@ -2776,10 +2792,7 @@ void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
     else
         relativeOffset = value - currentPosition;
 
-    if (relativeOffset > 0)
-        focusOut(relativeOffset);
-    else
-        focusIn(abs(relativeOffset));
+    changeFocus(relativeOffset);
 }
 
 void Focus::toggleFocusingWidgetFullScreen()
