@@ -57,10 +57,7 @@ class Cloud : public QObject
     public slots:
         void connectServer();
         void disconnectServer();
-        void setOptions(QMap<int, bool> options)
-        {
-            m_Options = options;
-        }
+        void setOptions(QMap<int, bool> options);
 
     private slots:
         // Connection
