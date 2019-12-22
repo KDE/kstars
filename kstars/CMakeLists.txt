@@ -172,6 +172,7 @@ if (INDI_FOUND)
 
             # Focus
             ekos/focus/focus.cpp
+            ekos/focus/focusalgorithms.cpp
 
             # Mount
             ekos/mount/mount.cpp

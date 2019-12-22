@@ -22,6 +22,9 @@
 
 namespace Ekos
 {
+
+class FocusAlgorithmInterface;
+
 /**
  * @class Focus
  * @short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
@@ -48,7 +51,7 @@ class Focus : public QWidget, public Ui::Focus
 
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } FocusType;
-        typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL } FocusAlgorithm;
+        typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR } FocusAlgorithm;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
              * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -412,6 +415,9 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        // Move the focuser in (negative) or out (positive amount).
+        bool changeFocus(int amount);
+
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
          */
@@ -601,5 +607,8 @@ class Focus : public QWidget, public Ui::Focus
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
+
+        // Experimental linear focuser.
+        std::unique_ptr<FocusAlgorithmInterface> linearFocuser;
 };
 }
