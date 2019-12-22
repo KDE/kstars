@@ -44,6 +44,8 @@ void Media::connectServer()
     query.addQueryItem("token", m_AuthResponse["token"].toString());
     if (m_AuthResponse.contains("remoteToken"))
         query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
+    if (m_Options[OPTION_SET_CLOUD_STORAGE])
+        query.addQueryItem("cloudEnabled", "true");
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
