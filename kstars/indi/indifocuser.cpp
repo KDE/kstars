@@ -191,6 +191,16 @@ bool Focuser::canRelMove()
         return true;
 }
 
+bool Focuser::canManualFocusDriveMove()
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("manualfocusdrive");
+
+    if (focusProp == nullptr)
+        return false;
+    else
+        return true;
+}
+
 bool Focuser::canTimerMove()
 {
     INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
