@@ -114,16 +114,15 @@ void LinearFocusAlgorithm::computeInitialPosition()
 {
     const int position = params.currentPosition;
     int start, end;
-    int halfMaxTravel = params.maxTravel / 2;
 
     // If the bounds allow, set the focus to half-travel above the current position
     // and sample focusing in down-to half-travel below the current position.
-    if (position + halfMaxTravel <= maxPositionLimit && position - halfMaxTravel >= minPositionLimit)
+    if (position + params.maxTravel <= maxPositionLimit && position - params.maxTravel >= minPositionLimit)
     {
-        start = position + halfMaxTravel;
-        end = position - halfMaxTravel;
+        start = position + params.maxTravel;
+        end = position - params.maxTravel;
     }
-    else if (position + halfMaxTravel > maxPositionLimit)
+    else if (position + params.maxTravel > maxPositionLimit)
     {
         // If the above hits the focus-out bound, start from the highest focus position possible
         // and sample down the travel amount.
