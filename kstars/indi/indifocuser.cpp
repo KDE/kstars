@@ -169,7 +169,17 @@ bool Focuser::canAbsMove()
 
 bool Focuser::moveRel(int steps)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    if(canManualFocusDriveMove())
+    {
+        INumberVectorProperty *focusProp = baseDevice->getNumber("manualfocusdrive");
+        if (steps == getActualManualFocusDriveValue())
+            steps = steps + 1;
+    }
+    else
+    {
+        INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    }
+
 
     if (focusProp == nullptr)
         return false;
@@ -200,6 +210,17 @@ bool Focuser::canManualFocusDriveMove()
     else
         return true;
 }
+
+double Focuser::getActualManualFocusDriveValue()
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("manualfocusdrive");
+
+    if (focusProp == nullptr)
+        return 0;
+
+    return (double)focusProp->np[0].value;
+}
+
 
 bool Focuser::canTimerMove()
 {
