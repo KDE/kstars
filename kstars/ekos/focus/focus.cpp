@@ -2247,6 +2247,41 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (canAbsMove)
         return;
 
+    if (!strcmp(nvp->name, "manualfocusdrive"))
+    {
+        INumber *pos = IUFindNumber(nvp, "manualfocusdrive");
+        if (pos && nvp->s == IPS_OK)
+        {
+            currentPosition += pos->value;
+            absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+            emit absolutePositionChanged(currentPosition);
+        }
+
+        if (adjustFocus && nvp->s == IPS_OK)
+        {
+            adjustFocus = false;
+            lastFocusDirection = FOCUS_NONE;
+            emit focusPositionAdjusted();
+            return;
+        }
+
+        if (resetFocus && nvp->s == IPS_OK)
+        {
+            resetFocus = false;
+            appendLogText(i18n("Restarting autofocus process..."));
+            start();
+        }
+
+        if (canRelMove && inAutoFocus)
+        {
+            autoFocusProcessPositionChange(nvp->s);
+        }
+        else if (nvp->s == IPS_ALERT)
+            appendLogText(i18n("Focuser error, check INDI panel."));
+
+        return;
+    }
+
     if (!strcmp(nvp->name, "REL_FOCUS_POSITION"))
     {
         INumber *pos = IUFindNumber(nvp, "FOCUS_RELATIVE_POSITION");

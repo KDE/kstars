@@ -175,6 +175,7 @@ bool Focuser::moveRel(int steps)
         focusProp = baseDevice->getNumber("manualfocusdrive");
         if (steps == getLastManualFocusDriveValue())
             steps = steps + 1;
+
     }
     else
     {
