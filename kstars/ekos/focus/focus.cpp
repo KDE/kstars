@@ -600,6 +600,7 @@ void Focus::start()
     }
 
     inAutoFocus = true;
+    focuserAdditionalMovement = 0;
     HFRFrames.clear();
 
     resetButtons();
@@ -668,7 +669,7 @@ void Focus::start()
                     maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
                     MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0);
         linearFocuser.reset(MakeLinearFocuser(params));
-        const int newPosition = linearFocuser->initialPosition();
+        const int newPosition = adjustLinearPosition(position, linearFocuser->initialPosition());
         if (newPosition != position)
         {
             if (!changeFocus(newPosition - position)) {
@@ -680,6 +681,23 @@ void Focus::start()
         }
     }
     capture();
+}
+
+int Focus::adjustLinearPosition(int position, int newPosition)
+{
+    if (newPosition > position)
+    {
+        constexpr int extraMotionSteps = 5;
+        int adjustment = extraMotionSteps * stepIN->value();
+        if (newPosition + adjustment > absMotionMax)
+            adjustment = static_cast<int>(absMotionMax) - newPosition;
+
+        focuserAdditionalMovement = adjustment;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: extending outward movement by %1").arg(adjustment);
+
+        return newPosition + adjustment;
+    }
+    return newPosition;
 }
 
 void Focus::checkStopFocus()
@@ -715,6 +733,7 @@ void Focus::stop(bool aborted)
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     inAutoFocus        = false;
+    focuserAdditionalMovement = 0;
     inFocusLoop        = false;
     // Why starSelected is set to false below? We should retain star selection status under:
     // 1. Autostar is off, or
@@ -1667,7 +1686,9 @@ void Focus::autoFocusAbs()
     drawHFRPlot();
 
     if (focusAlgorithm == FOCUS_LINEAR) {
-        const int nextPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
+        const int nextPosition = adjustLinearPosition(
+                    static_cast<int>(currentPosition),
+                    linearFocuser->newMeasurement(currentPosition, currentHFR));
         if (nextPosition == -1)
         {
             if (linearFocuser->isDone() && linearFocuser->solution() != -1)
@@ -2143,6 +2164,40 @@ void Focus::autoFocusRel()
     }
 }*/
 
+void Focus::autoFocusProcessPositionChange(IPState state)
+{
+    if (state == IPS_OK && captureInProgress == false)
+    {
+        // Normally, if we are auto-focusing, after we move the focuser we capture an image.
+        // However, the Linear algorithm, at the start of its passes, requires two
+        // consecutive focuser moves--the first out further than we want, and a second
+        // move back in, so that we eliminate backlash and are always moving in before a capture.
+        if (focuserAdditionalMovement > 0)
+        {
+            int temp = focuserAdditionalMovement;
+            focuserAdditionalMovement = 0;
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: un-doing extension. Moving back in by %1").arg(temp);
+
+            if (!focusIn(temp))
+            {
+                appendLogText(i18n("Focuser error, check INDI panel."));
+                abort();
+                setAutoFocusResult(false);
+            }
+        }
+        else
+        {
+            QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
+        }
+    }
+    else if (state == IPS_ALERT)
+    {
+        appendLogText(i18n("Focuser error, check INDI panel."));
+        abort();
+        setAutoFocusResult(false);
+    }
+}
+
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
     // Return if it is not our current focuser
@@ -2182,15 +2237,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
         if (canAbsMove && inAutoFocus)
         {
-            if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
-            //capture();
-            else if (nvp->s == IPS_ALERT)
-            {
-                appendLogText(i18n("Focuser error, check INDI panel."));
-                abort();
-                setAutoFocusResult(false);
-            }
+            autoFocusProcessPositionChange(nvp->s);
         }
         else if (nvp->s == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2199,6 +2246,41 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (canAbsMove)
         return;
+
+    if (!strcmp(nvp->name, "manualfocusdrive"))
+    {
+        INumber *pos = IUFindNumber(nvp, "manualfocusdrive");
+        if (pos && nvp->s == IPS_OK)
+        {
+            currentPosition += pos->value;
+            absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+            emit absolutePositionChanged(currentPosition);
+        }
+
+        if (adjustFocus && nvp->s == IPS_OK)
+        {
+            adjustFocus = false;
+            lastFocusDirection = FOCUS_NONE;
+            emit focusPositionAdjusted();
+            return;
+        }
+
+        if (resetFocus && nvp->s == IPS_OK)
+        {
+            resetFocus = false;
+            appendLogText(i18n("Restarting autofocus process..."));
+            start();
+        }
+
+        if (canRelMove && inAutoFocus)
+        {
+            autoFocusProcessPositionChange(nvp->s);
+        }
+        else if (nvp->s == IPS_ALERT)
+            appendLogText(i18n("Focuser error, check INDI panel."));
+
+        return;
+    }
 
     if (!strcmp(nvp->name, "REL_FOCUS_POSITION"))
     {
@@ -2227,14 +2309,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
         if (canRelMove && inAutoFocus)
         {
-            if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
-            else if (nvp->s == IPS_ALERT)
-            {
-                appendLogText(i18n("Focuser error, check INDI panel."));
-                abort();
-                setAutoFocusResult(false);
-            }
+            autoFocusProcessPositionChange(nvp->s);
         }
         else if (nvp->s == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2256,14 +2331,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
         if (canAbsMove == false && canRelMove == false && inAutoFocus)
         {
-            if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
-            else if (nvp->s == IPS_ALERT)
-            {
-                appendLogText(i18n("Focuser error, check INDI panel."));
-                abort();
-                setAutoFocusResult(false);
-            }
+            autoFocusProcessPositionChange(nvp->s);
         }
         else if (nvp->s == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
