@@ -173,7 +173,7 @@ bool Focuser::moveRel(int steps)
     if(canManualFocusDriveMove())
     {
         focusProp = baseDevice->getNumber("manualfocusdrive");
-        if (steps == getActualManualFocusDriveValue())
+        if (steps == getLastManualFocusDriveValue())
             steps = steps + 1;
     }
     else
@@ -212,7 +212,7 @@ bool Focuser::canManualFocusDriveMove()
         return true;
 }
 
-double Focuser::getActualManualFocusDriveValue()
+double Focuser::getLastManualFocusDriveValue()
 {
     INumberVectorProperty *focusProp = baseDevice->getNumber("manualfocusdrive");
 
