@@ -147,6 +147,7 @@ The <guilabel>Configure &kstars;</guilabel> window is divided into eleven pages:
 <guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel>, <guilabel>Xplanet</guilabel> and <guilabel>Advanced</guilabel>.
 </para>
 
+<!-- Catalogs page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Catalogs page</secondary></indexterm>
@@ -154,6 +155,7 @@ In the <guilabel>Catalogs</guilabel> page, you determine which object
 catalogs are displayed in the map along with several properties.
 </para>
 
+<!-- Solar System page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Solar System page</secondary></indexterm>
@@ -167,6 +169,7 @@ the Sun, Moon, planets, comets and asteroids are displayed.
 <secondary>Satellites page</secondary></indexterm>
 The <guilabel>Satellites</guilabel> page allows you to set the satellites view options.
 </para>
+
 <!-- Supernovae page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
@@ -174,6 +177,7 @@ The <guilabel>Satellites</guilabel> page allows you to set the satellites view o
 The <guilabel>Supernovae</guilabel> page allows you to manage how supernovae are displayed by &kstars;.
 </para>
 
+<!-- Guides page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Guides page</secondary></indexterm>
@@ -183,6 +187,12 @@ Milky Way contour).
 </para>
 
 <para>
+<indexterm><primary>Sky culture</primary></indexterm>
+It is possible to choose a <guilabel>Sky culture</guilabel> for the constellation lines and names on this page. The current version of &kstars; includes data for more than a dozen sky cultures.
+</para>
+
+<!-- Colors page: -->
+<para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Colors page</secondary></indexterm>
 <indexterm><primary>Color Schemes</primary>
@@ -191,18 +201,22 @@ The <guilabel>Colors</guilabel> page allows you to set the color scheme,
 and to define new custom color schemes.
 </para>
 
+<!-- FITS page: -->
 <para>For detailed explanation of the options on the <guilabel>FITS</guilabel>
 page see the <link linkend="fits-configure">Configure FITS</link> section.
 </para>
 
+<!-- INDI page: -->
 <para>For detailed explanation of the options on the <guilabel>INDI</guilabel>
 page see the <link linkend="indi-configure">Configure INDI</link> section.
 </para>
 
+<!-- Ekos page: -->
 <para>For detailed explanation of <guilabel>Ekos</guilabel> astrophotography suite,
 see the <link linkend="tool-ekos">Ekos section of this manual</link>.
 </para>
 
+<!-- Xplanet page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Xplanet page</secondary></indexterm>
@@ -210,6 +224,7 @@ The <guilabel>Xplanet</guilabel> page provides fine-grained control
 over <ulink url="http://xplanet.sourceforge.net/">Solar system planet surface renderer Xplanet</ulink> (should be installed separately).
 </para>
 
+<!-- Advanced page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Advanced page</secondary></indexterm>
@@ -928,7 +943,7 @@ are displayed (&ie;, constellation lines, constellation names, the
 Milky Way contour, the <link linkend="ai-cequator">celestial
 equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
 linkend="ai-horizon">the horizon line</link>, and the opaque ground).
-You can also choose whether you would like to see Latin constellation
+You can also choose a sky culture, whether you would like to see Latin constellation
 names, <acronym>IAU</acronym>-standard three-letter abbreviations, or
 constellation names using your local language.
 </para>
