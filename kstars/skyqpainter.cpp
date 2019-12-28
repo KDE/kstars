@@ -910,7 +910,13 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 save();
                 QFont f             = font();
                 const QString qMark = " ? ";
+
+                #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+                double scaleFactor  = 0.8 * size / fontMetrics().horizontalAdvance(qMark);
+                #else
                 double scaleFactor  = 0.8 * size / fontMetrics().width(qMark);
+                #endif
+
                 f.setPointSizeF(f.pointSizeF() * scaleFactor);
                 setFont(f);
                 translate(x, y);

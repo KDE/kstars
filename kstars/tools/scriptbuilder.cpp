@@ -89,7 +89,12 @@ void OptionsTreeView::resizeColumns()
             {
                 child->setExpanded(true);
 
+                #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+                int w = qfm.horizontalAdvance(child->text(icol)) + 4;
+                #else
                 int w = qfm.width(child->text(icol)) + 4;
+                #endif
+
                 if (icol == 0)
                 {
                     w += 2 * optionsList()->indentation();
