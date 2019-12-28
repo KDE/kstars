@@ -708,6 +708,7 @@ void SkyMapComposite::reloadCNames()
     //     m_CNames = new ConstellationNamesComponent( this, m_Cultures.get() );
     //     SkyMapDrawAbstract::setDrawLock( false );
     objectNames(SkyObject::CONSTELLATION).clear();
+    objectLists(SkyObject::CONSTELLATION).clear();
     removeComponent(m_CNames);
     delete m_CNames;
     addComponent(m_CNames = new ConstellationNamesComponent(this, m_Cultures.get()));
