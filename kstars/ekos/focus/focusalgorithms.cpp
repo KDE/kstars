@@ -160,7 +160,7 @@ void LinearFocusAlgorithm::computeInitialPosition()
     }
     requestedPosition = start;
     qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: initialPosition %1 end %2 steps %3 sized %4")
-                                  .arg(start).arg(end).arg(start-end/params.initialStepSize).arg(params.initialStepSize);
+                                  .arg(start).arg(end).arg((start-end)/params.initialStepSize).arg(params.initialStepSize);
 }
 
 int LinearFocusAlgorithm::newMeasurement(int position, double value)
