@@ -1547,6 +1547,19 @@ void Focus::drawHFRPlot()
 {
     v_graph->setData(hfr_position, hfr_value);
 
+    // Put the sample number inside the plot point's circle.
+    for (int i = 0; i < hfr_position.size(); ++i)
+    {
+        QCPItemText *textLabel = new QCPItemText(HFRPlot);
+        textLabel->setPositionAlignment(Qt::AlignCenter|Qt::AlignHCenter);
+        textLabel->position->setType(QCPItemPosition::ptPlotCoords);
+        textLabel->position->setCoords(hfr_position[i], hfr_value[i]);
+        textLabel->setText(QString::number(i+1));
+        textLabel->setFont(QFont(font().family(), 12));
+        textLabel->setPen(Qt::NoPen);
+        textLabel->setColor(Qt::red);
+    }
+
     double minHFRVal = currentHFR / 2.5;
     if (hfr_value.size() > 0)
         minHFRVal = std::max(0, static_cast<int>(0.9 * *std::min_element(hfr_value.begin(), hfr_value.end())));
@@ -3471,7 +3484,7 @@ void Focus::initPlots()
 
     v_graph = HFRPlot->addGraph();
     v_graph->setLineStyle(QCPGraph::lsNone);
-    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 5));
+    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::white, 14));
 
 }
 
