@@ -387,7 +387,12 @@ void HIPSManager::addToMemoryCache(pixCacheKey_t &key, pixCacheItem_t *item)
   Q_ASSERT(item);
   Q_ASSERT(item->image);
 
+  #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+  int cost = item->image->sizeInBytes();
+  #else
   int cost = item->image->byteCount();
+  #endif
+
   m_cache.add(key, item, cost);
 }
 

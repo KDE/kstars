@@ -1190,9 +1190,9 @@ bool InternalGuider::selectAutoStar()
             useNativeDetection = true;
             // For SEP, prefer flux total
             if (Options::guideAlgorithm() == SEP_THRESHOLD)
-                qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->val > b->val; });
+                std::sort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->val > b->val; });
             else
-                qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->width > b->width; });
+                std::sort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->width > b->width; });
 
             guideFrame->setStarsEnabled(true);
             guideFrame->updateFrame();

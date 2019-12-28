@@ -1123,7 +1123,11 @@ void Scheduler::moveJobUp()
         return;
 
     /* Swap jobs in the list */
+    #if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+    jobs.swapItemsAt(currentRow, destinationRow);
+    #else
     jobs.swap(currentRow, destinationRow);
+    #endif
 
     /* Reassign status cells */
     setJobStatusCells(currentRow);
@@ -1158,7 +1162,11 @@ void Scheduler::moveJobDown()
         return;
 
     /* Swap jobs in the list */
+    #if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+    jobs.swapItemsAt(currentRow, destinationRow);
+    #else
     jobs.swap(currentRow, destinationRow);
+    #endif
 
     /* Reassign status cells */
     setJobStatusCells(currentRow);

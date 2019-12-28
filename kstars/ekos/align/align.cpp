@@ -1039,7 +1039,7 @@ void Align::generateAlignStarList()
     boxNames.sort(Qt::CaseInsensitive);
     boxNames.removeDuplicates();
     greekBoxNames.removeDuplicates();
-    qSort(greekBoxNames.begin(), greekBoxNames.end(), [](const QString & a, const QString & b)
+    std::sort(greekBoxNames.begin(), greekBoxNames.end(), [](const QString & a, const QString & b)
     {
         QStringList aParts = a.split(' ');
         QStringList bParts = b.split(' ');

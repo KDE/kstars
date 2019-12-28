@@ -164,7 +164,12 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
     if (image)      
     {
       m_rendered++;
+
+      #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+      m_size += image->sizeInBytes();
+      #else
       m_size += image->byteCount();
+      #endif
 
       // UV Mapping to apply image unto the destination image
       // 4x4 = 16 points are mapped from the source image unto the destination image.
