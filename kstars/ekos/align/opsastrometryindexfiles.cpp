@@ -49,11 +49,11 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
 
-    connect(indexLocations,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OpsAstrometryIndexFiles::slotUpdate);
+    connect(indexLocations, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OpsAstrometryIndexFiles::slotUpdate);
 
     for (auto &checkBox : checkboxes)
     {
-        connect(checkBox, &QCheckBox::clicked, this,&OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles);
+        connect(checkBox, &QCheckBox::clicked, this, &OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles);
     }
 
     QList<QProgressBar *> progressBars = findChildren<QProgressBar *>();
@@ -88,12 +88,12 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
 {
-    QStringList astrometryDataDirs =KSUtils::getAstrometryDataDirs();
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
 
     if (astrometryDataDirs.count() == 0)
         return;
     indexLocations->clear();
-    if(astrometryDataDirs.count()>1)
+    if(astrometryDataDirs.count() > 1)
         indexLocations->addItem("All Sources");
     indexLocations->addItems(astrometryDataDirs);
     slotUpdate();
@@ -108,7 +108,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
         checkBox->setChecked(false);
     }
 
-    if(indexLocations->count()==0)
+    if(indexLocations->count() == 0)
         return;
 
     double fov_w, fov_h, fov_pixscale;
@@ -156,7 +156,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     //This loop checks all the folders that are supposed to be checked for the files
     //It checks the box if it finds them
-    for(QString astrometryDataDir:astrometryDataDirsToIndex)
+    for(QString astrometryDataDir : astrometryDataDirsToIndex)
     {
         QDir directory(astrometryDataDir);
         QStringList indexList = directory.entryList(nameFilter);
@@ -229,7 +229,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
     //This loop goes over all the directories and adds a stylesheet to change the look of the checkbox text
     //if the File is installed in any directory.  Note that this indicator is then used below in the
     //Index File download function to check if they really want to do install a file that is installed.
-    for(QString astrometryDataDir:astrometryDataDirs)
+    for(QString astrometryDataDir : astrometryDataDirs)
     {
         QDir directory(astrometryDataDir);
         QStringList indexList = directory.entryList(nameFilter);
@@ -263,7 +263,7 @@ bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName
 
 void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
 {
-    if(indexLocations->count()==0)
+    if(indexLocations->count() == 0)
         return;
     QUrl path = QUrl::fromLocalFile(indexLocations->currentText());
     QDesktopServices::openUrl(path);
@@ -432,6 +432,8 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
 void OpsAstrometryIndexFiles::setDownloadInfoVisible(QString indexSeriesName, QCheckBox *checkBox, bool set)
 {
+    Q_UNUSED(checkBox);
+
     QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
     QLabel *indexDownloadInfo           = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_info");
     QPushButton *indexDownloadCancel    = findChild<QPushButton *>(indexSeriesName.replace('-', '_').left(10) + "_cancel");
