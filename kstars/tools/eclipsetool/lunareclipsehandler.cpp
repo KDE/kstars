@@ -38,33 +38,38 @@ EclipseHandler::EclipseVector LunarEclipseHandler::computeEclipses(long double s
     if (total == 0)
         return eclipses;
 
-    float step = 1/total;
+    float step = 1 / total;
     float progress = 0;
 
-    connect(this, &ApproachSolver::solverMadeProgress, this, [&, this] (int dProgress) {
+    connect(this, &ApproachSolver::solverMadeProgress, this, [ &, this] (int dProgress)
+    {
         float tmpProgress = roundf(progress + step * dProgress);
-        if (tmpProgress > progress) {
+        if (tmpProgress > progress)
+        {
             progress = tmpProgress;
             emit signalProgress(static_cast<int>(progress));
         }
     });
 
-    for(auto date : fullMoons) {
-        findClosestApproach(date, date + SEARCH_INTERVAL, [&eclipses, this] (long double JD, dms) {
+    for(auto date : fullMoons)
+    {
+        findClosestApproach(date, date + SEARCH_INTERVAL, [&eclipses, this] (long double JD, dms)
+        {
             EclipseEvent::ECLIPSE_TYPE type;
             updatePositions(JD);
 
             KSEarthShadow::ECLIPSE_TYPE extended_type = m_shadow.getEclipseType();
-            switch (extended_type) {
-            case KSEarthShadow::FULL_PENUMBRA:
-            case KSEarthShadow::FULL_UMBRA:
-                type = EclipseEvent::FULL;
-                break;
-            case KSEarthShadow::NONE:
-                return;
-            default:
-                type = EclipseEvent::PARTIAL;
-                break;
+            switch (extended_type)
+            {
+                case KSEarthShadow::FULL_PENUMBRA:
+                case KSEarthShadow::FULL_UMBRA:
+                    type = EclipseEvent::FULL;
+                    break;
+                case KSEarthShadow::NONE:
+                    return;
+                default:
+                    type = EclipseEvent::PARTIAL;
+                    break;
             }
 
             EclipseEvent_s event = std::make_shared<LunarEclipseEvent>(JD, *getGeoLocation(), type, extended_type);
@@ -73,7 +78,7 @@ EclipseHandler::EclipseVector LunarEclipseHandler::computeEclipses(long double s
         });
 
         progress++;
-        emit signalProgress(static_cast<int>(roundf(100*(progress/total))));
+        emit signalProgress(static_cast<int>(roundf(100 * (progress / total))));
     }
 
     emit signalProgress(100);
@@ -84,48 +89,49 @@ EclipseHandler::EclipseVector LunarEclipseHandler::computeEclipses(long double s
 // FIXME: (Valentin) This doesn't work for now. We need another method.
 LunarEclipseDetails LunarEclipseHandler::findEclipseDetails(LunarEclipseEvent *event)
 {
-//    const long double INTERVAL = 1.l;
+    Q_UNUSED(event);
+    //    const long double INTERVAL = 1.l;
 
-//    const long double JD = event->getJD();
-//    const long double start = JD - INTERVAL;
-//    const long double stop = JD + INTERVAL;
+    //    const long double JD = event->getJD();
+    //    const long double start = JD - INTERVAL;
+    //    const long double stop = JD + INTERVAL;
 
     LunarEclipseDetails details;
-//    details.available = true;
-//    details.eclipseTimes.insert(JD, LunarEclipseDetails::CLOSEST_APPROACH);
+    //    details.available = true;
+    //    details.eclipseTimes.insert(JD, LunarEclipseDetails::CLOSEST_APPROACH);
 
-//    auto type = event->getDetailedType();
-//    auto findBoth = [&](LunarEclipseDetails::EVENT ev1 /* first (temporal) */, LunarEclipseDetails::EVENT ev2) {
-//        QMap<long double, dms> tmpApproaches;
+    //    auto type = event->getDetailedType();
+    //    auto findBoth = [&](LunarEclipseDetails::EVENT ev1 /* first (temporal) */, LunarEclipseDetails::EVENT ev2) {
+    //        QMap<long double, dms> tmpApproaches;
 
-//        QPair<long double, dms> out;
-//        findPrecise(&out, JD, 0.001, -1);
-//        details.eclipseTimes.insert(out.first, ev1);
+    //        QPair<long double, dms> out;
+    //        findPrecise(&out, JD, 0.001, -1);
+    //        details.eclipseTimes.insert(out.first, ev1);
 
-//        findPrecise(&out, JD, 0.001, 1);
-//        details.eclipseTimes.insert(out.first, ev2);
-//    };
+    //        findPrecise(&out, JD, 0.001, 1);
+    //        details.eclipseTimes.insert(out.first, ev2);
+    //    };
 
-//    // waterfall method...
+    //    // waterfall method...
 
-//    if(type == KSEarthShadow::NONE) {
-//        details.available = false;
-//       return details;
-//    }
+    //    if(type == KSEarthShadow::NONE) {
+    //        details.available = false;
+    //       return details;
+    //    }
 
-//    if(type == KSEarthShadow::FULL_UMBRA) {
-//        m_mode = UMBRA_IMMERSION;
-//        findBoth(LunarEclipseDetails::BEGIN_FULL_PENUMRA, LunarEclipseDetails::END_FULL_PENUMRA);
+    //    if(type == KSEarthShadow::FULL_UMBRA) {
+    //        m_mode = UMBRA_IMMERSION;
+    //        findBoth(LunarEclipseDetails::BEGIN_FULL_PENUMRA, LunarEclipseDetails::END_FULL_PENUMRA);
 
-//        m_mode = UMBRA_CONTACT;
-//        findBoth(LunarEclipseDetails::BEGIN_UMBRA_CONTACT, LunarEclipseDetails::END_UMBRA_CONTACT);
-//    }
+    //        m_mode = UMBRA_CONTACT;
+    //        findBoth(LunarEclipseDetails::BEGIN_UMBRA_CONTACT, LunarEclipseDetails::END_UMBRA_CONTACT);
+    //    }
 
-////    if(type == KSEarthShadow::FULL_PENUMBRA || type == KSEarthShadow::FULL_UMBRA) {
+    ////    if(type == KSEarthShadow::FULL_PENUMBRA || type == KSEarthShadow::FULL_UMBRA) {
 
-////        m_mode = UMR
-////    };
-        return details;
+    ////        m_mode = UMR
+    ////    };
+    return details;
 
 }
 
@@ -154,17 +160,18 @@ dms LunarEclipseHandler::findDistance()
     dms um_rad = dms(m_shadow.getUmbraAngSize() / 60);
 
     dms dist = findSkyPointDistance(&m_shadow, &m_moon);
-    switch (m_mode) {
-    case CLOSEST_APPROACH:
-        return dist;
-    case PENUMBRA_CONTACT:
-        return dist - (moon_rad + pen_rad);
-    case PUNUMBRA_IMMERSION:
-        return dist + moon_rad - pen_rad;
-    case UMBRA_CONTACT:
-        return dist - (moon_rad + um_rad);
-    case UMBRA_IMMERSION:
-        return dist + moon_rad - um_rad;
+    switch (m_mode)
+    {
+        case CLOSEST_APPROACH:
+            return dist;
+        case PENUMBRA_CONTACT:
+            return dist - (moon_rad + pen_rad);
+        case PUNUMBRA_IMMERSION:
+            return dist + moon_rad - pen_rad;
+        case UMBRA_CONTACT:
+            return dist - (moon_rad + um_rad);
+        case UMBRA_IMMERSION:
+            return dist + moon_rad - um_rad;
     }
 
     return dms();
@@ -185,10 +192,11 @@ QVector<long double> LunarEclipseHandler::getFullMoons(long double startJD, long
 {
     const long double NEXT_STEP = 0.5l;
     const long double INTERVAL = 26.5l;
-    long double & currentJD = startJD;
+    long double &currentJD = startJD;
 
     QVector<long double> fullMoons;
-    while(currentJD <= endJD) {
+    while(currentJD <= endJD)
+    {
         KStarsDateTime t(currentJD);
         KSNumbers num(currentJD);
         CachingDms LST = getGeoLocation()->GSTtoLST(t.gst());
@@ -197,7 +205,8 @@ QVector<long double> LunarEclipseHandler::getFullMoons(long double startJD, long
         m_moon.updateCoords(&num, true, getGeoLocation()->lat(), &LST, true);
         m_moon.findPhase(&m_sun);
 
-        if(m_moon.illum() > 0.9) {
+        if(m_moon.illum() > 0.9)
+        {
             fullMoons.append(currentJD);
             currentJD += INTERVAL;
             continue;
@@ -219,13 +228,13 @@ QString LunarEclipseEvent::getExtraInfo()
 {
     switch(m_detailedType)
     {
-    case KSEarthShadow::FULL_UMBRA:
-        return "Full Umbral";
-    case KSEarthShadow::FULL_PENUMBRA:
-        return "Full Penumbral";
-    case KSEarthShadow::PARTIAL:
-    case KSEarthShadow::NONE:
-        return "";
+        case KSEarthShadow::FULL_UMBRA:
+            return "Full Umbral";
+        case KSEarthShadow::FULL_PENUMBRA:
+            return "Full Penumbral";
+        case KSEarthShadow::PARTIAL:
+        case KSEarthShadow::NONE:
+            return "";
     }
     return "";
 }
@@ -237,7 +246,8 @@ SkyObject *LunarEclipseEvent::getEclipsingObjectFromSkyComposite()
 
 void LunarEclipseEvent::slotShowDetails()
 {
-    if(!m_details.available) {
+    if(!m_details.available)
+    {
         LunarEclipseHandler handler;
         GeoLocation loc = getGeolocation();
         handler.setGeoLocation(&loc);
