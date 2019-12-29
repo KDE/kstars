@@ -3749,6 +3749,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     m_SequenceURL = QUrl::fromLocalFile(fileURL);
     m_Dirty      = false;
     delLilXML(xmlParser);
+    // update save button tool tip
+    queueSaveB->setToolTip("Save to " + sFile.fileName());
 
     return true;
 }
@@ -4171,6 +4173,9 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     appendLogText(i18n("Sequence queue saved to %1", path));
     file.close();
+    // update save button tool tip
+    queueSaveB->setToolTip("Save to " + file.fileName());
+
     return true;
 }
 

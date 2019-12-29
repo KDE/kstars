@@ -3790,6 +3790,9 @@ bool Scheduler::loadScheduler(const QString &fileURL)
     mosaicB->setEnabled(true);
     mDirty = false;
     delLilXML(xmlParser);
+    // update save button tool tip
+    queueSaveB->setToolTip("Save schedule to " + schedulerURL.fileName());
+
 
     state = old_state;
     return true;
@@ -3978,6 +3981,8 @@ void Scheduler::save()
         }
 
         mDirty = false;
+        // update save button tool tip
+        queueSaveB->setToolTip("Save schedule to " + schedulerURL.fileName());
     }
     else
     {
