@@ -143,7 +143,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder"/>
+             <iconset theme="folder">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -362,7 +363,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="search"/>
+             <iconset theme="search">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -401,7 +403,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder"/>
+             <iconset theme="folder">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -519,7 +522,7 @@
                   <blue>0</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
               </active>
               <inactive>
                <colorrole role="WindowText">
@@ -548,7 +551,7 @@
                   <blue>0</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
               </inactive>
               <disabled>
                <colorrole role="WindowText">
@@ -577,7 +580,7 @@
                   <blue>162</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
               </disabled>
              </palette>
             </property>
@@ -595,7 +598,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="snap-orthogonal"/>
+             <iconset theme="snap-orthogonal">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -855,6 +859,12 @@
               <height>32</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Load schedule from file</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -876,6 +886,12 @@
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Save schedule</string>
+            </property>
+            <property name="statusTip">
+             <string/>
             </property>
             <property name="text">
              <string/>
@@ -904,6 +920,12 @@
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Save schedule as...</string>
+            </property>
+            <property name="statusTip">
+             <string/>
             </property>
             <property name="text">
              <string/>
@@ -2146,25 +2168,25 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="constraintButtonGroup">
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="errorHandlingButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="startupProcedureButtonGroup">
+  <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
+  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

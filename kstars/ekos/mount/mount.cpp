@@ -115,6 +115,7 @@ Mount::Mount()
 
     // Meridian Flip Unit
     meridianFlipDegreesR->setChecked(Options::meridianFlipUnitDegrees());
+    meridianFlipHoursR->setChecked(!Options::meridianFlipUnitDegrees());
 
     // This is always in hours
     double offset = Options::meridianFlipOffset();
