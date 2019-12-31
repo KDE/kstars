@@ -429,6 +429,10 @@ class Manager : public QDialog, public Ui::Manager
         {
             m_ProfileMapping = payload;
         }
+        // Check if the driver binary must be one only to avoid duplicate instances
+        // Some driver binaries support multiple devices per binary
+        // so we only need to start a single instance to handle them all.
+        bool checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver);
 
         bool useGuideHead { false };
         bool useST4 { false };
