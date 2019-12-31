@@ -57,6 +57,8 @@ class Focuser : public DeviceDecorator
         bool canAbsMove();
         bool canRelMove();
         bool canTimerMove();
+        bool canManualFocusDriveMove();
+        double getLastManualFocusDriveValue();
 
         bool hasBacklash();
         bool setBacklash(int32_t steps);
