@@ -585,7 +585,7 @@ bool Manager::start()
             // since this is the only way to find out in real time.
             if (haveCCD && currentProfile->guider() == currentProfile->ccd())
             {
-                if (drv->getAuxInfo().value("mdpd", false).toBool() == true)
+                if (checkUniqueBinaryDriver( driversList.value(currentProfile->ccd()), drv))
                 {
                     drv = nullptr;
                 }
@@ -621,19 +621,34 @@ bool Manager::start()
 
         drv = driversList.value(currentProfile->aux1());
         if (drv != nullptr)
-            managedDrivers.append(drv->clone());
-
+        {
+            if (!checkUniqueBinaryDriver(driversList.value(currentProfile->ccd()), drv) &&
+                    !checkUniqueBinaryDriver(driversList.value(currentProfile->guider()), drv))
+                managedDrivers.append(drv->clone());
+        }
         drv = driversList.value(currentProfile->aux2());
         if (drv != nullptr)
-            managedDrivers.append(drv->clone());
+        {
+            if (!checkUniqueBinaryDriver(driversList.value(currentProfile->ccd()), drv) &&
+                    !checkUniqueBinaryDriver(driversList.value(currentProfile->guider()), drv))
+                managedDrivers.append(drv->clone());
+        }
 
         drv = driversList.value(currentProfile->aux3());
         if (drv != nullptr)
-            managedDrivers.append(drv->clone());
+        {
+            if (!checkUniqueBinaryDriver(driversList.value(currentProfile->ccd()), drv) &&
+                    !checkUniqueBinaryDriver(driversList.value(currentProfile->guider()), drv))
+                managedDrivers.append(drv->clone());
+        }
 
         drv = driversList.value(currentProfile->aux4());
         if (drv != nullptr)
-            managedDrivers.append(drv->clone());
+        {
+            if (!checkUniqueBinaryDriver(driversList.value(currentProfile->ccd()), drv) &&
+                    !checkUniqueBinaryDriver(driversList.value(currentProfile->guider()), drv))
+                managedDrivers.append(drv->clone());
+        }
 
         // Add remote drivers if we have any
         if (currentProfile->remotedrivers.isEmpty() == false && currentProfile->remotedrivers.contains("@"))
@@ -3374,6 +3389,15 @@ void Manager::syncActiveDevices()
             }
         }
     }
+}
+
+bool Manager::checkUniqueBinaryDriver(DriverInfo *primaryDriver, DriverInfo *secondaryDriver)
+{
+    if (!primaryDriver || !secondaryDriver)
+        return false;
+
+    return (primaryDriver->getExecutable() == secondaryDriver->getExecutable() &&
+            primaryDriver->getAuxInfo().value("mdpd", false).toBool() == true);
 }
 
 }
