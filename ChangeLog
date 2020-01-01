@@ -4,6 +4,63 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.3.9 (Oscar):
+
+881b7a882 2019-12-31 Jasem Mutlaq         Check for duplicate ccd binaries in primary, guide, and all aux drivers
+6d712a640 2019-12-31 Jasem Mutlaq         Autofocus support in Ekos module for manualfocusdrive gphoto command for Nikon
+bbc09aee9 2019-12-29 Jasem Mutlaq         Fix couple of warnings and formatting fixes
+e89bff5d3 2019-12-29 Jasem Mutlaq         Minor warning fixes
+162a4f5ba 2019-12-29 Wolfgang Reissenberger Minor corrections to capture, scheduler and mount
+d67b2be77 2019-12-28 Shubham Jangra       Fix multiple warnings
+2628f1853 2019-12-28 Yuri Chornoivan      [docs] Add markers for the configuration pages, add some info about sky cultures
+f7279d781 2019-12-28 Hy Murveit           Modify focus graph to include sample number.
+9f5012a8f 2019-12-28 Jasem Mutlaq         Add new western sky cultur
+197cf7789 2019-12-25 Hy Murveit           Improve Linear Focus Algorithm by adding extra outward motion then moving back in.
+e80a9158e 2019-12-22 Jasem Mutlaq         MD formatted now
+ff2516e91 2019-12-22 Jasem Mutlaq         Update KStars README to ensure that users on Github do not submit PRs by mistake
+318cc2b2b 2019-12-22 Chris Rowland        Add AutoFocus data to log
+930cd61af 2019-12-22 Jasem Mutlaq         Tooltip and index fixes
+ef6d65cfe 2019-12-22 Hy Murveit           Introduce the linear focuser
+a8fcd66e5 2019-12-22 Jasem Mutlaq         Fix offline cloud storage settings
+e1467aa63 2019-12-14 Robert Lancaster     Making the Columns in the Align view resize automatically
+82656bfd7 2019-12-11 Jasem Mutlaq         Account for exposure less than 0.001 seconds in the file name
+456c445d8 2019-12-10 Jasem Mutlaq         Add option to limit single step commands.
+8200b9c74 2019-12-08 Yuri Chornoivan      Use URLs with transport encryption
+7acd53d63 2019-12-08 Yuri Chornoivan      Fix minor EBN issues
+08fd2a3b4 2019-12-08 Hy Murveit           New UI to allow the user to modify the stretch being used.
+ed4882df7 2019-12-07 Jasem Mutlaq         Prevent log spamming
+f34721935 2019-12-07 Jasem Mutlaq         Set raw prefix to target name if the former is empty while the latter is non empty
+6053d5b54 2019-12-07 Jasem Mutlaq         Make sure target chip is completely valid
+7e3a783ea 2019-12-07 Jasem Mutlaq         Return if base device is not yet initialized
+838a7d2d9 2019-12-05 Jasem Mutlaq         Update versions to 3.3.9
+d5929002d 2019-12-05 Jasem Mutlaq         Bump to v3.3.9
+c7fdb7e41 2019-12-05 Jasem Mutlaq         Set index before changing type
+19d26b9d2 2019-12-04 Jasem Mutlaq         Fix astrometry crash when remote astrometry is not fully yet initialized
+a8e7678f0 2019-12-01 Jasem Mutlaq         Fix video streaming resize crash on Windows
+bd2636ad5 2019-11-30 David Faure          Fix wrong syntax for include_directories, detected by -Wmissing-include-dirs
+befd2806a 2019-11-29 Jasem Mutlaq         Retry connection in case we have a refused connection
+92b276a6f 2019-11-27 Jasem Mutlaq         Disable excessive logging
+8d4156003 2019-11-27 Wolfgang Reissenberger Reset guiding calibration if the mount moves and "Always Reset Guide Calibration" option is set.
+e331a3abe 2019-11-27 Jasem Mutlaq         Improve tooltip for mount limits
+4bc17bee6 2019-11-26 Jasem Mutlaq         If raw prefix is empty and target name is not, set it to the target name and update the job and GUI accordingly
+4c7c05ccf 2019-11-26 Jasem Mutlaq         Use rawPrefix as property
+f5615a8e8 2019-11-25 Yuri Chornoivan      Fix link: ui.html -> menus.html
+a0cc1c499 2019-11-25 Jasem Mutlaq         Fix crash when there is no focused object in comet and asteroid components
+e61e21eea 2019-11-25 Hy Murveit           Fix bug re filter-change-autofocus
+5574d1d9a 2019-11-24 Jasem Mutlaq         Fix crash when focused object is either asteroid or comet and the data is loaded afterwards thereby invalidating focusObject in SkyMap. With this ch..
+d9de15de6 2019-11-24 Jasem Mutlaq         Use qCDebug
+bba1d7a01 2019-11-22 Jasem Mutlaq         Update default ASTAP windows location
+df4ae7eec 2019-11-24 Wolfgang Reissenberger Abort plate solving when slewing is detected
+100777109 2019-11-24 Tobias C. Berner     FreeBSD: lld does not support -Wl,-z,nodump
+bf3549851 2019-11-24 Wolfgang Reissenberger Bugfix for re-connecting a weather device initializes the weather display
+824bbbd6a 2019-11-23 Hy Murveit           Fix off-by-one bug in stretch.
+85fe55f23 2019-11-20 Jasem Mutlaq         For windows, when index 1 is selected from the combo box it should be considered REMOTE
+3eece768c 2019-11-20 Hy Murveit           Update the auto-stretch scheme and UI
+82d4d4b08 2019-11-20 Jasem Mutlaq         Change ASTAP default location
+d6a60f19d 2019-11-19 Jasem Mutlaq         Load PHD2 star image from memory instead of temporary file
+a732557b1 2019-11-18 Jasem Mutlaq         Removing debug statements
+b566a2ad4 2019-11-16 Pino Toscano         appdata: update homepage and help URLs
+
 3.3.8 (Obaidy):
 
 8da28c636 2019-11-16 Jasem Mutlaq         KStars v3.3.8 release
