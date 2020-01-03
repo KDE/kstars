@@ -1438,8 +1438,17 @@ void Capture::newFITS(IBLOB * bp)
     ISD::CCDChip * tChip = nullptr;
 
     // If there is no active job, ignore
-    if (activeJob == nullptr || meridianFlipStage >= MF_ALIGNING)
+    if (activeJob == nullptr)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring received FITS" << bp->name << "as active job is null.";
         return;
+    }
+
+    if (meridianFlipStage >= MF_ALIGNING)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as meridian flip stage is" << meridianFlipStage;
+        return;
+    }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
@@ -1450,26 +1459,42 @@ void Capture::newFITS(IBLOB * bp)
             return;
         }
 
+        if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as current capture state is not active" << m_State;
+            return;
+        }
+
         if (!strcmp(bp->name, "CCD2"))
             tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         else
             tChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
         if (tChip != targetChip)
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" << targetChip->getType();
             return;
+        }
 
         if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" << targetChip->getCaptureMode();
             return;
+        }
+
+        // If the FITS is not for our device, simply ignore
+        //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
+        if (QString(bp->bvp->device) != currentCCD->getDeviceName())
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as the blob device name" << bp->bvp->device
+                                           << "does not equal active camera" << currentCCD->getDeviceName();
+            return;
+        }
 
         // If this is a preview job, make sure to enable preview button after
         // we receive the FITS
         if (activeJob->isPreview() && previewB->isEnabled() == false)
             previewB->setEnabled(true);
-
-        // If the FITS is not for our device, simply ignore
-        //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
-        if (QString(bp->bvp->device) != currentCCD->getDeviceName() || m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
-            return;
 
         // m_isLooping client-side looping (next capture starts after image is downloaded to client)
         // currentCCD->isLooping driver side looping (without any delays, next capture starts after driver reads data)
