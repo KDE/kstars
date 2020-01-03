@@ -441,7 +441,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             update_query.bindValue(":Elevation", Elevation);
             if (update_query.exec() == false)
             {
-                qCWarning(KSTARS) << update_query.lastError() << endl;
+                qCWarning(KSTARS) << update_query.lastError();
                 return false;
             }
 
@@ -467,7 +467,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             delete_query.bindValue(":Country", country);
             if (delete_query.exec() == false)
             {
-                qCWarning(KSTARS) << delete_query.lastError() << endl;
+                qCWarning(KSTARS) << delete_query.lastError();
                 return false;
             }
 

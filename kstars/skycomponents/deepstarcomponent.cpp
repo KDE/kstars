@@ -72,7 +72,7 @@ bool DeepStarComponent::loadStaticStars()
     if (!starReader.readHeader())
     {
         qCCritical(KSTARS) << "Error reading header of catalog file " << dataFileName << ": " << starReader.getErrorNumber()
-                 << ": " << starReader.getError() << endl;
+                 << ": " << starReader.getError();
         return false;
     }
 
@@ -80,7 +80,7 @@ bool DeepStarComponent::loadStaticStars()
 
     if (recordSize != 16 && recordSize != 32)
     {
-        qCCritical(KSTARS) << "Cannot understand catalog file " << dataFileName << endl;
+        qCCritical(KSTARS) << "Cannot understand catalog file " << dataFileName;
         return false;
     }
 
@@ -226,7 +226,7 @@ bool openIndexFile()
     // TODO: Work out the details
     /*
     if( hdidxReader.openFile( "Henry-Draper.idx" ) )
-        qDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work." << endl;
+        qDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work.";
     */
     return 0;
 }
@@ -359,7 +359,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         t_dynamicLoad += t.restart();
 
         //        qDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has "
-        //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
+        //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks";
 
         // REMARK: The following should never carry state, except for const parameters like updateID and maglim
         std::function<void(std::shared_ptr<StarBlock>)> mapFunction = [&updateID, &maglim](std::shared_ptr<StarBlock> myBlock) {
@@ -378,7 +378,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         {
             std::shared_ptr<StarBlock> block = m_starBlockList.at(currentRegion)->block(i);
             //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
-            //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
+            //                currentRegion << ". SB has " << block->getStarCount() << " stars";
             for (int j = 0; j < block->getStarCount(); j++)
             {
                 StarObject *curStar = block->star(j);
@@ -435,7 +435,7 @@ bool DeepStarComponent::openDataFile()
     if (!starReader.getFileHandle())
         qCWarning(KSTARS) << "Failed to open deep star catalog " << dataFileName << ". Disabling it.";
     else if (!starReader.readHeader())
-        qCWarning(KSTARS) << "Header read error for deep star catalog " << dataFileName << "!! Disabling it!" << endl;
+        qCWarning(KSTARS) << "Header read error for deep star catalog " << dataFileName << "!! Disabling it!";
     else
     {
         qint16 faintmag;
@@ -649,7 +649,7 @@ bool DeepStarComponent::verifySBLIntegrity()
                 block->prev != m_starBlockList[trixel]->block(i - 1))
             {
                 qCWarning(KSTARS) << "Trixel " << trixel
-                         << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
+                         << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i;
                 integrity = false;
             }
             faintMag = block->getFaintMag();

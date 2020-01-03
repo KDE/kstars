@@ -111,7 +111,7 @@ void OptionsTreeView::resizeColumns()
     for (int icol = 0; icol < 3; ++icol)
     {
         //DEBUG
-        qDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]) << endl;
+        qDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]);
 
         optionsList()->setColumnWidth(icol, maxwidth[icol]);
     }

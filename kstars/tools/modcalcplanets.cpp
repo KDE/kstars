@@ -289,7 +289,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
             lineIsValid = false;
             qWarning() << i18n("Incorrect number of fields in line %1: ", nline)
                        << i18n("Present fields %1. ", fields.count())
-                       << i18n("Required fields %1. ", numberOfRequiredFields) << endl;
+                       << i18n("Required fields %1. ", numberOfRequiredFields);
             nline++;
             continue;
         }
@@ -301,7 +301,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
             int j   = pNamesi18n.indexOf(planetB);
             if (j == -1)
             {
-                qWarning() << i18n("Unknown planet ") << fields[i] << i18n(" in line %1: ", nline) << endl;
+                qWarning() << i18n("Unknown planet ") << fields[i] << i18n(" in line %1: ", nline);
                 continue;
             }
             pn = pNames.at(j); //untranslated planet name
@@ -343,7 +343,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
             dtB = QDate::fromString(fields[i], Qt::ISODate);
             if (!dtB.isValid())
             {
-                qWarning() << i18n("Line %1 contains an invalid date: ", nline) << fields[i] << endl;
+                qWarning() << i18n("Line %1 contains an invalid date: ", nline) << fields[i];
                 lineIsValid = false;
                 nline++;
                 continue;

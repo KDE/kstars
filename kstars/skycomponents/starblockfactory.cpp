@@ -98,7 +98,7 @@ bool StarBlockFactory::markFirst(std::shared_ptr<StarBlock>& block)
     //    fprintf(stderr, "markFirst()!\n");
     if (!first)
     {
-        //        qCDebug(KSTARS) << "INFO: Linking in first block" << endl;
+        //        qCDebug(KSTARS) << "INFO: Linking in first block";
         last = first = block;
         first->prev = first->next = nullptr;
         first->drawID             = drawID;
@@ -135,19 +135,19 @@ bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_p
     //    fprintf(stderr, "markNext()!\n");
     if (!block.get() || !after.get())
     {
-        qCDebug(KSTARS) << "WARNING: markNext called with nullptr argument" << endl;
+        qCDebug(KSTARS) << "WARNING: markNext called with nullptr argument";
         return false;
     }
 
     if (!first.get())
     {
-        qCDebug(KSTARS) << "WARNING: markNext called without an existing linked list" << endl;
+        qCDebug(KSTARS) << "WARNING: markNext called without an existing linked list";
         return false;
     }
 
     if (block == after)
     {
-        qCDebug(KSTARS) << "ERROR: Trying to mark a block after itself!" << endl;
+        qCDebug(KSTARS) << "ERROR: Trying to mark a block after itself!";
         return false;
     }
 
@@ -277,7 +277,7 @@ void StarBlockFactory::printStructure() const
     {
         if (curTrixel != cur->parent->getTrixel())
         {
-            qCDebug(KSTARS) << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
+            qCDebug(KSTARS) << "Trixel" << cur->parent->getTrixel() << "starts at index" << index;
             curTrixel = cur->parent->getTrixel();
         }
         if (cur->drawID == drawID && !draw)
