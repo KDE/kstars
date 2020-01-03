@@ -764,6 +764,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         uint8_t alignFailureCount { 0 };
         /// Keep track of Ekos capture module failures
         uint8_t captureFailureCount { 0 };
+        /// Counter to keep debug logging in check
+        uint8_t checkJobStageCounter { 0 };
         /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
         //QTimer weatherTimer;
         /// Timer to put the scheduler into sleep mode until a job is ready

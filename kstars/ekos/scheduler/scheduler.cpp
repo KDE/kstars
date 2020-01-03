@@ -1019,7 +1019,7 @@ void Scheduler::loadJob(QModelIndex i)
 
 void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     // prevent selection when not idle
     if (state != SCHEDULER_IDLE)
@@ -1123,11 +1123,11 @@ void Scheduler::moveJobUp()
         return;
 
     /* Swap jobs in the list */
-    #if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
     jobs.swapItemsAt(currentRow, destinationRow);
-    #else
+#else
     jobs.swap(currentRow, destinationRow);
-    #endif
+#endif
 
     /* Reassign status cells */
     setJobStatusCells(currentRow);
@@ -1162,11 +1162,11 @@ void Scheduler::moveJobDown()
         return;
 
     /* Swap jobs in the list */
-    #if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
     jobs.swapItemsAt(currentRow, destinationRow);
-    #else
+#else
     jobs.swap(currentRow, destinationRow);
-    #endif
+#endif
 
     /* Reassign status cells */
     setJobStatusCells(currentRow);
@@ -2978,13 +2978,13 @@ bool Scheduler::checkParkWaitState()
     if (state == SCHEDULER_PAUSED)
         return false;
 
+    if (parkWaitState == PARKWAIT_IDLE)
+        return true;
+
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking Park Wait State...";
 
     switch (parkWaitState)
     {
-        case PARKWAIT_IDLE:
-            return true;
-
         case PARKWAIT_PARK:
             parkMount();
             break;
@@ -2992,9 +2992,6 @@ bool Scheduler::checkParkWaitState()
         case PARKWAIT_PARKING:
             checkMountParkingStatus();
             break;
-
-        case PARKWAIT_PARKED:
-            return true;
 
         case PARKWAIT_UNPARK:
             unParkMount();
@@ -3004,6 +3001,8 @@ bool Scheduler::checkParkWaitState()
             checkMountParkingStatus();
             break;
 
+        case PARKWAIT_IDLE:
+        case PARKWAIT_PARKED:
         case PARKWAIT_UNPARKED:
             return true;
 
@@ -3011,6 +3010,7 @@ bool Scheduler::checkParkWaitState()
             appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
             stop();
             return true;
+
     }
 
     return false;
@@ -3200,7 +3200,12 @@ void Scheduler::checkJobStage()
     if (!currentJob)
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking job stage for" << currentJob->getName() << "startup" << currentJob->getStartupCondition() << currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()) << "state" << currentJob->getState();
+    if (checkJobStageCounter == 0)
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking job stage for" << currentJob->getName() << "startup" << currentJob->getStartupCondition() << currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()) << "state" << currentJob->getState();
+        if (checkJobStageCounter++ == 30)
+            checkJobStageCounter = 0;
+    }
 
     QDateTime const now = KStarsData::Instance()->lt();
 
@@ -3311,7 +3316,7 @@ void Scheduler::checkJobStage()
 
         case SchedulerJob::STAGE_ALIGNING:
             // Let's make sure align module does not become unresponsive
-            if (currentOperationTime.elapsed() > ALIGN_INACTIVITY_TIMEOUT)
+            if (currentOperationTime.elapsed() > static_cast<int>(ALIGN_INACTIVITY_TIMEOUT))
             {
                 QVariant const status = alignInterface->property("status");
                 Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(status.toInt());
@@ -3337,7 +3342,7 @@ void Scheduler::checkJobStage()
 
         case SchedulerJob::STAGE_CAPTURING:
             // Let's make sure capture module does not become unresponsive
-            if (currentOperationTime.elapsed() > CAPTURE_INACTIVITY_TIMEOUT)
+            if (currentOperationTime.elapsed() > static_cast<int>(CAPTURE_INACTIVITY_TIMEOUT))
             {
                 QVariant const status = captureInterface->property("status");
                 Ekos::CaptureState captureStatus = static_cast<Ekos::CaptureState>(status.toInt());
@@ -3362,7 +3367,7 @@ void Scheduler::checkJobStage()
 
         case SchedulerJob::STAGE_FOCUSING:
             // Let's make sure focus module does not become unresponsive
-            if (currentOperationTime.elapsed() > FOCUS_INACTIVITY_TIMEOUT)
+            if (currentOperationTime.elapsed() > static_cast<int>(FOCUS_INACTIVITY_TIMEOUT))
             {
                 QVariant const status = focusInterface->property("status");
                 Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(status.toInt());
@@ -6438,7 +6443,7 @@ void Scheduler::simClockScaleChanged(float newScale)
 {
     if (sleepTimer.isActive())
     {
-        QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround((double) sleepTimer.remainingTime()
+        QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround(static_cast<double>(sleepTimer.remainingTime())
                                       * KStarsData::Instance()->clock()->scale()
                                       / newScale));
         appendLogText(i18n("Sleeping for %1 on simulation clock update until next observation job is ready...",
