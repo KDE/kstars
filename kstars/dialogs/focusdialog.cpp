@@ -147,13 +147,26 @@ void FocusDialog::validatePoint()
             return;
         }
 
-        Point->set(ra, dec);
-        bool ok;
-
-        if (!UseJNow)
+        // JNow
+        if (UseJNow)
         {
+            Point->setRA(ra);
+            Point->setDec(dec);
+            Point->deprecess(KStarsData::Instance()->updateNum());
+        }
+        else
+        {
+            bool ok { false };
             double epoch0   = KStarsDateTime::stringToEpoch(fd->epochBox->text(), ok);
+            if (!ok)
+            {
+                KSNotification::sorry(message, i18n("Invalid Epoch format"));
+                return;
+            }
             long double jd0 = KStarsDateTime::epochToJd(epoch0);
+
+            Point->setRA0(ra);
+            Point->setDec0(dec);
             Point->apparentCoord(jd0, KStarsData::Instance()->ut().djd());
         }
 
