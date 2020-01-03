@@ -348,7 +348,7 @@ void modCalcSidTime::processLines(QTextStream &istream)
 
             //Write to output file
             ostream << QLocale().toString(dt, QLocale::LongFormat) << "  \"" << geoBatch->fullName() << "\"  "
-                    << QLocale().toString(inTime) << "  " << QLocale().toString(outTime) << endl;
+                    << QLocale().toString(inTime) << "  " << QLocale().toString(outTime) << '\n';
         }
     }
 

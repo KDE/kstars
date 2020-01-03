@@ -499,7 +499,7 @@ void modCalcVlsr::processLines(QTextStream &istream)
         spB.dec().SinCos(sdc, cdc);
         vtB = vgB - (vtopo[0] * cdc * cra + vtopo[1] * cdc * sra + vtopo[2] * sdc);
 
-        ostream << vhB << space << vgB << space << vtB << endl;
+        ostream << vhB << space << vgB << space << vtB << '\n';
     }
 
     fOut.close();

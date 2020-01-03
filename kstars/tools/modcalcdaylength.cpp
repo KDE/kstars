@@ -288,13 +288,12 @@ void modCalcDayLength::processLines(QTextStream &istream)
 
     //Write header
     ostream << "# " << i18nc("%1 is a location on earth", "Almanac for %1", geoBatch->fullName())
-            << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString(), geoBatch->lat()->toDMSString()) << endl
-            << "# " << i18n("computed by KStars") << endl
-            << "#" << endl
+            << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString(), geoBatch->lat()->toDMSString())
+            << "\n# " << i18n("computed by KStars")
+            << "\n#\n"
             << "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet  "
-            "    MRiseAz      MTranAlt      MSetAz     LunarPhase"
-            << endl
-            << "#" << endl;
+            "    MRiseAz      MTranAlt      MSetAz     LunarPhase\n"
+            << "#" << '\n';
 
     QString line;
     QDate d;
@@ -312,7 +311,7 @@ void modCalcDayLength::processLines(QTextStream &istream)
             ostream << d.toString(Qt::ISODate) << "  " << srTimeString << "  " << stTimeString << "  " << ssTimeString
                     << "  " << srAzString << "  " << stAltString << "  " << ssAzString << "  " << daylengthString
                     << "    " << mrTimeString << "  " << mtTimeString << "  " << msTimeString << "  " << mrAzString
-                    << "  " << mtAltString << "  " << msAzString << "  " << lunarphaseString << endl;
+                    << "  " << mtAltString << "  " << msAzString << "  " << lunarphaseString << '\n';
         }
     }
 }

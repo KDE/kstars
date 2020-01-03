@@ -124,7 +124,7 @@ void modCalcEquinox::processLines(QTextStream &istream)
             ostream << QLocale().toString(dSpring.date(), QLocale::LongFormat) << "\t"
                     << QLocale().toString(dSummer.date(), QLocale::LongFormat) << "\t"
                     << QLocale().toString(dAutumn.date(), QLocale::LongFormat) << "\t"
-                    << QLocale().toString(dWinter.date(), QLocale::LongFormat) << endl;
+                    << QLocale().toString(dWinter.date(), QLocale::LongFormat) << '\n';
         }
     }
 

@@ -339,7 +339,7 @@ void modCalcGeodCoord::processLines(QTextStream &istream)
             geoPl.setYPos(yB * 1000.0);
             geoPl.setZPos(zB * 1000.0);
             ostream << geoPl.lng()->toDMSString() << space << geoPl.lat()->toDMSString() << space << geoPl.elevation()
-                    << endl;
+                    << '\n';
 
             // Input coords. are Long, Lat and Height
         }
@@ -395,7 +395,7 @@ void modCalcGeodCoord::processLines(QTextStream &istream)
             geoPl.setElevation(hB);
 
             ostream << geoPl.xPos() / 1000.0 << space << geoPl.yPos() / 1000.0 << space << geoPl.zPos() / 1000.0
-                    << endl;
+                    << '\n';
         }
     }
 
