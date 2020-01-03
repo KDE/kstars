@@ -11,6 +11,7 @@
 
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
+#include "polynomialfit.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -1539,14 +1540,13 @@ void Focus::clearDataPoints()
     focusPoint->data()->clear();
     polynomialGraphIsShown = false;
     HFRPlot->clearItems();
+    polynomialFit.reset();
 
     drawHFRPlot();
 }
 
-void Focus::drawHFRPlot()
+void Focus::drawHFRIndeces()
 {
-    v_graph->setData(hfr_position, hfr_value);
-
     // Put the sample number inside the plot point's circle.
     for (int i = 0; i < hfr_position.size(); ++i)
     {
@@ -1559,6 +1559,17 @@ void Focus::drawHFRPlot()
         textLabel->setPen(Qt::NoPen);
         textLabel->setColor(Qt::red);
     }
+}
+
+void Focus::drawHFRPlot()
+{
+    // DrawHFRPlot is the base on which other things are built upon.
+    // Clear any previous annotations.
+    HFRPlot->clearItems();
+
+    v_graph->setData(hfr_position, hfr_value);
+
+    drawHFRIndeces();
 
     double minHFRVal = currentHFR / 2.5;
     if (hfr_value.size() > 0)
@@ -1699,6 +1710,22 @@ void Focus::autoFocusAbs()
     drawHFRPlot();
 
     if (focusAlgorithm == FOCUS_LINEAR) {
+        if (hfr_position.size() > 3)
+        {
+            // For now, just plots, doesn't use the polynomial algorithmically.
+            polynomialFit.reset(new PolynomialFit(2, hfr_position, hfr_value));
+            double min_position, min_value;
+            const FocusAlgorithmInterface::FocusParams& params = linearFocuser->getParams();
+            double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
+            double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
+            if (polynomialFit->findMinimum(linearFocuser->getParams().startPosition,
+                                           searchMin, searchMax, &min_position, &min_value))
+            {
+                polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
+                polynomialFit->drawMinimum(HFRPlot, focusPoint, min_position, min_value, font());
+            }
+        }
+
         const int nextPosition = adjustLinearPosition(
                     static_cast<int>(currentPosition),
                     linearFocuser->newMeasurement(currentPosition, currentHFR));
@@ -1908,15 +1935,12 @@ void Focus::autoFocusAbs()
                 bool polyMinimumFound = false;
                 if (focusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 5)
                 {
-                    double chisq = 0, min_position = 0, min_hfr = 0;
-                    coeff = gsl_polynomial_fit(hfr_position.data(), hfr_value.data(), hfr_position.count(), 3, chisq);
-
-                    polyMinimumFound = findMinimum(minHFRPos, &min_position, &min_hfr);
-
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Polynomial Coefficients c0:" << coeff[0] << "c1:" << coeff[1] << "c2:" << coeff[2]
-                                               << "c3:" << coeff[3];
+                    polynomialFit.reset(new PolynomialFit(3, hfr_position, hfr_value));
+                    double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
+                    double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
+                    double min_position = 0, min_hfr = 0;
+                    polyMinimumFound = polynomialFit->findMinimum(minHFRPos, a, b, &min_position, &min_hfr);
                     qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (polyMinimumFound ? "Yes" : "No");
-
                     if (polyMinimumFound)
                     {
                         qCDebug(KSTARS_EKOS_FOCUS) << "Minimum Solution:" << min_hfr << "@" << min_position;
@@ -1924,23 +1948,8 @@ void Focus::autoFocusAbs()
                         targetPosition = floor(min_position);
                         appendLogText(i18n("Found polynomial solution @ %1", QString::number(min_position, 'f', 0)));
 
-                        graphPolynomialFunction();
-                        focusPoint->data()->clear();
-                        focusPoint->addData(min_position, min_hfr);
-
-                        HFRPlot->clearItems();
-
-                        QCPItemText *textLabel = new QCPItemText(HFRPlot);
-                        textLabel->setPositionAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-                        textLabel->position->setType(QCPItemPosition::ptPlotCoords);
-                        textLabel->position->setCoords(min_position, min_hfr / 2);
-                        textLabel->setColor(Qt::red);
-                        textLabel->setPadding(QMargins(0, 0, 0, 0));
-                        textLabel->setBrush(Qt::white);
-                        textLabel->setPen(Qt::NoPen);
-                        textLabel->setFont(QFont(font().family(), 8));
-                        textLabel->setText(QString::number(min_position));
-
+                        polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
+                        polynomialFit->drawMinimum(HFRPlot, focusPoint, min_position, min_hfr, font());
                     }
                 }
 
@@ -2050,19 +2059,10 @@ void Focus::autoFocusAbs()
 
 void Focus::graphPolynomialFunction()
 {
-    if(polynomialGraph)
+    if (polynomialGraph && polynomialFit)
     {
-        polynomialGraph->data()->clear();
-        QCPRange range = HFRPlot->xAxis->range();
-        double interval = range.size() / 20.0;
-
-        for(double x = range.lower ; x < range.upper ; x += interval)
-        {
-            double y = fn1(x, this);
-            polynomialGraph->addData(x, y);
-        }
-        HFRPlot->replot();
         polynomialGraphIsShown = true;
+        polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
     }
 }
 
@@ -2932,67 +2932,6 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-double Focus::fn1(double x, void *params)
-{
-    Focus *module = static_cast<Focus *>(params);
-
-    if(module && !module->coeff.empty())
-        return (module->coeff[0] + module->coeff[1] * x + module->coeff[2] * pow(x, 2) + module->coeff[3] * pow(x, 3));
-    else
-        return -1;
-}
-
-bool Focus::findMinimum(double expected, double *position, double *hfr)
-{
-    int status;
-    int iter = 0, max_iter = 100;
-    const gsl_min_fminimizer_type *T;
-    gsl_min_fminimizer *s;
-    double m = expected;
-    double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
-    double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
-    gsl_function F;
-
-    F.function = &Focus::fn1;
-    F.params   = this;
-
-    // Must turn off error handler or it aborts on error
-    gsl_set_error_handler_off();
-
-    T      = gsl_min_fminimizer_brent;
-    s      = gsl_min_fminimizer_alloc(T);
-    status = gsl_min_fminimizer_set(s, &F, m, a, b);
-
-    if (status != GSL_SUCCESS)
-    {
-        qCWarning(KSTARS_EKOS_FOCUS) << "Focus GSL error:" << gsl_strerror(status);
-        return false;
-    }
-
-    do
-    {
-        iter++;
-        status = gsl_min_fminimizer_iterate(s);
-
-        m = gsl_min_fminimizer_x_minimum(s);
-        a = gsl_min_fminimizer_x_lower(s);
-        b = gsl_min_fminimizer_x_upper(s);
-
-        status = gsl_min_test_interval(a, b, 0.01, 0.0);
-
-        if (status == GSL_SUCCESS)
-        {
-            *position = m;
-            *hfr      = fn1(m, this);
-        }
-    }
-    while (status == GSL_CONTINUE && iter < max_iter);
-
-    gsl_min_fminimizer_free(s);
-
-    return (status == GSL_SUCCESS);
-}
-
 void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
 {
     // Check in Focusers
@@ -3477,7 +3416,8 @@ void Focus::initPlots()
 
     connect(HFRPlot->xAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged), this, [this]()
     {
-        if(polynomialGraphIsShown)
+        drawHFRIndeces();
+        if (polynomialGraphIsShown)
         {
             if (focusAlgorithm == FOCUS_POLYNOMIAL)
                 graphPolynomialFunction();
