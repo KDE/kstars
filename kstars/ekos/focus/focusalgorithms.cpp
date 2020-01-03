@@ -94,7 +94,7 @@ FocusAlgorithmInterface *MakeLinearFocuser(const FocusAlgorithmInterface::FocusP
 LinearFocusAlgorithm::LinearFocusAlgorithm(const FocusParams &focusParams)
     : FocusAlgorithmInterface(focusParams)
 {
-    requestedPosition = params.currentPosition;
+    requestedPosition = params.startPosition;
     stepSize = params.initialStepSize;
     minimumFound = false;
     numSteps = 0;
@@ -102,17 +102,17 @@ LinearFocusAlgorithm::LinearFocusAlgorithm(const FocusParams &focusParams)
     searchFailed = false;
     minValue = 0;
 
-    maxPositionLimit = std::min(params.maxPositionAllowed, params.currentPosition + params.maxTravel);
-    minPositionLimit = std::max(params.minPositionAllowed, params.currentPosition - params.maxTravel);
+    maxPositionLimit = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
+    minPositionLimit = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
     qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
-                                  .arg(params.maxTravel).arg(params.initialStepSize).arg(params.currentPosition).arg(params.minPositionAllowed)
+                                  .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
                                   .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
     computeInitialPosition();
 }
 
 void LinearFocusAlgorithm::computeInitialPosition()
 {
-    const int position = params.currentPosition;
+    const int position = params.startPosition;
     int start, end;
 
     // If the bounds allow, set the focus to half-travel above the current position

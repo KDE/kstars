@@ -24,6 +24,7 @@ namespace Ekos
 {
 
 class FocusAlgorithmInterface;
+class PolynomialFit;
 
 /**
  * @class Focus
@@ -400,6 +401,7 @@ class Focus : public QWidget, public Ui::Focus
         ////////////////////////////////////////////////////////////////////
         void initPlots();
         void drawHFRPlot();
+        void drawHFRIndeces();
         void drawProfilePlot();
 
         ////////////////////////////////////////////////////////////////////
@@ -410,8 +412,6 @@ class Focus : public QWidget, public Ui::Focus
         void autoFocusRel();
         void resetButtons();
         void stop(bool aborted = false);
-        bool findMinimum(double expected, double *position, double *hfr);
-        static double fn1(double x, void *params);
 
         void initView();
 
@@ -601,8 +601,8 @@ class Focus : public QWidget, public Ui::Focus
         QCustomPlot *profilePlot { nullptr };
         QDialog *profileDialog { nullptr };
 
-        /// Polynomial fitting coefficients
-        std::vector<double> coeff;
+        /// Polynomial fitting.
+        std::unique_ptr<PolynomialFit> polynomialFit;
         int polySolutionFound { 0 };
         QCPGraph *polynomialGraph = nullptr;
         QCPGraph *focusPoint = nullptr;
