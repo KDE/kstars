@@ -23,6 +23,7 @@
 #include <QtDBus/QtDBus>
 #endif
 #include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 
 /** @class SimClock
@@ -135,7 +136,7 @@ class SimClock : public QObject
     KStarsDateTime UTC;
     QTimer tmr;
     double Scale { 1 };
-    QTime sysmark;
+    QElapsedTimer sysmark;
     int lastelapsed { 0 };
     bool ManualMode { false };
     bool ManualActive { false };
