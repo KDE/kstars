@@ -1408,7 +1408,7 @@ bool createLocalAstrometryConf()
         // Now write back all the lines including our own inserted above
         QTextStream out(&localConf);
         for(const QString &line : lines)
-            out << line << endl;
+            out << line << '\n';
         localConf.close();
         return true;
     }

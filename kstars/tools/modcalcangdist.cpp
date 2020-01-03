@@ -255,7 +255,7 @@ void modCalcAngDist::processLines(QTextStream &istream)
         sp1  = SkyPoint(ra1B, dec1B);
         dist = sp0.angularDistanceTo(&sp1, &PA);
 
-        ostream << dist.toDMSString() << QString::number(PA, 'f', 3) << endl;
+        ostream << dist.toDMSString() << QString::number(PA, 'f', 3) << '\n';
     }
 
     fOut.close();

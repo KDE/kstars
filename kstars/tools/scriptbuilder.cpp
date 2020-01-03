@@ -1068,11 +1068,11 @@ void ScriptBuilder::writeScript(QTextStream &ostream)
     QString clock_method = "/KStars/SimClock org.kde.kstars.SimClock.";
 
     //Write script header
-    ostream << "#!/bin/bash" << endl;
-    ostream << "#KStars DBus script: " << currentScriptName << endl;
-    ostream << "#by " << currentAuthor << endl;
-    ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString(Qt::ISODate) << endl;
-    ostream << "#" << endl;
+    ostream << "#!/bin/bash\n";
+    ostream << "#KStars DBus script: " << currentScriptName << '\n';
+    ostream << "#by " << currentAuthor << '\n';
+    ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString(Qt::ISODate) << '\n';
+    ostream << "#\n";
 
     foreach (ScriptFunction *sf, ScriptList)
     {
@@ -1081,16 +1081,17 @@ void ScriptBuilder::writeScript(QTextStream &ostream)
 
         if (sf->isClockFunction())
         {
-            ostream << dbus_call << clock_method << sf->scriptLine() << endl;
+            ostream << dbus_call << clock_method << sf->scriptLine() << '\n';
         }
         else
         {
-            ostream << dbus_call << main_method << sf->scriptLine() << endl;
+            ostream << dbus_call << main_method << sf->scriptLine() << '\n';
         }
     }
 
     //Write script footer
-    ostream << "##" << endl;
+    ostream << "##\n";
+    ostream.flush();
 }
 
 void ScriptBuilder::readScript(QTextStream &istream)

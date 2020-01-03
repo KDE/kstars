@@ -284,10 +284,10 @@ bool ColorScheme::save(const QString &name)
         else
         {
             QTextStream stream(&file);
-            stream << StarColorMode << ":" << StarColorIntensity << ":" << DarkPalette << endl;
+            stream << StarColorMode << ":" << StarColorIntensity << ":" << DarkPalette << '\n';
 
             foreach (const QString &key, KeyName)
-                stream << Palette[key] << " :" << key << endl;
+                stream << Palette[key] << " :" << key << '\n';
             file.close();
         }
 
@@ -318,7 +318,7 @@ bool ColorScheme::save(const QString &name)
 
             if (found == false)
             {
-                stream << schemeLine << endl;
+                stream << schemeLine << '\n';
                 file.close();
             }
         }

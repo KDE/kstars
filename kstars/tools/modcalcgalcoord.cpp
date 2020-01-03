@@ -281,7 +281,7 @@ void modCalcGalCoord::processLines(QTextStream &istream)
 
             sp = SkyPoint();
             sp.GalacticToEquatorial1950(&galLongB, &galLatB);
-            ostream << sp.ra().toHMSString() << space << sp.dec().toDMSString() << epoch0B << endl;
+            ostream << sp.ra().toHMSString() << space << sp.dec().toDMSString() << epoch0B << '\n';
             // Input coords. are equatorial coordinates:
         }
         else
@@ -334,7 +334,7 @@ void modCalcGalCoord::processLines(QTextStream &istream)
             sp = SkyPoint(raB, decB);
             sp.J2000ToB1950();
             sp.Equatorial1950ToGalactic(galLongB, galLatB);
-            ostream << galLongB.toDMSString() << space << galLatB.toDMSString() << endl;
+            ostream << galLongB.toDMSString() << space << galLatB.toDMSString() << '\n';
         }
     }
 

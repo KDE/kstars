@@ -285,7 +285,7 @@ void modCalcApCoord::processLines(QTextStream &istream)
         sp  = SkyPoint(raB, decB);
         sp.apparentCoord(jd0, jd);
 
-        ostream << sp.ra().toHMSString() << sp.dec().toDMSString() << endl;
+        ostream << sp.ra().toHMSString() << sp.dec().toDMSString() << '\n';
     }
 
     fOut.close();

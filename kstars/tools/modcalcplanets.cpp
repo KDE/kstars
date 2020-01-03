@@ -436,7 +436,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
             ostream << raB.toHMSString() << space << decB.toDMSString() << space;
         if (HorizontalCheckBatch->isChecked())
             ostream << azmB.toDMSString() << space << altB.toDMSString() << space;
-        ostream << endl;
+        ostream << '\n';
 
         // Delete object
         delete kspb;

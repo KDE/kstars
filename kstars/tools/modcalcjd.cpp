@@ -231,7 +231,7 @@ void modCalcJD::processLines(QTextStream &istream, int inputData)
 
         //Write to output file
         ostream << QLocale().toString(dt, QLocale::LongFormat) << "  " << QString::number(jd, 'f', 2) << "  "
-                << QString::number(mjd, 'f', 2) << endl;
+                << QString::number(mjd, 'f', 2) << '\n';
     }
 
     fOut.close();
