@@ -467,7 +467,7 @@ void ObsListWizard::applyFilters(bool doBuildList)
         }
 
         //DEBUG
-        qDebug() << QString("starIndex for mag %1: %2").arg(maglimit).arg(starIndex) << endl;
+        qDebug() << QString("starIndex for mag %1: %2").arg(maglimit).arg(starIndex);
 
         if (!doBuildList)
         {

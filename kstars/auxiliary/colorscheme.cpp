@@ -236,7 +236,7 @@ bool ColorScheme::load(const QString &name)
                 else
                 {
                     qWarning() << "Could not use the key \"" << tkey << "\" from the color scheme file \"" << filename
-                               << "\".  I also tried \"" << k << "\"." << endl;
+                               << "\".  I also tried \"" << k << "\".";
                 }
             }
         }
