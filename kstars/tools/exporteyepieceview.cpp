@@ -162,7 +162,7 @@ void ExportEyepieceView::render()
             p.rotate(-(rotation.Degrees() + 90.0));
             p.drawLine(QPointF(rStart, 0), QPointF(rEnd, 0));
             QTime ct = geo->UTtoLT(m_dt.addSecs(3600.0 * hour)).time();
-            p.drawText(QPointF(rEnd + 0.01 * baseWidth, 0), QString().sprintf("%02d:%02d", ct.hour(), ct.minute()));
+            p.drawText(QPointF(rEnd + 0.01 * baseWidth, 0), QString::asprintf("%02d:%02d", ct.hour(), ct.minute()));
             p.restore();
         }
         p.end();

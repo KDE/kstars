@@ -162,7 +162,7 @@ void dmsBox::showInDegrees(const dms *d)
 void dmsBox::showInDegrees(dms d)
 {
     double seconds = d.arcsec() + d.marcsec() / 1000.;
-    setDMS(QString().sprintf("%02d %02d %05.2f", d.degree(), d.arcmin(), seconds));
+    setDMS(QString::asprintf("%02d %02d %05.2f", d.degree(), d.arcmin(), seconds));
 }
 
 void dmsBox::showInHours(const dms *d)
@@ -172,7 +172,7 @@ void dmsBox::showInHours(const dms *d)
 void dmsBox::showInHours(dms d)
 {
     double seconds = d.second() + d.msecond() / 1000.;
-    setDMS(QString().sprintf("%02d %02d %05.2f", d.hour(), d.minute(), seconds));
+    setDMS(QString::asprintf("%02d %02d %05.2f", d.hour(), d.minute(), seconds));
 }
 
 void dmsBox::show(const dms *d, bool deg)

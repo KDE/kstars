@@ -88,8 +88,7 @@ void InfoBoxWidget::slotTimeChanged()
     m_strings << i18nc("Universal Time", "UT: ") + data->ut().time().toString("HH:mm:ss") + "   " +
                      QLocale().toString(data->ut().date()); // Do not format UTC according to locale
 
-    QString STString;
-    STString = STString.sprintf("%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(), data->lst()->second());
+    const QString STString = QString::asprintf("%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(), data->lst()->second());
     //Don't use KLocale::formatNumber() for Julian Day because we don't want
     //thousands-place separators
     QString JDString = QString::number(data->ut().djd(), 'f', 2);

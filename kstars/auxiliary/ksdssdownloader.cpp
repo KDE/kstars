@@ -157,9 +157,9 @@ QString KSDssDownloader::getDSSURL(const dms &ra, const dms &dec, float width, f
         width = 75.0;
 
     QString RAString, DecString, SizeString;
-    DecString  = DecString.sprintf("&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds);
-    RAString   = RAString.sprintf("r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second());
-    SizeString = SizeString.sprintf("&h=%02.1f&w=%02.1f", height, width);
+    DecString  = QString::asprintf("&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds);
+    RAString   = QString::asprintf("r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second());
+    SizeString  = QString::asprintf("&h=%02.1f&w=%02.1f", height, width);
 
     if (md)
     {

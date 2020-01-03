@@ -187,7 +187,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 
     if (indexSize == 0)
     {
-        errorMessage.sprintf("Zero index size!");
+        errorMessage = QStringLiteral("Zero index size!");
         return ERR_INDEX_TRUNC;
     }
 
@@ -198,7 +198,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     {
         if (!fread(&ID, 4, 1, fileHandle))
         {
-            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
+            errorMessage = QStringLiteral("Table truncated before expected! Read i = %1 index entries so far").arg(QString::number(j));
             return ERR_INDEX_TRUNC;
         }
 
@@ -207,19 +207,19 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 
         if (ID >= indexSize)
         {
-            errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
+            errorMessage = QString::asprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
             return ERR_INDEX_BADID;
         }
 
         if (ID != j)
         {
-            errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, j);
+            errorMessage = QString::asprintf("Found ID %u, at the location where ID %u was expected", ID, j);
             return ERR_INDEX_IDMISMATCH;
         }
 
         if (!fread(&offset, 4, 1, fileHandle))
         {
-            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
+            errorMessage = QString::asprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
 
@@ -228,7 +228,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 
         if (!fread(&nrecs, 4, 1, fileHandle))
         {
-            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
+            errorMessage = QString::asprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
 
@@ -238,7 +238,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
         //if (prev_offset != 0 && prev_nrecs != (-prev_offset + offset) / recordSize)
         if (prev_offset != 0 && prev_nrecs != (offset - prev_offset) / recordSize)
         {
-            errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u",
+            errorMessage = QString::asprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u",
                                  (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs,
                                  j - 1);
             return ERR_INDEX_BADOFFSET;
