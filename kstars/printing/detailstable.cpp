@@ -636,8 +636,8 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
 
     if (rt.isValid())
     {
-        rtValue  = QString().sprintf("%02d:%02d", rt.hour(), rt.minute());
-        stValue  = QString().sprintf("%02d:%02d", st.hour(), st.minute());
+        rtValue  = QString::asprintf("%02d:%02d", rt.hour(), rt.minute());
+        stValue  = QString::asprintf("%02d:%02d", st.hour(), st.minute());
         azRValue = raz.toDMSString();
         azSValue = saz.toDMSString();
     }
@@ -681,7 +681,7 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
 
     table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Transit time:"), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
-    table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()),
+    table->cellAt(2, 1).firstCursorPosition().insertText(QString::asprintf("%02d:%02d", tt.hour(), tt.minute()),
             m_ItemValueCharFormat);
 
     table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Set time:"), m_ItemNameCharFormat);
