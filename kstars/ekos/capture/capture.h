@@ -593,14 +593,17 @@ class Capture : public QWidget, public Ui::Capture
         // Guide
         void setGuideStatus(Ekos::GuideState state);
         // short cut for all guiding states that indicate guiding is active
-        bool isGuidingActive() {return (guideState == GUIDE_GUIDING ||
-                                        guideState == GUIDE_CALIBRATING ||
-                                        guideState == GUIDE_CALIBRATION_SUCESS ||
-                                        guideState == GUIDE_REACQUIRE ||
-                                        guideState == GUIDE_DITHERING ||
-                                        guideState == GUIDE_DITHERING_SUCCESS ||
-                                        guideState == GUIDE_DITHERING_ERROR ||
-                                        guideState == GUIDE_DITHERING_SETTLE);};
+        bool isGuidingActive()
+        {
+            return (guideState == GUIDE_GUIDING ||
+                    guideState == GUIDE_CALIBRATING ||
+                    guideState == GUIDE_CALIBRATION_SUCESS ||
+                    guideState == GUIDE_REACQUIRE ||
+                    guideState == GUIDE_DITHERING ||
+                    guideState == GUIDE_DITHERING_SUCCESS ||
+                    guideState == GUIDE_DITHERING_ERROR ||
+                    guideState == GUIDE_DITHERING_SETTLE);
+        };
         // Align
         void setAlignStatus(Ekos::AlignState state);
         void setAlignResults(double orientation, double ra, double de, double pixscale);
@@ -631,6 +634,7 @@ class Capture : public QWidget, public Ui::Capture
         void checkSeqBoundary(const QString &path);
         void saveFITSDirectory();
         void setDefaultCCD(QString ccd);
+        void setDefaultFilterWheel(QString filterWheel);
         void setNewRemoteFile(QString file);
 
         // Sequence Queue

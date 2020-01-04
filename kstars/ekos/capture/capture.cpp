@@ -114,6 +114,7 @@ Capture::Capture()
 
     connect(clearConfigurationB, &QPushButton::clicked, this, &Ekos::Capture::clearCameraConfiguration);
 
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Capture::setDefaultFilterWheel);
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFilter);
 
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
@@ -382,6 +383,11 @@ void Capture::setDefaultCCD(QString ccd)
     Options::setDefaultCaptureCCD(ccd);
 }
 
+void Capture::setDefaultFilterWheel(QString filterWheel)
+{
+    Options::setDefaultCaptureFilterWheel(filterWheel);
+}
+
 void Capture::addCCD(ISD::GDInterface * newCCD)
 {
     ISD::CCD * ccd = static_cast<ISD::CCD *>(newCCD);
@@ -426,9 +432,15 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
 
     filterManagerB->setEnabled(true);
 
-    checkFilter(1);
+    int filterWheelIndex = 1;
+    if (Options::defaultCaptureFilterWheel().isEmpty() == false)
+        filterWheelIndex = FilterDevicesCombo->findText(Options::defaultCaptureFilterWheel());
 
-    FilterDevicesCombo->setCurrentIndex(1);
+    if (filterWheelIndex < 1)
+        filterWheelIndex = 1;
+
+    checkFilter(filterWheelIndex);
+    FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
 
     emit settingsUpdated(getSettings());
 }

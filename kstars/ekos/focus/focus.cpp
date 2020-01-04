@@ -303,12 +303,15 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
 
-    checkFilter(1);
-
-    FilterDevicesCombo->setCurrentIndex(1);
-
+    int filterWheelIndex = 1;
     if (Options::defaultFocusFilterWheel().isEmpty() == false)
-        FilterDevicesCombo->setCurrentText(Options::defaultFocusFilterWheel());
+        filterWheelIndex = FilterDevicesCombo->findText(Options::defaultFocusFilterWheel());
+
+    if (filterWheelIndex < 1)
+        filterWheelIndex = 1;
+
+    checkFilter(filterWheelIndex);
+    FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
 }
 
 bool Focus::setFilterWheel(const QString &device)

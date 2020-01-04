@@ -148,7 +148,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
             [ = ](const QString & text)
     {
         syncSettings();
-        Options::setDefaultAlignFW(text);
+        Options::setDefaultAlignFilterWheel(text);
     });
 
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkFilter);
@@ -4656,9 +4656,15 @@ void Align::addFilter(ISD::GDInterface *newFilter)
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
 
-    checkFilter(1);
+    int filterWheelIndex = 1;
+    if (Options::defaultAlignFilterWheel().isEmpty() == false)
+        filterWheelIndex = FilterDevicesCombo->findText(Options::defaultAlignFilterWheel());
 
-    FilterDevicesCombo->setCurrentIndex(1);
+    if (filterWheelIndex < 1)
+        filterWheelIndex = 1;
+
+    checkFilter(filterWheelIndex);
+    FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
 }
 
 bool Align::setFilterWheel(const QString &device)

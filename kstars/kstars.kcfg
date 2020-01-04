@@ -1580,6 +1580,9 @@
       <entry name="DefaultCaptureCCD" type="String">
          <label>Default capture module CCD.</label>
       </entry>
+      <entry name="DefaultCaptureFilterWheel" type="String">
+         <label>Default capture module filter wheel.</label>
+      </entry>
       <entry name="DefaultObserver" type="String">
          <label>Default observer full name.</label>
       </entry>
@@ -1844,7 +1847,7 @@
       <entry name="DefaultAlignCCD" type="String">
          <label>Default align module CCD.</label>
       </entry>
-      <entry name="DefaultAlignFW" type="String">
+      <entry name="DefaultAlignFilterWheel" type="String">
          <label>Default align module Filter Wheel.</label>
       </entry>
       <entry name="AlignExposure" type="Double">
