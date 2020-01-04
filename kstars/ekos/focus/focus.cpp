@@ -667,13 +667,14 @@ void Focus::start()
     {
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
-                    maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
-                    MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0);
+            maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
+            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0);
         linearFocuser.reset(MakeLinearFocuser(params));
         const int newPosition = adjustLinearPosition(position, linearFocuser->initialPosition());
         if (newPosition != position)
         {
-            if (!changeFocus(newPosition - position)) {
+            if (!changeFocus(newPosition - position))
+            {
                 abort();
                 setAutoFocusResult(false);
             }
@@ -927,9 +928,13 @@ bool Focus::focusOut(int ms)
 
 // If amount > 0 we focus out, otherwise in.
 bool Focus::changeFocus(int amount)
-{   
+{
     if (currentFocuser == nullptr)
         return false;
+
+    // Ignore zero
+    if (amount == 0)
+        return true;
 
     if (currentFocuser->isConnected() == false)
     {
@@ -945,10 +950,10 @@ bool Focus::changeFocus(int amount)
     qCDebug(KSTARS_EKOS_FOCUS) << "Focus " << dirStr << " (" << absAmount << ")";
 
     if (focusingOut)
-      currentFocuser->focusOut();
+        currentFocuser->focusOut();
     else
-      currentFocuser->focusIn();
-     
+        currentFocuser->focusIn();
+
     if (canAbsMove)
     {
         currentFocuser->moveAbs(currentPosition + amount);
@@ -956,12 +961,12 @@ bool Focus::changeFocus(int amount)
     }
     else if (canRelMove)
     {
-        currentFocuser->moveRel(amount);
+        currentFocuser->moveRel(absAmount);
         appendLogText(i18np("Focusing %2 by %1 step...", "Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else
     {
-        currentFocuser->moveByTimer(amount);
+        currentFocuser->moveByTimer(absAmount);
         appendLogText(i18n("Focusing %2 by %1 ms...", absAmount, dirStr));
     }
 
@@ -1551,10 +1556,10 @@ void Focus::drawHFRIndeces()
     for (int i = 0; i < hfr_position.size(); ++i)
     {
         QCPItemText *textLabel = new QCPItemText(HFRPlot);
-        textLabel->setPositionAlignment(Qt::AlignCenter|Qt::AlignHCenter);
+        textLabel->setPositionAlignment(Qt::AlignCenter | Qt::AlignHCenter);
         textLabel->position->setType(QCPItemPosition::ptPlotCoords);
         textLabel->position->setCoords(hfr_position[i], hfr_value[i]);
-        textLabel->setText(QString::number(i+1));
+        textLabel->setText(QString::number(i + 1));
         textLabel->setFont(QFont(font().family(), 12));
         textLabel->setPen(Qt::NoPen);
         textLabel->setColor(Qt::red);
@@ -1709,13 +1714,14 @@ void Focus::autoFocusAbs()
 
     drawHFRPlot();
 
-    if (focusAlgorithm == FOCUS_LINEAR) {
+    if (focusAlgorithm == FOCUS_LINEAR)
+    {
         if (hfr_position.size() > 3)
         {
             // For now, just plots, doesn't use the polynomial algorithmically.
             polynomialFit.reset(new PolynomialFit(2, hfr_position, hfr_value));
             double min_position, min_value;
-            const FocusAlgorithmInterface::FocusParams& params = linearFocuser->getParams();
+            const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
             double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
             double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
             if (polynomialFit->findMinimum(linearFocuser->getParams().startPosition,
@@ -1727,8 +1733,8 @@ void Focus::autoFocusAbs()
         }
 
         const int nextPosition = adjustLinearPosition(
-                    static_cast<int>(currentPosition),
-                    linearFocuser->newMeasurement(currentPosition, currentHFR));
+                                     static_cast<int>(currentPosition),
+                                     linearFocuser->newMeasurement(currentPosition, currentHFR));
         if (nextPosition == -1)
         {
             if (linearFocuser->isDone() && linearFocuser->solution() != -1)
@@ -1758,7 +1764,7 @@ void Focus::autoFocusAbs()
             return;
         }
     }
-  
+
     switch (lastFocusDirection)
     {
         case FOCUS_NONE:
