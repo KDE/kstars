@@ -1399,9 +1399,6 @@ void Manager::setFilter(ISD::GDInterface * filterDevice)
     initAlign();
 
     alignProcess->addFilter(filterDevice);
-
-    if (Options::defaultAlignFW().isEmpty() == false)
-        alignProcess->setFilterWheel(Options::defaultAlignFW());
 }
 
 void Manager::setFocuser(ISD::GDInterface * focuserDevice)
