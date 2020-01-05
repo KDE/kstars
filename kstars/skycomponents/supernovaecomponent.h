@@ -62,6 +62,6 @@ class SupernovaeComponent : public QObject, public ListComponent
 
     private:
         void loadData();
-
+        bool m_DataLoaded { false }, m_DataLoading { false };
         QPointer<FileDownloader> downloadJob;
 };

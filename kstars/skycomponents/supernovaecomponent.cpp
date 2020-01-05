@@ -35,13 +35,13 @@
 
 SupernovaeComponent::SupernovaeComponent(SkyComposite *parent) : ListComponent(parent)
 {
-    QtConcurrent::run(this, &SupernovaeComponent::loadData);
+    //QtConcurrent::run(this, &SupernovaeComponent::loadData);
     //loadData();
 }
 
 void SupernovaeComponent::update(KSNumbers *num)
 {
-    if (!selected())
+    if (!selected() || !m_DataLoaded)
         return;
 
     KStarsData *data = KStarsData::Instance();
@@ -136,11 +136,14 @@ void SupernovaeComponent::loadData()
         appendListObject(sup);
         objectLists(SkyObject::SUPERNOVA).append(QPair<QString, const SkyObject *>(name, sup));
     }
+
+    m_DataLoading = false;
+    m_DataLoaded = true;
 }
 
 SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    if (!selected())
+    if (!selected() || !m_DataLoaded)
         return nullptr;
 
     SkyObject *oBest = nullptr;
@@ -174,6 +177,15 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     //qDebug()<<"selected()="<<selected();
     if (!selected())
         return;
+    else if (!m_DataLoaded)
+    {
+        if (!m_DataLoading)
+        {
+            m_DataLoading = true;
+            QtConcurrent::run(this, &SupernovaeComponent::loadData);
+        }
+        return;
+    }
 
     double maglim = zoomMagnitudeLimit();
 
@@ -254,6 +266,6 @@ void SupernovaeComponent::downloadReady()
 
 void SupernovaeComponent::downloadError(const QString &errorString)
 {
-    KSNotification::error(i18n("Error downloading asteroids data: %1", errorString));
+    KSNotification::error(i18n("Error downloading supernova data: %1", errorString));
     downloadJob->deleteLater();
 }
