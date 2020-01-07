@@ -68,7 +68,7 @@ TimeDialog::TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *pa
     NowButton->setObjectName("NowButton");
     NowButton->setText(UTCNow ? i18n("UTC Now") : i18n("Now"));
 
-    vlay->addWidget(dPicker, 0, nullptr);
+    vlay->addWidget(dPicker, 0);
     vlay->addLayout(hlay, 0);
 
     hlay->addWidget(tEdit);

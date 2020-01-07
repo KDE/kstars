@@ -218,7 +218,7 @@ void OpsColors::slotAddPreset()
     bool okPressed = false;
     QString schemename =
         QInputDialog::getText(nullptr, i18n("New Color Scheme"), i18n("Enter a name for the new color scheme:"),
-                              QLineEdit::Normal, QString(), &okPressed, nullptr);
+                              QLineEdit::Normal, QString(), &okPressed);
 
     if (okPressed && !schemename.isEmpty())
     {
