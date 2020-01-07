@@ -817,8 +817,8 @@ QString KStars::getObjectPositionInfo(const QString &objectName)
     }
     if (riseTime.isValid())
     {
-        riseTimeString = QString().sprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
-        setTimeString  = QString().sprintf("%02d:%02d", setTime.hour(), setTime.minute());
+        riseTimeString = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
+        setTimeString  = QString::asprintf("%02d:%02d", setTime.hour(), setTime.minute());
         riseAzString   = riseAz.toDMSString(true, true);
         setAzString    = setAz.toDMSString(true, true);
     }
@@ -835,7 +835,7 @@ QString KStars::getObjectPositionInfo(const QString &objectName)
         riseAzString = setAzString = QString("N/A");
     }
 
-    transitTimeString = QString().sprintf("%02d:%02d", transitTime.hour(), transitTime.minute());
+    transitTimeString = QString::asprintf("%02d:%02d", transitTime.hour(), transitTime.minute());
     transitAltString  = transitAlt.toDMSString(true, true);
 
     QString output;
@@ -864,7 +864,7 @@ QString KStars::getObjectPositionInfo(const QString &objectName)
     stream.writeTextElement("Set_Az_DMS", setAzString);
     stream.writeTextElement("Transit", transitTimeString);
     stream.writeTextElement("Transit_Alt_DMS", transitAltString);
-    stream.writeTextElement("Time_Zone_Offset", QString().sprintf("%02.2f", geo->TZ()));
+    stream.writeTextElement("Time_Zone_Offset", QString::asprintf("%02.2f", geo->TZ()));
 
     stream.writeEndElement(); // object
     stream.writeEndDocument();

@@ -540,8 +540,8 @@ void SkyMap::slotSDSS()
         dec                       = deprecessedPoint.dec();
     }
 
-    RAString  = RAString.sprintf("ra=%f", ra.Degrees());
-    DecString = DecString.sprintf("&dec=%f", dec.Degrees());
+    RAString  = QString::asprintf("ra=%f", ra.Degrees());
+    DecString = QString::asprintf("&dec=%f", dec.Degrees());
 
     //concat all the segments into the kview command line:
     QUrl url(URLprefix + RAString + DecString + URLsuffix);
