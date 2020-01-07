@@ -45,6 +45,7 @@
 
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QElapsedTimer>
 
 #include "kstars_debug.h"
 
@@ -198,7 +199,7 @@ void KStars::setTimeToNow()
 
 void KStars::waitFor(double sec)
 {
-    QTime tm;
+    QElapsedTimer tm;
     tm.start();
     while (tm.elapsed() < int(1000. * sec))
     {

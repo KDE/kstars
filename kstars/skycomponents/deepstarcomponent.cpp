@@ -32,6 +32,7 @@
 
 #include <qplatformdefs.h>
 #include <QtConcurrent>
+#include <QElapsedTimer>
 
 #include <kstars_debug.h>
 
@@ -301,7 +302,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
     StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
     //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
     //    qDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
-    QTime t;
+    QElapsedTimer t;
     int nTrixels = 0;
 
     t_dynamicLoad = 0;
@@ -332,7 +333,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
                     break;
             }
         }
-        t_updateCache = t.restart();
+        t_updateCache = t.elapsed();
         region.reset();
     }
 
