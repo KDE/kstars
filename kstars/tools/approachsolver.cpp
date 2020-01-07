@@ -81,7 +81,7 @@ QMap<long double, dms> ApproachSolver::findClosestApproach(long double startJD,
         {
             if (step > step0) //mini-loop to back up and make sure we're close enough
             {
-                //            qCDebug(KSTARS) << "Entering slow loop: " << endl;
+                //            qCDebug(KSTARS) << "Entering slow loop: ";
                 jd -= step;
                 step = step0;
                 Sign = prevSign;

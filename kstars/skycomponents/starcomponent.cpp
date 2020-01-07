@@ -419,27 +419,27 @@ bool StarComponent::loadStaticData()
     // TODO: Maybe we don't want to hardcode the filename?
     if ((dataFile = dataReader.openFile("namedstars.dat")) == nullptr)
     {
-        qCWarning(KSTARS) << "Could not open data file namedstars.dat" << endl;
+        qCWarning(KSTARS) << "Could not open data file namedstars.dat";
         return false;
     }
 
     if (!(nameFile = nameReader.openFile("starnames.dat")))
     {
-        qCWarning(KSTARS) << "Could not open data file starnames.dat" << endl;
+        qCWarning(KSTARS) << "Could not open data file starnames.dat";
         return false;
     }
 
     if (!dataReader.readHeader())
     {
         qCWarning(KSTARS) << "Error reading namedstars.dat header : " << dataReader.getErrorNumber() << " : "
-                          << dataReader.getError() << endl;
+                          << dataReader.getError();
         return false;
     }
 
     if (!nameReader.readHeader())
     {
         qCWarning(KSTARS) << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : "
-                          << nameReader.getError() << endl;
+                          << nameReader.getError();
         return false;
     }
     //KDE_fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
@@ -476,8 +476,7 @@ bool StarComponent::loadStaticData()
     if (htm_level != m_skyMesh->level())
         qCWarning(KSTARS)
                 << "HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE"
-                << endl;
-
+                ;
     for (int i = 0; i < m_skyMesh->size(); ++i)
     {
         Trixel trixel = i; // = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
@@ -486,7 +485,7 @@ bool StarComponent::loadStaticData()
             if (!fread(&stardata, sizeof(StarData), 1, dataFile))
             {
                 qCCritical(KSTARS) << "FILE FORMAT ERROR: Could not read StarData structure for star #" << j << " under trixel #"
-                                   << trixel << endl;
+                                   << trixel;
             }
 
             /* Swap Bytes when required */
@@ -501,7 +500,7 @@ bool StarComponent::loadStaticData()
             {
                 visibleName = "";
                 if (!fread(&starname, sizeof(starName), 1, nameFile))
-                    qCCritical(KSTARS) << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
+                    qCCritical(KSTARS) << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j;
 
                 name  = QByteArray(starname.longName, 32);
                 named = !name.isEmpty();
@@ -523,7 +522,7 @@ bool StarComponent::loadStaticData()
                 }
             }
             else
-                qCCritical(KSTARS) << "ERROR: Named star file contains unnamed stars! Expect trouble." << endl;
+                qCCritical(KSTARS) << "ERROR: Named star file contains unnamed stars! Expect trouble.";
 
             /* Create the new StarObject */
             star = new StarObject;
@@ -834,7 +833,7 @@ bool StarComponent::verifySBLIntegrity() {
                 qDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
             if( block->prev && block->prev->parent == m_starBlockList[ trixel ]
                 && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
-                qDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
+                qDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i;
                 integrity = false;
             }
             faintMag = block->getFaintMag();

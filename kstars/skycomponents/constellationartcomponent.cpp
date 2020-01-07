@@ -57,7 +57,7 @@ void ConstellationArtComponent::loadData()
         skydb.setDatabaseName(dbfile);
         if (skydb.open() == false)
         {
-            qWarning() << "Unable to open sky cultures database file " << dbfile << endl;
+            qWarning() << "Unable to open sky cultures database file " << dbfile;
             return;
         }
         QSqlQuery get_query(skydb);

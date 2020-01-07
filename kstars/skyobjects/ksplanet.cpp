@@ -214,7 +214,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
         epret.longitude = dms(0.0);
         epret.latitude  = dms(0.0);
         epret.radius    = 0.0;
-        qCWarning(KSTARS) << "Could not get data for name:" << name() << "(" << untranslatedName() << ")" << endl;
+        qCWarning(KSTARS) << "Could not get data for name:" << name() << "(" << untranslatedName() << ")";
         return;
     }
 
@@ -228,7 +228,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
             /*
             qDebug() << "sum[" << i <<"] =" << sum[i] <<
                 " A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
-                " C = " << odc.Lon[i][j].C << endl;
+                " C = " << odc.Lon[i][j].C;
                 */
         }
         sum[i] *= Tpow[i];
@@ -266,7 +266,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
 
     /*
     qDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
-        epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
+        epret.longitude.toDMSString() << " Dist = " << epret.radius;
     */
 }
 
