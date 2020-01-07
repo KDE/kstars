@@ -958,7 +958,7 @@ void WIView::saveImageURL(SkyObjItem *soitem, QString imageURL)
     else
     {
         QTextStream stream(&file);
-        stream << entry << endl;
+        stream << entry << '\n';
         file.close();
     }
 }
@@ -994,7 +994,7 @@ void WIView::saveInfoURL(SkyObjItem *soitem, QString infoURL)
     else
     {
         QTextStream stream(&file);
-        stream << entry << endl;
+        stream << entry << '\n';
         file.close();
     }
 }

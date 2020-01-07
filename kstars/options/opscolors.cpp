@@ -304,7 +304,7 @@ void OpsColors::slotRemovePreset()
             cdatFile.open(QIODevice::ReadWrite);
             QTextStream stream2(&cdatFile);
             for (int i = 0; i < slist.count(); ++i)
-                stream << slist[i] << endl;
+                stream << slist[i] << '\n';
         }
         else
         {

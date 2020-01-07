@@ -640,7 +640,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                     QTextStream outStream(&file);
                     for (int i = 0; i < urlData.size(); i++)
                     {
-                        outStream << urlData[i] << endl;
+                        outStream << urlData[i] << '\n';
                     }
                     file.close();
                 }
@@ -665,7 +665,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                     {
                         QString line = readStream.readLine();
                         if (!line.startsWith(QLatin1String("XXX:"))) //do not write "deleted" lines
-                            writeStream << line << endl;
+                            writeStream << line << '\n';
                     }
 
                     localeFile.close();

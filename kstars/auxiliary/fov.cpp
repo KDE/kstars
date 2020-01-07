@@ -77,7 +77,7 @@ bool FOVManager::save()
                 << fov->offsetY() << ':' << fov->PA() << ':' << QString::number(fov->shape())
                 << ':' << fov->color()
                 << ':' << (fov->lockCelestialPole() ? 1 : 0)
-                << endl;
+                << '\n';
     }
     f.close();
 

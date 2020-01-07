@@ -702,7 +702,7 @@ void DetailDialog::addLink()
             {
                 entry = selectedObject->name() + ':' + adialog->desc() + ':' + adialog->url();
                 QTextStream stream(&file);
-                stream << entry << endl;
+                stream << entry << '\n';
                 file.close();
                 updateLists();
             }
@@ -728,7 +728,7 @@ void DetailDialog::addLink()
             {
                 entry = selectedObject->name() + ':' + adialog->desc() + ':' + adialog->url();
                 QTextStream stream(&file);
-                stream << entry << endl;
+                stream << entry << '\n';
                 file.close();
                 updateLists();
             }
@@ -1057,12 +1057,12 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
         if (file_line == search_line)
         {
             if (replace)
-                (*out_stream) << replace_line << endl;
+                (*out_stream) << replace_line << '\n';
             else
                 continue;
         }
         else
-            (*out_stream) << file_line << endl;
+            (*out_stream) << file_line << '\n';
     }
 
     URLFile.close();
