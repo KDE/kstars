@@ -593,8 +593,8 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
 
     if (rt.isValid())
     {
-        Pos->TimeRise->setText(QString().sprintf("%02d:%02d", rt.hour(), rt.minute()));
-        Pos->TimeSet->setText(QString().sprintf("%02d:%02d", st.hour(), st.minute()));
+        Pos->TimeRise->setText(QString::asprintf("%02d:%02d", rt.hour(), rt.minute()));
+        Pos->TimeSet->setText(QString::asprintf("%02d:%02d", st.hour(), st.minute()));
         Pos->AzRise->setText(raz.toDMSString());
         Pos->AzSet->setText(saz.toDMSString());
     }
@@ -615,7 +615,7 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
         Pos->AzSet->setText(i18nc("Not Applicable", "N/A"));
     }
 
-    Pos->TimeTransit->setText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()));
+    Pos->TimeTransit->setText(QString::asprintf("%02d:%02d", tt.hour(), tt.minute()));
     Pos->AltTransit->setText(talt.toDMSString());
 
     // Restore the position and other time-dependent parameters
@@ -1142,7 +1142,7 @@ QString DetailDialog::parseADVData(const QString &inlink)
     if ((index = link.indexOf("KSRA")) != -1)
     {
         link.remove(index, 4);
-        subLink.sprintf("%02d%02d%02d", selectedObject->ra0().hour(), selectedObject->ra0().minute(),
+        subLink = QString::asprintf("%02d%02d%02d", selectedObject->ra0().hour(), selectedObject->ra0().minute(),
                         selectedObject->ra0().second());
         subLink = subLink.insert(2, "%20");
         subLink = subLink.insert(7, "%20");
@@ -1154,14 +1154,14 @@ QString DetailDialog::parseADVData(const QString &inlink)
         link.remove(index, 5);
         if (selectedObject->dec().degree() < 0)
         {
-            subLink.sprintf("%03d%02d%02d", selectedObject->dec0().degree(), selectedObject->dec0().arcmin(),
+            subLink = QString::asprintf("%03d%02d%02d", selectedObject->dec0().degree(), selectedObject->dec0().arcmin(),
                             selectedObject->dec0().arcsec());
             subLink = subLink.insert(3, "%20");
             subLink = subLink.insert(8, "%20");
         }
         else
         {
-            subLink.sprintf("%02d%02d%02d", selectedObject->dec0().degree(), selectedObject->dec0().arcmin(),
+            subLink = QString::asprintf("%02d%02d%02d", selectedObject->dec0().degree(), selectedObject->dec0().arcmin(),
                             selectedObject->dec0().arcsec());
             subLink = subLink.insert(0, "%2B");
             subLink = subLink.insert(5, "%20");
