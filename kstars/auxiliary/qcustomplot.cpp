@@ -19795,7 +19795,7 @@ void QCPColorScale::setRangeZoom(bool enabled)
     if (enabled)
         mAxisRect.data()->setRangeZoom(QCPAxis::orientation(mType));
     else
-        mAxisRect.data()->setRangeZoom(nullptr);
+        mAxisRect.data()->setRangeZoom({});
 }
 
 /*!
