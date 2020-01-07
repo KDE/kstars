@@ -387,7 +387,7 @@ void DeepSkyComponent::mergeSplitFiles()
     QDir localDir        = QFileInfo(firstFile).absoluteDir();
     QStringList catFiles = localDir.entryList(QStringList("ngcic??.dat"));
 
-    qCInfo(KSTARS) << "Merging split NGC/IC files" << endl;
+    qCInfo(KSTARS) << "Merging split NGC/IC files";
 
     QString buffer;
     for (auto &fname : catFiles)
@@ -402,7 +402,7 @@ void DeepSkyComponent::mergeSplitFiles()
         }
         else
         {
-            qCCritical(KSTARS) << QString("Error: Could not open %1 for reading").arg(fname) << endl;
+            qCCritical(KSTARS) << QString("Error: Could not open %1 for reading").arg(fname);
         }
     }
 
@@ -418,7 +418,7 @@ void DeepSkyComponent::mergeSplitFiles()
         {
             QString fullname = localDir.absoluteFilePath(fname);
             //DEBUG
-            qCInfo(KSTARS) << "Removing " << fullname << " ..." << endl;
+            qCInfo(KSTARS) << "Removing " << fullname << " ...";
             QFile::remove(fullname);
         }
     }

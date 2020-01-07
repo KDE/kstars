@@ -855,7 +855,7 @@ void KStars::initFocus()
         }
         else
         {
-            qWarning() << "Cannot center on " << Options::focusObject() << ": no object found." << endl;
+            qWarning() << "Cannot center on " << Options::focusObject() << ": no object found.";
         }
 
         //Case 2: not tracking, and using Alt/Az coords.  Set focus point using

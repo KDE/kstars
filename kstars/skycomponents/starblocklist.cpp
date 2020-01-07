@@ -39,7 +39,7 @@ StarBlockList::StarBlockList(const Trixel &tr, DeepStarComponent *parent)
 int StarBlockList::releaseBlock(StarBlock *block)
 {
     if (block != blocks[nBlocks - 1].get())
-        qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
+        qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel;
 
     else if (blocks.size() > 0)
     {
@@ -108,7 +108,7 @@ bool StarBlockList::fillToMag(float maglim)
     /*
     qDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
              << ", record count =" << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount()
-             << "to maglim =" << maglim << "with current faintMag =" << faintMag << endl;
+             << "to maglim =" << maglim << "with current faintMag =" << faintMag;
     */
 
     while (maglim >= faintMag && nStars < dSReader->getRecordCount(trixelId))
@@ -122,7 +122,7 @@ bool StarBlockList::fillToMag(float maglim)
             if (!newBlock.get())
             {
                 qWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " << trixel
-                           << ", while trying to create block #" << nBlocks + 1 << endl;
+                           << ", while trying to create block #" << nBlocks + 1;
                 return false;
             }
             blocks.append(newBlock);

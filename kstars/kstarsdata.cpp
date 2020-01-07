@@ -939,7 +939,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
             QStringList fn = line.mid(i).split(' ');
 
             //DEBUG
-            //qDebug() << fn << endl;
+            //qDebug() << fn;
 
             if (fn[0] == "lookTowards" && fn.size() >= 2)
             {
@@ -1125,8 +1125,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                                .subs(hr)
                                .subs(mnt)
                                .subs(sec)
-                               .toString()
-                               << endl;
+                               .toString();
                 }
             }
             else if (fn[0] == "changeViewOption" && fn.size() == 3)

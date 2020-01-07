@@ -63,7 +63,7 @@ void SimClock::tick()
 
         // 		qDebug() << "tick() : JD = " << QLocale().toString( UTC.djd(), 7 ) <<
         // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
-        // 			"  scaledsec = " << double(scaledsec) << endl;
+        // 			"  scaledsec = " << double(scaledsec);
 
         emit timeAdvanced();
     }

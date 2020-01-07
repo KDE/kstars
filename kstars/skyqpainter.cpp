@@ -1065,7 +1065,7 @@ bool SkyQPainter::drawSupernova(Supernova *sup)
         return false;
 
     setPen(data->colorScheme()->colorNamed("SupernovaColor"));
-    //qDebug()<<"Here"<<endl;
+    //qDebug()<<"Here";
     drawLine(QPoint(pos.x() - 2.0, pos.y()), QPoint(pos.x() + 2.0, pos.y()));
     drawLine(QPoint(pos.x(), pos.y() - 2.0), QPoint(pos.x(), pos.y() + 2.0));
     return true;
