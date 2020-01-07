@@ -974,20 +974,20 @@ void ObservingList::slotSaveList()
         if (o->name() == "star")
         {
             //ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
-            ostream << getObjectName(o.data(), false) << endl;
+            ostream << getObjectName(o.data(), false) << '\n';
         }
         else if (o->type() == SkyObject::STAR)
         {
             Q_ASSERT(dynamic_cast<const StarObject *>(o.data()));
             const QSharedPointer<StarObject> s = qSharedPointerCast<StarObject>(o);
             if (s->name() == s->gname())
-                ostream << s->name2() << endl;
+                ostream << s->name2() << '\n';
             else
-                ostream << s->name() << endl;
+                ostream << s->name() << '\n';
         }
         else
         {
-            ostream << o->name() << endl;
+            ostream << o->name() << '\n';
         }
     }
     f.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist");
