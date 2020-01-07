@@ -35,6 +35,8 @@
 #include "htmesh/MeshIterator.h"
 #include "projections/projector.h"
 
+#include "kstars_debug.h"
+
 #include <qplatformdefs.h>
 
 #ifdef _WIN32
@@ -74,10 +76,10 @@ StarComponent::StarComponent(SkyComposite *parent)
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
 
-// The following works but can cause crashes sometimes
-//QtConcurrent::run(this, &StarComponent::loadDeepStarCatalogs);
+    // The following works but can cause crashes sometimes
+    //QtConcurrent::run(this, &StarComponent::loadDeepStarCatalogs);
 
-//In KStars Lite star images are initialized in SkyMapLite
+    //In KStars Lite star images are initialized in SkyMapLite
 #ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
 #endif
@@ -166,6 +168,7 @@ bool StarComponent::reindex(KSNumbers *num)
 
 void StarComponent::reindexAll(KSNumbers *num)
 {
+#if 0
     if (0 && !m_reindexSplash)
     {
         m_reindexSplash = new KStarsSplash(i18n("Please wait while re-indexing stars..."));
@@ -176,8 +179,9 @@ void StarComponent::reindexAll(KSNumbers *num)
         m_reindexSplash->raise();
         return;
     }
+#endif
 
-    printf("Re-indexing Stars to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
+    qCInfo(KSTARS) << "Re-indexing Stars to year" << 2000.0 + num->julianCenturies() * 100.0;
 
     m_reindexNum = KSNumbers(*num);
     m_skyMesh->setKSNumbers(num);
@@ -191,7 +195,7 @@ void StarComponent::reindexAll(KSNumbers *num)
     // re-populate it from the objectList
     for (auto &object : m_ObjectList)
     {
-        StarObject *star = (StarObject *)object;
+        StarObject *star = dynamic_cast<StarObject *>(object);
         Trixel trixel    = m_skyMesh->indexStar(star);
 
         m_starIndex->at(trixel)->append(star);
@@ -205,8 +209,6 @@ void StarComponent::reindexAll(KSNumbers *num)
 
     //delete m_reindexSplash;
     //m_reindexSplash = 0;
-
-    printf("Done.\n");
 }
 
 float StarComponent::faintMagnitude() const
@@ -417,27 +419,27 @@ bool StarComponent::loadStaticData()
     // TODO: Maybe we don't want to hardcode the filename?
     if ((dataFile = dataReader.openFile("namedstars.dat")) == nullptr)
     {
-        qDebug() << "Could not open data file namedstars.dat" << endl;
+        qCWarning(KSTARS) << "Could not open data file namedstars.dat" << endl;
         return false;
     }
 
     if (!(nameFile = nameReader.openFile("starnames.dat")))
     {
-        qDebug() << "Could not open data file starnames.dat" << endl;
+        qCWarning(KSTARS) << "Could not open data file starnames.dat" << endl;
         return false;
     }
 
     if (!dataReader.readHeader())
     {
-        qDebug() << "Error reading namedstars.dat header : " << dataReader.getErrorNumber() << " : "
-                 << dataReader.getError() << endl;
+        qCWarning(KSTARS) << "Error reading namedstars.dat header : " << dataReader.getErrorNumber() << " : "
+                          << dataReader.getError() << endl;
         return false;
     }
 
     if (!nameReader.readHeader())
     {
-        qDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : "
-                 << nameReader.getError() << endl;
+        qCWarning(KSTARS) << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : "
+                          << nameReader.getError() << endl;
         return false;
     }
     //KDE_fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
@@ -454,31 +456,37 @@ bool StarComponent::loadStaticData()
     quint16 t_MSpT;
     int ret = 0;
 
+    // Faint Magnitude
     ret = fread(&faintmag, 2, 1, dataFile);
     if (swapBytes)
         faintmag = bswap_16(faintmag);
+
+    // HTM Level
     ret = fread(&htm_level, 1, 1, dataFile);
-    ret = fread(&t_MSpT, 2, 1, dataFile); // Unused
-    if (swapBytes)
-        faintmag = bswap_16(faintmag);
+
+    // Unused
+    {
+        int rc = fread(&t_MSpT, 2, 1, dataFile);
+        Q_UNUSED(rc)
+    }
 
     if (faintmag / 100.0 > m_FaintMagnitude)
         m_FaintMagnitude = faintmag / 100.0;
 
     if (htm_level != m_skyMesh->level())
-        qDebug()
-            << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE"
-            << endl;
+        qCWarning(KSTARS)
+                << "HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE"
+                << endl;
 
     for (int i = 0; i < m_skyMesh->size(); ++i)
     {
         Trixel trixel = i; // = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
-        for (unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j)
+        for (unsigned long j = 0; j < static_cast<unsigned long>(dataReader.getRecordCount(i)); ++j)
         {
             if (!fread(&stardata, sizeof(StarData), 1, dataFile))
             {
-                qDebug() << "FILE FORMAT ERROR: Could not read StarData structure for star #" << j << " under trixel #"
-                         << trixel << endl;
+                qCCritical(KSTARS) << "FILE FORMAT ERROR: Could not read StarData structure for star #" << j << " under trixel #"
+                                   << trixel << endl;
             }
 
             /* Swap Bytes when required */
@@ -493,7 +501,7 @@ bool StarComponent::loadStaticData()
             {
                 visibleName = "";
                 if (!fread(&starname, sizeof(starName), 1, nameFile))
-                    qDebug() << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
+                    qCCritical(KSTARS) << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
 
                 name  = QByteArray(starname.longName, 32);
                 named = !name.isEmpty();
@@ -515,7 +523,7 @@ bool StarComponent::loadStaticData()
                 }
             }
             else
-                qDebug() << "ERROR: Named star file contains unnamed stars! Expect trouble." << endl;
+                qCCritical(KSTARS) << "ERROR: Named star file contains unnamed stars! Expect trouble." << endl;
 
             /* Create the new StarObject */
             star = new StarObject;
@@ -579,7 +587,7 @@ void StarComponent::appendListObject(SkyObject *object)
     m_ObjectHash.insert(object->longname().toLower(), object);
     m_ObjectHash.insert(object->name2().toLower(), object);
     m_ObjectHash.insert(object->name2().toLower(), object);
-    m_ObjectHash.insert(((StarObject *)object)->gname(false).toLower(), object);
+    m_ObjectHash.insert((dynamic_cast<StarObject *>(object))->gname(false).toLower(), object);
 }
 
 SkyObject *StarComponent::findStarByGenetiveName(const QString name)
@@ -639,7 +647,10 @@ StarObject *StarComponent::findByHDIndex(int HDnum)
         dataFile = m_DeepStarComponents.at(1)->getStarReader()->getFileHandle();
         //KDE_fseek( dataFile, offset, SEEK_SET );
         QT_FSEEK(dataFile, offset, SEEK_SET);
-        ret = fread(&stardata, sizeof(StarData), 1, dataFile);
+        {
+            int rc = fread(&stardata, sizeof(StarData), 1, dataFile);
+            Q_UNUSED(rc)
+        }
         if (m_DeepStarComponents.at(1)->getStarReader()->getByteSwap())
         {
             byteSwap(&stardata);
@@ -717,7 +728,7 @@ void StarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoint &c
     Q_ASSERT(center.ra0().Degrees() >= 0.0);
     Q_ASSERT(center.dec0().Degrees() <= 90.0);
 
-    m_skyMesh->intersect(center.ra0().Degrees(), center.dec0().Degrees(), radius, (BufNum)OBJ_NEAREST_BUF);
+    m_skyMesh->intersect(center.ra0().Degrees(), center.dec0().Degrees(), radius, static_cast<BufNum>(OBJ_NEAREST_BUF));
 
     MeshIterator region(m_skyMesh, OBJ_NEAREST_BUF);
 
