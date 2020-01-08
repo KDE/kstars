@@ -2211,7 +2211,7 @@ void Capture::checkSeqBoundary(const QString &path)
     int newFileIndex = -1;
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
-    QString const sig_file(path_info.baseName());
+    QString const sig_file(path_info.completeBaseName());
     QString tempName;
     // seqFileCount = 0;
 
