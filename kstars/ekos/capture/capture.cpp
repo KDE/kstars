@@ -1402,12 +1402,16 @@ void Capture::syncFilterInfo()
             {
                 if (currentFilter != nullptr && strcmp(activeFilter->text, currentFilter->getDeviceName()))
                 {
+                    m_FilterOverride = true;
+                    activeFilter->aux0 = &m_FilterOverride;
                     IUSaveText(activeFilter, currentFilter->getDeviceName());
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
                 // Reset filter name in CCD driver
                 else if (currentFilter == nullptr && strlen(activeFilter->text) > 0)
                 {
+                    m_FilterOverride = true;
+                    activeFilter->aux0 = &m_FilterOverride;
                     IUSaveText(activeFilter, "");
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
