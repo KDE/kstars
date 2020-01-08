@@ -534,7 +534,7 @@ void Scheduler::processFITSSelection()
     if (fits_read_key(fptr, TSTRING, "OBJECT", object_str, comment, &status))
     {
         QFileInfo info(filename);
-        nameEdit->setText(info.baseName());
+        nameEdit->setText(info.completeBaseName());
     }
     else
     {
@@ -6379,7 +6379,17 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     {
         imagePrefix += '_';
 
-        imagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
+        if (exposure == static_cast<int>(exposure))
+            // Whole number
+            imagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
+        else
+        {
+            // Decimal
+            if (exposure >= 0.001)
+                imagePrefix += QString::number(exposure, 'f', 3) + QString("_secs");
+            else
+                imagePrefix += QString::number(exposure, 'f', 6) + QString("_secs");
+        }
     }
 
     job->setFullPrefix(imagePrefix);
@@ -6405,7 +6415,7 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
     int seqFileCount = 0;
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
-    QString const sig_file(path_info.baseName());
+    QString const sig_file(path_info.completeBaseName());
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Searching in path '%1', files '%2*' for prefix '%3'...").arg(sig_dir, sig_file, seqPrefix);
     QDirIterator it(sig_dir, QDir::Files);
@@ -6413,7 +6423,7 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
     /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
     while (it.hasNext())
     {
-        QString const fileName = QFileInfo(it.next()).baseName();
+        QString const fileName = QFileInfo(it.next()).completeBaseName();
 
         if (fileName.startsWith(seqPrefix))
         {
