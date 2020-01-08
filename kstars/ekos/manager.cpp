@@ -1675,6 +1675,14 @@ void Manager::processNewProperty(INDI::Property * prop)
 
     if (!strcmp(prop->getName(), "ACTIVE_DEVICES"))
     {
+        // Reset ACTIVE_FILTER aux0 and aux1 since we use them for overrides.
+        ITextVectorProperty *tvp = prop->getText();
+        IText *tp = IUFindText(tvp, "ACTIVE_FILTER");
+        if (tp)
+        {
+            tp->aux0 = tp->aux1 = nullptr;
+        }
+
         if (deviceInterface->getDriverInterface() > 0)
             syncActiveDevices();
     }
@@ -3342,7 +3350,7 @@ void Manager::syncActiveDevices()
                     if (tvp->tp[i].aux0 != nullptr)
                     {
                         bool *override = static_cast<bool *>(tvp->tp[i].aux0);
-                        if (*override)
+                        if (override && *override)
                             continue;
                     }
                     devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
