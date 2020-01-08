@@ -848,6 +848,7 @@ class Capture : public QWidget, public Ui::Capture
         // Guide Deviation
         bool m_DeviationDetected { false };
         bool m_SpikeDetected { false };
+        bool m_FilterOverride { false };
         QTimer guideDeviationTimer;
 
         // Autofocus

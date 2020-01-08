@@ -1550,6 +1550,11 @@ void Manager::processNewText(ITextVectorProperty * tvp)
     {
         ekosLiveClient.get()->message()->sendFilterWheels();
     }
+
+    if (!strcmp(tvp->name, "ACTIVE_DEVICES"))
+    {
+        syncActiveDevices();
+    }
 }
 
 void Manager::processNewNumber(INumberVectorProperty * nvp)
@@ -3310,80 +3315,57 @@ void Manager::syncActiveDevices()
 {
     for (auto oneDevice : genericDevices)
     {
-        uint32_t devInterface = oneDevice->getDriverInterface();
-        if (devInterface & (INDI::BaseDevice::TELESCOPE_INTERFACE |
-                            INDI::BaseDevice::DOME_INTERFACE |
-                            INDI::BaseDevice::GPS_INTERFACE |
-                            INDI::BaseDevice::FILTER_INTERFACE))
+        // Find out what ACTIVE_DEVICES properties this driver needs
+        // and update it from the the existing drivers.
+        ITextVectorProperty *tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+        if (tvp)
         {
-            // #1 Make sure all PREVIOUSLY defined drivers
-            // are properly updated.
-#if 0
-            for (auto otherDevice : genericDevices)
+            bool propertyUpdated = false;
+
+            for (int i = 0; i < tvp->ntp; i++)
             {
-                if (otherDevice == oneDevice)
-                    continue;
-
-                ITextVectorProperty *tvp = otherDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
-                if (tvp)
+                QList<ISD::GDInterface *> devs;
+                if (!strcmp(tvp->tp[i].name, "ACTIVE_TELESCOPE"))
                 {
-                    IText *snoopProperty = nullptr;
-                    if (devInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
-                        snoopProperty = IUFindText(tvp, "ACTIVE_TELESCOPE");
-                    else if (devInterface & INDI::BaseDevice::DOME_INTERFACE)
-                        snoopProperty = IUFindText(tvp, "ACTIVE_DOME");
-                    else if (devInterface & INDI::BaseDevice::GPS_INTERFACE)
-                        snoopProperty = IUFindText(tvp, "ACTIVE_GPS");
-                    else if (devInterface & INDI::BaseDevice::FILTER_INTERFACE)
-                        snoopProperty = IUFindText(tvp, "ACTIVE_FILTER");
-
-                    if (snoopProperty && strcmp(snoopProperty->text, oneDevice->getDeviceName()))
+                    devs = findDevicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
+                }
+                else if (!strcmp(tvp->tp[i].name, "ACTIVE_DOME"))
+                {
+                    devs = findDevicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
+                }
+                else if (!strcmp(tvp->tp[i].name, "ACTIVE_GPS"))
+                {
+                    devs = findDevicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
+                }
+                else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
+                {
+                    if (tvp->tp[i].aux0 != nullptr)
                     {
-                        IUSaveText(snoopProperty, oneDevice->getDeviceName());
-                        otherDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                        bool *override = static_cast<bool *>(tvp->tp[i].aux0);
+                        if (*override)
+                            continue;
+                    }
+                    devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+                }
+                else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
+                {
+                    devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
+                }
+
+                if (!devs.empty())
+                {
+                    if (strcmp(tvp->tp[i].text, devs.first()->getDeviceName()))
+                    {
+                        propertyUpdated = true;
+                        IUSaveText(&tvp->tp[i], devs.first()->getDeviceName());
+                        oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
                 }
             }
-#endif
 
-            // #2 Make sure CURRENT driver is updated
-            ITextVectorProperty *tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
-            if (tvp)
-            {
-                for (int i = 0; i < tvp->ntp; i++)
-                {
-                    QList<ISD::GDInterface *> devs;
-                    if (!strcmp(tvp->tp[i].name, "ACTIVE_TELESCOPE"))
-                    {
-                        devs = findDevicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
-                    }
-                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_DOME"))
-                    {
-                        devs = findDevicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
-                    }
-                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_GPS"))
-                    {
-                        devs = findDevicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
-                    }
-                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
-                    {
-                        devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
-                    }
-                    else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
-                    {
-                        devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
-                    }
-
-                    if (!devs.empty())
-                    {
-                        if (strcmp(tvp->tp[i].text, devs.first()->getDeviceName()))
-                        {
-                            IUSaveText(&tvp->tp[i], devs.first()->getDeviceName());
-                            oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
-                        }
-                    }
-                }
-            }
+            // Save configuration
+            if (propertyUpdated)
+                oneDevice->setConfig(SAVE_CONFIG);
         }
     }
 }
