@@ -97,6 +97,9 @@ FITSData::~FITSData()
 
     clearImageBuffers();
 
+    if (m_wcs != nullptr)
+        wcsvfree(&m_nwcs, &m_wcs);
+
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
 
@@ -2319,7 +2322,10 @@ bool FITSData::checkForWCS()
 
     // Free wcs before re-use
     if (m_wcs != nullptr)
+    {
         wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
+    }
 
     if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
     {
@@ -2341,7 +2347,6 @@ bool FITSData::checkForWCS()
 
     if (m_wcs == nullptr)
     {
-        //fprintf(stderr, "No world coordinate systems found.\n");
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
@@ -2349,12 +2354,16 @@ bool FITSData::checkForWCS()
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
     if (m_wcs->crpix[0] == 0)
     {
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
     if ((status = wcsset(m_wcs)) != 0)
     {
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
@@ -2373,6 +2382,12 @@ bool FITSData::loadWCS()
     {
         qWarning() << "WCS data already loaded";
         return true;
+    }
+
+    if (m_wcs != nullptr)
+    {
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
     }
 
     qCDebug(KSTARS_FITS) << "Started WCS Data Processing...";
@@ -2395,6 +2410,8 @@ bool FITSData::loadWCS()
     if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &m_wcs)) != 0)
     {
         free(header);
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
         return false;
     }
@@ -2403,7 +2420,6 @@ bool FITSData::loadWCS()
 
     if (m_wcs == nullptr)
     {
-        //fprintf(stderr, "No world coordinate systems found.\n");
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
@@ -2411,12 +2427,16 @@ bool FITSData::loadWCS()
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
     if (m_wcs->crpix[0] == 0)
     {
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
     if ((status = wcsset(m_wcs)) != 0)
     {
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
@@ -2427,6 +2447,8 @@ bool FITSData::loadWCS()
 
     if (wcs_coord == nullptr)
     {
+        wcsvfree(&m_nwcs, &m_wcs);
+        m_wcs = nullptr;
         lastError = "Not enough memory for WCS data!";
         return false;
     }
