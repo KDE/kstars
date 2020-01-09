@@ -556,7 +556,7 @@ class Guide : public QWidget, public Ui::Guide
 
         // Guider process
         GuideInterface *guider { nullptr };
-        GuiderType guiderType;
+        GuiderType guiderType { GUIDE_INTERNAL };
 
         // Star
         QVector3D starCenter;

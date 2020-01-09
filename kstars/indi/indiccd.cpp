@@ -924,7 +924,7 @@ CCD::~CCD()
     if (fileWriteThread.isRunning())
         fileWriteThread.waitForFinished();
     if (fileWriteBuffer != nullptr)
-        delete fileWriteBuffer;
+        delete [] fileWriteBuffer;
 }
 
 void CCD::setBLOBManager(const char *device, INDI::Property *prop)
@@ -1463,7 +1463,8 @@ bool CCD::WriteImageFile(IBLOB *bp, const QString &format, bool is_fits,
         // Check buffer size.
         if (fileWriteBufferSize < bp->size)
         {
-            if (fileWriteBuffer != nullptr) delete fileWriteBuffer;
+            if (fileWriteBuffer != nullptr)
+                delete [] fileWriteBuffer;
             fileWriteBufferSize = bp->size;
             fileWriteBuffer = new char[fileWriteBufferSize];
         }
