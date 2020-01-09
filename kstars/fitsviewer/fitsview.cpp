@@ -42,12 +42,14 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-namespace  {
+namespace
+{
 
 // Derive the Green and Blue stretch parameters from their previous values and the
 // changes made to the Red parameters. We apply the same offsets used for Red to the
 // other channels' parameters, but clip them.
-void ComputeGBStretchParams(const StretchParams &newParams, StretchParams* params) {
+void ComputeGBStretchParams(const StretchParams &newParams, StretchParams* params)
+{
     float shadow_diff = newParams.grey_red.shadows - params->grey_red.shadows;
     float highlight_diff = newParams.grey_red.highlights - params->grey_red.highlights;
     float midtones_diff = newParams.grey_red.midtones - params->grey_red.midtones;
@@ -99,7 +101,7 @@ void FITSView::doStretch(FITSData *data, QImage *outputImage)
 }
 
 // Store stretch parameters, and turn on stretching if it isn't already on.
-void FITSView::setStretchParams(const StretchParams& params)
+void FITSView::setStretchParams(const StretchParams &params)
 {
     if (imageData->channels() == 3)
         ComputeGBStretchParams(params, &stretchParams);
@@ -113,7 +115,7 @@ void FITSView::setStretchParams(const StretchParams& params)
     stretchImage = true;
 
     if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
-      updateFrame();
+        updateFrame();
 }
 
 // Turn on or off stretching, and if on, use whatever parameters are currently stored.
@@ -296,8 +298,8 @@ bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
     Q_UNUSED(inFilename)
     if (imageData != nullptr)
     {
-      delete imageData;
-      imageData = nullptr;
+        delete imageData;
+        imageData = nullptr;
     }
 
     if (floatingToolBar != nullptr)
@@ -332,7 +334,8 @@ bool FITSView::processData()
     image_frame->setSize(image_width, image_height);
 
     // Init the display image
-    initDisplayImage();
+    // JM 2020.01.08: Disabling as proposed by Hy
+    //initDisplayImage();
 
     imageData->applyFilter(filter);
 
@@ -399,9 +402,9 @@ void FITSView::loadInFrame()
     emit debayerToggled(imageData->hasDebayer());
 
     if (processData())
-      emit loaded();
+        emit loaded();
     else
-      emit failed();
+        emit failed();
 }
 
 int FITSView::saveFITS(const QString &newFilename)
@@ -486,8 +489,9 @@ void FITSView::leaveEvent(QEvent * event)
 template <typename T>
 bool FITSView::rescale(FITSZoom type)
 {
-    if (rawImage.isNull())
-        return false;
+    // JM 2020.01.08: Disabling as proposed by Hy
+    //    if (rawImage.isNull())
+    //        return false;
 
     if (!imageData) return false;
     int image_width  = imageData->width();
@@ -496,7 +500,7 @@ bool FITSView::rescale(FITSZoom type)
     currentHeight = image_height;
 
     if (isVisible())
-      emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
+        emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
     switch (type)
     {
@@ -634,8 +638,8 @@ void FITSView::updateFrame()
     bool ok = false;
 
     if (toggleStretchAction)
-      toggleStretchAction->setChecked(stretchImage);
-    
+        toggleStretchAction->setChecked(stretchImage);
+
     if (currentZoom != ZOOM_DEFAULT)
     {
         // Only scale when necessary
@@ -791,7 +795,7 @@ void FITSView::drawStarCentroid(QPainter * painter)
             QSize const hfrSize = fontMetrics.size(Qt::TextSingleLine, hfr);
 
             // Store the HFR text in a rect
-            QPoint const hfrBottomLeft(x1+w+5, y1+w/2);
+            QPoint const hfrBottomLeft(x1 + w + 5, y1 + w / 2);
             QRect const hfrRect(hfrBottomLeft.x(), hfrBottomLeft.y() - hfrSize.height(), hfrSize.width(), hfrSize.height());
 
             // Render the HFR text only if it can be displayed entirely
@@ -1305,7 +1309,7 @@ void FITSView::toggleStretch()
 {
     stretchImage = !stretchImage;
     if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
-      updateFrame();
+        updateFrame();
 }
 
 void FITSView::toggleStarProfile()
@@ -1542,6 +1546,11 @@ QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 
 void FITSView::initDisplayImage()
 {
+    if (!rawImage.isNull() &&
+            rawImage.width() == imageData->width() &&
+            rawImage.height() == imageData->height())
+        return;
+
     // Account for leftover when sampling. Thus a 5-wide image sampled by 2
     // would result in a width of 3 (samples 0, 2 and 4).
     int w = (imageData->width() + sampling - 1) / sampling;
@@ -1670,10 +1679,10 @@ void FITSView::createFloatingToolBar()
                                i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
 
     toggleStretchAction = floatingToolBar->addAction(QIcon::fromTheme("transform-move"),
-                                                     i18n("Toggle Stretch"),
-                                                     this, SLOT(toggleStretch()));
+                          i18n("Toggle Stretch"),
+                          this, SLOT(toggleStretch()));
     toggleStretchAction->setCheckable(true);
-    
+
 
     floatingToolBar->addSeparator();
 

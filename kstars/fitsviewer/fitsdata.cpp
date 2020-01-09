@@ -2315,7 +2315,11 @@ bool FITSData::checkForWCS()
 
     int status = 0;
     char * header;
-    int nkeyrec, nreject, nwcs;
+    int nkeyrec, nreject;
+
+    // Free wcs before re-use
+    if (m_wcs != nullptr)
+        wcsvfree(&m_nwcs, &m_wcs);
 
     if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
     {
@@ -2325,16 +2329,17 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)) != 0)
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &m_nwcs, &m_wcs)) != 0)
     {
         free(header);
+        wcsvfree(&m_nwcs, &m_wcs);
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
         return false;
     }
 
     free(header);
 
-    if (wcs == nullptr)
+    if (m_wcs == nullptr)
     {
         //fprintf(stderr, "No world coordinate systems found.\n");
         lastError = i18n("No world coordinate systems found.");
@@ -2342,13 +2347,13 @@ bool FITSData::checkForWCS()
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (wcs->crpix[0] == 0)
+    if (m_wcs->crpix[0] == 0)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
-    if ((status = wcsset(wcs)) != 0)
+    if ((status = wcsset(m_wcs)) != 0)
     {
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2387,7 +2392,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)) != 0)
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &m_wcs)) != 0)
     {
         free(header);
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
@@ -2396,7 +2401,7 @@ bool FITSData::loadWCS()
 
     free(header);
 
-    if (wcs == nullptr)
+    if (m_wcs == nullptr)
     {
         //fprintf(stderr, "No world coordinate systems found.\n");
         lastError = i18n("No world coordinate systems found.");
@@ -2404,13 +2409,13 @@ bool FITSData::loadWCS()
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (wcs->crpix[0] == 0)
+    if (m_wcs->crpix[0] == 0)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
-    if ((status = wcsset(wcs)) != 0)
+    if ((status = wcsset(m_wcs)) != 0)
     {
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2435,7 +2440,7 @@ bool FITSData::loadWCS()
             pixcrd[0] = j;
             pixcrd[1] = i;
 
-            if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+            if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
             {
                 lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
             }
@@ -2469,7 +2474,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     int stat[2];
     double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
 
-    if (wcs == nullptr)
+    if (m_wcs == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
@@ -2478,7 +2483,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     worldcrd[0] = wcsCoord.ra0().Degrees();
     worldcrd[1] = wcsCoord.dec0().Degrees();
 
-    if ((status = wcss2p(wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
+    if ((status = wcss2p(m_wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2506,7 +2511,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     int stat[2];
     double imgcrd[2], phi, pixcrd[2], theta, world[2];
 
-    if (wcs == nullptr)
+    if (m_wcs == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
@@ -2515,7 +2520,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     pixcrd[0] = wcsPixelPoint.x();
     pixcrd[1] = wcsPixelPoint.y();
 
-    if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+    if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
     {
         lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2594,7 +2599,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
             world[0] = object->ra0().Degrees();
             world[1] = object->dec0().Degrees();
 
-            if ((status = wcss2p(wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
+            if ((status = wcss2p(m_wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
             {
                 fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status, wcs_errmsg[status]);
             }

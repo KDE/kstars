@@ -3063,7 +3063,7 @@ void Manager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, double 
             // Get all OAL equipment filter list
             QList<OAL::Scope *> m_scopeList;
             KStarsData::Instance()->userdb()->GetAllScopes(m_scopeList);
-            foreach(OAL::Scope * oneScope, m_scopeList)
+            for(auto oneScope : m_scopeList)
             {
                 if (oneScope->id().toInt() == primaryScopeID)
                 {
@@ -3077,6 +3077,8 @@ void Manager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, double 
                     guideAperture = oneScope->aperture();
                 }
             }
+
+            qDeleteAll(m_scopeList);
         }
     }
 }

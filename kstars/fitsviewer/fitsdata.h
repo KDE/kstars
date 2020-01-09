@@ -538,10 +538,11 @@ class FITSData : public QObject
         /// Pointer to WCS coordinate data, if any.
         wcs_point *wcs_coord { nullptr };
         /// WCS Struct
-        struct wcsprm *wcs
+        struct wcsprm *m_wcs
         {
             nullptr
         };
+        int m_nwcs = 0;
         /// All the stars we detected, if any.
         QList<Edge *> starCenters;
         QList<Edge *> localStarCenters;
