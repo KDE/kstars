@@ -4213,6 +4213,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "</SequenceQueue>" << endl;
 
     appendLogText(i18n("Sequence queue saved to %1", path));
+    file.flush();
     file.close();
     // update save button tool tip
     queueSaveB->setToolTip("Save to " + file.fileName());

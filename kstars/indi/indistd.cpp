@@ -440,6 +440,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
         for (nr = 0; nr < (int)bp->size; nr += n)
             n = out.writeRawData(static_cast<char *>(bp->blob) + nr, bp->size - nr);
 
+        fits_temp_file.flush();
         fits_temp_file.close();
 
         QByteArray fmt = QString(bp->format).toLower().remove('.').toUtf8();

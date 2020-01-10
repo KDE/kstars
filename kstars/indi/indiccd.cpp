@@ -70,6 +70,7 @@ void addFITSKeywords(const QString &filename, const QString &filter_used)
             return;
         }
 
+        fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
     }
 #endif
@@ -90,6 +91,7 @@ bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t 
     QDataStream out(&file);
     for (size_t nr = 0; nr < size; nr += n)
         n = out.writeRawData(buffer + nr, size - nr);
+    file.flush();
     file.close();
     if (add_fits_keywords)
         addFITSKeywords(filename, filter);
@@ -113,6 +115,7 @@ bool WriteTempImageFile(const QString &format, char * buffer, size_t size, QStri
     size_t n = 0;
     for (size_t nr = 0; nr < size; nr += n)
         n = out.writeRawData(buffer + nr, size - nr);
+    tmpFile.flush();
     tmpFile.close();
 
     *filename = tmpFile.fileName();
@@ -1435,6 +1438,7 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
         qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << test_file.fileName();
         return false;
     }
+    test_file.flush();
     test_file.close();
     return true;
 }
