@@ -24,11 +24,16 @@ class Focuser : public DeviceDecorator
 {
         Q_OBJECT
 
+
     public:
         enum FocusDirection
         {
             FOCUS_INWARD,
             FOCUS_OUTWARD
+        };
+        enum FocusDeviation
+        {
+            NIKONZ6
         };
 
         explicit Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr)
@@ -61,6 +66,7 @@ class Focuser : public DeviceDecorator
         double getLastManualFocusDriveValue();
 
         bool hasBacklash();
+        bool hasDeviation();
         bool setBacklash(int32_t steps);
         int32_t getBacklash();
 
@@ -75,5 +81,7 @@ class Focuser : public DeviceDecorator
 
     private:
         uint32_t m_maxPosition {0};
+        int deviation = -1;
+
 };
 }

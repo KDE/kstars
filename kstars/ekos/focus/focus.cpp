@@ -453,6 +453,8 @@ void Focus::checkFocuser(int FocuserNum)
         disconnect(oneFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber);
     }
 
+    hasDeviation = currentFocuser->hasDeviation();
+
     canAbsMove = currentFocuser->canAbsMove();
 
     if (canAbsMove)

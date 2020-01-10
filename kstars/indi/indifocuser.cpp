@@ -170,18 +170,33 @@ bool Focuser::canAbsMove()
 bool Focuser::moveRel(int steps)
 {
     INumberVectorProperty *focusProp;
+
     if(canManualFocusDriveMove())
     {
         focusProp = baseDevice->getNumber("manualfocusdrive");
-        if (steps == getLastManualFocusDriveValue())
-            steps = steps + 1;
 
+        FocusDirection dir;
+        getFocusDirection(&dir);
+        if (dir == FOCUS_INWARD)
+            steps = -abs(steps);
+        else if (dir == FOCUS_OUTWARD)
+            steps = abs(steps);
+
+        //manualfocusdrive needs different steps value ​​at every turn
+        if (steps == getLastManualFocusDriveValue())
+            steps += 1;
+
+        //Nikon Z6 fails if step is -1, 0, 1
+        if (deviation == NIKONZ6)
+        {
+            if (abs(steps) < 2)
+                steps = 2;
+        }
     }
     else
     {
         focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
     }
-
 
     if (focusProp == nullptr)
         return false;
@@ -294,4 +309,15 @@ int32_t Focuser::getBacklash()
 
     return focusProp->np[0].value;
 }
+
+bool Focuser::hasDeviation()
+{
+    if (!strcmp(getDeviceName(), "Nikon DSLR Z6"))
+    {
+        deviation = NIKONZ6;
+        return true;
+    }
+    return false;
+}
+
 }
