@@ -622,5 +622,7 @@ class Focus : public QWidget, public Ui::Focus
         // Experimental linear focuser.
         std::unique_ptr<FocusAlgorithmInterface> linearFocuser;
         int focuserAdditionalMovement { 0 };
+
+        bool hasDeviation { false };
 };
 }
