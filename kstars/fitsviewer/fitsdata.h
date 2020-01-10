@@ -506,6 +506,8 @@ class FITSData : public QObject
         uint8_t m_Channels { 1 };
         /// Generic data image buffer
         uint8_t *m_ImageBuffer { nullptr };
+        /// Above buffer size in bytes
+        uint32_t m_ImageBufferSize { 0 };
         /// Is this a temporary file or one loaded from disk?
         bool m_isTemporary { false };
         /// is this file compress (.fits.fz)?
@@ -549,7 +551,7 @@ class FITSData : public QObject
         /// The biggest fattest star in the image.
         Edge *maxHFRStar { nullptr };
 
-        uint8_t *bayerBuffer { nullptr };
+        //uint8_t *m_BayerBuffer { nullptr };
         /// Bayer parameters
         BayerParams debayerParams;
 

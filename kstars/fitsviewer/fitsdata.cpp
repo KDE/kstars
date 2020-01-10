@@ -97,8 +97,10 @@ FITSData::~FITSData()
 
     clearImageBuffers();
 
+#ifdef HAVE_WCSLIB
     if (m_wcs != nullptr)
         wcsvfree(&m_nwcs, &m_wcs);
+#endif
 
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
@@ -110,6 +112,7 @@ FITSData::~FITSData()
 
     if (fptr != nullptr)
     {
+        fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         fptr = nullptr;
 
@@ -128,6 +131,7 @@ void FITSData::loadCommon(const QString &inFilename)
 
     if (fptr != nullptr)
     {
+        fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         fptr = nullptr;
 
@@ -317,11 +321,12 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     if (m_Mode != FITS_NORMAL || !Options::auto3DCube())
         m_Channels = 1;
 
-    m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
+    m_ImageBufferSize = stats.samples_per_channel * m_Channels * stats.bytesPerPixel;
+    m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
         qCWarning(KSTARS_FITS) << "FITSData: Not enough memory for image_buffer channel. Requested: "
-                               << stats.samples_per_channel * m_Channels * stats.bytesPerPixel << " bytes.";
+                               << m_ImageBufferSize << " bytes.";
         clearImageBuffers();
         return false;
     }
@@ -338,7 +343,7 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
 
     if (Options::autoDebayer() && checkDebayer())
     {
-        bayerBuffer = m_ImageBuffer;
+        //m_BayerBuffer = m_ImageBuffer;
         if (debayer())
             calculateStats();
     }
@@ -372,6 +377,7 @@ int FITSData::saveFITS(const QString &newFilename)
 
     if (HasDebayer)
     {
+        fits_flush_file(fptr, &status);
         /* close current file */
         if (fits_close_file(fptr, &status))
         {
@@ -431,6 +437,7 @@ int FITSData::saveFITS(const QString &newFilename)
         return status;
     }
 
+    fits_flush_file(fptr, &status);
     /* close current file */
     if (fits_close_file(fptr, &status))
     {
@@ -535,7 +542,7 @@ void FITSData::clearImageBuffers()
 {
     delete[] m_ImageBuffer;
     m_ImageBuffer = nullptr;
-    bayerBuffer = nullptr;
+    //m_BayerBuffer = nullptr;
 }
 
 void FITSData::calculateStats(bool refresh)
@@ -3316,20 +3323,20 @@ void FITSData::setBayerParams(BayerParams * param)
 
 bool FITSData::debayer()
 {
-    if (bayerBuffer == nullptr)
-    {
-        int anynull = 0, status = 0;
+    //    if (m_ImageBuffer == nullptr)
+    //    {
+    //        int anynull = 0, status = 0;
 
-        bayerBuffer = m_ImageBuffer;
+    //        //m_BayerBuffer = m_ImageBuffer;
 
-        if (fits_read_img(fptr, m_DataType, 1, stats.samples_per_channel, nullptr, bayerBuffer, &anynull, &status))
-        {
-            char errmsg[512];
-            fits_get_errstatus(status, errmsg);
-            KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
-            return false;
-        }
-    }
+    //        if (fits_read_img(fptr, m_DataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
+    //        {
+    //            char errmsg[512];
+    //            fits_get_errstatus(status, errmsg);
+    //            KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
+    //            return false;
+    //        }
+    //    }
 
     switch (m_DataType)
     {
@@ -3348,17 +3355,20 @@ bool FITSData::debayer_8bit()
 {
     dc1394error_t error_code;
 
-    int rgb_size               = stats.samples_per_channel * 3 * stats.bytesPerPixel;
+    uint32_t rgb_size = stats.samples_per_channel * 3 * stats.bytesPerPixel;
     auto * destinationBuffer = new uint8_t[rgb_size];
 
-    if (destinationBuffer == nullptr)
+    auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+    auto * bayer_destination_buffer = reinterpret_cast<uint8_t *>(destinationBuffer);
+
+    if (bayer_destination_buffer == nullptr)
     {
         KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
         return false;
     }
 
-    int ds1394_height      = stats.height;
-    uint8_t * dc1394_source = bayerBuffer;
+    int ds1394_height = stats.height;
+    auto dc1394_source = bayer_source_buffer;
 
     if (debayerParams.offsetY == 1)
     {
@@ -3371,8 +3381,8 @@ bool FITSData::debayer_8bit()
         dc1394_source++;
     }
 
-    error_code = dc1394_bayer_decoding_8bit(dc1394_source, destinationBuffer, stats.width, ds1394_height,
-                                            debayerParams.filter, debayerParams.method);
+    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height, debayerParams.filter,
+                                            debayerParams.method);
 
     if (error_code != DC1394_SUCCESS)
     {
@@ -3382,7 +3392,7 @@ bool FITSData::debayer_8bit()
         return false;
     }
 
-    if (m_Channels == 1)
+    if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
         m_ImageBuffer = new uint8_t[rgb_size];
@@ -3393,26 +3403,28 @@ bool FITSData::debayer_8bit()
             KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
             return false;
         }
+
+        m_ImageBufferSize = rgb_size;
     }
+
+    auto bayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
-    uint8_t * rBuff = m_ImageBuffer;
-    uint8_t * gBuff = m_ImageBuffer + (stats.width * stats.height);
-    uint8_t * bBuff = m_ImageBuffer + (stats.width * stats.height * 2);
+    uint8_t * rBuff = bayered_buffer;
+    uint8_t * gBuff = bayered_buffer + (stats.width * stats.height);
+    uint8_t * bBuff = bayered_buffer + (stats.width * stats.height * 2);
 
     int imax = stats.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
     {
-        *rBuff++ = destinationBuffer[i];
-        *gBuff++ = destinationBuffer[i + 1];
-        *bBuff++ = destinationBuffer[i + 2];
+        *rBuff++ = bayer_destination_buffer[i];
+        *gBuff++ = bayer_destination_buffer[i + 1];
+        *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
     m_Channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
-
     delete[] destinationBuffer;
-    bayerBuffer = nullptr;
     return true;
 }
 
@@ -3420,20 +3432,20 @@ bool FITSData::debayer_16bit()
 {
     dc1394error_t error_code;
 
-    int rgb_size               = stats.samples_per_channel * 3 * stats.bytesPerPixel;
+    uint32_t rgb_size = stats.samples_per_channel * 3 * stats.bytesPerPixel;
     auto * destinationBuffer = new uint8_t[rgb_size];
 
-    auto * buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
-    auto * dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
+    auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
+    auto * bayer_destination_buffer = reinterpret_cast<uint16_t *>(destinationBuffer);
 
-    if (destinationBuffer == nullptr)
+    if (bayer_destination_buffer == nullptr)
     {
         KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
         return false;
     }
 
-    int ds1394_height       = stats.height;
-    uint16_t * dc1394_source = buffer;
+    int ds1394_height = stats.height;
+    auto dc1394_source = bayer_source_buffer;
 
     if (debayerParams.offsetY == 1)
     {
@@ -3446,7 +3458,7 @@ bool FITSData::debayer_16bit()
         dc1394_source++;
     }
 
-    error_code = dc1394_bayer_decoding_16bit(dc1394_source, dstBuffer, stats.width, ds1394_height, debayerParams.filter,
+    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height, debayerParams.filter,
                  debayerParams.method, 16);
 
     if (error_code != DC1394_SUCCESS)
@@ -3457,7 +3469,7 @@ bool FITSData::debayer_16bit()
         return false;
     }
 
-    if (m_Channels == 1)
+    if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
         m_ImageBuffer = new uint8_t[rgb_size];
@@ -3468,27 +3480,28 @@ bool FITSData::debayer_16bit()
             KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
             return false;
         }
+
+        m_ImageBufferSize = rgb_size;
     }
 
-    buffer = reinterpret_cast<uint16_t *>(m_ImageBuffer);
+    auto bayered_buffer = reinterpret_cast<uint16_t *>(m_ImageBuffer);
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
-    uint16_t * rBuff = buffer;
-    uint16_t * gBuff = buffer + (stats.width * stats.height);
-    uint16_t * bBuff = buffer + (stats.width * stats.height * 2);
+    uint16_t * rBuff = bayered_buffer;
+    uint16_t * gBuff = bayered_buffer + (stats.width * stats.height);
+    uint16_t * bBuff = bayered_buffer + (stats.width * stats.height * 2);
 
     int imax = stats.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
     {
-        *rBuff++ = dstBuffer[i];
-        *gBuff++ = dstBuffer[i + 1];
-        *bBuff++ = dstBuffer[i + 2];
+        *rBuff++ = bayer_destination_buffer[i];
+        *gBuff++ = bayer_destination_buffer[i + 1];
+        *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
     m_Channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
     delete[] destinationBuffer;
-    bayerBuffer = nullptr;
     return true;
 }
 
@@ -3843,6 +3856,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     {
         qCWarning(KSTARS_FITS) << "fits_create_img failed:" << error_status;
         status = 0;
+        fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         return false;
     }
@@ -3859,6 +3873,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
             fits_get_errstatus(status, error_status);
             qCWarning(KSTARS_FITS) << "fits_write_img GRAY failed:" << error_status;
             status = 0;
+            fits_flush_file(fptr, &status);
             fits_close_file(fptr, &status);
             return false;
         }
@@ -3876,6 +3891,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
         if (rgbBuffer == nullptr)
         {
             qCWarning(KSTARS_FITS) << "Not enough memory for RGB buffer";
+            fits_flush_file(fptr, &status);
             fits_close_file(fptr, &status);
             return false;
         }
@@ -3895,6 +3911,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
             fits_get_errstatus(status, error_status);
             qCWarning(KSTARS_FITS) << "fits_write_img RGB failed:" << error_status;
             status = 0;
+            fits_flush_file(fptr, &status);
             fits_close_file(fptr, &status);
             delete [] rgbBuffer;
             return false;
