@@ -105,6 +105,7 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent) : SkyComposite(
 
 SolarSystemComposite::~SolarSystemComposite()
 {
+    delete (m_EarthShadow);
 }
 
 bool SolarSystemComposite::selected()
