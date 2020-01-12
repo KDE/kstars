@@ -296,11 +296,6 @@ void FITSView::loadFITS(const QString &inFilename, bool silent)
 bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
 {
     Q_UNUSED(inFilename)
-    if (imageData != nullptr)
-    {
-        delete imageData;
-        imageData = nullptr;
-    }
 
     if (floatingToolBar != nullptr)
     {
@@ -309,6 +304,12 @@ bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
 
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
+
+    if (imageData != nullptr)
+    {
+        delete imageData;
+        imageData = nullptr;
+    }
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
