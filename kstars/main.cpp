@@ -148,8 +148,6 @@ int main(int argc, char *argv[])
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
     parser.setApplicationDescription(aboutData.shortDescription());
-    parser.addVersionOption();
-    parser.addHelpOption();
 
     //parser.addHelpOption(INSERT_DESCRIPTION_HERE);
     parser.addOption(QCommandLineOption("dump", i18n("Dump sky image to file."), "file"));
