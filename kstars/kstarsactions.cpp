@@ -352,6 +352,11 @@ void KStars::slotINDIToolBar()
     else if (a == actionCollection()->action("show_sensor_fov"))
     {
         Options::setShowSensorFOV(a->isChecked());
+        for (auto oneFOV : data()->getTransientFOVs())
+        {
+            if (oneFOV->objectName() == "sensor_fov")
+                oneFOV->setProperty("visible", a->isChecked());
+        }
     }
 
 #endif

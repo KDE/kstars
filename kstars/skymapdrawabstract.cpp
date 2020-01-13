@@ -51,8 +51,6 @@
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
-#include "ekos/manager.h"
-#include "ekos/align/align.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -228,54 +226,46 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
 
 void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
 {
-    Q_UNUSED(psky);
+    Q_UNUSED(psky)
 
 #ifdef HAVE_INDI
 
-    Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
-    //if (align && align->isSolverComplete())
-    if (align)
+    for (auto oneFOV : KStarsData::Instance()->getTransientFOVs())
     {
-        if (Options::showSensorFOV())
-        {
-            FOV *fov       = align->getSensorFOV();
-            if (fov)
-            {
-                fov->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SensorFOVColor").name());
-                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-                QPointF screenSkyPoint = psky.viewport().center();
-                double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(), screenSkyPoint.y());
-                fov->setCenter(centerSkyPoint);
-                fov->setNorthPA(northRotation);
-                fov->draw(psky, Options::zoomFactor());
-            }
-        }
+        QVariant visible = oneFOV->property("visible");
+        if (visible.isNull() || visible.toBool() == false)
+            continue;
 
-        if (align->status() == Ekos::ALIGN_COMPLETE || align->status() == Ekos::ALIGN_PROGRESS)
+        if (oneFOV->objectName() == "sensor_fov")
+        {
+            oneFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SensorFOVColor").name());
+            SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            QPointF screenSkyPoint = psky.viewport().center();
+            double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(), screenSkyPoint.y());
+            oneFOV->setCenter(centerSkyPoint);
+            oneFOV->setNorthPA(northRotation);
+            oneFOV->draw(psky, Options::zoomFactor());
+        }
+        else if (oneFOV->objectName() == "solver_fov")
         {
             bool isVisible = false;
-            FOV *fov       = align->getSolverFOV();
-            if (fov == nullptr)
-                return;
-
-            SkyPoint p = fov->center();
+            SkyPoint p = oneFOV->center();
             if (std::isnan(p.ra().Degrees()))
-                return;
+                continue;
 
             p.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
             QPointF point        = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
             double northRotation = SkyMap::Instance()->projector()->findNorthPA(&p, point.x(), point.y());
-            fov->setNorthPA(northRotation);
-            fov->draw(psky, Options::zoomFactor());
+            oneFOV->setNorthPA(northRotation);
+            oneFOV->draw(psky, Options::zoomFactor());
         }
     }
-
 #endif
 }
 
 void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
-    Q_UNUSED(psky);
+    Q_UNUSED(psky)
 
 #ifdef HAVE_INDI
     if (!Options::showTargetCrosshair())
