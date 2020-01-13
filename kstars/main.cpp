@@ -310,6 +310,7 @@ int main(int argc, char *argv[])
     // Create writable data dir if it does not exist
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
 #ifndef KSTARS_LITE
     KStars::createInstance(true, !parser.isSet("paused"), datestring);
 
