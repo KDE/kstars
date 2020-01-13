@@ -92,14 +92,22 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     dirPath = QDir::homePath();
 
+    KStarsData::Instance()->clearTransientFOVs();
+
     //loadSlewMode = false;
     solverFOV.reset(new FOV());
     solverFOV->setName(i18n("Solver FOV"));
+    solverFOV->setObjectName("solver_fov");
     solverFOV->setLockCelestialPole(true);
     solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SolverFOVColor").name());
+    solverFOV->setProperty("visible", false);
+    KStarsData::Instance()->addTransientFOV(solverFOV);
 
     sensorFOV.reset(new FOV());
+    sensorFOV->setObjectName("sensor_fov");
     sensorFOV->setLockCelestialPole(true);
+    sensorFOV->setProperty("visible", Options::showSensorFOV());
+    KStarsData::Instance()->addTransientFOV(sensorFOV);
 
     QAction *a = KStars::Instance()->actionCollection()->action("show_sensor_fov");
     if (a)
@@ -2837,6 +2845,7 @@ bool Align::captureAndSolve()
 
     state = ALIGN_PROGRESS;
     emit newStatus(state);
+    solverFOV->setProperty("visible", true);
 
     // If we're just refreshing, then we're done
     if (pahStage == PAH_REFRESH)
@@ -2995,8 +3004,7 @@ void Align::setCaptureComplete()
         }
     }
 
-    if (getSolverFOV())
-        getSolverFOV()->setImage(alignView->getDisplayImage());
+    solverFOV->setImage(alignView->getDisplayImage());
 
     startSolving(blobFileName);
 }
@@ -3448,6 +3456,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     emit newStatus(state);
     solverIterations = 0;
 
+    solverFOV->setProperty("visible", true);
+
     if (pahStage != PAH_IDLE)
         processPAHStage(orientation, ra, dec, pixscale);
     else if (azStage > AZ_INIT || altStage > ALT_INIT)
@@ -3480,6 +3490,8 @@ void Align::solverFailed()
 
     state = ALIGN_FAILED;
     emit newStatus(state);
+
+    solverFOV->setProperty("visible", false);
 
     int currentRow = solutionTable->rowCount() - 1;
     solutionTable->setCellWidget(currentRow, 3, new QWidget());
@@ -4632,14 +4644,6 @@ QString Align::solverArguments()
 void Align::setFOVTelescopeType(int index)
 {
     FOVScopeCombo->setCurrentIndex(index);
-}
-
-FOV *Align::getSolverFOV()
-{
-    if (sOrientation == -1)
-        return nullptr;
-    else
-        return solverFOV.get();
 }
 
 void Align::addFilter(ISD::GDInterface *newFilter)
@@ -5877,9 +5881,7 @@ void Align::setRotator(ISD::GDInterface *newRotator)
 
 void Align::refreshAlignOptions()
 {
-    if (getSolverFOV())
-        getSolverFOV()->setImageDisplay(Options::astrometrySolverWCS());
-
+    solverFOV->setImageDisplay(Options::astrometrySolverWCS());
     m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
 }
 

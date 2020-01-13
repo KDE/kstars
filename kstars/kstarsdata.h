@@ -300,6 +300,27 @@ class KStarsData : public QObject
         {
             return availFOVs;
         }
+
+        /**
+         * @brief addTransientFOV Adds a new FOV to the list.
+         * @param newFOV pointer to FOV object.
+         */
+        inline void addTransientFOV(std::shared_ptr<FOV> newFOV)
+        {
+            transientFOVs.append(newFOV);
+        }
+        inline void clearTransientFOVs()
+        {
+            transientFOVs.clear();
+        }
+
+        /**
+         * @return the list of transient FOVs
+         */
+        inline const QList<std::shared_ptr<FOV>> getTransientFOVs() const
+        {
+            return transientFOVs;
+        }
 #ifndef KSTARS_LITE
         /** Return log object */
         OAL::Log *logObject()
@@ -480,8 +501,9 @@ class KStarsData : public QObject
 
         QKeySequence resumeKey;
 
-        QList<FOV *> availFOVs;   // List of all available FOVs
-        QList<FOV *> visibleFOVs; // List of visible FOVs. Cached from Options::FOVNames
+        QList<FOV *> availFOVs;         // List of all available FOVs
+        QList<FOV *> visibleFOVs;       // List of visible FOVs. Cached from Options::FOVNames
+        QList<std::shared_ptr<FOV>> transientFOVs;     // List of non-permenant transient FOVs.
 
         KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
         KStarsDateTime NextDSTChange;

@@ -25,7 +25,10 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     rotatorGauge->setMinimum(0);
     rotatorGauge->setMaximum(360);
 
-    connect(angleSlider, &QSlider::valueChanged, this, [this](int angle){angleSpin->setValue(angle);});
+    connect(angleSlider, &QSlider::valueChanged, this, [this](int angle)
+    {
+        angleSpin->setValue(angle);
+    });
 
     connect(setAngleB, SIGNAL(clicked()), this, SLOT(gotoAngle()));
 
@@ -42,32 +45,32 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     });
 
     connect(enforceRotationCheck, SIGNAL(toggled(bool)), targetPASpin, SLOT(setEnabled(bool)));
-    connect(targetPASpin, SIGNAL(valueChanged(double)), this, SLOT(syncPA(double)));    
+    connect(targetPASpin, SIGNAL(valueChanged(double)), this, SLOT(syncPA(double)));
     connect(PAMulSpin, &QSpinBox::editingFinished, this, [this]()
     {
         Options::setPAMultiplier(PAMulSpin->value());
         updatePA();
     }
-    );
+           );
     connect(PAOffsetSpin, &QSpinBox::editingFinished, this, [this]()
     {
         Options::setPAOffset(PAOffsetSpin->value());
         updatePA();
-    });           
+    });
 }
 
 void RotatorSettings::setRotator(ISD::GDInterface *rotator)
 {
     currentRotator = rotator;
 
-    connect(currentRotator, &ISD::GDInterface::propertyDefined, [&](INDI::Property *prop)
+    connect(currentRotator, &ISD::GDInterface::propertyDefined, [&](INDI::Property * prop)
+    {
+        if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
         {
-            if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
-            {
-                INumberVectorProperty *absAngle = prop->getNumber();
-                setCurrentAngle(absAngle->np[0].value);
-            }
-        });
+            INumberVectorProperty *absAngle = prop->getNumber();
+            setCurrentAngle(absAngle->np[0].value);
+        }
+    });
 }
 
 
@@ -109,24 +112,35 @@ void RotatorSettings::syncPA(double PA)
 {
     if (syncFOVPA->isChecked())
     {
-        for (FOV* fov : KStarsData::Instance()->getVisibleFOVs())
+        for (auto oneFOV : KStarsData::Instance()->getTransientFOVs())
         {
-            fov->setPA(PA);
+            // Only change the PA for the sensor FOV
+            if (oneFOV->objectName() == "sensor_fov")
+            {
+                // Make sure that it is always displayed
+                if (!Options::showSensorFOV())
+                {
+                    Options::setShowSensorFOV(true);
+                    oneFOV->setProperty("visible", true);
+                }
+                oneFOV->setPA(PA);
+                break;
+            }
         }
     }
 }
 
 void RotatorSettings::setPA()
 {
-   // PA = RawAngle * Multiplier + Offset
-   double rawAngle = (PASpin->value() - PAOffsetSpin->value()) / PAMulSpin->value();
-   // Get raw angle (0 to 360) from PA (-180 to +180)
-   if (rawAngle < 0)
-       rawAngle += 360;
-   else if (rawAngle > 360)
-       rawAngle -= 360;
+    // PA = RawAngle * Multiplier + Offset
+    double rawAngle = (PASpin->value() - PAOffsetSpin->value()) / PAMulSpin->value();
+    // Get raw angle (0 to 360) from PA (-180 to +180)
+    if (rawAngle < 0)
+        rawAngle += 360;
+    else if (rawAngle > 360)
+        rawAngle -= 360;
 
-   //angleEdit->setText(QString::number(rawAngle, 'f', 3));
-   angleSpin->setValue(rawAngle);
-   gotoAngle();
+    //angleEdit->setText(QString::number(rawAngle, 'f', 3));
+    angleSpin->setValue(rawAngle);
+    gotoAngle();
 }

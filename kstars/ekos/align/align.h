@@ -321,19 +321,6 @@ class Align : public QWidget, public Ui::Align
         void clearLog();
 
         /**
-             * @brief Return FOV object used to represent the solved image orientation on the sky map.
-             */
-        FOV *getSolverFOV();
-
-        /**
-             * @brief Return FOV object used to represent the current CCD/Telescope combination.
-             */
-        FOV *getSensorFOV()
-        {
-            return sensorFOV.get();
-        }
-
-        /**
              * @brief getFOVScale Returns calculated FOV values
              * @param fov_w FOV width in arcmins
              * @param fov_h FOV height in arcmins
@@ -823,9 +810,8 @@ class Align : public QWidget, public Ui::Align
         bool filterPositionPending { false };
 
         /// Keep track of solver FOV to be plotted in the skymap after each successful solve operation
-        std::unique_ptr<FOV> solverFOV;
-
-        std::unique_ptr<FOV> sensorFOV;
+        std::shared_ptr<FOV> solverFOV;
+        std::shared_ptr<FOV> sensorFOV;
 
         /// WCS
         bool m_wcsSynced { false };
