@@ -3848,7 +3848,8 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
 
     if (fits_create_file(&fptr, QString('!' + output).toLatin1().data(), &status))
     {
-        qCCritical(KSTARS_FITS) << "Failed to create FITS file. Error:" << status;
+        fits_get_errstatus(status, error_status);
+        qCCritical(KSTARS_FITS) << "Failed to create FITS file. Error:" << error_status;
         return false;
     }
 
