@@ -100,8 +100,14 @@ void INDI_P::initGUI()
 
     updateStateLED();
 
+    /* Create a horizontally layout widget around light and label */
+    QWidget *labelWidget = new QWidget();
+    QHBoxLayout *labelLayout =  new QHBoxLayout();
+    labelLayout->setContentsMargins(0, 0, 0, 0);
+    labelWidget->setLayout(labelLayout);
+
     /* #1 First widget is the LED status indicator */
-    PHBox->addWidget(ledStatus.get());
+    labelLayout->addWidget(ledStatus.get());
 
     if (label.isEmpty())
     {
@@ -115,13 +121,16 @@ void INDI_P::initGUI()
         labelW.reset(new KSqueezedTextLabel(label, pg->getContainer()));
 
     //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    labelW->setFrameShape(QFrame::StyledPanel);
+    labelW->setFrameShape(QFrame::Box);
+    labelW->setFrameShadow(QFrame::Sunken);
+    labelW->setMargin(2);
     labelW->setFixedWidth(PROPERTY_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
     labelW->setTextFormat(Qt::RichText);
     labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     labelW->setWordWrap(true);
 
-    PHBox->addWidget(labelW.get());
+    labelLayout->addWidget(labelW.get());
+    PHBox->addWidget(labelWidget, 0, Qt::AlignTop | Qt::AlignLeft);
 
     ledStatus->show();
     labelW->show();
