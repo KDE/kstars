@@ -477,8 +477,8 @@ void Focus::checkFocuser(int FocuserNum)
     canRelMove = currentFocuser->canRelMove();
 
     // In case we have a purely relative focuser, we pretend
-    // it is an absolute focuser with initial point set at 50,000
-    // This is done we can use the same algorithm used for absolute focuser
+    // it is an absolute focuser with initial point set at 50,000.
+    // This is done we can use the same algorithm used for absolute focuser.
     if (canAbsMove == false && canRelMove == true)
     {
         currentPosition = 50000;
@@ -487,6 +487,17 @@ void Focus::checkFocuser(int FocuserNum)
     }
 
     canTimerMove = currentFocuser->canTimerMove();
+
+    // In case we have a timer-based focuser and using the linear focus algorithm,
+    // we pretend it is an absolute focuser with initial point set at 50,000.
+    // These variables don't have in impact on timer-based focusers if the algorithm
+    // is not the linear focus algorithm.
+    if (!canAbsMove && !canRelMove && canTimerMove)
+    {
+        currentPosition = 50000;
+        absMotionMax    = 100000;
+        absMotionMin    = 0;
+    }
 
     focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
 
@@ -597,6 +608,10 @@ void Focus::start()
     {
         pulseDuration = stepIN->value();
 
+        absIterations   = 0;
+        absMotionMax    = 100000;
+        absMotionMin    = 0;
+
         if (pulseDuration <= MINIMUM_PULSE_TIMER)
         {
             appendLogText(i18n("Starting pulse step is too low. Increase the step size to %1 or higher...",
@@ -668,12 +683,13 @@ void Focus::start()
 
     KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
 
-    if (focusAlgorithm == FOCUS_LINEAR && (canAbsMove || canRelMove))
+    // Used for all the focuser types.
+    if (focusAlgorithm == FOCUS_LINEAR)
     {
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
-            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0);
+            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter());
         linearFocuser.reset(MakeLinearFocuser(params));
         const int newPosition = adjustLinearPosition(position, linearFocuser->initialPosition());
         if (newPosition != position)
@@ -733,7 +749,7 @@ void Focus::abort()
 
 void Focus::stop(bool aborted)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << "Stopppig Focus";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Stopping Focus";
 
     captureTimeout.stop();
 
@@ -937,9 +953,11 @@ bool Focus::changeFocus(int amount)
     if (currentFocuser == nullptr)
         return false;
 
+    // This needs to be re-thought. Just returning does not set the timer
+    // and the algorithm ends in limbo.
     // Ignore zero
-    if (amount == 0)
-        return true;
+    // if (amount == 0)
+    //    return true;
 
     if (currentFocuser->isConnected() == false)
     {
@@ -1254,7 +1272,12 @@ void Focus::setCaptureComplete()
 
             // Append point to the #Iterations vs #HFR chart in case of looping or in case in autofocus with a focus
             // that does not support position feedback.
-            if (inFocusLoop || (inAutoFocus && canAbsMove == false && canRelMove == false))
+
+            // If inAutoFocus is true without canAbsMove and without canRelMove, canTimerMove must be true.
+            // We'd only want to execute this if the focus linear algorithm is not being used, as that
+            // algorithm simulates a position-based system even for timer-based focusers.
+            if (inFocusLoop || (inAutoFocus && canAbsMove == false && canRelMove == false &&
+                                focusAlgorithm != FOCUS_LINEAR))
             {
                 if (hfr_position.empty())
                     hfr_position.append(1);
@@ -1533,8 +1556,10 @@ void Focus::setCaptureComplete()
 
     // Now let's kick in the algorithms
 
-    // Position-based algorithms
-    if (canAbsMove || canRelMove)
+    if (focusAlgorithm == FOCUS_LINEAR)
+        autoFocusLinear();
+    else if (canAbsMove || canRelMove)
+        // Position-based algorithms
         autoFocusAbs();
     else
         // Time open-looped algorithms
@@ -1585,10 +1610,14 @@ void Focus::drawHFRPlot()
     if (hfr_value.size() > 0)
         minHFRVal = std::max(0, static_cast<int>(0.9 * *std::min_element(hfr_value.begin(), hfr_value.end())));
 
-    if (inFocusLoop == false && (canAbsMove || canRelMove))
+    // True for the position-based algorithms and those that simulate position.
+    if (inFocusLoop == false && (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR)))
     {
-        //HFRPlot->xAxis->setLabel(i18n("Position"));
-        HFRPlot->xAxis->setRange(minPos - pulseDuration, maxPos + pulseDuration);
+        const double minPosition = hfr_position.empty() ?
+                    0 : *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
+        const double maxPosition = hfr_position.empty() ?
+                    1e6 : *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
+        HFRPlot->xAxis->setRange(minPosition - pulseDuration, maxPosition + pulseDuration);
         HFRPlot->yAxis->setRange(minHFRVal, maxHFR);
     }
     else
@@ -1649,6 +1678,121 @@ void Focus::drawProfilePlot()
     emit newProfilePixmap(profilePixmap);
 }
 
+bool Focus::autoFocusChecks()
+{
+    if (++absIterations > MAXIMUM_ABS_ITERATIONS)
+    {
+        appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
+        abort();
+        setAutoFocusResult(false);
+        return false;
+    }
+
+    // No stars detected, try to capture again
+    if (currentHFR == -1)
+    {
+        if (noStarCount < MAX_RECAPTURE_RETRIES)
+        {
+            appendLogText(i18n("No stars detected, capturing again..."));
+            capture();
+            noStarCount++;
+            return false;
+        }
+        else if (noStarCount == MAX_RECAPTURE_RETRIES)
+        {
+            currentHFR = 20;
+            noStarCount++;
+        }
+        else
+        {
+            appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
+            abort();
+            setAutoFocusResult(false);
+            return false;
+        }
+    }
+    else
+        noStarCount = 0;
+    return true;
+}
+
+void Focus::autoFocusLinear()
+{
+    if (!autoFocusChecks())
+        return;
+
+    hfr_position.append(currentPosition);
+    hfr_value.append(currentHFR);
+
+    drawHFRPlot();
+
+    if (hfr_position.size() > 3)
+    {
+        polynomialFit.reset(new PolynomialFit(2, hfr_position, hfr_value));
+        double min_position, min_value;
+        const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
+        double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
+        double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
+        if (polynomialFit->findMinimum(linearFocuser->getParams().startPosition,
+                                       searchMin, searchMax, &min_position, &min_value))
+        {
+            QPen pen;
+            pen.setWidth(1);
+            pen.setColor(QColor(180,180,180));
+            polynomialGraph->setPen(pen);
+
+            polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
+            polynomialFit->drawMinimum(HFRPlot, focusPoint, min_position, min_value, font());
+        }
+        else
+        {
+            // During development of this algorithm, we show the polynomial graph in red if
+            // no minimum was found. That happens when the order-2 polynomial is an inverted U
+            // instead of a U shape (i.e. it has a maximum, but no minimum).
+            QPen pen;
+            pen.setWidth(1);
+            pen.setColor(QColor(254,0,0));
+            polynomialGraph->setPen(pen);
+            polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
+
+            polynomialGraph->data()->clear();
+            focusPoint->data()->clear();
+        }
+     }
+
+    const int nextPosition = adjustLinearPosition(
+                                 static_cast<int>(currentPosition),
+                                 linearFocuser->newMeasurement(currentPosition, currentHFR));
+    if (nextPosition == -1)
+    {
+        if (linearFocuser->isDone() && linearFocuser->solution() != -1)
+        {
+            appendLogText(i18np("Autofocus complete after %1 iteration.",
+                                "Autofocus complete after %1 iterations.", hfr_position.count()));
+            stop();
+            setAutoFocusResult(true);
+        }
+        else
+        {
+            qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
+            appendLogText("Linear autofocus algorithm aborted.");
+            abort();
+            setAutoFocusResult(false);
+        }
+        return;
+    }
+    else
+    {
+        const int delta = nextPosition - currentPosition;
+        if (!changeFocus(delta))
+        {
+            abort();
+            setAutoFocusResult(false);
+        }
+        return;
+    }
+}
+
 void Focus::autoFocusAbs()
 {
     static int minHFRPos = 0, focusOutLimit = 0, focusInLimit = 0;
@@ -1669,106 +1813,13 @@ void Focus::autoFocusAbs()
     else
         appendLogText(i18n("FITS received. HFR %1 @ %2.", HFRText, currentPosition));
 
-    if (++absIterations > MAXIMUM_ABS_ITERATIONS)
-    {
-        appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
-        abort();
-        setAutoFocusResult(false);
+    if (!autoFocusChecks())
         return;
-    }
-
-    // No stars detected, try to capture again
-    if (currentHFR == -1)
-    {
-        if (noStarCount < MAX_RECAPTURE_RETRIES)
-        {
-            appendLogText(i18n("No stars detected, capturing again..."));
-            capture();
-            noStarCount++;
-            return;
-        }
-        else if (noStarCount == MAX_RECAPTURE_RETRIES)
-        {
-            currentHFR = 20;
-            noStarCount++;
-        }
-        else
-        {
-            appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
-            abort();
-            setAutoFocusResult(false);
-            return;
-        }
-    }
-    else
-        noStarCount = 0;
-
-    if (hfr_position.empty())
-    {
-        maxPos = 1;
-        minPos = 1e6;
-    }
-
-    if (currentPosition > maxPos)
-        maxPos = currentPosition;
-    if (currentPosition < minPos)
-        minPos = currentPosition;
 
     hfr_position.append(currentPosition);
     hfr_value.append(currentHFR);
 
     drawHFRPlot();
-
-    if (focusAlgorithm == FOCUS_LINEAR)
-    {
-        if (hfr_position.size() > 3)
-        {
-            // For now, just plots, doesn't use the polynomial algorithmically.
-            polynomialFit.reset(new PolynomialFit(2, hfr_position, hfr_value));
-            double min_position, min_value;
-            const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
-            double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
-            double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
-            if (polynomialFit->findMinimum(linearFocuser->getParams().startPosition,
-                                           searchMin, searchMax, &min_position, &min_value))
-            {
-                polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
-                polynomialFit->drawMinimum(HFRPlot, focusPoint, min_position, min_value, font());
-            }
-        }
-
-        const int nextPosition = adjustLinearPosition(
-                                     static_cast<int>(currentPosition),
-                                     linearFocuser->newMeasurement(currentPosition, currentHFR));
-        if (nextPosition == -1)
-        {
-            if (linearFocuser->isDone() && linearFocuser->solution() != -1)
-            {
-                appendLogText(i18np("Autofocus complete after %1 iteration.",
-                                    "Autofocus complete after %1 iterations.", hfr_position.count()));
-                stop();
-                setAutoFocusResult(true);
-            }
-            else
-            {
-                qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
-                appendLogText("Linear autofocus algorithm aborted.");
-                abort();
-                setAutoFocusResult(false);
-            }
-            return;
-        }
-        else
-        {
-            delta = nextPosition - currentPosition;
-            if (!changeFocus(static_cast<int>(delta)))
-            {
-                abort();
-                setAutoFocusResult(false);
-            }
-            return;
-        }
-    }
 
     switch (lastFocusDirection)
     {
@@ -2355,6 +2406,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
         if (canAbsMove == false && canRelMove == false && inAutoFocus)
         {
+            // Used by the linear focus algorithm. Ignored if that's not in use for the timer-focuser.
+            INumber *pos = IUFindNumber(nvp, "FOCUS_TIMER_VALUE");
+            if (pos)
+                currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
             autoFocusProcessPositionChange(nvp->s);
         }
         else if (nvp->s == IPS_ALERT)

@@ -12,6 +12,18 @@ namespace Ekos
 PolynomialFit::PolynomialFit(int degree_, const QVector<double>& x_, const QVector<double>& y_)
     : degree(degree_), x(x_), y(y_)
 {
+    Q_ASSERT(x_.size() == y_.size());
+    solve(x, y);
+}
+
+PolynomialFit::PolynomialFit(int degree_, const QVector<int>& x_, const QVector<double>& y_)
+    : degree(degree_), y(y_)
+{
+    Q_ASSERT(x_.size() == y_.size());
+    for (int i = 0; i < x_.size(); ++i)
+    {
+        x.push_back(static_cast<double>(x_[i]));
+    }
     solve(x, y);
 }
 

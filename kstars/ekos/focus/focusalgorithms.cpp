@@ -9,6 +9,7 @@
 
 #include "focusalgorithms.h"
 
+#include "polynomialfit.h"
 #include <QVector>
 #include "kstars.h"
 
@@ -46,17 +47,18 @@ private:
     // Determines the desired focus position for the first sample.
     void computeInitialPosition();
 
-    // Returns a score evaluating whether index is the location of a minumum in the
-    // HFR vector. -1 means no. A positive integer indicates yes, but can be overruled
-    // by another index with a better score.
-    int evaluateMinimum(int index, bool lastSample);
-
     // Sets the internal state for re-finding the minimum, and returns the requested next
     // position to sample.
-    int setupSecondPass(int minIndex, double margin = 2.0);
+    int setupSecondPass(int position, double value, double margin = 2.0);
 
     // Used in the 2nd pass. Focus is getting worse. Requires several consecutive samples getting worse.
     bool gettingWorse();
+
+    // Adds to the debug log a line summarizing the result of running this algorithm.
+    void debugLog();
+
+    // Used to time the focus algorithm.
+    QTime stopWatch;
 
     // A vector containing the HFR values sampled by this algorithm so far.
     QVector<double> values;
@@ -65,25 +67,32 @@ private:
 
     // Focus position requested by this algorithm the previous step.
     int requestedPosition;
-    // Number of iterations processed so far.
+    // The position where the first pass is begun. Usually requestedPosition unless there's a restart.
+    int passStartPosition;
+    // Number of iterations processed so far. Used to see it doesn't exceed params.maxIterations.
     int numSteps;
     // The best value in the first pass. The 2nd pass attempts to get within
     // tolerance of this value.
-    double minValue;
-    // The sampling interval--the number of focuser steps reduced each iteration.
+    double firstPassBestValue;
+    // The position of the minimum found in the first pass.
+    int firstPassBestPosition;
+    // The sampling interval--the recommended number of focuser steps moved inward each iteration
+    // of the first pass.
     int stepSize;
     // The minimum focus position to use. Computed from the focuser limits and maxTravel.
     int minPositionLimit;
     // The maximum focus position to use. Computed from the focuser limits and maxTravel.
     int maxPositionLimit;
-    // The index of the minimum found in the first pass.
-    int firstPassMinIndex;
-    // True if the first iteration has already found a minimum.
-    bool minimumFound;
-    // True if the 2nd pass re-found the minimum, and thus the algorithm is done.
-    bool minimumReFound;
-    // True if the algorithm failed, and thus is done.
-    bool searchFailed;
+    // Counter for the number of times a v-curve minimum above the current position was found,
+    // which implies the initial focus sweep has passed the minimum and should be terminated.
+    int numPolySolutionsFound;
+    // Counter for the number of times a v-curve minimum above the passStartPosition was found,
+    // which implies the sweep should restart at a higher position.
+    int numRestartSolutionsFound;
+    // The index (into values and positions) when the most recent 2nd pass started.
+    int secondPassStartIndex;
+    // True if performing the first focus sweep.
+    bool inFirstPass;
 };
 
 FocusAlgorithmInterface *MakeLinearFocuser(const FocusAlgorithmInterface::FocusParams& params)
@@ -94,24 +103,29 @@ FocusAlgorithmInterface *MakeLinearFocuser(const FocusAlgorithmInterface::FocusP
 LinearFocusAlgorithm::LinearFocusAlgorithm(const FocusParams &focusParams)
     : FocusAlgorithmInterface(focusParams)
 {
-    requestedPosition = params.startPosition;
-    stepSize = params.initialStepSize;
-    minimumFound = false;
+    stopWatch.start();
+    // These variables don't get reset if we restart the algorithm.
     numSteps = 0;
-    minimumReFound = false;
-    searchFailed = false;
-    minValue = 0;
-
     maxPositionLimit = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
     minPositionLimit = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
-                                  .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
-                                  .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
     computeInitialPosition();
 }
 
 void LinearFocusAlgorithm::computeInitialPosition()
 {
+    // These variables get reset if the algorithm is restarted.
+    stepSize = params.initialStepSize;
+    inFirstPass = true;
+    firstPassBestValue = -1;
+    numPolySolutionsFound = 0;
+    numRestartSolutionsFound = 0;
+    secondPassStartIndex = -1;
+
+    qCDebug(KSTARS_EKOS_FOCUS)
+            << QString("Linear: 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
+               .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
+               .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
+
     const int position = params.startPosition;
     int start, end;
 
@@ -159,27 +173,30 @@ void LinearFocusAlgorithm::computeInitialPosition()
         }
     }
     requestedPosition = start;
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: initialPosition %1 end %2 steps %3 sized %4")
+    passStartPosition = requestedPosition;
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: initialPosition %1 end %2 steps %3 sized %4")
                                   .arg(start).arg(end).arg((start-end)/params.initialStepSize).arg(params.initialStepSize);
 }
 
 int LinearFocusAlgorithm::newMeasurement(int position, double value)
 {
+    int thisStepSize = stepSize;
     ++numSteps;
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: step %1, newMeasurement(%2, %3)").arg(numSteps).arg(position).arg(value);
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: step %1, newMeasurement(%2, %3)").arg(numSteps).arg(position).arg(value);
 
     // Not sure how to get a general value for this. Skip this check?
     constexpr int LINEAR_POSITION_TOLERANCE = 25;
     if (abs(position - requestedPosition) > LINEAR_POSITION_TOLERANCE)
     {
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: error didn't get the requested position");
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error didn't get the requested position");
         return requestedPosition;
     }
     // Have we already found a solution?
     if (focusSolution != -1)
     {
         doneString = i18n("Called newMeasurement after a solution was found.");
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: error %1").arg(doneString);
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error %1").arg(doneString);
+        debugLog();
         return -1;
     }
 
@@ -187,142 +204,172 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     values.push_back(value);
     positions.push_back(position);
 
-    if (!minimumFound)
+    if (inFirstPass)
     {
-        // The first pass. We're looking for the minimum of a v-curve.
-        // Check all possible indices to see if we have a V-curve minimum position, and,
-        // if so, which is the best.
-        int bestScore = -1;
-        int bestIndex = -1;
-        // Is this the last sample before we bump into a limit.
-        bool lastSample = requestedPosition - stepSize < minPositionLimit;
-        for (int i = 0; i < values.size(); ++i) {
-            const int score = evaluateMinimum(i, lastSample);
-            if (score > 0) {
-                minimumFound = true;
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestIndex = i;
+        constexpr int kMinPolynomialPoints = 5;
+        constexpr int kNumPolySolutionsRequired = 3;
+        constexpr int kNumRestartSolutionsRequired = 3;
+
+        if (values.size() >= kMinPolynomialPoints)
+        {
+            PolynomialFit fit(2, positions, values);
+            double minPos, minVal;
+            if (fit.findMinimum(position, 0, 100000, &minPos, &minVal))
+            {
+                const int distanceToMin = static_cast<int>(position - minPos);
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: poly fit(%1): %2 = %3 @ %4 distToMin %5")
+                                              .arg(positions.size()).arg(minPos).arg(minVal).arg(position).arg(distanceToMin);
+                if (distanceToMin >= 0)
+                {
+                    // The minimum is further inward.
+                    numPolySolutionsFound = 0;
+                    numRestartSolutionsFound = 0;
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Solutions reset %1 = %2").arg(minPos).arg(minVal);
+                    const int stepsToMin = distanceToMin / stepSize;
+                    // Temporarily increase the step size if the minimum is very far inward.
+                    if (stepsToMin >= 8)
+                        thisStepSize = stepSize * 4;
+                    else if (stepsToMin >= 4)
+                        thisStepSize = stepSize * 2;
+                }
+                else
+                {
+                    // We have potentially passed the bottom of the curve,
+                    // but it's possible it is further back than the start of our sweep.
+                    if (minPos > passStartPosition)
+                    {
+                        numRestartSolutionsFound++;
+                        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: RESTART Solution #%1 %2 = %3 @ %4")
+                                                      .arg(numRestartSolutionsFound).arg(minPos).arg(minVal).arg(position);
+                    }
+                    else
+                    {
+                        numPolySolutionsFound++;
+                        numRestartSolutionsFound = 0;
+                        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Solution #%1: %2 = %3 @ %4")
+                                                      .arg(numPolySolutionsFound).arg(minPos).arg(minVal).arg(position);
+                    }
+                }
+
+                if (numPolySolutionsFound >= kNumPolySolutionsRequired)
+                {
+                    // We found a minimum. Setup the 2nd pass. We could use either the polynomial min or the
+                    // min measured star as the target HFR. Will use the min of both as I've seen using just
+                    // the polynomial minimum to be too conservative.
+                    double minMeasurement = *std::min_element(values.begin(), values.end());
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 1stPass solution @ %1: pos %2 val %3, min measurement %4")
+                                                  .arg(position).arg(minPos).arg(minVal).arg(minMeasurement);
+                    return setupSecondPass(static_cast<int>(minPos), std::min(minVal, minMeasurement));
+                }
+                else if (numRestartSolutionsFound >= kNumRestartSolutionsRequired)
+                {
+                    params.startPosition = static_cast<int>(minPos);
+                    computeInitialPosition();
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Restart @ %1: %1 = %2, start at %3")
+                                                  .arg(position).arg(minPos).arg(minVal).arg(requestedPosition);
+                    return requestedPosition;
                 }
             }
+            else
+            {
+                // Minimum failed indicating the 2nd-order polynomial is an inverted U--it has a maximum,
+                // but no minimum.  This is, of course, not a sensible solution for the focuser, but can
+                // happen with noisy data and perhaps small step sizes. We still might be able to take advantage,
+                // and notice whether the polynomial is increasing or decreasing locally. For now, do nothing.
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: ******** No poly min: Poly must be inverted");
+            }
         }
-        if (minimumFound)
+        else
         {
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: Minimum found at index %1").arg(bestIndex);
-            return setupSecondPass(bestIndex);
+            // Don't have enough samples to reliably fit a polynomial.
+            // Simply step the focus in one more time and iterate.
         }
     }
     else
     {
-        // We previously found the v-curve minimum. We're now in a 2nd pass looking to recreate it.
-        if (value < minValue * (1.0 + params.focusTolerance))
+        // In a 2nd pass looking to recreate the 1st pass' minimum.
+        if (value < firstPassBestValue * (1.0 + params.focusTolerance))
         {
             focusSolution = position;
-            minimumReFound = true;
+            focusHFR = value;
             done = true;
             doneString = i18n("Solution found.");
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: solution at position %1 value %2 (best %3)").arg(position).arg(value).arg(minValue);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass solution @ %1 = %2 (best %3)")
+                                          .arg(position).arg(value).arg(firstPassBestValue);
+            debugLog();
             return -1;
         }
-        else
+        else if (gettingWorse())
         {
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: %1 %2 not a solution, not < %3").arg(position).arg(value).arg(minValue * (1.0+params.focusTolerance));
-            if (gettingWorse())
-            {
-                // Doesn't look like we'll find something close to the min. Retry the 2nd pass.
-                qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: getting worse, re-running 2nd pass");
-                return setupSecondPass(firstPassMinIndex);
-            }
+            // Doesn't look like we'll find something close to the min. Retry the 2nd pass.
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: getting worse, re-running 2nd pass");
+            return setupSecondPass(firstPassBestPosition, firstPassBestValue);
         }
     }
 
-    if (numSteps == params.maxIterations - 1)
+    if (numSteps == params.maxIterations - 2)
     {
         // If we're close to exceeding the iteration limit, retry this pass near the old minimum position.
         const int minIndex = static_cast<int>(std::min_element(values.begin(), values.end()) - values.begin());
-        return setupSecondPass(minIndex, 0.5);
+        return setupSecondPass(positions[minIndex], values[minIndex], 0.5);
     }
     else if (numSteps > params.maxIterations)
     {
         // Fail. Exceeded our alloted number of iterations.
-        searchFailed = true;
         done = true;
         doneString = i18n("Too many steps.");
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: error %1").arg(doneString);
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error %1").arg(doneString);
+        debugLog();
         return -1;
     }
 
     // Setup the next sample.
-    requestedPosition = requestedPosition - stepSize;
+    requestedPosition = requestedPosition - thisStepSize;
 
     // Make sure the next sample is within bounds.
     if (requestedPosition < minPositionLimit)
     {
         // The position is too low. Pick the min value and go to (or retry) a 2nd iteration.
         const int minIndex = static_cast<int>(std::min_element(values.begin(), values.end()) - values.begin());
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: reached end without Vmin. Restarting %1 pos %2 value %3")
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: reached end without Vmin. Restarting %1 pos %2 value %3")
                                       .arg(minIndex).arg(positions[minIndex]).arg(values[minIndex]);
-        return setupSecondPass(minIndex);
+        return setupSecondPass(positions[minIndex], values[minIndex]);
     }
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: requesting position %1").arg(requestedPosition);
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: requesting position %1").arg(requestedPosition);
     return requestedPosition;
 }
 
-int LinearFocusAlgorithm::setupSecondPass(int minIndex, double margin)
+void LinearFocusAlgorithm::debugLog()
 {
-    firstPassMinIndex = minIndex;
-    minimumFound = true;
+    QString str("Linear: points=[");
+    for (int i = 0; i < positions.size(); ++i)
+    {
+        str.append(QString("(%1, %2)").arg(positions[i]).arg(values[i]));
+        if (i < positions.size()-1)
+            str.append(", ");
+    }
+    str.append(QString("];iterations=%1").arg(numSteps));
+    str.append(QString(";duration=%1").arg(stopWatch.elapsed()/1000));
+    str.append(QString(";solution=%1").arg(focusSolution));
+    str.append(QString(";HFR=%1").arg(focusHFR));
+    str.append(QString(";filter='%1'").arg(params.filterName));
 
-    int bestPosition = positions[minIndex];
-    minValue = values[minIndex];
+    qCDebug(KSTARS_EKOS_FOCUS) << str;
+}
+
+int LinearFocusAlgorithm::setupSecondPass(int position, double value, double margin)
+{
+    firstPassBestPosition = position;
+    firstPassBestValue = value;
+    inFirstPass = false;
+    secondPassStartIndex = values.size();
+
     // Arbitrarily go back "margin" steps above the best position.
     // Could be a problem if backlash were worse than that many steps.
-    requestedPosition = std::min(static_cast<int>(bestPosition + stepSize * margin), maxPositionLimit);
+    requestedPosition = std::min(static_cast<int>(firstPassBestPosition + stepSize * margin), maxPositionLimit);
     stepSize = params.initialStepSize / 2;
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: 2ndPass starting at %1 step %2").arg(requestedPosition).arg(stepSize);
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass starting at %1 step %2").arg(requestedPosition).arg(stepSize);
     return requestedPosition;
-}
-
-// Given the values in the two vectors (values & positions), Evaluates whether index
-// is the position of a "V". If a negative number is returned, the answer is no.
-// A positive return value is a score. Best score wins.
-//
-// Implemented as simple heuristic. A V point must have:
-// - at least 2 points on both sides that have higher values
-// - for both sides: # higher values - # lower values > 2
-// Return value is the number of higher values minus the number of lower values
-// counted on both sides.
-// Note: could have just returned positive for only the minimum value, but this
-// allows for others to be possible minima as well, if the min is too close to the edge.
-
-int LinearFocusAlgorithm::evaluateMinimum(int index, bool lastSample)
-{
-    const double indexValue = values[index];
-    const int threshold = 2;
-
-    if (index < threshold)
-        return -1;
-    if (!lastSample && index >= values.size() - threshold)
-        return -1;
-
-    // Left means lower focus position (focused in), right means higher position.
-    int right_num_higher = 0, right_num_lower = 0;
-    int left_num_higher = 0, left_num_lower = 0;
-    for (int i = 0; i < index; ++i)
-    {
-        if (values[i] >= indexValue) ++right_num_higher;
-        else ++right_num_lower;
-    }
-    for (int i = index+1; i < values.size(); ++i)
-    {
-        if (values[i] >= indexValue) ++left_num_higher;
-        else ++left_num_lower;
-    }
-    const int right_difference = right_num_higher - right_num_lower;
-    const int left_difference = left_num_higher - left_num_lower;
-    if (right_difference >= threshold && left_difference >= threshold)
-        return right_difference + left_difference;
-    return -1;
 }
 
 // Return true if there are "streak" consecutive values which are successively worse.
@@ -331,7 +378,12 @@ bool LinearFocusAlgorithm::gettingWorse()
     // Must have this many consecutive values getting worse.
     constexpr int streak = 3;
     const int length = values.size();
+    if (secondPassStartIndex < 0)
+        return false;
     if (length < streak+1)
+        return false;
+    // This insures that all the values we're checking are in the latest 2nd pass.
+    if (length - secondPassStartIndex < streak + 1)
         return false;
     for (int i = length-1; i >= length-streak; --i)
         if (values[i] <= values[i-1])

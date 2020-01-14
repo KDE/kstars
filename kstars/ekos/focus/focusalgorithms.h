@@ -39,14 +39,16 @@ public:
         int maxIterations;
         // The focus algorithm may terminate if it gets within this fraction of the best focus, e.g. 0.10.
         double focusTolerance;
+        // The name of the filter used, if any.
+        QString filterName;
 
         FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,
                     int _minPositionAllowed, int _maxPositionAllowed,
-                    int _maxIterations, double _focusTolerance) :
+                    int _maxIterations, double _focusTolerance, const QString &filterName_) :
             maxTravel(_maxTravel), initialStepSize(_initialStepSize),
             startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),
             maxPositionAllowed(_maxPositionAllowed), maxIterations(_maxIterations),
-            focusTolerance(_focusTolerance) {}
+            focusTolerance(_focusTolerance), filterName(filterName_) {}
     };
 
     // Constructor initializes an autofocus algorithm from the input params.
@@ -79,6 +81,7 @@ public:
     FocusParams params;
     bool done = false;
     int focusSolution = -1;
+    double focusHFR = -1;
     QString doneString;
   };
 
