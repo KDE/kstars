@@ -176,6 +176,8 @@ void INDI_E::setupElementLabel()
     label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
     label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
     label_w->setFrameShape(KSqueezedTextLabel::Box);
+    label_w->setFrameShadow(KSqueezedTextLabel::Sunken);
+    label_w->setMargin(2);
 
     palette.setColor(label_w->backgroundRole(), QColor(224, 232, 238));
     label_w->setPalette(palette);
