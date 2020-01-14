@@ -21,6 +21,7 @@ public:
     // Constructor. Pass in the degree of the desired polynomial fit, and a vector with the x and y values.
     // The constructor solves for the polynomial coefficients.
     PolynomialFit(int degree, const QVector<double>& x, const QVector<double>& y);
+    PolynomialFit(int degree, const QVector<int>& x, const QVector<double>& y);
 
     // Returns the minimum position and value in the pointers for the solved polynomial.
     // Returns false if the polynomial couldn't be solved.

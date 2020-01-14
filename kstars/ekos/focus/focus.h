@@ -408,7 +408,9 @@ class Focus : public QWidget, public Ui::Focus
         /// Positions
         ////////////////////////////////////////////////////////////////////
         void getAbsFocusPosition();
+        bool autoFocusChecks();
         void autoFocusAbs();
+        void autoFocusLinear();
         void autoFocusRel();
         void resetButtons();
         void stop(bool aborted = false);
