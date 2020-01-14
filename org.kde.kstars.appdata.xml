@@ -84,6 +84,7 @@
     <p xml:lang="pl">KStars jest darmowym, otwartoźródłowym, wieloplatformowym oprogramowaniem astronomicznym stworzonym przez KDE.</p>
     <p xml:lang="pt">O KStars é uma aplicação de astronomia com uma licença livre, de código-aberto e multi-plataforma.</p>
     <p xml:lang="pt-BR">KStars é um software de Astronomia do KDE licenciado gratuitamente, de código aberto e multiplataforma.</p>
+    <p xml:lang="sk">KStars je slobodný, open source, cross platformový astronomický softvér od KDE.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
     <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
@@ -356,6 +357,7 @@
       <caption xml:lang="pl">Główne okno KStars</caption>
       <caption xml:lang="pt">Janela principal do KStars</caption>
       <caption xml:lang="pt-BR">Janela principal do KStars</caption>
+      <caption xml:lang="sk">KStars hlavné okno</caption>
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
       <caption xml:lang="uk">Головне вікно KStars</caption>
       <caption xml:lang="x-test">xxKStars main windowxx</caption>
@@ -397,6 +399,7 @@
       <caption xml:lang="pl">Narzędzie Ekos w KStars</caption>
       <caption xml:lang="pt">Ferramenta do Ekos no KStars</caption>
       <caption xml:lang="pt-BR">Ferramenta Ekos no KStars</caption>
+      <caption xml:lang="sk">Nástroj Ekos v KStars</caption>
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
       <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
       <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
