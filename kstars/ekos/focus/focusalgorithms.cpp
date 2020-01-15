@@ -54,6 +54,9 @@ private:
     // Used in the 2nd pass. Focus is getting worse. Requires several consecutive samples getting worse.
     bool gettingWorse();
 
+    // If one of the last 2 samples are as good or better than the 2nd best so far, return true.
+    bool bestSamplesHeuristic();
+
     // Adds to the debug log a line summarizing the result of running this algorithm.
     void debugLog();
 
@@ -122,7 +125,7 @@ void LinearFocusAlgorithm::computeInitialPosition()
     secondPassStartIndex = -1;
 
     qCDebug(KSTARS_EKOS_FOCUS)
-            << QString("Linear: 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
+            << QString("Linear: v3. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
                .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
                .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
 
@@ -157,25 +160,13 @@ void LinearFocusAlgorithm::computeInitialPosition()
     const int nSteps = (start - end) / params.initialStepSize;
     if (nSteps > params.maxIterations/2)
     {
-        const int topSize = start - position;
-        const int bottomSize = position - end;
-        if (topSize <= bottomSize)
-        {
-            const int newStart = position + params.initialStepSize * (params.maxIterations/4);
-            start = std::min(newStart, maxPositionLimit);
-            end = start - params.initialStepSize * (params.maxIterations/2);
-        }
-        else
-        {
-            const int newEnd = position - params.initialStepSize * (params.maxIterations/4);
-            end = std::max(newEnd, minPositionLimit);
-            start = end + params.initialStepSize * (params.maxIterations/2);
-        }
+        const int newStart = position + params.initialStepSize * (params.maxIterations/6);
+        start = std::min(newStart, maxPositionLimit);
     }
     requestedPosition = start;
     passStartPosition = requestedPosition;
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: initialPosition %1 end %2 steps %3 sized %4")
-                                  .arg(start).arg(end).arg((start-end)/params.initialStepSize).arg(params.initialStepSize);
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: initialPosition %1 sized %2")
+                                  .arg(start).arg(params.initialStepSize);
 }
 
 int LinearFocusAlgorithm::newMeasurement(int position, double value)
@@ -209,6 +200,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
         constexpr int kMinPolynomialPoints = 5;
         constexpr int kNumPolySolutionsRequired = 3;
         constexpr int kNumRestartSolutionsRequired = 3;
+        constexpr double kDecentValue = 2.5;
 
         if (values.size() >= kMinPolynomialPoints)
         {
@@ -225,14 +217,18 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
                     numPolySolutionsFound = 0;
                     numRestartSolutionsFound = 0;
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Solutions reset %1 = %2").arg(minPos).arg(minVal);
-                    const int stepsToMin = distanceToMin / stepSize;
-                    // Temporarily increase the step size if the minimum is very far inward.
-                    if (stepsToMin >= 8)
-                        thisStepSize = stepSize * 4;
-                    else if (stepsToMin >= 4)
-                        thisStepSize = stepSize * 2;
+                    if (value > kDecentValue)
+                    {
+                        // Only skip samples if the HFV values aren't very good.
+                        const int stepsToMin = distanceToMin / stepSize;
+                        // Temporarily increase the step size if the minimum is very far inward.
+                        if (stepsToMin >= 8)
+                            thisStepSize = stepSize * 4;
+                        else if (stepsToMin >= 4)
+                            thisStepSize = stepSize * 2;
+                    }
                 }
-                else
+                else if (!bestSamplesHeuristic())
                 {
                     // We have potentially passed the bottom of the curve,
                     // but it's possible it is further back than the start of our sweep.
@@ -254,12 +250,12 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
                 if (numPolySolutionsFound >= kNumPolySolutionsRequired)
                 {
                     // We found a minimum. Setup the 2nd pass. We could use either the polynomial min or the
-                    // min measured star as the target HFR. Will use the min of both as I've seen using just
-                    // the polynomial minimum to be too conservative.
+                    // min measured star as the target HFR. I've seen using the polynomial minimum to be
+                    // sometimes too conservative, sometimes too low. For now using the min sample.
                     double minMeasurement = *std::min_element(values.begin(), values.end());
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 1stPass solution @ %1: pos %2 val %3, min measurement %4")
                                                   .arg(position).arg(minPos).arg(minVal).arg(minMeasurement);
-                    return setupSecondPass(static_cast<int>(minPos), std::min(minVal, minMeasurement));
+                    return setupSecondPass(static_cast<int>(minPos), minMeasurement);
                 }
                 else if (numRestartSolutionsFound >= kNumRestartSolutionsRequired)
                 {
@@ -269,6 +265,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
                                                   .arg(position).arg(minPos).arg(minVal).arg(requestedPosition);
                     return requestedPosition;
                 }
+
             }
             else
             {
@@ -370,6 +367,19 @@ int LinearFocusAlgorithm::setupSecondPass(int position, double value, double mar
     stepSize = params.initialStepSize / 2;
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass starting at %1 step %2").arg(requestedPosition).arg(stepSize);
     return requestedPosition;
+}
+
+// Return true if one of the 2 recent samples is among the best 2 samples so far.
+bool LinearFocusAlgorithm::bestSamplesHeuristic()
+{
+    const int length = values.size();
+    if (length < 5) return true;
+    QVector<double> tempValues = values;
+    std::nth_element(tempValues.begin(), tempValues.begin() + 2, tempValues.end());
+    double secondBest = tempValues[1];
+    if ((values[length-1] <= secondBest) || (values[length-2] <= secondBest))
+        return true;
+    return false;
 }
 
 // Return true if there are "streak" consecutive values which are successively worse.
