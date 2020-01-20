@@ -283,30 +283,30 @@ void Guide::setupNSEWLabels()
     {
         QCPItemText *northLabel = new QCPItemText(driftGraph);
         northLabel->setColor(deLabelColor);
-        northLabel->setText(i18nc("North","N"));
+        northLabel->setText(i18nc("North", "N"));
         northLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        northLabel->position->setCoords(0.6,0.1);
+        northLabel->position->setCoords(0.6, 0.1);
         northLabel->setVisible(true);
 
         QCPItemText *southLabel = new QCPItemText(driftGraph);
         southLabel->setColor(deLabelColor);
-        southLabel->setText(i18nc("South","S"));
+        southLabel->setText(i18nc("South", "S"));
         southLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        southLabel->position->setCoords(0.6,0.8);
+        southLabel->position->setCoords(0.6, 0.8);
         southLabel->setVisible(true);
 
         QCPItemText *westLabel = new QCPItemText(driftGraph);
         westLabel->setColor(raLabelColor);
-        westLabel->setText(i18nc("West","W"));
+        westLabel->setText(i18nc("West", "W"));
         westLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        westLabel->position->setCoords(0.8,0.1);
+        westLabel->position->setCoords(0.8, 0.1);
         westLabel->setVisible(true);
 
         QCPItemText *eastLabel = new QCPItemText(driftGraph);
         eastLabel->setColor(raLabelColor);
-        eastLabel->setText(i18nc("East","E"));
+        eastLabel->setText(i18nc("East", "E"));
         eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        eastLabel->position->setCoords(0.8,0.8);
+        eastLabel->position->setCoords(0.8, 0.8);
         eastLabel->setVisible(true);
 
     }
@@ -315,30 +315,30 @@ void Guide::setupNSEWLabels()
     {
         QCPItemText *northLabel = new QCPItemText(driftPlot);
         northLabel->setColor(deLabelColor);
-        northLabel->setText(i18nc("North","N"));
+        northLabel->setText(i18nc("North", "N"));
         northLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        northLabel->position->setCoords(0.25,0.2);
+        northLabel->position->setCoords(0.25, 0.2);
         northLabel->setVisible(true);
 
         QCPItemText *southLabel = new QCPItemText(driftPlot);
         southLabel->setColor(deLabelColor);
-        southLabel->setText(i18nc("South","S"));
+        southLabel->setText(i18nc("South", "S"));
         southLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        southLabel->position->setCoords(0.25,0.7);
+        southLabel->position->setCoords(0.25, 0.7);
         southLabel->setVisible(true);
 
         QCPItemText *westLabel = new QCPItemText(driftPlot);
         westLabel->setColor(raLabelColor);
-        westLabel->setText(i18nc("West","W"));
+        westLabel->setText(i18nc("West", "W"));
         westLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        westLabel->position->setCoords(0.8,0.75);
+        westLabel->position->setCoords(0.8, 0.75);
         westLabel->setVisible(true);
 
         QCPItemText *eastLabel = new QCPItemText(driftPlot);
         eastLabel->setColor(raLabelColor);
-        eastLabel->setText(i18nc("East","E"));
+        eastLabel->setText(i18nc("East", "E"));
         eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
-        eastLabel->position->setCoords(0.3,0.75);
+        eastLabel->position->setCoords(0.3, 0.75);
         eastLabel->setVisible(true);
     }
 }
@@ -1438,7 +1438,7 @@ bool Guide::guide()
                         {
                             if(newState == GUIDE_GUIDING)
                             {
-                                phd2Guider->setLockPosition(x,y);
+                                phd2Guider->setLockPosition(x, y);
                                 disconnect(guideConnect);
                             }
                         });
@@ -1459,6 +1459,12 @@ bool Guide::guide()
 
         KSMessageBox::Instance()->questionYesNo(i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
 
+        return false;
+    }
+
+    if (m_MountStatus == ISD::Telescope::MOUNT_PARKED)
+    {
+        KSMessageBox::Instance()->sorry(i18n("The mount is parked. Unpark to start guiding."));
         return false;
     }
 
@@ -1554,6 +1560,8 @@ void Guide::setPierSide(ISD::Telescope::PierSide newSide)
 
 void Guide::setMountStatus(ISD::Telescope::Status newState)
 {
+    m_MountStatus = newState;
+
     if (newState == ISD::Telescope::MOUNT_PARKING || newState == ISD::Telescope::MOUNT_SLEWING)
     {
         // reset the calibration if "Always reset calibration" is selected and the mount moves
@@ -1566,12 +1574,12 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
         // If we're guiding, and the mount either slews or parks, then we abort.
         if (state == GUIDE_GUIDING || state == GUIDE_DITHERING)
         {
-        if (newState == ISD::Telescope::MOUNT_PARKING)
-            appendLogText(i18n("Mount is parking. Aborting guide..."));
-        else
-            appendLogText(i18n("Mount is slewing. Aborting guide..."));
+            if (newState == ISD::Telescope::MOUNT_PARKING)
+                appendLogText(i18n("Mount is parking. Aborting guide..."));
+            else
+                appendLogText(i18n("Mount is slewing. Aborting guide..."));
 
-        abort();
+            abort();
         }
     }
 
@@ -2411,7 +2419,7 @@ void Guide::setTrackingStar(int x, int y)
         if(guideView->getImageData() != nullptr)
         {
             if(guideView->getImageData()->width() > 50)
-                phd2Guider->setLockPosition(starCenter.x(),starCenter.y());
+                phd2Guider->setLockPosition(starCenter.x(), starCenter.y());
         }
     }
 
