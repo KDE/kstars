@@ -3330,7 +3330,7 @@ void Manager::syncActiveDevices()
         ITextVectorProperty *tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (tvp)
         {
-            bool propertyUpdated = false;
+            //bool propertyUpdated = false;
 
             for (int i = 0; i < tvp->ntp; i++)
             {
@@ -3366,7 +3366,7 @@ void Manager::syncActiveDevices()
                 {
                     if (strcmp(tvp->tp[i].text, devs.first()->getDeviceName()))
                     {
-                        propertyUpdated = true;
+                        //propertyUpdated = true;
                         IUSaveText(&tvp->tp[i], devs.first()->getDeviceName());
                         oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
