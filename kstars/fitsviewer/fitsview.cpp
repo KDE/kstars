@@ -1549,7 +1549,9 @@ void FITSView::initDisplayImage()
 {
     if (!rawImage.isNull() &&
             rawImage.width() == imageData->width() &&
-            rawImage.height() == imageData->height())
+            rawImage.height() == imageData->height() &&
+            (((rawImage.format() == QImage::Format_Indexed8) && (imageData->channels() == 1)) ||
+             ((rawImage.format() == QImage::Format_RGB32) && (imageData->channels() == 3))))
         return;
 
     // Account for leftover when sampling. Thus a 5-wide image sampled by 2
