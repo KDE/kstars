@@ -3374,8 +3374,8 @@ void Manager::syncActiveDevices()
             }
 
             // Save configuration
-            if (propertyUpdated)
-                oneDevice->setConfig(SAVE_CONFIG);
+            //            if (propertyUpdated)
+            //                oneDevice->setConfig(SAVE_CONFIG);
         }
     }
 }
