@@ -625,6 +625,7 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<FITSViewer> fv;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
+        ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };
 
         QCPCurve *centralTarget { nullptr };
         QCPCurve *yellowTarget { nullptr };
