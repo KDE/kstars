@@ -1,4 +1,4 @@
-/*  Ekos Live Message
+/* Ekos Live Message
 
     Copyright (C) 2018 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
@@ -422,7 +422,7 @@ void Message::sendDevices()
 
     QJsonArray deviceList;
 
-    for(ISD::GDInterface *gd : m_Manager->getAllDevices())
+    for(auto &gd : m_Manager->getAllDevices())
     {
         QJsonObject oneDevice =
         {
@@ -982,38 +982,25 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
 
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {
-    if (command == commands[DEVICE_GET_PROPERTY])
+    QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
+    QString device = payload["device"].toString();
+    auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
     {
-        QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
-        QString device = payload["device"].toString();
-        auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
-        {
-            return (QString(oneDevice->getDeviceName()) == device);
-        });
+        return (QString(oneDevice->getDeviceName()) == device);
+    });
 
-        if (pos == devices.end())
-            return;
+    if (pos == devices.end())
+        return;
+    auto oneDevice = *pos;
 
-        auto oneDevice = *pos;
-
-        auto oneProperty = oneDevice->getJSONProperty(payload["property"].toString(), payload["compact"].toBool(true));
-
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET_PROPERTY]}, {"payload", oneProperty}}).toJson(QJsonDocument::Compact));
+    if (command == commands[DEVICE_PROPERTY_GET])
+    {
+        QJsonObject propObject;
+        if (oneDevice->getJSONProperty(payload["property"].toString(), payload["compact"].toBool(true), propObject))
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
     }
-    else if (command == commands[DEVICE_SET_PROPERTY])
+    else if (command == commands[DEVICE_PROPERTY_SET])
     {
-        QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
-        QString device = payload["device"].toString();
-        auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
-        {
-            return (QString(oneDevice->getDeviceName()) == device);
-        });
-
-        if (pos == devices.end())
-            return;
-
-        auto oneDevice = *pos;
-
         oneDevice->setJSONProperty(payload["property"].toString(), payload["value"].toArray());
     }
 }

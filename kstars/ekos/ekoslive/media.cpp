@@ -268,23 +268,36 @@ void Media::sendUpdatedFrame(FITSView * view)
     m_WebSocket.sendBinaryMessage(jpegData);
 }
 
-void Media::sendVideoFrame(std::unique_ptr<QImage> &frame)
+void Media::sendVideoFrame(std::shared_ptr<QImage> frame)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
         return;
 
+    int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2;
+
     // TODO Scale should be configurable
-    QImage scaledImage =  frame.get()->scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2);
-    QTemporaryFile jpegFile;
-    jpegFile.open();
-    jpegFile.close();
+    QImage oneFrame;
+    if (frame.get()->width() > width)
+        oneFrame = frame.get()->scaledToWidth(width);
 
-    // TODO Quality should be configurable
-    scaledImage.save(jpegFile.fileName(), "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY / 2);
+    QByteArray array;
+    QBuffer buffer(&array);
+    QImageWriter writer;
+    writer.setDevice(&buffer);
+    writer.setFormat("JPEG");
+    writer.setCompression(7);
+    writer.write(oneFrame);
+    m_WebSocket.sendBinaryMessage(array);
+    //    QTemporaryFile jpegFile;
+    //    jpegFile.open();
+    //    jpegFile.close();
 
-    jpegFile.open();
+    //    // TODO Quality should be configurable
+    //    scaledImage.save(jpegFile.fileName(), "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY / 2);
 
-    m_WebSocket.sendBinaryMessage(jpegFile.readAll());
+    //    jpegFile.open();
+
+    //m_WebSocket.sendBinaryMessage(jpegFile.readAll());
 }
 
 void Media::registerCameras()

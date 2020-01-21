@@ -897,7 +897,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
     return false;
 }
 
-QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact)
+bool GenericDevice::getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject)
 {
     for (auto &oneProp : properties)
     {
@@ -917,16 +917,16 @@ QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact
                         switches.append(oneSwitch);
                     }
 
-                    QJsonObject switchVector = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
+                    propObject = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
                     if (!compact)
                     {
-                        switchVector.insert("label", svp->label);
-                        switchVector.insert("group", svp->group);
-                        switchVector.insert("perm", svp->p);
-                        switchVector.insert("rule", svp->r);
-                    };
+                        propObject.insert("label", svp->label);
+                        propObject.insert("group", svp->group);
+                        propObject.insert("perm", svp->p);
+                        propObject.insert("rule", svp->r);
+                    }
 
-                    return switchVector;
+                    return true;
                 }
 
                 case INDI_NUMBER:
@@ -946,15 +946,15 @@ QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact
                         numbers.append(oneNumber);
                     }
 
-                    QJsonObject numberVector = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
+                    propObject = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
                     if (!compact)
                     {
-                        numberVector.insert("label", nvp->label);
-                        numberVector.insert("group", nvp->group);
-                        numberVector.insert("perm", nvp->p);
-                    };
+                        propObject.insert("label", nvp->label);
+                        propObject.insert("group", nvp->group);
+                        propObject.insert("perm", nvp->p);
+                    }
 
-                    return numberVector;
+                    return true;
                 }
 
                 case INDI_TEXT:
@@ -971,15 +971,15 @@ QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact
                         Texts.append(oneText);
                     }
 
-                    QJsonObject TextVector = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
+                    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
                     if (!compact)
                     {
-                        TextVector.insert("label", tvp->label);
-                        TextVector.insert("group", tvp->group);
-                        TextVector.insert("perm", tvp->p);
-                    };
+                        propObject.insert("label", tvp->label);
+                        propObject.insert("group", tvp->group);
+                        propObject.insert("perm", tvp->p);
+                    }
 
-                    return TextVector;
+                    return true;
                 }
 
 
@@ -997,14 +997,14 @@ QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact
                         Lights.append(oneLight);
                     }
 
-                    QJsonObject LightVector = {{"name", tvp->name}, {"state", tvp->s}, {"lights", Lights}};
+                    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"lights", Lights}};
                     if (!compact)
                     {
-                        LightVector.insert("label", tvp->label);
-                        LightVector.insert("group", tvp->group);
-                    };
+                        propObject.insert("label", tvp->label);
+                        propObject.insert("group", tvp->group);
+                    }
 
-                    return LightVector;
+                    return true;
                 }
 
                 case INDI_BLOB:
@@ -1017,7 +1017,34 @@ QJsonObject GenericDevice::getJSONProperty(const QString &propName, bool compact
         }
     }
 
-    return QJsonObject();
+    return false;
+}
+
+bool GenericDevice::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
+{
+    auto prop = std::find_if(properties.begin(), properties.end(), [propName](INDI::Property * oneProperty)
+    {
+        return (QString(oneProperty->getName()) == propName);
+    });
+
+    if (prop == properties.end())
+        return false;
+
+    auto blobProperty = (*prop)->getBLOB();
+    IBLOB *oneBLOB = IUFindBLOB(blobProperty, elementName.toLatin1().constData());
+    if (!oneBLOB)
+        return false;
+
+    // Now convert to base64 and send back.
+    QByteArray data = QByteArray::fromRawData(static_cast<char *>(oneBLOB->blob), oneBLOB->bloblen);
+
+    QString encoded = data.toBase64(QByteArray::Base64UrlEncoding);
+    blobObject.insert("property", propName);
+    blobObject.insert("element", elementName);
+    blobObject.insert("size", encoded.size());
+    blobObject.insert("data", encoded);
+
+    return true;
 }
 
 void GenericDevice::resetWatchdog()
@@ -1152,9 +1179,14 @@ INDI::Property *DeviceDecorator::getProperty(const QString &propName)
     return interfacePtr->getProperty(propName);
 }
 
-QJsonObject DeviceDecorator::getJSONProperty(const QString &propName, bool compact)
+bool DeviceDecorator::getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject)
 {
-    return interfacePtr->getJSONProperty(propName, compact);
+    return interfacePtr->getJSONProperty(propName, compact, propObject);
+}
+
+bool DeviceDecorator::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
+{
+    return interfacePtr->getJSONBLOB(propName, elementName, blobObject);
 }
 
 bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propValue)

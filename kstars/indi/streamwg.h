@@ -87,7 +87,7 @@ class StreamWG : public QDialog, public Ui::streamForm
 
     signals:
         void hidden();
-        void imageChanged(std::unique_ptr<QImage> &frame);
+        void imageChanged(std::shared_ptr<QImage> frame);
 
     private:
         bool queryDebayerParameters();

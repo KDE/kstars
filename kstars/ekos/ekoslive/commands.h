@@ -26,6 +26,7 @@ enum COMMANDS
     GET_DOMES,
     GET_CAPS,
     GET_DRIVERS,
+    GET_DEVICES,
     NEW_CONNECTION_STATE,
     NEW_MOUNT_STATE,
     NEW_CAMERA_STATE,
@@ -142,10 +143,15 @@ enum COMMANDS
     DSLR_SET_MODE,
 
     // Low-level device Access
-    GET_DEVICES,
-    NEW_DEVICE_STATE,
-    DEVICE_GET_PROPERTY,
-    DEVICE_SET_PROPERTY,
+    DEVICE_GET,
+    DEVICE_RESTART,
+    DEVICE_BLOB_GET,
+    DEVICE_PROPERTY_GET,
+    DEVICE_PROPERTY_SET,
+    DEVICE_PROPERTY_ADD,
+    DEVICE_PROPERTY_REMOVE,
+    DEVICE_PROPERTY_SUBSCRIBE,
+    DEVICE_PROPERTY_UNSUBSCRIBE,
 
     // Dialogs
     DIALOG_GET_INFO,
@@ -162,6 +168,7 @@ static QMap<COMMANDS, QString> const commands =
     {GET_DOMES, "get_domes"},
     {GET_CAPS, "get_caps"},
     {GET_DRIVERS, "get_drivers"},
+    {GET_DEVICES, "get_drivers"},
     {NEW_CONNECTION_STATE, "new_connection_state"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAMERA_STATE, "new_camera_state"},
@@ -264,10 +271,15 @@ static QMap<COMMANDS, QString> const commands =
     {DSLR_SET_INFO, "dslr_set_info"},
     {DSLR_SET_MODE, "dslr_set_mode"},
 
-    {GET_DEVICES, "get_devices"},
-    {NEW_DEVICE_STATE, "new_device_state"},
-    {DEVICE_GET_PROPERTY, "device_get_property"},
-    {DEVICE_SET_PROPERTY, "device_set_property"},
+    {DEVICE_GET, "device_get"},
+    {DEVICE_RESTART, "device_restart"},
+    {DEVICE_BLOB_GET, "device_blob_get"},
+    {DEVICE_PROPERTY_GET, "device_property_get"},
+    {DEVICE_PROPERTY_SET, "device_property_set"},
+    {DEVICE_PROPERTY_ADD, "device_property_add"},
+    {DEVICE_PROPERTY_REMOVE, "device_property_remove"},
+    {DEVICE_PROPERTY_SUBSCRIBE, "device_property_subscribe"},
+    {DEVICE_PROPERTY_UNSUBSCRIBE, "device_property_unsubscribe"},
 
     {DIALOG_GET_INFO, "dialog_get_info"},
     {DIALOG_GET_RESPONSE, "dialog_get_response"}
