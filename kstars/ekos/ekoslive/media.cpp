@@ -329,4 +329,9 @@ void Media::uploadImage(const QByteArray &image)
     m_WebSocket.sendBinaryMessage(image);
 }
 
+void Media::processNewBLOB(IBLOB *bp)
+{
+    Q_UNUSED(bp)
+}
+
 }

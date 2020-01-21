@@ -93,7 +93,7 @@ class GDInterface : public QObject
         virtual IPState getState(const QString &propName)    = 0;
         virtual IPerm getPermission(const QString &propName) = 0;
         virtual INDI::Property *getProperty(const QString &propName) = 0;
-        virtual bool getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject) = 0;
+        virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) = 0;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) = 0;
         virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) = 0;
 
@@ -194,7 +194,7 @@ class GenericDevice : public GDInterface
         virtual IPState getState(const QString &propName) override;
         virtual IPerm getPermission(const QString &propName) override;
         virtual INDI::Property *getProperty(const QString &propName) override;
-        virtual bool getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject) override;
+        virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
         virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
 
@@ -263,7 +263,7 @@ class DeviceDecorator : public GDInterface
         IPState getState(const QString &propName) override;
         IPerm getPermission(const QString &propName) override;
         INDI::Property *getProperty(const QString &propName) override;
-        bool getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject) override;
+        bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
         bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
 
@@ -304,6 +304,12 @@ class ST4
         ClientManager *clientManager { nullptr };
         bool swapDEC { false };
 };
+
+void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact = true);
+void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool compact = true);
+void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool compact = true);
+void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool compact = true);
+
 }
 
 #ifndef KSTARS_LITE

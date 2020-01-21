@@ -319,8 +319,12 @@ class Manager : public QDialog, public Ui::Manager
 
         void processNewDevice(ISD::GDInterface *);
         void processNewProperty(INDI::Property *);
+
         void processNewNumber(INumberVectorProperty *nvp);
         void processNewText(ITextVectorProperty *tvp);
+        void processNewSwitch(ISwitchVectorProperty *svp);
+        void processNewLight(ILightVectorProperty *lvp);
+        void processNewBLOB(IBLOB *bvp);
 
     private slots:
 

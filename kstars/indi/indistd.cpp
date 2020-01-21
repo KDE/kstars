@@ -897,7 +897,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
     return false;
 }
 
-bool GenericDevice::getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject)
+bool GenericDevice::getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact)
 {
     for (auto &oneProp : properties)
     {
@@ -908,102 +908,28 @@ bool GenericDevice::getJSONProperty(const QString &propName, bool compact, QJson
                 case INDI_SWITCH:
                 {
                     ISwitchVectorProperty *svp = oneProp->getSwitch();
-                    QJsonArray switches;
-                    for (int i = 0; i < svp->nsp; i++)
-                    {
-                        QJsonObject oneSwitch = {{"name", svp->sp[i].name}, {"state", svp->sp[i].s}};
-                        if (!compact)
-                            oneSwitch.insert("label", svp->sp[i].label);
-                        switches.append(oneSwitch);
-                    }
-
-                    propObject = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
-                    if (!compact)
-                    {
-                        propObject.insert("label", svp->label);
-                        propObject.insert("group", svp->group);
-                        propObject.insert("perm", svp->p);
-                        propObject.insert("rule", svp->r);
-                    }
-
+                    propertyToJson(svp, propObject, compact);
                     return true;
                 }
 
                 case INDI_NUMBER:
                 {
                     INumberVectorProperty *nvp = oneProp->getNumber();
-                    QJsonArray numbers;
-                    for (int i = 0; i < nvp->nnp; i++)
-                    {
-                        QJsonObject oneNumber = {{"name", nvp->np[i].name}, {"value", nvp->np[i].value}};
-                        if (!compact)
-                        {
-                            oneNumber.insert("label", nvp->np[i].label);
-                            oneNumber.insert("min", nvp->np[i].min);
-                            oneNumber.insert("mix", nvp->np[i].max);
-                            oneNumber.insert("step", nvp->np[i].step);
-                        }
-                        numbers.append(oneNumber);
-                    }
-
-                    propObject = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
-                    if (!compact)
-                    {
-                        propObject.insert("label", nvp->label);
-                        propObject.insert("group", nvp->group);
-                        propObject.insert("perm", nvp->p);
-                    }
-
+                    propertyToJson(nvp, propObject, compact);
                     return true;
                 }
 
                 case INDI_TEXT:
                 {
                     ITextVectorProperty *tvp = oneProp->getText();
-                    QJsonArray Texts;
-                    for (int i = 0; i < tvp->ntp; i++)
-                    {
-                        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"value", tvp->tp[i].text}};
-                        if (!compact)
-                        {
-                            oneText.insert("label", tvp->tp[i].label);
-                        }
-                        Texts.append(oneText);
-                    }
-
-                    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
-                    if (!compact)
-                    {
-                        propObject.insert("label", tvp->label);
-                        propObject.insert("group", tvp->group);
-                        propObject.insert("perm", tvp->p);
-                    }
-
+                    propertyToJson(tvp, propObject, compact);
                     return true;
                 }
 
-
                 case INDI_LIGHT:
                 {
-                    ILightVectorProperty *tvp = oneProp->getLight();
-                    QJsonArray Lights;
-                    for (int i = 0; i < tvp->nlp; i++)
-                    {
-                        QJsonObject oneLight = {{"name", tvp->lp[i].name}, {"state", tvp->lp[i].s}};
-                        if (!compact)
-                        {
-                            oneLight.insert("label", tvp->lp[i].label);
-                        }
-                        Lights.append(oneLight);
-                    }
-
-                    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"lights", Lights}};
-                    if (!compact)
-                    {
-                        propObject.insert("label", tvp->label);
-                        propObject.insert("group", tvp->group);
-                    }
-
+                    ILightVectorProperty *lvp = oneProp->getLight();
+                    propertyToJson(lvp, propObject, compact);
                     return true;
                 }
 
@@ -1179,9 +1105,9 @@ INDI::Property *DeviceDecorator::getProperty(const QString &propName)
     return interfacePtr->getProperty(propName);
 }
 
-bool DeviceDecorator::getJSONProperty(const QString &propName, bool compact, QJsonObject &propObject)
+bool DeviceDecorator::getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact)
 {
-    return interfacePtr->getJSONProperty(propName, compact, propObject);
+    return interfacePtr->getJSONProperty(propName, propObject, compact);
 }
 
 bool DeviceDecorator::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
@@ -1321,6 +1247,95 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
     //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
 
     return true;
+}
+
+void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact)
+{
+    QJsonArray switches;
+    for (int i = 0; i < svp->nsp; i++)
+    {
+        QJsonObject oneSwitch = {{"name", svp->sp[i].name}, {"state", svp->sp[i].s}};
+        if (!compact)
+            oneSwitch.insert("label", svp->sp[i].label);
+        switches.append(oneSwitch);
+    }
+
+    propObject = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
+    if (!compact)
+    {
+        propObject.insert("label", svp->label);
+        propObject.insert("group", svp->group);
+        propObject.insert("perm", svp->p);
+        propObject.insert("rule", svp->r);
+    }
+}
+
+void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool compact)
+{
+    QJsonArray numbers;
+    for (int i = 0; i < nvp->nnp; i++)
+    {
+        QJsonObject oneNumber = {{"name", nvp->np[i].name}, {"value", nvp->np[i].value}};
+        if (!compact)
+        {
+            oneNumber.insert("label", nvp->np[i].label);
+            oneNumber.insert("min", nvp->np[i].min);
+            oneNumber.insert("mix", nvp->np[i].max);
+            oneNumber.insert("step", nvp->np[i].step);
+        }
+        numbers.append(oneNumber);
+    }
+
+    propObject = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
+    if (!compact)
+    {
+        propObject.insert("label", nvp->label);
+        propObject.insert("group", nvp->group);
+        propObject.insert("perm", nvp->p);
+    }
+}
+
+void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool compact)
+{
+    QJsonArray Texts;
+    for (int i = 0; i < tvp->ntp; i++)
+    {
+        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"value", tvp->tp[i].text}};
+        if (!compact)
+        {
+            oneText.insert("label", tvp->tp[i].label);
+        }
+        Texts.append(oneText);
+    }
+
+    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
+    if (!compact)
+    {
+        propObject.insert("label", tvp->label);
+        propObject.insert("group", tvp->group);
+        propObject.insert("perm", tvp->p);
+    }
+}
+
+void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool compact)
+{
+    QJsonArray Lights;
+    for (int i = 0; i < lvp->nlp; i++)
+    {
+        QJsonObject oneLight = {{"name", lvp->lp[i].name}, {"state", lvp->lp[i].s}};
+        if (!compact)
+        {
+            oneLight.insert("label", lvp->lp[i].label);
+        }
+        Lights.append(oneLight);
+    }
+
+    propObject = {{"name", lvp->name}, {"state", lvp->s}, {"lights", Lights}};
+    if (!compact)
+    {
+        propObject.insert("label", lvp->label);
+        propObject.insert("group", lvp->group);
+    }
 }
 }
 

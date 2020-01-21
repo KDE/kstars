@@ -1065,6 +1065,12 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
     connect(devInterface, &ISD::GDInterface::interfaceDefined, this, &Ekos::Manager::syncActiveDevices);
 
+    connect(devInterface, &ISD::GDInterface::numberUpdated, this, &Ekos::Manager::processNewNumber);
+    connect(devInterface, &ISD::GDInterface::switchUpdated, this, &Ekos::Manager::processNewSwitch);
+    connect(devInterface, &ISD::GDInterface::textUpdated, this, &Ekos::Manager::processNewText);
+    connect(devInterface, &ISD::GDInterface::lightUpdated, this, &Ekos::Manager::processNewLight);
+    connect(devInterface, &ISD::GDInterface::BLOBUpdated, this, &Ekos::Manager::processNewBLOB);
+
     if (currentProfile->isStellarMate)
     {
         connect(devInterface, &ISD::GDInterface::systemPortDetected, [this, devInterface]()
@@ -1266,8 +1272,8 @@ void Manager::setTelescope(ISD::GDInterface * scopeDevice)
 
     appendLogText(i18n("%1 is online.", scopeDevice->getDeviceName()));
 
-    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    //    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+    //            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
 
     initMount();
 
@@ -1364,8 +1370,8 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
 
     appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
-    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    //    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+    //            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
 
     if (managedDevices.contains(KSTARS_TELESCOPE))
     {
@@ -1385,10 +1391,10 @@ void Manager::setFilter(ISD::GDInterface * filterDevice)
 
     initCapture();
 
-    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
-    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty *)), this,
-            SLOT(processNewText(ITextVectorProperty *)), Qt::UniqueConnection);
+    //    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+    //            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    //    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty *)), this,
+    //            SLOT(processNewText(ITextVectorProperty *)), Qt::UniqueConnection);
 
     captureProcess->addFilter(filterDevice);
 
@@ -1546,6 +1552,8 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
 
 void Manager::processNewText(ITextVectorProperty * tvp)
 {
+    ekosLiveClient.get()->message()->processNewText(tvp);
+
     if (!strcmp(tvp->name, "FILTER_NAME"))
     {
         ekosLiveClient.get()->message()->sendFilterWheels();
@@ -1557,8 +1565,25 @@ void Manager::processNewText(ITextVectorProperty * tvp)
     }
 }
 
+void Manager::processNewSwitch(ISwitchVectorProperty * svp)
+{
+    ekosLiveClient.get()->message()->processNewSwitch(svp);
+}
+
+void Manager::processNewLight(ILightVectorProperty * lvp)
+{
+    ekosLiveClient.get()->message()->processNewLight(lvp);
+}
+
+void Manager::processNewBLOB(IBLOB * bp)
+{
+    ekosLiveClient.get()->media()->processNewBLOB(bp);
+}
+
 void Manager::processNewNumber(INumberVectorProperty * nvp)
 {
+    ekosLiveClient.get()->message()->processNewNumber(nvp);
+
     if (!strcmp(nvp->name, "TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (guideProcess.get() != nullptr)
