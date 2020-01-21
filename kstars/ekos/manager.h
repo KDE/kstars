@@ -420,7 +420,7 @@ class Manager : public QDialog, public Ui::Manager
         // Find list of devices by device interface
         QList<ISD::GDInterface *> findDevicesByInterface(uint32_t interface);
         // Get all detected devices
-        QList<ISD::GDInterface *> getAllDevices();
+        const QList<ISD::GDInterface *> &getAllDevices() const;
 
         ProfileInfo *getCurrentProfile();
         void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture);

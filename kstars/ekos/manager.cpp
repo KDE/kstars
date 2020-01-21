@@ -1870,18 +1870,9 @@ void Manager::processNewProperty(INDI::Property * prop)
     }
 }
 
-QList<ISD::GDInterface *> Manager::getAllDevices()
+const QList<ISD::GDInterface *> &Manager::getAllDevices() const
 {
-    QList<ISD::GDInterface *> deviceList;
-
-    QMapIterator<DeviceFamily, ISD::GDInterface *> i(managedDevices);
-    while (i.hasNext())
-    {
-        i.next();
-        deviceList.append(i.value());
-    }
-
-    return deviceList;
+    return genericDevices;
 }
 
 QList<ISD::GDInterface *> Manager::findDevices(DeviceFamily type)

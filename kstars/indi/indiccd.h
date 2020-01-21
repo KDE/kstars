@@ -342,7 +342,7 @@ class CCD : public DeviceDecorator
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);
         void newFPS(double instantFPS, double averageFPS);
-        void newVideoFrame(std::unique_ptr<QImage> &frame);
+        void newVideoFrame(std::shared_ptr<QImage> frame);
         void coolerToggled(bool enabled);
         void previewFITSGenerated(const QString &previewFITS);
         void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
