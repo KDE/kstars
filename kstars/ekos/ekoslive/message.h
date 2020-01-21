@@ -102,6 +102,12 @@ class Message : public QObject
         void sendDialog(const QJsonObject &message);
         void processDialogResponse(const QJsonObject &payload);
 
+        // Process properties
+        void processNewNumber(INumberVectorProperty *nvp);
+        void processNewText(ITextVectorProperty *tvp);
+        void processNewSwitch(ISwitchVectorProperty *svp);
+        void processNewLight(ILightVectorProperty *lvp);
+
     private slots:
 
         // Connection
@@ -169,6 +175,7 @@ class Message : public QObject
         bool m_sendBlobs { true};
 
         QMap<int, bool> m_Options;
+        QSet<QString> m_PropertySubscriptions;
         QLineF correctionVector;
         QRect boundingRect;
         QSize viewSize;

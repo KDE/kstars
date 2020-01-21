@@ -80,6 +80,8 @@ class Media : public QObject
         // Polar View
         void resetPolarView();
 
+        void processNewBLOB(IBLOB *bp);
+
     private slots:
         // Connection
         void onConnected();

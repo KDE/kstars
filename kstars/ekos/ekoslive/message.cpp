@@ -993,15 +993,40 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         return;
     auto oneDevice = *pos;
 
+    // Get specific property
     if (command == commands[DEVICE_PROPERTY_GET])
     {
         QJsonObject propObject;
-        if (oneDevice->getJSONProperty(payload["property"].toString(), payload["compact"].toBool(true), propObject))
+        if (oneDevice->getJSONProperty(payload["property"].toString(), propObject, payload["compact"].toBool(true)))
             m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
     }
+    // Set specific property
     else if (command == commands[DEVICE_PROPERTY_SET])
     {
         oneDevice->setJSONProperty(payload["property"].toString(), payload["value"].toArray());
+    }
+    // Return ALL properties
+    else if (command == commands[DEVICE_GET])
+    {
+        QJsonArray properties;
+        for (const auto &oneProp : oneDevice->getProperties())
+        {
+            QJsonObject singleProp;
+            if (oneDevice->getJSONProperty(oneProp->getName(), singleProp, payload["compact"].toBool(false)))
+                properties.append(singleProp);
+        }
+
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", properties}}).toJson(QJsonDocument::Compact));
+    }
+    // Subscribe to one or more properties
+    // When subscribed, the updates are immediately pushed as soon as they are recieved.
+    else if (command == commands[DEVICE_PROPERTY_SUBSCRIBE])
+    {
+        m_PropertySubscriptions.insert(payload["property"].toString());
+    }
+    else if (command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
+    {
+        m_PropertySubscriptions.remove(payload["property"].toString());
     }
 }
 
@@ -1164,4 +1189,45 @@ void Message::processDialogResponse(const QJsonObject &payload)
 {
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
+
+void Message::processNewNumber(INumberVectorProperty *nvp)
+{
+    if (m_PropertySubscriptions.contains(nvp->name))
+    {
+        QJsonObject propObject;
+        ISD::propertyToJson(nvp, propObject);
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+    }
+}
+
+void Message::processNewText(ITextVectorProperty *tvp)
+{
+    if (m_PropertySubscriptions.contains(tvp->name))
+    {
+        QJsonObject propObject;
+        ISD::propertyToJson(tvp, propObject);
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+    }
+}
+
+void Message::processNewSwitch(ISwitchVectorProperty *svp)
+{
+    if (m_PropertySubscriptions.contains(svp->name))
+    {
+        QJsonObject propObject;
+        ISD::propertyToJson(svp, propObject);
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+    }
+}
+
+void Message::processNewLight(ILightVectorProperty *lvp)
+{
+    if (m_PropertySubscriptions.contains(lvp->name))
+    {
+        QJsonObject propObject;
+        ISD::propertyToJson(lvp, propObject);
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+    }
+}
+
 }
