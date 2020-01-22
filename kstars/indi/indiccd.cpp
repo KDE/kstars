@@ -1667,7 +1667,6 @@ void CCD::processBLOB(IBLOB *bp)
                 return;
             }
             displayFits(targetChip, filename, bp, blob_fits_data);
-            emit BLOBUpdated(bp);
             return;
         }
         else if (useDSLRViewer)
