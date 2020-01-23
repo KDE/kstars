@@ -125,7 +125,7 @@ void LinearFocusAlgorithm::computeInitialPosition()
     secondPassStartIndex = -1;
 
     qCDebug(KSTARS_EKOS_FOCUS)
-            << QString("Linear: v3. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
+            << QString("Linear: v3.1. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
                .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
                .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
 
