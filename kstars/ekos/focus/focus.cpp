@@ -691,7 +691,8 @@ void Focus::start()
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
             MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter());
         linearFocuser.reset(MakeLinearFocuser(params));
-        const int newPosition = adjustLinearPosition(position, linearFocuser->initialPosition());
+        linearRequestedPosition = linearFocuser->initialPosition();
+        const int newPosition = adjustLinearPosition(position, linearRequestedPosition);
         if (newPosition != position)
         {
             if (!changeFocus(newPosition - position))
@@ -1721,6 +1722,18 @@ void Focus::autoFocusLinear()
     if (!autoFocusChecks())
         return;
 
+    if (!canAbsMove && !canRelMove && canTimerMove)
+    {
+        const bool kFixPosition = true;
+        if (kFixPosition && (linearRequestedPosition != static_cast<int>(currentPosition)))
+        {
+            qCDebug(KSTARS_EKOS_FOCUS) << "Linear: warning, changing position " << currentPosition << " to "
+                                       << linearRequestedPosition;
+
+            currentPosition = linearRequestedPosition;
+        }
+    }
+
     hfr_position.append(currentPosition);
     hfr_value.append(currentHFR);
 
@@ -1760,10 +1773,9 @@ void Focus::autoFocusLinear()
         }
      }
 
-    const int nextPosition = adjustLinearPosition(
-                                 static_cast<int>(currentPosition),
-                                 linearFocuser->newMeasurement(currentPosition, currentHFR));
-    if (nextPosition == -1)
+    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
+    const int nextPosition = adjustLinearPosition(static_cast<int>(currentPosition), linearRequestedPosition);
+    if (linearRequestedPosition == -1)
     {
         if (linearFocuser->isDone() && linearFocuser->solution() != -1)
         {
@@ -2275,6 +2287,9 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
+                                  .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
+
     // Return if it is not our current focuser
     if (strcmp(nvp->device, currentFocuser->getDeviceName()))
         return;
@@ -2291,6 +2306,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (pos)
         {
             currentPosition = pos->value;
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Abs Focuser position changed to %1").arg(currentPosition);
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
             emit absolutePositionChanged(currentPosition);
         }
@@ -2363,6 +2379,9 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (pos && nvp->s == IPS_OK)
         {
             currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+            qCDebug(KSTARS_EKOS_FOCUS)
+                    << QString("Rel Focuser position changed by %1 to %2")
+                       .arg(pos->value).arg(currentPosition);
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
             emit absolutePositionChanged(currentPosition);
         }
@@ -2409,7 +2428,12 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             // Used by the linear focus algorithm. Ignored if that's not in use for the timer-focuser.
             INumber *pos = IUFindNumber(nvp, "FOCUS_TIMER_VALUE");
             if (pos)
+            {
                 currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+                qCDebug(KSTARS_EKOS_FOCUS)
+                        << QString("Timer Focuser position changed by %1 to %2")
+                           .arg(pos->value).arg(currentPosition);
+            }
             autoFocusProcessPositionChange(nvp->s);
         }
         else if (nvp->s == IPS_ALERT)
