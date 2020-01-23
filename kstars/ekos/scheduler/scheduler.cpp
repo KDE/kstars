@@ -2443,7 +2443,11 @@ void Scheduler::executeJob(SchedulerJob *job)
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
         QString sanitized = job->getName();
-        sanitized = sanitized.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+        sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+                    // Remove any two or more __
+                    .replace( QRegularExpression("_{2,}"), "_")
+                    // Remove any _ at the end
+                    .replace( QRegularExpression("_$"), "");
         captureInterface->setProperty("targetName", sanitized);
     }
 
@@ -4564,7 +4568,11 @@ void Scheduler::startCapture(bool restart)
     }
 
     QString sanitized = currentJob->getName();
-    sanitized = sanitized.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+    sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+                // Remove any two or more __
+                .replace( QRegularExpression("_{2,}"), "_")
+                // Remove any _ at the end
+                .replace( QRegularExpression("_$"), "");
     captureInterface->setProperty("targetName", sanitized);
 
     QString url = currentJob->getSequenceFile().toLocalFile();
@@ -5867,7 +5875,11 @@ void Scheduler::startMosaicTool()
         QString targetName = nameEdit->text().simplified();
 
         // Sanitize name
-        targetName = targetName.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+        targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+                     // Remove any two or more __
+                     .replace( QRegularExpression("_{2,}"), "_")
+                     // Remove any _ at the end
+                     .replace( QRegularExpression("_$"), "");
 
         int batchCount     = 1;
 
@@ -6361,7 +6373,11 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 
     // Sanitize name
     QString targetName = schedJob->getName();
-    targetName = targetName.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+    targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+                 // Remove any two or more __
+                 .replace( QRegularExpression("_{2,}"), "_")
+                 // Remove any _ at the end
+                 .replace( QRegularExpression("_$"), "");
 
     // Because scheduler sets the target name in capture module
     // it would be the same as the raw prefix

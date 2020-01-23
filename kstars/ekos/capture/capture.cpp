@@ -3635,7 +3635,12 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
         if (m_State == CAPTURE_IDLE)
         {
             QString sanitized = target;
-            sanitized = sanitized.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+            // Remove illegal characters that can be problematic
+            sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+                        // Remove any two or more __
+                        .replace( QRegularExpression("_{2,}"), "_")
+                        // Remove any _ at the end
+                        .replace( QRegularExpression("_$"), "");
             prefixIN->setText(sanitized);
         }
     });
