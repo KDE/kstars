@@ -3632,7 +3632,7 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Capture::processTelescopeNumber);
     connect(currentTelescope, &ISD::Telescope::newTarget, [&](const QString & target)
     {
-        if (m_State == CAPTURE_IDLE)
+        if (m_State == CAPTURE_IDLE || m_State == CAPTURE_COMPLETE)
         {
             QString sanitized = target;
             // Remove illegal characters that can be problematic
