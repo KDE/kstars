@@ -2442,7 +2442,9 @@ void Scheduler::executeJob(SchedulerJob *job)
 
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
-        captureInterface->setProperty("targetName", job->getName().replace(' ', ""));
+        QString sanitized = job->getName();
+        sanitized = sanitized.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+        captureInterface->setProperty("targetName", sanitized);
     }
 
     updatePreDawn();
@@ -4561,8 +4563,9 @@ void Scheduler::startCapture(bool restart)
         return;
     }
 
-
-    captureInterface->setProperty("targetName", currentJob->getName().replace(' ', ""));
+    QString sanitized = currentJob->getName();
+    sanitized = sanitized.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+    captureInterface->setProperty("targetName", sanitized);
 
     QString url = currentJob->getSequenceFile().toLocalFile();
 
@@ -5861,7 +5864,11 @@ void Scheduler::startMosaicTool()
                                        << mosaicTool.getJobsDir();
 
         QString outputDir  = mosaicTool.getJobsDir();
-        QString targetName = nameEdit->text().simplified().remove(' ');
+        QString targetName = nameEdit->text().simplified();
+
+        // Sanitize name
+        targetName = targetName.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+
         int batchCount     = 1;
 
         XMLEle *root = getSequenceJobRoot();
@@ -6352,7 +6359,9 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
         }
     }
 
-    QString targetName = schedJob->getName().remove(' ');
+    // Sanitize name
+    QString targetName = schedJob->getName();
+    targetName = targetName.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
 
     // Because scheduler sets the target name in capture module
     // it would be the same as the raw prefix

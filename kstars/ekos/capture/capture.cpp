@@ -3633,7 +3633,11 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
     connect(currentTelescope, &ISD::Telescope::newTarget, [&](const QString & target)
     {
         if (m_State == CAPTURE_IDLE)
-            prefixIN->setText(target);
+        {
+            QString sanitized = target;
+            sanitized = sanitized.replace( QRegularExpression("\\s|/|:|\\*|~|\"" ), "_" );
+            prefixIN->setText(sanitized);
+        }
     });
 
     syncTelescopeInfo();
