@@ -1552,11 +1552,6 @@ void FITSView::initDisplayImage()
     int w = (imageData->width() + sampling - 1) / sampling;
     int h = (imageData->height() + sampling - 1) / sampling;
 
-    if (!rawImage.isNull() && rawImage.width() == w && rawImage.height() == h &&
-            (((rawImage.format() == QImage::Format_Indexed8) && (imageData->channels() == 1)) ||
-             ((rawImage.format() == QImage::Format_RGB32) && (imageData->channels() == 3))))
-      return;
-
     if (imageData->channels() == 1)
     {
         rawImage = QImage(w, h, QImage::Format_Indexed8);
