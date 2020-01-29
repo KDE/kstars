@@ -451,5 +451,6 @@
   </provides>
   <custom>
     <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9pprz2qhlxtg</value>
+    <value key="KDE::google_play">https://play.google.com/store/apps/details?id=org.kde.kstars.lite</value>
   </custom>
 </component>
