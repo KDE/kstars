@@ -716,7 +716,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
     connect(clientManager, SIGNAL(connectionFailure(ClientManager*)), this,
             SLOT(processClientTermination(ClientManager*)));
 
-    clientManager->setServer(dv->getHost().toLatin1().constData(), (uint)(dv->getPort().toInt()));
+    clientManager->setServer(dv->getHost().toLatin1().constData(), static_cast<uint>(dv->getPort().toInt()));
 
     GUIManager::Instance()->addClient(clientManager);
     INDIListener::Instance()->addClient(clientManager);
@@ -764,8 +764,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
 
 bool DriverManager::disconnectRemoteHost(DriverInfo *dv)
 {
-    ClientManager *clientManager = nullptr;
-    clientManager                = dv->getClientManager();
+    ClientManager *clientManager = dv->getClientManager();
 
     if (clientManager)
     {

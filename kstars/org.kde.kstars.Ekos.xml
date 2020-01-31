@@ -12,10 +12,10 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="start">
-      <arg type="b" direction="out"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="stop">
-      <arg type="b" direction="out"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="getProfiles">
       <arg type="as" direction="out"/>

@@ -247,13 +247,13 @@ class Manager : public QDialog, public Ui::Manager
          * it establishes connection to the remote INDI server.
          * @return Returns true if server started successful (local mode) or connection to remote server is successful (remote mode).
          */
-        Q_SCRIPTABLE bool start();
+        Q_SCRIPTABLE void start();
 
         /**
          * DBUS interface function.
          * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
          */
-        Q_SCRIPTABLE bool stop();
+        Q_SCRIPTABLE void stop();
 
         Q_SCRIPTABLE QStringList logText()
         {
