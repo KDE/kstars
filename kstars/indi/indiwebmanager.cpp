@@ -19,11 +19,13 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkReply>
+#include <QtConcurrent>
 
 #include "ekos_debug.h"
 
 namespace INDI
 {
+
 namespace WebManager
 {
 bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument *reply,
@@ -96,15 +98,20 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
 
 bool isOnline(ProfileInfo *pi)
 {
+    QTimer timer;
+    timer.setSingleShot(true);
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/server/status").arg(pi->host).arg(pi->INDIWebManagerPort));
     QNetworkReply *response = manager.get(QNetworkRequest(url));
+
     // Wait synchronously
     QEventLoop event;
+    QObject::connect(&timer, &QTimer::timeout, &event, &QEventLoop::quit);
     QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
+    timer.start(3000);
     event.exec();
 
-    if (response->error() == QNetworkReply::NoError)
+    if (timer.isActive() && response->error() == QNetworkReply::NoError)
         return true;
     // Fallback to default if DNS lookup fails for .local
     else if (pi->host.contains(".local"))
@@ -113,10 +120,12 @@ bool isOnline(ProfileInfo *pi)
         QNetworkReply *response = manager.get(QNetworkRequest(url));
         // Wait synchronously
         QEventLoop event;
+        QObject::connect(&timer, &QTimer::timeout, &event, &QEventLoop::quit);
         QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
+        timer.start(3000);
         event.exec();
 
-        if (response->error() == QNetworkReply::NoError)
+        if (timer.isActive() && response->error() == QNetworkReply::NoError)
         {
             pi->host = "10.250.250.1";
             return true;
@@ -327,4 +336,45 @@ bool stopProfile(ProfileInfo *pi)
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 }
+
+// Async version of the Web Manager
+namespace AsyncWebManager
+{
+
+QFuture<bool> isOnline(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::isOnline, pi);
+}
+
+QFuture<bool> isStellarMate(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::isStellarMate, pi);
+}
+
+QFuture<bool> syncCustomDrivers(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::syncCustomDrivers, pi);
+}
+
+QFuture<bool> areDriversRunning(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::areDriversRunning, pi);
+}
+
+QFuture<bool> syncProfile(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::syncProfile, pi);
+}
+
+QFuture<bool> startProfile(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::startProfile, pi);
+}
+
+QFuture<bool> stopProfile(ProfileInfo *pi)
+{
+    return QtConcurrent::run(WebManager::stopProfile, pi);
+}
+}
+
 }
