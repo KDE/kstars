@@ -44,6 +44,17 @@ public:
 
 private:
 
+    // Called in newMeasurement. Sets up the next iteration.
+    int completeIteration(int step);
+
+    // Does the bookkeeping for the final focus solution.
+    int setupSolution(int position, double value);
+
+    // Called when we've found a solution, e.g. the HFR value is within tolerance of the desired value.
+    // It it returns true, then it's decided tht we should try one more sample for a possible improvement.
+    // If it returns false, then "play it safe" and use the current position as the solution.
+    bool setupPendingSolution(int position, int step);
+
     // Determines the desired focus position for the first sample.
     void computeInitialPosition();
 
@@ -96,6 +107,8 @@ private:
     int secondPassStartIndex;
     // True if performing the first focus sweep.
     bool inFirstPass;
+    // True if the 2nd pass has found a solution, and it's now optimizing the solution.
+    bool solutionPending;
 };
 
 FocusAlgorithmInterface *MakeLinearFocuser(const FocusAlgorithmInterface::FocusParams& params)
@@ -119,13 +132,14 @@ void LinearFocusAlgorithm::computeInitialPosition()
     // These variables get reset if the algorithm is restarted.
     stepSize = params.initialStepSize;
     inFirstPass = true;
+    solutionPending = false;
     firstPassBestValue = -1;
     numPolySolutionsFound = 0;
     numRestartSolutionsFound = 0;
     secondPassStartIndex = -1;
 
     qCDebug(KSTARS_EKOS_FOCUS)
-            << QString("Linear: v3.1. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
+            << QString("Linear: v3.2. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
                .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
                .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
 
@@ -194,6 +208,18 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     // Store the sample values.
     values.push_back(value);
     positions.push_back(position);
+
+    // If we've already found a pretty good solution and we're just optimizing, then either
+    // continue optimizing or complete.
+    if (solutionPending)
+    {
+        if (setupPendingSolution(position, thisStepSize))
+            // We can continue to look a little further.
+            return completeIteration(thisStepSize);
+        else
+            // Finish now
+            return setupSolution(position, value);
+    }
 
     if (inFirstPass)
     {
@@ -285,16 +311,16 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     else
     {
         // In a 2nd pass looking to recreate the 1st pass' minimum.
+
+        // If the current HFR is good-enough to complete.
         if (value < firstPassBestValue * (1.0 + params.focusTolerance))
         {
-            focusSolution = position;
-            focusHFR = value;
-            done = true;
-            doneString = i18n("Solution found.");
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass solution @ %1 = %2 (best %3)")
-                                          .arg(position).arg(value).arg(firstPassBestValue);
-            debugLog();
-            return -1;
+            if (setupPendingSolution(position, thisStepSize))
+                // We could finish now, but let's look a little further.
+                return completeIteration(thisStepSize);
+            else
+                // We're done.
+                return setupSolution(position, value);
         }
         else if (gettingWorse())
         {
@@ -304,6 +330,23 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
         }
     }
 
+    return completeIteration(thisStepSize);
+}
+
+int LinearFocusAlgorithm::setupSolution(int position, double value)
+{
+    focusSolution = position;
+    focusHFR = value;
+    done = true;
+    doneString = i18n("Solution found.");
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass solution @ %1 = %2 (best %3)")
+                                  .arg(position).arg(value).arg(firstPassBestValue);
+    debugLog();
+    return -1;
+}
+
+int LinearFocusAlgorithm::completeIteration(int step)
+{
     if (numSteps == params.maxIterations - 2)
     {
         // If we're close to exceeding the iteration limit, retry this pass near the old minimum position.
@@ -321,7 +364,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     }
 
     // Setup the next sample.
-    requestedPosition = requestedPosition - thisStepSize;
+    requestedPosition = requestedPosition - step;
 
     // Make sure the next sample is within bounds.
     if (requestedPosition < minPositionLimit)
@@ -334,6 +377,32 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     }
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: requesting position %1").arg(requestedPosition);
     return requestedPosition;
+}
+
+// This is called in the 2nd pass, when we've found a sample point that's within tolerance of the 1st pass'
+// best value. The 2nd pass could simply finish, using this value as the final solution.
+// However, this method checks to see if we might go a bit further. It does so if
+// - the current value is an improvement on the previous 2nd-pass value (or if this is the 1st 2nd-pass value),
+// - the current position is greater than the min of the v-curve computed by the 1st pass,
+// - the number of steps taken so far is not close the max number of allowable steps.
+bool LinearFocusAlgorithm::setupPendingSolution(int position, int step)
+{
+    const int length = values.size();
+    const int secondPassIndex = length - secondPassStartIndex;
+    // This is either the first sample in the 2nd pass, or an improvement over the previous sample.
+    bool notGettingWorse = (secondPassIndex <= 1) || (values[length-1] < values[length-2]);
+    if (notGettingWorse &&
+            position - step > firstPassBestPosition &&
+            numSteps < params.maxIterations-2 &&
+            position - step > minPositionLimit
+            )
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Position(%1) & HFR(%2) good, but searching further")
+                                      .arg(position).arg(values[length-1]);
+        solutionPending = true;
+        return true;
+    }
+    return false;
 }
 
 void LinearFocusAlgorithm::debugLog()
@@ -359,6 +428,7 @@ int LinearFocusAlgorithm::setupSecondPass(int position, double value, double mar
     firstPassBestPosition = position;
     firstPassBestValue = value;
     inFirstPass = false;
+    solutionPending = false;
     secondPassStartIndex = values.size();
 
     // Arbitrarily go back "margin" steps above the best position.
