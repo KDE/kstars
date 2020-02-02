@@ -799,8 +799,9 @@ void Manager::start()
         // If INDI server is already running, let's see if we need to shut it down first
         if (isRunning("indiserver"))
         {
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, [executeStartINDIServices]()
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeStartINDIServices]()
             {
+                KSMessageBox::Instance()->disconnect(this);
                 DriverManager::Instance()->stopAllDevices();
                 //TODO is there a better way to do this.
                 QProcess p;
@@ -809,8 +810,9 @@ void Manager::start()
 
                 executeStartINDIServices();
             });
-            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, [executeStartINDIServices]()
+            connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this, executeStartINDIServices]()
             {
+                KSMessageBox::Instance()->disconnect(this);
                 executeStartINDIServices();
             });
 
