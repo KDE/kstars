@@ -1443,23 +1443,21 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
     return true;
 }
 
-bool CCD::writeImageFile(IBLOB *bp, const QString &format, bool is_fits,
-                         bool batch_mode, QString *filename)
+bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
 {
-    if (!generateFilename(format, batch_mode, filename))
-        return false;
-
     // TODO: Not yet threading the writes for non-fits files.
     // Would need to deal with the raw conversion, etc.
     if (is_fits)
     {
-
         // Check if the last write is still ongoing, and if so wait.
         // It is using the fileWriteBuffer.
         if (fileWriteThread.isRunning())
         {
             fileWriteThread.waitForFinished();
         }
+
+        // Wait until the file is written before overwritting the filename.
+        fileWriteFilename = filename;
 
         // Will write blob data in a separate thread, and can't depend on the blob
         // memory, so copy it first.
@@ -1476,13 +1474,13 @@ bool CCD::writeImageFile(IBLOB *bp, const QString &format, bool is_fits,
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
         memcpy(fileWriteBuffer, bp->blob, bp->size);
-        fileWriteThread = QtConcurrent::run(WriteImageFileInternal, *filename,
+        fileWriteThread = QtConcurrent::run(WriteImageFileInternal, fileWriteFilename,
                                             fileWriteBuffer, bp->size, is_fits, filter);
         filter = "";
     }
     else
     {
-        if (!WriteImageFileInternal(*filename, static_cast<char*>(bp->blob), bp->size,
+        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->size,
                                     false, filter))
             return false;
     }
@@ -1578,7 +1576,8 @@ void CCD::processBLOB(IBLOB *bp)
     // Create file name for others
     else
     {
-        if (!writeImageFile(bp, format, BType == BLOB_FITS, targetChip->isBatchMode(), &filename))
+        if (!generateFilename(format, targetChip->isBatchMode(), &filename) ||
+            !writeImageFile(filename, bp, BType == BLOB_FITS))
         {
             emit BLOBUpdated(nullptr);
             return;
