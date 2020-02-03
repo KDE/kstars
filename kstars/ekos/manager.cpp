@@ -918,6 +918,10 @@ void Manager::start()
             QFuture<bool> result = INDI::AsyncWebManager::isOnline(currentProfile);
             watcher->setFuture(result);
         }
+        else
+        {
+            runConnection();
+        }
     }
 }
 
