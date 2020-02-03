@@ -354,8 +354,7 @@ class CCD : public DeviceDecorator
         void loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data);
         bool generateFilename(const QString &format, bool batch_mode, QString *filename);
         // Saves an image to disk on a separate thread.
-        bool writeImageFile(IBLOB *bp, const QString &format, bool is_fits,
-                            bool batch_mode, QString *filename);
+        bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
         // Creates or finds the FITSViewer.
         void setupFITSViewerWindows();
         void displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, FITSData *blob_fits_data);
@@ -407,6 +406,7 @@ class CCD : public DeviceDecorator
         // Used when writing the image fits file to disk in a separate thread.
         char *fileWriteBuffer { nullptr };
         int fileWriteBufferSize { 0 };
+        QString fileWriteFilename;
         QFuture<void> fileWriteThread;
 };
 }
