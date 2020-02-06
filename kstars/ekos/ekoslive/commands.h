@@ -168,7 +168,7 @@ static QMap<COMMANDS, QString> const commands =
     {GET_DOMES, "get_domes"},
     {GET_CAPS, "get_caps"},
     {GET_DRIVERS, "get_drivers"},
-    {GET_DEVICES, "get_drivers"},
+    {GET_DEVICES, "get_devices"},
     {NEW_CONNECTION_STATE, "new_connection_state"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAMERA_STATE, "new_camera_state"},
