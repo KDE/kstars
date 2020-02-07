@@ -1488,7 +1488,8 @@ void Capture::newFITS(IBLOB * bp)
 
         if (tChip != targetChip)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" << targetChip->getType();
+            if (guideState == GUIDE_IDLE)
+                qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" << targetChip->getType();
             return;
         }
 
