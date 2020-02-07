@@ -80,14 +80,14 @@ void openEkosTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(1000);
-    QCOMPARE(kstarsInstance->ekosManager() != nullptr, true);
-    QCOMPARE(kstarsInstance->ekosManager()->isVisible(), true);
-    QCOMPARE(kstarsInstance->ekosManager()->isActiveWindow(), true);
+    QCOMPARE(Ekos::Manager::Instance() != nullptr, true);
+    QCOMPARE(Ekos::Manager::Instance()->isVisible(), true);
+    QCOMPARE(Ekos::Manager::Instance()->isActiveWindow(), true);
     // Hide Ekos Manager by clicking on the toolbar icon
     action->trigger();
     QThread::msleep(1000);
-    QCOMPARE(!kstarsInstance->ekosManager()->isVisible(), true);
-    QCOMPARE(!kstarsInstance->ekosManager()->isActiveWindow(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
 }
 
 void KStarsUiTests::openEkos()
@@ -110,7 +110,7 @@ void addEkosProfileTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(500);
-    Ekos::Manager *ekos = kstarsInstance->ekosManager();
+    Ekos::Manager *ekos = Ekos::Manager::Instance();
 
     QCOMPARE(ekos != nullptr, true);
     QCOMPARE(ekos->isVisible(), true);
@@ -151,8 +151,8 @@ void addEkosProfileTest()
     // Hide Ekos Manager by clicking on the toolbar icon
     action->trigger();
     QThread::msleep(1000);
-    QCOMPARE(!kstarsInstance->ekosManager()->isVisible(), true);
-    QCOMPARE(!kstarsInstance->ekosManager()->isActiveWindow(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
 }
 
 void KStarsUiTests::addEkosProfile()
@@ -175,7 +175,7 @@ void verifyEkosProfileTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(1000);
-    Ekos::Manager *ekos = kstarsInstance->ekosManager();
+    Ekos::Manager *ekos = Ekos::Manager::Instance();
 
     QCOMPARE(ekos != nullptr, true);
     QCOMPARE(ekos->isVisible(), true);
@@ -214,8 +214,8 @@ void verifyEkosProfileTest()
     // Hide Ekos Manager by clicking on the toolbar icon
     action->trigger();
     QThread::msleep(1000);
-    QCOMPARE(!kstarsInstance->ekosManager()->isVisible(), true);
-    QCOMPARE(!kstarsInstance->ekosManager()->isActiveWindow(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
 }
 
 void KStarsUiTests::verifyEkosProfile()
@@ -238,7 +238,7 @@ void removeEkosProfileTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(500);
-    Ekos::Manager *ekos = kstarsInstance->ekosManager();
+    Ekos::Manager *ekos = Ekos::Manager::Instance();
 
     QCOMPARE(ekos != nullptr, true);
     QCOMPARE(ekos->isVisible(), true);
@@ -280,8 +280,8 @@ void removeEkosProfileTest()
     // Hide Ekos Manager by clicking on the toolbar icon
     action->trigger();
     QThread::msleep(1000);
-    QCOMPARE(!kstarsInstance->ekosManager()->isVisible(), true);
-    QCOMPARE(!kstarsInstance->ekosManager()->isActiveWindow(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
+    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
 }
 
 void KStarsUiTests::removeEkosProfile()
