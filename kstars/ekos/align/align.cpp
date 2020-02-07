@@ -2338,10 +2338,10 @@ void Align::calculateFOV()
     fov_x /= 60.0;
     fov_y /= 60.0;
 
-    // Put FOV limit 1 to 600 arcmins.
-    if (fov_x < 1 || fov_x > 60 * 10 || fov_y < 1 || fov_y > 60 * 10)
+    // Put FOV upper limit as 180 degrees
+    if (fov_x < 1 || fov_x > 60 * 180 || fov_y < 1 || fov_y > 60 * 180)
     {
-        KSMessageBox::Instance()->error(i18n("The calculated field of view is out of bounds. Ensure the telescope focal length and camera pixel size are correct."));
+        appendLogText(i18n("Warning! The calculated field of view is out of bounds. Ensure the telescope focal length and camera pixel size are correct."));
         return;
     }
 
