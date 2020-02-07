@@ -166,10 +166,6 @@ class KStars : public KXmlGuiWindow
         void clearAllViewers();
 #endif
 
-#ifdef HAVE_INDI
-        Ekos::Manager *ekosManager();
-#endif
-
         /** Add an item to the color-scheme action manu
              * @param name The name to use in the menu
              * @param actionName The internal name for the action (derived from filename)

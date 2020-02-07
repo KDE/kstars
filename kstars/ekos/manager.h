@@ -88,11 +88,13 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
-        explicit Manager(QWidget *parent);
-        ~Manager() override;
+        static Manager *Instance();
+        static void release();
+
+        // No OP
+        void initilize() {}
 
         void appendLogText(const QString &);
-        //void refreshRemoteDrivers();
         void setOptionsWidget(KPageWidgetItem *ops)
         {
             ekosOptionsWidget = ops;
@@ -392,6 +394,9 @@ class Manager : public QDialog, public Ui::Manager
         void updateSigmas(double ra, double de);
 
     private:
+        explicit Manager(QWidget *parent);
+        ~Manager() override;
+
         void removeTabs();
         void reset();
         void initCapture();
@@ -519,6 +524,8 @@ class Manager : public QDialog, public Ui::Manager
         friend class EkosLive::Client;
         friend class EkosLive::Message;
         friend class EkosLive::Media;
+
+        static Manager *_Manager;
 };
 
 }

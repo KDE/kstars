@@ -77,17 +77,15 @@ void transient(const QString &message, const QString &title)
 
 void event(const QLatin1String &name, const QString &message, EventType type)
 {
-    Q_UNUSED(name);
-    Q_UNUSED(message);
-    Q_UNUSED(type);
+    Q_UNUSED(name)
+    Q_UNUSED(message)
+    Q_UNUSED(type)
 #ifndef KSTARS_LITE
     KNotification::event(name, message);
 
 #ifdef HAVE_INDI
 #ifdef HAVE_CFITSIO
-    Ekos::Manager *manager = KStars::Instance()->ekosManager();
-    if (manager)
-        manager->announceEvent(message, type);
+    Ekos::Manager::Instance()->announceEvent(message, type);
 #endif
 #endif
 

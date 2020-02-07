@@ -598,7 +598,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         case DEC_GUIDE_MODE:                        //get_dec_guide_mode
         {
             QString mode = jsonObj["result"].toString();
-            KStars::Instance()->ekosManager()->guideModule()->updateDirectionsFromPHD2(mode);
+            Ekos::Manager::Instance()->guideModule()->updateDirectionsFromPHD2(mode);
             emit newLog(i18n("PHD2: DEC Guide Mode is Set to: %1", mode));
         }
         break;
@@ -608,7 +608,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         {
             int exposurems = jsonObj["result"].toInt();
             double exposureTime = exposurems / 1000.0;
-            KStars::Instance()->ekosManager()->guideModule()->setExposure(exposureTime);
+            Ekos::Manager::Instance()->guideModule()->setExposure(exposureTime);
             emit newLog(i18n("PHD2: Exposure Time set to: ") + QString::number(exposureTime, 'f', 2));
             break;
         }
@@ -621,7 +621,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             QList<double> values;
             for(int i = 1; i < exposureListArray.size(); i ++) //For some reason PHD2 has a negative exposure time of 1 at the start of the array?
                 values << exposureListArray.at(i).toDouble() / 1000.0; //PHD2 reports in ms.
-            logValidExposureTimes += KStars::Instance()->ekosManager()->guideModule()->setRecommendedExposureValues(values);
+            logValidExposureTimes += Ekos::Manager::Instance()->guideModule()->setRecommendedExposureValues(values);
             emit newLog(logValidExposureTimes);
             break;
         }

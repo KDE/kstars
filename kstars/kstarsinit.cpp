@@ -827,6 +827,10 @@ void KStars::datainitFinished()
         slotUpdateComets(true);
         slotUpdateAsteroids(true);
     }
+
+#ifdef HAVE_INDI
+    Ekos::Manager::Instance()->initilize();
+#endif
 }
 
 void KStars::initFocus()

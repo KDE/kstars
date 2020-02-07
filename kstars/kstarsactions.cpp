@@ -268,12 +268,12 @@ void KStars::slotINDIToolBar()
     {
         if (a->isChecked())
         {
-            ekosManager()->raise();
-            ekosManager()->activateWindow();
-            ekosManager()->showNormal();
+            Ekos::Manager::Instance()->raise();
+            Ekos::Manager::Instance()->activateWindow();
+            Ekos::Manager::Instance()->showNormal();
         }
         else
-            ekosManager()->hide();
+            Ekos::Manager::Instance()->hide();
     }
     else if (a == actionCollection()->action("lock_telescope"))
     {
@@ -347,7 +347,7 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("show_mount_box"))
     {
-        ekosManager()->mountModule()->toggleMountToolBox();
+        Ekos::Manager::Instance()->mountModule()->toggleMountToolBox();
     }
     else if (a == actionCollection()->action("show_sensor_fov"))
     {
@@ -758,15 +758,15 @@ void KStars::slotEkos()
     }
 #endif
 
-    if (ekosManager()->isVisible() && ekosManager()->isActiveWindow())
+    if (Ekos::Manager::Instance()->isVisible() && Ekos::Manager::Instance()->isActiveWindow())
     {
-        ekosManager()->hide();
+        Ekos::Manager::Instance()->hide();
     }
     else
     {
-        ekosManager()->raise();
-        ekosManager()->activateWindow();
-        ekosManager()->showNormal();
+        Ekos::Manager::Instance()->raise();
+        Ekos::Manager::Instance()->activateWindow();
+        Ekos::Manager::Instance()->showNormal();
     }
 
 #endif

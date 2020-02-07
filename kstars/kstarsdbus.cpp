@@ -667,12 +667,9 @@ void KStars::loadColorScheme(const QString &name)
 #endif
 
 #ifdef HAVE_INDI
-    if (KStars::Instance()->ekosManager())
+    if (Ekos::Manager::Instance()->guideModule())
     {
-        if (KStars::Instance()->ekosManager()->guideModule())
-        {
-            KStars::Instance()->ekosManager()->guideModule()->refreshColorScheme();
-        }
+        Ekos::Manager::Instance()->guideModule()->refreshColorScheme();
     }
 #endif
 

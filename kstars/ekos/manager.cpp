@@ -55,6 +55,21 @@
 namespace Ekos
 {
 
+Manager *Manager::_Manager = nullptr;
+
+Manager *Manager::Instance()
+{
+    if (_Manager == nullptr)
+        _Manager = new Manager(Options::independentWindowEkos() ? nullptr : KStars::Instance());
+
+    return _Manager;
+}
+
+void Manager::release()
+{
+    delete _Manager;
+}
+
 Manager::Manager(QWidget * parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
@@ -340,7 +355,6 @@ void Manager::changeAlwaysOnTop(Qt::ApplicationState state)
 Manager::~Manager()
 {
     toolsWidget->disconnect(this);
-    //delete previewPixmap;
 }
 
 void Manager::closeEvent(QCloseEvent * event)
