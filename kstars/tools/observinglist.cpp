@@ -718,7 +718,7 @@ void ObservingList::slotSlewToObject()
 void ObservingList::slotAddToEkosScheduler()
 {
 #ifdef HAVE_INDI
-    KStars::Instance()->ekosManager()->addObjectToScheduler(currentObject());
+    Ekos::Manager::Instance()->addObjectToScheduler(currentObject());
 #endif
 }
 
@@ -1628,7 +1628,7 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
     QString finalObjectName;
     if (o->name() == "star")
     {
-        StarObject *s = (StarObject *)o;
+        const StarObject *s = dynamic_cast<const StarObject *>(o);
 
         // JM: Enable HD Index stars to be added to the observing list.
         if (s->getHDIndex() != 0)

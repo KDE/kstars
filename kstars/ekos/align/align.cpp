@@ -4075,12 +4075,11 @@ void Align::SlewToTarget()
     if (canSync && loadSlewState == IPS_IDLE)
     {
         // 2018-01-24 JM: This is ugly. Maybe use DBus? Signal/Slots? Ekos Manager usage like this should be avoided
-        if (KStars::Instance()->ekosManager() &&
-                !KStars::Instance()->ekosManager()->getCurrentJobName().isEmpty())
+        if (Ekos::Manager::Instance()->getCurrentJobName().isEmpty())
         {
             KSNotification::event(QLatin1String("EkosSchedulerTelescopeSynced"),
                                   i18n("Ekos job (%1) - Telescope synced",
-                                       KStars::Instance()->ekosManager()->getCurrentJobName()));
+                                       Ekos::Manager::Instance()->getCurrentJobName()));
         }
 
         // Do we perform a regular sync or use differential slewing?
