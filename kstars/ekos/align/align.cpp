@@ -2348,7 +2348,7 @@ void Align::calculateFOV()
     double calculated_fov_x = fov_x;
     double calculated_fov_y = fov_y;
 
-    QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
+    QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
     // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
     // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
     // per profile/pixel_size/focal_length combinations. It defaults to 0' x 0' and gets updated after the first successful solver is complete.
@@ -2373,7 +2373,7 @@ void Align::calculateFOV()
     if (currentCCD)
         sensorFOV->setName(currentCCD->getDeviceName());
 
-    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
+    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
 
     if (((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV)
     {
@@ -3154,9 +3154,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     targetChip->getBinning(&binx, &biny);
 
     if (Options::alignmentLogging())
-        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g', 5),
-                           QString::number(dec, 'g', 5), QString::number(orientation, 'g', 5),
-                           QString::number(pixscale, 'g', 5)));
+        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'f', 5),
+                           QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
+                           QString::number(pixscale, 'f', 5)));
 
     if ( (fov_x == 0 || m_EffectiveFOVPending) && pixscale > 0)
     {
@@ -3170,7 +3170,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     alignCoord.setRA0(ra / 15.0);
     alignCoord.setDec0(dec);
-    RotOut->setText(QString::number(orientation, 'g', 5));
+    RotOut->setText(QString::number(orientation, 'f', 5));
 
     // Convert to JNow
     alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
