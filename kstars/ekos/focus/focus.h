@@ -621,7 +621,7 @@ class Focus : public QWidget, public Ui::Focus
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
 
-        // Experimental linear focuser.
+        // Linear focuser.
         std::unique_ptr<FocusAlgorithmInterface> linearFocuser;
         int focuserAdditionalMovement { 0 };
         int linearRequestedPosition { 0 };
