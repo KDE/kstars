@@ -3483,6 +3483,7 @@ void Capture::updateHFRThreshold()
 
 void Capture::setMeridianFlipStage(MFStage status)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "setMeridianFlipStage: " << status;
     if (meridianFlipStage != status)
     {
         switch (status)
@@ -3544,6 +3545,7 @@ void Capture::setMeridianFlipStage(MFStage status)
 
 void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "meridianFlipStatusChanged: " << status;
     switch (status)
     {
         case Mount::FLIP_NONE:

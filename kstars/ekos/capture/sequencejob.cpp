@@ -75,29 +75,8 @@ void SequenceJob::prepareCapture()
 
     activeChip->setBatchMode(!preview);
 
-    // Check if we need to change filter wheel
-    if (frameType == FRAME_LIGHT && targetFilter != -1 && activeFilter != nullptr)
-    {
-        if (targetFilter == currentFilter)
-            prepareActions[ACTION_FILTER] = true;
-        else
-        {
-            prepareActions[ACTION_FILTER] = false;
-
-            emit prepareState(CAPTURE_CHANGING_FILTER);
-
-            FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
-            // Don't perform autofocus on preview
-            if (isPreview())
-                policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
-
-            filterManager->setFilterPosition(targetFilter, policy);
-        }
-    }
-    else
-    {
-        prepareActions[ACTION_FILTER] = true;
-    }
+    // Filter changes are done in capture();
+    prepareActions[ACTION_FILTER] = true;
 
     // Check if we need to update temperature
     if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
@@ -272,9 +251,11 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     {
         if (targetFilter != currentFilter)
         {
+            emit prepareState(CAPTURE_CHANGING_FILTER);
+
             FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
-            // Don't perform autofocus on preview
-            if (isPreview())
+            // Don't perform autofocus on preview or calibration frames.
+            if (isPreview() || frameType != FRAME_LIGHT)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
             filterManager->setFilterPosition(targetFilter, policy);
