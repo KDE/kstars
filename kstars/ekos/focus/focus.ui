@@ -1201,7 +1201,7 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Linear (Experimental v3.2)</string>
+                 <string>Linear</string>
                 </property>
                </item>
               </widget>
