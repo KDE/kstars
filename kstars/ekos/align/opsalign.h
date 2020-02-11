@@ -37,6 +37,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
     void setupPython();
     void toggleConfigInternal();
     void toggleWCSInternal();
+    void toggleSextractorInternal();
     void slotApply();
     void togglePythonDefault();
 

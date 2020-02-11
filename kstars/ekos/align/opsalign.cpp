@@ -51,6 +51,11 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     if (Options::astrometryWCSIsInternal())
         kcfg_AstrometryWCSInfo->setEnabled(false);
 
+    connect(kcfg_SextractorIsInternal, SIGNAL(clicked()), this, SLOT(toggleSextractorInternal()));
+    kcfg_SextractorIsInternal->setToolTip(i18n("Internal or External sextractor?"));
+    if (Options::sextractorIsInternal())
+        kcfg_SextractorBinary->setEnabled(false);
+
     connect(kcfg_UseDefaultPython, SIGNAL(clicked()), this, SLOT(togglePythonDefault()));
     kcfg_PythonExecPath->setVisible(!Options::useDefaultPython());
     SetupPython->setVisible(Options::useDefaultPython());
@@ -58,6 +63,7 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 #else
     kcfg_AstrometrySolverIsInternal->setVisible(false);
     kcfg_AstrometryWCSIsInternal->setVisible(false);
+    kcfg_SextractorIsInternal->setVisible(false);
 
     kcfg_UseDefaultPython->setVisible(false);
     pythonLabel->setVisible(false);
@@ -181,6 +187,15 @@ void OpsAlign::toggleWCSInternal()
         kcfg_AstrometryWCSInfo->setText("*Internal wcsinfo*");
     else
         kcfg_AstrometryWCSInfo->setText(KSUtils::getDefaultPath("AstrometryWCSInfo"));
+}
+
+void OpsAlign::toggleSextractorInternal()
+{
+    kcfg_SextractorBinary->setEnabled(!kcfg_SextractorIsInternal->isChecked());
+    if (kcfg_SextractorIsInternal->isChecked())
+        kcfg_SextractorBinary->setText("*Internal Sextractor*");
+    else
+        kcfg_SextractorBinary->setText(KSUtils::getDefaultPath("SextractorBinary"));
 }
 
 void OpsAlign::togglePythonDefault()

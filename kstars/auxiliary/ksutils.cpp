@@ -1114,6 +1114,13 @@ QString getDefaultPath(QString option)
         else
             return snap + "/usr/bin/solve-field";
     }
+    else if (option == "SextractorBinary")
+    {
+#if defined(Q_OS_OSX)
+        return "/usr/local/bin/sex";
+#endif
+        return "/usr/bin/sextractor";
+    }
     else if (option == "AstrometryWCSInfo")
     {
 #if defined(Q_OS_OSX)

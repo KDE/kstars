@@ -2016,6 +2016,20 @@
          <default>/usr/local/opt/python/libexec/bin</default>
       </entry>
 
+      <entry name="UseSextractor" type="Bool">
+         <label>Use Sextractor to extract an xylist for plate solving with astrometry.net instead of python</label>
+         <default>false</default>
+      </entry>
+      <entry name="SextractorIsInternal" type="Bool">
+         <label>Internal or External sextractor?</label>
+         <default>false</default>
+      </entry>
+      <entry name="SextractorBinary" type="String">
+         <label></label>
+         <whatsthis>Path to the Sextractor executable.</whatsthis>
+         <default code="true">KSUtils::getDefaultPath("SextractorBinary")</default>
+      </entry>
+
       <entry name="AstrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>
          <whatsthis>Key to access astrometry.net online web services. You must register with astrometry.net to obtain a key.</whatsthis>

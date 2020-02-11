@@ -52,6 +52,7 @@ class OfflineAstrometryParser : public AstrometryParser
     QMap<float, QString> astrometryIndex;
     QString parity;
     QPointer<QProcess> solver;
+    QPointer<QProcess> sextractorProcess;
     QProcess wcsinfo;
     QTime solverTimer;
     QString fitsFile;
