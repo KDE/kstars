@@ -41,6 +41,9 @@
              </property>
              <item>
               <widget class="QCheckBox" name="kcfg_xplanetIsInternal">
+               <property name="toolTip">
+                <string>Xplanet binary is internal to the application bundle</string>
+               </property>
                <property name="text">
                 <string/>
                </property>

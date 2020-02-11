@@ -2475,6 +2475,25 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solver
         if (optionsMap.contains("downsample"))
             solver_args << "--downsample" << QString::number(optionsMap.value("downsample", 2).toInt());
 
+        if(Options::useSextractor())
+        {
+            qDebug()<<"Is there an image width";
+            if (optionsMap.contains("image_width"))
+                qDebug()<<"Yes there is: " << QString::number(optionsMap.value("image_width").toInt());
+            else
+                qDebug()<<"no not really";
+            //Sextractor needs all these parameters in order to solve an xylist of stars
+            if (optionsMap.contains("image_width"))
+            solver_args << "--width" << QString::number(optionsMap.value("image_width").toInt());
+            if (optionsMap.contains("image_height"))
+            solver_args << "--height" << QString::number(optionsMap.value("image_height").toInt());
+            solver_args << "--x-column X_IMAGE --y-column Y_IMAGE --sort-column MAG_AUTO --sort-ascending";
+
+            //Note This set of items is NOT NEEDED for Sextractor, it is needed to avoid python usage
+            //This may need to be changed later, but since the goal for using sextractor is to avoid python, this is placed here.
+            solver_args << "--no-remove-lines --uniformize 0";
+        }
+
         // image scale low
         if (optionsMap.contains("scaleL"))
             solver_args << "-L" << QString::number(optionsMap.value("scaleL").toDouble());
@@ -2584,6 +2603,11 @@ void Align::generateArgs()
                 optionsMap["downsample"] = Options::astrometryDownsample();
         }
 
+        //Options needed for Sextractor
+        int bin = Options::solverBinningIndex() + 1;
+        optionsMap["image_width"] = ccd_width / bin;
+        optionsMap["image_height"] = ccd_height / bin;
+
         if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
         {
             QString units = ImageScales[Options::astrometryImageScaleUnits()];
@@ -2661,12 +2685,15 @@ bool Align::captureAndSolve()
 #ifdef Q_OS_OSX
     if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
     {
-        if(Options::useDefaultPython())
+        if(!Options::useSextractor())
         {
-            if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+            if(Options::useDefaultPython())
             {
-                KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
-                return false;
+                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                {
+                    KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    return false;
+                }
             }
         }
     }
@@ -3080,6 +3107,11 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
             if (Options::astrometryUseDownsample())
                 optionsMap["downsample"] = Options::astrometryDownsample();
+
+            //Options needed for Sextractor
+            int bin = Options::solverBinningIndex() + 1;
+            optionsMap["image_width"] = ccd_width / bin;
+            optionsMap["image_height"] = ccd_height / bin;
 
             solverArgs = generateOptions(optionsMap, solverBackendGroup->checkedId());
         }
@@ -4570,17 +4602,20 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
-    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
-    {
-        if(Options::useDefaultPython())
+        if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
         {
-            if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+            if(!Options::useSextractor())
             {
-                KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
-                return false;
+                if(Options::useDefaultPython())
+                {
+                    if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                    {
+                        KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                        return false;
+                    }
+                }
             }
         }
-    }
 #endif
 
     if (fileURL.isEmpty())
@@ -4915,6 +4950,14 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     if (Options::astrometryAutoDownsample())
     {
         optionsMap["downsample"] = getSolverDownsample(fits_ccd_width);
+        solver_args = generateOptions(optionsMap, SOLVER_ASTROMETRYNET);
+    }
+
+     //Needed for Sextractor, let us figure out the image size and regenerate options
+    if(Options::useSextractor())
+    {
+        optionsMap["image_width"] = fits_ccd_width;
+        optionsMap["image_height"] = fits_ccd_height;
         solver_args = generateOptions(optionsMap, SOLVER_ASTROMETRYNET);
     }
 

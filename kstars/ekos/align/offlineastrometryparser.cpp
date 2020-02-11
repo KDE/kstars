@@ -218,12 +218,15 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     solverArgs << "--config" << confPath;
 
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
-    solverArgs << "-W" << solutionFile << filename;
-
-    fitsFile = filename;
+    solverArgs << "-W" << solutionFile;
 
     solver.clear();
     solver = new QProcess(this);
+
+    sextractorProcess.clear();
+    sextractorProcess = new QProcess(this);
+
+    QString sextractorBinaryPath=Options::sextractorBinary();
 
 #ifdef Q_OS_OSX
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -239,7 +242,10 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     {
         env.insert("PATH", pythonExecPath + ":/usr/local/bin:" + path);
     }
+    if(Options::sextractorIsInternal())
+        sextractorBinaryPath=QCoreApplication::applicationDirPath() + "/astrometry/bin/sex";
     solver->setProcessEnvironment(env);
+    sextractorProcess->setProcessEnvironment(env);
 
     if (Options::alignmentLogging())
     {
@@ -247,6 +253,75 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     }
 
 #endif
+
+    fitsFile = filename;
+
+    //These commands use sextractor to make a list of stars to feed into astrometry.net
+    if(Options::useSextractor())
+    {
+        //Sets up the Temp file for the xy list of stars
+        QString sextractorFilePath = QDir::tempPath() + "/SextractorList.xyls";
+        QFile sextractorFile(sextractorFilePath);
+        if(sextractorFile.exists())
+            sextractorFile.remove();
+
+        //Configuration arguments for sextractor
+        QStringList sextractorArgs;
+        sextractorArgs << "-CATALOG_NAME" << sextractorFilePath;
+        sextractorArgs << "-CATALOG_TYPE" << "FITS_1.0";
+        sextractorArgs << filename;
+
+        //sextractor needs a default.param file in the working directory
+        //This creates that file with the options we need for astrometry.net
+
+        QString paramPath =  QDir::tempPath() + "/default.param";
+        QFile paramFile(paramPath);
+        if(!paramFile.exists())
+        {
+            if (paramFile.open(QIODevice::WriteOnly) == false)
+                KSNotification::error(i18n("Sextractor file write error."));
+            else
+            {
+                QTextStream out(&paramFile);
+                out << "MAG_AUTO                 Kron-like elliptical aperture magnitude                   [mag]\n";
+                out << "X_IMAGE                  Object position along x                                   [pixel]\n";
+                out << "Y_IMAGE                  Object position along y                                   [pixel]\n";
+                paramFile.close();
+            }
+        }
+
+        //sextractor needs a default.conv file in the working directory
+        //This creates the default one
+
+        QString convPath =  QDir::tempPath() + "/default.conv";
+        QFile convFile(convPath);
+        if(!convFile.exists())
+        {
+            if (convFile.open(QIODevice::WriteOnly) == false)
+                KSNotification::error(i18n("Sextractor file write error."));
+            else
+            {
+                QTextStream out(&convFile);
+                out << "CONV NORM\n";
+                out << "1 2 1\n";
+                out << "2 4 2\n";
+                out << "1 2 1\n";
+                convFile.close();
+            }
+        }
+        sextractorProcess->setWorkingDirectory(QDir::tempPath());
+        sextractorProcess->start(sextractorBinaryPath, sextractorArgs);
+        align->appendLogText(i18n("Starting sextractor..."));
+        align->appendLogText(sextractorBinaryPath + " " + sextractorArgs.join(' '));
+        sextractorProcess->waitForFinished();
+        if (Options::alignmentLogging())
+            align->appendLogText(sextractorProcess->readAllStandardError().trimmed());
+        solverArgs << sextractorFilePath;
+    }
+    else
+    {
+        solverArgs << fitsFile;
+    }
 
     connect(solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
     solver->setProcessChannelMode(QProcess::MergedChannels);

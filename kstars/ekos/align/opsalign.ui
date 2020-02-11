@@ -7,12 +7,69 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>202</height>
+    <height>235</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="4">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Time out:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Rotator:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="SetupPython">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Script to setup homebrew python3 and required packages for astrometry.net</string>
+         </property>
+         <property name="text">
+          <string>Setup</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="kcfg_PythonExecPath">
+         <property name="toolTip">
+          <string>Path to Python3 bin folder</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
      <item row="0" column="2">
       <widget class="QLineEdit" name="kcfg_AstrometrySolverBinary">
        <property name="toolTip">
@@ -23,6 +80,20 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_18">
+       <property name="text">
+        <string>API URL:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="4">
       <widget class="QLabel" name="pythonLabel">
        <property name="text">
@@ -30,7 +101,31 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>config:</string>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="5">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
+       <property name="toolTip">
+        <string>API Key</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLabel" name="label_16">
+       <property name="text">
+        <string>wcsinfo:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="5">
       <widget class="QSpinBox" name="kcfg_AstrometryTimeout">
        <property name="toolTip">
         <string>Timeout in seconds to wait for astrometry solver to complete</string>
@@ -43,34 +138,20 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Time out:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
        <property name="toolTip">
-        <string>Astrometry.net configuration file</string>
+        <string>API URL</string>
        </property>
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="2" column="5">
-      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometrySolverIsInternal">
        <property name="toolTip">
-        <string>Astrometry.net configuration file</string>
+        <string>Astrometry.net solver binary is internal to the application bundle</string>
        </property>
        <property name="text">
         <string/>
@@ -84,7 +165,37 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="4">
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
+       <property name="toolTip">
+        <string>Astromebry config file is internal to the application bundle</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="kcfg_AstrometryWCSIsInternal">
+       <property name="toolTip">
+        <string>WCS Info file is internal to the Application Bundle</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QCheckBox" name="kcfg_UseDefaultPython">
+       <property name="toolTip">
+        <string>Use the Default python in homebrew</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
       <widget class="QLabel" name="label_17">
        <property name="text">
         <string>API Key:</string>
@@ -101,60 +212,35 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="kcfg_SextractorBinary">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Path to Sextractor binary file</string>
        </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="label_18">
-       <property name="text">
-        <string>API URL:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="label_14">
-       <property name="text">
-        <string>config:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QCheckBox" name="kcfg_AstrometrySolverIsInternal">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
-      <widget class="QCheckBox" name="kcfg_UseDefaultPython">
+     <item row="2" column="4">
+      <widget class="QLabel" name="label_19">
        <property name="text">
-        <string/>
+        <string>sextractor:</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
+     <item row="2" column="3">
+      <widget class="QCheckBox" name="kcfg_SextractorIsInternal">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Sextractor binary file is internal to the application bundle</string>
        </property>
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_16">
-       <property name="text">
-        <string>wcsinfo:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
        <property name="toolTip">
         <string>Astrometry.net configuration file</string>
        </property>
@@ -163,39 +249,15 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="kcfg_AstrometryWCSIsInternal">
+     <item row="2" column="0" colspan="3">
+      <widget class="QCheckBox" name="kcfg_UseSextractor">
+       <property name="toolTip">
+        <string>This allows you to use sextractor to make xylists to avoid using python with astrometry.net</string>
+       </property>
        <property name="text">
-        <string/>
+        <string>Use Sextractor not python</string>
        </property>
       </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Rotator:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="5">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="SetupPython">
-         <property name="text">
-          <string>Setup</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="kcfg_PythonExecPath"/>
-       </item>
-      </layout>
      </item>
     </layout>
    </item>

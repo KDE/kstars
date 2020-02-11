@@ -123,41 +123,6 @@ void OpsAstrometry::slotApply()
         Options::setAstrometryPositionDE(DE.Degrees());
     }
 
-    QVariantMap optionsMap;
-
-    if (kcfg_AstrometryUseNoVerify->isChecked())
-        optionsMap["noverify"] = true;
-
-    if (kcfg_AstrometryUseResort->isChecked())
-        optionsMap["resort"] = true;
-
-    if (kcfg_AstrometryUseNoFITS2FITS->isChecked())
-        optionsMap["nofits2fits"] = true;
-
-    if (kcfg_AstrometryUseImageScale->isChecked() && kcfg_AstrometryImageScaleLow->value() > 0 && kcfg_AstrometryImageScaleHigh->value() > 0)
-    {
-        optionsMap["scaleL"]     = kcfg_AstrometryImageScaleLow->value();
-        optionsMap["scaleH"]     = kcfg_AstrometryImageScaleHigh->value();
-        optionsMap["scaleUnits"] = kcfg_AstrometryImageScaleUnits->currentText();
-    }
-
-    if (kcfg_AstrometryUsePosition->isChecked())
-    {
-        optionsMap["ra"]     = RA.Degrees();
-        optionsMap["de"]     = DE.Degrees();
-        optionsMap["radius"] = kcfg_AstrometryRadius->value();
-    }
-
-    if (kcfg_AstrometryUseDownsample->isChecked())
-        optionsMap["downsample"] = kcfg_AstrometryDownsample->value();
-
-    if (kcfg_AstrometryCustomOptions->text().isEmpty() == false)
-        optionsMap["custom"] = kcfg_AstrometryCustomOptions->text();
-
-    QStringList solverArgs = Align::generateOptions(optionsMap);
-
-    QString options = solverArgs.join(" ");
-    alignModule->solverOptions->setText(options);
-    alignModule->solverOptions->setToolTip(options);
+    alignModule->generateArgs();
 }
 }

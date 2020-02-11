@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>443</width>
-    <height>333</height>
+    <width>555</width>
+    <height>411</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -36,6 +36,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QCheckBox" name="kcfg_indiServerIsInternal">
+          <property name="toolTip">
+           <string>INDI Server binary is internal to the application bundle</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -53,6 +56,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="kcfg_indiServer">
+          <property name="toolTip">
+           <string>Path to the indiserver binary</string>
+          </property>
           <property name="text">
            <string notr="true">/usr/bin/indiserver</string>
           </property>
@@ -67,6 +73,9 @@
         </property>
         <item>
          <widget class="QCheckBox" name="kcfg_indiDriversAreInternal">
+          <property name="toolTip">
+           <string>INDI Drivers are internal to the application bundle</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -84,6 +93,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="kcfg_indiDriversDir">
+          <property name="toolTip">
+           <string>path to the INDI drivers xml directory</string>
+          </property>
           <property name="text">
            <string notr="true">/usr/share/indi</string>
           </property>
