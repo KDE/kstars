@@ -3325,6 +3325,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
 void Capture::setFocusStatus(FocusState state)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusStatus: " << state;
     focusState = state;
 
     if (focusState > FOCUS_ABORTED)
@@ -4828,6 +4829,7 @@ void Capture::checkGuideDeviationTimeout()
 
 void Capture::setAlignStatus(AlignState state)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "setAlignStatus: " << state;
     alignState = state;
 
     resumeAlignmentAfterFlip = true;
