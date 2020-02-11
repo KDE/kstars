@@ -75,8 +75,11 @@ void SequenceJob::prepareCapture()
 
     activeChip->setBatchMode(!preview);
 
-    // Filter changes are done in capture();
+    // Filter changes are actually done in capture();
     prepareActions[ACTION_FILTER] = true;
+    if (targetFilter != -1 && activeFilter != nullptr &&
+        frameType == FRAME_LIGHT && targetFilter != currentFilter)
+        emit prepareState(CAPTURE_CHANGING_FILTER);
 
     // Check if we need to update temperature
     if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
