@@ -2482,11 +2482,15 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solver
                 solver_args << "--width" << QString::number(optionsMap.value("image_width").toInt());
             if (optionsMap.contains("image_height"))
                 solver_args << "--height" << QString::number(optionsMap.value("image_height").toInt());
-            solver_args << "--x-column X_IMAGE --y-column Y_IMAGE --sort-column MAG_AUTO --sort-ascending";
+            solver_args << "--x-column" << "X_IMAGE";
+            solver_args << "--y-column" << "Y_IMAGE";
+            solver_args << "--sort-column" << "MAG_AUTO";
+            solver_args << "--sort-ascending";
 
             //Note This set of items is NOT NEEDED for Sextractor, it is needed to avoid python usage
             //This may need to be changed later, but since the goal for using sextractor is to avoid python, this is placed here.
-            solver_args << "--no-remove-lines --uniformize 0";
+            solver_args << "--no-remove-lines";
+            solver_args << "--uniformize" << "0";
         }
 
         // image scale low
@@ -4621,6 +4625,11 @@ bool Align::loadAndSlew(QString fileURL)
         return false;
 
     QFileInfo fileInfo(fileURL);
+    QString newFileURL=QDir::tempPath() + "/" + fileInfo.fileName().remove(" ");
+    QFile::copy(fileURL, newFileURL);
+    QFileInfo newFileInfo(newFileURL);
+
+
     dirPath = fileInfo.absolutePath();
 
     differentialSlewingActivated = false;
@@ -4636,7 +4645,7 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSolving(fileURL, false);
+    startSolving(newFileURL, false);
 
     return true;
 }
