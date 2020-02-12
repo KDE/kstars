@@ -168,7 +168,7 @@
      <item row="1" column="0">
       <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
        <property name="toolTip">
-        <string>Astromebry config file is internal to the application bundle</string>
+        <string>Astrometry config file is internal to the application bundle</string>
        </property>
        <property name="text">
         <string/>
