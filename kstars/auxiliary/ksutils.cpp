@@ -1225,6 +1225,8 @@ bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data
         Options::setAstrometrySolverBinary("*Internal Solver*");
         Options::setAstrometryConfFileIsInternal(true);
         Options::setAstrometryConfFile("*Internal astrometry.cfg*");
+        Options::setSextractorIsInternal(true);
+        Options::setSextractorBinary("*Internal Sextractor*");
         Options::setAstrometryWCSIsInternal(true);
         Options::setAstrometryWCSInfo("*Internal wcsinfo*");
         Options::setAstrometryUseNoFITS2FITS(false);
