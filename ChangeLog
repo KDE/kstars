@@ -4,6 +4,87 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.4.0 (Horsehead):
+
+60dabac08 2020-02-12 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+e44a6bd2f 2020-02-12 Robert Lancaster     Summary: Fixing a bug found by a user in the Load and Slew command. Also setting the internal sextractor directory for initial OS X install. This al..
+00f1ce483 2020-02-11 Jasem Mutlaq         Remove unnecessary qDebug()                                                                                                                           
+64538ebc4 2020-02-11 Robert Lancaster     Supporting Sextractor instead of python                                                                                                               
+5b31c6aba 2020-02-11 Hy Murveit           Add logging to look into alignState in capture                                                                                                        
+03b944163 2020-02-11 Hy Murveit           Fixes issue where align wasn't called after meridian flip                                                                                             
+aa6666670 2020-02-10 Jasem Mutlaq         Fix permission                                                                                                                                        
+b3a6b1434 2020-02-10 Hy Murveit           Remove the word experimental from the Linear Focus algorithm                                                                                          
+55944129d 2020-02-10 Hy Murveit           Correct issue with filter-autofocus and meridian flip                                                                                                 
+5dda5bd20 2020-02-08 Jasem Mutlaq         Improve display of some fields by using f instead of g specifier                                                                                      
+ccd88663c 2020-02-07 Jasem Mutlaq         Only report the ignored FITS warning if we are not guiding                                                                                            
+67f6afb87 2020-02-07 Jasem Mutlaq         Fix FOV out of bounds limit                                                                                                                           
+fcfe5d9ec 2020-02-07 Jasem Mutlaq         Fix tests                                                                                                                                             
+e5e74112c 2020-02-07 Jasem Mutlaq         Ekos::Manager is singleton now                                                                                                                        
+1014a91d2 2020-02-06 Jasem Mutlaq         Fix typo                                                                                                                                              
+25cd69943 2020-02-05 Jasem Mutlaq         Add error message when calculated FOV is out of bounds                                                                                                
+144a2396d 2020-02-03 Jasem Mutlaq         Disable the extensive logging in alignmnent as it is polluting the log                                                                                
+f6ab2c54b 2020-02-03 Jasem Mutlaq         Start connection to remote INDI server also when not using web manager                                                                                
+a7a8eab07 2020-02-03 Hy Murveit           Fix bug which may be causing the fits crashes.                                                                                                        
+1ce35ff4d 2020-02-02 Jasem Mutlaq         Introduce small settle time after killing indiserver                                                                                                  
+69219efbd 2020-02-02 Jasem Mutlaq         Disconnect the KMessageBox after use                                                                                                                  
+1da4f6ac2 2020-01-31 Jasem Mutlaq         Make connecting to INDI server *mostly* asycn                                                                                                         
+77981bfd3 2020-01-31 Hy Murveit           Linear Focus 3.2, optimize solution                                                                                                                   
+2165b84aa 2020-01-30 Jasem Mutlaq         Remove unused packaging files                                                                                                                         
+ff2108732 2020-01-29 Nicolas Fella        Add link to google play in appstream data                                                                                                             
+6f237d161 2020-01-29 Jasem Mutlaq         Remove unnecessary patch                                                                                                                              
+7c1264a3b 2020-01-27 Hy Murveit           Fix a crash, reinitialize rawImage for every image.                                                                                                   
+706324de6 2020-01-26 Jasem Mutlaq         INDI drivers sync                                                                                                                                     
+5348a5fc9 2020-01-25 Hy Murveit           Bugfix for fitsview, checking wrong width & height in initDisplayImage                                                                                
+88f52e1e9 2020-01-23 Jasem Mutlaq         Permit changing of target when capture is also complete                                                                                               
+b6a42a1a3 2020-01-23 Jasem Mutlaq         Improve name sanitization further to remove duplicate __ and extra _ at the end                                                                       
+3d19f16ff 2020-01-23 Jasem Mutlaq         Sanitize target name and file prefix                                                                                                                  
+081cd819e 2020-01-23 Hy Murveit           Linear Focus Algorithm 3.1, ignore timer-based focuser's return value.                                                                                
+e5cab7014 2020-01-22 Jasem Mutlaq         Remove extra BLOBUpdated                                                                                                                              
+cf467f48d 2020-01-22 Jasem Mutlaq         Fix DSLR ImageToFITS loading when auto convert is used                                                                                                
+c3a0862b1 2020-01-21 Jasem Mutlaq         More work for INDI property to JSON objects over websockets                                                                                           
+b37319f6b 2020-01-21 Jasem Mutlaq         Improving EkosLive websocket performance                                                                                                              
+c0516050f 2020-01-20 Jasem Mutlaq         Comment out unused variable                                                                                                                           
+1ab26869d 2020-01-20 Jasem Mutlaq         Do not save config for ACTIVE_XXX devices as this might cause regressions in other areas                                                              
+643066850 2020-01-20 Hy Murveit           Re-allocate the rawImage buffer if the number of channels has changed.                                                                                
+6e9d7aa96 2020-01-20 Jasem Mutlaq         Do not start guiding if mount is parked                                                                                                               
+861851089 2020-01-15 Hy Murveit           Improvements to the linear focus algorithm--v3                                                                                                        
+dd53f3aee 2020-01-14 Wolfgang Reissenberger Align property labels in the INDI dialog vertically on top                                                                                            
+814b54d78 2020-01-14 Hy Murveit           Update of the Linear Focus Algorithm--v2                                                                                                              
+2a0361caa 2020-01-14 Jasem Mutlaq         Use transient FOV container instead of anti-pattern access to the Ekos align object from other classes                                                
+5fb10f208 2020-01-14 Jasem Mutlaq         Log fits create error                                                                                                                                 
+abd77a722 2020-01-14 Jasem Mutlaq         Make sure temporary location is also writable                                                                                                         
+381cc57b7 2020-01-12 Laurent Montel       It alreadys added by kaboutdata                                                                                                                       
+49ce49de2 2020-01-12 Jasem Mutlaq         Wait until wcsWatcher is finished before loading from memory                                                                                          
+856e544c4 2020-01-11 Jasem Mutlaq         Do not abort slewing when in polar alignment mode                                                                                                     
+166d69d54 2020-01-10 Jasem Mutlaq         Fix manualfocusdrive based focus bug due to fix in commit de12d97ddefc                                                                                
+4ea088bbc 2020-01-10 Jasem Mutlaq         Reuse same primary buffer for debayering. Always flush before closing                                                                                 
+c325b3881 2020-01-10 Jasem Mutlaq         Delete earth shadow on exit                                                                                                                           
+ebf219d83 2020-01-09 Jasem Mutlaq         More improvements to memory handling                                                                                                                  
+5e1d1e40f 2020-01-09 Jasem Mutlaq         Some memory fixes from Valgrind and Hy suggestions                                                                                                    
+d7bb14fb6 2020-01-08 Jasem Mutlaq         Set aux members of ACTIVE_FILTER to nullptr on initial property definition                                                                            
+6ae9866e3 2020-01-08 Jasem Mutlaq         Improve reliability of setting snoop property for the active profile                                                                                  
+972224caf 2020-01-08 Jasem Mutlaq         Fix scheduler frame name check for fractional exposures                                                                                               
+c035e1135 2020-01-07 Laurent Montel       Port to QString::asprintf                                                                                                                             
+855e27514 2020-01-07 Laurent Montel       Port to QElapsedTimer                                                                                                                                 
+ac26e490b 2020-01-07 Laurent Montel       Don't use nullptr as flag. Use default value when possible                                                                                            
+1a061ea74 2020-01-07 Laurent Montel       Port endl to \n as it's Qt:: namespaced in qt5.15. QFile flushs it when                                                                               
+f1f38c0bb 2020-01-07 Laurent Montel       Remove endl at the end of qDebug/qWarning.. it already adds endl                                                                                      
+f34fd196a 2020-01-07 Jasem Mutlaq         Remove redundant faint magnitude swap, thanks to Vladimir Dvorak for spotting and reporting this. Fixing few warnings and introducing proper debug    
+974f62209 2020-01-05 Jasem Mutlaq         Load supernova data on demand to conserve memory                                                                                                      
+000ac53e7 2020-01-04 Jasem Mutlaq         Fix setting the default filter wheel in the various Ekos modules                                                                                      
+de12d97dd 2020-01-04 Jasem Mutlaq         Fix timer and relative based focus bug as they were sent negative numbers by mistake                                                                  
+ca2703b3d 2020-01-04 Jasem Mutlaq         Indicate why a received FITS image is ignore so we can diagnose issues that otherwise would be ignored silently                                       
+754b4126c 2020-01-04 Jasem Mutlaq         Make scheduler logs less spammy                                                                                                                       
+001ce18d8 2020-01-04 Hy Murveit           Refactor polynomial code in focus and other small changes                                                                                             
+e60b54ec2 2020-01-04 Jasem Mutlaq         KStars v3.4.0 cycle begins                                                                                                                            
+3674fcd0a 2020-01-03 Laurent Montel       Port to QElapsedTimer                                                                                                                                 
+51ad4e094 2020-01-03 Laurent Montel       Don't use 0 as flag                                                                                                                                   
+67612b1e9 2020-01-03 Laurent Montel       Port endl to '\n' as endl is namespaced in Qt5.15. When we delete QFile                                                                               
+c9fca7398 2020-01-03 Laurent Montel       Don't use deprecated QString::sprintf                                                                                                                 
+c6b339a41 2020-01-03 Laurent Montel       Remove extra ';'                                                                                                                                      
+3e3a1fc68 2020-01-03 Laurent Montel       Remove endl at the end of qdebug as it already adds it                                                                                                
+9ea44f783 2020-01-03 Jasem Mutlaq         Explicitly treat JNow and J2000 differently when setting the sky point RA and DE components
+
 3.3.9 (Oscar):
 
 881b7a882 2019-12-31 Jasem Mutlaq         Check for duplicate ccd binaries in primary, guide, and all aux drivers
