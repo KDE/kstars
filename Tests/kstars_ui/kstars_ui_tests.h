@@ -13,24 +13,52 @@
 
 #include <QMutex>
 #include <QObject>
+#include <QTimer>
+#include <QApplication>
+#include <QTest>
+
+#include "kstars.h"
 
 class KStars;
+
+#define KTRY_SHOW_KSTARS(K) do { \
+    QTRY_VERIFY_WITH_TIMEOUT((K)->isGUIReady(), 1000); \
+    (K)->raise(); \
+    QTRY_VERIFY_WITH_TIMEOUT((K)->isActiveWindow(), 1000); } while(false)
 
 class KStarsUiTests : public QObject
 {
     Q_OBJECT
 
-  public:
+public:
     KStarsUiTests();
     ~KStarsUiTests() override = default;
 
-  private slots:
+private:
+    KStars* K {nullptr};
+
+private slots:
     void initTestCase();
     void cleanupTestCase();
+
+    void init();
+    void cleanup();
+
+    void basicTest();
+    void warnTest();
+    void raiseKStarsTest();
+
 #if defined(HAVE_INDI)
-    void openEkos();
-    void addEkosProfile();
-    void verifyEkosProfile();
-    void removeEkosProfile();
+private:
+    QString testProfileName;
+    void initEkos();
+    void cleanupEkos();
+
+private slots:
+    // UI
+    void openEkosTest();
+
+    // Profiles
+    void manipulateEkosProfiles();
 #endif
 };
