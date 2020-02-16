@@ -7,7 +7,6 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-
 #include "kstars_ui_tests.h"
 
 #include "auxiliary/kspaths.h"
@@ -28,28 +27,9 @@
 #include <ctime>
 #include <unistd.h>
 
-namespace
-{
-KStars *kstarsInstance = nullptr;
-QString testProfileName;
-}
-
-void waitForKStars()
-{
-    while (!kstarsInstance->isGUIReady())
-    {
-        QThread::msleep(1000);
-    }
-    while (!kstarsInstance->isActiveWindow())
-    {
-        QThread::msleep(1000);
-    }
-    QThread::msleep(2000);
-}
-
 KStarsUiTests::KStarsUiTests()
 {
-    srand((int)time(nullptr));
+    srand((unsigned int)time(nullptr));
     // Create writable data dir if it does not exist
     QDir writableDir;
 
@@ -60,240 +40,75 @@ KStarsUiTests::KStarsUiTests()
 void KStarsUiTests::initTestCase()
 {
     KTipDialog::setShowOnStart(false);
-    kstarsInstance = KStars::createInstance(true);
+    K = KStars::createInstance(true);
 }
 
 void KStarsUiTests::cleanupTestCase()
 {
-    kstarsInstance->close();
-    delete kstarsInstance;
-    kstarsInstance = nullptr;
+    K->close();
+    delete K;
+    K = nullptr;
 }
+
+void KStarsUiTests::init()
+{
+    KStars* const K = KStars::Instance();
+    QVERIFY(K != nullptr);
+    KTRY_SHOW_KSTARS(K);
 
 #if defined(HAVE_INDI)
-void openEkosTest()
-{
-    waitForKStars();
-    // Show Ekos Manager by clicking on the toolbar icon
-    QAction *action = kstarsInstance->actionCollection()->action("show_ekos");
-
-    QCOMPARE(action != nullptr, true);
-    action->trigger();
-    QThread::msleep(1000);
-    QCOMPARE(Ekos::Manager::Instance() != nullptr, true);
-    QCOMPARE(Ekos::Manager::Instance()->isVisible(), true);
-    QCOMPARE(Ekos::Manager::Instance()->isActiveWindow(), true);
-    // Hide Ekos Manager by clicking on the toolbar icon
-    action->trigger();
-    QThread::msleep(1000);
-    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
-    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
-}
-
-void KStarsUiTests::openEkos()
-{
-    QFuture<void> testFuture = QtConcurrent::run(openEkosTest);
-
-    while (!testFuture.isFinished())
-    {
-        QCoreApplication::instance()->processEvents();
-        usleep(20*1000);
-    }
-}
-
-void addEkosProfileTest()
-{
-    waitForKStars();
-    // Show/verify Ekos dialog
-    QAction *action = kstarsInstance->actionCollection()->action("show_ekos");
-
-    QCOMPARE(action != nullptr, true);
-    action->trigger();
-    QThread::msleep(500);
-    Ekos::Manager *ekos = Ekos::Manager::Instance();
-
-    QCOMPARE(ekos != nullptr, true);
-    QCOMPARE(ekos->isVisible(), true);
-    QCOMPARE(ekos->isActiveWindow(), true);
-    // Click on "Add profile" button
-    QPushButton* addButton = ekos->findChild<QPushButton*>("addProfileB");
-
-    QCOMPARE(addButton != nullptr, true);
-    QTest::mouseClick(addButton, Qt::LeftButton);
-    QThread::msleep(1000);
-    // Verify the Profile Editor dialog
-    ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
-
-    QCOMPARE(profileEditor != nullptr, true);
-    // Create a test profile
-    QLineEdit* profileNameLE = ekos->findChild<QLineEdit*>("profileIN");
-    QComboBox* mountCBox = ekos->findChild<QComboBox*>("mountCombo");
-    QComboBox* ccdCBox = ekos->findChild<QComboBox*>("ccdCombo");
-    QDialogButtonBox* buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");
-
-    QCOMPARE(profileNameLE != nullptr, true);
-    QCOMPARE(mountCBox != nullptr, true);
-    QCOMPARE(ccdCBox != nullptr, true);
-    QCOMPARE(buttons != nullptr, true);
-    testProfileName = QString("testUI%1").arg(rand() % 100000);
-    profileNameLE->setText(testProfileName);
-    QThread::msleep(500);
-    QCOMPARE(profileNameLE->text(), testProfileName);
-    mountCBox->setCurrentText("EQMod Mount");
-    QThread::msleep(500);
-    QCOMPARE(mountCBox->currentIndex() != 0, true);
-    ccdCBox->setCurrentText("Canon DSLR");
-    QThread::msleep(500);
-    QCOMPARE(ccdCBox->currentIndex() != 0, true);
-    // Save the profile
-    emit buttons->accepted();
-    QThread::msleep(2000);
-    // Hide Ekos Manager by clicking on the toolbar icon
-    action->trigger();
-    QThread::msleep(1000);
-    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
-    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
-}
-
-void KStarsUiTests::addEkosProfile()
-{
-    QFuture<void> testFuture = QtConcurrent::run(addEkosProfileTest);
-
-    while (!testFuture.isFinished())
-    {
-        QCoreApplication::instance()->processEvents();
-        usleep(20*1000);
-    }
-}
-
-void verifyEkosProfileTest()
-{
-    waitForKStars();
-    // Show/verify Ekos dialog
-    QAction *action = kstarsInstance->actionCollection()->action("show_ekos");
-
-    QCOMPARE(action != nullptr, true);
-    action->trigger();
-    QThread::msleep(1000);
-    Ekos::Manager *ekos = Ekos::Manager::Instance();
-
-    QCOMPARE(ekos != nullptr, true);
-    QCOMPARE(ekos->isVisible(), true);
-    QCOMPARE(ekos->isActiveWindow(), true);
-    // Verify that the test profile exists
-    QComboBox* profileCBox = ekos->findChild<QComboBox*>("profileCombo");
-
-    QCOMPARE(profileCBox != nullptr, true);
-    qDebug() << "Compare:" << profileCBox->currentText() << "<->" << testProfileName;
-    QCOMPARE(profileCBox->currentText() == testProfileName, true);
-    QThread::msleep(1000);
-    // Click on "Edit profile" button
-    QPushButton* editButton = ekos->findChild<QPushButton*>("editProfileB");
-
-    QCOMPARE(editButton != nullptr, true);
-    QTest::mouseClick(editButton, Qt::LeftButton);
-    QThread::msleep(1000);
-    // Verify the Profile Editor dialog
-    ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
-
-    QCOMPARE(profileEditor != nullptr, true);
-    // Verify the selected drivers
-    QLineEdit* profileNameLE = ekos->findChild<QLineEdit*>("profileIN");
-    QComboBox* mountCBox = ekos->findChild<QComboBox*>("mountCombo");
-    QComboBox* ccdCBox = ekos->findChild<QComboBox*>("ccdCombo");
-
-    QCOMPARE(profileNameLE != nullptr, true);
-    QCOMPARE(mountCBox != nullptr, true);
-    QCOMPARE(ccdCBox != nullptr, true);
-    QCOMPARE(profileNameLE->text(), testProfileName);
-    QCOMPARE(mountCBox->currentText() == "EQMod Mount", true);
-    QCOMPARE(ccdCBox->currentText() == "Canon DSLR", true);
-    // Cancel the dialog
-    profileEditor->reject();
-    QThread::msleep(2000);
-    // Hide Ekos Manager by clicking on the toolbar icon
-    action->trigger();
-    QThread::msleep(1000);
-    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
-    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
-}
-
-void KStarsUiTests::verifyEkosProfile()
-{
-    QFuture<void> testFuture = QtConcurrent::run(verifyEkosProfileTest);
-
-    while (!testFuture.isFinished())
-    {
-        QCoreApplication::instance()->processEvents();
-        usleep(20*1000);
-    }
-}
-
-void removeEkosProfileTest()
-{
-    waitForKStars();
-    // Show/verify Ekos dialog
-    QAction *action = kstarsInstance->actionCollection()->action("show_ekos");
-
-    QCOMPARE(action != nullptr, true);
-    action->trigger();
-    QThread::msleep(500);
-    Ekos::Manager *ekos = Ekos::Manager::Instance();
-
-    QCOMPARE(ekos != nullptr, true);
-    QCOMPARE(ekos->isVisible(), true);
-    QCOMPARE(ekos->isActiveWindow(), true);
-    // Verify that the test profile exists
-    QComboBox* profileCBox = ekos->findChild<QComboBox*>("profileCombo");
-
-    QCOMPARE(profileCBox != nullptr, true);
-    QCOMPARE(profileCBox->currentText() == testProfileName, true);
-    QThread::msleep(500);
-    // Click on "Remove profile" button
-    QPushButton* removeButton = ekos->findChild<QPushButton*>("deleteProfileB");
-
-    QCOMPARE(removeButton != nullptr, true);
-    QTest::mouseClick(removeButton, Qt::LeftButton);
-    QThread::msleep(1000);
-    // Verify the confirmation dialog
-    // This trick is from https://stackoverflow.com/questions/38596785
-    QWidget* dialog = QApplication::activeModalWidget();
-
-    QCOMPARE(dialog != nullptr, true);
-    QDialogButtonBox* buttons = ekos->findChild<QDialogButtonBox*>();
-
-    QCOMPARE(buttons != nullptr, true);
-    QTest::mouseClick(buttons->button(QDialogButtonBox::Yes), Qt::LeftButton);
-    QThread::msleep(500);
-    // Verify that the test profile does not exist
-    bool found = false;
-
-    for (int i = 0; i < profileCBox->count(); ++i)
-    {
-        qDebug() << "Compare: " << profileCBox->itemText(i) << "<->" << testProfileName;
-        if (profileCBox->itemText(i) == testProfileName)
-        {
-            found = true;
-        }
-    }
-    QCOMPARE(found, false);
-    // Hide Ekos Manager by clicking on the toolbar icon
-    action->trigger();
-    QThread::msleep(1000);
-    QCOMPARE(!Ekos::Manager::Instance()->isVisible(), true);
-    QCOMPARE(!Ekos::Manager::Instance()->isActiveWindow(), true);
-}
-
-void KStarsUiTests::removeEkosProfile()
-{
-    QFuture<void> testFuture = QtConcurrent::run(removeEkosProfileTest);
-
-    while (!testFuture.isFinished())
-    {
-        QCoreApplication::instance()->processEvents();
-        usleep(20*1000);
-    }
-}
+    initEkos();
 #endif
+}
 
-QTEST_MAIN(KStarsUiTests);
+void KStarsUiTests::cleanup()
+{
+    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
+        if (d->isVisible())
+            d->hide();
+
+#if defined(HAVE_INDI)
+    cleanupEkos();
+#endif
+}
+
+// All QTest features are macros returning with no error code.
+// Therefore, in order to bail out at first failure, tests cannot use functions to run sub-tests and are required to use grouping macros too.
+
+ void KStarsUiTests::basicTest()
+{
+    QVERIFY(true);
+}
+
+void KStarsUiTests::warnTest()
+{
+    QWARN("This is a test expected to print a warning message.");
+}
+
+void KStarsUiTests::raiseKStarsTest()
+{
+    KTRY_SHOW_KSTARS(K);
+}
+
+// We want to launch the application before running our tests
+// Thus we want to explicitely call QApplication::exec(), and run our tests in parallel of the event loop
+// We then reimplement QTEST_MAIN(KStarsUiTests);
+// The same will have to be done when interacting with a modal dialog: exec() in main thread, tests in timer-based thread
+
+QT_BEGIN_NAMESPACE
+QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS
+QT_END_NAMESPACE
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    app.setAttribute(Qt::AA_Use96Dpi, true);
+    QTEST_ADD_GPU_BLACKLIST_SUPPORT
+    QApplication::processEvents();
+    KStarsUiTests * tc = new KStarsUiTests();
+    QTEST_SET_MAIN_SOURCE_PATH
+    QTimer::singleShot(1000, &app, [=]() { return QTest::qExec(tc, argc, argv); });
+    QTimer::singleShot(30000, &app, &QCoreApplication::quit);
+    app.exec();
+}
+
