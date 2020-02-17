@@ -1809,6 +1809,7 @@ bool Capture::resumeSequence()
                 emit resetFocus();
 
             // force refocus
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1812.";
             emit checkFocus(0.1);
 
             m_State = CAPTURE_FOCUSING;
@@ -1836,9 +1837,15 @@ bool Capture::resumeSequence()
                 targetChip->abortExposure();
 
             if (HFRPixels->value() == 0)
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1841.";
                 emit checkFocus(0.1);
+            }
             else
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1846.";
                 emit checkFocus(HFRPixels->value());
+            }
 
             qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
 
@@ -1894,6 +1901,7 @@ bool Capture::startFocusIfRequired()
             emit resetFocus();
 
         // force refocus
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1904.";
         emit checkFocus(0.1);
 
         m_State = CAPTURE_FOCUSING;
@@ -1922,9 +1930,15 @@ bool Capture::startFocusIfRequired()
             targetChip->abortExposure();
 
         if (HFRPixels->value() == 0)
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1934.";
             emit checkFocus(0.1);
+        }
         else
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1939.";
             emit checkFocus(HFRPixels->value());
+        }
 
         qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
 
@@ -2169,6 +2183,7 @@ bool Capture::resumeCapture()
         requiredAutoFocusStarted = true;
         secondsLabel->setText(i18n("Focusing..."));
         qCDebug(KSTARS_EKOS_CAPTURE) << "Requesting focusing if HFR >" << HFRPixels->value();
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 2186.";
         emit checkFocus(HFRPixels->value());
         m_State = CAPTURE_FOCUSING;
         emit newStatus(Ekos::CAPTURE_FOCUSING);
@@ -2179,6 +2194,7 @@ bool Capture::resumeCapture()
         appendLogText(i18n("Scheduled refocus started..."));
 
         secondsLabel->setText(i18n("Focusing..."));
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 2197.";
         emit checkFocus(0.1);
         m_State = CAPTURE_FOCUSING;
         emit newStatus(Ekos::CAPTURE_FOCUSING);

@@ -1554,9 +1554,10 @@ void CCD::processBLOB(IBLOB *bp)
     if (!strcmp(bp->name, "CCD2"))
         targetChip = guideChip.get();
     else
+    {
         targetChip = primaryChip.get();
-
-    //qCDebug(KSTARS_INDI) << "processBLOB() mode " << targetChip->getCaptureMode();
+        qCDebug(KSTARS_INDI) << "processBLOB() mode " << targetChip->getCaptureMode();
+    }
 
     // Create temporary name if ANY of the following conditions are met:
     // 1. file is preview or batch mode is not enabled
