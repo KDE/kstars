@@ -22,7 +22,6 @@
 #include <indiproperty.h>
 
 #include <KLed>
-#include <KSqueezedTextLabel>
 
 #include <QAbstractButton>
 #include <QButtonGroup>
@@ -115,10 +114,10 @@ void INDI_P::initGUI()
         if (label == "(I18N_EMPTY_MESSAGE)")
             label = name.toUtf8();
 
-        labelW.reset(new KSqueezedTextLabel(label, pg->getContainer()));
+        labelW.reset(new QLabel(label, pg->getContainer()));
     }
     else
-        labelW.reset(new KSqueezedTextLabel(label, pg->getContainer()));
+        labelW.reset(new QLabel(label, pg->getContainer()));
 
     //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     labelW->setFrameShape(QFrame::Box);
