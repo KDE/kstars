@@ -8,6 +8,7 @@
 */
 
 #include "filtermanager.h"
+#include <kstars_debug.h>
 
 #include "indi_debug.h"
 #include "kstarsdata.h"
@@ -537,6 +538,7 @@ bool FilterManager::executeOperationQueue()
 
         case FILTER_AUTOFOCUS:
             state = FILTER_AUTOFOCUS;
+            qCDebug(KSTARS) << "FilterManager.cpp is triggering autofocus.";
             emit newStatus(state);
             emit checkFocus(0.01);
             break;

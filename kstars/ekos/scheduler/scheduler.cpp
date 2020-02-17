@@ -3481,7 +3481,10 @@ void Scheduler::getNextAction()
                 if (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
                     startSlew();
                 else if (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+                  {
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 3485";
                     startFocusing();
+                  }
                 else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
                     startAstrometry();
                 else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
@@ -3507,7 +3510,10 @@ void Scheduler::getNextAction()
 
         case SchedulerJob::STAGE_SLEW_COMPLETE:
             if (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+              {
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 3514";
                 startFocusing();
+              }
             else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
                 startAstrometry();
             else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
@@ -3534,7 +3540,10 @@ void Scheduler::getNextAction()
             // frame is ready for the capture module in-sequence-focus procedure.
             if ((currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS) && currentJob->getInSequenceFocus())
                 // Post alignment re-focusing
+              {
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 3544";
                 startFocusing();
+              }
             else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
                 startGuiding();
             else
@@ -6871,6 +6880,7 @@ void Scheduler::setFocusStatus(Ekos::FocusState status)
                 // Reset frame to original size.
                 focusInterface->call(QDBus::AutoDetect, "resetFrame");
                 // Restart focusing
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 6883";
                 startFocusing();
             }
             else
