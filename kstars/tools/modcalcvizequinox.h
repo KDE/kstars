@@ -48,8 +48,8 @@ class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
   private:
     void processLines(QTextStream &istream);
     void addDateAxes();
-    KStarsDateTime findEquinox(int year, bool Spring, KPlotObject *po);
-    KStarsDateTime findSolstice(int year, bool Summer);
+    void findSolsticeAndEquinox(uint32_t year);
+    qreal FindCorrection(uint32_t year);
 
   public:
     KStarsDateTime dSpring, dSummer, dAutumn, dWinter;

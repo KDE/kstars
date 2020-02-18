@@ -203,10 +203,8 @@ void modCalcEquinox::slotCompute()
     }
     Plot->addPlotObject(ecl);
 
-    dSpring = findEquinox(Year->value(), true, ecl);
-    dSummer = findSolstice(Year->value(), true);
-    dAutumn = findEquinox(Year->value(), false, ecl);
-    dWinter = findSolstice(Year->value(), false);
+    // Calculate dates for all solstices and equinoxes
+    findSolsticeAndEquinox(Year->value());
 
     //Display the Date/Time of each event in the text fields
     VEquinox->setText(QLocale().toString(dSpring, QLocale::LongFormat));
@@ -264,117 +262,164 @@ void modCalcEquinox::addDateAxes()
     }
 }
 
-KStarsDateTime modCalcEquinox::findEquinox(int year, bool Spring, KPlotObject *ecl)
+// Calculate and store dates for all solstices and equinoxes
+void modCalcEquinox::findSolsticeAndEquinox(uint32_t year)
 {
-    // Interpolate to find the moment when the Sun crosses the equator
-    // Set initial guess in February or August to be sure that this
-    // point is before equinox.
-    const int month = Spring ? 2 : 8;
-    int i           = QDate(year, month, 1).dayOfYear();
-    double dec1, dec2;
-    dec2 = ecl->points().at(i)->y();
-    do
+    // All the magic numbers are taken from Meeus - 1991 chapter 27
+    qreal m, jdme[4];
+    if(year > 1000)
     {
-        ++i;
-        dec1 = dec2;
-        dec2 = ecl->points().at(i)->y();
+        m = (year-2000.0) / 1000.0;
+        jdme[0] = (-0.00057 * qPow(m, 4)) + (-0.00411 * qPow(m, 3)) + (0.05169 * qPow(m, 2)) + (365242.37404 * m) + 2451623.80984;
+        jdme[1] = (-0.0003 * qPow(m, 4)) + (0.00888 * qPow(m, 3)) + (0.00325 * qPow(m, 2)) + (365241.62603 * m) + 2451716.56767;
+        jdme[2] = (0.00078 * qPow(m, 4)) + (0.00337 * qPow(m, 3)) + (-0.11575 * qPow(m, 2)) + (365242.01767 * m) + 2451810.21715;
+        jdme[3] = (0.00032 * qPow(m, 4)) + (-0.00823 * qPow(m, 3)) + (-0.06223 * qPow(m, 2)) + (365242.74049 * m) + 2451900.05952;
     }
-    while (dec1 * dec2 > 0.0);   //when dec1*dec2<0.0, we bracket the zero
+    else
+    {
+        m = year / 1000.0;
+        jdme[0] = (-0.00071 * qPow(m, 4)) + (0.00111 * qPow(m, 3)) + (0.06134 * qPow(m, 2)) + (365242.13740 * m) + 1721139.29189;
+        jdme[1] = (0.00025 * qPow(m, 4)) + (0.00907 * qPow(m, 3)) + (-0.05323 * qPow(m, 2)) + (365241.72562 * m) + 1721233.25401;
+        jdme[2] = (0.00074 * qPow(m, 4)) + (-0.00297 * qPow(m, 3)) + (-0.11677 * qPow(m, 2)) + (365242.49558 * m) + 1721325.70455;
+        jdme[3] = (-0.00006 * qPow(m, 4)) + (-0.00933 * qPow(m, 3)) + (-0.00769 * qPow(m, 2)) + (365242.88257 * m) + 1721414.39987;
+    }
 
-    double x1 = ecl->points().at(i - 1)->x();
-    double x2 = ecl->points().at(i)->x();
-    double d  = fabs(dec2 - dec1);
-    double f  = 1.0 - fabs(dec2) / d; //fractional distance of the zero, from point1 to point2
+    qreal t[4];
+    for(int i = 0; i < 4; i++)
+    {
+        t[i] = (jdme[i] - 2451545)/36525;
+    }
 
-    KStarsDateTime dt0(QDate(year, 1, 1), QTime(0, 0, 0));
-    KStarsDateTime dt = dt0.addSecs(86400.0 * (x1 - 1 + f * (x2 - x1)));
-    return dt;
+    qreal a[4][24] = {{485, 203, 199, 182, 156, 136, 77, 74, 70, 58, 52, 50, 45, 44, 29, 18, 17, 16, 14, 12, 12, 12, 9, 8}, {485, 203, 199, 182, 156, 136, 77, 74, 70, 58, 52, 50, 45, 44, 29, 18, 17, 16, 14, 12, 12, 12, 9, 8}, {485, 203, 199, 182, 156, 136, 77, 74, 70, 58, 52, 50, 45, 44, 29, 18, 17, 16, 14, 12, 12, 12, 9, 8}, {485, 203, 199, 182, 156, 136, 77, 74, 70, 58, 52, 50, 45, 44, 29, 18, 17, 16, 14, 12, 12, 12, 9, 8}};
+
+    qreal b[4][24] = {{324.96, 337.23, 342.08, 27.85, 73.14, 171.52, 222.54, 296.72, 243.58, 119.81, 297.17, 21.02, 247.54, 325.15, 60.93, 155.12, 288.79, 198.04, 199.76, 95.39, 287.11, 320.81, 227.73, 15.45}, {324.96, 337.23, 342.08, 27.85, 73.14, 171.52, 222.54, 296.72, 243.58, 119.81, 297.17, 21.02, 247.54, 325.15, 60.93, 155.12, 288.79, 198.04, 199.76, 95.39, 287.11, 320.81, 227.73, 15.45}, {324.96, 337.23, 342.08, 27.85, 73.14, 171.52, 222.54, 296.72, 243.58, 119.81, 297.17, 21.02, 247.54, 325.15, 60.93, 155.12, 288.79, 198.04, 199.76, 95.39, 287.11, 320.81, 227.73, 15.45}, {324.96, 337.23, 342.08, 27.85, 73.14, 171.52, 222.54, 296.72, 243.58, 119.81, 297.17, 21.02, 247.54, 325.15, 60.93, 155.12, 288.79, 198.04, 199.76, 95.39, 287.11, 320.81, 227.73, 15.45}};
+
+    qreal c[] = {1934.136, 32964.467, 20.186, 445267.112, 45036.886, 22518.443, 65928.934, 3034.906, 9037.513, 33718.147, 150.678, 2281.226, 29929.562, 31555.956, 4443.417, 67555.328, 4562.452, 62894.029, 31436.921, 14577.848, 31931.756, 34777.259, 1222.114, 16859.074};
+
+    qreal d[4][24];
+
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            d[i][j] = c[j] * t[i];
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            d[i][j] = qCos(qDegreesToRadians(b[i][j] + d[i][j]));
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            d[i][j] = d[i][j] * a[i][j];
+        }
+    }
+
+    qreal e[4], f[4], g[4], jd[4];
+
+    for (int i = 0; i < 4; i++)
+    {
+        e[i] = 0;
+        for (int j = 0; j < 24; j++)
+        {
+            e[i] += d[i][j];
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        f[i] = (35999.373*t[i]-2.47);
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        g[i] = 1 + (0.0334 * qCos(qDegreesToRadians(f[i]))) + (0.0007 * qCos(qDegreesToRadians(2*f[i])));
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        jd[i] = jdme[i] + (0.00001*e[i]/g[i]);
+    }
+
+    // Get correction
+    qreal correction = FindCorrection(year);
+
+    for (int i = 0; i < 4; i++)
+    {
+        KStarsDateTime dt(jd[i]);
+
+        // Apply correction
+        dt = dt.addSecs(correction);
+
+        switch(i)
+        {
+            case 0 :
+                dSpring = dt;
+                break;
+            case 1 :
+                dSummer = dt;
+                break;
+            case 2 :
+                dAutumn = dt;
+                break;
+            case 3 :
+                dWinter = dt;
+                break;
+        }
+    }
 }
 
-KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
+qreal modCalcEquinox::FindCorrection(uint32_t year)
 {
-    //Find the moment when the Sun reaches maximum declination
-    //First find three points which bracket the maximum (i.e., x2 > x1,x3)
-    //Start at June 16th, which will always be approaching the solstice
+    int tblFirst = 1620, tblLast = 2002;
 
-    long double jd1, jd2, jd3, jd4;
-    double y2(0.0), y3(0.0), y4(0.0);
-    int month = 6;
-    if (!Summer)
-        month = 12;
+    // Corrections taken from Meeus -1991 chapter 10
+    qreal tbl[] = {/*1620*/ 121,112,103, 95, 88,  82, 77, 72, 68, 63,  60, 56, 53, 51, 48,  46, 44, 42, 40, 38,
+            /*1660*/  35, 33, 31, 29, 26,  24, 22, 20, 18, 16,  14, 12, 11, 10,  9,   8,  7,  7,  7,  7,
+            /*1700*/   7,  7,  8,  8,  9,   9,  9,  9,  9, 10,  10, 10, 10, 10, 10,  10, 10, 11, 11, 11,
+            /*1740*/  11, 11, 12, 12, 12,  12, 13, 13, 13, 14,  14, 14, 14, 15, 15,  15, 15, 15, 16, 16,
+            /*1780*/  16, 16, 16, 16, 16,  16, 15, 15, 14, 13,
+            /*1800*/ 13.1, 12.5, 12.2, 12.0, 12.0,  12.0, 12.0, 12.0, 12.0, 11.9,  11.6, 11.0, 10.2,  9.2,  8.2,
+            /*1830*/  7.1,  6.2,  5.6,  5.4,  5.3,   5.4,  5.6,  5.9,  6.2,  6.5,   6.8,  7.1,  7.3,  7.5,  7.6,
+            /*1860*/  7.7,  7.3,  6.2,  5.2,  2.7,   1.4, -1.2, -2.8, -3.8, -4.8,  -5.5, -5.3, -5.6, -5.7, -5.9,
+            /*1890*/ -6.0, -6.3, -6.5, -6.2, -4.7,  -2.8, -0.1,  2.6,  5.3,  7.7,  10.4, 13.3, 16.0, 18.2, 20.2,
+            /*1920*/ 21.1, 22.4, 23.5, 23.8, 24.3,  24.0, 23.9, 23.9, 23.7, 24.0,  24.3, 25.3, 26.2, 27.3, 28.2,
+            /*1950*/ 29.1, 30.0, 30.7, 31.4, 32.2,  33.1, 34.0, 35.0, 36.5, 38.3,  40.2, 42.2, 44.5, 46.5, 48.5,
+            /*1980*/ 50.5, 52.5, 53.8, 54.9, 55.8,  56.9, 58.3, 60.0, 61.6, 63.0,  63.8, 64.3};
 
-    jd3 = KStarsDateTime(QDate(year, month, 16), QTime(0, 0, 0)).djd();
-    KSNumbers num(jd3);
-    KSSun Sun;
-    Sun.findPosition(&num);
-    y3 = Sun.dec().Degrees();
+    qreal deltaT = 0;
+    qreal t = (year - 2000.0)/100.0;
 
-    int sgn = 1;
-    if (!Summer)
-        sgn = -1; //find minimum if the winter solstice is sought
-
-    do
+    if(year >= tblFirst && year <= tblLast)
     {
-        jd3 += 1.0;
-        num.updateValues(jd3);
-        Sun.findPosition(&num);
-        y2 = y3;
-        Sun.findPosition(&num);
-        y3 = Sun.dec().Degrees();
-    }
-    while (y3 * sgn > y2 * sgn);
-
-    //Ok, now y2 is larger(smaller) than both y3 and y1.
-    // Never read back
-    //    jd2 = jd3 - 1.0;
-    jd1 = jd3 - 2.0;
-
-    //Choose a new starting jd2 that follows the golden ratio:
-    // a/b = 1.618; a+b = 2...a = 0.76394
-    jd2 = jd1 + 0.76394;
-    num.updateValues(jd2);
-    Sun.findPosition(&num);
-    y2 = Sun.dec().Degrees();
-
-    while (jd3 - jd1 > 0.0005) //sub-minute precision
-    {
-        jd4 = jd1 + jd3 - jd2;
-
-        num.updateValues(jd4);
-        Sun.findPosition(&num);
-        y4 = Sun.dec().Degrees();
-
-        if (y4 * sgn > y2 * sgn) //make jd4 the new center
+        if(year % 2)
         {
-            if (jd4 > jd2)
-            {
-                jd1 = jd2;
-                jd2 = jd4;
-                y2  = y4;
-            }
-            else
-            {
-                jd3 = jd2;
-                // Never read back
-                //                y3  = y2;
-                jd2 = jd4;
-                y2  = y4;
-            }
+            deltaT = (tbl[(year-tblFirst-1)/2] + tbl[(year-tblFirst+1)/2]) / 2;
         }
-        else //make jd4 a new endpoint
+        else
         {
-            if (jd4 > jd2)
-            {
-                jd3 = jd4;
-                // Never read back
-                //                y3  = y4;
-            }
-            else
-            {
-                jd1 = jd4;
-            }
+            deltaT = tbl[(year-tblFirst)/2];
         }
     }
-
-    return KStarsDateTime(jd2);
+    else if(year < 948)
+    {
+        deltaT = 2177 + 497*t + 44.1*qPow(t, 2);
+    }
+    else if(year >= 948)
+    {
+        deltaT =  102 + 102*t + 25.3*qPow(t, 2);
+        if (year>=2000 && year <=2100)
+        {
+            // Special correction to avoid discontinuity in 2000
+            deltaT += 0.37 * ( year - 2100.0 );
+        }
+    }
+    return -deltaT;
 }
