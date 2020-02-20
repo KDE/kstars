@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>429</width>
-    <height>466</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -319,19 +319,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="kcfg_ResetGuideCalibration">
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When guiding is started, always clear calibration. Turning off this option can lead to unpredictable guiding failures.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="statusTip">
-       <string/>
-      </property>
-      <property name="text">
-       <string>Always Reset Guide Calibration</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -636,7 +623,8 @@
           <string>Clear DSLR Info</string>
          </property>
          <property name="icon">
-          <iconset theme="edit-clear"/>
+          <iconset theme="edit-clear">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="iconSize">
           <size>
