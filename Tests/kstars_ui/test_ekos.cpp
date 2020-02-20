@@ -195,11 +195,11 @@ void KStarsUiTests::manipulateEkosProfiles()
 
         QComboBox* mountCBox = ekos->findChild<QComboBox*>("mountCombo");
         QVERIFY(mountCBox != nullptr);
-        QCOMPARE(mountCBox->currentText(),"Telescope Simulator");
+        QCOMPARE(mountCBox->currentText(), QString("Telescope Simulator"));
 
         QComboBox* ccdCBox = ekos->findChild<QComboBox*>("ccdCombo");
         QVERIFY(ccdCBox != nullptr);
-        QCOMPARE(ccdCBox->currentText(), "CCD Simulator");
+        QCOMPARE(ccdCBox->currentText(), QString("CCD Simulator"));
 
         // Cancel the dialog using the "Close" button
         QDialogButtonBox* buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");
