@@ -3400,7 +3400,7 @@ void Manager::syncActiveDevices()
     for (auto oneDevice : genericDevices)
     {
         // Find out what ACTIVE_DEVICES properties this driver needs
-        // and update it from the the existing drivers.
+        // and update it from the existing drivers.
         ITextVectorProperty *tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (tvp)
         {

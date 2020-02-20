@@ -1019,7 +1019,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", properties}}).toJson(QJsonDocument::Compact));
     }
     // Subscribe to one or more properties
-    // When subscribed, the updates are immediately pushed as soon as they are recieved.
+    // When subscribed, the updates are immediately pushed as soon as they are received.
     else if (command == commands[DEVICE_PROPERTY_SUBSCRIBE])
     {
         m_PropertySubscriptions.insert(payload["property"].toString());

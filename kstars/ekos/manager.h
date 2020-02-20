@@ -92,7 +92,7 @@ class Manager : public QDialog, public Ui::Manager
         static void release();
 
         // No OP
-        void initilize() {}
+        void initialize() {}
 
         void appendLogText(const QString &);
         void setOptionsWidget(KPageWidgetItem *ops)

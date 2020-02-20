@@ -91,7 +91,7 @@ void KStarsUiTests::raiseKStarsTest()
 }
 
 // We want to launch the application before running our tests
-// Thus we want to explicitely call QApplication::exec(), and run our tests in parallel of the event loop
+// Thus we want to explicitly call QApplication::exec(), and run our tests in parallel of the event loop
 // We then reimplement QTEST_MAIN(KStarsUiTests);
 // The same will have to be done when interacting with a modal dialog: exec() in main thread, tests in timer-based thread
 
