@@ -6,183 +6,213 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>272</width>
-    <height>170</height>
+    <width>269</width>
+    <height>178</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
-    <number>5</number>
+    <number>3</number>
    </property>
    <property name="leftMargin">
-    <number>5</number>
+    <number>3</number>
    </property>
    <property name="topMargin">
-    <number>5</number>
+    <number>3</number>
    </property>
    <property name="rightMargin">
-    <number>5</number>
+    <number>3</number>
    </property>
    <property name="bottomMargin">
-    <number>5</number>
+    <number>3</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Settings</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
-      <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="1">
-         <widget class="QLabel" name="l_29">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Settings</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="1">
+           <widget class="QLabel" name="l_29">
+            <property name="text">
+             <string>Pulse:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QSpinBox" name="kcfg_AutoModeIterations">
+            <property name="minimum">
+             <number>3</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QSpinBox" name="kcfg_CalibrationPulseDuration">
+            <property name="minimum">
+             <number>100</number>
+            </property>
+            <property name="maximum">
+             <number>5000</number>
+            </property>
+            <property name="singleStep">
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>1000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Iterations:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_TwoAxisEnabled">
           <property name="text">
-           <string>Pulse:</string>
+           <string>Two axis</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
-         <widget class="QSpinBox" name="kcfg_AutoModeIterations">
-          <property name="minimum">
-           <number>3</number>
+        <item>
+         <widget class="QCheckBox" name="kcfg_GuideAutoSquareSizeEnabled">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
-          <property name="maximum">
-           <number>10</number>
+          <property name="toolTip">
+           <string>Automatically select the square size based on the selected star width.</string>
           </property>
-          <property name="value">
-           <number>5</number>
+          <property name="text">
+           <string>Auto Square Size</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QSpinBox" name="kcfg_CalibrationPulseDuration">
-          <property name="minimum">
-           <number>100</number>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Reticle</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="l_26">
+          <property name="text">
+           <string>X:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDoubleSpinBox" name="spinBox_ReticleX">
           <property name="maximum">
-           <number>5000</number>
+           <double>5000.000000000000000</double>
           </property>
-          <property name="singleStep">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>1000</number>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="l_27">
+          <property name="text">
+           <string>Y:</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="label">
+         <widget class="QDoubleSpinBox" name="spinBox_ReticleY">
+          <property name="maximum">
+           <double>5000.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="l_28">
           <property name="text">
-           <string>Iterations:</string>
+           <string>Angle:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="spinBox_ReticleAngle">
+          <property name="maximum">
+           <double>360.000000000000000</double>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_TwoAxisEnabled">
-        <property name="text">
-         <string>Two axis</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_GuideAutoSquareSizeEnabled">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Automatically select the square size based on the selected star width.</string>
-        </property>
-        <property name="text">
-         <string>Auto Square Size</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_ResetGuideCalibration">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When guiding is started, always clear calibration. Turning off this option can lead to unpredictable guiding failures.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Reset Guide Calibration After Each Mount Slew</string>
+     </property>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Reticle</string>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="l_26">
-        <property name="text">
-         <string>X:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="spinBox_ReticleX">
-        <property name="maximum">
-         <double>5000.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="l_27">
-        <property name="text">
-         <string>Y:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="spinBox_ReticleY">
-        <property name="maximum">
-         <double>5000.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="l_28">
-        <property name="text">
-         <string>Angle:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="spinBox_ReticleAngle">
-        <property name="maximum">
-         <double>360.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
