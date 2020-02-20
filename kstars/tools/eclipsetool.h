@@ -44,7 +44,7 @@ class EclipseModel : public QAbstractTableModel
         int columnCount(const QModelIndex &parent = QModelIndex()) const override
         {
             Q_UNUSED(parent);
-            return COLLUMNS;
+            return COLUMNS;
         }
         QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
         QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
@@ -88,7 +88,7 @@ class EclipseModel : public QAbstractTableModel
 
     private:
         EclipseHandler::EclipseVector m_eclipses;
-        const int COLLUMNS { 5 };
+        const int COLUMNS { 5 };
 };
 
 /**

@@ -53,7 +53,7 @@ void Weather::processNumber(INumberVectorProperty *nvp)
         return;
     std::vector<WeatherData> entries;
 
-    // read all sensor values recieved
+    // read all sensor values received
     for (int i = 0; i < nvp->nnp; i++)
     {
         INumber number = nvp->np[i];

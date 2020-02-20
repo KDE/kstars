@@ -829,7 +829,7 @@ void KStars::datainitFinished()
     }
 
 #ifdef HAVE_INDI
-    Ekos::Manager::Instance()->initilize();
+    Ekos::Manager::Instance()->initialize();
 #endif
 }
 
