@@ -258,7 +258,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "CCD_EXPOSURE"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                //if (gd->getType() != KSTARS_CCD)
+                if (gd->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
                 {
                     devices.removeOne(gd);
                     gd = new ISD::CCD(gd);
