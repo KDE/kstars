@@ -180,7 +180,7 @@ else()
     endif()
 endif()
 MACRO_BOOL_TO_01(CFITSIO_FOUND HAVE_CFITSIO)
-set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
+set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
 ## INDI Library
 if (ANDROID)
@@ -205,7 +205,7 @@ else ()
     find_package(INDI 1.7.1)
 endif ()
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
-set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
+set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
 ## Libraw
 if(BUILD_KSTARS_LITE AND ANDROID)
@@ -228,12 +228,12 @@ else()
     find_package(LibRaw)
 endif()
 MACRO_BOOL_TO_01(LibRaw_FOUND HAVE_LIBRAW)
-set_package_properties(LibRaw PROPERTIES DESCRIPTION "Library for reading RAW files" URL "http://www.libraw.org" TYPE OPTIONAL PURPOSE "Support for reading and displaying RAW files in KStars.")
+set_package_properties(LibRaw PROPERTIES DESCRIPTION "Library for reading RAW files" URL "https://www.libraw.org/" TYPE OPTIONAL PURPOSE "Support for reading and displaying RAW files in KStars.")
 
 ## WCS Library
 find_package(WCSLIB)
 MACRO_BOOL_TO_01(WCSLIB_FOUND HAVE_WCSLIB)
-set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System library" URL "http://www.atnf.csiro.au/people/mcalabre/WCS" TYPE OPTIONAL PURPOSE "WCS enables KStars to read and process world coordinate systems in FITS header.")
+set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System library" URL "https://www.atnf.csiro.au/people/mcalabre/WCS" TYPE OPTIONAL PURPOSE "WCS enables KStars to read and process world coordinate systems in FITS header.")
 
 ## XPlanet
 find_package(Xplanet)
@@ -253,7 +253,7 @@ MACRO_BOOL_TO_01(Qt5Keychain_FOUND HAVE_KEYCHAIN)
 
 ## OpenGL
 find_package(OpenGL)
-set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
+set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "https://www.opengl.org/" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
 
 if (${KF5_VERSION} VERSION_GREATER 5.17.0)
 SET(HAVE_KF5WIT 1)
