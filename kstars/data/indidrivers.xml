@@ -133,6 +133,10 @@
             <driver name="iEQ">indi_ieqlegacy_telescope</driver>
             <version>1.7</version>
         </device>
+        <device label="iOptron SkyGuider Pro" manufacturer="iOptron">
+            <driver name="Telescope Simulator">indi_simulator_telescope</driver>
+            <version>1.0</version>
+        </device>
         <device label="iOptron iEQ30 Pro" manufacturer="iOptron">
             <driver name="iEQ">indi_ieq_telescope</driver>
             <version>1.9</version>
@@ -617,25 +621,25 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true">
             <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ASI EAF">
             <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ASI ST4">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -651,13 +655,13 @@
     <devGroup group="CCDs">
         <device label="Atik CCD" mdpd="true">
             <driver name="Atik">indi_atik_ccd</driver>
-            <version>2.4</version>
+            <version>2.5</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Atik EFW" mdpd="true">
             <driver name="Atik">indi_atik_wheel</driver>
-            <version>2.4</version>
+            <version>2.5</version>
         </device>
     </devGroup>
 </driversList>
@@ -697,45 +701,45 @@
     <devGroup group="Auxiliary">
         <device label="Arduino Simple Switcher" skel="simple_switcher_sk.xml">
             <driver name="Arduino Simple Switcher">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Switcher" skel="switcher_sk.xml">
             <driver name="Arduino Switcher">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Digital Inputs" skel="digital_inputs_sk.xml">
             <driver name="Arduino Demo">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Demo" skel="various_sk.xml">
             <driver name="Arduino Demo">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Stepper" skel="stepper_sk.xml">
             <driver name="Arduino Stepper">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Focuser" skel="focuser_sk.xml">
             <driver name="Arduino Focuser">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Cosmos" skel="cosmos_sk.xml">
             <driver name="Arduino Cosmos">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino Servo" skel="servo_sk.xml">
             <driver name="Arduino Servo">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
     </devGroup>
     <devGroup group="Weather">
         <device label="Arduino MeteoStation" skel="meteostation_sk.xml">
             <driver name="Arduino MeteoStation">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Arduino MeteoStation SQM" skel="meteostationSQM_sk.xml">
             <driver name="Arduino MeteoStation SQM">indi_duino</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -743,7 +747,11 @@
     <devGroup group="Telescopes">
         <device label="EQMod Mount" manufacturer="SkyWatcher">
             <driver name="EQMod Mount">indi_eqmod_telescope</driver>
-            <version>0.8</version>
+            <version>0.9</version>
+        </device>
+        <device label="AZ-GTi" manufacturer="SkyWatcher">
+            <driver name="AZ-GTi">indi_azgti_telescope</driver>
+            <version>0.9</version>
         </device>
     </devGroup>
 </driversList>
@@ -767,19 +775,19 @@
     <devGroup group="CCDs">
         <device label="FLI CCD">
             <driver name="FLI CCD">indi_fli_ccd</driver>
-            <version>1.3</version>
+            <version>1.5</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="FLI PDF">
             <driver name="FLI PDF">indi_fli_focus</driver>
-            <version>1.3</version>
+            <version>1.5</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="FLI CFW">
             <driver name="FLI CFW">indi_fli_wheel</driver>
-            <version>1.3</version>
+            <version>1.5</version>
         </device>
     </devGroup>
 </driversList>
@@ -832,9 +840,9 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Detectors">
-        <device label="LIME-SDR Receiver">
-            <driver name="LIME-SDR Receiver">indi_limesdr_detector</driver>
+    <devGroup group="Spectrographs">
+        <device label="LIME-SDR Spectrograph">
+            <driver name="LIME-SDR Spectrograph">indi_limesdr_detector</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -859,11 +867,11 @@
     <devGroup group="CCDs">
         <device label="MI CCD (USB)">
             <driver name="MI CCD">indi_mi_ccd_usb</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
         <device label="MI CCD (ETH)">
             <driver name="MI CCD">indi_mi_ccd_eth</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -912,9 +920,9 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Detectors">
-        <device label="RTL-SDR Receiver" mdpd="true">
-            <driver name="RTL-SDR Receiver">indi_rtlsdr_detector</driver>
+    <devGroup group="Spectrographs">
+        <device label="RTL-SDR Spectrograph" mdpd="true">
+            <driver name="RTL-SDR Spectrograph">indi_rtlsdr_detector</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -1004,6 +1012,14 @@
         <device label="Levenhuk" mdpd="true">
             <driver name="Levenhuk">indi_nncam_ccd</driver>
             <version>0.2</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Weather">
+        <device label="Weather Radio">
+            <driver name="Weather Radio">indi_weatherradio</driver>
+            <version>0.5</version>
         </device>
     </devGroup>
 </driversList>
