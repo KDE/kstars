@@ -81,6 +81,84 @@ void KStarsUiTests::openEkosTest()
     KVERIFY_EKOS_IS_HIDDEN();
 }
 
+void KStarsUiTests::testdriveSimulatorProfile()
+{
+    KVERIFY_EKOS_IS_HIDDEN();
+    KTRY_OPEN_EKOS();
+    KVERIFY_EKOS_IS_OPENED();
+
+    // Because we don't want to manager the order of tests, we do the profile manipulation in three steps of the same test
+    // We use that poor man's shared variable to hold the result of the first (creation) and second (edition) test step.
+    // The ProfileEditor is exec()'d, so test code must be made asynchronous, and QTimer::singleShot is an easy way to do that.
+    // We use two timers, one to run the end-user test, which eventually will close the dialog, and a second one to really close if the test step fails.
+    bool testIsSuccessful = false;
+
+    Ekos::Manager * const ekos = Ekos::Manager::Instance();
+
+    // --------- First step: selecting the Simulators profile
+
+    QString const testProfileName("Simulators");
+
+    // Verify that the test profile exists, and select it
+    QComboBox* profileCBox = ekos->findChild<QComboBox*>("profileCombo");
+    QVERIFY(profileCBox != nullptr);
+    profileCBox->setCurrentText(testProfileName);
+    QCOMPARE(profileCBox->currentText(), testProfileName);
+
+    // --------- Second step: starting Ekos with the Simulators profile
+
+    QString const buttonReadyToStart("media-playback-start");
+    QString const buttonReadyToStop("media-playback-stop");
+
+    // Check the start button icon as visual feedback about Ekos state, and click to start Ekos
+    QPushButton* startEkos = ekos->findChild<QPushButton*>("processINDIB");
+    QVERIFY(startEkos != nullptr);
+    QVERIFY(!buttonReadyToStart.compare(startEkos->icon().name()));
+    QTest::mouseClick(startEkos, Qt::LeftButton);
+
+    // --------- Third step: waiting for Ekos to finish startup
+
+    // The INDI property pages automatically raised on top, but as we got a handle to the button, we continue to test as is
+
+    // Wait until Ekos gives feedback on the INDI client startup - button changes to symbol "stop"
+    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStop.compare(startEkos->icon().name()), 5000);
+
+    // It might be that our Simulators profile is not auto-connecting and we should do that manually
+    // We assume that by default it's not the case
+
+    // We have no feedback on whether all our devices are connected, so we need to hack a delay in...
+    QWARN("HACK HACK HACK adding delay here for devices to connect");
+    QTest::qWait(5000);
+
+    // Verify the device connection button is unavailable
+    QPushButton * connectDevices = ekos->findChild<QPushButton*>("connectB");
+    QVERIFY(connectDevices != nullptr);
+    QVERIFY(!connectDevices->isEnabled());
+
+    // --------- Fourth step: waiting for Ekos to finish stopping
+
+    // Start button that became a stop button is now disabled - we need to disconnect devices first
+    QVERIFY(!startEkos->isEnabled());
+
+    // Verify the device disconnection button is available
+    QPushButton * disconnectDevices = ekos->findChild<QPushButton*>("disconnectB");
+    QVERIFY(disconnectDevices != nullptr);
+
+    // Disconnect INDI devices
+    QTimer::singleShot(200, ekos, [&]() { QTest::mouseClick(disconnectDevices, Qt::LeftButton); });
+    QWARN("Intentionally leaving a delay here for BZ398192");
+    QTest::qWait(5000);
+
+    // --------- Fifth step: waiting for Ekos to finish stopping
+
+    // Start button that became a stop button has to be available
+    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 5000);
+
+    // Hang INDI client up
+    QTimer::singleShot(200, ekos, [&]() { QTest::mouseClick(startEkos, Qt::LeftButton); });
+    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 5000);
+}
+
 void KStarsUiTests::manipulateEkosProfiles()
 {
     KVERIFY_EKOS_IS_HIDDEN();
