@@ -1578,7 +1578,7 @@ void CCD::processBLOB(IBLOB *bp)
     else
     {
         if (!generateFilename(format, targetChip->isBatchMode(), &filename) ||
-            !writeImageFile(filename, bp, BType == BLOB_FITS))
+                !writeImageFile(filename, bp, BType == BLOB_FITS))
         {
             emit BLOBUpdated(nullptr);
             return;
@@ -1679,9 +1679,11 @@ void CCD::processBLOB(IBLOB *bp)
             emit previewJPEGGenerated(filename, m_ImageViewerWindow->metadata());
         }
     }
-    // Unless we have cfitsio, we're done.
-#ifdef HAVE_CFITSIO
-    if (BType == BLOB_FITS)
+
+    // Load FITS if either:
+    // #1 FITS Viewer is set to enabled.
+    // #2 This is a preview, so we MUST open FITS Viewer even if disabled.
+    if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && BType == BLOB_FITS)
     {
         FITSData *blob_fits_data = new FITSData(targetChip->getCaptureMode());
 
@@ -1699,7 +1701,6 @@ void CCD::processBLOB(IBLOB *bp)
     }
     else
         emit BLOBUpdated(bp);
-#endif
 }
 
 void CCD::displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, FITSData *blob_fits_data)
