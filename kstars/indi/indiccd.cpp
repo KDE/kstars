@@ -93,6 +93,10 @@ bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t 
         n = out.writeRawData(buffer + nr, size - nr);
     file.flush();
     file.close();
+    file.setPermissions(QFileDevice::ReadUser |
+                        QFileDevice::WriteUser |
+                        QFileDevice::ReadGroup |
+                        QFileDevice::ReadOther);
     if (add_fits_keywords)
         addFITSKeywords(filename, filter);
     return true;
@@ -117,7 +121,10 @@ bool writeTempImageFile(const QString &format, char * buffer, size_t size, QStri
         n = out.writeRawData(buffer + nr, size - nr);
     tmpFile.flush();
     tmpFile.close();
-
+    tmpFile.setPermissions(QFileDevice::ReadUser |
+                           QFileDevice::WriteUser |
+                           QFileDevice::ReadGroup |
+                           QFileDevice::ReadOther);
     *filename = tmpFile.fileName();
     return true;
 }
