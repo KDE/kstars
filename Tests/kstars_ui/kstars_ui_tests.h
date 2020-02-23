@@ -60,5 +60,6 @@ private slots:
 
     // Profiles
     void manipulateEkosProfiles();
+    void testdriveSimulatorProfile();
 #endif
 };
