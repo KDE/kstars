@@ -1560,13 +1560,17 @@ bool Capture::setCaptureComplete()
 
     downloadProgressTimer.stop();
 
-    //This determines the time since the image started downloading
-    //Then it gets the estimated time left and displays it in the log.
-    double currentDownloadTime = downloadTimer.elapsed() / 1000.0;
-    downloadTimes << currentDownloadTime;
-    QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
-    QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
-    appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
+    // Do not calculate download time for images stored on server.
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    {
+        //This determines the time since the image started downloading
+        //Then it gets the estimated time left and displays it in the log.
+        double currentDownloadTime = downloadTimer.elapsed() / 1000.0;
+        downloadTimes << currentDownloadTime;
+        QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
+        QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
+        appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
+    }
 
     // In case we're framing, let's start
     if (m_isLooping)
@@ -1623,7 +1627,9 @@ bool Capture::setCaptureComplete()
         inSequenceFocusCounter--;
     }
 
-    sendNewImage(blobFilename, blobChip);
+    // Do not send new image if the image was stored on the server.
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+        sendNewImage(blobFilename, blobChip);
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
