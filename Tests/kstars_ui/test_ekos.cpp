@@ -145,7 +145,10 @@ void KStarsUiTests::testdriveSimulatorProfile()
     QVERIFY(disconnectDevices != nullptr);
 
     // Disconnect INDI devices
-    QTimer::singleShot(200, ekos, [&]() { QTest::mouseClick(disconnectDevices, Qt::LeftButton); });
+    QTimer::singleShot(200, ekos, [&]()
+    {
+        QTest::mouseClick(disconnectDevices, Qt::LeftButton);
+    });
     QWARN("Intentionally leaving a delay here for BZ398192");
     QTest::qWait(5000);
 
@@ -155,7 +158,10 @@ void KStarsUiTests::testdriveSimulatorProfile()
     QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 5000);
 
     // Hang INDI client up
-    QTimer::singleShot(200, ekos, [&]() { QTest::mouseClick(startEkos, Qt::LeftButton); });
+    QTimer::singleShot(200, ekos, [&]()
+    {
+        QTest::mouseClick(startEkos, Qt::LeftButton);
+    });
     QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 5000);
 }
 
@@ -201,7 +207,7 @@ void KStarsUiTests::manipulateEkosProfiles()
         QVERIFY(nullptr != mountCBox);
         QString lookup("Telescope Simulator"); // FIXME: Move this to fixtures
         // Match the text recursively in the model, this results in a model index with a parent
-        QModelIndexList const list = mountCBox->model()->match(mountCBox->model()->index(0,0),Qt::DisplayRole,QVariant::fromValue(lookup),1,Qt::MatchRecursive);
+        QModelIndexList const list = mountCBox->model()->match(mountCBox->model()->index(0, 0), Qt::DisplayRole, QVariant::fromValue(lookup), 1, Qt::MatchRecursive);
         QVERIFY(0 < list.count());
         QModelIndex const &item = list.first();
         //QWARN(QString("Found text '%1' at #%2, parent at #%3").arg(item.data().toString()).arg(item.row()).arg(item.parent().row()).toStdString().data());
