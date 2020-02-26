@@ -4625,7 +4625,7 @@ bool Align::loadAndSlew(QString fileURL)
         return false;
 
     QFileInfo fileInfo(fileURL);
-    QString newFileURL=QDir::tempPath() + "/" + fileInfo.fileName().remove(" ");
+    QString newFileURL = QDir::tempPath() + "/" + fileInfo.fileName().remove(" ");
     QFile::copy(fileURL, newFileURL);
     QFileInfo newFileInfo(newFileURL);
 
@@ -5672,9 +5672,14 @@ void Align::setWCSToggled(bool result)
         pahImageInfos[2]->celestialPole = celestialPolePoint;
 
         // Now find pixel locations for all recorded center coordinates in the 3rd frame reference
-        imageData->wcsToPixel(pahImageInfos[0]->skyCenter, pahImageInfos[0]->pixelCenter, imagePoint);
-        imageData->wcsToPixel(pahImageInfos[1]->skyCenter, pahImageInfos[1]->pixelCenter, imagePoint);
-        imageData->wcsToPixel(pahImageInfos[2]->skyCenter, pahImageInfos[2]->pixelCenter, imagePoint);
+        if (!imageData->wcsToPixel(pahImageInfos[0]->skyCenter, pahImageInfos[0]->pixelCenter, imagePoint) ||
+                !imageData->wcsToPixel(pahImageInfos[1]->skyCenter, pahImageInfos[1]->pixelCenter, imagePoint) ||
+                !imageData->wcsToPixel(pahImageInfos[2]->skyCenter, pahImageInfos[2]->pixelCenter, imagePoint))
+        {
+            appendLogText(i18n("WCS transformation failed: %1", imageData->getLastError()));
+            stopPAHProcess();
+            return;
+        }
 
         qCDebug(KSTARS_EKOS_ALIGN) << "P1 RA: " << pahImageInfos[0]->skyCenter.ra0().toHMSString()
                                    << "DE: " << pahImageInfos[0]->skyCenter.dec0().toDMSString();
