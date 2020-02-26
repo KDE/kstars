@@ -292,16 +292,14 @@ template <typename T> void FITSHistogram::constructHistogram()
                 const int sampleBy = samples > 1000000 ? samples / 1000000 : 1;
                 // The lowest sample value to consider (bottom of the median bin).
                 const T lowValue = (median_bin - 0.5) * binWidth[n] + FITSMin[n];
-                // The highest sample value to consider.
-                const T highValue = lowValue + binWidth[n];
                 // discrete_type is true if T is a float or double.
                 const bool discrete_type = !(std::is_same<T, double>::value || std::is_same<T, float>::value);
-                // If discrete is true, we count how many times the different integers between lowValue
-                // and highValue occur. If it's false, we need to break up the range into intervals
-                // that are not of size 1.0.
+                // If discrete is true, we count how many times the different integers in the bin occur.
+                // If it's false, we need to break up the range into intervals that are not of size 1.0.
                 const bool discrete = discrete_type || binWidth[n] >= 50;
                 constexpr int continuous_num_bins = 100;
-                const int median_num_bins = discrete ? binWidth[n] : continuous_num_bins;
+                // Pad discrete num bins with a few to cover rounding.
+                const int median_num_bins = discrete ? (binWidth[n] + 2) : continuous_num_bins;
                 const double bin_sample_width = discrete ? 1.0 : binWidth[n] / continuous_num_bins;
 
                 // This will contain the frequency counts
@@ -312,11 +310,13 @@ template <typename T> void FITSHistogram::constructHistogram()
                 for (uint32_t i = 0; i < samples; i += sampleBy)
                 {
                     const T value = buffer[i + offset];
-                    if (value >= lowValue && value < highValue)
+                    int32_t origBin = rint((value - FITSMin[n]) / binWidth[n]);
+                    if (origBin == median_bin)
                     {
-                        const int id = discrete ?
+                        int id = discrete ?
                                        value - lowValue :
                                        qMin(median_num_bins - 1, (int) rint((value - lowValue) / bin_sample_width));
+                        if (id >= median_num_bins) id = median_num_bins - 1;
                         median_bin_frequency[id] += sampleBy;
                     }
                 }
