@@ -104,7 +104,7 @@ bool ServerManager::start()
         return false;
     }
 
-    args << "-r" << "0" << "-f" << fifoFile;
+    args << "-m" << "300" << "-r" << "0" << "-f" << fifoFile;
 
     qCDebug(KSTARS_INDI) << "Starting INDI Server: " << args << "-f" << fifoFile;
 
