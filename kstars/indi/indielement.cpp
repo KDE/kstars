@@ -20,7 +20,6 @@
 
 #include <indicom.h>
 
-#include <KSqueezedTextLabel>
 #include <KLocalizedString>
 #include <KLed>
 #include <KMessageBox>
@@ -172,11 +171,11 @@ void INDI_E::setupElementLabel()
 {
     QPalette palette;
 
-    label_w = new KSqueezedTextLabel(guiProp->getGroup()->getContainer());
-    label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
-    label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
-    label_w->setFrameShape(KSqueezedTextLabel::Box);
-    label_w->setFrameShadow(KSqueezedTextLabel::Sunken);
+    label_w = new QLabel(guiProp->getGroup()->getContainer());
+    label_w->setFixedWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
+    label_w->setMinimumHeight(ELEMENT_LABEL_HEIGHT * KStars::Instance()->devicePixelRatio());
+    label_w->setFrameShape(QLabel::Box);
+    label_w->setFrameShadow(QLabel::Sunken);
     label_w->setMargin(2);
 
     palette.setColor(label_w->backgroundRole(), QColor(224, 232, 238));
