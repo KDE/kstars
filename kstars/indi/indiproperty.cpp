@@ -77,9 +77,6 @@ void INDI_P::updateStateLED()
         case IPS_ALERT:
             ledStatus->setColor(Qt::red);
             break;
-
-        default:
-            break;
     }
 }
 
@@ -124,6 +121,7 @@ void INDI_P::initGUI()
     labelW->setFrameShadow(QFrame::Sunken);
     labelW->setMargin(2);
     labelW->setFixedWidth(PROPERTY_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
+    labelW->setMinimumHeight(PROPERTY_LABEL_HEIGHT * KStars::Instance()->devicePixelRatio());
     labelW->setTextFormat(Qt::RichText);
     labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     labelW->setWordWrap(true);
