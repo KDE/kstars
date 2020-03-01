@@ -15,27 +15,41 @@
 #include <QObject>
 #include <QTimer>
 #include <QApplication>
-#include <QTest>
+#include <QtTest>
 
 #include "kstars.h"
 
 class KStars;
 
-#define KTRY_SHOW_KSTARS(K) do { \
-    QTRY_VERIFY_WITH_TIMEOUT((K)->isGUIReady(), 1000); \
+#define KTRY_SHOW_KSTARS() do { \
+    KStars * const K = KStars::Instance(); \
+    QVERIFY(K != nullptr); \
+    QTRY_VERIFY_WITH_TIMEOUT((K)->isGUIReady(), 30000); \
     (K)->raise(); \
     QTRY_VERIFY_WITH_TIMEOUT((K)->isActiveWindow(), 1000); } while(false)
+
+#define KTRY_ACTION(action_text) do { \
+    QAction * const action = KStars::Instance()->actionCollection()->action(action_text); \
+    QVERIFY2(action != nullptr, QString("Action '%1' is not registered and cannot be triggered").arg(action_text).toStdString().c_str()); \
+    action->trigger(); } while(false)
 
 class KStarsUiTests : public QObject
 {
     Q_OBJECT
+public:
+    explicit KStarsUiTests(QObject *parent = nullptr);
 
 public:
-    KStarsUiTests();
-    ~KStarsUiTests() override = default;
+    static struct _InitialConditions
+    {
+        QDateTime dateTime;
+        bool clockRunning;
 
-private:
-    KStars* K {nullptr};
+        _InitialConditions():
+            dateTime(QDate(2020, 01, 01), QTime(23, 0, 0), Qt::UTC),
+            clockRunning(false) {};
+    }
+    const m_InitialConditions;
 
 private slots:
     void initTestCase();
@@ -44,22 +58,8 @@ private slots:
     void init();
     void cleanup();
 
-    void basicTest();
-    void warnTest();
+    void createInstanceTest();
+
+    void initialConditionsTest();
     void raiseKStarsTest();
-
-#if defined(HAVE_INDI)
-private:
-    QString testProfileName;
-    void initEkos();
-    void cleanupEkos();
-
-private slots:
-    // UI
-    void openEkosTest();
-
-    // Profiles
-    void manipulateEkosProfiles();
-    void testdriveSimulatorProfile();
-#endif
 };

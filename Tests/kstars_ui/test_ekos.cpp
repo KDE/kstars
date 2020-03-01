@@ -1,5 +1,5 @@
 /*  KStars UI tests
-    Copyright (C) 218, 2020
+    Copyright (C) 2018, 2020
     Csaba Kertesz <csaba.kertesz@gmail.com>
     Jasem Mutlaq <knro@ikarustech.com>
     Eric Dejouhanet <eric.dejouhanet@gmail.com>
@@ -10,7 +10,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "config-kstars.h"
+#include "test_ekos.h"
 
 #if defined(HAVE_INDI)
 
@@ -34,76 +34,51 @@
 #include <ctime>
 #include <unistd.h>
 
-#define KTRY_ACTION(action_text) do { \
-    QAction * const action = KStars::Instance()->actionCollection()->action(action_text); \
-    QVERIFY(action != nullptr); \
-    action->trigger(); } while(false)
+TestEkos::TestEkos(QObject *parent): QObject(parent)
+{
 
-#define KVERIFY_EKOS_IS_HIDDEN() do { \
-    if (Ekos::Manager::Instance() != nullptr) { \
-        QVERIFY(!Ekos::Manager::Instance()->isVisible()); \
-        QVERIFY(!Ekos::Manager::Instance()->isActiveWindow()); }} while(false)
+}
 
-#define KVERIFY_EKOS_IS_OPENED() do { \
-    QVERIFY(Ekos::Manager::Instance() != nullptr); \
-    QVERIFY(Ekos::Manager::Instance()->isVisible()); \
-    QVERIFY(Ekos::Manager::Instance()->isActiveWindow()); } while(false)
-
-#define KTRY_OPEN_EKOS() do { \
-    if (Ekos::Manager::Instance() == nullptr || !Ekos::Manager::Instance()->isVisible()) { \
-        KTRY_ACTION("show_ekos"); \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance() != nullptr, 200); \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->isVisible(), 200); \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->isActiveWindow(), 200); }} while(false)
-
-#define KTRY_CLOSE_EKOS() do { \
-    if (Ekos::Manager::Instance() != nullptr && Ekos::Manager::Instance()->isVisible()) { \
-        KTRY_ACTION("show_ekos"); \
-        QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->isActiveWindow(), 200); \
-        QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->isVisible(), 200); }} while(false)
-
-void KStarsUiTests::initEkos()
+void TestEkos::initTestCase()
 {
     /* No-op */
 }
 
-void KStarsUiTests::cleanupEkos()
+void TestEkos::cleanupTestCase()
 {
     KTRY_CLOSE_EKOS();
 }
 
-void KStarsUiTests::openEkosTest()
+void TestEkos::init()
 {
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
+}
+
+void TestEkos::cleanup()
+{
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
 
-void KStarsUiTests::testdriveSimulatorProfile()
+void TestEkos::testOpenClose()
 {
-    KVERIFY_EKOS_IS_HIDDEN();
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
+    /* No-op, we just use init+cleanup */
+}
 
-    // Because we don't want to manager the order of tests, we do the profile manipulation in three steps of the same test
-    // We use that poor man's shared variable to hold the result of the first (creation) and second (edition) test step.
-    // The ProfileEditor is exec()'d, so test code must be made asynchronous, and QTimer::singleShot is an easy way to do that.
-    // We use two timers, one to run the end-user test, which eventually will close the dialog, and a second one to really close if the test step fails.
-    bool testIsSuccessful = false;
-
+void TestEkos::testSimulatorProfile()
+{
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
     // --------- First step: selecting the Simulators profile
 
-    QString const testProfileName("Simulators");
-
     // Verify that the test profile exists, and select it
-    QComboBox* profileCBox = ekos->findChild<QComboBox*>("profileCombo");
+    QString const p("Simulators");
+    QComboBox* profileCBox = Ekos::Manager::Instance()->findChild<QComboBox*>("profileCombo");
     QVERIFY(profileCBox != nullptr);
-    profileCBox->setCurrentText(testProfileName);
-    QCOMPARE(profileCBox->currentText(), testProfileName);
+    profileCBox->setCurrentText(p);
+    QTRY_COMPARE(profileCBox->currentText(), p);
 
     // --------- Second step: starting Ekos with the Simulators profile
 
@@ -121,7 +96,7 @@ void KStarsUiTests::testdriveSimulatorProfile()
     // The INDI property pages automatically raised on top, but as we got a handle to the button, we continue to test as is
 
     // Wait until Ekos gives feedback on the INDI client startup - button changes to symbol "stop"
-    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStop.compare(startEkos->icon().name()), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStop.compare(startEkos->icon().name()), 7000);
 
     // It might be that our Simulators profile is not auto-connecting and we should do that manually
     // We assume that by default it's not the case
@@ -135,19 +110,24 @@ void KStarsUiTests::testdriveSimulatorProfile()
     QVERIFY(connectDevices != nullptr);
     QVERIFY(!connectDevices->isEnabled());
 
+    QEXPECT_FAIL("", "Ekos resets the simulation clock when starting a profile.", Continue);
+    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), KStarsUiTests::m_InitialConditions.dateTime.toSecsSinceEpoch());
+
+    QEXPECT_FAIL("", "Ekos resumes the simulation clock when starting a profile.", Continue);
+    QVERIFY(!KStars::Instance()->data()->clock()->isActive());
+
     // --------- Fourth step: waiting for Ekos to finish stopping
 
     // Start button that became a stop button is now disabled - we need to disconnect devices first
     QVERIFY(!startEkos->isEnabled());
 
-    // Verify the device disconnection button is available
-    QPushButton * disconnectDevices = ekos->findChild<QPushButton*>("disconnectB");
-    QVERIFY(disconnectDevices != nullptr);
-
-    // Disconnect INDI devices
-    QTimer::singleShot(200, ekos, [&]()
+    // Verify the device disconnection button is available, disconnect devices
+    QPushButton * const b = ekos->findChild<QPushButton*>("disconnectB");
+    QVERIFY(b != nullptr);
+    QVERIFY(b->isEnabled());
+    QTimer::singleShot(200, Ekos::Manager::Instance(), [&]
     {
-        QTest::mouseClick(disconnectDevices, Qt::LeftButton);
+        QTest::mouseClick(b, Qt::LeftButton);
     });
     QWARN("Intentionally leaving a delay here for BZ398192");
     QTest::qWait(5000);
@@ -155,22 +135,18 @@ void KStarsUiTests::testdriveSimulatorProfile()
     // --------- Fifth step: waiting for Ekos to finish stopping
 
     // Start button that became a stop button has to be available
-    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 7000);
 
     // Hang INDI client up
-    QTimer::singleShot(200, ekos, [&]()
+    QTimer::singleShot(200, ekos, [&]
     {
         QTest::mouseClick(startEkos, Qt::LeftButton);
     });
-    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 7000);
 }
 
-void KStarsUiTests::manipulateEkosProfiles()
+void TestEkos::testManipulateProfiles()
 {
-    KVERIFY_EKOS_IS_HIDDEN();
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
-
     // Because we don't want to manager the order of tests, we do the profile manipulation in three steps of the same test
     // We use that poor man's shared variable to hold the result of the first (creation) and second (edition) test step.
     // The ProfileEditor is exec()'d, so test code must be made asynchronous, and QTimer::singleShot is an easy way to do that.
@@ -178,11 +154,12 @@ void KStarsUiTests::manipulateEkosProfiles()
     bool testIsSuccessful = false;
 
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
+    QString testProfileName = QString("testUI%1").arg(rand() % 100000); // FIXME: Move this to fixtures
 
     // --------- First step: creating the profile
 
     // Because the dialog is modal, the remainder of the test is made asynchronous
-    QTimer::singleShot(200, ekos, [&]()
+    QTimer::singleShot(200, ekos, [&]
     {
         // Find the Profile Editor dialog
         ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
@@ -198,7 +175,6 @@ void KStarsUiTests::manipulateEkosProfiles()
         // Create a test profile
         QLineEdit * const profileNameLE = profileEditor->findChild<QLineEdit*>("profileIN");
         QVERIFY(nullptr != profileNameLE);
-        testProfileName = QString("testUI%1").arg(rand() % 100000); // FIXME: Move this to fixtures
         profileNameLE->setText(testProfileName);
         QCOMPARE(profileNameLE->text(), testProfileName);
 
@@ -237,7 +213,7 @@ void KStarsUiTests::manipulateEkosProfiles()
     QTimer * closeDialog = new QTimer(this);
     closeDialog->setSingleShot(true);
     closeDialog->setInterval(1000);
-    ekos->connect(closeDialog, &QTimer::timeout, [&]()
+    ekos->connect(closeDialog, &QTimer::timeout, [&]
     {
         ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
         if (profileEditor != nullptr)
@@ -266,7 +242,7 @@ void KStarsUiTests::manipulateEkosProfiles()
     QCOMPARE(profileCBox->currentText(), testProfileName);
 
     // Because the dialog is modal, the remainder of the test is made asynchronous
-    QTimer::singleShot(200, ekos, [&]()
+    QTimer::singleShot(200, ekos, [&]
     {
         // Find the Profile Editor dialog
         ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
@@ -297,7 +273,7 @@ void KStarsUiTests::manipulateEkosProfiles()
     closeDialog = new QTimer(this);
     closeDialog->setSingleShot(true);
     closeDialog->setInterval(1000);
-    ekos->connect(closeDialog, &QTimer::timeout, [&]()
+    ekos->connect(closeDialog, &QTimer::timeout, [&]
     {
         ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
         if (profileEditor != nullptr)
@@ -326,7 +302,7 @@ void KStarsUiTests::manipulateEkosProfiles()
     // --------- Third step: deleting the profile
 
     // The yes/no modal dialog is not really used as a blocking question, but let's keep the remainder of the test is made asynchronous
-    QTimer::singleShot(200, ekos, [&]()
+    QTimer::singleShot(200, ekos, [&]
     {
         // This trick is from https://stackoverflow.com/questions/38596785
         QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeModalWidget() != nullptr, 1000);
