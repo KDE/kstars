@@ -1,7 +1,8 @@
 
 SET(KSTARS_UI_TESTS_SRC
+    kstars_ui_tests.cpp
     test_ekos.cpp
-    kstars_ui_tests.cpp)
+    test_ekos_simulator.cpp)
 
 include_directories(${CFITSIO_INCLUDE_DIR})
 
