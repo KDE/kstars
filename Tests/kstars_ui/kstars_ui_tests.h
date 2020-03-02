@@ -10,6 +10,8 @@
 #pragma once
 
 #include "config-kstars.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 
 #include <QMutex>
 #include <QObject>

@@ -16,7 +16,6 @@
 #include "ekos/manager.h"
 #include "ekos/profileeditor.h"
 #endif
-#include "kstars.h"
 
 #include <KActionCollection>
 #include <KTipDialog>
