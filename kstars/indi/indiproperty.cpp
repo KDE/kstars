@@ -22,6 +22,7 @@
 #include <indiproperty.h>
 
 #include <KLed>
+#include <KSqueezedTextLabel>
 
 #include <QAbstractButton>
 #include <QButtonGroup>
@@ -77,6 +78,9 @@ void INDI_P::updateStateLED()
         case IPS_ALERT:
             ledStatus->setColor(Qt::red);
             break;
+
+        default:
+            break;
     }
 }
 
@@ -111,17 +115,16 @@ void INDI_P::initGUI()
         if (label == "(I18N_EMPTY_MESSAGE)")
             label = name.toUtf8();
 
-        labelW.reset(new QLabel(label, pg->getContainer()));
+        labelW.reset(new KSqueezedTextLabel(label, pg->getContainer()));
     }
     else
-        labelW.reset(new QLabel(label, pg->getContainer()));
+        labelW.reset(new KSqueezedTextLabel(label, pg->getContainer()));
 
     //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     labelW->setFrameShape(QFrame::Box);
     labelW->setFrameShadow(QFrame::Sunken);
     labelW->setMargin(2);
     labelW->setFixedWidth(PROPERTY_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
-    labelW->setMinimumHeight(PROPERTY_LABEL_HEIGHT * KStars::Instance()->devicePixelRatio());
     labelW->setTextFormat(Qt::RichText);
     labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     labelW->setWordWrap(true);
