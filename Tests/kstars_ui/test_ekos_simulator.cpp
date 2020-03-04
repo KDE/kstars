@@ -73,7 +73,7 @@ void TestEkosSimulator::testMountSlew_data()
             o.updateCoordsNow(&numbers);
             o.EquatorialToHorizontal(&LST, geo->lat());
             if (5.0 < so->alt().Degrees())
-                QTest::addRow(name.toStdString().c_str())
+                QTest::addRow("%s", name.toStdString().c_str())
                     << name
                     << so->ra().toHMSString()
                     << so->dec().toDMSString();
@@ -88,7 +88,10 @@ void TestEkosSimulator::testMountSlew()
     QFETCH(QString, NAME);
     QFETCH(QString, RA);
     QFETCH(QString, DEC);
-    qDebug(QString("Test slewing to '%1' RA '%2' DEC '%3'").arg(NAME).arg(RA).arg(DEC).toStdString().c_str());
+    qDebug("Test slewing to '%s' RA '%s' DEC '%s'",
+           NAME.toStdString().c_str(),
+           RA.toStdString().c_str(),
+           DEC.toStdString().c_str());
 
 #if 0
     // In the mount tab, open the mount control
