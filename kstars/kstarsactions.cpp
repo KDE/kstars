@@ -58,6 +58,7 @@
 #include "tools/horizonmanager.h"
 #include "tools/observinglist.h"
 #include "tools/planetviewer.h"
+#include "tools/jmoontool.h"
 #include "tools/scriptbuilder.h"
 #include "tools/skycalendar.h"
 #include "tools/wutdialog.h"
@@ -593,12 +594,13 @@ void KStars::slotSolarSystem()
         m_PlanetViewer = new PlanetViewer(this);
     m_PlanetViewer->show();
 }
-/*
+
 void KStars::slotJMoonTool() {
-    if ( ! m_JMoonTool ) m_JMoonTool = new JMoonTool(this);
+    if (!m_JMoonTool)
+        m_JMoonTool = new JMoonTool(this);
     m_JMoonTool->show();
 }
-*/
+
 
 void KStars::slotMoonPhaseTool()
 {

@@ -79,7 +79,7 @@
                 <Action name="scriptbuilder" />
                 <Action name="solarsystem" />
                 <Action name="ekos" />
-<!--                <Action name="jmoontool" /> -->
+                <Action name="jmoontool" />
                 <Action name="flagmanager" />
         </Menu>
 

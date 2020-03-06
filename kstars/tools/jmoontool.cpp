@@ -18,12 +18,15 @@
 
 #include "ksnumbers.h"
 #include "kstars.h"
+
+#include "skymapcomposite.h"
 #include "skyobjects/jupitermoons.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/kssun.h"
 
 #include <KPlotting/KPlotObject>
 #include <KPlotting/KPlotWidget>
+#include <KPlotAxis>
 
 #include <QFrame>
 #include <QGridLayout>
@@ -125,6 +128,19 @@ void JMoonTool::initPlotObjects()
 
     QRectF dataRect = pw->dataRect();
     double dy       = 0.01 * dataRect.height();
+
+    /*Debug
+    //For testing position of each satellite
+    for(double t = dataRect.y(); t <= dataRect.bottom(); t += 1){
+        KSNumbers num(jd0 + t);
+        jm.findPosition(&num, jup, ksun);
+
+        qDebug() << "Position [Io] : " << 0.5 * jup->angSize() * jm.x(0) << " at " << t << " arcmin";
+        qDebug() << "Position [Europa] : " << 0.5 * jup->angSize() * jm.x(1) << " at " << t << " arcmin";
+        qDebug() << "Position [Ganymede] : " << 0.5 * jup->angSize() * jm.x(2) << " at " << t << " arcmin";
+        qDebug() << "Position [Callisto] : " << 0.5 * jup->angSize() * jm.x(3) << " at " << t << " arcmin";
+    }
+    */
 
     //t is the offset from jd0, in days.
     for (double t = dataRect.y(); t <= dataRect.bottom(); t += dy)
