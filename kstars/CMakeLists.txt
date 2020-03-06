@@ -324,7 +324,7 @@ set(libkstarstools_SRCS
 
     tools/eclipsetool/lunareclipsehandler.cpp
 
-#    tools/jmoontool.cpp
+    tools/jmoontool.cpp
     tools/approachsolver.cpp
     tools/ksconjunct.cpp
     tools/eqplotwidget.cpp
@@ -640,7 +640,7 @@ ENDIF ()
 set(kstars_skyobjects_SRCS
     skyobjects/constellationsart.cpp
     skyobjects/deepskyobject.cpp
-#    skyobjects/jupitermoons.cpp
+    skyobjects/jupitermoons.cpp
     skyobjects/planetmoons.cpp
     skyobjects/ksasteroid.cpp
     skyobjects/kscomet.cpp

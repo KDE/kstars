@@ -453,9 +453,9 @@ void KStars::initActions()
             << i18n("Solar System") << QKeySequence(Qt::CTRL + Qt::Key_Y);
 
     // Disabled until fixed later
-    /*actionCollection()->addAction("jmoontool", this, SLOT(slotJMoonTool()) )
+    actionCollection()->addAction("jmoontool", this, SLOT(slotJMoonTool()) )
         << i18n("Jupiter's Moons")
-        << QKeySequence(Qt::CTRL+Qt::Key_J );*/
+        << QKeySequence(Qt::CTRL+Qt::Key_J );
 
     actionCollection()->addAction("flagmanager", this, SLOT(slotFlagManager())) << i18n("Flags");
 

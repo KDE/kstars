@@ -57,7 +57,7 @@ class AstroCalc;
 class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
-//class JMoonTool;
+class JMoonTool;
 class MoonPhaseTool;
 class FlagManager;
 class Execute;
@@ -610,7 +610,7 @@ class KStars : public KXmlGuiWindow
         void slotSolarSystem();
 
         /** action slot: open Jupiter Moons tool */
-        //    void slotJMoonTool();
+        void slotJMoonTool();
 
         /** action slot: open Moon Phase Calendar tool */
         void slotMoonPhaseTool();
@@ -836,7 +836,7 @@ class KStars : public KXmlGuiWindow
         ScriptBuilder *m_ScriptBuilder { nullptr };
         PlanetViewer *m_PlanetViewer { nullptr };
         WUTDialog *m_WUTDialog { nullptr };
-        //    JMoonTool *m_JMoonTool { nullptr };
+        JMoonTool *m_JMoonTool { nullptr };
         FlagManager *m_FlagManager { nullptr };
         HorizonManager *m_HorizonManager { nullptr };
         EyepieceField *m_EyepieceView { nullptr };
