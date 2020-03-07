@@ -3300,6 +3300,35 @@ bool FITSData::checkDebayer()
     fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, nullptr, &status);
     fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, nullptr, &status);
 
+    if (debayerParams.offsetX == 1)
+    {
+        // This may leave odd values in the 0th column if the color filter is not there
+        // in the sensor, but otherwise should process the offset correctly.
+        // Only offsets of 0 or 1 are implemented in debayer_8bit() and debayer_16bit().
+        switch (debayerParams.filter)
+        {
+        case DC1394_COLOR_FILTER_RGGB:
+            debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+            break;
+        case DC1394_COLOR_FILTER_GBRG:
+            debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+            break;
+        case DC1394_COLOR_FILTER_GRBG:
+            debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+            break;
+        case DC1394_COLOR_FILTER_BGGR:
+            debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+            break;
+        }
+        debayerParams.offsetX = 0;
+    }
+    if (debayerParams.offsetX != 0 || debayerParams.offsetY > 1 || debayerParams.offsetY < 0)
+    {
+        KSNotification::error(i18n("Unsupported bayer offsets %1 %2.",
+                                   debayerParams.offsetX, debayerParams.offsetY), i18n("Debayer error"));
+        return false;
+    }
+
     HasDebayer = true;
 
     return true;
@@ -3375,11 +3404,7 @@ bool FITSData::debayer_8bit()
         dc1394_source += stats.width;
         ds1394_height--;
     }
-
-    if (debayerParams.offsetX == 1)
-    {
-        dc1394_source++;
-    }
+    // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
     error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height, debayerParams.filter,
                                             debayerParams.method);
@@ -3452,11 +3477,7 @@ bool FITSData::debayer_16bit()
         dc1394_source += stats.width;
         ds1394_height--;
     }
-
-    if (debayerParams.offsetX == 1)
-    {
-        dc1394_source++;
-    }
+    // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
     error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height, debayerParams.filter,
                  debayerParams.method, 16);
