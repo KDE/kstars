@@ -35,7 +35,6 @@
 
 JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 {
-    ksw          = (KStars *)parent;
     QFrame *page = new QFrame(this);
 
     setWindowTitle(i18n("Jupiter Moons Tool"));
@@ -113,9 +112,9 @@ void JMoonTool::initPlotObjects()
 {
     KPlotObject *orbit[4];
     KPlotObject *jpath;
-    long double jd0 = ksw->data()->ut().djd();
-    KSSun *ksun     = (KSSun *)ksw->data()->skyComposite()->findByName("Sun");
-    KSPlanet *jup   = (KSPlanet *)ksw->data()->skyComposite()->findByName(i18n("Jupiter"));
+    long double jd0 = KStarsData::Instance()->ut().djd();
+    KSSun *ksun     = dynamic_cast<KSSun *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Sun")));
+    KSPlanet *jup   = dynamic_cast<KSPlanet *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Jupiter")));
     JupiterMoons jm;
 
     pw->removeAllPlotObjects();
