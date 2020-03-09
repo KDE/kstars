@@ -32,18 +32,17 @@ class KStars;
  */
 class JMoonTool : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit JMoonTool(QWidget *parent = nullptr);
+    public:
+        explicit JMoonTool(QWidget *parent = nullptr);
 
-  protected:
-    virtual void keyPressEvent(QKeyEvent *e);
+    protected:
+        virtual void keyPressEvent(QKeyEvent *e) override;
 
-  private:
-    void initPlotObjects();
+    private:
+        void initPlotObjects();
 
-    KPlotWidget *pw { nullptr };
-    KStars *ksw { nullptr };
-    QColor colJp, colIo, colEu, colGn, colCa;
+        KPlotWidget *pw { nullptr };
+        QColor colJp, colIo, colEu, colGn, colCa;
 };
