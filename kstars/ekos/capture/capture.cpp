@@ -1560,18 +1560,6 @@ bool Capture::setCaptureComplete()
 
     downloadProgressTimer.stop();
 
-    // Do not calculate download time for images stored on server.
-    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-    {
-        //This determines the time since the image started downloading
-        //Then it gets the estimated time left and displays it in the log.
-        double currentDownloadTime = downloadTimer.elapsed() / 1000.0;
-        downloadTimes << currentDownloadTime;
-        QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
-        QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
-        appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
-    }
-
     // In case we're framing, let's start
     if (m_isLooping)
     {
@@ -1586,6 +1574,20 @@ bool Capture::setCaptureComplete()
         disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress);
         DarkLibrary::Instance()->disconnect(this);
     }
+
+    // Do not calculate download time for images stored on server.
+    // Only calculate for longer exposures.
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    {
+        //This determines the time since the image started downloading
+        //Then it gets the estimated time left and displays it in the log.
+        double currentDownloadTime = downloadTimer.elapsed() / 1000.0;
+        downloadTimes << currentDownloadTime;
+        QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
+        QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
+        appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
+    }
+
 
     secondsLabel->setText(i18n("Complete."));
 
