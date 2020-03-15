@@ -672,6 +672,11 @@ class Align : public QWidget, public Ui::Align
         void calculatePAHError();
 
         /**
+         * @brief syncCorrectionVector Flip correction vector based on user settings.
+         */
+        void syncCorrectionVector();
+
+        /**
              * @brief processPAHStage After solver is complete, handle PAH Stage processing
              */
         void processPAHStage(double orientation, double ra, double dec, double pixscale);
@@ -872,7 +877,7 @@ class Align : public QWidget, public Ui::Align
         QVector<PAHImageInfo *> pahImageInfos;
 
         // User desired offset when selecting a bright star in the image
-        QPointF celestialPolePoint, correctionOffset;
+        QPointF celestialPolePoint, correctionOffset, RACenterPoint;
         // Correction vector line between mount RA Axis and celestial pole
         QLineF correctionVector;
 
