@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>709</width>
-    <height>543</height>
+    <height>546</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -1418,6 +1418,13 @@
                    </property>
                   </spacer>
                  </item>
+                 <item>
+                  <widget class="QCheckBox" name="PAHFlipVectorC">
+                   <property name="text">
+                    <string>Flip Vector</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </item>
                <item>
@@ -1507,6 +1514,13 @@
                    </property>
                    <property name="value">
                     <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="PAHFlipVectorC2">
+                   <property name="text">
+                    <string>Flip Vector</string>
                    </property>
                   </widget>
                  </item>
@@ -1808,7 +1822,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="solverBackendGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverBackendGroup"/>
  </buttongroups>
 </ui>

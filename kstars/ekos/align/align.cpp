@@ -174,6 +174,18 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         Options::setPAHMountSpeedIndex(index);
     });
 
+    PAHFlipVectorC->setChecked(Options::pAHFlipCorrectionVector());
+    PAHFlipVectorC2->setChecked(Options::pAHFlipCorrectionVector());
+    connect(PAHFlipVectorC2, &QCheckBox::toggled, [&] { PAHFlipVectorC->setChecked(PAHFlipVectorC2->isChecked());});
+    connect(PAHFlipVectorC, &QCheckBox::toggled, [&]()
+    {
+        Options::setPAHFlipCorrectionVector(PAHFlipVectorC->isChecked());
+        PAHFlipVectorC2->blockSignals(true);
+        PAHFlipVectorC2->setChecked(PAHFlipVectorC->isChecked());
+        PAHFlipVectorC2->blockSignals(false);
+        syncCorrectionVector();
+    });
+
     gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
@@ -5329,7 +5341,9 @@ void Align::calculatePAHError()
 
     FITSData *imageData = alignView->getImageData();
 
-    QPointF RACenterPoint(RACircle.x(), RACircle.y());
+    RACenterPoint.setX(RACircle.x());
+    RACenterPoint.setY(RACircle.y());
+
     SkyPoint RACenter;
     rc = imageData->pixelToWCS(RACenterPoint, RACenter);
 
@@ -5364,10 +5378,8 @@ void Align::calculatePAHError()
 
     PAHErrorLabel->setText(polarError.toDMSString());
 
-    // JM 2019-08-17: Flip for southern hemisphere.
-    // Possible fix for: https://indilib.org/forum/ekos/5558-ekos-polar-alignment-vector-backwards.html
-    correctionVector.setP1((hemisphere == NORTH_HEMISPHERE) ? celestialPolePoint : RACenterPoint);
-    correctionVector.setP2((hemisphere == NORTH_HEMISPHERE) ? RACenterPoint : celestialPolePoint);
+    correctionVector.setP1(Options::pAHFlipCorrectionVector() ? RACenterPoint : celestialPolePoint);
+    correctionVector.setP2(Options::pAHFlipCorrectionVector() ? celestialPolePoint : RACenterPoint);
 
     connect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
     emit polarResultUpdated(correctionVector, polarError.toDMSString());
@@ -5377,6 +5389,14 @@ void Align::calculatePAHError()
     alignView->setCorrectionParams(correctionVector);
 
     emit newFrame(alignView);
+}
+
+void Align::syncCorrectionVector()
+{
+    correctionVector.setP1(Options::pAHFlipCorrectionVector() ? RACenterPoint : celestialPolePoint);
+    correctionVector.setP2(Options::pAHFlipCorrectionVector() ? celestialPolePoint : RACenterPoint);
+    emit newCorrectionVector(correctionVector);
+    alignView->setCorrectionParams(correctionVector);
 }
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
