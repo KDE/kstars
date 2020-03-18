@@ -98,8 +98,10 @@ void KStarsUiTests::initialConditionsTest()
     QEXPECT_FAIL("", "Precision of KStars local time conversion to local time does not allow strict millisecond comparison.", Continue);
     QCOMPARE(KStars::Instance()->data()->clock()->utc().toLocalTime(), m_InitialConditions.dateTime);
 
+#if QT_VERSION >= 0x050800
     // However comparison down to nearest second is expected to be OK
     QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
+#endif
 }
 
 // We want to launch the application before running our tests
