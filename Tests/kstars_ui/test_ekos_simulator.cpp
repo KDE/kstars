@@ -52,6 +52,9 @@ void TestEkosSimulator::cleanup()
 
 void TestEkosSimulator::testMountSlew_data()
 {
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
     QTest::addColumn<QString>("NAME");
     QTest::addColumn<QString>("RA");
     QTest::addColumn<QString>("DEC");
@@ -79,10 +82,14 @@ void TestEkosSimulator::testMountSlew_data()
                     << so->dec().toDMSString();
         }
     }
+#endif
 }
 
 void TestEkosSimulator::testMountSlew()
 {
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
     QFETCH(QString, NAME);
@@ -149,6 +156,8 @@ void TestEkosSimulator::testMountSlew()
         QWARN(QString("Target '%1' slewed to with coordinate offset DEC %2").arg(NAME).arg(DEC).toStdString().c_str());
 
     QVERIFY(Ekos::Manager::Instance()->mountModule()->abort());
+#endif
 }
+
 
 #endif
