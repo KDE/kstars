@@ -59,6 +59,7 @@
         <file>icons/atikbase.svg</file>
         <file>icons/astap.ico</file>
         <file>icons/timedout.svg</file>
+        <file>icons/indihub.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
