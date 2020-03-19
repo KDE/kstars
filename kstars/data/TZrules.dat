@@ -56,9 +56,9 @@ TG  Nov  1Sun  02:00  Jan  3Sun  03:00
 #(Brazil)
 BZ  Oct  3Sun  00:00  Feb  3Sun  00:00
 
-#"CL": DST starts 2nd Sun in Oct, reverts 2nd Sun in Mar (4:00)
+#"CL": DST starts 1nd Sun in Sep, reverts 1nd Sun in Apr (0:00)
 #(Chile)
-CL  Aug  2Sun  04:00  May  2Sun  03:00
+CL  Sep  1Sun  00:00  Apr  1Sun  00:00
 
 #"PY": DST starts 1st Sun in Oct, reverts 1st Sun in Mar (0:00)
 #(Paraguay)
