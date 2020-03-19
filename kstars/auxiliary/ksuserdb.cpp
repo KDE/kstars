@@ -1803,7 +1803,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     // Clear data
     if (!query.exec(QString("UPDATE profile SET "
                             "host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL,"
-                            "autoconnect=NULL,primaryscope=0,guidescope=0 WHERE id=%1")
+                            "autoconnect=NULL,primaryscope=0,guidescope=0,indihub=0 WHERE id=%1")
                     .arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
@@ -1844,6 +1844,10 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
 
     // Update Guide Application Info
     if (!query.exec(QString("UPDATE profile SET guidertype=%1 WHERE id=%2").arg(pi->guidertype).arg(pi->id)))
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
+
+    // Update INDI Hub
+    if (!query.exec(QString("UPDATE profile SET indihub=%1 WHERE id=%2").arg(pi->indihub).arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // If using external guider
@@ -1909,6 +1913,8 @@ void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
 
         pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
         pi->autoConnect        = (record.value("autoconnect").toInt() == 1);
+
+        pi->indihub = record.value("indihub").toInt();
 
         pi->guidertype = record.value("guidertype").toInt();
         if (pi->guidertype != 0)

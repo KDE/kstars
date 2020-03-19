@@ -138,6 +138,8 @@ if (INDI_FOUND)
             ekos/auxiliary/serialportassistant.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
+            # INDI Hub
+            ekos/indihub.ui
         )
 
         set(ekos_SRCS

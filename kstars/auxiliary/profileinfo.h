@@ -50,6 +50,7 @@ class ProfileInfo
         int guiderport { 0 };
         int primaryscope { 0 };
         int guidescope { 0 };
+        int indihub { 0 };
         QString remotedrivers;
         QString guiderhost;
         int id { 0 };
