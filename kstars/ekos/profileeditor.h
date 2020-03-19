@@ -64,6 +64,7 @@ class ProfileEditor : public QDialog
     private slots:
         void updateGuiderSelection(int id);
         void scanNetwork();
+        void showINDIHub();
 
     private:
         QString getTooltip(DriverInfo *dv);

@@ -17,6 +17,7 @@
 #include "indi/driverinfo.h"
 #include "indi/drivermanager.h"
 #include "oal/equipmentwriter.h"
+#include "ui_indihub.h"
 
 #include "ekos_debug.h"
 
@@ -85,6 +86,8 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 #else
     connect(ui->remoteMode, SIGNAL(toggled(bool)), this, SLOT(setRemoteMode(bool)));
 #endif
+
+    connect(ui->indihubB, &QPushButton::clicked, this, &ProfileEditor::showINDIHub);
 
     // Load all drivers
     loadDrivers();
@@ -1090,4 +1093,25 @@ void ProfileEditor::clearAllRequests()
     }
 
     m_Replies.clear();
+}
+
+void ProfileEditor::showINDIHub()
+{
+    QDialog hub;
+    Ui::INDIHub indihub;
+    indihub.setupUi(&hub);
+
+    indihub.modeButtonGroup->setId(indihub.offR, 0);
+    indihub.modeButtonGroup->setId(indihub.solorR, 1);
+    indihub.modeButtonGroup->setId(indihub.shareR, 2);
+    indihub.modeButtonGroup->setId(indihub.roboticR, 3);
+
+    indihub.logoLabel->setPixmap(QIcon(":/icons/indihub_logo.svg").pixmap(QSize(128, 128)));
+
+    indihub.modeButtonGroup->button(pi->indihub)->setChecked(true);
+    connect(indihub.closeB, &QPushButton::clicked, &hub, &QDialog::close);
+
+    hub.exec();
+
+    pi->indihub = indihub.modeButtonGroup->checkedId();
 }
