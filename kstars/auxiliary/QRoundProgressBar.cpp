@@ -19,6 +19,7 @@
 #include "QRoundProgressBar.h"
 
 #include <QPainter>
+#include <QPainterPath>
 
 QRoundProgressBar::QRoundProgressBar(QWidget *parent)
     : QWidget(parent), m_min(0), m_max(100), m_value(25), m_nullPosition(PositionTop), m_barStyle(StyleDonut),

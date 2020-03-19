@@ -21,6 +21,7 @@
 #include "projections/projector.h"
 #include "printing/legend.h"
 #include "kstars_debug.h"
+#include <QPainterPath>
 
 SkyMapQDraw::SkyMapQDraw(SkyMap *sm) : QWidget(sm), SkyMapDrawAbstract(sm)
 {
