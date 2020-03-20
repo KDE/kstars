@@ -214,6 +214,11 @@
          <whatsthis>PATH to indiserver binary</whatsthis>
          <default code="true">KSUtils::getDefaultPath("indiServer")</default>
       </entry>
+      <entry name="INDIHubAgent" type="String">
+         <label>PATH to indihub-agent binary</label>
+         <whatsthis>PATH to indihub-agent binary</whatsthis>
+         <default code="true">KSUtils::getDefaultPath("INDIHubAgent")</default>
+      </entry>
       <entry name="indiServerIsInternal" type="Bool">
          <label>Internal or External INDI Server?</label>
          <default>false</default>

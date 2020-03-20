@@ -16,6 +16,7 @@
 #include "Options.h"
 #include "profileeditor.h"
 #include "profilewizard.h"
+#include "indihub.h"
 #include "skymap.h"
 #include "auxiliary/darklibrary.h"
 #include "auxiliary/QProgressIndicator.h"
@@ -534,6 +535,8 @@ void Manager::stop()
     serialPortAssistant.reset();
     serialPortAssistantB->setEnabled(false);
 
+    indiHubAgent->terminate();
+
     profileGroup->setEnabled(true);
 
     setWindowTitle(i18n("Ekos"));
@@ -786,6 +789,11 @@ void Manager::start()
         {
             appendLogText(i18n("Starting INDI services..."));
 
+            connect(DriverManager::Instance(), &DriverManager::serverStarted, this,
+                    &Manager::processServerStarted, Qt::UniqueConnection);
+            connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
+                    &Manager::processServerTerminated, Qt::UniqueConnection);
+
             if (DriverManager::Instance()->startDevices(managedDrivers) == false)
             {
                 INDIListener::Instance()->disconnect(this);
@@ -795,8 +803,7 @@ void Manager::start()
                 emit ekosStatusChanged(m_ekosStatus);
             }
 
-            connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
-                    &Manager::processServerTermination, Qt::UniqueConnection);
+
 
             m_ekosStatus = Ekos::Pending;
             emit ekosStatusChanged(m_ekosStatus);
@@ -852,7 +859,7 @@ void Manager::start()
             if (DriverManager::Instance()->connectRemoteHost(managedDrivers.first()))
             {
                 connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
-                        &Manager::processServerTermination, Qt::UniqueConnection);
+                        &Manager::processServerTerminated, Qt::UniqueConnection);
 
                 appendLogText(
                     i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
@@ -1062,12 +1069,34 @@ void Manager::disconnectDevices()
     appendLogText(i18n("Disconnecting INDI devices..."));
 }
 
-void Manager::processServerTermination(const QString &host, const QString &port)
+void Manager::processServerTerminated(const QString &host, const QString &port)
 {
     if ((m_LocalMode && managedDrivers.first()->getPort() == port) ||
             (currentProfile->host == host && currentProfile->port == port.toInt()))
     {
         cleanDevices(false);
+        indiHubAgent->terminate();
+    }
+}
+
+void Manager::processServerStarted(const QString &host, const QString &port)
+{
+    if (m_LocalMode && currentProfile->indihub != INDIHub::None)
+    {
+        if (QFile(Options::iNDIHubAgent()).exists())
+        {
+            indiHubAgent.clear();
+            indiHubAgent = new QProcess();
+            QStringList args;
+
+            args << "-indi-server" << QString("%1:%2").arg(host).arg(port);
+            args << "-mode" << INDIHub::toString(currentProfile->indihub);
+            if (currentProfile->guidertype == Ekos::Guide::GUIDE_PHD2)
+                args << "-phd2-server" << QString("%1:%2").arg(currentProfile->guiderhost).arg(currentProfile->guiderport);
+            indiHubAgent->start(Options::iNDIHubAgent(), args);
+
+            qCDebug(KSTARS_EKOS) << "Started INDIHub agent.";
+        }
     }
 }
 
