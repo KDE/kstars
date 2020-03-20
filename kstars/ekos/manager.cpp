@@ -535,7 +535,8 @@ void Manager::stop()
     serialPortAssistant.reset();
     serialPortAssistantB->setEnabled(false);
 
-    indiHubAgent->terminate();
+    if (indiHubAgent)
+        indiHubAgent->terminate();
 
     profileGroup->setEnabled(true);
 
@@ -1075,7 +1076,8 @@ void Manager::processServerTerminated(const QString &host, const QString &port)
             (currentProfile->host == host && currentProfile->port == port.toInt()))
     {
         cleanDevices(false);
-        indiHubAgent->terminate();
+        if (indiHubAgent)
+            indiHubAgent->terminate();
     }
 }
 
@@ -1085,7 +1087,6 @@ void Manager::processServerStarted(const QString &host, const QString &port)
     {
         if (QFile(Options::iNDIHubAgent()).exists())
         {
-            indiHubAgent.clear();
             indiHubAgent = new QProcess();
             QStringList args;
 
