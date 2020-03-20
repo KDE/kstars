@@ -354,6 +354,10 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         serverManager->setMode(connectionMode);
 
         connect(serverManager, SIGNAL(newServerLog()), this, SLOT(updateLocalTab()));
+        connect(serverManager, &ServerManager::started, [&]()
+        {
+            emit serverStarted(qdv.at(0)->getHost(), QString::number(port));
+        });
 
         if (serverManager->start())
             servers.append(serverManager);

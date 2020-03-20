@@ -1091,6 +1091,16 @@ QString getDefaultPath(QString option)
         else
             return snap + "/usr/bin/indiserver";
     }
+    else if (option == "INDIHubAgent")
+    {
+#if defined(Q_OS_OSX)
+        return "/usr/local/bin/indihub-agent";
+#endif
+        if (flat.isEmpty() == false)
+            return flat + "/bin/indihub-agent";
+        else
+            return snap + "/usr/bin/indihub-agent";
+    }
     else if (option == "indiDriversDir")
     {
 #if defined(Q_OS_OSX)

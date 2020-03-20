@@ -207,6 +207,7 @@ class DriverManager : public QDialog
     signals:
         void clientTerminated(ClientManager *);
         void serverTerminated(const QString &host, const QString &port);
+        void serverStarted(const QString &host, const QString &port);
 
         /*
             signals:

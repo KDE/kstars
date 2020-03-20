@@ -339,7 +339,8 @@ class Manager : public QDialog, public Ui::Manager
 
         void processTabChange();
 
-        void processServerTermination(const QString &host, const QString &port);
+        void processServerTerminated(const QString &host, const QString &port);
+        void processServerStarted(const QString &host, const QString &port);
 
         void removeDevice(ISD::GDInterface *);
 
@@ -494,6 +495,7 @@ class Manager : public QDialog, public Ui::Manager
 
         // Mount Summary
         QProgressIndicator *mountPI { nullptr };
+        QPointer<QProcess> indiHubAgent;
 
         // Capture Summary
         QTime imageCountDown;
