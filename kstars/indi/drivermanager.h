@@ -146,6 +146,7 @@ class DriverManager : public QDialog
         {
             stopDevices(driversList);
         }
+        bool restartDriver(DriverInfo *dv);
 
         bool connectRemoteHost(DriverInfo *dv);
         bool disconnectRemoteHost(DriverInfo *dv);

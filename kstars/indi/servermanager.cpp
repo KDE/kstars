@@ -249,7 +249,6 @@ void ServerManager::stopDriver(DriverInfo *dv)
 
 bool ServerManager::restartDriver(DriverInfo *dv)
 {
-
     ClientManager *cm = dv->getClientManager();
 
     stopDriver(dv);

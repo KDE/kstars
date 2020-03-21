@@ -53,6 +53,10 @@ class ServerManager : public QObject
         bool startDriver(DriverInfo *dv);
         void stopDriver(DriverInfo *dv);
         bool restartDriver(DriverInfo *dv);
+        bool contains(DriverInfo *dv)
+        {
+            return managedDrivers.contains(dv);
+        };
 
         void setMode(ServerMode inMode)
         {

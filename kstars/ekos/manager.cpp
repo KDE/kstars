@@ -2159,6 +2159,7 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
+    connect(captureProcess.get(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
     connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename, const QString & previewFITS)
     {
         if (Options::useSummaryPreview() && QFile::exists(filename))
@@ -2397,6 +2398,8 @@ void Manager::initGuide()
         int index = toolsWidget->addTab(guideProcess.get(), QIcon(":/icons/ekos_guide.png"), "");
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
         connect(guideProcess.get(), &Ekos::Guide::newLog, this, &Ekos::Manager::updateLog);
+        connect(guideProcess.get(), &Ekos::Guide::driverTimedout, this, &Ekos::Manager::restartDriver);
+
         guideGroup->setEnabled(true);
 
         if (!guidePI)
@@ -3491,6 +3494,23 @@ bool Manager::checkUniqueBinaryDriver(DriverInfo *primaryDriver, DriverInfo *sec
 
     return (primaryDriver->getExecutable() == secondaryDriver->getExecutable() &&
             primaryDriver->getAuxInfo().value("mdpd", false).toBool() == true);
+}
+
+void Manager::restartDriver(const QString &deviceName)
+{
+    if (m_LocalMode)
+    {
+        for (auto &device : managedDevices)
+        {
+            if (QString(device->getDeviceName()) == deviceName)
+            {
+                DriverManager::Instance()->restartDriver(device->getDriverInfo());
+                break;
+            }
+        }
+    }
+    else
+        INDI::WebManager::restartDriver(currentProfile, deviceName);
 }
 
 }

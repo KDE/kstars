@@ -126,15 +126,21 @@ void ClientManager::removeProperty(INDI::Property *prop)
 
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
+    for (auto &oneManager : blobManagers)
+    {
+        if (oneManager->property("device").toString() == QString(dp->getDeviceName()))
+        {
+            oneManager->disconnect();
+            blobManagers.removeOne(oneManager);
+        }
+    }
+
     for (auto driverInfo : managedDrivers)
     {
         for (auto deviceInfo : driverInfo->getDevices())
         {
             if (deviceInfo->getBaseDevice() == dp)
             {
-                //GUIManager::Instance()->removeDevice(deviceInfo);
-                //INDIListener::Instance()->removeDevice(deviceInfo);
-
                 qCDebug(KSTARS_INDI) << "Removing device" << dp->getDeviceName();
 
                 emit removeINDIDevice(deviceInfo);
@@ -147,19 +153,6 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
                     if (driverInfo->getDriverSource() == GENERATED_SOURCE)
                         delete (driverInfo);
                 }
-
-                for (auto &oneManager : blobManagers)
-                {
-                    if (oneManager->property("device").toString() == QString(dp->getDeviceName()))
-                    {
-                        oneManager->disconnect();
-                        blobManagers.removeOne(oneManager);
-                    }
-                }
-                //                blobManagers.erase(std::remove_if(blobManagers.begin(), blobManagers.end(), [dp](QPointer<BlobManager> oneManager)
-                //                {
-                //                    return oneManager->property("device").toString() == QString(dp->getDeviceName());
-                //                }), blobManagers.end());
 
                 return;
             }
@@ -220,29 +213,20 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     qCDebug(KSTARS_INDI) << "Removing managed driver" << dv->getName();
 
     dv->setClientState(false);
+    managedDrivers.removeOne(dv);
 
     for (auto di : dv->getDevices())
     {
-        //emit removeINDIDevice(di);
-
-        INDIListener::Instance()->removeDevice(di);
+        // #1 Remove from GUI Manager
         GUIManager::Instance()->removeDevice(di);
-        dv->removeDevice(di);
 
-        // Remove from base client as well
+        // #2 Remove from INDI Listener
+        INDIListener::Instance()->removeDevice(di);
+
+        // #3 Remove device from Driver Info
+        dv->removeDevice(di);
     }
 
-    /*foreach(DriverInfo *dv, managedDrivers)
-    {
-        if (dv->getDriverSource() == GENERATED_SOURCE)
-        {
-            managedDrivers.removeOne(dv);
-            delete (dv);
-            return;
-        }
-    }*/
-
-    managedDrivers.removeOne(dv);
     if (dv->getDriverSource() == GENERATED_SOURCE)
         delete (dv);
 }

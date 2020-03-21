@@ -2095,7 +2095,12 @@ void Align::removeDevice(ISD::GDInterface *device)
         CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
         CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName() + QString(" Guider")));
         if (CCDs.empty())
+        {
             currentCCD = nullptr;
+            CCDCaptureCombo->setCurrentIndex(-1);
+        }
+        else
+            CCDCaptureCombo->setCurrentIndex(0);
         checkCCD();
     }
 
@@ -2105,7 +2110,13 @@ void Align::removeDevice(ISD::GDInterface *device)
         filterManager->removeDevice(device);
         FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
         if (Filters.empty())
+        {
             currentFilter = nullptr;
+            FilterDevicesCombo->setCurrentIndex(-1);
+        }
+        else
+            FilterDevicesCombo->setCurrentIndex(0);
+
         checkFilter();
     }
 

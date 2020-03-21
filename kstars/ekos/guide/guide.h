@@ -481,8 +481,9 @@ class Guide : public QWidget, public Ui::Guide
         // Sigma deviations in arcsecs RMS
         void newAxisSigma(double ra, double de);
 
-
         void guideChipUpdated(ISD::CCDChip *);
+
+        void driverTimedout(const QString &deviceName);
 
     private slots:
         void setDefaultST4(const QString &driver);
@@ -538,6 +539,9 @@ class Guide : public QWidget, public Ui::Guide
         void initConnections();
 
         bool captureOneFrame();
+
+        // Driver
+        void reconnectDriver(const QString &camera, const QString &via);
 
         // Operation Stack
         QStack<GuideState> operationStack;

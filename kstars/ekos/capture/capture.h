@@ -76,7 +76,7 @@ class SequenceJob;
  * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
  *@author Jasem Mutlaq
- *@version 1.3
+ *@version 1.4
  */
 class Capture : public QWidget, public Ui::Capture
 {
@@ -315,6 +315,9 @@ class Capture : public QWidget, public Ui::Capture
         void setFilterManager(const QSharedPointer<FilterManager> &manager);
         void syncTelescopeInfo();
         void syncFilterInfo();
+
+        // Restart driver
+        void reconnectDriver(const QString &camera, const QString &filterWheel);
 
         void clearLog();
         QString getLogText()
@@ -730,6 +733,7 @@ class Capture : public QWidget, public Ui::Capture
         void newMeridianFlipStatus(Mount::MeridianFlipStatus status);
         void newMeridianFlipSetup(bool activate, double hours);
         void dslrInfoRequested(const QString &cameraName);
+        void driverTimedout(const QString &deviceName);
 
     private:
         void setBusy(bool enable);
