@@ -38,7 +38,8 @@
 
 // Wait 3-minutes as maximum beyond exposure
 // value.
-#define CAPTURE_TIMEOUT_THRESHOLD  180000
+//#define CAPTURE_TIMEOUT_THRESHOLD  180000
+#define CAPTURE_TIMEOUT_THRESHOLD  5000
 
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 2.0
@@ -6564,21 +6565,39 @@ void Capture::setCoolerToggled(bool enabled)
 
 void Capture::processCaptureTimeout()
 {
+    auto restartExposure = [&]()
+    {
+        appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+        currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        targetChip->abortExposure();
+        targetChip->capture(exposureIN->value());
+        captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+    };
+
+
     captureTimeoutCounter++;
 
-    if (captureTimeoutCounter >= 3)
+    if (captureTimeoutCounter > 1)
+    {
+        QString camera = currentCCD->getDeviceName();
+        QString fw = currentFilter ? currentFilter->getDeviceName() : "";
+        emit driverTimedout(camera);
+        QTimer::singleShot(5000, [ &, camera, fw]()
+        {
+            reconnectDriver(camera, fw);
+        });
+        return;
+    }
+    else if (captureTimeoutCounter >= 3)
     {
         captureTimeoutCounter = 0;
         appendLogText(i18n("Exposure timeout. Aborting..."));
         abort();
         return;
     }
-
-    appendLogText(i18n("Exposure timeout. Restarting exposure..."));
-    ISD::CCDChip * targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    targetChip->abortExposure();
-    targetChip->capture(exposureIN->value());
-    captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+    else
+        restartExposure();
 }
 
 void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
@@ -6629,7 +6648,13 @@ void Capture::removeDevice(ISD::GDInterface *device)
         CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName() + QString(" Guider")));
 
         if (CCDs.empty())
+        {
             currentCCD = nullptr;
+            CCDCaptureCombo->setCurrentIndex(-1);
+        }
+        else
+            CCDCaptureCombo->setCurrentIndex(0);
+
         checkCCD();
     }
 
@@ -6639,7 +6664,12 @@ void Capture::removeDevice(ISD::GDInterface *device)
         filterManager->removeDevice(device);
         FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
         if (Filters.empty())
+        {
             currentFilter = nullptr;
+            FilterDevicesCombo->setCurrentIndex(-1);
+        }
+        else
+            FilterDevicesCombo->setCurrentIndex(0);
         checkFilter();
     }
 }
@@ -6701,5 +6731,38 @@ double Capture::getEstimatedDownloadTime()
     else
         return total / downloadTimes.count();
 }
+
+void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
+{
+    for (auto &oneCamera : CCDs)
+    {
+        if (oneCamera->getDeviceName() == camera)
+        {
+            // Set camera again to the one we restarted
+            CCDCaptureCombo->setCurrentIndex(CCDCaptureCombo->findText(camera));
+            FilterDevicesCombo->setCurrentIndex(FilterDevicesCombo->findText(filterWheel));
+            checkCCD();
+
+            // restart capture
+            captureTimeoutCounter = 0;
+
+            if (activeJob)
+            {
+                activeJob->setActiveChip(targetChip);
+                activeJob->setActiveCCD(currentCCD);
+                activeJob->setActiveFilter(currentFilter);
+                captureImage();
+            }
+
+            return;
+        }
+    }
+
+    QTimer::singleShot(5000, this, [ &, camera, filterWheel]()
+    {
+        reconnectDriver(camera, filterWheel);
+    });
+}
+
 
 }

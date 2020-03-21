@@ -328,6 +328,8 @@ class Manager : public QDialog, public Ui::Manager
         void processNewLight(ILightVectorProperty *lvp);
         void processNewBLOB(IBLOB *bvp);
 
+        void restartDriver(const QString &deviceName);
+
     private slots:
 
         void changeAlwaysOnTop(Qt::ApplicationState state);

@@ -335,6 +335,12 @@ bool stopProfile(ProfileInfo *pi)
     QUrl url(QString("http://%1:%2/api/server/stop").arg(pi->host).arg(pi->INDIWebManagerPort));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
+
+bool restartDriver(ProfileInfo *pi, const QString &label)
+{
+    QUrl url(QString("http://%1:%2/api/drivers/restart/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(label));
+    return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
+}
 }
 
 // Async version of the Web Manager

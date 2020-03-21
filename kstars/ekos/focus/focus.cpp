@@ -1615,9 +1615,9 @@ void Focus::drawHFRPlot()
     if (inFocusLoop == false && (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR)))
     {
         const double minPosition = hfr_position.empty() ?
-                    0 : *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
+                                   0 : *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
         const double maxPosition = hfr_position.empty() ?
-                    1e6 : *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
+                                   1e6 : *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
         HFRPlot->xAxis->setRange(minPosition - pulseDuration, maxPosition + pulseDuration);
         HFRPlot->yAxis->setRange(minHFRVal, maxHFR);
     }
@@ -1751,7 +1751,7 @@ void Focus::autoFocusLinear()
         {
             QPen pen;
             pen.setWidth(1);
-            pen.setColor(QColor(180,180,180));
+            pen.setColor(QColor(180, 180, 180));
             polynomialGraph->setPen(pen);
 
             polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
@@ -1764,14 +1764,14 @@ void Focus::autoFocusLinear()
             // instead of a U shape (i.e. it has a maximum, but no minimum).
             QPen pen;
             pen.setWidth(1);
-            pen.setColor(QColor(254,0,0));
+            pen.setColor(QColor(254, 0, 0));
             polynomialGraph->setPen(pen);
             polynomialFit->drawPolynomial(HFRPlot, polynomialGraph);
 
             polynomialGraph->data()->clear();
             focusPoint->data()->clear();
         }
-     }
+    }
 
     linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
     const int nextPosition = adjustLinearPosition(static_cast<int>(currentPosition), linearRequestedPosition);
@@ -2288,7 +2288,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
     qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
-                                  .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
+                               .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
 
     // Return if it is not our current focuser
     if (strcmp(nvp->device, currentFocuser->getDeviceName()))
@@ -2381,7 +2381,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
             qCDebug(KSTARS_EKOS_FOCUS)
                     << QString("Rel Focuser position changed by %1 to %2")
-                       .arg(pos->value).arg(currentPosition);
+                    .arg(pos->value).arg(currentPosition);
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
             emit absolutePositionChanged(currentPosition);
         }
@@ -2432,7 +2432,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                 currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
                 qCDebug(KSTARS_EKOS_FOCUS)
                         << QString("Timer Focuser position changed by %1 to %2")
-                           .arg(pos->value).arg(currentPosition);
+                        .arg(pos->value).arg(currentPosition);
             }
             autoFocusProcessPositionChange(nvp->s);
         }
@@ -3044,6 +3044,15 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             CCDs.removeAll(dynamic_cast<ISD::CCD*>(ccd));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName()));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName() + QString(" Guider")));
+
+            if (CCDs.empty())
+            {
+                currentCCD = nullptr;
+                CCDCaptureCombo->setCurrentIndex(-1);
+            }
+            else
+                CCDCaptureCombo->setCurrentIndex(0);
+
             checkCCD();
             resetButtons();
         }
@@ -3057,7 +3066,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             Filters.removeAll(filter);
             FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(filter->getDeviceName()));
             if (Filters.empty())
+            {
                 currentFilter = nullptr;
+                FilterDevicesCombo->setCurrentIndex(-1);
+            }
+            else
+                FilterDevicesCombo->setCurrentIndex(0);
             checkFilter();
             resetButtons();
         }

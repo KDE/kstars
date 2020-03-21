@@ -1174,9 +1174,32 @@ void Guide::setBusy(bool enable)
 
 void Guide::processCaptureTimeout()
 {
+    auto restartExposure = [&]()
+    {
+        appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+        currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        targetChip->abortExposure();
+        targetChip->capture(exposureIN->value());
+        captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+    };
+
+
     captureTimeoutCounter++;
 
-    if (captureTimeoutCounter >= 3)
+    if (captureTimeoutCounter > 1)
+    {
+        QString camera = currentCCD->getDeviceName();
+        QString via = ST4Driver ? ST4Driver->getDeviceName() : "";
+        emit driverTimedout(camera);
+        QTimer::singleShot(5000, [ &, camera, via]()
+        {
+            reconnectDriver(camera, via);
+        });
+        return;
+    }
+
+    else if (captureTimeoutCounter >= 3)
     {
         captureTimeoutCounter = 0;
         if (state == GUIDE_GUIDING)
@@ -1189,13 +1212,32 @@ void Guide::processCaptureTimeout()
         abort();
         return;
     }
+    else
+        restartExposure();
+}
 
-    appendLogText(i18n("Exposure timeout. Restarting exposure..."));
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-    targetChip->abortExposure();
-    targetChip->capture(exposureIN->value());
-    captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+void Guide::reconnectDriver(const QString &camera, const QString &via)
+{
+    for (auto &oneCamera : CCDs)
+    {
+        if (oneCamera->getDeviceName() == camera)
+        {
+            // Set camera again to the one we restarted
+            guiderCombo->setCurrentIndex(guiderCombo->findText(camera));
+            ST4Combo->setCurrentIndex(ST4Combo->findText(via));
+            checkCCD();
+
+            // restart capture
+            captureTimeoutCounter = 0;
+            captureOneFrame();
+            return;
+        }
+    }
+
+    QTimer::singleShot(5000, this, [ &, camera, via]()
+    {
+        reconnectDriver(camera, via);
+    });
 }
 
 void Guide::newFITS(IBLOB *bp)
@@ -3508,7 +3550,13 @@ void Guide::removeDevice(ISD::GDInterface *device)
         guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName()));
         guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName() + QString(" Guider")));
         if (CCDs.empty())
+        {
             currentCCD = nullptr;
+            guiderCombo->setCurrentIndex(-1);
+        }
+        else
+            guiderCombo->setCurrentIndex(0);
+
         checkCCD();
     }
 

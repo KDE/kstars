@@ -1591,3 +1591,16 @@ QJsonArray DriverManager::getDriverList() const
 
     return driverArray;
 }
+
+bool DriverManager::restartDriver(DriverInfo *dv)
+{
+    for (auto &oneServer : servers)
+    {
+        if (oneServer->contains(dv))
+        {
+            return oneServer->restartDriver(dv);
+        }
+    }
+
+    return false;
+}

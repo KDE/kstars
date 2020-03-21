@@ -29,6 +29,7 @@ bool syncCustomDrivers(ProfileInfo *pi);
 bool areDriversRunning(ProfileInfo *pi);
 bool startProfile(ProfileInfo *pi);
 bool stopProfile(ProfileInfo *pi);
+bool restartDriver(ProfileInfo *pi, const QString &label);
 }
 
 namespace AsyncWebManager
