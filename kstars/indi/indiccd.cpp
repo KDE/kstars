@@ -394,8 +394,10 @@ bool CCDChip::resetFrame()
 
     if (xarg && yarg && warg && harg)
     {
-        if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max &&
-                harg->value == harg->max)
+        if (!std::fabs(xarg->value - xarg->min) &&
+                !std::fabs(yarg->value - yarg->min) &&
+                !std::fabs(warg->value - warg->max) &&
+                !std::fabs(harg->value - harg->max))
             return false;
 
         xarg->value = xarg->min;
@@ -435,7 +437,11 @@ bool CCDChip::setFrame(int x, int y, int w, int h, bool force)
 
     if (xarg && yarg && warg && harg)
     {
-        if (!force && xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+        if (!force &&
+                !std::fabs(xarg->value - x) &&
+                !std::fabs(yarg->value - y) &&
+                !std::fabs(warg->value - w) &&
+                !std::fabs(harg->value - h))
             return true;
 
         xarg->value = x;
@@ -889,15 +895,13 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
     if (binProp == nullptr)
         return false;
 
-    INumber *horBin = nullptr, *verBin = nullptr;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
+    INumber *horBin = IUFindNumber(binProp, "HOR_BIN");
+    INumber *verBin = IUFindNumber(binProp, "VER_BIN");
 
     if (!horBin || !verBin)
         return false;
 
-    if (horBin->value == bin_x && verBin->value == bin_y)
+    if (!std::fabs(horBin->value - bin_x) && !std::fabs(verBin->value - bin_y))
         return true;
 
     if (bin_x > horBin->max || bin_y > verBin->max)
@@ -1433,11 +1437,11 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
         QString finalPrefix = seqPrefix;
         finalPrefix.replace("ISO8601", ts);
         *filename = currentDir + finalPrefix +
-                    QString("_%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
+                    QString("_%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
     }
     else
         *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                    QString("%1%2").arg(QString().sprintf("%03d", nextSequenceID), format);
+                    QString("%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
@@ -2217,8 +2221,10 @@ bool CCD::resetStreamingFrame()
 
     if (xarg && yarg && warg && harg)
     {
-        if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max &&
-                harg->value == harg->max)
+        if (!std::fabs(xarg->value - xarg->min) &&
+                !std::fabs(yarg->value - yarg->min) &&
+                !std::fabs(warg->value - warg->max) &&
+                !std::fabs(harg->value - harg->max))
             return false;
 
         xarg->value = xarg->min;
@@ -2247,7 +2253,7 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
 
     if (xarg && yarg && warg && harg)
     {
-        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+        if (!std::fabs(xarg->value - x) && !std::fabs(yarg->value - y) && !std::fabs(warg->value - w) && !std::fabs(harg->value - h))
             return true;
 
         // N.B. We add offset since the X, Y are relative to whatever streaming frame is currently active
