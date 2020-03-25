@@ -38,8 +38,7 @@
 
 // Wait 3-minutes as maximum beyond exposure
 // value.
-//#define CAPTURE_TIMEOUT_THRESHOLD  180000
-#define CAPTURE_TIMEOUT_THRESHOLD  5000
+#define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 2.0
