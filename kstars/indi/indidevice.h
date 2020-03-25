@@ -36,49 +36,57 @@ class INDI_G;
  */
 class INDI_D : public QDialog
 {
-    Q_OBJECT
-  public:
-    INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_idv, ClientManager *in_cm);
-    ~INDI_D();
+        Q_OBJECT
+    public:
+        INDI_D(INDI::BaseDevice *in_idv, ClientManager *in_cm);
+        ~INDI_D();
 
-    QSplitter *getDeviceBox() { return deviceVBox; }
+        QSplitter *getDeviceBox()
+        {
+            return deviceVBox;
+        }
 
-    ClientManager *getClientManager() { return clientManager; }
+        ClientManager *getClientManager()
+        {
+            return m_ClientManager;
+        }
 
-    INDI_G *getGroup(const QString &groupName);
+        INDI_G *getGroup(const QString &groupName);
 
-    INDI::BaseDevice *getBaseDevice() { return dv; }
+        INDI::BaseDevice *getBaseDevice()
+        {
+            return m_BaseDevice;
+        }
 
-    QList<INDI_G *> getGroups() { return groupsList; }
+        QList<INDI_G *> getGroups()
+        {
+            return groupsList;
+        }
 
-    void clearMessageLog();
+        void clearMessageLog();
 
-  public slots:
+    public slots:
+        bool buildProperty(INDI::Property *prop);
+        bool removeProperty(INDI::Property *prop);
+        bool removeProperty(const QString &device, const QString &group, const QString &name);
+        bool updateSwitchGUI(ISwitchVectorProperty *svp);
+        bool updateTextGUI(ITextVectorProperty *tvp);
+        bool updateNumberGUI(INumberVectorProperty *nvp);
+        bool updateLightGUI(ILightVectorProperty *lvp);
+        bool updateBLOBGUI(IBLOB *bp);
 
-    /*****************************************************************
-        * Build
-        ******************************************************************/
-    bool buildProperty(INDI::Property *prop);
-    bool removeProperty(INDI::Property *prop);
-    bool updateSwitchGUI(ISwitchVectorProperty *svp);
-    bool updateTextGUI(ITextVectorProperty *tvp);
-    bool updateNumberGUI(INumberVectorProperty *nvp);
-    bool updateLightGUI(ILightVectorProperty *lvp);
-    bool updateBLOBGUI(IBLOB *bp);
+        void updateMessageLog(INDI::BaseDevice *idv, int messageID);
 
-    void updateMessageLog(INDI::BaseDevice *idv, int messageID);
+    private:
+        QString m_Name;
+        QSplitter *deviceVBox;
+        QTabWidget *groupContainer; /* Groups within the device */
+        QTextEdit *msgST_w;         /* scrolled text for messages */
 
-  private:
-    QString name; /* device name */
-    QSplitter *deviceVBox;
-    QTabWidget *groupContainer; /* Groups within the device */
-    QTextEdit *msgST_w;         /* scrolled text for messages */
+        INDI::BaseDevice *m_BaseDevice;
+        ClientManager *m_ClientManager;
 
-    INDI::BaseDevice *dv;
-    ClientManager *clientManager;
-    GUIManager *guiManager;
-
-    QList<INDI_G *> groupsList;
+        QList<INDI_G *> groupsList;
 };
 
 #endif // INDI_D_H

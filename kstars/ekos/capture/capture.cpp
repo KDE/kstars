@@ -1569,7 +1569,7 @@ void Capture::newFITS(IBLOB * bp)
 bool Capture::setCaptureComplete()
 {
     captureTimeout.stop();
-    captureTimeoutCounter = 0;
+    m_CaptureTimeoutCounter = 0;
 
     downloadProgressTimer.stop();
 
@@ -6622,32 +6622,31 @@ void Capture::processCaptureTimeout()
         captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
     };
 
+    m_CaptureTimeoutCounter++;
 
-    captureTimeoutCounter++;
 
-#ifdef TIMEOUT_TEST
-    if (captureTimeoutCounter > 1)
+    if (m_DeviceRestartCounter >= 3)
+    {
+        m_CaptureTimeoutCounter = 0;
+        m_DeviceRestartCounter = 0;
+        appendLogText(i18n("Exposure timeout. Aborting..."));
+        abort();
+        return;
+    }
+
+    if (m_CaptureTimeoutCounter > 1)
     {
         QString camera = currentCCD->getDeviceName();
         QString fw = currentFilter ? currentFilter->getDeviceName() : "";
         emit driverTimedout(camera);
         QTimer::singleShot(5000, [ &, camera, fw]()
         {
+            m_DeviceRestartCounter++;
             reconnectDriver(camera, fw);
         });
         return;
     }
-    else
-#endif
-        if (captureTimeoutCounter >= 3)
-        {
-            captureTimeoutCounter = 0;
-            appendLogText(i18n("Exposure timeout. Aborting..."));
-            abort();
-            return;
-        }
-        else
-            restartExposure();
+    else restartExposure();
 }
 
 void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
@@ -6794,7 +6793,7 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
             checkCCD();
 
             // restart capture
-            captureTimeoutCounter = 0;
+            m_CaptureTimeoutCounter = 0;
 
             if (activeJob)
             {

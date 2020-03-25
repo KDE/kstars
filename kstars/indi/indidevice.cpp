@@ -50,15 +50,16 @@
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
-INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog(0)
+INDI_D::INDI_D(INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog()
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    guiManager    = in_manager;
-    dv            = in_dv;
-    clientManager = in_cm;
+    m_BaseDevice = in_dv;
+    m_ClientManager = in_cm;
+
+    m_Name = m_BaseDevice->getDeviceName();
 
     deviceVBox = new QSplitter();
     deviceVBox->setOrientation(Qt::Vertical);
@@ -78,14 +79,8 @@ bool INDI_D::buildProperty(INDI::Property *prop)
 {
     QString groupName(prop->getGroupName());
 
-    if (strcmp(prop->getDeviceName(), dv->getDeviceName()))
-    {
-        // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our device is "
-        //     << dv->getDeviceName() << endl;
+    if (prop->getDeviceName() != m_Name)
         return false;
-    }
-
-    // qDebug() << "Received new property " << prop->getName() << " for our device " << dv->getDeviceName() << endl;
 
     INDI_G *pg = getGroup(groupName);
 
@@ -106,7 +101,7 @@ bool INDI_D::removeProperty(INDI::Property *prop)
 
     QString groupName(prop->getGroupName());
 
-    if (strcmp(prop->getDeviceName(), dv->getDeviceName()))
+    if (strcmp(prop->getDeviceName(), m_BaseDevice->getDeviceName()))
     {
         // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our device is "
         //     << dv->getDeviceName() << endl;
@@ -133,15 +128,37 @@ bool INDI_D::removeProperty(INDI::Property *prop)
     return removeResult;
 }
 
+bool INDI_D::removeProperty(const QString &device, const QString &group, const QString &name)
+{
+    if (device != name)
+        return false;
+
+    INDI_G *pg = getGroup(group);
+
+    if (pg == nullptr)
+        return false;
+
+    bool removeResult = pg->removeProperty(name);
+
+    if (pg->size() == 0 && removeResult)
+    {
+        groupContainer->removeTab(groupsList.indexOf(pg));
+        groupsList.removeOne(pg);
+        delete (pg);
+    }
+
+    return removeResult;
+}
+
 bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
 {
     INDI_P *guiProp = nullptr;
     QString propName(svp->name);
 
-    if (strcmp(svp->device, dv->getDeviceName()))
+    if (m_Name != svp->device)
         return false;
 
-    foreach (INDI_G *pg, groupsList)
+    for (const auto &pg : groupsList)
     {
         if ((guiProp = pg->getProperty(propName)) != nullptr)
             break;
@@ -156,7 +173,7 @@ bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
         guiProp->updateMenuGUI();
     else
     {
-        foreach (INDI_E *lp, guiProp->getElements())
+        for (const auto &lp : guiProp->getElements())
             lp->syncSwitch();
     }
 
@@ -168,7 +185,7 @@ bool INDI_D::updateTextGUI(ITextVectorProperty *tvp)
     INDI_P *guiProp = nullptr;
     QString propName(tvp->name);
 
-    if (strcmp(tvp->device, dv->getDeviceName()))
+    if (m_Name != tvp->device)
         return false;
 
     foreach (INDI_G *pg, groupsList)
@@ -193,7 +210,7 @@ bool INDI_D::updateNumberGUI(INumberVectorProperty *nvp)
     INDI_P *guiProp = nullptr;
     QString propName(nvp->name);
 
-    if (strcmp(nvp->device, dv->getDeviceName()))
+    if (m_Name != nvp->device)
         return false;
 
     foreach (INDI_G *pg, groupsList)
@@ -218,7 +235,7 @@ bool INDI_D::updateLightGUI(ILightVectorProperty *lvp)
     INDI_P *guiProp = nullptr;
     QString propName(lvp->name);
 
-    if (strcmp(lvp->device, dv->getDeviceName()))
+    if (m_Name != lvp->device)
         return false;
 
     foreach (INDI_G *pg, groupsList)
@@ -243,7 +260,7 @@ bool INDI_D::updateBLOBGUI(IBLOB *bp)
     INDI_P *guiProp = nullptr;
     QString propName(bp->bvp->name);
 
-    if (strcmp(bp->bvp->device, dv->getDeviceName()))
+    if (m_Name != bp->bvp->device)
         return false;
 
     foreach (INDI_G *pg, groupsList)
@@ -262,18 +279,18 @@ bool INDI_D::updateBLOBGUI(IBLOB *bp)
 
 void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
 {
-    if (idv != dv)
+    if (idv != m_BaseDevice)
         return;
 
-    QString message = QString::fromStdString(dv->messageQueue(messageID));
+    QString message = QString::fromStdString(m_BaseDevice->messageQueue(messageID));
     QString formatted = message;
 
     // TODO the colors should be from the color scheme
-    if (message.mid(21,2) == "[E")
+    if (message.mid(21, 2) == "[E")
         formatted = QString("<span style='color:red'>%1</span>").arg(message);
-    else if (message.mid(21,2) == "[W")
+    else if (message.mid(21, 2) == "[W")
         formatted = QString("<span style='color:orange'>%1</span>").arg(message);
-    else if (message.mid(21,2) != "[I")
+    else if (message.mid(21, 2) != "[I")
     {
         // Debug message
         qCDebug(KSTARS_INDI) << idv->getDeviceName() << ":" << message.mid(21);
@@ -297,13 +314,6 @@ INDI_D::~INDI_D()
 {
     while (!groupsList.isEmpty())
         delete groupsList.takeFirst();
-
-    /*delete(deviceVBox);
-    delete (stdDev);
-    free (dataBuffer);
-    dataBuffer = nullptr;
-    deviceVBox = nullptr;
-    stdDev     = nullptr;*/
 }
 
 INDI_G *INDI_D::getGroup(const QString &groupName)

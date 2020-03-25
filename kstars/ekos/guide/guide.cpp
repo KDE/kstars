@@ -1195,38 +1195,38 @@ void Guide::processCaptureTimeout()
         captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
     };
 
+    m_CaptureTimeoutCounter++;
 
-    captureTimeoutCounter++;
+    if (m_DeviceRestartCounter >= 3)
+    {
+        m_CaptureTimeoutCounter = 0;
+        m_DeviceRestartCounter = 0;
+        if (state == GUIDE_GUIDING)
+            appendLogText(i18n("Exposure timeout. Aborting Autoguide."));
+        else if (state == GUIDE_DITHERING)
+            appendLogText(i18n("Exposure timeout. Aborting Dithering."));
+        else if (state == GUIDE_CALIBRATING)
+            appendLogText(i18n("Exposure timeout. Aborting Calibration."));
 
-#ifdef TIMEOUT_TEST
-    if (captureTimeoutCounter > 1)
+        abort();
+        return;
+    }
+
+    if (m_CaptureTimeoutCounter > 1)
     {
         QString camera = currentCCD->getDeviceName();
         QString via = ST4Driver ? ST4Driver->getDeviceName() : "";
         emit driverTimedout(camera);
         QTimer::singleShot(5000, [ &, camera, via]()
         {
+            m_DeviceRestartCounter++;
             reconnectDriver(camera, via);
         });
         return;
     }
-    else
-#endif
-        if (captureTimeoutCounter >= 3)
-        {
-            captureTimeoutCounter = 0;
-            if (state == GUIDE_GUIDING)
-                appendLogText(i18n("Exposure timeout. Aborting Autoguide."));
-            else if (state == GUIDE_DITHERING)
-                appendLogText(i18n("Exposure timeout. Aborting Dithering."));
-            else if (state == GUIDE_CALIBRATING)
-                appendLogText(i18n("Exposure timeout. Aborting Calibration."));
 
-            abort();
-            return;
-        }
-        else
-            restartExposure();
+    else
+        restartExposure();
 }
 
 void Guide::reconnectDriver(const QString &camera, const QString &via)
@@ -1241,7 +1241,7 @@ void Guide::reconnectDriver(const QString &camera, const QString &via)
             checkCCD();
 
             // restart capture
-            captureTimeoutCounter = 0;
+            m_CaptureTimeoutCounter = 0;
             captureOneFrame();
             return;
         }
@@ -1258,7 +1258,7 @@ void Guide::newFITS(IBLOB *bp)
     INDI_UNUSED(bp);
 
     captureTimeout.stop();
-    captureTimeoutCounter = 0;
+    m_CaptureTimeoutCounter = 0;
 
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS);
 
