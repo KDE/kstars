@@ -77,7 +77,7 @@ DriverManager *DriverManager::Instance()
     {
         _DriverManager = new DriverManager(KStars::Instance());
         INDIDBus *indiDBUS = new INDIDBus(KStars::Instance());
-        Q_UNUSED(indiDBUS);
+        Q_UNUSED(indiDBUS)
     }
 
     return _DriverManager;
@@ -816,7 +816,6 @@ int DriverManager::getINDIPort(int customPort)
     return -1;
 #else
     int lastPort = Options::serverPortEnd().toInt();
-    ;
     bool success = false;
     currentPort++;
 

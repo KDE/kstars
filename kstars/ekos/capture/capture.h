@@ -809,7 +809,8 @@ class Capture : public QWidget, public Ui::Capture
 
         // Capture timeout timer
         QTimer captureTimeout;
-        uint8_t captureTimeoutCounter { 0 };
+        uint8_t m_CaptureTimeoutCounter { 0 };
+        uint8_t m_DeviceRestartCounter { 0 };
 
         bool useGuideHead { false };
         bool autoGuideReady { false};

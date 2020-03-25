@@ -268,7 +268,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
         return;
     }
 
-    INDI_D *gdm = new INDI_D(this, di->getBaseDevice(), cm);
+    INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
     Qt::ConnectionType type = Qt::BlockingQueuedConnection;
 
@@ -277,7 +277,11 @@ void GUIManager::buildDevice(DeviceInfo *di)
 #endif
 
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)), type);
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
+    //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
+    connect(cm, &ClientManager::removeINDIProperty, [&](INDI::Property * oneProperty)
+    {
+        gdm->removeProperty(oneProperty->getDeviceName(), oneProperty->getGroupName(), oneProperty->getName());
+    });
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), gdm, SLOT(updateTextGUI(ITextVectorProperty*)));
