@@ -54,29 +54,29 @@ To open KStars in QtCreator, select the CMakeLists.txt file in the KStars source
 
 ### Building
 
+1. Prerequisite Packages
 
-#### Prerequisite Packages
 To build and develop KStars, several packages may be required from your distribution. Here's a list.
 
-# Required dependencies
-* GNU Make, GCC -- Essential tools for building
-* cmake -- buildsystem used by KDE
-* Qt Library > 5.9.0
-* Several KDE Frameworks: KConfig, KDocTools, KGuiAddons, KWidgetsAddons, KNewStuff, KI18n, KInit, KIO, KXmlGui, KPlotting, KIconThemes
-* eigen -- linear algebra library
-* zlib -- compression library
+* Required dependencies
+    * GNU Make, GCC -- Essential tools for building
+    * cmake -- buildsystem used by KDE
+    * Qt Library > 5.9.0
+    * Several KDE Frameworks: KConfig, KDocTools, KGuiAddons, KWidgetsAddons, KNewStuff, KI18n, KInit, KIO, KXmlGui, KPlotting, KIconThemes
+    * eigen -- linear algebra library
+    * zlib -- compression library
 
-# Optional dependencies
-* libcfitsio -- FITS library
-* libindi -- Instrument Neutral Distributed Interface, for controlling equipment.
-* xplanet
-* astrometry.net
-* libraw
-* wcslib
-* libgsl
-* qtkeychain
+* Optional dependencies
+    * libcfitsio -- FITS library
+    * libindi -- Instrument Neutral Distributed Interface, for controlling equipment.
+    * xplanet
+    * astrometry.net
+    * libraw
+    * wcslib
+    * libgsl
+    * qtkeychain
 
-#### Installing Prerequisites
+2. Installing Prerequisites
 
 Debian/Ubuntu
 ```
@@ -88,7 +88,7 @@ Fedora
 yum install cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel
 ```
 
-#### Compiling
+3. Compiling
 
 Open a console and run in the following commands:
 ```
