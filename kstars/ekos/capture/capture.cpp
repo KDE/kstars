@@ -61,7 +61,8 @@ Capture::Capture()
             QDBusConnection::sessionBus(), this);
 
     // Connecting DBus signals
-    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this, SLOT(registerNewModule(QString)));
+    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
+                                          SLOT(registerNewModule(QString)));
     //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
 
     // ensure that the mount interface is present
@@ -105,7 +106,8 @@ Capture::Capture()
 
     connect(binXIN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), binYIN, &QSpinBox::setValue);
 
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Capture::setDefaultCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Capture::setDefaultCCD);
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkCCD);
 
     connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Capture::toggleVideo);
@@ -115,8 +117,10 @@ Capture::Capture()
 
     connect(clearConfigurationB, &QPushButton::clicked, this, &Ekos::Capture::clearCameraConfiguration);
 
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Capture::setDefaultFilterWheel);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFilter);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Capture::setDefaultFilterWheel);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+            &Ekos::Capture::checkFilter);
 
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
     {
@@ -165,7 +169,8 @@ Capture::Capture()
         if (currentCCD)
             currentCCD->setCoolerControl(false);
     });
-    connect(temperatureIN, &QDoubleSpinBox::editingFinished, setTemperatureB, static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
+    connect(temperatureIN, &QDoubleSpinBox::editingFinished, setTemperatureB,
+            static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
     connect(frameTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFrameType);
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Capture::resetFrame);
     connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
@@ -288,7 +293,8 @@ Capture::Capture()
         guideDeviation,
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
-        connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Capture::setDirty);
+        connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+                &Ekos::Capture::setDirty);
 
     connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::setDirty);
     connect(remoteDirIN, &QLineEdit::editingFinished, this, &Ekos::Capture::setDirty);
@@ -303,7 +309,8 @@ Capture::Capture()
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Capture::processCaptureTimeout);
 
     // Post capture script
-    connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished), this, &Ekos::Capture::postScriptFinished);
+    connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+            this, &Ekos::Capture::postScriptFinished);
 
     // Remote directory
     connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
@@ -850,7 +857,8 @@ void Capture::checkCCD(int ccdNum)
                 temperatureIN->setMinimum(min);
                 temperatureIN->setMaximum(max);
                 temperatureIN->setSingleStep(1);
-                bool isChecked = currentCCD->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(currentCCD->getDeviceName()), false).toBool();
+                bool isChecked = currentCCD->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(currentCCD->getDeviceName()),
+                                 false).toBool();
                 temperatureCheck->setChecked(isChecked);
             }
             else
@@ -1072,7 +1080,8 @@ void Capture::updateFrameProperties(int reset)
     binYIN->setEnabled(targetChip->canBin());
 
     QList<double> exposureValues;
-    exposureValues << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.25 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 5 << 6 << 7 << 8 << 9 << 10 << 20 << 30 << 40 << 50 << 60 << 120 << 180 << 300 << 600 << 900 << 1200 << 1800;
+    exposureValues << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.25 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 5 << 6 << 7 << 8 << 9 <<
+                   10 << 20 << 30 << 40 << 50 << 60 << 120 << 180 << 300 << 600 << 900 << 1200 << 1800;
 
     if (currentCCD->getMinMaxStep(exposureProp, exposureElem, &min, &max, &step))
     {
@@ -1478,7 +1487,8 @@ void Capture::newFITS(IBLOB * bp)
 
         if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as current capture state is not active" << m_State;
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as current capture state is not active" <<
+                                           m_State;
             return;
         }
 
@@ -1490,13 +1500,15 @@ void Capture::newFITS(IBLOB * bp)
         if (tChip != targetChip)
         {
             if (guideState == GUIDE_IDLE)
-                qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" << targetChip->getType();
+                qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" <<
+                                               targetChip->getType();
             return;
         }
 
         if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" << targetChip->getCaptureMode();
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" <<
+                                           targetChip->getCaptureMode();
             return;
         }
 
@@ -1594,7 +1606,8 @@ bool Capture::setCaptureComplete()
 
     // Do not display notifications for very short captures
     if (activeJob->getExposure() >= 1)
-        KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"), KSNotification::EVENT_INFO);
+        KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"),
+                              KSNotification::EVENT_INFO);
 
     // If it was initially set as pure preview job and NOT as preview for calibration
     if (activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
@@ -1698,7 +1711,8 @@ void Capture::processJobCompletion()
     else
     {
         //KNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"));
-        KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"), KSNotification::EVENT_INFO);
+        KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"),
+                              KSNotification::EVENT_INFO);
 
         abort();
 
@@ -1890,7 +1904,8 @@ bool Capture::startFocusIfRequired()
     // check if time for forced refocus
     if (refocusEveryNCheck->isChecked())
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() << ". Requested Interval (secs): " << refocusEveryN->value() * 60;
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() <<
+                                     ". Requested Interval (secs): " << refocusEveryN->value() * 60;
         isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value() * 60;
     }
     else
@@ -2130,7 +2145,8 @@ void Capture::captureImage()
     {
         case SequenceJob::CAPTURE_OK:
         {
-            appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3), activeJob->getFilterName()));
+            appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
+                               activeJob->getFilterName()));
             captureTimeout.start(activeJob->getExposure() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
             if (activeJob->isPreview() == false)
             {
@@ -2180,7 +2196,8 @@ bool Capture::resumeCapture()
     /* Refresh isRefocus when resuming */
     if (autoFocusReady && refocusEveryNCheck->isChecked())
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value() * 60;
+        qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() <<
+                                     " Requested Interval (secs): " << refocusEveryN->value() * 60;
         isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value() * 60;
     }
 
@@ -3711,7 +3728,8 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath,
+                   "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
@@ -3797,7 +3815,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     // meridian flip is managed by the mount only
                     // older files might nevertheless contain MF settings
                     if (! strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                        appendLogText(i18n("Meridian flip configuration has been shifted to the mount module. Please configure the meridian flip there."));
+                        appendLogText(
+                            i18n("Meridian flip configuration has been shifted to the mount module. Please configure the meridian flip there."));
                 }
                 else if (!strcmp(tagXMLEle(ep), "CCD"))
                 {
@@ -4592,7 +4611,8 @@ double Capture::getJobExposureDuration(int id)
 
 int Capture::getJobRemainingTime(SequenceJob * job)
 {
-    int remaining = (job->getExposure() + getEstimatedDownloadTime() + job->getDelay() / 1000) * (job->getCount() - job->getCompleted());
+    int remaining = (job->getExposure() + getEstimatedDownloadTime() + job->getDelay() / 1000) *
+                    (job->getCount() - job->getCompleted());
 
     if (job->getStatus() == SequenceJob::JOB_BUSY)
         remaining += job->getExposeLeft() + getEstimatedDownloadTime();
@@ -4741,7 +4761,8 @@ void Capture::processFlipCompleted()
     appendLogText(i18n("Telescope completed the meridian flip."));
 
     //KNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"));
-    KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"), KSNotification::EVENT_INFO);
+    KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"),
+                          KSNotification::EVENT_INFO);
 
 
     // resume only if capturing was running
@@ -5981,7 +6002,8 @@ bool Capture::processPostCaptureCalibrationStage()
 
             if (outOfRange)
             {
-                appendLogText(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.", QString::number(image_data->bpp())
+                appendLogText(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.",
+                                   QString::number(image_data->bpp())
                                    , QString::number(activeJob->getTargetADU(), 'f', 2)));
                 abort();
                 return false;
@@ -6281,7 +6303,8 @@ void Capture::startRefocusTimer(bool forced)
         else if (elapsedSecs < totalSecs)
         {
             //appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", refocusEveryNTimer.elapsed()/1000-refocusEveryNTimer.elapsed()*60, refocusEveryNTimer.elapsed()/1000));
-            appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", totalSecs - elapsedSecs, elapsedSecs));
+            appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", totalSecs - elapsedSecs,
+                               elapsedSecs));
         }
         else
         {
@@ -6437,7 +6460,8 @@ void Capture::syncDriverToDSLRLimits()
     });
 
     if (pos != DSLRInfos.end())
-        targetChip->setImageInfo((*pos)["Width"].toInt(), (*pos)["Height"].toInt(), (*pos)["PixelW"].toDouble(), (*pos)["PixelH"].toDouble(), 8);
+        targetChip->setImageInfo((*pos)["Width"].toInt(), (*pos)["Height"].toInt(), (*pos)["PixelW"].toDouble(),
+                                 (*pos)["PixelH"].toDouble(), 8);
 }
 #endif
 
@@ -6470,7 +6494,8 @@ void Capture::cullToDSLRLimits()
 void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
     capturedFramesMap[signature] = count;
-    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
+    qCDebug(KSTARS_EKOS_CAPTURE) <<
+                                 QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
     // Scheduler's captured frame map overrides the progress option of the Capture module
     ignoreJobProgress = false;
 }
@@ -6600,6 +6625,7 @@ void Capture::processCaptureTimeout()
 
     captureTimeoutCounter++;
 
+#ifdef TIMEOUT_TEST
     if (captureTimeoutCounter > 1)
     {
         QString camera = currentCCD->getDeviceName();
@@ -6611,15 +6637,17 @@ void Capture::processCaptureTimeout()
         });
         return;
     }
-    else if (captureTimeoutCounter >= 3)
-    {
-        captureTimeoutCounter = 0;
-        appendLogText(i18n("Exposure timeout. Aborting..."));
-        abort();
-        return;
-    }
     else
-        restartExposure();
+#endif
+        if (captureTimeoutCounter >= 3)
+        {
+            captureTimeoutCounter = 0;
+            appendLogText(i18n("Exposure timeout. Aborting..."));
+            abort();
+            return;
+        }
+        else
+            restartExposure();
 }
 
 void Capture::setGeneratedPreviewFITS(const QString &previewFITS)

@@ -96,7 +96,8 @@ Guide::Guide() : QWidget()
     // Exposure
     //Should we set the range for the spin box here?
     QList<double> exposureValues;
-    exposureValues << 0.02 << 0.05 << 0.1 << 0.2 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 3.5 << 4 << 4.5 << 5 << 6 << 7 << 8 << 9 << 10 << 15 << 30;
+    exposureValues << 0.02 << 0.05 << 0.1 << 0.2 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 3.5 << 4 << 4.5 << 5 << 6 << 7 << 8 << 9
+                   << 10 << 15 << 30;
     exposureIN->setRecommendedValues(exposureValues);
     connect(exposureIN, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
 
@@ -430,7 +431,8 @@ void Guide::guideHistory()
                       "<tr><td>DE Pulse:   </td><td>%5 ms</td></tr>"
                       "</table>",
                       localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
-                      QString::number(de, 'f', 2), QString::number(raPulse, 'f', 2), QString::number(dePulse, 'f', 2))); //The pulses were divided by 100 before they were put on the graph.
+                      QString::number(de, 'f', 2), QString::number(raPulse, 'f', 2), QString::number(dePulse, 'f',
+                              2))); //The pulses were divided by 100 before they were put on the graph.
         }
 
     }
@@ -483,7 +485,8 @@ void Guide::updateCorrectionsScaleVisibility()
 
 void Guide::setCorrectionGraphScale()
 {
-    driftGraph->yAxis2->setRange(driftGraph->yAxis->range().lower * correctionSlider->value(), driftGraph->yAxis->range().upper * correctionSlider->value());
+    driftGraph->yAxis2->setRange(driftGraph->yAxis->range().lower * correctionSlider->value(),
+                                 driftGraph->yAxis->range().upper * correctionSlider->value());
     driftGraph->replot();
 }
 
@@ -531,7 +534,9 @@ void Guide::exportGuideData()
 
     QTextStream outstream(&file);
 
-    outstream << "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec), RA Pulse  (ms), DE Pulse (ms)" << endl;
+    outstream <<
+              "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec), RA Pulse  (ms), DE Pulse (ms)" <<
+              endl;
 
     for (int i = 0; i < numPoints; i++)
     {
@@ -544,7 +549,8 @@ void Guide::exportGuideData()
         QTime localTime = guideTimer;
         localTime = localTime.addSecs(t);
 
-        outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << raPulse << ',' << dePulse << ',' << endl;
+        outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << raPulse << ',' <<
+                  dePulse << ',' << endl;
     }
     appendLogText(i18n("Guide Data Saved as: %1", path));
     file.close();
@@ -648,7 +654,9 @@ void Guide::configurePHD2Camera()
 
     if(phd2Guider->isCurrentCameraNotInEkos())
     {
-        appendLogText(i18n("PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.", phd2Guider->getCurrentCamera()));
+        appendLogText(
+            i18n("PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.",
+                 phd2Guider->getCurrentCamera()));
         subFrameCheck->setEnabled(false);
         //We don't want to actually change the user's subFrame Setting for when a camera really is connected, just check the box to tell the user.
         disconnect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
@@ -656,7 +664,9 @@ void Guide::configurePHD2Camera()
         return;
     }
 
-    appendLogText(i18n("PHD2's current camera: %1, IS connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.", phd2Guider->getCurrentCamera()));
+    appendLogText(
+        i18n("PHD2's current camera: %1, IS connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.",
+             phd2Guider->getCurrentCamera()));
     subFrameCheck->setEnabled(true);
     connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
     subFrameCheck->setChecked(Options::guideSubframeEnabled());
@@ -789,7 +799,8 @@ void Guide::syncCCDInfo()
     updateGuideParams();
 }
 
-void Guide::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+void Guide::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
+                             double guideAperture)
 {
     if (primaryFocalLength > 0)
         focal_length = primaryFocalLength;
@@ -1187,6 +1198,7 @@ void Guide::processCaptureTimeout()
 
     captureTimeoutCounter++;
 
+#ifdef TIMEOUT_TEST
     if (captureTimeoutCounter > 1)
     {
         QString camera = currentCCD->getDeviceName();
@@ -1198,22 +1210,23 @@ void Guide::processCaptureTimeout()
         });
         return;
     }
-
-    else if (captureTimeoutCounter >= 3)
-    {
-        captureTimeoutCounter = 0;
-        if (state == GUIDE_GUIDING)
-            appendLogText(i18n("Exposure timeout. Aborting Autoguide."));
-        else if (state == GUIDE_DITHERING)
-            appendLogText(i18n("Exposure timeout. Aborting Dithering."));
-        else if (state == GUIDE_CALIBRATING)
-            appendLogText(i18n("Exposure timeout. Aborting Calibration."));
-
-        abort();
-        return;
-    }
     else
-        restartExposure();
+#endif
+        if (captureTimeoutCounter >= 3)
+        {
+            captureTimeoutCounter = 0;
+            if (state == GUIDE_GUIDING)
+                appendLogText(i18n("Exposure timeout. Aborting Autoguide."));
+            else if (state == GUIDE_DITHERING)
+                appendLogText(i18n("Exposure timeout. Aborting Dithering."));
+            else if (state == GUIDE_CALIBRATING)
+                appendLogText(i18n("Exposure timeout. Aborting Calibration."));
+
+            abort();
+            return;
+        }
+        else
+            restartExposure();
 }
 
 void Guide::reconnectDriver(const QString &camera, const QString &via)
@@ -1440,7 +1453,8 @@ bool Guide::calibrate()
 
     executeOperationStack();
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << currentCCD->getDeviceName() << "via" << ST4Combo->currentText();
+    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << currentCCD->getDeviceName() << "via" <<
+                               ST4Combo->currentText();
 
     return true;
 }
@@ -1499,7 +1513,8 @@ bool Guide::guide()
             executeGuide();
         });
 
-        KSMessageBox::Instance()->questionYesNo(i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
+        KSMessageBox::Instance()->questionYesNo(
+            i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
 
         return false;
     }
@@ -1781,7 +1796,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             }
             else
                 setBusy(false);*/
-            if(guiderType != GUIDE_PHD2) //PHD2 will take care of this.  If this command is executed for PHD2, it might start guiding when it is first connected, if the calibration was completed already.
+            if(guiderType !=
+                    GUIDE_PHD2) //PHD2 will take care of this.  If this command is executed for PHD2, it might start guiding when it is first connected, if the calibration was completed already.
                 guide();
             break;
 
@@ -1835,7 +1851,8 @@ void Guide::setStatus(Ekos::GuideState newState)
 
         case GUIDE_DITHERING_SETTLE:
             if (Options::ditherSettle() > 0)
-                appendLogText(i18np("Post-dither settling for %1 second...", "Post-dither settling for %1 seconds...", Options::ditherSettle()));
+                appendLogText(i18np("Post-dither settling for %1 second...", "Post-dither settling for %1 seconds...",
+                                    Options::ditherSettle()));
             capture();
             break;
 
@@ -2331,7 +2348,8 @@ void Guide::onControlDirectionChanged(bool enable)
 void Guide::updatePHD2Directions()
 {
     if(guiderType == GUIDE_PHD2)
-        phd2Guider -> requestSetDEGuideMode(checkBox_DirDEC->isChecked(), northControlCheck->isChecked(), southControlCheck->isChecked());
+        phd2Guider -> requestSetDEGuideMode(checkBox_DirDEC->isChecked(), northControlCheck->isChecked(),
+                                            southControlCheck->isChecked());
 }
 void Guide::updateDirectionsFromPHD2(QString mode)
 {
@@ -2585,14 +2603,17 @@ void Guide::refreshColorScheme()
     // Drift color legend
     if (driftGraph)
     {
-        if (driftGraph->graph(0) && driftGraph->graph(1) && driftGraph->graph(2) && driftGraph->graph(3) && driftGraph->graph(4) && driftGraph->graph(5))
+        if (driftGraph->graph(0) && driftGraph->graph(1) && driftGraph->graph(2) && driftGraph->graph(3) && driftGraph->graph(4)
+                && driftGraph->graph(5))
         {
             driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
             driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
             driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-            driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+            driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+                                                  QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
             driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-            driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+            driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+                                                  QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
             QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
             raPulseColor.setAlpha(75);
@@ -2666,7 +2687,8 @@ void Guide::driftMouseOverLine(QMouseEvent *event)
                           "<tr><td>DE Pulse:   </td><td>%5 ms</td></tr>"
                           "</table>",
                           localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2),
-                          QString::number(deDelta, 'f', 2), QString::number(raPulse, 'f', 2), QString::number(dePulse, 'f', 2))); //The pulses were divided by 100 before they were put on the graph.
+                          QString::number(deDelta, 'f', 2), QString::number(raPulse, 'f', 2), QString::number(dePulse, 'f',
+                                  2))); //The pulses were divided by 100 before they were put on the graph.
             }
         }
         else
@@ -3060,9 +3082,11 @@ void Guide::ditherDirectly()
     int de_polarity = (rand() % 2 == 0) ? 1 : -1;
 
     qCInfo(KSTARS_EKOS_GUIDE) << "Starting non-guiding dither...";
-    qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << ra_msec << "ra_polarity:" << ra_polarity << "de_msec:" << de_msec << "de_polarity:" << de_polarity;
+    qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << ra_msec << "ra_polarity:" << ra_polarity << "de_msec:" << de_msec <<
+                               "de_polarity:" << de_polarity;
 
-    bool rc = sendPulse(ra_polarity > 0 ? RA_INC_DIR : RA_DEC_DIR, ra_msec, de_polarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR, de_msec);
+    bool rc = sendPulse(ra_polarity > 0 ? RA_INC_DIR : RA_DEC_DIR, ra_msec, de_polarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
+                        de_msec);
 
     if (rc)
     {
@@ -3204,7 +3228,8 @@ void Guide::initPlots()
     //Sets the default ranges
     driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
     driftGraph->yAxis->setRange(-3, 3);
-    int scale = 50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
+    int scale =
+        50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
     correctionSlider->setValue(scale);
     driftGraph->yAxis2->setRange(-3 * scale, 3 * scale);
 
@@ -3232,13 +3257,15 @@ void Guide::initPlots()
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
     driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
     driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-    driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+    driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+                                          QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
 
     // DE highlighted Point
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
     driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
     driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-    driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+    driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+                                          QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
     // RA Pulse
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
@@ -3374,10 +3401,12 @@ void Guide::initConnections()
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Guide::processCaptureTimeout);
 
     // Guiding Box Size
-    connect(boxSizeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateTrackingBoxSize);
+    connect(boxSizeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Guide::updateTrackingBoxSize);
 
     // Guider CCD Selection
-    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Guide::setDefaultCCD);
+    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Guide::setDefaultCCD);
     connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
             [&](int index)
     {
@@ -3390,7 +3419,8 @@ void Guide::initConnections()
            );
 
     FOVScopeCombo->setCurrentIndex(Options::guideScopeType());
-    connect(FOVScopeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateTelescopeType);
+    connect(FOVScopeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Guide::updateTelescopeType);
 
     // Dark Frame Check
     connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDarkFrameEnabled);
@@ -3405,7 +3435,8 @@ void Guide::initConnections()
     });
 
     // Binning Combo Selection
-    connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Guide::updateCCDBin);
+    connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Guide::updateCCDBin);
 
     // RA/DEC Enable directions
     connect(checkBox_DirRA, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirRA);
@@ -3453,10 +3484,12 @@ void Guide::initConnections()
         {
             configurePHD2Camera();
             if(phd2Guider->isCurrentCameraNotInEkos())
-                appendLogText(i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
+                appendLogText(
+                    i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
             else if(Options::guideSubframeEnabled())
             {
-                appendLogText(i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
+                appendLogText(
+                    i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
                 subFrameCheck->setChecked(false);
             }
             phd2Guider->captureSingleFrame();
@@ -3474,10 +3507,12 @@ void Guide::initConnections()
         {
             configurePHD2Camera();
             if(phd2Guider->isCurrentCameraNotInEkos())
-                appendLogText(i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
+                appendLogText(
+                    i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
             else if(Options::guideSubframeEnabled())
             {
-                appendLogText(i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
+                appendLogText(
+                    i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
                 subFrameCheck->setChecked(false);
             }
             phd2Guider->loop();
@@ -3514,7 +3549,8 @@ void Guide::initConnections()
     connect(&pulseTimer, &QTimer::timeout, this, &Ekos::Guide::capture);
 
     //This connects all the buttons and slider below the guide plots.
-    connect(accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::buildTarget);
+    connect(accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::Guide::buildTarget);
     connect(guideSlider, &QSlider::sliderMoved, this, &Ekos::Guide::guideHistory);
     connect(latestCheck, &QCheckBox::toggled, this, &Ekos::Guide::setLatestGuidePoint);
     connect(showRAPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowRAPlot);
@@ -3534,7 +3570,8 @@ void Guide::initConnections()
 
     // Guiding Rate - Advisory only
     onInfoRateChanged(spinBox_GuideRate->value());
-    connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Guide::onInfoRateChanged);
+    connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::Guide::onInfoRateChanged);
 }
 
 void Guide::removeDevice(ISD::GDInterface *device)
