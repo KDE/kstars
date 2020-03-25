@@ -1,7 +1,5 @@
 # A Desktop Planetarium for KDE
 
-Important Note: **Do not submit Pull Requests to Github**. KStars repository on Github is just a mirror. All PRs will be closed automatically. To send patches to KStars, please use KDE's [Phabricator](https://community.kde.org/Infrastructure/Phabricator) system.
-
 KStars is free, open source, cross-platform Astronomy Software.
 
 It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. 
@@ -22,7 +20,7 @@ KStars is available for Windows, MacOS, and Linux. You can download the latest v
 
 On Linux, it is available for most Linux distributions.
 
-Latest stable version is v3.3.8
+Latest stable version is v3.4.1
 
 ## Important URLs and files.
 
@@ -44,6 +42,81 @@ README.customize:   Advanced customization options
 README.images:      Copyright information for images used in KStars.
 README.i18n:        Instructions for translators
 
+## Development
+
+Important Note: **Do not submit Pull Requests to Github**. KStars repository on Github is just a mirror. All PRs will be closed automatically. To send patches to KStars, please use KDE's [Phabricator](https://community.kde.org/Infrastructure/Phabricator) system.
+
+### Integrated Development Environment IDE
+
+If you plan to develop KStars, it is highly recommended to utilize an IDE. You can use any IDE of your choice, but QtCreator(https://www.qt.io/product) or KDevelop(https://www.kdevelop.org) are recommended as they are more suited for Qt/KDE development.
+
+To open KStars in QtCreator, select the CMakeLists.txt file in the KStars source folder and then configure the build location and type.
+
+### Building
+
+
+#### Prerequisite Packages
+To build and develop KStars, several packages may be required from your distribution. Here's a list.
+
+# Required dependencies
+* GNU Make, GCC -- Essential tools for building
+* cmake -- buildsystem used by KDE
+* Qt Library > 5.9.0
+* Several KDE Frameworks: KConfig, KDocTools, KGuiAddons, KWidgetsAddons, KNewStuff, KI18n, KInit, KIO, KXmlGui, KPlotting, KIconThemes
+* eigen -- linear algebra library
+* zlib -- compression library
+
+# Optional dependencies
+* libcfitsio -- FITS library
+* libindi -- Instrument Neutral Distributed Interface, for controlling equipment.
+* xplanet
+* astrometry.net
+* libraw
+* wcslib
+* libgsl
+* qtkeychain
+
+#### Installing Prerequisites
+
+Debian/Ubuntu
+```
+sudo apt-get -y install build-essential cmake git libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev kio-dev kinit-dev libkf5newstuff-dev kdoctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme
+```
+
+Fedora
+```
+yum install cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel
+```
+
+#### Compiling
+
+Open a console and run in the following commands:
+```
+mkdir -p ~/Projects/build/kstars
+git clone git://anongit.kde.org/kstars.git
+cd build/kstars
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug ~/Projects/kstars
+make -j8
+sudo make install
+```
+
+To run KStars, simply type **kstars** in the terminal.
+
+### Code Style
+
+KStars uses [Artistic Style](http://astyle.sourceforge.net) to format all the C++ source files. Please make sure to apply the following astyle rules to any code that is submitted to INDI. On Linux, you can create ***~/.astylerc*** file containing the following rules:
+```
+--style=allman
+--align-reference=name
+--indent-switches
+--indent-modifiers
+--indent-classes
+--pad-oper
+--indent-col1-comments
+--lineend=linux
+--max-code-length=124
+```
+Some IDEs (e.g. QtCreator) support automatic formatting for the code everytime you save the file to disk.
 
 ## Credits
 ### The KStars Team
