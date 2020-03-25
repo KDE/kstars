@@ -18,7 +18,7 @@ enum
 {
     None,
     Solo,
-    Shared,
+    Share,
     Robotic
 };
 
@@ -26,8 +26,8 @@ QString toString(uint8_t mode)
 {
     if (mode == Solo)
         return "solo";
-    else if (mode == Shared)
-        return "shared";
+    else if (mode == Share)
+        return "share";
     else if (mode == Robotic)
         return "robotic";
     else
