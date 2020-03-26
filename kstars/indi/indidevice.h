@@ -1,6 +1,3 @@
-#ifndef INDI_D_H
-#define INDI_D_H
-
 /*  GUI Device Manager
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -10,12 +7,15 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#pragma once
+
 #include <QDialog>
 
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QMutex>
 
 #include <indiapi.h>
 #include <basedevice.h>
@@ -65,10 +65,15 @@ class INDI_D : public QDialog
 
         void clearMessageLog();
 
+        const QString &name() const
+        {
+            return m_Name;
+        }
+
     public slots:
         bool buildProperty(INDI::Property *prop);
         bool removeProperty(INDI::Property *prop);
-        bool removeProperty(const QString &device, const QString &group, const QString &name);
+        bool removeProperty(const QString &name);
         bool updateSwitchGUI(ISwitchVectorProperty *svp);
         bool updateTextGUI(ITextVectorProperty *tvp);
         bool updateNumberGUI(INumberVectorProperty *nvp);
@@ -79,14 +84,15 @@ class INDI_D : public QDialog
 
     private:
         QString m_Name;
-        QSplitter *deviceVBox;
-        QTabWidget *groupContainer; /* Groups within the device */
-        QTextEdit *msgST_w;         /* scrolled text for messages */
 
-        INDI::BaseDevice *m_BaseDevice;
-        ClientManager *m_ClientManager;
+        // GUI
+        QSplitter *deviceVBox { nullptr };
+        QTabWidget *groupContainer { nullptr };
+        QTextEdit *msgST_w { nullptr };
+
+        // Managers
+        INDI::BaseDevice *m_BaseDevice { nullptr };
+        ClientManager *m_ClientManager { nullptr };
 
         QList<INDI_G *> groupsList;
 };
-
-#endif // INDI_D_H
