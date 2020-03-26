@@ -197,6 +197,8 @@ void ProfileEditor::saveProfile()
         pi->country.clear();
     }
 
+    pi->indihub = m_INDIHub;
+
     // Auto Connect
     pi->autoConnect = ui->autoConnectCheck->isChecked();
 
@@ -526,6 +528,8 @@ void ProfileEditor::setPi(ProfileInfo *value)
             ui->aux4Combo->setCurrentIndex(row);
         }
     }
+
+    m_INDIHub = pi->indihub;
 
     loadScopeEquipment();
 }
@@ -958,6 +962,8 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->externalGuideHost->setText(profile["remote_guiding_port"].toString());
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
 
+    m_INDIHub = profile["indihub"].toInt(m_INDIHub);
+
     int primaryID = profile["primary_scope"].toInt(-1);
     int guideID = profile["guide_scope"].toInt(-1);
 
@@ -1108,10 +1114,10 @@ void ProfileEditor::showINDIHub()
 
     indihub.logoLabel->setPixmap(QIcon(":/icons/indihub_logo.svg").pixmap(QSize(128, 128)));
 
-    indihub.modeButtonGroup->button(pi->indihub)->setChecked(true);
+    indihub.modeButtonGroup->button(m_INDIHub)->setChecked(true);
     connect(indihub.closeB, &QPushButton::clicked, &hub, &QDialog::close);
 
     hub.exec();
 
-    pi->indihub = indihub.modeButtonGroup->checkedId();
+    m_INDIHub = indihub.modeButtonGroup->checkedId();
 }

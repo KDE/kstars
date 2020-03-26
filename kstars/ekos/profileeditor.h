@@ -75,6 +75,7 @@ class ProfileEditor : public QDialog
         ProfileInfo *pi { nullptr };
         QList<OAL::Scope *> m_scopeList;
         QStandardItemModel *m_MountModel { nullptr };
+        uint8_t m_INDIHub { 0 };
 
         QPointer<QProgressDialog> m_ProgressDialog;
         QNetworkAccessManager m_Manager;
