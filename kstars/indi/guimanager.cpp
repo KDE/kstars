@@ -278,9 +278,12 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)), type);
     //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
-    connect(cm, &ClientManager::removeINDIProperty, [&](INDI::Property * oneProperty)
+    connect(cm, &ClientManager::removeINDIProperty, [gdm](INDI::Property * oneProperty)
     {
-        gdm->removeProperty(oneProperty->getDeviceName(), oneProperty->getGroupName(), oneProperty->getName());
+        QString device = oneProperty->getDeviceName();
+        QString name   = oneProperty->getName();
+        if (device == gdm->name())
+            QMetaObject::invokeMethod(gdm, "removeProperty", Qt::QueuedConnection, Q_ARG(QString, name));
     });
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty*)));

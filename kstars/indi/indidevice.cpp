@@ -128,26 +128,27 @@ bool INDI_D::removeProperty(INDI::Property *prop)
     return removeResult;
 }
 
-bool INDI_D::removeProperty(const QString &device, const QString &group, const QString &name)
+bool INDI_D::removeProperty(const QString &name)
 {
-    if (device != name)
-        return false;
-
-    INDI_G *pg = getGroup(group);
-
-    if (pg == nullptr)
-        return false;
-
-    bool removeResult = pg->removeProperty(name);
-
-    if (pg->size() == 0 && removeResult)
+    for (auto &oneGroup : groupsList)
     {
-        groupContainer->removeTab(groupsList.indexOf(pg));
-        groupsList.removeOne(pg);
-        delete (pg);
+        for (auto &oneProperty : oneGroup->getProperties())
+        {
+            if (name == oneProperty->getName())
+            {
+                bool rc = oneGroup->removeProperty(name);
+                if (oneGroup->size() == 0)
+                {
+                    int index = groupsList.indexOf(oneGroup);
+                    groupContainer->removeTab(index);
+                    delete groupsList.takeAt(index);
+                }
+                return rc;
+            }
+        }
     }
 
-    return removeResult;
+    return false;
 }
 
 bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
@@ -188,7 +189,7 @@ bool INDI_D::updateTextGUI(ITextVectorProperty *tvp)
     if (m_Name != tvp->device)
         return false;
 
-    foreach (INDI_G *pg, groupsList)
+    for (const auto &pg : groupsList)
     {
         if ((guiProp = pg->getProperty(propName)) != nullptr)
             break;
@@ -199,7 +200,7 @@ bool INDI_D::updateTextGUI(ITextVectorProperty *tvp)
 
     guiProp->updateStateLED();
 
-    foreach (INDI_E *lp, guiProp->getElements())
+    for (const auto &lp : guiProp->getElements())
         lp->syncText();
 
     return true;
@@ -213,7 +214,7 @@ bool INDI_D::updateNumberGUI(INumberVectorProperty *nvp)
     if (m_Name != nvp->device)
         return false;
 
-    foreach (INDI_G *pg, groupsList)
+    for (const auto &pg : groupsList)
     {
         if ((guiProp = pg->getProperty(propName)) != nullptr)
             break;
@@ -224,7 +225,7 @@ bool INDI_D::updateNumberGUI(INumberVectorProperty *nvp)
 
     guiProp->updateStateLED();
 
-    foreach (INDI_E *lp, guiProp->getElements())
+    for (const auto &lp : guiProp->getElements())
         lp->syncNumber();
 
     return true;
@@ -238,7 +239,7 @@ bool INDI_D::updateLightGUI(ILightVectorProperty *lvp)
     if (m_Name != lvp->device)
         return false;
 
-    foreach (INDI_G *pg, groupsList)
+    for (const auto &pg : groupsList)
     {
         if ((guiProp = pg->getProperty(propName)) != nullptr)
             break;
@@ -249,7 +250,7 @@ bool INDI_D::updateLightGUI(ILightVectorProperty *lvp)
 
     guiProp->updateStateLED();
 
-    foreach (INDI_E *lp, guiProp->getElements())
+    for (const auto &lp : guiProp->getElements())
         lp->syncLight();
 
     return true;
@@ -263,7 +264,7 @@ bool INDI_D::updateBLOBGUI(IBLOB *bp)
     if (m_Name != bp->bvp->device)
         return false;
 
-    foreach (INDI_G *pg, groupsList)
+    for (const auto &pg : groupsList)
     {
         if ((guiProp = pg->getProperty(propName)) != nullptr)
             break;
@@ -318,7 +319,7 @@ INDI_D::~INDI_D()
 
 INDI_G *INDI_D::getGroup(const QString &groupName)
 {
-    foreach (INDI_G *pg, groupsList)
+    for (const auto &pg : groupsList)
     {
         if (pg->getName() == groupName)
             return pg;
