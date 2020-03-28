@@ -61,7 +61,8 @@ Mount::Mount()
     qDBusRegisterMetaType<SkyPoint>();
 
     // Connecting DBus signals
-    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this, SLOT(registerNewModule(QString)));
+    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
+                                          SLOT(registerNewModule(QString)));
     //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
 
     currentTelescope = nullptr;
@@ -124,7 +125,8 @@ Mount::Mount()
         offset *= 15.0;
     meridianFlipTimeBox->setValue(offset);
     connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
-    connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Mount::meridianFlipSetupChanged);
+    connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::Mount::meridianFlipSetupChanged);
     connect(meridianFlipDegreesR, &QRadioButton::toggled, this, [this]()
     {
         Options::setMeridianFlipUnitDegrees(meridianFlipDegreesR->isChecked());
@@ -669,7 +671,8 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         }
     }
 
-    if (currentGPS != nullptr && !strcmp(nvp->device, currentGPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK)
+    if (currentGPS != nullptr && !strcmp(nvp->device, currentGPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD")
+            && nvp->s == IPS_OK)
         syncGPS();
 }
 
@@ -1107,7 +1110,7 @@ bool Mount::checkMeridianFlip(dms lst)
 
 bool Mount::executeMeridianFlip()
 {
-    if (initialHA() > 0)
+    if (initialHA() > 0 || currentTargetPosition == nullptr)
         // no meridian flip necessary
         return false;
 
@@ -1445,7 +1448,8 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
     auto executeSetGPS = [this, newGPS]()
     {
         currentGPS = newGPS;
-        connect(newGPS, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+        connect(newGPS, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)),
+                Qt::UniqueConnection);
 
         appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
 
