@@ -29,6 +29,7 @@
 #include "skymapcomposite.h"
 #include "auxiliary/ksnotification.h"
 
+#include <KFormat>
 #include <QApplication>
 #include <QImage>
 #include <QtConcurrent>
@@ -151,7 +152,7 @@ bool FITSData::loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
                                   size_t fits_buffer_size, bool silent)
 {
     loadCommon(inFilename);
-    qCInfo(KSTARS_FITS) << "Reading FITS file buffer ";
+    qCDebug(KSTARS_FITS) << "Reading FITS file buffer (" << KFormat().formatByteSize(fits_buffer_size) << ")";
     return privateLoad(fits_buffer, fits_buffer_size, silent);
 }
 
@@ -195,7 +196,8 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         // Store so we don't lose.
         m_compressedFilename = m_Filename;
 
-        QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
+        QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
+                                       QRegularExpression("[-{}]")));
         fpstate	fpvar;
         fp_init (&fpvar);
         if (fp_unpack(m_Filename.toLatin1().data(), uncompressedFile.toLatin1().data(), fpvar) < 0)
@@ -781,7 +783,8 @@ void FITSData::runningAverageStdDev()
         for (int i = 0; i < nThreads; i++)
         {
             // Run threads
-            futures.append(QtConcurrent::run(this, &FITSData::getSquaredSumAndMean<T>, tStart, (i == (nThreads - 1)) ? fStride : tStride));
+            futures.append(QtConcurrent::run(this, &FITSData::getSquaredSumAndMean<T>, tStart,
+                                             (i == (nThreads - 1)) ? fStride : tStride));
             tStart += tStride;
         }
 
@@ -2098,7 +2101,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     for (int i = 0; i < nThreads; i++)
                     {
                         // Run threads
-                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max, coeff, n](T & a)
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
+                                                              coeff, n](T & a)
                         {
                             a = qBound(min[n], static_cast<T>(round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))), max[n]);
                         }));
@@ -2111,7 +2115,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     for (int i = 0; i < nThreads; i++)
                     {
                         // Run threads
-                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max, coeff, n](T & a)
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
+                                                              coeff, n](T & a)
                         {
                             a = qBound(min[n], static_cast<T>(round(coeff[n] * a)), max[n]);
                         }));
@@ -2124,7 +2129,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     for (int i = 0; i < nThreads; i++)
                     {
                         // Run threads
-                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max, n](T & a)
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
+                                                              n](T & a)
                         {
                             a = qBound(min[n], a, max[n]);
                         }));
@@ -3307,18 +3313,18 @@ bool FITSData::checkDebayer()
         // Only offsets of 0 or 1 are implemented in debayer_8bit() and debayer_16bit().
         switch (debayerParams.filter)
         {
-        case DC1394_COLOR_FILTER_RGGB:
-            debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-            break;
-        case DC1394_COLOR_FILTER_GBRG:
-            debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-            break;
-        case DC1394_COLOR_FILTER_GRBG:
-            debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-            break;
-        case DC1394_COLOR_FILTER_BGGR:
-            debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-            break;
+            case DC1394_COLOR_FILTER_RGGB:
+                debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+                break;
+            case DC1394_COLOR_FILTER_GBRG:
+                debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+                break;
+            case DC1394_COLOR_FILTER_GRBG:
+                debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+                break;
+            case DC1394_COLOR_FILTER_BGGR:
+                debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+                break;
         }
         debayerParams.offsetX = 0;
     }
@@ -3406,7 +3412,8 @@ bool FITSData::debayer_8bit()
     }
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
-    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height, debayerParams.filter,
+    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height,
+                                            debayerParams.filter,
                                             debayerParams.method);
 
     if (error_code != DC1394_SUCCESS)
@@ -3479,7 +3486,8 @@ bool FITSData::debayer_16bit()
     }
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
-    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height, debayerParams.filter,
+    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height,
+                 debayerParams.filter,
                  debayerParams.method, 16);
 
     if (error_code != DC1394_SUCCESS)
