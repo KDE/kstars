@@ -42,6 +42,7 @@ GenericDevice::GenericDevice(DeviceInfo &idv)
     deviceInfo    = &idv;
     driverInfo    = idv.getDriverInfo();
     baseDevice    = idv.getBaseDevice();
+    m_Name        = baseDevice->getDeviceName();
     clientManager = driverInfo->getClientManager();
 
     dType = KSTARS_UNKNOWN;
@@ -63,25 +64,23 @@ void GenericDevice::registerDBusType()
 #endif
 }
 
-const char *GenericDevice::getDeviceName()
+const QString &GenericDevice::getDeviceName() const
 {
-    return baseDevice->getDeviceName();
+    return m_Name;
 }
 
 void GenericDevice::registerProperty(INDI::Property *prop)
 {
-    foreach (INDI::Property *pp, properties)
-    {
-        if (pp == prop)
-            return;
-    }
+    const QString name = prop->getName();
+    if (properties.contains(name))
+        return;
 
-    properties.append(prop);
+    properties[name] = prop;
 
     emit propertyDefined(prop);
 
     // In case driver already started
-    if (!strcmp(prop->getName(), "CONNECTION"))
+    if (name == "CONNECTION")
     {
         ISwitchVectorProperty *svp = prop->getSwitch();
 
@@ -104,8 +103,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             createDeviceInit();
         }
     }
-
-    if (!strcmp(prop->getName(), "DRIVER_INFO"))
+    else if (name == "DRIVER_INFO")
     {
         ITextVectorProperty *tvp = prop->getText();
         if (tvp)
@@ -124,7 +122,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             }
         }
     }
-    else if (!strcmp(prop->getName(), "SYSTEM_PORTS"))
+    else if (name == "SYSTEM_PORTS")
     {
         // Check if our current port is set to one of the system ports. This indicates that the port
         // is not mapped yet to a permenant designation
@@ -142,19 +140,19 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             }
         }
     }
-    else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useKStarsSource())
+    else if (name == "TIME_UTC" && Options::useTimeUpdate() && Options::useKStarsSource())
     {
         ITextVectorProperty *tvp = prop->getText();
         if (tvp && tvp->p != IP_RO)
             updateTime();
     }
-    else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::useKStarsSource())
+    else if (name == "GEOGRAPHIC_COORD" && Options::useGeographicUpdate() && Options::useKStarsSource())
     {
         INumberVectorProperty *nvp = prop->getNumber();
         if (nvp && nvp->p != IP_RO)
             updateLocation();
     }
-    else if (!strcmp(prop->getName(), "WATCHDOG_HEARTBEAT"))
+    else if (name == "WATCHDOG_HEARTBEAT")
     {
         INumberVectorProperty *nvp = prop->getNumber();
         if (nvp)
@@ -175,11 +173,10 @@ void GenericDevice::registerProperty(INDI::Property *prop)
     }
 }
 
-void GenericDevice::removeProperty(INDI::Property *prop)
+void GenericDevice::removeProperty(const QString &name)
 {
-    properties.removeOne(prop);
-
-    emit propertyDeleted(prop);
+    properties.remove(name);
+    emit propertyDeleted(name);
 }
 
 void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
@@ -285,7 +282,8 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
             geo->setLat(lat);
         }
 
-        qCInfo(KSTARS_INDI) << "Setting location from device:" << deviceName << "Longitude:" << lng.toDMSString() << "Latitude:" << lat.toDMSString();
+        qCInfo(KSTARS_INDI) << "Setting location from device:" << deviceName << "Longitude:" << lng.toDMSString() << "Latitude:" <<
+                            lat.toDMSString();
 
         KStars::Instance()->data()->setLocation(*geo);
     }
@@ -612,11 +610,13 @@ bool GenericDevice::runCommand(int command, void *ptr)
     switch (command)
     {
         case INDI_CONNECT:
-            clientManager->connectDevice(baseDevice->getDeviceName());
+            if (baseDevice->getDeviceName())
+                clientManager->connectDevice(baseDevice->getDeviceName());
             break;
 
         case INDI_DISCONNECT:
-            clientManager->disconnectDevice(baseDevice->getDeviceName());
+            if (baseDevice->getDeviceName())
+                clientManager->disconnectDevice(baseDevice->getDeviceName());
             break;
 
         case INDI_SET_PORT:
@@ -1050,9 +1050,9 @@ void DeviceDecorator::registerProperty(INDI::Property * prop)
     interfacePtr->registerProperty(prop);
 }
 
-void DeviceDecorator::removeProperty(INDI::Property * prop)
+void DeviceDecorator::removeProperty(const QString &name)
 {
-    interfacePtr->removeProperty(prop);
+    interfacePtr->removeProperty(name);
 }
 
 bool DeviceDecorator::setConfig(INDIConfig tConfig)
@@ -1075,7 +1075,7 @@ DeviceInfo *DeviceDecorator::getDeviceInfo()
     return interfacePtr->getDeviceInfo();
 }
 
-const char *DeviceDecorator::getDeviceName()
+const QString &DeviceDecorator::getDeviceName() const
 {
     return interfacePtr->getDeviceName();
 }
@@ -1095,7 +1095,7 @@ QString DeviceDecorator::getDriverVersion()
     return interfacePtr->getDriverVersion();
 }
 
-QList<INDI::Property *> DeviceDecorator::getProperties()
+const QHash<QString, INDI::Property *> &DeviceDecorator::getProperties()
 {
     return interfacePtr->getProperties();
 }

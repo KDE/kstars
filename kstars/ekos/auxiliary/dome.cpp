@@ -192,7 +192,7 @@ bool Dome::controlShutter(bool open)
 void Dome::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (currentDome && !strcmp(currentDome->getDeviceName(), device->getDeviceName()))
+    if (currentDome && (currentDome->getDeviceName() == device->getDeviceName()))
     {
         currentDome = nullptr;
     }
@@ -213,7 +213,8 @@ void Dome::setStatus(ISD::Dome::Status status)
         }
         // if a unparked rolloff roof starts to move, its state changes to parking
         // CCW ==> Closing = Parking
-        else if (status == ISD::Dome::DOME_MOVING_CCW && (m_ParkStatus == ISD::PARK_UNPARKED || m_ParkStatus == ISD::PARK_UNPARKING))
+        else if (status == ISD::Dome::DOME_MOVING_CCW && (m_ParkStatus == ISD::PARK_UNPARKED
+                 || m_ParkStatus == ISD::PARK_UNPARKING))
         {
             m_ParkStatus = ISD::PARK_PARKING;
             qCDebug(KSTARS_EKOS) << "Parking rolloff roof (status = " << status << ").";

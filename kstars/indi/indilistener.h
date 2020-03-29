@@ -36,55 +36,62 @@ class DeviceInfo;
  */
 class INDIListener : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    static INDIListener *Instance();
+    public:
+        static INDIListener *Instance();
 
-    void addClient(ClientManager *cm);
-    void removeClient(ClientManager *cm);
+        void addClient(ClientManager *cm);
+        void removeClient(ClientManager *cm);
 
-    ISD::GDInterface *getDevice(const QString &name);
-    QList<ISD::GDInterface *> getDevices() { return devices; }
+        ISD::GDInterface *getDevice(const QString &name);
+        QList<ISD::GDInterface *> getDevices()
+        {
+            return devices;
+        }
 
-    int size() { return devices.size(); }
+        int size()
+        {
+            return devices.size();
+        }
 
-    bool isStandardProperty(const QString &name);
+        bool isStandardProperty(const QString &name);
 
-  public slots:
+    public slots:
 
-    void registerProperty(INDI::Property *prop);
-    void removeProperty(INDI::Property *prop);
-    void processDevice(DeviceInfo *dv);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty *tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
-    void processBLOB(IBLOB *bp);
-    void processMessage(INDI::BaseDevice *dp, int messageID);
-    void processUniversalMessage(const QString &message);
-    void removeDevice(DeviceInfo *dv);
+        void registerProperty(INDI::Property *prop);
+        void removeProperty(const QString &device, const QString &name);
+        void processDevice(DeviceInfo *dv);
+        void processSwitch(ISwitchVectorProperty *svp);
+        void processText(ITextVectorProperty *tvp);
+        void processNumber(INumberVectorProperty *nvp);
+        void processLight(ILightVectorProperty *lvp);
+        void processBLOB(IBLOB *bp);
+        void processMessage(INDI::BaseDevice *dp, int messageID);
+        void processUniversalMessage(const QString &message);
+        //void removeDevice(DeviceInfo *dv);
+        void removeDevice(const QString &deviceName);
 
-  private:
-    explicit INDIListener(QObject *parent);
-    ~INDIListener();
+    private:
+        explicit INDIListener(QObject *parent);
+        ~INDIListener();
 
-    static INDIListener *_INDIListener;
+        static INDIListener *_INDIListener;
 
-    QList<ClientManager *> clients;
-    QList<ISD::GDInterface *> devices;
-    QList<ISD::ST4 *> st4Devices;
+        QList<ClientManager *> clients;
+        QList<ISD::GDInterface *> devices;
+        QList<ISD::ST4 *> st4Devices;
 
-  signals:
-    void newDevice(ISD::GDInterface *);
-    void newTelescope(ISD::GDInterface *);
-    void newCCD(ISD::GDInterface *);
-    void newFilter(ISD::GDInterface *);
-    void newFocuser(ISD::GDInterface *);
-    void newDome(ISD::GDInterface *);
-    void newWeather(ISD::GDInterface *);
-    void newDustCap(ISD::GDInterface *);
-    void newLightBox(ISD::GDInterface *);
-    void newST4(ISD::ST4 *);
-    void deviceRemoved(ISD::GDInterface *);
+    signals:
+        void newDevice(ISD::GDInterface *);
+        void newTelescope(ISD::GDInterface *);
+        void newCCD(ISD::GDInterface *);
+        void newFilter(ISD::GDInterface *);
+        void newFocuser(ISD::GDInterface *);
+        void newDome(ISD::GDInterface *);
+        void newWeather(ISD::GDInterface *);
+        void newDustCap(ISD::GDInterface *);
+        void newLightBox(ISD::GDInterface *);
+        void newST4(ISD::ST4 *);
+        void deviceRemoved(ISD::GDInterface *);
 };

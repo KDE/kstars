@@ -1903,7 +1903,7 @@ void Guide::updateCCDBin(int index)
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
 {
-    if (currentCCD == nullptr || strcmp(nvp->device, currentCCD->getDeviceName()) || guiderType != GUIDE_INTERNAL)
+    if (currentCCD == nullptr || (nvp->device != currentCCD->getDeviceName()) || guiderType != GUIDE_INTERNAL)
         return;
 
     if ((!strcmp(nvp->name, "CCD_BINNING") && useGuideHead == false) ||
@@ -3577,7 +3577,7 @@ void Guide::initConnections()
 void Guide::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
+    if (currentTelescope && (currentTelescope->getDeviceName() == device->getDeviceName()))
     {
         currentTelescope = nullptr;
     }
@@ -3599,14 +3599,14 @@ void Guide::removeDevice(ISD::GDInterface *device)
 
     auto st4 = std::find_if(ST4List.begin(), ST4List.end(), [device](ISD::ST4 * st)
     {
-        return !strcmp(st->getDeviceName(), device->getDeviceName());
+        return (st->getDeviceName() == device->getDeviceName());
     });
 
     if (st4 != ST4List.end())
     {
         ST4List.removeOne(*st4);
 
-        if (AODriver && !strcmp(device->getDeviceName(), AODriver->getDeviceName()))
+        if (AODriver && (device->getDeviceName() == AODriver->getDeviceName()))
             AODriver = nullptr;
 
         ST4Combo->removeItem(ST4Combo->findText(device->getDeviceName()));

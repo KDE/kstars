@@ -943,7 +943,7 @@ CCD::~CCD()
 
 void CCD::setBLOBManager(const char *device, INDI::Property *prop)
 {
-    if (!strcmp(device, getDeviceName()))
+    if (device == getDeviceName())
         emit newBLOBManager(prop);
 }
 
@@ -1134,14 +1134,14 @@ void CCD::registerProperty(INDI::Property *prop)
     DeviceDecorator::registerProperty(prop);
 }
 
-void CCD::removeProperty(INDI::Property *prop)
+void CCD::removeProperty(const QString &name)
 {
-    if (!strcmp(prop->getName(), "CCD_WEBSOCKET_SETTINGS"))
+    if (name == "CCD_WEBSOCKET_SETTINGS")
     {
         m_Media->disconnectServer();
     }
 
-    DeviceDecorator::removeProperty(prop);
+    DeviceDecorator::removeProperty(name);
 }
 
 void CCD::processLight(ILightVectorProperty *lvp)
@@ -2253,7 +2253,8 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
 
     if (xarg && yarg && warg && harg)
     {
-        if (!std::fabs(xarg->value - x) && !std::fabs(yarg->value - y) && !std::fabs(warg->value - w) && !std::fabs(harg->value - h))
+        if (!std::fabs(xarg->value - x) && !std::fabs(yarg->value - y) && !std::fabs(warg->value - w)
+                && !std::fabs(harg->value - h))
             return true;
 
         // N.B. We add offset since the X, Y are relative to whatever streaming frame is currently active

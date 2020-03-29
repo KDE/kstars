@@ -42,7 +42,7 @@ void DustCap::setDustCap(ISD::GDInterface *newDustCap)
 void DustCap::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (currentDustCap && !strcmp(currentDustCap->getDeviceName(), device->getDeviceName()))
+    if (currentDustCap && (currentDustCap->getDeviceName() == device->getDeviceName()))
     {
         currentDustCap = nullptr;
     }

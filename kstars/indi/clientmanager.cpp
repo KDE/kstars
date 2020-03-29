@@ -106,14 +106,16 @@ void ClientManager::newProperty(INDI::Property *prop)
 
 void ClientManager::removeProperty(INDI::Property *prop)
 {
-    emit removeINDIProperty(prop);
+    QString name = prop->getName();
+    QString device = prop->getDeviceName();
+    emit removeINDIProperty(device, name);
 
     // If BLOB property is removed, remove its corresponding property if one exists.
     if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
     {
         for (QPointer<BlobManager> bm : blobManagers)
         {
-            if (bm.data()->property("property").toString() == QString(prop->getName()))
+            if (bm.data()->property("property").toString() == name)
             {
                 blobManagers.removeOne(bm);
                 bm.data()->disconnectServer();
@@ -126,9 +128,11 @@ void ClientManager::removeProperty(INDI::Property *prop)
 
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
+    QString deviceName = dp->getDeviceName();
+
     for (auto &oneManager : blobManagers)
     {
-        if (oneManager->property("device").toString() == QString(dp->getDeviceName()))
+        if (oneManager->property("device").toString() == deviceName)
         {
             oneManager->disconnect();
             blobManagers.removeOne(oneManager);
@@ -139,11 +143,11 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
     {
         for (auto deviceInfo : driverInfo->getDevices())
         {
-            if (deviceInfo->getBaseDevice() == dp)
+            if (deviceInfo->getBaseDevice()->getDeviceName() == deviceName)
             {
-                qCDebug(KSTARS_INDI) << "Removing device" << dp->getDeviceName();
+                qCDebug(KSTARS_INDI) << "Removing device" << deviceName;
 
-                emit removeINDIDevice(deviceInfo);
+                emit removeINDIDevice(deviceName);
 
                 driverInfo->removeDevice(deviceInfo);
 
@@ -218,10 +222,10 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     for (auto di : dv->getDevices())
     {
         // #1 Remove from GUI Manager
-        GUIManager::Instance()->removeDevice(di);
+        GUIManager::Instance()->removeDevice(di->getBaseDevice()->getDeviceName());
 
         // #2 Remove from INDI Listener
-        INDIListener::Instance()->removeDevice(di);
+        INDIListener::Instance()->removeDevice(di->getBaseDevice()->getDeviceName());
 
         // #3 Remove device from Driver Info
         dv->removeDevice(di);

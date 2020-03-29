@@ -1148,7 +1148,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
 
     for(auto &device : genericDevices)
     {
-        if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
+        if (device->getDeviceName() == devInterface->getDeviceName())
         {
             qCWarning(KSTARS_EKOS) << "Found duplicate device, ignoring...";
             return;
@@ -1630,7 +1630,7 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
     // do not care about
     for (auto &device : genericDevices)
     {
-        if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
+        if (device->getDeviceName() == devInterface->getDeviceName())
         {
             genericDevices.removeOne(device);
         }
@@ -1640,7 +1640,7 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
     // Managed devices are devices selected by the user in the device profile
     for (auto &device : managedDevices.values())
     {
-        if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
+        if (device->getDeviceName() == devInterface->getDeviceName())
         {
             managedDevices.remove(managedDevices.key(device));
 
@@ -1885,7 +1885,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     {
         foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
         {
-            if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
+            if (device->getDeviceName() == prop->getDeviceName())
             {
                 initCapture();
                 initGuide();
@@ -1911,7 +1911,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         {
             foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
             {
-                if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
+                if (device->getDeviceName() == prop->getDeviceName())
                 {
                     captureProcess->syncFrameType(device);
                     return;
@@ -1962,7 +1962,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     {
         foreach (ISD::GDInterface * device, genericDevices)
         {
-            if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
+            if (device->getDeviceName() == prop->getDeviceName())
             {
                 initAlign();
                 alignProcess->setAstrometryDevice(device);
@@ -3517,10 +3517,10 @@ void Manager::syncActiveDevices()
 
                 if (!devs.empty())
                 {
-                    if (strcmp(tvp->tp[i].text, devs.first()->getDeviceName()))
+                    if (tvp->tp[i].text != devs.first()->getDeviceName())
                     {
                         //propertyUpdated = true;
-                        IUSaveText(&tvp->tp[i], devs.first()->getDeviceName());
+                        IUSaveText(&tvp->tp[i], devs.first()->getDeviceName().toLatin1().constData());
                         oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
                 }

@@ -73,7 +73,8 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     // Absolute Focus Position
     filterView->setItemDelegateForColumn(9, noEditDelegate);
 
-    connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex & topLeft, const QModelIndex &, const QVector<int> &)
+    connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex & topLeft, const QModelIndex &,
+            const QVector<int> &)
     {
         reloadFilters();
         if (topLeft.column() == 5)
@@ -161,7 +162,9 @@ void FilterManager::refreshFilterModel()
     filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running Auto Focus"), Qt::ToolTipRole);
     filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
 
-    filterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."), Qt::ToolTipRole);
+    filterModel->setHeaderData(9, Qt::Horizontal,
+                               i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."),
+                               Qt::ToolTipRole);
     filterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
 
     filterView->hideColumn(0);
@@ -193,7 +196,8 @@ void FilterManager::reloadFilters()
         QString lockedFilter  = record.value("LockedFilter").toString();
         bool useAutoFocus = record.value("UseAutoFocus").toInt() == 1;
         int absFocusPos   = record.value("AbsoluteFocusPosition").toInt();
-        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter, absFocusPos);
+        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter,
+                                            absFocusPos);
         m_ActiveFilters.append(o);
     }
 }
@@ -309,7 +313,8 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
 
 void FilterManager::processNumber(INumberVectorProperty *nvp)
 {
-    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr || strcmp(nvp->device, m_currentFilterDevice->getDeviceName()))
+    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr
+            || (nvp->device != m_currentFilterDevice->getDeviceName()))
         return;
 
     m_FilterPositionProperty = nvp;
@@ -407,7 +412,8 @@ void FilterManager::processNumber(INumberVectorProperty *nvp)
 
 void FilterManager::processText(ITextVectorProperty *tvp)
 {
-    if (strcmp(tvp->name, "FILTER_NAME") || m_currentFilterDevice == nullptr || strcmp(tvp->device, m_currentFilterDevice->getDeviceName())            )
+    if (strcmp(tvp->name, "FILTER_NAME") || m_currentFilterDevice == nullptr
+            || (tvp->device != m_currentFilterDevice->getDeviceName())            )
         return;
 
     m_FilterNameProperty = tvp;
@@ -426,7 +432,7 @@ void FilterManager::processText(ITextVectorProperty *tvp)
 
 void FilterManager::processSwitch(ISwitchVectorProperty *svp)
 {
-    if (m_currentFilterDevice == nullptr || strcmp(svp->device, m_currentFilterDevice->getDeviceName()))
+    if (m_currentFilterDevice == nullptr || (svp->device != m_currentFilterDevice->getDeviceName()))
         return;
 
 }
@@ -654,7 +660,7 @@ QString FilterManager::getFilterLock(const QString &name) const
 
 void FilterManager::removeDevice(ISD::GDInterface *device)
 {
-    if (m_currentFilterDevice && !strcmp(m_currentFilterDevice->getDeviceName(), device->getDeviceName()))
+    if (m_currentFilterDevice && (m_currentFilterDevice->getDeviceName() == device->getDeviceName()))
     {
         m_FilterNameProperty = nullptr;
         m_FilterPositionProperty = nullptr;

@@ -302,7 +302,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
 void Mount::removeDevice(ISD::GDInterface *device)
 {
-    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
+    if (currentTelescope && (currentTelescope->getDeviceName() == device->getDeviceName()))
     {
         currentTelescope->disconnect(this);
         updateTimer.stop();
@@ -312,7 +312,7 @@ void Mount::removeDevice(ISD::GDInterface *device)
 
         currentTelescope = nullptr;
     }
-    else if (currentGPS && !strcmp(currentGPS->getDeviceName(), device->getDeviceName()))
+    else if (currentGPS && (currentGPS->getDeviceName() == device->getDeviceName()))
     {
         currentGPS->disconnect(this);
         currentGPS = nullptr;
@@ -671,7 +671,7 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         }
     }
 
-    if (currentGPS != nullptr && !strcmp(nvp->device, currentGPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD")
+    if (currentGPS != nullptr && (nvp->device == currentGPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD")
             && nvp->s == IPS_OK)
         syncGPS();
 }
@@ -1492,9 +1492,9 @@ void Mount::syncGPS()
             IText *activeGPS = IUFindText(activeDevices, "ACTIVE_GPS");
             if (activeGPS)
             {
-                if (strcmp(activeGPS->text, currentGPS->getDeviceName()))
+                if (activeGPS->text != currentGPS->getDeviceName())
                 {
-                    IUSaveText(activeGPS, currentGPS->getDeviceName());
+                    IUSaveText(activeGPS, currentGPS->getDeviceName().toLatin1().constData());
                     currentTelescope->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }
