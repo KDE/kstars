@@ -141,7 +141,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
 
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Align::setDefaultCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Align::setDefaultCCD);
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCCD);
 
     connect(correctAltB, &QPushButton::clicked, this, &Ekos::Align::correctAltError);
@@ -298,13 +299,15 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     astrometryTypeCombo->addItem(i18n("Remote"));
 
     astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
-    connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::setAstrometrySolverType);
+    connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+            &Ekos::Align::setAstrometrySolverType);
 
     setSolverBackend(solverBackendGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
-    connect(FOVScopeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Align::updateTelescopeType);
+    connect(FOVScopeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Align::updateTelescopeType);
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
@@ -312,7 +315,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     delaySpin->setValue(Options::settlingTime());
     connect(delaySpin, &QSpinBox::editingFinished, this, &Ekos::Align::saveSettleTime);
 
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Align::setBinningIndex);
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Align::setBinningIndex);
 
     // PAH Connections
     connect(this, &Align::PAHEnabled, [&](bool enabled)
@@ -484,7 +488,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     connect(mountModel.starListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Align::slotStarSelected);
-    connect(mountModel.greekStarListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
+    connect(mountModel.greekStarListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+            this,
             &Ekos::Align::slotStarSelected);
 
     connect(mountModel.loadAlignB, &QPushButton::clicked, this, &Ekos::Align::slotLoadAlignmentPoints);
@@ -1865,29 +1870,35 @@ void Align::setSolverBackend(int type)
     {
         if (!QFile::exists(Options::aSTAPExecutable()))
         {
-            KSMessageBox::Instance()->error(i18n("No valid ASTAP installation found. Install ASTAP and select the path to ASTAP executable in options."));
-            KConfigDialog::showDialog("alignsettings");
-            return;
-        }
+            // Set to Astrometry for now.
+            type = SOLVER_ASTROMETRYNET;
+            astrometryTypeCombo->setEnabled(true);
+            setAstrometrySolverType(Options::astrometrySolverType());
 
-        if (astapParser.get() != nullptr)
-            parser = astapParser.get();
-        else
-        {
-            astapParser.reset(new Ekos::ASTAPAstrometryParser());
-            parser = astapParser.get();
-        }
-
-        parser->setAlign(this);
-        if (parser->init())
-        {
-            connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
-            connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
+            KSMessageBox::Instance()->error(
+                i18n("No valid ASTAP installation found. Install ASTAP and select the path to ASTAP executable in options."));
         }
         else
-            parser->disconnect();
+        {
+            if (astapParser.get() != nullptr)
+                parser = astapParser.get();
+            else
+            {
+                astapParser.reset(new Ekos::ASTAPAstrometryParser());
+                parser = astapParser.get();
+            }
 
-        astrometryTypeCombo->setEnabled(false);
+            parser->setAlign(this);
+            if (parser->init())
+            {
+                connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+                connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
+            }
+            else
+                parser->disconnect();
+
+            astrometryTypeCombo->setEnabled(false);
+        }
     }
 
     Options::setSolverBackend(type);
@@ -2201,7 +2212,8 @@ bool Align::syncTelescopeInfo()
     return false;
 }
 
-void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
+                             double guideAperture)
 {
     if (primaryFocalLength > 0)
         primaryFL = primaryFocalLength;
@@ -2364,7 +2376,8 @@ void Align::calculateFOV()
     // Put FOV upper limit as 180 degrees
     if (fov_x < 1 || fov_x > 60 * 180 || fov_y < 1 || fov_y > 60 * 180)
     {
-        appendLogText(i18n("Warning! The calculated field of view is out of bounds. Ensure the telescope focal length and camera pixel size are correct."));
+        appendLogText(
+            i18n("Warning! The calculated field of view is out of bounds. Ensure the telescope focal length and camera pixel size are correct."));
         return;
     }
 
@@ -2380,7 +2393,9 @@ void Align::calculateFOV()
     if (fov_x == 0)
     {
         //FOVOut->setReadOnly(false);
-        FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>", calculatedFOV));
+        FOVOut->setToolTip(
+            i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>",
+                 calculatedFOV));
         fov_x = calculated_fov_x;
         fov_y = calculated_fov_y;
         m_EffectiveFOVPending = true;
@@ -2713,7 +2728,8 @@ bool Align::captureAndSolve()
             {
                 if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
                 {
-                    KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    KSNotification::error(
+                        i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
                     return false;
                 }
             }
@@ -2749,7 +2765,8 @@ bool Align::captureAndSolve()
 
     if (focal_length == -1 || aperture == -1)
     {
-        KSNotification::error(i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
+        KSNotification::error(
+            i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
         return false;
     }
 
@@ -2808,7 +2825,8 @@ bool Align::captureAndSolve()
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...",
+                           CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return false;
     }
@@ -3404,11 +3422,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 double rawAngle = absAngle->np[0].value;
                 double offset = range360(solverPA - (rawAngle * Options::pAMultiplier()));
 
-                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA << "Rotator Offset:" << offset;
+                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA << "Rotator Offset:" <<
+                                           offset;
                 Options::setPAOffset(offset);
             }
 
-            if (absAngle && std::isnan(loadSlewTargetPA) == false && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
+            if (absAngle && std::isnan(loadSlewTargetPA) == false
+                    && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
                 double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
                 //                if (rawAngle < 0)
@@ -3532,7 +3552,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
-    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed with errors"), KSNotification::EVENT_ALERT);
+    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed with errors"),
+                          KSNotification::EVENT_ALERT);
 
     pi->stopAnimation();
     stopB->setEnabled(false);
@@ -4024,7 +4045,8 @@ void Align::processNumber(INumberVectorProperty *nvp)
             currentRotatorPA -= 360;
         if (currentRotatorPA < -180)
             currentRotatorPA += 360;
-        if (std::isnan(loadSlewTargetPA) == false && fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
+        if (std::isnan(loadSlewTargetPA) == false
+                && fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
         {
             appendLogText(i18n("Rotator reached target position angle."));
             targetAccuracyNotMet = true;
@@ -4632,7 +4654,8 @@ bool Align::loadAndSlew(QString fileURL)
             {
                 if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
                 {
-                    KSNotification::error(i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
+                    KSNotification::error(
+                        i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
                     return false;
                 }
             }
@@ -5327,7 +5350,8 @@ void Align::rotatePAH()
     // Set Selected Speed
     currentTelescope->setSlewRate(PAHSlewRateCombo->currentIndex());
     // Go to direction
-    currentTelescope->MoveWE(westMeridian ? ISD::Telescope::MOTION_WEST : ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
+    currentTelescope->MoveWE(westMeridian ? ISD::Telescope::MOTION_WEST : ISD::Telescope::MOTION_EAST,
+                             ISD::Telescope::MOTION_START);
 
     appendLogText(i18n("Please wait until mount completes rotating to RA (%1) DE (%2)", targetPAH.ra().toHMSString(),
                        targetPAH.dec().toDMSString()));
@@ -5653,7 +5677,8 @@ void Align::setWCSToggled(bool result)
             }
             else
 #endif
-                appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
+                appendLogText(
+                    i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
         }
 
         pahStage = PAH_FIRST_ROTATE;
