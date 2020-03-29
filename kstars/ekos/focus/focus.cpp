@@ -108,7 +108,8 @@ void Focus::resetFrame()
             int x, y, w, h;
             targetChip->getFrame(&x, &y, &w, &h);
 
-            qCDebug(KSTARS_EKOS_FOCUS) << "Frame is reset. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << 1 << "binY:" << 1;
+            qCDebug(KSTARS_EKOS_FOCUS) << "Frame is reset. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << 1 << "binY:" <<
+                                       1;
 
             QVariantMap settings;
             settings["x"]             = x;
@@ -287,9 +288,9 @@ void Focus::syncCCDInfo()
 
 void Focus::addFilter(ISD::GDInterface *newFilter)
 {
-    foreach (ISD::GDInterface *filter, Filters)
+    for (auto &oneFilter : Filters)
     {
-        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+        if (oneFilter->getDeviceName() == newFilter->getDeviceName())
             return;
     }
 
@@ -864,7 +865,8 @@ void Focus::capture()
         if (filterPositionPending)
         {
             // Apply all policies except autofocus since we are already in autofocus module doh.
-            filterManager->setFilterPosition(targetPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+            filterManager->setFilterPosition(targetPosition,
+                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
     }
@@ -1148,7 +1150,8 @@ void Focus::setCaptureComplete()
         }
 
         // Let's now report the current HFR
-        qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars " << (starSelected ? 1 : image_data->getDetectedStars());
+        qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
+                                   << (starSelected ? 1 : image_data->getDetectedStars());
         // Add it to existing frames in case we need to take an average
         HFRFrames.append(currentHFR);
 
@@ -1420,7 +1423,8 @@ void Focus::setCaptureComplete()
                 settings["binx"]     = subBinX;
                 settings["biny"]     = subBinY;
 
-                qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << subX << "Y:" << subY << "W:" << subW << "H:" << subH << "binX:" << subBinX << "binY:" << subBinY;
+                qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << subX << "Y:" << subY << "W:" << subW << "H:" << subH << "binX:" <<
+                                           subBinX << "binY:" << subBinY;
 
                 starsHFR.clear();
 
@@ -1507,14 +1511,16 @@ void Focus::setCaptureComplete()
         // then we should start the autofocus process now to bring it down.
         else if (currentHFR > minimumRequiredHFR)
         {
-            qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR << ". Starting AutoFocus...";
+            qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR <<
+                                       ". Starting AutoFocus...";
             inSequenceFocus = true;
             start();
         }
         // Otherwise, the current HFR is fine and lower than the required minimum HFR so we announce success.
         else
         {
-            qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR << ". Autofocus successful.";
+            qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
+                                       ". Autofocus successful.";
             setAutoFocusResult(true);
             drawProfilePlot();
         }
@@ -2291,7 +2297,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                                .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
 
     // Return if it is not our current focuser
-    if (strcmp(nvp->device, currentFocuser->getDeviceName()))
+    if (nvp->device != currentFocuser->getDeviceName())
         return;
 
     if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
@@ -2637,7 +2643,8 @@ void Focus::focusStarSelected(int x, int y)
 
         subFramed = true;
 
-        qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX << "binY:" << subBinY;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX <<
+                                   "binY:" << subBinY;
 
         focusView->setFirstLoad(true);
 
@@ -2779,7 +2786,8 @@ void Focus::setAutoFocusResult(bool status)
             INumberVectorProperty * tnp = np->getNumber();
             temperature = tnp->np[0].value;
         }
-        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, " << temperature << ", filter, " << filter();
+        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, " << temperature <<
+                                  ", filter, " << filter();
     }
 
     // In case of failure, go back to last position if the focuser is absolute
@@ -2825,7 +2833,8 @@ void Focus::setAutoFocusResult(bool status)
         }
         else
         {
-            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"), KSNotification::EVENT_ALERT);
+            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"),
+                                  KSNotification::EVENT_ALERT);
             state = Ekos::FOCUS_FAILED;
         }
 
@@ -2834,7 +2843,8 @@ void Focus::setAutoFocusResult(bool status)
         // Do not emit result back yet if we have a locked filter pending return to original filter
         if (fallbackFilterPending)
         {
-            filterManager->setFilterPosition(fallbackFilterPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+            filterManager->setFilterPosition(fallbackFilterPosition,
+                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
         emit newStatus(state);
@@ -3027,7 +3037,7 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     // Check in Focusers
     for (ISD::GDInterface *focuser : Focusers)
     {
-        if (!strcmp(focuser->getDeviceName(), deviceRemoved->getDeviceName()))
+        if (focuser->getDeviceName() == deviceRemoved->getDeviceName())
         {
             Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
             focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
@@ -3039,7 +3049,7 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     // Check in CCDs
     for (ISD::GDInterface *ccd : CCDs)
     {
-        if (!strcmp(ccd->getDeviceName(), deviceRemoved->getDeviceName()))
+        if (ccd->getDeviceName() == deviceRemoved->getDeviceName())
         {
             CCDs.removeAll(dynamic_cast<ISD::CCD*>(ccd));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName()));
@@ -3061,7 +3071,7 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     // Check in Filters
     for (ISD::GDInterface *filter : Filters)
     {
-        if (!strcmp(filter->getDeviceName(), deviceRemoved->getDeviceName()))
+        if (filter->getDeviceName() == deviceRemoved->getDeviceName())
         {
             Filters.removeAll(filter);
             FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(filter->getDeviceName()));
@@ -3402,17 +3412,21 @@ void Focus::initSettingsConnections()
     ///////////////////////////////////////////////////////////////////////////
     /// Focuser Group
     ///////////////////////////////////////////////////////////////////////////
-    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
     connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// CCD & Filter Wheel Group
     ///////////////////////////////////////////////////////////////////////////
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
     connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
     connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Settings Group
@@ -3433,9 +3447,11 @@ void Focus::initSettingsConnections()
     connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
-    connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
     connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
 }
 
 void Focus::initPlots()

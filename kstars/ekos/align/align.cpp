@@ -2086,16 +2086,16 @@ void Align::setDome(ISD::GDInterface *newDome)
 void Align::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
+    if (currentTelescope && currentTelescope->getDeviceName() == device->getDeviceName())
     {
         currentTelescope = nullptr;
         m_isRateSynced = false;
     }
-    else if (currentDome && !strcmp(currentDome->getDeviceName(), device->getDeviceName()))
+    else if (currentDome && currentDome->getDeviceName() == device->getDeviceName())
     {
         currentDome = nullptr;
     }
-    else if (currentRotator && !strcmp(currentRotator->getDeviceName(), device->getDeviceName()))
+    else if (currentRotator && currentRotator->getDeviceName() == device->getDeviceName())
     {
         currentRotator = nullptr;
     }
@@ -2797,14 +2797,17 @@ bool Align::captureAndSolve()
         }
     }
 
-    if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
+    if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName().toLatin1().constData(),
+            "CCD1") == B_NEVER)
     {
         if (KMessageBox::questionYesNo(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName(), "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName(), "CCD2");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName().toLatin1().constData(),
+                    "CCD1");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName().toLatin1().constData(),
+                    "CCD2");
         }
         else
         {
@@ -4741,7 +4744,7 @@ void Align::addFilter(ISD::GDInterface *newFilter)
 {
     for (auto filter : Filters)
     {
-        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+        if (filter->getDeviceName() == newFilter->getDeviceName())
             return;
     }
 

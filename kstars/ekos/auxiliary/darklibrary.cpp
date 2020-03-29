@@ -530,7 +530,7 @@ void DarkLibrary::setRemoteCap(ISD::GDInterface *remoteCap)
 }
 void DarkLibrary::removeDevice(ISD::GDInterface *device)
 {
-    if (m_RemoteCap && !strcmp(m_RemoteCap->getDeviceName(), device->getDeviceName()))
+    if (m_RemoteCap && (m_RemoteCap->getDeviceName() == device->getDeviceName()))
     {
         m_RemoteCap->disconnect(this);
         m_RemoteCap = nullptr;

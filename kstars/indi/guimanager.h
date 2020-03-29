@@ -80,5 +80,5 @@ class GUIManager : public QWidget
         void changeAlwaysOnTop(Qt::ApplicationState state);
         void clearLog();
         void buildDevice(DeviceInfo *di);
-        void removeDevice(DeviceInfo *di);
+        void removeDevice(const QString &name);
 };

@@ -43,7 +43,7 @@ void Weather::setWeather(ISD::GDInterface *newWeather)
 void Weather::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (currentWeather && !strcmp(currentWeather->getDeviceName(), device->getDeviceName()))
+    if (currentWeather && (currentWeather->getDeviceName() == device->getDeviceName()))
     {
         currentWeather = nullptr;
     }

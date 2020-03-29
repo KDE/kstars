@@ -186,7 +186,7 @@ class CCD : public DeviceDecorator
         typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE, TELESCOPE_UNKNOWN } TelescopeType;
 
         void registerProperty(INDI::Property *prop) override;
-        void removeProperty(INDI::Property *prop) override;
+        void removeProperty(const QString &name) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;

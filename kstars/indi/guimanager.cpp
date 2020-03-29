@@ -163,10 +163,10 @@ void GUIManager::updateStatus(bool toggle_behavior)
 
 INDI_D *GUIManager::findGUIDevice(const QString &deviceName)
 {
-    foreach (INDI_D *gdv, guidevices)
+    for (auto oneGUIDevice : guidevices)
     {
-        if (gdv->getBaseDevice()->getDeviceName() == deviceName)
-            return gdv;
+        if (oneGUIDevice->name() == deviceName)
+            return oneGUIDevice;
     }
 
     return nullptr;
@@ -184,14 +184,14 @@ void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
 
-    Qt::ConnectionType type = Qt::BlockingQueuedConnection;
+    Qt::ConnectionType type = Qt::QueuedConnection;
 
 #ifdef USE_QT5_INDI
     type = Qt::DirectConnection;
 #endif
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), type);
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
+    connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -221,17 +221,12 @@ void GUIManager::removeClient(ClientManager *cm)
         hide();
 }
 
-void GUIManager::removeDevice(DeviceInfo *di)
+void GUIManager::removeDevice(const QString &name)
 {
-    QString deviceName = di->getBaseDevice()->getDeviceName();
-    INDI_D *dp         = findGUIDevice(deviceName);
+    INDI_D *dp = findGUIDevice(name);
 
     if (dp == nullptr)
         return;
-
-    ClientManager *cm = di->getDriverInfo()->getClientManager();
-    if (cm)
-        cm->disconnect(dp);
 
     // Hack to give mainTabWidget sometime to remove its item as these calls are coming from a different thread
     // the clientmanager thread. Sometimes removeTab() requires sometime to be removed properly and hence the wait.
@@ -240,7 +235,7 @@ void GUIManager::removeDevice(DeviceInfo *di)
 
     for (int i = 0; i < mainTabWidget->count(); i++)
     {
-        if (mainTabWidget->tabText(i).remove('&') == QString(deviceName))
+        if (mainTabWidget->tabText(i).remove('&') == name)
         {
             mainTabWidget->removeTab(i);
             break;
@@ -270,18 +265,10 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    Qt::ConnectionType type = Qt::BlockingQueuedConnection;
-
-#ifdef USE_QT5_INDI
-    type = Qt::DirectConnection;
-#endif
-
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)));
     //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
-    connect(cm, &ClientManager::removeINDIProperty, [gdm](INDI::Property * oneProperty)
+    connect(cm, &ClientManager::removeINDIProperty, [gdm](const QString & device, const QString & name)
     {
-        QString device = oneProperty->getDeviceName();
-        QString name   = oneProperty->getName();
         if (device == gdm->name())
             QMetaObject::invokeMethod(gdm, "removeProperty", Qt::QueuedConnection, Q_ARG(QString, name));
     });

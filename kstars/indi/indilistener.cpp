@@ -116,10 +116,10 @@ bool INDIListener::isStandardProperty(const QString &name)
 
 ISD::GDInterface *INDIListener::getDevice(const QString &name)
 {
-    foreach (ISD::GDInterface *gi, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gi->getDeviceName(), name.toLatin1().constData()))
-            return gi;
+        if (oneDevice->getDeviceName() == name)
+            return oneDevice;
     }
     return nullptr;
 }
@@ -128,18 +128,13 @@ void INDIListener::addClient(ClientManager *cm)
 {
     qCDebug(KSTARS_INDI) << "INDIListener: Adding a new client manager to INDI listener..";
 
-    Qt::ConnectionType type = Qt::BlockingQueuedConnection;
-
-#ifdef USE_QT5_INDI
-    type = Qt::DirectConnection;
-#endif
-
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)), type);
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)), type);
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
+
+    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
@@ -202,177 +197,174 @@ void INDIListener::processDevice(DeviceInfo *dv)
     emit newDevice(gd);
 }
 
-void INDIListener::removeDevice(DeviceInfo *dv)
-{
-    qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << dv->getBaseDevice()->getDeviceName() << "with unique label "
-                         << dv->getDriverInfo()->getUniqueLabel();
+//void INDIListener::removeDevice(DeviceInfo *dv)
+//{
+//    qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << dv->getBaseDevice()->getDeviceName() << "with unique label "
+//                         << dv->getDriverInfo()->getUniqueLabel();
 
-    foreach (ISD::GDInterface *gd, devices)
+//    foreach (ISD::GDInterface *gd, devices)
+//    {
+//        if (gd->getDeviceInfo() == dv)
+//        {
+//            emit deviceRemoved(gd);
+//            devices.removeOne(gd);
+//            delete (gd);
+//        }
+//    }
+//}
+
+void INDIListener::removeDevice(const QString &deviceName)
+{
+    qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << deviceName;
+
+    for (ISD::GDInterface *oneDevice : devices)
     {
-        if (gd->getDeviceInfo() == dv)
+        if (oneDevice->getDeviceName() == deviceName)
         {
-            emit deviceRemoved(gd);
-            devices.removeOne(gd);
-            delete (gd);
+            emit deviceRemoved(oneDevice);
+            devices.removeOne(oneDevice);
+            delete (oneDevice);
+            break;
         }
     }
-
-    /*foreach(ISD::GDInterface *gd, devices)
-    {
-        if ( (dv->getDriverInfo()->getDevices().size() > 1 && gd->getDeviceName() == dv->getBaseDevice()->getDeviceName())
-            || dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE
-                || dv->getDriverInfo()->getDriverSource() == GENERATED_SOURCE)
-        {
-            if (dv->getDriverInfo()->getUniqueLabel().contains("Query") == false)
-                emit deviceRemoved(gd);
-            devices.removeOne(gd);
-            delete(gd);
-
-            if (dv->getDriverInfo()->getDriverSource() != HOST_SOURCE && dv->getDriverInfo()->getDriverSource() != GENERATED_SOURCE)
-                return;
-        }
-    }*/
 }
 
 void INDIListener::registerProperty(INDI::Property *prop)
 {
     qCDebug(KSTARS_INDI) << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
 
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), prop->getDeviceName()))
+        if (oneDevice->getDeviceName() == prop->getDeviceName())
         {
             if (!strcmp(prop->getName(), "ON_COORD_SET") ||
                     !strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") ||
                     !strcmp(prop->getName(), "EQUATORIAL_COORD") ||
                     !strcmp(prop->getName(), "HORIZONTAL_COORD"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::Telescope(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::Telescope(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newTelescope(gd);
+                emit newTelescope(oneDevice);
             }
             else if (!strcmp(prop->getName(), "CCD_EXPOSURE"))
             {
                 //if (gd->getType() != KSTARS_CCD)
-                if (gd->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+                if (oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::CCD(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::CCD(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newCCD(gd);
+                emit newCCD(oneDevice);
             }
             else if (!strcmp(prop->getName(), "FILTER_NAME"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::Filter(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::Filter(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newFilter(gd);
+                emit newFilter(oneDevice);
             }
             else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::Focuser(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::Focuser(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newFocuser(gd);
+                emit newFocuser(oneDevice);
             }
 
             else if (!strcmp(prop->getName(), "DOME_SHUTTER") ||
                      !strcmp(prop->getName(), "DOME_MOTION"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::Dome(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::Dome(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newDome(gd);
+                emit newDome(oneDevice);
             }
             else if (!strcmp(prop->getName(), "WEATHER_STATUS"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::Weather(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::Weather(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newWeather(gd);
+                emit newWeather(oneDevice);
             }
             else if (!strcmp(prop->getName(), "CAP_PARK"))
             {
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    devices.removeOne(gd);
-                    gd = new ISD::DustCap(gd);
-                    devices.append(gd);
+                    devices.removeOne(oneDevice);
+                    oneDevice = new ISD::DustCap(oneDevice);
+                    devices.append(oneDevice);
                 }
 
-                emit newDustCap(gd);
+                emit newDustCap(oneDevice);
             }
             else if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
             {
                 // If light box part of dust cap
-                if (gd->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    if (gd->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+                    if (oneDevice->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
                     {
-                        devices.removeOne(gd);
-                        gd = new ISD::DustCap(gd);
-                        devices.append(gd);
+                        devices.removeOne(oneDevice);
+                        oneDevice = new ISD::DustCap(oneDevice);
+                        devices.append(oneDevice);
 
-                        emit newDustCap(gd);
+                        emit newDustCap(oneDevice);
                     }
                     // If stand-alone light box
                     else
                     {
-                        devices.removeOne(gd);
-                        gd = new ISD::LightBox(gd);
-                        devices.append(gd);
+                        devices.removeOne(oneDevice);
+                        oneDevice = new ISD::LightBox(oneDevice);
+                        devices.append(oneDevice);
 
-                        emit newLightBox(gd);
+                        emit newLightBox(oneDevice);
                     }
                 }
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
             {
-                ISD::ST4 *st4Driver = new ISD::ST4(gd->getBaseDevice(), gd->getDriverInfo()->getClientManager());
+                ISD::ST4 *st4Driver = new ISD::ST4(oneDevice->getBaseDevice(), oneDevice->getDriverInfo()->getClientManager());
                 st4Devices.append(st4Driver);
                 emit newST4(st4Driver);
             }
 
-            gd->registerProperty(prop);
+            oneDevice->registerProperty(prop);
             break;
         }
     }
 }
 
-void INDIListener::removeProperty(INDI::Property *prop)
+void INDIListener::removeProperty(const QString &device, const QString &name)
 {
-    if (prop == nullptr)
-        return;
-
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), prop->getDeviceName()))
+        if (oneDevice->getDeviceName() == device)
         {
-            gd->removeProperty(prop);
+            oneDevice->removeProperty(name);
             return;
         }
     }
@@ -380,11 +372,11 @@ void INDIListener::removeProperty(INDI::Property *prop)
 
 void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 {
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), svp->device))
+        if (oneDevice->getDeviceName() == svp->device)
         {
-            gd->processSwitch(svp);
+            oneDevice->processSwitch(svp);
             break;
         }
     }
@@ -392,12 +384,11 @@ void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 
 void INDIListener::processNumber(INumberVectorProperty *nvp)
 {
-    //qCDebug(KSTARS_INDI) << "Process number vector " << nvp->label << "(" << nvp->name << ")@" << nvp->device << " status=" << nvp->s;
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), nvp->device))
+        if (oneDevice->getDeviceName() == nvp->device)
         {
-            gd->processNumber(nvp);
+            oneDevice->processNumber(nvp);
             break;
         }
     }
@@ -405,11 +396,11 @@ void INDIListener::processNumber(INumberVectorProperty *nvp)
 
 void INDIListener::processText(ITextVectorProperty *tvp)
 {
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), tvp->device))
+        if (oneDevice->getDeviceName() == tvp->device)
         {
-            gd->processText(tvp);
+            oneDevice->processText(tvp);
             break;
         }
     }
@@ -417,11 +408,11 @@ void INDIListener::processText(ITextVectorProperty *tvp)
 
 void INDIListener::processLight(ILightVectorProperty *lvp)
 {
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), lvp->device))
+        if (oneDevice->getDeviceName() == lvp->device)
         {
-            gd->processLight(lvp);
+            oneDevice->processLight(lvp);
             break;
         }
     }
@@ -429,11 +420,11 @@ void INDIListener::processLight(ILightVectorProperty *lvp)
 
 void INDIListener::processBLOB(IBLOB *bp)
 {
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), bp->bvp->device))
+        if (oneDevice->getDeviceName() == bp->bvp->device)
         {
-            gd->processBLOB(bp);
+            oneDevice->processBLOB(bp);
             break;
         }
     }
@@ -441,11 +432,11 @@ void INDIListener::processBLOB(IBLOB *bp)
 
 void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
 {
-    foreach (ISD::GDInterface *gd, devices)
+    for (auto &oneDevice : devices)
     {
-        if (!strcmp(gd->getDeviceName(), dp->getDeviceName()))
+        if (oneDevice->getDeviceName() == dp->getDeviceName())
         {
-            gd->processMessage(messageID);
+            oneDevice->processMessage(messageID);
             break;
         }
     }

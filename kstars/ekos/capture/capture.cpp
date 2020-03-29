@@ -429,7 +429,7 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
 {
     foreach (ISD::GDInterface * filter, Filters)
     {
-        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+        if (filter->getDeviceName() == newFilter->getDeviceName())
             return;
     }
 
@@ -1290,7 +1290,7 @@ void Capture::resetFrame()
 
 void Capture::syncFrameType(ISD::GDInterface * ccd)
 {
-    if (strcmp(ccd->getDeviceName(), CCDCaptureCombo->currentText().toLatin1()))
+    if (ccd->getDeviceName() != CCDCaptureCombo->currentText().toLatin1())
         return;
 
     ISD::CCDChip * tChip = (static_cast<ISD::CCD *>(ccd))->getChip(ISD::CCDChip::PRIMARY_CCD);
@@ -1409,11 +1409,11 @@ void Capture::syncFilterInfo()
             IText * activeFilter = IUFindText(activeDevices, "ACTIVE_FILTER");
             if (activeFilter)
             {
-                if (currentFilter != nullptr && strcmp(activeFilter->text, currentFilter->getDeviceName()))
+                if (currentFilter != nullptr && (activeFilter->text != currentFilter->getDeviceName()))
                 {
                     m_FilterOverride = true;
                     activeFilter->aux0 = &m_FilterOverride;
-                    IUSaveText(activeFilter, currentFilter->getDeviceName());
+                    IUSaveText(activeFilter, currentFilter->getDeviceName().toLatin1().constData());
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
                 // Reset filter name in CCD driver
@@ -3706,7 +3706,7 @@ void Capture::syncTelescopeInfo()
                 IText * activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
                 if (activeTelescope)
                 {
-                    IUSaveText(activeTelescope, currentTelescope->getDeviceName());
+                    IUSaveText(activeTelescope, currentTelescope->getDeviceName().toLatin1().constData());
                     oneCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }
@@ -4725,7 +4725,7 @@ QString Capture::getSequenceQueueStatus()
 void Capture::processTelescopeNumber(INumberVectorProperty * nvp)
 {
     // If it is not ours, return.
-    if (strcmp(nvp->device, currentTelescope->getDeviceName()) || strstr(nvp->name, "EQUATORIAL_") == nullptr)
+    if (nvp->device != currentTelescope->getDeviceName() || strstr(nvp->name, "EQUATORIAL_") == nullptr)
         return;
 
     switch (meridianFlipStage)
@@ -6674,15 +6674,15 @@ void Capture::createDSLRDialog()
 void Capture::removeDevice(ISD::GDInterface *device)
 {
     device->disconnect(this);
-    if (currentTelescope && !strcmp(currentTelescope->getDeviceName(), device->getDeviceName()))
+    if (currentTelescope && currentTelescope->getDeviceName() == device->getDeviceName())
     {
         currentTelescope = nullptr;
     }
-    else if (currentDome && !strcmp(currentDome->getDeviceName(), device->getDeviceName()))
+    else if (currentDome && currentDome->getDeviceName() == device->getDeviceName())
     {
         currentDome = nullptr;
     }
-    else if (currentRotator && !strcmp(currentRotator->getDeviceName(), device->getDeviceName()))
+    else if (currentRotator && currentRotator->getDeviceName() == device->getDeviceName())
     {
         currentRotator = nullptr;
         rotatorB->setEnabled(false);

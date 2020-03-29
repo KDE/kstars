@@ -67,7 +67,7 @@ class GDInterface : public QObject
     public:
         // Property handling
         virtual void registerProperty(INDI::Property *prop)    = 0;
-        virtual void removeProperty(INDI::Property *prop)      = 0;
+        virtual void removeProperty(const QString &name)       = 0;
         virtual void processSwitch(ISwitchVectorProperty *svp) = 0;
         virtual void processText(ITextVectorProperty *tvp)     = 0;
         virtual void processNumber(INumberVectorProperty *nvp) = 0;
@@ -76,7 +76,7 @@ class GDInterface : public QObject
         virtual void processMessage(int messageID)             = 0;
 
         // Accessors
-        virtual QList<INDI::Property *> getProperties() = 0;
+        virtual const QHash<QString, INDI::Property *> &getProperties() = 0;
         virtual DeviceFamily getType()                  = 0;
         virtual DriverInfo *getDriverInfo()             = 0;
         virtual DeviceInfo *getDeviceInfo()             = 0;
@@ -86,7 +86,7 @@ class GDInterface : public QObject
 
         // Convenience functions
         virtual bool setConfig(INDIConfig tConfig)           = 0;
-        virtual const char *getDeviceName()                  = 0;
+        virtual const QString &getDeviceName() const         = 0;
         virtual bool isConnected()                           = 0;
         virtual bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
                                    double *step)             = 0;
@@ -109,7 +109,7 @@ class GDInterface : public QObject
         DeviceFamily dType { KSTARS_CCD };
         uint32_t driverInterface { 0 };
         QString driverVersion;
-        QList<INDI::Property *> properties;
+        QHash<QString, INDI::Property *> properties;
 
     signals:
         void Connected();
@@ -124,7 +124,7 @@ class GDInterface : public QObject
         void interfaceDefined();
         void systemPortDetected();
         void propertyDefined(INDI::Property *prop);
-        void propertyDeleted(INDI::Property *prop);
+        void propertyDeleted(const QString &name);
 };
 
 /**
@@ -146,7 +146,7 @@ class GenericDevice : public GDInterface
         virtual ~GenericDevice() override = default;
 
         virtual void registerProperty(INDI::Property *prop) override;
-        virtual void removeProperty(INDI::Property *prop) override;
+        virtual void removeProperty(const QString &name) override;
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
         virtual void processText(ITextVectorProperty *tvp) override;
         virtual void processNumber(INumberVectorProperty *nvp) override;
@@ -158,7 +158,7 @@ class GenericDevice : public GDInterface
         {
             return dType;
         }
-        virtual const char *getDeviceName() override;
+        virtual const QString &getDeviceName() const override;
         virtual DriverInfo *getDriverInfo() override
         {
             return driverInfo;
@@ -167,7 +167,7 @@ class GenericDevice : public GDInterface
         {
             return deviceInfo;
         }
-        virtual QList<INDI::Property *> getProperties() override
+        virtual const QHash<QString, INDI::Property *> &getProperties() override
         {
             return properties;
         }
@@ -215,6 +215,7 @@ class GenericDevice : public GDInterface
     private:
         static void registerDBusType();
         bool connected { false };
+        QString m_Name;
         DriverInfo *driverInfo { nullptr };
         DeviceInfo *deviceInfo { nullptr };
         INDI::BaseDevice *baseDevice { nullptr };
@@ -238,7 +239,7 @@ class DeviceDecorator : public GDInterface
         virtual ~DeviceDecorator() override;
 
         virtual void registerProperty(INDI::Property *prop) override;
-        virtual void removeProperty(INDI::Property *prop) override;
+        virtual void removeProperty(const QString &name) override;
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
         virtual void processText(ITextVectorProperty *tvp) override;
         virtual void processNumber(INumberVectorProperty *nvp) override;
@@ -250,10 +251,10 @@ class DeviceDecorator : public GDInterface
 
         virtual bool setConfig(INDIConfig tConfig) override;
         virtual bool isConnected() override;
-        const char *getDeviceName() override;
+        virtual const QString &getDeviceName() const override;
         DriverInfo *getDriverInfo() override;
         DeviceInfo *getDeviceInfo() override;
-        QList<INDI::Property *> getProperties() override;
+        virtual const QHash<QString, INDI::Property *> &getProperties() override;
         uint32_t getDriverInterface() override;
         QString getDriverVersion() override;
         virtual INDI::BaseDevice *getBaseDevice() override;

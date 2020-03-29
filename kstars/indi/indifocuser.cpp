@@ -312,7 +312,7 @@ int32_t Focuser::getBacklash()
 
 bool Focuser::hasDeviation()
 {
-    if (!strcmp(getDeviceName(), "Nikon DSLR Z6"))
+    if (getDeviceName() == "Nikon DSLR Z6")
     {
         deviation = NIKONZ6;
         return true;
