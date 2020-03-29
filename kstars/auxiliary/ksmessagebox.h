@@ -70,6 +70,7 @@ class KSMessageBox: public QMessageBox
         static KSMessageBox *m_Instance;
 
         void reset();
+        void addOKButton();
         void setupTimeout();
         QJsonObject createMessageObject();
         KSMessageBox();

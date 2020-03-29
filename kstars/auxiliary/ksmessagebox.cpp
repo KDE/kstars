@@ -70,6 +70,7 @@ void KSMessageBox::error(const QString &message, const QString &title)
     //KMessageBox::error(nullptr, message, title);
     reset();
 
+    addOKButton();
     setIcon(QMessageBox::Critical);
     setText(message);
     setWindowTitle(title);
@@ -88,6 +89,7 @@ void KSMessageBox::sorry(const QString &message, const QString &title)
     //KSNotification::sorry(message, title);
     reset();
 
+    addOKButton();
     setIcon(QMessageBox::Warning);
     setText(message);
     setWindowTitle(title);
@@ -106,6 +108,7 @@ void KSMessageBox::info(const QString &message, const QString &title)
     //KMessageBox::information(nullptr, message, title);
     reset();
 
+    addOKButton();
     setIcon(QMessageBox::Information);
     setText(message);
     setWindowTitle(title);
@@ -167,7 +170,8 @@ void KSMessageBox::reset()
 
 }
 
-void KSMessageBox::questionYesNo(const QString &message, const QString &title, quint32 timeout, bool defaultToYes, const QString &yesText, const QString &noText)
+void KSMessageBox::questionYesNo(const QString &message, const QString &title, quint32 timeout, bool defaultToYes,
+                                 const QString &yesText, const QString &noText)
 {
     reset();
 
@@ -198,7 +202,8 @@ void KSMessageBox::questionYesNo(const QString &message, const QString &title, q
     emit newMessage(createMessageObject());
 }
 
-void KSMessageBox::warningContinueCancel(const QString &message, const QString &title, quint32 timeout, bool defaultToContinue,
+void KSMessageBox::warningContinueCancel(const QString &message, const QString &title, quint32 timeout,
+        bool defaultToContinue,
         const QString &continueText, const QString &cancelText)
 {
     reset();
@@ -243,6 +248,14 @@ void KSMessageBox::transient(const QString &message, const QString &title)
     msgBox->setIcon(QMessageBox::Warning);
     msgBox->show();
 #endif
+}
+
+void KSMessageBox::addOKButton()
+{
+    QPushButton *okButton = new QPushButton(i18n("Ok"), this);
+    connect(okButton, &QPushButton::clicked, this, &KSMessageBox::accepted);
+    addButton(okButton, QMessageBox::AcceptRole);
+    setDefaultButton(okButton);
 }
 
 void KSMessageBox::timerTick()
