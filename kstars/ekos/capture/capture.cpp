@@ -6812,5 +6812,20 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
     });
 }
 
+bool Capture::isGuidingActive()
+{
+    // In case we are doing non guiding dither, then we are not performing autoguiding.
+    if (Options::ditherNoGuiding())
+        return false;
+
+    return (guideState == GUIDE_GUIDING ||
+            guideState == GUIDE_CALIBRATING ||
+            guideState == GUIDE_CALIBRATION_SUCESS ||
+            guideState == GUIDE_REACQUIRE ||
+            guideState == GUIDE_DITHERING ||
+            guideState == GUIDE_DITHERING_SUCCESS ||
+            guideState == GUIDE_DITHERING_ERROR ||
+            guideState == GUIDE_DITHERING_SETTLE);
+}
 
 }
