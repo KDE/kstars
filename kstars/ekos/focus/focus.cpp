@@ -1391,6 +1391,8 @@ void Focus::setCaptureComplete()
             starCenter.setZ(subBinX);
             syncTrackingBoxPosition();
 
+            defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
+
             // Do we need to subframe?
             if (subFramed == false && useSubFrame->isEnabled() && useSubFrame->isChecked())
             {
@@ -1441,6 +1443,7 @@ void Focus::setCaptureComplete()
 
                 // Now let's capture again for the actual requested subframed image.
                 capture();
+                return;
             }
             // If we're subframed or don't need subframe, let's record the max star coordinates
             else
@@ -1451,11 +1454,11 @@ void Focus::setCaptureComplete()
 
                 // Let's now capture again if we're autofocusing
                 if (inAutoFocus)
+                {
                     capture();
+                    return;
+                }
             }
-
-            defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
-            return;
         }
         // If manual selection is enabled then let's ask the user to select the focus star
         else
