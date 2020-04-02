@@ -37,7 +37,7 @@ class Telescope : public DeviceDecorator
         typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
         typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
         typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
-        typedef enum { PIER_UNKNOWN = -1, PIER_WEST = 0, PIER_EAST = 0 } PierSide;
+        typedef enum { PIER_UNKNOWN = -1, PIER_WEST = 0, PIER_EAST = 1 } PierSide;
         typedef enum
         {
             MOUNT_IDLE,
