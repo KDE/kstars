@@ -277,6 +277,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     rememberSolverWCS = Options::astrometrySolverWCS();
     rememberAutoWCS   = Options::autoWCS();
+    rememberMeridianFlip = Options::executeMeridianFlip();
 
     solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
     solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
@@ -5238,9 +5239,11 @@ void Align::startPAHProcess()
 
     rememberSolverWCS = Options::astrometrySolverWCS();
     rememberAutoWCS   = Options::autoWCS();
+    rememberMeridianFlip = Options::executeMeridianFlip();
 
     Options::setAutoWCS(false);
     Options::setAstrometrySolverWCS(true);
+    Options::setExecuteMeridianFlip(false);
 
     if (Options::limitedResourcesMode())
         appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
@@ -5466,6 +5469,7 @@ void Align::setPAHCorrectionSelectionComplete()
     // and restore when refresh is complete
     Options::setAstrometrySolverWCS(rememberSolverWCS);
     Options::setAutoWCS(rememberAutoWCS);
+    Options::setExecuteMeridianFlip(rememberMeridianFlip);
 
     PAHWidgets->setCurrentWidget(PAHRefreshPage);
     emit newPAHMessage(refreshText->text());
@@ -5526,6 +5530,7 @@ void Align::setPAHRefreshComplete()
 
     Options::setAstrometrySolverWCS(rememberSolverWCS);
     Options::setAutoWCS(rememberAutoWCS);
+    Options::setExecuteMeridianFlip(rememberMeridianFlip);
 
     stopPAHProcess();
 }
