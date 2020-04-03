@@ -3134,6 +3134,8 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         if (currentFilter)
             filterManager->setFilterExposure(FilterPosCombo->currentIndex(), exposureIN->value());
+        else
+            Options::setFocusExposure(exposureIN->value());
     });
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
@@ -3359,6 +3361,8 @@ void Focus::loadSettings()
     ///////////////////////////////////////////////////////////////////////////
     /// CCD & Filter Wheel Group
     ///////////////////////////////////////////////////////////////////////////
+    // Default Exposure
+    exposureIN->setValue(Options::focusExposure());
     // Binning
     activeBin = Options::focusXBin();
     binningCombo->setCurrentIndex(activeBin - 1);

@@ -1847,6 +1847,10 @@
          <label>Maximum single step the focus algorithm is permitted to command.</label>
          <default>100000</default>
       </entry>
+      <entry name="FocusExposure" type="double">
+         <label>Default focus exposure time when no filters are used.</label>
+         <default>1</default>
+      </entry>
    </group>
    <group name="Align">
       <entry name="DefaultAlignCCD" type="String">
