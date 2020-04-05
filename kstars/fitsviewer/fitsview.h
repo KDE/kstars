@@ -34,9 +34,6 @@
 
 #include <memory>
 
-#define MINIMUM_PIXEL_RANGE 5
-#define MINIMUM_STDVAR      5
-
 class QAction;
 class QEvent;
 class QGestureEvent;

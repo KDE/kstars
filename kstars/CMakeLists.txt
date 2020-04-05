@@ -261,6 +261,11 @@ if (CFITSIO_FOUND)
         fitsviewer/fitshistogram.cpp
         fitsviewer/fitsview.cpp
         fitsviewer/fitsdata.cpp
+        fitsviewer/fitsstardetector.cpp
+        fitsviewer/fitsthresholddetector.cpp
+        fitsviewer/fitsgradientdetector.cpp
+        fitsviewer/fitscentroiddetector.cpp
+        fitsviewer/fitssepdetector.cpp
         )
     set (fitsui_SRCS
         fitsviewer/fitsheaderdialog.ui

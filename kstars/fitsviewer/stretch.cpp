@@ -26,7 +26,7 @@ T median(std::vector<T>& values)
 
 // Returns the rough max of the buffer.
 template <typename T>
-T sampledMax(T *values, int size, int sampleBy)
+T sampledMax(T const *values, int size, int sampleBy)
 {
     T maxVal = 0;
     for (int i = 0; i < size; i+= sampleBy)
@@ -38,7 +38,7 @@ T sampledMax(T *values, int size, int sampleBy)
 // Returns the median of the sample values.
 // The values are not modified.
 template <typename T>
-T median(T *values, int size, int sampleBy)
+T median(T const *values, int size, int sampleBy)
 {
   const int downsampled_size = size / sampleBy;
   std::vector<T> samples(downsampled_size);
@@ -223,7 +223,7 @@ void stretchChannels(T *input_buffer, QImage *output_image,
   
 // See section 8.5.7 in above link  https://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
 template <typename T>
-void computeParamsOneChannel(T *buffer, StretchParams1Channel *params, 
+void computeParamsOneChannel(T const *buffer, StretchParams1Channel *params,
                              int inputRange, int height, int width)
 {
   // Find the median sample.
@@ -316,7 +316,7 @@ Stretch::Stretch(int width, int height, int channels, int data_type)
   input_range = getRange(dataType);
 }
 
-void Stretch::run(uint8_t *input, QImage *outputImage, int sampling)
+void Stretch::run(uint8_t const *input, QImage *outputImage, int sampling)
 {
     Q_ASSERT(outputImage->width() == (image_width + sampling - 1) / sampling);
     Q_ASSERT(outputImage->height() == (image_height + sampling - 1) / sampling);
@@ -325,31 +325,31 @@ void Stretch::run(uint8_t *input, QImage *outputImage, int sampling)
     switch (dataType)
     {
         case TBYTE:
-            stretchChannels(reinterpret_cast<uint8_t*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<uint8_t const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         case TSHORT:
-            stretchChannels(reinterpret_cast<short*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<short const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         case TUSHORT:
-            stretchChannels(reinterpret_cast<unsigned short*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<unsigned short const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         case TLONG:
-            stretchChannels(reinterpret_cast<long*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<long const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         case TFLOAT:
-            stretchChannels(reinterpret_cast<float*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<float const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         case TLONGLONG:
-            stretchChannels(reinterpret_cast<long long*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<long long const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         case TDOUBLE:
-            stretchChannels(reinterpret_cast<double*>(input), outputImage, params,
+            stretchChannels(reinterpret_cast<double const*>(input), outputImage, params,
                             input_range, image_height, image_width, image_channels, sampling);
             break;
         default:
@@ -359,20 +359,20 @@ void Stretch::run(uint8_t *input, QImage *outputImage, int sampling)
 
 // The input range for float/double is ambiguous, and we can't tell without the buffer,
 // so we set it to 64K and possibly reduce it when we see the data.
-void Stretch::recalculateInputRange(uint8_t *input)
+void Stretch::recalculateInputRange(uint8_t const *input)
 {
     if (input_range <= 1) return;
     if (dataType != TFLOAT && dataType != TDOUBLE) return;
 
     float mx = 0;
     if (dataType == TFLOAT)
-        mx = sampledMax(reinterpret_cast<float*>(input), image_height * image_width, 1000);
+        mx = sampledMax(reinterpret_cast<float const*>(input), image_height * image_width, 1000);
     else if (dataType == TDOUBLE)
-        mx = sampledMax(reinterpret_cast<double*>(input), image_height * image_width, 1000);
+        mx = sampledMax(reinterpret_cast<double const*>(input), image_height * image_width, 1000);
     if (mx <= 1.01f) input_range = 1;
 }
 
-StretchParams Stretch::computeParams(uint8_t *input)
+StretchParams Stretch::computeParams(uint8_t const *input)
 {
   recalculateInputRange(input);
   StretchParams result;
@@ -385,49 +385,49 @@ StretchParams Stretch::computeParams(uint8_t *input)
     {
         case TBYTE:
         {
-            auto buffer = reinterpret_cast<uint8_t*>(input);
+            auto buffer = reinterpret_cast<uint8_t const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;
         }
         case TSHORT:
         {
-            auto buffer = reinterpret_cast<short*>(input);
+            auto buffer = reinterpret_cast<short const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;
         }
         case TUSHORT:
         {
-            auto buffer = reinterpret_cast<unsigned short*>(input);
+            auto buffer = reinterpret_cast<unsigned short const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;
         }
         case TLONG:
         {
-            auto buffer = reinterpret_cast<long*>(input);
+            auto buffer = reinterpret_cast<long const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;
         }
         case TFLOAT:
         {
-            auto buffer = reinterpret_cast<float*>(input);
+            auto buffer = reinterpret_cast<float const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;
         }
         case TLONGLONG:
         {
-            auto buffer = reinterpret_cast<long long*>(input);
+            auto buffer = reinterpret_cast<long long const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;
         }
         case TDOUBLE:
         {
-            auto buffer = reinterpret_cast<double*>(input);
+            auto buffer = reinterpret_cast<double const*>(input);
             computeParamsOneChannel(buffer + offset, params, input_range,
                                     image_height, image_width);
             break;

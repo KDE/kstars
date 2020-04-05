@@ -585,7 +585,7 @@ float *cgmath::createFloatImage(FITSData *target) const
     {
         case TBYTE:
         {
-            uint8_t *buffer = imageData->getImageBuffer();
+            uint8_t const *buffer = imageData->getImageBuffer();
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -593,7 +593,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TSHORT:
         {
-            int16_t *buffer = reinterpret_cast<int16_t *>(imageData->getImageBuffer());
+            int16_t const *buffer = reinterpret_cast<int16_t const *>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -601,7 +601,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TUSHORT:
         {
-            uint16_t *buffer = reinterpret_cast<uint16_t *>(imageData->getImageBuffer());
+            uint16_t const *buffer = reinterpret_cast<uint16_t const*>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -609,7 +609,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TLONG:
         {
-            int32_t *buffer = reinterpret_cast<int32_t *>(imageData->getImageBuffer());
+            int32_t const *buffer = reinterpret_cast<int32_t const*>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -617,7 +617,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TULONG:
         {
-            uint32_t *buffer = reinterpret_cast<uint32_t *>(imageData->getImageBuffer());
+            uint32_t const *buffer = reinterpret_cast<uint32_t const*>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -625,7 +625,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TFLOAT:
         {
-            float *buffer = reinterpret_cast<float *>(imageData->getImageBuffer());
+            float const *buffer = reinterpret_cast<float const*>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -633,7 +633,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TLONGLONG:
         {
-            int64_t *buffer = reinterpret_cast<int64_t *>(imageData->getImageBuffer());
+            int64_t const *buffer = reinterpret_cast<int64_t const*>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -641,7 +641,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
         case TDOUBLE:
         {
-            double *buffer = reinterpret_cast<double *>(imageData->getImageBuffer());
+            double const *buffer = reinterpret_cast<double const*>(imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -820,9 +820,9 @@ Vector cgmath::findLocalStarPosition(void) const
     Vector ret;
     int i, j;
     double resx, resy, mass, threshold, pval;
-    T *psrc    = nullptr;
-    T *porigin = nullptr;
-    T *pptr;
+    T const *psrc    = nullptr;
+    T const *porigin = nullptr;
+    T const *pptr;
 
     QRect trackingBox = guideView->getTrackingBox();
 
@@ -856,7 +856,7 @@ Vector cgmath::findLocalStarPosition(void) const
         return ret;
     }
 
-    T *pdata = reinterpret_cast<T *>(imageData->getImageBuffer());
+    T const *pdata = reinterpret_cast<T const*>(imageData->getImageBuffer());
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Tracking Square " << trackingBox;
 
@@ -877,7 +877,7 @@ Vector cgmath::findLocalStarPosition(void) const
             float i0, i1, i2, i3, i4, i5, i6, i7, i8;
             int ix = 0, iy = 0;
             int xM4;
-            T *p;
+            T const *p;
             double average, fit, bestFit = 0;
             int minx = 0;
             int maxx = width;

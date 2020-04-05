@@ -1051,14 +1051,112 @@ void Focus::newFITS(IBLOB *bp)
     setCaptureComplete();
 }
 
+double Focus::analyzeSources(FITSData *image_data)
+{
+    // When we're using FULL field view, we always use either CENTROID algorithm which is the default
+    // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
+    // a bounding box for them to be effective in near real-time application.
+    if (Options::focusUseFullField())
+    {
+        Q_ASSERT_X(focusView->getTrackingBox().isNull(), __FUNCTION__, "Tracking box is disabled when detecting in full-field");
+
+        if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
+            focusView->findStars(ALGORITHM_CENTROID);
+        else
+            focusView->findStars(focusDetection);
+
+        focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                      static_cast <float> (fullFieldOuterRing->value() / 100.0));
+        focusView->filterStars();
+
+        // Get the average HFR of the whole frame
+        return image_data->getHFR(HFR_AVERAGE);
+    }
+    else
+    {
+        // If star is already selected then use whatever algorithm currently selected.
+        if (starSelected)
+        {
+            focusView->findStars(focusDetection);
+            return image_data->getHFR(HFR_MAX);
+        }
+        else
+        {
+            // Disable tracking box
+            focusView->setTrackingBoxEnabled(false);
+
+            // If algorithm is set something other than Centeroid or SEP, then force Centroid
+            // Since it is the most reliable detector when nothing was selected before.
+            if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
+                focusView->findStars(ALGORITHM_CENTROID);
+            else
+                // Otherwise, continue to find use using the selected algorithm
+                focusView->findStars(focusDetection);
+
+            // Reenable tracking box
+            focusView->setTrackingBoxEnabled(true);
+
+            // Get maximum HFR in the frame
+            return image_data->getHFR(HFR_MAX);
+        }
+    }
+}
+
+bool Focus::appendHFR(double newHFR)
+{
+    // Add new HFR to existing values, even if invalid
+    HFRFrames.append(newHFR);
+
+    // Prepare a work vector with valid HFR values
+    QVector <double> samples(HFRFrames);
+    samples.erase(std::remove_if(samples.begin(), samples.end(), [](const double HFR) { return HFR == -1; }), samples.end());
+
+    // Perform simple sigma clipping if more than a few samples
+    if (samples.count() > 3)
+    {
+        // Sort all HFRs and extract the median
+        std::sort(samples.begin(), samples.end());
+        const auto median =
+                ((samples.size() % 2) ?
+                     samples[samples.size() / 2] :
+                 (static_cast<double>(samples[samples.size() / 2 - 1]) + samples[samples.size() / 2]) * .5);
+
+        // Extract the mean
+        const auto mean = std::accumulate(samples.begin(), samples.end(), .0) / samples.size();
+
+        // Extract the variance
+        double variance = 0;
+        foreach (auto val, samples)
+            variance += (val - mean) * (val - mean);
+
+        // Deduce the standard deviation
+        const double stddev = sqrt(variance / samples.size());
+
+        // Reject those 2 sigma away from median
+        const double sigmaHigh = median + stddev * 2;
+        const double sigmaLow  = median - stddev * 2;
+
+        // FIXME: why is the first value not considered?
+        // FIXME: what if there are less than 3 samples after clipping?
+        QMutableVectorIterator<double> i(samples);
+        while (i.hasNext())
+        {
+            auto val = i.next();
+            if (val > sigmaHigh || val < sigmaLow)
+                i.remove();
+        }
+    }
+
+    // Consolidate the average HFR
+    currentHFR = samples.isEmpty() ? -1 : std::accumulate(samples.begin(), samples.end(), .0) / samples.size();
+
+    // Return whether we need more frame based on user requirement
+    return HFRFrames.count() < focusFramesSpin->value();
+}
+
 void Focus::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
-
-    // Get Binning
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    int subBinX = 1, subBinY = 1;
-    targetChip->getBinning(&subBinX, &subBinY);
 
     // If we have a box, sync the bounding box to its position.
     syncTrackingBoxPosition();
@@ -1096,123 +1194,21 @@ void Focus::setCaptureComplete()
         // Since star-searching algorithm are time-consuming, we should only search when necessary
         if (image_data->areStarsSearched() == false)
         {
-            // Reset current HFR
-            currentHFR = -1;
-
-            // When we're using FULL field view, we always use either CENTROID algorithm which is the default
-            // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
-            // a bounding box for them to be effective in near real-time application.
-            if (Options::focusUseFullField())
-            {
-                if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-                    focusView->findStars(ALGORITHM_CENTROID);
-                else
-                    focusView->findStars(focusDetection);
-                focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
-                                              static_cast <float> (fullFieldOuterRing->value() / 100.0));
-                focusView->filterStars();
-                focusView->updateFrame();
-
-                // Get the average HFR of the whole frame
-                currentHFR = image_data->getHFR(HFR_AVERAGE);
-            }
-            else
-            {
-                // If star is already selected then use whatever algorithm currently selected.
-                if (starSelected)
-                {
-                    focusView->findStars(focusDetection);
-                    focusView->updateFrame();
-                    currentHFR = image_data->getHFR(HFR_MAX);
-                }
-                else
-                {
-                    // Disable tracking box
-                    focusView->setTrackingBoxEnabled(false);
-
-                    // If algorithm is set something other than Centeroid or SEP, then force Centroid
-                    // Since it is the most reliable detector when nothing was selected before.
-                    if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-                        focusView->findStars(ALGORITHM_CENTROID);
-                    else
-                        // Otherwise, continue to find use using the selected algorithm
-                        focusView->findStars(focusDetection);
-
-                    // Reenable tracking box
-                    focusView->setTrackingBoxEnabled(true);
-
-                    focusView->updateFrame();
-
-                    // Get maximum HFR in the frame
-                    currentHFR = image_data->getHFR(HFR_MAX);
-                }
-            }
+            currentHFR = analyzeSources(image_data);
+            focusView->updateFrame();
         }
 
         // Let's now report the current HFR
         qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
                                    << (starSelected ? 1 : image_data->getDetectedStars());
-        // Add it to existing frames in case we need to take an average
-        HFRFrames.append(currentHFR);
 
-        // Check if we need to average more than a single frame
-        if (HFRFrames.count() >= focusFramesSpin->value())
+        // Take the new HFR into account, eventually continue to stack samples
+        if (appendHFR(currentHFR))
         {
-            currentHFR = 0;
-
-            // Remove all -1
-            QMutableVectorIterator<double> i(HFRFrames);
-            while (i.hasNext())
-            {
-                if (i.next() == -1)
-                    i.remove();
-            }
-
-            if (HFRFrames.isEmpty())
-                currentHFR = -1;
-            else
-            {
-                // Perform simple sigma clipping if frames count > 3
-                if (HFRFrames.count() > 3)
-                {
-                    // Sort all HFRs
-                    std::sort(HFRFrames.begin(), HFRFrames.end());
-                    const auto median =
-                        ((HFRFrames.size() % 2) ?
-                         HFRFrames[HFRFrames.size() / 2] :
-                         (static_cast<double>(HFRFrames[HFRFrames.size() / 2 - 1]) + HFRFrames[HFRFrames.size() / 2]) * .5);
-                    const auto mean = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
-                    double variance = 0;
-                    foreach (auto val, HFRFrames)
-                        variance += (val - mean) * (val - mean);
-                    const double stddev = sqrt(variance / HFRFrames.size());
-
-                    // Reject those 2 sigma away from median
-                    const double sigmaHigh = median + stddev * 2;
-                    const double sigmaLow  = median - stddev * 2;
-
-                    QMutableVectorIterator<double> i(HFRFrames);
-                    while (i.hasNext())
-                    {
-                        auto val = i.next();
-                        if (val > sigmaHigh || val < sigmaLow)
-                            i.remove();
-                    }
-                }
-
-                // Find average HFR
-                currentHFR = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
-
-                HFRFrames.clear();
-            }
-        }
-        else
-        {
-            // If we need to capture more frames to average the HFR, let's do that now.
             capture();
             return;
         }
-
+        else HFRFrames.clear();
 
         // Let signal the current HFR now depending on whether the focuser is absolute or relative
         if (canAbsMove)
@@ -1335,6 +1331,14 @@ void Focus::setCaptureComplete()
         capture();
         return;
     }
+
+    // Get target chip
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+    // Get target chip binning
+    int subBinX = 1, subBinY = 1;
+    if (!targetChip->getBinning(&subBinX, &subBinY))
+        qCDebug(KSTARS_EKOS_FOCUS) << "Warning: target chip is reporting no binning property, using 1x1.";
 
     // If star is NOT yet selected in a non-full-frame situation
     // then let's now try to find the star. This step is skipped for full frames

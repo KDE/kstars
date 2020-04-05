@@ -91,7 +91,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     double x, y;
     FITSData *view_data = view->getImageData();
 
-    uint8_t *buffer = view_data->getImageBuffer();
+    uint8_t const *buffer = view_data->getImageBuffer();
 
     if (buffer == nullptr)
         return;
@@ -118,31 +118,31 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             break;
 
         case TSHORT:
-            stringValue = QLocale().toString((reinterpret_cast<int16_t *>(buffer))[index]);
+            stringValue = QLocale().toString((reinterpret_cast<int16_t const*>(buffer))[index]);
             break;
 
         case TUSHORT:
-            stringValue = QLocale().toString((reinterpret_cast<uint16_t *>(buffer))[index]);
+            stringValue = QLocale().toString((reinterpret_cast<uint16_t const*>(buffer))[index]);
             break;
 
         case TLONG:
-            stringValue = QLocale().toString((reinterpret_cast<int32_t *>(buffer))[index]);
+            stringValue = QLocale().toString((reinterpret_cast<int32_t const*>(buffer))[index]);
             break;
 
         case TULONG:
-            stringValue = QLocale().toString((reinterpret_cast<uint32_t *>(buffer))[index]);
+            stringValue = QLocale().toString((reinterpret_cast<uint32_t const*>(buffer))[index]);
             break;
 
         case TFLOAT:
-            stringValue = QLocale().toString((reinterpret_cast<float *>(buffer))[index], 'f', 5);
+            stringValue = QLocale().toString((reinterpret_cast<float const*>(buffer))[index], 'f', 5);
             break;
 
         case TLONGLONG:
-            stringValue = QLocale().toString(static_cast<int>((reinterpret_cast<int64_t *>(buffer))[index]));
+            stringValue = QLocale().toString(static_cast<int>((reinterpret_cast<int64_t const*>(buffer))[index]));
             break;
 
         case TDOUBLE:
-            stringValue = QLocale().toString((reinterpret_cast<float *>(buffer))[index], 'f', 5);
+            stringValue = QLocale().toString((reinterpret_cast<float const*>(buffer))[index], 'f', 5);
 
             break;
 
