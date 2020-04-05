@@ -23,6 +23,7 @@
 
 #include "bayer.h"
 #include "fitscommon.h"
+#include "fitsstardetector.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio
@@ -43,9 +44,6 @@
 #endif
 #endif
 
-#define MINIMUM_PIXEL_RANGE 5
-#define MINIMUM_STDVAR      5
-
 class QProgressDialog;
 
 class SkyObject;
@@ -58,17 +56,7 @@ typedef struct
     float dec;
 } wcs_point;
 
-class Edge
-{
-    public:
-        float x;
-        float y;
-        int val;
-        int scanned;
-        float width;
-        float HFR;
-        float sum;
-};
+class Edge;
 
 class FITSSkyObject : public QObject
 {
@@ -172,11 +160,13 @@ class FITSData : public QObject
         // Access functions
         void clearImageBuffers();
         void setImageBuffer(uint8_t *buffer);
-        uint8_t *getImageBuffer();
+        uint8_t const *getImageBuffer() const;
+        uint8_t *getWritableImageBuffer();
 
         // Statistics
         void saveStatistics(Statistic &other);
         void restoreStatistics(Statistic &other);
+        Statistic const &getStatistics() const { return stats; };
 
         uint16_t width() const
         {
@@ -287,18 +277,10 @@ class FITSData : public QObject
 
         int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
 
-        void getCenterSelection(int *x, int *y);
-        int findOneStar(const QRect &boundary);
-
-        // Star Detection - Partially customized Canny edge detection algorithm
-        static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
-        template <typename T>
-        static int findCannyStar(FITSData *data, const QRect &boundary);
-
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
-        void getFloatBuffer(float *buffer, int x, int y, int w, int h);
-        int findSEPStars(const QRect &boundary = QRect());
+        void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
+        int findSEPStars(QList<Edge*>&, const QRect &boundary = QRect()) const;
 
         // Apply ring filter to searched stars
         int filterStars(const float innerRadius, const float outerRadius);
@@ -443,7 +425,6 @@ class FITSData : public QObject
         void loadCommon(const QString &inFilename);
         bool privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent);
         void rotWCSFITS(int angle, int mirror);
-        bool checkCollision(Edge *s1, Edge *s2);
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();
         void readWCSKeys();
@@ -462,14 +443,6 @@ class FITSData : public QObject
         // Apply Filter
         template <typename T>
         void applyFilter(FITSScale type, uint8_t *targetImage, QVector<double> * min = nullptr, QVector<double> * max = nullptr);
-        // Star Detect - Centroid
-        template <typename T>
-        int findCentroid(const QRect &boundary, int initStdDev, int minEdgeWidth);
-        int findCentroid(const QRect &boundary = QRect(), int initStdDev = MINIMUM_STDVAR,
-                         int minEdgeWidth = MINIMUM_PIXEL_RANGE);
-        // Star Detect - Threshold
-        template <typename T>
-        int findOneStar(const QRect &boundary);
 
         template <typename T>
         void calculateMinMax();
@@ -483,16 +456,8 @@ class FITSData : public QObject
         template <typename T>
         QPair<double, double> getSquaredSumAndMean(uint32_t start, uint32_t stride);
 
-        // Sobel detector by Gonzalo Exequiel Pedone
-        template <typename T>
-        void sobel(QVector<float> &gradient, QVector<float> &direction);
-
         template <typename T>
         void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);
-
-        // Give unique IDs to each contiguous region
-        int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
-        void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
 
 #ifndef KSTARS_LITE
         FITSHistogram *histogram { nullptr }; // Pointer to the FITS data histogram

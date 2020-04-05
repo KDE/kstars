@@ -30,6 +30,8 @@ void TestEkosSimulator::initTestCase()
     KVERIFY_EKOS_IS_OPENED();
     KTRY_EKOS_START_SIMULATORS();
 
+    // HACK: Reset clock to initial conditions
+    KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(KStarsUiTests::m_InitialConditions.dateTime));
 }
 
 void TestEkosSimulator::cleanupTestCase()
@@ -66,7 +68,7 @@ void TestEkosSimulator::testMountSlew_data()
     CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst());
 
     // Build a list of Messier objects, 5 degree over the horizon
-    for (int i = 1; i < 103; i++)
+    for (int i = 1; i < 103; i += 20)
     {
         QString name = QString("M %1").arg(i);
         SkyObject const * const so = KStars::Instance()->data()->objectNamed(name);
@@ -75,11 +77,11 @@ void TestEkosSimulator::testMountSlew_data()
             SkyObject o(*so);
             o.updateCoordsNow(&numbers);
             o.EquatorialToHorizontal(&LST, geo->lat());
-            if (5.0 < so->alt().Degrees())
+            if (5.0 < o.alt().Degrees())
                 QTest::addRow("%s", name.toStdString().c_str())
                     << name
-                    << so->ra().toHMSString()
-                    << so->dec().toDMSString();
+                    << o.ra().toHMSString()
+                    << o.dec().toDMSString();
         }
     }
 #endif
@@ -146,14 +148,14 @@ void TestEkosSimulator::testMountSlew()
     QTRY_VERIFY_WITH_TIMEOUT(abs(clampRA(RA) - clampRA(raOut->text())) < 2, 15000);
     QTest::qWait(100);
     if (clampRA(RA) != clampRA(raOut->text()))
-        QWARN(QString("Target '%1' slewed to with offset RA %2").arg(NAME).arg(RA).toStdString().c_str());
+        QWARN(QString("Target '%1' slewed to with offset RA %2").arg(NAME).arg(abs(clampRA(RA) - clampRA(raOut->text()))).toStdString().c_str());
 
     QLineEdit * deOut = Ekos::Manager::Instance()->findChild<QLineEdit*>("decOUT");
     QVERIFY(deOut != nullptr);
     QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) < 2, 15000);
     QTest::qWait(100);
-    if (clampRA(DEC) != clampRA(deOut->text()))
-        QWARN(QString("Target '%1' slewed to with coordinate offset DEC %2").arg(NAME).arg(DEC).toStdString().c_str());
+    if (clampDE(DEC) != clampDE(deOut->text()))
+        QWARN(QString("Target '%1' slewed to with coordinate offset DEC %2").arg(NAME).arg(abs(clampDE(DEC) - clampDE(deOut->text()))).toStdString().c_str());
 
     QVERIFY(Ekos::Manager::Instance()->mountModule()->abort());
 #endif

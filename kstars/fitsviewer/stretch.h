@@ -69,7 +69,7 @@ class Stretch
         /**
          * @brief computeParams Automatically generates and sets stretch parameters from the image.
          */
-        StretchParams computeParams(uint8_t *input);
+        StretchParams computeParams(const uint8_t *input);
 
         /**
          * @brief run run the stretch algorithm according to the params given
@@ -81,11 +81,11 @@ class Stretch
          * Sampling is applied to the output (that is, with sampling=2, we compute every other output
          * sample both in width and height, so the output would have about 4X fewer pixels.
          */
-        void run(uint8_t *input, QImage *output_image, int sampling=1);
+        void run(uint8_t const *input, QImage *output_image, int sampling=1);
 
  private:
         // Adjusts input_range for float and double types.
-        void recalculateInputRange(uint8_t *input);
+        void recalculateInputRange(const uint8_t *input);
 
         // Inputs.
         int image_width;

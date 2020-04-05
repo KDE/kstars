@@ -436,6 +436,18 @@ class Focus : public QWidget, public Ui::Focus
          */
         void syncTrackingBoxPosition();
 
+        /** @internal Search for stars using the method currently configured, and return the consolidated HFR.
+         * @param image_data is the FITS frame to work with.
+         * @return the HFR of the star or field of stars in the frame, depending on the consolidation method, or -1 if it cannot be estimated.
+         */
+        double analyzeSources(FITSData *image_data);
+
+        /** @internal Add a new HFR for the current focuser position.
+         * @param newHFR is the new HFR to consider for the current focuser position.
+         * @return true if a new sample is required, else false.
+         */
+        bool appendHFR(double newHFR);
+
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
         /// CCD device needed for focus operation

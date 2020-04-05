@@ -188,7 +188,7 @@ template <typename T> void FITSHistogram::constructHistogram()
     uint16_t width = imageData->width(), height = imageData->height();
     uint8_t channels = imageData->channels();
 
-    auto * buffer = reinterpret_cast<T *>(imageData->getImageBuffer());
+    auto * const buffer = reinterpret_cast<T const *>(imageData->getImageBuffer());
 
     double min, max;
     for (int i = 0 ; i < 3; i++)
@@ -527,7 +527,7 @@ bool FITSHistogramCommand::calculateDelta(const uint8_t * buffer)
 {
     FITSData * imageData = tab->getView()->getImageData();
 
-    uint8_t * image_buffer = imageData->getImageBuffer();
+    uint8_t const * image_buffer = imageData->getImageBuffer();
     int totalPixels =
         imageData->width() * imageData->height() * imageData->channels();
     unsigned long totalBytes = totalPixels * imageData->getBytesPerPixel();
@@ -578,7 +578,7 @@ bool FITSHistogramCommand::reverseDelta()
 {
     FITSView * image = tab->getView();
     FITSData * imageData = image->getImageData();
-    uint8_t * image_buffer = (imageData->getImageBuffer());
+    uint8_t const * image_buffer = (imageData->getImageBuffer());
 
     int totalPixels =
         imageData->width() * imageData->height() * imageData->channels();
@@ -626,7 +626,7 @@ void FITSHistogramCommand::redo()
     FITSView * image = tab->getView();
     FITSData * imageData = image->getImageData();
 
-    uint8_t * image_buffer = imageData->getImageBuffer();
+    uint8_t const * image_buffer = imageData->getImageBuffer();
     uint8_t * buffer = nullptr;
     unsigned int size =
         imageData->width() * imageData->height() * imageData->channels();
@@ -652,7 +652,7 @@ void FITSHistogramCommand::redo()
         // If it's rotation of flip, no need to calculate delta
         if (type >= FITS_ROTATE_CW && type <= FITS_FLIP_V)
         {
-            imageData->applyFilter(type, image_buffer);
+            imageData->applyFilter(type);
         }
         else
         {

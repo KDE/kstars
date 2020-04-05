@@ -282,13 +282,13 @@ void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 
     FITSData *lightData = lightImage->getImageData();
 
-    T *lightBuffer = reinterpret_cast<T *>(lightData->getImageBuffer());
+    T *lightBuffer = reinterpret_cast<T *>(lightData->getWritableImageBuffer());
     int lightW      = lightData->width();
     int lightH      = lightData->height();
 
     int darkW      = darkData->width();
     int darkoffset = offsetX + offsetY * darkW;
-    T *darkBuffer  = reinterpret_cast<T *>(darkData->getImageBuffer()) + darkoffset;
+    T const *darkBuffer  = reinterpret_cast<T const*>(darkData->getImageBuffer()) + darkoffset;
 
     for (int i = 0; i < lightH; i++)
     {

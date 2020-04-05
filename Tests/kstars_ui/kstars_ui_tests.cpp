@@ -10,6 +10,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "test_ekos_focus.h"
 
 #include "auxiliary/kspaths.h"
 #if defined(HAVE_INDI)
@@ -101,8 +102,12 @@ void KStarsUiTests::initialConditionsTest()
 #if QT_VERSION >= 0x050800
     // However comparison down to nearest second is expected to be OK
     QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
+
+    // Test setting time
+    KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(m_InitialConditions.dateTime));
+    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
 #endif
-}
+ }
 
 // We want to launch the application before running our tests
 // Thus we want to explicitly call QApplication::exec(), and run our tests in parallel of the event loop
@@ -144,16 +149,25 @@ int main(int argc, char *argv[])
         result = QTest::qExec(tc, argc, argv);
 
 #if defined(HAVE_INDI)
-        if (!result)
+        //if (!result)
         {
             TestEkos * ek = new TestEkos();
             result |= QTest::qExec(ek, argc, argv);
+            delete ek;
         }
 
-        if (!result)
+        //if (!result)
         {
-            TestEkosSimulator * eks = new TestEkosSimulator();
-            result |= QTest::qExec(eks, argc, argv);
+            TestEkosSimulator * ek = new TestEkosSimulator();
+            result |= QTest::qExec(ek, argc, argv);
+            delete ek;
+        }
+
+        //if (!result)
+        {
+            TestEkosFocus * ek = new TestEkosFocus();
+            result |= QTest::qExec(ek, argc, argv);
+            delete ek;
         }
 #endif
 

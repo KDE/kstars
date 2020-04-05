@@ -25,23 +25,26 @@
     profileCBox->setCurrentText(p); \
     QTRY_COMPARE(profileCBox->currentText(), p); } while(false)
 
+#define KTRY_EKOS_GADGET(klass, name) klass * const name = Ekos::Manager::Instance()->findChild<klass*>(#name); \
+    QVERIFY2(name != nullptr, QString(#klass "'%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
+
 #define KTRY_EKOS_CLICK(button) do { \
-    QPushButton * const b = Ekos::Manager::Instance()->findChild<QPushButton*>(button); \
-    QVERIFY2(b != nullptr, QString("QPushButton '%1' does not exist and cannot be clicked").arg(button).toStdString().c_str()); \
-    QVERIFY2(b->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(button).toStdString().c_str()); \
-    QTimer::singleShot(200, Ekos::Manager::Instance(), [&]() { QTest::mouseClick(b, Qt::LeftButton); }); } while(false)
+    QTimer::singleShot(200, Ekos::Manager::Instance(), []() { \
+        KTRY_EKOS_GADGET(QPushButton, button); \
+        QVERIFY2(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str()); \
+        QTest::mouseClick(button, Qt::LeftButton); }); } while(false)
 
 #define KTRY_EKOS_START_SIMULATORS() do { \
     KTRY_EKOS_SELECT_PROFILE("Simulators"); \
-    KTRY_EKOS_CLICK("processINDIB"); \
+    KTRY_EKOS_CLICK(processINDIB); \
     QWARN("HACK HACK HACK adding delay here for devices to connect"); \
-    QTest::qWait(5000); } while(false)
+    QTest::qWait(10000); } while(false)
 
 #define KTRY_EKOS_STOP_SIMULATORS() do { \
-    KTRY_EKOS_CLICK("disconnectB"); \
+    KTRY_EKOS_CLICK(disconnectB); \
     QWARN("Intentionally leaving a delay here for BZ398192"); \
     QTest::qWait(5000); \
-    KTRY_EKOS_CLICK("processINDIB"); \
+    KTRY_EKOS_CLICK(processINDIB); \
     QTest::qWait(1000); } while(false)
 
 class TestEkosSimulator : public QObject
