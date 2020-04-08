@@ -32,6 +32,7 @@ SET( TEST_KSLITE_LIBRARIES
 
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
+add_subdirectory(fitsviewer)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)
