@@ -38,23 +38,31 @@ public:
 
     /** @brief Configure the detection method.
      * @see FITSStarDetector::configure().
-     * @note Parameter "initStdDev" defaults to MINIMUM_STDVAR.
-     * @note Parameter "minEdgeWidth" defaults to MINIMUM_PIXEL_RANGE.
-     * @todo Provide all constants of this class as parameters, and explain their use.
+     * @see Detection parameters.
      */
     FITSStarDetector & configure(const QString &setting, const QVariant &value) override;
 
-public:
-    /** @group Detection internals
+protected:
+    /** @group Detection parameters. Use the names as strings for FITSStarDetector::configure().
      * @{ */
-    static constexpr int MINIMUM_STDVAR { 5 };
-    static constexpr int MINIMUM_PIXEL_RANGE { 5 };
-    static constexpr int MINIMUM_EDGE_LIMIT { 2 };
-    static constexpr int MAX_EDGE_LIMIT { 10000 };
-    static constexpr double DIFFUSE_THRESHOLD { 0.15 };
-    static constexpr int MINIMUM_ROWS_PER_CENTER { 3 };
-    static constexpr int LOW_EDGE_CUTOFF_1  { 50 };
-    static constexpr int LOW_EDGE_CUTOFF_2  { 10 };
+    /** @brief Initial variation, decreasing as search progresses. Configurable. */
+    int MINIMUM_STDVAR { 5 };
+    /** @brief Initial source width, decreasing as search progresses. Configurable. */
+    int MINIMUM_PIXEL_RANGE { 5 };
+    /** @brief Custom image contrast index from the frame histogram. Configurable. */
+    double JMINDEX { 100 };
+    /** @brief Initial source count over which search stops. */
+    int MINIMUM_EDGE_LIMIT { 2 };
+    /** @brief Maximum source count over which search aborts. */
+    int MAX_EDGE_LIMIT { 10000 };
+    /** @brief Minimum value of JMINDEX under which the custom image contrast index from the histogram is used to redefine edge width and count. */
+    double DIFFUSE_THRESHOLD { 0.15 };
+    /** @brief */
+    int MINIMUM_ROWS_PER_CENTER { 3 };
+    /** @brief */
+    int LOW_EDGE_CUTOFF_1  { 50 };
+    /** @brief */
+    int LOW_EDGE_CUTOFF_2  { 10 };
     /** @} */
 
 protected:
@@ -69,10 +77,6 @@ protected:
      * @return true if the sources collide, else false.
      */
     bool checkCollision(Edge * s1, Edge * s2) const;
-
-protected:
-    int m_initStdDev { MINIMUM_STDVAR };
-    int m_minEdgeWidth { MINIMUM_PIXEL_RANGE };
 };
 
 #endif // FITSCENTROIDDETECTOR_H

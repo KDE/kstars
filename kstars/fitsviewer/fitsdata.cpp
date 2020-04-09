@@ -895,13 +895,23 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
             break;
 
         case ALGORITHM_CENTROID:
+#ifndef KSTARS_LITE
+            if (histogram)
+                if (!histogram->isConstructed())
+                    histogram->constructHistogram();
+
+            count = FITSCentroidDetector(this)
+                    .configure("JMINDEX", histogram? histogram->getJMIndex() : 100)
+                    .findSources(starCenters, trackingBox);
+#else
             count = FITSCentroidDetector(this)
                     .findSources(starCenters, trackingBox);
+#endif
             break;
 
         case ALGORITHM_THRESHOLD:
             count = FITSThresholdDetector(this)
-                    .configure("Threshold", Options::focusThreshold())
+                    .configure("THRESHOLD_PERCENTAGE", Options::focusThreshold())
                     .findSources(starCenters, trackingBox);
             break;
     }
@@ -1770,38 +1780,6 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
 QList<FITSSkyObject *> FITSData::getSkyObjects()
 {
     return objList;
-}
-
-FITSSkyObject::FITSSkyObject(SkyObject * object, int xPos, int yPos) : QObject()
-{
-    skyObjectStored = object;
-    xLoc            = xPos;
-    yLoc            = yPos;
-}
-
-SkyObject * FITSSkyObject::skyObject()
-{
-    return skyObjectStored;
-}
-
-int FITSSkyObject::x()
-{
-    return xLoc;
-}
-
-int FITSSkyObject::y()
-{
-    return yLoc;
-}
-
-void FITSSkyObject::setX(int xPos)
-{
-    xLoc = xPos;
-}
-
-void FITSSkyObject::setY(int yPos)
-{
-    yLoc = yPos;
 }
 
 int FITSData::getFlipVCounter() const

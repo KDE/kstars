@@ -44,9 +44,10 @@
 #endif
 #endif
 
+#include "fitsskyobject.h"
+
 class QProgressDialog;
 
-class SkyObject;
 class SkyPoint;
 class FITSHistogram;
 
@@ -57,23 +58,6 @@ typedef struct
 } wcs_point;
 
 class Edge;
-
-class FITSSkyObject : public QObject
-{
-        Q_OBJECT
-    public:
-        explicit FITSSkyObject(SkyObject *object, int xPos, int yPos);
-        SkyObject *skyObject();
-        int x();
-        int y();
-        void setX(int xPos);
-        void setY(int yPos);
-
-    private:
-        SkyObject *skyObjectStored;
-        int xLoc;
-        int yLoc;
-};
 
 class FITSData : public QObject
 {

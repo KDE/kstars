@@ -43,9 +43,9 @@ public:
     FITSStarDetector & configure(const QString &setting, const QVariant &value) override;
 
 public:
-    /** @group Detection internals
+    /** @group Detection parameters.
      * @{ */
-    static constexpr int THRESHOLD_PERCENTAGE { 120 };
+    int THRESHOLD_PERCENTAGE { 120 };
     /** @} */
 
 protected:
@@ -54,9 +54,6 @@ protected:
      */
     template <typename T>
     int findOneStar(QList<Edge*> &starCenters, const QRect &boundary) const;
-
-protected:
-    double focusThreshold { THRESHOLD_PERCENTAGE };
 };
 
 #endif // FITSTHRESHOLDDETECTOR_H
