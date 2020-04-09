@@ -417,7 +417,7 @@ void StarProfileViewer::loadDataPrivate()
     QStringList rowLabels;
     QStringList columnLabels;
 
-    auto *buffer = reinterpret_cast<T *>(imageData->getImageBuffer());
+    auto *buffer = reinterpret_cast<T const *>(imageData->getImageBuffer());
     int width = imageData->width();
 
     for (int j = subFrame.y(); j < subFrame.y() + subFrame.height(); j++)
@@ -778,7 +778,7 @@ void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax
 template <typename T>
 void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax)
 {
-    T *buffer = reinterpret_cast<T *>(imageData->getImageBuffer());
+    auto *buffer = reinterpret_cast<T const *>(imageData->getImageBuffer());
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
     int width = imageData->width();
@@ -803,8 +803,7 @@ float StarProfileViewer::getImageDataValue(int x, int y)
 {
     if(!imageData)
         return 0;
-    uint8_t *image_buffer = imageData->getImageBuffer();
-    T *buffer = reinterpret_cast<T *>(image_buffer);
+    auto *buffer = reinterpret_cast<T const *>(imageData->getImageBuffer());
     return (float) buffer[y * imageData->width() + x];
 }
 

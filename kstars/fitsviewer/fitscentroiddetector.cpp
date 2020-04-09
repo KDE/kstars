@@ -24,20 +24,17 @@
 
 FITSStarDetector& FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
 {
-    if (!setting.compare("initStdDev", Qt::CaseInsensitive))
-    {
-        bool ok = false;
-        double const result = value.toDouble(&ok);
-        if (ok)
-            m_initStdDev = result;
-    }
-    if (!setting.compare("minEdgeWidth", Qt::CaseInsensitive))
-    {
-        bool ok = false;
-        int const result = value.toInt(&ok);
-        if (ok)
-            m_initStdDev = result;
-    }
+    if (!setting.compare("MINIMUM_STDVAR", Qt::CaseInsensitive))
+        if (value.canConvert <typeof (MINIMUM_STDVAR)> ())
+            MINIMUM_STDVAR = value.value <typeof (MINIMUM_STDVAR)> ();
+
+    if (!setting.compare("MINIMUM_PIXEL_RANGE", Qt::CaseInsensitive))
+        if (value.canConvert <typeof (MINIMUM_PIXEL_RANGE)> ())
+            MINIMUM_PIXEL_RANGE = value.value <typeof(MINIMUM_PIXEL_RANGE)> ();
+
+    if (!setting.compare("JMINDEX", Qt::CaseInsensitive))
+        if (value.canConvert <typeof (JMINDEX)> ())
+            JMINDEX = value.value <typeof (JMINDEX)> ();
 
     return *this;
 }
@@ -105,6 +102,9 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     FITSData::Statistic const &stats = image_data->getStatistics();
     FITSMode const m_Mode = static_cast <FITSMode> (parent()->property("mode").toInt());
 
+    int initStdDev = MINIMUM_STDVAR;
+    int minEdgeWidth = MINIMUM_PIXEL_RANGE;
+
     double threshold = 0, sum = 0, avg = 0, min = 0;
     int starDiameter     = 0;
     int pixVal           = 0;
@@ -112,16 +112,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
 
     auto * buffer = reinterpret_cast<T const *>(image_data->getImageBuffer());
 
-    double JMIndex = 100;
-
-#if 0//ndef KSTARS_LITE
-    if (histogram)
-    {
-        if (!histogram->isConstructed())
-            histogram->constructHistogram();
-        JMIndex = histogram->getJMIndex();
-    }
-#endif
+    double JMIndex = JMINDEX;
 
     float dispersion_ratio = 1.5;
 
@@ -129,48 +120,48 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
 
     if (JMIndex < DIFFUSE_THRESHOLD)
     {
-        m_minEdgeWidth     = JMIndex * 35 + 1;
-        minimumEdgeCount = m_minEdgeWidth - 1;
+        minEdgeWidth     = JMIndex * 35 + 1;
+        minimumEdgeCount = minEdgeWidth - 1;
     }
     else
     {
-        m_minEdgeWidth     = 6;
+        minEdgeWidth     = 6;
         minimumEdgeCount = 4;
     }
 
-    while (m_initStdDev >= 1)
+    while (initStdDev >= 1)
     {
-        m_minEdgeWidth--;
+        minEdgeWidth--;
         minimumEdgeCount--;
 
-        m_minEdgeWidth     = qMax(3, m_minEdgeWidth);
+        minEdgeWidth     = qMax(3, minEdgeWidth);
         minimumEdgeCount = qMax(3, minimumEdgeCount);
 
         if (JMIndex < DIFFUSE_THRESHOLD)
         {
             // Taking the average out seems to have better result for noisy images
-            threshold = stats.max[0] - stats.mean[0] * ((MINIMUM_STDVAR - m_initStdDev) * 0.5 + 1);
+            threshold = stats.max[0] - stats.mean[0] * ((MINIMUM_STDVAR - initStdDev) * 0.5 + 1);
 
             min = stats.min[0];
             if (threshold - min < 0)
             {
-                threshold = stats.mean[0] * ((MINIMUM_STDVAR - m_initStdDev) * 0.5 + 1);
+                threshold = stats.mean[0] * ((MINIMUM_STDVAR - initStdDev) * 0.5 + 1);
                 min       = 0;
             }
 
-            dispersion_ratio = 1.4 - (MINIMUM_STDVAR - m_initStdDev) * 0.08;
+            dispersion_ratio = 1.4 - (MINIMUM_STDVAR - initStdDev) * 0.08;
         }
         else
         {
-            threshold = stats.mean[0] + stats.stddev[0] * m_initStdDev * (0.3 - (MINIMUM_STDVAR - m_initStdDev) * 0.05);
+            threshold = stats.mean[0] + stats.stddev[0] * initStdDev * (0.3 - (MINIMUM_STDVAR - initStdDev) * 0.05);
             min       = stats.min[0];
             // Ratio between centeroid center and edge
-            dispersion_ratio = 1.8 - (MINIMUM_STDVAR - m_initStdDev) * 0.2;
+            dispersion_ratio = 1.8 - (MINIMUM_STDVAR - initStdDev) * 0.2;
         }
 
         qCDebug(KSTARS_FITS) << "SNR: " << stats.SNR;
         qCDebug(KSTARS_FITS) << "The threshold level is " << threshold << "(actual " << threshold - min
-                             << ")  minimum edge width" << m_minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
+                             << ")  minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
 
         threshold -= min;
 
@@ -223,7 +214,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
                 else if (sum > 0)
                 {
                     // We found a potential centroid edge
-                    if (starDiameter >= m_minEdgeWidth)
+                    if (starDiameter >= minEdgeWidth)
                     {
                         float center = avg / sum + 0.5;
                         if (center > 0)
@@ -270,9 +261,9 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
         qCDebug(KSTARS_FITS) << "Total number of edges found is: " << edges.count();
 
         // In case of hot pixels
-        if (edges.count() == 1 && m_initStdDev > 1)
+        if (edges.count() == 1 && initStdDev > 1)
         {
-            m_initStdDev--;
+            initStdDev--;
             continue;
         }
 
@@ -288,7 +279,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
 
         qDeleteAll(edges);
         edges.clear();
-        m_initStdDev--;
+        initStdDev--;
     }
 
     int cen_count = 0;
@@ -354,7 +345,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
             }
         }
 
-        int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - m_initStdDev));
+        int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev));
 
         if (edges.count() < LOW_EDGE_CUTOFF_1)
         {
@@ -364,7 +355,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
                 cen_limit = 2;
         }
 
-        qCDebug(KSTARS_FITS) << "center_count: " << cen_count << " and initstdDev= " << m_initStdDev << " and limit is "
+        qCDebug(KSTARS_FITS) << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
                              << cen_limit;
 
         if (cen_limit < 1)

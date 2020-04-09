@@ -266,6 +266,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsgradientdetector.cpp
         fitsviewer/fitscentroiddetector.cpp
         fitsviewer/fitssepdetector.cpp
+        fitsviewer/fitsskyobject.cpp
         )
     set (fitsui_SRCS
         fitsviewer/fitsheaderdialog.ui

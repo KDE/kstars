@@ -24,14 +24,9 @@
 
 FITSStarDetector& FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
 {
-    bool ok = false;
-
-    if (!setting.compare("threshold", Qt::CaseInsensitive))
-    {
-        double const _focusThreshold = value.toDouble(&ok);
-        if (ok)
-            focusThreshold = _focusThreshold;
-    }
+    if (!setting.compare("THRESHOLD_PERCENTAGE", Qt::CaseInsensitive))
+        if (value.canConvert <typeof (THRESHOLD_PERCENTAGE)> ())
+            THRESHOLD_PERCENTAGE = value.value <typeof (THRESHOLD_PERCENTAGE)> ();
 
     return *this;
 }
@@ -94,7 +89,7 @@ int FITSThresholdDetector::findOneStar(QList<Edge*> &starCenters, const QRect &b
     auto * buffer = reinterpret_cast<T const *>(image_data->getImageBuffer());
 
     // TODO replace magic number with something more useful to understand
-    double threshold = stats.mean[0] * focusThreshold / 100.0;
+    double threshold = stats.mean[0] * THRESHOLD_PERCENTAGE / 100.0;
 
     for (int y = subY; y < subH; y++)
     {
