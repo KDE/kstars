@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <math.h>
+#include <cmath>
 
 #include "fitscentroiddetector.h"
 #include "fits_debug.h"
