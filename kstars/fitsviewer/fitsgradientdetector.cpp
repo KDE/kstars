@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <math.h>
+#include <cmath>
 
 #include "fits_debug.h"
 #include "fitsgradientdetector.h"
