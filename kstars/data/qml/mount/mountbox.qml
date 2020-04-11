@@ -5,8 +5,8 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: rectangle
-    width: 210
-    height: 550
+    width: 240
+    height: 570
     color: "#000000"
 
     property color buttonColor: "silver"
@@ -23,10 +23,11 @@ Rectangle {
             height: 150
             rowSpacing: 1
             columnSpacing: 1
-            Layout.minimumHeight: 150
-            Layout.minimumWidth: 200
-            Layout.maximumHeight: 150
-            Layout.maximumWidth: 200
+            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.minimumHeight: 160
+            Layout.minimumWidth: 210
+            Layout.maximumHeight: 160
+            Layout.maximumWidth: 210
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
             rows: 3
@@ -267,6 +268,7 @@ Rectangle {
 
         RowLayout {
             id: mountReverseLayout
+            anchors.horizontalCenter: parent.horizontalCenter
             Layout.fillWidth: true
 
             Label
@@ -303,7 +305,7 @@ Rectangle {
                 id: speedSlider
                 x: 5
                 y: 0
-                width: 150
+                width: 30
                 objectName: "speedSliderObject"
                 Layout.fillWidth: true
                 stepSize: 1
@@ -328,7 +330,7 @@ Rectangle {
                 Layout.minimumWidth: 75
                 font.weight: Font.Bold
                 font.bold: true
-                font.pointSize: 14
+                font.pointSize: 12
                 font.family: "Verdana"
                 fontSizeMode: Text.Fit
                 verticalAlignment: Text.AlignVCenter
@@ -461,18 +463,17 @@ Rectangle {
             }
         }
 
-
-        RowLayout {
-            id: targetNameLayout
-            width: 200
+        GridLayout {
+            id: targetCoordsLayout
             height: 100
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillHeight: false
-            Layout.minimumWidth: 200
             Layout.fillWidth: true
+            rows: 5
+            columns: 3
 
             Label {
                 id: targetLabel
+                Layout.row: 1
+                Layout.column: 1
                 color: "#ffffff"
                 text: xi18n("Target:")
                 verticalAlignment: Text.AlignVCenter
@@ -484,6 +485,10 @@ Rectangle {
 
             Label {
                 id: targetText
+                Layout.row: 1
+                Layout.column: 2
+                Layout.maximumHeight: 32
+                Layout.minimumHeight: 32
                 objectName: "targetTextObject"
                 color: "#ffffff"
                 Rectangle
@@ -499,7 +504,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.minimumWidth: 75
+                // Layout.minimumWidth: 75
                 font.pointSize: 12
                 font.bold: true
             }
@@ -512,6 +517,8 @@ Rectangle {
                 Layout.minimumHeight: 32
                 Layout.minimumWidth: 32
                 Layout.maximumWidth: 32
+                Layout.row: 1
+                Layout.column: 3
                 iconName: "view-history"
 
                 onClicked:
@@ -519,21 +526,14 @@ Rectangle {
                     mount.findTarget()
                 }
             }
-        }
-
-
-        GridLayout {
-            id: targetCoordsLayout
-            height: 100
-            Layout.fillWidth: true
-            rows: 2
-            columns: 2
 
             Label {
                 id: targetRALabel
                 color: "#ffffff"
                 text: xi18n("RA/AZ:")
                 font.pointSize: 12
+                Layout.row: 2
+                Layout.column: 1
             }
 
             TextField {
@@ -544,6 +544,8 @@ Rectangle {
                 Layout.minimumHeight: 30
                 Layout.maximumHeight: 30
                 Layout.fillWidth: true
+                Layout.row: 2
+                Layout.column: 2
             }
 
 
@@ -552,6 +554,8 @@ Rectangle {
                 color: "#ffffff"
                 text: xi18n("DE/AL:")
                 font.pointSize: 12
+                Layout.row: 3
+                Layout.column: 1
             }
 
             TextField {
@@ -563,15 +567,21 @@ Rectangle {
                 Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
                 Layout.fillWidth: true
+                Layout.row: 3
+                Layout.column: 2
             }
 
             Label {
                 id: coordLabel
                 text: xi18n("Type:")
+                Layout.row: 4
+                Layout.column: 1
             }
 
             RowLayout
             {
+                Layout.row: 4
+                Layout.column: 2
                 ExclusiveGroup { id: coordGroup }
                 RadioButton {
                     id: equatorialCheck
@@ -594,10 +604,14 @@ Rectangle {
             Label {
                 id: epochLabel
                 text: xi18n("Epoch:")
+                Layout.row: 5
+                Layout.column: 1
             }
 
             RowLayout
             {
+                Layout.row: 5
+                Layout.column: 2
                 ExclusiveGroup { id: epochGroup }
                 RadioButton {
                     id: jnowCheck
@@ -620,7 +634,8 @@ Rectangle {
             id: actionLayout
             width: 200
             height: 100
-            Layout.maximumWidth: 200
+            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.maximumWidth: 250
             Layout.minimumWidth: 200
             Layout.fillHeight: false
             Layout.fillWidth: true
