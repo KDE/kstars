@@ -999,7 +999,7 @@ void SkyMap::setDestinationAltAz(const dms &alt, const dms &az)
     emit destinationChanged();
 }
 
-void SkyMap::setClickedPoint(SkyPoint *f)
+void SkyMap::setClickedPoint(const SkyPoint *f)
 {
     ClickedPoint = *f;
 }
