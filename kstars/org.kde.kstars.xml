@@ -6,9 +6,20 @@
       <arg name="dec" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setRaDecJ2000">
+      <arg name="ra0" type="d" direction="in"/>
+      <arg name="dec0" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="setAltAz">
       <arg name="alt" type="d" direction="in"/>
       <arg name="az" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setAltAz">
+      <arg name="alt" type="d" direction="in"/>
+      <arg name="az" type="d" direction="in"/>
+      <arg name="altIsRefracted" type="bool" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="lookTowards">

@@ -52,12 +52,33 @@
 void KStars::setRaDec(double ra, double dec)
 {
     SkyPoint p(ra, dec);
-    map()->setDestination(p);
+    map()->setClickedPoint(&p);
+    map()->slotCenter();
 }
 
-void KStars::setAltAz(double alt, double az)
+void KStars::setRaDecJ2000(double ra0, double dec0)
 {
-    map()->setDestinationAltAz(dms(alt), dms(az));
+    SkyPoint p;
+    p.setRA0(ra0);
+    p.setDec0(dec0);
+    p.updateCoordsNow(data()->updateNum());
+    map()->setClickedPoint(&p);
+    map()->slotCenter();
+}
+
+void KStars::setAltAz(double alt, double az, bool altIsRefracted)
+{
+    SkyPoint p;
+    if (altIsRefracted) {
+        // This is not ideal, because unrefract and refract are not exact inverses
+        // of each other due to numerics. But this is the best we have :-)
+        alt = SkyPoint::unrefract(alt);
+    }
+    p.setAlt(alt);
+    p.setAz(az);
+    p.HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
+    map()->setClickedPoint(&p);
+    map()->slotCenter();
 }
 
 void KStars::lookTowards(const QString &direction)
