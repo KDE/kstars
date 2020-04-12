@@ -59,11 +59,11 @@ void TestFitsData::testLoadFits()
     QVERIFY(abs(fd->getSNR() - 0.114) < 0.001);
 
     // Minmax
-    QCOMPARE(fd->getMax(), 57832);
-    QCOMPARE(fd->getMin(), 21);
+    QCOMPARE((int)fd->getMax(), 57832);
+    QCOMPARE((int)fd->getMin(), 21);
 
     QWARN("No median calculation in the current implementation");
-    QCOMPARE(fd->getMedian(), 0);
+    QCOMPARE((int)fd->getMedian(), 0);
 
     // Without searching for stars, there are no stars found
     QCOMPARE(fd->getStarCenters().count(), 0);
