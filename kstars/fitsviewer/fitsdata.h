@@ -434,6 +434,13 @@ class FITSData : public QObject
         template <typename T>
         QPair<T, T> getParitionMinMax(uint32_t start, uint32_t stride);
 
+        /* Calculate the Gaussian blur matrix and apply it to the image using the convolution filter */
+        QVector<double> createGaussianKernel(int size, double sigma);
+        template <typename T>
+        void convolutionFilter(const QVector<double> &kernel, int kernelSize);
+        template <typename T>
+        void gaussianBlur(int kernelSize, double sigma);
+
         /* Calculate running average & standard deviation using Welford’s method for computing variance */
         template <typename T>
         void runningAverageStdDev();

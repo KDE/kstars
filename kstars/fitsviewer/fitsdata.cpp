@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "fitsdata.h"
+#include "fitsbahtinovdetector.h"
 #include "fitsthresholddetector.h"
 #include "fitsgradientdetector.h"
 #include "fitscentroiddetector.h"
@@ -796,6 +797,96 @@ void FITSData::runningAverageStdDev()
     }
 }
 
+QVector<double> FITSData::createGaussianKernel(int size, double sigma)
+{
+    QVector<double> kernel(size * size);
+    kernel.fill(0.0, size * size);
+
+    double kernelSum = 0.0;
+    int fOff = (size - 1) / 2;
+    double normal = 1.0 / (2.0 * M_PI * sigma * sigma);
+    for (int y = -fOff; y <= fOff; y++) {
+        for (int x = -fOff; x <= fOff; x++) {
+            double distance = ((y * y) + (x * x)) / (2.0 * sigma * sigma);
+            int index = (y + fOff) * size + (x + fOff);
+            kernel[index] = normal * qExp(-distance);
+            kernelSum += kernel.at(index);
+        }
+    }
+    for (int y = 0; y < size; y++) {
+        for (int x = 0; x < size; x++) {
+            int index = y * size + x;
+            kernel[index] = kernel.at(index) * 1.0 / kernelSum;
+        }
+    }
+
+    return kernel;
+}
+
+template <typename T>
+void FITSData::convolutionFilter(const QVector<double> &kernel, int kernelSize)
+{
+    T * imagePtr = reinterpret_cast<T *>(m_ImageBuffer);
+
+    // Create variable for pixel data for each kernel
+    T gt = 0;
+
+    // This is how much your center pixel is offset from the border of your kernel
+    int fOff = (kernelSize - 1) / 2;
+
+    // Start with the pixel that is offset fOff from top and fOff from the left side
+    // this is so entire kernel is on your image
+    for (int offsetY = 0; offsetY < stats.height; offsetY++)
+    {
+        for (int offsetX = 0; offsetX < stats.width; offsetX++)
+        {
+            // reset gray value to 0
+            gt = 0;
+            // position of the kernel center pixel
+            int byteOffset = offsetY * stats.width + offsetX;
+
+            // kernel calculations
+            for (int filterY = -fOff; filterY <= fOff; filterY++)
+            {
+                for (int filterX = -fOff; filterX <= fOff; filterX++)
+                {
+                    if ((offsetY + filterY) >= 0 && (offsetY + filterY) < stats.height
+                            && ((offsetX + filterX) >= 0 && (offsetX + filterX) < stats.width ))
+                    {
+
+                        int calcOffset = byteOffset + filterX + filterY * stats.width;
+                        int index = (filterY + fOff) * kernelSize + (filterX + fOff);
+                        double kernelValue = kernel.at(index);
+                        gt += (imagePtr[calcOffset]) * kernelValue;
+                    }
+                }
+            }
+
+            // set new data in the other byte array for your image data
+            imagePtr[byteOffset] = gt;
+        }
+    }
+}
+
+template <typename T>
+void FITSData::gaussianBlur(int kernelSize, double sigma)
+{
+    // Size must be an odd number!
+    if (kernelSize % 2 == 0)
+    {
+        kernelSize--;
+        qCInfo(KSTARS_FITS) << "Warning, size must be an odd number, correcting size to " << kernelSize;
+    }
+    // Edge must be a positive number!
+    if (kernelSize < 1)
+    {
+        kernelSize = 1;
+    }
+
+    QVector<double> gaussianKernel = createGaussianKernel(kernelSize, sigma);
+    convolutionFilter<T>(gaussianKernel, kernelSize);
+}
+
 void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
 {
     stats.min[channel] = newMin;
@@ -912,6 +1003,12 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
         case ALGORITHM_THRESHOLD:
             count = FITSThresholdDetector(this)
                     .configure("THRESHOLD_PERCENTAGE", Options::focusThreshold())
+                    .findSources(starCenters, trackingBox);
+            break;
+
+        case ALGORITHM_BAHTINOV:
+            count = FITSBahtinovDetector(this)
+                    .configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage())
                     .findSources(starCenters, trackingBox);
             break;
     }
@@ -1407,6 +1504,12 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                 runningAverageStdDev<T>();
         }
         break;
+
+        case FITS_GAUSSIAN:
+            gaussianBlur<T>(Options::focusGaussianKernelSize(), Options::focusGaussianSigma());
+            if (calcStats)
+                calculateStats(true);
+            break;
 
         case FITS_ROTATE_CW:
             rotFITS<T>(90, 0);

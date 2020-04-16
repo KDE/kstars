@@ -241,6 +241,10 @@ if (CFITSIO_FOUND)
         fitsviewer/sep/util.c
         )
 
+    set (hough_SRCS
+        fitsviewer/hough/houghline.cpp
+        )
+
     set (fits_SRCS
         fitsviewer/fitslabel.cpp
         fitsviewer/fitsviewer.cpp
@@ -266,6 +270,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsgradientdetector.cpp
         fitsviewer/fitscentroiddetector.cpp
         fitsviewer/fitssepdetector.cpp
+        fitsviewer/fitsbahtinovdetector.cpp
         fitsviewer/fitsskyobject.cpp
         )
     set (fitsui_SRCS
@@ -288,6 +293,7 @@ IF (CFITSIO_FOUND)
             SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsdata.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
             SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitshistogram.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
             SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsview.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/hough/houghline.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
         ELSE ()
             SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         ENDIF ()
@@ -975,8 +981,8 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS})
-set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
+set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${hough_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
 IF (NOT ANDROID)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)

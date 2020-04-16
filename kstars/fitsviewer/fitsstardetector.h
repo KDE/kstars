@@ -31,6 +31,7 @@ class FITSData;
 class Edge
 {
 public:
+    virtual ~Edge() = default;
     float x {0};
     float y {0};
     int val {0};
@@ -38,6 +39,14 @@ public:
     float width {0};
     float HFR {-1};
     float sum {0};
+};
+
+class BahtinovEdge : public Edge
+{
+public:
+    virtual ~BahtinovEdge() = default;
+    QVector<QLineF> line;
+    QPointF offset;
 };
 
 class FITSStarDetector : public QObject
