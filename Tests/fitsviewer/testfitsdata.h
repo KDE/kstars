@@ -25,6 +25,7 @@ public:
     QString const m_FocusFixture1 { "ngc4535-autofocus1.fits" };
     QString const m_FocusFixture2 { "ngc4535-autofocus2.fits" };
     QString const m_FocusFixture3 { "ngc4535-autofocus3.fits" };
+    QString const m_BahtinovFixture { "bahtinov-focus.fits" };
     FITSData * fd { nullptr };
 
 private slots:
@@ -41,6 +42,7 @@ private slots:
     void testSEPAlgorithmBenchmark();
     void testFocusHFR();
     void runFocusHFR(const QString &filename, int nstars, float hfr);
+    void testBahtinovFocusHFR();
 };
 
 #endif // TESTFITSDATA_H

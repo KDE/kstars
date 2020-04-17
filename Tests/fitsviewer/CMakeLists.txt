@@ -18,3 +18,7 @@ ADD_CUSTOM_COMMAND( TARGET testfitsdata POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_SOURCE_DIR}/ngc4535-autofocus3.fits
             ${CMAKE_CURRENT_BINARY_DIR}/ngc4535-autofocus3.fits)
+ADD_CUSTOM_COMMAND( TARGET testfitsdata POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/bahtinov-focus.fits
+            ${CMAKE_CURRENT_BINARY_DIR}/bahtinov-focus.fits)
