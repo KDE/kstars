@@ -2,7 +2,7 @@
                           fitsbahtinovdetector.h  -  FITS Image
                              -------------------
     begin                : Wed April 15 2020
-    copyright            : (C) 2004 by Jasem Mutlaq, (C) 2020 by Patrick Molenaar
+    copyright            : (C) 2020 by Patrick Molenaar
     email                : pr_molenaar@hotmail.com
  ***************************************************************************/
 
