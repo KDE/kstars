@@ -16,6 +16,12 @@
 #if defined(HAVE_INDI)
 
 #include <QObject>
+#include <QPushButton>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QtTest>
 
 /** @brief Helper to retrieve a gadget in the Focus tab specifically.
  * @param klass is the class of the gadget to look for.
@@ -92,6 +98,7 @@
 class TestEkosFocus : public QObject
 {
     Q_OBJECT
+
 public:
     explicit TestEkosFocus(QObject *parent = nullptr);
 
@@ -106,5 +113,5 @@ private slots:
     void testStarDetection();
 };
 
-#endif
+#endif // HAVE_INDI
 #endif // TESTEKOSFOCUS_H

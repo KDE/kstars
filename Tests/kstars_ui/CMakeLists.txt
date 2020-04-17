@@ -1,6 +1,8 @@
 
 SET(KSTARS_UI_TESTS_SRC
     kstars_ui_tests.cpp
+    test_kstars_startup.cpp
+    test_ekos_wizard.cpp
     test_ekos.cpp
     test_ekos_focus.cpp
     test_ekos_simulator.cpp)

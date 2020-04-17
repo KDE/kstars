@@ -17,7 +17,11 @@
 
 #if defined(HAVE_INDI)
 
-#include <QObject>
+#include <KActionCollection>
+#include <QtTest>
+#include "kstars.h"
+#include "ekos/manager.h"
+#include "test_kstars_startup.h"
 
 #define KVERIFY_EKOS_IS_HIDDEN() do { \
     if (Ekos::Manager::Instance() != nullptr) { \
@@ -42,6 +46,12 @@
         QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->isActiveWindow(), 200); \
         QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->isVisible(), 200); }} while(false)
 
+#define KHACK_RESET_EKOS_TIME() do { \
+    QWARN("HACK HACK HACK: Reset clock to initial conditions when starting Ekos"); \
+    if (KStars::Instance() != nullptr) \
+        if (KStars::Instance()->data() != nullptr) \
+            KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(TestKStarsStartup::m_InitialConditions.dateTime)); } while(false)
+
 class TestEkos: public QObject
 {
     Q_OBJECT
@@ -60,5 +70,5 @@ private slots:
     void testManipulateProfiles();
 };
 
-#endif
+#endif // HAVE_INDI
 #endif // TEST_EKOS_H
