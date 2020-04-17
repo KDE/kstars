@@ -50,6 +50,36 @@ void TestFitsData::cleanup()
     }
 }
 
+void TestFitsData::testFocusHFR()
+{
+    if(!QFile::exists(m_FocusFixture1))
+        QSKIP("Skipping load test because of missing fixture");
+    runFocusHFR(m_FocusFixture1, 11, 3.89);
+    if(!QFile::exists(m_FocusFixture2))
+        QSKIP("Skipping load test because of missing fixture");
+    runFocusHFR(m_FocusFixture2, 17, 2.16);
+    if(!QFile::exists(m_FocusFixture3))
+        QSKIP("Skipping load test because of missing fixture");
+    runFocusHFR(m_FocusFixture3, 100, 1.23);
+}
+void TestFitsData::runFocusHFR(const QString &filename, int nstars, float hfr)
+{
+    FITSData * d = new FITSData();
+    QVERIFY(d != nullptr);
+
+    QFuture<bool> worker = d->loadFITS(filename);
+    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 5000);
+    QVERIFY(worker.result());
+
+    QCOMPARE(d->findStars(ALGORITHM_SEP), nstars);
+    QCOMPARE(d->getDetectedStars(), nstars);
+    QCOMPARE(d->getStarCenters().count(), nstars);
+    QVERIFY(abs(d->getHFR() - hfr) < 0.01);
+
+    delete d;
+    d = nullptr;
+}
+
 void TestFitsData::testLoadFits()
 {
     // Statistics computation
@@ -93,11 +123,20 @@ void TestFitsData::testLoadFits()
     //QCOMPARE(fd->getStarCenters().count(), 0);
     //QCOMPARE(fd->getHFR(), -1.0);
 
-    // With the SEP algorithm, 100 stars with mean HFR 2.48
+    // With the SEP algorithm, 100 stars with mean HFR 2.09
     QCOMPARE(fd->findStars(ALGORITHM_SEP), 100);
     QCOMPARE(fd->getDetectedStars(), 100);
     QCOMPARE(fd->getStarCenters().count(), 100);
-    QVERIFY(abs(fd->getHFR() - 2.48) < 0.01);
+    QVERIFY(abs(fd->getHFR() - 2.09) < 0.01);
+
+    // Test the SEP algorithm with a tracking box, as used by the internal guider and subframe focus.
+    int x = 591, y = 482, w = 16;
+    QRect box(x-w/2, y-w/2, w, w);
+    QCOMPARE(fd->findStars(ALGORITHM_SEP, box), 1);
+    auto centers = fd->getStarCenters();
+    QCOMPARE(centers.count(), 1);
+    QVERIFY(abs(centers[0]->x - x) <= 1);
+    QVERIFY(abs(centers[0]->y - y) <= 1);
 }
 
 void TestFitsData::testCentroidAlgorithmBenchmark()

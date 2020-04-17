@@ -967,9 +967,25 @@ double FITSData::getHFR(HFRType type)
         return static_cast<double>(starCenters[maxIndex]->HFR);
     }
 
+    // We may remove saturated stars from the HFR calculation, if we have enough stars.
+    // No real way to tell the scale, so only remove saturated stars with range 0 -> 2**16
+    // for non-byte types. Unsigned types and floating types, or really any pixels whose
+    // range isn't 0-64 (or 0-255 for bytes) won't have their saturated stars removed.
+    const int saturationValue = m_DataType == TBYTE ? 250 : 50000;
+    int numSaturated = 0;
+    for (auto center : starCenters)
+        if (center->val > saturationValue)
+            numSaturated++;
+    const bool removeSaturatedStars = starCenters.size() - numSaturated > 20;
+    if (removeSaturatedStars && numSaturated > 0)
+        qCDebug(KSTARS_FITS) << "Removing " << numSaturated << " stars from HFR calculation";
+
     QVector<double> HFRs;
     for (auto center : starCenters)
+    {
+        if (removeSaturatedStars && center->val > saturationValue) continue;
         HFRs << center->HFR;
+    }
     std::sort(HFRs.begin(), HFRs.end());
 
     double sum = std::accumulate(HFRs.begin(), HFRs.end(), 0.0);

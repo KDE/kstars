@@ -30,6 +30,7 @@
 #include <QtConcurrent>
 #include <QIcon>
 
+#include <fits_debug.h>
 
 namespace {
 const char kAutoToolTip[] = "Automatically find stretch parameters";
@@ -442,10 +443,12 @@ void FITSTab::processData()
       histogram->constructHistogram();
     }
 
-    evaluateStats();
-
     if (viewer->isStarsMarked())
-      view->toggleStars(true);
+    {
+        view->toggleStars(true);
+        qCDebug(KSTARS_FITS) << "FITS HFR:" << image_data->getHFR();
+    }
+    evaluateStats();
 
     loadFITSHeader();
 
