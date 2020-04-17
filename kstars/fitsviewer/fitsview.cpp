@@ -782,15 +782,20 @@ void FITSView::drawStarCentroid(QPainter * painter)
 
     foreach (auto const &starCenter, imageData->getStarCenters())
     {
-        int const x1 = std::round((starCenter->x - starCenter->width / 2.0f) * ratio);
-        int const y1 = std::round((starCenter->y - starCenter->width / 2.0f) * ratio);
         int const w  = std::round(starCenter->width * ratio);
 
-        // Draw a circle around the detected star
-        painter->drawEllipse(x1, y1, w, w);
+        // Draw a circle around the detected star.
+        // SEP coordinates are in the center of pixels, and Qt at the boundary.
+        const double xCoord = starCenter->x - 0.5;
+        const double yCoord = starCenter->y - 0.5;
+        const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * ratio : w;
+        painter->drawEllipse(QPointF(xCoord * ratio, yCoord * ratio), radius, radius);
 
         if (showStarsHFR)
         {
+            int const x1 = std::round((xCoord - starCenter->width / 2.0f) * ratio);
+            int const y1 = std::round((yCoord - starCenter->width / 2.0f) * ratio);
+
             // Ask the painter how large will the HFR text be
             QString const hfr = QString("%1").arg(starCenter->HFR, 0, 'f', 2);
             QSize const hfrSize = fontMetrics.size(Qt::TextSingleLine, hfr);
@@ -1447,10 +1452,11 @@ void FITSView::toggleStars(bool enable)
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
-        int count = findStars();
+        int count = findStars(ALGORITHM_SEP);
 
         if (count >= 0 && isVisible())
-            emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", count,
+                                 imageData->getHFR()), FITS_MESSAGE);
         QApplication::restoreOverrideCursor();
     }
 }

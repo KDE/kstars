@@ -28,9 +28,17 @@ FITSStarDetector& FITSSEPDetector::configure(const QString &, const QVariant &)
     return *this;
 }
 
+// TODO: (hy 4/11/2020)
+// The api into these star detection methods should be generalized so that various parameters
+// could be controlled by the caller. For instance, saturation removal, removal of N% of the largest stars
+// number of stars desired, some parameters to the SEP algorithms, as all of these may have different
+// optimal values for different uses. Also, there may be other desired outputs
+// (e.g. unfiltered number of stars detected,background sky level). Waiting on rlancaste's
+// investigations into SEP before doing this.
 int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
 {
     FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
+    starCenters.clear();
 
     if (image_data == nullptr)
         return 0;
@@ -38,6 +46,12 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
     FITSData::Statistic const &stats = image_data->getStatistics();
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
+    std::vector<std::pair<int, double>> ovals;
+    constexpr int maxNumCenters = 100;
+
+    // We may skip 20% of the stars (those with the largest 20% HFRs) as those are suspect
+    // to be non-stars) if we have plenty of detections.
+    int startIndex = 0;
 
     if (!boundary.isNull())
     {
@@ -50,30 +64,30 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
 
     auto * data = new float[w * h];
 
-    switch (stats.bitpix)
+    switch (parent()->property("dataType").toInt())
     {
-        case BYTE_IMG:
+        case TBYTE:
             getFloatBuffer<uint8_t>(data, x, y, w, h, image_data);
             break;
-        case SHORT_IMG:
+        case TSHORT:
             getFloatBuffer<int16_t>(data, x, y, w, h, image_data);
             break;
-        case USHORT_IMG:
+        case TUSHORT:
             getFloatBuffer<uint16_t>(data, x, y, w, h, image_data);
             break;
-        case LONG_IMG:
+        case TLONG:
             getFloatBuffer<int32_t>(data, x, y, w, h, image_data);
             break;
-        case ULONG_IMG:
+        case TULONG:
             getFloatBuffer<uint32_t>(data, x, y, w, h, image_data);
             break;
-        case FLOAT_IMG:
+        case TFLOAT:
             memcpy(data, image_data->getImageBuffer(), sizeof(float)*w*h);
             break;
-        case LONGLONG_IMG:
+        case TLONGLONG:
             getFloatBuffer<int64_t>(data, x, y, w, h, image_data);
             break;
-        case DOUBLE_IMG:
+        case TDOUBLE:
             getFloatBuffer<double>(data, x, y, w, h, image_data);
             break;
         default:
@@ -110,17 +124,32 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
     if (status != 0) goto exit;
 
     // #4 Source Extraction
-    // Note that we set deblend_cont = 1.0 to turn off deblending.
-    status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
+    static int deblendNThresh = 32;
+    static double deblendMincont = 0.005;
+    status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV,
+                         deblendNThresh, deblendMincont, 1, 1.0, &catalog);
     if (status != 0) goto exit;
+    qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
 
-    // TODO
-    // Must detect edge detection
-    // Must limit to brightest 100 (by flux) centers
-    // Should probably use ellipse to draw instead of simple circle?
-    // Useful for galaxies and also elenogated stars.
+    // Skip the 20% largest stars if we have plenty.
+    if (catalog->nobj * 0.8 > maxNumCenters)
+        startIndex = catalog->nobj * 0.2;
+
+    // Find the oval sizes for each detection in the detected star catalog, and sort by that. Oval size
+    // correlates very well with HFR, so we don't need to call sep_flux_radius on all detections later
+    // to find the maxNumCenters largest stars. This can save a lot of time.
     for (int i = 0; i < catalog->nobj; i++)
     {
+        const double ovalSizeSq = catalog->a[i]*catalog->a[i] + catalog->b[i]*catalog->b[i];
+        ovals.push_back(std::pair<int, double>(i, ovalSizeSq));
+    }
+    std::sort(ovals.begin(), ovals.end(), [](const std::pair<int, double>& o1, const std::pair<int, double>& o2) -> bool { return o1.second > o2.second;});
+
+    // Go through the largest (by oval size) detections and compute the HFR for the first maxNumCenters.
+    for (int index = startIndex; index < catalog->nobj; index++)
+    {
+        if (edges.size() >= maxNumCenters) break;
+        int i = ovals[index].first;
         double flux = catalog->flux[i];
         // Get HFR
         sep_flux_radius(&im, catalog->x[i], catalog->y[i], maxRadius, 5, 0, &flux, requested_frac, 2, flux_fractions, &flux_flag);
@@ -137,11 +166,11 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
     }
 
     // Let's sort edges, starting with widest
-    std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->width > edge2->width;});
+    std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
 
-    // Take only the first 100 stars
+    // Take only the first maxNumCenters stars
     {
-        int starCount = qMin(100, edges.count());
+        int starCount = qMin(maxNumCenters, edges.count());
         for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
     }
@@ -154,8 +183,7 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->HFR;
 
 exit:
-    if (stats.bitpix != FLOAT_IMG)
-        delete [] data;
+    delete[] data;
     sep_bkg_free(bkg);
     sep_catalog_free(catalog);
     free(imback);
