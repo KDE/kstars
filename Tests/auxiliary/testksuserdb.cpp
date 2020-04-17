@@ -8,6 +8,9 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "ksuserdb.h"
+#include "kspaths.h"
+
 #include "testksuserdb.h"
 
 TestKSUserDB::TestKSUserDB(QObject *parent) : QObject(parent)
@@ -16,10 +19,23 @@ TestKSUserDB::TestKSUserDB(QObject *parent) : QObject(parent)
 
 void TestKSUserDB::initTestCase()
 {
+    // Ensure we are in test mode (user .qttest)
+    QStandardPaths::setTestModeEnabled(true);
+    QVERIFY(QStandardPaths::isTestModeEnabled());
+
+    // Remove the user folder that may eventually exist
+    QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).removeRecursively();
+    QVERIFY(!QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).exists());
 }
 
 void TestKSUserDB::cleanupTestCase()
 {
+    // Ensure we are in test mode (user .qttest)
+    QVERIFY(QStandardPaths::isTestModeEnabled());
+
+    // Remove the user folder that may eventually exist
+    QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).removeRecursively();
+    QVERIFY(!QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).exists());
 }
 
 void TestKSUserDB::init()
@@ -28,6 +44,21 @@ void TestKSUserDB::init()
 
 void TestKSUserDB::cleanup()
 {
+}
+
+void TestKSUserDB::testInitializeDB()
+{
+    KSUserDB * testDB = new KSUserDB();
+    QVERIFY(nullptr != testDB);
+
+    // If the KStars folder does not exist, database cannot be created and the app cannot start
+    QVERIFY(!testDB->Initialize());
+
+    // So create the KStars folder and retry
+    QVERIFY(QDir().mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
+    QVERIFY(testDB->Initialize());
+
+    delete testDB;
 }
 
 void TestKSUserDB::testCreateScopes_data()

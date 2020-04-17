@@ -12,30 +12,30 @@
 
 #if defined(HAVE_INDI)
 
-#include "kstars_ui_tests.h"
 #include "test_ekos.h"
-#include "ekos/manager.h"
 #include "kstars.h"
 #include "ksmessagebox.h"
 
 TestEkosSimulator::TestEkosSimulator(QObject *parent) : QObject(parent)
 {
-
 }
 
 void TestEkosSimulator::initTestCase()
 {
-    KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
     KTRY_EKOS_START_SIMULATORS();
 
     // HACK: Reset clock to initial conditions
-    KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(KStarsUiTests::m_InitialConditions.dateTime));
+    KHACK_RESET_EKOS_TIME();
 }
 
 void TestEkosSimulator::cleanupTestCase()
 {
+    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
+        if (d->isVisible())
+            d->hide();
+
     KTRY_EKOS_STOP_SIMULATORS();
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
@@ -43,12 +43,10 @@ void TestEkosSimulator::cleanupTestCase()
 
 void TestEkosSimulator::init()
 {
-
 }
 
 void TestEkosSimulator::cleanup()
 {
-
 }
 
 
@@ -161,5 +159,4 @@ void TestEkosSimulator::testMountSlew()
 #endif
 }
 
-
-#endif
+#endif // HAVE_INDI

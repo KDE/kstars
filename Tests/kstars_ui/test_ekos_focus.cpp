@@ -8,18 +8,17 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "kstars_ui_tests.h"
-#include "test_ekos.h"
-#include "test_ekos_simulator.h"
+
 #include "test_ekos_focus.h"
-#include "ekos/manager.h"
-#include "kstars.h"
 
 #if defined(HAVE_INDI)
 
+#include "kstars_ui_tests.h"
+#include "test_ekos.h"
+#include "test_ekos_simulator.h"
+
 TestEkosFocus::TestEkosFocus(QObject *parent) : QObject(parent)
 {
-
 }
 
 void TestEkosFocus::initTestCase()
@@ -30,7 +29,7 @@ void TestEkosFocus::initTestCase()
     KTRY_EKOS_START_SIMULATORS();
 
     // HACK: Reset clock to initial conditions
-    KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(KStarsUiTests::m_InitialConditions.dateTime));
+    KHACK_RESET_EKOS_TIME();
 }
 
 void TestEkosFocus::cleanupTestCase()
@@ -177,4 +176,4 @@ void TestEkosFocus::testStarDetection()
 #endif
 }
 
-#endif
+#endif // HAVE_INDI
