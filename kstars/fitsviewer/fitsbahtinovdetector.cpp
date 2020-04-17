@@ -1,9 +1,9 @@
 /***************************************************************************
                           fitsbahtinovdetector.cpp  -  FITS Image
                              -------------------
-    begin                : Sat March 28 2020
-    copyright            : (C) 2004 by Jasem Mutlaq, (C) 2020 by Eric Dejouhanet
-    email                : eric.dejouhanet@gmail.com
+    begin                : Wed April 15 2020
+    copyright            : (C) 2020 by Patrick Molenaar
+    email                : pr_molenaar@hotmail.com
  ***************************************************************************/
 
 /***************************************************************************
