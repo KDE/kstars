@@ -38,7 +38,7 @@
 int plistexist_cdvalue, plistexist_thresh, plistexist_var;
 int plistoff_value, plistoff_cdvalue, plistoff_thresh, plistoff_var;
 int plistsize;
-size_t extract_pixstack = 300000;
+size_t extract_pixstack = 1000000;
 
 /* get and set pixstack */
 void sep_set_extract_pixstack(size_t val)

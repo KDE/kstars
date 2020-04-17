@@ -232,7 +232,7 @@ class SkyMap : public QGraphicsView
         /** @short Set the ClickedPoint to the skypoint given as an argument.
                 *@param f pointer to the new ClickedPoint.
                 */
-        void setClickedPoint(SkyPoint *f);
+        void setClickedPoint(const SkyPoint *f);
 
         /** @short Retrieve the object nearest to a mouse click event.
                 *
