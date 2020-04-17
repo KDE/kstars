@@ -22,6 +22,9 @@ public:
 
 public:
     QString const m_FitsFixture { "m47_sim_stars.fits" };
+    QString const m_FocusFixture1 { "ngc4535-autofocus1.fits" };
+    QString const m_FocusFixture2 { "ngc4535-autofocus2.fits" };
+    QString const m_FocusFixture3 { "ngc4535-autofocus3.fits" };
     FITSData * fd { nullptr };
 
 private slots:
@@ -36,6 +39,8 @@ private slots:
     void testGradientAlgorithmBenchmark();
     void testThresholdAlgorithmBenchmark();
     void testSEPAlgorithmBenchmark();
+    void testFocusHFR();
+    void runFocusHFR(const QString &filename, int nstars, float hfr);
 };
 
 #endif // TESTFITSDATA_H

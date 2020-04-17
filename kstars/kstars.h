@@ -235,11 +235,19 @@ class KStars : public KXmlGuiWindow
         Q_SCRIPTABLE Q_NOREPLY void setRaDec(double ra, double dec);
 
         /** DBUS interface function.
+             * Set focus to given J2000.0 Ra/Dec coordinates
+             * @param ra the J2000.0 Right Ascension coordinate for the focus (in Hours)
+             * @param dec the J2000.0 Declination coordinate for the focus (in Degrees)
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setRaDecJ2000(double ra0, double dec0);
+
+        /** DBUS interface function.
              * Set focus to given Alt/Az coordinates.
              * @param alt the Altitude coordinate for the focus (in Degrees)
              * @param az the Azimuth coordinate for the focus (in Degrees)
+             * @param altIsRefracted If set to true, the altitude is interpreted as if it were corrected for atmospheric refraction (i.e. the altitude is an apparent altitude)
              */
-        Q_SCRIPTABLE Q_NOREPLY void setAltAz(double alt, double az);
+        Q_SCRIPTABLE Q_NOREPLY void setAltAz(double alt, double az, bool altIsRefracted=false);
 
         /** DBUS interface function.
              * Point in the direction described by the string argument.
