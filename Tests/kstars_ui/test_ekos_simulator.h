@@ -68,5 +68,5 @@ private slots:
     void testMountSlew();
 };
 
-#endif
+#endif // HAVE_INDI
 #endif // TESTEKOSSIMULATOR_H
