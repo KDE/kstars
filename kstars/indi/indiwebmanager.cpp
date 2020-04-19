@@ -326,7 +326,14 @@ bool startProfile(ProfileInfo *pi)
     getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 
     // Make sure drivers are running
-    return areDriversRunning(pi);
+    // Try up to 3 times
+    for (int i = 0; i < 3; i++)
+    {
+        if (areDriversRunning(pi))
+            return true;
+    }
+
+    return false;
 }
 
 bool stopProfile(ProfileInfo *pi)
