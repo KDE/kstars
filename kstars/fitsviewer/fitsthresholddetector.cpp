@@ -23,11 +23,11 @@
 #include "fits_debug.h"
 #include "fitsthresholddetector.h"
 
-FITSStarDetector& FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
+FITSStarDetector &FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
 {
     if (!setting.compare("THRESHOLD_PERCENTAGE", Qt::CaseInsensitive))
-        if (value.canConvert <typeof (THRESHOLD_PERCENTAGE)> ())
-            THRESHOLD_PERCENTAGE = value.value <typeof (THRESHOLD_PERCENTAGE)> ();
+        if (value.canConvert<int>())
+            THRESHOLD_PERCENTAGE = value.value<int>();
 
     return *this;
 }
