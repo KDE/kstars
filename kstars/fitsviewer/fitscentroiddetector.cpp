@@ -23,19 +23,19 @@
 #include "fitscentroiddetector.h"
 #include "fits_debug.h"
 
-FITSStarDetector& FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
+FITSStarDetector &FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
 {
     if (!setting.compare("MINIMUM_STDVAR", Qt::CaseInsensitive))
-        if (value.canConvert <typeof (MINIMUM_STDVAR)> ())
-            MINIMUM_STDVAR = value.value <typeof (MINIMUM_STDVAR)> ();
+        if (value.canConvert <int> ())
+            MINIMUM_STDVAR = value.value <int> ();
 
     if (!setting.compare("MINIMUM_PIXEL_RANGE", Qt::CaseInsensitive))
-        if (value.canConvert <typeof (MINIMUM_PIXEL_RANGE)> ())
-            MINIMUM_PIXEL_RANGE = value.value <typeof(MINIMUM_PIXEL_RANGE)> ();
+        if (value.canConvert <int> ())
+            MINIMUM_PIXEL_RANGE = value.value <int> ();
 
     if (!setting.compare("JMINDEX", Qt::CaseInsensitive))
-        if (value.canConvert <typeof (JMINDEX)> ())
-            JMINDEX = value.value <typeof (JMINDEX)> ();
+        if (value.canConvert <double> ())
+            JMINDEX = value.value <double> ();
 
     return *this;
 }
@@ -291,7 +291,10 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     int width_sum = 0;
 
     // Let's sort edges, starting with widest
-    auto const greaterThan = [](Edge const *a, Edge const *b) { return a->sum > b->sum; };
+    auto const greaterThan = [](Edge const * a, Edge const * b)
+    {
+        return a->sum > b->sum;
+    };
     std::sort(edges.begin(), edges.end(), greaterThan);
 
     // Now, let's scan the edges and find the maximum centroid vertically
