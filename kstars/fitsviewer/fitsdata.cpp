@@ -901,7 +901,7 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
                     histogram->constructHistogram();
 
             count = FITSCentroidDetector(this)
-                    .configure("JMINDEX", histogram? histogram->getJMIndex() : 100)
+                    .configure("JMINDEX", histogram ? histogram->getJMIndex() : 100)
                     .findSources(starCenters, trackingBox);
 #else
             count = FITSCentroidDetector(this)
@@ -2675,10 +2675,7 @@ void FITSData::setAutoRemoveTemporaryFITS(bool value)
 template <typename T>
 void FITSData::convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image)
 {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-align"
-    auto * buffer = (T *)getImageBuffer();
-#pragma GCC diagnostic pop
+    const auto * buffer = reinterpret_cast<const T *>(getImageBuffer());
     const T limit   = std::numeric_limits<T>::max();
     T bMin    = dataMin < 0 ? 0 : dataMin;
     T bMax    = dataMax > limit ? limit : dataMax;
@@ -2698,7 +2695,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
             {
                 val         = qBound(bMin, buffer[j * w + i], bMax);
                 val         = val * scale + zero;
-                scanLine[i] = qBound<unsigned char>(0, (unsigned char)val, 255);
+                scanLine[i] = qBound<unsigned char>(0, static_cast<uint8_t>(val), 255);
             }
         }
     }
