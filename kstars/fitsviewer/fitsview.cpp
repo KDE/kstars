@@ -155,9 +155,12 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     // There have been issues with users running out system memory because of zoom memory.
     // Note: this is not currently image dependent. It's possible, but not implemented,
     // to allow for more zooming on smaller images.
+    zoomMax = ZOOM_MAX;
+
+#if defined (Q_OS_LINUX) || defined (Q_OS_OSX)
     const long numPages = sysconf(_SC_PAGESIZE);
     const long pageSize = sysconf(_SC_PHYS_PAGES);
-    zoomMax = ZOOM_MAX;
+
     // _SC_PHYS_PAGES "may not be standard" http://man7.org/linux/man-pages/man3/sysconf.3.html
     // If an OS doesn't support it, sysconf should return -1.
     if (numPages > 0 && pageSize > 0)
@@ -175,6 +178,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
         else
             zoomMax = 600;
     }
+#endif
 
     grabGesture(Qt::PinchGesture);
 
@@ -207,7 +211,8 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     this->setWidget(noImageLabel);
 
     redScopePixmap = QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
-    magentaScopePixmap = QPixmap(":/icons/center_telescope_magenta.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
+    magentaScopePixmap = QPixmap(":/icons/center_telescope_magenta.svg").scaled(32, 32, Qt::KeepAspectRatio,
+                         Qt::FastTransformation);
 }
 
 FITSView::~FITSView()
@@ -665,7 +670,8 @@ double FITSView::scaleSize(double size)
 
 int FITSView::filterStars()
 {
-    return starFilter.used() ? imageData->filterStars(starFilter.innerRadius, starFilter.outerRadius) : imageData->getStarCenters().count();
+    return starFilter.used() ? imageData->filterStars(starFilter.innerRadius,
+            starFilter.outerRadius) : imageData->getStarCenters().count();
 }
 
 void FITSView::updateFrame()
@@ -913,7 +919,7 @@ void FITSView::drawPixelGrid(QPainter * painter)
     painter->setPen(QPen(Qt::red, scaleSize(1)));
     painter->drawText(cX - 30, height - 5, QString::number((int)(cX)));
     QString str = QString::number((int)(cY));
-    painter->drawText(width - (fm.width(str)+10), cY - 5, str);
+    painter->drawText(width - (fm.width(str) + 10), cY - 5, str);
     if (!showCrosshair)
     {
         painter->drawLine(cX, 0, cX, height);
@@ -974,7 +980,7 @@ void FITSView::drawEQGrid(QPainter * painter)
         wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
         {
-	    const int size      = image_width * image_height;
+            const int size      = image_width * image_height;
             double maxRA  = -1000;
             double minRA  = 1000;
             double maxDec = -1000;
@@ -1068,7 +1074,7 @@ void FITSView::drawEQGrid(QPainter * painter)
                     for (int i = 1; i < eqGridPoints.count(); i++)
                         painter->drawLine(eqGridPoints.value(i - 1), eqGridPoints.value(i));
                     QString str = QString::number(dms(target).hour()) + "h " +
-                            QString::number(dms(target).minute()) + '\'';
+                                  QString::number(dms(target).minute()) + '\'';
                     if  (maxDec <= 50 && maxDec >= -50)
                         str = str + " " + QString::number(dms(target).second()) + "''";
                     QPointF pt = getPointForGridLabel(painter, str);
@@ -1153,7 +1159,7 @@ bool FITSView::pointIsInImage(QPointF pt)
     return pt.x() < image_width && pt.y() < image_height && pt.x() > 0 && pt.y() > 0;
 }
 
-QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString& str)
+QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str)
 {
     QFontMetrics fm(painter->font());
     int strWidth = fm.width(str);
@@ -1215,7 +1221,8 @@ QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString& str)
         return QPointF(
                    10,
                    minXPt.y() +
-                   strHeight + 20); //This will draw the text on the left hand side, down and to the right of the point where the line intersects
+                   strHeight +
+                   20); //This will draw the text on the left hand side, down and to the right of the point where the line intersects
     if (maxXPt.x() == image_width / 2 && maxXPt.y() == image_height / 2)
         return QPointF(-100, -100); //All of the points were off the screen
 
