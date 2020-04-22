@@ -693,27 +693,29 @@ void FITSView::updateFrame()
     font.setPixelSize(scaleSize(FONT_SIZE));
     painter.setFont(font);
 
-    drawOverlay(&painter);
-
-    if (starFilter.used())
+    if (sampling == 1)
     {
-        double const diagonal = std::sqrt(imageData->width() * imageData->width() + imageData->height() * imageData->height()) / 2;
-        int const innerRadius = std::lround(diagonal * starFilter.innerRadius);
-        int const outerRadius = std::lround(diagonal * starFilter.outerRadius);
-        QPoint const center(imageData->width() / 2, imageData->height() / 2);
-        painter.save();
-        painter.setPen(QPen(Qt::blue, scaleSize(1), Qt::DashLine));
-        painter.setOpacity(0.7);
-        painter.setBrush(QBrush(Qt::transparent));
-        painter.drawEllipse(center, outerRadius, outerRadius);
-        painter.setBrush(QBrush(Qt::blue, Qt::FDiagPattern));
-        painter.drawEllipse(center, innerRadius, innerRadius);
-        painter.restore();
-    }
+        drawOverlay(&painter);
 
+        if (starFilter.used())
+        {
+            double const diagonal = std::sqrt(imageData->width() * imageData->width() + imageData->height() * imageData->height()) / 2;
+            int const innerRadius = std::lround(diagonal * starFilter.innerRadius);
+            int const outerRadius = std::lround(diagonal * starFilter.outerRadius);
+            QPoint const center(imageData->width() / 2, imageData->height() / 2);
+            painter.save();
+            painter.setPen(QPen(Qt::blue, scaleSize(1), Qt::DashLine));
+            painter.setOpacity(0.7);
+            painter.setBrush(QBrush(Qt::transparent));
+            painter.drawEllipse(center, outerRadius, outerRadius);
+            painter.setBrush(QBrush(Qt::blue, Qt::FDiagPattern));
+            painter.drawEllipse(center, innerRadius, innerRadius);
+            painter.restore();
+        }
+    }
     image_frame->setPixmap(displayPixmap);
 
-    image_frame->resize((currentZoom / 100.0) * image_frame->pixmap()->size());
+    image_frame->resize(((sampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
 }
 
 void FITSView::ZoomDefault()
