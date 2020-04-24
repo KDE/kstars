@@ -78,7 +78,7 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
         connect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
         {
-            Q_UNUSED(i);
+            Q_UNUSED(i)
             weatherWarningSettingsChanged();
         });
 
@@ -86,7 +86,7 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
         connect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
         connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
         {
-            Q_UNUSED(i);
+            Q_UNUSED(i)
             weatherAlertSettingsChanged();
         });
     }
@@ -99,7 +99,7 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
         disconnect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
         connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
         {
-            Q_UNUSED(i);
+            Q_UNUSED(i)
             weatherWarningSettingsChanged();
         });
 
@@ -107,7 +107,7 @@ void Observatory::setDomeModel(ObservatoryDomeModel *model)
         disconnect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
         connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
         {
-            Q_UNUSED(i);
+            Q_UNUSED(i)
             weatherWarningSettingsChanged();
         });
     }
@@ -220,12 +220,13 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
     switch (status)
     {
         case ISD::Dome::DOME_ERROR:
-            appendLogText(i18n("%1 error. See INDI log for details.", getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+            appendLogText(i18n("%1 error. See INDI log for details.",
+                               getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             motionCWButton->setChecked(false);
             motionCCWButton->setChecked(false);
             break;
 
-    case ISD::Dome::DOME_IDLE:
+        case ISD::Dome::DOME_IDLE:
             motionCWButton->setChecked(false);
             motionCWButton->setEnabled(true);
             motionCCWButton->setChecked(false);
@@ -394,7 +395,7 @@ void Observatory::clearSensorDataHistory()
 {
     std::map<QString, QVector<QCPGraphData>*>::iterator it;
 
-    for (it=sensorGraphData.begin(); it != sensorGraphData.end(); ++it)
+    for (it = sensorGraphData.begin(); it != sensorGraphData.end(); ++it)
     {
         QVector<QCPGraphData>* graphDataVector = it->second;
         if (graphDataVector->size() > 0)
@@ -547,10 +548,10 @@ void Observatory::shutdownWeather()
 }
 
 
-void Observatory::updateSensorGraph(QString label, QDateTime now, double value)
+void Observatory::updateSensorGraph(QString sensor_label, QDateTime now, double value)
 {
     // we assume that labels are unique and use the full label as identifier
-    QString id = label;
+    QString id = sensor_label;
 
     // lazy instantiation of the sensor data storage
     if (sensorGraphData[id] == nullptr)
@@ -567,7 +568,8 @@ void Observatory::updateSensorGraph(QString label, QDateTime now, double value)
     {
         // display first point in scattered style
         if (sensorGraphData[id]->size() == 1)
-            sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 0), QBrush(Qt::green), 5));
+            sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 0), QBrush(Qt::green),
+                                                   5));
         else
             sensorGraphs->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssNone));
 
@@ -587,7 +589,7 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
     std::vector<ISD::Weather::WeatherData>::iterator it;
     QDateTime now = KStarsData::Instance()->lt();
 
-    for (it=weatherData.begin(); it != weatherData.end(); ++it)
+    for (it = weatherData.begin(); it != weatherData.end(); ++it)
     {
         QString const id = it->label;
 
@@ -610,7 +612,7 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
             sensorDataWidgets[id] = new QPair<QAbstractButton*, QLineEdit*>(labelWidget, valueWidget);
 
             sensorDataBoxLayout->addWidget(labelWidget, sensorDataBoxLayout->rowCount(), 0);
-            sensorDataBoxLayout->addWidget(valueWidget, sensorDataBoxLayout->rowCount()-1, 1);
+            sensorDataBoxLayout->addWidget(valueWidget, sensorDataBoxLayout->rowCount() - 1, 1);
 
             // initial graph selection
             if (!selectedSensorID.isEmpty() && id.indexOf('(') > 0 && id.indexOf('(') < id.indexOf(')'))
@@ -620,7 +622,7 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
             }
 
             sensorDataNamesGroup->addButton(labelWidget);
-         }
+        }
         else
         {
             sensorDataWidgets[id]->first->setText(QString(it->label));
@@ -647,7 +649,8 @@ void Observatory::mouseOverLine(QMouseEvent *event)
             event->globalPos(),
             i18n("%1 = %2 @ %3", selectedSensorID, value, when.toString("hh:mm")));
     }
-    else {
+    else
+    {
         QToolTip::hideText();
     }
 }
@@ -687,31 +690,33 @@ void Observatory::selectedSensorChanged(QString id)
     }
 }
 
-
-
 void Observatory::setWeatherStatus(ISD::Weather::Status status)
 {
-    std::string label;
-    switch (status)
+    QString label;
+    if (status != m_WeatherStatus)
     {
-        case ISD::Weather::WEATHER_OK:
-            label = "security-high";
-            appendLogText(i18n("Weather is OK"));
-            break;
-        case ISD::Weather::WEATHER_WARNING:
-            label = "security-medium";
-            appendLogText(i18n("Weather Warning"));
-            break;
-        case ISD::Weather::WEATHER_ALERT:
-            label = "security-low";
-            appendLogText(i18n("Weather Alert"));
-            break;
-        default:
-            label = "";
-            break;
-    }
+        switch (status)
+        {
+            case ISD::Weather::WEATHER_OK:
+                label = "security-high";
+                appendLogText(i18n("Weather is OK"));
+                break;
+            case ISD::Weather::WEATHER_WARNING:
+                label = "security-medium";
+                appendLogText(i18n("Weather Warning"));
+                break;
+            case ISD::Weather::WEATHER_ALERT:
+                label = "security-low";
+                appendLogText(i18n("Weather Alert"));
+                break;
+            default:
+                label = "";
+                break;
+        }
 
-    weatherStatusLabel->setPixmap(QIcon::fromTheme(label.c_str()).pixmap(QSize(28, 28)));
+        weatherStatusLabel->setPixmap(QIcon::fromTheme(label).pixmap(QSize(28, 28)));
+        m_WeatherStatus = status;
+    }
 
     std::vector<ISD::Weather::WeatherData> weatherData = getWeatherModel()->getWeatherData();
 
@@ -773,7 +778,8 @@ void Observatory::initSensorGraphs()
 
     sensorDataNamesGroup = new QButtonGroup();
     // enable changing the displayed sensor
-    connect(sensorDataNamesGroup, static_cast<void (QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked), [this](QAbstractButton *button)
+    connect(sensorDataNamesGroup, static_cast<void (QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked), [this](
+                QAbstractButton * button)
     {
         selectedSensorChanged(button->objectName());
     });
@@ -852,7 +858,8 @@ void Observatory::setAlertActions(WeatherActions actions)
     weatherAlertDelaySB->setValue(static_cast<int>(actions.delay));
 }
 
-void Observatory::toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart, QString titleCounterpart)
+void Observatory::toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart,
+                                QString titleCounterpart)
 {
     buttonPressed->setEnabled(false);
     buttonPressed->setText(titlePressed);
