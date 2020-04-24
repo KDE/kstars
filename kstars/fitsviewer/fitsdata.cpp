@@ -64,6 +64,8 @@ const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStan
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 {
+    qRegisterMetaType<FITSMode>("FITSMode");
+
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
     debayerParams.offsetX = debayerParams.offsetY = 0;
@@ -71,6 +73,8 @@ FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 
 FITSData::FITSData(const FITSData * other)
 {
+    qRegisterMetaType<FITSMode>("FITSMode");
+
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
     debayerParams.offsetX = debayerParams.offsetY = 0;
