@@ -115,7 +115,6 @@ void AlignView::drawLine(QPainter *painter)
 {
     painter->setPen(QPen(Qt::magenta, 2));
     painter->setBrush(Qt::NoBrush);
-    double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
     QLineF zoomedLine = correctionLine;
     QPointF offset;
@@ -127,11 +126,11 @@ void AlignView::drawLine(QPainter *painter)
 
     zoomedLine.translate(offset);
 
-    double x1 = zoomedLine.p1().x() * zoomFactor;
-    double y1 = zoomedLine.p1().y() * zoomFactor;
+    double x1 = zoomedLine.p1().x();
+    double y1 = zoomedLine.p1().y();
 
-    double x2 = zoomedLine.p2().x() * zoomFactor;
-    double y2 = zoomedLine.p2().y() * zoomFactor;
+    double x2 = zoomedLine.p2().x();
+    double y2 = zoomedLine.p2().y();
 
     painter->drawLine(x1, y1, x2, y2);
 
@@ -143,9 +142,9 @@ void AlignView::drawLine(QPainter *painter)
         pen.setWidth(2);
         pen.setColor(Qt::darkRed);
         painter->setPen(pen);
-        double x  = celestialPolePoint.x() * zoomFactor;
-        double y  = celestialPolePoint.y() * zoomFactor;
-        double sr = 3 * zoomFactor;
+        double x  = celestialPolePoint.x();
+        double y  = celestialPolePoint.y();
+        double sr = 3;
 
         if (KStarsData::Instance()->geo()->lat()->Degrees() > 0)
             painter->drawText(x + sr, y + sr, i18nc("North Celestial Pole", "NCP"));
@@ -161,12 +160,11 @@ void AlignView::drawCircle(QPainter *painter)
     pen.setStyle(Qt::DashLine);
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
-    double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
-    QPointF center(RACircle.x() * zoomFactor, RACircle.y() * zoomFactor);
+    QPointF center(RACircle.x(), RACircle.y());
 
     // Big Radius
-    double r = RACircle.z() * zoomFactor;
+    double r = RACircle.z();
 
     // Small radius
     double sr = r / 25.0;
