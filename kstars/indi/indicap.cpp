@@ -32,6 +32,9 @@ DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
 
 void DustCap::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     if (isConnected())
         readyTimer.get()->start();
 
@@ -56,29 +59,29 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
 
         switch (svp->s)
         {
-        case IPS_IDLE:
-            if (svp->sp[0].s == ISS_ON)
-                currentStatus = CAP_PARKED;
-            else if (svp->sp[1].s == ISS_ON)
-                currentStatus = CAP_IDLE;
-            break;
+            case IPS_IDLE:
+                if (svp->sp[0].s == ISS_ON)
+                    currentStatus = CAP_PARKED;
+                else if (svp->sp[1].s == ISS_ON)
+                    currentStatus = CAP_IDLE;
+                break;
 
-        case IPS_OK:
-            if (svp->sp[0].s == ISS_ON)
-                currentStatus = CAP_PARKED;
-            else
-                currentStatus = CAP_IDLE;
-            break;
+            case IPS_OK:
+                if (svp->sp[0].s == ISS_ON)
+                    currentStatus = CAP_PARKED;
+                else
+                    currentStatus = CAP_IDLE;
+                break;
 
-        case IPS_BUSY:
-            if (svp->sp[0].s == ISS_ON)
-                currentStatus = CAP_PARKING;
-            else
-                currentStatus = CAP_UNPARKING;
-            break;
+            case IPS_BUSY:
+                if (svp->sp[0].s == ISS_ON)
+                    currentStatus = CAP_PARKING;
+                else
+                    currentStatus = CAP_UNPARKING;
+                break;
 
-        case IPS_ALERT:
-            currentStatus = CAP_ERROR;
+            case IPS_ALERT:
+                currentStatus = CAP_ERROR;
         }
 
         if (currentStatus != m_Status)
@@ -252,7 +255,7 @@ const QString DustCap::getStatusString(DustCap::Status status)
 
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::DustCap::Status& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::DustCap::Status &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);

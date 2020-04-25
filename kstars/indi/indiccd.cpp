@@ -943,6 +943,9 @@ CCD::~CCD()
 
 void CCD::setBLOBManager(const char *device, INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     if (device == getDeviceName())
         emit newBLOBManager(prop);
 }

@@ -16,6 +16,9 @@ namespace ISD
 
 void Focuser::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     if (!strcmp(prop->getName(), "FOCUS_MAX"))
     {
         INumberVectorProperty *nvp = prop->getNumber();

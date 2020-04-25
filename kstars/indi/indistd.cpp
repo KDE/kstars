@@ -71,6 +71,9 @@ const QString &GenericDevice::getDeviceName() const
 
 void GenericDevice::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     const QString name = prop->getName();
     if (properties.contains(name))
         return;

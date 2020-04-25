@@ -26,6 +26,9 @@ Weather::Weather(GDInterface *iPtr) : DeviceDecorator(iPtr)
 
 void Weather::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     if (isConnected())
         readyTimer.get()->start();
 
