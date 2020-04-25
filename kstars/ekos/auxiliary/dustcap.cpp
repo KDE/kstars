@@ -50,6 +50,9 @@ void DustCap::removeDevice(ISD::GDInterface *device)
 
 void DustCap::processProp(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
     {
         ISwitchVectorProperty *svp = prop->getSwitch();

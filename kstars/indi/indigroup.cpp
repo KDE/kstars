@@ -61,6 +61,9 @@ INDI_G::~INDI_G()
 
 bool INDI_G::addProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return false;
+
     QString propName(prop->getName());
 
     INDI_P *pp = getProperty(propName);

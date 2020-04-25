@@ -231,6 +231,9 @@ void INDIListener::removeDevice(const QString &deviceName)
 
 void INDIListener::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     qCDebug(KSTARS_INDI) << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
 
     for (auto oneDevice : devices)
