@@ -4890,6 +4890,7 @@ void Capture::setAlignStatus(AlignState state)
             }
             break;
 
+        case ALIGN_ABORTED:
         case ALIGN_FAILED:
             // TODO run it 3 times before giving up
             if (meridianFlipStage == MF_ALIGNING)
