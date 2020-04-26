@@ -46,7 +46,7 @@ KSPluto::KSPluto(const QString &fn, double pSize)
     M0.setD(14.86205);  //mean anomaly (degrees)
 
     //rate-of-change values for the orbital elements
-    a1 = -0.00076912;       // da/dt (AU/cnetury)
+    a1 = -0.00076912;       // da/dt (AU/century)
     e1 = 0.00006465;        // de/dt (1/century)
     i1 = 11.07 / 3600.;     // di/dt (degrees/century)
     w1 = -94.92 / 3600.;    // dw/dt (degrees/century)

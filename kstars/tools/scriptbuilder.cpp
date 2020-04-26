@@ -1058,7 +1058,7 @@ void ScriptBuilder::slotRunScript()
 }
 
 /*
-  This can't work anymore and is also not protable in any way :(
+  This can't work anymore and is also not portable in any way :(
 */
 void ScriptBuilder::writeScript(QTextStream &ostream)
 {

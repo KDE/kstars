@@ -363,7 +363,7 @@ int sep_windowed(sep_image *im,
 
 /* sep_set_ellipse()
  *
- * Set array elements within an ellipitcal aperture to a given value.
+ * Set array elements within an elliptical aperture to a given value.
  *
  * Ellipse: cxx*(x'-x)^2 + cyy*(y'-y)^2 + cxy*(x'-x)*(y'-y) = r^2  
  */

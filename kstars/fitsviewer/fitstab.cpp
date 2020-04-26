@@ -179,7 +179,7 @@ void FITSTab::setStretchUIValues(bool adjustSliders)
         stretchButton->setToolTip(kStretchOffToolTip);
     }
 
-    // Only activeate the auto button if stretching is on and auto-stretching is not set.
+    // Only activate the auto button if stretching is on and auto-stretching is not set.
     if (stretchActive && !view->getAutoStretch())
     {
         autoButton->setEnabled(true);

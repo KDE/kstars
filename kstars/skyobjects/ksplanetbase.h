@@ -123,13 +123,13 @@ class KSPlanetBase : public TrailObject
     const dms &helEcLat() const { return helEcPos.latitude; }
 
     /**
-     * @short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
+     * @short Convert Ecliptic longitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
     void EclipticToEquatorial(const CachingDms *Obliquity);
 
     /**
-     * @short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
+     * @short Convert Right Ascension/Declination to Ecliptic longitude/latitude.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
     void EquatorialToEcliptic(const CachingDms *Obliquity);

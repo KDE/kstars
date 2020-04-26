@@ -701,7 +701,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         if (KMessageBox::warningContinueCancel(
                     nullptr, i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"),
                     i18n("Telescope Motion"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                    QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel)
+                    QString("telescope_coordinates_below_horizon_warning")) == KMessageBox::Cancel)
         {
             if (EqProp)
             {
