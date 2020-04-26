@@ -129,7 +129,7 @@ Vector2f Projector::clipLineVec(SkyPoint *p1, SkyPoint *p2) const
     //      also possibly rewrite this
     //     --hdevalence
     int iteration = 15; // For "perfect" clipping:
-    // 2^interations should be >= max pixels/line
+    // 2^iterations should be >= max pixels/line
     bool isVisible = true; // so we start at midpoint
     SkyPoint mid;
     Vector2f oMid;

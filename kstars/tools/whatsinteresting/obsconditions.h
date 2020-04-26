@@ -23,7 +23,7 @@
  * @class ObsConditions
  *
  * This class deals with the observing conditions of the night sky.
- * The limiting magntude is calculated depending on the equipment
+ * The limiting magnitude is calculated depending on the equipment
  * available to the user and the amount of light-pollution in the
  * user's current observing location.
  *

@@ -1839,7 +1839,7 @@ void FITSView::createFloatingToolBar()
 }
 
 /**
- This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
+ This method either enables or disables the scope mouse mode so you can slew your scope to coordinates
  just by clicking the mouse on a spot in the image.
  */
 

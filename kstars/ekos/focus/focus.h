@@ -159,7 +159,7 @@ class Focus : public QWidget, public Ui::Focus
         Q_SCRIPTABLE Q_NOREPLY void resetFrame();
 
         /** DBUS interface function.
-            * Return state of Focuser modue (Ekos::FocusState)
+            * Return state of Focuser module (Ekos::FocusState)
             */
 
         Q_SCRIPTABLE Ekos::FocusState status()
