@@ -27,10 +27,10 @@ AlignView::AlignView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSVie
 {
 }
 
-void AlignView::drawOverlay(QPainter *painter)
+void AlignView::drawOverlay(QPainter *painter, double scale)
 {
     painter->setOpacity(0.5);
-    FITSView::drawOverlay(painter);
+    FITSView::drawOverlay(painter, getScale());
     painter->setOpacity(1);
 
     if (RACircle.isNull() == false)
@@ -126,11 +126,12 @@ void AlignView::drawLine(QPainter *painter)
 
     zoomedLine.translate(offset);
 
-    double x1 = zoomedLine.p1().x();
-    double y1 = zoomedLine.p1().y();
+    const double scale = getScale();
+    double x1 = zoomedLine.p1().x() * scale;
+    double y1 = zoomedLine.p1().y() * scale;
 
-    double x2 = zoomedLine.p2().x();
-    double y2 = zoomedLine.p2().y();
+    double x2 = zoomedLine.p2().x() * scale;
+    double y2 = zoomedLine.p2().y() * scale;
 
     painter->drawLine(x1, y1, x2, y2);
 
@@ -142,9 +143,9 @@ void AlignView::drawLine(QPainter *painter)
         pen.setWidth(2);
         pen.setColor(Qt::darkRed);
         painter->setPen(pen);
-        double x  = celestialPolePoint.x();
-        double y  = celestialPolePoint.y();
-        double sr = 3;
+        double x  = celestialPolePoint.x() * scale;
+        double y  = celestialPolePoint.y() * scale;
+        double sr = 3 * scale;
 
         if (KStarsData::Instance()->geo()->lat()->Degrees() > 0)
             painter->drawText(x + sr, y + sr, i18nc("North Celestial Pole", "NCP"));
@@ -161,10 +162,11 @@ void AlignView::drawCircle(QPainter *painter)
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
 
-    QPointF center(RACircle.x(), RACircle.y());
+    const double scale = getScale();
+    QPointF center(RACircle.x() * scale, RACircle.y() * scale);
 
     // Big Radius
-    double r = RACircle.z();
+    double r = RACircle.z() * scale;
 
     // Small radius
     double sr = r / 25.0;

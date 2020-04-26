@@ -661,29 +661,59 @@ void FITSView::setStarFilterRange(float const innerRadius, float const outerRadi
     starFilter.outerRadius = outerRadius;
 }
 
-// scaleSize() may increase the line widths or font sizes, as we draw lines and render text on the
-// full image and when zoomed out, these sizes may be too small.
-double FITSView::scaleSize(double size)
-{
-    return currentZoom > 100.0 ? size : std::round(size * 100.0 / currentZoom);
-}
-
 int FITSView::filterStars()
 {
     return starFilter.used() ? imageData->filterStars(starFilter.innerRadius,
             starFilter.outerRadius) : imageData->getStarCenters().count();
 }
 
+// isImageLarge() returns whether we use the large-image rendering strategy or the small-image strategy.
+// See the comment below in getScale() for details.
+bool FITSView::isLargeImage()
+{
+    constexpr int largeImageNumPixels = 1000 * 1000;
+    return rawImage.width() * rawImage.height() >= largeImageNumPixels;
+}
+
+// getScale() is related to the image and overlay rendering strategy used.
+// If we're using a pixmap apprpriate for a large image, where we draw and render on a pixmap that's the image size
+// and we let the QLabel deal with scaling and zooming, then the scale is 1.0.
+// With smaller images, where memory use is not as severe, we create a pixmap that's the size of the scaled image
+// and get scale returns the ratio of that pixmap size to the image size.
+double FITSView::getScale()
+{
+    return isLargeImage() ? 1.0 : currentZoom / ZOOM_DEFAULT;
+}
+
+// scaleSize() is only used with the large-image rendering strategy. It may increase the line
+// widths or font sizes, as we draw lines and render text on the full image and when zoomed out,
+// these sizes may be too small.
+double FITSView::scaleSize(double size)
+{
+    if (!isLargeImage())
+        return size;
+    return currentZoom > 100.0 ? size : std::round(size * 100.0 / currentZoom);
+}
+
 void FITSView::updateFrame()
 {
-    bool ok = false;
-
     if (toggleStretchAction)
         toggleStretchAction->setChecked(stretchImage);
 
-    ok = displayPixmap.convertFromImage(rawImage);
+    // We employ two schemes for managing the image and its overlays, depending on the size of the image
+    // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
+    // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
+    // the size of the image itself, never scaling that up.
+    if (isLargeImage())
+        updateFrameLargeImage();
+    else
+        updateFrameSmallImage();
+}
 
-    if (!ok)
+
+void FITSView::updateFrameLargeImage()
+{
+    if (!displayPixmap.convertFromImage(rawImage))
         return;
 
     QPainter painter(&displayPixmap);
@@ -695,27 +725,50 @@ void FITSView::updateFrame()
 
     if (sampling == 1)
     {
-        drawOverlay(&painter);
-
-        if (starFilter.used())
-        {
-            double const diagonal = std::sqrt(imageData->width() * imageData->width() + imageData->height() * imageData->height()) / 2;
-            int const innerRadius = std::lround(diagonal * starFilter.innerRadius);
-            int const outerRadius = std::lround(diagonal * starFilter.outerRadius);
-            QPoint const center(imageData->width() / 2, imageData->height() / 2);
-            painter.save();
-            painter.setPen(QPen(Qt::blue, scaleSize(1), Qt::DashLine));
-            painter.setOpacity(0.7);
-            painter.setBrush(QBrush(Qt::transparent));
-            painter.drawEllipse(center, outerRadius, outerRadius);
-            painter.setBrush(QBrush(Qt::blue, Qt::FDiagPattern));
-            painter.drawEllipse(center, innerRadius, innerRadius);
-            painter.restore();
-        }
+        drawOverlay(&painter, 1.0);
+        drawStarFilter(&painter, 1.0);
     }
     image_frame->setPixmap(displayPixmap);
 
     image_frame->resize(((sampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
+}
+
+void FITSView::updateFrameSmallImage()
+{
+    QImage scaledImage = rawImage.scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    if (!displayPixmap.convertFromImage(scaledImage))
+        return;
+
+    QPainter painter(&displayPixmap);
+
+    if (sampling == 1)
+    {
+        drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
+        drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
+    }
+    image_frame->setPixmap(displayPixmap);
+
+    image_frame->resize(currentWidth, currentHeight);
+}
+
+void FITSView::drawStarFilter(QPainter *painter, double scale)
+{
+    if (!starFilter.used())
+        return;
+    const double w = imageData->width() * scale;
+    const double h = imageData->height() * scale;
+    double const diagonal = std::sqrt(w * w + h * h) / 2;
+    int const innerRadius = std::lround(diagonal * starFilter.innerRadius);
+    int const outerRadius = std::lround(diagonal * starFilter.outerRadius);
+    QPoint const center(w / 2, h / 2);
+    painter->save();
+    painter->setPen(QPen(Qt::blue, scaleSize(1), Qt::DashLine));
+    painter->setOpacity(0.7);
+    painter->setBrush(QBrush(Qt::transparent));
+    painter->drawEllipse(center, outerRadius, outerRadius);
+    painter->setBrush(QBrush(Qt::blue, Qt::FDiagPattern));
+    painter->drawEllipse(center, innerRadius, innerRadius);
+    painter->restore();
 }
 
 void FITSView::ZoomDefault()
@@ -737,30 +790,30 @@ void FITSView::ZoomDefault()
     }
 }
 
-void FITSView::drawOverlay(QPainter * painter)
+void FITSView::drawOverlay(QPainter * painter, double scale)
 {
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
     if (trackingBoxEnabled && getCursorMode() != FITSView::scopeCursor)
-        drawTrackingBox(painter);
+        drawTrackingBox(painter, scale);
 
     if (!markerCrosshair.isNull())
-        drawMarker(painter);
+        drawMarker(painter, scale);
 
     if (showCrosshair)
-        drawCrosshair(painter);
+        drawCrosshair(painter, scale);
 
     if (showObjects)
-        drawObjectNames(painter);
+        drawObjectNames(painter, scale);
 
     if (showEQGrid)
-        drawEQGrid(painter);
+        drawEQGrid(painter, scale);
 
     if (showPixelGrid)
-        drawPixelGrid(painter);
+        drawPixelGrid(painter, scale);
 
     if (markStars)
-        drawStarCentroid(painter);
+        drawStarCentroid(painter, scale);
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -768,19 +821,19 @@ void FITSView::updateMode(FITSMode fmode)
     mode = fmode;
 }
 
-void FITSView::drawMarker(QPainter * painter)
+void FITSView::drawMarker(QPainter * painter, double scale)
 {
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")),
                          scaleSize(2)));
     painter->setBrush(Qt::NoBrush);
-    constexpr float pxperdegree = (57.3 / 1.8);
+    const float pxperdegree = scale * (57.3 / 1.8);
 
     const float s1 = 0.5 * pxperdegree;
     const float s2 = pxperdegree;
     const float s3 = 2.0 * pxperdegree;
 
-    const float x0 = markerCrosshair.x();
-    const float y0 = markerCrosshair.y();
+    const float x0 = scale * markerCrosshair.x();
+    const float y0 = scale * markerCrosshair.y();
     const float x1 = x0 - 0.5 * s1;
     const float y1 = y0 - 0.5 * s1;
     const float x2 = x0 - 0.5 * s2;
@@ -798,68 +851,91 @@ void FITSView::drawMarker(QPainter * painter)
     painter->drawEllipse(QRectF(x2, y2, s2, s2));
 }
 
-void FITSView::drawStarCentroid(QPainter * painter)
+bool FITSView::drawHFR(QPainter * painter, const QString & hfr, int x, int y)
 {
+    QRect const boundingRect(0, 0, painter->device()->width(), painter->device()->height());
+    QSize const hfrSize = painter->fontMetrics().size(Qt::TextSingleLine, hfr);
+
+    // Store the HFR text in a rect
+    QPoint const hfrBottomLeft(x, y);
+    QRect const hfrRect(hfrBottomLeft.x(), hfrBottomLeft.y() - hfrSize.height(), hfrSize.width(), hfrSize.height());
+
+    // Render the HFR text only if it can be displayed entirely
+    if (boundingRect.contains(hfrRect))
+    {
+        painter->setPen(QPen(Qt::red, scaleSize(3)));
+        painter->drawText(hfrBottomLeft, hfr);
+        painter->setPen(QPen(Qt::red, scaleSize(2)));
+        return true;
+    }
+    return false;
+}
+
+
+void FITSView::drawStarCentroid(QPainter * painter, double scale)
+{
+    QFont painterFont;
+    double fontSize = painterFont.pointSizeF() * 2;
     if (showStarsHFR)
     {
-        QFont painterFont;
-
         // If we need to print the HFR out, give an arbitrarily sized font to the painter
-        painterFont.setPointSizeF(scaleSize(painterFont.pointSizeF()));
+        if (isLargeImage())
+            fontSize = scaleSize(painterFont.pointSizeF());
+        painterFont.setPointSizeF(fontSize);
         painter->setFont(painterFont);
     }
 
     painter->setPen(QPen(Qt::red, scaleSize(2)));
 
-    QFontMetrics const fontMetrics = painter->fontMetrics();
-    QRect const boundingRect(0, 0, painter->device()->width(), painter->device()->height());
-
     foreach (auto const &starCenter, imageData->getStarCenters())
     {
-        int const w  = std::round(starCenter->width);
+        int const w  = std::round(starCenter->width) * scale;
 
         // Draw a circle around the detected star.
         // SEP coordinates are in the center of pixels, and Qt at the boundary.
         const double xCoord = starCenter->x - 0.5;
         const double yCoord = starCenter->y - 0.5;
-        const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR : w;
-        painter->drawEllipse(QPointF(xCoord, yCoord), radius, radius);
+        const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * scale : w;
+        painter->drawEllipse(QPointF(xCoord * scale, yCoord * scale), radius, radius);
 
         if (showStarsHFR)
         {
-            int const x1 = std::round(xCoord - starCenter->width / 2.0f);
-            int const y1 = std::round(yCoord - starCenter->width / 2.0f);
+            int const x1 = std::round((xCoord - starCenter->width / 2.0f) * scale);
+            int const y1 = std::round((yCoord - starCenter->width / 2.0f) * scale);
 
             // Ask the painter how large will the HFR text be
             QString const hfr = QString("%1").arg(starCenter->HFR, 0, 'f', 2);
-            QSize const hfrSize = fontMetrics.size(Qt::TextSingleLine, hfr);
-
-            // Store the HFR text in a rect
-            QPoint const hfrBottomLeft(x1 + w + 5, y1 + w / 2);
-            QRect const hfrRect(hfrBottomLeft.x(), hfrBottomLeft.y() - hfrSize.height(), hfrSize.width(), hfrSize.height());
-
-            // Render the HFR text only if it can be displayed entirely
-            if (boundingRect.contains(hfrRect))
+            if (!drawHFR(painter, hfr, x1 + w + 5, y1 + w / 2))
             {
-                painter->setPen(QPen(Qt::red, scaleSize(3)));
-                painter->drawText(hfrBottomLeft, hfr);
-                painter->setPen(QPen(Qt::red, scaleSize(2)));
+                // Try a few more time with smaller fonts;
+                for (int i = 0; i < 10; ++i)
+                {
+                    const double tempFontSize = painterFont.pointSizeF() - 2;
+                    if (tempFontSize <= 0) break;
+                    painterFont.setPointSizeF(tempFontSize);
+                    painter->setFont(painterFont);
+                    if (drawHFR(painter, hfr, x1 + w + 5, y1 + w / 2))
+                        break;
+                }
+                // Reset the font size.
+                painterFont.setPointSize(fontSize);
+                painter->setFont(painterFont);
             }
         }
     }
 }
 
-void FITSView::drawTrackingBox(QPainter * painter)
+void FITSView::drawTrackingBox(QPainter * painter, double scale)
 {
     painter->setPen(QPen(Qt::green, scaleSize(2)));
 
     if (trackingBox.isNull())
         return;
 
-    const int x1 = trackingBox.x();
-    const int y1 = trackingBox.y();
-    const int w  = trackingBox.width();
-    const int h  = trackingBox.height();
+    const int x1 = trackingBox.x() * scale;
+    const int y1 = trackingBox.y() * scale;
+    const int w  = trackingBox.width() * scale;
+    const int h  = trackingBox.height() * scale;
 
     painter->drawRect(x1, y1, w, h);
 }
@@ -868,17 +944,17 @@ void FITSView::drawTrackingBox(QPainter * painter)
 This Method draws a large Crosshair in the center of the image, it is like a set of axes.
  */
 
-void FITSView::drawCrosshair(QPainter * painter)
+void FITSView::drawCrosshair(QPainter * painter, double scale)
 {
     if (!imageData) return;
     const int image_width = imageData->width();
     const int image_height = imageData->height();
-    const QPointF c   = QPointF((qreal)image_width / 2, (qreal)image_height / 2);
-    const float midX  = (float)image_width / 2;
-    const float midY  = (float)image_height / 2;
-    const float maxX  = (float)image_width;
-    const float maxY  = (float)image_height;
-    constexpr float r = 50;
+    const QPointF c   = QPointF((qreal)image_width / 2 * scale, (qreal)image_height / 2 * scale);
+    const float midX  = (float)image_width / 2 * scale;
+    const float midY  = (float)image_height / 2 * scale;
+    const float maxX  = (float)image_width * scale;
+    const float maxY  = (float)image_height * scale;
+    const float r = 50 * scale;
 
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")), scaleSize(1)));
 
@@ -907,10 +983,10 @@ Note: This has to start drawing at the center not at the edges because the cente
 be in the center of the image.
  */
 
-void FITSView::drawPixelGrid(QPainter * painter)
+void FITSView::drawPixelGrid(QPainter * painter, double scale)
 {
-    const float width  = imageData->width();
-    const float height = imageData->height();
+    const float width  = imageData->width() * scale;
+    const float height = imageData->height() * scale;
     const float cX     = width / 2;
     const float cY     = height / 2;
     const float deltaX = width / 10;
@@ -919,8 +995,8 @@ void FITSView::drawPixelGrid(QPainter * painter)
 
     //draw the Axes
     painter->setPen(QPen(Qt::red, scaleSize(1)));
-    painter->drawText(cX - 30, height - 5, QString::number((int)(cX)));
-    QString str = QString::number((int)(cY));
+    painter->drawText(cX - 30, height - 5, QString::number((int)((cX) / scale)));
+    QString str = QString::number((int)((cY) / scale));
     painter->drawText(width - (fm.width(str) + 10), cY - 5, str);
     if (!showCrosshair)
     {
@@ -931,17 +1007,17 @@ void FITSView::drawPixelGrid(QPainter * painter)
     //Start one iteration past the Center and draw 4 lines on either side of 0
     for (int x = deltaX; x < cX - deltaX; x += deltaX)
     {
-        painter->drawText(cX + x - 30, height - 5, QString::number((int)(cX + x)));
-        painter->drawText(cX - x - 30, height - 5, QString::number((int)(cX - x)));
+        painter->drawText(cX + x - 30, height - 5, QString::number((int)(cX + x) / scale));
+        painter->drawText(cX - x - 30, height - 5, QString::number((int)(cX - x) / scale));
         painter->drawLine(cX - x, 0, cX - x, height);
         painter->drawLine(cX + x, 0, cX + x, height);
     }
     //Start one iteration past the Center and draw 4 lines on either side of 0
     for (int y = deltaY; y < cY - deltaY; y += deltaY)
     {
-        QString str = QString::number((int)(cY + y));
+        QString str = QString::number((int)((cY + y) / scale));
         painter->drawText(width - (fm.width(str) + 10), cY + y - 5, str);
-        str = QString::number((int)(cY - y));
+        str = QString::number((int)((cY - y) / scale));
         painter->drawText(width - (fm.width(str) + 10), cY - y - 5, str);
         painter->drawLine(0, cY + y, width, cY + y);
         painter->drawLine(0, cY - y, width, cY - y);
@@ -955,13 +1031,13 @@ bool FITSView::imageHasWCS()
     return false;
 }
 
-void FITSView::drawObjectNames(QPainter * painter)
+void FITSView::drawObjectNames(QPainter * painter, double scale)
 {
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
     foreach (FITSSkyObject * listObject, imageData->getSkyObjects())
     {
-        painter->drawRect(listObject->x() - 5, listObject->y() - 5, 10, 10);
-        painter->drawText(listObject->x() + 10, listObject->y() + 10, listObject->skyObject()->name());
+        painter->drawRect(listObject->x() * scale - 5, listObject->y() * scale - 5, 10, 10);
+        painter->drawText(listObject->x() * scale + 10, listObject->y() * scale + 10, listObject->skyObject()->name());
     }
 }
 
@@ -972,7 +1048,7 @@ judge which gridLines to draw.  Then it calls the drawEQGridlines methods below
 to draw gridlines at those specific RA and Dec values.
  */
 
-void FITSView::drawEQGrid(QPainter * painter)
+void FITSView::drawEQGrid(QPainter * painter, double scale)
 {
     const int image_width = imageData->width();
     const int image_height = imageData->height();
@@ -1066,7 +1142,7 @@ void FITSView::drawEQGrid(QPainter * painter)
                     bool inImage = imageData->wcsToPixel(pointToGet, pixelPoint, imagePoint);
                     if (inImage)
                     {
-                        QPointF pt(pixelPoint.x(), pixelPoint.y());
+                        QPointF pt(pixelPoint.x() * scale, pixelPoint.y() * scale);
                         eqGridPoints.append(pt);
                     }
                 }
@@ -1079,7 +1155,7 @@ void FITSView::drawEQGrid(QPainter * painter)
                                   QString::number(dms(target).minute()) + '\'';
                     if  (maxDec <= 50 && maxDec >= -50)
                         str = str + " " + QString::number(dms(target).second()) + "''";
-                    QPointF pt = getPointForGridLabel(painter, str);
+                    QPointF pt = getPointForGridLabel(painter, str, scale);
                     if (pt.x() != -100)
                         painter->drawText(pt.x(), pt.y(), str);
                 }
@@ -1111,7 +1187,7 @@ void FITSView::drawEQGrid(QPainter * painter)
                     for (int i = 1; i < eqGridPoints.count(); i++)
                         painter->drawLine(eqGridPoints.value(i - 1), eqGridPoints.value(i));
                     QString str = QString::number(dms(target).degree()) + "° " + QString::number(dms(target).arcmin()) + '\'';
-                    QPointF pt = getPointForGridLabel(painter, str);
+                    QPointF pt = getPointForGridLabel(painter, str, scale);
                     if (pt.x() != -100)
                         painter->drawText(pt.x(), pt.y(), str);
                 }
@@ -1127,9 +1203,9 @@ void FITSView::drawEQGrid(QPainter * painter)
                     (pPoint.x() > 0 && pPoint.x() < image_width) && (pPoint.y() > 0 && pPoint.y() < image_height);
                 if (NCPinImage)
                 {
-                    painter->fillRect(pPoint.x() - 2, pPoint.y() - 2, 4, 4,
+                    painter->fillRect(pPoint.x() * scale - 2, pPoint.y() * scale - 2, 4, 4,
                                       KStarsData::Instance()->colorScheme()->colorNamed("TargetColor"));
-                    painter->drawText(pPoint.x() + 15, pPoint.y() + 15,
+                    painter->drawText(pPoint.x() * scale + 15, pPoint.y() * scale + 15,
                                       i18nc("North Celestial Pole", "NCP"));
                 }
             }
@@ -1144,9 +1220,9 @@ void FITSView::drawEQGrid(QPainter * painter)
                     (pPoint.x() > 0 && pPoint.x() < image_width) && (pPoint.y() > 0 && pPoint.y() < image_height);
                 if (SCPinImage)
                 {
-                    painter->fillRect(pPoint.x() - 2, pPoint.y() - 2, 4, 4,
+                    painter->fillRect(pPoint.x() * scale - 2, pPoint.y() * scale - 2, 4, 4,
                                       KStarsData::Instance()->colorScheme()->colorNamed("TargetColor"));
-                    painter->drawText(pPoint.x() + 15, pPoint.y() + 15,
+                    painter->drawText(pPoint.x() * scale + 15, pPoint.y() * scale + 15,
                                       i18nc("South Celestial Pole", "SCP"));
                 }
             }
@@ -1154,14 +1230,14 @@ void FITSView::drawEQGrid(QPainter * painter)
     }
 }
 
-bool FITSView::pointIsInImage(QPointF pt)
+bool FITSView::pointIsInImage(QPointF pt, double scale)
 {
     int image_width = imageData->width();
     int image_height = imageData->height();
-    return pt.x() < image_width && pt.y() < image_height && pt.x() > 0 && pt.y() > 0;
+    return pt.x() < image_width * scale && pt.y() < image_height * scale && pt.x() > 0 && pt.y() > 0;
 }
 
-QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str)
+QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str, double scale)
 {
     QFontMetrics fm(painter->font());
     int strWidth = fm.width(str);
@@ -1170,31 +1246,31 @@ QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str)
     int image_height = imageData->height();
 
     //These get the maximum X and Y points in the list that are in the image
-    QPointF maxXPt(image_width / 2, image_height / 2);
+    QPointF maxXPt(image_width * scale / 2, image_height * scale / 2);
     for (auto &p : eqGridPoints)
     {
-        if (p.x() > maxXPt.x() && pointIsInImage(p))
+        if (p.x() > maxXPt.x() && pointIsInImage(p, scale))
             maxXPt = p;
     }
-    QPointF maxYPt(image_width / 2, image_height / 2);
+    QPointF maxYPt(image_width * scale / 2, image_height * scale / 2);
 
     for (auto &p : eqGridPoints)
     {
-        if (p.y() > maxYPt.y() && pointIsInImage(p))
+        if (p.y() > maxYPt.y() && pointIsInImage(p, scale))
             maxYPt = p;
     }
-    QPointF minXPt(image_width / 2, image_height / 2);
+    QPointF minXPt(image_width * scale / 2, image_height * scale / 2);
 
     for (auto &p : eqGridPoints)
     {
-        if (p.x() < minXPt.x() && pointIsInImage(p))
+        if (p.x() < minXPt.x() && pointIsInImage(p, scale))
             minXPt = p;
     }
-    QPointF minYPt(image_width / 2, image_height / 2);
+    QPointF minYPt(image_width * scale / 2, image_height * scale / 2);
 
     for (auto &p : eqGridPoints)
     {
-        if (p.y() < minYPt.y() && pointIsInImage(p))
+        if (p.y() < minYPt.y() && pointIsInImage(p, scale))
             minYPt = p;
     }
 
@@ -1203,29 +1279,29 @@ QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str)
     //If no points are found in the image, it returns a point off the screen
     //If all else fails, like in the case of a circle on the image, it returns the far right point.
 
-    if (image_width - maxXPt.x() < strWidth)
+    if (image_width * scale - maxXPt.x() < strWidth)
     {
         return QPointF(
-                   image_width - (strWidth + 10),
+                   image_width * scale - (strWidth + 10),
                    maxXPt.y() -
                    strHeight); //This will draw the text on the right hand side, up and to the left of the point where the line intersects
     }
-    if (image_height - maxYPt.y() < strHeight)
+    if (image_height * scale - maxYPt.y() < strHeight)
         return QPointF(
                    maxYPt.x() - (strWidth + 10),
-                   image_height -
+                   image_height * scale -
                    (strHeight + 10)); //This will draw the text on the bottom side, up and to the left of the point where the line intersects
     if (minYPt.y() < strHeight)
         return QPointF(
-                   minYPt.x() + 10,
+                   minYPt.x() * scale + 10,
                    strHeight + 20); //This will draw the text on the top side, down and to the right of the point where the line intersects
     if (minXPt.x() < strWidth)
         return QPointF(
                    10,
-                   minXPt.y() +
+                   minXPt.y() * scale +
                    strHeight +
                    20); //This will draw the text on the left hand side, down and to the right of the point where the line intersects
-    if (maxXPt.x() == image_width / 2 && maxXPt.y() == image_height / 2)
+    if (maxXPt.x() == image_width * scale / 2 && maxXPt.y() == image_height * scale / 2)
         return QPointF(-100, -100); //All of the points were off the screen
 
     return QPoint(maxXPt.x() - (strWidth + 10), maxXPt.y() - (strHeight + 10));
@@ -1241,13 +1317,15 @@ QPixmap &FITSView::getTrackingBoxPixmap(uint8_t margin)
     if (trackingBox.isNull())
         return trackingBoxPixmap;
 
-    int x1 = (trackingBox.x() - margin);
-    int y1 = (trackingBox.y() - margin);
-    int w  = (trackingBox.width() + margin * 2);
-    int h  = (trackingBox.height() + margin * 2);
+    // We need to know which rendering strategy updateFrame used to determine the scaling.
+    const float scale = getScale();
+
+    int x1 = (trackingBox.x() - margin) * scale;
+    int y1 = (trackingBox.y() - margin) * scale;
+    int w  = (trackingBox.width() + margin * 2) * scale;
+    int h  = (trackingBox.height() + margin * 2) * scale;
 
     trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
-
     return trackingBoxPixmap;
 }
 
