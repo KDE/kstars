@@ -4,6 +4,89 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.4.2 (Borisov):
+
+c4ec429ac 2020-04-25 Jasem Mutlaq         Do not process un-registered property
+3d9099bbf 2020-04-25 Jasem Mutlaq         Reduce random max travel dither distance to 15 pixels down from 25
+1197d9389 2020-04-25 Jasem Mutlaq         Ignore SIGPIPE on Linux and MacOS
+3035e5565 2020-04-25 Jasem Mutlaq         Failed and Aborted should be treated equally in capture
+b907f6873 2020-04-24 Jasem Mutlaq         Disable test in package building
+e7c2b8db7 2020-04-24 Jasem Mutlaq         No need for zoom factor with Hy latest patch
+b03b46834 2020-04-24 Jasem Mutlaq         Remember weather status
+837de1e60 2020-04-24 Jasem Mutlaq         Register FITSMode meta type
+1133ae451 2020-04-22 Hy Murveit           Fix stretch control bug created in D28935
+d9f2ef2e9 2020-04-22 Jasem Mutlaq         Use modern signal and slot connection
+199f46268 2020-04-21 Jasem Mutlaq         typeof uses language extension so do not use it
+bce2aa337 2020-04-21 Jasem Mutlaq         Fix compiling on Windows
+cc087cd90 2020-04-21 Jasem Mutlaq         sysconf for Linux and MacOS only
+edcf3554a 2020-04-21 Jasem Mutlaq         Remove GCC pragma to fix compliation on Windows
+484918644 2020-04-21 Hy Murveit           Reduce memory use when zooming in fitsviewer
+47da4eb38 2020-04-19 Jasem Mutlaq         Try up to 3 times to check if drivers are running on remote indi manager
+573302c27 2020-04-19 Jasem Mutlaq         Sync INDI drivers
+e6d1d0dca 2020-04-18 Eric Dejouhanet      Hotfix for non-INDI builds.
+cb6f7207d 2020-04-17 Yuri Chornoivan      Fix minor typos
+e7796bf9c 2020-04-17 Eric Dejouhanet      Make UI tests use a separate userdb
+515efd42f 2020-04-17 Hy Murveit           SEP Focus improvements
+c859850b1 2020-04-11 Akarsh Simha         Minor: const correctness
+f2e080d37 2020-04-11 Akarsh Simha         Fix behavior of DBus method setRaDec, provide a new DBus method setRaDecJ2000, and support refraction-corrected altitudes in DBus method setAltAz
+4594c3d64 2020-04-11 Wolfgang Reissenberger Mount box layout corrected so that everything fits well into the window
+1f7493a63 2020-04-10 Hy Murveit           Fix the build which is broken on Macs by adding include for cmath
+56051aa47 2020-04-09 Eric Dejouhanet      Hotfixes for the Focus module
+6cf0a3a2b 2020-04-09 Jasem Mutlaq         INDI drivers sync
+4f6af9adf 2020-04-08 Eric Dejouhanet      Tests for the star detection
+fd28026cf 2020-04-05 Eric Dejouhanet      Refactoring the Focus module.
+1dffaa5d7 2020-04-03 Jasem Mutlaq         Turn off meridian flip when operating polar alignment assistant tool
+632bb22ae 2020-04-03 Jasem Mutlaq         Fix exposure time when no filters are used
+8c410bd41 2020-04-02 Jasem Mutlaq         Fix typo
+c400edea6 2020-03-30 Jasem Mutlaq         Fix program flow in case a full-frame star is selected
+bf9845f2e 2020-03-30 Jasem Mutlaq         If non-guide is enabled, do not consider the state as autoguided
+637b7c96c 2020-03-29 Jasem Mutlaq         More work to remove the deadlock on disconnecting from INDI server
+394f1be73 2020-03-29 Jasem Mutlaq         Do not display options after error, let user open it up
+92127a698 2020-03-29 Jasem Mutlaq         Add OK Button to error and warning dialogs
+209b20763 2020-03-28 Jasem Mutlaq         Add size of fits buffer loaded
+db0ae6227 2020-03-28 Jasem Mutlaq         Do not crash if current target is not set
+e208ce382 2020-03-27 Denis Zaytsev        Modified svg with INDIHUB icon and logo
+af134f296 2020-03-26 Jasem Mutlaq         removeProperty is called in the BaseClient thread and provides a pointer to INDI::Property object. Since INDI_D::removeProperty method needs to run ..
+c24ff635f 2020-03-26 Jasem Mutlaq         Fix crash on new profile with indihub
+829c37b9d 2020-03-25 Jasem Mutlaq         Restore the 180s capture timeout
+0b818253b 2020-03-25 Jasem Mutlaq         Fix North and South Korea cities. Patch submitted by Shinjo Park
+f8c3d1359 2020-03-25 Jasem Mutlaq         Change remoteProperty connection to the default queued connection.
+cf25aa5ee 2020-03-25 Jasem Mutlaq         Fix share mode
+ebeea6e4f 2020-03-25 Jasem Mutlaq         Disable driver restart until few issues with shutdown are fixed
+01dc3f76b 2020-03-25 Jasem Mutlaq         Fix format issues
+bd6e5ccb8 2020-03-25 Jasem Mutlaq         Add building and format code instructions
+f8c978db7 2020-03-23 Jasem Mutlaq         Fix few warnings
+1b8ebe7ed 2020-03-22 Jasem Mutlaq         Add a warning if the dust cap is missing instead of total abort
+a33efa5de 2020-03-21 Jasem Mutlaq         Add initial support for restarting local and remote drivers in case of timeout
+a2a961e00 2020-03-21 Eric Dejouhanet      Removed simulator startup clock test for Qt<5.8.
+fea9b12c1 2020-03-20 Jasem Mutlaq         Check for INDI hub before terminating
+3ded897d8 2020-03-20 Jasem Mutlaq         Add indihub local support. Requires testing
+da42b0848 2020-03-20 Jasem Mutlaq         Fix typo
+62f78d06e 2020-03-19 Laurent Montel       Add missing includes
+9bc2faa5f 2020-03-19 Jasem Mutlaq         Save indihub in profile
+575be8ef9 2020-03-19 Jasem Mutlaq         Correct Chile TZ rule
+53b0ab05b 2020-03-18 Eric Dejouhanet      Attempt to fix Ubuntu 16.04 build, that is using Qt 5.5.
+b92c3cb32 2020-03-18 Jasem Mutlaq         Initial work for indihub support
+19bcaa049 2020-03-15 Eric Dejouhanet      Auxiliary tests (skeletons).
+15ca86074 2020-03-15 Jasem Mutlaq         Add flip vector as a temporary measure until we figure out why it fails under some circumstances
+b3b107c61 2020-03-09 Jasem Mutlaq         Do not calculate download times for repeats
+dcf94c2a3 2020-03-09 Jasem Mutlaq         Fix warnings
+8c53c246b 2020-03-07 Hy Murveit           Fix a bug in the debayer offset code.
+40d0573bd 2020-03-06 Jasem Mutlaq         Re-enabled the Jupiter's Moons tool
+acf0f6eee 2020-03-06 Hy Murveit           Update median calculation
+1cc965a80 2020-03-04 Eric Dejouhanet      Fix warning treated as error on bionic.
+deff540be 2020-03-02 Eric Dejouhanet      Fix OpenSUSE build error on incomplete type KStarsData.
+ccac57a47 2020-03-02 Jasem Mutlaq         Go back to ksqueezelabel since regular QLabel have several issues
+03f2dcc27 2020-03-01 Jasem Mutlaq         More hack to get the label size to be correct when using multiple elements
+08c69ae84 2020-03-01 Eric Dejouhanet      Restructure tests, add simulator tests, spot expected failures.
+3a6642ea8 2020-02-29 Jasem Mutlaq         Fix squeezed labels in height
+0288cbd1d 2020-02-29 Jasem Mutlaq         Increase minimum bandwidth to 300MB
+302689bc1 2020-02-29 Jasem Mutlaq         working on KStars v3.4.2
+1db2c052a 2020-02-29 Jasem Mutlaq         Simplify where images are saved to
+6ce69709a 2020-02-26 Jasem Mutlaq         Check for errors in WCS transformation
+11f68d971 2020-02-26 Hy Murveit           Correct bug in median computation
+0d418a390 2020-02-23 Jasem Mutlaq         Make sure all image files permissions end up 644
+
 3.4.1 (FreeCloud):
 
 5632a36a1 2020-02-23 Jasem Mutlaq         Do not calculate download time or send image when upload mode is LOCAL
