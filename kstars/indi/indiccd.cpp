@@ -1697,8 +1697,15 @@ void CCD::processBLOB(IBLOB *bp)
     // Load FITS if either:
     // #1 FITS Viewer is set to enabled.
     // #2 This is a preview, so we MUST open FITS Viewer even if disabled.
-    if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && BType == BLOB_FITS)
+    if (BType == BLOB_FITS)
     {
+        // Don't display if (NORMAL or CALIBRATE) and ((not using fitsviewer) and (no in batch mode))
+        if ((targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE) &&
+            (!Options::useFITSViewer() && targetChip->isBatchMode()))
+        {
+            emit BLOBUpdated(bp);
+            return;
+        }
         FITSData *blob_fits_data = new FITSData(targetChip->getCaptureMode());
 
         if (!blob_fits_data->loadFITSFromMemory(filename, bp->blob, bp->size, false))
@@ -1711,7 +1718,7 @@ void CCD::processBLOB(IBLOB *bp)
             return;
         }
 
-        displayFits(targetChip, filename, bp, blob_fits_data);
+        displayFits(targetChip, filename, bp, blob_fits_data);    
     }
     else
         emit BLOBUpdated(bp);
@@ -1736,57 +1743,50 @@ void CCD::displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, F
         case FITS_NORMAL:
         case FITS_CALIBRATE:
         {
-            // Check if we need to display the image
-            if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
+            bool success;
+            int tabIndex;
+            int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
+            QUrl fileURL = QUrl::fromLocalFile(filename);
+            FITSScale captureFilter = targetChip->getCaptureFilter();
+            if (*tabID == -1 || Options::singlePreviewFITS() == false)
             {
-                bool success;
-                int tabIndex;
-                int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
-                QUrl fileURL = QUrl::fromLocalFile(filename);
-                FITSScale captureFilter = targetChip->getCaptureFilter();
-                if (*tabID == -1 || Options::singlePreviewFITS() == false)
+                // If image is preview and we should display all captured images in a
+                // single tab called "Preview", then set the title to "Preview",
+                // Otherwise, the title will be the captured image name
+                QString previewTitle;
+                if (targetChip->isBatchMode() == false && Options::singlePreviewFITS())
                 {
-                    // If image is preview and we should display all captured images in a
-                    // single tab called "Preview", then set the title to "Preview",
-                    // Otherwise, the title will be the captured image name
-                    QString previewTitle;
-                    if (targetChip->isBatchMode() == false && Options::singlePreviewFITS())
-                    {
-                        // If we are displaying all images from all cameras in a single FITS
-                        // Viewer window, then we prefix the camera name to the "Preview" string
-                        if (Options::singleWindowCapturedFITS())
-                            previewTitle = i18n("%1 Preview", getDeviceName());
-                        else
-                            // Otherwise, just use "Preview"
-                            previewTitle = i18n("Preview");
-                    }
-
-                    success = m_FITSViewerWindows->addFITSFromData(
-                                  blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
-                                  previewTitle);
+                    // If we are displaying all images from all cameras in a single FITS
+                    // Viewer window, then we prefix the camera name to the "Preview" string
+                    if (Options::singleWindowCapturedFITS())
+                        previewTitle = i18n("%1 Preview", getDeviceName());
+                    else
+                        // Otherwise, just use "Preview"
+                        previewTitle = i18n("Preview");
                 }
-                else
-                    success = m_FITSViewerWindows->updateFITSFromData(
-                                  blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
 
-                if (!success)
-                {
-                    // If opening file fails, we treat it the same as exposure failure
-                    // and recapture again if possible
-                    qCCritical(KSTARS_INDI) << "error adding/updating FITS";
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    return;
-                }
-                *tabID = tabIndex;
-                targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
-                if (Options::focusFITSOnNewImage())
-                    m_FITSViewerWindows->raise();
-
-                emit BLOBUpdated(bp);
+                success = m_FITSViewerWindows->addFITSFromData(
+                            blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
+                            previewTitle);
             }
             else
-                // If not displayed in FITS Viewer then we just inform that a blob was received.
-                emit BLOBUpdated(bp);
+                success = m_FITSViewerWindows->updateFITSFromData(
+                            blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
+
+            if (!success)
+            {
+                // If opening file fails, we treat it the same as exposure failure
+                // and recapture again if possible
+                qCCritical(KSTARS_INDI) << "error adding/updating FITS";
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
+                return;
+            }
+            *tabID = tabIndex;
+            targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
+            if (Options::focusFITSOnNewImage())
+                m_FITSViewerWindows->raise();
+
+            emit BLOBUpdated(bp);
         }
         break;
 
