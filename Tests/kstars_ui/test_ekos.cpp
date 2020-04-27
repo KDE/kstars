@@ -133,20 +133,18 @@ void TestEkos::testSimulatorProfile()
     {
         QTest::mouseClick(b, Qt::LeftButton);
     });
-    QWARN("Intentionally leaving a delay here for BZ398192");
-    QTest::qWait(5000);
 
     // --------- Fifth step: waiting for Ekos to finish stopping
 
     // Start button that became a stop button has to be available
-    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 7000);
+    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 10000);
 
     // Hang INDI client up
     QTimer::singleShot(200, ekos, [&]
     {
         QTest::mouseClick(startEkos, Qt::LeftButton);
     });
-    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 7000);
+    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 10000);
 }
 
 void TestEkos::testManipulateProfiles()

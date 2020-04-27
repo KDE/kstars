@@ -962,20 +962,20 @@ int fp_pack (char *infits, char *outfits, fpstate fpvar, int *islossless)
  */
 int fp_unpack (char *infits, char *outfits, fpstate fpvar)
 {
-        fitsfile *infptr, *outfptr;
-        int stat=0, hdutype, extnum, single = 0;
+    fitsfile *infptr, *outfptr;
+    int stat=0, hdutype, extnum, single = 0;
     char *loc, *hduloc, hduname[SZ_STR];
 
-        fits_open_file (&infptr, infits, READONLY, &stat);
-        fits_create_file (&outfptr, outfits, &stat);
+    fits_open_file (&infptr, infits, READONLY, &stat);
+    fits_create_file (&outfptr, outfits, &stat);
 
     if (stat) {
         fp_abort_output(infptr, outfptr, stat);
     }
 
-        if (fpvar.extname[0]) {  /* unpack a list of HDUs? */
+    if (fpvar.extname[0]) {  /* unpack a list of HDUs? */
 
-            /* move to the first HDU in the list */
+        /* move to the first HDU in the list */
         hduloc = fpvar.extname;
         loc = strchr(hduloc, ','); /* look for 'comma' delimiter between names */
 
@@ -986,107 +986,107 @@ int fp_unpack (char *infits, char *outfits, fpstate fpvar)
 
         if (loc)
             hduloc = loc + 1;  /* advance to the beginning of the next name, if any */
-            else {
+        else {
             hduloc += strlen(hduname);  /* end of the list */
             single = 1;  /* only 1 HDU is being unpacked */
+        }
+
+        if (isdigit( (int) hduname[0]) ) {
+            extnum = strtol(hduname, &loc, 10); /* read the string as an integer */
+
+            /* check for junk following the integer */
+            if (*loc == '\0' )  /* no junk, so move to this HDU number (+1) */
+            {
+                fits_movabs_hdu(infptr, extnum + 1, &hdutype, &stat);  /* move to HDU number */
+                if (hdutype != IMAGE_HDU)
+                    stat = NOT_IMAGE;
+
+            } else {  /* the string is not an integer, so must be the column name */
+                hdutype = IMAGE_HDU;
+                fits_movnam_hdu(infptr, hdutype, hduname, 0, &stat);
             }
-
-            if (isdigit( (int) hduname[0]) ) {
-           extnum = strtol(hduname, &loc, 10); /* read the string as an integer */
-
-               /* check for junk following the integer */
-               if (*loc == '\0' )  /* no junk, so move to this HDU number (+1) */
-               {
-                  fits_movabs_hdu(infptr, extnum + 1, &hdutype, &stat);  /* move to HDU number */
-                  if (hdutype != IMAGE_HDU)
-             stat = NOT_IMAGE;
-
-               } else {  /* the string is not an integer, so must be the column name */
-              hdutype = IMAGE_HDU;
-              fits_movnam_hdu(infptr, hdutype, hduname, 0, &stat);
-           }
-            }
+        }
         else
         {
-                /* move to the named image extension */
+            /* move to the named image extension */
             hdutype = IMAGE_HDU;
             fits_movnam_hdu(infptr, hdutype, hduname, 0, &stat);
-            }
         }
+    }
 
-        if (stat) {
-      fp_msg ("Unable to find and move to extension '");
-          fp_msg(hduname);
-      fp_msg("'\n");
-      fp_abort_output(infptr, outfptr, stat);
-        }
+    if (stat) {
+        fp_msg ("Unable to find and move to extension '");
+        fp_msg(hduname);
+        fp_msg("'\n");
+        fp_abort_output(infptr, outfptr, stat);
+    }
 
-        while (! stat) {
+    while (! stat) {
 
         if (single)
             stat = -1;  /* special status flag to force output primary array */
 
-            fp_unpack_hdu (infptr, outfptr, fpvar, &stat);
+        fp_unpack_hdu (infptr, outfptr, fpvar, &stat);
 
         if (fpvar.do_checksums) {
             fits_write_chksum (outfptr, &stat);
         }
 
         /* move to the next HDU */
-            if (fpvar.extname[0]) {  /* unpack a list of HDUs? */
+        if (fpvar.extname[0]) {  /* unpack a list of HDUs? */
 
-                if (!(*hduloc)) {
-            stat = END_OF_FILE;  /* we reached the end of the list */
-        } else {
-            /* parse the next HDU name and move to it */
+            if (!(*hduloc)) {
+                stat = END_OF_FILE;  /* we reached the end of the list */
+            } else {
+                /* parse the next HDU name and move to it */
                 loc = strchr(hduloc, ',');
 
                 if (loc)         /* look for 'comma' delimiter between names */
-                   *loc = '\0';  /* terminate the first name in the string */
+                    *loc = '\0';  /* terminate the first name in the string */
 
                 strcpy(hduname, hduloc);  /* copy the next name into temporary string */
 
                 if (loc)
                     hduloc = loc + 1;  /* advance to the beginning of the next name, if any */
-                    else
-                   *hduloc = '\0';  /* end of the list */
+                else
+                    *hduloc = '\0';  /* end of the list */
 
-                    if (isdigit( (int) hduname[0]) ) {
-                   extnum = strtol(hduname, &loc, 10); /* read the string as an integer */
+                if (isdigit( (int) hduname[0]) ) {
+                    extnum = strtol(hduname, &loc, 10); /* read the string as an integer */
 
-                      /* check for junk following the integer */
-                      if (*loc == '\0' )   /* no junk, so move to this HDU number (+1) */
-              {
+                    /* check for junk following the integer */
+                    if (*loc == '\0' )   /* no junk, so move to this HDU number (+1) */
+                    {
                         fits_movabs_hdu(infptr, extnum + 1, &hdutype, &stat);  /* move to HDU number */
                         if (hdutype != IMAGE_HDU)
-                stat = NOT_IMAGE;
+                            stat = NOT_IMAGE;
 
-                      } else {  /* the string is not an integer, so must be the column name */
+                    } else {  /* the string is not an integer, so must be the column name */
+                        hdutype = IMAGE_HDU;
+                        fits_movnam_hdu(infptr, hdutype, hduname, 0, &stat);
+                    }
+
+                } else {
+                    /* move to the named image extension */
                     hdutype = IMAGE_HDU;
                     fits_movnam_hdu(infptr, hdutype, hduname, 0, &stat);
-                  }
-
-                    } else {
-                      /* move to the named image extension */
-                  hdutype = IMAGE_HDU;
-                  fits_movnam_hdu(infptr, hdutype, hduname, 0, &stat);
-                   }
-
-                   if (stat) {
-                  fp_msg ("Unable to find and move to extension '");
-                      fp_msg(hduname);
-                  fp_msg("'\n");
-                   }
                 }
-            } else {
-                /* increment to the next HDU */
-                fits_movrel_hdu (infptr, 1, NULL, &stat);
+
+                if (stat) {
+                    fp_msg ("Unable to find and move to extension '");
+                    fp_msg(hduname);
+                    fp_msg("'\n");
+                }
             }
+        } else {
+            /* increment to the next HDU */
+            fits_movrel_hdu (infptr, 1, NULL, &stat);
         }
+    }
 
-        if (stat == END_OF_FILE) stat = 0;
+    if (stat == END_OF_FILE) stat = 0;
 
-        /* set checksum for case of newly created primary HDU
+    /* set checksum for case of newly created primary HDU
          */
     if (fpvar.do_checksums) {
         fits_movabs_hdu (outfptr, 1, NULL, &stat);

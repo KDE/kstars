@@ -125,53 +125,48 @@ void TestEkosFocus::testStarDetection()
 
     // Run the focus procedure for SEP
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0);
-    KTRY_FOCUS_CAPTURE(1, 1);
-    QWARN("No way to know when star detection procedure is fininshed.");
-    QTest::qWait(1000);
+    KTRY_FOCUS_DETECT(1, 3);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
     // Run the focus procedure for Centroid
     KTRY_FOCUS_CONFIGURE("Centroid", "Iterative", 0.0, 100.0);
-    KTRY_FOCUS_CAPTURE(1, 1);
-    QWARN("No way to know when star detection procedure is fininshed.");
-    QTest::qWait(1000);
+    KTRY_FOCUS_DETECT(1, 3);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    // Run the focus procedure for Threshold
-    KTRY_FOCUS_CONFIGURE("Threshold", "Iterative", 0.0, 100.0);
-    KTRY_FOCUS_CAPTURE(1, 1);
-    QWARN("No way to know when procedure is fininshed.");
-    QTest::qWait(1000);
+    // Run the focus procedure for Threshold - disable full-field
+    KTRY_FOCUS_CONFIGURE("Threshold", "Iterative", 0.0, 0.0);
+    KTRY_FOCUS_DETECT(1, 3);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    // Run the focus procedure for Gradient
-    KTRY_FOCUS_CONFIGURE("Gradient", "Iterative", 0.0, 100.0);
-    KTRY_FOCUS_CAPTURE(1, 1);
-    QWARN("No way to know when procedure is fininshed.");
-    QTest::qWait(1000);
+    // Run the focus procedure for Gradient - disable full-field
+    KTRY_FOCUS_CONFIGURE("Gradient", "Iterative", 0.0, 0.0);
+    KTRY_FOCUS_DETECT(1, 3);
+    QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
+
+    // Longer exposure
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0);
+    KTRY_FOCUS_DETECT(8, 1);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
     // Run the focus procedure again to cover more code
     // Filtering annulus is independent of the detection method
     // Run the HFR average over three frames with SEP to avoid
-    for (double inner = 0.0; inner < 100.0; inner += 23.0)
+    for (double inner = 0.0; inner < 100.0; inner += 43.0)
     {
-        for (double outer = 100.0; inner < outer; outer -= 22.0)
+        for (double outer = 100.0; inner < outer; outer -= 42.0)
         {
             KTRY_FOCUS_CONFIGURE("SEP", "Iterative", inner, outer);
-            KTRY_FOCUS_CAPTURE(0.5, 5);
-            QTest::qWait(1000);
+            KTRY_FOCUS_DETECT(0.1, 2);
         }
     }
 
-    // Test threshold
+    // Test threshold - disable full-field
     for (double threshold = 80.0; threshold < 200.0; threshold += 13.3)
     {
         KTRY_FOCUS_GADGET(QDoubleSpinBox, thresholdSpin);
         thresholdSpin->setValue(threshold);
-        KTRY_FOCUS_CONFIGURE("Threshold", "Iterative", 0, 100.0);
-        KTRY_FOCUS_CAPTURE(0.5, 1);
-        QTest::qWait(1000);
+        KTRY_FOCUS_CONFIGURE("Threshold", "Iterative", 0, 0.0);
+        KTRY_FOCUS_DETECT(0.1, 1);
     }
 #endif
 }

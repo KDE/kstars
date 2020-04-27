@@ -1033,6 +1033,7 @@ void Focus::newFITS(IBLOB *bp)
                 setCaptureComplete();
             else
                 abort();
+            resetButtons();
         });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 
@@ -1049,6 +1050,7 @@ void Focus::newFITS(IBLOB *bp)
     }
 
     setCaptureComplete();
+    resetButtons();
 }
 
 double Focus::analyzeSources(FITSData *image_data)
@@ -1058,7 +1060,7 @@ double Focus::analyzeSources(FITSData *image_data)
     // a bounding box for them to be effective in near real-time application.
     if (Options::focusUseFullField())
     {
-        Q_ASSERT_X(focusView->getTrackingBox().isNull(), __FUNCTION__, "Tracking box is disabled when detecting in full-field");
+        focusView->setTrackingBoxEnabled(false);
 
         if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
             focusView->findStars(ALGORITHM_CENTROID);
@@ -1165,13 +1167,8 @@ void Focus::setCaptureComplete()
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
 
-    // If we're not looping and not in autofocus, enable user to capture again.
     if (captureInProgress && inFocusLoop == false && inAutoFocus == false)
-    {
-        captureB->setEnabled(true);
-        stopFocusB->setEnabled(false);
         currentCCD->setUploadMode(rememberUploadMode);
-    }
 
     if (rememberCCDExposureLooping)
         currentCCD->setExposureLoopingEnabled(true);

@@ -87,7 +87,11 @@ class Legend
          * \brief copy constructor
          * \note This class needs to be explicitly copied because of the m_Painter pointer
          */
+    /** @{ */
     explicit Legend(const Legend &o);
+    Legend& operator=(const Legend &o) noexcept;
+    /** @} */
+
 
     /**
           * \brief Destructor.
