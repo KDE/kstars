@@ -378,7 +378,7 @@ void modCalcEquinox::findSolsticeAndEquinox(uint32_t year)
 
 qreal modCalcEquinox::FindCorrection(uint32_t year)
 {
-    int tblFirst = 1620, tblLast = 2002;
+    uint32_t tblFirst = 1620, tblLast = 2002;
 
     // Corrections taken from Meeus -1991 chapter 10
     qreal tbl[] = {/*1620*/ 121,112,103, 95, 88,  82, 77, 72, 68, 63,  60, 56, 53, 51, 48,  46, 44, 42, 40, 38,
