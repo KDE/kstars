@@ -1,4 +1,4 @@
-/*  Ekos Mount Module
+﻿/*  Ekos Mount Module
     Copyright (C) 2015 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
@@ -71,9 +71,11 @@ Mount::Mount()
 
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
+    maxHaLimit->setValue(Options::maximumHaLimit());
 
     connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
+    connect(maxHaLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
 
     connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(toggleMountToolBox()));
 
@@ -110,6 +112,9 @@ Mount::Mount()
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
+    connect(enableHaLimitCheck, SIGNAL(toggled(bool)), this, SLOT(enableHourAngleLimits(bool)));
+    enableHaLimitCheck->setChecked(Options::enableHaLimit());
+    //haLimitEnabled = enableHaLimitCheck->isChecked();
 
     // meridian flip
     meridianFlipCheckBox->setChecked(Options::executeMeridianFlip());
@@ -318,6 +323,7 @@ void Mount::removeDevice(ISD::GDInterface *device)
         currentGPS = nullptr;
     }
 }
+
 void Mount::syncTelescopeInfo()
 {
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
@@ -530,11 +536,13 @@ void Mount::updateTelescopeCoords()
         dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
         dms ha(lst - telescopeCoord.ra());
         QChar sgn('+');
+
         if (ha.Hours() > 12.0)
         {
             ha.setH(24.0 - ha.Hours());
             sgn = '-';
         }
+
         haOUT->setText(QString("%1%2").arg(sgn).arg(ha.toHMSString()));
 
         m_haValue->setProperty("text", haOUT->text());
@@ -582,12 +590,64 @@ void Mount::updateTelescopeCoords()
         else
             abortDispatch = -1;
 
+        //qCDebug(KSTARS_EKOS_MOUNT) << "maxHaLimit " << maxHaLimit->isEnabled() << " value " << maxHaLimit->value();
+
+        // handle Ha limit:
+        // Telescope must report Pier Side
+        // maxHaLimit must be enabled
+        // for PierSide West -> East if Ha > maxHaLimit stop tracking
+        // for PierSide East -> West if Ha > maxHaLimit - 12 stop Tracking
+        if (maxHaLimit->isEnabled())
+        {
+            // get hour angle limit
+            double haLimit = maxHaLimit->value();
+            bool haLimitReached = false;
+            switch(currentTelescope->pierSide())
+            {
+                case ISD::Telescope::PierSide::PIER_WEST:
+                    haLimitReached = hourAngle() > haLimit;
+                    break;
+                case ISD::Telescope::PierSide::PIER_EAST:
+                    haLimitReached = rangeHA(hourAngle() + 12.0) > haLimit;
+                    break;
+                default:
+                    // can't tell so always false
+                    haLimitReached = false;
+                    break;
+            }
+
+            qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << hourAngle() <<
+                                          " haLimit " << haLimit <<
+                                          " " << pierSideStateString() <<
+                                          " haLimitReached " << (haLimitReached ? "true" : "false") <<
+                                          " lastHa " << lastHa;
+            // compare with last ha to avoid multiple calls
+            if (haLimitReached && (rangeHA(hourAngle() - lastHa) >= 0 ) &&
+                        (abortDispatch == -1 ||
+                        currentTelescope->isInMotion()))
+            {
+                // moved past the limit, so stop
+                appendLogText(i18n("Telescope hour angle is more than the maximum hour angle of %1. Aborting motion...",
+                                   QString::number(maxHaLimit->value(), 'g', 3)));
+                currentTelescope->Abort();
+                currentTelescope->setTrackEnabled(false);
+                //KNotification::event( QLatin1String( "OperationFailed" ));
+                KNotification::beep();
+                abortDispatch++;
+                // ideally we pause and wait until we have passed the pier flip limit,
+                // then do a pier flip and try to resume
+                // this will need changing to use a target position because the current HA has stopped.
+            }
+        }
+        else
+            abortDispatch = -1;
+
         lastAlt = currentAlt;
+        lastHa = hourAngle();
 
         emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
 
         ISD::Telescope::Status currentStatus = currentTelescope->status();
-        bool isTracking = (currentStatus == ISD::Telescope::MOUNT_TRACKING);
         if (m_Status != currentStatus)
         {
             qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << currentTelescope->getStatusString(m_Status)
@@ -595,9 +655,14 @@ void Mount::updateTelescopeCoords()
             // If we just finished a slew, let's update initialHA and the current target's position
             if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING)
             {
+                if (m_MFStatus == FLIP_NONE)
+                {
+                    flipDelayHrs = 0;
+                }
                 setInitialHA((sgn == '-' ? -1 : 1) * ha.Hours());
                 delete currentTargetPosition;
                 currentTargetPosition = new SkyPoint(telescopeCoord.ra(), telescopeCoord.dec());
+                qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " << meridianFlipStatusString(m_MFStatus);
             }
 
             m_Status = currentStatus;
@@ -616,11 +681,15 @@ void Mount::updateTelescopeCoords()
             emit newStatus(m_Status);
         }
 
+        bool isTracking = (currentStatus == ISD::Telescope::MOUNT_TRACKING);
         if (trackingGroup->isEnabled())
         {
             trackOnB->setChecked(isTracking);
             trackOffB->setChecked(!isTracking);
         }
+
+        // handle pier side display
+        pierSideLabel->setText(pierSideStateString());
 
         if (currentTelescope->isConnected() == false)
             updateTimer.stop();
@@ -649,7 +718,7 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         if (nvp->s == IPS_ALERT)
         {
             QString newMessage;
-            if (primaryScopeApertureIN->value() == 1 || primaryScopeFocalIN->value() == 1)
+            if (primaryScopeApertureIN->value() <= 1 || primaryScopeFocalIN->value() <= 1)
                 newMessage = i18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
             else
                 newMessage = i18n("Error syncing telescope info. Check INDI control panel for more details.");
@@ -725,13 +794,12 @@ void Mount::meridianFlipSetupChanged()
     Options::setMeridianFlipOffset(offset);
 }
 
-
 void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
 {
     if (m_MFStatus != status)
     {
         m_MFStatus = status;
-        qCDebug (KSTARS_EKOS_MOUNT) << "Setting meridian flip status to " << status;
+        qCDebug (KSTARS_EKOS_MOUNT) << "Setting meridian flip status to " << meridianFlipStatusString(status);
 
         meridianFlipStatusChanged(status);
         emit newMeridianFlipStatus(status);
@@ -838,11 +906,11 @@ void Mount::save()
         np = IUFindNumber(nvp, "GUIDER_APERTURE");
         if (np)
             np->value =
-                guideScopeApertureIN->value() == 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
+                guideScopeApertureIN->value() <= 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
 
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         if (np)
-            np->value = guideScopeFocalIN->value() == 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
+            np->value = guideScopeFocalIN->value() <= 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
 
         ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
 
@@ -861,6 +929,8 @@ void Mount::saveLimits()
     Options::setMinimumAltLimit(minAltLimit->value());
     Options::setMaximumAltLimit(maxAltLimit->value());
     currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+
+    Options::setMaximumHaLimit(maxHaLimit->value());
 }
 
 void Mount::enableAltitudeLimits(bool enable)
@@ -903,6 +973,28 @@ void Mount::disableAltLimits()
     altLimitEnabled = enableLimitsCheck->isChecked();
 
     enableAltitudeLimits(false);
+}
+
+void Mount::enableHourAngleLimits(bool enable)
+{
+    //Options::setEnableHaLimit(enable);
+
+    maxHaLabel->setEnabled(enable);
+    maxHaLimit->setEnabled(enable);
+}
+
+void Mount::enableHaLimits()
+{
+    //Only enable if it was already enabled before and the minHaLimit is currently disabled.
+    if (haLimitEnabled && maxHaLimit->isEnabled() == false)
+        enableHourAngleLimits(true);
+}
+
+void Mount::disableHaLimits()
+{
+    haLimitEnabled = enableHaLimitCheck->isChecked();
+
+    enableHourAngleLimits(false);
 }
 
 QList<double> Mount::altitudeLimits()
@@ -1008,7 +1100,12 @@ bool Mount::slew(double RA, double DEC)
     setInitialHA(HA);
     // reset the meridian flip status if the slew is not the meridian flip itself
     if (m_MFStatus != FLIP_RUNNING)
+    {
         setMeridianFlipStatus(FLIP_NONE);
+        flipDelayHrs = 0;
+        qCDebug(KSTARS_EKOS_MOUNT) << "flipDelayHrs set to zero in slew, m_MFStatus=" <<
+                                      meridianFlipStatusString(m_MFStatus);
+    }
 
     delete currentTargetPosition;
     currentTargetPosition = new SkyPoint(RA, DEC);
@@ -1016,84 +1113,186 @@ bool Mount::slew(double RA, double DEC)
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                currentTargetPosition->ra().toHMSString() <<
                                "DEC=" << currentTargetPosition->dec().toDMSString();
+    qCDebug(KSTARS_EKOS_MOUNT) << "Initial HA " << initialHA() << ", flipDelayHrs " << flipDelayHrs <<
+                                  "MFStatus " << meridianFlipStatusString(m_MFStatus);
 
-    return currentTelescope->Slew(currentTargetPosition);
+    // a slew to the current position can return so quickly that the status isn't updated
+    if (currentTelescope->Slew(currentTargetPosition))
+    {
+        m_Status = ISD::Telescope::Status::MOUNT_SLEWING;
+        return true;
+    }
+
+    return false;
 }
 
+///
+/// \brief Mount::checkMeridianFlip  This updates the Meridian Flip Status state machine using the LST supplied,
+/// the mount target position and the pier side if available.
+/// \param lst
+/// \return true if a flip slew can be started, false otherwise
+///
 bool Mount::checkMeridianFlip(dms lst)
 {
-
+    // checks if a flip is possible
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
     {
-        meridianFlipStatusText->setText("Status: inactive");
+        meridianFlipStatusText->setText("Status: inactive (no scope connected)");
         setMeridianFlipStatus(FLIP_NONE);
         return false;
     }
 
-    if (currentTelescope->isTracking() == false)
+    if (meridianFlipCheckBox->isChecked() == false)
     {
-        meridianFlipStatusText->setText("Status: inactive (not tracking)");
+        meridianFlipStatusText->setText("Status: inactive (flip not requested)");
         return false;
     }
 
+    if (currentTelescope->isParked())
+    {
+        meridianFlipStatusText->setText("Status: inactive (parked)");
+        return false;
+    }
+
+    if (currentTargetPosition == nullptr)
+    {
+        meridianFlipStatusText->setText("Status: inactive (no Target set)");
+        return false;
+    }
+
+    // get the time after the meridian that the flip is called for
     double offset = meridianFlipTimeBox->value();
     // Degrees --> Hours
     if (meridianFlipDegreesR->isChecked())
         offset = rangeHA(offset / 15.0);
 
-    double deltaHA =  offset - lst.Hours() + telescopeCoord.ra().Hours();
-    deltaHA = rangeHA(deltaHA);
-    int hh = static_cast<int> (deltaHA);
-    int mm = static_cast<int> ((deltaHA - hh) * 60);
-    int ss = static_cast<int> ((deltaHA - hh - mm / 60.0) * 3600);
+    double hrsToFlip = 0;       // time to go to the next flip - hours  -ve means a flip is required
 
+    double ha = rangeHA(lst.Hours() - telescopeCoord.ra().Hours());     // -12 to 0 to +12
+
+    // calculate time to next flip attempt.  This uses the current hour angle, the pier side if available
+    // and the meridian flip offset to get the time to the flip
+    //
+    // *** should it use the target position so it will continue to track the target even if the mount is not tracking?
+    //
+    // Note: the PierSide code relies on the mount reporting the pier side correctly
+
+    static ISD::Telescope::PierSide initialPierSide;    // used when the flip has completed to determine if the flip was successful
+
+    switch (currentTelescope->pierSide())
+    {
+        case ISD::Telescope::PierSide::PIER_WEST:
+            // this is the normal case, tracking from East to West, flip is near Ha 0.
+            hrsToFlip = offset + flipDelayHrs - ha; // lst.Hours() + telescopeCoord.ra().Hours();
+            break;
+        case ISD::Telescope::PierSide::PIER_EAST:
+            // this is the below the pole case, tracking West to East, flip is near Ha 12.
+            hrsToFlip = offset + flipDelayHrs - rangeHA(ha + 12);   // lst.Hours() + telescopeCoord.ra().Hours());
+            break;
+        default:
+            // This is the case where the PierSide is not available, make one attempt only
+            hrsToFlip = offset - ha;        //lst.Hours() + telescopeCoord.ra().Hours();
+            // we can only attempt a flip if the mount started before the meridian, assumed in the unflipped state
+            if (initialHA() >= 0)
+            {
+                meridianFlipStatusText->setText("Status: inactive (slew after meridian)");
+                if (m_MFStatus == FLIP_NONE)
+                    return false;
+            }
+            break;
+    }
+
+    int hh = static_cast<int> (hrsToFlip);
+    int mm = static_cast<int> ((hrsToFlip - hh) * 60);
+    int ss = static_cast<int> ((hrsToFlip - hh - mm / 60.0) * 3600);
+    QString message = QString("Meridian flip in %1h:%2m:%3s")
+                      .arg(hh, 2, 10, QChar('0'))
+                      .arg(mm, 2, 10, QChar('0'))
+                      .arg(ss, 2, 10, QChar('0'));
+
+    // handle the meridian flip state machine
     switch (m_MFStatus)
     {
         case FLIP_NONE:
+            meridianFlipStatusText->setText(message);
 
-            if (initialHA() >= 0 || meridianFlipCheckBox->isChecked() == false)
+            if (hrsToFlip <= 0)
             {
-                meridianFlipStatusText->setText("Status: inactive");
-                return false;
-            }
-
-            if (deltaHA > 0)
-            {
-                QString message = QString("Meridian flip in %1h:%2m:%3s")
-                                  .arg(hh, 2, 10, QChar('0'))
-                                  .arg(mm, 2, 10, QChar('0'))
-                                  .arg(ss, 2, 10, QChar('0'));
-                meridianFlipStatusText->setText(message);
-                return false;
-            }
-            else if (initialHA() < 0)
-            {
-                double offset = meridianFlipTimeBox->value();
-                // Degrees --> Hours
-                if (meridianFlipDegreesR->isChecked())
-                    offset = rangeHA(offset / 15.0);
-
+                // signal that a flip can be done
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
-                                           lst.toHMSString() <<
-                                           " scope RA=" << telescopeCoord.ra().toHMSString() <<
-                                           " and meridian diff=" << offset;
+                                            lst.toHMSString() <<
+                                            " scope RA=" << telescopeCoord.ra().toHMSString() <<
+                                            ", meridian diff=" << offset <<
+                                            ", hrstoFlip=" << hrsToFlip <<
+                                            ", flipDelayHrs=" << flipDelayHrs <<
+                                            ", " << pierSideStateString();
 
+                initialPierSide = currentTelescope->pierSide();
                 setMeridianFlipStatus(FLIP_PLANNED);
-                return false;
             }
             break;
 
         case FLIP_PLANNED:
+            // handle the case where there is no Capture module
+            if (captureInterface == nullptr)
+            {
+                qCDebug(KSTARS_EKOS_MOUNT) << "no capture interface, starting flip slew.";
+                setMeridianFlipStatus(FLIP_ACCEPTED);
+                return true;
+            }
             return false;
 
         case FLIP_ACCEPTED:
+            // set by the Capture module when it's ready
             return true;
 
         case FLIP_RUNNING:
             if (currentTelescope->isTracking())
             {
-                // meridian flip completed
-                setMeridianFlipStatus(FLIP_COMPLETED);
+                // meridian flip slew completed, did it work?
+                bool flipFailed = false;
+
+                // pointing state change check only for mounts that report pier side
+                if (currentTelescope->pierSide() == ISD::Telescope::PIER_UNKNOWN)
+                {
+                    // check how long it took
+                    if (minMeridianFlipEndTime > QDateTime::currentDateTimeUtc())
+                    {
+                        // don't fail, we have tried but we don't know where the mount was when it started
+                        appendLogText(i18n("Meridian flip failed - time too short, pier side unknown."));
+                        // signal that capture can resume
+                        setMeridianFlipStatus(FLIP_COMPLETED);
+                        return false;
+                    }
+                }
+                else if (currentTelescope->pierSide() == initialPierSide)
+                {
+                    flipFailed = true;
+                    qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip failed, pier side not changed";
+                }
+
+                if (flipFailed)
+                {
+                    if (flipDelayHrs <= 1.0)
+                    {
+                        flipDelayHrs += (4.0 / 60.0);        // add 4 minutes delay
+
+                        // check to stop an infinite loop, 1.0 hrs for now but should use the Ha limit
+                        appendLogText(i18n("meridian flip failed, retrying in 4 minutes"));
+                    }
+                    else
+                    {
+                        appendLogText(i18n("No successful Meridian Flip done, delay too long"));
+                    }
+                    setMeridianFlipStatus(FLIP_COMPLETED);   // this will resume imaging and try again after the extra delay
+                }
+                else
+                {
+                    flipDelayHrs = 0;
+                    appendLogText(i18n("Meridian flip completed OK."));
+                    // signal that capture can resume
+                    setMeridianFlipStatus(FLIP_COMPLETED);
+                }
             }
             break;
 
@@ -1102,7 +1301,6 @@ bool Mount::checkMeridianFlip(dms lst)
             break;
 
         default:
-            // do nothing
             break;
     }
     return false;
@@ -1110,42 +1308,58 @@ bool Mount::checkMeridianFlip(dms lst)
 
 bool Mount::executeMeridianFlip()
 {
-    if (initialHA() > 0 || currentTargetPosition == nullptr)
+    if (/*initialHA() > 0 || */ currentTargetPosition == nullptr)
+    {
         // no meridian flip necessary
+        qCDebug(KSTARS_EKOS_MOUNT) << "No meridian flip: currentTargetPosition is null";
         return false;
+    }
 
     if (currentTelescope->status() != ISD::Telescope::MOUNT_TRACKING)
     {
         // no meridian flip necessary
+        qCDebug(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking";
         return false;
     }
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     double HA = lst.Hours() - currentTargetPosition->ra().Hours();
     if (HA > 12.0)
+    {
         // no meridian flip necessary
+        qCInfo(KSTARS_EKOS_MOUNT) << "No Meridian flip: HA=" <<
+                                  dms(HA).toHMSString();
         return false;
+    }
 
     // execute meridian flip
     qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
                               currentTargetPosition->ra().toHMSString() <<
-                              "DEC=" << currentTargetPosition->dec().toDMSString();
+                              "DEC=" << currentTargetPosition->dec().toDMSString() <<
+                              " Hour Angle " << dms(HA).toHMSString();
     setMeridianFlipStatus(FLIP_RUNNING);
 
-    bool result = slew(currentTargetPosition->ra().Hours(), currentTargetPosition->dec().Degrees());
+    minMeridianFlipEndTime = KStarsData::Instance()->clock()->utc().addSecs(minMeridianFlipDurationSecs);
 
-    if (result == false)
+    if (slew(currentTargetPosition->ra().Hours(), currentTargetPosition->dec().Degrees()))
+    {
+        appendLogText(i18n("Meridian flip slew started..."));
+        return true;
+    }
+    else
+    {
         qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip FAILED: slewing to RA=" <<
                                      currentTargetPosition->ra().toHMSString() <<
                                      "DEC=" << currentTargetPosition->dec().toDMSString();
-    return result;
-
+        return false;
+    }
 }
 
 void Mount::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
 {
-
     m_MFStatus = status;
+
+    qCDebug(KSTARS_EKOS_MOUNT) << "meridianFlipStatusChanged " << meridianFlipStatusString(status);
 
     switch (status)
     {
@@ -1175,18 +1389,16 @@ void Mount::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
         case FLIP_COMPLETED:
             meridianFlipStatusText->setText("Meridian flip completed.");
             break;
+
         default:
             break;
     }
-
-
 }
 
 SkyPoint Mount::currentTarget()
 {
     return *currentTargetPosition;
 }
-
 
 
 bool Mount::sync(const QString &RA, const QString &DEC)
@@ -1254,6 +1466,10 @@ QList<double> Mount::horizontalCoords()
     return coords;
 }
 
+///
+/// \brief Mount::hourAngle
+/// \return returns the current mount hour angle in hours in the range -12 to +12
+///
 double Mount::hourAngle()
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
@@ -1566,7 +1782,7 @@ void Mount::startParkTimer()
 
     if (currentTelescope->isParked())
     {
-        appendLogText("Mount already parked.");
+        appendLogText(i18n("Mount already parked."));
         return;
     }
 
@@ -1586,7 +1802,7 @@ void Mount::startParkTimer()
         parkDateTime = parkDateTime.addDays(1);
         parkMilliSeconds = parkDateTime.msecsTo(currentDateTime);
 
-        int hours = parkMilliSeconds / (1000 * 60 * 60);
+        int hours = static_cast<int>(parkMilliSeconds / (1000 * 60 * 60));
         if (hours > 0)
         {
             // No need to display warning for every day check
@@ -1614,7 +1830,7 @@ void Mount::startParkTimer()
 
     appendLogText(i18n("Caution: do not use Auto Park while scheduler is active."));
 
-    autoParkTimer.setInterval(parkMilliSeconds);
+    autoParkTimer.setInterval(static_cast<int>(parkMilliSeconds));
     autoParkTimer.start();
 
     startTimerB->setEnabled(false);
@@ -1643,6 +1859,41 @@ void Mount::startAutoPark()
             appendLogText(i18n("Starting auto park..."));
             park();
         }
+    }
+}
+
+QString Mount::meridianFlipStatusString(MeridianFlipStatus status)
+{
+    switch (status)
+    {
+        case FLIP_NONE:
+            return "FLIP_NONE";
+        case FLIP_PLANNED:
+            return "FLIP_PLANNED";
+        case FLIP_WAITING:
+            return "FLIP_WAITING";
+        case FLIP_ACCEPTED:
+            return "FLIP_ACCEPTED";
+        case FLIP_RUNNING:
+            return "FLIP_RUNNING";
+        case FLIP_COMPLETED:
+            return "FLIP_COMPLETED";
+        case FLIP_ERROR:
+            return "FLIP_ERROR";
+    }
+    return "not possible";
+}
+
+QString Mount::pierSideStateString()
+{
+    switch (currentTelescope->pierSide())
+    {
+        case ISD::Telescope::PierSide::PIER_EAST:
+            return "Pier Side: East (pointing West)";
+        case ISD::Telescope::PierSide::PIER_WEST:
+            return "Pier Side: West (pointing East)";
+        default:
+            return "Pier Side: Unknown";
     }
 }
 
