@@ -265,21 +265,21 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)));
-    //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
-    connect(cm, &ClientManager::removeINDIProperty, [gdm](const QString & device, const QString & name)
-    {
-        if (device == gdm->name())
-            QMetaObject::invokeMethod(gdm, "removeProperty", Qt::QueuedConnection, Q_ARG(QString, name));
-    });
+    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
+    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::QueuedConnection);
+    //    connect(cm, &ClientManager::removeINDIProperty, [gdm](const QString & device, const QString & name)
+    //    {
+    //        if (device == gdm->name())
+    //            QMetaObject::invokeMethod(gdm, "removeProperty", Qt::QueuedConnection, Q_ARG(QString, name));
+    //    });
 
-    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty*)));
-    connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), gdm, SLOT(updateTextGUI(ITextVectorProperty*)));
-    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), gdm, SLOT(updateNumberGUI(INumberVectorProperty*)));
-    connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), gdm, SLOT(updateLightGUI(ILightVectorProperty*)));
-    connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), gdm, SLOT(updateBLOBGUI(IBLOB*)));
+    connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
+    connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
+    connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);
+    connect(cm, &ClientManager::newINDILight, gdm, &INDI_D::updateLightGUI);
+    connect(cm, &ClientManager::newINDIBLOB, gdm, &INDI_D::updateBLOBGUI);
 
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
+    connect(cm, &ClientManager::newINDIMessage, gdm, &INDI_D::updateMessageLog);
 
     mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
 
