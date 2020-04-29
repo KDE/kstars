@@ -870,6 +870,8 @@ class Capture : public QWidget, public Ui::Capture
         bool resumeGuidingAfterFlip { false };
         MFStage meridianFlipStage { MF_NONE };
 
+        QString MFStageString(MFStage stage);
+
         // Flat field automation
         QVector<double> ExpRaw, ADURaw;
         double targetADU { 0 };
@@ -932,7 +934,7 @@ class Capture : public QWidget, public Ui::Capture
         SchedulerJob::CapturedFramesMap capturedFramesMap;
 
         // Execute the meridian flip
-        void setMeridianFlipStage(MFStage status);
+        void setMeridianFlipStage(MFStage stage);
         void processFlipCompleted();
 
         // Controls
