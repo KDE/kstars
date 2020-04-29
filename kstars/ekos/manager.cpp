@@ -1262,7 +1262,7 @@ void Manager::deviceConnected()
 
     ISD::GDInterface * dev = static_cast<ISD::GDInterface *>(sender());
 
-    if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
+    if (dev->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
     {
         if (mountProcess.get() != nullptr)
         {
@@ -1271,7 +1271,7 @@ void Manager::deviceConnected()
                 alignProcess->setEnabled(true);
         }
     }
-    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+    else if (dev->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
     {
         if (captureProcess.get() != nullptr)
             captureProcess->setEnabled(true);
@@ -1287,7 +1287,7 @@ void Manager::deviceConnected()
         if (guideProcess.get() != nullptr)
             guideProcess->setEnabled(true);
     }
-    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+    else if (dev->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
     {
         if (focusProcess.get() != nullptr)
             focusProcess->setEnabled(true);
@@ -1343,14 +1343,14 @@ void Manager::deviceDisconnected()
     processINDIB->setEnabled(true);
 
     if (dev != nullptr && dev->getBaseDevice() &&
-            (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            (dev->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
     {
         if (mountProcess.get() != nullptr)
             mountProcess->setEnabled(false);
     }
     // Do not disable modules on device connection loss, let them handle it
     /*
-    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+    else if (dev->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
     {
         if (captureProcess.get() != nullptr)
             captureProcess->setEnabled(false);
@@ -1361,7 +1361,7 @@ void Manager::deviceDisconnected()
         if (guideProcess.get() != nullptr)
             guideProcess->setEnabled(false);
     }
-    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+    else if (dev->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
     {
         if (focusProcess.get() != nullptr)
             focusProcess->setEnabled(false);
@@ -1776,7 +1776,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     // Check if we need to turn on DEBUG for logging purposes
     if (!strcmp(prop->getName(), "DEBUG"))
     {
-        uint16_t interface = deviceInterface->getBaseDevice()->getDriverInterface();
+        uint16_t interface = deviceInterface->getDriverInterface();
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Check if we need to enable debug logging for the INDI drivers.
@@ -1790,7 +1790,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     // Handle debug levels for logging purposes
     if (!strcmp(prop->getName(), "DEBUG_LEVEL"))
     {
-        uint16_t interface = deviceInterface->getBaseDevice()->getDriverInterface();
+        uint16_t interface = deviceInterface->getDriverInterface();
         // Check if the logging option for the specific device class is on and if the device interface matches it.
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
@@ -2197,9 +2197,9 @@ void Manager::initCapture()
 
     foreach (ISD::GDInterface * device, findDevices(KSTARS_AUXILIARY))
     {
-        if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+        if (device->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
             captureProcess->setDustCap(device);
-        if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::LIGHTBOX_INTERFACE)
+        if (device->getDriverInterface() & INDI::BaseDevice::LIGHTBOX_INTERFACE)
             captureProcess->setLightBox(device);
     }
 
@@ -2360,7 +2360,7 @@ void Manager::initMount()
 
     foreach (ISD::GDInterface * device, findDevices(KSTARS_AUXILIARY))
     {
-        if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
+        if (device->getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
             mountProcess->setGPS(device);
     }
 
@@ -3217,7 +3217,7 @@ void Manager::updateDebugInterfaces()
             continue;
 
         // Check if the debug interface matches the driver device class
-        if ( ( opsLogs->getINDIDebugInterface() & device->getBaseDevice()->getDriverInterface() ) &&
+        if ( ( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
                 debugSP->sp[0].s != ISS_ON)
         {
             debugSP->sp[0].s = ISS_ON;
@@ -3225,7 +3225,7 @@ void Manager::updateDebugInterfaces()
             device->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
             appendLogText(i18n("Enabling debug logging for %1...", device->getDeviceName()));
         }
-        else if ( !( opsLogs->getINDIDebugInterface() & device->getBaseDevice()->getDriverInterface() ) &&
+        else if ( !( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
                   debugSP->sp[0].s != ISS_OFF)
         {
             debugSP->sp[0].s = ISS_OFF;
@@ -3246,13 +3246,13 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
         ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 
         // We don't process pure general interfaces
-        if (deviceInterface->getBaseDevice()->getDriverInterface() == INDI::BaseDevice::GENERAL_INTERFACE)
+        if (deviceInterface->getDriverInterface() == INDI::BaseDevice::GENERAL_INTERFACE)
             return;
 
         // If debug was turned off, but our logging policy requires it then turn it back on.
         // We turn on debug logging if AT LEAST one driver interface is selected by the logging settings
         if (svp->s == IPS_OK && svp->sp[0].s == ISS_OFF &&
-                (opsLogs->getINDIDebugInterface() & deviceInterface->getBaseDevice()->getDriverInterface()))
+                (opsLogs->getINDIDebugInterface() & deviceInterface->getDriverInterface()))
         {
             svp->sp[0].s = ISS_ON;
             svp->sp[1].s = ISS_OFF;
@@ -3264,7 +3264,7 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
         // the log settings, then if the user turns off only CCD logging, the debug logging is NOT
         // turned off until he turns off Filter Wheel logging as well.
         else if (svp->s == IPS_OK && svp->sp[0].s == ISS_ON
-                 && !(opsLogs->getINDIDebugInterface() & deviceInterface->getBaseDevice()->getDriverInterface()))
+                 && !(opsLogs->getINDIDebugInterface() & deviceInterface->getDriverInterface()))
         {
             svp->sp[0].s = ISS_OFF;
             svp->sp[1].s = ISS_ON;
