@@ -46,7 +46,7 @@ void TestEkosWizard::testProfileWizard()
     if (QFile("/usr/local/bin/indiserver").exists())
         Options::setIndiServer("/usr/local/bin/indiserver");
     else if (QFile("/usr/bin/indiserver").exists())
-        Options::setIndiDriversDir("/usr/bin/indiserver");
+        Options::setIndiServer("/usr/bin/indiserver");
     QVERIFY(QDir(Options::indiDriversDir()).exists());
 
     // Locate INDI drivers - the XML list of drivers is the generic data path

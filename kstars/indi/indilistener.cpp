@@ -130,19 +130,19 @@ void INDIListener::addClient(ClientManager *cm)
 
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
+    connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
-    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
+    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice, Qt::DirectConnection);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::DirectConnection);
 
-    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
-    connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
-    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
-    connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
-    connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
+    connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
+    connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
+    connect(cm, &ClientManager::newINDINumber, this, &INDIListener::processNumber);
+    connect(cm, &ClientManager::newINDILight, this, &INDIListener::processLight);
+    connect(cm, &ClientManager::newINDIBLOB, this, &INDIListener::processBLOB);
 #if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
-    connect(cm, SIGNAL(newINDIUniversalMessage(QString)), this, SLOT(processUniversalMessage(QString)));
+    connect(cm, &ClientManager::newINDIUniversalMessage, this, &INDIListener::processUniversalMessage);
 #endif
 }
 

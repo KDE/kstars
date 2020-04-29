@@ -97,6 +97,7 @@ bool INDI_D::buildProperty(INDI::Property *prop)
     return pg->addProperty(prop);
 }
 
+#if 0
 bool INDI_D::removeProperty(INDI::Property *prop)
 {
     if (prop == nullptr)
@@ -130,9 +131,12 @@ bool INDI_D::removeProperty(INDI::Property *prop)
 
     return removeResult;
 }
+#endif
 
-bool INDI_D::removeProperty(const QString &name)
+bool INDI_D::removeProperty(const QString &device, const QString &name)
 {
+    Q_UNUSED(device)
+
     for (auto &oneGroup : groupsList)
     {
         for (auto &oneProperty : oneGroup->getProperties())
