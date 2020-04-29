@@ -519,7 +519,7 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
 void GenericDevice::createDeviceInit()
 {
     if (Options::showINDIMessages())
-        KStars::Instance()->statusBar()->showMessage(i18n("%1 is online.", baseDevice->getDeviceName()), 0);
+        KStars::Instance()->statusBar()->showMessage(i18n("%1 is online.", m_Name), 0);
 
     KStars::Instance()->map()->forceUpdateNow();
 }
@@ -613,13 +613,11 @@ bool GenericDevice::runCommand(int command, void *ptr)
     switch (command)
     {
         case INDI_CONNECT:
-            if (baseDevice->getDeviceName())
-                clientManager->connectDevice(baseDevice->getDeviceName());
+            clientManager->connectDevice(m_Name.toLatin1().constData());
             break;
 
         case INDI_DISCONNECT:
-            if (baseDevice->getDeviceName())
-                clientManager->disconnectDevice(baseDevice->getDeviceName());
+            clientManager->disconnectDevice(m_Name.toLatin1().constData());
             break;
 
         case INDI_SET_PORT:
@@ -651,7 +649,7 @@ bool GenericDevice::runCommand(int command, void *ptr)
             if (nvp == nullptr)
                 return false;
 
-            int requestedFilter = *((int *)ptr);
+            int requestedFilter = *(static_cast<int *>(ptr));
 
             if (requestedFilter == nvp->np[0].value)
                 break;
@@ -683,7 +681,7 @@ bool GenericDevice::runCommand(int command, void *ptr)
             if (nvp == nullptr)
                 return false;
 
-            double requestedAngle = *((double *)ptr);
+            double requestedAngle = *(static_cast<double *>(ptr));
 
             if (requestedAngle == nvp->np[0].value)
                 break;
@@ -705,7 +703,7 @@ bool GenericDevice::runCommand(int command, void *ptr)
             if (nvp == nullptr)
                 return false;
 
-            int32_t requestedTicks = *((int32_t *)ptr);
+            int32_t requestedTicks = *(static_cast<int32_t *>(ptr));
 
             if (requestedTicks == nvp->np[0].value)
                 break;
@@ -1158,11 +1156,12 @@ ST4::ST4(INDI::BaseDevice * bdv, ClientManager * cm)
 {
     baseDevice    = bdv;
     clientManager = cm;
+    m_Name = baseDevice->getDeviceName();
 }
 
-const char *ST4::getDeviceName()
+const QString &ST4::getDeviceName()
 {
-    return baseDevice->getDeviceName();
+    return m_Name;
 }
 
 void ST4::setDECSwap(bool enable)
@@ -1172,14 +1171,9 @@ void ST4::setDECSwap(bool enable)
 
 bool ST4::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
 {
-    bool raOK = false, decOK = false;
-    raOK  = doPulse(ra_dir, ra_msecs);
-    decOK = doPulse(dec_dir, dec_msecs);
-
-    if (raOK && decOK)
-        return true;
-    else
-        return false;
+    bool raOK  = doPulse(ra_dir, ra_msecs);
+    bool decOK = doPulse(dec_dir, dec_msecs);
+    return (raOK && decOK);
 }
 
 bool ST4::doPulse(GuideDirection dir, int msecs)

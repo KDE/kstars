@@ -1638,21 +1638,21 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
 
     // #2 Remove from Ekos Managed Device
     // Managed devices are devices selected by the user in the device profile
-    for (auto &device : managedDevices.values())
+    for (auto it = managedDevices.begin(); it != managedDevices.end();)
     {
-        if (device->getDeviceName() == devInterface->getDeviceName())
+        if (it.value()->getDeviceName() == devInterface->getDeviceName())
         {
-            managedDevices.remove(managedDevices.key(device));
-
-            if (managedDevices.count() == 0)
-                cleanDevices();
-
-            //break;
+            it = managedDevices.erase(it);
         }
+        else
+            ++it;
     }
 
     if (managedDevices.isEmpty())
+    {
+        cleanDevices();
         removeTabs();
+    }
 }
 
 void Manager::processNewText(ITextVectorProperty * tvp)

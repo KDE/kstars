@@ -183,14 +183,7 @@ void GUIManager::clearLog()
 void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
-
-    Qt::ConnectionType type = Qt::QueuedConnection;
-
-#ifdef USE_QT5_INDI
-    type = Qt::DirectConnection;
-#endif
-
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), type);
+    connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice);
 }
 
