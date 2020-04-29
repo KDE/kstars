@@ -908,7 +908,7 @@ void Capture::checkCCD(int ccdNum)
 
         delete (ISOCombo);
         delete (GainSpin);
-        ISOLabel->hide();
+        //ISOLabel->hide();
 
         if (isoList.isEmpty())
         {
@@ -918,7 +918,7 @@ void Capture::checkCCD(int ccdNum)
             if (currentCCD->hasGain())
             {
                 ISOLabel->setText(QString("%1:").arg(i18nc("Camera Gain", "Gain")));
-                ISOLabel->show();
+                //ISOLabel->show();
 
                 GainSpin = new QDoubleSpinBox(CCDFWGroup);
                 double min, max, step, value, targetCustomGain;
@@ -955,7 +955,7 @@ void Capture::checkCCD(int ccdNum)
         else
         {
             ISOLabel->setText(QString("%1:").arg(i18nc("Camera ISO", "ISO")));
-            ISOLabel->show();
+            //ISOLabel->show();
 
             ISOCombo = new QComboBox(CCDFWGroup);
             ISOCombo->addItems(isoList);

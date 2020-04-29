@@ -298,12 +298,13 @@ class ST4
         bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
         bool doPulse(GuideDirection dir, int msecs);
         void setDECSwap(bool enable);
-        const char *getDeviceName();
+        const QString &getDeviceName();
 
     private:
         INDI::BaseDevice *baseDevice { nullptr };
         ClientManager *clientManager { nullptr };
         bool swapDEC { false };
+        QString m_Name;
 };
 
 void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact = true);

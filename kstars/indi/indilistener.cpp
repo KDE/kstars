@@ -133,8 +133,8 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
-    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice, Qt::DirectConnection);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::DirectConnection);
+    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
     connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
