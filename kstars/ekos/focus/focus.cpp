@@ -2297,12 +2297,16 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
-                               .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
-
     // Return if it is not our current focuser
     if (nvp->device != currentFocuser->getDeviceName())
         return;
+
+    // Only process focus properties
+    if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
+        return;
+
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
+                               .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
 
     if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
     {
