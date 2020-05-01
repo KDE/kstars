@@ -895,8 +895,8 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
         // SEP coordinates are in the center of pixels, and Qt at the boundary.
         const double xCoord = starCenter->x - 0.5;
         const double yCoord = starCenter->y - 0.5;
-        int const xc = std::round((xCoord - starCenter->width / 2.0f) * ratio);
-        int const yc = std::round((yCoord - starCenter->width / 2.0f) * ratio);
+        int const xc = std::round((xCoord - starCenter->width / 2.0f) * scale);
+        int const yc = std::round((yCoord - starCenter->width / 2.0f) * scale);
         int const hw = w / 2;
 
         BahtinovEdge* bEdge = dynamic_cast<BahtinovEdge*>(starCenter);
@@ -904,14 +904,14 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
         {
             // Draw lines of diffraction pattern
             painter->setPen(QPen(Qt::red, 2));
-            painter->drawLine(bEdge->line[0].x1() * ratio, bEdge->line[0].y1() * ratio,
-                    bEdge->line[0].x2() * ratio, bEdge->line[0].y2() * ratio);
+            painter->drawLine(bEdge->line[0].x1() * scale, bEdge->line[0].y1() * scale,
+                    bEdge->line[0].x2() * scale, bEdge->line[0].y2() * scale);
             painter->setPen(QPen(Qt::green, 2));
-            painter->drawLine(bEdge->line[1].x1() * ratio, bEdge->line[1].y1() * ratio,
-                    bEdge->line[1].x2() * ratio, bEdge->line[1].y2() * ratio);
+            painter->drawLine(bEdge->line[1].x1() * scale, bEdge->line[1].y1() * scale,
+                    bEdge->line[1].x2() * scale, bEdge->line[1].y2() * scale);
             painter->setPen(QPen(Qt::darkGreen, 2));
-            painter->drawLine(bEdge->line[2].x1() * ratio, bEdge->line[2].y1() * ratio,
-                    bEdge->line[2].x2() * ratio, bEdge->line[2].y2() * ratio);
+            painter->drawLine(bEdge->line[2].x1() * scale, bEdge->line[2].y1() * scale,
+                    bEdge->line[2].x2() * scale, bEdge->line[2].y2() * scale);
 
             // Draw center circle
             painter->setPen(QPen(Qt::white, 2));
@@ -920,8 +920,8 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
             // Draw offset circle
             double factor = 15.0;
             QPointF offsetVector = (bEdge->offset - QPointF(starCenter->x, starCenter->y)) * factor;
-            int const xo = std::round((starCenter->x + offsetVector.x() - starCenter->width / 2.0f) * ratio);
-            int const yo = std::round((starCenter->y + offsetVector.y() - starCenter->width / 2.0f) * ratio);
+            int const xo = std::round((starCenter->x + offsetVector.x() - starCenter->width / 2.0f) * scale);
+            int const yo = std::round((starCenter->y + offsetVector.y() - starCenter->width / 2.0f) * scale);
             painter->setPen(QPen(Qt::red, 2));
             painter->drawEllipse(xo, yo, w, w);
 
@@ -931,7 +931,7 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
         }
         else
         {
-            const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * ratio : w;
+            const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * scale : w;
             painter->drawEllipse(QPointF(xCoord * scale, yCoord * scale), radius, radius);
         }
 
