@@ -2987,7 +2987,7 @@ bool Scheduler::checkParkWaitState()
     if (parkWaitState == PARKWAIT_IDLE)
         return true;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking Park Wait State...";
+    // qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking Park Wait State...";
 
     switch (parkWaitState)
     {

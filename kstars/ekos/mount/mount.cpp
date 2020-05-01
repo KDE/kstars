@@ -616,11 +616,12 @@ void Mount::updateTelescopeCoords()
                     break;
             }
 
-            qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << hourAngle() <<
-                                          " haLimit " << haLimit <<
-                                          " " << pierSideStateString() <<
-                                          " haLimitReached " << (haLimitReached ? "true" : "false") <<
-                                          " lastHa " << lastHa;
+            // qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << hourAngle() <<
+            //                              " haLimit " << haLimit <<
+            //                              " " << pierSideStateString() <<
+            //                              " haLimitReached " << (haLimitReached ? "true" : "false") <<
+            //                              " lastHa " << lastHa;
+
             // compare with last ha to avoid multiple calls
             if (haLimitReached && (rangeHA(hourAngle() - lastHa) >= 0 ) &&
                         (abortDispatch == -1 ||
