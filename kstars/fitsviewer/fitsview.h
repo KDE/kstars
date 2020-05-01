@@ -113,16 +113,17 @@ class FITSView : public QScrollArea
         }
 
         // Overlay
-        virtual void drawOverlay(QPainter *);
+        virtual void drawOverlay(QPainter *, double scale);
 
         // Overlay objects
-        void drawStarCentroid(QPainter *);
-        void drawTrackingBox(QPainter *);
-        void drawMarker(QPainter *);
-        void drawCrosshair(QPainter *);
-        void drawEQGrid(QPainter *);
-        void drawObjectNames(QPainter *painter);
-        void drawPixelGrid(QPainter *painter);
+        void drawStarFilter(QPainter *, double scale);
+        void drawStarCentroid(QPainter *, double scale);
+        void drawTrackingBox(QPainter *, double scale);
+        void drawMarker(QPainter *, double scale);
+        void drawCrosshair(QPainter *, double scale);
+        void drawEQGrid(QPainter *, double scale);
+        void drawObjectNames(QPainter *painter, double scale);
+        void drawPixelGrid(QPainter *painter, double scale);
 
         bool isImageStretched();
         bool isCrosshairShown();
@@ -270,10 +271,12 @@ class FITSView : public QScrollArea
         void calculateMaxPixel(double min, double max);
         void initDisplayImage();
 
-        QPointF getPointForGridLabel();
-        bool pointIsInImage(QPointF pt, bool scaled);
+        QPointF getPointForGridLabel(QPainter *painter, const QString& str, double scale);
+        bool pointIsInImage(QPointF pt, double scale);
 
         void loadInFrame();
+
+        double getScale();
 
         /// WCS Future Watcher
         QFutureWatcher<bool> wcsWatcher;
@@ -285,10 +288,19 @@ class FITSView : public QScrollArea
         FITSData *imageData { nullptr };
         /// Current zoom level
         double currentZoom { 0 };
+        // The maximum percent zoom. The value is recalculated in the constructor
+        // based on the amount of physical memory.
+        int zoomMax { 400 };
 
     private:
         bool processData();
         void doStretch(FITSData *data, QImage *outputImage);
+        double scaleSize(double size);
+        bool isLargeImage();
+        void updateFrameLargeImage();
+        void updateFrameSmallImage();
+        bool drawHFR(QPainter * painter, const QString & hfr, int x, int y);
+
 
         QLabel *noImageLabel { nullptr };
         QPixmap noImage;
@@ -299,17 +311,13 @@ class FITSView : public QScrollArea
 
         /// Current width due to zoom
         uint16_t currentWidth { 0 };
-        uint16_t lastWidth { 0 };
         /// Current height due to zoom
         uint16_t currentHeight { 0 };
-        uint16_t lastHeight { 0 };
         /// Image zoom factor
         const double zoomFactor;
 
         // Original full-size image
         QImage rawImage;
-        // Scaled images
-        QImage scaledImage;
         // Actual pixmap after all the overlays
         QPixmap displayPixmap;
 

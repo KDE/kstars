@@ -978,9 +978,9 @@ void Guide::addST4(ISD::ST4 *newST4)
     if (guiderType != GUIDE_INTERNAL)
         return;
 
-    foreach (ISD::ST4 *guidePort, ST4List)
+    for (auto &guidePort : ST4List)
     {
-        if (!strcmp(guidePort->getDeviceName(), newST4->getDeviceName()))
+        if (guidePort->getDeviceName() == newST4->getDeviceName())
             return;
     }
 

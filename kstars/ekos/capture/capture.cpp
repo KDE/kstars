@@ -908,7 +908,7 @@ void Capture::checkCCD(int ccdNum)
 
         delete (ISOCombo);
         delete (GainSpin);
-        ISOLabel->hide();
+        //ISOLabel->hide();
 
         if (isoList.isEmpty())
         {
@@ -918,7 +918,7 @@ void Capture::checkCCD(int ccdNum)
             if (currentCCD->hasGain())
             {
                 ISOLabel->setText(QString("%1:").arg(i18nc("Camera Gain", "Gain")));
-                ISOLabel->show();
+                //ISOLabel->show();
 
                 GainSpin = new QDoubleSpinBox(CCDFWGroup);
                 double min, max, step, value, targetCustomGain;
@@ -955,7 +955,7 @@ void Capture::checkCCD(int ccdNum)
         else
         {
             ISOLabel->setText(QString("%1:").arg(i18nc("Camera ISO", "ISO")));
-            ISOLabel->show();
+            //ISOLabel->show();
 
             ISOCombo = new QComboBox(CCDFWGroup);
             ISOCombo->addItems(isoList);
@@ -3523,12 +3523,12 @@ void Capture::updateHFRThreshold()
     HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
 
-void Capture::setMeridianFlipStage(MFStage status)
+void Capture::setMeridianFlipStage(MFStage stage)
 {
-    qCDebug(KSTARS_EKOS_CAPTURE) << "setMeridianFlipStage: " << status;
-    if (meridianFlipStage != status)
+    qCDebug(KSTARS_EKOS_CAPTURE) << "setMeridianFlipStage: " << MFStageString(stage);
+    if (meridianFlipStage != stage)
     {
-        switch (status)
+        switch (stage)
         {
             case MF_NONE:
                 if (m_State == CAPTURE_PAUSED)
@@ -3538,7 +3538,7 @@ void Capture::setMeridianFlipStage(MFStage status)
                 else
                     secondsLabel->setText("");
                     */
-                meridianFlipStage = status;
+                meridianFlipStage = stage;
                 break;
 
             case MF_READY:
@@ -3551,7 +3551,7 @@ void Capture::setMeridianFlipStage(MFStage status)
                 {
                     // paused after meridian flip requested
                     secondsLabel->setText(i18n("Paused..."));
-                    meridianFlipStage = status;
+                    meridianFlipStage = stage;
                     emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
                 }
                 // in any other case, ignore it
@@ -3570,7 +3570,7 @@ void Capture::setMeridianFlipStage(MFStage status)
                     emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
                 else
                     emit newMeridianFlipStatus(Mount::FLIP_WAITING);
-                meridianFlipStage = status;
+                meridianFlipStage = stage;
                 break;
 
             case MF_COMPLETED:
@@ -3578,7 +3578,7 @@ void Capture::setMeridianFlipStage(MFStage status)
                 break;
 
             default:
-                meridianFlipStage = status;
+                meridianFlipStage = stage;
                 break;
         }
     }
@@ -3587,7 +3587,7 @@ void Capture::setMeridianFlipStage(MFStage status)
 
 void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
 {
-    qCDebug(KSTARS_EKOS_CAPTURE) << "meridianFlipStatusChanged: " << status;
+    qCDebug(KSTARS_EKOS_CAPTURE) << "meridianFlipStatusChanged: " << Mount::meridianFlipStatusString(status);
     switch (status)
     {
         case Mount::FLIP_NONE:
@@ -4890,6 +4890,7 @@ void Capture::setAlignStatus(AlignState state)
             }
             break;
 
+        case ALIGN_ABORTED:
         case ALIGN_FAILED:
             // TODO run it 3 times before giving up
             if (meridianFlipStage == MF_ALIGNING)
@@ -6826,6 +6827,32 @@ bool Capture::isGuidingActive()
             guideState == GUIDE_DITHERING_SUCCESS ||
             guideState == GUIDE_DITHERING_ERROR ||
             guideState == GUIDE_DITHERING_SETTLE);
+}
+
+QString Capture::MFStageString(MFStage stage)
+{
+    switch(stage)
+    {
+        case MF_NONE:
+            return "MF_NONE";
+        case MF_REQUESTED:
+            return "MF_REQUESTED";
+        case MF_READY:
+            return "MF_READY";
+        case MF_INITIATED:
+            return "MF_INITIATED";
+        case MF_FLIPPING:
+            return "MF_FLIPPING";
+        case MF_SLEWING:
+            return "MF_SLEWING";
+        case MF_COMPLETED:
+            return "MF_COMPLETED";
+        case MF_ALIGNING:
+            return "MF_ALIGNING";
+        case MF_GUIDING:
+            return "MF_GUIDING";
+    }
+    return "MFStage unknown.";
 }
 
 }

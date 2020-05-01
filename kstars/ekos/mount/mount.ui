@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
-    <height>419</height>
+    <width>592</width>
+    <height>408</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -368,6 +368,32 @@
             <property name="spacing">
              <number>3</number>
             </property>
+            <item row="2" column="1">
+             <widget class="QRadioButton" name="meridianFlipDegreesR">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. Add 1 degree to the mount meridian flip setting. For example, if the mount meridian flip limit is set to 5 degrees, set the value here to be &lt;span style=&quot; font-weight:600;&quot;&gt;at least&lt;/span&gt; 6 degrees to ensure a successful meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Degrees</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">meridianFlipUnit</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="1" column="0" rowspan="2">
+             <widget class="QRadioButton" name="meridianFlipHoursR">
+              <property name="toolTip">
+               <string>Set Hour Angle unit to Hours</string>
+              </property>
+              <property name="text">
+               <string>Hours</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">meridianFlipUnit</string>
+              </attribute>
+             </widget>
+            </item>
             <item row="3" column="0" colspan="3">
              <widget class="QLabel" name="meridianFlipStatusText">
               <property name="text">
@@ -385,19 +411,6 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QRadioButton" name="meridianFlipDegreesR">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. Add 1 degree to the mount meridian flip setting. For example, if the mount meridian flip limit is set to 5 degrees, set the value here to be &lt;span style=&quot; font-weight:600;&quot;&gt;at least&lt;/span&gt; 6 degrees to ensure a successful meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Degrees</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">meridianFlipUnit</string>
-              </attribute>
-             </widget>
-            </item>
             <item row="0" column="1" colspan="2">
              <widget class="QDoubleSpinBox" name="meridianFlipTimeBox">
               <property name="singleStep">
@@ -405,17 +418,11 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0" rowspan="2">
-             <widget class="QRadioButton" name="meridianFlipHoursR">
-              <property name="toolTip">
-               <string>Set Hour Angle unit to Hours</string>
-              </property>
+            <item row="4" column="0" colspan="2">
+             <widget class="QLabel" name="pierSideLabel">
               <property name="text">
-               <string>Hours</string>
+               <string>pier side label</string>
               </property>
-              <attribute name="buttonGroup">
-               <string notr="true">meridianFlipUnit</string>
-              </attribute>
              </widget>
             </item>
            </layout>
@@ -788,13 +795,13 @@ font-weight:bold;
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
+              <width>64</width>
               <height>48</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
+              <width>64</width>
               <height>48</height>
              </size>
             </property>
@@ -818,13 +825,13 @@ font-weight:bold;
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
+              <width>64</width>
               <height>48</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
+              <width>64</width>
               <height>48</height>
              </size>
             </property>
@@ -846,6 +853,12 @@ font-weight:bold;
        </item>
        <item>
         <widget class="QGroupBox" name="LimitGroup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -853,23 +866,8 @@ font-weight:bold;
           <string>Limits</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <property name="horizontalSpacing">
-           <number>3</number>
-          </property>
-          <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="maxAltLimit">
+          <item row="4" column="2">
+           <widget class="QDoubleSpinBox" name="maxHaLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -880,17 +878,33 @@ font-weight:bold;
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum Hour Angle limit if the mount has not flipped. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="minimum">
+             <double>-2.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>90.000000000000000</double>
+             <double>2.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
             </property>
             <property name="value">
-             <double>90.000000000000000</double>
+             <double>0.000000000000000</double>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="2" column="0" colspan="3">
+           <widget class="QCheckBox" name="enableLimitsCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Enable Alt Limits</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
            <widget class="QDoubleSpinBox" name="minAltLimit">
             <property name="enabled">
              <bool>false</bool>
@@ -912,7 +926,29 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="1" column="1" colspan="2">
+           <widget class="QDoubleSpinBox" name="maxAltLimit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="maximum">
+             <double>90.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>90.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
            <widget class="QLabel" name="minAltLabel">
             <property name="enabled">
              <bool>false</bool>
@@ -925,17 +961,30 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QCheckBox" name="enableLimitsCheck">
+          <item row="4" column="0" colspan="2">
+           <widget class="QLabel" name="maxHaLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum Hour Angle limit if the mount has not flipped. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Enable Limits</string>
+             <string>Max. HA (hours):</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="enableHaLimitCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount Hour Angle limit. Once enabled, Ekos monitors the mount's hour angle while slewing or tracking. If the mount slews/tracks past the limit while the Pier Side is in the state that does not allow that, it shall be commanded to stop and tracking will be turned off. Requires a mount that reports the pier side correctly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Enable HA Limits</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
            <widget class="QLabel" name="maxAltLabel">
             <property name="enabled">
              <bool>false</bool>
@@ -948,18 +997,12 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <spacer name="verticalSpacer_2">
+          <item row="3" column="0" colspan="3">
+           <widget class="Line" name="line_2">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1009,7 +1052,6 @@ font-weight:bold;
   <tabstop>lstOUT</tabstop>
   <tabstop>minAltLimit</tabstop>
   <tabstop>maxAltLimit</tabstop>
-  <tabstop>enableLimitsCheck</tabstop>
  </tabstops>
  <resources/>
  <connections/>

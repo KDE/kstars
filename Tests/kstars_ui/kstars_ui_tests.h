@@ -19,49 +19,87 @@
 #include <QApplication>
 #include <QtTest>
 
-#include "kstars.h"
-
 class KStars;
 
-#define KTRY_SHOW_KSTARS() do { \
-    KStars * const K = KStars::Instance(); \
-    QVERIFY(K != nullptr); \
-    QTRY_VERIFY_WITH_TIMEOUT((K)->isGUIReady(), 30000); \
-    (K)->raise(); \
-    QTRY_VERIFY_WITH_TIMEOUT((K)->isActiveWindow(), 1000); } while(false)
+// All QTest features are macros returning with no error code.
+// Therefore, in order to bail out at first failure, tests cannot use functions to run sub-tests and are required to use grouping macros too.
+// Tests classes in this folder should attempt to provide new macro shortcuts once their details are properly validated
 
-#define KTRY_ACTION(action_text) do { \
-    QAction * const action = KStars::Instance()->actionCollection()->action(action_text); \
-    QVERIFY2(action != nullptr, QString("Action '%1' is not registered and cannot be triggered").arg(action_text).toStdString().c_str()); \
-    action->trigger(); } while(false)
-
+// This is an example of a test class.
+// It inherits from QObject, and defines private slots as test functions
 class KStarsUiTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit KStarsUiTests(QObject *parent = nullptr);
-
-public:
-    static struct _InitialConditions
-    {
-        QDateTime dateTime;
-        bool clockRunning;
-
-        _InitialConditions():
-            dateTime(QDate(2020, 01, 01), QTime(23, 0, 0), Qt::UTC),
-            clockRunning(false) {};
-    }
-    const m_InitialConditions;
+    explicit KStarsUiTests(QObject *parent = nullptr): QObject(parent) {};
 
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
 
-    void init();
-    void cleanup();
+    /** @brief Members "initTestCase" and "cleanupTestCase" trigger when the framework processes this class.
+     * Member "initTestCase" is executed before any other declared test.
+     * Member "cleanupTestCase" is executed after all tests are done.
+     */
+    /** @{ */
+    void initTestCase() {};
+    void cleanupTestCase() {};
+    /** @} */
 
-    void createInstanceTest();
+    /** @brief Members "init" and "cleanup" trigger when the framework process one test from this class.
+     * Member "init" is executed before each declared test.
+     * Member "cleanup" is executed after each test is done.
+     */
+    /** @{ */
+    void init() {};
+    void cleanup() {};
+    /** @} */
 
-    void initialConditionsTest();
-    void raiseKStarsTest();
+    /** @brief Tests should be defined as "test<a-particular-feature>" for homogeneity.
+     * Use QVERIFY and others to validate tests that reply immediately.
+     * If the application needs to process events while you wait for something, use QTRY_VERIFY_WITH_TIMEOUT.
+     * If the application needs to process signals while you wait for something, use QTimer::singleShot to run your QVERIFY checks with an arbitrary delay.
+     * If the application opens dialogs inside signals while you wait for something but you cannot determine the delay, use
+     * QTimer::singleShot with a lambda, and retrigger the timer until your check can be verified.
+     */
+
+    void testSomethingThatWorks()
+    {
+        QVERIFY(QString("this string contains").contains("string"));
+    };
+
+    /** @brief Tests that require fixtures can define those in "test<a-particular-feature>_data" as a record list.
+     * Condition your test with QT_VERSION >= 0x050900 as this is the minimal version that supports this.
+     * Add data columns to your fixture with QTest::addColum<column-type>("column-name").
+     * In the same order, add data rows to your fixture with QTest::addRow("<arbitrary-row-identifier>") << column1 << column2 << ...
+     * Afterwards, in your test, use QFETCH(<column-type>, <column-name>) to obtain values for one row of your fixture.
+     * Your test will be run as many times as there are rows, so use initTestCase and cleanupTestCase.
+     */
+    /** @{ */
+    void testAnotherThingThatWorks_data()
+    {
+        QTest::addColumn <int> ("A");
+        QTest::addColumn <int> ("B");
+        QTest::addColumn <int> ("C");
+        QTest::addRow("1+1=2") << 1 << 1 << 2;
+        QTest::addRow("1+4=5") << 1 << 4 << 5;
+    };
+
+    void testAnotherThingThatWorks()
+    {
+        QFETCH(int, A);
+        QFETCH(int, B);
+        QFETCH(int, C);
+        QVERIFY(A+B == C);
+    };
+    /** @} */
+
+    /** @brief Tests that are built to reproduce a bug should expect failures with QEXPECT_FAIL.
+     * When the bug is resolved, that test will trigger a failure to verify the fix and may then be updated to remove the expected failure.
+     * The first argument of QEXPECT_FAIL provides a way to fail on a particular fixture only.
+     * If the test is not using a fixture or if the failure should trigger for all fixtures, the first argument must be "".
+     */
+    void testSomethingThatFails()
+    {
+        QEXPECT_FAIL("", "The next verification will fail, but the test will continue", Continue);
+        QVERIFY(1+1 == 3);
+    }
 };

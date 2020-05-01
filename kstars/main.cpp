@@ -50,6 +50,9 @@
 #include <QtGlobal>
 #include <QTranslator>
 
+#if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
+#include <signal.h>
+#endif
 
 #ifndef KSTARS_LITE
 static const char description[] = I18N_NOOP("Desktop Planetarium");
@@ -62,6 +65,15 @@ Q_DECL_EXPORT
 #endif
 int main(int argc, char *argv[])
 {
+#if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
+    // Ignore SIGPIPE
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
+    act.sa_handler = SIG_IGN;
+    act.sa_flags = SA_RESTART;
+    sigaction(SIGPIPE, &act, nullptr);
+#endif
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -109,7 +121,8 @@ int main(int argc, char *argv[])
                         "rlancaste@gmail.com");
     aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
     aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com", i18n("Ekos Scheduler Improvements"));
-    aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(), "sterne-jaeger@t-online.de", i18n("Ekos Scheduler & Observatory Improvements"));
+    aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(), "sterne-jaeger@t-online.de",
+                        i18n("Ekos Scheduler & Observatory Improvements"));
     aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS Improvements"));
 
     // Inactive developers

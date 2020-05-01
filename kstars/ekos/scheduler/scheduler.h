@@ -149,7 +149,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void startAstrometry();
 
         /**
-             * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
+             * @brief startGuiding After ekos is fed the calibration options, we start the guiding process
              * @param resetCalibration By default calibration is not reset until it is explicitly requested
              */
         void startGuiding(bool resetCalibration = false);

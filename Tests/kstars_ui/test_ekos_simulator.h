@@ -16,7 +16,12 @@
 #ifdef HAVE_INDI
 
 #include <QObject>
-#include <KActionCollection>
+#include <QString>
+#include <QComboBox>
+#include <QTimer>
+#include <QPushButton>
+#include <QtTest>
+#include "ekos/manager.h"
 
 #define KTRY_EKOS_SELECT_PROFILE(profile) do { \
     QString const p(profile); \
@@ -42,10 +47,9 @@
 
 #define KTRY_EKOS_STOP_SIMULATORS() do { \
     KTRY_EKOS_CLICK(disconnectB); \
-    QWARN("Intentionally leaving a delay here for BZ398192"); \
-    QTest::qWait(5000); \
-    KTRY_EKOS_CLICK(processINDIB); \
-    QTest::qWait(1000); } while(false)
+    KTRY_EKOS_GADGET(QPushButton, processINDIB); \
+    QTRY_VERIFY_WITH_TIMEOUT(processINDIB->isEnabled(), 5000); \
+    KTRY_EKOS_CLICK(processINDIB); } while(false)
 
 class TestEkosSimulator : public QObject
 {
@@ -64,5 +68,5 @@ private slots:
     void testMountSlew();
 };
 
-#endif
+#endif // HAVE_INDI
 #endif // TESTEKOSSIMULATOR_H

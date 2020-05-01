@@ -1556,6 +1556,15 @@
          <label>Default hour angle to perform meridian flip</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>
       </entry>
+      <entry name="MaximumHaLimit" type="Double">
+         <label>Default maximum limit for the hour angle.</label>
+         <whatsthis>Maximum limit for the hour angle of the telescope. If the hour angle of the telescope is above this limit, a meridian flip will be forced.</whatsthis>
+         <default>90.0</default>
+      </entry>
+      <entry name="EnableHaLimit" type="Bool">
+         <label>Enable mount hour angle limit.</label>
+         <default>false</default>
+      </entry>
       <entry name="ExecuteMeridianFlip" type="Bool">
          <label>Flips the mount when reaching the meridian, if supported.</label>
          <default>false</default>

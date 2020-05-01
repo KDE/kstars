@@ -71,6 +71,9 @@ const QString &GenericDevice::getDeviceName() const
 
 void GenericDevice::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     const QString name = prop->getName();
     if (properties.contains(name))
         return;
@@ -516,7 +519,7 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
 void GenericDevice::createDeviceInit()
 {
     if (Options::showINDIMessages())
-        KStars::Instance()->statusBar()->showMessage(i18n("%1 is online.", baseDevice->getDeviceName()), 0);
+        KStars::Instance()->statusBar()->showMessage(i18n("%1 is online.", m_Name), 0);
 
     KStars::Instance()->map()->forceUpdateNow();
 }
@@ -610,13 +613,11 @@ bool GenericDevice::runCommand(int command, void *ptr)
     switch (command)
     {
         case INDI_CONNECT:
-            if (baseDevice->getDeviceName())
-                clientManager->connectDevice(baseDevice->getDeviceName());
+            clientManager->connectDevice(m_Name.toLatin1().constData());
             break;
 
         case INDI_DISCONNECT:
-            if (baseDevice->getDeviceName())
-                clientManager->disconnectDevice(baseDevice->getDeviceName());
+            clientManager->disconnectDevice(m_Name.toLatin1().constData());
             break;
 
         case INDI_SET_PORT:
@@ -648,7 +649,7 @@ bool GenericDevice::runCommand(int command, void *ptr)
             if (nvp == nullptr)
                 return false;
 
-            int requestedFilter = *((int *)ptr);
+            int requestedFilter = *(static_cast<int *>(ptr));
 
             if (requestedFilter == nvp->np[0].value)
                 break;
@@ -680,7 +681,7 @@ bool GenericDevice::runCommand(int command, void *ptr)
             if (nvp == nullptr)
                 return false;
 
-            double requestedAngle = *((double *)ptr);
+            double requestedAngle = *(static_cast<double *>(ptr));
 
             if (requestedAngle == nvp->np[0].value)
                 break;
@@ -702,7 +703,7 @@ bool GenericDevice::runCommand(int command, void *ptr)
             if (nvp == nullptr)
                 return false;
 
-            int32_t requestedTicks = *((int32_t *)ptr);
+            int32_t requestedTicks = *(static_cast<int32_t *>(ptr));
 
             if (requestedTicks == nvp->np[0].value)
                 break;
@@ -988,16 +989,16 @@ DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
     baseDevice    = interfacePtr->getBaseDevice();
     clientManager = interfacePtr->getDriverInfo()->getClientManager();
 
-    connect(iPtr, SIGNAL(Connected()), this, SIGNAL(Connected()));
-    connect(iPtr, SIGNAL(Disconnected()), this, SIGNAL(Disconnected()));
-    connect(iPtr, SIGNAL(propertyDefined(INDI::Property*)), this, SIGNAL(propertyDefined(INDI::Property*)));
-    connect(iPtr, SIGNAL(propertyDeleted(INDI::Property*)), this, SIGNAL(propertyDeleted(INDI::Property*)));
-    connect(iPtr, SIGNAL(messageUpdated(int)), this, SIGNAL(messageUpdated(int)));
-    connect(iPtr, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SIGNAL(switchUpdated(ISwitchVectorProperty*)));
-    connect(iPtr, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SIGNAL(numberUpdated(INumberVectorProperty*)));
-    connect(iPtr, SIGNAL(textUpdated(ITextVectorProperty*)), this, SIGNAL(textUpdated(ITextVectorProperty*)));
-    connect(iPtr, SIGNAL(BLOBUpdated(IBLOB*)), this, SIGNAL(BLOBUpdated(IBLOB*)));
-    connect(iPtr, SIGNAL(lightUpdated(ILightVectorProperty*)), this, SIGNAL(lightUpdated(ILightVectorProperty*)));
+    connect(iPtr, &GDInterface::Connected, this, &DeviceDecorator::Connected);
+    connect(iPtr, &GDInterface::Disconnected, this, &DeviceDecorator::Disconnected);
+    connect(iPtr, &GDInterface::propertyDefined, this, &DeviceDecorator::propertyDefined);
+    connect(iPtr, &GDInterface::propertyDeleted, this, &DeviceDecorator::propertyDeleted);
+    connect(iPtr, &GDInterface::messageUpdated, this, &DeviceDecorator::messageUpdated);
+    connect(iPtr, &GDInterface::switchUpdated, this, &DeviceDecorator::switchUpdated);
+    connect(iPtr, &GDInterface::numberUpdated, this, &DeviceDecorator::numberUpdated);
+    connect(iPtr, &GDInterface::textUpdated, this, &DeviceDecorator::textUpdated);
+    connect(iPtr, &GDInterface::BLOBUpdated, this, &DeviceDecorator::BLOBUpdated);
+    connect(iPtr, &GDInterface::lightUpdated, this, &DeviceDecorator::lightUpdated);
 }
 
 DeviceDecorator::~DeviceDecorator()
@@ -1155,11 +1156,12 @@ ST4::ST4(INDI::BaseDevice * bdv, ClientManager * cm)
 {
     baseDevice    = bdv;
     clientManager = cm;
+    m_Name = baseDevice->getDeviceName();
 }
 
-const char *ST4::getDeviceName()
+const QString &ST4::getDeviceName()
 {
-    return baseDevice->getDeviceName();
+    return m_Name;
 }
 
 void ST4::setDECSwap(bool enable)
@@ -1169,14 +1171,9 @@ void ST4::setDECSwap(bool enable)
 
 bool ST4::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
 {
-    bool raOK = false, decOK = false;
-    raOK  = doPulse(ra_dir, ra_msecs);
-    decOK = doPulse(dec_dir, dec_msecs);
-
-    if (raOK && decOK)
-        return true;
-    else
-        return false;
+    bool raOK  = doPulse(ra_dir, ra_msecs);
+    bool decOK = doPulse(dec_dir, dec_msecs);
+    return (raOK && decOK);
 }
 
 bool ST4::doPulse(GuideDirection dir, int msecs)

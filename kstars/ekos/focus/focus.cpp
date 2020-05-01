@@ -1036,6 +1036,7 @@ void Focus::newFITS(IBLOB *bp)
                 setCaptureComplete();
             else
                 abort();
+            resetButtons();
         });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 
@@ -1052,6 +1053,7 @@ void Focus::newFITS(IBLOB *bp)
     }
 
     setCaptureComplete();
+    resetButtons();
 }
 
 double Focus::analyzeSources(FITSData *image_data)
@@ -1061,7 +1063,7 @@ double Focus::analyzeSources(FITSData *image_data)
     // a bounding box for them to be effective in near real-time application.
     if (Options::focusUseFullField())
     {
-        Q_ASSERT_X(focusView->getTrackingBox().isNull(), __FUNCTION__, "Tracking box is disabled when detecting in full-field");
+        focusView->setTrackingBoxEnabled(false);
 
         if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
             focusView->findStars(ALGORITHM_CENTROID);
@@ -1168,13 +1170,8 @@ void Focus::setCaptureComplete()
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
 
-    // If we're not looping and not in autofocus, enable user to capture again.
     if (captureInProgress && inFocusLoop == false && inAutoFocus == false)
-    {
-        captureB->setEnabled(true);
-        stopFocusB->setEnabled(false);
         currentCCD->setUploadMode(rememberUploadMode);
-    }
 
     if (rememberCCDExposureLooping)
         currentCCD->setExposureLoopingEnabled(true);
@@ -2303,12 +2300,16 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
-                               .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
-
     // Return if it is not our current focuser
     if (nvp->device != currentFocuser->getDeviceName())
         return;
+
+    // Only process focus properties
+    if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
+        return;
+
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
+                               .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
 
     if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
     {

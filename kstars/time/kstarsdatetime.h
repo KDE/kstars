@@ -66,7 +66,10 @@ class KStarsDateTime : public QDateTime
              *@p kdt The KStarsDateTime object to copy.
              *@note The timespec is copied from kdt.
              */
+        /** @{ */
         KStarsDateTime(const KStarsDateTime &kdt);
+        KStarsDateTime& operator=(const KStarsDateTime &kdt) noexcept;
+        /** @} */
 
         /**
              *@short Copy constructor

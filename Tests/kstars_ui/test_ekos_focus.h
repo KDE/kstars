@@ -16,6 +16,12 @@
 #if defined(HAVE_INDI)
 
 #include <QObject>
+#include <QPushButton>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QtTest>
 
 /** @brief Helper to retrieve a gadget in the Focus tab specifically.
  * @param klass is the class of the gadget to look for.
@@ -56,7 +62,8 @@
  * @warning Fails the test if the exposure cannot be entered or if the capture button is
  * disabled or does not toggle during exposure or if the stop button is not the opposite of the capture button.
  */
-#define KTRY_FOCUS_CAPTURE(exposure, averaged) do { \
+/** @{ */
+#define KTRY_FOCUS_DETECT(exposure, averaged) do { \
     KTRY_FOCUS_GADGET(QDoubleSpinBox, exposureIN); \
     exposureIN->setValue(exposure); \
     KTRY_FOCUS_GADGET(QSpinBox, focusFramesSpin); \
@@ -67,10 +74,11 @@
     QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000); \
     KTRY_FOCUS_CLICK(captureB); \
     QTRY_VERIFY_WITH_TIMEOUT(!captureB->isEnabled(), 1000); \
-    QTRY_VERIFY_WITH_TIMEOUT(stopFocusB->isEnabled(), 1000); \
-    QTest::qWait(1.2*exposure*averaged); \
+    QVERIFY(stopFocusB->isEnabled()); \
+    QTest::qWait(exposure*averaged*1000); \
     QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000); \
-    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 5000); } while (false)
+    QVERIFY(!stopFocusB->isEnabled()); } while (false)
+/** @} */
 
 /** brief Helper to configure main star detection parameters.
  * @param detection is the name of the star detection method to use.
@@ -81,7 +89,7 @@
  */
 #define KTRY_FOCUS_CONFIGURE(detection, algorithm, fieldin, fieldout) do { \
     KTRY_FOCUS_GADGET(QCheckBox, useFullField); \
-    useFullField->setCheckState(Qt::CheckState::Checked); \
+    useFullField->setCheckState(fieldin < fieldout ? Qt::CheckState::Checked : Qt::CheckState::Unchecked); \
     KTRY_FOCUS_GADGET(QDoubleSpinBox, fullFieldInnerRing); \
     fullFieldInnerRing->setValue(fieldin); \
     KTRY_FOCUS_GADGET(QDoubleSpinBox, fullFieldOuterRing); \
@@ -92,6 +100,7 @@
 class TestEkosFocus : public QObject
 {
     Q_OBJECT
+
 public:
     explicit TestEkosFocus(QObject *parent = nullptr);
 
@@ -106,5 +115,5 @@ private slots:
     void testStarDetection();
 };
 
-#endif
+#endif // HAVE_INDI
 #endif // TESTEKOSFOCUS_H

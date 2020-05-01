@@ -27,6 +27,8 @@ private slots:
     void init();
     void cleanup();
 
+    void testInitializeDB();
+
     void testCreateScopes_data();
     void testCreateScopes();
     void testCreateEyepieces_data();

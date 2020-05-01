@@ -15,6 +15,7 @@
 #if defined(HAVE_INDI)
 
 #include "kstars_ui_tests.h"
+#include "test_kstars_startup.h"
 
 #include "ekos/manager.h"
 #include "ekos/profileeditor.h"
@@ -41,23 +42,24 @@ TestEkos::TestEkos(QObject *parent): QObject(parent)
 
 void TestEkos::initTestCase()
 {
-    /* No-op */
 }
 
 void TestEkos::cleanupTestCase()
 {
-    KTRY_CLOSE_EKOS();
 }
 
 void TestEkos::init()
 {
-    KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
 }
 
 void TestEkos::cleanup()
 {
+    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
+        if (d->isVisible())
+            d->hide();
+
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
@@ -112,7 +114,7 @@ void TestEkos::testSimulatorProfile()
 
 #if QT_VERSION >= 0x050800
     QEXPECT_FAIL("", "Ekos resets the simulation clock when starting a profile.", Continue);
-    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), KStarsUiTests::m_InitialConditions.dateTime.toSecsSinceEpoch());
+    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), TestKStarsStartup::m_InitialConditions.dateTime.toSecsSinceEpoch());
 #endif
 
     QEXPECT_FAIL("", "Ekos resumes the simulation clock when starting a profile.", Continue);
@@ -131,25 +133,23 @@ void TestEkos::testSimulatorProfile()
     {
         QTest::mouseClick(b, Qt::LeftButton);
     });
-    QWARN("Intentionally leaving a delay here for BZ398192");
-    QTest::qWait(5000);
 
     // --------- Fifth step: waiting for Ekos to finish stopping
 
     // Start button that became a stop button has to be available
-    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 7000);
+    QTRY_VERIFY_WITH_TIMEOUT(startEkos->isEnabled(), 10000);
 
     // Hang INDI client up
     QTimer::singleShot(200, ekos, [&]
     {
         QTest::mouseClick(startEkos, Qt::LeftButton);
     });
-    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 7000);
+    QTRY_VERIFY_WITH_TIMEOUT(!buttonReadyToStart.compare(startEkos->icon().name()), 10000);
 }
 
 void TestEkos::testManipulateProfiles()
 {
-    // Because we don't want to manager the order of tests, we do the profile manipulation in three steps of the same test
+    // Because we don't want to manage the order of tests, we do the profile manipulation in three steps of the same test
     // We use that poor man's shared variable to hold the result of the first (creation) and second (edition) test step.
     // The ProfileEditor is exec()'d, so test code must be made asynchronous, and QTimer::singleShot is an easy way to do that.
     // We use two timers, one to run the end-user test, which eventually will close the dialog, and a second one to really close if the test step fails.
@@ -161,7 +161,7 @@ void TestEkos::testManipulateProfiles()
     // --------- First step: creating the profile
 
     // Because the dialog is modal, the remainder of the test is made asynchronous
-    QTimer::singleShot(200, ekos, [&]
+    QTimer::singleShot(1000, ekos, [&]
     {
         // Find the Profile Editor dialog
         ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
@@ -334,4 +334,4 @@ void TestEkos::testManipulateProfiles()
     QVERIFY(profileCBox->currentText() != testProfileName);
 }
 
-#endif
+#endif // HAVE_INDI

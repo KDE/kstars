@@ -54,7 +54,22 @@ class Mount : public QWidget, public Ui::Mount
 
         //typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 
-        typedef enum { FLIP_NONE, FLIP_PLANNED, FLIP_WAITING, FLIP_ACCEPTED, FLIP_RUNNING, FLIP_COMPLETED, FLIP_ERROR } MeridianFlipStatus;
+        // This enum defines the meridian flip state machine, this is implemented in
+        typedef enum
+        {
+            FLIP_NONE,      // this is the default state, comparing the hour angle with the next flip position
+                            // it moves to FLIP_PLANNED when a flip is needed.
+            FLIP_PLANNED,   // this signals to the Capture class that a flip is required, the Capture class will
+                            // move to FLIP_ACCEPTED when it has completed everything that needs to be done.
+            FLIP_WAITING,   // Capture seems to set this state to signal that the flip will have to wait
+            FLIP_ACCEPTED,  // Capture signals to the mount that a flip slew can be started
+            FLIP_RUNNING,   // this signals that a flip slew is in progress, when the slew stops the state
+                            // is set to FLIP_COMPLETED
+            FLIP_COMPLETED, // this checks that the flip was completed successfully or not and after tidying up
+                            // moves to FLIP_NONE to wait for the next flip requirement.
+                            // Capture sees this and resumes.
+            FLIP_ERROR      // errors in the flip process should end up here
+        } MeridianFlipStatus;
 
         /**
              * @brief setTelescope Sets the mount module telescope interface
@@ -184,6 +199,8 @@ class Mount : public QWidget, public Ui::Mount
         double initialPositionHA;
         /** DBUS interface function.
              * Get the hour angle of that time the mount has slewed to the current position.
+             * This is used to manage the meridian flip for mounts which do not report pier side.
+             * only one attempt to flip is done.
              */
         Q_SCRIPTABLE double initialHA()
         {
@@ -286,6 +303,12 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
 
+        ///
+        /// \brief meridianFlipStatusString
+        /// \param status
+        /// \return return the string for the status
+        ///
+        static QString meridianFlipStatusString(MeridianFlipStatus status);
 
     public slots:
 
@@ -358,6 +381,22 @@ class Mount : public QWidget, public Ui::Mount
              */
         void disableAltLimits();
 
+        /**
+             * @brief enableHourAngleLimits Enable or disable hour angle limits
+             * @param enable True to enable, false to disable.
+             */
+        void enableHourAngleLimits(bool enable);
+
+        /**
+             * @brief enableHaLimits calls enableHourAngleLimits(true). This function is mostly used to enable hour angle limit after a meridian flip is complete.
+             */
+        void enableHaLimits();
+
+        /**
+             * @brief disableAltLimits calls enableHourAngleLimits(false). This function is mostly used to disable altitude limit once a meridial flip process is started.
+             */
+        void disableHaLimits();
+
         bool setScopeConfig(int index);
 
         void toggleMountToolBox();
@@ -371,7 +410,7 @@ class Mount : public QWidget, public Ui::Mount
          */
         void setMeridianFlipValues(bool activate, double hours);
 
-    private slots:
+private slots:
 
         /**
          * @brief registerNewModule Register an Ekos module as it arrives via DBus
@@ -401,6 +440,15 @@ class Mount : public QWidget, public Ui::Mount
         void syncGPS();
         MeridianFlipStatus m_MFStatus = FLIP_NONE;
         void setMeridianFlipStatus(MeridianFlipStatus status);
+        QString pierSideStateString();
+
+        // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take at least
+        // the time for that, currently set to 20 seconds
+        // not reliable for pointing state change detection but reported if the pier side is unknown
+        QDateTime minMeridianFlipEndTime;
+        int minMeridianFlipDurationSecs = 20;
+
+        double flipDelayHrs = 0.0;      // delays the next flip attempt if it fails
 
         QPointer<QDBusInterface> captureInterface { nullptr };
 
@@ -415,6 +463,8 @@ class Mount : public QWidget, public Ui::Mount
         double lastAlt;
         int abortDispatch;
         bool altLimitEnabled;
+        bool haLimitEnabled;
+        double lastHa;
         bool GPSInitialized = {false};
 
         ISD::Telescope::Status m_Status = ISD::Telescope::MOUNT_IDLE;

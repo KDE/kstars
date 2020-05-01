@@ -73,7 +73,7 @@ bool DeepStarComponent::loadStaticStars()
     if (!starReader.readHeader())
     {
         qCCritical(KSTARS) << "Error reading header of catalog file " << dataFileName << ": " << starReader.getErrorNumber()
-                 << ": " << starReader.getError();
+                           << ": " << starReader.getError();
         return false;
     }
 
@@ -120,7 +120,7 @@ bool DeepStarComponent::loadStaticStars()
 
             if (!SB.get())
                 qCCritical(KSTARS) << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
-                         << trixel;
+                                   << trixel;
 
             m_starBlockList.at(trixel)->setStaticBlock(SB);
 
@@ -131,7 +131,7 @@ bool DeepStarComponent::loadStaticStars()
                 if (!fread_success)
                 {
                     qCCritical(KSTARS) << "ERROR: Could not read StarData structure for star #" << j << " under trixel #"
-                             << trixel;
+                                       << trixel;
                 }
 
                 /* Swap Bytes when required */
@@ -156,7 +156,7 @@ bool DeepStarComponent::loadStaticStars()
                 else
                 {
                     qCCritical(KSTARS) << "CODE ERROR: More unnamed static stars in trixel " << trixel
-                             << " than we allocated space for!";
+                                       << " than we allocated space for!";
                 }
             }
         }
@@ -171,7 +171,7 @@ bool DeepStarComponent::loadStaticStars()
 
             if (!SB.get())
                 qCCritical(KSTARS) << "Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
-                         << trixel;
+                                   << trixel;
 
             m_starBlockList.at(trixel)->setStaticBlock(SB);
 
@@ -183,7 +183,7 @@ bool DeepStarComponent::loadStaticStars()
                 if (!fread_success)
                 {
                     qCCritical(KSTARS) << "Could not read StarData structure for star #" << j << " under trixel #"
-                             << trixel;
+                                       << trixel;
                 }
 
                 /* Swap Bytes when required */
@@ -208,7 +208,7 @@ bool DeepStarComponent::loadStaticStars()
                 else
                 {
                     qCCritical(KSTARS) << "CODE ERROR: More unnamed static stars in trixel " << trixel
-                             << " than we allocated space for!";
+                                       << " than we allocated space for!";
                 }
             }
         }
@@ -321,7 +321,8 @@ void DeepStarComponent::draw(SkyPainter *skyp)
             Trixel currentRegion = region.next();
             for (int i = 0; i < m_starBlockList.at(currentRegion)->getBlockCount(); ++i)
             {
-                std::shared_ptr<StarBlock> prevBlock = ((i >= 1) ? m_starBlockList.at(currentRegion)->block(i - 1) : std::shared_ptr<StarBlock>());
+                std::shared_ptr<StarBlock> prevBlock = ((i >= 1) ? m_starBlockList.at(currentRegion)->block(
+                        i - 1) : std::shared_ptr<StarBlock>());
                 std::shared_ptr<StarBlock> block     = m_starBlockList.at(currentRegion)->block(i);
 
                 if (i == 0 && !m_StarBlockFactory->markFirst(block))
@@ -329,7 +330,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
                 if (i > 0 && !m_StarBlockFactory->markNext(prevBlock, block))
                     qCWarning(KSTARS) << "markNext failed in trixel" << currentRegion << "while marking block" << i;
                 if (i < m_starBlockList.at(currentRegion)->getBlockCount() &&
-                    m_starBlockList.at(currentRegion)->block(i)->getFaintMag() < maglim)
+                        m_starBlockList.at(currentRegion)->block(i)->getFaintMag() < maglim)
                     break;
             }
         }
@@ -348,14 +349,14 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         // Static stars need not execute fillToMag
 
         // Safety check if the current region is in star block list
-        if ((int)currentRegion >= m_starBlockList.size())
+        if (currentRegion >= m_starBlockList.size())
             continue;
 
-        if (!staticStars && !m_starBlockList.at(currentRegion)->fillToMag(maglim) &&
-            maglim <= m_FaintMagnitude * (1 - 1.5 / 16))
-        {
-            qCWarning(KSTARS) << "SBL::fillToMag( " << maglim << " ) failed for trixel " << currentRegion;
-        }
+        //        if (!staticStars && !m_starBlockList.at(currentRegion)->fillToMag(maglim) &&
+        //            maglim <= m_FaintMagnitude * (1 - 1.5 / 16))
+        //        {
+        //            qCWarning(KSTARS) << "SBL::fillToMag( " << maglim << " ) failed for trixel " << currentRegion;
+        //        }
 
         t_dynamicLoad += t.restart();
 
@@ -363,7 +364,8 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks";
 
         // REMARK: The following should never carry state, except for const parameters like updateID and maglim
-        std::function<void(std::shared_ptr<StarBlock>)> mapFunction = [&updateID, &maglim](std::shared_ptr<StarBlock> myBlock) {
+        std::function<void(std::shared_ptr<StarBlock>)> mapFunction = [&updateID, &maglim](std::shared_ptr<StarBlock> myBlock)
+        {
             for (StarObject &star : myBlock->contents())
             {
                 if (star.updateID != updateID)
@@ -458,7 +460,7 @@ bool DeepStarComponent::openDataFile()
             if (!(m_skyMesh = SkyMesh::Create(htm_level)))
             {
                 qCWarning(KSTARS) << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName
-                         << ". Skipping it.";
+                                  << ". Skipping it.";
                 return false;
             }
         }
@@ -641,16 +643,16 @@ bool DeepStarComponent::verifySBLIntegrity()
             if (block->getBrightMag() != faintMag && (block->getBrightMag() - faintMag) > 0.5)
             {
                 qCWarning(KSTARS) << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
-                         << ", brightMag of block #" << i << " = " << block->getBrightMag();
+                                  << ", brightMag of block #" << i << " = " << block->getBrightMag();
                 integrity = false;
             }
             if (i > 1 && (!block->prev))
                 qCWarning(KSTARS) << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
             if (block->prev && block->prev->parent == m_starBlockList[trixel].get() &&
-                block->prev != m_starBlockList[trixel]->block(i - 1))
+                    block->prev != m_starBlockList[trixel]->block(i - 1))
             {
                 qCWarning(KSTARS) << "Trixel " << trixel
-                         << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i;
+                                  << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i;
                 integrity = false;
             }
             faintMag = block->getFaintMag();

@@ -8,106 +8,36 @@
  */
 
 #include "kstars_ui_tests.h"
+
+#include "kswizard.h"
+#include "auxiliary/kspaths.h"
+#include "test_kstars_startup.h"
+
+#if defined(HAVE_INDI)
+#include "test_ekos_wizard.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
 #include "test_ekos_focus.h"
-
-#include "auxiliary/kspaths.h"
-#if defined(HAVE_INDI)
 #include "ekos/manager.h"
 #include "ekos/profileeditor.h"
+#include "ekos/profilewizard.h"
 #endif
 
 #include <KActionCollection>
 #include <KTipDialog>
 #include <KCrash/KCrash>
+#include <Options.h>
 
 #include <QFuture>
 #include <QtConcurrentRun>
 #include <QtTest>
 #include <QTest>
 #include <QDateTime>
+#include <QStandardPaths>
+#include <QFileInfo>
 
 #include <ctime>
 #include <unistd.h>
-
-struct KStarsUiTests::_InitialConditions const KStarsUiTests::m_InitialConditions;
-
-KStarsUiTests::KStarsUiTests(QObject *parent): QObject(parent)
-{
-}
-
-void KStarsUiTests::initTestCase()
-{
-}
-
-void KStarsUiTests::cleanupTestCase()
-{
-}
-
-void KStarsUiTests::init()
-{
-    if (KStars::Instance() != nullptr)
-        KTRY_SHOW_KSTARS();
-}
-
-void KStarsUiTests::cleanup()
-{
-    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
-        if (d->isVisible())
-            d->hide();
-}
-
-// All QTest features are macros returning with no error code.
-// Therefore, in order to bail out at first failure, tests cannot use functions to run sub-tests and are required to use grouping macros too.
-
-void KStarsUiTests::createInstanceTest()
-{
-    // Initialize our instance
-    /*QBENCHMARK_ONCE*/ {
-        // Create our test instance
-        KTipDialog::setShowOnStart(false);
-        KStars::createInstance(true, KStarsUiTests::m_InitialConditions.clockRunning, KStarsUiTests::m_InitialConditions.dateTime.toString());
-        QApplication::processEvents();
-    }
-    QVERIFY(KStars::Instance() != nullptr);
-
-    // Initialize our location
-    GeoLocation * const g = KStars::Instance()->data()->locationNamed("Greenwich");
-    QVERIFY(g != nullptr);
-    KStars::Instance()->data()->setLocation(*g);
-    QCOMPARE(KStars::Instance()->data()->geo()->lat()->Degrees(), g->lat()->Degrees());
-    QCOMPARE(KStars::Instance()->data()->geo()->lng()->Degrees(), g->lng()->Degrees());
-}
-
-void KStarsUiTests::raiseKStarsTest()
-{
-    KTRY_SHOW_KSTARS();
-}
-
-void KStarsUiTests::initialConditionsTest()
-{
-    QVERIFY(KStars::Instance() != nullptr);
-    QVERIFY(KStars::Instance()->data() != nullptr);
-    QVERIFY(KStars::Instance()->data()->clock() != nullptr);
-
-    QCOMPARE(KStars::Instance()->data()->clock()->isActive(), m_InitialConditions.clockRunning);
-
-    QEXPECT_FAIL("", "Initial KStars clock is set from system local time, not geolocation, and is untestable for now.", Continue);
-    QCOMPARE(KStars::Instance()->data()->clock()->utc().toString(), m_InitialConditions.dateTime.toString());
-
-    QEXPECT_FAIL("", "Precision of KStars local time conversion to local time does not allow strict millisecond comparison.", Continue);
-    QCOMPARE(KStars::Instance()->data()->clock()->utc().toLocalTime(), m_InitialConditions.dateTime);
-
-#if QT_VERSION >= 0x050800
-    // However comparison down to nearest second is expected to be OK
-    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
-
-    // Test setting time
-    KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(m_InitialConditions.dateTime));
-    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
-#endif
- }
 
 // We want to launch the application before running our tests
 // Thus we want to explicitly call QApplication::exec(), and run our tests in parallel of the event loop
@@ -133,40 +63,53 @@ int main(int argc, char *argv[])
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
     KCrash::initialize();
 
-    // The instance will be created (and benchmarked) as first test in KStarsUiTests
-    qDebug("Deferring instance creation to tests.");
-
     // This holds the final result of the test session
-    int result = 0;
+    int failure = 0;
 
     // Execute tests in sequence, eventually skipping sub-tests based on prior ones
     QTimer::singleShot(1000, &app, [&]
     {
         qDebug("Starting tests...");
 
-        // This creates our KStars instance
+        // This is a no-op test class for documentation
         KStarsUiTests * tc = new KStarsUiTests();
-        result = QTest::qExec(tc, argc, argv);
+        failure |= QTest::qExec(tc, argc, argv);
+        delete tc;
+
+        // This cleans the test user settings, creates our instance and manages the startup wizard
+        if (!failure)
+        {
+            TestKStarsStartup * ti = new TestKStarsStartup();
+            failure |= QTest::qExec(ti, argc, argv);
+            delete ti;
+        }
 
 #if defined(HAVE_INDI)
-        //if (!result)
+        if (!failure)
+        {
+            TestEkosWizard * ew = new TestEkosWizard();
+            failure |= QTest::qExec(ew, argc, argv);
+            delete ew;
+        }
+
+        if (!failure)
         {
             TestEkos * ek = new TestEkos();
-            result |= QTest::qExec(ek, argc, argv);
+            failure |= QTest::qExec(ek, argc, argv);
             delete ek;
         }
 
-        //if (!result)
+        if (!failure)
         {
             TestEkosSimulator * ek = new TestEkosSimulator();
-            result |= QTest::qExec(ek, argc, argv);
+            failure |= QTest::qExec(ek, argc, argv);
             delete ek;
         }
 
-        //if (!result)
+        if (!failure)
         {
             TestEkosFocus * ek = new TestEkosFocus();
-            result |= QTest::qExec(ek, argc, argv);
+            failure |= QTest::qExec(ek, argc, argv);
             delete ek;
         }
 #endif
@@ -180,9 +123,14 @@ int main(int argc, char *argv[])
     QTimer::singleShot(5*60*1000, &app, &QCoreApplication::quit);
 
     app.exec();
-    KStars::Instance()->close();
-    delete KStars::Instance();
 
-    return result;
+    // Clean our instance up if it is still alive
+    if( KStars::Instance() != nullptr)
+    {
+        KStars::Instance()->close();
+        delete KStars::Instance();
+    }
+
+    return failure;
 }
 

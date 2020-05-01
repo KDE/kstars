@@ -26,7 +26,7 @@ class AlignView : public FITSView
         /* Calculate WCS header info and update WCS info */
         bool injectWCS(double orientation, double ra, double dec, double pixscale);
 
-        void drawOverlay(QPainter *) override;
+        void drawOverlay(QPainter *, double scale) override;
 
         // Correction line
         void setCorrectionParams(QLineF &line);

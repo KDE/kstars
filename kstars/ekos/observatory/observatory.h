@@ -83,7 +83,8 @@ class Observatory : public QWidget, public Ui::Observatory
         void setAlertActions(WeatherActions actions);
 
         // button handling
-        void toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart, QString titleCounterpart);
+        void toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart,
+                           QString titleCounterpart);
         void activateButton(QPushButton *button, QString title);
         void buttonPressed(QPushButton *button, QString title);
 
@@ -98,14 +99,16 @@ class Observatory : public QWidget, public Ui::Observatory
         std::map<QString, int> sensorRanges = {};
 
         // selected sensor for graph display
-        QString selectedSensorID = "";
+        QString selectedSensorID;
 
         // button group for sensor names to ensure, that only one button is pressed
-        QButtonGroup *sensorDataNamesGroup;
+        QButtonGroup *sensorDataNamesGroup {nullptr};
+
+        ISD::Weather::Status m_WeatherStatus { ISD::Weather::WEATHER_IDLE };
 
         void initSensorGraphs();
         void updateSensorData(std::vector<ISD::Weather::WeatherData> weatherData);
-        void updateSensorGraph(QString label, QDateTime now, double value);
+        void updateSensorGraph(QString sensor_label, QDateTime now, double value);
 
 
     private slots:

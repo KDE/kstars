@@ -181,7 +181,7 @@ double LunarEclipseHandler::getMaxSeparation()
 {
     const double SEP_QUALITY = 0.1;
 
-    // we use the penumbra as meassure :)
+    // we use the penumbra as measure :)
     if(m_mode == CLOSEST_APPROACH)
         return (m_shadow.getPenumbraAngSize() + m_moon.angSize()) / 60;
     else

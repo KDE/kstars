@@ -71,7 +71,7 @@ public:
     /** @brief Configure the detection method.
      * @param setting is the name of a detection setting.
      * @param value is the value of the detection setting identified by 'setting'.
-     * @return The detector as a chain to call the overriden findSources.
+     * @return The detector as a chain to call the overridden findSources.
      */
     virtual FITSStarDetector & configure(const QString &setting, const QVariant &value) = 0;
 
@@ -79,7 +79,7 @@ public:
     /** @brief Helper to configure the detection method from a data model.
      * @param settings is the list of key/value pairs for the method to use settings from.
      * @note Data model 'settings' is considered a key/value list, using column 1 text as case-insensitive keys and column 2 data as values.
-     * @return The detector as a chain to call the overriden findSources.
+     * @return The detector as a chain to call the overridden findSources.
      */
     FITSStarDetector & configure(QStandardItemModel const &settings);
 };

@@ -180,7 +180,7 @@ class KStars : public KXmlGuiWindow
         /** @short Apply config options throughout the program.
              * In most cases, options are set in the "Options" object directly,
              * but for some things we have to manually react to config changes.
-             * @param doApplyFocus If true, then focus posiiton will be set
+             * @param doApplyFocus If true, then focus position will be set
              * from config file
              */
         void applyConfig(bool doApplyFocus = true);

@@ -227,7 +227,7 @@ class KStarsData : public QObject
                                    const QString &country = QString());
 
         /**
-         * @brief nearestLocation Return nearest location to the given logntidue and latitude coordiantes
+         * @brief nearestLocation Return nearest location to the given longitude and latitude coordinates
          * @param longitude Longitude (-180 to +180)
          * @param latitude Latitude (-90 to +90)
          * @return nearest geographical location to the parameters above.

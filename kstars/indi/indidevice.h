@@ -72,8 +72,8 @@ class INDI_D : public QDialog
 
     public slots:
         bool buildProperty(INDI::Property *prop);
-        bool removeProperty(INDI::Property *prop);
-        bool removeProperty(const QString &name);
+        //bool removeProperty(INDI::Property *prop);
+        bool removeProperty(const QString &device, const QString &name);
         bool updateSwitchGUI(ISwitchVectorProperty *svp);
         bool updateTextGUI(ITextVectorProperty *tvp);
         bool updateNumberGUI(INumberVectorProperty *nvp);

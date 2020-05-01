@@ -34,6 +34,9 @@ Dome::Dome(GDInterface *iPtr) : DeviceDecorator(iPtr)
 
 void Dome::registerProperty(INDI::Property *prop)
 {
+    if (!prop->getRegistered())
+        return;
+
     if (isConnected())
         readyTimer.get()->start();
 
@@ -221,7 +224,8 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
     {
         Status lastStatus = m_Status;
 
-        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING_CW && lastStatus != DOME_MOVING_CCW && lastStatus != DOME_PARKING && lastStatus != DOME_UNPARKING)
+        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING_CW && lastStatus != DOME_MOVING_CCW && lastStatus != DOME_PARKING
+                && lastStatus != DOME_UNPARKING)
         {
             m_Status = svp->sp->s == ISS_ON ? DOME_MOVING_CW : DOME_MOVING_CCW;
             emit newStatus(m_Status);
