@@ -988,21 +988,7 @@ void Capture::checkCCD(int ccdNum)
                 else
                 {
                     QString model = QString(currentCCD->getDeviceName());
-                    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
-                    {
-                        return (oneDSLRInfo["Model"] == model);
-                    });
-
-                    // Sync Pixel Size
-                    if (pos != DSLRInfos.end())
-                    {
-                        auto camera = *pos;
-                        targetChip->setImageInfo(camera["Width"].toDouble(),
-                                                 camera["Height"].toDouble(),
-                                                 camera["PixelW"].toDouble(),
-                                                 camera["PixelH"].toDouble(),
-                                                 8);
-                    }
+                    syncDSLRToTargetChip(model);
                 }
             }
         }
@@ -6429,6 +6415,7 @@ void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, do
 
     updateFrameProperties();
     resetFrame();
+    syncDSLRToTargetChip(model);
 
     // In case the dialog was opened, let's close it
     if (dslrInfoDialog)
@@ -6853,6 +6840,25 @@ QString Capture::MFStageString(MFStage stage)
             return "MF_GUIDING";
     }
     return "MFStage unknown.";
+}
+
+void Capture::syncDSLRToTargetChip(const QString &model)
+{
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
+    {
+        return (oneDSLRInfo["Model"] == model);
+    });
+
+    // Sync Pixel Size
+    if (pos != DSLRInfos.end())
+    {
+        auto camera = *pos;
+        targetChip->setImageInfo(camera["Width"].toDouble(),
+                                 camera["Height"].toDouble(),
+                                 camera["PixelW"].toDouble(),
+                                 camera["PixelH"].toDouble(),
+                                 8);
+    }
 }
 
 }

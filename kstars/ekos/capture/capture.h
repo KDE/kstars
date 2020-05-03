@@ -359,6 +359,13 @@ class Capture : public QWidget, public Ui::Capture
          */
         void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
 
+        /**
+         * @brief syncDSLRToTargetChip Syncs INDI driver CCD_INFO property to the DSLR values.
+         * This include Max width, height, and pixel sizes.
+         * @param model Name of camera driver in the DSLR database.
+         */
+        void syncDSLRToTargetChip(const QString &model);
+
         double getEstimatedDownloadTime();
 
     public slots:
