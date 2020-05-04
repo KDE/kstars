@@ -817,9 +817,17 @@ class KStars : public KXmlGuiWindow
         /// Set to true when the application is being closed
         static bool Closing;
 
+        /** @brief Override KStars UI resource file.
+         * @note This is used by UI tests, which need to use the same resources with a different app name
+         */
+        static bool setResourceFile(QString const rc);
+
     private:
         /// Pointer to an instance of KStars
         static KStars *pinstance;
+
+        // Resource file to load - overridable by UI tests
+        static QString m_KStarsUIResource;
 
         KActionMenu *colorActionMenu { nullptr };
         KActionMenu *fovActionMenu { nullptr };

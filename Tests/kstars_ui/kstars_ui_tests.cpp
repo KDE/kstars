@@ -63,6 +63,9 @@ int main(int argc, char *argv[])
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
     KCrash::initialize();
 
+    // Explicitly provide the RC file from the main app resources, not the user-customized one
+    KStars::setResourceFile(":/kxmlgui5/kstars/kstarsui.rc");
+
     // This holds the final result of the test session
     int failure = 0;
 

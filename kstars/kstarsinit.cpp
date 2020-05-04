@@ -131,6 +131,19 @@ QAction *newToggleAction(KActionCollection *col, QString name, QString text, QOb
 }
 }
 
+// Resource file override - used by UI tests
+QString KStars::m_KStarsUIResource = "kstarsui.rc";
+bool KStars::setResourceFile(QString const rc)
+{
+    if (QFile(rc).exists())
+    {
+        m_KStarsUIResource = rc;
+        return true;
+    }
+    else return false;
+}
+
+
 void KStars::initActions()
 {
     // Check if we have this specific Breeze icon. If not, try to set the theme search path and if appropriate, the icon theme rcc file
@@ -933,8 +946,9 @@ void KStars::buildGUI()
     initStatusBar();
     initActions();
 
-    // Provide resource file explicitely for UI tests to display resources properly
-    setupGUI(StandardWindowOptions(Default), ":/kxmlgui5/kstars/kstarsui.rc");
+    // Setup GUI from the settings file
+    // UI tests provide the default settings file from the resources explicitly file to render UI properly
+    setupGUI(StandardWindowOptions(Default), m_KStarsUIResource);
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();
