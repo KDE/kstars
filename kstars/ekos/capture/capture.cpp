@@ -3518,13 +3518,9 @@ void Capture::setMeridianFlipStage(MFStage stage)
         {
             case MF_NONE:
                 if (m_State == CAPTURE_PAUSED)
-                    // paused after meridian flip
                     secondsLabel->setText(i18n("Paused..."));
-                /* disabled since the focusing label will be overwritten
-                else
-                    secondsLabel->setText("");
-                    */
                 meridianFlipStage = stage;
+                emit newMeridianFlipStatus(Mount::FLIP_NONE);
                 break;
 
             case MF_READY:

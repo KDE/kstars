@@ -439,7 +439,9 @@ private slots:
     private:
         void syncGPS();
         MeridianFlipStatus m_MFStatus = FLIP_NONE;
+        MeridianFlipStatus m_CaptureMFStatus = FLIP_NONE;
         void setMeridianFlipStatus(MeridianFlipStatus status);
+        void meridianFlipStatusChangedInternal(MeridianFlipStatus status);
         QString pierSideStateString();
 
         // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take at least

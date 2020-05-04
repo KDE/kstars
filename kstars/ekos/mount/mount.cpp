@@ -802,7 +802,7 @@ void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
         m_MFStatus = status;
         qCDebug (KSTARS_EKOS_MOUNT) << "Setting meridian flip status to " << meridianFlipStatusString(status);
 
-        meridianFlipStatusChanged(status);
+        meridianFlipStatusChangedInternal(status);
         emit newMeridianFlipStatus(status);
     }
 }
@@ -1180,6 +1180,7 @@ bool Mount::checkMeridianFlip(dms lst)
 
     static ISD::Telescope::PierSide initialPierSide;    // used when the flip has completed to determine if the flip was successful
 
+    // Compute hrsToFlip. Note if this is changed, possibly change the 4-minute delay logic below.
     switch (currentTelescope->pierSide())
     {
         case ISD::Telescope::PierSide::PIER_WEST:
@@ -1219,6 +1220,16 @@ bool Mount::checkMeridianFlip(dms lst)
 
             if (hrsToFlip <= 0)
             {
+                // If Capture's meridian flip status is not FLIP_NONE, then it will ignore the
+                // FLIP_PLANNED message, so best to wait until Capture's ready and in FLIP_NONE state.
+                if (m_CaptureMFStatus != FLIP_NONE && captureInterface != nullptr)
+                {
+                    meridianFlipStatusText->setText("Waiting for Capture");
+                    qCDebug(KSTARS_EKOS_MOUNT) << "Delaying flip until capture is ready. It's current status: "
+					       << meridianFlipStatusString(m_MFStatus);
+                    break;
+                }
+
                 // signal that a flip can be done
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
                                             lst.toHMSString() <<
@@ -1276,7 +1287,13 @@ bool Mount::checkMeridianFlip(dms lst)
                 {
                     if (flipDelayHrs <= 1.0)
                     {
-                        flipDelayHrs += (4.0 / 60.0);        // add 4 minutes delay
+                        // Set next flip attempt to be 4 minutes in the future.
+                        // These depend on the assignment to flipDelayHrs above.
+                        constexpr double delayHours = 4.0 / 60.0;
+                        if (currentTelescope->pierSide() == ISD::Telescope::PierSide::PIER_EAST)
+                            flipDelayHrs = rangeHA(ha + 12 + delayHours) - offset;
+                        else
+                            flipDelayHrs = ha + delayHours - offset;
 
                         // check to stop an infinite loop, 1.0 hrs for now but should use the Ha limit
                         appendLogText(i18n("meridian flip failed, retrying in 4 minutes"));
@@ -1356,7 +1373,17 @@ bool Mount::executeMeridianFlip()
     }
 }
 
+// This method should just be called by the signal coming from Capture, indicating the
+// internal state of Capture. 
 void Mount::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
+{
+    qCDebug(KSTARS_EKOS_MOUNT) << "Received capture meridianFlipStatusChange " << meridianFlipStatusString(status);
+    m_CaptureMFStatus = status;
+    if (status != FLIP_NONE)
+        meridianFlipStatusChangedInternal(status);
+}
+
+void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
 {
     m_MFStatus = status;
 
