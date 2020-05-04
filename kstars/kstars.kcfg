@@ -1860,6 +1860,18 @@
          <label>Default focus exposure time when no filters are used.</label>
          <default>1</default>
       </entry>
+      <entry name="FocusGaussianSigma" type="Double">
+         <label>Gaussian blur sigma value.</label>
+         <default>1.5</default>
+      </entry>
+      <entry name="FocusGaussianKernelSize" type="Int">
+         <label>Gaussian blur kernel size.</label>
+         <default>5</default>
+      </entry>
+      <entry name="FocusMultiRowAverage" type="Int">
+         <label>Number of rows to combine in the Bahtinov average calculation.</label>
+         <default>3</default>
+      </entry>
    </group>
    <group name="Align">
       <entry name="DefaultAlignCCD" type="String">

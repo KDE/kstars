@@ -851,7 +851,7 @@ void FITSView::drawMarker(QPainter * painter, double scale)
     painter->drawEllipse(QRectF(x2, y2, s2, s2));
 }
 
-bool FITSView::drawHFR(QPainter * painter, const QString & hfr, int x, int y)
+bool FITSView::drawHFR(QPainter * painter, const QString &hfr, int x, int y)
 {
     QRect const boundingRect(0, 0, painter->device()->width(), painter->device()->height());
     QSize const hfrSize = painter->fontMetrics().size(Qt::TextSingleLine, hfr);
@@ -876,6 +876,7 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
 {
     QFont painterFont;
     double fontSize = painterFont.pointSizeF() * 2;
+    painter->setRenderHint(QPainter::Antialiasing);
     if (showStarsHFR)
     {
         // If we need to print the HFR out, give an arbitrarily sized font to the painter
@@ -887,7 +888,7 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
 
     painter->setPen(QPen(Qt::red, scaleSize(2)));
 
-    foreach (auto const &starCenter, imageData->getStarCenters())
+    for (auto const &starCenter : imageData->getStarCenters())
     {
         int const w  = std::round(starCenter->width) * scale;
 
@@ -895,17 +896,51 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
         // SEP coordinates are in the center of pixels, and Qt at the boundary.
         const double xCoord = starCenter->x - 0.5;
         const double yCoord = starCenter->y - 0.5;
-        const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * scale : w;
-        painter->drawEllipse(QPointF(xCoord * scale, yCoord * scale), radius, radius);
+        const int xc = std::round((xCoord - starCenter->width / 2.0f) * scale);
+        const int yc = std::round((yCoord - starCenter->width / 2.0f) * scale);
+        const int hw = w / 2;
+
+        BahtinovEdge* bEdge = dynamic_cast<BahtinovEdge*>(starCenter);
+        if (bEdge != nullptr)
+        {
+            // Draw lines of diffraction pattern
+            painter->setPen(QPen(Qt::red, scaleSize(2)));
+            painter->drawLine(bEdge->line[0].x1() * scale, bEdge->line[0].y1() * scale,
+                              bEdge->line[0].x2() * scale, bEdge->line[0].y2() * scale);
+            painter->setPen(QPen(Qt::green, scaleSize(2)));
+            painter->drawLine(bEdge->line[1].x1() * scale, bEdge->line[1].y1() * scale,
+                              bEdge->line[1].x2() * scale, bEdge->line[1].y2() * scale);
+            painter->setPen(QPen(Qt::darkGreen, scaleSize(2)));
+            painter->drawLine(bEdge->line[2].x1() * scale, bEdge->line[2].y1() * scale,
+                              bEdge->line[2].x2() * scale, bEdge->line[2].y2() * scale);
+
+            // Draw center circle
+            painter->setPen(QPen(Qt::white, scaleSize(2)));
+            painter->drawEllipse(xc, yc, w, w);
+
+            // Draw offset circle
+            double factor = 15.0;
+            QPointF offsetVector = (bEdge->offset - QPointF(starCenter->x, starCenter->y)) * factor;
+            int const xo = std::round((starCenter->x + offsetVector.x() - starCenter->width / 2.0f) * scale);
+            int const yo = std::round((starCenter->y + offsetVector.y() - starCenter->width / 2.0f) * scale);
+            painter->setPen(QPen(Qt::red, scaleSize(2)));
+            painter->drawEllipse(xo, yo, w, w);
+
+            // Draw line between center circle and offset circle
+            painter->setPen(QPen(Qt::red, scaleSize(2)));
+            painter->drawLine(xc + hw, yc + hw, xo + hw, yo + hw);
+        }
+        else
+        {
+            const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * scale : w;
+            painter->drawEllipse(QPointF(xCoord * scale, yCoord * scale), radius, radius);
+        }
 
         if (showStarsHFR)
         {
-            int const x1 = std::round((xCoord - starCenter->width / 2.0f) * scale);
-            int const y1 = std::round((yCoord - starCenter->width / 2.0f) * scale);
-
             // Ask the painter how large will the HFR text be
             QString const hfr = QString("%1").arg(starCenter->HFR, 0, 'f', 2);
-            if (!drawHFR(painter, hfr, x1 + w + 5, y1 + w / 2))
+            if (!drawHFR(painter, hfr, xc + w + 5, yc + w / 2))
             {
                 // Try a few more time with smaller fonts;
                 for (int i = 0; i < 10; ++i)
@@ -914,7 +949,7 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
                     if (tempFontSize <= 0) break;
                     painterFont.setPointSizeF(tempFontSize);
                     painter->setFont(painterFont);
-                    if (drawHFR(painter, hfr, x1 + w + 5, y1 + w / 2))
+                    if (drawHFR(painter, hfr, xc + w + 5, yc + w / 2))
                         break;
                 }
                 // Reset the font size.

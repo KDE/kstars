@@ -14,7 +14,6 @@
 
 TestFitsData::TestFitsData(QObject *parent) : QObject(parent)
 {
-
 }
 
 void TestFitsData::initTestCase()
@@ -24,7 +23,6 @@ void TestFitsData::initTestCase()
 void TestFitsData::cleanupTestCase()
 {
 }
-
 
 void TestFitsData::init()
 {
@@ -62,6 +60,7 @@ void TestFitsData::testFocusHFR()
         QSKIP("Skipping load test because of missing fixture");
     runFocusHFR(m_FocusFixture3, 100, 1.23);
 }
+
 void TestFitsData::runFocusHFR(const QString &filename, int nstars, float hfr)
 {
     FITSData * d = new FITSData();
@@ -80,6 +79,31 @@ void TestFitsData::runFocusHFR(const QString &filename, int nstars, float hfr)
     d = nullptr;
 }
 
+
+void TestFitsData::testBahtinovFocusHFR()
+{
+    if(!QFile::exists(m_BahtinovFixture))
+        QSKIP("Skipping load test because of missing fixture");
+
+    FITSData * d = new FITSData();
+    QVERIFY(d != nullptr);
+
+    QFuture<bool> worker = d->loadFITS(m_BahtinovFixture);
+    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 5000);
+    QVERIFY(worker.result());
+
+    // The bahtinov algorithm depends on which star is selected and number of average rows - not sure how to fiddle with that yet
+    const QRect trackingBox(204, 240, 128, 128);
+
+    QCOMPARE(d->findStars(ALGORITHM_BAHTINOV, trackingBox), 1);
+    QCOMPARE(d->getDetectedStars(), 1);
+    QCOMPARE(d->getStarCenters().count(), 1);
+    QVERIFY(abs(d->getHFR() - 1.544) < 0.01);
+
+    delete d;
+    d = nullptr;
+}
+
 void TestFitsData::testLoadFits()
 {
     // Statistics computation
@@ -89,11 +113,11 @@ void TestFitsData::testLoadFits()
     QVERIFY(abs(fd->getSNR() - 0.114) < 0.001);
 
     // Minmax
-    QCOMPARE(fd->getMax(), 57832);
-    QCOMPARE(fd->getMin(), 21);
+    QCOMPARE((int)fd->getMax(), 57832);
+    QCOMPARE((int)fd->getMin(), 21);
 
     QWARN("No median calculation in the current implementation");
-    QCOMPARE(fd->getMedian(), 0);
+    QCOMPARE((int)fd->getMedian(), 0);
 
     // Without searching for stars, there are no stars found
     QCOMPARE(fd->getStarCenters().count(), 0);

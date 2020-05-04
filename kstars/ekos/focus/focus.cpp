@@ -644,7 +644,7 @@ void Focus::start()
 
     //    Options::setFocusTicks(stepIN->value());
     //    Options::setFocusTolerance(toleranceIN->value());
-    //    //Options::setFocusExposure(exposureIN->value());
+    //    Options::setFocusExposure(exposureIN->value());
     //    Options::setFocusMaxTravel(maxTravelIN->value());
     //    Options::setFocusBoxSize(focusBoxSize->value());
     //    Options::setFocusSubFrame(useSubFrame->isChecked());
@@ -660,6 +660,9 @@ void Focus::start()
                                 << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
                                 << " [" << fullFieldInnerRing->value() << "%," << fullFieldOuterRing->value() << "%]"
                                 << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
+                                << " Gaussian Sigma: " << gaussianSigmaSpin->value()
+                                << " Gaussian Kernel size: " << gaussianKernelSizeSpin->value()
+                                << " Multi row average: " << multiRowAverageSpin->value()
                                 << " Tolerance: " << toleranceIN->value()
                                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
@@ -3296,6 +3299,8 @@ void Focus::syncSettings()
             Options::setFocusTolerance(dsb->value());
         else if (dsb == thresholdSpin)
             Options::setFocusThreshold(dsb->value());
+        else if (dsb == gaussianSigmaSpin)
+            Options::setFocusGaussianSigma(dsb->value());
     }
     else if ( (sb = qobject_cast<QSpinBox*>(sender())))
     {
@@ -3310,6 +3315,10 @@ void Focus::syncSettings()
             Options::setFocusMaxSingleStep(sb->value());
         else if (sb == focusFramesSpin)
             Options::setFocusFramesCount(sb->value());
+        else if (sb == gaussianKernelSizeSpin)
+            Options::setFocusGaussianKernelSize(sb->value());
+        else if (sb == multiRowAverageSpin)
+            Options::setFocusMultiRowAverage(sb->value());
     }
     else if ( (cb = qobject_cast<QCheckBox*>(sender())))
     {
@@ -3377,8 +3386,6 @@ void Focus::loadSettings()
     ///////////////////////////////////////////////////////////////////////////
     /// Settings Group
     ///////////////////////////////////////////////////////////////////////////
-    // Auto Star?
-    useAutoStar->setChecked(Options::focusAutoStarEnabled());
     // Subframe?
     useSubFrame->setChecked(Options::focusSubFrame());
     // Dark frame?
@@ -3417,6 +3424,33 @@ void Focus::loadSettings()
     focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
     thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
     focusDetectionCombo->setCurrentIndex(focusDetection);
+    // Gaussian blur
+    gaussianSigmaSpin->setValue(Options::focusGaussianSigma());
+    gaussianKernelSizeSpin->setValue(Options::focusGaussianKernelSize());
+    // Hough algorithm multi row average
+    multiRowAverageSpin->setValue(Options::focusMultiRowAverage());
+    multiRowAverageSpin->setEnabled(focusDetection == ALGORITHM_BAHTINOV);
+
+    // Increase focus box size in case of Bahtinov mask focus
+    // Disable auto star in case of Bahtinov mask focus
+    if (focusDetection == ALGORITHM_BAHTINOV)
+    {
+        Options::setFocusAutoStarEnabled(false);
+        focusBoxSize->setMaximum(512);
+    }
+    else
+    {
+        // When not using Bathinov mask, limit box size to 256 and make sure value stays within range.
+        if (Options::focusBoxSize() > 256) {
+            Options::setFocusBoxSize(32);
+        }
+        focusBoxSize->setMaximum(256);
+    }
+    // Box Size
+    focusBoxSize->setValue(Options::focusBoxSize());
+    // Auto Star?
+    useAutoStar->setChecked(Options::focusAutoStarEnabled());
+    useAutoStar->setEnabled(focusDetection != ALGORITHM_BAHTINOV);
 }
 
 void Focus::initSettingsConnections()
@@ -3458,6 +3492,9 @@ void Focus::initSettingsConnections()
     connect(maxSingleStepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(gaussianSigmaSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(gaussianKernelSizeSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
+    connect(multiRowAverageSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
 
     connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
@@ -3679,6 +3716,25 @@ void Focus::initConnections()
     {
         focusDetection = static_cast<StarAlgorithm>(index);
         thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
+        multiRowAverageSpin->setEnabled(focusDetection == ALGORITHM_BAHTINOV);
+        if (focusDetection == ALGORITHM_BAHTINOV)
+        {
+            // In case of Bahtinov mask uncheck auto select star
+            useAutoStar->setChecked(false);
+            focusBoxSize->setMaximum(512);
+        }
+        else
+        {
+            // When not using Bathinov mask, limit box size to 256 and make sure value stays within range.
+            if (Options::focusBoxSize() > 256)
+            {
+                Options::setFocusBoxSize(32);
+                // Focus box size changed, update control
+                focusBoxSize->setValue(Options::focusBoxSize());
+            }
+            focusBoxSize->setMaximum(256);
+        }
+        useAutoStar->setEnabled(focusDetection != ALGORITHM_BAHTINOV);
     });
 
     // Update the focuser solution algorithm if the selection changes.
