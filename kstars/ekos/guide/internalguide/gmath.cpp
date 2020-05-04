@@ -345,8 +345,8 @@ Vector cgmath::point2arcsec(const Vector &p) const
     Vector arcs;
 
     // arcs = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
-    arcs.x = 206264.8062470963552 * p.x * ccd_pixel_width / focal;
-    arcs.y = 206264.8062470963552 * p.y * ccd_pixel_height / focal;
+    arcs.x = 206264.8062470963552 * p.x * subBinX * ccd_pixel_width / focal;
+    arcs.y = 206264.8062470963552 * p.y * subBinY * ccd_pixel_height / focal;
 
     return arcs;
 }
