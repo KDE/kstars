@@ -2497,8 +2497,9 @@ void Guide::setAxisDelta(double ra, double de)
 {
     //If PHD2 starts guiding because somebody pusted the button remotely, we want to set the state to guiding.
     //If guide pulses start coming in, it must be guiding.
-    if(guiderType == GUIDE_PHD2 && state != GUIDE_GUIDING)
-        setStatus(GUIDE_GUIDING);
+    // 2020-04-10 sterne-jaeger: Will be resolved inside EKOS phd guiding.
+    // if(guiderType == GUIDE_PHD2 && state != GUIDE_GUIDING)
+    //     setStatus(GUIDE_GUIDING);
 
     // Time since timer started.
     double key = guideTimer.elapsed() / 1000.0;

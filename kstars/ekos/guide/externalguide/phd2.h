@@ -98,7 +98,7 @@ class PHD2 : public GuideInterface
             //flip_calibration
             //get_algo_param_names
             //get_algo_param
-            //get_app_state
+            APP_STATE_RECEIVED,                     //get_app_state
             //get_calibrated
             //get_calibration_data
             IS_EQUIPMENT_CONNECTED,                 //get_connected
@@ -155,7 +155,7 @@ class PHD2 : public GuideInterface
         //flip_calibration
         //get_algo_param_names
         //get_algo_param
-        //get_app_state
+        void requestAppState();                //get_app_state
         //get_calibrated
         //get_calibration_data
         void checkIfEquipmentConnected();       //get_connected
@@ -202,7 +202,7 @@ class PHD2 : public GuideInterface
         bool isCurrentCameraNotInEkos(){ return currentCameraIsNotInEkos; }
         void setCurrentCameraIsNotInEkos(bool enable) {currentCameraIsNotInEkos = enable;}
 
-    private slots:
+private slots:
 
         void readPHD2();
         void displayError(QAbstractSocket::SocketError socketError);
@@ -220,6 +220,7 @@ class PHD2 : public GuideInterface
         void processPHD2Result(const QJsonObject &jsonObj, const QByteArray &rawResult);
         void processStarImage(const QJsonObject &jsonStarFrame);
         void processPHD2State(const QString &phd2State);
+        void handlePHD2AppState(PHD2State state);
         void processPHD2Error(const QJsonObject &jsonError, const QByteArray &rawResult);
 
         PHD2ResultType takeRequestFromList(const QJsonObject &response);

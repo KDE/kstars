@@ -74,7 +74,7 @@ PHD2::PHD2()
     //flip_calibration
     //get_algo_param_names
     //get_algo_param
-    //get_app_state
+    methodResults["get_app_state"]          = APP_STATE_RECEIVED;
     //get_calibrated
     //get_calibration_data
     methodResults["get_connected"]          = IS_EQUIPMENT_CONNECTED;
@@ -321,8 +321,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             break;
 
         case LoopingExposures:
-            state = LOOPING;
-            //emit newLog(i18n("PHD2: Looping Exposures."));
+            handlePHD2AppState(LOOPING);
             break;
 
         case LoopingExposuresStopped:
@@ -385,23 +384,15 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
         break;
 
         case StarSelected:
-            emit newLog(i18n("PHD2: Star Selected."));
+            handlePHD2AppState(SELECTED);
             break;
 
         case StarLost:
-            emit newLog(i18n("PHD2: Star Lost. Trying to reacquire."));
-            if (state != LOSTLOCK)
-            {
-                state = LOSTLOCK;
-                abortTimer->start(Options::guideLostStarTimeout() * 1000);
-                qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout started (" << Options::guideLostStarTimeout() << " sec)";
-            }
+            handlePHD2AppState(LOSTLOCK);
             break;
 
         case GuidingStopped:
-            state = STOPPED;
-            emit newLog(i18n("PHD2: Guiding Stopped."));
-            emit newStatus(Ekos::GUIDE_ABORTED);
+            handlePHD2AppState(STOPPED);
             break;
 
         case Resumed:
@@ -416,6 +407,11 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 emit newLog(i18n("PHD2: Star found, guiding resumed."));
                 abortTimer->stop();
                 state = GUIDING;
+            } else if (state != GUIDING)
+            {
+                // It's unclear why we receive a guiding step although we are not in the guiding state.
+                // So let's reaquire the current state directly and let's not guess.
+                requestAppState();
             }
             // JM 2018-08-05: GuideStep does not necessary mean we're guiding
             // It could be that we're settling. This needs to be double-checked.
@@ -518,19 +514,61 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 void PHD2::processPHD2State(const QString &phd2State)
 {
     if (phd2State == "Stopped")
-        state = STOPPED;
+        handlePHD2AppState(STOPPED);
     else if (phd2State == "Selected")
-        state = SELECTED;
+        handlePHD2AppState(SELECTED);
     else if (phd2State == "Calibrating")
-        state = CALIBRATING;
+        handlePHD2AppState(CALIBRATING);
     else if (phd2State == "Guiding")
-        state = GUIDING;
+        handlePHD2AppState(GUIDING);
     else if (phd2State == "LostLock")
-        state = LOSTLOCK;
+        handlePHD2AppState(LOSTLOCK);
     else if (phd2State == "Paused")
-        state = PAUSED;
+        handlePHD2AppState(PAUSED);
     else if (phd2State == "Looping")
-        state = LOOPING;
+        handlePHD2AppState(LOOPING);
+}
+
+void PHD2::handlePHD2AppState(PHD2State newstate)
+{
+    // do not handle the same state twice
+    if (state == newstate)
+        return;
+
+    switch (newstate)
+    {
+    case STOPPED:
+        emit newLog(i18n("PHD2: Guiding Stopped."));
+        emit newStatus(Ekos::GUIDE_ABORTED);
+        break;
+    case SELECTED:
+        emit newLog(i18n("PHD2: Star Selected."));
+        emit newStatus(GUIDE_STAR_SELECT);
+        break;
+    case GUIDING:
+        emit newLog(i18n("PHD2: Guiding."));
+        emit newStatus(GUIDE_GUIDING);
+        break;
+    case LOSTLOCK:
+        emit newLog(i18n("PHD2: Star Lost. Trying to reacquire."));
+        abortTimer->start(static_cast<int>(Options::guideLostStarTimeout()) * 1000);
+        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout started (" << Options::guideLostStarTimeout() << " sec)";
+        // TODO: there is no matching EKOS guiding state
+        break;
+    case PAUSED:
+        emit newLog(i18n("PHD2: Paused."));
+        emit newStatus(GUIDE_SUSPENDED);
+        break;
+    case CALIBRATING:
+        emit newLog(i18n("PHD2: Calibrating."));
+        emit newStatus(GUIDE_CALIBRATING);
+        break;
+    case LOOPING:
+        //emit newLog(i18n("PHD2: Looping Exposures."));
+        break;
+    }
+
+    state = newstate;
 }
 
 void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
@@ -562,7 +600,11 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         //flip_calibration
         //get_algo_param_names
         //get_algo_param
-        //get_app_state
+
+        case APP_STATE_RECEIVED:                    //get_app_state
+            processPHD2State(jsonObj["State"].toString());
+            break;
+
         //get_calibrated
         //get_calibration_data
 
@@ -955,7 +997,13 @@ bool PHD2::dither(double pixels)
 //flip_calibration
 //get_algo_param_names
 //get_algo_param
+
 //get_app_state
+void PHD2::requestAppState()
+{
+    sendPHD2Request("get_app_state");
+}
+
 //get_calibrated
 //get_calibration_data
 
