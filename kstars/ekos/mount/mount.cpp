@@ -978,7 +978,7 @@ void Mount::disableAltLimits()
 
 void Mount::enableHourAngleLimits(bool enable)
 {
-    //Options::setEnableHaLimit(enable);
+    Options::setEnableHaLimit(enable);
 
     maxHaLabel->setEnabled(enable);
     maxHaLimit->setEnabled(enable);
