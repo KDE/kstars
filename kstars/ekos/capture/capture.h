@@ -413,6 +413,19 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
 
+        /** DBUS interface function.
+         * @brief pause Pauses the Sequence Queue progress AFTER the current capture is complete.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void pause();
+
+        /** DBUS interface function.
+         * @brief toggleSequence Toggle sequence state depending on its current state.
+         * 1. If paused, then resume sequence.
+         * 2. If idle or completed, then start sequence.
+         * 3. Otherwise, abort current sequence.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void toggleSequence();
+
         /** @}*/
 
         /**
@@ -585,9 +598,6 @@ class Capture : public QWidget, public Ui::Capture
             frameTypeCombo->setCurrentText(type);
         }
 
-        // Pause Sequence Queue
-        void pause();
-
         // Logs
         void appendLogText(const QString &);
 
@@ -625,8 +635,6 @@ class Capture : public QWidget, public Ui::Capture
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
              */
         void setDirty();
-
-        void toggleSequence();
 
         void checkFrameType(int index);
         void resetFrame();

@@ -23,20 +23,26 @@
     <method name="stop">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="pause">
+        <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="toggleSequence">
+        <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="toggleVideo">
       <arg name="enabled" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>    
+    </method>
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
-    </method> 
+    </method>
     <method name="clearSequenceQueue">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="getSequenceQueueStatus">
       <arg type="s" direction="out"/>
-    </method>    
+    </method>
     <method name="setMaximumGuidingDeviation">
       <arg name="enable" type="b" direction="in"/>
       <arg name="value" type="d" direction="in"/>
@@ -46,7 +52,7 @@
       <arg name="enable" type="b" direction="in"/>
       <arg name="HFR" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>    
+    </method>
     <method name="getJobCount">
       <arg type="i" direction="out"/>
     </method>
@@ -75,7 +81,7 @@
     </method>
     <method name="getProgressPercentage">
       <arg type="d" direction="out"/>
-    </method>    
+    </method>
     <method name="getActiveJobID">
       <arg type="i" direction="out"/>
     </method>
