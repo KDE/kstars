@@ -205,8 +205,7 @@ void StreamWG::syncDebayerParameters()
 {
     m_DebayerSupported = queryDebayerParameters();
     debayerB->setEnabled(m_DebayerSupported);
-    if (!m_DebayerSupported)
-        m_DebayerActive = false;
+    m_DebayerActive = m_DebayerSupported;
 }
 
 bool StreamWG::queryDebayerParameters()
