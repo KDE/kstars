@@ -131,9 +131,9 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
         stAltString = stAlt.toDMSString();
         srAzString  = srAz.toDMSString();
 
-        ssTimeString = QLocale().toString(ssTime);
-        srTimeString = QLocale().toString(srTime);
-        stTimeString = QLocale().toString(stTime);
+        ssTimeString = QLocale().toString(ssTime, "hh:mm:ss");
+        srTimeString = QLocale().toString(srTime, "hh:mm:ss");
+        stTimeString = QLocale().toString(stTime, "hh:mm:ss");
 
         QTime daylength = lengthOfDay(ssTime, srTime);
         //daylengthString = QLocale().toString(daylength);
@@ -149,7 +149,7 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
 
         ssTimeString    = "--:--";
         srTimeString    = "--:--";
-        stTimeString    = QLocale().toString(stTime);
+        stTimeString    = QLocale().toString(stTime, "hh:mm:ss");
         daylengthString = "24:00";
     }
     else if (stAlt.Degrees() < 0.)
@@ -160,7 +160,7 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
 
         ssTimeString    = "--:--";
         srTimeString    = "--:--";
-        stTimeString    = QLocale().toString(stTime);
+        stTimeString    = QLocale().toString(stTime, "hh:mm:ss");
         daylengthString = "00:00";
     }
 
@@ -182,9 +182,9 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
         mtAltString = mtAlt.toDMSString();
         mrAzString  = mrAz.toDMSString();
 
-        msTimeString = QLocale().toString(msTime);
-        mrTimeString = QLocale().toString(mrTime);
-        mtTimeString = QLocale().toString(mtTime);
+        msTimeString = QLocale().toString(msTime, "hh:mm:ss");
+        mrTimeString = QLocale().toString(mrTime, "hh:mm:ss");
+        mtTimeString = QLocale().toString(mtTime, "hh:mm:ss");
 
         //...but not always!
     }
@@ -196,7 +196,7 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = QLocale().toString(mtTime);
+        mtTimeString = QLocale().toString(mtTime, "hh:mm:ss");
     }
     else if (mtAlt.Degrees() < 0.)
     {
@@ -206,7 +206,7 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = QLocale().toString(mtTime);
+        mtTimeString = QLocale().toString(mtTime, "hh:mm:ss");
     }
 
     //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan
@@ -289,11 +289,26 @@ void modCalcDayLength::processLines(QTextStream &istream)
     //Write header
     ostream << "# " << i18nc("%1 is a location on earth", "Almanac for %1", geoBatch->fullName())
             << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString(), geoBatch->lat()->toDMSString())
-            << "\n# " << i18n("computed by KStars")
-            << "\n#\n"
-            << "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet  "
-            "    MRiseAz      MTranAlt      MSetAz     LunarPhase\n"
-            << "#" << '\n';
+            << "\n# " << i18n("computed by KStars") << endl
+            << "# " << "SRise: Sun Rise" << endl
+            << "# " << "STran: Sun Transit" << endl
+            << "# " << "SSet: Sun Set" << endl
+            << "# " << "SRiseAz: Azimuth of Sun Rise" << endl
+            << "# " << "STranAlt: Altitude of Sun Transit" << endl
+            << "# " << "SSetAz: Azimuth of Sun Set" << endl
+            << "# " << "STranAlt: Altitude of Sun Transit" << endl
+            << "# " << "DayLen: Day Duration in hours" << endl
+            << "# " << "MRise: Moon Rise" << endl
+            << "# " << "MTran: Moon Transit" << endl
+            << "# " << "MSet: Moon Set" << endl
+            << "# " << "MRiseAz: Azimuth of Moon Rise" << endl
+            << "# " << "MTranAkt: Altitude of Moon Transit" << endl
+            << "# " << "MSetAz: Azimuth of Moon Set" << endl
+            << "# " << "LunarPhase: Lunar Phase and Illumination Percentage" << endl
+            << "# " << endl
+            << "# Date,SRise,STran,SSet,SRiseAz,STranAlt,SSetAz,DayLen,MRise,MTran,MSet,"
+            << "MRiseAz,MTranAlt,MSetAz,LunarPhase" << endl
+            << "#" << endl;
 
     QString line;
     QDate d;
@@ -304,14 +319,25 @@ void modCalcDayLength::processLines(QTextStream &istream)
         line = line.trimmed();
 
         //Parse the line as a date, then compute Almanac values
-        d = QDate::fromString(line);
+        d = QDate::fromString(line, Qt::ISODate);
         if (d.isValid())
         {
             updateAlmanac(d, geoBatch);
-            ostream << d.toString(Qt::ISODate) << "  " << srTimeString << "  " << stTimeString << "  " << ssTimeString
-                    << "  " << srAzString << "  " << stAltString << "  " << ssAzString << "  " << daylengthString
-                    << "    " << mrTimeString << "  " << mtTimeString << "  " << msTimeString << "  " << mrAzString
-                    << "  " << mtAltString << "  " << msAzString << "  " << lunarphaseString << '\n';
+            ostream << d.toString(Qt::ISODate) << "," <<
+                    srTimeString << "," <<
+                    stTimeString << "," <<
+                    ssTimeString << "," <<
+                    srAzString << "," <<
+                    stAltString << "," <<
+                    ssAzString << "," <<
+                    daylengthString << "," <<
+                    mrTimeString << "," <<
+                    mtTimeString << "," <<
+                    msTimeString << "," <<
+                    mrAzString << "," <<
+                    mtAltString << "," <<
+                    msAzString << "," <<
+                    lunarphaseString << endl;
         }
     }
 }
