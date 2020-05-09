@@ -26,13 +26,13 @@
 
 #include <QElapsedTimer>
 
-FITSStarDetector& FITSBahtinovDetector::configure(const QString &setting, const QVariant &value)
+FITSStarDetector &FITSBahtinovDetector::configure(const QString &setting, const QVariant &value)
 {
     if (!setting.compare("NUMBER_OF_AVERAGE_ROWS", Qt::CaseInsensitive))
     {
-        if (value.canConvert <typeof (NUMBER_OF_AVERAGE_ROWS)> ())
+        if (value.canConvert <int> ())
         {
-            NUMBER_OF_AVERAGE_ROWS = value.value <typeof (NUMBER_OF_AVERAGE_ROWS)> ();
+            NUMBER_OF_AVERAGE_ROWS = value.value <int> ();
 
             // Validate number of average rows value
             if (NUMBER_OF_AVERAGE_ROWS % 2 == 0)
@@ -122,11 +122,10 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
     {
         uint8_t * dataPtr = buffer;
         const uint8_t * origDataPtr = image_data->getImageBuffer();
-        uint32_t lineOffset  = 0;
         // Copy data line by line
         for (int height = subY; height < (subY + subH); height++)
         {
-            lineOffset = (subX + height * dataWidth) * BBP;
+            uint32_t lineOffset = (subX + height * dataWidth) * BBP;
             memcpy(dataPtr, origDataPtr + lineOffset, subW * BBP);
             dataPtr += (subW * BBP);
         }
@@ -152,8 +151,8 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
 
     // Rotate image 180 degrees in steps of 1 degree
     QMap<int, BahtinovLineAverage> lineAveragesPerAngle;
-    int steps = 180;
-    double radPerStep = M_PI / (double)steps;
+    const int steps = 180;
+    double radPerStep = M_PI / steps;
 
     timer1.start();
 
@@ -189,7 +188,7 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
                 maxAngle = angle;
             }
         }
-        HoughLine* pHoughLine = new HoughLine(maxAngle * radPerStep, maxAverageOffset, subW, subH, (int)maxAverage);
+        HoughLine* pHoughLine = new HoughLine(maxAngle * radPerStep, maxAverageOffset, subW, subH, maxAverage);
         if (pHoughLine != nullptr)
         {
             bahtinov_angles.append(pHoughLine);
@@ -230,7 +229,8 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
         HoughLine* otherLine = top3Lines[2];
         QPointF intersection;
         HoughLine::IntersectResult result = oneLine->Intersect(*otherLine, intersection);
-        if (result == HoughLine::INTERESECTING) {
+        if (result == HoughLine::INTERESECTING)
+        {
 
             qCDebug(KSTARS_FITS) << "Intersection: " << intersection.x() << ", " << intersection.y();
 
@@ -238,10 +238,11 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
             HoughLine* midLine = top3Lines[1];
             QPointF intersectionOnMidLine;
             double distance;
-            if (midLine->DistancePointLine(intersection, intersectionOnMidLine, distance)) {
+            if (midLine->DistancePointLine(intersection, intersectionOnMidLine, distance))
+            {
                 qCDebug(KSTARS_FITS) << "Distance between intersection and midline is " << distance
-                                    << " at mid line point " << intersectionOnMidLine.x() << ", "
-                                    << intersectionOnMidLine.y();
+                                     << " at mid line point " << intersectionOnMidLine.x() << ", "
+                                     << intersectionOnMidLine.y();
 
                 // Add star center to selected stars
                 // Maximum Radius
@@ -278,7 +279,8 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
     for (int index = 0; index < bahtinov_angles.size(); index++)
     {
         HoughLine* pLineAverage = bahtinov_angles[index];
-        if (pLineAverage != nullptr) {
+        if (pLineAverage != nullptr)
+        {
             delete pLineAverage;
         }
     }
@@ -309,7 +311,7 @@ BahtinovLineAverage FITSBahtinovDetector::calculateMaxAverage(const FITSData *da
     // Calculate average pixel value for each row
     auto * rotBuffer = reinterpret_cast<T *>(rotimage);
 
-//    printf("Angle;%d;Width;%d;Height;%d;Rows;%d;;RowSum;", angle, width, height, NUMBER_OF_AVERAGE_ROWS);
+    //    printf("Angle;%d;Width;%d;Height;%d;Rows;%d;;RowSum;", angle, width, height, NUMBER_OF_AVERAGE_ROWS);
 
     for (int y = 0; y < height; y++)
     {
@@ -321,9 +323,16 @@ BahtinovLineAverage FITSBahtinovDetector::calculateMaxAverage(const FITSData *da
         for (int y1 = yMin; y1 <= yMax; y1++)
         {
             int y2 = y1;
-            if (y2 < 0) { y2 += height; }
-            if (y2 >= height) { y2 -= height; }
-            if (y2 < 0 || y2 >= height) {
+            if (y2 < 0)
+            {
+                y2 += height;
+            }
+            if (y2 >= height)
+            {
+                y2 -= height;
+            }
+            if (y2 < 0 || y2 >= height)
+            {
                 qCWarning(KSTARS_FITS) << "Y still out of bounds: 0 <=" << y2 << "<" << height;
             }
 
@@ -336,20 +345,20 @@ BahtinovLineAverage FITSBahtinovDetector::calculateMaxAverage(const FITSData *da
                     int offset = size * i;
                     channelAverage += rotBuffer[index + offset];
                 }
-                multiRowSum += qRound(channelAverage / (double)numChannels);
+                multiRowSum += qRound(channelAverage / static_cast<double>(numChannels));
             }
         }
-//        printf("%lu;", multiRowSum);
+        //        printf("%lu;", multiRowSum);
 
-        double average = multiRowSum / (double)(width * NUMBER_OF_AVERAGE_ROWS);
+        double average = multiRowSum / static_cast<double>(width * NUMBER_OF_AVERAGE_ROWS);
         if (average > lineAverage.average)
         {
             lineAverage.average = average;
             lineAverage.offset = y;
         }
     }
-//    printf(";;MaxAverage;%.3f;MaxAverageIndex;%lu\r\n", lineAverage.average, lineAverage.offset);
-//    fflush(stdout);
+    //    printf(";;MaxAverage;%.3f;MaxAverageIndex;%lu\r\n", lineAverage.average, lineAverage.offset);
+    //    fflush(stdout);
 
     rotBuffer = nullptr;
     delete[] rotimage;
@@ -374,7 +383,6 @@ bool FITSBahtinovDetector::rotateImage(const FITSData *data, int angle, T * rotI
     int numChannels = data->channels();
 
     int hx, hy;
-    int offset = 0;
     size_t bufferSize;
 
     /* Check allocation buffer for rotated image */
@@ -413,7 +421,7 @@ bool FITSBahtinovDetector::rotateImage(const FITSData *data, int angle, T * rotI
 
     for (int i = 0; i < numChannels; i++)
     {
-        offset = size * i;
+        int offset = size * i;
         for (int x1 = leftEdge; x1 < rightEdge; x1++)
         {
             for (int y1 = topEdge; y1 < bottomEdge; y1++)
@@ -433,7 +441,7 @@ bool FITSBahtinovDetector::rotateImage(const FITSData *data, int angle, T * rotI
                 int orgIndex = y1 * height + x1;
                 int newIndex = qRound(y2) * height + qRound(x2);
 
-                if (newIndex >= 0 && newIndex < (int)(bufferSize))
+                if (newIndex >= 0 && newIndex < static_cast<int>(bufferSize))
                 {
                     rotBuffer[newIndex + offset] = buffer[orgIndex + offset];
                 } // else index out of bounds, do not update pixel
