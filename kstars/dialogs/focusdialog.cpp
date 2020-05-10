@@ -81,7 +81,8 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
 
     if (center)
     {
-        center->deprecess(KStarsData::Instance()->updateNum());
+        //center->deprecess(KStarsData::Instance()->updateNum());
+        center->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
         fd->raBox->setDMS(center->ra().toHMSString());
         fd->decBox->setDMS(center->dec().toDMSString());
 
@@ -152,7 +153,8 @@ void FocusDialog::validatePoint()
         {
             Point->setRA(ra);
             Point->setDec(dec);
-            Point->deprecess(KStarsData::Instance()->updateNum());
+            //Point->deprecess(KStarsData::Instance()->updateNum());
+            Point->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
         }
         else
         {

@@ -1895,7 +1895,8 @@ void KStars::slotShowPositionBar(SkyPoint *p)
     if (Options::showJ2000RADecField())
     {
         SkyPoint p0;
-        p0        = p->deprecess(KStarsData::Instance()->updateNum()); // deprecess to update RA0/Dec0 from RA/Dec
+        //p0        = p->deprecess(KStarsData::Instance()->updateNum()); // deprecess to update RA0/Dec0 from RA/Dec
+        p0 = p->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
         QString s = QString("%1, %2 (J2000)")
                     .arg(p0.ra().toHMSString(),
                          p0.dec().toDMSString(true)); //true: force +/- symbol

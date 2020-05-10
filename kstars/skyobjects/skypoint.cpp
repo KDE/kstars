@@ -251,7 +251,7 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
             (!std::isnan(Dec0.Degrees()) && fabs(Dec0.Degrees()) > 90.0))
     {
         // We have invalid RA0 and Dec0, so set them if epoch = J2000. Otherwise, do not touch.
-        if (epoch == J2000)
+        if (epoch == J2000L)
         {
             RA0  = p1.ra();
             Dec0 = p1.dec();
@@ -260,8 +260,41 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
     return p1;
 }
 
-void SkyPoint::nutate(const KSNumbers *num)
+void SkyPoint::nutate(const KSNumbers *num, const bool reverse)
 {
+#ifdef USE_LIBNOVA
+    // code lifted from libnova ln_get_equ_nut
+    // with the option to add or remove nutation
+    struct ln_nutation nut;
+    ln_get_nutation (num->julianDay(), &nut);
+
+    double mean_ra, mean_dec, delta_ra, delta_dec;
+
+    mean_ra = RA.radians();
+    mean_dec = Dec.radians();
+
+    // Equ 22.1
+
+    double nut_ecliptic = ln_deg_to_rad(nut.ecliptic + nut.obliquity);
+    double sin_ecliptic = sin(nut_ecliptic);
+
+    double sin_ra = sin(mean_ra);
+    double cos_ra = cos(mean_ra);
+
+    double tan_dec = tan(mean_dec);
+
+    delta_ra = (cos (nut_ecliptic) + sin_ecliptic * sin_ra * tan_dec) * nut.longitude - cos_ra * tan_dec * nut.obliquity;
+    delta_dec = (sin_ecliptic * cos_ra) * nut.longitude + sin_ra * nut.obliquity;
+
+    // the sign changed to remove nutation
+    if (reverse)
+    {
+        delta_ra = -delta_ra;
+        delta_dec = -delta_dec;
+    }
+    RA.setD(RA.Degrees() + delta_ra);
+    Dec.setD(Dec.Degrees() + delta_dec);
+#else
     double cosRA, sinRA, cosDec, sinDec, tanDec;
     double cosOb, sinOb;
 
@@ -278,18 +311,34 @@ void SkyPoint::nutate(const KSNumbers *num)
         double dRA  = num->dEcLong() * (cosOb + sinOb * sinRA * tanDec) - num->dObliq() * cosRA * tanDec;
         double dDec = num->dEcLong() * (sinOb * cosRA) + num->dObliq() * sinRA;
 
+        if (reverse)
+        {
+            dRA = -dRA;
+            dDec = -dDec;
+        }
         RA.setD(RA.Degrees() + dRA);
         Dec.setD(Dec.Degrees() + dDec);
     }
     else //exact method
     {
+        // TODO apply reverse test above 80 degrees
         dms EcLong, EcLat;
         findEcliptic(num->obliquity(), EcLong, EcLat);
 
-        //Add dEcLong to the Ecliptic Longitude
-        dms newLong(EcLong.Degrees() + num->dEcLong());
-        setFromEcliptic(num->obliquity(), newLong, EcLat);
+        if (reverse)
+        {
+            //Subtract dEcLong from the Ecliptic Longitude
+            dms newLong(EcLong.Degrees() - num->dEcLong());
+            setFromEcliptic(num->obliquity(), newLong, EcLat);
+        }
+        else
+        {
+            //Add dEcLong to the Ecliptic Longitude
+            dms newLong(EcLong.Degrees() + num->dEcLong());
+            setFromEcliptic(num->obliquity(), newLong, EcLat);
+        }
     }
+#endif
 }
 
 SkyPoint SkyPoint::moveAway(const SkyPoint &from, double dist) const
@@ -375,8 +424,24 @@ bool SkyPoint::bendlight()
     return true;
 }
 
-void SkyPoint::aberrate(const KSNumbers *num)
+void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
 {
+#ifdef USE_LIBNOVA
+    ln_equ_posn pos { RA.Degrees(), Dec.Degrees() };
+    ln_equ_posn abPos { 0, 0 };
+    ln_get_equ_aber(&pos, num->julianDay(),&abPos);
+    if (reverse)
+    {
+        RA.setD(RA.Degrees() * 2 - abPos.ra);
+        Dec.setD(Dec.Degrees() * 2 - abPos.dec);
+    }
+    else
+    {
+        RA.setD(abPos.ra);
+        Dec.setD(abPos.dec);
+    }
+
+#else
     double cosRA, sinRA, cosDec, sinDec;
     double cosOb, sinOb, cosL, sinL, cosP, sinP;
 
@@ -403,8 +468,14 @@ void SkyPoint::aberrate(const KSNumbers *num)
     double dDec =
         K * (sinRA * (sinOb * cosDec - cosOb * sinDec) * (e * cosP - cosL) + cosRA * sinDec * (e * sinP - sinL));
 
+    if (reverse)
+    {
+        dRA = -dRA;
+        dDec = -dDec;
+    }
     RA.setD(RA.Degrees() + dRA);
     Dec.setD(Dec.Degrees() + dDec);
+#endif
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
@@ -465,10 +536,10 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf)
     RA.SinCos(sinRA, cosRA);
     Dec.SinCos(sinDec, cosDec);
 
-    if (jd0 == B1950)
+    if (jd0 == B1950L)
     {
         B1950ToJ2000();
-        jd0 = J2000;
+        jd0 = J2000L;
         RA.SinCos(sinRA, cosRA);
         Dec.SinCos(sinDec, cosDec);
     }
@@ -477,7 +548,7 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf)
     {
         // The original coordinate is referred to the FK5 system and
         // is NOT J2000.
-        if (jd0 != J2000)
+        if (jd0 != J2000L)
         {
             //v is a column vector representing input coordinates.
             v[0] = cosRA * cosDec;
@@ -502,7 +573,7 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf)
             s[2] = sinDec;
         }
 
-        if (jdf == B1950)
+        if (jdf == B1950L)
         {
             RA.setRadians(atan2(s[1], s[0]));
             Dec.setRadians(asin(s[2]));
@@ -534,6 +605,31 @@ void SkyPoint::apparentCoord(long double jd0, long double jdf)
     if (Options::useRelativistic() && checkBendLight())
         bendlight();
     aberrate(&num);
+}
+
+SkyPoint SkyPoint::catalogueCoord(long double jdf)
+{
+    KSNumbers num(jdf);
+
+    // remove abberation
+    aberrate(&num, true);
+
+    // remove nutation
+    nutate(&num, true);
+
+    // remove precession
+    // the start position needs to be in RA0,Dec0
+    RA0 = RA;
+    Dec0 = Dec;
+    // from now to J2000
+    precessFromAnyEpoch(jdf, static_cast<long double>(J2000));
+    // the J2000 position is in RA,Dec, move to RA0, Dec0
+    RA0 = RA;
+    Dec0 = Dec;
+    lastPrecessJD = J2000;
+
+    SkyPoint sp(RA0, Dec0);
+    return sp;
 }
 
 void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat)
@@ -581,7 +677,7 @@ void SkyPoint::B1950ToJ2000(void)
     double v[3], s[3];
 
     // 1984 January 1 0h
-    KSNumbers num(2445700.5);
+    KSNumbers num(2445700.5L);
 
     // Eterms due to aberration
     addEterms();
@@ -627,7 +723,7 @@ void SkyPoint::J2000ToB1950(void)
     double v[3], s[3];
 
     // 1984 January 1 0h
-    KSNumbers num(2445700.5);
+    KSNumbers num(2445700.5L);
 
     RA.SinCos(sinRA, cosRA);
     Dec.SinCos(sinDec, cosDec);
@@ -757,7 +853,7 @@ double SkyPoint::vRSun(long double jd0)
     SkyPoint aux;
     aux.set(RA0, Dec0);
 
-    aux.precessFromAnyEpoch(jd0, J2000);
+    aux.precessFromAnyEpoch(jd0, J2000L);
 
     aux.ra().SinCos(sinRA, cosRA);
     aux.dec().SinCos(sinDec, cosDec);
@@ -803,7 +899,7 @@ double SkyPoint::vREarth(long double jd0)
 
     SkyPoint aux(RA0, Dec0);
 
-    aux.precessFromAnyEpoch(jd0, J2000);
+    aux.precessFromAnyEpoch(jd0, J2000L);
 
     aux.ra().SinCos(sinRA, cosRA);
     aux.dec().SinCos(sinDec, cosDec);

@@ -303,7 +303,8 @@ void AltVsTime::slotAddSource()
             if (jd != J2000)
             {
                 SkyPoint ptest(newRA, newDec);
-                ptest.precessFromAnyEpoch(jd, J2000);
+                //ptest.precessFromAnyEpoch(jd, J2000);
+                ptest.catalogueCoord(jd);
                 newRA.setH(ptest.ra().Hours());
                 newDec.setD(ptest.dec().Degrees());
             }

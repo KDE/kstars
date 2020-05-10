@@ -358,7 +358,7 @@ void FlagComponent::toJ2000(SkyPoint *p, QString epoch)
     if (dt.djd() == J2000)
         return;
 
-    p->apparentCoord(dt.djd(), J2000);
+    p->catalogueCoord(dt.djd());
 
     // Store J2000 coords in RA0, DEC0
     p->setRA0(p->ra());

@@ -573,7 +573,7 @@ bool Telescope::runCommand(int command, void *ptr)
         case INDI_FIND_TELESCOPE:
         {
             SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
-            J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+            J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
             currentCoord.setRA0(J2000Coord.ra());
             currentCoord.setDec0(J2000Coord.dec());
             double maxrad = 1000.0 / Options::zoomFactor();
@@ -590,7 +590,7 @@ bool Telescope::runCommand(int command, void *ptr)
                     currentCoord.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
             {
                 SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
-                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+                J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
                 currentCoord.setRA0(J2000Coord.ra());
                 currentCoord.setDec0(J2000Coord.dec());
                 //KStars::Instance()->map()->setClickedPoint(&currentCoord);
@@ -768,7 +768,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             {
                 ScopeTarget->setRA0(ScopeTarget->ra());
                 ScopeTarget->setDec0(ScopeTarget->dec());
-                ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+                ScopeTarget->catalogueCoord( KStars::Instance()->data()->ut().djd());
                 ra = ScopeTarget->ra();
                 de = ScopeTarget->dec();
             }

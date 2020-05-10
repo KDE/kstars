@@ -463,7 +463,8 @@ void SkyMap::slotDSS()
     }
     else
     {
-        SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        //SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        SkyPoint deprecessedPoint = clickedPoint()->catalogueCoord(data->updateNum()->julianDay());
         ra                        = deprecessedPoint.ra();
         dec                       = deprecessedPoint.dec();
         urlstring                 = KSDssDownloader::getDSSURL(ra, dec); // Use default size for non-objects
@@ -495,7 +496,9 @@ void SkyMap::slotCopyCoordinates()
     }
     else
     {
-        SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        //SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        SkyPoint deprecessedPoint = clickedPoint()->catalogueCoord(data->updateNum()->julianDay());
+        deprecessedPoint.catalogueCoord(data->updateNum()->julianDay());
         deprecessedPoint.EquatorialToHorizontal(data->lst(), data->geo()->lat());
 
         J2000RA = deprecessedPoint.ra0();
@@ -535,7 +538,9 @@ void SkyMap::slotSDSS()
     }
     else
     {
-        SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        //SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        SkyPoint deprecessedPoint = clickedPoint()->catalogueCoord(data->updateNum()->julianDay());
+        deprecessedPoint.catalogueCoord(data->updateNum()->julianDay());
         ra                        = deprecessedPoint.ra();
         dec                       = deprecessedPoint.dec();
     }
@@ -729,7 +734,9 @@ void SkyMap::slotAddFlag()
     }
     else
     {
-        SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        //SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        SkyPoint deprecessedPoint = clickedPoint()->catalogueCoord(data->updateNum()->julianDay());
+        deprecessedPoint.catalogueCoord(data->updateNum()->julianDay());
         J2000RA                   = deprecessedPoint.ra();
         J2000DE                   = deprecessedPoint.dec();
     }

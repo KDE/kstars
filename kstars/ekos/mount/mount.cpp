@@ -516,7 +516,7 @@ void Mount::updateTelescopeCoords()
             if (currentTelescope->isJ2000() == false)
             {
                 SkyPoint J2000Coord(telescopeCoord.ra(), telescopeCoord.dec());
-                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+                J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
                 //J2000Coord.precessFromAnyEpoch(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
                 telescopeCoord.setRA0(J2000Coord.ra());
                 telescopeCoord.setDec0(J2000Coord.dec());

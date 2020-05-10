@@ -24,6 +24,7 @@
 #define UNIT_TEST
 
 #include "skyobjects/skypoint.h"
+#include <libnova/ln_types.h>
 
 /**
  * @class TestSkyPoint
@@ -33,14 +34,45 @@
 
 class TestSkyPoint : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    TestSkyPoint() : QObject(){};
-    ~TestSkyPoint() override = default;
+    public:
+        TestSkyPoint();
+        ~TestSkyPoint() override;
 
-  private slots:
-    void testPrecession();
+    private:
+        void compare(QString msg, double ra1, double dec1, double ra2, double dec2, double err = 0.0001);
+        void compare(QString msg, SkyPoint * sp);
+        void compare(QString msg, SkyPoint * sp, SkyPoint * sp1);
+        void compare(QString msg, SkyPoint * sp, ln_equ_posn * lnp);
+        void ln_get_equ_nut(ln_equ_posn * posn, double jd, bool reverse = false);
+
+    private slots:
+        void testPrecession();
+
+        void compareNovas();
+
+        void testPrecess_data();
+        void testPrecess();
+
+        void testPrecessFromAnyEpoch_data();
+        void testPrecessFromAnyEpoch();
+
+        void testNutate_data();
+        void testNutate();
+
+        void testAberrate_data();
+        void testAberrate();
+
+        void testApparentCatalogue_data();
+        void testApparentCatalogue();
+
+        void compareSkyPointLibNova_data();
+        void compareSkyPointLibNova();
+
+    private:
+        bool useRelativistic {false};
 };
+
 
 #endif

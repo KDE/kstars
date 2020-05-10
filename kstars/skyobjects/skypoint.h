@@ -19,8 +19,13 @@
 
 #pragma once
 
+#define USE_LIBNOVA
+
 #include "cachingdms.h"
 #include "kstarsdatetime.h"
+#ifdef USE_LIBNOVA
+#include <libnova/libnova.h>
+#endif
 
 #include <QList>
 #ifndef KSTARS_LITE
@@ -318,12 +323,26 @@ class SkyPoint
     void apparentCoord(long double jd0, long double jdf);
 
     /**
-     * Determine the effects of nutation for this SkyPoint.
+     * Computes the J2000.0 catalogue coordinates for this SkyPoint using the epoch
+     * removing aberration, nutation and precession
+     * Catalogue coordinates are in Ra0, Dec0
+     *
+     * @brief catalogueCoord converts observed to J2000 using epoch jdf
+     * @param jdf Julian Day which identifies the current epoch
+     * @return SpyPoint containing J2000 coordinates
+     */
+
+    SkyPoint catalogueCoord(long double jdf);
+
+
+    /**
+     * Apply the effects of nutation to this SkyPoint.
      *
      * @param num pointer to KSNumbers object containing current values of
      * time-dependent variables.
+     * @param reverse bool, if true the nutation is removed
      */
-    void nutate(const KSNumbers *num);
+    void nutate(const KSNumbers *num, const bool reverse = false);
 
     /**
      * @short Check if this sky point is close enough to the sun for
@@ -355,8 +374,9 @@ class SkyPoint
      *
      * @param num pointer to KSNumbers object containing current values of
      * time-dependent variables.
+     * @param reverse bool, if true the aberration is removed.
      */
-    void aberrate(const KSNumbers *num);
+    void aberrate(const KSNumbers *num, bool reverse = false);
 
     /**
      * General case of precession. It precess from an original epoch to a
@@ -648,7 +668,12 @@ class SkyPoint
     dms Alt, Az;
     static KSSun *m_Sun;
 
-  protected:
+
+    // long version of these epochs
+#define J2000L          2451545.0L   //Julian Date for noon on Jan 1, 2000 (epoch J2000)
+#define B1950L          2433282.4235L // Julian date for Jan 0.9235, 1950
+
+protected:
     double lastPrecessJD { 0 }; // JD at which the last coordinate  (see updateCoords) for this SkyPoint was done
 };
 

@@ -225,7 +225,8 @@ Scheduler::Scheduler()
     connect(copySkyCenterB, &QPushButton::clicked, this, [this]()
     {
         SkyPoint center = SkyMap::Instance()->getCenterPoint();
-        center.deprecess(KStarsData::Instance()->updateNum());
+        //center.deprecess(KStarsData::Instance()->updateNum());
+        center.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
         raBox->setDMS(center.ra0().toHMSString());
         decBox->setDMS(center.dec0().toDMSString());
     });

@@ -154,7 +154,8 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
         // needs a lot of fixing to handle unprecessed and precessed,
         // equatorial and horizontal coordinates nicely
         SkyPoint *CurrentNode = const_cast<SkyPoint *>(curr_node);
-        CurrentNode->deprecess(KStarsData::Instance()->updateNum());
+        //CurrentNode->deprecess(KStarsData::Instance()->updateNum());
+        CurrentNode->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
         //qCDebug(KSTARS) << "Calling starsInAperture";
         StarComponent::Instance()->starsInAperture(neighbors, *curr_node, fov, maglim);
         qCDebug(KSTARS) << "Choosing next node from a set of " << neighbors.count();

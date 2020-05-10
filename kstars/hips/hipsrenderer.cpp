@@ -58,7 +58,8 @@ bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Proje
   m_size = 0;
 
   SkyPoint center = SkyMap::Instance()->getCenterPoint();
-  center.deprecess(KStarsData::Instance()->updateNum());
+  //center.deprecess(KStarsData::Instance()->updateNum());
+  center.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
 
   double ra = center.ra0().radians();
   double de = center.dec0().radians();
