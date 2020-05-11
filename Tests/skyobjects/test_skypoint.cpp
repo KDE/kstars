@@ -21,12 +21,7 @@
 #include "time/kstarsdatetime.h"
 #include "auxiliary/dms.h"
 #include "Options.h"
-//#include <libnova/julian_day.h>
-//#include <libnova/precession.h>
-//#include <libnova/aberration.h>
-//#include <libnova/nutation.h>
 #include <libnova/libnova.h>
-
 TestSkyPoint::TestSkyPoint() : QObject()
 {
     useRelativistic = Options::useRelativistic();
