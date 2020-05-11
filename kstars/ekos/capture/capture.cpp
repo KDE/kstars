@@ -3279,7 +3279,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview() || activeJob->getExposeLeft() == 0)))
         return;
 
-    double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec);
+    double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec) / 2.0;
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
 

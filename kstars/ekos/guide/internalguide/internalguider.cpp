@@ -1016,7 +1016,8 @@ bool InternalGuider::processGuiding()
     //    else
     //        m_highPulseCounter=0;
 
-    double delta_rms = sqrt(out->delta[GUIDE_RA] * out->delta[GUIDE_RA] + out->delta[GUIDE_DEC] * out->delta[GUIDE_DEC]);
+    double delta_rms = (sqrt(out->delta[GUIDE_RA] * out->delta[GUIDE_RA] + out->delta[GUIDE_DEC] * out->delta[GUIDE_DEC])) /
+                       2.0;
     if (delta_rms > Options::guideMaxDeltaRMS())
     {
         // Stop sending pulses on the 3rd time the delta RMS is high

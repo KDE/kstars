@@ -2566,7 +2566,7 @@ void Guide::setAxisSigma(double ra, double de)
 {
     l_ErrRA->setText(QString::number(ra, 'f', 2));
     l_ErrDEC->setText(QString::number(de, 'f', 2));
-    l_TotalRMS->setText(QString::number(sqrt(ra * ra + de * de), 'f', 2));
+    l_TotalRMS->setText(QString::number(sqrt(ra * ra + de * de) / 2.0, 'f', 2));
     emit newAxisSigma(ra, de);
 }
 
