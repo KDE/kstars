@@ -28,12 +28,17 @@
 #include "skyobject.h"
 #include "skycomponents/skymapcomposite.h"
 
+#include "config-kstars.h"
+
 #include <KLocalizedString>
 
 #include <QDebug>
 
 #include <cmath>
 
+#ifdef HAVE_LIBNOVA
+#include <libnova.h>
+#endif
 #ifdef PROFILE_COORDINATE_CONVERSION
 #include <ctime> // For profiling, remove if not profiling.
 long unsigned SkyPoint::eqToHzCalls = 0;
@@ -262,7 +267,7 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
 
 void SkyPoint::nutate(const KSNumbers *num, const bool reverse)
 {
-#ifdef USE_LIBNOVA
+#ifdef HAVE_LIBNOVA
     // code lifted from libnova ln_get_equ_nut
     // with the option to add or remove nutation
     struct ln_nutation nut;
@@ -429,7 +434,7 @@ void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
 #ifdef USE_LIBNOVA
     ln_equ_posn pos { RA.Degrees(), Dec.Degrees() };
     ln_equ_posn abPos { 0, 0 };
-    ln_get_equ_aber(&pos, num->julianDay(),&abPos);
+    ln_get_equ_aber(&pos, num->julianDay(), &abPos);
     if (reverse)
     {
         RA.setD(RA.Degrees() * 2 - abPos.ra);

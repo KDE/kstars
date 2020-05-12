@@ -207,6 +207,9 @@ endif ()
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
+find_package(Nova)
+MACRO_BOOL_TO_01(NOVA_FOUND HAVE_LIBNOVA)
+
 ## Libraw
 if(BUILD_KSTARS_LITE AND ANDROID)
     # OpenMP needed for LibRaw

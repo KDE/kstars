@@ -13,6 +13,9 @@
 /* Define if you have libraw */
 #cmakedefine HAVE_LIBRAW 1
 
+/* Define if you have libnova */
+#cmakedefine HAVE_LIBNOVA 1
+
 /* Define if you have notify config */
 #cmakedefine HAVE_NOTIFYCONFIG 1
 
