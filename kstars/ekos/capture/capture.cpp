@@ -3262,7 +3262,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     // if the guide deviations are within our limits, we resume the sequence
     if (meridianFlipStage == MF_GUIDING)
     {
-        double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec);
+        double deviation_rms = std::hypot(delta_ra, delta_dec);
         // If the user didn't select any guiding deviation, we fall through
         // otherwise we can for deviation RMS
         if (guideDeviationCheck->isChecked() == false || deviation_rms < guideDeviation->value())
