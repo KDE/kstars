@@ -13,6 +13,7 @@
 
 # Dolphin stuff
 .directory
+.cmake
 
 # Vim swapfiles
 .*.swp
