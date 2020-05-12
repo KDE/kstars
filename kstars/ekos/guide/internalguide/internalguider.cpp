@@ -425,7 +425,7 @@ void InternalGuider::processCalibration()
 
         calibrationStage = CAL_ERROR;
         emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-
+        emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: Lost guide star."));
         return;
     }
 
@@ -489,6 +489,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
 
+            emit calibrationUpdate(GuideInterface::RA_IN, i18n("Guide Star found."), 0, 0);
             qCDebug(KSTARS_EKOS_GUIDE) << "Auto Iteration #" << m_CalibrationParams.auto_drift_time << "Default pulse:" <<
                                        m_CalibrationParams.last_pulse;
             qCDebug(KSTARS_EKOS_GUIDE) << "Start X1 " << m_CalibrationCoords.start_x1 << " Start Y1 " << m_CalibrationCoords.start_y1;
@@ -511,6 +512,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             // Star position resulting from LAST guiding pulse to mount
             double cur_x, cur_y;
             pmath->getStarScreenPosition(&cur_x, &cur_y);
+
+            emit calibrationUpdate(GuideInterface::RA_IN, i18n("Calibrating RA Out"),
+                                   cur_x - m_CalibrationCoords.start_x1, cur_y - m_CalibrationCoords.start_y1);
 
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << m_CalibrationParams.ra_iterations << ": STAR " << cur_x << "," << cur_y;
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.ra_iterations << " Direction: RA_INC_DIR" << " Duration: "
@@ -551,7 +555,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 calibrationStage = CAL_ERROR;
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: Drift too short."));
                 KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"),
                                       KSNotification::EVENT_ALERT);
 
@@ -587,6 +591,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             double cur_x, cur_y;
             pmath->getStarScreenPosition(&cur_x, &cur_y);
 
+            emit calibrationUpdate(GuideInterface::RA_OUT, i18n("Calibrating RA In"),
+                                   cur_x - m_CalibrationCoords.start_x1, cur_y - m_CalibrationCoords.start_y1);
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << m_CalibrationParams.ra_iterations << ": STAR " << cur_x << "," << cur_y;
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.ra_iterations << " Direction: RA_DEC_DIR" << " Duration: "
                                        << m_CalibrationParams.last_pulse << " ms.";
@@ -645,7 +651,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 calibrationStage = CAL_ERROR;
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: couldn't reach start."));
                 emit newLog(i18np("Guide RA: Scope cannot reach the start point after %1 iteration. Possible mount or "
                                   "backlash problems...",
                                   "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or "
@@ -694,7 +700,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 calibrationStage = CAL_ERROR;
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: drift too short."));
                 KSNotification::event(QLatin1String("CalibrationFailed"),
                                       i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
             }
@@ -708,6 +714,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             // Star position resulting from LAST guiding pulse to mount
             double cur_x, cur_y;
             pmath->getStarScreenPosition(&cur_x, &cur_y);
+
+            emit calibrationUpdate(GuideInterface::DEC_IN, i18n("Calibrating DEC Out"),
+                                   cur_x - m_CalibrationCoords.start_x2, cur_y - m_CalibrationCoords.start_y2);
 
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << m_CalibrationParams.dec_iterations << ": STAR " << cur_x << "," << cur_y;
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.dec_iterations << " Direction: DEC_INC_DIR" <<
@@ -745,7 +754,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 calibrationStage = CAL_ERROR;
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: couldn't reach start point."));
                 emit newLog(i18np("Guide DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount "
                                   "or backlash problems...",
                                   "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount "
@@ -783,6 +792,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             //----- Z-check (new!) -----
             double cur_x, cur_y;
             pmath->getStarScreenPosition(&cur_x, &cur_y);
+
+            emit calibrationUpdate(GuideInterface::DEC_OUT, i18n("Calibrating DEC In"),
+                                   cur_x - m_CalibrationCoords.start_x2, cur_y - m_CalibrationCoords.start_y2);
 
             // Star position resulting from LAST guiding pulse to mount
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << m_CalibrationParams.dec_iterations << ": STAR " << cur_x << "," << cur_y;
@@ -833,6 +845,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 calibrationStage = CAL_ERROR;
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: couldn't reach start point."));
 
                 emit newLog(i18np("Guide DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount "
                                   "or backlash problems...",
@@ -864,6 +877,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 emit DESwapChanged(swap_dec);
 
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Successful"));
                 KSNotification::event(QLatin1String("CalibrationSuccessful"),
                                       i18n("Guiding calibration completed successfully"));
 
@@ -873,6 +887,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             else
             {
                 emit newLog(i18n("Calibration rejected. Star drift is too short. Check for mount, cable, or backlash problems."));
+                emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: drift too short."));
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 

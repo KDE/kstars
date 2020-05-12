@@ -58,6 +58,15 @@ class GuideInterface : public QObject
 
     virtual void setStarPosition(QVector3D& starCenter);
 
+    enum CalibrationUpdateType
+    {
+        RA_IN,
+        RA_OUT,
+        DEC_IN,
+        DEC_OUT,
+        CALIBRATION_MESSAGE_ONLY
+    };
+
   signals:
     void newLog(const QString &);
     void newStatus(Ekos::GuideState);
@@ -66,7 +75,7 @@ class GuideInterface : public QObject
     void newAxisPulse(double pulse_ra, double pulse_dec);
     void newStarPosition(const QVector3D &newCenter, bool updateNow);
     void newStarPixmap(QPixmap &);
-
+    void calibrationUpdate(CalibrationUpdateType type, const QString &message = QString(""), double x = 0, double y = 0);
     void frameCaptureRequested();
 
     void guideEquipmentUpdated();

@@ -147,12 +147,16 @@ void Guide::handleHorizontalPlotSizeChange()
 {
     driftPlot->xAxis->setScaleRatio(driftPlot->yAxis, 1.0);
     driftPlot->replot();
+    calibrationPlot->xAxis->setScaleRatio(calibrationPlot->yAxis, 1.0);
+    calibrationPlot->replot();
 }
 
 void Guide::handleVerticalPlotSizeChange()
 {
     driftPlot->yAxis->setScaleRatio(driftPlot->xAxis, 1.0);
     driftPlot->replot();
+    calibrationPlot->yAxis->setScaleRatio(calibrationPlot->xAxis, 1.0);
+    calibrationPlot->replot();
 }
 
 void Guide::guideAfterMeridianFlip()
@@ -274,6 +278,15 @@ void Guide::clearGuideGraphs()
     setupNSEWLabels();
 }
 
+void Guide::clearCalibrationGraphs()
+{
+    calibrationPlot->graph(0)->data()->clear(); //RA out
+    calibrationPlot->graph(1)->data()->clear(); //RA back
+    calibrationPlot->graph(2)->data()->clear(); //DEC out
+    calibrationPlot->graph(3)->data()->clear(); //DEC back
+    calibrationPlot->replot();
+}
+
 void Guide::setupNSEWLabels()
 {
     //Labels for N/S/E/W
@@ -362,6 +375,15 @@ void Guide::slotAutoScaleGraphs()
     driftPlot->xAxis->setScaleRatio(driftPlot->yAxis, 1.0);
 
     driftPlot->replot();
+
+    calibrationPlot->xAxis->setRange(-10, 10);
+    calibrationPlot->yAxis->setRange(-10, 10);
+    calibrationPlot->graph(0)->rescaleAxes(true);
+
+    calibrationPlot->yAxis->setScaleRatio(calibrationPlot->xAxis, 1.0);
+    calibrationPlot->xAxis->setScaleRatio(calibrationPlot->yAxis, 1.0);
+
+    calibrationPlot->replot();
 }
 
 void Guide::guideHistory()
@@ -1808,6 +1830,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             break;
 
         case GUIDE_CALIBRATING:
+            clearCalibrationGraphs();
             appendLogText(i18n("Calibration started."));
             setBusy(true);
             break;
@@ -2191,6 +2214,7 @@ bool Guide::setGuiderType(int type)
         connect(guider, &Ekos::GuideInterface::newAxisDelta, this, &Ekos::Guide::setAxisDelta);
         connect(guider, &Ekos::GuideInterface::newAxisPulse, this, &Ekos::Guide::setAxisPulse);
         connect(guider, &Ekos::GuideInterface::newAxisSigma, this, &Ekos::Guide::setAxisSigma);
+        connect(guider, &Ekos::GuideInterface::calibrationUpdate, this, &Ekos::Guide::calibrationUpdate);
 
         connect(guider, &Ekos::GuideInterface::guideEquipmentUpdated, this, &Ekos::Guide::configurePHD2Camera);
     }
@@ -2560,6 +2584,30 @@ void Guide::setAxisDelta(double ra, double de)
 
     profilePixmap = driftGraph->grab();
     emit newProfilePixmap(profilePixmap);
+}
+
+void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString& message,
+                              double dx, double dy)
+{
+    switch (type)
+    {
+    case GuideInterface::RA_IN:
+        calibrationPlot->graph(0)->addData(dx, dy);
+        break;
+    case GuideInterface::RA_OUT:
+        calibrationPlot->graph(1)->addData(dx, dy);
+        break;
+    case GuideInterface::DEC_IN:
+        calibrationPlot->graph(2)->addData(dx, dy);
+        break;
+    case GuideInterface::DEC_OUT:
+        calibrationPlot->graph(3)->addData(dx, dy);
+        break;
+    case GuideInterface::CALIBRATION_MESSAGE_ONLY:
+        ;
+    }
+    calLabel->setText(message);
+    calibrationPlot->replot();
 }
 
 void Guide::setAxisSigma(double ra, double de)
@@ -3181,6 +3229,25 @@ bool Guide::disconnectGuider()
 
 void Guide::initPlots()
 {
+    initDriftGraph();
+    initDriftPlot();
+    initCalibrationPlot();
+
+    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Guide::handleVerticalPlotSizeChange);
+    connect(driftSplitter, &QSplitter::splitterMoved, this, &Ekos::Guide::handleHorizontalPlotSizeChange);
+
+    //This sets the values of all the Graph Options that are stored.
+    accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
+    showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
+    showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
+    showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
+    showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
+
+    buildTarget();
+}
+
+void Guide::initDriftGraph()
+{
     // Drift Graph Color Settings
     driftGraph->setBackground(QBrush(Qt::black));
     driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
@@ -3304,7 +3371,19 @@ void Guide::initPlots()
     connect(driftGraph, &QCustomPlot::mouseMove, this, &Ekos::Guide::driftMouseOverLine);
     connect(driftGraph, &QCustomPlot::mousePress, this, &Ekos::Guide::driftMouseClicked);
 
+    //This sets the visibility of graph components to the stored values.
+    driftGraph->graph(0)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
+    driftGraph->graph(1)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
+    driftGraph->graph(2)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
+    driftGraph->graph(3)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
+    driftGraph->graph(4)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
+    driftGraph->graph(5)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
 
+    updateCorrectionsScaleVisibility();
+}
+
+void Guide::initDriftPlot()
+{
     //drift plot
     double accuracyRadius = 2;
 
@@ -3358,29 +3437,85 @@ void Guide::initPlots()
     driftPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
     driftPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
 
-    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Guide::handleVerticalPlotSizeChange);
-    connect(driftSplitter, &QSplitter::splitterMoved, this, &Ekos::Guide::handleHorizontalPlotSizeChange);
-
-    //This sets the values of all the Graph Options that are stored.
-    accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
-    showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
-    showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
-    showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
-    showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
-
-    //This sets the visibility of graph components to the stored values.
-    driftGraph->graph(0)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
-    driftGraph->graph(1)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
-    driftGraph->graph(2)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
-    driftGraph->graph(3)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
-    driftGraph->graph(4)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
-    driftGraph->graph(5)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
-    updateCorrectionsScaleVisibility();
-
     driftPlot->resize(190, 190);
     driftPlot->replot();
+}
 
-    buildTarget();
+void Guide::initCalibrationPlot()
+{
+    calibrationPlot->setBackground(QBrush(Qt::black));
+    calibrationPlot->setSelectionTolerance(10);
+
+    calibrationPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    calibrationPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    calibrationPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    calibrationPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    calibrationPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    calibrationPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    calibrationPlot->xAxis->setTickLabelColor(Qt::white);
+    calibrationPlot->yAxis->setTickLabelColor(Qt::white);
+
+    calibrationPlot->xAxis->setLabelColor(Qt::white);
+    calibrationPlot->yAxis->setLabelColor(Qt::white);
+
+    calibrationPlot->xAxis->setLabelFont(QFont(font().family(), 10));
+    calibrationPlot->yAxis->setLabelFont(QFont(font().family(), 10));
+    calibrationPlot->xAxis->setTickLabelFont(QFont(font().family(), 9));
+    calibrationPlot->yAxis->setTickLabelFont(QFont(font().family(), 9));
+
+    calibrationPlot->xAxis->setLabelPadding(2);
+    calibrationPlot->yAxis->setLabelPadding(2);
+
+    calibrationPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    calibrationPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    calibrationPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    calibrationPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    calibrationPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::gray));
+    calibrationPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::gray));
+
+    calibrationPlot->xAxis->setLabel(i18n("x (pixels)"));
+    calibrationPlot->yAxis->setLabel(i18n("y (pixels)"));
+
+    calibrationPlot->xAxis->setRange(-10, 10);
+    calibrationPlot->yAxis->setRange(-10, 10);
+
+    calibrationPlot->setInteractions(QCP::iRangeZoom);
+    calibrationPlot->setInteraction(QCP::iRangeDrag, true);
+
+    calibrationPlot->addGraph();
+    calibrationPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 6));
+    calibrationPlot->graph(0)->setName("RA out");
+
+    calibrationPlot->addGraph();
+    calibrationPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::white, 2), QBrush(), 4));
+    calibrationPlot->graph(1)->setName("RA in");
+
+    calibrationPlot->addGraph();
+    calibrationPlot->graph(2)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
+    calibrationPlot->graph(2)->setName("DEC out");
+
+    calibrationPlot->addGraph();
+    calibrationPlot->graph(3)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow, 2), QBrush(), 4));
+    calibrationPlot->graph(3)->setName("DEC in");
+
+    calLabel = new QCPItemText(calibrationPlot);
+    calLabel->setColor(QColor(255,255,255));
+    calLabel->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
+    calLabel->position->setType(QCPItemPosition::ptAxisRectRatio);
+    calLabel->position->setCoords(0.5, 0);
+    calLabel->setText("");
+    calLabel->setFont(QFont(font().family(), 10));
+    calLabel->setVisible(true);
+
+    calibrationPlot->resize(190, 190);
+    calibrationPlot->replot();
 }
 
 void Guide::initView()

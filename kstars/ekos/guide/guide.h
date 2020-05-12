@@ -10,6 +10,7 @@
 #pragma once
 
 #include "ui_guide.h"
+#include "guideinterface.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
 #include "indi/inditelescope.h"
@@ -27,7 +28,6 @@ class ScrollGraph;
 
 namespace Ekos
 {
-class GuideInterface;
 class OpsCalibration;
 class OpsGuide;
 class InternalGuider;
@@ -401,6 +401,7 @@ class Guide : public QWidget, public Ui::Guide
         void handleVerticalPlotSizeChange();
         void handleHorizontalPlotSizeChange();
         void clearGuideGraphs();
+        void clearCalibrationGraphs();
         void slotAutoScaleGraphs();
         void buildTarget();
         void guideHistory();
@@ -457,6 +458,7 @@ class Guide : public QWidget, public Ui::Guide
         void setAxisDelta(double ra, double de);
         void setAxisSigma(double ra, double de);
         void setAxisPulse(double ra, double de);
+        void calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString& message = QString(""), double dx = 0, double dy = 0);
 
         void processGuideOptions();
 
@@ -535,6 +537,9 @@ class Guide : public QWidget, public Ui::Guide
 
         // Init Functions
         void initPlots();
+        void initDriftGraph();
+        void initDriftPlot();
+        void initCalibrationPlot();
         void initView();
         void initConnections();
 
@@ -644,5 +649,7 @@ class Guide : public QWidget, public Ui::Guide
         //autostar is not selected, and the user has chosen a star.
         //This connection storage is so that the connection can be disconnected after enforcement
         QMetaObject::Connection guideConnect;
+
+        QCPItemText *calLabel  { nullptr };
 };
 }
