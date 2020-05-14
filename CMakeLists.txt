@@ -209,6 +209,9 @@ set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation
 
 find_package(Nova)
 MACRO_BOOL_TO_01(NOVA_FOUND HAVE_LIBNOVA)
+if (NOVA_FOUND)
+    include_directories(${NOVA_INCLUDE_DIR})
+endif()
 
 ## Libraw
 if(BUILD_KSTARS_LITE AND ANDROID)

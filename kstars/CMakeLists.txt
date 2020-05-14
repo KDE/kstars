@@ -1158,6 +1158,11 @@ if(LibRaw_FOUND)
     endif()
 endif (LibRaw_FOUND)
 
+# Link libnova if found
+if (NOVA_FOUND)
+    target_link_libraries(KStarsLib ${NOVA_LIBRARIES})
+endif()
+
 #FIXME Enable OpenGL Later
 #if( OPENGL_FOUND )
 #    target_link_libraries(KStarsLib
