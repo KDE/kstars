@@ -21,6 +21,7 @@
 
 #include "config-kstars.h"
 
+#include "kstarsdatetime.h"
 #include "bayer.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
@@ -150,7 +151,10 @@ class FITSData : public QObject
         // Statistics
         void saveStatistics(Statistic &other);
         void restoreStatistics(Statistic &other);
-        Statistic const &getStatistics() const { return stats; };
+        Statistic const &getStatistics() const
+        {
+            return stats;
+        };
 
         uint16_t width() const
         {
@@ -264,7 +268,7 @@ class FITSData : public QObject
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
-        int findSEPStars(QList<Edge*>&, const QRect &boundary = QRect()) const;
+        int findSEPStars(QList<Edge*> &, const QRect &boundary = QRect()) const;
 
         // Apply ring filter to searched stars
         int filterStars(const float innerRadius, const float outerRadius);
@@ -276,6 +280,11 @@ class FITSData : public QObject
         }
         double getHFR(HFRType type = HFR_AVERAGE);
         double getHFR(int x, int y);
+
+        const KStarsDateTime &getDateTime() const
+        {
+            return m_DateTime;
+        }
 
         // WCS
         // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
@@ -345,7 +354,8 @@ class FITSData : public QObject
 #endif
 
         // Filter
-        void applyFilter(FITSScale type, uint8_t *image = nullptr, QVector<double> *targetMin = nullptr, QVector<double> *targetMax = nullptr);
+        void applyFilter(FITSScale type, uint8_t *image = nullptr, QVector<double> *targetMin = nullptr,
+                         QVector<double> *targetMax = nullptr);
 
         // Rotation counter. We keep count to rotate WCS keywords on save
         int getRotCounter() const;
@@ -485,6 +495,8 @@ class FITSData : public QObject
         QString m_Filename, m_compressedFilename;
         /// FITS Mode (Normal, WCS, Guide, Focus..etc)
         FITSMode m_Mode;
+        // FITS Observed UTC date time
+        KStarsDateTime m_DateTime;
 
         /// How many times the image was rotated? Useful for WCS keywords rotation on save.
         int rotCounter { 0 };

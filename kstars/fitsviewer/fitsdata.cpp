@@ -339,6 +339,11 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
 
     parseHeader();
 
+    // Get UTC date time
+    QVariant value;
+    if (getRecordValue("DATE-OBS", value) && value.isValid())
+        m_DateTime = KStarsDateTime(value.toDateTime());
+
     if (Options::autoDebayer() && checkDebayer())
     {
         //m_BayerBuffer = m_ImageBuffer;
@@ -809,16 +814,20 @@ QVector<double> FITSData::createGaussianKernel(int size, double sigma)
     double kernelSum = 0.0;
     int fOff = (size - 1) / 2;
     double normal = 1.0 / (2.0 * M_PI * sigma * sigma);
-    for (int y = -fOff; y <= fOff; y++) {
-        for (int x = -fOff; x <= fOff; x++) {
+    for (int y = -fOff; y <= fOff; y++)
+    {
+        for (int x = -fOff; x <= fOff; x++)
+        {
             double distance = ((y * y) + (x * x)) / (2.0 * sigma * sigma);
             int index = (y + fOff) * size + (x + fOff);
             kernel[index] = normal * qExp(-distance);
             kernelSum += kernel.at(index);
         }
     }
-    for (int y = 0; y < size; y++) {
-        for (int x = 0; x < size; x++) {
+    for (int y = 0; y < size; y++)
+    {
+        for (int x = 0; x < size; x++)
+        {
             int index = y * size + x;
             kernel[index] = kernel.at(index) * 1.0 / kernelSum;
         }
