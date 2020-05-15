@@ -371,7 +371,7 @@
             <item row="2" column="1">
              <widget class="QRadioButton" name="meridianFlipDegreesR">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. Add 1 degree to the mount meridian flip setting. For example, if the mount meridian flip limit is set to 5 degrees, set the value here to be &lt;span style=&quot; font-weight:600;&quot;&gt;at least&lt;/span&gt; 6 degrees to ensure a successful meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. If the mount is configured to flip at 5 degrees, set the value in Ekos to 3 degrees less (2 degrees).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Degrees</string>
