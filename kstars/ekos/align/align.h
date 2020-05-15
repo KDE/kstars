@@ -873,6 +873,7 @@ class Align : public QWidget, public Ui::Align
             QPointF pixelCenter;
             double pixelScale { 0 };
             double orientation { 0 };
+            KStarsDateTime ts;
         } PAHImageInfo;
 
         QVector<PAHImageInfo *> pahImageInfos;

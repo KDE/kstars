@@ -5538,6 +5538,7 @@ void Align::setPAHRefreshComplete()
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
     //QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
+    FITSData *imageData = alignView->getImageData();
 
     if (pahStage == PAH_FIND_CP)
     {
@@ -5555,6 +5556,10 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         PAHImageInfo *solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
         solution->skyCenter.setDec0(alignCoord.dec0());
+        // J2000 to JNow
+        solution->skyCenter.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
+        //solution->ts = KStarsData::Instance()->ut();
+        solution->ts = imageData->getDateTime();
         solution->orientation = orientation;
         solution->pixelScale  = pixscale;
 
@@ -5583,6 +5588,10 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         PAHImageInfo *solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
         solution->skyCenter.setDec0(alignCoord.dec0());
+        // J2000 to JNow
+        solution->skyCenter.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
+        //solution->ts = KStarsData::Instance()->ut();
+        solution->ts = imageData->getDateTime();
         solution->orientation = orientation;
         solution->pixelScale  = pixscale;
 
@@ -5611,6 +5620,10 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         PAHImageInfo *solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
         solution->skyCenter.setDec0(alignCoord.dec0());
+        // J2000 to JNow
+        solution->skyCenter.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
+        //solution->ts = KStarsData::Instance()->ut();
+        solution->ts = imageData->getDateTime();
         solution->orientation = orientation;
         solution->pixelScale  = pixscale;
 
@@ -5734,6 +5747,23 @@ void Align::setWCSToggled(bool result)
         imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
 
         pahImageInfos[2]->celestialPole = celestialPolePoint;
+
+        // Because we are measuing the coordinates in the THIRD frame
+        // The JNow RA/DE coordinates of the first two frames _already_ rotated by some amount since time passed.
+        // So if we try to measure their cartesian coordinates now in the 3rd frame, they would be the coordinates
+        // of the ROTATED coordinates, and not the original coordinates. Therefore, we subtract the time from RA
+        // to compensate for this which is equivelent to de-rotating the points.
+        double hoursSinceFirstFrame = (pahImageInfos[2]->ts.secsTo(pahImageInfos[0]->ts)) / 3600.0;
+        pahImageInfos[0]->skyCenter.setRA(pahImageInfos[0]->skyCenter.ra().Hours() + hoursSinceFirstFrame);
+        double hoursSinceSecondFrame = (pahImageInfos[2]->ts.secsTo(pahImageInfos[1]->ts)) / 3600.0;
+        pahImageInfos[1]->skyCenter.setRA(pahImageInfos[1]->skyCenter.ra().Hours() + hoursSinceSecondFrame);
+
+        // Now reset ra0,de0 to JNow before calling wcsToPixel since that function checks ra0,dec0
+        for (int i = 0; i < 3; i++)
+        {
+            pahImageInfos[i]->skyCenter.setRA0(pahImageInfos[i]->skyCenter.ra());
+            pahImageInfos[i]->skyCenter.setDec0(pahImageInfos[i]->skyCenter.dec());
+        }
 
         // Now find pixel locations for all recorded center coordinates in the 3rd frame reference
         if (!imageData->wcsToPixel(pahImageInfos[0]->skyCenter, pahImageInfos[0]->pixelCenter, imagePoint) ||
