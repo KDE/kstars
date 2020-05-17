@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>429</width>
-    <height>481</height>
+    <width>409</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -165,10 +165,7 @@
    <attribute name="title">
     <string>Scheduler</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_4">
-    <property name="spacing">
-     <number>3</number>
-    </property>
+   <layout class="QGridLayout" name="gridLayout_4">
     <property name="leftMargin">
      <number>3</number>
     </property>
@@ -181,197 +178,278 @@
     <property name="bottomMargin">
      <number>3</number>
     </property>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="leadTimeLabel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Lead Time:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="preDawnLabel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Pre-dawn</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Pre-emptive shutdown</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="settingAltitudeCutoffLabel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Setting Altitude Cutoff</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_SettingAltitudeCutoff"/>
-        </item>
-        <item row="4" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
-          <property name="minimum">
-           <double>-24.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>24.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.500000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
-          <property name="minimum">
-           <double>-24.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>24.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.500000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="duskOffsetLabel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Dusk Offset</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="dawnOffsetLabel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Dawn Offset</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
-      <property name="text">
-       <string>Reset Mount Model On Alignment Failure</string>
+    <property name="spacing">
+     <number>3</number>
+    </property>
+    <item row="0" column="0" rowspan="2">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>Offsets</string>
       </property>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="horizontalSpacing">
+        <number>3</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="leadTimeLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Lead Time:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="preDawnLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Pre-dawn</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Pre-emptive shutdown</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="settingAltitudeCutoffLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Setting Altitude Cutoff</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_SettingAltitudeCutoff"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="duskOffsetLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Dusk Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
+         <property name="minimum">
+          <double>-24.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>24.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.500000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="dawnOffsetLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Dawn Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
+         <property name="minimum">
+          <double>-24.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>24.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.500000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item>
-     <widget class="QCheckBox" name="kfcg_ResetMountModelBeforeJob">
-      <property name="text">
-       <string>Reset Mount Model Before Starting Each Job</string>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBox_7">
+      <property name="title">
+       <string>Clearnup</string>
       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
+         <property name="toolTip">
+          <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
+         </property>
+         <property name="text">
+          <string>Stop Ekos After Shutdown</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ShutdownScriptTerminatesINDI">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Shutdown Script Terminates INDI</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="groupBox_8">
+      <property name="title">
+       <string>Jobs</string>
       </property>
-      <property name="text">
-       <string>Restart Alignment on Guiding Calibration Failure</string>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="kcfg_SortSchedulerJobs">
+         <property name="toolTip">
+          <string>High priority and altitude jobs are executed first</string>
+         </property>
+         <property name="text">
+          <string>Sort jobs by Altitude and Priority</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_RememberJobProgress">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When processing a scheduled job, resume the sequence starting from the last image present in storage.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Remember Job Progress</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
-      <property name="toolTip">
-       <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
+    <item row="2" column="0" colspan="2">
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="title">
+       <string>Alignment</string>
       </property>
-      <property name="text">
-       <string>Stop Ekos After Shutdown</string>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
+         <property name="text">
+          <string>Reset Mount Model On Alignment Failure</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kfcg_ResetMountModelBeforeJob">
+         <property name="text">
+          <string>Reset Mount Model Before Starting Each Job</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Restart Alignment on Guiding Calibration Failure</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_ShutdownScriptTerminatesINDI">
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>Shutdown Script Terminates INDI</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_SortSchedulerJobs">
-      <property name="toolTip">
-       <string>High priority and altitude jobs are executed first</string>
-      </property>
-      <property name="text">
-       <string>Sort jobs by Altitude and Priority</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_RememberJobProgress">
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When processing a scheduled job, resume the sequence starting from the last image present in storage.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>Remember Job Progress</string>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
+    <item row="3" column="0">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
