@@ -2,7 +2,7 @@
 
 KStars is free, open source, cross-platform Astronomy Software.
 
-It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. 
+It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.
 
 For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!
 
@@ -20,12 +20,12 @@ KStars is available for Windows, MacOS, and Linux. You can download the latest v
 
 On Linux, it is available for most Linux distributions.
 
-Latest stable version is v3.4.1
+Latest stable version is v3.4.2
 
 ## Important URLs and files.
 
 * The [KStars homepage](https://edu.kde.org/kstars)
-* KDE [KStars Git Repository](git://anongit.kde.org/kstars).You can obtain the latest version via git from:
+* KStars [Git Repository](https://invent.kde.org/education/kstars).
 * KStars [Web Chat](https://webchat.kde.org/#/room/#kstars:kde.org)
 
 ## KStars documentation
@@ -93,7 +93,7 @@ yum install cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch kf5-kcon
 Open a console and run in the following commands:
 ```
 mkdir -p ~/Projects/build/kstars
-git clone git://anongit.kde.org/kstars.git
+git clone https://invent.kde.org/education/kstars.git
 cd build/kstars
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug ~/Projects/kstars
 make -j8
