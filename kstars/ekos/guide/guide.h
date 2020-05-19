@@ -375,6 +375,8 @@ class Guide : public QWidget, public Ui::Guide
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
+        void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
+
         // Update Pier Side
         void setPierSide(ISD::Telescope::PierSide newSide);
 

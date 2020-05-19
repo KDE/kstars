@@ -23,6 +23,7 @@
 
 #include <cstdint>
 #include <sys/types.h>
+#include "guidelog.h"
 
 class FITSView;
 class FITSData;
@@ -154,7 +155,7 @@ class cgmath : public QObject
     void setLostStar(bool is_lost);
 
     // Main processing function
-    void performProcessing(void);
+    void performProcessing(GuideLog *logger = nullptr);
 
     // Math
     bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse = -1);
@@ -189,7 +190,7 @@ class cgmath : public QObject
     void calc_square_err(void);
     const char *get_direction_string(GuideDirection dir);
 
-    // Logging
+    // Old-stye Logging--deprecate.
     void createGuideLog();
 
     /// Global channel ticker

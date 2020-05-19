@@ -10,7 +10,7 @@
 #pragma once
 
 #include "ekos/ekos.h"
-
+#include "indi/inditelescope.h"
 #include <QObject>
 #include <QVector3D>
 
@@ -58,6 +58,9 @@ class GuideInterface : public QObject
 
     virtual void setStarPosition(QVector3D& starCenter);
 
+    virtual void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
+    virtual void setPierSide(ISD::Telescope::PierSide newSide);
+
     enum CalibrationUpdateType
     {
         RA_IN,
@@ -92,5 +95,9 @@ class GuideInterface : public QObject
     uint16_t subH { 0 };
     uint16_t subBinX { 1 };
     uint16_t subBinY { 1 };
+
+    // Recent mount position.
+    dms mountRA, mountDEC, mountAzimuth, mountAltitude;
+    ISD::Telescope::PierSide pierSide { ISD::Telescope::PIER_UNKNOWN };
 };
 }

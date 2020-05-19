@@ -97,6 +97,19 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QCheckBox" name="kcfg_SaveGuideLog">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked and the internal guider is run, a log file is saved in the default logging directory. This is not a debug log, it is meant for user's to improve logging and can be viewed with phd2logview.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Save Internal Guider User Log</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1" colspan="3">
        <widget class="QComboBox" name="kcfg_GuideAlgorithm">
         <property name="sizePolicy">

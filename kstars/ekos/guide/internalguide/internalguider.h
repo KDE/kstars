@@ -14,6 +14,7 @@
 #include "matr.h"
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
+#include "guidelog.h"
 
 #include <QFile>
 #include <QPointer>
@@ -168,6 +169,9 @@ class InternalGuider : public GuideInterface
 
         void reset();
 
+        // Logging
+        void fillGuideInfo(GuideLog::GuideInfo *info);
+
         std::unique_ptr<cgmath> pmath;
         QPointer<FITSView> guideFrame;
         bool m_isStarted { false };
@@ -238,5 +242,6 @@ class InternalGuider : public GuideInterface
         static const uint8_t MAX_DITHER_TRAVEL = 15;
 
         QPair<double, double> accumulator;
+        GuideLog guideLog;
 };
 }

@@ -158,6 +158,7 @@ void cgmath::getGuiderParameters(double *ccd_pix_wd, double *ccd_pix_ht, double 
     *guider_focal    = focal;
 }
 
+// This logging will be removed in favor of guidelog.h.
 void cgmath::createGuideLog()
 {
     logFile.close();
@@ -1292,7 +1293,7 @@ void cgmath::process_axes(void)
     }
 }
 
-void cgmath::performProcessing(void)
+void cgmath::performProcessing(GuideLog *logger)
 {
     Vector arc_star_pos, arc_reticle_pos;
 
@@ -1306,6 +1307,13 @@ void cgmath::performProcessing(void)
     if (star_pos.x == -1 || std::isnan(star_pos.x))
     {
         lost_star = true;
+        if (logger != nullptr && !preview_mode)
+        {
+            GuideLog::GuideData data;
+            data.code = GuideLog::GuideData::NO_STAR_FOUND;
+            data.type = GuideLog::GuideData::DROP;
+            logger->addGuideData(data);
+        }
         return;
     }
     else
@@ -1360,6 +1368,26 @@ void cgmath::performProcessing(void)
     // finally process tickers
     do_ticks();
 
+    if (logger != nullptr)
+    {
+        GuideLog::GuideData data;
+        data.type = GuideLog::GuideData::MOUNT;
+        data.dx = scr_star_pos.x - reticle_pos.x;
+        data.dy = scr_star_pos.y - reticle_pos.y;
+        data.raDistance = star_pos.x;
+        data.decDistance = star_pos.y;
+        // The guide distances are related to the raw distances above, but
+        // e.g. small differences can be ignored. We just copy.
+        data.raGuideDistance = star_pos.x;
+        data.decGuideDistance = star_pos.y;
+        data.raDuration = out_params.pulse_length[GUIDE_RA];
+        data.raDirection = out_params.pulse_dir[GUIDE_RA];
+        data.decDuration = out_params.pulse_length[GUIDE_DEC];
+        data.decDirection = out_params.pulse_dir[GUIDE_DEC];
+        data.code = GuideLog::GuideData::NO_ERROR;
+        // Add SNR and MASS from SEP stars.
+        logger->addGuideData(data);
+    }
     qCDebug(KSTARS_EKOS_GUIDE) << "################## FINISH PROCESSING ##################";
 }
 

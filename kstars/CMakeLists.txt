@@ -207,6 +207,7 @@ if (INDI_FOUND)
             #ekos/guide/internalguide/rcalibration.cpp
             ekos/guide/internalguide/vect.cpp
             ekos/guide/internalguide/imageautoguiding.cpp
+            ekos/guide/internalguide/guidelog.cpp
             # External Guide
             ekos/guide/externalguide/phd2.cpp
             ekos/guide/externalguide/linguider.cpp

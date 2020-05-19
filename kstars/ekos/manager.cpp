@@ -3317,6 +3317,9 @@ void Manager::connectModules()
         // Parking
         connect(mountProcess.get(), &Ekos::Mount::newStatus, guideProcess.get(), &Ekos::Guide::setMountStatus,
                 Qt::UniqueConnection);
+        connect(mountProcess.get(), &Ekos::Mount::newCoords, guideProcess.get(), &Ekos::Guide::setMountCoords,
+                Qt::UniqueConnection);
+
     }
 
     // Focus <---> Guide connections

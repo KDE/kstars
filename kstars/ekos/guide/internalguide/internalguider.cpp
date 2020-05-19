@@ -80,6 +80,15 @@ bool InternalGuider::guide()
 
     m_isFirstFrame = true;
 
+    if (state == GUIDE_IDLE)
+    {
+        if (Options::saveGuideLog())
+            guideLog.enable();
+        GuideLog::GuideInfo info;
+        fillGuideInfo(&info);
+        guideLog.startGuiding(info);
+    }
+
     state = GUIDE_GUIDING;
     emit newStatus(state);
 
@@ -93,6 +102,7 @@ bool InternalGuider::abort()
     calibrationStage = CAL_IDLE;
 
     logFile.close();
+    guideLog.endGuiding();
 
     if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
     {
@@ -121,6 +131,7 @@ bool InternalGuider::abort()
 
 bool InternalGuider::suspend()
 {
+    guideLog.pauseInfo();
     state = GUIDE_SUSPENDED;
     emit newStatus(state);
 
@@ -131,6 +142,7 @@ bool InternalGuider::suspend()
 
 bool InternalGuider::resume()
 {
+    guideLog.resumeInfo();
     state = GUIDE_GUIDING;
     emit newStatus(state);
 
@@ -175,6 +187,7 @@ bool InternalGuider::ditherXY(double x, double y)
 
     m_DitherTargetPosition = m_ProgressiveDither.dequeue();
     pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, m_DitherTargetPosition.z);
+    guideLog.ditherInfo(x, y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
     state = GUIDE_MANUAL_DITHERING;
     emit newStatus(state);
@@ -217,6 +230,7 @@ bool InternalGuider::dither(double pixels)
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << m_DitherTargetPosition.x << " Y " <<
                                    m_DitherTargetPosition.y;
+        guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
         pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, ret_angle);
 
@@ -229,10 +243,12 @@ bool InternalGuider::dither(double pixels)
     }
 
     Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0);
+
     star_pos.y      = -star_pos.y;
     star_pos        = star_pos * ROT_Z;
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
+
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
@@ -242,6 +258,7 @@ bool InternalGuider::dither(double pixels)
         if (Options::ditherSettle() > 0)
         {
             state = GUIDE_DITHERING_SETTLE;
+            guideLog.settleStartedInfo();
             emit newStatus(state);
         }
 
@@ -265,6 +282,7 @@ bool InternalGuider::dither(double pixels)
                 if (Options::ditherSettle() > 0)
                 {
                     state = GUIDE_DITHERING_SETTLE;
+                    guideLog.settleStartedInfo();
                     emit newStatus(state);
                 }
 
@@ -314,6 +332,7 @@ bool InternalGuider::processManualDithering()
             if (Options::ditherSettle() > 0)
             {
                 state = GUIDE_DITHERING_SETTLE;
+                guideLog.settleStartedInfo();
                 emit newStatus(state);
             }
 
@@ -333,6 +352,7 @@ bool InternalGuider::processManualDithering()
             if (Options::ditherSettle() > 0)
             {
                 state = GUIDE_DITHERING_SETTLE;
+                guideLog.settleStartedInfo();
                 emit newStatus(state);
             }
 
@@ -348,6 +368,7 @@ bool InternalGuider::processManualDithering()
 
 void InternalGuider::setDitherSettled()
 {
+    guideLog.settleCompletedInfo();
     emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
 
     // Back to guiding
@@ -402,6 +423,11 @@ bool InternalGuider::calibrate()
     pmath->setLostStar(false);
 
     calibrationStage = CAL_START;
+    if (Options::saveGuideLog())
+        guideLog.enable();
+    GuideLog::GuideInfo info;
+    fillGuideInfo(&info);
+    guideLog.startCalibration(info);
 
     // automatic
     // If two axies (RA/DEC) are required
@@ -504,6 +530,10 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             m_CalibrationParams.ra_iterations++;
 
             calibrationStage = CAL_RA_INC;
+            guideLog.addCalibrationData(
+                        RA_INC_DIR,
+                        m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1,
+                        m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1);
 
             break;
 
@@ -519,6 +549,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << m_CalibrationParams.ra_iterations << ": STAR " << cur_x << "," << cur_y;
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.ra_iterations << " Direction: RA_INC_DIR" << " Duration: "
                                        << m_CalibrationParams.last_pulse << " ms.";
+
+            guideLog.addCalibrationData(RA_INC_DIR, cur_x, cur_y,
+                                        m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1);
 
             // Must pass at least 1.5 pixels to move on to the next stage
             if (m_CalibrationParams.ra_iterations >= m_CalibrationParams.auto_drift_time
@@ -547,6 +580,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 m_CalibrationParams.ra_iterations++;
 
                 emit newLog(i18n("RA drifting reverse..."));
+                guideLog.endCalibrationSection(RA_INC_DIR, m_CalibrationParams.phi);
             }
             else if (m_CalibrationParams.ra_iterations > m_CalibrationParams.turn_back_time)
             {
@@ -558,6 +592,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: Drift too short."));
                 KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"),
                                       KSNotification::EVENT_ALERT);
+                guideLog.endCalibration(0, 0);
 
                 reset();
             }
@@ -605,6 +640,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             if (m_CalibrationCoords.ra_distance == 0.0)
                 m_CalibrationCoords.ra_distance = star_pos.x;
+
+            guideLog.addCalibrationData(RA_DEC_DIR, cur_x, cur_y,
+                                        m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1);
 
             // start point reached... so exit
             if (star_pos.x < 1.5)
@@ -722,6 +760,10 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.dec_iterations << " Direction: DEC_INC_DIR" <<
                                        " Duration: " << m_CalibrationParams.last_pulse << " ms.";
 
+            // Don't yet know how to tell NORTH vs SOUTH
+            guideLog.addCalibrationData(DEC_INC_DIR, cur_x, cur_y,
+                                        m_CalibrationCoords.start_x2, m_CalibrationCoords.start_y2);
+
             if (m_CalibrationParams.dec_iterations >= m_CalibrationParams.auto_drift_time
                     && (fabs(cur_x - m_CalibrationCoords.start_x2) > 1.5 || fabs(cur_y - m_CalibrationCoords.start_y2) > 1.5))
             {
@@ -748,6 +790,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 emit newPulse(DEC_DEC_DIR, m_CalibrationParams.last_pulse);
                 emit newLog(i18n("DEC drifting reverse..."));
                 m_CalibrationParams.dec_iterations++;
+                guideLog.endCalibrationSection(DEC_INC_DIR, m_CalibrationParams.phi);
             }
             else if (m_CalibrationParams.dec_iterations > m_CalibrationParams.turn_back_time)
             {
@@ -763,6 +806,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 KSNotification::event(QLatin1String("CalibrationFailed"),
                                       i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
+                guideLog.endCalibration(0, 0);
                 reset();
             }
             else
@@ -810,6 +854,10 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             // Keep track of distance
             if (m_CalibrationCoords.de_distance == 0.0)
                 m_CalibrationCoords.de_distance = star_pos.x;
+
+            // South?
+            guideLog.addCalibrationData(DEC_DEC_DIR, cur_x, cur_y,
+                                        m_CalibrationCoords.start_x2, m_CalibrationCoords.start_y2);
 
             // start point reached... so exit
             if (star_pos.x < 1.5)
@@ -883,6 +931,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 //if (ui.autoStarCheck->isChecked())
                 //guideModule->selectAutoStar();
+
+                // Fill in mount
+                guideLog.endCalibration(pmath->getDitherRate(0), pmath->getDitherRate(1));
             }
             else
             {
@@ -895,6 +946,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 calibrationStage = CAL_ERROR;
                 KSNotification::event(QLatin1String("CalibrationFailed"),
                                       i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
+                guideLog.endCalibration(0, 0);
             }
 
             reset();
@@ -1006,7 +1058,7 @@ bool InternalGuider::processGuiding()
     }
 
     // calc math. it tracks square
-    pmath->performProcessing();
+    pmath->performProcessing(&guideLog);
 
     if (pmath->isStarLost())
         m_starLostCounter++;
@@ -1344,6 +1396,7 @@ bool InternalGuider::reacquire()
             if (Options::ditherSettle() > 0)
             {
                 state = GUIDE_DITHERING_SETTLE;
+                guideLog.settleStartedInfo();
                 emit newStatus(state);
             }
 
@@ -1365,6 +1418,21 @@ bool InternalGuider::reacquire()
 
     emit frameCaptureRequested();
     return rc;
+}
+
+void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
+{
+    // NOTE: just using the X values, phd2logview assumes x & y the same.
+    // pixel scale in arc-sec / pixel. The 2nd and 3rd values seem redundent, but are
+    // in the phd2 logs.
+    info->pixelScale = this->ccdPixelSizeX * this->subBinX * this->mountFocalLength / 206.264;
+    info->binning = this->subBinX;
+    info->focalLength = this->mountFocalLength;
+    info->ra = this->mountRA.Degrees();
+    info->dec = this->mountDEC.Degrees();
+    info->azimuth = this->mountAzimuth.Degrees();
+    info->altitude = this->mountAltitude.Degrees();
+    info->pierSide = this->pierSide;
 }
 
 }

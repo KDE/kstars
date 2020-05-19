@@ -2173,6 +2173,10 @@
          <label>Use driver side Rapid Guide to perform guiding.</label>
          <default>false</default>
       </entry>
+      <entry name="SaveGuideLog" type="Bool">
+         <label>Automatically save internal guider user logs.</label>
+         <default>true</default>
+      </entry>
       <entry name="GuideDarkFrameEnabled" type="Bool">
          <label>Take dark frame for autoguider images.</label>
          <default>false</default>

@@ -1622,7 +1622,7 @@ void Guide::setCaptureStatus(CaptureState newState)
 
 void Guide::setPierSide(ISD::Telescope::PierSide newSide)
 {
-    Q_UNUSED(newSide);
+    guider->setPierSide(newSide);
 
     // If pier side changes in internal guider
     // and calibration was already done
@@ -1683,6 +1683,11 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
                 clearCalibrationB->setEnabled(true);
             }
     }
+}
+
+void Guide::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+{
+    guider->setMountCoords(ra, dec, az, alt);
 }
 
 void Guide::setExposure(double value)

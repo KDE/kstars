@@ -70,4 +70,18 @@ void GuideInterface::setStarPosition(QVector3D& starCenter)
 {
     INDI_UNUSED(starCenter);
 }
+
+void GuideInterface::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+{
+    mountRA = dms::fromString(ra, false);
+    mountDEC = dms::fromString(dec, true);
+    mountAzimuth = dms::fromString(az, true);
+    mountAltitude = dms::fromString(alt, true);
+}
+
+void GuideInterface::setPierSide(ISD::Telescope::PierSide newSide)
+{
+    pierSide = newSide;
+}
+
 }
