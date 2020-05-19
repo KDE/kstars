@@ -431,7 +431,7 @@ bool SkyPoint::bendlight()
 
 void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
 {
-#ifdef USE_LIBNOVA
+#ifdef HAVE_LIBNOVA
     ln_equ_posn pos { RA.Degrees(), Dec.Degrees() };
     ln_equ_posn abPos { 0, 0 };
     ln_get_equ_aber(&pos, num->julianDay(), &abPos);
