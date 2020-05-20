@@ -93,12 +93,15 @@ void GuideLog::appendToLog(const QString &lines)
 //   KStars version 3.4.0. PHD2 log version 2.5. Log enabled at 2019-11-21 00:00:48
 void GuideLog::startLog()
 {
-    logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            "guide_log-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
+    QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "guidelogs/";
+    if (QDir(dir).exists() == false)
+        QDir().mkpath(dir);
+
+    logFileName = dir + "guide_log-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
     logFile.setFileName(logFileName);
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
 
-    appendToLog(QString("KStars version %1. PHD2 log version 2.5. Log enabled at %2\n")
+    appendToLog(QString("KStars version %1. PHD2 log version 2.5. Log enabled at %2\n\n")
                 .arg(KSTARS_VERSION)
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")));
 
@@ -188,7 +191,7 @@ void GuideLog::addGuideData(const GuideData &data)
 //   Guiding Ends at 2019-11-21 01:57:45
 void GuideLog::endGuiding()
 {
-    appendToLog(QString("Guiding Ends at %1\n")
+    appendToLog(QString("Guiding Ends at %1\n\n")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")));
     isGuiding = false;
 }
@@ -261,10 +264,10 @@ void GuideLog::endCalibrationSection(GuideDirection direction, double degrees)
 void GuideLog::endCalibration(double raSpeed, double decSpeed)
 {
     if (raSpeed == 0 && decSpeed == 0)
-        appendToLog(QString("Calibration complete (Failed)\n"));
+        appendToLog(QString("Calibration complete (Failed)\n\n"));
     else
         appendToLog(QString("Calibration guide speeds: RA = %1 a-s/s, Dec = %2 a-s/s\n"
-                            "Calibration complete\n")
+                            "Calibration complete\n\n")
                     .arg(QString::number(raSpeed, 'f', 1))
                     .arg(QString::number(decSpeed, 'f', 1)));
 }

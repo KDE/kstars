@@ -23,26 +23,26 @@ public:
     class GuideInfo
     {
     public:
-        double pixelScale = 0;
+        double pixelScale = 0;                             // arcseconds/pixel
         int binning = 1;
-        double focalLength = 0;
+        double focalLength = 0;                            // millimeters
         // Recent mount position.
-        double ra = 0, dec = 0, azimuth = 0, altitude = 0;
-        ISD::Telescope::PierSide pierSide;
+        double ra = 0, dec = 0, azimuth = 0, altitude = 0; // degrees
+        ISD::Telescope::PierSide pierSide = ISD::Telescope::PierSide::PIER_UNKNOWN;
     };
 
     class GuideData
     {
     public:
         enum GuideDataType { MOUNT, DROP };
-        GuideDataType type;
-        double dx, dy;
-        double raDistance, decDistance;
-        double raGuideDistance, decGuideDistance;
-        int raDuration, decDuration;
-        GuideDirection raDirection, decDirection;
-        double mass;
-        double snr;
+        GuideDataType type = MOUNT;
+        double dx = 0, dy = 0;                            // Should be in units of pixels.
+        double raDistance = 0, decDistance = 0;           // Should be in units of arcseconds.
+        double raGuideDistance = 0, decGuideDistance = 0; // Should be in units of arcseconds.
+        int raDuration = 0, decDuration = 0;              // Should be in units of milliseconds.
+        GuideDirection raDirection, decDirection = NO_DIR;
+        double mass = 0;
+        double snr = 0;
         // From https://openphdguiding.org/PHD2_User_Guide.pdf and logs
         enum ErrorCode {
             NO_ERROR = 0,
@@ -54,7 +54,7 @@ public:
             STAR_LOST_MASS_CHANGED = 6,
             NO_STAR_FOUND = 7
         };
-        ErrorCode code;
+        ErrorCode code = NO_ERROR;
     };
 
     GuideLog();

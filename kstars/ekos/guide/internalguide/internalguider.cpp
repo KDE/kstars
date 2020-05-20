@@ -1425,7 +1425,7 @@ void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
     // NOTE: just using the X values, phd2logview assumes x & y the same.
     // pixel scale in arc-sec / pixel. The 2nd and 3rd values seem redundent, but are
     // in the phd2 logs.
-    info->pixelScale = this->ccdPixelSizeX * this->subBinX * this->mountFocalLength / 206.264;
+    info->pixelScale = (206.26481 * this->ccdPixelSizeX * this->subBinX) / this->mountFocalLength;
     info->binning = this->subBinX;
     info->focalLength = this->mountFocalLength;
     info->ra = this->mountRA.Degrees();

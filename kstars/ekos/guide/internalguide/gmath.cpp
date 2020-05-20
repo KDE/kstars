@@ -1370,16 +1370,22 @@ void cgmath::performProcessing(GuideLog *logger)
 
     if (logger != nullptr)
     {
+        // arc-sec/pixel = 206.265 * pixel-size(microns) / focal-length(mm)
+        // ccd_pixel_width is in mm, so the constant is 206265.
+        const double arcsecPerPixel = 206264.806 * (ccd_pixel_width * subBinX) / focal;
+
         GuideLog::GuideData data;
         data.type = GuideLog::GuideData::MOUNT;
+        // These are distances in pixels.
         data.dx = scr_star_pos.x - reticle_pos.x;
         data.dy = scr_star_pos.y - reticle_pos.y;
-        data.raDistance = star_pos.x;
-        data.decDistance = star_pos.y;
+        // These RA and DEC distances should also be in pixels so divide by arcsec/pixel.
+        data.raDistance = star_pos.x / arcsecPerPixel;
+        data.decDistance = star_pos.y / arcsecPerPixel;
         // The guide distances are related to the raw distances above, but
         // e.g. small differences can be ignored. We just copy.
-        data.raGuideDistance = star_pos.x;
-        data.decGuideDistance = star_pos.y;
+        data.raGuideDistance = star_pos.x / arcsecPerPixel;
+        data.decGuideDistance = star_pos.y / arcsecPerPixel;
         data.raDuration = out_params.pulse_length[GUIDE_RA];
         data.raDirection = out_params.pulse_dir[GUIDE_RA];
         data.decDuration = out_params.pulse_length[GUIDE_DEC];
