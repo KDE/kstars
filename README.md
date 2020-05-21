@@ -25,8 +25,9 @@ Latest stable version is v3.4.2
 ## Important URLs and files.
 
 * The [KStars homepage](https://edu.kde.org/kstars)
-* KStars [Git Repository](https://invent.kde.org/education/kstars).
+* KStars [Git Repository](https://invent.kde.org/education/kstars)
 * KStars [Web Chat](https://webchat.kde.org/#/room/#kstars:kde.org)
+* Forum [where KStars is often discussed](https://indilib.org/forum.html)
 
 ## KStars documentation
 
@@ -44,7 +45,8 @@ README.i18n:        Instructions for translators
 
 ## Development
 
-Important Note: **Do not submit Pull Requests to Github**. KStars repository on Github is just a mirror. All PRs will be closed automatically. To send patches to KStars, please use KDE's [Phabricator](https://community.kde.org/Infrastructure/Phabricator) system.
+Code can be cloned, viewed and pull requests can be made via the [KStars repository](https://invent.kde.org/education/kstars). If you are new to remote git repositories, please see the Git Tips section below.
+Note: Previously KStars used Phabricator for its pull requests. That system is no longer in use.
 
 ### Integrated Development Environment IDE
 
@@ -76,6 +78,54 @@ To build and develop KStars, several packages may be required from your distribu
     * libgsl
     * qtkeychain
 
+### Git Tips
+
+You must be familiar with git to make changes to KStars, and this is not the place for such a tutorial. There
+are many excellent resources for that on the web. The paragraph below, though, will give an overview of one way
+to make a Pull Request, given you already have sufficient git experience to clone KStars, make a local branch,
+modify the code as you like, commit your changes to your local branch, and test your code throughly.
+
+Here's one good resource for a [fork-branch-git-workflow to make KStars changes](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow). The steps below are inspired by that page.
+
+    * [Make your KDE identity](https://community.kde.org/Infrastructure/Get_a_Developer_Account)
+    * **Login.** Go to the [KStars gitlab page](https://invent.kde.org/education/kstars) and login in the upper right corner.
+    * **Fork the project.** Then, still on the KStars gitlab page, Click FORK in the upper right hand corner, to create your own fork of the project.
+    * **Copy your URL.** Note the url of your fork. It should be https://invent.kde.org/YOUR_KDE_NAME/kstars
+    * **Clone KStars.** Back on your computer run these commands
+        * mkdir -p ~/Projects
+        * cd ~/Projects
+        * git clone https://invent.kde.org/YOUR_KDE_NAME/kstars
+        * cd kstars
+    * **Add your upstream.** Add the KStars main repo to your forked repo.
+        * git remote add upstream https://invent.kde.org/education/kstars
+
+You are setup now. The following steps are used for each new feature you will to develop.
+
+    * **Create your feature branch.**
+        * git checkout -b YOUR_BRANCH_NAME
+    * **Make your changes**
+    * **Commit your changes**
+        * git commit -a
+    * **Push changes to your forked repo.**
+        * git push origin YOUR_BRANCH_NAME
+    * **Create a Pull Request**
+        * Use your browser to visit your forked repo at  https://invent.kde.org/YOUR_KDE_NAME/kstars
+        * You should see an option to create a Pull Request for YOUR_BRANCH_NAME. Do that.
+        * You should be able to see a new URL dedicated to that Pull Request.
+    * **Make Some Changes.** You may get requests to modify some of your code.
+        * If so, you simply go back to your local branch, make and test your changes.
+        * Commit your changes as above, inside your branch, with: git commit -a
+        * Push your branch's changes to your forked repo as above with: git push origin YOUR_BRANCH_NAME
+        * You changes should automatically be added to Pull Request. Check the Pull Request's page to be sure.
+
+Once your Pull Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
+You may want to run the following regularly to make your environment up-to-date with KStars.
+
+        * cd ~/Projects/kstars
+        * git checkout master
+        * git pull upstream master  # Get the master from the main KStars repo onto your local clone
+        * git push origin master    # Then push your updated local clone into your forked repo
+
 2. Installing Prerequisites
 
 Debian/Ubuntu
@@ -92,10 +142,11 @@ yum install cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch kf5-kcon
 
 Open a console and run in the following commands:
 ```
-mkdir -p ~/Projects/build/kstars
+mkdir -p ~/Projects
 git clone https://invent.kde.org/education/kstars.git
-cd build/kstars
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug ~/Projects/kstars
+mkdir -p kstars-build
+cd kstars-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo ../kstars
 make -j8
 sudo make install
 ```
@@ -122,8 +173,8 @@ Some IDEs (e.g. QtCreator) support automatic formatting for the code everytime y
 ### The KStars Team
 
 Main contributors:
-   Jason Harris <kstars@30doradus.org>
-   Jasem Mutlaq <mutlaqja@ikarustech.com>
+   Jasem Mutlaq <mutlaqja@ikarustech.com> (Current Maintainer)
+   Jason Harris <kstars@30doradus.org>  (Original Author)
    Akarsh Simha <akarsh.simha@kdemail.net>
    James Bowlin <bowlin@mindspring.com>
    Heiko Evermann <heiko@evermann.de>
@@ -135,11 +186,18 @@ Main contributors:
    Alexey Khudyakov <alexey.skladnoy@gmail.com>
    Jérôme Sonrier <jsid@emor3j.fr.eu.org>
    Harry de Valence <hdevalence@gmail.com>
-   Victor Carbune <victor.carbune@kdemail.net>
+   Victor Cărbune <victor.carbune@kdemail.net>
    Rafał Kułaga <rl.kulaga@gmail.com>
    Samikshan Bairagya <samikshan@gmail.com>
    Rishab Arora <ra.rishab@gmail.com>
    Robert Lancaster <rlancaste@gmail.com>
+   Vincent Jagot <vincent.jagot@free.fr>
+   Martin Piskernig <martin.piskernig@stuwo.at>
+   Prakash Mohan <prakash.mohan@kdemail.net>
+   Csaba Kertesz <csaba.kertesz@gmail.com>
+   Wolfgang Reissenberger <sterne-jaeger@t-online.de>
+   Hy Murveit <murveit@gmail.com>
+   Artem Fedoskin <afedoskin3@gmail.com>
 
 ### Data Sources:
 
@@ -175,7 +233,7 @@ Main contributors:
  Credits for each image used in the program are listed in README.images
 
 
-# Acknowledgements
+# Original Acknowledgement from the Project Founder
 
  KStars is a labor of love.  It started as a personal hobby of mine, but
  very soon after I first posted the code on Sourceforge, it started to
