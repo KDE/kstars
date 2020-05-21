@@ -87,44 +87,44 @@ modify the code as you like, commit your changes to your local branch, and test 
 
 Here's one good resource for a [fork-branch-git-workflow to make KStars changes](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow). The steps below are inspired by that page.
 
-    * [Make your KDE identity](https://community.kde.org/Infrastructure/Get_a_Developer_Account)
-    * **Login.** Go to the [KStars gitlab page](https://invent.kde.org/education/kstars) and login in the upper right corner.
-    * **Fork the project.** Then, still on the KStars gitlab page, Click FORK in the upper right hand corner, to create your own fork of the project.
-    * **Copy your URL.** Note the url of your fork. It should be https://invent.kde.org/YOUR_KDE_NAME/kstars
-    * **Clone KStars.** Back on your computer run these commands
-        * mkdir -p ~/Projects
-        * cd ~/Projects
-        * git clone https://invent.kde.org/YOUR_KDE_NAME/kstars
-        * cd kstars
-    * **Add your upstream.** Add the KStars main repo to your forked repo.
-        * git remote add upstream https://invent.kde.org/education/kstars
+* [Make your KDE identity](https://community.kde.org/Infrastructure/Get_a_Developer_Account)
+* **Login.** Go to the [KStars gitlab page](https://invent.kde.org/education/kstars) and login in the upper right corner.
+* **Fork the project.** Then, still on the KStars gitlab page, Click FORK in the upper right hand corner, to create your own fork of the project.
+* **Copy your URL.** Note the url of your fork. It should be https://invent.kde.org/YOUR_KDE_NAME/kstars
+* **Clone KStars.** Back on your computer run these commands
+    * mkdir -p ~/Projects
+    * cd ~/Projects
+    * git clone https://invent.kde.org/YOUR_KDE_NAME/kstars
+    * cd kstars
+* **Add your upstream.** Add the KStars main repo to your forked repo.
+    * git remote add upstream https://invent.kde.org/education/kstars
 
 You are setup now. The following steps are used for each new feature you will to develop.
 
-    * **Create your feature branch.**
-        * git checkout -b YOUR_BRANCH_NAME
-    * **Make your changes**
-    * **Commit your changes**
-        * git commit -a
-    * **Push changes to your forked repo.**
-        * git push origin YOUR_BRANCH_NAME
-    * **Create a Pull Request**
-        * Use your browser to visit your forked repo at  https://invent.kde.org/YOUR_KDE_NAME/kstars
-        * You should see an option to create a Pull Request for YOUR_BRANCH_NAME. Do that.
-        * You should be able to see a new URL dedicated to that Pull Request.
-    * **Make Some Changes.** You may get requests to modify some of your code.
-        * If so, you simply go back to your local branch, make and test your changes.
-        * Commit your changes as above, inside your branch, with: git commit -a
-        * Push your branch's changes to your forked repo as above with: git push origin YOUR_BRANCH_NAME
-        * You changes should automatically be added to Pull Request. Check the Pull Request's page to be sure.
+* **Create your feature branch.**
+    * git checkout -b YOUR_BRANCH_NAME
+* **Make your changes**
+* **Commit your changes**
+    * git commit -a
+* **Push changes to your forked repo.**
+    * git push origin YOUR_BRANCH_NAME
+* **Create a Pull Request**
+    * Use your browser to visit your forked repo at  https://invent.kde.org/YOUR_KDE_NAME/kstars
+    * You should see an option to create a Pull Request for YOUR_BRANCH_NAME. Do that.
+    * You should be able to see a new URL dedicated to that Pull Request.
+* **Make Some Changes.** You may get requests to modify some of your code.
+    * If so, you simply go back to your local branch, make and test your changes.
+    * Commit your changes as above, inside your branch, with: git commit -a
+    * Push your branch's changes to your forked repo as above with: git push origin YOUR_BRANCH_NAME
+    * You changes should automatically be added to Pull Request. Check the Pull Request's page to be sure.
 
 Once your Pull Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
 You may want to run the following regularly to make your environment up-to-date with KStars.
 
-        * cd ~/Projects/kstars
-        * git checkout master
-        * git pull upstream master  # Get the master from the main KStars repo onto your local clone
-        * git push origin master    # Then push your updated local clone into your forked repo
+* cd ~/Projects/kstars
+* git checkout master
+* git pull upstream master  # Get the master from the main KStars repo onto your local clone
+* git push origin master    # Then push your updated local clone into your forked repo
 
 2. Installing Prerequisites
 
