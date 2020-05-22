@@ -173,33 +173,37 @@ git push origin master    # Then push your updated local clone into your forked 
 
 ## Credits
 ### The KStars Team
-
-Main contributors:
-   Jasem Mutlaq <mutlaqja@ikarustech.com> (Current Maintainer)
-   Jason Harris <kstars@30doradus.org>  (Original Author)
-   Akarsh Simha <akarsh.simha@kdemail.net>
-   James Bowlin <bowlin@mindspring.com>
-   Heiko Evermann <heiko@evermann.de>
-   Thomas Kabelmann <tk78@gmx.de>
-   Pablo de Vicente <pvicentea@wanadoo.es>
-   Mark Hollomon <mhh@mindspring.com>
-   Carsten Niehaus <cniehaus@kde.org>
-   Médéric Boquien <mboquien@free.fr>
-   Alexey Khudyakov <alexey.skladnoy@gmail.com>
-   Jérôme Sonrier <jsid@emor3j.fr.eu.org>
-   Harry de Valence <hdevalence@gmail.com>
-   Victor Cărbune <victor.carbune@kdemail.net>
-   Rafał Kułaga <rl.kulaga@gmail.com>
-   Samikshan Bairagya <samikshan@gmail.com>
-   Rishab Arora <ra.rishab@gmail.com>
-   Robert Lancaster <rlancaste@gmail.com>
-   Vincent Jagot <vincent.jagot@free.fr>
-   Martin Piskernig <martin.piskernig@stuwo.at>
-   Prakash Mohan <prakash.mohan@kdemail.net>
-   Csaba Kertesz <csaba.kertesz@gmail.com>
-   Wolfgang Reissenberger <sterne-jaeger@t-online.de>
-   Hy Murveit <murveit@gmail.com>
-   Artem Fedoskin <afedoskin3@gmail.com>
+#### Original Author
+Jason Harris <kstars@30doradus.org>
+#### Current Maintainer
+Jasem Mutlaq <mutlaqja@ikarustech.com>
+#### Contributors (Alphabetical)
+* Akarsh Simha <akarsh.simha@kdemail.net>
+* Alexey Khudyakov <alexey.skladnoy@gmail.com>
+* Artem Fedoskin <afedoskin3@gmail.com>
+* Carsten Niehaus <cniehaus@kde.org>
+* Chris Rowland <chris.rowland@cherryfield.me.uk>
+* Csaba Kertesz <csaba.kertesz@gmail.com>
+* Eric Dejouhanet <eric.dejouhanet@gmail.com>
+* Harry de Valence <hdevalence@gmail.com>
+* Heiko Evermann <heiko@evermann.de>
+* Hy Murveit <murveit@gmail.com>
+* James Bowlin <bowlin@mindspring.com>
+* Jérôme Sonrier <jsid@emor3j.fr.eu.org>
+* Mark Hollomon <mhh@mindspring.com>
+* Martin Piskernig <martin.piskernig@stuwo.at>
+* Médéric Boquien <mboquien@free.fr>
+* Pablo de Vicente <pvicentea@wanadoo.es>
+* Prakash Mohan <prakash.mohan@kdemail.net>
+* Rafał Kułaga <rl.kulaga@gmail.com>
+* Rishab Arora <ra.rishab@gmail.com>
+* Robert Lancaster <rlancaste@gmail.com>
+* Samikshan Bairagya <samikshan@gmail.com>
+* Thomas Kabelmann <tk78@gmx.de>
+* Victor Cărbune <victor.carbune@kdemail.net>
+* Vincent Jagot <vincent.jagot@free.fr>
+* Wolfgang Reissenberger <sterne-jaeger@t-online.de>
+* Yuri Chornoivan <yurchor@ukr.net>
 
 ### Data Sources:
 
