@@ -405,6 +405,10 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
     if (phi_dec < 0)
         return false;
 
+    // Store the calibration angles.
+    phiRA = phi_ra;
+    phiDEC = phi_dec;
+
     if (do_increase)
         phi_dec += 90;
     else
@@ -457,6 +461,14 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
     }
 
     return true;
+}
+
+void cgmath::getCalibration(double *phi_ra, double *phi_dec, double *rate_ra, double *rate_dec)
+{
+    *phi_ra = phiRA;
+    *phi_dec = phiDEC;
+    *rate_ra = ditherRate[GUIDE_RA];
+    *rate_dec = ditherRate[GUIDE_DEC];
 }
 
 double cgmath::calculatePhi(double start_x, double start_y, double end_x, double end_y) const
@@ -1380,12 +1392,13 @@ void cgmath::performProcessing(GuideLog *logger)
         data.dx = scr_star_pos.x - reticle_pos.x;
         data.dy = scr_star_pos.y - reticle_pos.y;
         // These RA and DEC distances should also be in pixels so divide by arcsec/pixel.
-        data.raDistance = star_pos.x / arcsecPerPixel;
-        data.decDistance = star_pos.y / arcsecPerPixel;
+        // Also above computes position - reticle. Should the reticle-position, so negate.
+        data.raDistance = -star_pos.x / arcsecPerPixel;
+        data.decDistance = -star_pos.y / arcsecPerPixel;
         // The guide distances are related to the raw distances above, but
         // e.g. small differences can be ignored. We just copy.
-        data.raGuideDistance = star_pos.x / arcsecPerPixel;
-        data.decGuideDistance = star_pos.y / arcsecPerPixel;
+        data.raGuideDistance = -star_pos.x / arcsecPerPixel;
+        data.decGuideDistance = -star_pos.y / arcsecPerPixel;
         data.raDuration = out_params.pulse_length[GUIDE_RA];
         data.raDirection = out_params.pulse_dir[GUIDE_RA];
         data.decDuration = out_params.pulse_length[GUIDE_DEC];

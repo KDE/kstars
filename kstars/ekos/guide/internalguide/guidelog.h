@@ -29,6 +29,8 @@ public:
         // Recent mount position.
         double ra = 0, dec = 0, azimuth = 0, altitude = 0; // degrees
         ISD::Telescope::PierSide pierSide = ISD::Telescope::PierSide::PIER_UNKNOWN;
+        double xangle = 0.0, yangle = 0.0;                 // degrees, x,y axis vs ra,dec.
+        double xrate = 1.0, yrate = 1.0;                   // pixels/second of pulsing.
     };
 
     class GuideData

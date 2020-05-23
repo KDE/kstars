@@ -933,7 +933,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 //guideModule->selectAutoStar();
 
                 // Fill in mount
-                guideLog.endCalibration(pmath->getDitherRate(0), pmath->getDitherRate(1));
+                // These rates are in ms/pixel. Convert to pixels/second
+                guideLog.endCalibration(1000.0 / pmath->getDitherRate(0), 1000.0 / pmath->getDitherRate(1));
             }
             else
             {
@@ -1433,6 +1434,14 @@ void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
     info->azimuth = this->mountAzimuth.Degrees();
     info->altitude = this->mountAltitude.Degrees();
     info->pierSide = this->pierSide;
+    double phi_ra, phi_dec, rate_ra, rate_dec;
+    pmath->getCalibration(&phi_ra, &phi_dec, &rate_ra, &rate_dec);
+    info->xangle = phi_ra;
+    info->yangle = phi_dec;
+    // ditherRate[GUIDE_RA] is in ms/pixel, xrate is in pixels/second.
+    info->xrate = 1000.0 / rate_ra;
+    info->yrate = 1000.0 / rate_dec;
+
 }
 
 }

@@ -140,6 +140,7 @@ void GuideLog::startGuiding(const GuideInfo &info)
                         "Pixel scale = %2 arc-sec/px, Binning = %3, Focal length = %4 mm\n"
                         "RA = %5 hr, Dec = %6 deg, Hour angle = N/A hr, Pier side = %7, "
                         "Rotator pos = N/A, Alt = %8 deg, Az = %9 deg\n"
+                        "Mount = mount, xAngle = %10, xRate = %11, yAngle = %12, yRate = %13\n"
                         "Frame,Time,mount,dx,dy,RARawDistance,DECRawDistance,RAGuideDistance,DECGuideDistance,"
                         "RADuration,RADirection,DECDuration,DECDirection,XStep,YStep,StarMass,SNR,ErrorCode\n")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
@@ -150,7 +151,12 @@ void GuideLog::startGuiding(const GuideInfo &info)
                 .arg(QString::number(info.dec, 'f', 1))
                 .arg(pierSideString(info.pierSide))
                 .arg(QString::number(info.altitude, 'f', 1))
-                .arg(QString::number(info.azimuth, 'f', 1)));
+                .arg(QString::number(info.azimuth, 'f', 1))
+                .arg(QString::number(info.xangle, 'f', 1))
+                .arg(QString::number(info.xrate, 'f', 3))
+                .arg(QString::number(info.yangle, 'f', 1))
+                .arg(QString::number(info.yrate, 'f', 3)));
+
 
     guideIndex = 1;
     isGuiding = true;

@@ -172,6 +172,8 @@ class cgmath : public QObject
 
     void setRegionAxis(const uint32_t &value);
 
+    void getCalibration(double *phi_ra, double *phi_dec, double *rate_ra, double *rate_dec);
+
   signals:
     void newAxisDelta(double delta_ra, double delta_dec);
     void newStarPosition(QVector3D, bool);
@@ -254,6 +256,8 @@ class cgmath : public QObject
 
     // dithering
     double ditherRate[2];
+    double phiRA = 0;
+    double phiDEC = 0;
 
     QFile logFile;
     QTime logTime;
