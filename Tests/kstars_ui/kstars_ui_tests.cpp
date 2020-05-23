@@ -10,6 +10,7 @@
 #include "kstars_ui_tests.h"
 
 #include "kswizard.h"
+#include "config-kstars.h"
 #include "auxiliary/kspaths.h"
 #include "test_kstars_startup.h"
 
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
     });
 
     // Limit execution duration
-    QTimer::singleShot(5*60*1000, &app, &QCoreApplication::quit);
+    QTimer::singleShot(5 * 60 * 1000, &app, &QCoreApplication::quit);
 
     app.exec();
 

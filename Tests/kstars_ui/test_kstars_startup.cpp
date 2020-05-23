@@ -55,7 +55,7 @@ void TestKStarsStartup::createInstanceTest()
     QVERIFY(!QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).exists());
     QVERIFY(QDir().mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
 
-#if HAVE_INDI
+#if defined(HAVE_INDI)
     QWARN("INDI driver registry is unexpectedly required before we start the KStars wizard");
 
     // Locate INDI drivers like drivermanager.cpp does
@@ -133,19 +133,23 @@ void TestKStarsStartup::testInitialConditions()
 
     QCOMPARE(KStars::Instance()->data()->clock()->isActive(), m_InitialConditions.clockRunning);
 
-    QEXPECT_FAIL("", "Initial KStars clock is set from system local time, not geolocation, and is untestable for now.", Continue);
+    QEXPECT_FAIL("", "Initial KStars clock is set from system local time, not geolocation, and is untestable for now.",
+                 Continue);
     QCOMPARE(KStars::Instance()->data()->clock()->utc().toString(), m_InitialConditions.dateTime.toString());
 
-    QEXPECT_FAIL("", "Precision of KStars local time conversion to local time does not allow strict millisecond comparison.", Continue);
+    QEXPECT_FAIL("", "Precision of KStars local time conversion to local time does not allow strict millisecond comparison.",
+                 Continue);
     QCOMPARE(KStars::Instance()->data()->clock()->utc().toLocalTime(), m_InitialConditions.dateTime);
 
 #if QT_VERSION >= 0x050800
     // However comparison down to nearest second is expected to be OK
-    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
+    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch() / 1000.0),
+             m_InitialConditions.dateTime.toSecsSinceEpoch());
 
     // Test setting time
     KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(m_InitialConditions.dateTime));
-    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), m_InitialConditions.dateTime.toSecsSinceEpoch());
+    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch() / 1000.0),
+             m_InitialConditions.dateTime.toSecsSinceEpoch());
 #endif
 }
 
