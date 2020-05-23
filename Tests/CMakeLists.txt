@@ -4,7 +4,6 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
-    ${kstars_SOURCE_DIR}/kstars/ekos/align
     )
 
 if(WCSLIB_FOUND)
@@ -33,11 +32,15 @@ SET( TEST_KSLITE_LIBRARIES
 
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
-add_subdirectory(polaralign)
 
 IF (CFITSIO_FOUND)
     add_subdirectory(fitsviewer)
 ENDIF ()
+
+IF (INDI_FOUND)
+include_directories(${kstars_SOURCE_DIR}/kstars/ekos/align)
+add_subdirectory(polaralign)
+ENDIF()
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)
