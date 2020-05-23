@@ -72,6 +72,10 @@ void transient(const QString &message, const QString &title)
     msgBox->setModal(false);
     msgBox->setIcon(QMessageBox::Warning);
     msgBox->show();
+    QTimer::singleShot(10000, msgBox, [msgBox]()
+    {
+        if (msgBox) msgBox->close();
+    });
 #endif
 }
 
