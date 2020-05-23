@@ -6070,8 +6070,12 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
                     break;
 
                 case FILTER_CHANGE:
-                    appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterManager->getTargetFilterPosition() - 1)));
-                    break;
+                {
+                    const int filterComboIndex = filterManager->getTargetFilterPosition() - 1;
+                    if (filterComboIndex >= 0 && filterComboIndex < FilterPosCombo->count())
+                        appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterComboIndex)));
+                }
+                break;
 
                 case FILTER_AUTOFOCUS:
                     appendLogText(i18n("Auto focus on filter change..."));
