@@ -2514,7 +2514,9 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solver
         if (optionsMap.contains("downsample"))
             solver_args << "--downsample" << QString::number(optionsMap.value("downsample", 2).toInt());
 
-        if(Options::useSextractor())
+        // JM 2020-05-23 This should ONLY apply to offline astrometry
+
+        if(Options::useSextractor() && Options::astrometrySolverType() == SOLVER_OFFLINE)
         {
             //Sextractor needs all these parameters in order to solve an xylist of stars
             if (optionsMap.contains("image_width"))
