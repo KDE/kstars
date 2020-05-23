@@ -1136,7 +1136,10 @@ bool Focus::appendHFR(double newHFR)
 
     // Prepare a work vector with valid HFR values
     QVector <double> samples(HFRFrames);
-    samples.erase(std::remove_if(samples.begin(), samples.end(), [](const double HFR) { return HFR == -1; }), samples.end());
+    samples.erase(std::remove_if(samples.begin(), samples.end(), [](const double HFR)
+    {
+        return HFR == -1;
+    }), samples.end());
 
     // Perform simple sigma clipping if more than a few samples
     if (samples.count() > 3)
@@ -1144,9 +1147,9 @@ bool Focus::appendHFR(double newHFR)
         // Sort all HFRs and extract the median
         std::sort(samples.begin(), samples.end());
         const auto median =
-                ((samples.size() % 2) ?
-                     samples[samples.size() / 2] :
-                 (static_cast<double>(samples[samples.size() / 2 - 1]) + samples[samples.size() / 2]) * .5);
+            ((samples.size() % 2) ?
+             samples[samples.size() / 2] :
+             (static_cast<double>(samples[samples.size() / 2 - 1]) + samples[samples.size() / 2]) * .5);
 
         // Extract the mean
         const auto mean = std::accumulate(samples.begin(), samples.end(), .0) / samples.size();
@@ -2330,8 +2333,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
         return;
 
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 state: %2")
-                               .arg(nvp->name).arg(nvp->s);
+    //    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 state: %2")
+    //                               .arg(nvp->name).arg(nvp->s);
 
     if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
     {
@@ -2827,7 +2830,7 @@ void Focus::setAutoFocusResult(bool status)
         // CR add auto focus position, temperature and filter to log in CSV format
         // this will help with setting up focus offsets and temperature compensation
         qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
-            << currentTemperature << ", filter, " << filter();
+                                  << currentTemperature << ", filter, " << filter();
         lastFocusTemperature = currentTemperature;
         emit newFocusTemperatureDelta(0);
     }
@@ -3472,7 +3475,8 @@ void Focus::loadSettings()
     else
     {
         // When not using Bathinov mask, limit box size to 256 and make sure value stays within range.
-        if (Options::focusBoxSize() > 256) {
+        if (Options::focusBoxSize() > 256)
+        {
             Options::setFocusBoxSize(32);
         }
         focusBoxSize->setMaximum(256);
