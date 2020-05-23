@@ -6,30 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>643</width>
-    <height>559</height>
+    <width>648</width>
+    <height>569</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
+  <layout class="QHBoxLayout" name="horizontalLayout_12">
    <property name="spacing">
-    <number>2</number>
+    <number>3</number>
    </property>
    <property name="leftMargin">
-    <number>2</number>
+    <number>3</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>3</number>
    </property>
    <property name="rightMargin">
-    <number>2</number>
+    <number>3</number>
    </property>
    <property name="bottomMargin">
-    <number>2</number>
+    <number>3</number>
    </property>
    <item>
-    <layout class="QVBoxLayout" name="leftLayout">
+    <layout class="QVBoxLayout" name="LeftLayout">
      <property name="spacing">
-      <number>2</number>
+      <number>3</number>
      </property>
      <item>
       <widget class="QGroupBox" name="CCDFWGroup">
@@ -53,742 +53,21 @@
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
-         <number>2</number>
+         <number>3</number>
         </property>
         <property name="topMargin">
-         <number>2</number>
+         <number>3</number>
         </property>
         <property name="rightMargin">
-         <number>2</number>
+         <number>3</number>
         </property>
         <property name="bottomMargin">
-         <number>2</number>
+         <number>3</number>
         </property>
         <property name="spacing">
-         <number>2</number>
+         <number>3</number>
         </property>
-        <item row="6" column="0">
-         <widget class="QLabel" name="textLabel1_12">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Frame:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLabel" name="textLabel1_13">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>X:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLabel" name="textLabel1_10">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>H:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <widget class="QSpinBox" name="binXIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Horizontal binning</string>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>10</number>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="3">
-         <widget class="QLabel" name="textLabel1_11">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>V:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="5" colspan="2">
-         <widget class="QComboBox" name="FilterPosCombo">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="textLabel1_4">
-          <property name="toolTip">
-           <string>Number of images to capture</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Count:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1" colspan="2">
-         <widget class="QComboBox" name="frameTypeCombo">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="3" colspan="4">
-         <widget class="QPushButton" name="customValuesB">
-          <property name="text">
-           <string>Custom Properties...</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" colspan="2">
-         <widget class="QComboBox" name="transferFormatCombo">
-          <property name="toolTip">
-           <string>Image Transfer Format</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>FITS</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Native</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="4" column="3" colspan="2">
-         <widget class="QLabel" name="ISOLabel">
-          <property name="text">
-           <string>ISO:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QSpinBox" name="frameWIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximum">
-           <number>99</number>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="4" colspan="2">
-         <widget class="QSpinBox" name="frameHIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="textLabel1_9">
-          <property name="toolTip">
-           <string>Horizontal and Vertical binning</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Binning:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="6">
-         <widget class="QPushButton" name="resetFrameB">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Reset CCD frame &amp; size values to default values</string>
-          </property>
-          <property name="text">
-           <string>Reset</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="textLabel1_19">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Size:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QSpinBox" name="frameXIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="3">
-         <widget class="QLabel" name="textLabel1_14">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Y:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="4" colspan="2">
-         <widget class="QSpinBox" name="frameYIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="5" colspan="2">
-         <widget class="QSpinBox" name="delayIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximum">
-           <number>3600</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Format:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLabel" name="textLabel1_15">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>W:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <widget class="QLabel" name="textLabel1_16">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>H:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="6" rowspan="2">
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="calibrationB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Dark &amp; Flat frames automatic calibration options</string>
-            </property>
-            <property name="text">
-             <string>Calibration</string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="rotatorB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Rotator Control</string>
-            </property>
-            <property name="text">
-             <string>Rotator</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="exposureLabel_2">
-          <property name="toolTip">
-           <string>Set the exposure time in seconds for individual images, if applicable</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Exposure:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="NonLinearDoubleSpinBox" name="exposureIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="decimals">
-           <number>3</number>
-          </property>
-          <property name="minimum">
-           <double>0.001000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>3600.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>1.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1" colspan="2">
-         <widget class="QSpinBox" name="countIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>100000</number>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3" colspan="2">
-         <widget class="QLabel" name="textLabel1_8">
-          <property name="toolTip">
-           <string>Delay in seconds between consecutive images</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Delay:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" colspan="3">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>&lt;b&gt;Capture Settings&lt;/b&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_3">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="textLabel1_17">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3" colspan="2">
-         <widget class="QLabel" name="textLabel1_2_3">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Filter:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="4" colspan="2">
-         <widget class="QSpinBox" name="binYIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Vertical binning</string>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>10</number>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0" colspan="3">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>&lt;b&gt;File Settings&lt;/b&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="10" column="0" colspan="7">
-         <layout class="QGridLayout" name="fileSettingsGridLayout">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_2">
-            <property name="toolTip">
-             <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
-            </property>
-            <property name="text">
-             <string>Remote:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3" colspan="2">
-           <widget class="QLineEdit" name="remoteDirIN">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="placeholderText">
-             <string>/home/pi</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="toolTip">
-             <string>Post-capture script to be executed after an image is captured. The capture sequence is resumed when the script is executed successfully.</string>
-            </property>
-            <property name="text">
-             <string>Script:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="QLineEdit" name="postCaptureScriptIN">
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="uploadModeCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>Locally</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Remotely</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Both</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="textLabel1_18">
-            <property name="toolTip">
-             <string>Local directory to save sequence images</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Directory:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="2">
-           <widget class="QLineEdit" name="prefixIN">
-            <property name="placeholderText">
-             <string>Target</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_7">
-            <property name="toolTip">
-             <string>&lt;p&gt;Prefix is used to generate file names ( e.g. M42_HA_240_secs_001.fits)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Target&lt;/strong&gt;: Target Name (e.g. M42)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Filter&lt;/strong&gt;: When using a filter wheel, the filter name is appended to the file name (e.g. HA)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Duration&lt;/strong&gt;: Capture duration is appended to the file name (e.g. 240_secs)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;TS&lt;/strong&gt;: ISO 8601 timestamp is appended to the file name (e.g. 2016-10-20T22:42:10)&lt;/li&gt;
-&lt;/ul&gt;</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Prefix:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Locally&lt;/span&gt;: Captured images are saved locally on disk in the directory specified above.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remotely&lt;/span&gt;: When connecting to a remote device, select this option to save images on the remote device only. No images are uploaded to Ekos.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Both&lt;/span&gt;: Captured images are saved on both the remote computer &lt;span style=&quot; font-weight:600;&quot;&gt;and&lt;/span&gt; on the local disk as well.&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;When selecting &lt;span style=&quot; font-style:italic;&quot;&gt;Remotely&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;Both&lt;/span&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are saved &lt;span style=&quot; font-style:italic;&quot;&gt;Locally&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Save:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" rowspan="2" colspan="2">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <property name="spacing">
-             <number>1</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="filterCheck">
-              <property name="toolTip">
-               <string>Append the active filter slot to the prefix</string>
-              </property>
-              <property name="text">
-               <string>Filter</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="expDurationCheck">
-              <property name="toolTip">
-               <string>Append the expose duration to the prefix</string>
-              </property>
-              <property name="text">
-               <string>Duration</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="ISOCheck">
-              <property name="toolTip">
-               <string>Append time stamp to the prefix</string>
-              </property>
-              <property name="text">
-               <string>TS</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="4">
-           <widget class="QPushButton" name="selectFITSDirB">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" colspan="3">
-           <widget class="QLineEdit" name="fitsDir"/>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0" colspan="7">
+        <item row="0" column="0" colspan="4">
          <layout class="QGridLayout" name="ccdGridLayout">
           <property name="spacing">
            <number>2</number>
@@ -1059,6 +338,792 @@ font-weight:bold;
           </item>
          </layout>
         </item>
+        <item row="1" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>&lt;b&gt;Capture Settings&lt;/b&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="exposureLabel_2">
+          <property name="toolTip">
+           <string>Set the exposure time in seconds for individual images, if applicable</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Exposure:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="NonLinearDoubleSpinBox" name="exposureIN">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="decimals">
+           <number>3</number>
+          </property>
+          <property name="minimum">
+           <double>0.001000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>3600.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="textLabel1_2_3">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Filter:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="FilterPosCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="filterEditB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Edit filter names</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="document-edit"/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="textLabel1_4">
+          <property name="toolTip">
+           <string>Number of images to capture</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Count:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="countIN">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="textLabel1_8">
+          <property name="toolTip">
+           <string>Delay in seconds between consecutive images</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Delay:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QSpinBox" name="delayIN">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>3600</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Format:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="transferFormatCombo">
+          <property name="toolTip">
+           <string>Image Transfer Format</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>FITS</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Native</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="ISOLabel">
+          <property name="text">
+           <string>ISO:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="textLabel1_17">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Type:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QComboBox" name="frameTypeCombo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2" colspan="2">
+         <widget class="QPushButton" name="customValuesB">
+          <property name="text">
+           <string>Custom Properties...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="textLabel1_12">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Frame:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="textLabel1_19">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Size:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="textLabel1_9">
+          <property name="toolTip">
+           <string>Horizontal and Vertical binning</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Binning:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>&lt;b&gt;File Settings&lt;/b&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="10" column="0" colspan="4">
+         <layout class="QGridLayout" name="fileSettingsGridLayout">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
+            </property>
+            <property name="text">
+             <string>Remote:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3" colspan="2">
+           <widget class="QLineEdit" name="remoteDirIN">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="placeholderText">
+             <string>/home/pi</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="toolTip">
+             <string>Post-capture script to be executed after an image is captured. The capture sequence is resumed when the script is executed successfully.</string>
+            </property>
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QLineEdit" name="postCaptureScriptIN">
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="uploadModeCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>Locally</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Remotely</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Both</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="textLabel1_18">
+            <property name="toolTip">
+             <string>Local directory to save sequence images</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Directory:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QLineEdit" name="prefixIN">
+            <property name="placeholderText">
+             <string>Target</string>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1_7">
+            <property name="toolTip">
+             <string>&lt;p&gt;Prefix is used to generate file names ( e.g. M42_HA_240_secs_001.fits)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Target&lt;/strong&gt;: Target Name (e.g. M42)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Filter&lt;/strong&gt;: When using a filter wheel, the filter name is appended to the file name (e.g. HA)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Duration&lt;/strong&gt;: Capture duration is appended to the file name (e.g. 240_secs)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TS&lt;/strong&gt;: ISO 8601 timestamp is appended to the file name (e.g. 2016-10-20T22:42:10)&lt;/li&gt;
+&lt;/ul&gt;</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Prefix:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Locally&lt;/span&gt;: Captured images are saved locally on disk in the directory specified above.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remotely&lt;/span&gt;: When connecting to a remote device, select this option to save images on the remote device only. No images are uploaded to Ekos.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Both&lt;/span&gt;: Captured images are saved on both the remote computer &lt;span style=&quot; font-weight:600;&quot;&gt;and&lt;/span&gt; on the local disk as well.&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;When selecting &lt;span style=&quot; font-style:italic;&quot;&gt;Remotely&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;Both&lt;/span&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are saved &lt;span style=&quot; font-style:italic;&quot;&gt;Locally&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Save:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3" rowspan="2" colspan="2">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <item>
+             <widget class="QCheckBox" name="filterCheck">
+              <property name="toolTip">
+               <string>Append the active filter slot to the prefix</string>
+              </property>
+              <property name="text">
+               <string>Filter</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="expDurationCheck">
+              <property name="toolTip">
+               <string>Append the expose duration to the prefix</string>
+              </property>
+              <property name="text">
+               <string>Duration</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="ISOCheck">
+              <property name="toolTip">
+               <string>Append time stamp to the prefix</string>
+              </property>
+              <property name="text">
+               <string>TS</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="4">
+           <widget class="QPushButton" name="selectFITSDirB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="3">
+           <widget class="QLineEdit" name="fitsDir"/>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="3" rowspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="calibrationB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Dark &amp; Flat frames automatic calibration options</string>
+            </property>
+            <property name="text">
+             <string>Calibration</string>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="rotatorB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Rotator Control</string>
+            </property>
+            <property name="text">
+             <string>Rotator</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="6" column="3">
+         <widget class="QPushButton" name="resetFrameB">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Reset CCD frame &amp; size values to default values</string>
+          </property>
+          <property name="text">
+           <string>Reset</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="textLabel1_13">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>X:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="frameXIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel1_14">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Y:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="frameYIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="1" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="textLabel1_15">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>W:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="frameWIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximum">
+             <number>99</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel1_16">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>H:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="frameHIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="8" column="1" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="textLabel1_10">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>H:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="binXIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Horizontal binning</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel1_11">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>V:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="binYIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Vertical binning</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </item>
@@ -1270,7 +1335,7 @@ font-weight:bold;
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="rightLayout">
+    <layout class="QVBoxLayout" name="RightLayout">
      <property name="spacing">
       <number>2</number>
      </property>

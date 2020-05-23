@@ -110,6 +110,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
     public slots:
         // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
         bool setFilterPosition(uint8_t position, Ekos::FilterManager::FilterPolicy policy = ALL_POLICIES);
+        // Change filter names
+        bool setFilterNames(const QStringList &newLabels);
         // Offset Request completed
         void setFocusOffsetComplete();
         // Remove Device

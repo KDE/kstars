@@ -660,6 +660,28 @@ bool GenericDevice::runCommand(int command, void *ptr)
         }
         break;
 
+        // We do it here because it could be either CCD or FILTER interfaces, so no need to duplicate code
+        case INDI_SET_FILTER_NAMES:
+        {
+            if (ptr == nullptr)
+                return false;
+
+            ITextVectorProperty *tvp = baseDevice->getText("FILTER_NAME");
+
+            if (tvp == nullptr)
+                return false;
+
+            QStringList *requestedFilters = static_cast<QStringList*>(ptr);
+
+            if (requestedFilters->count() != tvp->ntp)
+                return false;
+
+            for (uint8_t i = 0; i < tvp->ntp; i++)
+                IUSaveText(&tvp->tp[i], requestedFilters->at(i).toLatin1().constData());
+            clientManager->sendNewText(tvp);
+        }
+        break;
+
         case INDI_CONFIRM_FILTER:
         {
             ISwitchVectorProperty *svp = baseDevice->getSwitch("CONFIRM_FILTER_SET");

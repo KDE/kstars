@@ -791,6 +791,9 @@ class Capture : public QWidget, public Ui::Capture
         // selection of a job
         void selectedJobChanged(QModelIndex current, QModelIndex previous);
 
+        // Change filter name in INDI
+        void editFilterName();
+
         /* Capture */
 
         /**

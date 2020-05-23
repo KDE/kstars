@@ -131,6 +131,8 @@ Capture::Capture()
         }
     });
 
+    connect(filterEditB, &QPushButton::clicked, this, &Ekos::Capture::editFilterName);
+
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [ = ]()
     {
@@ -967,7 +969,7 @@ void Capture::checkCCD(int ccdNum)
                         setGain(GainSpin->value());
                 });
 
-                gridLayout->addWidget(GainSpin, 4, 5, 1, 2);
+                gridLayout->addWidget(GainSpin, 4, 3, 1, 2);
             }
         }
         else
@@ -978,7 +980,7 @@ void Capture::checkCCD(int ccdNum)
             ISOCombo = new QComboBox(CCDFWGroup);
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
-            gridLayout->addWidget(ISOCombo, 4, 5, 1, 2);
+            gridLayout->addWidget(ISOCombo, 4, 3, 1, 2);
 
             // DSLRs have two transfer formats
             transferFormatCombo->addItem(i18n("FITS"));
@@ -1377,6 +1379,7 @@ void Capture::checkFilter(int filterNum)
     {
         currentFilter = nullptr;
         m_CurrentFilterPosition = -1;
+        filterEditB->setEnabled(false);
         FilterPosCombo->clear();
         syncFilterInfo();
         return;
@@ -1394,6 +1397,8 @@ void Capture::checkFilter(int filterNum)
     FilterPosCombo->addItems(filterManager->getFilterLabels());
 
     m_CurrentFilterPosition = filterManager->getFilterPosition();
+
+    filterEditB->setEnabled(m_CurrentFilterPosition > 0);
 
     FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
 
@@ -6903,6 +6908,41 @@ void Capture::syncDSLRToTargetChip(const QString &model)
                                  camera["PixelW"].toDouble(),
                                  camera["PixelH"].toDouble(),
                                  8);
+    }
+}
+
+void Capture::editFilterName()
+{
+    if (!currentFilter || m_CurrentFilterPosition < 1)
+        return;
+
+    QStringList labels = filterManager->getFilterLabels();
+    QDialog filterDialog;
+
+    QFormLayout *formLayout = new QFormLayout(&filterDialog);
+    QVector<QLineEdit *> newLabelEdits;
+
+    for (uint8_t i = 0; i < labels.count(); i++)
+    {
+        QLabel *existingLabel = new QLabel(QString("%1. <b>%2</b>").arg(i + 1).arg(labels[i]), &filterDialog);
+        QLineEdit *newLabel = new QLineEdit(labels[i], &filterDialog);
+        newLabelEdits.append(newLabel);
+        formLayout->addRow(existingLabel, newLabel);
+    }
+
+    filterDialog.setWindowTitle(currentFilter->getDeviceName());
+    filterDialog.setLayout(formLayout);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &filterDialog);
+    connect(buttonBox, &QDialogButtonBox::accepted, &filterDialog, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, &filterDialog, &QDialog::reject);
+    filterDialog.layout()->addWidget(buttonBox);
+
+    if (filterDialog.exec() == QDialog::Accepted)
+    {
+        QStringList newLabels;
+        for (uint8_t i = 0; i < labels.count(); i++)
+            newLabels << newLabelEdits[i]->text();
+        filterManager->setFilterNames(newLabels);
     }
 }
 

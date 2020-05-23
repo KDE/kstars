@@ -725,4 +725,14 @@ bool FilterManager::syncAbsoluteFocusPosition(int index)
 
     return false;
 }
+
+bool FilterManager::setFilterNames(const QStringList &newLabels)
+{
+    if (m_currentFilterDevice == nullptr || m_currentFilterLabels.empty())
+        return false;
+
+    m_currentFilterDevice->runCommand(INDI_SET_FILTER_NAMES, const_cast<QStringList*>(&newLabels));
+    return true;
+}
+
 }
