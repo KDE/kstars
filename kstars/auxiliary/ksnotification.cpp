@@ -16,6 +16,7 @@
 #include "kstarslite.h"
 #else
 #include <QPointer>
+#include <QTimer>
 #include <KMessageBox>
 #include <KNotification>
 
