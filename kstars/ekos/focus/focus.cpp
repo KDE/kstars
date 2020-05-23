@@ -524,6 +524,8 @@ void Focus::checkFocuser(int FocuserNum)
         focusBacklashSpin->setValue(0);
     }
 
+    getCurrentFocuserTemperature();
+
     connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
     //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
 
@@ -572,6 +574,22 @@ void Focus::getAbsFocusPosition()
     }
 }
 
+void Focus::getCurrentFocuserTemperature()
+{
+    INumberVectorProperty *focuserTemperature = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
+
+    if (focuserTemperature && focuserTemperature->s != IPS_ALERT)
+    {
+        currentTemperature = focuserTemperature->np[0].value;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(currentTemperature, 0, 'f', 2);
+    }
+    else
+    {
+        currentTemperature = INVALID_VALUE;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature is not available");
+    }
+}
+
 void Focus::start()
 {
     if (currentCCD == nullptr)
@@ -589,6 +607,10 @@ void Focus::start()
     starsHFR.clear();
 
     lastHFR = 0;
+
+    // Forget last focus temperature, reset temperature delta
+    lastFocusTemperature = INVALID_VALUE;
+    emit newFocusTemperatureDelta(0);
 
     if (canAbsMove)
     {
@@ -2308,12 +2330,26 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
         return;
 
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 %2")
-                               .arg(nvp->name).arg(nvp->s == IPS_OK ? "OK" : "ERROR");
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 state: %2")
+                               .arg(nvp->name).arg(nvp->s);
 
     if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
     {
         focusBacklashSpin->setValue(nvp->np[0].value);
+        return;
+    }
+
+    if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
+    {
+        currentTemperature = nvp->np[0].value;
+        if (lastFocusTemperature != INVALID_VALUE && currentTemperature != INVALID_VALUE)
+        {
+            emit newFocusTemperatureDelta(abs(currentTemperature - lastFocusTemperature));
+        }
+        else
+        {
+            emit newFocusTemperatureDelta(0);
+        }
         return;
     }
 
@@ -2790,15 +2826,10 @@ void Focus::setAutoFocusResult(bool status)
     {
         // CR add auto focus position, temperature and filter to log in CSV format
         // this will help with setting up focus offsets and temperature compensation
-        INDI::Property * np = currentFocuser->getProperty("TemperatureNP");
-        double temperature = -274;      // impossible temperature as a signal that it isn't available
-        if (np != nullptr)
-        {
-            INumberVectorProperty * tnp = np->getNumber();
-            temperature = tnp->np[0].value;
-        }
-        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, " << temperature <<
-                                  ", filter, " << filter();
+        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
+            << currentTemperature << ", filter, " << filter();
+        lastFocusTemperature = currentTemperature;
+        emit newFocusTemperatureDelta(0);
     }
 
     // In case of failure, go back to last position if the focuser is absolute

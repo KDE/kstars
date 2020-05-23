@@ -1118,7 +1118,29 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="temperatureDelta">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="decimals">
+           <number>3</number>
+          </property>
+          <property name="minimum">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>10.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
          <widget class="QCheckBox" name="refocusEveryNCheck">
           <property name="enabled">
            <bool>true</bool>
@@ -1144,7 +1166,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QSpinBox" name="refocusEveryN">
           <property name="enabled">
            <bool>true</bool>
@@ -1170,6 +1192,19 @@ font-weight:bold;
           </property>
           <property name="text">
            <string>Autofocus if HFR &gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="temperatureDeltaCheck">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus when the change in temperature since last focus exceeded this limit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Autofocus if T° change &gt;</string>
           </property>
          </widget>
         </item>
@@ -1202,14 +1237,14 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
+        <item row="3" column="3">
          <widget class="QLabel" name="textLabel_1_2_7">
           <property name="text">
            <string>minutes</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -1221,6 +1256,13 @@ font-weight:bold;
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>°C</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1590,11 +1632,11 @@ font-weight:bold;
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
-            <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>30</number>
-            </attribute>
             <attribute name="horizontalHeaderDefaultSectionSize">
              <number>80</number>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>30</number>
             </attribute>
             <column>
              <property name="text">

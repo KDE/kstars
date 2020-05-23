@@ -3336,6 +3336,7 @@ void Manager::connectModules()
         // Check focus HFR value
         connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
                 Qt::UniqueConnection);
+
         // Reset Focus
         connect(captureProcess.get(), &Ekos::Capture::resetFocus, focusProcess.get(), &Ekos::Focus::resetFrame,
                 Qt::UniqueConnection);
@@ -3345,6 +3346,9 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
         // New Focus HFR
         connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
+
+        // New Focus temperature delta
+        connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.get(), &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections

@@ -242,35 +242,51 @@ Capture::Capture()
         Options::setHFRDeviation(HFRPixels->value());
     });
 
-    // 5. Refocus Every Check
+    // 5. Autofocus temperature Check
+    temperatureDeltaCheck->setChecked(Options::enforceAutofocusOnTemperature());
+    connect(temperatureDeltaCheck, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setEnforceAutofocusOnTemperature(checked);
+        if (checked == false)
+            isTemperatureDeltaCheckActive = false;
+    });
+
+    // 6. Autofocus temperature Delta
+    temperatureDelta->setValue(Options::maxFocusTemperatureDelta());
+    connect(temperatureDelta, &QDoubleSpinBox::editingFinished, [ = ]()
+    {
+        Options::setMaxFocusTemperatureDelta(temperatureDelta->value());
+    });
+
+    // 7. Refocus Every Check
     refocusEveryNCheck->setChecked(Options::enforceRefocusEveryN());
     connect(refocusEveryNCheck, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceRefocusEveryN(checked);
     });
 
-    // 6. Refocus Every Value
+    // 8. Refocus Every Value
     refocusEveryN->setValue(Options::refocusEveryN());
     connect(refocusEveryN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
         Options::setRefocusEveryN(refocusEveryN->value());
     });
 
-    // 7. File settings: filter name
+    // 9. File settings: filter name
     filterCheck->setChecked(Options::fileSettingsUseFilter());
     connect(filterCheck, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setFileSettingsUseFilter(checked);
     });
 
-    // 8. File settings: duration
+    // 10. File settings: duration
     expDurationCheck->setChecked(Options::fileSettingsUseDuration());
     connect(expDurationCheck, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setFileSettingsUseDuration(checked);
     });
 
-    // 9. File settings: timestamp
+    // 11. File settings: timestamp
     ISOCheck->setChecked(Options::fileSettingsUseTimestamp());
     connect(ISOCheck, &QCheckBox::toggled, [ = ](bool checked)
     {
@@ -289,6 +305,7 @@ Capture::Capture()
     QDoubleSpinBox * const dspinBoxes[]
     {
         HFRPixels,
+        temperatureDelta,
         guideDeviation,
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
@@ -610,7 +627,8 @@ void Capture::start()
         appendLogText(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
     if (autofocusCheck->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
-
+    if (temperatureDeltaCheck->isChecked() && m_AutoFocusReady == false)
+        appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
     prepareJob(first_job);
 }
 
@@ -1761,6 +1779,7 @@ bool Capture::resumeSequence()
         isInSequenceFocus = (m_AutoFocusReady && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
         //        if (isInSequenceFocus)
         //            requiredAutoFocusStarted = false;
+        isTemperatureDeltaCheckActive = (m_AutoFocusReady && temperatureDeltaCheck->isChecked());
 
         // Reset HFR pixels to file value after meridian flip
         if (isInSequenceFocus && meridianFlipStage != MF_NONE && meridianFlipStage != MF_READY)
@@ -1886,20 +1905,36 @@ bool Capture::startFocusIfRequired()
     if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT)
         return false;
 
+    isRefocus = false;
+
     // check if time for forced refocus
     if (refocusEveryNCheck->isChecked())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() <<
                                      ". Requested Interval (secs): " << refocusEveryN->value() * 60;
-        isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value() * 60;
-    }
-    else
-        isRefocus = false;
 
+        if (getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value() * 60)
+        {
+            isRefocus = true;
+            appendLogText(i18n("Scheduled refocus starting after %1 seconds...", getRefocusEveryNTimerElapsedSec()));
+        }
+    }
+
+    if (!isRefocus && isTemperatureDeltaCheckActive)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " << focusTemperatureDelta <<
+                                     ". Requested maximum delta (°C): " << temperatureDelta->value();
+
+        if (focusTemperatureDelta > temperatureDelta->value())
+        {
+            isRefocus = true;
+            appendLogText(i18n("Refocus starting because of temperature change of %1 °C...", focusTemperatureDelta));
+        }
+    }
+
+    // Either it is time to force autofocus or temperature has changed
     if (isRefocus)
     {
-        appendLogText(i18n("Scheduled refocus starting after %1 seconds...", getRefocusEveryNTimerElapsedSec()));
-
         secondsLabel->setText(i18n("Focusing..."));
 
         if (currentCCD->isLooping())
@@ -1910,7 +1945,7 @@ bool Capture::startFocusIfRequired()
             emit resetFocus();
 
         // force refocus
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1904.";
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
         emit checkFocus(0.1);
 
         m_State = CAPTURE_FOCUSING;
@@ -1940,12 +1975,12 @@ bool Capture::startFocusIfRequired()
 
         if (HFRPixels->value() == 0)
         {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1934.";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
             emit checkFocus(0.1);
         }
         else
         {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1939.";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
             emit checkFocus(HFRPixels->value());
         }
 
@@ -3237,6 +3272,12 @@ void Capture::updatePreCaptureCalibrationStatus()
     captureImage();
 }
 
+void Capture::setFocusTemperatureDelta(double focusTemperatureDelta)
+{
+    qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
+    this->focusTemperatureDelta = focusTemperatureDelta;
+}
+
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     //    if (activeJob == nullptr)
@@ -3783,6 +3824,12 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     fileHFR = HFRValue > 0.0 ? HFRValue : 0.0;
                     HFRPixels->setValue(fileHFR);
                 }
+                else if (!strcmp(tagXMLEle(ep), "RefocusOnTemperatureDelta"))
+                {
+                    temperatureDeltaCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    double const deltaValue = cLocale.toDouble(pcdataXMLEle(ep));
+                    temperatureDelta->setValue(deltaValue);
+                }
                 else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
                 {
                     refocusEveryNCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
@@ -4147,6 +4194,8 @@ bool Capture::saveSequenceQueue(const QString &path)
                           "Current HFR value will not be written to sequence file."));
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(Options::saveHFRToFile() ? HFRPixels->value() : 0) << "</Autofocus>" << endl;
+    outstream << "<RefocusOnTemperatureDelta enabled='" << (temperatureDeltaCheck->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(temperatureDelta->value()) << "</RefocusOnTemperatureDelta>" << endl;
     outstream << "<RefocusEveryN enabled='" << (refocusEveryNCheck->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(refocusEveryN->value()) << "</RefocusEveryN>" << endl;
     foreach (SequenceJob * job, jobs)

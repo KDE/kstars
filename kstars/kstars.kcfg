@@ -1622,12 +1622,21 @@
          <whatsthis>If HFR deviation exceeds this limit, the autofocus routine will be automatically started.</whatsthis>
          <default>0.5</default>
       </entry>
+      <entry name="MaxFocusTemperatureDelta" type="Double">
+         <label>Default maximum focus temperature delta</label>
+         <whatsthis>If the temperature change exceeds this limit, the autofocus routine will be automatically started.</whatsthis>
+         <default>1</default>
+      </entry>
       <entry name="EnforceGuideDeviation" type="Bool">
          <label>Enforce guiding deviation limit.</label>
          <default>false</default>
       </entry>
       <entry name="EnforceAutofocus" type="Bool">
          <label>Enforce Autofocus HFR limit.</label>
+         <default>false</default>
+      </entry>
+      <entry name="EnforceAutofocusOnTemperature" type="Bool">
+         <label>Enforce Autofocus on temperature change.</label>
          <default>false</default>
       </entry>
       <entry name="EnforceRefocusEveryN" type="Bool">

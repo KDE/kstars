@@ -47,6 +47,7 @@ class RotatorSettings;
  * - Auto and manual focus modes using Half-Flux-Radius (HFR) method.
  * - Automated unattended meridian flip. Ekos performs post meridian flip alignment, calibration, and guiding to resume the capture session.
  * - Automatic focus between exposures when a user-configurable HFR limit is exceeded.
+ * - Automatic focus between exposures when the temperature has changed a lot since last focus.
  * - Auto guiding with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
  * - Powerful sequence queue for batch capture of images with optional prefixes, timestamps, filter wheel selection, and much more!
  * - Export and import sequence queue sets as Ekos Sequence Queue (.esq) files.
@@ -607,6 +608,7 @@ class Capture : public QWidget, public Ui::Capture
         {
             focusHFR = newHFR;
         }
+        void setFocusTemperatureDelta(double focusTemperatureDelta);
         // Return TRUE if we need to run focus/autofocus. Otherwise false if not necessary
         bool startFocusIfRequired();
 
@@ -874,8 +876,14 @@ class Capture : public QWidget, public Ui::Capture
         QMap<QString, QList<double>> HFRMap;
         double fileHFR { 0 };  // HFR value as loaded from the sequence file
 
-        // Refocus every N minutes
+        // Refocus in progress because of time forced refocus or temperature change
         bool isRefocus { false };
+
+        // Focus on Temperature change
+        bool isTemperatureDeltaCheckActive { false };
+        double focusTemperatureDelta { 0 }; // Temperature delta as received from the Ekos focus module
+
+        // Refocus every N minutes
         int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
         QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 

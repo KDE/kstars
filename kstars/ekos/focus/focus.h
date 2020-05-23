@@ -367,6 +367,7 @@ class Focus : public QWidget, public Ui::Focus
         void newLog(const QString &text);
         void newStatus(Ekos::FocusState state);
         void newHFR(double hfr, int position);
+        void newFocusTemperatureDelta(double delta);
 
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
@@ -447,6 +448,8 @@ class Focus : public QWidget, public Ui::Focus
          * @return true if a new sample is required, else false.
          */
         bool appendHFR(double newHFR);
+
+        void getCurrentFocuserTemperature();
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
@@ -639,5 +642,8 @@ class Focus : public QWidget, public Ui::Focus
         int linearRequestedPosition { 0 };
 
         bool hasDeviation { false };
+
+        double currentTemperature { INVALID_VALUE };
+        double lastFocusTemperature { INVALID_VALUE };
 };
 }
