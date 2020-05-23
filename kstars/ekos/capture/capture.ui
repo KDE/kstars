@@ -1204,7 +1204,7 @@ font-weight:bold;
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus when the change in temperature since last focus exceeded this limit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Autofocus if T° change &gt;</string>
+           <string>Autofocus if T° Delta &gt;</string>
           </property>
          </widget>
         </item>
@@ -1632,11 +1632,11 @@ font-weight:bold;
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
-            <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>80</number>
-            </attribute>
             <attribute name="horizontalHeaderMinimumSectionSize">
              <number>30</number>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>80</number>
             </attribute>
             <column>
              <property name="text">
