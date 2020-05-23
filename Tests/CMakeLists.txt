@@ -4,6 +4,7 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
+    ${kstars_SOURCE_DIR}/kstars/ekos/align
     )
 
 if(WCSLIB_FOUND)
@@ -32,6 +33,7 @@ SET( TEST_KSLITE_LIBRARIES
 
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
+add_subdirectory(polaralign)
 
 IF (CFITSIO_FOUND)
     add_subdirectory(fitsviewer)

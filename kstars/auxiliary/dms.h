@@ -172,11 +172,17 @@ class dms
          */
     int msecond() const;
 
-    /** @return angle in hours expressed as a double.
+    /** @return angle in hours expressed as a double in the range 0 to 23.999...
          * @note an angle can be measured in degrees/arcminutes/arcseconds
          * or hours/minutes/seconds.  An hour is equal to 15 degrees.
          */
     inline double Hours() const { return reduce().Degrees() / 15.0; }
+
+    /** @return angle in hours expressed as a double in the range -11.999 to 0 to 12.0
+         * @note an angle can be measured in degrees/arcminutes/arcseconds
+         * or hours/minutes/seconds.  An hour is equal to 15 degrees.
+         */
+    inline double HoursHa() const { return Hours() <= 12.0 ? Hours() : Hours() - 24.0; }
 
     /** Sets floating-point value of angle, in degrees.
          * @param x new angle (double)
