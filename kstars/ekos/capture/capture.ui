@@ -455,7 +455,8 @@ font-weight:bold;
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="document-edit"/>
+             <iconset theme="document-edit">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1269,7 +1270,7 @@ font-weight:bold;
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus when the change in temperature since last focus exceeded this limit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Autofocus if T° Delta &gt;</string>
+           <string>Autofocus if ΔT°  &gt;</string>
           </property>
          </widget>
         </item>
