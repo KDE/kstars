@@ -19,7 +19,7 @@
         </device>
         <device label="LX200 OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
         <device label="LX200 TeenAstro">
             <driver name="LX200 TeenAstro">indi_lx200_TeenAstro</driver>
@@ -265,7 +265,7 @@
         </device>
         <device label="PlaneWave EFA">
             <driver name="PlaneWave EFA">indi_efa_focus</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="Rigelsys NFocus">
             <driver name="NFocus">indi_nfocus</driver>
@@ -461,7 +461,7 @@
         </device>
         <device label="Pegasus UPB">
             <driver name="Pegasus UPB">indi_pegasus_upb</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="PlaneWave Delta-T">
             <driver name="Pegasus UPB">indi_planewave_deltat</driver>
@@ -549,7 +549,7 @@
         </device>
         <device label="SQM">
             <driver name="SQM">indi_sqm_weather</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="Weather Meta">
             <driver name="Weather Meta">indi_meta_weather</driver>
@@ -604,6 +604,14 @@
     </devGroup>
 </driversList>
 <driversList>
+    <devGroup group="CCDs">
+        <device label="AHP Telescope array" mdpd="true">
+            <driver name="AHP Telescope array correlator">indi_ahp_interferometer</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
     <devGroup group="Telescopes">
         <device label="AOK Skywalker" manufacturer="AOKSwiss/Magnetdrives">
             <driver name="LX200 AOK">indi_lx200aok</driver>
@@ -629,32 +637,32 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true">
             <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ASI EAF">
             <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ASI ST4">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
 </driversList>
 <driversList>
     <devGroup group="Auxiliary">
         <device label="AstroLink 4">
-            <driver name="AstroLink4">indi_astrolink4</driver>
+            <driver name="AstroLink 4">indi_astrolink4</driver>
             <version>0.1</version>
         </device>
     </devGroup>
@@ -671,13 +679,13 @@
     <devGroup group="CCDs">
         <device label="Atik CCD" mdpd="true">
             <driver name="Atik">indi_atik_ccd</driver>
-            <version>2.5</version>
+            <version>2.6</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Atik EFW" mdpd="true">
             <driver name="Atik">indi_atik_wheel</driver>
-            <version>2.5</version>
+            <version>2.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -685,7 +693,7 @@
     <devGroup group="Telescopes">
         <device label="Avalon StarGo" manufacturer="Avalon">
             <driver name="LX200 StarGo">indi_lx200stargo</driver>
-            <version>1.9</version>
+            <version>1.10</version>
         </device>
     </devGroup>
 </driversList>
@@ -694,6 +702,14 @@
         <device label="Bee Focuser">
             <driver name="Bee Focuser">indi_beefocus</driver>
             <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Telescopes">
+        <device label="Celestron AUX" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>0.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -745,6 +761,10 @@
         </device>
         <device label="Arduino Servo" skel="servo_sk.xml">
             <driver name="Arduino Servo">indi_duino</driver>
+            <version>0.6</version>
+        </device>
+        <device label="Arduino Roof" skel="roof_sk.xml">
+            <driver name="Arduino Roof">indi_duino</driver>
             <version>0.6</version>
         </device>
     </devGroup>
@@ -874,7 +894,7 @@
             <version>2.0</version>
         </device>
     </devGroup>
-    <devGroup group="Rotators">
+    <devGroup group="Auxiliary">
         <device label="Seletek Rotator">
             <driver name="Seletek Rotator">indi_seletek_rotator</driver>
             <version>2.0</version>
@@ -907,11 +927,11 @@
     <devGroup group="CCDs">
         <device label="MI CCD (USB)">
             <driver name="MI CCD">indi_mi_ccd_usb</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
         <device label="MI CCD (ETH)">
             <driver name="MI CCD">indi_mi_ccd_eth</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
 </driversList>
@@ -969,8 +989,8 @@
 </driversList>
 <driversList>
     <devGroup group="Spectrographs">
-        <device label="RTL-SDR Spectrograph" mdpd="true">
-            <driver name="RTL-SDR Spectrograph">indi_rtlsdr_detector</driver>
+        <device label="RTL-SDR" mdpd="false">
+            <driver name="RTL-SDR">indi_rtlsdr</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -1047,19 +1067,23 @@
     <devGroup group="CCDs">
         <device label="ToupCam" mdpd="true">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
         <device label="Altair" mdpd="true">
             <driver name="Altair">indi_altair_ccd</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
         <device label="StartshootG" mdpd="true">
             <driver name="StartshootG">indi_starshootg_ccd</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
         <device label="Levenhuk" mdpd="true">
             <driver name="Levenhuk">indi_nncam_ccd</driver>
-            <version>0.2</version>
+            <version>0.3</version>
+        </device>
+        <device label="Mallincam" mdpd="true">
+            <driver name="Mallincam">indi_mallincam_ccd</driver>
+            <version>0.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -1067,7 +1091,7 @@
     <devGroup group="Weather">
         <device label="Weather Radio">
             <driver name="Weather Radio">indi_weatherradio</driver>
-            <version>0.8</version>
+            <version>1.3</version>
         </device>
     </devGroup>
 </driversList>
