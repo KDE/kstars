@@ -217,6 +217,11 @@ bool StreamWG::queryDebayerParameters()
     if (!targetChip)
         return false;
 
+    // DSLRs always send motion JPGs when streaming so
+    // bayered images are not streamed.
+    if (targetChip->getISOList().isEmpty() == false)
+        return false;
+
     uint16_t w, h;
     QString pattern;
 
