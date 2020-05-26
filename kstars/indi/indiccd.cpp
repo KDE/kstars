@@ -1249,7 +1249,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
         HasVideoStream = true;
 
-        if (streamWindow.get() == nullptr && svp->sp[0].s == ISS_ON)
+        if (!streamWindow && svp->sp[0].s == ISS_ON)
         {
             streamWindow.reset(new StreamWG(this));
 
@@ -1286,7 +1286,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             streamWindow->setSize(streamW, streamH);
         }
 
-        if (streamWindow.get() != nullptr)
+        if (streamWindow)
         {
             connect(streamWindow.get(), &StreamWG::hidden, this, &CCD::StreamWindowHidden, Qt::UniqueConnection);
             connect(streamWindow.get(), &StreamWG::imageChanged, this, &CCD::newVideoFrame, Qt::UniqueConnection);
@@ -1335,11 +1335,11 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         else
             IsLooping = false;
     }
-    else if (!strcmp(svp->name, "CONNECTION"))
+    else if (streamWindow && !strcmp(svp->name, "CONNECTION"))
     {
         ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
 
-        if (dSwitch && dSwitch->s == ISS_ON && streamWindow.get() != nullptr)
+        if (dSwitch && dSwitch->s == ISS_ON)
         {
             streamWindow->enableStream(false);
             emit videoStreamToggled(false);
@@ -1382,7 +1382,7 @@ void CCD::setWSBLOB(const QByteArray &message, const QString &extension)
 
 void CCD::processStream(IBLOB *bp)
 {
-    if (streamWindow->isStreamEnabled() == false)
+    if (!streamWindow || streamWindow->isStreamEnabled() == false)
         return;
 
     INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
@@ -1540,7 +1540,7 @@ void CCD::processBLOB(IBLOB *bp)
     QString format = QString(bp->format).toLower();
 
     // If stream, process it first
-    if (format.contains("stream") && streamWindow.get() != nullptr)
+    if (format.contains("stream") && streamWindow)
     {
         processStream(bp);
         return;
@@ -1701,7 +1701,7 @@ void CCD::processBLOB(IBLOB *bp)
     {
         // Don't display if (NORMAL or CALIBRATE) and ((not using fitsviewer) and (no in batch mode))
         if ((targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE) &&
-            (!Options::useFITSViewer() && targetChip->isBatchMode()))
+                (!Options::useFITSViewer() && targetChip->isBatchMode()))
         {
             emit BLOBUpdated(bp);
             return;
@@ -1718,7 +1718,7 @@ void CCD::processBLOB(IBLOB *bp)
             return;
         }
 
-        displayFits(targetChip, filename, bp, blob_fits_data);    
+        displayFits(targetChip, filename, bp, blob_fits_data);
     }
     else
         emit BLOBUpdated(bp);
@@ -1766,12 +1766,12 @@ void CCD::displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, F
                 }
 
                 success = m_FITSViewerWindows->addFITSFromData(
-                            blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
-                            previewTitle);
+                              blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
+                              previewTitle);
             }
             else
                 success = m_FITSViewerWindows->updateFITSFromData(
-                            blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
+                              blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
 
             if (!success)
             {
@@ -1877,7 +1877,7 @@ void CCD::StreamWindowHidden()
         }
     }
 
-    if (streamWindow.get() != nullptr)
+    if (streamWindow)
         streamWindow->disconnect();
 }
 
@@ -2275,7 +2275,7 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
 
 bool CCD::isStreamingEnabled()
 {
-    if (HasVideoStream == false || streamWindow.get() == nullptr)
+    if (HasVideoStream == false || !streamWindow)
         return false;
 
     return streamWindow->isStreamEnabled();

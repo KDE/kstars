@@ -2741,11 +2741,14 @@ bool Align::captureAndSolve()
 #endif
 
     if (currentCCD == nullptr)
+    {
+        appendLogText(i18n("Error: No camera detected."));
         return false;
+    }
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(i18n("Error: lost connection to CCD."));
+        appendLogText(i18n("Error: lost connection to camera."));
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::EVENT_ALERT);
         return false;
     }

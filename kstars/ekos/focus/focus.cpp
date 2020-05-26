@@ -838,7 +838,13 @@ void Focus::capture()
 
     if (currentCCD == nullptr)
     {
-        appendLogText(i18n("No CCD connected."));
+        appendLogText(i18n("Error: No camera detected."));
+        return;
+    }
+
+    if (currentCCD->isConnected() == false)
+    {
+        appendLogText(i18n("Error: Lost connection to camera."));
         return;
     }
 
@@ -847,12 +853,6 @@ void Focus::capture()
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     double seqExpose = exposureIN->value();
-
-    if (currentCCD->isConnected() == false)
-    {
-        appendLogText(i18n("Error: Lost connection to CCD."));
-        return;
-    }
 
     if (currentCCD->isBLOBEnabled() == false)
     {
