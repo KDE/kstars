@@ -256,8 +256,12 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "CCD_EXPOSURE"))
             {
-                //if (oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
+                // Only register a CCD device if the interface explicitly contains CCD_INTERFACE
+                // and only if the device type is not already known.
+                // If the device type is alredy KSTARS_CCD then no need to remove and re-parent
+                // this happens in the case of disconnect/reconnect
+                if (oneDevice->getType() == KSTARS_UNKNOWN &&
+                        (oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
                 {
                     devices.removeOne(oneDevice);
                     oneDevice = new ISD::CCD(oneDevice);
