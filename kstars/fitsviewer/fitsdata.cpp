@@ -81,7 +81,6 @@ FITSData::FITSData(const FITSData * other)
     debayerParams.offsetX = debayerParams.offsetY = 0;
 
     this->m_Mode = other->m_Mode;
-    this->m_DataType = other->m_DataType;
     this->m_Channels = other->m_Channels;
     memcpy(&stats, &(other->stats), sizeof(stats));
     m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
@@ -238,7 +237,8 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
-    if (fits_get_img_param(fptr, 3, &(stats.bitpix), &(stats.ndim), naxes, &status))
+    int fitsBitPix = 0;
+    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(stats.ndim), naxes, &status))
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
     if (stats.ndim < 2)
@@ -250,49 +250,50 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         return false;
     }
 
-    switch (stats.bitpix)
+    switch (fitsBitPix)
     {
         case BYTE_IMG:
-            m_DataType           = TBYTE;
+            stats.dataType      = TBYTE;
             stats.bytesPerPixel = sizeof(uint8_t);
             break;
         case SHORT_IMG:
             // Read SHORT image as USHORT
-            m_DataType           = TUSHORT;
+            stats.dataType      = TUSHORT;
             stats.bytesPerPixel = sizeof(int16_t);
             break;
         case USHORT_IMG:
-            m_DataType           = TUSHORT;
+            stats.dataType      = TUSHORT;
             stats.bytesPerPixel = sizeof(uint16_t);
             break;
         case LONG_IMG:
             // Read LONG image as ULONG
-            m_DataType           = TULONG;
+            stats.dataType      = TULONG;
             stats.bytesPerPixel = sizeof(int32_t);
             break;
         case ULONG_IMG:
-            m_DataType           = TULONG;
+            stats.dataType      = TULONG;
             stats.bytesPerPixel = sizeof(uint32_t);
             break;
         case FLOAT_IMG:
-            m_DataType           = TFLOAT;
+            stats.dataType      = TFLOAT;
             stats.bytesPerPixel = sizeof(float);
             break;
         case LONGLONG_IMG:
-            m_DataType           = TLONGLONG;
+            stats.dataType      = TLONGLONG;
             stats.bytesPerPixel = sizeof(int64_t);
             break;
         case DOUBLE_IMG:
-            m_DataType           = TDOUBLE;
+            stats.dataType      = TDOUBLE;
             stats.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
+            errMessage = i18n("Bit depth %1 is not supported.", fitsBitPix);
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
             qCCritical(KSTARS_FITS) << errMessage;
             return false;
     }
+    m_DataType = stats.dataType;
 
     if (stats.ndim < 3)
         naxes[2] = 1;
@@ -334,7 +335,7 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     flipVCounter   = 0;
     long nelements = stats.samples_per_channel * m_Channels;
 
-    if (fits_read_img(fptr, m_DataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
+    if (fits_read_img(fptr, stats.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
         return fitsOpenError(status, i18n("Error reading image."), silent);
 
     parseHeader();
@@ -459,7 +460,7 @@ int FITSData::saveFITS(const QString &newFilename)
     }
 
     /* Write Data */
-    if (fits_write_img(fptr, m_DataType, 1, nelements, m_ImageBuffer, &status))
+    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -554,7 +555,7 @@ void FITSData::calculateStats(bool refresh)
     calculateMinMax(refresh);
 
     // Get standard deviation and mean in one run
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
             runningAverageStdDev<uint8_t>();
@@ -628,7 +629,7 @@ int FITSData::calculateMinMax(bool refresh)
     stats.min[2] = 1.0E30;
     stats.max[2] = -1.0E30;
 
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
             calculateMinMax<uint8_t>();
@@ -1081,7 +1082,7 @@ double FITSData::getHFR(HFRType type)
     // No real way to tell the scale, so only remove saturated stars with range 0 -> 2**16
     // for non-byte types. Unsigned types and floating types, or really any pixels whose
     // range isn't 0-64 (or 0-255 for bytes) won't have their saturated stars removed.
-    const int saturationValue = m_DataType == TBYTE ? 250 : 50000;
+    const int saturationValue = stats.dataType == TBYTE ? 250 : 50000;
     int numSaturated = 0;
     for (auto center : starCenters)
         if (center->val > saturationValue)
@@ -1194,7 +1195,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
             break;
     }
 
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
         {
@@ -2509,7 +2510,7 @@ bool FITSData::checkDebayer()
     if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
 
-    if (stats.bitpix != 16 && stats.bitpix != 8)
+    if (stats.dataType != TUSHORT && stats.dataType != TBYTE)
     {
         KSNotification::error(i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
         return false;
@@ -2593,7 +2594,7 @@ bool FITSData::debayer()
 
     //        //m_BayerBuffer = m_ImageBuffer;
 
-    //        if (fits_read_img(fptr, m_DataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
+    //        if (fits_read_img(fptr, stats.dataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
     //        {
     //            char errmsg[512];
     //            fits_get_errstatus(status, errmsg);
@@ -2602,7 +2603,7 @@ bool FITSData::debayer()
     //        }
     //    }
 
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
             return debayer_8bit();
@@ -2880,7 +2881,7 @@ QImage FITSData::FITSToImage(const QString &filename)
     double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
     // Long way to do this since we do not want to use templated functions here
-    switch (data.property("dataType").toInt())
+    switch (data.stats.dataType)
     {
         case TBYTE:
             data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -3110,7 +3111,7 @@ bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double r
     }
 
     /* Write Data */
-    if (fits_write_img(fptr, m_DataType, 1, nelements, m_ImageBuffer, &status))
+    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);

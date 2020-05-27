@@ -1051,6 +1051,7 @@ IF (NOT ANDROID)
         Qt5::Concurrent
         Qt5::WebSockets
         ${ZLIB_LIBRARIES}
+        ${SEXYSOLVER_LIBRARIES}
         )
 
     if (Qt5Keychain_FOUND)

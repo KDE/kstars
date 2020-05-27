@@ -100,7 +100,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     if (image_data == nullptr)
         return 0;
 
-    FITSData::Statistic const &stats = image_data->getStatistics();
+    Statistic const &stats = image_data->getStatistics();
     FITSMode const m_Mode = static_cast <FITSMode> (parent()->property("mode").toInt());
 
     int initStdDev = MINIMUM_STDVAR;

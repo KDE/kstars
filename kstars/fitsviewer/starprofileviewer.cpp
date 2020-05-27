@@ -359,7 +359,7 @@ void StarProfileViewer::loadData(FITSData * data, QRect sub, QList<Edge *> cente
         subFrame=sub;
         starCenters=centers;               
 
-        switch (data->property("dataType").toInt())
+        switch (data->getStatistics().dataType)
         {
         case TBYTE:
             loadDataPrivate<uint8_t>();
@@ -739,7 +739,7 @@ void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax
     *subFrameMin = *dataMax;
     *subFrameMax = *dataMin;
 
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
     case TBYTE:
         getSubFrameMinMax<uint8_t>(subFrameMin, subFrameMax);
@@ -811,7 +811,7 @@ float StarProfileViewer::getImageDataValue(int x, int y)
 
 float StarProfileViewer::getImageDataValue(int x, int y)
 {
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             return getImageDataValue<uint8_t>(x, y);

@@ -52,11 +52,36 @@ class QProgressDialog;
 class SkyPoint;
 class FITSHistogram;
 
+#ifndef struct_wcs_point
+#define struct_wcs_point
 typedef struct
 {
     float ra;
     float dec;
 } wcs_point;
+#endif
+
+#ifndef struct_statistic
+#define struct_statistic
+/// Stats struct to hold statisical data about the FITS data
+typedef struct
+{
+    double min[3] = {0}, max[3] = {0};
+    double mean[3] = {0};
+    double stddev[3] = {0};
+    double median[3] = {0};
+    double SNR { 0 };
+    /// FITS image data type (TBYTE, TUSHORT, TULONG, TFLOAT, TLONGLONG, TDOUBLE)
+    uint32_t dataType { 0 };
+    int bytesPerPixel { 1 };
+    int ndim { 2 };
+    int64_t size { 0 };
+    uint32_t samples_per_channel { 0 };
+    uint16_t width { 0 };
+    uint16_t height { 0 };
+} Statistic;
+#endif
+
 
 class Edge;
 
@@ -97,23 +122,6 @@ class FITSData : public QObject
             QVariant value;   /** FITS Header Value */
             QString comment;  /** FITS Header Comment, if any */
         } Record;
-
-        /// Stats struct to hold statisical data about the FITS data
-        typedef struct
-        {
-            double min[3] = {0}, max[3] = {0};
-            double mean[3] = {0};
-            double stddev[3] = {0};
-            double median[3] = {0};
-            double SNR { 0 };
-            int bitpix { 8 };
-            int bytesPerPixel { 1 };
-            int ndim { 2 };
-            int64_t size { 0 };
-            uint32_t samples_per_channel { 0 };
-            uint16_t width { 0 };
-            uint16_t height { 0 };
-        } Statistic;
 
         /**
          * @brief loadFITS Loading FITS file asynchronously.
@@ -225,11 +233,32 @@ class FITSData : public QObject
         }
         void setBPP(uint8_t value)
         {
-            stats.bitpix = value;
+            stats.dataType = value;
         }
         uint32_t bpp() const
         {
-            return stats.bitpix;
+            switch(stats.dataType)
+            {
+                case TBYTE:
+                    return 8;
+                break;
+                case TSHORT:
+                case TUSHORT:
+                    return 16;
+                break;
+                case TLONG:
+                case TULONG:
+                case TFLOAT:
+                    return 32;
+                break;
+                case TLONGLONG:
+                case TULONGLONG:
+                case TDOUBLE:
+                    return 64;
+                break;
+            default:
+                return 8;
+            }
         }
         double getADU() const;
 
@@ -465,7 +494,6 @@ class FITSData : public QObject
 #endif
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
-
         /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
         uint32_t m_DataType { 0 };
         /// Number of channels

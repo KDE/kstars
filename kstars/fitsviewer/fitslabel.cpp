@@ -111,7 +111,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     int index = y * width + x;
     QString stringValue;
 
-    switch (view_data->property("dataType").toInt())
+    switch (view_data->getStatistics().dataType)
     {
         case TBYTE:
             stringValue = QLocale().toString(buffer[index]);
