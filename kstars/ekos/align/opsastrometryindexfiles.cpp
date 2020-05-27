@@ -49,7 +49,8 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
 
-    connect(indexLocations, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OpsAstrometryIndexFiles::slotUpdate);
+    connect(indexLocations, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &OpsAstrometryIndexFiles::slotUpdate);
 
     for (auto &checkBox : checkboxes)
     {
@@ -254,7 +255,8 @@ bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName
     int count = 0;
     if(indexName.contains("4207") || indexName.contains("4206") || indexName.contains("4205"))
         count = 12;
-    else if(indexName.contains("4204") || indexName.contains("4203") || indexName.contains("4202") || indexName.contains("4201") || indexName.contains("4200"))
+    else if(indexName.contains("4204") || indexName.contains("4203") || indexName.contains("4202")
+            || indexName.contains("4201") || indexName.contains("4200"))
         count = 48;
     else
         count = 1;
@@ -294,7 +296,7 @@ bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
 void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox,
         int currentIndex, int maxIndex, double fileSize)
 {
-    QTime downloadTime;
+    QElapsedTimer downloadTime;
     downloadTime.start();
 
     QString indexString = QString::number(currentIndex);
@@ -353,7 +355,8 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     timeoutTimer.disconnect();
     connect(&timeoutTimer, &QTimer::timeout, [&]()
     {
-        KSNotification::error(i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."));
+        KSNotification::error(
+            i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."));
         disconnectDownload(cancelConnection, replyConnection, percentConnection);
         if(response)
         {
@@ -411,7 +414,8 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                     int downloadedFileSize = QFileInfo(file).size();
                     int dtime = downloadTime.elapsed();
                     actualdownloadSpeed = (actualdownloadSpeed + (downloadedFileSize / dtime)) / 2;
-                    qDebug() << "Filesize: " << downloadedFileSize << ", time: " << dtime << ", inst speed: " << downloadedFileSize / dtime << ", averaged speed: " << actualdownloadSpeed;
+                    qDebug() << "Filesize: " << downloadedFileSize << ", time: " << dtime << ", inst speed: " << downloadedFileSize / dtime <<
+                             ", averaged speed: " << actualdownloadSpeed;
 
                 }
             }
@@ -447,7 +451,8 @@ void OpsAstrometryIndexFiles::setDownloadInfoVisible(QString indexSeriesName, QC
     if (indexDownloadPerc)
         indexDownloadPerc->setVisible(set);
 }
-void OpsAstrometryIndexFiles::disconnectDownload(QMetaObject::Connection *cancelConnection, QMetaObject::Connection *replyConnection, QMetaObject::Connection *percentConnection)
+void OpsAstrometryIndexFiles::disconnectDownload(QMetaObject::Connection *cancelConnection,
+        QMetaObject::Connection *replyConnection, QMetaObject::Connection *percentConnection)
 {
     if(cancelConnection)
         disconnect(*cancelConnection);
@@ -467,7 +472,8 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
     QString astrometryDataDir = indexLocations->currentText();
     if(!QFileInfo(astrometryDataDir).exists())
     {
-        KSNotification::sorry(i18n("The selected Index File directory does not exist.  Please either create it or choose another."));
+        KSNotification::sorry(
+            i18n("The selected Index File directory does not exist.  Please either create it or choose another."));
     }
 
     if (checkBox)
@@ -482,7 +488,8 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
             if(!checkBox->styleSheet().isEmpty()) //This means that the checkbox has a stylesheet so the index file was installed someplace.
             {
                 if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(
-                            nullptr, i18n("The file %1 already exists in another directory.  Are you sure you want to download it to this directory as well?", indexSeriesName),
+                            nullptr, i18n("The file %1 already exists in another directory.  Are you sure you want to download it to this directory as well?",
+                                          indexSeriesName),
                             i18n("Install File(s)"), KStandardGuiItem::cont(),
                             KStandardGuiItem::cancel(), "install_index_files_warning"))
                 {
@@ -505,7 +512,8 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     if (indexFileNum < 5)
                         maxIndex = 47;
                 }
-                double fileSize = 1E11 * qPow(astrometryIndex.key(fileNumString), -1.909); //This estimates the file size based on skymark size obtained from the index number.
+                double fileSize = 1E11 * qPow(astrometryIndex.key(fileNumString),
+                                              -1.909); //This estimates the file size based on skymark size obtained from the index number.
                 if(maxIndex != 0)
                     fileSize /= maxIndex; //FileSize is divided between multiple files for some index series.
                 downloadIndexFile(URL, filePath, checkBox, 0, maxIndex, fileSize);

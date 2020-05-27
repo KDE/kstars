@@ -142,16 +142,17 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
         {
             if (svp->s == IPS_ALERT)
             {
+                m_ParkStatus = PARK_ERROR;
                 emit newParkStatus(PARK_ERROR);
 
                 // If alert, set park status to whatever it was opposite to. That is, if it was parking and failed
                 // then we set status to unparked since it did not successfully complete parking.
-                if (m_ParkStatus == PARK_PARKING)
-                    m_ParkStatus = PARK_UNPARKED;
-                else if (m_ParkStatus == PARK_UNPARKING)
-                    m_ParkStatus = PARK_PARKED;
+                //                if (m_ParkStatus == PARK_PARKING)
+                //                    m_ParkStatus = PARK_UNPARKED;
+                //                else if (m_ParkStatus == PARK_UNPARKING)
+                //                    m_ParkStatus = PARK_PARKED;
 
-                emit newParkStatus(m_ParkStatus);
+                //                emit newParkStatus(m_ParkStatus);
 
             }
             else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)

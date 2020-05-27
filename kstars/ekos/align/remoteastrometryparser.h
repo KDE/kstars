@@ -25,34 +25,37 @@ class Align;
  */
 class RemoteAstrometryParser : public AstrometryParser
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    RemoteAstrometryParser();
-    virtual ~RemoteAstrometryParser() override = default;
+    public:
+        RemoteAstrometryParser();
+        virtual ~RemoteAstrometryParser() override = default;
 
-    virtual void setAlign(Align *_align) override { align = _align; }
-    virtual bool init() override;
-    virtual void verifyIndexFiles(double fov_x, double fov_y) override;
-    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) override;
-    virtual bool stopSolver() override;
+        virtual void setAlign(Align *_align) override
+        {
+            align = _align;
+        }
+        virtual bool init() override;
+        virtual void verifyIndexFiles(double fov_x, double fov_y) override;
+        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) override;
+        virtual bool stopSolver() override;
 
-    void setAstrometryDevice(ISD::GDInterface *device);
-    void setEnabled(bool enable);
-    bool sendArgs(const QStringList &args);
-    bool setCCD(const QString& ccd);
+        void setAstrometryDevice(ISD::GDInterface *device);
+        void setEnabled(bool enable);
+        bool sendArgs(const QStringList &args);
+        bool setCCD(const QString &ccd);
 
-  public slots:
-    void checkStatus(ISwitchVectorProperty *svp);
-    void checkResults(INumberVectorProperty *nvp);
+    public slots:
+        void checkStatus(ISwitchVectorProperty *svp);
+        void checkResults(INumberVectorProperty *nvp);
 
-  private:
-    ISD::GDInterface *remoteAstrometry { nullptr };
-    bool solverRunning { false };
-    bool captureRunning { false };
-    Align *align { nullptr };
-    QTime solverTimer;
-    QString parity;
-    QString targetCCD;
+    private:
+        ISD::GDInterface *remoteAstrometry { nullptr };
+        bool solverRunning { false };
+        bool captureRunning { false };
+        Align *align { nullptr };
+        QElapsedTimer solverTimer;
+        QString parity;
+        QString targetCCD;
 };
 }

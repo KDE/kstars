@@ -775,7 +775,7 @@ class Align : public QWidget, public Ui::Align
         std::unique_ptr<QProgressIndicator> pi;
 
         /// Keep track of how long the solver is running
-        QTime solverTimer;
+        QElapsedTimer solverTimer;
 
         // Polar Alignment
         AZStage azStage;

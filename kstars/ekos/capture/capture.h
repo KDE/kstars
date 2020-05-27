@@ -969,7 +969,7 @@ class Capture : public QWidget, public Ui::Capture
         double GainSpinSpecialValue;
 
         QList<double> downloadTimes;
-        QTime downloadTimer;
+        QElapsedTimer downloadTimer;
         QTimer downloadProgressTimer;
 };
 }
