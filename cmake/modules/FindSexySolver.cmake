@@ -48,16 +48,13 @@ else (SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
 
   find_path(SEXYSOLVER_INCLUDE_DIR sexysolver.h
             ${_obIncDir}
-            ${GNUWIN32_DIR}/include/sexysolver/
-            /Users/rlancaste/AstroRoot/craft-root/include/sexysolver/
-            
+            ${GNUWIN32_DIR}/include/sexysolver/        
         )
 
-  find_library(SEXYSOLVER_LIBRARIES NAMES sexysolver libsexysolver.a
+  find_library(SEXYSOLVER_LIBRARIES NAMES sexysolver libsexysolver
     PATHS
         ${_obIncDir}
         ${GNUWIN32_DIR}/lib
-        /Users/rlancaste/AstroRoot/craft-root/lib
   )
 
   if(SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
