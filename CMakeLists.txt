@@ -250,7 +250,7 @@ find_package(Qt5DataVisualization)
 MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 
 ##SexySolver
-find_package(SexySolver REQUIRED)
+find_package(SexySolver)
 set_package_properties(SexySolver PROPERTIES DESCRIPTION "Internal Source Extraction and Plate Solving Library" URL "https://github.com/rlancaste/sexysolver-tester" TYPE RUNTIME PURPOSE "Support for plate solving and sextraction in KStars.")
 
 ## Astrometry.net

@@ -1051,14 +1051,12 @@ IF (NOT ANDROID)
         Qt5::Concurrent
         Qt5::WebSockets
         ${ZLIB_LIBRARIES}
-        ${SEXYSOLVER_LIBRARIES}
         )
 
     if (Qt5Keychain_FOUND)
         target_include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
     endif(Qt5Keychain_FOUND)
-
 
     if (Qt5DataVisualization_FOUND)
         target_link_libraries(KStarsLib Qt5::DataVisualization)
@@ -1127,6 +1125,10 @@ if(INDI_FOUND)
         include_directories(${GSL_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
     endif ()
+
+    if(SEXYSOLVER_FOUND)
+        target_link_libraries(KStarsLib ${SEXYSOLVER_LIBRARIES})
+    endif(SEXYSOLVER_FOUND)
 
     if(WIN32 OR ANDROID)
         if(ANDROID)

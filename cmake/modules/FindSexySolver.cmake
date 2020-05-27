@@ -47,14 +47,18 @@ else (SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
   endif (NOT WIN32)
 
   find_path(SEXYSOLVER_INCLUDE_DIR sexysolver.h
-            ${_obIncDir}
-            ${GNUWIN32_DIR}/include/sexysolver/        
-        )
+        ${_obIncDir}
+        ${PC_SEXYSOLVER_INCLUDE_DIRS}
+        ${GNUWIN32_DIR}/include/sexysolver
+        ${CMAKE_INSTALL_PREFIX}/include/sexysolver
+  )
 
   find_library(SEXYSOLVER_LIBRARIES NAMES sexysolver libsexysolver
     PATHS
-        ${_obIncDir}
+        ${_obLinkDir}
+        ${PC_SEXYSOLVER_LIBRARY_DIRS}
         ${GNUWIN32_DIR}/lib
+        ${CMAKE_INSTALL_PREFIX}/lib
   )
 
   if(SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
