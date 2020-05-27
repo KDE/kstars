@@ -594,7 +594,7 @@ float *cgmath::createFloatImage(FITSData *target) const
         return nullptr;
     }
 
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
         {
@@ -791,7 +791,7 @@ Vector cgmath::findLocalStarPosition(void) const
         return Vector(median_x, median_y, -1);
     }
 
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();

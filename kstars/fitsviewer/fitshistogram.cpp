@@ -139,7 +139,7 @@ void FITSHistogram::constructHistogram()
 
     isGUISynced = false;
 
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             constructHistogram<uint8_t>();
@@ -636,7 +636,7 @@ void FITSHistogramCommand::redo()
 
     if (delta != nullptr)
     {
-        FITSData::Statistic prevStats;
+        Statistic prevStats;
         imageData->saveStatistics(prevStats);
 
         reverseDelta();
@@ -719,7 +719,7 @@ void FITSHistogramCommand::undo()
 
     if (delta != nullptr)
     {
-        FITSData::Statistic prevStats;
+        Statistic prevStats;
         imageData->saveStatistics(prevStats);
 
         reverseDelta();

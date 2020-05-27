@@ -85,7 +85,7 @@ void FITSView::doStretch(FITSData *data, QImage *outputImage)
         return;
     Stretch stretch(static_cast<int>(data->width()),
                     static_cast<int>(data->height()),
-                    data->channels(), data->property("dataType").toInt());
+                    data->channels(), data->getStatistics().dataType);
 
     StretchParams tempParams;
     if (!stretchImage)
@@ -448,7 +448,7 @@ int FITSView::saveFITS(const QString &newFilename)
 
 bool FITSView::rescale(FITSZoom type)
 {
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             return rescale<uint8_t>(type);
