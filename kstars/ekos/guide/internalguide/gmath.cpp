@@ -1403,7 +1403,7 @@ void cgmath::performProcessing(GuideLog *logger)
         data.raDirection = out_params.pulse_dir[GUIDE_RA];
         data.decDuration = out_params.pulse_length[GUIDE_DEC];
         data.decDirection = out_params.pulse_dir[GUIDE_DEC];
-        data.code = GuideLog::GuideData::NO_ERROR;
+        data.code = GuideLog::GuideData::NO_ERRORS;
         // Add SNR and MASS from SEP stars.
         logger->addGuideData(data);
     }
