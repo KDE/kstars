@@ -1127,6 +1127,7 @@ if(INDI_FOUND)
     endif ()
 
     if(SEXYSOLVER_FOUND)
+        include_directories(${SEXYSOLVER_INCLUDE_DIR})
         target_link_libraries(KStarsLib ${SEXYSOLVER_LIBRARIES})
     endif(SEXYSOLVER_FOUND)
 
