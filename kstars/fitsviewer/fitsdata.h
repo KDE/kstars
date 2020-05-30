@@ -252,7 +252,6 @@ class FITSData : public QObject
                     return 32;
                 break;
                 case TLONGLONG:
-                case TULONGLONG:
                 case TDOUBLE:
                     return 64;
                 break;
