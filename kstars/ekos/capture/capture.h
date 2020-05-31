@@ -631,6 +631,13 @@ class Capture : public QWidget, public Ui::Capture
         // Meridian flip
         void meridianFlipStatusChanged(Mount::MeridianFlipStatus status);
 
+        /**
+         * @brief registerNewModule Register an Ekos module as it arrives via DBus
+         * and create the appropriate DBus interface to communicate with it.
+         * @param name of module
+         */
+        void registerNewModule(const QString &name);
+
     private slots:
 
         /**
@@ -709,13 +716,6 @@ class Capture : public QWidget, public Ui::Capture
 
         // Cooler
         void setCoolerToggled(bool enabled);
-
-        /**
-         * @brief registerNewModule Register an Ekos module as it arrives via DBus
-         * and create the appropriate DBus interface to communicate with it.
-         * @param name of module
-         */
-        void registerNewModule(const QString &name);
 
         void setDownloadProgress();
 

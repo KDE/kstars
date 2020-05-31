@@ -58,16 +58,16 @@ class Mount : public QWidget, public Ui::Mount
         typedef enum
         {
             FLIP_NONE,      // this is the default state, comparing the hour angle with the next flip position
-                            // it moves to FLIP_PLANNED when a flip is needed.
+            // it moves to FLIP_PLANNED when a flip is needed.
             FLIP_PLANNED,   // this signals to the Capture class that a flip is required, the Capture class will
-                            // move to FLIP_ACCEPTED when it has completed everything that needs to be done.
+            // move to FLIP_ACCEPTED when it has completed everything that needs to be done.
             FLIP_WAITING,   // Capture seems to set this state to signal that the flip will have to wait
             FLIP_ACCEPTED,  // Capture signals to the mount that a flip slew can be started
             FLIP_RUNNING,   // this signals that a flip slew is in progress, when the slew stops the state
-                            // is set to FLIP_COMPLETED
+            // is set to FLIP_COMPLETED
             FLIP_COMPLETED, // this checks that the flip was completed successfully or not and after tidying up
-                            // moves to FLIP_NONE to wait for the next flip requirement.
-                            // Capture sees this and resumes.
+            // moves to FLIP_NONE to wait for the next flip requirement.
+            // Capture sees this and resumes.
             FLIP_ERROR      // errors in the flip process should end up here
         } MeridianFlipStatus;
 
@@ -410,8 +410,6 @@ class Mount : public QWidget, public Ui::Mount
          */
         void setMeridianFlipValues(bool activate, double hours);
 
-private slots:
-
         /**
          * @brief registerNewModule Register an Ekos module as it arrives via DBus
          * and create the appropriate DBus interface to communicate with it.
@@ -419,6 +417,7 @@ private slots:
          */
         void registerNewModule(const QString &name);
 
+    private slots:
         void startParkTimer();
         void stopParkTimer();
         void startAutoPark();

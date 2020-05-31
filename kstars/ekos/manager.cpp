@@ -3348,7 +3348,8 @@ void Manager::connectModules()
         connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
         // New Focus temperature delta
-        connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.get(), &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.get(),
+                &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections
@@ -3368,6 +3369,11 @@ void Manager::connectModules()
     // Capture <---> Mount connections
     if (captureProcess.get() && mountProcess.get())
     {
+        // Register both modules since both are now created and ready
+        // In case one module misses the DBus signal, then it will be correctly initialized.
+        captureProcess->registerNewModule("Mount");
+        mountProcess->registerNewModule("Capture");
+
         // Meridian Flip states
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::disableAltLimits,
                 Qt::UniqueConnection);
