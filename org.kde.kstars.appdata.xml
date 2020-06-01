@@ -80,6 +80,7 @@
     <p xml:lang="es">KStars es un software astronómico de licencia libre, de código abierto y multiplataforma, creado por KDE.</p>
     <p xml:lang="et">KStars on KDE loodud vaba litsentsiga avatud lähtekoodiga platvormiülene astronoomiatarkvara.</p>
     <p xml:lang="eu">KStars lizentzia askeko, sorburu irekiko, plataforma-anitzerako KDEk egindako astronomia softwarea da.</p>
+    <p xml:lang="fr">KStar est un logiciel d'astronomie sous licence libre, « open source » et multiplate-forme de KDE.</p>
     <p xml:lang="gl">KStars é un software de astronomía libre, de código aberto e compatíbel con múltiple plataformas creado por KDE.</p>
     <p xml:lang="id">KStars adalah Software Astronomi yang terlisensi secara bebas, sumber terbuka, lintas platform oleh KDE.</p>
     <p xml:lang="it">KStars è un software di astronomia multi-piattaforma con licenza gratuita ed open source della comunità KDE.</p>
@@ -88,6 +89,7 @@
     <p xml:lang="pt">O KStars é uma aplicação de astronomia com uma licença livre, de código-aberto e multi-plataforma.</p>
     <p xml:lang="pt-BR">KStars é um software de Astronomia do KDE licenciado gratuitamente, de código aberto e multiplataforma.</p>
     <p xml:lang="sk">KStars je slobodný, open source, cross platformový astronomický softvér od KDE.</p>
+    <p xml:lang="sl">KStars je prosta, odprtokodna astronomska programska oprema, ki teče na več okoljih in izdelana pri KDE.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
     <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
@@ -123,6 +125,7 @@
     <p xml:lang="es">Para estudiantes y profesores, permite ajustar la velocidad de simulación para poder ver fenómenos que ocurren a lo largo de mucho tiempo; la calculadora astronómica de KStars permite predecir conjunciones y realizar cálculos astronómicos comunes.</p>
     <p xml:lang="et">Õpilastele ja õpetajatele on pakkuda muudetava kiirusega matkimised, mis lubavad uurida ka nähtusi, mis toimuvad väga pika aja vältel. KStarsi astrokalkulaator suudab ette ennustada taevakehade ühendusi ja teha veel paljusid astronoomilisi arvutusi.</p>
     <p xml:lang="eu">Ikasle eta irakasleentzat, simulazio abiadura erregulagarriak onartzen ditu denbora-eskala luzeetan gertatzen diren fenomenoak ikusi ahal izateko, KStars Astrokalkulagailua konjuntzioak kalkulatzeko, eta kalkulu astronomiko arrunt ugari.</p>
+    <p xml:lang="fr">Pour les élèves et les enseignants, il prend en charge des vitesses de simulation ajustables, afin d'afficher des phénomènes arrivant sur de longues périodes de temps. Le module « Astrocalculator » de KStars effectue les prédictions de conjonctions et de nombreux calculs classiques d'astronomie.</p>
     <p xml:lang="gl">Para estudantes e profesores, permite axustar a velocidade da simulación para ver os fenómenos que se producen ao longo de moito tempo, a calculadora de astros de KStars para predicir aliñamentos, e moitos cálculos astronómicos comúns.</p>
     <p xml:lang="id">Bagi siswa dan guru, ini mendukung kecepatan simulasi yang disesuaikan untuk melihat fenomena yang terjadi dalam jangka waktu yang lama, KStars Astrocalculator untuk memprediksi konjungsi, dan banyak perhitungan astronomi umum.</p>
     <p xml:lang="it">Per studenti e insegnanti supporta velocità di simulazione regolabili, in modo da poter vedere fenomeni che accadono in tempi molto lunghi, mentre l'astrocalcolatrice di KStars predice le congiunzioni ed esegue molti calcoli astronomici comuni.</p>
@@ -145,6 +148,7 @@
     <p xml:lang="es">Para el astrónomo aficionado, proporciona un planificador de observaciones, una herramienta de calendario celeste y un editor de campo visual para calcular el campo visual de su equipo y poder mostrarlo. Descubra interesantes objetos con la herramienta «¿Qué ocurre esta noche?», muestre gráficos de altitud frente a hora para cualquier objeto, imprima mapas del cielo de gran calidad y obtenga acceso a gran cantidad de información y recursos que le ayudarán a explorar el universo.</p>
     <p xml:lang="et">Amatöörastronoomile on pakkuda vaatluste kavandamine, taevakalendri tööriist ja vaatevälja kalkulaator varustuse vaatevälja väljaarvutamiseks ja selle kuvamiseks. Huvipakkuvaid objekte aitab leida tööriist "Mis on täna vaadata", kõigi objektide puhul saab koostada kõrguse/aja graafiku, taevakaarte on võimalik kõrge kvaliteediga trükkida ning lisaks pakume rohkelt teavet ja ressursse, mis aitavad sul universumit paremini tundma õppida!</p>
     <p xml:lang="eu">Astronomia-zaleentzat, behaketa planifikatzaile bat dakar, zeruko egutegi tresna bat, eta FOV editore bat ekipamenduaren ikus-eremua kalkulatu eta bistaratzeko. Topatu objektu interesgarriak "Zer berri gaur gauean" tresnan, altitudea denborarekiko grafikoak trazatu edozein objekturentzat, inprimatu kalitate handiko zeruko diagramak, eta eskuratu ezazu unibertsoa esploratzen lagunduko dizun informazio eta baliabide ugarietara sarbidea!</p>
+    <p xml:lang="fr">Pour l'astronome amateur, il fournit un planificateur d'observation, un outil de calendrier pour le ciel et un éditeur « FOV » (Field Of View) pour calculer le champs d'observation des équipements et les afficher. Vous pouvez aussi trouver des objets intéressants dans l'outil « Quoi de neuf ce soir », tracer une courbe altitude /temps pour n'importe quel objet, imprimer des cartes du ciel en haute qualité et avoir accès à beaucoup d'autres informations et ressources pour vous aider à explorer l'univers !</p>
     <p xml:lang="gl">Para astrónomos afeccionados fornece un planificador de observación, unha ferramenta de calendario celeste, e un editor de campo de visión para calcular o campo de visión de equipamento e mostralo. Descobre obxectos interesantes coa ferramenta «Que pasa esta noite?», xera gráficos de altitude e tempo para calquera obxecto, imprime cartas celestes de gran calidade, e obtén acceso a unha morea de información e recursos para axudarte a explorar o universo.</p>
     <p xml:lang="id">Bagi astronom amatir, ia menyediakan perencana observasi, alat kalender langit, dan editor FOV untuk menghitung bidang pandang peralatan dan menampilkannya. Temukan benda-benda menarik di alat "What's up Tonight", plot ketinggian vs grafik waktu untuk objek apa pun, cetak bagan langit berkualitas tinggi, dan dapatkan akses ke banyak informasi dan sumberdaya untuk membantu Anda menjelajahi alam semesta!</p>
     <p xml:lang="it">Fornisce agli astronomi dilettanti un pianificatore di osservazione, uno strumento per il calendario celeste e un editor di CDV per calcolare il campo di vista dell'equipaggiamento e per visualizzarlo. Trova gli oggetti interessanti con lo strumento «Cosa si vede stanotte», traccia l'altezza in funzione del tempo di qualsiasi oggetto, esegue stampe in alta qualità della mappa celeste, e fornisce inoltre l'accesso a molte informazioni e a risorse che ti aiutano ad esplorare l'universo!</p>
@@ -167,6 +171,7 @@
     <p xml:lang="es">KStars incluye la suite de astrofotografía Ekos, una completa solución de fotografía astronómica que puede controlar cualquier dispositivo INDI, como telescopios, cámaras CCD y DSLR, sistemas de enfoque y filtros, entre otros. Ekos permite un seguimiento de alta precisión mediante el uso de sistemas de identificación con y sin conexión, funciones de enfoque y de guiado automáticos, así como la captura de una o múltiples imágenes mediante el uso de potente gestor de secuencias que integra.</p>
     <p xml:lang="et">KStarsiga on kaasas astrofotograafiakomplekt Ekos, mis kujutab endast kõikehõlmavat astrofotograafia lahendust, millega saab juhtida INDI-seadmeid, sealhulgas paljusid teleskoope, CCD-sid, digitaalseid peegelkaamerraid (DSLR), fokuseerijaid, filtreid ja paljut muud. Ekos toetab äärmiselt täpset jälgimist nii võrgu- kui ka autonoomsete astromeetriaprogrammidega, automaatset fokuseerimist ja gideerimist ning ühe või paljude piltide tegemist kaasasoleva võimsa sarivõtete halduriga.</p>
     <p xml:lang="eu">KStars-ekin batera Ekos astro-argazkigintza suitea dator, astro-argazkigintza soluzio oso bat INDI gailu guztiak kontrolatu ditzakeena tartean teleskopio ugari, CCDak, DSLRak, fokatzaileak, iragazkiak, eta askoz gehiago. Ekos-ek zehaztasun handiko jarraipena onartzen du lerroko eta lerroz kanpoko astrometria ebazleak erabiliz, auto-fokua eta auto-gidatze gaitasunak, eta irudi bakar edo anitzak atzematea barnean eraikia duen sekuentzia kudeatzaile ahaltsua erabiliz.</p>
+    <p xml:lang="fr">Faisant partie de KStars, la suite d'astrophotographie Ekos est une solution complète d'astrophotographie, contrôlant tous les périphériques « INDI », dont de nombreux télescopes, des caméras « CCD », des appareils photo « DSLR », des viseurs, des filtres et bien plus. Ekos prend en charge le suivi en haute précision en utilisant des résolveurs en ligne ou hors ligne, des capacités d'autofocus et d'autoguidage et la capture d'images simples ou multiples grâce à un puissant outil de gestionnaire de séquence.</p>
     <p xml:lang="gl">KStar inclúe a colección de software de astrofotografía Ekos, unha solución completa de astrofotografía que pode controlar todos os dispositivos INDI, incluídos moitos telescopios, CCDs, DSLRs, enfocadores, filtros e moito máis. Ekos permite facer seguimentos moi precisos mediante un resolvedor de astrometría por Internet e sen Internet, goza de capacidade para enforcar e guiar automaticamente, e permite capturar unha ou varias imaxes usando un potente xestor de secuencias que vai incluído.</p>
     <p xml:lang="id">Yang termasuk dengan KStars adalah Ekos astrophotography suite, solusi astrophotography lengkap yang dapat mengendalikan semua perangkat INDI termasuk banyak teleskop, CCD, DSLR, fokus, filter, dan banyak lagi. Ekos mendukung pelacakan yang sangat akurat menggunakan pemecah astrometri online dan offline, kemampuan fokus otomatis dan autoguiding, dan menangkap gambar tunggal atau ganda menggunakan pengelola urutan yang kuat.</p>
     <p xml:lang="it">Inclusa con KStars c'è la suite per l'astrofotografia Ekos, una soluzione completa che può controllare tutti dispositivi INDI, inclusi numerosi telescopi, CCD, DSLR, focheggiatori, filtri e molto altro ancora. Ekos supporta un inseguimento altamente accurato, usando sia dei risolutori astrometrici sul web sia locali, ha capacità di messa a fuoco automatica e di autoguida, oltre a poter catturare immagini singole o multiple grazie al potente gestore di sequenze incorporato.</p>
@@ -175,7 +180,7 @@
     <p xml:lang="pt">Incluído com o KStars vem o pacote de astro-fotografia Ekos, uma solução completa de fotografia na astronomia, que pode controlar todos os dispositivos INDI, incluindo os numerosos telescópios, CCD's, DSLR's, sistemas de focagem, filtros, entre muitas outras coisas. O Ekos suporta o seguimento altamente preciso de objectos, usando o sistema de resolução 'online' e 'offline' Astrometry, as capacidades de focagem e guia automáticos, assim como a captura de imagens individuais ou múltiplas, usando o poderoso gestor de sequências.</p>
     <p xml:lang="pt-BR">Junto com o KStars vem a suíte de astrofotografia Ekos, uma solução completa de astrofotografia que consegue controlar todos os dispositivos INDI, incluindo diversos telescópios, CCDs, DSLRs, focalizadores, filtros, e muito mais. O Ekos tem suporte ao rastreamento altamente preciso usando o sistema de resolução online e offline 'astrometry', capacidade de focagem e guia automáticas, assim como a captura de imagens individuais ou múltiplas, usando o poderoso gerenciador de sequências integrado.</p>
     <p xml:lang="sk">KStars obsahuje astrofotografický balík Ekos, kompletné riešenie, ktoré vie ovládať všetky INDI zariadenia vrátane mnohých ďalekohľadov, CCD, DSLR, približovače, filtre a omnoho viac. Ekos podporuje vysoko presné sledovanie pomocou online a offline astrometrického riešiteľa, automatické zaostrovanie a navádzanie a snímanie jednej alebo viac snímok pomocou silného správcu sekvencií.</p>
-    <p xml:lang="sl">V KStars je vključen tudi Etos, astronomski fotografski paket, popolna rešitev za astrofotografijo, s katero lahko nadzirate vse naprave INDI, vključno s številnimi daljnogledi, CCD-ji, DSLR-ji, ostrilci, filtri, itd. Ekos podpira zelo natančno sledenje z uporabo spletnega in nepovezanega reševalca astrometry.net, zmogljivosti samodejnega ostrenja in sledenja ter zajem posamičnih ali zaporednih slik z zmogljivim vgrajenim upravljalnikom zaporedij.</p>
+    <p xml:lang="sl">V KStars je vključen tudi Etos, astronomski fotografski paket, popolna rešitev za astrofotografijo, s katero lahko nadzirate vse naprave INDI, vključno s številnimi daljnogledi, CCD-ji, DSLR-ji, ostrilci, filtri, itd. Ekos podpira zelo natančno sledenje z uporabo spletnega in nepovezanega reševalnika astrometry.net, zmogljivosti samodejnega ostrenja in sledenja ter zajem posamičnih ali zaporednih slik z zmogljivim vgrajenim upravljalnikom zaporedij.</p>
     <p xml:lang="sv">Ekos astronomifotograferingssvit ingår i Kstars: en fullständig lösning för astronomisk fotografering som kan styra alla INDI-enheter, inklusive en mängd teleskop, CCD:er, digitala spegelreflexkameror, fokuseringsenheter, filter, med mera. Ekos stöder mycket noggrann följning med ett nätbaserat och lokalt astrometrilösningsverktyg, har möjlighet till automatisk fokusering och guidning, samt tagning av enstaka eller flera bilder med den kraftfulla inbyggda sekvenshanteraren.</p>
     <p xml:lang="tr">KStars ile birlikte Ekos gökyüzü fotoğrafçılığı programı, sayısız teleskop, CCD, DSLR, odaklayıcı, filtre ve çok daha fazlasını içeren tüm INDI cihazlarını kontrol edebilen eksiksiz bir gökyüzü fotoğrafçılığı çözümü de dahildir. Ekos, çevrimiçi ve çevrimdışı astrometri çözücüsünü, otomatik netleme ve otomatik götürme özelliklerini kullanarak ve güçlü, yerleşik sıralama yöneticisini kullanarak tek veya birden çok görüntüyü yakalamak suretiyle son derece hassas izleme özelliğini destekler.</p>
     <p xml:lang="uk">До складу пакунків з KStars включено астрометричний розв’язувач Ekos — повноцінне астрографічне рішення, яке може керувати усіма пристроями INDI, зокрема багатьма телескопами, ПЗЗ, цифровими дзеркальними фотокамерами, засобам фокусування, фільтрами та іншими інструментами. У Ekos передбачено підтримку високоточного стеження за допомогою засобів інтерактивної та авторомної астрометрії, автофокусування та автонаведення, можливості захоплення одного або декількох зображень на основі потужного вбудованого засобу керування зйомкою.</p>
@@ -193,6 +198,7 @@
     <p xml:lang="et">Tähekataloogid:</p>
     <p xml:lang="eu">Katalogo astronomikoak:</p>
     <p xml:lang="fi">Tähtitieteelliset luettelot:</p>
+    <p xml:lang="fr">Catalogues astronomiques :</p>
     <p xml:lang="gl">Catálogos astronómicos:</p>
     <p xml:lang="id">Katalog Astronomi:</p>
     <p xml:lang="it">Cataloghi astronomici:</p>
@@ -278,6 +284,7 @@
       <li xml:lang="es">Los catálogos que puede descargar contienen imágenes de objetos Messier, Nebulosas planetarias Abell, el Catálogo Sharpless y el catálogo de nebulosas oscuras Lynds</li>
       <li xml:lang="et">Allalaaditavad kataloogid, sealhulgas Messieri pildid, Abelli planetaarudukogud, Sharplessi kataloog, Lyndsi tumedate udukogude kataloog</li>
       <li xml:lang="eu">Jaitsi daitezkeen katalogoak, haien artean Messier Irudiak, Abell Planeten Nebulosa, Sharpless Katalogoa, Lynds Nebulosa Iluna katalogoa</li>
+      <li xml:lang="fr">Les catalogues pouvant être téléchargés contiennent des images de Messier, les nébuleuses planétaires de Abell, le catalogue « Sharpless » et le catalogue de nébuleuses « Lynds Dark ».</li>
       <li xml:lang="gl">Catálogos dispoñíbeis para descarga entre os que hai imaxes de Messier, as nebulosas planetarias Abell, o catálogo Sharpless ou o catálogo de nebulosa escura de Lynds.</li>
       <li xml:lang="id">Katalog yang bisa diunduh termasuk Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalog</li>
       <li xml:lang="it">Altri cataloghi scaricabili, che includono le immagini Messier, le nebulose planetarie di Abell, il catalogo Sharpless e il catalogo delle nebulose oscure di Lynds</li>
@@ -332,6 +339,7 @@
       <li xml:lang="et">Võimalus hankida andmeid võrguandmebaasidest</li>
       <li xml:lang="eu">Lerroko datu-baseetatik datuak-berreskuratzerako tresnak</li>
       <li xml:lang="fi">Työkalut aineiston hakemiseen verkossa olevista tietokannoista</li>
+      <li xml:lang="fr">Outils pour télécharger des données à partir de bases de données en ligne</li>
       <li xml:lang="gl">Ferramentas para obter datos de bases de datos en Internet.</li>
       <li xml:lang="id">Peralatan untuk penerimaan data dari database online</li>
       <li xml:lang="it">Strumenti per il recupero di dati dalle base di dati in linea</li>
@@ -363,6 +371,7 @@
       <caption xml:lang="es">Ventana principal de KStars</caption>
       <caption xml:lang="et">KStarsi peaaken</caption>
       <caption xml:lang="eu">Kstars leiho nagusia</caption>
+      <caption xml:lang="fr">Fenêtre principale de KStars</caption>
       <caption xml:lang="gl">Xanela principal de KStars</caption>
       <caption xml:lang="id">Window utama KStars</caption>
       <caption xml:lang="it">Finestra principale di KStars</caption>
@@ -372,6 +381,7 @@
       <caption xml:lang="pt">Janela principal do KStars</caption>
       <caption xml:lang="pt-BR">Janela principal do KStars</caption>
       <caption xml:lang="sk">KStars hlavné okno</caption>
+      <caption xml:lang="sl">Glavno okno KStars</caption>
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
       <caption xml:lang="uk">Головне вікно KStars</caption>
       <caption xml:lang="x-test">xxKStars main windowxx</caption>
@@ -387,6 +397,7 @@
       <caption xml:lang="es">Herramienta «Qué es interesante» de KStars</caption>
       <caption xml:lang="et">KStarsi tööriist "Mida huvitavat on vaadata"</caption>
       <caption xml:lang="eu">"Zer berri gaur gauean" tresna KStars-en</caption>
+      <caption xml:lang="fr">Outil « Quoi d'intéressant » de KStars</caption>
       <caption xml:lang="gl">Ferramenta de «Que hai de interesante» de KStars</caption>
       <caption xml:lang="id">Alat "What's interesting" di KStars</caption>
       <caption xml:lang="it">Strumento "Cosa c'è di interessante" in KStars</caption>
@@ -394,6 +405,7 @@
       <caption xml:lang="pl">Narzędzie "Co jest interesującego" w KStars</caption>
       <caption xml:lang="pt">Ferramenta "O que há de interessante" no KStars</caption>
       <caption xml:lang="pt-BR">Ferramenta "O que há de interessante..." no KStars</caption>
+      <caption xml:lang="sl">Orodje "Kaj je zanimivega" v programu KStars</caption>
       <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
       <caption xml:lang="uk">Інструмент «Цікаві об'єкти» у KStars</caption>
       <caption xml:lang="x-test">xx"What's interesting" tool in KStarsxx</caption>
@@ -408,6 +420,7 @@
       <caption xml:lang="es">Herramienta Ekos en KStars</caption>
       <caption xml:lang="et">KStarsi Ekosi tööriist</caption>
       <caption xml:lang="eu">Ekos tresnak KStars-en</caption>
+      <caption xml:lang="fr">Outil Ekos de KStars</caption>
       <caption xml:lang="gl">Ferramenta de Ekos de KStars</caption>
       <caption xml:lang="id">Alat Ekos di KStars</caption>
       <caption xml:lang="it">Strumento Ekos in KStars</caption>
@@ -416,6 +429,7 @@
       <caption xml:lang="pt">Ferramenta do Ekos no KStars</caption>
       <caption xml:lang="pt-BR">Ferramenta Ekos no KStars</caption>
       <caption xml:lang="sk">Nástroj Ekos v KStars</caption>
+      <caption xml:lang="sl">Orodje Ekos v KStars</caption>
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
       <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
       <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
@@ -431,6 +445,7 @@
       <caption xml:lang="es">Planificador de observación de KStars</caption>
       <caption xml:lang="et">KStarsi vaatluste plaanija</caption>
       <caption xml:lang="eu">KStars-en behaketa planifikatzailea</caption>
+      <caption xml:lang="fr">Planificateur d'observation de KStars</caption>
       <caption xml:lang="gl">Planificador de observacións de KStars</caption>
       <caption xml:lang="id">Perencana Observasi KStars</caption>
       <caption xml:lang="it">Pianificatore delle osservazioni di KStars</caption>
@@ -438,6 +453,7 @@
       <caption xml:lang="pl">Planista obserwacji w KStars</caption>
       <caption xml:lang="pt">Planeamento de Observações do KStars</caption>
       <caption xml:lang="pt-BR">Planejador de observação do KStars</caption>
+      <caption xml:lang="sl">Planiranje opazovanja v KStars</caption>
       <caption xml:lang="sv">Observationsplanering i Kstars</caption>
       <caption xml:lang="uk">Планування спостережень у KStars</caption>
       <caption xml:lang="x-test">xxObservation Planner of KStarsxx</caption>
