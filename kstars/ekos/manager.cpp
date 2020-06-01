@@ -3410,6 +3410,13 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
     }
 
+    // Focus <---> Observatory connections
+    if (focusProcess.get() && observatoryProcess.get())
+    {
+        connect(observatoryProcess.get(), &Ekos::Observatory::newWeatherTemp, focusProcess.get(), &Ekos::Focus::updateTemperature,
+                Qt::UniqueConnection);
+    }
+
     // Mount <---> Align connections
     if (mountProcess.get() && alignProcess.get())
     {
@@ -3421,13 +3428,6 @@ void Manager::connectModules()
     if (mountProcess.get() && guideProcess.get())
     {
         connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, guideProcess.get(), &Ekos::Guide::setPierSide,
-                Qt::UniqueConnection);
-    }
-
-    // Focus <---> Align connections
-    if (focusProcess.get() && alignProcess.get())
-    {
-        connect(focusProcess.get(), &Ekos::Focus::newStatus, alignProcess.get(), &Ekos::Align::setFocusStatus,
                 Qt::UniqueConnection);
     }
 
