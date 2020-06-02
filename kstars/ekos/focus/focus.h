@@ -571,6 +571,7 @@ class Focus : public QWidget, public Ui::Focus
         QStringList m_LogText;
         QFile m_FocusLogFile;
         QString m_FocusLogFileName;
+	bool m_FocusLogEnabled { false };
 
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };

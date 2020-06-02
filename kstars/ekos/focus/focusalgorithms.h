@@ -41,7 +41,7 @@ public:
         double focusTolerance;
         // The name of the filter used, if any.
         QString filterName;
-        //  The current focus temperature (from focuser or observator).
+        // The current focus temperature (from focuser or observatory).
         double temperature;
 
         FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,

@@ -87,16 +87,11 @@ Focus::Focus()
 
     appendLogText(i18n("Idle."));
 
-    // Create focus-specific log file and write the header record
+    // Create an autofocus CSV file, dated at startup time
     QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
-    if (QDir(dir).exists() == false)
-        QDir().mkpath(dir);
     m_FocusLogFileName = dir + "autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
     m_FocusLogFile.setFileName(m_FocusLogFileName);
-    m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream out(&m_FocusLogFile);
-    out << "date, time, position, temperature, filter, HFR\n";
-    out.flush();
+
 }
 
 Focus::~Focus()
@@ -2531,9 +2526,33 @@ void Focus::clearLog()
 
 void Focus::appendFocusLogText(const QString &lines)
 {
-    QTextStream out(&m_FocusLogFile);
-    out << QDateTime::currentDateTime().toString("yyyy-MM-dd, hh:mm:ss, ") << lines;
-    out.flush();
+    if (Options::focusLogging())
+    {
+
+        if (!m_FocusLogFile.exists())
+        {
+            // Create focus-specific log file and write the header record
+            QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
+            if (QDir(dir).exists() == false)
+                 QDir().mkpath(dir);
+            m_FocusLogEnabled = m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
+            if (m_FocusLogEnabled)
+            {
+                QTextStream header(&m_FocusLogFile);
+                header << "date, time, position, temperature, filter, HFR\n";
+                header.flush();
+            }
+            else
+                qCWarning(KSTARS_EKOS_FOCUS) << "Failed to open focus log file: " << m_FocusLogFileName;
+        }
+
+        if (m_FocusLogEnabled)
+        {
+            QTextStream out(&m_FocusLogFile);
+            out << QDateTime::currentDateTime().toString("yyyy-MM-dd, hh:mm:ss, ") << lines;
+            out.flush();
+        }
+    }
 }
 
 void Focus::startFraming()
