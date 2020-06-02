@@ -62,7 +62,6 @@ Capture::Capture()
     // Connecting DBus signals
     QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
                                           SLOT(registerNewModule(QString)));
-    //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
 
     // ensure that the mount interface is present
     registerNewModule("Mount");
@@ -523,9 +522,8 @@ void Capture::toggleSequence()
 void Capture::registerNewModule(const QString &name)
 {
     qCDebug(KSTARS_EKOS_CAPTURE) << "Registering new Module (" << name << ")";
-    if (name == "Mount")
+    if (name == "Mount" && mountInterface == nullptr)
     {
-        delete mountInterface;
         mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount",
                                             "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
 
