@@ -608,9 +608,8 @@ void Focus::start()
 
     lastHFR = 0;
 
-    // Forget last focus temperature, reset temperature delta
-    lastFocusTemperature = INVALID_VALUE;
-    emit newFocusTemperatureDelta(0);
+    // Keep the  last focus temperature, it can still be useful in case the autofocus fails
+    // lastFocusTemperature
 
     if (canAbsMove)
     {
