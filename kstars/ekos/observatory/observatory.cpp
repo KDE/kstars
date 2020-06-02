@@ -632,8 +632,8 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
         // store sensor data unit if necessary
         updateSensorGraph(it->label, now, it->value);
 
-	// if this label from the weather data is temperature, emit signal with the value
-        if (strncmp(it->label.toStdString().c_str(), "Temperature", 11) == 0)
+        // if this name from the weather data is temperature, emit signal with the value
+        if (strncmp(it->name.toStdString().c_str(), "WEATHER_TEMPERATURE", 19) == 0)
         {
            emit newWeatherTemp(it->value);
         }
