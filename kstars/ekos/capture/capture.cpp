@@ -3632,7 +3632,7 @@ void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
             else
             {
                 // If we are autoguiding, we should resume autoguiding after flip
-                resumeGuidingAfterFlip = isGuidingActive();
+                resumeGuidingAfterFlip = isGuidingOn();
 
                 if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
                 {
@@ -4963,7 +4963,7 @@ void Capture::setGuideStatus(GuideState state)
         case GUIDE_IDLE:
         case GUIDE_ABORTED:
             // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-            if (isGuidingActive() && meridianFlipStage == MF_NONE &&
+            if (isGuidingOn() && meridianFlipStage == MF_NONE &&
                     ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
                      this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
             {
@@ -6848,7 +6848,7 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
     });
 }
 
-bool Capture::isGuidingActive()
+bool Capture::isGuidingOn()
 {
     // In case we are doing non guiding dither, then we are not performing autoguiding.
     if (Options::ditherNoGuiding())
@@ -6861,7 +6861,9 @@ bool Capture::isGuidingActive()
             guideState == GUIDE_DITHERING ||
             guideState == GUIDE_DITHERING_SUCCESS ||
             guideState == GUIDE_DITHERING_ERROR ||
-            guideState == GUIDE_DITHERING_SETTLE);
+            guideState == GUIDE_DITHERING_SETTLE ||
+            guideState == GUIDE_SUSPENDED
+           );
 }
 
 QString Capture::MFStageString(MFStage stage)

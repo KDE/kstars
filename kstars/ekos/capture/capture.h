@@ -614,8 +614,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Guide
         void setGuideStatus(Ekos::GuideState state);
-        // short cut for all guiding states that indicate guiding is active
-        bool isGuidingActive();
+
         // Align
         void setAlignStatus(Ekos::AlignState state);
         void setAlignResults(double orientation, double ra, double de, double pixscale);
@@ -793,6 +792,9 @@ class Capture : public QWidget, public Ui::Capture
 
         // Change filter name in INDI
         void editFilterName();
+
+        // short cut for all guiding states that indicate guiding is on
+        bool isGuidingOn();
 
         /* Capture */
 
