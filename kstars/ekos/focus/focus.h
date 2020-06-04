@@ -319,8 +319,9 @@ class Focus : public QWidget, public Ui::Focus
              */
         void filterChangeWarning(int index);
 
-        // Log
+        // Logging methods - one for INFO messages to the kstars log, and one for a CSV auto-focus log
         void appendLogText(const QString &);
+        void appendFocusLogText(const QString &);
 
         // Adjust focuser offset, relative or absolute
         void adjustFocusOffset(int value, bool useAbsoluteOffset);
@@ -333,6 +334,13 @@ class Focus : public QWidget, public Ui::Focus
          * @param enabled Set to true to start video streaming, false to stop it if active.
          */
         void toggleVideo(bool enabled);
+
+        /**
+	 * @brief updateTemperature Handles the observatory weather update for use when focus temp is not available.
+         * @param value Temperature value from observatory weather.
+         *
+         */
+        void updateTemperature(double value);
 
     private slots:
         /**
@@ -559,7 +567,12 @@ class Focus : public QWidget, public Ui::Focus
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
 
+ 	/// Autofocus log file info.
         QStringList m_LogText;
+        QFile m_FocusLogFile;
+        QString m_FocusLogFileName;
+	bool m_FocusLogEnabled { false };
+
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };
 
@@ -645,5 +658,6 @@ class Focus : public QWidget, public Ui::Focus
 
         double currentTemperature { INVALID_VALUE };
         double lastFocusTemperature { INVALID_VALUE };
+        double observatoryTemperature { INVALID_VALUE };
 };
 }

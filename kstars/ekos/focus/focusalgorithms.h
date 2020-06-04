@@ -41,14 +41,18 @@ public:
         double focusTolerance;
         // The name of the filter used, if any.
         QString filterName;
+        // The current focus temperature (from focuser or observatory).
+        double temperature;
 
         FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,
                     int _minPositionAllowed, int _maxPositionAllowed,
-                    int _maxIterations, double _focusTolerance, const QString &filterName_) :
+                    int _maxIterations, double _focusTolerance, const QString &filterName_,
+                    double _temperature) :
             maxTravel(_maxTravel), initialStepSize(_initialStepSize),
             startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),
             maxPositionAllowed(_maxPositionAllowed), maxIterations(_maxIterations),
-            focusTolerance(_focusTolerance), filterName(filterName_) {}
+            focusTolerance(_focusTolerance), filterName(filterName_),
+            temperature(_temperature) {}
     };
 
     // Constructor initializes an autofocus algorithm from the input params.

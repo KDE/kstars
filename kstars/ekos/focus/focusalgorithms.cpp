@@ -419,6 +419,7 @@ void LinearFocusAlgorithm::debugLog()
     str.append(QString(";solution=%1").arg(focusSolution));
     str.append(QString(";HFR=%1").arg(focusHFR));
     str.append(QString(";filter='%1'").arg(params.filterName));
+    str.append(QString(";temperature=%1").arg(params.temperature));
 
     qCDebug(KSTARS_EKOS_FOCUS) << str;
 }
