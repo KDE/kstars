@@ -422,7 +422,10 @@ void Observatory::setWeatherModel(ObservatoryWeatherModel *model)
     enableWeather(false);
 
     if (model != nullptr)
+    {
         connect(model, &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
+        connect(model, &Ekos::ObservatoryWeatherModel::newWeatherData, this, &Ekos::Observatory::newWeatherData);
+    }
     else
         shutdownWeather();
 
@@ -631,13 +634,6 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
 
         // store sensor data unit if necessary
         updateSensorGraph(it->label, now, it->value);
-
-        // if this name from the weather data is temperature, emit signal with the value
-        if (strncmp(it->name.toStdString().c_str(), "WEATHER_TEMPERATURE", 19) == 0)
-        {
-           emit newWeatherTemp(it->value);
-        }
-
     }
 }
 

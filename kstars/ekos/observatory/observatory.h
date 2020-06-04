@@ -58,11 +58,7 @@ class Observatory : public QWidget, public Ui::Observatory
          */
         Q_SCRIPTABLE void newStatus(bool isReady);
 
-
-        /**
-         * @brief Signal a new temperature value
-         */
-        Q_SCRIPTABLE void newWeatherTemp(double temp);
+        void newWeatherData(std::vector<ISD::Weather::WeatherData>);
 
     private:
         ObservatoryModel *mObservatoryModel = nullptr;

@@ -16,6 +16,7 @@
 #include "indi/indiccd.h"
 #include "indi/indifocuser.h"
 #include "indi/indistd.h"
+#include "indi/indiweather.h"
 #include "indi/inditelescope.h"
 
 #include <QtDBus/QtDBus>
@@ -336,11 +337,10 @@ class Focus : public QWidget, public Ui::Focus
         void toggleVideo(bool enabled);
 
         /**
-	 * @brief updateTemperature Handles the observatory weather update for use when focus temp is not available.
-         * @param value Temperature value from observatory weather.
-         *
+         * @brief setWeatherData Updates weather data that could be used to extract focus temperature from observatory
+         * in case focus native temperature is not available.
          */
-        void updateTemperature(double value);
+        void setWeatherData(std::vector<ISD::Weather::WeatherData> data);
 
     private slots:
         /**
@@ -567,11 +567,11 @@ class Focus : public QWidget, public Ui::Focus
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
 
- 	/// Autofocus log file info.
+        /// Autofocus log file info.
         QStringList m_LogText;
         QFile m_FocusLogFile;
         QString m_FocusLogFileName;
-	bool m_FocusLogEnabled { false };
+        bool m_FocusLogEnabled { false };
 
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };

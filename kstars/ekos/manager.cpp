@@ -3419,7 +3419,7 @@ void Manager::connectModules()
     // Focus <---> Observatory connections
     if (focusProcess.get() && observatoryProcess.get())
     {
-        connect(observatoryProcess.get(), &Ekos::Observatory::newWeatherTemp, focusProcess.get(), &Ekos::Focus::updateTemperature,
+        connect(observatoryProcess.get(), &Ekos::Observatory::newWeatherData, focusProcess.get(), &Ekos::Focus::setWeatherData,
                 Qt::UniqueConnection);
     }
 
