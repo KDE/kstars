@@ -1176,24 +1176,26 @@ bool Mount::checkMeridianFlip(dms lst)
     // *** should it use the target position so it will continue to track the target even if the mount is not tracking?
     //
     // Note: the PierSide code relies on the mount reporting the pier side correctly
+    // It is possible that a mount can flip before the meridian and this has caused problems so hrsToFlip is calculated
+    // assuming the the mount can flip up to three hours early.
 
     static ISD::Telescope::PierSide
     initialPierSide;    // used when the flip has completed to determine if the flip was successful
 
-    // Compute hrsToFlip. Note if this is changed, possibly change the 4-minute delay logic below.
+    // adjust ha according to the pier side.
     switch (currentTelescope->pierSide())
     {
         case ISD::Telescope::PierSide::PIER_WEST:
             // this is the normal case, tracking from East to West, flip is near Ha 0.
-            hrsToFlip = offset + flipDelayHrs - ha;
             break;
         case ISD::Telescope::PierSide::PIER_EAST:
             // this is the below the pole case, tracking West to East, flip is near Ha 12.
-            hrsToFlip = offset + flipDelayHrs - rangeHA(ha + 12);   // lst.Hours() + telescopeCoord.ra().Hours());
+            // shift ha by 12h
+            ha = rangeHA(ha + 12);
             break;
         default:
             // This is the case where the PierSide is not available, make one attempt only
-            hrsToFlip = offset - ha;        //lst.Hours() + telescopeCoord.ra().Hours();
+            flipDelayHrs = 0;
             // we can only attempt a flip if the mount started before the meridian, assumed in the unflipped state
             if (initialHA() >= 0)
             {
@@ -1203,6 +1205,12 @@ bool Mount::checkMeridianFlip(dms lst)
             }
             break;
     }
+    // get the time to the next flip, allowing for the pier side and
+    // the possibility of an early flip
+    // adjust ha so an early flip is allowed for
+    if (ha >= 9.0)
+        ha -= 24.0;
+    hrsToFlip = offset + flipDelayHrs - ha;
 
     int hh = static_cast<int> (hrsToFlip);
     int mm = static_cast<int> ((hrsToFlip - hh) * 60);
@@ -1234,6 +1242,7 @@ bool Mount::checkMeridianFlip(dms lst)
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
                                            lst.toHMSString() <<
                                            " scope RA=" << telescopeCoord.ra().toHMSString() <<
+                                           " ha=" << ha <<
                                            ", meridian diff=" << offset <<
                                            ", hrstoFlip=" << hrsToFlip <<
                                            ", flipDelayHrs=" << flipDelayHrs <<
