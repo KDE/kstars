@@ -107,7 +107,7 @@
         </device>
         <device label="Losmandy Gemini" manufacturer="Losmandy">
             <driver name="Losmandy Gemini">indi_lx200gemini</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
         <device label="Mel Bartels">
             <driver name="LX200 Basic">indi_lx200basic</driver>
@@ -795,7 +795,11 @@
     <devGroup group="CCDs">
         <device label="FireFly MV">
             <driver name="FireFly MV">indi_ffmv_ccd</driver>
-            <version>0.1</version>
+            <version>0.3</version>
+        </device>
+        <device label="Atik GP">
+            <driver name="FireFly MV">indi_ffmv_ccd</driver>
+            <version>0.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -1067,23 +1071,23 @@
     <devGroup group="CCDs">
         <device label="ToupCam" mdpd="true">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.3</version>
+            <version>0.4</version>
         </device>
         <device label="Altair" mdpd="true">
             <driver name="Altair">indi_altair_ccd</driver>
-            <version>0.3</version>
+            <version>0.4</version>
         </device>
         <device label="StartshootG" mdpd="true">
             <driver name="StartshootG">indi_starshootg_ccd</driver>
-            <version>0.3</version>
+            <version>0.4</version>
         </device>
         <device label="Levenhuk" mdpd="true">
             <driver name="Levenhuk">indi_nncam_ccd</driver>
-            <version>0.3</version>
+            <version>0.4</version>
         </device>
         <device label="Mallincam" mdpd="true">
             <driver name="Mallincam">indi_mallincam_ccd</driver>
-            <version>0.3</version>
+            <version>0.4</version>
         </device>
     </devGroup>
 </driversList>
