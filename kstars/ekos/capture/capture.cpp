@@ -267,10 +267,10 @@ Capture::Capture()
     });
 
     // 8. Refocus Every Value
-    refocusEveryN->setValue(Options::refocusEveryN());
+    refocusEveryN->setValue(static_cast<int>(Options::refocusEveryN()));
     connect(refocusEveryN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setRefocusEveryN(refocusEveryN->value());
+        Options::setRefocusEveryN(static_cast<uint>(refocusEveryN->value()));
     });
 
     // 9. File settings: filter name
@@ -374,7 +374,7 @@ Capture::Capture()
     // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
     connect(
         transferFormatCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-        [&](int index)
+        [&](uint index)
     {
         if (currentCCD)
             currentCCD->setTargetTransferFormat(static_cast<ISD::CCD::TransferFormat>(index));
@@ -530,6 +530,19 @@ void Capture::registerNewModule(const QString &name)
     }
 }
 
+/**
+ * @brief Start the execution of the Capture::SequenceJob list #jobs.
+ *
+ * Starting the execution of the Capture::SequenceJob list selects the first job
+ * from the ist that may be executed and starts to prepare the job (@see prepareJob()).
+ *
+ * Several factors determine, which of the jobs will be selected:
+ * - First, the list is searched to find the first job that is marked as idle or aborted.
+ * -  If none is found, it is checked whether ignoring job progress is set. If yes,
+ *    all jobs are are reset (@see reset()) and the first one from the list is selected.
+ *    If no, the user is asked whether the jobs should be reset. If the user declines,
+ *    starting is aborted.
+ */
 void Capture::start()
 {
     if (darkSubCheck->isChecked())
@@ -632,6 +645,10 @@ void Capture::start()
     prepareJob(first_job);
 }
 
+/**
+ * @brief Stop, suspend or abort the currently active job.
+ * @param targetState
+ */
 void Capture::stop(CaptureState targetState)
 {
     retries         = 0;
@@ -723,7 +740,7 @@ void Capture::stop(CaptureState targetState)
         currentLightBox->SetLightEnabled(false);
     }
 
-    if (meridianFlipStage == MF_NONE)
+    if (meridianFlipStage == MF_NONE || meridianFlipStage >= MF_COMPLETED)
         secondsLabel->clear();
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
@@ -986,7 +1003,7 @@ void Capture::checkCCD(int ccdNum)
 
             //transferFormatCombo->setCurrentIndex(currentCCD->getTargetTransferFormat());
             // 2018-05-07 JM: Set value to the value in options
-            transferFormatCombo->setCurrentIndex(Options::captureFormatIndex());
+            transferFormatCombo->setCurrentIndex(static_cast<int>(Options::captureFormatIndex()));
 
             uint16_t w, h;
             uint8_t bbp {8};
@@ -995,7 +1012,7 @@ void Capture::checkCCD(int ccdNum)
             bool isModelInDB = isModelinDSLRInfo(QString(currentCCD->getDeviceName()));
             // If rc == true, then the property has been defined by the driver already
             // Only then we check if the pixels are zero
-            if (rc == true && (pixelX == 0 || pixelY == 0 || isModelInDB == false))
+            if (rc == true && (pixelX == 0.0 || pixelY == 0.0 || isModelInDB == false))
             {
                 // If model is already in database, no need to show dialog
                 // The zeros above are the initial packets so we can safely ignore them
@@ -1116,15 +1133,15 @@ void Capture::updateFrameProperties(int reset)
             return;
         }
 
-        if (step == 0)
+        if (step == 0.0)
             xstep = static_cast<int>(max * 0.05);
         else
-            xstep = step;
+            xstep = static_cast<int>(step);
 
         if (min >= 0 && max > 0)
         {
-            frameWIN->setMinimum(min);
-            frameWIN->setMaximum(max);
+            frameWIN->setMinimum(static_cast<int>(min));
+            frameWIN->setMaximum(static_cast<int>(max));
             frameWIN->setSingleStep(xstep);
         }
     }
@@ -1139,15 +1156,15 @@ void Capture::updateFrameProperties(int reset)
             return;
         }
 
-        if (step == 0)
+        if (step == 0.0)
             ystep = static_cast<int>(max * 0.05);
         else
-            ystep = step;
+            ystep = static_cast<int>(step);
 
         if (min >= 0 && max > 0)
         {
-            frameHIN->setMinimum(min);
-            frameHIN->setMaximum(max);
+            frameHIN->setMinimum(static_cast<int>(min));
+            frameHIN->setMaximum(static_cast<int>(max));
             frameHIN->setSingleStep(ystep);
         }
     }
@@ -1162,14 +1179,14 @@ void Capture::updateFrameProperties(int reset)
             return;
         }
 
-        if (step == 0)
+        if (step == 0.0)
             step = xstep;
 
         if (min >= 0 && max > 0)
         {
-            frameXIN->setMinimum(min);
-            frameXIN->setMaximum(max);
-            frameXIN->setSingleStep(step);
+            frameXIN->setMinimum(static_cast<int>(min));
+            frameXIN->setMaximum(static_cast<int>(max));
+            frameXIN->setSingleStep(static_cast<int>(step));
         }
     }
     else
@@ -1183,14 +1200,14 @@ void Capture::updateFrameProperties(int reset)
             return;
         }
 
-        if (step == 0)
+        if (step == 0.0)
             step = ystep;
 
         if (min >= 0 && max > 0)
         {
-            frameYIN->setMinimum(min);
-            frameYIN->setMaximum(max);
-            frameYIN->setSingleStep(step);
+            frameYIN->setMinimum(static_cast<int>(min));
+            frameYIN->setMaximum(static_cast<int>(max));
+            frameYIN->setSingleStep(static_cast<int>(step));
         }
     }
     else
@@ -1436,34 +1453,53 @@ void Capture::syncFilterInfo()
     }
 }
 
-bool Capture::startNextExposure()
+/**
+ * @brief Ensure whether there are pending preparation tasks to be executed (focusing, dithering, etc.)
+ *        and start the next exposure.
+ *
+ * Before starting to capture the next image, checkLightFramePendingTasks() is called to check if all
+ * pending preparation tasks have been completed successfully. Only if this is the case, the sequence timer
+ * #seqTimer is started to wait the configured delay and starts capturing the next image.
+ *
+ *
+ * @return IPS_OK, iff all pending preparation jobs are completed (@see checkLightFramePendingTasks()).
+ *         In that case, the #seqTimer is started to wait for the configured settling delay and then
+ *         capture the next image (@see Capture::captureImage).
+ */
+IPState Capture::startNextExposure()
 {
-    // check if pausing has been requested
-    if (checkPausing() == true)
-    {
-        pauseFunction = &Capture::startNextExposure;
-        return false;
-    }
+    IPState pending = checkLightFramePendingTasks();
+    if (pending != IPS_OK)
+        // there are still some jobs pending
+        return pending;
 
-    if (checkMeridianFlip())
-        // execute flip before next capture
-        return false;
-
-    if (startFocusIfRequired())
-        // re-focus before next capture
-        return false;
-
+    // nothing pending, let's start the next exposure
     if (seqDelay > 0)
     {
         secondsLabel->setText(i18n("Waiting..."));
         m_State = CAPTURE_WAITING;
         emit newStatus(Ekos::CAPTURE_WAITING);
     }
-
     seqTimer->start(seqDelay);
 
-    return true;
+    return IPS_OK;
 }
+
+/**
+ * @brief Try to start capturing the next exposure (@see startNextExposure()).
+ *        If startNextExposure() returns, that there are still some jobs pending,
+ *        we wait for 1 second and retry to start it again.
+ *        If one of the pending preparation jobs has problems, the looping stops.
+ */
+void Capture::checkNextExposure()
+{
+    IPState started = startNextExposure();
+    // if starting the next exposure did not succeed due to pending jobs running,
+    // we retry after 1 second
+    if (started == IPS_BUSY)
+        QTimer::singleShot(1000, this, &Ekos::Capture::checkNextExposure);
+}
+
 
 void Capture::newFITS(IBLOB * bp)
 {
@@ -1542,8 +1578,8 @@ void Capture::newFITS(IBLOB * bp)
             {
                 FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
                 FITSData * darkData     = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
-                uint16_t offsetX       = activeJob->getSubX() / activeJob->getXBin();
-                uint16_t offsetY       = activeJob->getSubY() / activeJob->getYBin();
+                uint16_t offsetX       = static_cast<uint16_t>(activeJob->getSubX() / activeJob->getXBin());
+                uint16_t offsetY       = static_cast<uint16_t>(activeJob->getSubY() / activeJob->getYBin());
 
                 connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {
@@ -1572,7 +1608,21 @@ void Capture::newFITS(IBLOB * bp)
     setCaptureComplete();
 }
 
-bool Capture::setCaptureComplete()
+/**
+ * @brief Manage the capture process after a captured image has been successfully downloaded from the camera.
+ *
+ * When a image frame has been captured and downloaded successfully, send the image to the client (if configured)
+ * and execute the book keeping for the captured frame. After this, either processJobCompletion() is executed
+ * in case that the job is completed, and resumeSequence() otherwise.
+ *
+ * Book keeping means:
+ * - increase / decrease the counters for focusing and dithering
+ * - increase the frame counter
+ * - update the average download time
+ *
+ * @return IPS_BUSY iff pausing is requested, IPS_OK otherwise.
+ */
+IPState Capture::setCaptureComplete()
 {
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
@@ -1585,7 +1635,7 @@ bool Capture::setCaptureComplete()
         sendNewImage(blobFilename, blobChip);
         secondsLabel->setText(i18n("Framing..."));
         activeJob->capture(darkSubCheck->isChecked() ? true : false);
-        return true;
+        return IPS_OK;
     }
 
     if (currentCCD->isLooping() == false)
@@ -1609,7 +1659,6 @@ bool Capture::setCaptureComplete()
 
 
     secondsLabel->setText(i18n("Complete."));
-
     // Do not display notifications for very short captures
     if (activeJob->getExposure() >= 1)
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"),
@@ -1631,14 +1680,14 @@ bool Capture::setCaptureComplete()
 
         m_State = CAPTURE_IDLE;
         emit newStatus(Ekos::CAPTURE_IDLE);
-        return true;
+        return IPS_OK;
     }
 
     // check if pausing has been requested
     if (checkPausing() == true)
     {
         pauseFunction = &Capture::setCaptureComplete;
-        return false;
+        return IPS_BUSY;
     }
 
     if (! activeJob->isPreview())
@@ -1648,6 +1697,9 @@ bool Capture::setCaptureComplete()
         /* Decrease the counter for in-sequence focusing */
         inSequenceFocusCounter--;
     }
+
+    /* Decrease the dithering counter */
+    ditherCounter--;
 
     // Do not send new image if the image was stored on the server.
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
@@ -1661,7 +1713,7 @@ bool Capture::setCaptureComplete()
     if (activeJob->getFrameType() != FRAME_LIGHT)
     {
         if (processPostCaptureCalibrationStage() == false)
-            return true;
+            return IPS_OK;
 
         if (calibrationStage == CAL_CALIBRATION_COMPLETE)
             calibrationStage = CAL_CAPTURING;
@@ -1682,19 +1734,23 @@ bool Capture::setCaptureComplete()
     {
         postCaptureScript.start(activeJob->getPostCaptureScript());
         appendLogText(i18n("Executing post capture script %1", activeJob->getPostCaptureScript()));
-        return true;
+        return IPS_OK;
     }
 
     // if we're done
     if (activeJob->getCount() <= activeJob->getCompleted())
     {
         processJobCompletion();
-        return true;
+        return IPS_OK;
     }
 
     return resumeSequence();
 }
 
+/**
+ * @brief Stop execution of the current sequence and check whether there exists a next sequence
+ *        and start it, if there is a next one to be started (@see resumeSequence()).
+ */
 void Capture::processJobCompletion()
 {
     activeJob->done();
@@ -1711,7 +1767,7 @@ void Capture::processJobCompletion()
     stop();
 
     // Check if there are more pending jobs and execute them
-    if (resumeSequence())
+    if (resumeSequence() == IPS_OK)
         return;
     // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
     else
@@ -1732,16 +1788,63 @@ void Capture::processJobCompletion()
     }
 }
 
-bool Capture::resumeSequence()
+/**
+ * @brief Check, whether dithering is necessary and, in that case initiate it.
+ *
+ * There are several situations that determine, if dithering is necessary:
+ * 1. the current job captures light frames AND the dither counter has reached 0 AND
+ * 2. guiding is running OR the manual dithering option is selected AND
+ * 3. there is a guiding camera active AND
+ * 4. there hasn't just a meridian flip been finised.
+ *
+ * @return true iff dithering is necessary.
+ */
+bool Capture::checkDithering()
 {
-    if (m_State == CAPTURE_PAUSED)
+    if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
+            // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
+            && meridianFlipStage != MF_GUIDING
+            // If CCD is looping, we cannot dither UNLESS a different camera and NOT a guide chip is doing the guiding for us.
+            && (currentCCD->isLooping() == false || guideChip == nullptr)
+            // We must be either in guide mode or if non-guide dither (via pulsing) is enabled
+            && (guideState == GUIDE_GUIDING || Options::ditherNoGuiding())
+            // Must be only done for light frames
+            && activeJob->getFrameType() == FRAME_LIGHT
+            // Check dither counter
+            && ditherCounter <= 0)
     {
-        pauseFunction = &Capture::resumeSequence;
-        appendLogText(i18n("Sequence paused."));
-        secondsLabel->setText(i18n("Paused..."));
-        return false;
-    }
+        ditherCounter = Options::ditherFrames();
 
+        secondsLabel->setText(i18n("Dithering..."));
+
+        qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
+        appendLogText(i18n("Dithering..."));
+
+        if (currentCCD->isLooping())
+            targetChip->abortExposure();
+
+        m_State = CAPTURE_DITHERING;
+        ditheringState = IPS_BUSY;
+        emit newStatus(Ekos::CAPTURE_DITHERING);
+
+        return true;
+    }
+    // no dithering required
+    return false;
+}
+
+/**
+ * @brief Try to continue capturing.
+ *
+ * Take the active job, if there is one, or search for the next one that is either
+ * idle or aborted. If a new job is selected, call prepareJob(*SequenceJob) to prepare it and
+ * resume guiding (TODO: is this not part of the preparation?). If the current job is still active,
+ * initiate checkNextExposure().
+ *
+ * @return IPS_OK if there is a job that may be continued, IPS_BUSY otherwise.
+ */
+IPState Capture::resumeSequence()
+{
     // If no job is active, we have to find if there are more pending jobs in the queue
     if (!activeJob)
     {
@@ -1768,29 +1871,18 @@ bool Capture::resumeSequence()
                 emit resumeGuiding();
             }
 
-            return true;
+            return IPS_OK;
         }
         else
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "All capture jobs complete.";
-            return false;
+            return IPS_BUSY;
         }
     }
-    // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
+    // Otherwise, let's prepare for next exposure.
     else
     {
-        isInSequenceFocus = (m_AutoFocusReady && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
-        //        if (isInSequenceFocus)
-        //            requiredAutoFocusStarted = false;
         isTemperatureDeltaCheckActive = (m_AutoFocusReady && temperatureDeltaCheck->isChecked());
-
-        // Reset HFR pixels to file value after meridian flip
-        if (isInSequenceFocus && meridianFlipStage != MF_NONE && meridianFlipStage != MF_READY)
-        {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
-            //firstAutoFocus = true;
-            HFRPixels->setValue(fileHFR);
-        }
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
         if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
@@ -1799,116 +1891,35 @@ bool Capture::resumeSequence()
             emit resumeGuiding();
         }
 
-        // Dither either when guiding or IF Non-Guide either option is enabled
-        if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
-                // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
-                && meridianFlipStage != MF_GUIDING
-                // If CCD is looping, we cannot dither UNLESS a different camera and NOT a guide chip is doing the guiding for us.
-                && (currentCCD->isLooping() == false || guideChip == nullptr)
-                // We must be either in guide mode or if non-guide dither (via pulsing) is enabled
-                && (guideState == GUIDE_GUIDING || Options::ditherNoGuiding())
-                // Must be only done for light frames
-                && activeJob->getFrameType() == FRAME_LIGHT
-                // Check dither counter
-                && --ditherCounter == 0)
+        // If looping, we just increment the file system image count
+        if (currentCCD->isLooping())
         {
-            ditherCounter = Options::ditherFrames();
-
-            secondsLabel->setText(i18n("Dithering..."));
-
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
-
-            if (currentCCD->isLooping())
-                targetChip->abortExposure();
-
-            m_State = CAPTURE_DITHERING;
-            emit newStatus(Ekos::CAPTURE_DITHERING);
-        }
-#if 0
-        else if (isRefocus && activeJob->getFrameType() == FRAME_LIGHT)
-        {
-            appendLogText(i18n("Scheduled refocus starting after %1 seconds...", getRefocusEveryNTimerElapsedSec()));
-
-            secondsLabel->setText(i18n("Focusing..."));
-
-            if (currentCCD->isLooping())
-                targetChip->abortExposure();
-
-            // If we are over 30 mins since last autofocus, we'll reset frame.
-            if (refocusEveryN->value() >= 30)
-                emit resetFocus();
-
-            // force refocus
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1812.";
-            emit checkFocus(0.1);
-
-            m_State = CAPTURE_FOCUSING;
-            emit newStatus(Ekos::CAPTURE_FOCUSING);
-        }
-        else if (isInSequenceFocus && activeJob->getFrameType() == FRAME_LIGHT && --inSequenceFocusCounter == 0)
-        {
-            inSequenceFocusCounter = Options::inSequenceCheckFrames();
-
-            // Post meridian flip we need to reset filter _before_ running in-sequence focusing
-            // as it could have changed for whatever reason (e.g. alignment used a different filter).
-            // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
-            // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
-            if (meridianFlipStage != MF_NONE && currentFilter)
+            if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
             {
-                int targetFilterPosition = activeJob->getTargetFilter();
-                int currentFilterPosition = filterManager->getFilterPosition();
-                if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
-                    currentFilter->runCommand(INDI_SET_FILTER, &targetFilterPosition);
+                checkSeqBoundary(activeJob->getSignature());
+                currentCCD->setNextSequenceID(nextSequenceID);
             }
-
-            secondsLabel->setText(i18n("Focusing..."));
-
-            if (currentCCD->isLooping())
-                targetChip->abortExposure();
-
-            if (HFRPixels->value() == 0)
-            {
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1841.";
-                emit checkFocus(0.1);
-            }
-            else
-            {
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 1846.";
-                emit checkFocus(HFRPixels->value());
-            }
-
-            qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
-
-            m_State = CAPTURE_FOCUSING;
-            emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
-#endif
-        // Check if we need to do autofocus, if not let's check if we need looping or start next exposure
-        else if (startFocusIfRequired() == false)
-        {
-            // If looping, we just increment the file system image count
-            if (currentCCD->isLooping())
-            {
-                if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-                {
-                    checkSeqBoundary(activeJob->getSignature());
-                    currentCCD->setNextSequenceID(nextSequenceID);
-                }
-            }
-            else
-                startNextExposure();
-        }
+        // otherwise we loop starting the next exposure until all pending
+        // jobs are completed
+        else
+            checkNextExposure();
     }
 
-    return true;
+    return IPS_OK;
 }
 
+/**
+ * @brief Check, if re-focusing is required and initiate it in that case.
+ * @return true iff re-focusing is necessary.
+ */
 bool Capture::startFocusIfRequired()
 {
     if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT)
         return false;
 
     isRefocus = false;
+    isInSequenceFocus = (m_AutoFocusReady && autofocusCheck->isChecked());
 
     // check if time for forced refocus
     if (refocusEveryNCheck->isChecked())
@@ -1949,6 +1960,7 @@ bool Capture::startFocusIfRequired()
 
         // force refocus
         qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
+        setFocusStatus(FOCUS_PROGRESS);
         emit checkFocus(0.1);
 
         m_State = CAPTURE_FOCUSING;
@@ -1976,19 +1988,10 @@ bool Capture::startFocusIfRequired()
         if (currentCCD->isLooping())
             targetChip->abortExposure();
 
-        if (HFRPixels->value() == 0)
-        {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
-            emit checkFocus(0.1);
-        }
-        else
-        {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
-            emit checkFocus(HFRPixels->value());
-        }
+        setFocusStatus(FOCUS_PROGRESS);
+        emit checkFocus(HFRPixels->value() == 0.0 ? 0.1: HFRPixels->value());
 
         qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
-
         m_State = CAPTURE_FOCUSING;
         emit newStatus(Ekos::CAPTURE_FOCUSING);
         return true;
@@ -2096,7 +2099,7 @@ void Capture::captureImage()
     {
         int remaining = activeJob->getCount() - activeJob->getCompleted();
         if (remaining > 1)
-            currentCCD->setExposureLoopCount(remaining);
+            currentCCD->setExposureLoopCount(static_cast<uint>(remaining));
     }
 
     connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);
@@ -2170,7 +2173,7 @@ void Capture::captureImage()
         {
             appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
                                activeJob->getFilterName()));
-            captureTimeout.start(activeJob->getExposure() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+            captureTimeout.start(static_cast<int>(activeJob->getExposure()) * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
             if (activeJob->isPreview() == false)
             {
                 int index = jobs.indexOf(activeJob);
@@ -2205,60 +2208,6 @@ void Capture::captureImage()
     }
 }
 
-bool Capture::resumeCapture()
-{
-    if (m_State == CAPTURE_PAUSED)
-    {
-        pauseFunction = &Capture::resumeCapture;
-        appendLogText(i18n("Sequence paused."));
-        secondsLabel->setText(i18n("Paused..."));
-        return false;
-    }
-
-#if 0
-    /* Refresh isRefocus when resuming */
-    if (autoFocusReady && refocusEveryNCheck->isChecked())
-    {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() <<
-                                     " Requested Interval (secs): " << refocusEveryN->value() * 60;
-        isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value() * 60;
-    }
-
-    // FIXME ought to be able to combine these - only different is value passed
-    //       to checkFocus()
-    // 2018-08-23 Jasem: For now in-sequence-focusing takes precedence.
-    if (isInSequenceFocus && requiredAutoFocusStarted == false)
-    {
-        requiredAutoFocusStarted = true;
-        secondsLabel->setText(i18n("Focusing..."));
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Requesting focusing if HFR >" << HFRPixels->value();
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 2186.";
-        emit checkFocus(HFRPixels->value());
-        m_State = CAPTURE_FOCUSING;
-        emit newStatus(Ekos::CAPTURE_FOCUSING);
-        return true;
-    }
-    else if (isRefocus)
-    {
-        appendLogText(i18n("Scheduled refocus started..."));
-
-        secondsLabel->setText(i18n("Focusing..."));
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line 2197.";
-        emit checkFocus(0.1);
-        m_State = CAPTURE_FOCUSING;
-        emit newStatus(Ekos::CAPTURE_FOCUSING);
-        return true;
-    }
-#endif
-
-    if (m_State == CAPTURE_DITHERING && m_AutoFocusReady && startFocusIfRequired())
-        return true;
-
-    startNextExposure();
-
-    return true;
-}
-
 /*******************************************************************************/
 /* Update the prefix for the sequence of images to be captured                 */
 /*******************************************************************************/
@@ -2274,7 +2223,7 @@ void Capture::updateSequencePrefix(const QString &newPrefix, const QString &dir)
 
 /*******************************************************************************/
 /* Determine the next file number sequence. That is, if we have file1.png      */
-/* and file2.png, then the next sequence should be file3.png		       */
+/* and file2.png, then the next sequence should be file3.png		           */
 /*******************************************************************************/
 void Capture::checkSeqBoundary(const QString &path)
 {
@@ -2885,6 +2834,10 @@ void Capture::setBusy(bool enable)
         button->setEnabled(!enable);
 }
 
+/**
+ * @brief Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
+ *        images than targeted. If enough images exist, continue with processJobCompletion().
+ */
 void Capture::prepareJob(SequenceJob * job)
 {
     activeJob = job;
@@ -3066,6 +3019,9 @@ void Capture::prepareJob(SequenceJob * job)
 
 }
 
+/**
+ * @brief Reset #calibrationStage and continue with preparePreCaptureActions().
+ */
 void Capture::prepareActiveJob()
 {
     // Just notification of active job stating up
@@ -3091,68 +3047,26 @@ void Capture::prepareActiveJob()
      * But in the end, it's not entirely clear what the intent was. Note there is still a warning that a preliminary autofocus
      * procedure is important to avoid any surprise that could make the whole schedule ineffective.
      */
-#if 0
-    // If we haven't performed a single autofocus yet, we stop
-    //if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady && isInSequenceFocus == false && firstAutoFocus == true)
-    if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady == false && isInSequenceFocus == false)
-    {
-        appendLogText(i18n("Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
-        abort();
-        return;
-    }
-#endif
-
-#if 0
-    if (currentFilterPosition > 0)
-    {
-        // If we haven't performed a single autofocus yet, we stop
-        if (!job->isPreview() && Options::autoFocusOnFilterChange() && (isInSequenceFocus == false && firstAutoFocus == true))
-        {
-            appendLogText(i18n(
-                              "Manual focusing post filter change is not supported. Run Autofocus process before trying again."));
-            abort();
-            return;
-        }
-
-        /*
-        if (currentFilterPosition != activeJob->getTargetFilter() && filterFocusOffsets.empty() == false)
-        {
-            int16_t targetFilterOffset = 0;
-            foreach (FocusOffset *offset, filterFocusOffsets)
-            {
-                if (offset->filter == activeJob->getFilterName())
-                {
-                    targetFilterOffset = offset->offset - lastFilterOffset;
-                    lastFilterOffset   = offset->offset;
-                    break;
-                }
-            }
-
-            if (targetFilterOffset != 0 &&
-                (activeJob->getFrameType() == FRAME_LIGHT || activeJob->getFrameType() == FRAME_FLAT))
-            {
-                appendLogText(i18n("Adjust focus offset by %1 steps", targetFilterOffset));
-                secondsLabel->setText(i18n("Adjusting filter offset"));
-
-                if (activeJob->isPreview() == false)
-                {
-                    state = CAPTURE_FILTER_FOCUS;
-                    emit newStatus(Ekos::CAPTURE_FILTER_FOCUS);
-                }
-
-                setBusy(true);
-
-                emit newFocusOffset(targetFilterOffset);
-
-                return;
-            }
-        }
-        */
-    }
-#endif
 
     preparePreCaptureActions();
 }
+
+/**
+ * @brief Trigger setting the filter, temperature, (if existing) the rotator angle and
+ *        let the #activeJob execute the preparation actions before a capture may
+ *        take place (@see SequenceJob::prepareCapture()).
+ *
+ * After triggering the settings, this method returns. This mechanism is slightly tricky, since it
+ * asynchronous and event based and works as collaboration between Capture and SequenceJob. Capture has
+ * the connection to devices and SequenceJob knows the target values.
+ *
+ * Each time Capture receives an updated value - e.g. the current CCD temperature
+ * (@see updateCCDTemperature()) - it informs the #activeJob about the current CCD temperature.
+ * SequenceJob checks, if it has reached the target value and if yes, sets this action as as completed.
+ *
+ * As soon as all actions are completed, SequenceJob emits a prepareComplete() event, which triggers
+ * executeJob() from the Capture module.
+ */
 void Capture::preparePreCaptureActions()
 {
     // Update position
@@ -3186,6 +3100,10 @@ void Capture::preparePreCaptureActions()
     activeJob->prepareCapture();
 }
 
+/**
+ * @brief Listen to device property changes (temperature, rotator) that are triggered by
+ *        SequenceJob.
+ */
 void Capture::updatePrepareState(Ekos::CaptureState prepareState)
 {
     m_State = prepareState;
@@ -3209,6 +3127,9 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
     }
 }
 
+/**
+ * @brief Start the execution of #activeJob by initiating updatePreCaptureCalibrationStatus().
+ */
 void Capture::executeJob()
 {
     activeJob->disconnect(this);
@@ -3250,6 +3171,14 @@ void Capture::executeJob()
 #endif
 }
 
+/**
+ * @brief This is a wrapping loop for processPreCaptureCalibrationStage(), which contains
+ *        all checks before captureImage() may be called.
+ *
+ * If processPreCaptureCalibrationStage() returns IPS_OK (i.e. everything is ready so that
+ * capturing may be started), captureImage() is called. Otherwise, it waits for a second and
+ * calls itself again.
+ */
 void Capture::updatePreCaptureCalibrationStatus()
 {
     // If process was aborted or stopped by the user
@@ -3281,6 +3210,17 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta)
     this->focusTemperatureDelta = focusTemperatureDelta;
 }
 
+/**
+ * @brief Slot that listens to guiding deviations reported by the Guide module.
+ *
+ * Depending on the current status, it triggers several actions:
+ * - If there is no active job, it calls checkMeridianFlipReady(), which may initiate a meridian flip.
+ * - If guiding has been started after a meridian flip and the deviation is within the expected limits,
+ *   the meridian flip is regarded as completed by setMeridianFlipStage(MF_NONE) (@see setMeridianFlipStage()).
+ * - If the deviation is beyond the defined limit, capturing is suspended (@see suspend()) and the
+ *   #guideDeviationTimer is started.
+ * - Otherwise, it checks if there has been a job suspended and restarts it, since guiding is within the limits.
+ */
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     //    if (activeJob == nullptr)
@@ -3301,6 +3241,9 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     //        if (activeJob == nullptr)
     //            return;
     //    }
+    // if guiding deviations occur and no job is active, check if a meridian flip is ready to be executed
+    if (activeJob == nullptr && checkMeridianFlipReady())
+        return;
 
     // If guiding is started after a meridian flip we will start getting guide deviations again
     // if the guide deviations are within our limits, we resume the sequence
@@ -3312,7 +3255,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         if (guideDeviationCheck->isChecked() == false || deviation_rms < guideDeviation->value())
         {
             appendLogText(i18n("Post meridian flip calibration completed successfully."));
-            resumeSequence();
             // N.B. Set meridian flip stage AFTER resumeSequence() always
             setMeridianFlipStage(MF_NONE);
             return;
@@ -3320,7 +3262,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview() || activeJob->getExposeLeft() == 0)))
+    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview() || activeJob->getExposeLeft() == 0.0)))
         return;
 
     double deviation_rms = sqrt( (delta_ra * delta_ra + delta_dec * delta_dec) / 2.0);
@@ -3350,7 +3292,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             m_SpikeDetected     = false;
 
             // Check if we need to start meridian flip
-            if (checkMeridianFlip())
+            if (checkMeridianFlipReady())
                 return;
 
             m_DeviationDetected = true;
@@ -3445,38 +3387,9 @@ void Capture::setFocusStatus(FocusState state)
             HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
         }
 
-#if 0
-        if (focusHFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
-        {
-            firstAutoFocus = false;
-            // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
-            // in case in-sequence-focusing is used.
-            HFRPixels->setValue(focusHFR + (focusHFR * (Options::hFRThresholdPercentage() / 100.0)));
-        }
-#endif
-
         // successful focus so reset elapsed time
         restartRefocusEveryNTimer();
     }
-
-#if 0
-    if (activeJob &&
-            (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
-    {
-        if (focusState == FOCUS_COMPLETE)
-        {
-            //HFRPixels->setValue(focusHFR + (focusHFR * 0.025));
-            appendLogText(i18n("Focus complete."));
-        }
-        else if (focusState == FOCUS_FAILED)
-        {
-            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
-            secondsLabel->setText("");
-            abort();
-        }
-        return;
-    }
-#endif
 
     if ((isRefocus || isInSequenceFocus) && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
@@ -3489,7 +3402,7 @@ void Capture::setFocusStatus(FocusState state)
                 secondsLabel->setText(i18n("Focus complete."));
                 m_State = CAPTURE_PROGRESS;
             }
-            else if (focusState == FOCUS_FAILED)
+            else if (focusState == FOCUS_FAILED || focusState == FOCUS_ABORTED)
             {
                 appendLogText(i18n("Autofocus failed."));
                 secondsLabel->setText(i18n("Autofocus failed."));
@@ -3500,9 +3413,8 @@ void Capture::setFocusStatus(FocusState state)
         {
             appendLogText(i18n("Focus complete."));
             secondsLabel->setText(i18n("Focus complete."));
-            startNextExposure();
         }
-        else if (focusState == FOCUS_FAILED)
+        else if (focusState == FOCUS_FAILED || focusState == FOCUS_ABORTED)
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText(i18n("Autofocus failed."));
@@ -3580,6 +3492,14 @@ void Capture::setMeridianFlipStage(MFStage stage)
                     meridianFlipStage = stage;
                     emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
                 }
+                else if (!checkMeridianFlipRunning())
+                {
+                    // if beither a MF has been requested (checked above) or is in a post
+                    // MF calibration phase, no MF needs to take place.
+                    // Hence we set to the stage to NONE
+                    meridianFlipStage = MF_NONE;
+                    break;
+                }
                 // in any other case, ignore it
                 break;
 
@@ -3601,6 +3521,20 @@ void Capture::setMeridianFlipStage(MFStage stage)
 
             case MF_COMPLETED:
                 secondsLabel->setText(i18n("Flip complete."));
+                meridianFlipStage = MF_COMPLETED;
+
+                // Reset HFR pixels to file value after meridian flip
+                if (isInSequenceFocus)
+                {
+                    qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
+                    //firstAutoFocus = true;
+                    HFRPixels->setValue(fileHFR);
+                }
+
+                // after a meridian flip we do not need to dither
+                if ( Options::ditherEnabled() || Options::ditherNoGuiding())
+                     ditherCounter = Options::ditherFrames();
+
                 break;
 
             default:
@@ -3799,7 +3733,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
 
         if (root)
         {
-            double sqVersion = cLocale.toFloat(findXMLAttValu(root, "version"));
+            double sqVersion = cLocale.toDouble(findXMLAttValu(root, "version"));
             if (sqVersion < SQ_COMPAT_VERSION)
             {
                 appendLogText(i18n("Deprecated sequence file format version %1. Please construct a new sequence file.",
@@ -4644,8 +4578,8 @@ double Capture::getJobExposureDuration(int id)
 
 int Capture::getJobRemainingTime(SequenceJob * job)
 {
-    int remaining = (job->getExposure() + getEstimatedDownloadTime() + job->getDelay() / 1000) *
-                    (job->getCount() - job->getCompleted());
+    int remaining = static_cast<int>((job->getExposure() + getEstimatedDownloadTime() + job->getDelay() / 1000) *
+                                     (job->getCount() - job->getCompleted()));
 
     if (job->getStatus() == SequenceJob::JOB_BUSY)
         remaining += job->getExposeLeft() + getEstimatedDownloadTime();
@@ -4655,7 +4589,7 @@ int Capture::getJobRemainingTime(SequenceJob * job)
 
 int Capture::getOverallRemainingTime()
 {
-    double remaining = 0;
+    int remaining = 0;
 
     foreach (SequenceJob * job, jobs)
         remaining += getJobRemainingTime(job);
@@ -4798,11 +4732,60 @@ void Capture::processFlipCompleted()
                           KSNotification::EVENT_INFO);
 
 
-    // resume only if capturing was running
     if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
+    {
+        // reset the meridian flip stage and jump directly MF_NONE, since no
+        // restart of guiding etc. necessary
+        setMeridianFlipStage(MF_NONE);
         return;
+    }
+}
 
-    if (resumeAlignmentAfterFlip == true)
+bool Capture::checkGuidingAfterFlip()
+{
+    // if no meridian flip has completed, we do not touch guiding
+    if (meridianFlipStage < MF_COMPLETED)
+        return false;
+    // If we're not autoguiding then we're done
+    if (resumeGuidingAfterFlip == false)
+       return false;
+
+    // if we are waiting for a calibration, start it
+    if (m_State < CAPTURE_CALIBRATING)
+    {
+        appendLogText(i18n("Performing post flip re-calibration and guiding..."));
+        secondsLabel->setText(i18n("Calibrating..."));
+
+        m_State = CAPTURE_CALIBRATING;
+        emit newStatus(Ekos::CAPTURE_CALIBRATING);
+
+        setMeridianFlipStage(MF_GUIDING);
+        emit meridianFlipCompleted();
+        return true;
+    }
+    else if (m_State == CAPTURE_CALIBRATING && (guideState == GUIDE_CALIBRATION_ERROR || guideState == GUIDE_ABORTED))
+    {
+        // restart guiding after failure
+        appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
+        emit meridianFlipCompleted();
+        return true;
+    }
+    else
+        // in all other cases, do not touch
+        return false;
+}
+
+bool Capture::checkAlignmentAfterFlip()
+{
+    // if no meridian flip has completed, we do not touch guiding
+    if (meridianFlipStage < MF_COMPLETED)
+        return false;
+    // If we do not need to align then we're done
+    if (resumeAlignmentAfterFlip == false)
+       return false;
+
+    // if we are waiting for a calibration, start it
+    if (m_State < CAPTURE_ALIGNING)
     {
         appendLogText(i18n("Performing post flip re-alignment..."));
         secondsLabel->setText(i18n("Aligning..."));
@@ -4814,35 +4797,13 @@ void Capture::processFlipCompleted()
         setMeridianFlipStage(MF_ALIGNING);
         //QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
         //emit meridialFlipTracked();
-        return;
-    }
-
-    retries = 0;
-    checkGuidingAfterFlip();
-
-}
-
-void Capture::checkGuidingAfterFlip()
-{
-    // If we're not autoguiding then we're done
-    if (resumeGuidingAfterFlip == false)
-    {
-        resumeSequence();
-        // N.B. Set meridian flip stage AFTER resumeSequence() always
-        setMeridianFlipStage(MF_NONE);
+        return true;
     }
     else
-    {
-        appendLogText(i18n("Performing post flip re-calibration and guiding..."));
-        secondsLabel->setText(i18n("Calibrating..."));
-
-        m_State = CAPTURE_CALIBRATING;
-        emit newStatus(Ekos::CAPTURE_CALIBRATING);
-
-        setMeridianFlipStage(MF_GUIDING);
-        emit meridianFlipCompleted();
-    }
+        // in all other cases, do not touch
+        return false;
 }
+
 
 bool Capture::checkPausing()
 {
@@ -4862,7 +4823,7 @@ bool Capture::checkPausing()
 }
 
 
-bool Capture::checkMeridianFlip()
+bool Capture::checkMeridianFlipReady()
 {
     if (currentTelescope == nullptr)
         return false;
@@ -4961,15 +4922,6 @@ void Capture::setGuideStatus(GuideState state)
     switch (state)
     {
         case GUIDE_IDLE:
-        case GUIDE_ABORTED:
-            // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-            if (isGuidingOn() && meridianFlipStage == MF_NONE &&
-                    ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
-                     this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
-            {
-                appendLogText(i18n("Autoguiding stopped. Aborting..."));
-                abort();
-            }
             break;
 
         case GUIDE_GUIDING:
@@ -4977,40 +4929,29 @@ void Capture::setGuideStatus(GuideState state)
             autoGuideReady = true;
             break;
 
+        case GUIDE_ABORTED:
         case GUIDE_CALIBRATION_ERROR:
-            // TODO try restarting calibration a couple of times before giving up
-            if (meridianFlipStage == MF_GUIDING)
-            {
-                if (++retries == 3)
-                {
-                    appendLogText(i18n("Post meridian flip calibration error. Aborting..."));
-                    abort();
-                }
-                else
-                {
-                    appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
-                    checkGuidingAfterFlip();
-                }
-            }
-            autoGuideReady = false;
+            processGuidingFailed();
+            guideState = state;
             break;
 
         case GUIDE_DITHERING_SUCCESS:
             qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering succeeded, capture state" << getCaptureStatusString(m_State);
             // do nothing if something happened during dithering
+            appendLogText(i18n("Dithering succeeded."));
             if (m_State != CAPTURE_DITHERING)
                 break;
 
             if (Options::guidingSettle() > 0)
             {
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-                appendLogText(i18n("Dither complete. Resuming capture in %1 seconds...", Options::guidingSettle()));
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, &Ekos::Capture::resumeCapture);
+                appendLogText(i18n("Dither complete. Resuming in %1 seconds...", Options::guidingSettle()));
+                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]() {ditheringState = IPS_OK;});
             }
             else
             {
                 appendLogText(i18n("Dither complete."));
-                resumeCapture();
+                ditheringState = IPS_OK;
             }
             break;
 
@@ -5022,13 +4963,15 @@ void Capture::setGuideStatus(GuideState state)
             if (Options::guidingSettle() > 0)
             {
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-                appendLogText(i18n("Warning: Dithering failed. Resuming capture in %1 seconds...", Options::guidingSettle()));
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, &Ekos::Capture::resumeCapture);
+                appendLogText(i18n("Warning: Dithering failed. Resuming in %1 seconds...", Options::guidingSettle()));
+                // set dithering state to OK after settling time and signal to proceed
+                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]() {ditheringState = IPS_OK;});
             }
             else
             {
                 appendLogText(i18n("Warning: Dithering failed."));
-                resumeCapture();
+                // signal OK so that capturing may continue although dithering failed
+                ditheringState = IPS_OK;
             }
 
             break;
@@ -5038,6 +4981,28 @@ void Capture::setGuideStatus(GuideState state)
     }
 
     guideState = state;
+}
+
+
+void Capture::processGuidingFailed()
+{
+    // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
+    if (isGuidingOn() && meridianFlipStage == MF_NONE &&
+            ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
+             this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
+    {
+        appendLogText(i18n("Autoguiding stopped. Aborting..."));
+        abort();
+    }
+    else if (meridianFlipStage == MF_GUIDING)
+    {
+        if (++retries >= 3)
+        {
+            appendLogText(i18n("Post meridian flip calibration error. Aborting..."));
+            abort();
+        }
+    }
+    autoGuideReady = false;
 }
 
 void Capture::checkFrameType(int index)
@@ -5117,7 +5082,7 @@ double Capture::setCurrentADU(double value)
             llsq(ExpRaw, ADURaw, a, b);
 
             // If we have valid results, let's calculate next exposure
-            if (a != 0)
+            if (a != 0.0)
             {
                 nextExposure = (targetADU - b) / a;
                 // If we get invalid value, let's just proceed iteratively
@@ -5127,7 +5092,7 @@ double Capture::setCurrentADU(double value)
         }
     }
 
-    if (nextExposure == 0)
+    if (nextExposure == 0.0)
     {
         if (value < targetADU)
             nextExposure = activeJob->getExposure() * 1.25;
@@ -5276,8 +5241,8 @@ void Capture::openCalibrationDialog()
 
         case DURATION_ADU:
             calibrationOptions.ADUC->setChecked(true);
-            calibrationOptions.ADUValue->setValue(targetADU);
-            calibrationOptions.ADUTolerance->setValue(targetADUTolerance);
+            calibrationOptions.ADUValue->setValue(static_cast<int>(std::round(targetADU)));
+            calibrationOptions.ADUTolerance->setValue(static_cast<int>(std::round(targetADUTolerance)));
             break;
     }
 
@@ -5330,38 +5295,87 @@ void Capture::openCalibrationDialog()
         Options::setCalibrationFlatDurationIndex(flatFieldDuration);
         Options::setCalibrationWallAz(wallCoord.az().Degrees());
         Options::setCalibrationWallAlt(wallCoord.alt().Degrees());
-        Options::setCalibrationADUValue(targetADU);
-        Options::setCalibrationADUValueTolerance(targetADUTolerance);
+        Options::setCalibrationADUValue(static_cast<uint>(std::round(targetADU)));
+        Options::setCalibrationADUValueTolerance(static_cast<uint>(std::round(targetADUTolerance)));
     }
 }
 
-IPState Capture::checkLightFrameAuxiliaryTasks()
+/**
+ * @brief Check all tasks that might be pending before capturing may start.
+ *
+ * The following checks are executed:
+ * 1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
+ * 2. Is the scope cover open (@see checkLightFrameScopeCoverOpen()).
+ * 3. Has pausing been initiated (@see checkPausing()).
+ * 4. Is a meridian flip already running (@see checkMeridianFlipRunning()) or ready
+ *    for execution (@see checkMeridianFlipReady()).
+ * 5. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
+ * 6. Is post flip guiding running (@see checkGuidingAfterFlip().
+ * 7. Is re-focusing required or ongoing (@see startFocusIfRequired()).
+ * 8. Is dithering required or ongoing (@see checkDithering()).
+ * 9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
+ *
+ * If none of this is true, everything is ready and capturing may be started.
+ *
+ * @return IPS_OK iff no task is pending, IPS_BUSY otherwise (or IPS_ALERT if a problem occured)
+ */
+IPState Capture::checkLightFramePendingTasks()
 {
-    // step 2: check if meridian flip already is ongoing
-    if (meridianFlipStage != MF_NONE && meridianFlipStage != MF_READY)
-        return IPS_BUSY;
-    // step 3: check if meridian flip is required
-    if (checkMeridianFlip())
-        return IPS_BUSY;
-    // step 4: check if re-focusing is required
-    if (m_State == CAPTURE_FOCUSING || startFocusIfRequired())
+    // step 1: did one of the pending jobs fail or has the user aborted the capture?
+    if (m_State == CAPTURE_ABORTED)
+        return IPS_ALERT;
+
+    // step 2: ensure that the scope cover is open and wait until it's open
+    IPState coverState = checkLightFrameScopeCoverOpen();
+    if (coverState != IPS_OK)
+        return coverState;
+
+    // step 3: check if pausing has been requested
+    if (checkPausing() == true)
     {
-        m_State = CAPTURE_FOCUSING;
+        pauseFunction = &Capture::startNextExposure;
         return IPS_BUSY;
     }
 
+    // step 4: check if meridian flip is already running or ready for execution
+    if (checkMeridianFlipRunning() || checkMeridianFlipReady())
+        return IPS_BUSY;
+
+    // step 5: check if post flip alignment is running
+    if (m_State == CAPTURE_ALIGNING || checkAlignmentAfterFlip())
+        return IPS_BUSY;
+
+    // step 6: check if post flip guiding is running
+    // MF_NONE is set as soon as guiding is running and the guide deviation is below the limit
+    if ((m_State == CAPTURE_CALIBRATING && guideState != GUIDE_GUIDING) || checkGuidingAfterFlip())
+        return IPS_BUSY;
+
+    // step 7: check if re-focusing is required
+    if ((m_State == CAPTURE_FOCUSING  && focusState != FOCUS_COMPLETE) || startFocusIfRequired())
+        return IPS_BUSY;
+
+    // step 8: check if dithering is required or running
+    if ((m_State == CAPTURE_DITHERING && ditheringState != IPS_OK) || checkDithering())
+        return IPS_BUSY;
+
+    // step 9: resume guiding if it was suspended
     if (guideState == GUIDE_SUSPENDED)
     {
         appendLogText(i18n("Autoguiding resumed."));
         emit resumeGuiding();
+        // No need to return IPS_BUSY here, we can continue immediately.
+        // In the case that the capturing sequence has a guiding limit,
+        // capturing will be interrupted by setGuideDeviation().
     }
 
+    // everything is ready for capturing light frames
     calibrationStage = CAL_PRECAPTURE_COMPLETE;
 
     return IPS_OK;
+
 }
 
-IPState Capture::checkLightFramePendingTasks()
+IPState Capture::checkLightFrameScopeCoverOpen()
 {
     switch (activeJob->getFlatFieldSource())
     {
@@ -5458,9 +5472,11 @@ IPState Capture::checkLightFramePendingTasks()
             }
             break;
     }
-
-    return checkLightFrameAuxiliaryTasks();
+    // scope cover open (or no scope cover)
+    return IPS_OK;
 }
+
+
 
 IPState Capture::checkDarkFramePendingTasks()
 {
@@ -5953,6 +5969,14 @@ IPState Capture::checkFlatFramePendingTasks()
 
 }
 
+/**
+ * @brief Execute the tasks that need to be completed before capturing may start.
+ *
+ * For light frames, checkLightFramePendingTasks() is called, for bias and dark frames
+ * checkDarkFramePendingTasks() and for flat frames checkFlatFramePendingTasks().
+ *
+ * @return IPS_OK if all necessary tasks have been completed
+ */
 IPState Capture::processPreCaptureCalibrationStage()
 {
     // If we are currently guide and the frame is NOT a light frame, then we shopld suspend.
@@ -6177,7 +6201,7 @@ void Capture::postScriptFinished(int exitCode, QProcess::ExitStatus status)
         processJobCompletion();
     }
     // Else check if meridian condition is met.
-    else if (checkMeridianFlip())
+    else if (checkMeridianFlipReady())
     {
         appendLogText(i18n("Processing meridian flip..."));
     }
@@ -6325,9 +6349,9 @@ void Capture::startRefocusTimer(bool forced)
     if (refocusEveryNCheck->isChecked())
     {
         // How much time passed since we last started the time
-        uint32_t elapsedSecs = refocusEveryNTimer.elapsed() / 1000;
+        long elapsedSecs = refocusEveryNTimer.elapsed() / 1000;
         // How many seconds do we wait for between focusing (60 mins ==> 3600 secs)
-        uint32_t totalSecs   = refocusEveryN->value() * 60;
+        int totalSecs   = refocusEveryN->value() * 60;
 
         if (!refocusEveryNTimer.isValid() || forced)
         {
@@ -6350,7 +6374,7 @@ void Capture::startRefocusTimer(bool forced)
 int Capture::getRefocusEveryNTimerElapsedSec()
 {
     /* If timer isn't valid, consider there is no focus to be done, that is, that focus was just done */
-    return refocusEveryNTimer.isValid() ? refocusEveryNTimer.elapsed() / 1000 : 0;
+    return refocusEveryNTimer.isValid() ? static_cast<int>(refocusEveryNTimer.elapsed() / 1000) : 0;
 }
 
 void Capture::setAlignResults(double orientation, double ra, double de, double pixscale)
@@ -6528,7 +6552,7 @@ void Capture::cullToDSLRLimits()
 
 void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
-    capturedFramesMap[signature] = count;
+    capturedFramesMap[signature] = static_cast<ushort>(count);
     qCDebug(KSTARS_EKOS_CAPTURE) <<
                                  QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
     // Scheduler's captured frame map overrides the progress option of the Capture module
@@ -6654,7 +6678,7 @@ void Capture::processCaptureTimeout()
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
         targetChip->capture(exposureIN->value());
-        captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+        captureTimeout.start(static_cast<int>(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
     };
 
     m_CaptureTimeoutCounter++;
@@ -6696,10 +6720,10 @@ void Capture::createDSLRDialog()
     connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
     {
         addDSLRInfo(QString(currentCCD->getDeviceName()),
-                    dslrInfoDialog->sensorMaxWidth,
-                    dslrInfoDialog->sensorMaxHeight,
-                    dslrInfoDialog->sensorPixelW,
-                    dslrInfoDialog->sensorPixelH);
+                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxWidth),
+                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxHeight),
+                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelW),
+                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelH));
     });
 
     dslrInfoDialog->show();
