@@ -157,6 +157,16 @@ void ProfileEditor::saveProfile()
 
     if (newProfile)
     {
+        QList<std::shared_ptr<ProfileInfo>> existingProfiles;
+        KStarsData::Instance()->userdb()->GetAllProfiles(existingProfiles);
+        for (auto &profileInfo : existingProfiles)
+        {
+            if (ui->profileIN->text() == profileInfo->name)
+            {
+                KSNotification::error(i18n("Profile name already exists."));
+                return;
+            }
+        }
         int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
         pi     = new ProfileInfo(id, ui->profileIN->text());
     }
