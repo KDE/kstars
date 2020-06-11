@@ -3,6 +3,7 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
+    ${kstars_SOURCE_DIR}/kstars/internalguide
     ${kstars_SOURCE_DIR}/kstars/time
     )
 
@@ -38,6 +39,7 @@ IF (CFITSIO_FOUND)
 ENDIF ()
 
 IF (INDI_FOUND)
+add_subdirectory(internalguide)
 include_directories(${kstars_SOURCE_DIR}/kstars/ekos/align)
 add_subdirectory(polaralign)
 ENDIF()

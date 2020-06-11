@@ -39,6 +39,7 @@ public:
     float width {0};
     float HFR {-1};
     float sum {0};
+    float numPixels {0};
 };
 
 class BahtinovEdge : public Edge

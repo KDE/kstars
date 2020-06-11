@@ -23,8 +23,18 @@
 #include "fits_debug.h"
 #include "fitssepdetector.h"
 
-FITSStarDetector& FITSSEPDetector::configure(const QString &, const QVariant &)
+FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
 {
+    if (param == "numStars")
+        numStars = value.toInt();
+    else if (param == "fractionRemoved")
+        fractionRemoved = value.toDouble();
+    else if (param == "deblendNThresh")
+        deblendNThresh = value.toInt();
+    else if (param == "deblendMincont")
+        deblendMincont = value.toDouble();
+    else
+        qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
     return *this;
 }
 
@@ -35,7 +45,14 @@ FITSStarDetector& FITSSEPDetector::configure(const QString &, const QVariant &)
 // optimal values for different uses. Also, there may be other desired outputs
 // (e.g. unfiltered number of stars detected,background sky level). Waiting on rlancaste's
 // investigations into SEP before doing this.
-int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
+
+int FITSSEPDetector::findSources(QList<Edge*> &starCenters, QRect const &boundary)
+{
+    return findSourcesAndBackground(starCenters, boundary, nullptr);
+}
+
+int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect const &boundary,
+        SkyBackground *bg)
 {
     FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
     starCenters.clear();
@@ -47,7 +64,7 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
     std::vector<std::pair<int, double>> ovals;
-    constexpr int maxNumCenters = 100;
+    const int maxNumCenters = numStars;
 
     // We may skip 20% of the stars (those with the largest 20% HFRs) as those are suspect
     // to be non-stars) if we have plenty of detections.
@@ -82,7 +99,7 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
             getFloatBuffer<uint32_t>(data, x, y, w, h, image_data);
             break;
         case TFLOAT:
-            memcpy(data, image_data->getImageBuffer(), sizeof(float)*w*h);
+            memcpy(data, image_data->getImageBuffer(), sizeof(float)*w * h);
             break;
         case TLONGLONG:
             getFloatBuffer<int64_t>(data, x, y, w, h, image_data);
@@ -119,31 +136,32 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
     if (status != 0) goto exit;
 
+    if (bg != nullptr)
+        bg->initialize(bkg->global, bkg->globalrms, bkg->bh * bkg->bw);
+
     // #3 Background subtraction
     status = sep_bkg_subarray(bkg, im.data, im.dtype);
     if (status != 0) goto exit;
 
     // #4 Source Extraction
-    static int deblendNThresh = 32;
-    static double deblendMincont = 0.005;
     status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV,
                          deblendNThresh, deblendMincont, 1, 1.0, &catalog);
     if (status != 0) goto exit;
     qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
 
     // Skip the 20% largest stars if we have plenty.
-    if (catalog->nobj * 0.8 > maxNumCenters)
-        startIndex = catalog->nobj * 0.2;
+    if (catalog->nobj * (1 - fractionRemoved) > maxNumCenters)
+        startIndex = catalog->nobj * fractionRemoved;
 
     // Find the oval sizes for each detection in the detected star catalog, and sort by that. Oval size
     // correlates very well with HFR, so we don't need to call sep_flux_radius on all detections later
     // to find the maxNumCenters largest stars. This can save a lot of time.
     for (int i = 0; i < catalog->nobj; i++)
     {
-        const double ovalSizeSq = catalog->a[i]*catalog->a[i] + catalog->b[i]*catalog->b[i];
+        const double ovalSizeSq = catalog->a[i] * catalog->a[i] + catalog->b[i] * catalog->b[i];
         ovals.push_back(std::pair<int, double>(i, ovalSizeSq));
     }
-    std::sort(ovals.begin(), ovals.end(), [](const std::pair<int, double>& o1, const std::pair<int, double>& o2) -> bool { return o1.second > o2.second;});
+    std::sort(ovals.begin(), ovals.end(), [](const std::pair<int, double> &o1, const std::pair<int, double> &o2) -> bool { return o1.second > o2.second;});
 
     // Go through the largest (by oval size) detections and compute the HFR for the first maxNumCenters.
     for (int index = startIndex; index < catalog->nobj; index++)
@@ -159,6 +177,7 @@ int FITSSEPDetector::findSources(QList<Edge*> &starCenters, const QRect &boundar
         center->y = catalog->y[i] + y + 0.5;
         center->val = catalog->peak[i];
         center->sum = flux;
+        center->numPixels = catalog->npix[i];
         center->HFR = center->width = flux_fractions[0];
         if (flux_fractions[1] < maxRadius)
             center->width = flux_fractions[1] * 2;
@@ -226,4 +245,31 @@ void FITSSEPDetector::getFloatBuffer(float * buffer, int x, int y, int w, int h,
             *floatPtr++ = rawBuffer[offset + x1];
         }
     }
+}
+
+SkyBackground::SkyBackground(double mean_, double sigma_, double numPixels_)
+{
+    initialize(mean_, sigma_, numPixels_);
+}
+
+void SkyBackground::initialize(double mean_, double sigma_, double numPixelsInSkyEstimate_)
+{
+    mean = mean_;
+    sigma = sigma_;
+    numPixelsInSkyEstimate = numPixelsInSkyEstimate_;
+    varSky = sigma_ * sigma_;
+}
+
+// Taken from: http://www1.phys.vt.edu/~jhs/phys3154/snr20040108.pdf
+double SkyBackground::SNR(double flux, double numPixels, double gain)
+{
+    if (numPixelsInSkyEstimate <= 0 || gain <= 0)
+        return 0;
+    // const double numer = flux - numPixels * mean;
+    const double numer = flux;  // It seems SEP flux subtracts out the background.
+    const double denom = sqrt( numer / gain + numPixels * varSky  * (1 + 1 / numPixelsInSkyEstimate));
+    if (denom <= 0)
+        return 0;
+    return numer / denom;
+
 }

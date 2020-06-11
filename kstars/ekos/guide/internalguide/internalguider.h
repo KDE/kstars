@@ -46,7 +46,8 @@ class InternalGuider : public GuideInterface
             CAL_RA_INC,
             CAL_RA_DEC,
             CAL_DEC_INC,
-            CAL_DEC_DEC
+            CAL_DEC_DEC,
+            CAL_BACKLASH
         };
         enum CalibrationType
         {
@@ -139,6 +140,8 @@ class InternalGuider : public GuideInterface
 
         // Select a guide star automatically
         bool selectAutoStar();
+        bool selectAutoStarSEPMultistar();
+        bool SEPMultiStarEnabled();
 
         // Manual Dither
         bool processManualDithering();
@@ -190,6 +193,7 @@ class InternalGuider : public GuideInterface
             int turn_back_time { 0 };
             int ra_iterations { 0 };
             int dec_iterations { 0 };
+            int backlash_iterations { 0 };
             int last_pulse { 0 };
             int ra_total_pulse { 0 };
             int de_total_pulse { 0 };

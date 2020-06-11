@@ -1108,7 +1108,8 @@ bool Guide::captureOneFrame()
 
     // Increase exposure for calibration frame if we need auto-select a star
     // To increase chances we detect one.
-    if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStarEnabled())
+    if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStarEnabled() &&
+            !((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled()))
         finalExposure *= 3;
 
     // Timeout is exposure duration + timeout threshold in seconds
@@ -2591,25 +2592,25 @@ void Guide::setAxisDelta(double ra, double de)
     emit newProfilePixmap(profilePixmap);
 }
 
-void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString& message,
+void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message,
                               double dx, double dy)
 {
     switch (type)
     {
-    case GuideInterface::RA_IN:
-        calibrationPlot->graph(0)->addData(dx, dy);
-        break;
-    case GuideInterface::RA_OUT:
-        calibrationPlot->graph(1)->addData(dx, dy);
-        break;
-    case GuideInterface::DEC_IN:
-        calibrationPlot->graph(2)->addData(dx, dy);
-        break;
-    case GuideInterface::DEC_OUT:
-        calibrationPlot->graph(3)->addData(dx, dy);
-        break;
-    case GuideInterface::CALIBRATION_MESSAGE_ONLY:
-        ;
+        case GuideInterface::RA_IN:
+            calibrationPlot->graph(0)->addData(dx, dy);
+            break;
+        case GuideInterface::RA_OUT:
+            calibrationPlot->graph(1)->addData(dx, dy);
+            break;
+        case GuideInterface::DEC_IN:
+            calibrationPlot->graph(2)->addData(dx, dy);
+            break;
+        case GuideInterface::DEC_OUT:
+            calibrationPlot->graph(3)->addData(dx, dy);
+            break;
+        case GuideInterface::CALIBRATION_MESSAGE_ONLY:
+            ;
     }
     calLabel->setText(message);
     calibrationPlot->replot();
@@ -2774,7 +2775,9 @@ void Guide::buildOperationStack(GuideState operation)
                     operationStack.push(GUIDE_DARK);
 
                 // Auto Star Selected Path
-                if (Options::guideAutoStarEnabled())
+                if (Options::guideAutoStarEnabled() ||
+                        // SEP MultiStar always uses an automated guide star.
+                        internalGuider->SEPMultiStarEnabled())
                 {
                     // If subframe is enabled and we need to auto select a star, then we need to make the final capture
                     // of the subframed image. This is only done if we aren't already subframed.
@@ -2907,6 +2910,9 @@ bool Guide::executeOneOperation(GuideState operation)
     {
         case GUIDE_SUBFRAME:
         {
+            // SEP MultiStar doesn't subframe.
+            if ((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled())
+                break;
             // Check if we need and can subframe
             if (subFramed == false && Options::guideSubframeEnabled() == true && targetChip->canSubframe())
             {
@@ -3024,7 +3030,10 @@ bool Guide::executeOneOperation(GuideState operation)
             state = GUIDE_STAR_SELECT;
             emit newStatus(state);
 
-            if (Options::guideAutoStarEnabled())
+            if (Options::guideAutoStarEnabled() ||
+                    // SEP MultiStar always uses an automated guide star.
+                    ((guiderType == GUIDE_INTERNAL) &&
+                     internalGuider->SEPMultiStarEnabled()))
             {
                 bool autoStarCaptured = internalGuider->selectAutoStar();
                 if (autoStarCaptured)
@@ -3492,7 +3501,8 @@ void Guide::initCalibrationPlot()
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 6));
+    calibrationPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 6));
     calibrationPlot->graph(0)->setName("RA out");
 
     calibrationPlot->addGraph();
@@ -3502,7 +3512,8 @@ void Guide::initCalibrationPlot()
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(2)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
+    calibrationPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
     calibrationPlot->graph(2)->setName("DEC out");
 
     calibrationPlot->addGraph();
@@ -3511,8 +3522,8 @@ void Guide::initCalibrationPlot()
     calibrationPlot->graph(3)->setName("DEC in");
 
     calLabel = new QCPItemText(calibrationPlot);
-    calLabel->setColor(QColor(255,255,255));
-    calLabel->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
+    calLabel->setColor(QColor(255, 255, 255));
+    calLabel->setPositionAlignment(Qt::AlignTop | Qt::AlignHCenter);
     calLabel->position->setType(QCPItemPosition::ptAxisRectRatio);
     calLabel->position->setCoords(0.5, 0);
     calLabel->setText("");

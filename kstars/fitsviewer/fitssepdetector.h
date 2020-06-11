@@ -24,6 +24,29 @@
 
 #include "fitsstardetector.h"
 
+class SkyBackground
+{
+public:
+    // Must call initialize() if using the default constructor;
+    SkyBackground() {}
+    SkyBackground(double m, double sig, double np);
+    virtual ~SkyBackground() = default;
+
+    // Mean of the background level (ADUs).
+    double mean {0};
+    // Standard deviation of the background level.
+    double sigma {0};
+    // Number of pixels used to estimate the background level.
+    int numPixelsInSkyEstimate {0};
+
+    // Given a source with flux spread over numPixels, and a CCD with gain = ADU/#electron)
+    // returns an SNR estimate.
+    double SNR(double flux, double numPixels, double gain = 0.5);
+    void initialize(double mean_, double sigma_, double numPixelsInSkyEstimate_);
+private:
+    double varSky;
+};
+
 class FITSSEPDetector : public FITSStarDetector
 {
     Q_OBJECT
@@ -37,12 +60,17 @@ public:
      */
     int findSources(QList<Edge*> &starCenters, QRect const &boundary = QRect()) override;
 
+    /** @brief Find sources in the parent FITS data file as well as background sky information.
+     */
+    int findSourcesAndBackground(QList<Edge*> &starCenters, QRect const &boundary = QRect(),
+                                 SkyBackground *bg = nullptr);
+
     /** @brief Configure the detection method.
      * @see FITSStarDetector::configure().
      * @note No parameters are currently available for configuration.
      * @todo Provide parameters for detection configuration.
      */
-    FITSStarDetector & configure(const QString &setting, const QVariant &value) override;
+    FITSSEPDetector & configure(const QString &setting, const QVariant &value) override;
 
 protected:
     /** @internal Consolidate a float data buffer from FITS data.
@@ -52,6 +80,11 @@ protected:
      */
     template <typename T>
     void getFloatBuffer(float * buffer, int x, int y, int w, int h, FITSData const * image_data) const;
+
+  int numStars = 100;
+  double fractionRemoved = 0.2;
+  int deblendNThresh = 32;
+  double deblendMincont = 0.005;
 };
 
 #endif // FITSSEPDETECTOR_H
