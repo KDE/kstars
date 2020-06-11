@@ -24,6 +24,7 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
     connect(weatherInterface, &Weather::ready, this, &ObservatoryWeatherModel::updateWeatherStatus);
     connect(weatherInterface, &Weather::newStatus, this, &ObservatoryWeatherModel::weatherChanged);
     connect(weatherInterface, &Weather::newWeatherData, this, &ObservatoryWeatherModel::updateWeatherData);
+    connect(weatherInterface, &Weather::newWeatherData, this, &ObservatoryWeatherModel::newWeatherData);
     connect(weatherInterface, &Weather::disconnected, this, &ObservatoryWeatherModel::disconnected);
 
     // read the default values

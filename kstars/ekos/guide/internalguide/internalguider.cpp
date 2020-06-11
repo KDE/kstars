@@ -507,6 +507,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             m_CalibrationParams.ra_iterations = 0;
             m_CalibrationParams.dec_iterations = 0;
+            m_CalibrationParams.backlash_iterations = 0;
             m_CalibrationParams.ra_total_pulse = m_CalibrationParams.de_total_pulse = 0;
 
             emit newLog(i18n("RA drifting forward..."));
@@ -531,9 +532,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             calibrationStage = CAL_RA_INC;
             guideLog.addCalibrationData(
-                        RA_INC_DIR,
-                        m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1,
-                        m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1);
+                RA_INC_DIR,
+                m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1,
+                m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1);
 
             break;
 
@@ -649,7 +650,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             {
                 pmath->performProcessing();
 
-                m_CalibrationParams.ra_total_pulse += m_CalibrationParams.last_pulse;
+                //m_CalibrationParams.ra_total_pulse += m_CalibrationParams.last_pulse;
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
                 axis_calibration_complete = true;
             }
@@ -668,7 +669,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             }
             else
             {
-                m_CalibrationParams.ra_total_pulse += m_CalibrationParams.last_pulse;
+                //m_CalibrationParams.ra_total_pulse += m_CalibrationParams.last_pulse;
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
                 m_CalibrationParams.backlash = 0;
             }
@@ -704,20 +705,12 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             if (ra_only == false)
             {
-                calibrationStage = CAL_DEC_INC;
-                m_CalibrationCoords.start_x2         = cur_x;
-                m_CalibrationCoords.start_y2         = cur_y;
-
+                calibrationStage = CAL_BACKLASH;
                 m_CalibrationCoords.last_x = cur_x;
                 m_CalibrationCoords.last_y = cur_y;
-
-                qCDebug(KSTARS_EKOS_GUIDE) << "Start X2 " << m_CalibrationCoords.start_x2 << " start Y2 " << m_CalibrationCoords.start_y2;
-
                 emit newPulse(DEC_INC_DIR, Options::calibrationPulseDuration());
-
-                m_CalibrationParams.dec_iterations++;
-
-                emit newLog(i18n("DEC drifting forward..."));
+                m_CalibrationParams.backlash_iterations++;
+                emit newLog(i18n("DEC backlash..."));
                 break;
             }
             // calc orientation
@@ -747,6 +740,32 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             break;
         }
 
+        case CAL_BACKLASH:
+        {
+            // emit dec pulses 5 times, then go to CAL_DEC_INC
+            if (++m_CalibrationParams.backlash_iterations >= 5)
+            {
+                double cur_x, cur_y;
+                pmath->getStarScreenPosition(&cur_x, &cur_y);
+
+                calibrationStage = CAL_DEC_INC;
+                m_CalibrationCoords.start_x2         = cur_x;
+                m_CalibrationCoords.start_y2         = cur_y;
+                m_CalibrationCoords.last_x = cur_x;
+                m_CalibrationCoords.last_y = cur_y;
+
+                qCDebug(KSTARS_EKOS_GUIDE) << "Start X2 " << m_CalibrationCoords.start_x2 << " start Y2 " << m_CalibrationCoords.start_y2;
+                emit newPulse(DEC_INC_DIR, Options::calibrationPulseDuration());
+                m_CalibrationParams.dec_iterations++;
+                emit newLog(i18n("DEC drifting forward..."));
+                break;
+            }
+            double cur_x, cur_y;
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
+            qCDebug(KSTARS_EKOS_GUIDE) << "Backlash iter" << m_CalibrationParams.backlash_iterations << "position" << cur_x << cur_y;
+            emit newPulse(DEC_INC_DIR, Options::calibrationPulseDuration());
+            break;
+        }
         case CAL_DEC_INC:
         {
             // Star position resulting from LAST guiding pulse to mount
@@ -1059,7 +1078,7 @@ bool InternalGuider::processGuiding()
     }
 
     // calc math. it tracks square
-    pmath->performProcessing(&guideLog);
+    pmath->performProcessing(&guideLog, state == GUIDE_GUIDING);
 
     if (pmath->isStarLost())
         m_starLostCounter++;
@@ -1250,8 +1269,29 @@ QList<Edge *> InternalGuider::getGuideStars()
     return pmath->PSFAutoFind();
 }
 
+bool InternalGuider::selectAutoStarSEPMultistar()
+{
+    guideFrame->setStarsEnabled(true);
+    guideFrame->updateFrame();
+    QVector3D newStarCenter = pmath->selectGuideStar();
+    if (newStarCenter.x() >= 0)
+    {
+        emit newStarPosition(newStarCenter, true);
+        return true;
+    }
+    return false;
+}
+
+bool InternalGuider::SEPMultiStarEnabled()
+{
+    return Options::guideAlgorithm() == SEP_MULTISTAR;
+}
+
 bool InternalGuider::selectAutoStar()
 {
+    if (Options::guideAlgorithm() == SEP_MULTISTAR)
+        return selectAutoStarSEPMultistar();
+
     FITSData *imageData = guideFrame->getImageData();
 
     if (imageData == nullptr)

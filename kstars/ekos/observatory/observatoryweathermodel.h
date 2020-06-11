@@ -66,12 +66,18 @@ class ObservatoryWeatherModel : public QObject
         /**
          * @brief Retrieve the currently known weather sensor values
          */
-        std::vector<ISD::Weather::WeatherData> getWeatherData() { return m_WeatherData; }
+        std::vector<ISD::Weather::WeatherData> getWeatherData()
+        {
+            return m_WeatherData;
+        }
 
         /**
          * @brief Flag whether the X axis should be visible in the sensor graph
          */
-        bool autoScaleValues() {return m_autoScaleValues;}
+        bool autoScaleValues()
+        {
+            return m_autoScaleValues;
+        }
         void setAutoScaleValues(bool show);
 
     public slots:
@@ -84,7 +90,7 @@ class ObservatoryWeatherModel : public QObject
          */
         void setAlertActionsActive(bool active);
 
-private:
+    private:
         Weather *weatherInterface;
         QTimer warningTimer, alertTimer;
         struct WeatherActions warningActions, alertActions;
@@ -99,12 +105,13 @@ private:
         void updateWeatherData(std::vector<ISD::Weather::WeatherData> entries);
         unsigned long findWeatherData(QString name);
 
-private slots:
+    private slots:
         void weatherChanged(ISD::Weather::Status status);
         void updateWeatherStatus();
 
     signals:
         void newStatus(ISD::Weather::Status status);
+        void newWeatherData(std::vector<ISD::Weather::WeatherData>);
         void ready();
         void disconnected();
         /**

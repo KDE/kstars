@@ -126,7 +126,7 @@ class Capture : public QWidget, public Ui::Capture
             ADU_POLYNOMIAL
         } ADUAlgorithm;
 
-        typedef bool (Capture::*PauseFunctionPointer)();
+        typedef IPState (Capture::*PauseFunctionPointer)();
 
         Capture();
         ~Capture();
@@ -564,11 +564,6 @@ class Capture : public QWidget, public Ui::Capture
         void setGuideDeviation(double delta_ra, double delta_dec);
 
         /**
-             * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
-             */
-        bool resumeCapture();
-
-        /**
              * @brief updateCCDTemperature Update CCD temperature in capture module.
              * @param value Temperature in celcius.
              */
@@ -614,8 +609,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Guide
         void setGuideStatus(Ekos::GuideState state);
-        // short cut for all guiding states that indicate guiding is active
-        bool isGuidingActive();
+
         // Align
         void setAlignStatus(Ekos::AlignState state);
         void setAlignResults(double orientation, double ra, double de, double pixscale);
@@ -630,6 +624,13 @@ class Capture : public QWidget, public Ui::Capture
 
         // Meridian flip
         void meridianFlipStatusChanged(Mount::MeridianFlipStatus status);
+
+        /**
+         * @brief registerNewModule Register an Ekos module as it arrives via DBus
+         * and create the appropriate DBus interface to communicate with it.
+         * @param name of module
+         */
+        void registerNewModule(const QString &name);
 
     private slots:
 
@@ -680,9 +681,20 @@ class Capture : public QWidget, public Ui::Capture
         bool processPostCaptureCalibrationStage();
         void updatePreCaptureCalibrationStatus();
 
-        // Frame Type calibration checks
+        /* Frame Type calibration checks */
+
+        /**
+         * @brief Check if some tasks are pending before the active job
+         *        can start light frame capturing
+         * @return IPS_OK iff the light frame capturing sequence is ready to start
+         */
         IPState checkLightFramePendingTasks();
-        IPState checkLightFrameAuxiliaryTasks();
+
+        /**
+         * @brief Check whether the scope cover is removed (manual cover, flat covers, dark covers etc.)
+         * @return true iff scope cover is open
+         */
+        IPState checkLightFrameScopeCoverOpen();
 
         IPState checkFlatFramePendingTasks();
         IPState checkDarkFramePendingTasks();
@@ -691,7 +703,7 @@ class Capture : public QWidget, public Ui::Capture
         void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
 
         // Capture
-        bool setCaptureComplete();
+        IPState setCaptureComplete();
 
         // post capture script
         void postScriptFinished(int exitCode, QProcess::ExitStatus status);
@@ -709,13 +721,6 @@ class Capture : public QWidget, public Ui::Capture
 
         // Cooler
         void setCoolerToggled(bool enabled);
-
-        /**
-         * @brief registerNewModule Register an Ekos module as it arrives via DBus
-         * and create the appropriate DBus interface to communicate with it.
-         * @param name of module
-         */
-        void registerNewModule(const QString &name);
 
         void setDownloadProgress();
 
@@ -744,8 +749,14 @@ class Capture : public QWidget, public Ui::Capture
 
     private:
         void setBusy(bool enable);
-        bool resumeSequence();
-        bool startNextExposure();
+        IPState resumeSequence();
+        IPState startNextExposure();
+
+        /**
+         * @brief Loop retrying #startNextExposure() if there are pending preparation tasks.
+         */
+        void checkNextExposure();
+
         // reset = 0 --> Do not reset
         // reset = 1 --> Full reset
         // reset = 2 --> Only update limits if needed
@@ -771,11 +782,30 @@ class Capture : public QWidget, public Ui::Capture
         bool isModelinDSLRInfo(const QString &model);
 
         /* Meridian Flip */
-        bool checkMeridianFlip();
-        void checkGuidingAfterFlip();
+        /**
+         * @brief Check if a meridian flip has already been started
+         * @return true iff the scope has started the meridian flip
+         */
+        inline bool checkMeridianFlipRunning() {
+            return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;}
+
+        /**
+         * @brief Check whether a meridian flip has been requested and trigger it
+         * @return true iff a meridian flip has been triggered
+         */
+        bool checkMeridianFlipReady();
+
+        bool checkGuidingAfterFlip();
+        bool checkAlignmentAfterFlip();
 
         // check if a pause has been planned
         bool checkPausing();
+
+        /**
+         * @brief Check whether dithering is necessary and trigger it if required.
+         * @return true iff dithering has been triggered
+         */
+        bool checkDithering();
 
         // Remaining Time in seconds
         int getJobRemainingTime(SequenceJob *job);
@@ -793,6 +823,9 @@ class Capture : public QWidget, public Ui::Capture
 
         // Change filter name in INDI
         void editFilterName();
+
+        // short cut for all guiding states that indicate guiding is on
+        bool isGuidingOn();
 
         /* Capture */
 
@@ -927,6 +960,7 @@ class Capture : public QWidget, public Ui::Capture
         CaptureState m_State { CAPTURE_IDLE };
         FocusState focusState { FOCUS_IDLE };
         GuideState guideState { GUIDE_IDLE };
+        IPState ditheringState {IPS_IDLE};
         AlignState alignState { ALIGN_IDLE };
         FilterState filterManagerState { FILTER_IDLE };
 
@@ -942,8 +976,8 @@ class Capture : public QWidget, public Ui::Capture
         std::unique_ptr<RotatorSettings> rotatorSettings;
 
         // How many images to capture before dithering operation is executed?
-        uint8_t ditherCounter { 0 };
-        uint8_t inSequenceFocusCounter { 0 };
+        uint ditherCounter { 0 };
+        uint inSequenceFocusCounter { 0 };
 
         std::unique_ptr<CustomProperties> customPropertiesDialog;
 
@@ -969,7 +1003,8 @@ class Capture : public QWidget, public Ui::Capture
         double GainSpinSpecialValue;
 
         QList<double> downloadTimes;
-        QTime downloadTimer;
+        QElapsedTimer downloadTimer;
         QTimer downloadProgressTimer;
+        void processGuidingFailed();
 };
 }

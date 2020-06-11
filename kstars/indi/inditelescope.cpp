@@ -296,16 +296,18 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             if (svp->s == IPS_ALERT)
             {
                 // First, inform everyone watch this that an error occurred.
+                m_ParkStatus = PARK_ERROR;
                 emit newParkStatus(PARK_ERROR);
 
+                // JM 2020-05-27: Retain status and let whatever process process decide what to do after the error.
                 // If alert, set park status to whatever it was opposite to. That is, if it was parking and failed
                 // then we set status to unparked since it did not successfully complete parking.
-                if (m_ParkStatus == PARK_PARKING)
-                    m_ParkStatus = PARK_UNPARKED;
-                else if (m_ParkStatus == PARK_UNPARKING)
-                    m_ParkStatus = PARK_PARKED;
+                //                if (m_ParkStatus == PARK_PARKING)
+                //                    m_ParkStatus = PARK_UNPARKED;
+                //                else if (m_ParkStatus == PARK_UNPARKING)
+                //                    m_ParkStatus = PARK_PARKED;
 
-                emit newParkStatus(m_ParkStatus);
+                //                emit newParkStatus(m_ParkStatus);
 
                 KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::EVENT_ALERT);
             }

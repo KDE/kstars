@@ -86,12 +86,20 @@ Focus::Focus()
         button->setAutoDefault(false);
 
     appendLogText(i18n("Idle."));
+
+    // Create an autofocus CSV file, dated at startup time
+    QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
+    m_FocusLogFileName = dir + "autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
+    m_FocusLogFile.setFileName(m_FocusLogFileName);
+
 }
 
 Focus::~Focus()
 {
     if (focusingWidget->parent() == nullptr)
         toggleFocusingWidgetFullScreen();
+
+    m_FocusLogFile.close();
 }
 
 void Focus::resetFrame()
@@ -585,8 +593,8 @@ void Focus::getCurrentFocuserTemperature()
     }
     else
     {
-        currentTemperature = INVALID_VALUE;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature is not available");
+        currentTemperature = observatoryTemperature;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature not available; using observatory temperature");
     }
 }
 
@@ -608,9 +616,8 @@ void Focus::start()
 
     lastHFR = 0;
 
-    // Forget last focus temperature, reset temperature delta
-    lastFocusTemperature = INVALID_VALUE;
-    emit newFocusTemperatureDelta(0);
+    // Keep the  last focus temperature, it can still be useful in case the autofocus fails
+    // lastFocusTemperature
 
     if (canAbsMove)
     {
@@ -712,10 +719,11 @@ void Focus::start()
     // Used for all the focuser types.
     if (focusAlgorithm == FOCUS_LINEAR)
     {
+        getCurrentFocuserTemperature();
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
-            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter());
+            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(), currentTemperature);
         linearFocuser.reset(MakeLinearFocuser(params));
         linearRequestedPosition = linearFocuser->initialPosition();
         const int newPosition = adjustLinearPosition(position, linearRequestedPosition);
@@ -941,6 +949,7 @@ void Focus::capture()
     }
 
     captureInProgress = true;
+    emit newStatus(FOCUS_PROGRESS);
 
     focusView->setBaseSize(focusingWidget->size());
 
@@ -2515,6 +2524,37 @@ void Focus::clearLog()
     emit newLog(QString());
 }
 
+void Focus::appendFocusLogText(const QString &lines)
+{
+    if (Options::focusLogging())
+    {
+
+        if (!m_FocusLogFile.exists())
+        {
+            // Create focus-specific log file and write the header record
+            QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
+            if (QDir(dir).exists() == false)
+                QDir().mkpath(dir);
+            m_FocusLogEnabled = m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
+            if (m_FocusLogEnabled)
+            {
+                QTextStream header(&m_FocusLogFile);
+                header << "date, time, position, temperature, filter, HFR\n";
+                header.flush();
+            }
+            else
+                qCWarning(KSTARS_EKOS_FOCUS) << "Failed to open focus log file: " << m_FocusLogFileName;
+        }
+
+        if (m_FocusLogEnabled)
+        {
+            QTextStream out(&m_FocusLogFile);
+            out << QDateTime::currentDateTime().toString("yyyy-MM-dd, hh:mm:ss, ") << lines;
+            out.flush();
+        }
+    }
+}
+
 void Focus::startFraming()
 {
     if (currentCCD == nullptr)
@@ -2827,10 +2867,22 @@ void Focus::setAutoFocusResult(bool status)
 
     if (status)
     {
+        // update focuser temperature before logging
+        getCurrentFocuserTemperature();
+
         // CR add auto focus position, temperature and filter to log in CSV format
         // this will help with setting up focus offsets and temperature compensation
         qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
-                                  << currentTemperature << ", filter, " << filter();
+                                  << currentTemperature << ", filter, " << filter()
+                                  << ", HFR, " << currentHFR;
+
+
+        appendFocusLogText(QString("%1, %2, %3, %4\n")
+                           .arg(QString::number(currentPosition))
+                           .arg(QString::number(currentTemperature, 'f', 1))
+                           .arg(filter())
+                           .arg(QString::number(currentHFR, 'f', 3)));
+
         lastFocusTemperature = currentTemperature;
         emit newFocusTemperatureDelta(0);
     }
@@ -3230,6 +3282,19 @@ void Focus::toggleVideo(bool enabled)
     }
     else
         currentCCD->setVideoStreamEnabled(enabled);
+}
+
+void Focus::setWeatherData(std::vector<ISD::Weather::WeatherData> data)
+{
+    auto pos = std::find_if(data.begin(), data.end(), [](ISD::Weather::WeatherData oneEntry)
+    {
+        return (oneEntry.name == "WEATHER_TEMPERATURE");
+    });
+
+    if (pos != data.end())
+    {
+        observatoryTemperature = pos->value;
+    }
 }
 
 void Focus::setVideoStreamEnabled(bool enabled)

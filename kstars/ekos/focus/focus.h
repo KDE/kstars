@@ -16,6 +16,7 @@
 #include "indi/indiccd.h"
 #include "indi/indifocuser.h"
 #include "indi/indistd.h"
+#include "indi/indiweather.h"
 #include "indi/inditelescope.h"
 
 #include <QtDBus/QtDBus>
@@ -319,8 +320,9 @@ class Focus : public QWidget, public Ui::Focus
              */
         void filterChangeWarning(int index);
 
-        // Log
+        // Logging methods - one for INFO messages to the kstars log, and one for a CSV auto-focus log
         void appendLogText(const QString &);
+        void appendFocusLogText(const QString &);
 
         // Adjust focuser offset, relative or absolute
         void adjustFocusOffset(int value, bool useAbsoluteOffset);
@@ -333,6 +335,12 @@ class Focus : public QWidget, public Ui::Focus
          * @param enabled Set to true to start video streaming, false to stop it if active.
          */
         void toggleVideo(bool enabled);
+
+        /**
+         * @brief setWeatherData Updates weather data that could be used to extract focus temperature from observatory
+         * in case focus native temperature is not available.
+         */
+        void setWeatherData(std::vector<ISD::Weather::WeatherData> data);
 
     private slots:
         /**
@@ -559,7 +567,12 @@ class Focus : public QWidget, public Ui::Focus
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
 
+        /// Autofocus log file info.
         QStringList m_LogText;
+        QFile m_FocusLogFile;
+        QString m_FocusLogFileName;
+        bool m_FocusLogEnabled { false };
+
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };
 
@@ -645,5 +658,6 @@ class Focus : public QWidget, public Ui::Focus
 
         double currentTemperature { INVALID_VALUE };
         double lastFocusTemperature { INVALID_VALUE };
+        double observatoryTemperature { INVALID_VALUE };
 };
 }

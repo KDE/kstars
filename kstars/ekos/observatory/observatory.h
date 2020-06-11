@@ -58,6 +58,8 @@ class Observatory : public QWidget, public Ui::Observatory
          */
         Q_SCRIPTABLE void newStatus(bool isReady);
 
+        void newWeatherData(std::vector<ISD::Weather::WeatherData>);
+
     private:
         ObservatoryModel *mObservatoryModel = nullptr;
 

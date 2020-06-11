@@ -671,13 +671,18 @@ void INDI_P::newTime()
         return;
 }
 
-INDI_E *INDI_P::getElement(const QString &elementName)
+INDI_E *INDI_P::getElement(const QString &elementName) const
 {
-    foreach (INDI_E *ep, elementList)
+    for (auto *ep : elementList)
     {
         if (ep->getName() == elementName)
             return ep;
     }
 
     return nullptr;
+}
+
+bool INDI_P::isRegistered() const
+{
+    return (dataProp && dataProp->getRegistered());
 }

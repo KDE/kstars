@@ -422,7 +422,10 @@ void Observatory::setWeatherModel(ObservatoryWeatherModel *model)
     enableWeather(false);
 
     if (model != nullptr)
+    {
         connect(model, &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
+        connect(model, &Ekos::ObservatoryWeatherModel::newWeatherData, this, &Ekos::Observatory::newWeatherData);
+    }
     else
         shutdownWeather();
 

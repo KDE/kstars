@@ -172,7 +172,7 @@ bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
             break;
     }
 
-    if (guiProp == nullptr)
+    if (guiProp == nullptr || guiProp->isRegistered() == false)
         return false;
 
     guiProp->updateStateLED();

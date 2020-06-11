@@ -209,6 +209,8 @@ if (INDI_FOUND)
             ekos/guide/internalguide/vect.cpp
             ekos/guide/internalguide/imageautoguiding.cpp
             ekos/guide/internalguide/guidelog.cpp
+            ekos/guide/internalguide/starcorrespondence.cpp
+            ekos/guide/internalguide/guidestars.cpp
             # External Guide
             ekos/guide/externalguide/phd2.cpp
             ekos/guide/externalguide/linguider.cpp

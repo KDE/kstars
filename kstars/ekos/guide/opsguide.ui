@@ -143,6 +143,11 @@
           <string>No Threshold</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>SEP Multi Star</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="1" column="3">

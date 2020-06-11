@@ -2115,7 +2115,7 @@
          <default>0</default>
       </entry>
       <entry name="GuideAlgorithm" type="UInt">
-         <label>Which Algorithm to use track guide square (0 smart, 1 fast, 2 threshold, 3 no threshold).</label>
+         <label>Which Algorithm to use track guide square (0 smart, 1 SEP, 2 fast, 3 threshold, 4 no threshold, 5 SEP multistar).</label>
          <default>0</default>
       </entry>
       <entry name="PHD2Host" type="String">

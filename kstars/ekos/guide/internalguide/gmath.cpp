@@ -41,6 +41,7 @@ const square_alg_t guide_square_alg[] = { { SMART_THRESHOLD, "Smart" },
     { CENTROID_THRESHOLD, "Fast" },
     { AUTO_THRESHOLD, "Auto" },
     { NO_THRESHOLD, "No thresh." },
+    { SEP_MULTISTAR, "SEP Multistar" },
     { -1, { 0 } }
 };
 
@@ -115,6 +116,7 @@ bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
 
     subBinX = binX;
     subBinY = binY;
+    guideStars.setCalibration(reticle_angle, subBinX, ccd_pixel_width, focal);
 
     //set_reticle_params( video_width/2, video_height/2, -1 ); // keep orientation
 
@@ -146,6 +148,7 @@ bool cgmath::setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double gu
     ccd_pixel_height = ccd_pix_ht / 1000.0; // from mkm to mm
     aperture         = guider_aperture;
     focal            = guider_focal;
+    guideStars.setCalibration(reticle_angle, subBinX, ccd_pixel_width, focal);
 
     return true;
 }
@@ -194,6 +197,7 @@ bool cgmath::setReticleParameters(double x, double y, double ang)
         reticle_angle = ang;
 
     ROT_Z = Ekos::RotateZ(-M_PI * reticle_angle / 180.0); // NOTE!!! sing '-' derotates star coordinate system
+    guideStars.setCalibration(reticle_angle, subBinX, ccd_pixel_width, focal);
 
     reticle_orts[0] = Vector(1, 0, 0) * 100;
     reticle_orts[1] = Vector(0, 1, 0) * 100;
@@ -369,8 +373,7 @@ bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end
         double y   = end_y - start_y;
         double len = sqrt(x * x + y * y);
 
-        // Total pulse includes start --> end --> start
-        ditherRate[GUIDE_RA] = RATotalPulse / (2 * len);
+        ditherRate[GUIDE_RA] = RATotalPulse / len;
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
     }
@@ -444,7 +447,7 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
         double y   = end_ra_y - start_ra_y;
         double len = sqrt(x * x + y * y);
 
-        ditherRate[GUIDE_RA] = RATotalPulse / (2 * len);
+        ditherRate[GUIDE_RA] = RATotalPulse / len;
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
     }
@@ -724,8 +727,14 @@ void cgmath::setRegionAxis(const uint32_t &value)
     regionAxis = value;
 }
 
-Vector cgmath::findLocalStarPosition(void) const
+Vector cgmath::findLocalStarPosition(void)
 {
+    if (square_alg_idx == SEP_MULTISTAR)
+    {
+        QRect trackingBox = guideView->getTrackingBox();
+        return guideStars.findGuideStar(guideView->getImageData(), trackingBox);
+    }
+
     if (useRapidGuide)
     {
         return Vector(rapidDX, rapidDY, 0);
@@ -1239,7 +1248,8 @@ void cgmath::process_axes(void)
         {
             t_delta += drift[k][idx];
 
-            qCDebug(KSTARS_EKOS_GUIDE) << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta;
+            qCDebug(KSTARS_EKOS_GUIDE) << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " <<
+                                       t_delta;
 
             if (idx > 0)
                 --idx;
@@ -1305,7 +1315,7 @@ void cgmath::process_axes(void)
     }
 }
 
-void cgmath::performProcessing(GuideLog *logger)
+void cgmath::performProcessing(GuideLog *logger, bool guiding)
 {
     Vector arc_star_pos, arc_reticle_pos;
 
@@ -1371,14 +1381,39 @@ void cgmath::performProcessing(GuideLog *logger)
     qCDebug(KSTARS_EKOS_GUIDE) << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
     qCDebug(KSTARS_EKOS_GUIDE) << "RA channel ticks: " << channel_ticks[GUIDE_RA]
                                << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
+
+    if (guiding && (square_alg_idx == SEP_MULTISTAR))
+    {
+        double multiStarRADrift, multiStarDECDrift;
+        if (guideStars.getDrift(sqrt(star_pos.x * star_pos.x + star_pos.y * star_pos.y),
+                                reticle_pos.x, reticle_pos.y,
+                                &multiStarRADrift, &multiStarDECDrift))
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "-------> MultiStar:      Diff RA: " << multiStarRADrift << " DEC: " << multiStarDECDrift;
+            drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = multiStarRADrift;
+            drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = multiStarDECDrift;
+
+        }
+        else
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "-------> MultiStar: failed, fell back to guide star";
+        }
+    }
+
+    double tempRA = drift[GUIDE_RA][channel_ticks[GUIDE_RA]];
+    double tempDEC = drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]];
+
     // make decision by axes
     process_axes();
 
-    // process statistics
-    calc_square_err();
+    if (guiding)
+    {
+        // process statistics
+        calc_square_err();
 
-    // finally process tickers
-    do_ticks();
+        // finally process tickers
+        do_ticks();
+    }
 
     if (logger != nullptr)
     {
@@ -1389,21 +1424,24 @@ void cgmath::performProcessing(GuideLog *logger)
         GuideLog::GuideData data;
         data.type = GuideLog::GuideData::MOUNT;
         // These are distances in pixels.
+        // Note--these don't include the multistar algorithm, but the below ra/dec ones do.
         data.dx = scr_star_pos.x - reticle_pos.x;
         data.dy = scr_star_pos.y - reticle_pos.y;
         // These RA and DEC distances should also be in pixels so divide by arcsec/pixel.
         // Also above computes position - reticle. Should the reticle-position, so negate.
-        data.raDistance = -star_pos.x / arcsecPerPixel;
-        data.decDistance = -star_pos.y / arcsecPerPixel;
+        data.raDistance = -tempRA / arcsecPerPixel;
+        data.decDistance = -tempDEC / arcsecPerPixel;
         // The guide distances are related to the raw distances above, but
         // e.g. small differences can be ignored. We just copy.
-        data.raGuideDistance = -star_pos.x / arcsecPerPixel;
-        data.decGuideDistance = -star_pos.y / arcsecPerPixel;
-        data.raDuration = out_params.pulse_length[GUIDE_RA];
+        data.raGuideDistance = -tempRA / arcsecPerPixel;
+        data.decGuideDistance = -tempDEC / arcsecPerPixel;
+        data.raDuration = out_params.pulse_dir[GUIDE_RA] == NO_DIR ? 0 : out_params.pulse_length[GUIDE_RA];
         data.raDirection = out_params.pulse_dir[GUIDE_RA];
-        data.decDuration = out_params.pulse_length[GUIDE_DEC];
+        data.decDuration = out_params.pulse_dir[GUIDE_DEC] == NO_DIR ? 0 : out_params.pulse_length[GUIDE_DEC];
         data.decDirection = out_params.pulse_dir[GUIDE_DEC];
-        data.code = GuideLog::GuideData::NO_ERROR;
+        data.code = GuideLog::GuideData::NO_ERRORS;
+        data.snr = guideStars.getGuideStarSNR();
+        data.mass = guideStars.getGuideStarMass();
         // Add SNR and MASS from SEP stars.
         logger->addGuideData(data);
     }
@@ -1418,13 +1456,14 @@ void cgmath::calc_square_err(void)
     if (ticks == 0)
         return;
 
+    int count = std::min(ticks, static_cast<unsigned int>(MAX_ACCUM_CNT));
     for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)
     {
         double sqr_avg = 0;
-        for (int i = 0; i < MAX_ACCUM_CNT; ++i)
+        for (int i = 0; i < count; ++i)
             sqr_avg += drift[k][i] * drift[k][i];
 
-        out_params.sigma[k] = sqrt(sqr_avg / (double)MAX_ACCUM_CNT);
+        out_params.sigma[k] = sqrt(sqr_avg / (double)count);
     }
 }
 
@@ -1527,7 +1566,8 @@ static void psf_conv(float *dst, const float *src, int width, int height)
             C3 = PX(-2, -2) + PX(+2, -2) + PX(-2, +2) + PX(+2, +2);
             D1 = PX(+0, -3) + PX(-3, +0) + PX(+3, +0) + PX(+0, +3);
             D2 = PX(-1, -3) + PX(+1, -3) + PX(-3, -1) + PX(+3, -1) + PX(-3, +1) + PX(+3, +1) + PX(-1, +3) + PX(+1, +3);
-            D3 = PX(-4, -2) + PX(-3, -2) + PX(+3, -2) + PX(+4, -2) + PX(-4, -1) + PX(+4, -1) + PX(-4, +0) + PX(+4, +0) + PX(-4, +1) + PX(+4, +1) + PX(-4, +2) + PX(-3, +2) + PX(+3, +2) + PX(+4, +2);
+            D3 = PX(-4, -2) + PX(-3, -2) + PX(+3, -2) + PX(+4, -2) + PX(-4, -1) + PX(+4, -1) + PX(-4, +0) + PX(+4, +0) + PX(-4,
+                    +1) + PX(+4, +1) + PX(-4, +2) + PX(-3, +2) + PX(+3, +2) + PX(+4, +2);
 #undef PX
             int i;
             const float *uptr;
@@ -1814,6 +1854,10 @@ repeat:
     return centers;
 }
 
+QVector3D cgmath::selectGuideStar()
+{
+    return guideStars.selectGuideStar(guideView->getImageData());
+}
 
 //---------------------------------------------------------------------------------------
 cproc_in_params::cproc_in_params()

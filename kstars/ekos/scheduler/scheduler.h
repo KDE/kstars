@@ -778,7 +778,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QTimer restartGuidingTimer;
 
         /// Generic time to track timeout of current operation in progress
-        QTime currentOperationTime;
+        QElapsedTimer currentOperationTime;
 
         QUrl dirPath;
 
