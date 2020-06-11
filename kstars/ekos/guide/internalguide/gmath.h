@@ -28,7 +28,7 @@
 #include "fitsviewer/fitssepdetector.h"
 #include "guidestars.h"
 
-class FITSView;
+class GuideView;
 class FITSData;
 class Edge;
 
@@ -133,7 +133,7 @@ class cgmath : public QObject
         info_params_t getInfoParameters(void) const;
         uint32_t getTicks(void) const;
 
-        void setGuideView(FITSView *image);
+        void setGuideView(GuideView *image);
         bool declinationSwapEnabled()
         {
             return dec_swap;
@@ -142,7 +142,7 @@ class cgmath : public QObject
         {
             dec_swap = enable;
         }
-        FITSView *getGuideView()
+        GuideView *getGuideView()
         {
             return guideView;
         }
@@ -221,7 +221,7 @@ class cgmath : public QObject
         /// Global channel ticker
         uint32_t ticks { 0 };
         /// Pointer to image
-        QPointer<FITSView> guideView;
+        QPointer<GuideView> guideView;
         /// Video frame width
         int video_width { -1 };
         /// Video frame height

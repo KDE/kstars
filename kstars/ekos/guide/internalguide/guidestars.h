@@ -18,7 +18,7 @@
 #include "starcorrespondence.h"
 #include "vect.h"
 #include "matr.h"
-
+#include "../guideview.h"
 /*
  * This class manages selecting a guide star, finding that star in a new image
  * and calculating the drift of the new star image.
@@ -54,7 +54,7 @@ class GuideStars
 
         // Finds the guide star previously selected with selectGuideStar()
         // in a new image. This sets up internal structures for getDrift().
-        Vector findGuideStar(FITSData *imageData, const QRect &trackingBox);
+        Vector findGuideStar(FITSData *imageData, const QRect &trackingBox, GuideView *guideView = nullptr);
 
         // Finds the drift of the star positions in arc-seconds for RA and DEC.
         // Must be called after findGuideStar().
@@ -108,6 +108,9 @@ class GuideStars
         QVector3D selectGuideStar(const QList<Edge> &detectedStars,
                                   const QList<double> &sepScores,
                                   int maxX, int maxY);
+        // Plot the positions of the neighbor stars on the guideView display.
+        void plotStars(GuideView *guideView, const QRect &trackingBox);
+
         // These three methods are useful for testing.
         void setDetectedStars(const QList<Edge> &stars)
         {

@@ -25,6 +25,7 @@ class QTabWidget;
 class FITSView;
 class FITSViewer;
 class ScrollGraph;
+class GuideView;
 
 namespace Ekos
 {
@@ -460,7 +461,8 @@ class Guide : public QWidget, public Ui::Guide
         void setAxisDelta(double ra, double de);
         void setAxisSigma(double ra, double de);
         void setAxisPulse(double ra, double de);
-        void calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString& message = QString(""), double dx = 0, double dy = 0);
+        void calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message = QString(""), double dx = 0,
+                               double dy = 0);
 
         void processGuideOptions();
 
@@ -613,7 +615,7 @@ class Guide : public QWidget, public Ui::Guide
         OpsGuide *opsGuide { nullptr };
 
         // Guide Frame
-        FITSView *guideView { nullptr };
+        GuideView *guideView { nullptr };
 
         // Calibration done already?
         bool calibrationComplete { false };

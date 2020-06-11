@@ -25,6 +25,7 @@
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsviewer.h"
 #include "internalguide/internalguider.h"
+#include "guideview.h"
 
 #include <KConfigDialog>
 
@@ -3536,7 +3537,7 @@ void Guide::initCalibrationPlot()
 
 void Guide::initView()
 {
-    guideView = new FITSView(guideWidget, FITS_GUIDE);
+    guideView = new GuideView(guideWidget, FITS_GUIDE);
     guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     guideView->setBaseSize(guideWidget->size());
     guideView->createFloatingToolBar();

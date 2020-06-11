@@ -26,7 +26,7 @@
 class QVector3D;
 
 class cgmath;
-class FITSView;
+class GuideView;
 class Edge;
 
 namespace Ekos
@@ -107,7 +107,7 @@ class InternalGuider : public GuideInterface
         }
 
         // Guide View
-        void setGuideView(FITSView *guideView);
+        void setGuideView(GuideView *guideView);
 
         // Region Axis
         void setRegionAxis(uint32_t value);
@@ -176,7 +176,7 @@ class InternalGuider : public GuideInterface
         void fillGuideInfo(GuideLog::GuideInfo *info);
 
         std::unique_ptr<cgmath> pmath;
-        QPointer<FITSView> guideFrame;
+        QPointer<GuideView> guideFrame;
         bool m_isStarted { false };
         bool m_isSubFramed { false };
         bool m_isFirstFrame { false };

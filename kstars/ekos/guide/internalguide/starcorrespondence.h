@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QList>
 #include <QVector>
+#include <QVector2D>
 
 #include "fitsviewer/fitsdata.h"
 
@@ -61,6 +62,13 @@ class StarCorrespondence
             star.x += guideStarOffsets[i].x;
             star.y += guideStarOffsets[i].y;
             return star;
+        }
+        QVector2D offset(int i) const
+        {
+            QVector2D offset;
+            offset.setX(guideStarOffsets[i].x);
+            offset.setY(guideStarOffsets[i].y);
+            return offset;
         }
     private:
 
