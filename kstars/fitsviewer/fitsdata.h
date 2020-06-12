@@ -25,6 +25,7 @@
 #include "bayer.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
+#include "structuredefinitions.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio
@@ -51,38 +52,6 @@ class QProgressDialog;
 
 class SkyPoint;
 class FITSHistogram;
-
-#ifndef struct_wcs_point
-#define struct_wcs_point
-typedef struct
-{
-    float ra;
-    float dec;
-} wcs_point;
-#endif
-
-#ifndef struct_statistic
-#define struct_statistic
-/// Stats struct to hold statisical data about the FITS data
-typedef struct
-{
-    double min[3] = {0}, max[3] = {0};
-    double mean[3] = {0};
-    double stddev[3] = {0};
-    double median[3] = {0};
-    double SNR { 0 };
-    /// FITS image data type (TBYTE, TUSHORT, TULONG, TFLOAT, TLONGLONG, TDOUBLE)
-    uint32_t dataType { 0 };
-    int bytesPerPixel { 1 };
-    int ndim { 2 };
-    int64_t size { 0 };
-    uint32_t samples_per_channel { 0 };
-    uint16_t width { 0 };
-    uint16_t height { 0 };
-} Statistic;
-#endif
-
-
 class Edge;
 
 class FITSData : public QObject
@@ -157,9 +126,9 @@ class FITSData : public QObject
         uint8_t *getWritableImageBuffer();
 
         // Statistics
-        void saveStatistics(Statistic &other);
-        void restoreStatistics(Statistic &other);
-        Statistic const &getStatistics() const
+        void saveStatistics(FITSImage::Statistic &other);
+        void restoreStatistics(FITSImage::Statistic &other);
+        FITSImage::Statistic const &getStatistics() const
         {
             return stats;
         };
@@ -330,7 +299,7 @@ class FITSData : public QObject
             return WCSLoaded;
         }
 
-        wcs_point *getWCSCoord()
+        FITSImage::wcs_point *getWCSCoord()
         {
             return wcs_coord;
         }
@@ -533,7 +502,7 @@ class FITSData : public QObject
         int flipVCounter { 0 };
 
         /// Pointer to WCS coordinate data, if any.
-        wcs_point *wcs_coord { nullptr };
+        FITSImage::wcs_point *wcs_coord { nullptr };
         /// WCS Struct
         struct wcsprm *m_wcs
         {
@@ -550,7 +519,7 @@ class FITSData : public QObject
         /// Bayer parameters
         BayerParams debayerParams;
 
-        Statistic stats;
+        FITSImage::Statistic stats;
 
         // A list of header records
         QList<Record*> records;

@@ -1713,7 +1713,7 @@ bool FITSData::loadWCS()
 
     delete[] wcs_coord;
 
-    wcs_coord = new wcs_point[w * h];
+    wcs_coord = new FITSImage::wcs_point[w * h];
 
     if (wcs_coord == nullptr)
     {
@@ -1723,7 +1723,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    wcs_point * p = wcs_coord;
+    FITSImage::wcs_point * p = wcs_coord;
 
     for (int i = 0; i < h; i++)
     {
@@ -1858,7 +1858,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
 
     SkyMapComposite * map = KStarsData::Instance()->skyComposite();
 
-    wcs_point * wcs_coord = getWCSCoord();
+    FITSImage::wcs_point * wcs_coord = getWCSCoord();
     if (wcs_coord != nullptr)
     {
         int size = w * h;
@@ -3293,12 +3293,12 @@ bool FITSData::contains(const QPointF &point) const
     return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
 }
 
-void FITSData::saveStatistics(Statistic &other)
+void FITSData::saveStatistics(FITSImage::Statistic &other)
 {
     other = stats;
 }
 
-void FITSData::restoreStatistics(Statistic &other)
+void FITSData::restoreStatistics(FITSImage::Statistic &other)
 {
     stats = other;
 }

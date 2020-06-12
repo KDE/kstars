@@ -132,7 +132,7 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
     }
 
     // #3 Create new FITSData to hold it
-    Statistic stats;
+    FITSImage::Statistic stats;
     stats.width = subW;
     stats.height = subH;
     stats.dataType = image_data->getStatistics().dataType;

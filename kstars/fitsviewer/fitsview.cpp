@@ -1090,7 +1090,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
 
     if (imageData->hasWCS())
     {
-        wcs_point * wcs_coord = imageData->getWCSCoord();
+        FITSImage::wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
         {
             const int size      = image_width * image_height;

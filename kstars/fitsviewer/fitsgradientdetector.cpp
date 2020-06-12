@@ -105,7 +105,7 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
 
     // #3 Create new FITSData to hold it
     auto * boundedImage                      = new FITSData();
-    Statistic stats;
+    FITSImage::Statistic stats;
     stats.width               = subW;
     stats.height              = subH;
     stats.dataType              = data->getStatistics().dataType;
@@ -325,7 +325,7 @@ void FITSGradientDetector::sobel(FITSData const *data, QVector<float> &gradient,
     if (data == nullptr)
         return;
 
-    Statistic const &stats = data->getStatistics();
+    FITSImage::Statistic const &stats = data->getStatistics();
 
     //int size = image.width() * image.height();
     gradient.resize(stats.samples_per_channel);

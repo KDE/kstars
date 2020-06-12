@@ -22,6 +22,8 @@
 #include "sep/sep.h"
 #include "fits_debug.h"
 #include "fitssepdetector.h"
+#include "sexysolver.h"
+
 
 FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
 {
@@ -60,7 +62,37 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     if (image_data == nullptr)
         return 0;
 
-    FITSData::Statistic const &stats = image_data->getStatistics();
+    //Note this is the part I added.  It is just an initial attempt to get it working
+    constexpr int maxNumCenters = 50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
+    SexySolver *solver = new SexySolver(image_data->getStatistics(),image_data->getImageBuffer(), parent());
+    solver->setParameterProfile(SSolver::Parameters::ALL_STARS); // This is a profile I used for now.  We can make one specific to focusing or guiding or whatever.  Or we can let the user select one to use for the purpose.
+    if (!boundary.isNull())
+        solver->setUseSubframe(boundary);
+    solver->sextractWithHFR();  //For this test, I am using this method.  SexySolver can also optinally use the external sextractor for this.  It might be faster in some cases, but I don't think it can be installed on windows.
+    if(!solver->sextractionDone() || solver->failed())
+        return 0;
+    QList<FITSImage::Star> stars = solver->getStarList();
+    QList<Edge *> edges;
+
+    for (int index = 0; index < stars.count(); index++)
+    {
+        FITSImage::Star star = stars.at(index);
+        auto * center = new Edge();
+        center->x = star.x;
+        center->y = star.y;
+        center->val = star.peak;
+        center->sum = star.flux;
+        center->HFR = star.HFR;
+        edges.append(center);
+    }
+
+    //There is more information that can be obtained by the Sexysolver.
+    //Background info, Star positions(if a plate solve was done before), etc
+    //The information is available as long as the SexySolver exists.
+
+    /**  I commented this out, but some of it might still be useful
+
+    FITSImage::Statistic const &stats = image_data->getStatistics();
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
     std::vector<std::pair<int, double>> ovals;
@@ -183,6 +215,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
             center->width = flux_fractions[1] * 2;
         edges.append(center);
     }
+    **/
 
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
@@ -201,6 +234,8 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->HFR;
 
+
+    /** I commented this out, but some of it might still be useful
 exit:
     delete[] data;
     sep_bkg_free(bkg);
@@ -218,7 +253,7 @@ exit:
         qCritical(KSTARS_FITS) << errorMessage;
         return -1;
     }
-
+**/
     return starCenters.count();
 }
 
@@ -235,7 +270,7 @@ void FITSSEPDetector::getFloatBuffer(float * buffer, int x, int y, int w, int h,
     int x2 = x + w;
     int y2 = y + h;
 
-    FITSData::Statistic const &stats = data->getStatistics();
+    FITSImage::Statistic const &stats = data->getStatistics();
 
     for (int y1 = y; y1 < y2; y1++)
     {

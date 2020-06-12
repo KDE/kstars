@@ -636,7 +636,7 @@ void FITSHistogramCommand::redo()
 
     if (delta != nullptr)
     {
-        Statistic prevStats;
+        FITSImage::Statistic prevStats;
         imageData->saveStatistics(prevStats);
 
         reverseDelta();
@@ -719,7 +719,7 @@ void FITSHistogramCommand::undo()
 
     if (delta != nullptr)
     {
-        Statistic prevStats;
+        FITSImage::Statistic prevStats;
         imageData->saveStatistics(prevStats);
 
         reverseDelta();

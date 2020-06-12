@@ -75,7 +75,7 @@ int FITSThresholdDetector::findOneStar(QList<Edge*> &starCenters, const QRect &b
     if (image_data == nullptr)
         return 0;
 
-    Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = image_data->getStatistics();
 
     if (boundary.isEmpty())
         return -1;
