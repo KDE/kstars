@@ -37,7 +37,7 @@
 #include <cmath>
 
 #ifdef HAVE_LIBNOVA
-#include <libnova.h>
+#include <libnova/libnova.h>
 #endif
 #ifdef PROFILE_COORDINATE_CONVERSION
 #include <ctime> // For profiling, remove if not profiling.
