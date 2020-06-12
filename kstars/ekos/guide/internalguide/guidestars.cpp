@@ -137,21 +137,22 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
     return newStarCenter;
 }
 
-
-// This is good for finding the guide star, but not drift... !!!!!!!!!!!!!!!!
-// instead of star.x, we want the offset-corrected guide-star position.
-// not sure that's appropriate for calibration.
+// Find the current target positions for the guide-star neighbors, and add them
+// to the guideView.
 void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 {
     if (guideView == nullptr) return;
 
+    guideView->clearNeighbors();
+
+    // Find the offset between the current reticle position and the original
+    // guide star position (e.g. it might have moved due to dithering).
     double reticle_x = trackingBox.x() + trackingBox.width() / 2.0;
     double reticle_y = trackingBox.y() + trackingBox.height() / 2.0;
     double reticle_offset_x = reticle_x - guideStarNeighbors[guideStarNeighborIndex].x;
     double reticle_offset_y = reticle_y - guideStarNeighbors[guideStarNeighborIndex].y;
 
-    guideView->clearNeighbors();
-    const Edge gStar = starCorrespondence.reference(guideStarNeighborIndex);
+    // See which neighbor stars were associated with detected stars.
     QVector<bool> found(starCorrespondence.size(), false);
     for (int i = 0; i < detectedStars.size(); ++i)
     {
@@ -159,6 +160,8 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
         if (refIndex >= 0)
             found[refIndex] = true;
     }
+    // Add to the guideView the neighbor stars' target positions and whether they were found.
+    const Edge gStar = starCorrespondence.reference(guideStarNeighborIndex);
     for (int i = 0; i < starCorrespondence.size(); ++i)
     {
         if (i == guideStarNeighborIndex) continue;

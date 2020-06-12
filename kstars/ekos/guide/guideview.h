@@ -27,8 +27,8 @@ class GuideView : public FITSView
     public:
         explicit GuideView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
-        // Calls the parent drawOverlay, then draws circles around
-        // the guide-star neighbors.
+        // Calls the parent drawOverlay, then draws circles around the guide-star
+        // neighbors and lines between the guide star and the neighbors.
         void drawOverlay(QPainter *, double scale) override;
 
         // Adds a neighbor at x,y. Set found to true if the neighbor was associated

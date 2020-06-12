@@ -19,9 +19,7 @@ GuideView::GuideView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSVie
 
 void GuideView::drawOverlay(QPainter *painter, double scale)
 {
-    //painter->setOpacity(0.5);
     FITSView::drawOverlay(painter, getScale());
-    //painter->setOpacity(1);
 
     for (const auto &neighbor : neighbors)
         drawNeighbor(painter, neighbor);
@@ -57,7 +55,8 @@ void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
     const QRect &box = getTrackingBox();
     const int x1 = (box.x() + box.width() / 2.0) * scale;
     const int y1 = (box.y() + box.height() / 2.0) * scale;
-    painter->setOpacity(0.25); //// perhaps getOpacity???
+    double origOpacity = painter->opacity();
+    painter->setOpacity(0.25);
     painter->drawLine(x1, y1, neighbor.x * scale, neighbor.y * scale);
-    painter->setOpacity(1.0);
+    painter->setOpacity(origOpacity);
 }
