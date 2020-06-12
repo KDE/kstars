@@ -70,10 +70,8 @@ class FITSData : public QObject
         Q_PROPERTY(FITSMode mode MEMBER m_Mode)
         // 1 channel (grayscale) or 3 channels (RGB)
         Q_PROPERTY(quint8 channels READ channels)
-        // Data type (BYTE, SHORT, INT..etc)
-        Q_PROPERTY(quint32 dataType MEMBER m_DataType)
         // Bits per pixel
-        Q_PROPERTY(quint8 bpp READ bpp WRITE setBPP)
+        Q_PROPERTY(quint8 bpp READ bpp)
         // Does FITS have WSC header?
         Q_PROPERTY(bool hasWCS READ hasWCS)
         // Does FITS have bayer data?
@@ -199,10 +197,6 @@ class FITSData : public QObject
         double getSNR() const
         {
             return stats.SNR;
-        }
-        void setBPP(uint8_t value)
-        {
-            stats.dataType = value;
         }
         uint32_t bpp() const
         {
@@ -462,8 +456,6 @@ class FITSData : public QObject
 #endif
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
-        /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
-        uint32_t m_DataType { 0 };
         /// Number of channels
         uint8_t m_Channels { 1 };
         /// Generic data image buffer

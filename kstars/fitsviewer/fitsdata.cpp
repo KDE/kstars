@@ -293,7 +293,6 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
             qCCritical(KSTARS_FITS) << errMessage;
             return false;
     }
-    m_DataType = stats.dataType;
 
     if (stats.ndim < 3)
         naxes[2] = 1;
