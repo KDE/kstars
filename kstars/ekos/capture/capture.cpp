@@ -347,6 +347,9 @@ Capture::Capture()
         const double newGain = getGain();
         if (GainSpin && newGain >= 0)
             GainSpin->setValue(newGain);
+        const int newOffset = getOffset();
+        if (newOffset >= 0)
+            OffsetSpin->setValue(newOffset);
     });
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
@@ -936,66 +939,22 @@ void Capture::checkCCD(int ccdNum)
         }
 
         QStringList isoList = targetChip->getISOList();
-        //ISOCombo->clear();
+        ISOCombo->clear();
 
         transferFormatCombo->blockSignals(true);
         transferFormatCombo->clear();
-
-        delete (ISOCombo);
-        delete (GainSpin);
-        //ISOLabel->hide();
 
         if (isoList.isEmpty())
         {
             // Only one transfer format
             transferFormatCombo->addItem(i18n("FITS"));
-
-            if (currentCCD->hasGain())
-            {
-                ISOLabel->setText(QString("%1:").arg(i18nc("Camera Gain", "Gain")));
-                //ISOLabel->show();
-
-                GainSpin = new QDoubleSpinBox(CCDFWGroup);
-                double min, max, step, value, targetCustomGain;
-                currentCCD->getGainMinMaxStep(&min, &max, &step);
-
-                // Allow the possibility of no gain value at all.
-                GainSpinSpecialValue = min - step;
-                GainSpin->setRange(GainSpinSpecialValue, max);
-                GainSpin->setSpecialValueText(i18n("--"));
-
-                GainSpin->setSingleStep(step);
-                currentCCD->getGain(&value);
-
-                targetCustomGain = getGain();
-
-                // Set the custom gain if we have one
-                // otherwise it will not have an effect.
-                if (targetCustomGain > 0)
-                    GainSpin->setValue(targetCustomGain);
-                else
-                    GainSpin->setValue(GainSpinSpecialValue);
-
-                GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
-
-                connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
-                {
-                    if (GainSpin->value() != GainSpinSpecialValue)
-                        setGain(GainSpin->value());
-                });
-
-                gridLayout->addWidget(GainSpin, 4, 3, 1, 2);
-            }
+            ISOCombo->setEnabled(false);
         }
         else
         {
-            ISOLabel->setText(QString("%1:").arg(i18nc("Camera ISO", "ISO")));
-            //ISOLabel->show();
-
-            ISOCombo = new QComboBox(CCDFWGroup);
+            ISOCombo->setEnabled(true);
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
-            gridLayout->addWidget(ISOCombo, 4, 3, 1, 2);
 
             // DSLRs have two transfer formats
             transferFormatCombo->addItem(i18n("FITS"));
@@ -1029,6 +988,74 @@ void Capture::checkCCD(int ccdNum)
         }
 
         transferFormatCombo->blockSignals(false);
+
+        // Gain Check
+        if (currentCCD->hasGain())
+        {
+            double min, max, step, value, targetCustomGain;
+            currentCCD->getGainMinMaxStep(&min, &max, &step);
+
+            // Allow the possibility of no gain value at all.
+            GainSpinSpecialValue = min - step;
+            GainSpin->setRange(GainSpinSpecialValue, max);
+            GainSpin->setSpecialValueText(i18n("--"));
+            GainSpin->setEnabled(true);
+            GainSpin->setSingleStep(step);
+            currentCCD->getGain(&value);
+
+            targetCustomGain = getGain();
+
+            // Set the custom gain if we have one
+            // otherwise it will not have an effect.
+            if (targetCustomGain > 0)
+                GainSpin->setValue(targetCustomGain);
+            else
+                GainSpin->setValue(GainSpinSpecialValue);
+
+            GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+            connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
+            {
+                if (GainSpin->value() != GainSpinSpecialValue)
+                    setGain(GainSpin->value());
+            });
+        }
+        else
+            GainSpin->setEnabled(false);
+
+        // Offset checks
+        if (currentCCD->hasOffset())
+        {
+            double min, max, step, value, targetCustomOffset;
+            currentCCD->getOffsetMinMaxStep(&min, &max, &step);
+
+            // Allow the possibility of no Offset value at all.
+            OffsetSpinSpecialValue = min - step;
+            OffsetSpin->setRange(OffsetSpinSpecialValue, max);
+            OffsetSpin->setSpecialValueText(i18n("--"));
+            OffsetSpin->setEnabled(true);
+            OffsetSpin->setSingleStep(step);
+            currentCCD->getOffset(&value);
+
+            targetCustomOffset = getOffset();
+
+            // Set the custom Offset if we have one
+            // otherwise it will not have an effect.
+            if (targetCustomOffset > 0)
+                OffsetSpin->setValue(targetCustomOffset);
+            else
+                OffsetSpin->setValue(OffsetSpinSpecialValue);
+
+            OffsetSpin->setReadOnly(currentCCD->getOffsetPermission() == IP_RO);
+
+            connect(OffsetSpin, &QDoubleSpinBox::editingFinished, [this]()
+            {
+                if (OffsetSpin->value() != OffsetSpinSpecialValue)
+                    setOffset(OffsetSpin->value());
+            });
+        }
+        else
+            OffsetSpin->setEnabled(false);
 
         customPropertiesDialog->setCCD(currentCCD);
 
@@ -1989,7 +2016,7 @@ bool Capture::startFocusIfRequired()
             targetChip->abortExposure();
 
         setFocusStatus(FOCUS_PROGRESS);
-        emit checkFocus(HFRPixels->value() == 0.0 ? 0.1: HFRPixels->value());
+        emit checkFocus(HFRPixels->value() == 0.0 ? 0.1 : HFRPixels->value());
 
         qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
         m_State = CAPTURE_FOCUSING;
@@ -2459,6 +2486,9 @@ bool Capture::addJob(bool preview)
     if (getGain() >= 0)
         job->setGain(getGain());
 
+    if (getOffset() >= 0)
+        job->setOffset(getOffset());
+
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
@@ -2612,8 +2642,7 @@ bool Capture::addJob(bool preview)
         iso->setText(ISOCombo->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (GainSpin && GainSpin->value() >= 0 &&
-             std::fabs(GainSpin->value() - GainSpinSpecialValue) > 0)
+    else if (GainSpin->value() >= 0 && std::fabs(GainSpin->value() - GainSpinSpecialValue) > 0)
     {
         iso->setText(GainSpin->cleanText());
         jsonJob.insert("ISO/Gain", iso->text());
@@ -2626,7 +2655,21 @@ bool Capture::addJob(bool preview)
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    if (OffsetSpin->value() >= 0 && std::fabs(OffsetSpin->value() - OffsetSpinSpecialValue) > 0)
+    {
+        offset->setText(OffsetSpin->cleanText());
+        jsonJob.insert("Offset", offset->text());
+    }
+    else
+    {
+        offset->setText("--");
+        jsonJob.insert("Offset", "--");
+    }
+    offset->setTextAlignment(Qt::AlignHCenter);
+    offset->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
     job->setCountCell(count);
     jsonJob.insert("Count", count->text());
 
@@ -2638,7 +2681,8 @@ bool Capture::addJob(bool preview)
         queueTable->setItem(currentRow, 3, bin);
         queueTable->setItem(currentRow, 4, exp);
         queueTable->setItem(currentRow, 5, iso);
-        queueTable->setItem(currentRow, 6, count);
+        queueTable->setItem(currentRow, 6, offset);
+        queueTable->setItem(currentRow, 7, count);
 
         m_SequenceArray.append(jsonJob);
         emit sequenceChanged(m_SequenceArray);
@@ -3262,7 +3306,8 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview() || activeJob->getExposeLeft() == 0.0)))
+    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview()
+            || activeJob->getExposeLeft() == 0.0)))
         return;
 
     double deviation_rms = sqrt( (delta_ra * delta_ra + delta_dec * delta_dec) / 2.0);
@@ -3533,7 +3578,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
 
                 // after a meridian flip we do not need to dither
                 if ( Options::ditherEnabled() || Options::ditherNoGuiding())
-                     ditherCounter = Options::ditherFrames();
+                    ditherCounter = Options::ditherFrames();
 
                 break;
 
@@ -3947,8 +3992,11 @@ bool Capture::processJobInfo(XMLEle * root)
 
             customPropertiesDialog->setCustomProperties(propertyMap);
             const double gain = getGain();
-            if (GainSpin && gain >= 0)
+            if (gain >= 0)
                 GainSpin->setValue(gain);
+            const double offset = getOffset();
+            if (offset >= 0)
+                OffsetSpin->setValue(offset);
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -4332,14 +4380,17 @@ void Capture::syncGUIToJob(SequenceJob * job)
     if (ISOCombo)
         ISOCombo->setCurrentIndex(job->getISOIndex());
 
-    if (GainSpin)
-    {
-        double value = getGain();
-        if (value >= 0)
-            GainSpin->setValue(value);
-        else
-            GainSpin->setValue(GainSpinSpecialValue);
-    }
+    double gain = getGain();
+    if (gain >= 0)
+        GainSpin->setValue(gain);
+    else
+        GainSpin->setValue(GainSpinSpecialValue);
+
+    double offset = getOffset();
+    if (offset >= 0)
+        OffsetSpin->setValue(offset);
+    else
+        OffsetSpin->setValue(OffsetSpinSpecialValue);
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
@@ -4361,10 +4412,16 @@ QJsonObject Capture::getSettings()
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (GainSpin && GainSpin->value() != GainSpinSpecialValue)
+    if (GainSpin->value() != GainSpinSpecialValue)
         gain = GainSpin->value();
     else if (currentCCD && currentCCD->hasGain())
         currentCCD->getGain(&gain);
+
+    double offset = -1;
+    if (OffsetSpin->value() != OffsetSpinSpecialValue)
+        offset = OffsetSpin->value();
+    else if (currentCCD && currentCCD->hasOffset())
+        currentCCD->getOffset(&offset);
 
     int iso = -1;
     if (ISOCombo)
@@ -4381,6 +4438,7 @@ QJsonObject Capture::getSettings()
     settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("format", transferFormatCombo->currentIndex());
     settings.insert("gain", gain);
+    settings.insert("offset", offset);
     settings.insert("temperature", temperatureIN->value());
 
     return settings;
@@ -4748,7 +4806,7 @@ bool Capture::checkGuidingAfterFlip()
         return false;
     // If we're not autoguiding then we're done
     if (resumeGuidingAfterFlip == false)
-       return false;
+        return false;
 
     // if we are waiting for a calibration, start it
     if (m_State < CAPTURE_CALIBRATING)
@@ -4782,7 +4840,7 @@ bool Capture::checkAlignmentAfterFlip()
         return false;
     // If we do not need to align then we're done
     if (resumeAlignmentAfterFlip == false)
-       return false;
+        return false;
 
     // if we are waiting for a calibration, start it
     if (m_State < CAPTURE_ALIGNING)
@@ -4946,7 +5004,10 @@ void Capture::setGuideStatus(GuideState state)
             {
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
                 appendLogText(i18n("Dither complete. Resuming in %1 seconds...", Options::guidingSettle()));
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]() {ditheringState = IPS_OK;});
+                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]()
+                {
+                    ditheringState = IPS_OK;
+                });
             }
             else
             {
@@ -4965,7 +5026,10 @@ void Capture::setGuideStatus(GuideState state)
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
                 appendLogText(i18n("Warning: Dithering failed. Resuming in %1 seconds...", Options::guidingSettle()));
                 // set dithering state to OK after settling time and signal to proceed
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]() {ditheringState = IPS_OK;});
+                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]()
+                {
+                    ditheringState = IPS_OK;
+                });
             }
             else
             {
@@ -6604,6 +6668,12 @@ void Capture::setSettings(const QJsonObject &settings)
         setGain(gain);
     }
 
+    double offset = settings["offset"].toDouble(-1);
+    if (offset >= 0 && currentCCD && currentCCD->hasOffset())
+    {
+        setOffset(offset);
+    }
+
     int format = settings["format"].toInt(-1);
     if (format >= 0)
     {
@@ -6798,7 +6868,7 @@ void Capture::setGain(double value)
     }
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
-        QMap<QString, double> ccdGain;
+        QMap<QString, double> ccdGain = customProps["CCD_CONTROLS"];
         ccdGain["Gain"] = value;
         customProps["CCD_CONTROLS"] = ccdGain;
     }
@@ -6808,9 +6878,6 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
-    if (!GainSpin)
-        return -1;
-
     QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
@@ -6824,6 +6891,50 @@ double Capture::getGain()
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
         return customProps["CCD_CONTROLS"].value("Gain", -1);
+    }
+
+    return -1;
+}
+
+void Capture::setOffset(double value)
+{
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+    // Offset is manifested in two forms
+    // Property CCD_OFFSET and
+    // Part of CCD_CONTROLS properties.
+    // Therefore, we have to find what the currently camera supports first.
+    if (currentCCD->getProperty("CCD_OFFSET"))
+    {
+        QMap<QString, double> ccdOffset;
+        ccdOffset["OFFSET"] = value;
+        customProps["CCD_OFFSET"] = ccdOffset;
+    }
+    else if (currentCCD->getProperty("CCD_CONTROLS"))
+    {
+        QMap<QString, double> ccdOffset = customProps["CCD_CONTROLS"];
+        ccdOffset["Offset"] = value;
+        customProps["CCD_CONTROLS"] = ccdOffset;
+    }
+
+    customPropertiesDialog->setCustomProperties(customProps);
+}
+
+double Capture::getOffset()
+{
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+    // Gain is manifested in two forms
+    // Property CCD_GAIN and
+    // Part of CCD_CONTROLS properties.
+    // Therefore, we have to find what the currently camera supports first.
+    if (currentCCD->getProperty("CCD_OFFSET"))
+    {
+        return customProps["CCD_OFFSET"].value("OFFSET", -1);
+    }
+    else if (currentCCD->getProperty("CCD_CONTROLS"))
+    {
+        return customProps["CCD_CONTROLS"].value("Offset", -1);
     }
 
     return -1;
