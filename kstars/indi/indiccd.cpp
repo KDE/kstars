@@ -1111,24 +1111,28 @@ void CCD::registerProperty(INDI::Property *prop)
         primaryCCDBLOB = bp->bp;
         primaryCCDBLOB->bvp = bp;
     }
-    // try to find gain property, if any
-    else if (gainN == nullptr && prop->getType() == INDI_NUMBER)
+    // try to find gain and/or offset property, if any
+    else if ( (gainN == nullptr || offsetN == nullptr) && prop->getType() == INDI_NUMBER)
     {
         // Since gain is spread among multiple property depending on the camera providing it
         // we need to search in all possible number properties
-        INumberVectorProperty *gainNP = prop->getNumber();
-        if (gainNP)
+        INumberVectorProperty *controlNP = prop->getNumber();
+        if (controlNP)
         {
-            for (int i = 0; i < gainNP->nnp; i++)
+            for (int i = 0; i < controlNP->nnp; i++)
             {
-                QString name  = QString(gainNP->np[i].name).toLower();
-                QString label = QString(gainNP->np[i].label).toLower();
+                QString name  = QString(controlNP->np[i].name).toLower();
+                QString label = QString(controlNP->np[i].label).toLower();
 
                 if (name == "gain" || label == "gain")
                 {
-                    gainN = gainNP->np + i;
-                    gainPerm = gainNP->p;
-                    break;
+                    gainN = controlNP->np + i;
+                    gainPerm = controlNP->p;
+                }
+                else if (name == "offset" || label == "offset")
+                {
+                    offsetN = controlNP->np + i;
+                    offsetPerm = controlNP->p;
                 }
             }
         }
@@ -2490,6 +2494,38 @@ bool CCD::getGainMinMaxStep(double *min, double *max, double *step)
     *min  = gainN->min;
     *max  = gainN->max;
     *step = gainN->step;
+
+    return true;
+}
+
+bool CCD::setOffset(double value)
+{
+    if (offsetN == nullptr)
+        return false;
+
+    offsetN->value = value;
+    clientManager->sendNewNumber(offsetN->nvp);
+    return true;
+}
+
+bool CCD::getOffset(double *value)
+{
+    if (offsetN == nullptr)
+        return false;
+
+    *value = offsetN->value;
+
+    return true;
+}
+
+bool CCD::getOffsetMinMaxStep(double *min, double *max, double *step)
+{
+    if (offsetN == nullptr)
+        return false;
+
+    *min  = offsetN->min;
+    *max  = offsetN->max;
+    *step = offsetN->step;
 
     return true;
 }

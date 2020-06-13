@@ -776,6 +776,9 @@ class Capture : public QWidget, public Ui::Capture
         void setGain(double value);
         double getGain();
 
+        void setOffset(double value);
+        double getOffset();
+
         // DSLR Info
         void cullToDSLRLimits();
         //void syncDriverToDSLRLimits();
@@ -786,8 +789,10 @@ class Capture : public QWidget, public Ui::Capture
          * @brief Check if a meridian flip has already been started
          * @return true iff the scope has started the meridian flip
          */
-        inline bool checkMeridianFlipRunning() {
-            return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;}
+        inline bool checkMeridianFlipRunning()
+        {
+            return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;
+        }
 
         /**
          * @brief Check whether a meridian flip has been requested and trigger it
@@ -998,9 +1003,8 @@ class Capture : public QWidget, public Ui::Capture
         void processFlipCompleted();
 
         // Controls
-        QPointer<QComboBox> ISOCombo;
-        QPointer<QDoubleSpinBox> GainSpin;
         double GainSpinSpecialValue;
+        double OffsetSpinSpecialValue;
 
         QList<double> downloadTimes;
         QElapsedTimer downloadTimer;
