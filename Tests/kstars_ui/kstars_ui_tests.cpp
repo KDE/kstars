@@ -19,6 +19,7 @@
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
 #include "test_ekos_focus.h"
+#include "test_ekos_guide.h"
 #include "ekos/manager.h"
 #include "ekos/profileeditor.h"
 #include "ekos/profilewizard.h"
@@ -112,6 +113,13 @@ int main(int argc, char *argv[])
 
         if (!failure)
         {
+            TestEkosGuide * ek = new TestEkosGuide();
+            failure |= QTest::qExec(ek, argc, argv);
+            delete ek;
+        }
+
+        if (!failure)
+        {
             TestEkosFocus * ek = new TestEkosFocus();
             failure |= QTest::qExec(ek, argc, argv);
             delete ek;
@@ -124,7 +132,7 @@ int main(int argc, char *argv[])
     });
 
     // Limit execution duration
-    QTimer::singleShot(5 * 60 * 1000, &app, &QCoreApplication::quit);
+    QTimer::singleShot(9 * 60 * 1000, &app, &QCoreApplication::quit);
 
     app.exec();
 

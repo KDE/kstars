@@ -52,6 +52,14 @@
         if (KStars::Instance()->data() != nullptr) \
             KStars::Instance()->data()->clock()->setUTC(KStarsDateTime(TestKStarsStartup::m_InitialConditions.dateTime)); } while(false)
 
+#define KTRY_PROFILEEDITOR_GADGET(klass, name) klass * name = nullptr; \
+    do { \
+        ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog"); \
+        QVERIFY2(profileEditor != nullptr && profileEditor->isVisible(), "Profile Editor is not visible."); \
+        name = Ekos::Manager::Instance()->findChild<klass*>(#name); \
+        QVERIFY2(name != nullptr, QString(#klass "'%1' does not exist and cannot be used").arg(#name).toStdString().c_str()); \
+    } while(false)
+
 class TestEkos: public QObject
 {
     Q_OBJECT
