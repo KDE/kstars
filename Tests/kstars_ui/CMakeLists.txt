@@ -5,6 +5,7 @@ SET(KSTARS_UI_TESTS_SRC
     test_ekos_wizard.cpp
     test_ekos.cpp
     test_ekos_focus.cpp
+    test_ekos_guide.cpp
     test_ekos_simulator.cpp)
 
 include_directories(${CFITSIO_INCLUDE_DIR})
@@ -21,6 +22,10 @@ QT5_ADD_RESOURCES(KSTARS_UI_TESTS_SRC ../../kstars/data/kstars.qrc)
 
 ADD_EXECUTABLE(kstars_ui_tests ${KSTARS_UI_TESTS_SRC})
 TARGET_LINK_LIBRARIES(kstars_ui_tests ${TEST_LIBRARIES} ${CFITSIO_LIBRARIES})
+ADD_CUSTOM_COMMAND( TARGET kstars_ui_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/phd2_Simulators.PHDGuidingV2
+            ${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2)
 
 IF (INDI_FOUND)
     INCLUDE_DIRECTORIES(${INDI_INCLUDE_DIR})

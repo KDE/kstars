@@ -150,7 +150,7 @@ void TestEkosSimulator::testMountSlew()
 
     QLineEdit * deOut = Ekos::Manager::Instance()->findChild<QLineEdit*>("decOUT");
     QVERIFY(deOut != nullptr);
-    QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) < 2, 15000);
+    QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) < 2, 20000);
     QTest::qWait(100);
     if (clampDE(DEC) != clampDE(deOut->text()))
         QWARN(QString("Target '%1' slewed to with coordinate offset DEC %2").arg(NAME).arg(abs(clampDE(DEC) - clampDE(deOut->text()))).toStdString().c_str());

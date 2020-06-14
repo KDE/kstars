@@ -171,6 +171,114 @@ git pull upstream master  # Get the master from the main KStars repo onto your l
 git push origin master    # Then push your updated local clone into your forked repo
 ```
 
+## Writing Tests
+Tests are stored in the `Tests` folder and use QTest as support framework:
+* Unitary tests can be found in `auxiliary`, `capture`, `fitsviewer`, etc. They try to verify the behavior
+  of a minimal set of classes, and are support for feature development.
+* UI tests can be found in `kstars_lite_ui` and `kstars_ui`. They execute use cases as the end-user would do from the user
+  interface, and focus on availability of visual feedback and stability of procedures.
+
+### Writing Unitary Tests
+1. Decide where your new unitary test will reside in `Tests`.
+KStars classes should live in a folder matching their origin: for instance, auxiliary class tests live in `auxiliary`.
+Find a suitable place for your test, based on the part of the system that is being tested.
+As an example, a folder named `thatkstarscategory`.
+
+2. Create a new unitary test class, or copy-paste an existing unitary test to a new one.
+Check `Tests/kstars_ui_tests/kstars_ui_tests.h` as an example.
+Name the `.h` and `.cpp` files as "test[lowercase kstars class]" (for instance "testthatkstarsclass"), and update them to match the following:
+```
+/* [Author+Licence header] */
+#ifndef TESTTHATKSTARSCLASS_H
+#define TESTTHATKSTARSCLASS_H
+
+#include <QtTest>
+#include <QObject>
+
+class TestThatKStarsClass: public QObject
+{
+    Q_OBJECT
+public:
+    explicit TestThatKStarsClass(QObject *parent = null);
+
+private slots:
+    void initTestCase();                    // Will trigger once at beginning
+    void cleanupTestCase();                 // Will trigger once at end
+
+    void init();                            // Will trigger before each test
+    void cleanup();                         // Will trigger after each test
+
+    void testThisParticularFunction_data(); // Data fixtures for the test function (Qt 5.9+)
+    void testThisParticularFunction();      // Test function
+}
+#endif // TESTTHATKSTARSCLASS_H
+```
+```
+/* [Author+Licence header] */
+#include "testthatkstarsclass.h"
+TestThatKStarsClass::TestThatKStarsClass(QObject* parent): QObject(parent) {}
+TestThatKStarsClass::initTestCase() {}
+TestThatKStarsClass::cleanupTestCase() {}
+TestThatKStarsClass::init() {}
+TestThatKStarsClass::cleanup() {}
+
+TestThatKStarsClass::testThisParticularFunction_data()
+{
+    // If needed, add data fixtures with QTest::AddColumn/QTest::AddRow, each will trigger testThisParticularFunction
+}
+
+TestThatKStarsClass::testThisParticularFunction()
+{
+    // Write your tests here, eventually using QFETCH to retrieve the current data fixture
+}
+
+QTEST_GUILESS_MAIN(TestThatKStarsClass);
+```
+You can use a single file to hold both declaration and definition, but you will need to `#include "testthatkstarsclass.moc"` between the declaration and the definition.
+
+3. Update the CMake configuration to add your test.
+If you created a new folder, create a new `CMakeLists.txt` to add your test:
+```
+ADD_EXECUTABLE( testthatkstarsclass testthatkstarsclass.cpp )
+TARGET_LINK_LIBRARIES( testthatkstarsclass ${TEST_LIBRARIES})
+ADD_TEST( NAME ThatKStarsClassTest COMMAND testthatkstarsclass )
+```
+Have the `CMakeLists.txt` residing one folder higher in the filesystem include that `CMakeLists.txt` by adding:
+```
+include_directories(
+    ...
+    ${kstars_SOURCE_DIR}/kstars/path/to/the/folder/of/the/kstars/class/you/are/testing
+)
+...
+add_subdirectory(thatkstarscategory)
+```
+Make sure you add your `add_subdirectory` in the right dependency group. Ekos tests require `INDI_FOUND` for instance.
+
+4. Write your tests
+Make sure you document behavior with your tests. If you happen to find a bug, don't fix it, mark it with an `QEXPECT_FAIL` macro.
+The test will document the incorrect behavior while the bug is alive, and will fail when the bug is fixed. Then only after that the test may be updated.
+Also pay attention to Qt library version support. For instance, data fixtures require Qt 5.9+.
+
+### Writing User Interface Tests
+
+Follow the same steps as for unitary tests, but locate your test classes in `kstars_ui_tests`.
+
+One important thing about UI tests is that they must all use `QStandardPaths::setTestModeEnabled(true)`, so that they execute with a separate user
+configuration that is initially blank. User interface tests thus require a preliminary setup to function properly, such as using the new configuration
+wizard or setting the geographical location up. For this reason, you need to add the execution of your test in `Tests/kstars_ui_tests/kstars_ui_tests.cpp`,
+in `main()`, **after** the execution of `TestKStarsStartup`.
+
+A second important thing about QTest generally is that test functions have no return code. One therefore needs to write macros to factor duplicated code.
+You will find many existing macros in the header files of `kstars_ui_tests` test classes, to retrieve gadgets, to click buttons or to fill `QComboBox` widgets...
+
+A third important thing about the KStars interface is that it mixes KDE and Qt UI elements. Thus, sometimes tests require verification code to be moved
+to a `QTimer::singleShot` call, and sometimes even clicking on a button has to be made asynchronous for the test to remain in control (modal dialogs).
+Fortunately, these hacks do not alter the execution of the tested code.
+
+When testing, you need to make sure you always use elements that the end-user is able to use. Of course, if a test requires a setup that is not actually part of the
+interesting calls, you may hack a direct call. For instance, some Ekos tests requiring the Telescope Simulator to be pointing at a specific location use
+`QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(ra,dec))`. Remember that sometimes you need to leave time for asynchronous signals to be emitted and caught.
+
 ## Credits
 ### The KStars Team
 #### Original Author

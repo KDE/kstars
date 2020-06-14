@@ -3250,7 +3250,9 @@ void Capture::updatePreCaptureCalibrationStatus()
 
 void Capture::setFocusTemperatureDelta(double focusTemperatureDelta)
 {
-    qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
+    // This produces too much log spam
+    // Maybe add a threshold to report later?
+    //qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
     this->focusTemperatureDelta = focusTemperatureDelta;
 }
 

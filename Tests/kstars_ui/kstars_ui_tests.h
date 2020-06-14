@@ -76,19 +76,27 @@ private slots:
     /** @{ */
     void testAnotherThingThatWorks_data()
     {
+#if QT_VERSION < 0x050900
+        QSKIP("Skipping fixture-based test on old QT version.");
+#else
         QTest::addColumn <int> ("A");
         QTest::addColumn <int> ("B");
         QTest::addColumn <int> ("C");
         QTest::addRow("1+1=2") << 1 << 1 << 2;
         QTest::addRow("1+4=5") << 1 << 4 << 5;
+#endif
     };
 
     void testAnotherThingThatWorks()
     {
+#if QT_VERSION < 0x050900
+        QSKIP("Skipping fixture-based test on old QT version.");
+#else
         QFETCH(int, A);
         QFETCH(int, B);
         QFETCH(int, C);
         QVERIFY(A+B == C);
+#endif
     };
     /** @} */
 
