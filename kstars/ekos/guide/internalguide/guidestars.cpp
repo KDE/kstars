@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include "ekos_guide_debug.h"
+#include "sexysolver.h"
 
 // Keeps at most this many reference "neighbor" stars
 #define MAX_GUIDE_STARS 10
@@ -108,15 +109,21 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
     int maxScore      = -1;
     int maxScoreIndex = -1;
 
-    qCDebug(KSTARS_EKOS_GUIDE) << qSetFieldWidth(6) << "#" << "X" << "Y" << "Flux"
-                               << "HFR" << "sepSc" << "SCORE" << "SNR";
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("  #    X       Y      Flux    HFR   sepSC SCORE  SNR");
     for (int i = 0; i < maxIndex; i++)
     {
         auto bg = skybackground();
         double snr = bg.SNR(stars[i].sum, stars[i].numPixels);
-        qCDebug(KSTARS_EKOS_GUIDE) << qSetFieldWidth(6) << i << stars[i].x << stars[i].y
-                                   << stars[i].sum << stars[i].HFR
-                                   << sepScores[i] << scores[i] << snr;
+
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6  %7  %8")
+          .arg(i, 3)
+          .arg(stars[i].x, 6, 'f', 1)
+          .arg(stars[i].y, 6, 'f', 1)
+          .arg(stars[i].sum, 6, 'f', 1)
+          .arg(stars[i].HFR, 5, 'f', 3)
+          .arg(sepScores[i], 4)
+          .arg(scores[i], 4)
+          .arg(snr, 5, 'f', 1);
         if (scores[i] > maxScore)
         {
             maxScore      = scores[i];
@@ -187,19 +194,76 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox)
     return Vector(-1, -1, -1);
 }
 
+SSolver::Parameters GuideStars::getStarExtractionParameters(int num)
+{
+    SSolver::Parameters params;
+    params.listName = "Guider";
+    params.apertureShape = SSolver::SHAPE_CIRCLE;
+    params.minarea = 10; // changed from 5 --> 10
+    params.deblend_thresh = 32;
+    params.deblend_contrast = 0.005;
+    params.initialKeep = num * 2;
+    params.keepNum = num;
+    params.removeBrightest = 0;
+    params.removeDimmest = 0;
+    params.saturationLimit = 0;
+    return params;
+}
+
 // This is the interface to star detection.
-int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars)
+int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num)
 {
     qDeleteAll(*sepStars);
     sepStars->clear();
 
-    QRect nullBox;
-    int count = FITSSEPDetector(imageData)
-                .configure("numStars", 100)
-                .configure("fractionRemoved", 0.0)
-                .configure("deblendMincont", 1.0)
-                .findSourcesAndBackground(*sepStars, nullBox, &skyBackground);
-    return count;
+    if (imageData == nullptr)
+        return 0;
+
+    SexySolver *solver = new SexySolver(imageData->getStatistics(),imageData->getImageBuffer(), nullptr);
+    solver->setParameters(getStarExtractionParameters(num));
+    solver->sextractWithHFR();
+    if(!solver->sextractionDone() || solver->failed())
+        return 0;
+    auto bg = solver->getBackground();
+    skyBackground.mean = bg.global;
+    skyBackground.sigma = bg.globalrms;
+    skyBackground.numPixelsInSkyEstimate = bg.bw * bg.bh;
+
+    QList<FITSImage::Star> stars = solver->getStarList();
+    QList<Edge *> edges;
+
+    for (int index = 0; index < stars.count(); index++)
+    {
+        FITSImage::Star star = stars.at(index);
+        auto * center = new Edge();
+        center->x = star.x;
+        center->y = star.y;
+        center->val = star.peak;
+        center->sum = star.flux;
+        center->HFR = star.HFR;
+        edges.append(center);
+    }
+    // Let's sort edges, starting with widest
+    std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
+
+    // Take only the first maxNumCenters stars
+    {
+        int starCount = qMin(num, edges.count());
+        for (int i = 0; i < starCount; i++)
+            sepStars->append(edges[i]);
+    }
+
+    edges.clear();
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("  #      X      Y    Flux    Width   HFR");
+    for (int i = 0; i < sepStars->count(); i++)
+      qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6")
+        .arg(i, 3)
+        .arg(sepStars->at(i)->x, 6, 'f', 1)
+        .arg(sepStars->at(i)->y, 6, 'f', 1)
+        .arg(sepStars->at(i)->sum, 6, 'f', 1)
+        .arg(sepStars->at(i)->width, 5, 'f', 3)
+        .arg(sepStars->at(i)->HFR, 5, 'f', 3);
+    return sepStars->count();
 }
 
 // Returns a list of 'num' stars, sorted according to evaluateSEPStars().
@@ -218,7 +282,7 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, 
         return;
 
     QList<Edge*> sepStars;
-    int count = findAllSEPStars(imageData, &sepStars);
+    int count = findAllSEPStars(imageData, &sepStars, num * 2);
     if (count == 0)
         return;
 
