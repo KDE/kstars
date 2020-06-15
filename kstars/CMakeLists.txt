@@ -211,6 +211,7 @@ if (INDI_FOUND)
             ekos/guide/internalguide/guidelog.cpp
             ekos/guide/internalguide/starcorrespondence.cpp
             ekos/guide/internalguide/guidestars.cpp
+            ekos/guide/guideview.cpp
             # External Guide
             ekos/guide/externalguide/phd2.cpp
             ekos/guide/externalguide/linguider.cpp

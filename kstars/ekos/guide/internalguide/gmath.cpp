@@ -16,7 +16,7 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "auxiliary/kspaths.h"
-
+#include "../guideview.h"
 #include "ekos_guide_debug.h"
 
 #include <QVector3D>
@@ -123,7 +123,7 @@ bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
     return true;
 }
 
-void cgmath::setGuideView(FITSView *image)
+void cgmath::setGuideView(GuideView *image)
 {
     guideView = image;
 
@@ -732,7 +732,7 @@ Vector cgmath::findLocalStarPosition(void)
     if (square_alg_idx == SEP_MULTISTAR)
     {
         QRect trackingBox = guideView->getTrackingBox();
-        return guideStars.findGuideStar(guideView->getImageData(), trackingBox);
+        return guideStars.findGuideStar(guideView->getImageData(), trackingBox, guideView);
     }
 
     if (useRapidGuide)

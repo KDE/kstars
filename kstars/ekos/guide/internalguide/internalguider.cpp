@@ -470,7 +470,7 @@ void InternalGuider::processCalibration()
     }
 }
 
-void InternalGuider::setGuideView(FITSView *guideView)
+void InternalGuider::setGuideView(GuideView *guideView)
 {
     guideFrame = guideView;
 

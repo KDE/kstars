@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include "ekos_guide_debug.h"
+#include "../guideview.h"
 
 // Keeps at most this many reference "neighbor" stars
 #define MAX_GUIDE_STARS 10
@@ -136,10 +137,44 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
     return newStarCenter;
 }
 
+// Find the current target positions for the guide-star neighbors, and add them
+// to the guideView.
+void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
+{
+    if (guideView == nullptr) return;
+
+    guideView->clearNeighbors();
+
+    // Find the offset between the current reticle position and the original
+    // guide star position (e.g. it might have moved due to dithering).
+    double reticle_x = trackingBox.x() + trackingBox.width() / 2.0;
+    double reticle_y = trackingBox.y() + trackingBox.height() / 2.0;
+    double reticle_offset_x = reticle_x - guideStarNeighbors[guideStarNeighborIndex].x;
+    double reticle_offset_y = reticle_y - guideStarNeighbors[guideStarNeighborIndex].y;
+
+    // See which neighbor stars were associated with detected stars.
+    QVector<bool> found(starCorrespondence.size(), false);
+    for (int i = 0; i < detectedStars.size(); ++i)
+    {
+        int refIndex = starMap[i];
+        if (refIndex >= 0)
+            found[refIndex] = true;
+    }
+    // Add to the guideView the neighbor stars' target positions and whether they were found.
+    const Edge gStar = starCorrespondence.reference(guideStarNeighborIndex);
+    for (int i = 0; i < starCorrespondence.size(); ++i)
+    {
+        if (i == guideStarNeighborIndex) continue;
+        const QVector2D offset = starCorrespondence.offset(i);
+        guideView->addGuideStarNeighbor(gStar.x + offset.x() + reticle_offset_x,
+                                        gStar.y + offset.y() + reticle_offset_y, found[i]);
+    }
+}
+
 // Find the guide star using the starCorrespondence algorithm (looking for
 // the other reference stars in the same relative position as when the guide star was selected).
 // If this method fails, it backs off to looking in the tracking box for the highest scoring star.
-Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox)
+Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, GuideView *guideView)
 {
     // Don't accept reference stars whose position is more than this many pixels from expected.
     constexpr double maxStarAssociationDistance = 10;
@@ -164,6 +199,8 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox)
                 guideStarSNR = SNR;
                 guideStarMass = star.sum;
                 qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence found " << i << "at" << star.x << star.y << "SNR" << SNR;
+                if (guideView != nullptr)
+                    plotStars(guideView, trackingBox);
                 return Vector(star.x, star.y, 0);
             }
         }
