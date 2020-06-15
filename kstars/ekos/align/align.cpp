@@ -3821,7 +3821,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     case ALIGN_SLEWING:
 
-                        if (m_wasSlewStarted == false)
+                        if (!didSlewStart())
                         {
                             // If mount has not started slewing yet, then skip
                             //qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
@@ -4150,7 +4150,7 @@ void Align::Slew()
     // JM 2019-08-23: Do not assume that slew was started immediately. Wait until IPS_BUSY state is triggered
     // from Goto
     currentTelescope->Slew(&targetCoord);
-
+    slewStartTimer.start();
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(),
                        targetCoord.dec().toDMSString()));
 }
@@ -6310,6 +6310,19 @@ void Align::syncFOV()
         KSNotification::error(i18n("Invalid FOV."));
         FOVOut->setStyleSheet("background-color:red");
     }
+}
+
+// m_wasSlewStarted can't be false for more than 10s after a slew starts.
+bool Align::didSlewStart()
+{
+    if (m_wasSlewStarted)
+        return true;
+    if (slewStartTimer.isValid() && slewStartTimer.elapsed() > MAX_WAIT_FOR_SLEW_START_MSEC)
+    {
+        qCDebug(KSTARS_EKOS_ALIGN) << "Slew timed out...waited > 10s, it must have started already.";
+        return true;
+    }
+    return false;
 }
 
 }

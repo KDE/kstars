@@ -20,6 +20,7 @@
 
 #include <QTime>
 #include <QTimer>
+#include <QElapsedTimer>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 #include <QtDBus/qtdbusglobal.h>
@@ -788,6 +789,12 @@ class Align : public QWidget, public Ui::Align
 
         /// Have we slewed?
         bool m_wasSlewStarted { false };
+        // Above flag only stays false for 10s after slew start.
+        QElapsedTimer slewStartTimer;
+        bool didSlewStart();
+        // Only wait this many milliseconds for slew to start.
+        // Otherwise assume it has begun.
+        static constexpr int MAX_WAIT_FOR_SLEW_START_MSEC = 10000;
 
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
