@@ -120,6 +120,11 @@ Capture::Capture()
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             &Ekos::Capture::checkFilter);
 
+    connect(restartCameraB, &QPushButton::clicked, [this]()
+    {
+        restartCamera(CCDCaptureCombo->currentText());
+    });
+
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
     {
         if (currentCCD)
@@ -1728,9 +1733,13 @@ IPState Capture::setCaptureComplete()
     /* Decrease the dithering counter */
     ditherCounter--;
 
-    // Do not send new image if the image was stored on the server.
-    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        emit newImage(activeJob);
+    // For Client/Both images, send file name.
+    else
         sendNewImage(blobFilename, blobChip);
+
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
@@ -2155,7 +2164,7 @@ void Capture::captureImage()
     if (activeJob->isPreview())
     {
         rememberUploadMode = activeJob->getUploadMode();
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        activeJob->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
@@ -7083,4 +7092,19 @@ void Capture::editFilterName()
     }
 }
 
+void Capture::restartCamera(const QString &name)
+{
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, name]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+        emit driverTimedout(name);
+    });
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+    });
+
+    KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to restart %1 camera driver?", name),
+                                            i18n("Driver Restart"), 5);
+}
 }

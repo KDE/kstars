@@ -427,6 +427,16 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void toggleSequence();
 
+
+        /** DBus interface function
+         * @brief restartCamera Restarts the INDI driver associated with a camera. Remote and Local drivers are supported.
+         * @param name Name of camera to restart. If a driver defined multiple cameras, they would be removed and added again
+         * after driver restart.
+         * @note Restarting camera should only be used as a last resort when it comes completely unresponsive. Due the complex
+         * nature of driver interactions with Ekos, restarting cameras can lead to unexpected behavior.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name);
+
         /** @}*/
 
         /**

@@ -4881,8 +4881,8 @@ void Align::setWCSEnabled(bool enable)
     }
 
     ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
-
-    clientManager->sendNewSwitch(wcsControl);
+    if (clientManager)
+        clientManager->sendNewSwitch(wcsControl);
 }
 
 void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state)

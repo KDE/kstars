@@ -29,6 +29,10 @@
     <method name="toggleSequence">
         <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="restartCamera">
+        <arg name="name" type="s" direction="in"/>
+        <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="toggleVideo">
       <arg name="enabled" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

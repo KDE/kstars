@@ -251,14 +251,19 @@ bool ServerManager::restartDriver(DriverInfo *dv)
 {
     ClientManager *cm = dv->getClientManager();
 
-    stopDriver(dv);
-
+    // N.B. This MUST be called BEFORE stopping driver below
+    // Since it requires the driver device pointer.
     cm->removeManagedDriver(dv);
+
+    // Stop driver.
+    stopDriver(dv);
 
     // Wait 1 second before starting the driver again.
     QTimer::singleShot(1000, this, [this, dv, cm]()
     {
         cm->appendManagedDriver(dv);
+        managedDrivers.append(dv);
+        dv->setServerManager(this);
 
         QTextStream out(&indiFIFO);
 
@@ -395,7 +400,8 @@ void ServerManager::processStandardError()
                 restartDriver(*crashedDriver);
             });
 
-            KSMessageBox::Instance()->warningContinueCancel(i18n("INDI Driver <b>%1</b> crashed. Restart it?", (*crashedDriver)->getUniqueLabel()),
+            KSMessageBox::Instance()->warningContinueCancel(i18n("INDI Driver <b>%1</b> crashed. Restart it?",
+                    (*crashedDriver)->getUniqueLabel()),
                     i18n("Driver crash"), 10);
         }
     }
