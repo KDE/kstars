@@ -120,6 +120,11 @@ Capture::Capture()
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             &Ekos::Capture::checkFilter);
 
+    connect(restartCameraB, &QPushButton::clicked, [this]()
+    {
+        restartCamera(CCDCaptureCombo->currentText());
+    });
+
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
     {
         if (currentCCD)
@@ -7083,4 +7088,19 @@ void Capture::editFilterName()
     }
 }
 
+void Capture::restartCamera(const QString &name)
+{
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, name]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+        emit driverTimedout(name);
+    });
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+    });
+
+    KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to restart %1 camera driver?", name),
+                                            i18n("Driver Restart"), 5);
+}
 }

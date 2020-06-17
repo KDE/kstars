@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>701</width>
+    <width>658</width>
     <height>588</height>
    </rect>
   </property>
@@ -49,7 +49,7 @@
         </size>
        </property>
        <property name="title">
-        <string>CCD &amp;&amp; Filter Wheel</string>
+        <string>Camera &amp;&amp; Filter Wheel</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
@@ -67,12 +67,116 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="0" column="0" colspan="6">
+        <item row="0" column="0" colspan="5">
          <layout class="QGridLayout" name="ccdGridLayout">
           <property name="spacing">
            <number>2</number>
           </property>
-          <item row="1" column="4">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Cooler:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="clearConfigurationB">
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Clear camera configuration</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="delete">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="QPushButton" name="setTemperatureB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Set CCD temperature</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="checkmark">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="CCDCaptureCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <widget class="QPushButton" name="filterManagerB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Filter Settings</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="view-filter">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
            <widget class="QDoubleSpinBox" name="temperatureIN">
             <property name="enabled">
              <bool>false</bool>
@@ -94,7 +198,20 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1_6">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Camera</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
            <widget class="QComboBox" name="FilterDevicesCombo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -106,74 +223,6 @@
              <size>
               <width>0</width>
               <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Cooler:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="5">
-           <widget class="QPushButton" name="setTemperatureB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Set CCD temperature</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="checkmark">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="5">
-           <widget class="QPushButton" name="filterManagerB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Filter Settings</string>
-            </property>
-            <property name="statusTip">
-             <string/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="view-filter">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
              </size>
             </property>
            </widget>
@@ -258,30 +307,7 @@ font-weight:bold;
             </item>
            </layout>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_6">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>CCD:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="CCDCaptureCombo">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
+          <item row="0" column="4">
            <widget class="QLabel" name="textLabel1_5_3">
             <property name="toolTip">
              <string>Filter Wheel</string>
@@ -295,22 +321,30 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QPushButton" name="clearConfigurationB">
+           <widget class="QPushButton" name="restartCameraB">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
-             <string>Clear camera configuration</string>
+             <string>Restart camera driver</string>
             </property>
             <property name="text">
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="delete">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="system-shutdown"/>
             </property>
             <property name="iconSize">
              <size>
@@ -320,7 +354,7 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="1" column="2" colspan="2">
+          <item row="1" column="2" colspan="3">
            <widget class="QLabel" name="temperatureOUT">
             <property name="minimumSize">
              <size>
@@ -413,7 +447,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="4" colspan="2">
+        <item row="2" column="3" colspan="2">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="spacing">
            <number>2</number>
@@ -513,7 +547,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="3" column="4" colspan="2">
+        <item row="3" column="3">
          <widget class="QSpinBox" name="delayIN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -560,6 +594,13 @@ font-weight:bold;
           </property>
          </widget>
         </item>
+        <item row="4" column="3" colspan="2">
+         <widget class="QComboBox" name="ISOCombo">
+          <property name="toolTip">
+           <string>Camera ISO</string>
+          </property>
+         </widget>
+        </item>
         <item row="5" column="0">
          <widget class="QLabel" name="textLabel1_17">
           <property name="toolTip">
@@ -593,6 +634,28 @@ font-weight:bold;
           </property>
           <property name="text">
            <string>Gain:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3" colspan="2">
+         <widget class="QDoubleSpinBox" name="GainSpin">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Camera Gain</string>
+          </property>
+          <property name="decimals">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <double>10000.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>10.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -662,7 +725,7 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="6" column="2" colspan="2">
+        <item row="6" column="2">
          <widget class="QLabel" name="textLabel1_20">
           <property name="toolTip">
            <string>Delay in seconds between consecutive images</string>
@@ -675,7 +738,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="6" column="4" colspan="2">
+        <item row="6" column="3" colspan="2">
          <widget class="QDoubleSpinBox" name="OffsetSpin">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -766,7 +829,7 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="7" column="2" colspan="3">
+        <item row="7" column="2" colspan="2">
          <widget class="QPushButton" name="resetFrameB">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -792,7 +855,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="7" column="5">
+        <item row="7" column="4">
          <widget class="QPushButton" name="calibrationB">
           <property name="enabled">
            <bool>false</bool>
@@ -917,7 +980,7 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="8" column="2" colspan="3">
+        <item row="8" column="2" colspan="2">
          <widget class="QPushButton" name="customValuesB">
           <property name="minimumSize">
            <size>
@@ -940,7 +1003,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="8" column="5">
+        <item row="8" column="4">
          <widget class="QPushButton" name="rotatorB">
           <property name="enabled">
            <bool>false</bool>
@@ -996,7 +1059,7 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="10" column="0" colspan="6">
+        <item row="10" column="0" colspan="5">
          <layout class="QGridLayout" name="fileSettingsGridLayout">
           <property name="spacing">
            <number>2</number>
@@ -1187,35 +1250,6 @@ font-weight:bold;
            <widget class="QLineEdit" name="fitsDir"/>
           </item>
          </layout>
-        </item>
-        <item row="5" column="4" colspan="2">
-         <widget class="QDoubleSpinBox" name="GainSpin">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Camera Gain</string>
-          </property>
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>10000.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>10.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="4" colspan="2">
-         <widget class="QComboBox" name="ISOCombo">
-          <property name="toolTip">
-           <string>Camera ISO</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
