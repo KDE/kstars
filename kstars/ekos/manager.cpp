@@ -2921,10 +2921,6 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
 {
     // Image is set to nullptr only on initial capture start up
     int completed = job->getCompleted();
-    //    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    //        completed = job->getCompleted() + 1;
-    //    else
-    //        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
 
     if (job->isPreview() == false)
     {
@@ -2949,14 +2945,12 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
-    if (job->getStatus() == SequenceJob::JOB_BUSY)
+
+    const QString filename = job->property("filename").toString();
+    if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
-        //        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
-        //        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
-        //        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
-        QString filename = job->property("filename").toString();
         ekosLiveClient.get()->media()->sendPreviewImage(filename, uuid);
         if (job->isPreview() == false)
             ekosLiveClient.get()->cloud()->sendPreviewImage(filename, uuid);

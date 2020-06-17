@@ -1733,9 +1733,13 @@ IPState Capture::setCaptureComplete()
     /* Decrease the dithering counter */
     ditherCounter--;
 
-    // Do not send new image if the image was stored on the server.
-    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        emit newImage(activeJob);
+    // For Client/Both images, send file name.
+    else
         sendNewImage(blobFilename, blobChip);
+
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
