@@ -2164,7 +2164,7 @@ void Capture::captureImage()
     if (activeJob->isPreview())
     {
         rememberUploadMode = activeJob->getUploadMode();
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        activeJob->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
