@@ -35,6 +35,7 @@
   <name xml:lang="sv">Kstars</name>
   <name xml:lang="tr">KStars</name>
   <name xml:lang="uk">KStars</name>
+  <name xml:lang="x-test">xxKStarsxx</name>
   <name xml:lang="zh-CN">KStars</name>
   <name xml:lang="zh-TW">天文_KStars</name>
   <summary>Desktop Planetarium</summary>
@@ -68,6 +69,7 @@
   <summary xml:lang="sv">Skrivbordsplanetarium</summary>
   <summary xml:lang="tr">Masaüstü Yıldız Evi</summary>
   <summary xml:lang="uk">Настільний планетарій</summary>
+  <summary xml:lang="x-test">xxDesktop Planetariumxx</summary>
   <summary xml:lang="zh-CN">桌面天文馆</summary>
   <summary xml:lang="zh-TW">桌面星象儀</summary>
   <description>
@@ -90,6 +92,7 @@
     <p xml:lang="sl">KStars je prosta, odprtokodna astronomska programska oprema, ki teče na več okoljih in izdelana pri KDE.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
+    <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
     <p xml:lang="zh-TW">KStars 是由 KDE 提供的自由授權、開放原始碼、跨平臺的天文學軟體。</p>
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي ١٠٠ مليون نجم، و١٣٬٠٠٠ جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
@@ -113,6 +116,7 @@
     <p xml:lang="sv">Den erbjuder en noggrann grafisk simulering av natthimlen från vilken plats som helst på jorden, vid vilket datum och vilken tid som helst. Visningen omfattar upp till 100 miljoner stjärnor, 13 000 avlägsna himmelsobjekt, alla 8 planeterna, solen, månen, samt tusentals kometer, asteroider, supernovor och satelliter.</p>
     <p xml:lang="tr">Herhangi bir tarih ve saatte, Dünya üzerindeki herhangi bir yerden gece gökyüzünün grafik simülasyonunu sağlar. Ekran, 100 milyona kadar yıldız, 13.000 derin gökyüzü objesi, 8 gezegen, Güneş ve Ay, binlerce kuyruklu yıldız, asteroit, süpernova ve uyduları kapsamaktadır.</p>
     <p xml:lang="uk">Програма точно відтворює вигляд нічного неба з будь-якого місця на Землі у будь-який день та час. Програмі відомі розташування понад 100 мільйонів зірок, 13.000 віддалених об’єктів, 8 планет, Сонця і Місяця, а також тисяч комет, астероїдів, наднових та супутників.</p>
+    <p xml:lang="x-test">xxIt provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.xx</p>
     <p xml:lang="zh-TW">它提供了準確的夜空圖形化模擬，從地球上的任何地方，在任何日期與時間。顯示了包含一億個星體、一萬三千個深空物體、以及八個系內行星、還有太陽與月亮，以及數千個慧星、小行星、超新星與衛星。</p>
     <p>For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="ar">إن كنت طالبًا أو أستاذًا، فستجد أنّ البرمجيّة تدعم ضبط سرعة المحاكاة الذي يتيح عرض الظّواهر التي تحدث على فترات زمنيّة طويلة، وتدعم الكثير من الحسابات الفلكيّة المعروفة، وتوفّر حاسبة فلكيّة لتوقّع الاقترانات.</p>
@@ -135,6 +139,7 @@
     <p xml:lang="sv">För elever och lärare stöder den justerbar simuleringshastighet för att visa fenomen som inträffar under långa tidsperioder. Kstars astronomiräknare predikterar konjunktioner, och utför många vanliga astronomiska beräkningar.</p>
     <p xml:lang="tr">Öğrenciler ve öğretmenler için, uzun zaman çizelgeleri üzerinde meydana gelen olguları, bağlantı elemanlarını tahmin etmek için KStars Astrocalculator'ı ve birçok ortak astronomik hesaplamaları görmek için ayarlanabilir simülasyon hızlarını desteklemektedir.</p>
     <p xml:lang="uk">Для учнів і вчителів, у програмі передбачено підтримку налаштовуваної швидкості імітації з метою перегляду явищ, які тривають дуже довго, астрономічний калькулятор KStars для розрахунку сполучень та багатьох інших астрономічних обчислень.</p>
+    <p xml:lang="x-test">xxFor students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.xx</p>
     <p xml:lang="zh-TW">對於學生與教師來說，它支援了可調整的模擬速度以檢視在極長的時間尺度下發生的現象，KStars Astrocalculator 可用來預測天體會合，也可以用來計算許多常見的天文學數據。</p>
     <p>For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!</p>
     <p xml:lang="ar">توفّر البرمجيّة لهواة الفلك مخطِّطًا للرّؤية، وأداة لتقويم الطّقس، ومحرّرًا لمجال الرّؤية لحساب مجال رؤية العتاد وعرضها. اطّلع على أجرام شيّقة في أداة ”السّماء هذه الليلة“، وارسم رسومًا بيانيّة لخطّ ارتفاع أيّ جرم مقابل وقته، واطبع رسومًا بيانيّة للسّماء بجودة عالية، واقرأ الكثير من المعلومات والموارد لتساعدك في اكتشاف العالم!</p>
@@ -157,6 +162,7 @@
     <p xml:lang="sv">För amatörastronomer tillhandahåller den observationsplanering, ett verktyg med en himmelskalender, och en synfältseditor för att beräkna utrustningens synfält och visa det. Ta reda på intressanta objekt med verktyget "Vad händer inatt", skapa diagram över elevation över tid för vilket objekt som helst, skriv ut himmelskartor med hög kvalitet, och få tillgång till massor med information och resurser för att hjälpa till att utforska universum.</p>
     <p xml:lang="tr">Amatör gökbilimciler için, gözlem planlayıcısı, gök takvimi aracı ve bir FOV düzenleyici sunar, böylece ekipman araçlarının alanını hesaplar ve onarı gösterir. "Bu gece ne oluyor?" aracındaki ilginç nesneleri keşfedin, herhangi bir nesne için zaman grafiği vs. yükseklik, yük çözünürlüklü gök grafikleri çizin ve evreni keşfetmenize yardımcı olmak için birçok bilgi ve kaynağa erişin!</p>
     <p xml:lang="uk">Для астрономів-аматорів у програмі передбачено засіб планування спостережень, небесний календар та редактор поля здору для визначення поля зору обладнання та його показу. Ви зможете шукати цікаві об’єкти для спостереження за допомогою засобу «Сьогодні ввечері», переглядати графіки висота-час для усіх об’єктів, друкувати високоякісні карти неба та отримаєте доступ до багатьох інформаційних ресурсів та ресурсів із мультимедійними даними, які допоможуть вам вивчати всесвіт!</p>
+    <p xml:lang="x-test">xxFor the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!xx</p>
     <p xml:lang="zh-TW">對於業餘天文學家來說，它提供了觀測計劃器、天空日曆工具、FOV 編輯器來計算裝備的視野並顯示它們。在「今晚有什麼」工具中尋找有趣的目標、繪製任何物體的高度與時間關係圖，列印高品質的天空圖，並取得大量資訊與資源來協助您探索宇宙！</p>
     <p>Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.</p>
     <p xml:lang="ar">تأتي مع «نجوم‌ك» مجموعة «إيكوس» للتّصوير الفلكيّ، وهي حلّ كامل للتّصوير الفلكيّ والذي يتحكّم بكلّ أجهزة INDI بما في ذلك التّلسكوبات بأنواعها، ومجسّات CCD، وكمرات DSLR، والمُركِّزات، والمرشّحات وغيرها الكثير. يدعم «إيكوس» التّعقّب بدقّة عالية وذلك باستخدام الحلّال الفلكيّ (بتوفّر الشّابكة أو بدونها) وإمكانيّات التّركيز الآليّ والتّوجيه الآليّ، ويلتقط أيضًا الصّور (مفردةً وبمجموعات) باستخدام مدير التّسلسل القويّ المضمّن في البرمجيّة.</p>
@@ -179,6 +185,7 @@
     <p xml:lang="sv">Ekos astronomifotograferingssvit ingår i Kstars: en fullständig lösning för astronomisk fotografering som kan styra alla INDI-enheter, inklusive en mängd teleskop, CCD:er, digitala spegelreflexkameror, fokuseringsenheter, filter, med mera. Ekos stöder mycket noggrann följning med ett nätbaserat och lokalt astrometrilösningsverktyg, har möjlighet till automatisk fokusering och guidning, samt tagning av enstaka eller flera bilder med den kraftfulla inbyggda sekvenshanteraren.</p>
     <p xml:lang="tr">KStars ile birlikte Ekos gökyüzü fotoğrafçılığı programı, sayısız teleskop, CCD, DSLR, odaklayıcı, filtre ve çok daha fazlasını içeren tüm INDI cihazlarını kontrol edebilen eksiksiz bir gökyüzü fotoğrafçılığı çözümü de dahildir. Ekos, çevrimiçi ve çevrimdışı astrometri çözücüsünü, otomatik netleme ve otomatik götürme özelliklerini kullanarak ve güçlü, yerleşik sıralama yöneticisini kullanarak tek veya birden çok görüntüyü yakalamak suretiyle son derece hassas izleme özelliğini destekler.</p>
     <p xml:lang="uk">До складу пакунків з KStars включено астрометричний розв’язувач Ekos — повноцінне астрографічне рішення, яке може керувати усіма пристроями INDI, зокрема багатьма телескопами, ПЗЗ, цифровими дзеркальними фотокамерами, засобам фокусування, фільтрами та іншими інструментами. У Ekos передбачено підтримку високоточного стеження за допомогою засобів інтерактивної та авторомної астрометрії, автофокусування та автонаведення, можливості захоплення одного або декількох зображень на основі потужного вбудованого засобу керування зйомкою.</p>
+    <p xml:lang="x-test">xxIncluded with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.xx</p>
     <p xml:lang="zh-TW">包含在 KStars 中的是 Ekos 天文攝影套裝軟體，這是一套可以控制所有 INDI 裝置的完整解決方案，其中包含了眾多望遠鏡、CCS、DSLR、聚焦器、濾光片與許多其他東西。Ekos 使用線上與離線的天體測量計算程式、自動對焦與自動導航功能進行高精度追蹤，並使用功能強大的序列管理程式來照出一張或多張照片。</p>
     <p>Astronomical Catalogs:</p>
     <p xml:lang="ar">الفهارس الفلكيّة:</p>
@@ -210,6 +217,7 @@
     <p xml:lang="sv">Astronomiska kataloger:</p>
     <p xml:lang="tr">Astronomik Kataloglar:</p>
     <p xml:lang="uk">Каталоги астрономічних даних:</p>
+    <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <p xml:lang="zh-TW">天文類別：</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
@@ -238,6 +246,7 @@
       <li xml:lang="sv">Standardkatalog som består av stjärnor till magnitud 8</li>
       <li xml:lang="tr">8 büyüklüğündeki yıldızlara kadar içeren varsayılan katalog</li>
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
+      <li xml:lang="x-test">xxDefault catalog consisting of stars to magnitude 8xx</li>
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="ar">فهارس أخرى فيها ما يقارب ١٠٠ مليون نجم حتّى القدْر ١٦</li>
@@ -265,6 +274,7 @@
       <li xml:lang="sv">Extra kataloger bestående av 100 millioner stjärnor till magnitud 16</li>
       <li xml:lang="tr">16 büyüklüğündeki 100 milyon yıldızı içeren ek katalog</li>
       <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
+      <li xml:lang="x-test">xxExtra catalogs consisting of 100 million stars to magnitude 16xx</li>
       <li xml:lang="zh-TW">包含到星等 16 的一億個星體的額外類別</li>
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalog</li>
       <li xml:lang="ar">فهارس يمكن تنزيلها وتشمل صور ميسييه، و”أَبِلّ“ للسُّدم الكوكبيّة، وفهرس ”شَارپْلِس“، وفهرس ”لُوِند“ للسُّدم المعتمة</li>
@@ -288,6 +298,7 @@
       <li xml:lang="sv">Nerladdningsbara kataloger som omfattar Messier-bilder, Abell planetära nebulosor, Sharpless-katalog, Lynds katalog över mörka nebulosor</li>
       <li xml:lang="tr">İndirilebilir kataloglar, Messier Görüntüleri, Abell Gezegenimsi Bulutsusu ve Sharpless Kataloğu, Lynds Koyu Bulutsusu Kataloğu'nuda içerir</li>
       <li xml:lang="uk">придатні до отримання каталоги з зображеннями об’єктів каталогу Месьє, каталогу планетарних туманностей Абеля та каталогу Шарплеса, каталогу темних туманностей Ліндса;</li>
+      <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalogxx</li>
       <li xml:lang="zh-TW">可下載的分類，包括 Messier images、Abell Planetary Nebulae、Sharpless Catalog、Lynds Dark Nebula Catalog 等</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="ar">تصحيح الدّقّة والانحراف والانكسار الجوّيّ</li>
@@ -315,6 +326,7 @@
       <li xml:lang="sv">Korrektion för precession, nutation och atmosfärisk refraktion</li>
       <li xml:lang="tr">Devinim, nutasyon ve atmosferik kırılma için düzeltmeler</li>
       <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
+      <li xml:lang="x-test">xxCorrections for precession, nutation and atmospheric refractionxx</li>
       <li xml:lang="zh-TW">歲差、地軸震動與大氣磨擦修正</li>
       <li>Tools for retrieval of data from online databases</li>
       <li xml:lang="ar">أدوات لجلب البيانات من قواعد البيانات الشّبكيّة</li>
@@ -343,6 +355,7 @@
       <li xml:lang="sv">Verktyg för hämtning av data från databaser på nätet</li>
       <li xml:lang="tr">Çevrimiçi veritabanlarından veri alımı için araçlar</li>
       <li xml:lang="uk">інструменти для отримання даних з баз даних у інтернеті.</li>
+      <li xml:lang="x-test">xxTools for retrieval of data from online databasesxx</li>
       <li xml:lang="zh-TW">顯示線上資料庫的工具</li>
     </ul>
   </description>
@@ -372,6 +385,7 @@
       <caption xml:lang="sl">Glavno okno KStars</caption>
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
       <caption xml:lang="uk">Головне вікно KStars</caption>
+      <caption xml:lang="x-test">xxKStars main windowxx</caption>
       <caption xml:lang="zh-TW">KStars 主視窗</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_main.png</image>
     </screenshot>
@@ -395,6 +409,7 @@
       <caption xml:lang="sl">Orodje "Kaj je zanimivega" v programu KStars</caption>
       <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
       <caption xml:lang="uk">Інструмент «Цікаві об'єкти» у KStars</caption>
+      <caption xml:lang="x-test">xx"What's interesting" tool in KStarsxx</caption>
       <caption xml:lang="zh-TW">「有哪些有趣的東西」工具在 KStars 中</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_interesting.png</image>
     </screenshot>
@@ -418,6 +433,7 @@
       <caption xml:lang="sl">Orodje Ekos v KStars</caption>
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
       <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
+      <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
       <caption xml:lang="zh-TW">Ekos 工具在 Kstars 中</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_ekos.png</image>
     </screenshot>
@@ -441,6 +457,7 @@
       <caption xml:lang="sl">Planiranje opazovanja v KStars</caption>
       <caption xml:lang="sv">Observationsplanering i Kstars</caption>
       <caption xml:lang="uk">Планування спостережень у KStars</caption>
+      <caption xml:lang="x-test">xxObservation Planner of KStarsxx</caption>
       <caption xml:lang="zh-TW">KStars 的觀測計劃器</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_planner.png</image>
     </screenshot>
