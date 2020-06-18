@@ -22,7 +22,7 @@
 #include "sep/sep.h"
 #include "fits_debug.h"
 #include "fitssepdetector.h"
-#include "sexysolver.h"
+#include "stellarsolver.h"
 
 
 FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
@@ -64,11 +64,11 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
 
     //Note this is the part I added.  It is just an initial attempt to get it working
     constexpr int maxNumCenters = 50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
-    SexySolver *solver = new SexySolver(image_data->getStatistics(),image_data->getImageBuffer(), parent());
+    StellarSolver *solver = new StellarSolver(image_data->getStatistics(),image_data->getImageBuffer(), parent());
     solver->setParameterProfile(SSolver::Parameters::ALL_STARS); // This is a profile I used for now.  We can make one specific to focusing or guiding or whatever.  Or we can let the user select one to use for the purpose.
     if (!boundary.isNull())
         solver->setUseSubframe(boundary);
-    solver->sextractWithHFR();  //For this test, I am using this method.  SexySolver can also optinally use the external sextractor for this.  It might be faster in some cases, but I don't think it can be installed on windows.
+    solver->sextractWithHFR();  //For this test, I am using this method.  StellarSolver can also optinally use the external sextractor for this.  It might be faster in some cases, but I don't think it can be installed on windows.
     if(!solver->sextractionDone() || solver->failed())
         return 0;
     QList<FITSImage::Star> stars = solver->getStarList();
@@ -86,9 +86,9 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         edges.append(center);
     }
 
-    //There is more information that can be obtained by the Sexysolver.
+    //There is more information that can be obtained by the Stellarsolver.
     //Background info, Star positions(if a plate solve was done before), etc
-    //The information is available as long as the SexySolver exists.
+    //The information is available as long as the StellarSolver exists.
 
     /**  I commented this out, but some of it might still be useful
 

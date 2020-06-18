@@ -1,9 +1,9 @@
-# - Try to find SexySolver
+# - Try to find StellarSolver
 # Once done this will define
 #
-#  SEXYSOLVER_FOUND - system has SexySolver
-#  SEXYSOLVER_INCLUDE_DIR - the CFITSIO include directory
-#  SEXYSOLVER_LIBRARIES - Link these to use CFITSIO
+#  STELLARSOLVER_FOUND - system has StellarSolver
+#  STELLARSOLVER_INCLUDE_DIR - the CFITSIO include directory
+#  STELLARSOLVER_LIBRARIES - Link these to use CFITSIO
 # Copyright (c) 2020, Robert Lancaster <rlancaste@gmail.com>
 # Based on FindCFITSIO by Jasem Mutlaq <mutlaqja@ikarustech.com>
 # Based on FindLibfacile by Carsten Niehaus, <cniehaus@gmx.de>
@@ -31,52 +31,51 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-if (SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
+if (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
 
   # in cache already
-  set(SEXYSOLVER_FOUND TRUE)
-  message(STATUS "Found SexySolver: ${SEXYSOLVER_LIBRARIES}")
+  set(STELLARSOLVER_FOUND TRUE)
+  message(STATUS "Found StellarSolver: ${STELLARSOLVER_LIBRARIES}")
 
-else (SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
+else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
 
   if (NOT WIN32)
     find_package(PkgConfig)
     if (PKG_CONFIG_FOUND)
-      pkg_check_modules(PC_SEXYSOLVER sexysolver)
+      pkg_check_modules(PC_STELLARSOLVER stellarsolver)
     endif (PKG_CONFIG_FOUND)
   endif (NOT WIN32)
 
-  find_path(SEXYSOLVER_INCLUDE_DIR sexysolver.h
-        ${_obIncDir}
-        ${PC_SEXYSOLVER_INCLUDE_DIRS}
-        ${GNUWIN32_DIR}/include/sexysolver
-        ${CMAKE_INSTALL_PREFIX}/include/sexysolver
-  )
+  find_path(STELLARSOLVER_INCLUDE_DIR stellarsolver.h
+            ${_obIncDir}
+            ${GNUWIN32_DIR}/include/stellarsolver/
+            /Users/rlancaste/AstroRoot/craft-root/include/stellarsolver/
+            
+        )
 
-  find_library(SEXYSOLVER_LIBRARIES NAMES sexysolver libsexysolver
+  find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver.a
     PATHS
-        ${_obLinkDir}
-        ${PC_SEXYSOLVER_LIBRARY_DIRS}
+        ${_obIncDir}
         ${GNUWIN32_DIR}/lib
-        ${CMAKE_INSTALL_PREFIX}/lib
+        /Users/rlancaste/AstroRoot/craft-root/lib
   )
 
-  if(SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
-    set(SEXYSOLVER_FOUND TRUE)
-  else (SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
-    set(SEXYSOLVER_FOUND FALSE)
-  endif(SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
+  if(STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
+    set(STELLARSOLVER_FOUND TRUE)
+  else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
+    set(STELLARSOLVER_FOUND FALSE)
+  endif(STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
 
-  if (SEXYSOLVER_FOUND)
-    if (NOT SEXYSOLVER_FIND_QUIETLY)
-      message(STATUS "Found SexySolver: ${SEXYSOLVER_LIBRARIES}")
-    endif (NOT SEXYSOLVER_FIND_QUIETLY)
-  else (SEXYSOLVER_FOUND)
-    if (SEXYSOLVER_FIND_REQUIRED)
-      message(FATAL_ERROR "SexySolver not found. Please install libsexysolver and try again.")
-    endif (SEXYSOLVER_FIND_REQUIRED)
-  endif (SEXYSOLVER_FOUND)
+  if (STELLARSOLVER_FOUND)
+    if (NOT STELLARSOLVER_FIND_QUIETLY)
+      message(STATUS "Found StellarSolver: ${STELLARSOLVER_LIBRARIES}")
+    endif (NOT STELLARSOLVER_FIND_QUIETLY)
+  else (STELLARSOLVER_FOUND)
+    if (STELLARSOLVER_FIND_REQUIRED)
+      message(FATAL_ERROR "StellarSolver not found. Please install libstellarsolver and try again.")
+    endif (STELLARSOLVER_FIND_REQUIRED)
+  endif (STELLARSOLVER_FOUND)
 
-  mark_as_advanced(SEXYSOLVER_INCLUDE_DIR SEXYSOLVER_LIBRARIES)
+  mark_as_advanced(STELLARSOLVER_INCLUDE_DIR STELLARSOLVER_LIBRARIES)
 
-endif (SEXYSOLVER_INCLUDE_DIR AND SEXYSOLVER_LIBRARIES)
+endif (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)

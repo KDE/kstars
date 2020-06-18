@@ -1,4 +1,4 @@
-/*  Structure Definitions for KStars and SexySolver Internal Library, developed by Robert Lancaster, 2020
+/*  Structure Definitions for KStars and StellarSolver Internal Library, developed by Robert Lancaster, 2020
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -17,7 +17,7 @@
 namespace FITSImage {
 
 /// Stats struct to hold statisical data about the FITS data
-/// This is defined in both KStars and SexySolver
+/// This is defined in both KStars and StellarSolver
 typedef struct
 {
     double min[3] = {0}, max[3] = {0};

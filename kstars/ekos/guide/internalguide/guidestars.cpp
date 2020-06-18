@@ -11,7 +11,7 @@
 
 #include <math.h>
 #include "ekos_guide_debug.h"
-#include "sexysolver.h"
+#include "stellarsolver.h"
 
 // Keeps at most this many reference "neighbor" stars
 #define MAX_GUIDE_STARS 10
@@ -219,7 +219,7 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
     if (imageData == nullptr)
         return 0;
 
-    SexySolver *solver = new SexySolver(imageData->getStatistics(),imageData->getImageBuffer(), nullptr);
+    StellarSolver *solver = new StellarSolver(imageData->getStatistics(),imageData->getImageBuffer(), nullptr);
     solver->setParameters(getStarExtractionParameters(num));
     solver->sextractWithHFR();
     if(!solver->sextractionDone() || solver->failed())

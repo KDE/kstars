@@ -249,9 +249,9 @@ set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all t
 find_package(Qt5DataVisualization)
 MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 
-##SexySolver
-find_package(SexySolver)
-set_package_properties(SexySolver PROPERTIES DESCRIPTION "Internal Source Extraction and Plate Solving Library" URL "https://github.com/rlancaste/sexysolver-tester" TYPE RUNTIME PURPOSE "Support for plate solving and sextraction in KStars.")
+##StellarSolver
+find_package(StellarSolver)
+set_package_properties(StellarSolver PROPERTIES DESCRIPTION "Internal Source Extraction and Plate Solving Library" URL "https://github.com/rlancaste/stellarsolver" TYPE RUNTIME PURPOSE "Support for plate solving and sextraction in KStars.")
 
 ## Astrometry.net
 find_package(AstrometryNet)
