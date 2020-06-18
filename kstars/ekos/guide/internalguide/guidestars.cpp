@@ -44,17 +44,14 @@ GuideStars::GuideStars()
 void GuideStars::setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << "setupStarCorrespondence: " << neighbors.size() << guideIndex;
-    guideStarNeighbors.clear();
     if (neighbors.size() >= MIN_STAR_CORRESPONDENCE_SIZE)
     {
         for (int i = 0; i < neighbors.size(); ++i)
-        {
             qCDebug(KSTARS_EKOS_GUIDE) << " adding ref: " << neighbors[i].x << neighbors[i].y;
-            guideStarNeighbors.append(neighbors[i]);
-        }
-        guideStarNeighborIndex = guideIndex;
-        starCorrespondence.initialize(guideStarNeighbors, guideStarNeighborIndex);
+        starCorrespondence.initialize(neighbors, guideIndex);
     }
+    else
+        starCorrespondence.reset();
 }
 
 // Calls SEP to generate a set of star detections and score them,
@@ -65,11 +62,12 @@ QVector3D GuideStars::selectGuideStar(FITSData *imageData)
         return QVector3D(-1, -1, -1);
 
     QList<double> sepScores;
-    findTopStars(imageData, MAX_GUIDE_STARS, &detectedStars, nullptr, &sepScores);
+    QList<double> minDistances;
+    findTopStars(imageData, MAX_GUIDE_STARS, &detectedStars, nullptr, &sepScores, &minDistances);
 
     int maxX = imageData->width();
     int maxY = imageData->height();
-    return selectGuideStar(detectedStars, sepScores, maxX, maxY);
+    return selectGuideStar(detectedStars, sepScores, maxX, maxY, minDistances);
 }
 
 // This selects the guide star by using the input scores, and
@@ -77,7 +75,8 @@ QVector3D GuideStars::selectGuideStar(FITSData *imageData)
 // It also removes from consideration stars with huge HFR values (most likely not stars).
 QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
                                       const QList<double> &sepScores,
-                                      int maxX, int maxY)
+                                      int maxX, int maxY,
+                                      const QList<double> &minDistances)
 {
     constexpr int maxStarDiameter = 32;
     int maxIndex = MAX_GUIDE_STARS < stars.count() ? MAX_GUIDE_STARS : stars.count();
@@ -99,9 +98,21 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
         if (center.HFR > float(maxStarDiameter) / 2)
             score -= 1000;
 
-        // Moderately reject stars close to other stars
-        // This won't work because we're strongly limiting the number of stars.
-        // Skip for now, should not be important with star-correspondence anyway.
+        // Add advantage to stars with SNRs between 50-100.
+        auto bg = skybackground();
+        double snr = bg.SNR(center.sum, center.numPixels);
+        if (snr >= 50 && snr <= 100)
+            score += 75;
+
+        // discourage stars that have close neighbors.
+        // This isn't perfect, as we're not detecting all stars, just top 100 or so.
+        const double neighborDistance = minDistances[i];
+        constexpr double closeNeighbor = 25;
+        constexpr double veryCloseNeighbor = 15;
+        if (neighborDistance < veryCloseNeighbor)
+            score -= 100;
+        else if (neighborDistance < closeNeighbor)
+            score -= 50;
 
         scores[i] = score;
     }
@@ -109,15 +120,20 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
     int maxScore      = -1;
     int maxScoreIndex = -1;
 
-    qCDebug(KSTARS_EKOS_GUIDE) << qSetFieldWidth(6) << "#" << "X" << "Y" << "Flux"
-                               << "HFR" << "sepSc" << "SCORE" << "SNR";
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("  #    X      Y    Flux   HFR  SEPsc Score  SNR");
     for (int i = 0; i < maxIndex; i++)
     {
         auto bg = skybackground();
         double snr = bg.SNR(stars[i].sum, stars[i].numPixels);
-        qCDebug(KSTARS_EKOS_GUIDE) << qSetFieldWidth(6) << i << stars[i].x << stars[i].y
-                                   << stars[i].sum << stars[i].HFR
-                                   << sepScores[i] << scores[i] << snr;
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("%1 %2 %3 %4 %5 %6 %7 %8")
+                                   .arg(i, 3)
+                                   .arg(stars[i].x, 6, 'f', 1)
+                                   .arg(stars[i].y, 6, 'f', 1)
+                                   .arg(stars[i].sum, 6, 'f', 0)
+                                   .arg(stars[i].HFR, 5, 'f', 2)
+                                   .arg(sepScores[i], 5, 'f', 0)
+                                   .arg(scores[i], 5)
+                                   .arg(snr, 5, 'f', 1);
         if (scores[i] > maxScore)
         {
             maxScore      = scores[i];
@@ -142,32 +158,38 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
 void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 {
     if (guideView == nullptr) return;
-
     guideView->clearNeighbors();
+    if (starCorrespondence.size() == 0) return;
+
+    const Edge gStar = starCorrespondence.reference(starCorrespondence.guideStar());
 
     // Find the offset between the current reticle position and the original
     // guide star position (e.g. it might have moved due to dithering).
     double reticle_x = trackingBox.x() + trackingBox.width() / 2.0;
     double reticle_y = trackingBox.y() + trackingBox.height() / 2.0;
-    double reticle_offset_x = reticle_x - guideStarNeighbors[guideStarNeighborIndex].x;
-    double reticle_offset_y = reticle_y - guideStarNeighbors[guideStarNeighborIndex].y;
 
     // See which neighbor stars were associated with detected stars.
     QVector<bool> found(starCorrespondence.size(), false);
+    QVector<int> detectedIndex(starCorrespondence.size(), -1);
+
     for (int i = 0; i < detectedStars.size(); ++i)
     {
         int refIndex = starMap[i];
         if (refIndex >= 0)
+        {
             found[refIndex] = true;
+            detectedIndex[refIndex] = i;
+        }
     }
     // Add to the guideView the neighbor stars' target positions and whether they were found.
-    const Edge gStar = starCorrespondence.reference(guideStarNeighborIndex);
     for (int i = 0; i < starCorrespondence.size(); ++i)
     {
-        if (i == guideStarNeighborIndex) continue;
+        bool isGuideStar = i == starCorrespondence.guideStar();
         const QVector2D offset = starCorrespondence.offset(i);
-        guideView->addGuideStarNeighbor(gStar.x + offset.x() + reticle_offset_x,
-                                        gStar.y + offset.y() + reticle_offset_y, found[i]);
+        const double detected_x = found[i] ? detectedStars[detectedIndex[i]].x : 0;
+        const double detected_y = found[i] ? detectedStars[detectedIndex[i]].y : 0;
+        guideView->addGuideStarNeighbor(offset.x() + reticle_x, offset.y() + reticle_y, found[i],
+                                        detected_x, detected_y, isGuideStar);
     }
 }
 
@@ -182,7 +204,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
     if (imageData == nullptr)
         return Vector(-1, -1, -1);
 
-    if (guideStarNeighbors.size() > 0)
+    if (starCorrespondence.size() > 0)
     {
         findTopStars(imageData, STARS_TO_SEARCH, &detectedStars);
         if (detectedStars.empty())
@@ -192,7 +214,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
         // Should we also weight distance to the tracking box?
         for (int i = 0; i < detectedStars.size(); ++i)
         {
-            if (starMap[i] == guideStarNeighborIndex)
+            if (starMap[i] == starCorrespondence.guideStar())
             {
                 auto &star = detectedStars[i];
                 double SNR = skyBackground.SNR(star.sum, star.numPixels);
@@ -234,15 +256,32 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars)
     int count = FITSSEPDetector(imageData)
                 .configure("numStars", 100)
                 .configure("fractionRemoved", 0.0)
-                .configure("deblendMincont", 1.0)
+                .configure("deblendMincont", 0.005)
                 .findSourcesAndBackground(*sepStars, nullBox, &skyBackground);
     return count;
+}
+
+double GuideStars::findMinDistance(int index, const QList<Edge*> &stars)
+{
+    double closestDistanceSqr = 1e10;
+    const Edge &star = *stars[index];
+    for (int i = 0; i < stars.size(); ++i)
+    {
+        if (i == index) continue;
+        const Edge &thisStar = *stars[i];
+        const double xDist = star.x - thisStar.x;
+        const double yDist = star.y - thisStar.y;
+        const double distanceSqr = xDist * xDist + yDist * yDist;
+        if (distanceSqr < closestDistanceSqr)
+            closestDistanceSqr = distanceSqr;
+    }
+    return sqrt(closestDistanceSqr);
 }
 
 // Returns a list of 'num' stars, sorted according to evaluateSEPStars().
 // If the region-of-interest rectange is not null, it only returns scores in that area.
 void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, const QRect *roi,
-                              QList<double> *outputScores)
+                              QList<double> *outputScores, QList<double> *minDistances)
 {
     if (roi == nullptr)
         qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num;
@@ -275,11 +314,15 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, 
     // Copy the top num results.
     for (int i = 0; i < std::min(num, scores.size()); ++i)
     {
-        if (sc[i].second >= 0)
+        const int starIndex = sc[i].first;
+        const double starScore = sc[i].second;
+        if (starScore >= 0)
         {
-            stars->append(*(sepStars[sc[i].first]));
+            stars->append(*(sepStars[starIndex]));
             if (outputScores != nullptr)
-                outputScores->append(sc[i].second);
+                outputScores->append(starScore);
+            if (minDistances != nullptr)
+                minDistances->append(findMinDistance(starIndex, sepStars));
         }
     }
     qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars returning: " << stars->size();
@@ -291,6 +334,7 @@ void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<doub
     auto centers = starCenters;
     scores->clear();
     for (int i = 0; i < centers.size(); ++i) scores->push_back(0);
+    if (centers.empty()) return;
 
     // Rough constants used by this weighting.
     // If the center pixel is above this, assume it's clipped and don't emphasize.
@@ -367,14 +411,12 @@ void GuideStars::computeStarDrift(const Edge &star, const Edge &reference, doubl
 bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_y,
                           double *RADrift, double *DECDrift)
 {
-    if (guideStarNeighbors.empty())
+    if (starCorrespondence.size() == 0)
         return false;
+    const Edge gStar = starCorrespondence.reference(starCorrespondence.guideStar());
     qCDebug(KSTARS_EKOS_GUIDE) << "Multistar getDrift, reticle:" << reticle_x << reticle_y
-                               << "guidestar" << guideStarNeighbors[guideStarNeighborIndex].x
-                               << guideStarNeighbors[guideStarNeighborIndex].y
-                               << "so offsets:"
-                               << (reticle_x - guideStarNeighbors[guideStarNeighborIndex].x)
-                               << (reticle_y - guideStarNeighbors[guideStarNeighborIndex].y);
+                               << "guidestar" << gStar.x << gStar.y
+                               << "so offsets:" << (reticle_x - gStar.x) << (reticle_y - gStar.y);
     // Revoke multistar if we're that far away.
     constexpr double maxDriftForMultistar = 4.0;  // arc-seconds
 
@@ -393,16 +435,17 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
         return false;
     }
 
-    // The snapshot we took when we found the guidestars has been offset.
-    double offset_x = reticle_x - guideStarNeighbors[guideStarNeighborIndex].x;
-    double offset_y = reticle_y - guideStarNeighbors[guideStarNeighborIndex].y;
+    // The original guide star position has been offset.
+    double offset_x = reticle_x - gStar.x;
+    double offset_y = reticle_y - gStar.y;
 
     int numStarsProcessed = 0;
     bool guideStarProcessed = false;
-    qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: associated";
     double driftRASum = 0, driftDECSum = 0;
     double guideStarRADrift = 0, guideStarDECDrift = 0;
     QVector<double> raDrifts, decDrifts;
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("                 x      y      flux   HFR   SNR   Ref:  x      y     flux  HFR    dRA    dDEC");
     for (int i = 0; i < detectedStars.size(); ++i)
     {
         const auto &star = detectedStars[i];
@@ -416,7 +459,7 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
             ref.y += offset_y;
             double driftRA, driftDEC;
             computeStarDrift(star, ref, &driftRA, &driftDEC);
-            if (starMap[i] == guideStarNeighborIndex)
+            if (starMap[i] == starCorrespondence.guideStar())
             {
                 guideStarRADrift = driftRA;
                 guideStarDECDrift = driftDEC;
@@ -427,15 +470,30 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
             decDrifts.push_back(driftDEC);
             numStarsProcessed++;
 
-            qCDebug(KSTARS_EKOS_GUIDE) << "MultiStar: " << i << star.x << star.y
-                                       << star.sum << star.HFR << snr
-                                       << "<>" << starMap[i] << ref.x << ref.y << ref.sum
-                                       << ref.HFR << " Dr: " << driftRA << driftDEC;
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11  %12  %13")
+                                       .arg(i, 3)
+                                       .arg(star.x, 6, 'f', 1)
+                                       .arg(star.y, 6, 'f', 1)
+                                       .arg(star.sum, 6, 'f', 0)
+                                       .arg(star.HFR, 6, 'f', 2)
+                                       .arg(snr, 5, 'f', 1)
+                                       .arg(starMap[i], 3)
+                                       .arg(ref.x, 6, 'f', 1)
+                                       .arg(ref.y, 6, 'f', 1)
+                                       .arg(ref.sum, 6, 'f', 0)
+                                       .arg(ref.HFR, 5, 'f', 2)
+                                       .arg(driftRA, 5, 'f', 2)
+                                       .arg(driftDEC, 5, 'f', 2);
         }
         else
         {
-            qCDebug(KSTARS_EKOS_GUIDE) << "MultiStar: " << i << star.x << star.y
-                                       << star.sum << star.HFR << snr << starMap[i] << " NOT ASSOCIATED";
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 NOT ASSOCIATED")
+                                       .arg(i, 3)
+                                       .arg(star.x, 6, 'f', 1)
+                                       .arg(star.y, 6, 'f', 1)
+                                       .arg(star.sum, 6, 'f', 0)
+                                       .arg(star.HFR, 6, 'f', 2)
+                                       .arg(snr, 5, 'f', 1);
         }
     }
 

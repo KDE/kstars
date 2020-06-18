@@ -93,7 +93,8 @@ class GuideStars
 
         // Returns the top num stars according to the evaluateSEPStars criteria.
         void findTopStars(FITSData *imageData, int num, QList<Edge> *stars, const QRect *roi = nullptr,
-                          QList<double> *outputScores = nullptr);
+                          QList<double> *outputScores = nullptr,
+                          QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algoritms.
         int findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars);
 
@@ -107,7 +108,12 @@ class GuideStars
         // by evaluateSEPStars().
         QVector3D selectGuideStar(const QList<Edge> &detectedStars,
                                   const QList<double> &sepScores,
-                                  int maxX, int maxY);
+                                  int maxX, int maxY,
+                                  const QList<double> &minDistances);
+
+        // Computes the distance from stars[i] to its closest neighbor.
+        double findMinDistance(int index, const QList<Edge*> &stars);
+
         // Plot the positions of the neighbor stars on the guideView display.
         void plotStars(GuideView *guideView, const QRect &trackingBox);
 
@@ -129,11 +135,6 @@ class GuideStars
         // Used to calculate star SNR values.
         SkyBackground skyBackground;
 
-        // Helpers to find the guide star.
-        // The list of reference stars used by starCorrespondence.
-        QList<Edge> guideStarNeighbors;
-        // The index of the guide star in guideStarNeighbors.
-        int guideStarNeighborIndex = 0;
         // Used to find the guide star in a new set of image detections.
         StarCorrespondence starCorrespondence;
 

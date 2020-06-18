@@ -1431,10 +1431,20 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
         // Also above computes position - reticle. Should the reticle-position, so negate.
         data.raDistance = -tempRA / arcsecPerPixel;
         data.decDistance = -tempDEC / arcsecPerPixel;
-        // The guide distances are related to the raw distances above, but
-        // e.g. small differences can be ignored. We just copy.
-        data.raGuideDistance = -tempRA / arcsecPerPixel;
-        data.decGuideDistance = -tempDEC / arcsecPerPixel;
+
+        // For GuideDistance, since the control is purely proportional, use (pulse / proportional_gain)
+        // which is arc-seconds, and convert that to pixels by dividing by arcsecPerPixel
+        const double raGuideFactor = out_params.pulse_dir[GUIDE_RA] == NO_DIR ?
+                                     0 : (out_params.pulse_dir[GUIDE_RA] == RA_DEC_DIR ? -1.0 : 1.0);
+        const double decGuideFactor = out_params.pulse_dir[GUIDE_DEC] == NO_DIR ?
+                                      0 : (out_params.pulse_dir[GUIDE_DEC] == DEC_INC_DIR ? -1.0 : 1.0);
+        const double raGuideDist = raGuideFactor * out_params.pulse_length[GUIDE_RA] /
+                                   (in_params.proportional_gain[GUIDE_RA] * arcsecPerPixel);
+        const double decGuideDist = decGuideFactor * out_params.pulse_length[GUIDE_DEC] /
+                                    (in_params.proportional_gain[GUIDE_DEC] * arcsecPerPixel);
+        data.raGuideDistance = raGuideDist;
+        data.decGuideDistance = decGuideDist;
+
         data.raDuration = out_params.pulse_dir[GUIDE_RA] == NO_DIR ? 0 : out_params.pulse_length[GUIDE_RA];
         data.raDirection = out_params.pulse_dir[GUIDE_RA];
         data.decDuration = out_params.pulse_dir[GUIDE_DEC] == NO_DIR ? 0 : out_params.pulse_length[GUIDE_DEC];

@@ -215,6 +215,8 @@ class InternalGuider : public GuideInterface
             double last_y { 0 };
             double ra_distance {0};
             double de_distance {0};
+            double start_backlash_x { 0 };
+            double start_backlash_y { 0 };
         } m_CalibrationCoords;
 
         Vector m_DitherTargetPosition;

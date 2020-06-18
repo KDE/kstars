@@ -145,7 +145,7 @@
         </item>
         <item>
          <property name="text">
-          <string>SEP Multi Star</string>
+          <string>SEP Multi Star (experimental)</string>
          </property>
         </item>
        </widget>

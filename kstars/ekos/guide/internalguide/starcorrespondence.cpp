@@ -104,6 +104,13 @@ void StarCorrespondence::initialize(const QList<Edge> &stars, int guideStar)
     initialized = true;
 }
 
+void StarCorrespondence::reset()
+{
+    references.clear();
+    guideStarOffsets.clear();
+    initialized = false;
+}
+
 void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt)
 {
     // This is the cost of not finding one of the reference stars.
@@ -209,8 +216,6 @@ void StarCorrespondence::initializeAdaptation()
 
 void StarCorrespondence::adaptOffsets(const QList<Edge> &stars, const QVector<int> &starMap)
 {
-
-    qCDebug(KSTARS_EKOS_GUIDE) << "Adapting";
     const int numStars = stars.size();
     if (starMap.size() != numStars)
     {
@@ -265,5 +270,4 @@ void StarCorrespondence::adaptOffsets(const QList<Edge> &stars, const QVector<in
             guideStarOffsets[refIndex].y = newYOffset;
         }
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << "Adapt done.";
 }
