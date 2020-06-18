@@ -32,8 +32,10 @@ class GuideView : public FITSView
         void drawOverlay(QPainter *, double scale) override;
 
         // Adds a neighbor at x,y. Set found to true if the neighbor was associated
-        // with a detected star.
-        void addGuideStarNeighbor(double x, double y, bool found);
+        // with a detected star. Coordinates of the detected star are optional.
+        void addGuideStarNeighbor(double targetX, double targetY, bool found,
+                                  double detectedX = 0, double detectedY = 0,
+                                  bool isGuideStar = false);
 
         // Remove all the neighbors.
         void clearNeighbors();
@@ -43,11 +45,18 @@ class GuideView : public FITSView
     private:
         struct Neighbor
         {
-            // x and y input-image coordinates for the potential guide star neighbors.
-            double x;
-            double y;
-            // Was the neighbor at this location was associated with a detected star.
+            // x and y input-image coordinates for the guide star neighbor target position.
+            double targetX;
+            double targetY;
+
+            // Was the neighbor at the above location was associated with a detected star.
             bool found;
+
+            // x and y input-image coordinates for the guide star neighbor that was detected.
+            double detectedX;
+            double detectedY;
+
+            bool isGuideStar;
         };
 
         void drawNeighbor(QPainter *painter, const Neighbor &neighbor);

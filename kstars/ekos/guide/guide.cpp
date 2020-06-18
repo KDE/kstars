@@ -283,8 +283,9 @@ void Guide::clearCalibrationGraphs()
 {
     calibrationPlot->graph(0)->data()->clear(); //RA out
     calibrationPlot->graph(1)->data()->clear(); //RA back
-    calibrationPlot->graph(2)->data()->clear(); //DEC out
-    calibrationPlot->graph(3)->data()->clear(); //DEC back
+    calibrationPlot->graph(2)->data()->clear(); //Backlash
+    calibrationPlot->graph(3)->data()->clear(); //DEC out
+    calibrationPlot->graph(4)->data()->clear(); //DEC back
     calibrationPlot->replot();
 }
 
@@ -363,9 +364,9 @@ void Guide::slotAutoScaleGraphs()
     double accuracyRadius = accuracyRadiusSpin->value();
 
     double key = guideTimer.elapsed() / 1000.0;
-    driftGraph->xAxis->setRange(key - 60, key);
+    driftGraph->xAxis->setRange(key - 120, key);
     driftGraph->yAxis->setRange(-3, 3);
-    driftGraph->graph(0)->rescaleValueAxis(true);
+    driftGraph->graph(0)->rescaleValueAxis(false);
     driftGraph->replot();
 
     driftPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
@@ -377,8 +378,8 @@ void Guide::slotAutoScaleGraphs()
 
     driftPlot->replot();
 
-    calibrationPlot->xAxis->setRange(-10, 10);
-    calibrationPlot->yAxis->setRange(-10, 10);
+    calibrationPlot->xAxis->setRange(-20, 20);
+    calibrationPlot->yAxis->setRange(-20, 20);
     calibrationPlot->graph(0)->rescaleAxes(true);
 
     calibrationPlot->yAxis->setScaleRatio(calibrationPlot->xAxis, 1.0);
@@ -1320,6 +1321,9 @@ void Guide::newFITS(IBLOB *bp)
 
 void Guide::setCaptureComplete()
 {
+    if (guideView != nullptr)
+        guideView->clearNeighbors();
+
     DarkLibrary::Instance()->disconnect(this);
 
     if (operationStack.isEmpty() == false)
@@ -2598,17 +2602,20 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
 {
     switch (type)
     {
-        case GuideInterface::RA_IN:
+        case GuideInterface::RA_OUT:
             calibrationPlot->graph(0)->addData(dx, dy);
             break;
-        case GuideInterface::RA_OUT:
+        case GuideInterface::RA_IN:
             calibrationPlot->graph(1)->addData(dx, dy);
             break;
-        case GuideInterface::DEC_IN:
+        case GuideInterface::BACKLASH:
             calibrationPlot->graph(2)->addData(dx, dy);
             break;
         case GuideInterface::DEC_OUT:
             calibrationPlot->graph(3)->addData(dx, dy);
+            break;
+        case GuideInterface::DEC_IN:
+            calibrationPlot->graph(4)->addData(dx, dy);
             break;
         case GuideInterface::CALIBRATION_MESSAGE_ONLY:
             ;
@@ -3309,7 +3316,7 @@ void Guide::initDriftGraph()
     setupNSEWLabels();
 
     //Sets the default ranges
-    driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
+    driftGraph->xAxis->setRange(0, 120, Qt::AlignRight);
     driftGraph->yAxis->setRange(-3, 3);
     int scale =
         50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
@@ -3381,6 +3388,7 @@ void Guide::initDriftGraph()
     connect(driftGraph->yAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
             this, &Ekos::Guide::setCorrectionGraphScale);
     driftGraph->setInteractions(QCP::iRangeZoom);
+    driftGraph->axisRect()->setRangeZoom(Qt::Orientation::Vertical);
     driftGraph->setInteraction(QCP::iRangeDrag, true);
 
     connect(driftGraph, &QCustomPlot::mouseMove, this, &Ekos::Guide::driftMouseOverLine);
@@ -3494,8 +3502,8 @@ void Guide::initCalibrationPlot()
     calibrationPlot->xAxis->setLabel(i18n("x (pixels)"));
     calibrationPlot->yAxis->setLabel(i18n("y (pixels)"));
 
-    calibrationPlot->xAxis->setRange(-10, 10);
-    calibrationPlot->yAxis->setRange(-10, 10);
+    calibrationPlot->xAxis->setRange(-20, 20);
+    calibrationPlot->yAxis->setRange(-20, 20);
 
     calibrationPlot->setInteractions(QCP::iRangeZoom);
     calibrationPlot->setInteraction(QCP::iRangeDrag, true);
@@ -3513,14 +3521,19 @@ void Guide::initCalibrationPlot()
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(2)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
-            QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
-    calibrationPlot->graph(2)->setName("DEC out");
+    calibrationPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus, QPen(Qt::white, 2), QBrush(), 6));
+    calibrationPlot->graph(2)->setName("Backlash");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(3)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow, 2), QBrush(), 4));
-    calibrationPlot->graph(3)->setName("DEC in");
+    calibrationPlot->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
+    calibrationPlot->graph(3)->setName("DEC out");
+
+    calibrationPlot->addGraph();
+    calibrationPlot->graph(4)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(4)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow, 2), QBrush(), 4));
+    calibrationPlot->graph(4)->setName("DEC in");
 
     calLabel = new QCPItemText(calibrationPlot);
     calLabel->setColor(QColor(255, 255, 255));

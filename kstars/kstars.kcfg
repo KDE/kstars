@@ -2349,6 +2349,10 @@
          <label>Always Reset guiding calibration before starting each job.</label>
          <default>true</default>
       </entry>
+      <entry name="GuideCalibrationBacklash" type="Bool">
+         <label>Remove DEC backlash when calibrating guider.</label>
+         <default>true</default>
+      </entry>
       <entry name="RealignAfterCalibrationFailure" type="Bool">
          <label>If guiding calibration fails, run alignment process again before proceeding to recalibration.</label>
          <default>false</default>

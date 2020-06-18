@@ -39,6 +39,9 @@ class StarCorrespondence
         // reference star positions and the index in stars of the guideStar.
         void initialize(const QList<Edge> &stars, int guideStar);
 
+        // Clears the references.
+        void reset();
+
         // Associate the input stars with the reference stars.
         // StarMap[i] will contain the index of a reference star that corresponds to the ith star.
         // Some input stars may have no reference (starMap->at(i) == -1), and some references may
@@ -58,9 +61,9 @@ class StarCorrespondence
         // Recompute the reference coordinates as we may adapt them.
         Edge reference(int i) const
         {
-            Edge star = references[guideStarIndex];
-            star.x += guideStarOffsets[i].x;
-            star.y += guideStarOffsets[i].y;
+            Edge star = references[i];
+            star.x = references[guideStarIndex].x + guideStarOffsets[i].x;
+            star.y = references[guideStarIndex].y + guideStarOffsets[i].y;
             return star;
         }
         QVector2D offset(int i) const
@@ -70,8 +73,13 @@ class StarCorrespondence
             offset.setY(guideStarOffsets[i].y);
             return offset;
         }
-    private:
 
+        int guideStar() const
+        {
+            return guideStarIndex;
+        }
+
+    private:
         // The Offsets structure is used to keep the positions of the reference stars
         // relative to the guide star.
         struct Offsets

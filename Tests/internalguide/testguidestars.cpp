@@ -110,26 +110,32 @@ void TestGuideStars::basicTest()
     // Setup with 5 reference stars--a guide star and 4 others.
     double gstarX = 100, gstarY = 70;
     double gstar1X = 75, gstar1Y = 150;
+    double gstar2X = 200, gstar2Y = 500;
     QList<Edge> stars;
     stars.append(makeEdge(gstarX, gstarY));
     stars.append(makeEdge(gstar1X, gstar1Y));
-    stars.append(makeEdge(200, 500));
+    stars.append(makeEdge(gstar2X, gstar2Y));
     stars.append(makeEdge(250, 800));
     stars.append(makeEdge(300, 800));
-    QList<double> scores = { 40, 200, 0, 0, 0};
-    QVector3D gstar0 = g.selectGuideStar(stars, scores, 1000, 1000);
+    QList<double> scores = { 40, 200, 70, 0, 0};
+    QList<double> distances = { 100, 100, 100, 100, 100 };
+    QVector3D gstar0 = g.selectGuideStar(stars, scores, 1000, 1000, distances);
     // It should select the highest scoring star (1), as it has the best score
     // and it isn't near an edge (near x,y = 0 or near x,y = 1000).
     CompareFloat(gstar0.x(), gstar1X);
     CompareFloat(gstar0.y(), gstar1Y);
 
     // If the guide star (#1) position is moved close to the border,
-    // the next best star (#0) should be chosen.
+    // the next best star (#2) should be chosen.
     gstar1X = 10;
     stars[1].x = gstar1X;
-    QVector3D gstar = g.selectGuideStar(stars, scores, 1000, 1000);
-    // It should select the highest scoring star (1), as it has the best score
-    // and it isn't near an edge (near x,y = 0 or near x,y = 1000).
+    QVector3D gstar = g.selectGuideStar(stars, scores, 1000, 1000, distances);
+    CompareFloat(gstar.x(), gstar2X);
+    CompareFloat(gstar.y(), gstar2Y);
+
+    // Now say that that star 2 has a close neighbor, it should go the #0
+    distances[2] = 5;
+    gstar = g.selectGuideStar(stars, scores, 1000, 1000, distances);
     CompareFloat(gstar.x(), gstarX);
     CompareFloat(gstar.y(), gstarY);
 
@@ -202,6 +208,23 @@ void TestGuideStars::basicTest()
     CompareFloat(dDec, -6 * constant);
 
     // This should fail if either there aren't enough reference stars (< 2)
+
+    // Test findMinDistance.
+    double xx0 = 10, xx1 = 12, xx2 = 20;
+    double yy0 = 7, yy1 = 13, yy2 = 4;
+    Edge e0 = makeEdge(xx0, yy0);
+    Edge e1 = makeEdge(xx1, yy1);
+    Edge e2 = makeEdge(xx2, yy2);
+    double d01 = hypot(xx0 - xx1, yy0 - yy1);
+    double d02 = hypot(xx0 - xx2, yy0 - yy2);
+    double d12 = hypot(xx1 - xx2, yy1 - yy2);
+    QList<Edge *> edges;
+    edges.append(&e0);
+    edges.append(&e1);
+    edges.append(&e2);
+    CompareFloat(g.findMinDistance(0, edges), std::min(d01, d02));
+    CompareFloat(g.findMinDistance(1, edges), std::min(d01, d12));
+    CompareFloat(g.findMinDistance(2, edges), std::min(d02, d12));
 }
 
 QTEST_GUILESS_MAIN(TestGuideStars)
