@@ -49,6 +49,7 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
   find_path(STELLARSOLVER_INCLUDE_DIR stellarsolver.h
             ${_obIncDir}
             ${GNUWIN32_DIR}/include/stellarsolver/
+            /usr/include/stellarsolver
             /Users/rlancaste/AstroRoot/craft-root/include/stellarsolver/
             
         )
