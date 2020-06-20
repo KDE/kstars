@@ -3760,7 +3760,10 @@ void Guide::removeDevice(ISD::GDInterface *device)
         else
             guiderCombo->setCurrentIndex(0);
 
-        checkCCD();
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkCCD();
+        });
     }
 
     auto st4 = std::find_if(ST4List.begin(), ST4List.end(), [device](ISD::ST4 * st)

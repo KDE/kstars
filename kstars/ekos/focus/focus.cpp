@@ -949,7 +949,11 @@ void Focus::capture()
     }
 
     captureInProgress = true;
-    emit newStatus(FOCUS_PROGRESS);
+    if (state != FOCUS_PROGRESS)
+    {
+        state = FOCUS_PROGRESS;
+        emit newStatus(state);
+    }
 
     focusView->setBaseSize(focusingWidget->size());
 
@@ -1592,7 +1596,17 @@ void Focus::setCaptureComplete()
 
     // If we are not in autofocus process, we're done.
     if (inAutoFocus == false)
+    {
+        // If we are done and there is no further autofocus,
+        // we reset state to IDLE
+        if (state != Ekos::FOCUS_IDLE)
+        {
+            state = Ekos::FOCUS_IDLE;
+            qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+            emit newStatus(state);
+        }
         return;
+    }
 
     // Set state to progress
     if (state != Ekos::FOCUS_PROGRESS)
@@ -2783,10 +2797,13 @@ void Focus::focusStarSelected(int x, int y)
     }
 
     waitStarSelectTimer.stop();
-    state = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
-    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-
-    emit newStatus(state);
+    FocusState nextState = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
+    if (nextState != state)
+    {
+        state = nextState;
+        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+        emit newStatus(state);
+    }
 }
 
 void Focus::checkFocus(double requiredHFR)
@@ -3138,8 +3155,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
         {
             Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
             focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
-            checkFocuser();
-            resetButtons();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFocuser();
+                resetButtons();
+            });
+
         }
     }
 
@@ -3160,8 +3181,11 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             else
                 CCDCaptureCombo->setCurrentIndex(0);
 
-            checkCCD();
-            resetButtons();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkCCD();
+                resetButtons();
+            });
         }
     }
 
@@ -3179,8 +3203,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             }
             else
                 FilterDevicesCombo->setCurrentIndex(0);
-            checkFilter();
-            resetButtons();
+
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFilter();
+                resetButtons();
+            });
         }
     }
 }

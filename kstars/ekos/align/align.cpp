@@ -2113,7 +2113,12 @@ void Align::removeDevice(ISD::GDInterface *device)
         }
         else
             CCDCaptureCombo->setCurrentIndex(0);
-        checkCCD();
+
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkCCD();
+        });
+        //checkCCD();
     }
 
     if (Filters.contains(static_cast<ISD::Filter *>(device)))
@@ -2129,7 +2134,11 @@ void Align::removeDevice(ISD::GDInterface *device)
         else
             FilterDevicesCombo->setCurrentIndex(0);
 
-        checkFilter();
+        //checkFilter();
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkFilter();
+        });
     }
 
 }
