@@ -3155,8 +3155,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
         {
             Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
             focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
-            checkFocuser();
-            resetButtons();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFocuser();
+                resetButtons();
+            });
+
         }
     }
 
@@ -3177,8 +3181,11 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             else
                 CCDCaptureCombo->setCurrentIndex(0);
 
-            checkCCD();
-            resetButtons();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkCCD();
+                resetButtons();
+            });
         }
     }
 
@@ -3196,8 +3203,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             }
             else
                 FilterDevicesCombo->setCurrentIndex(0);
-            checkFilter();
-            resetButtons();
+
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFilter();
+                resetButtons();
+            });
         }
     }
 }
