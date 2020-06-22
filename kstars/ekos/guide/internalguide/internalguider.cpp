@@ -58,26 +58,6 @@ bool InternalGuider::guide()
     m_starLostCounter = 0;
     m_highRMSCounter = 0;
 
-    // TODO re-enable rapid check later on
-#if 0
-    m_isStarted = true;
-    m_useRapidGuide = ui.rapidGuideCheck->isChecked();
-    if (m_useRapidGuide)
-        guideModule->startRapidGuide();
-
-    emit newStatus(Ekos::GUIDE_GUIDING);
-
-    guideModule->setSuspended(false);
-
-    first_frame = true;
-
-    if (ui.subFrameCheck->isEnabled() && ui.subFrameCheck->isChecked() && m_isSubFramed == false)
-        first_subframe = true;
-
-    capture();
-
-#endif
-
     m_isFirstFrame = true;
 
     if (state == GUIDE_IDLE)
