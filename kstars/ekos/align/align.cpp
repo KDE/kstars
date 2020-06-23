@@ -15,7 +15,6 @@
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksuserdb.h"
 #include "offlineastrometryparser.h"
 #include "onlineastrometryparser.h"
 #include "astapastrometryparser.h"
@@ -3100,6 +3099,48 @@ void Align::setSolverAction(int mode)
 
 void Align::startSolving(const QString &filename, bool isGenerated)
 {
+
+    //Note this is temporary, just a test to see if it works.
+    //To really integrate StellarSolver, some of the options that I hard coded here should be in the Align options
+    //Also this is currently just working off the image in the Alignview.  That will NOT work for the Load and Slew command.
+
+    FITSData *data = alignView->getImageData();
+    stellarSolver = new StellarSolver(SSolver::STELLARSOLVER, data->getStatistics(), data->getImageBuffer());
+    connect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
+    connect(stellarSolver, &StellarSolver::logOutput, this, &Align::appendLogText);
+    stellarSolver->setIndexFolderPaths(KSUtils::getAstrometryDataDirs());
+    stellarSolver->setParameterProfile(SSolver::Parameters::PARALLEL_SMALLSCALE);
+    //Setting the initial search scale settings
+    if(Options::astrometryUseImageScale())
+    {
+        QString fov_low, fov_high;
+        double fov_w = fov_x;
+        double fov_h = fov_y;
+       SSolver::ScaleUnits units = (SSolver::ScaleUnits)Options::astrometryImageScaleUnits();
+
+        if (units == SSolver::ARCMIN_WIDTH)
+        {
+            fov_w /= 60;
+            fov_h /= 60;
+        }
+        else if (units == SSolver::ARCSEC_PER_PIX)
+        {
+            fov_w = fov_pixscale;
+            fov_h = fov_pixscale;
+        }
+        stellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
+    }
+    else
+        stellarSolver->setUseScale(false);
+    //Setting the initial search location settings
+    if(Options::astrometryUsePosition())
+        stellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
+    else
+        stellarSolver->setUsePostion(false);
+
+    stellarSolver->startProcess();
+
+    /**
     QStringList solverArgs;
 
     QString options = solverOptions->text().simplified();
@@ -3201,6 +3242,25 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     emit newStatus(state);
 
     parser->startSovler(filename, solverArgs, isGenerated);
+    **/
+}
+
+//Note this is temporary, just trying to see if it works.
+void Align::solverComplete(int error)
+{
+    disconnect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
+    if(error == 0)
+    {
+        if(!stellarSolver->solvingDone() || stellarSolver->failed())
+            solverFailed();
+        else
+        {
+            FITSImage::Solution solution = stellarSolver->getSolution();
+            solverFinished(solution.orientation,solution.ra,solution.dec, solution.pixscale);
+        }
+    }
+    else
+        solverFailed();
 }
 
 void Align::solverFinished(double orientation, double ra, double dec, double pixscale)

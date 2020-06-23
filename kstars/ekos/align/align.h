@@ -29,6 +29,9 @@
 
 #include <memory>
 
+#include "ksuserdb.h"
+#include "stellarsolver.h"
+
 class QProgressIndicator;
 
 class AlignView;
@@ -176,6 +179,10 @@ class Align : public QWidget, public Ui::Align
              * @return Returns true if device if found and selected, false otherwise.
              */
         Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated = true);
+
+        StellarSolver *stellarSolver = nullptr;
+
+
 
         /** DBUS interface function.
              * Select Solver Action after successfully solving an image.
@@ -444,6 +451,8 @@ class Align : public QWidget, public Ui::Align
              * @param pixscale Image scale is arcsec/pixel
              */
         void solverFinished(double orientation, double ra, double dec, double pixscale);
+
+        void solverComplete(int error);
 
         /**
              * @brief Process solver failure.
