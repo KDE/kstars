@@ -3566,4 +3566,25 @@ void Manager::restartDriver(const QString &deviceName)
         INDI::WebManager::restartDriver(currentProfile, deviceName);
 }
 
+void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
+{
+    if (name == "VERBOSE")
+        Options::setVerboseLogging(enabled);
+    else if (name == "INDI")
+        Options::setINDILogging(enabled);
+    else if (name == "FITS")
+        Options::setFITSLogging(enabled);
+    else if (name == "CAPTURE")
+        Options::setCaptureLogging(enabled);
+    else if (name == "FOCUS")
+        Options::setFocusLogging(enabled);
+    else if (name == "GUIDE")
+        Options::setGuideLogging(enabled);
+    else if (name == "MOUNT")
+        Options::setMountLogging(enabled);
+    else if (name == "SCHEDULER")
+        Options::setSchedulerLogging(enabled);
+    else if (name == "OBSERVATORY")
+        Options::setObservatoryLogging(enabled);
+}
 }
