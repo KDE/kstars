@@ -1502,10 +1502,17 @@ void Capture::syncFilterInfo()
  *
  * @return IPS_OK, iff all pending preparation jobs are completed (@see checkLightFramePendingTasks()).
  *         In that case, the #seqTimer is started to wait for the configured settling delay and then
- *         capture the next image (@see Capture::captureImage).
+ *         capture the next image (@see Capture::captureImage). In case that a pending task aborted,
+ *         IPS_IDLE is returned.
  */
 IPState Capture::startNextExposure()
 {
+    // Since this function is looping while pending tasks are running in parallel
+    // it might happen that one of them leads to abort() which sets the #activeJob to nullptr.
+    // In this case we terminate the loop by returning #IPS_IDLE without starting a new capture.
+    if (activeJob == nullptr)
+        return IPS_IDLE;
+
     // check pending jobs for light frames. All other frame types do not contain mid-sequence checks.
     if (activeJob->getFrameType() == FRAME_LIGHT)
     {
