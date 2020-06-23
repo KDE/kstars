@@ -1486,13 +1486,19 @@ void Capture::syncFilterInfo()
 }
 
 /**
- * @brief Ensure whether there are pending preparation tasks to be executed (focusing, dithering, etc.)
+ * @brief Ensure that all pending preparation tasks are be completed (focusing, dithering, etc.)
  *        and start the next exposure.
  *
- * Before starting to capture the next image, checkLightFramePendingTasks() is called to check if all
- * pending preparation tasks have been completed successfully. Only if this is the case, the sequence timer
- * #seqTimer is started to wait the configured delay and starts capturing the next image.
+ * Checks of pending preparations depends upon the frame type:
  *
+ * - For light frames, pending preparations like focusing, dithering etc. needs
+ *   to be checked before each single frame capture. efore starting to capture the next light frame,
+ *   checkLightFramePendingTasks() is called to check if all pending preparation tasks have
+ *   been completed successfully. As soon as this is the case, the sequence timer
+ *   #seqTimer is started to wait the configured delay and starts capturing the next image.
+ *
+ * - For bias, dark and flat frames, preparation jobs are only executed when starting a sequence.
+ *   Hence, for these frames we directly start the sequence timer #seqTimer.
  *
  * @return IPS_OK, iff all pending preparation jobs are completed (@see checkLightFramePendingTasks()).
  *         In that case, the #seqTimer is started to wait for the configured settling delay and then
@@ -1500,10 +1506,14 @@ void Capture::syncFilterInfo()
  */
 IPState Capture::startNextExposure()
 {
-    IPState pending = checkLightFramePendingTasks();
-    if (pending != IPS_OK)
-        // there are still some jobs pending
-        return pending;
+    // check pending jobs for light frames. All other frame types do not contain mid-sequence checks.
+    if (activeJob->getFrameType() == FRAME_LIGHT)
+    {
+        IPState pending = checkLightFramePendingTasks();
+        if (pending != IPS_OK)
+            // there are still some jobs pending
+            return pending;
+    }
 
     // nothing pending, let's start the next exposure
     if (seqDelay > 0)
@@ -2054,7 +2064,10 @@ void Capture::captureOne()
     }
 
     if (addJob(true))
+    {
+        m_State = CAPTURE_PROGRESS;
         prepareJob(jobs.last());
+    }
 }
 
 void Capture::startFraming()
@@ -5481,6 +5494,7 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                 // Otherwise, we ask user to confirm manually
                 calibrationCheckType = CAL_CHECK_CONFIRMATION;
 
+                // Continue
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
                     //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
@@ -5488,6 +5502,14 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                     m_TelescopeCoveredDarkExposure = false;
                     m_TelescopeCoveredFlatExposure = false;
                     calibrationCheckType = CAL_CHECK_TASK;
+                });
+
+                // Cancel
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                {
+                    KSMessageBox::Instance()->disconnect(this);
+                    calibrationCheckType = CAL_CHECK_TASK;
+                    abort();
                 });
 
                 KSMessageBox::Instance()->warningContinueCancel(i18n("Remove cover from the telescope in order to continue."),
