@@ -1204,7 +1204,7 @@ void cgmath::process_axes(void)
     in_params.proportional_gain[1] = Options::dECProportionalGain();
 
     in_params.integral_gain[0] = Options::rAIntegralGain();
-    in_params.integral_gain[1] = Options::rAIntegralGain();
+    in_params.integral_gain[1] = Options::dECIntegralGain();
 
     in_params.derivative_gain[0] = Options::rADerivativeGain();
     in_params.derivative_gain[1] = Options::dECDerivativeGain();
