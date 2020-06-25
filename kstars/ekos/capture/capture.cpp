@@ -7135,6 +7135,7 @@ void Capture::restartCamera(const QString &name)
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, name]()
     {
         KSMessageBox::Instance()->disconnect(this);
+        abort();
         emit driverTimedout(name);
     });
     connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
