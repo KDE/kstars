@@ -225,8 +225,9 @@ class Focus : public QWidget, public Ui::Focus
 
         /** DBUS interface function.
              * Capture a focus frame.
+             * @param settleTime if > 0 wait for the given time in seconds before starting to capture
              */
-        Q_SCRIPTABLE Q_NOREPLY void capture();
+        Q_SCRIPTABLE Q_NOREPLY void capture(double settleTime = 0.0);
 
         /** DBUS interface function.
              * Focus inward
@@ -510,7 +511,9 @@ class Focus : public QWidget, public Ui::Focus
          * Absolute position focusers
          ****************************/
         /// Absolute focus position
-        double currentPosition { 0 };
+        int currentPosition { 0 };
+        /// Motion state of the absolute focuser
+        IPState currentPositionState {IPS_IDLE};
         /// What was our position before we started the focus process?
         int initialFocuserAbsPosition { -1 };
         /// Pulse duration in ms for relative focusers that only support timers, or the number of ticks in a relative or absolute focuser
@@ -638,7 +641,8 @@ class Focus : public QWidget, public Ui::Focus
         QCPGraph *focusPoint = nullptr;
         bool polynomialGraphIsShown = false;
 
-        // Capture timeout timer
+        // Capture timers
+        QTimer captureTimer;
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
         uint8_t captureFailureCounter { 0 };

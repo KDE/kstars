@@ -3568,23 +3568,76 @@ void Manager::restartDriver(const QString &deviceName)
 
 void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
 {
-    if (name == "VERBOSE")
+    if (name == "LOGGING")
+    {
+        if (!enabled)
+            KSUtils::Logging::Disable();
+    }
+    else if (name == "FILE")
+    {
+        if (enabled)
+            KSUtils::Logging::UseFile();
+        else
+            KSUtils::Logging::UseDefault();
+    }
+    else if (name == "STDOUT")
+    {
+        if (enabled)
+            KSUtils::Logging::UseStdout();
+        else
+            KSUtils::Logging::UseDefault();
+    }
+    else if (name == "STDERR")
+    {
+        if (enabled)
+            KSUtils::Logging::UseStderr();
+        else
+            KSUtils::Logging::UseDefault();
+    }
+    else if (name == "VERBOSE")
+    {
         Options::setVerboseLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "INDI")
+    {
         Options::setINDILogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "FITS")
+    {
         Options::setFITSLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "CAPTURE")
+    {
         Options::setCaptureLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "FOCUS")
+    {
         Options::setFocusLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "GUIDE")
+    {
         Options::setGuideLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "MOUNT")
+    {
         Options::setMountLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "SCHEDULER")
+    {
         Options::setSchedulerLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
     else if (name == "OBSERVATORY")
+    {
         Options::setObservatoryLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
 }
 }

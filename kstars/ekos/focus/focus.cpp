@@ -564,7 +564,7 @@ void Focus::getAbsFocusPosition()
 
     if (absMove)
     {
-        currentPosition = absMove->np[0].value;
+        currentPosition = static_cast<int>(absMove->np[0].value);
         absMotionMax    = absMove->np[0].max;
         absMotionMin    = absMove->np[0].min;
 
@@ -575,7 +575,7 @@ void Focus::getAbsFocusPosition()
         maxTravelIN->setMinimum(absMove->np[0].min);
         maxTravelIN->setMaximum(absMove->np[0].max);
 
-        absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+        absTicksLabel->setText(QString::number(currentPosition));
 
         stepIN->setMaximum(absMove->np[0].max / 2);
         //absTicksSpin->setValue(currentPosition);
@@ -834,10 +834,15 @@ void Focus::stop(bool aborted)
     }
 }
 
-void Focus::capture()
+void Focus::capture(double settleTime)
 {
-    captureTimeout.stop();
-
+    // If capturing should be delayed by a given settling time, we start the capture timer.
+    // This is intentionally designed re-entrant, i.e. multiple calls with settle time > 0 takes the last delay
+    if (settleTime > 0 && captureInProgress == false)
+    {
+        captureTimer.start(static_cast<int>(settleTime * 1000));
+        return;
+    }
     if (captureInProgress)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
@@ -856,6 +861,9 @@ void Focus::capture()
         return;
     }
 
+    // reset timeout for receiving an image
+    captureTimeout.stop();
+    // reset timeout for focus star selection
     waitStarSelectTimer.stop();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
@@ -1250,7 +1258,7 @@ void Focus::setCaptureComplete()
 
         // Let signal the current HFR now depending on whether the focuser is absolute or relative
         if (canAbsMove)
-            emit newHFR(currentHFR, static_cast<int>(currentPosition));
+            emit newHFR(currentHFR, currentPosition);
         else
             emit newHFR(currentHFR, -1);
 
@@ -1786,7 +1794,7 @@ void Focus::autoFocusLinear()
     if (!canAbsMove && !canRelMove && canTimerMove)
     {
         const bool kFixPosition = true;
-        if (kFixPosition && (linearRequestedPosition != static_cast<int>(currentPosition)))
+        if (kFixPosition && (linearRequestedPosition != currentPosition))
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Linear: warning, changing position " << currentPosition << " to "
                                        << linearRequestedPosition;
@@ -1835,7 +1843,7 @@ void Focus::autoFocusLinear()
     }
 
     linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
-    const int nextPosition = adjustLinearPosition(static_cast<int>(currentPosition), linearRequestedPosition);
+    const int nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition);
     if (linearRequestedPosition == -1)
     {
         if (linearFocuser->isDone() && linearFocuser->solution() != -1)
@@ -2335,7 +2343,8 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         }
         else
         {
-            QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(currentPosition).arg(FocusSettleTime->value());
+            capture(FocusSettleTime->value());
         }
     }
     else if (state == IPS_ALERT)
@@ -2367,6 +2376,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
     {
+        // avoid duplication of events if the temperature did not change since last time
+        if (currentTemperature - nvp->np[0].value == 0.0)
+            return;
+
         currentTemperature = nvp->np[0].value;
         if (lastFocusTemperature != INVALID_VALUE && currentTemperature != INVALID_VALUE)
         {
@@ -2384,10 +2397,21 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
         if (pos)
         {
-            currentPosition = pos->value;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Abs Focuser position changed to %1").arg(currentPosition);
-            absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
-            emit absolutePositionChanged(currentPosition);
+            int newPosition = static_cast<int>(pos->value);
+            // Some absolute focuser constantly report the position without a state change.
+            // Therefore we ignore it if both value and state are the same as last time.
+            if (currentPosition == newPosition && currentPositionState == nvp->s)
+                return;
+
+            currentPositionState = nvp->s;
+
+            if (currentPosition != newPosition)
+            {
+                currentPosition = newPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << " (state = " << currentPositionState << ")";
+                absTicksLabel->setText(QString::number(currentPosition));
+                emit absolutePositionChanged(currentPosition);
+            }
         }
 
         if (adjustFocus && nvp->s == IPS_OK)
@@ -3777,6 +3801,10 @@ void Focus::initConnections()
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
+
+    // delayed capturing for waiting the scope to settle
+    captureTimer.setSingleShot(true);
+    connect(&captureTimer, &QTimer::timeout, this, [&](){capture();});
 
     // How long do we wait until an exposure times out and needs a retry?
     captureTimeout.setSingleShot(true);
