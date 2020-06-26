@@ -3570,28 +3570,21 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
 {
     if (name == "LOGGING")
     {
+        Options::setDisableLogging(enabled);
+        // Disable if required. If enabled, next call should be either FILE or DEFAULT.
         if (!enabled)
             KSUtils::Logging::Disable();
     }
     else if (name == "FILE")
     {
+        Options::setLogToFile(enabled);
         if (enabled)
             KSUtils::Logging::UseFile();
-        else
-            KSUtils::Logging::UseDefault();
     }
-    else if (name == "STDOUT")
+    else if (name == "DEFAULT")
     {
+        Options::setLogToDefault(enabled);
         if (enabled)
-            KSUtils::Logging::UseStdout();
-        else
-            KSUtils::Logging::UseDefault();
-    }
-    else if (name == "STDERR")
-    {
-        if (enabled)
-            KSUtils::Logging::UseStderr();
-        else
             KSUtils::Logging::UseDefault();
     }
     else if (name == "VERBOSE")
@@ -3612,21 +3605,30 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
     else if (name == "CAPTURE")
     {
         Options::setCaptureLogging(enabled);
+        Options::setINDICCDLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
     else if (name == "FOCUS")
     {
         Options::setFocusLogging(enabled);
+        Options::setINDIFocuserLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
     else if (name == "GUIDE")
     {
         Options::setGuideLogging(enabled);
+        Options::setINDICCDLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "ALIGNMENT")
+    {
+        Options::setAlignmentLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
     else if (name == "MOUNT")
     {
         Options::setMountLogging(enabled);
+        Options::setINDIMountLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
     else if (name == "SCHEDULER")
