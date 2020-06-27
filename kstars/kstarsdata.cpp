@@ -169,7 +169,8 @@ bool KStarsData::initialize()
                 QSqlQuery query(fixcitydb);
                 if (query.exec("alter table city add column Elevation real default -10;") == false)
                 {
-                    emit progressText(QString("failed to add Elevation column to city table in mycitydb.sqlite: &1").arg(query.lastError().text()));
+                    emit progressText(QString("failed to add Elevation column to city table in mycitydb.sqlite: &1").arg(
+                                          query.lastError().text()));
                 }
             }
             else
@@ -906,7 +907,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
     {
         QString line = istream.readLine();
         line.remove("string:");
-        line.remove("int:");
+        line.remove("int32:");
         line.remove("double:");
         line.remove("bool:");
 
