@@ -116,7 +116,7 @@ class ScriptBuilder : public QDialog
         void saveWarning();
         void readScript(QTextStream &istream);
         void writeScript(QTextStream &ostream);
-        bool parseFunction(QString fn_name, QStringList &fn);
+        bool parseFunction(const QString &fn_name, const QString &fn_args);
 
     public slots:
         void slotAddFunction();

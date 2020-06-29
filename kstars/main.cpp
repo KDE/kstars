@@ -306,7 +306,7 @@ int main(int argc, char *argv[])
             qCDebug(KSTARS) << "Saved to file: %1" << fname;
 
         delete map;
-        delete dat;
+        //delete dat;
         return 0;
     }
 
