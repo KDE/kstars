@@ -26,6 +26,7 @@ class ObservatoryDomeModel: public QObject
         ObservatoryDomeModel() = default;
 
         void initModel(Dome *dome);
+        bool isActive() {return initialized;}
 
         ISD::Dome::Status status();
         ISD::Dome::ShutterStatus shutterStatus();
@@ -92,6 +93,7 @@ class ObservatoryDomeModel: public QObject
 
     private:
         Dome *domeInterface;
+        bool initialized = false;
 
     signals:
         void newStatus(ISD::Dome::Status state);

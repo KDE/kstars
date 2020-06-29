@@ -21,11 +21,11 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
     // ensure that we start the timers if required
     weatherChanged(status());
 
-    connect(weatherInterface, &Weather::ready, this, &ObservatoryWeatherModel::updateWeatherStatus);
+    connect(weatherInterface, &Weather::ready, this, [&]() {initialized = true; emit updateWeatherStatus();});
     connect(weatherInterface, &Weather::newStatus, this, &ObservatoryWeatherModel::weatherChanged);
     connect(weatherInterface, &Weather::newWeatherData, this, &ObservatoryWeatherModel::updateWeatherData);
     connect(weatherInterface, &Weather::newWeatherData, this, &ObservatoryWeatherModel::newWeatherData);
-    connect(weatherInterface, &Weather::disconnected, this, &ObservatoryWeatherModel::disconnected);
+    connect(weatherInterface, &Weather::disconnected, this, [&]() {emit disconnected(); initialized = false;});
 
     // read the default values
     warningActionsActive = Options::warningActionsActive();
@@ -58,6 +58,8 @@ void ObservatoryWeatherModel::initModel(Weather *weather)
 
     if (weatherInterface->status() != ISD::Weather::WEATHER_IDLE)
         emit ready();
+
+    initialized = true;
 }
 
 ISD::Weather::Status ObservatoryWeatherModel::status()
