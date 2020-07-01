@@ -804,6 +804,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             else
                 checkTrackModes();
         }
+        else
+            sendToClient();
     };
 
     if (targetAlt < 0)
