@@ -1844,6 +1844,8 @@ void Capture::processJobCompletion()
 /**
  * @brief Check, whether dithering is necessary and, in that case initiate it.
  *
+ *  Dithering is only required for batch images and does not apply for PREVIEW.
+ *
  * There are several situations that determine, if dithering is necessary:
  * 1. the current job captures light frames AND the dither counter has reached 0 AND
  * 2. guiding is running OR the manual dithering option is selected AND
@@ -1854,6 +1856,10 @@ void Capture::processJobCompletion()
  */
 bool Capture::checkDithering()
 {
+    // No need if preview only
+    if (activeJob && activeJob->isPreview())
+        return false;
+
     if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
             // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
             && meridianFlipStage != MF_GUIDING
@@ -1864,7 +1870,7 @@ bool Capture::checkDithering()
             // Must be only done for light frames
             && activeJob->getFrameType() == FRAME_LIGHT
             // Check dither counter
-            && ditherCounter <= 0)
+            && ditherCounter == 0)
     {
         ditherCounter = Options::ditherFrames();
 
