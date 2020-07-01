@@ -1968,7 +1968,11 @@ IPState Capture::resumeSequence()
  */
 bool Capture::startFocusIfRequired()
 {
-    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT)
+    // Do not start focus if:
+    // 1. There is no active job, or
+    // 2. Target frame is not LIGHT
+    // 3. Capture is preview only
+    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT || activeJob->isPreview())
         return false;
 
     isRefocus = false;
