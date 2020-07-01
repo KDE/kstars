@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpsGPG</class>
+ <widget class="QWidget" name="OpsGPG">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1056</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox_0">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://ieeexplore.ieee.org/document/7105398&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;The Gaussian Process Guider&lt;/span&gt;&lt;/a&gt;, &lt;span style=&quot; font-style:italic;&quot;&gt;(c) 2014-2017 Max Planck Society&lt;/span&gt;, is used for RA guiding only. Most parameters &lt;br/&gt;can stay at their defaults. &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;Enable GPG&lt;/span&gt; with the checkbox below. It can be used with all Guide star-detection&lt;br/&gt;algorithms but has been tested most and is recommended with &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;SEP MultiStar&lt;/span&gt;. It combines a reactive&lt;br/&gt;correction whose aggressiveness is controlled with &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;Control Gain&lt;/span&gt; and &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;Minimum Move&lt;/span&gt;, with a predictive&lt;br/&gt;correction controlled by &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;Prediction Gain&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;The most important parameter is &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;Major Period&lt;/span&gt;. If you can determine it for your mount, it's much &lt;br/&gt;better to set it yourself and uncheck &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;Estimate Period.&lt;/span&gt;&lt;/p&gt;&lt;hr/&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_gpg0">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Enable the GPG guider for RA guiding.</string>
+          </property>
+          <property name="text">
+           <string>Enable GPG</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="kcfg_GPGEnabled">
+          <property name="toolTip">
+           <string>Enable the GPG guider for RA guiding.</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_1">
+     <property name="title">
+      <string>Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_gpgs0a">
+          <property name="toolTip">
+           <string>The length in seconds of the mount's major period (that's being corrected).</string>
+          </property>
+          <property name="text">
+           <string>Major Period</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGPeriod">
+          <property name="toolTip">
+           <string>The length in seconds of the mount's major period (that's being corrected).</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>3600</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_gpgs0c">
+          <property name="text">
+           <string>seconds</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_gpgs3a">
+          <property name="toolTip">
+           <string>If checked, the GPG estimates the mount's major period. Otherwise, it uses the entry above.</string>
+          </property>
+          <property name="text">
+           <string>Estimate Period</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="kcfg_GPGEstimatePeriod">
+          <property name="toolTip">
+           <string>If checked, the GPG estimates the mount's major period. Otherwise, it uses the entry above.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_gpgs3c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_gpgs1a">
+          <property name="toolTip">
+           <string>The fraction of its prediction the GPG uses to move the mount.</string>
+          </property>
+          <property name="text">
+           <string>Prediction Gain</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGpWeight">
+          <property name="toolTip">
+           <string>The fraction of its prediction the GPG uses to move the mount.</string>
+          </property>
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_gpgs1c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_gpgs3a">
+          <property name="toolTip">
+           <string>The fraction of the guide-star drift that the GPG uses to move the mount.</string>
+          </property>
+          <property name="text">
+           <string>Control Gain</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGcWeight">
+          <property name="toolTip">
+           <string>The fraction of the guide-star drift the GPG uses to move the mount.</string>
+          </property>
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_gpgs3c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_gpgs4a">
+          <property name="toolTip">
+           <string>The min-move parameter the GPG uses to move the mount when it uses its backoff proportional guider.</string>
+          </property>
+          <property name="text">
+           <string>Minimum Move</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGMinMove">
+          <property name="toolTip">
+           <string>The min-move parameter the GPG uses to move the mount when it uses its backoff proportional guider.</string>
+          </property>
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>10.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_gpgs4c">
+          <property name="text">
+           <string>arc-seconds</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Expert Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_gpgas0a">
+          <property name="toolTip">
+           <string>Length scale of the long range kernel.</string>
+          </property>
+          <property name="text">
+           <string>Long-range Length Scale</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGSE0KLengthScale">
+          <property name="toolTip">
+           <string>Length scale of the long range kernel.</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>10000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_gpgas0c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_gpgas1a">
+          <property name="toolTip">
+           <string>Long-range kernel signal variance</string>
+          </property>
+          <property name="text">
+           <string>Long-range Variance</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGSE0KSignalVariance">
+          <property name="toolTip">
+           <string>Long-range kernel signal variance</string>
+          </property>
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_gpgas1c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_gpgas2a">
+          <property name="toolTip">
+           <string>Periodic Kernel length scale</string>
+          </property>
+          <property name="text">
+           <string>Periodic Length Scale</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGPKLengthScale">
+          <property name="toolTip">
+           <string>Periodic Kernel length scale</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>10000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_gpgas2c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_gpgas3a">
+          <property name="toolTip">
+           <string>Periodic kernel signal variance</string>
+          </property>
+          <property name="text">
+           <string>Periodic Variance</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGPKSignalVariance">
+          <property name="toolTip">
+           <string>Periodic kernel signal variance</string>
+          </property>
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_gpgas3c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_gpgas4a">
+          <property name="toolTip">
+           <string>Length scale of the short-range kernel</string>
+          </property>
+          <property name="text">
+           <string>Short-range Length Scale</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGSE1KLengthScale">
+          <property name="toolTip">
+           <string>Length scale of the short-range kernel</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_gpgas4c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_gpgas5a">
+          <property name="toolTip">
+           <string>Short-range kernel signal variance</string>
+          </property>
+          <property name="text">
+           <string>Short-range Variance</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGSE1KSignalVariance">
+          <property name="toolTip">
+           <string>Short-range kernel signal variance</string>
+          </property>
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLabel" name="label_gpgas5c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_gpgas6a">
+          <property name="toolTip">
+           <string>Number of points used in the Gaussian Process approximation</string>
+          </property>
+          <property name="text">
+           <string>Approximation Points</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGPointsForApproximation">
+          <property name="toolTip">
+           <string>Number of points used in the Gaussian Process approximation</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>3600</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QLabel" name="label_gpgas6c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_gpgas7a">
+          <property name="toolTip">
+           <string>The min number of periods that must be sampled before prediction is fully used. Before that, it is mixed with the control/proportional guider.</string>
+          </property>
+          <property name="text">
+           <string>Num Periods for Inference</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGMinPeriodsForInference">
+          <property name="toolTip">
+           <string>The min number of periods that must be sampled before prediction is fully used. Before that, it is mixed with the control/proportional guider.</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QLabel" name="label_gpgas7c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_gpgas8a">
+          <property name="toolTip">
+           <string>The min number of periods that must be sampled before GPG fully estimates the period.</string>
+          </property>
+          <property name="text">
+           <string>Num Periods for Period Estimate</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QSpinBox" name="kcfg_GPGMinPeriodsForPeriodEstimate">
+          <property name="toolTip">
+           <string>The min number of periods that must be sampled before GPG fully estimates the period.</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="label_gpgas8c">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

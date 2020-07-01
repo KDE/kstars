@@ -626,12 +626,10 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     INumber *DecEle                = nullptr;
     INumber *AzEle                 = nullptr;
     INumber *AltEle                = nullptr;
-    INumberVectorProperty *EqProp  = nullptr;
-    INumberVectorProperty *HorProp = nullptr;
     double currentRA = 0, currentDEC = 0, currentAlt = 0, currentAz = 0, targetAlt = 0;
     bool useJ2000(false);
 
-    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
+    INumberVectorProperty *EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == nullptr)
     {
         // J2000 Property
@@ -640,7 +638,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             useJ2000 = true;
     }
 
-    HorProp = baseDevice->getNumber("HORIZONTAL_COORD");
+    INumberVectorProperty *HorProp = baseDevice->getNumber("HORIZONTAL_COORD");
 
     if (EqProp && EqProp->p == IP_RO)
         EqProp = nullptr;
@@ -806,6 +804,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             else
                 checkTrackModes();
         }
+        else
+            sendToClient();
     };
 
     if (targetAlt < 0)

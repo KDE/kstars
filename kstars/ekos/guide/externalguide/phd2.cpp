@@ -407,7 +407,8 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 emit newLog(i18n("PHD2: Star found, guiding resumed."));
                 abortTimer->stop();
                 state = GUIDING;
-            } else if (state != GUIDING)
+            }
+            else if (state != GUIDING)
             {
                 // It's unclear why we receive a guiding step although we are not in the guiding state.
                 // So let's reaquire the current state directly and let's not guess.
@@ -423,7 +424,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             //            }
             if (isDitherActive)
                 return;
-            double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec;
+            double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec, snr;
             QString RADirection, DECDirection;
             diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
             diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
@@ -431,6 +432,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             pulse_dec = jsonEvent["DECDuration"].toDouble();
             RADirection = jsonEvent["RADirection"].toString();
             DECDirection = jsonEvent["DECDirection"].toString();
+            snr = jsonEvent["SNR"].toDouble();
 
             if (RADirection == "East")
                 pulse_ra = -pulse_ra;  //West Direction is Positive, East is Negative
@@ -448,6 +450,9 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
                 diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
             }
+
+            if (std::isfinite(snr))
+                emit newSNR(snr);
 
             if (std::isfinite(diff_ra_arcsecs) && std::isfinite(diff_de_arcsecs))
             {
@@ -537,35 +542,35 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
 
     switch (newstate)
     {
-    case STOPPED:
-        emit newLog(i18n("PHD2: Guiding Stopped."));
-        emit newStatus(Ekos::GUIDE_ABORTED);
-        break;
-    case SELECTED:
-        emit newLog(i18n("PHD2: Star Selected."));
-        emit newStatus(GUIDE_STAR_SELECT);
-        break;
-    case GUIDING:
-        emit newLog(i18n("PHD2: Guiding."));
-        emit newStatus(GUIDE_GUIDING);
-        break;
-    case LOSTLOCK:
-        emit newLog(i18n("PHD2: Star Lost. Trying to reacquire."));
-        abortTimer->start(static_cast<int>(Options::guideLostStarTimeout()) * 1000);
-        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout started (" << Options::guideLostStarTimeout() << " sec)";
-        // TODO: there is no matching EKOS guiding state
-        break;
-    case PAUSED:
-        emit newLog(i18n("PHD2: Paused."));
-        emit newStatus(GUIDE_SUSPENDED);
-        break;
-    case CALIBRATING:
-        emit newLog(i18n("PHD2: Calibrating."));
-        emit newStatus(GUIDE_CALIBRATING);
-        break;
-    case LOOPING:
-        //emit newLog(i18n("PHD2: Looping Exposures."));
-        break;
+        case STOPPED:
+            emit newLog(i18n("PHD2: Guiding Stopped."));
+            emit newStatus(Ekos::GUIDE_ABORTED);
+            break;
+        case SELECTED:
+            emit newLog(i18n("PHD2: Star Selected."));
+            emit newStatus(GUIDE_STAR_SELECT);
+            break;
+        case GUIDING:
+            emit newLog(i18n("PHD2: Guiding."));
+            emit newStatus(GUIDE_GUIDING);
+            break;
+        case LOSTLOCK:
+            emit newLog(i18n("PHD2: Star Lost. Trying to reacquire."));
+            abortTimer->start(static_cast<int>(Options::guideLostStarTimeout()) * 1000);
+            qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Lost star timeout started (" << Options::guideLostStarTimeout() << " sec)";
+            // TODO: there is no matching EKOS guiding state
+            break;
+        case PAUSED:
+            emit newLog(i18n("PHD2: Paused."));
+            emit newStatus(GUIDE_SUSPENDED);
+            break;
+        case CALIBRATING:
+            emit newLog(i18n("PHD2: Calibrating."));
+            emit newStatus(GUIDE_CALIBRATING);
+            break;
+        case LOOPING:
+            //emit newLog(i18n("PHD2: Looping Exposures."));
+            break;
     }
 
     state = newstate;
@@ -576,7 +581,8 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
     PHD2ResultType resultType = takeRequestFromList(jsonObj);
 
     if (resultType == STAR_IMAGE)
-        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: received star image response, id" << jsonObj["id"].toInt();   // don't spam the log with image data
+        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: received star image response, id" <<
+                                   jsonObj["id"].toInt();   // don't spam the log with image data
     else
         qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: response:" << line;
 
@@ -661,7 +667,8 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             QVariantList exposureListArray = jsonObj["result"].toArray().toVariantList();
             logValidExposureTimes = i18n("PHD2: Valid Exposure Times: Auto, ");
             QList<double> values;
-            for(int i = 1; i < exposureListArray.size(); i ++) //For some reason PHD2 has a negative exposure time of 1 at the start of the array?
+            for(int i = 1; i < exposureListArray.size();
+                    i ++) //For some reason PHD2 has a negative exposure time of 1 at the start of the array?
                 values << exposureListArray.at(i).toDouble() / 1000.0; //PHD2 reports in ms.
             logValidExposureTimes += Ekos::Manager::Instance()->guideModule()->setRecommendedExposureValues(values);
             emit newLog(logValidExposureTimes);
@@ -669,7 +676,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         }
         case LOCK_POSITION:                         //get_lock_position
         {
-            if(jsonObj["result"].toArray().count()==2)
+            if(jsonObj["result"].toArray().count() == 2)
             {
                 double x  = jsonObj["result"].toArray().at(0).toDouble();
                 double y  = jsonObj["result"].toArray().at(1).toDouble();
@@ -744,7 +751,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         //shutdown
 
         case STOP_CAPTURE_COMMAND_RECEIVED:         //stop_capture
-        emit newStatus(GUIDE_ABORTED);
+            emit newStatus(GUIDE_ABORTED);
             break;
     }
 
@@ -1154,7 +1161,8 @@ void PHD2::connectEquipment(bool enable)
 }
 
 //set_dec_guide_mode
-void PHD2::requestSetDEGuideMode(bool deEnabled, bool nEnabled, bool sEnabled) //Possible Settings Off, Auto, North, and South
+void PHD2::requestSetDEGuideMode(bool deEnabled, bool nEnabled,
+                                 bool sEnabled) //Possible Settings Off, Auto, North, and South
 {
     QJsonArray args;
 
@@ -1186,7 +1194,7 @@ void PHD2::requestSetExposureTime(int time) //Note: time is in milliseconds
 }
 
 //set_lock_position
-void PHD2::setLockPosition(double x,double y)
+void PHD2::setLockPosition(double x, double y)
 {
     // Note: false will mean if a guide star is near the coordinates, it will use that.
     QJsonArray args;

@@ -29,6 +29,7 @@ class TestGuideStars : public QObject
 
     private slots:
         void basicTest();
+        void calibrationTest();
 };
 
 #include "testguidestars.moc"
@@ -54,20 +55,25 @@ void TestGuideStars::basicTest()
 {
     GuideStars g;
 
-    // Test setCalibration() and point2arcsec().
+    // Test setCalibration() and calibration in general.
 
     // angle in degrees, pixel size in mm, focal length in mm.
     const int binning = 1;
     double angle = 0.0;
     const double pixel_size = 3e-3, focal_length = 750.0;
-    g.setCalibration(angle, binning, pixel_size, focal_length);
+    Calibration cal;
+    cal.setParameters(pixel_size, pixel_size, focal_length);
+    cal.setBinning(binning, binning);
+    cal.setAngle(angle);
+    g.setCalibration(cal);
 
     // arcseconds = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
     // Then needs to be rotated by the angle. Start with angle = 0;
     double constant = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
+
     double x1 = 10, y1 = 50;
     Vector p(x1, y1, 0);
-    Vector as = g.point2arcsec(p);
+    Vector as = cal.convertToArcseconds(p);
     CompareFloat(as.x, constant * x1);
     CompareFloat(as.y, constant * y1);
 
@@ -84,26 +90,30 @@ void TestGuideStars::basicTest()
 
     // Change the angle to 90, 180 and -90 degrees
     angle = 90.0;
-    g.setCalibration(angle, binning, pixel_size, focal_length);
+    cal.setAngle(angle);
+    g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
     CompareFloat(-dDec, dx * constant);
     CompareFloat(dRa, -dy * constant);
 
     angle = 180.0;
-    g.setCalibration(angle, binning, pixel_size, focal_length);
+    cal.setAngle(angle);
+    g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
     CompareFloat(-dRa, dx * constant);
     CompareFloat(-dDec, -dy * constant);
 
     angle = -90.0;
-    g.setCalibration(angle, binning, pixel_size, focal_length);
+    cal.setAngle(angle);
+    g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
     CompareFloat(dDec, dx * constant);
     CompareFloat(-dRa, -dy * constant);
 
     // Use angle -90 so changes in x are changes in RA, and y --> -DEC.
     angle = 0.0;
-    g.setCalibration(angle, binning, pixel_size, focal_length);
+    cal.setAngle(angle);
+    g.setCalibration(cal);
 
     // Select the guide star.
 
@@ -225,6 +235,90 @@ void TestGuideStars::basicTest()
     CompareFloat(g.findMinDistance(0, edges), std::min(d01, d02));
     CompareFloat(g.findMinDistance(1, edges), std::min(d01, d12));
     CompareFloat(g.findMinDistance(2, edges), std::min(d02, d12));
+}
+
+// This tests the Calibration class' API.
+void TestGuideStars::calibrationTest()
+{
+    const int binning = 1;
+    double angle = 0.0;
+    const double pixel_size = 3e-3, focal_length = 750.0;
+    Calibration cal;
+
+    // arcseconds = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
+    // Then needs to be rotated by the angle. Start with angle = 0;
+    double constant = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
+
+    cal.setParameters(pixel_size, pixel_size, focal_length);
+    cal.setBinning(binning, binning);
+    cal.setAngle(angle);
+
+    CompareFloat(angle, cal.getAngle());
+    CompareFloat(focal_length, cal.getFocalLength());
+
+    for (int i = -10; i <= 10; ++i)
+    {
+        Vector input(i, 2 * i, 0);
+        Vector as = cal.convertToArcseconds(input);
+        Vector px = cal.convertToPixels(input);
+        CompareFloat(as.x, i * constant);
+        CompareFloat(as.y, 2 * i * constant);
+        CompareFloat(px.x, i / constant);
+        CompareFloat(px.y, 2 * i / constant);
+        double x, y;
+        cal.convertToPixels(input.x, input.y, &x, &y);
+        CompareFloat(x, i / constant);
+        CompareFloat(y, 2 * i / constant);
+    }
+
+    CompareFloat(constant, cal.xArcsecondsPerPixel());
+    CompareFloat(constant, cal.yArcsecondsPerPixel());
+    CompareFloat(1.0 / constant, cal.xPixelsPerArcsecond());
+    CompareFloat(1.0 / constant, cal.xPixelsPerArcsecond());
+
+    // These are not yet estimated iniside Calibrate() so for now, just set them.
+    double raRate = 5.5, decRate = 3.3;
+    cal.setRaPulseMsPerPixel(raRate);
+    cal.setDecPulseMsPerPixel(decRate);
+
+    CompareFloat(raRate, cal.raPulseMillisecondsPerPixel());
+    CompareFloat(raRate / constant, cal.raPulseMillisecondsPerArcsecond());
+    CompareFloat(decRate, cal.decPulseMillisecondsPerPixel());
+    CompareFloat(decRate / constant, cal.decPulseMillisecondsPerArcsecond());
+
+    Vector px(1.0, 0.0, 0.0);
+    cal.setAngle(0);
+    Vector raDec = cal.rotateToRaDec(px);
+    CompareFloat(px.x, raDec.x);
+    CompareFloat(px.y, raDec.y);
+    double rdx, rdy;
+    cal.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(px.x, rdx);
+    CompareFloat(px.y, rdy);
+
+    cal.setAngle(90);
+    raDec = cal.rotateToRaDec(px);
+    CompareFloat(px.y, raDec.x);
+    CompareFloat(-px.x, raDec.y);
+    cal.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(px.y, rdx);
+    CompareFloat(-px.x, rdy);
+
+    cal.setAngle(180);
+    raDec = cal.rotateToRaDec(px);
+    CompareFloat(-px.x, raDec.x);
+    CompareFloat(-px.y, raDec.y);
+    cal.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(-px.x, rdx);
+    CompareFloat(-px.y, rdy);
+
+    cal.setAngle(270);
+    raDec = cal.rotateToRaDec(px);
+    CompareFloat(-px.y, raDec.x);
+    CompareFloat(px.x, raDec.y);
+    cal.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(-px.y, rdx);
+    CompareFloat(px.x, rdy);
 }
 
 QTEST_GUILESS_MAIN(TestGuideStars)

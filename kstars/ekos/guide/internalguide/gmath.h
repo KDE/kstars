@@ -27,6 +27,9 @@
 #include "starcorrespondence.h"
 #include "fitsviewer/fitssepdetector.h"
 #include "guidestars.h"
+#include "calibration.h"
+
+#include "gpg.h"
 
 class GuideView;
 class FITSData;
@@ -116,21 +119,19 @@ class cgmath : public QObject
         // functions
         bool setVideoParameters(int vid_wd, int vid_ht, int binX, int binY);
         bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
-        void getGuiderParameters(double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal);
         bool setReticleParameters(double x, double y, double ang);
         bool getReticleParameters(double *x, double *y, double *ang) const;
         int getSquareAlgorithmIndex(void) const;
         void setSquareAlgorithm(int alg_idx);
 
-        Ekos::Matrix getROTZ()
+        GPG &getGPG()
         {
-            return ROT_Z;
+            return *gpg;
         }
         const cproc_out_params *getOutputParameters() const
         {
             return &out_params;
         }
-        info_params_t getInfoParameters(void) const;
         uint32_t getTicks(void) const;
 
         void setGuideView(GuideView *image);
@@ -154,10 +155,6 @@ class cgmath : public QObject
         // Based on PHD2 algorithm
         QList<Edge *> PSFAutoFind(int extraEdgeAllowance = 0);
 
-        /*void moveSquare( double newx, double newy );
-            void resizeSquare( int size_idx );
-            Vector getSquarePosition() { return square_pos; }*/
-
         // Rapid Guide
         void setRapidGuide(bool enable);
         void setRapidStarData(double dx, double dy);
@@ -170,7 +167,6 @@ class cgmath : public QObject
         bool isSuspended(void) const;
 
         // Star tracking
-        void getStarDrift(double *dx, double *dy) const;
         void getStarScreenPosition(double *dx, double *dy) const;
         Vector findLocalStarPosition(void);
         bool isStarLost(void) const;
@@ -186,16 +182,17 @@ class cgmath : public QObject
                                       bool *swap_dec, int RATotalPulse = -1, int DETotalPulse = -1);
         double calculatePhi(double start_x, double start_y, double end_x, double end_y) const;
 
-        // Dither
-        double getDitherRate(int axis);
-
         bool isImageGuideEnabled() const;
         void setImageGuideEnabled(bool value);
 
         void setRegionAxis(const uint32_t &value);
 
-        void getCalibration(double *phi_ra, double *phi_dec, double *rate_ra, double *rate_dec);
+        const Calibration &getCalibration()
+        {
+            return calibration;
+        }
         QVector3D selectGuideStar();
+        double getGuideStarSNR();
 
     signals:
         void newAxisDelta(double delta_ra, double delta_dec);
@@ -226,11 +223,7 @@ class cgmath : public QObject
         int video_width { -1 };
         /// Video frame height
         int video_height { -1 };
-        double ccd_pixel_width { 0 };
-        double ccd_pixel_height { 0 };
         double aperture { 0 };
-        double focal { 0 };
-        Ekos::Matrix ROT_Z;
         bool preview_mode { true };
         bool suspended { false };
         bool lost_star { false };
@@ -238,17 +231,11 @@ class cgmath : public QObject
 
         /// Index of threshold algorithm
         int square_alg_idx { SMART_THRESHOLD };
-        int subBinX { 1 };
-        int subBinY { 1 };
 
         // sky coord. system vars.
-        /// Star position in reticle coord. system
-        Vector star_pos;
         /// Star position on the screen
         Vector scr_star_pos;
         Vector reticle_pos;
-        Vector reticle_orts[2];
-        double reticle_angle { 0 };
 
         // processing
         uint32_t channel_ticks[2];
@@ -278,7 +265,6 @@ class cgmath : public QObject
         QVector<float *> referenceRegions;
 
         // dithering
-        double ditherRate[2];
         double phiRA = 0;
         double phiDEC = 0;
 
@@ -286,4 +272,7 @@ class cgmath : public QObject
         QTime logTime;
 
         GuideStars guideStars;
+
+        std::unique_ptr<GPG> gpg;
+        Calibration calibration;
 };

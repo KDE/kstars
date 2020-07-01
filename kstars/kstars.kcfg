@@ -2292,6 +2292,51 @@
       <entry name="DECMinimumPulse" type="UInt">
          <default>100</default>
       </entry>
+      <entry name="GPGEnabled" type="Bool">
+         <default>false</default>
+      </entry>
+      <entry name="GPGcWeight" type="Double">
+         <default>0.6</default>
+      </entry>
+      <entry name="GPGMinPeriodsForInference" type="UInt">
+         <default>4</default>
+      </entry>
+      <entry name="GPGMinMove" type="Double">
+         <default>0.2</default>
+      </entry>
+      <entry name="GPGSE0KLengthScale" type="UInt">
+         <default>700</default>
+      </entry>
+      <entry name="GPGSE0KSignalVariance" type="Double">
+         <default>20.0</default>
+      </entry>
+      <entry name="GPGPKLengthScale" type="Double">
+         <default>10.0</default>
+      </entry>
+      <entry name="GPGPeriod" type="UInt">
+         <default>480</default>
+      </entry>
+      <entry name="GPGPKSignalVariance" type="Double">
+         <default>20.0</default>
+      </entry>
+      <entry name="GPGSE1KLengthScale" type="Double">
+         <default>25.0</default>
+      </entry>
+      <entry name="GPGSE1KSignalVariance" type="Double">
+         <default>10.0</default>
+      </entry>
+      <entry name="GPGMinPeriodsForPeriodEstimate" type="UInt">
+         <default>4</default>
+      </entry>
+      <entry name="GPGPointsForApproximation" type="UInt">
+         <default>100</default>
+      </entry>
+      <entry name="GPGpWeight" type="Double">
+         <default>0.5</default>
+      </entry>
+      <entry name="GPGEstimatePeriod" type="Bool">
+         <default>true</default>
+      </entry>
       <entry name="GuidingRate" type="Double">
          <default>0.5</default>
       </entry>
@@ -2314,6 +2359,14 @@
       <entry name="DECorrDisplayedOnGuideGraph" type="Bool">
          <label>Display the DEC Corrections Plot on the Guide Drift Graphics.</label>
          <default>false</default>
+      </entry>
+      <entry name="SNRDisplayedOnGuideGraph" type="Bool">
+         <label>Display the SNR Plot on the Guide Drift Graphics.</label>
+         <default>true</default>
+      </entry>
+      <entry name="RMSDisplayedOnGuideGraph" type="Bool">
+         <label>Display the RMS Error Plot on the Guide Drift Graphics.</label>
+         <default>true</default>
       </entry>
    </group>
    <group name="Scheduler">

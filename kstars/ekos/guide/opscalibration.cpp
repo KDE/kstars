@@ -56,6 +56,10 @@ void OpsCalibration::showEvent(QShowEvent *)
 
 void OpsCalibration::slotApply()
 {
+    // HY (6/29/29):
+    // This can be an issue if the window is opened and then the reticle changes, e.g.
+    // if the options window is opened before guiding starts!
+    // I'd recommend removing it, don't see the benefit, but not part of this MR.
     guider->setReticleParameters(spinBox_ReticleX->value(), spinBox_ReticleY->value(), spinBox_ReticleAngle->value());
 }
 }
