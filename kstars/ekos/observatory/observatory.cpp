@@ -195,13 +195,15 @@ void Observatory::initDome()
 
         // update the dome parking status
         setDomeParkStatus(getDomeModel()->parkStatus());
+
+        // enable the UI controls for dome weather actions
+        initWeatherActions(getWeatherModel() != nullptr && getWeatherModel()->isActive());
     }
 
 }
 
 void Observatory::shutdownDome()
 {
-    domeBox->setEnabled(false);
     shutterBox->setEnabled(false);
     shutterBox->setVisible(false);
     domePark->setEnabled(false);
@@ -211,6 +213,11 @@ void Observatory::shutdownDome()
 
     disconnect(domePark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::park);
     disconnect(domeUnpark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::unpark);
+
+    // disable the UI controls for dome weather actions
+    initWeatherActions(false);
+    statusDefinitionBox->setVisible(false);
+    domeBox->setEnabled(false);
 }
 
 void Observatory::setDomeStatus(ISD::Dome::Status status)
@@ -388,6 +395,7 @@ void Observatory::enableWeather(bool enable)
     clearGraphHistory->setVisible(enable);
     clearGraphHistory->setEnabled(enable);
     autoscaleValuesCB->setVisible(enable);
+    sensorData->setVisible(enable);
     sensorGraphs->setVisible(enable);
 }
 
@@ -525,13 +533,13 @@ void Observatory::initWeather()
 
     weatherBox->setEnabled(true);
     autoscaleValuesCB->setChecked(getWeatherModel()->autoScaleValues());
-    weatherActionsBox->setVisible(true);
-    weatherActionsBox->setEnabled(true);
     weatherWarningBox->setChecked(getWeatherModel()->getWarningActionsActive());
     weatherAlertBox->setChecked(getWeatherModel()->getAlertActionsActive());
     setWeatherStatus(getWeatherModel()->status());
     setWarningActions(getWeatherModel()->getWarningActions());
     setAlertActions(getWeatherModel()->getAlertActions());
+
+    initWeatherActions(true);
     weatherStatusTimer.start(1000);
     if (getWeatherModel()->refresh() == false)
         appendLogText(i18n("Refreshing weather data failed."));
@@ -544,10 +552,43 @@ void Observatory::shutdownWeather()
     weatherStatusTimer.stop();
     setWeatherStatus(ISD::Weather::WEATHER_IDLE);
     enableWeather(false);
+    // disable the UI controls for weather actions
+    initWeatherActions(false);
     // catch re-connect
     if (getWeatherModel() != nullptr)
         connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
 
+}
+
+void Observatory::initWeatherActions(bool enabled)
+{
+    if (enabled && getDomeModel() != nullptr && getDomeModel()->isActive())
+    {
+        // make the entire box visible
+        weatherActionsBox->setVisible(true);
+        weatherActionsBox->setEnabled(true);
+
+        // enable warning and alert action control
+        weatherAlertDomeCB->setEnabled(true);
+        weatherWarningDomeCB->setEnabled(true);
+
+        // only domes with shutters need shutter action controls
+        if (getDomeModel()->hasShutter())
+        {
+            weatherAlertShutterCB->setEnabled(true);
+            weatherWarningShutterCB->setEnabled(true);
+        }
+        else
+        {
+            weatherAlertShutterCB->setEnabled(false);
+            weatherWarningShutterCB->setEnabled(false);
+        }
+    }
+    else
+    {
+        weatherActionsBox->setVisible(false);
+        weatherActionsBox->setEnabled(false);
+    }
 }
 
 

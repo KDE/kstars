@@ -31,6 +31,8 @@ class ObservatoryWeatherModel : public QObject
         ObservatoryWeatherModel() = default;
 
         void initModel(Weather *weather);
+        bool isActive() {return initialized;}
+
         ISD::Weather::Status status();
 
         bool refresh();
@@ -91,6 +93,7 @@ class ObservatoryWeatherModel : public QObject
         void setAlertActionsActive(bool active);
 
     private:
+        bool initialized = false;
         Weather *weatherInterface;
         QTimer warningTimer, alertTimer;
         struct WeatherActions warningActions, alertActions;

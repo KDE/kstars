@@ -60,7 +60,7 @@ class Observatory : public QWidget, public Ui::Observatory
 
         void newWeatherData(std::vector<ISD::Weather::WeatherData>);
 
-    private:
+private:
         ObservatoryModel *mObservatoryModel = nullptr;
 
         void setDomeModel(ObservatoryDomeModel *model);
@@ -107,6 +107,9 @@ class Observatory : public QWidget, public Ui::Observatory
         QButtonGroup *sensorDataNamesGroup {nullptr};
 
         ISD::Weather::Status m_WeatherStatus { ISD::Weather::WEATHER_IDLE };
+
+        // Initialize the UI controls that configure reactions upon weather events
+        void initWeatherActions(bool enabled);
 
         void initSensorGraphs();
         void updateSensorData(std::vector<ISD::Weather::WeatherData> weatherData);
