@@ -31,6 +31,7 @@ namespace Ekos
 {
 class OpsCalibration;
 class OpsGuide;
+class OpsGPG;
 class InternalGuider;
 class PHD2;
 class LinGuider;
@@ -406,6 +407,8 @@ class Guide : public QWidget, public Ui::Guide
         void clearGuideGraphs();
         void clearCalibrationGraphs();
         void slotAutoScaleGraphs();
+        void slotZoomInX();
+        void slotZoomOutX();
         void buildTarget();
         void guideHistory();
         void setLatestGuidePoint(bool isChecked);
@@ -413,6 +416,8 @@ class Guide : public QWidget, public Ui::Guide
         void toggleShowDEPlot(bool isChecked);
         void toggleRACorrectionsPlot(bool isChecked);
         void toggleDECorrectionsPlot(bool isChecked);
+        void toggleShowSNRPlot(bool isChecked);
+        void toggleShowRMSPlot(bool isChecked);
         void exportGuideData();
         void setCorrectionGraphScale();
         void updateCorrectionsScaleVisibility();
@@ -461,6 +466,7 @@ class Guide : public QWidget, public Ui::Guide
         void setAxisDelta(double ra, double de);
         void setAxisSigma(double ra, double de);
         void setAxisPulse(double ra, double de);
+        void setSNR(double snr);
         void calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message = QString(""), double dx = 0,
                                double dy = 0);
 
@@ -500,6 +506,11 @@ class Guide : public QWidget, public Ui::Guide
         void resizeEvent(QResizeEvent *event) override;
 
         /**
+             * @brief zoomX zooms in or out of the X-axis of the drift graph.
+             */
+        void zoomX(int zoomLevel);
+
+        /**
              * @brief updateGuideParams Update the guider and frame parameters due to any changes in the mount and/or ccd frame
              */
         void updateGuideParams();
@@ -531,6 +542,11 @@ class Guide : public QWidget, public Ui::Guide
          * @param name CCD to enable to disable. If empty (default), then action is applied to all CCDs.
          */
         void setExternalGuiderBLOBEnabled(bool enable);
+
+        /**
+         * @brief setRMSVisibility Decides which RMS plot is visible.
+         */
+        void setRMSVisibility();
 
         void handleManualDither();
 
@@ -613,6 +629,7 @@ class Guide : public QWidget, public Ui::Guide
         // Options
         OpsCalibration *opsCalibration { nullptr };
         OpsGuide *opsGuide { nullptr };
+        OpsGPG *opsGPG { nullptr };
 
         // Guide Frame
         GuideView *guideView { nullptr };
@@ -655,5 +672,12 @@ class Guide : public QWidget, public Ui::Guide
         QMetaObject::Connection guideConnect;
 
         QCPItemText *calLabel  { nullptr };
+
+        // Axis for the SNR part of the driftGraph. Qt owns this pointer's memory.
+        QCPAxis *snrAxis;
+
+        // The scales of these zoom levels are defined in Guide::zoomX().
+        static constexpr int defaultXZoomLevel = 3;
+        int driftGraphZoomLevel {defaultXZoomLevel};
 };
 }

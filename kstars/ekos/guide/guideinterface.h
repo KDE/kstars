@@ -63,6 +63,7 @@ class GuideInterface : public QObject
 
         virtual void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
         virtual void setPierSide(ISD::Telescope::PierSide newSide);
+        virtual void resetGPG() {};
 
         enum CalibrationUpdateType
         {
@@ -82,6 +83,7 @@ class GuideInterface : public QObject
         void newAxisPulse(double pulse_ra, double pulse_dec);
         void newStarPosition(const QVector3D &newCenter, bool updateNow);
         void newStarPixmap(QPixmap &);
+        void newSNR(double snr);
         void calibrationUpdate(CalibrationUpdateType type, const QString &message = QString(""), double x = 0, double y = 0);
         void frameCaptureRequested();
 

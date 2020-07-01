@@ -107,7 +107,8 @@ int main(int argc, char *argv[])
     KCrash::initialize();
 
     KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
-                         "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"),
+                         "2001-" + QString::number(QDate::currentDate().year()) +
+                         i18n("(c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"),
                          i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, i18n(notice)),
                          "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com", i18n("Ekos Scheduler Improvements"));
     aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(), "sterne-jaeger@t-online.de",
                         i18n("Ekos Scheduler & Observatory Improvements"));
-    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS Improvements"));
+    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS, Focus, Guide Improvements"));
 
     // Inactive developers
     aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");

@@ -38,7 +38,6 @@
 
 GuideStars::GuideStars()
 {
-    ROT_Z = Ekos::RotateZ(0.0);
 }
 
 void GuideStars::setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex)
@@ -98,11 +97,13 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
         if (center.HFR > float(maxStarDiameter) / 2)
             score -= 1000;
 
-        // Add advantage to stars with SNRs between 50-100.
+        // Add advantage to stars with SNRs between 40-100.
         auto bg = skybackground();
         double snr = bg.SNR(center.sum, center.numPixels);
-        if (snr >= 50 && snr <= 100)
+        if (snr >= 40 && snr <= 100)
             score += 75;
+        if (snr >= 100)
+            score -= 50;
 
         // discourage stars that have close neighbors.
         // This isn't perfect, as we're not detecting all stars, just top 100 or so.
@@ -386,15 +387,12 @@ void GuideStars::computeStarDrift(const Edge &star, const Edge &reference, doubl
     Vector position(star.x, star.y, 0);
     Vector reference_position(reference.x, reference.y, 0);
     Vector arc_position, arc_reference_position;
-    arc_position = point2arcsec(position);
-    arc_reference_position = point2arcsec(reference_position);
+    arc_position = calibration.convertToArcseconds(position);
+    arc_reference_position = calibration.convertToArcseconds(reference_position);
 
     // translate into sky coords.
     Vector sky_coords = arc_position - arc_reference_position;
-    sky_coords.y = -sky_coords.y; // invert y-axis as y picture axis is inverted
-
-    // Rotate so RA aligns with x-axis and DEC with y-axis.
-    sky_coords = sky_coords * ROT_Z;
+    sky_coords = calibration.rotateToRaDec(sky_coords);
 
     // Save the drifts in RA and DEC.
     *driftRA   = sky_coords.x;
@@ -555,24 +553,8 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
     return true;
 }
 
-// Converts from image coordinates to arc-second coordinates. Doesn't rotate to RA/DEC.
-Vector GuideStars::point2arcsec(const Vector &p) const
+void GuideStars::setCalibration(const Calibration &cal)
 {
-    Vector arcs;
-
-    // arcs = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
-    arcs.x = 206264.8062470963552 * p.x * binning * pixel_size / focal_length;
-    arcs.y = 206264.8062470963552 * p.y * binning * pixel_size / focal_length;
-    return arcs;
-}
-
-void GuideStars::setCalibration(double angle_, int binning_,
-                                double pixel_size_, double focal_length_)
-{
-    pixel_size = pixel_size_;
-    focal_length = focal_length_;
-    binning = binning_;
-    calibration_angle = angle_;
-    ROT_Z = Ekos::RotateZ(-M_PI * calibration_angle / 180.0); // NOTE!!! sing '-' derotates star coordinate system
+    calibration = cal;
     calibrationInitialized = true;
 }

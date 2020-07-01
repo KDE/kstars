@@ -127,6 +127,7 @@ if (INDI_FOUND)
             ekos/guide/guide.ui
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
+            ekos/guide/opsgpg.ui
             ekos/guide/manualdither.ui
             ekos/observatory/observatory.ui
             #TODO remove from GIT
@@ -200,6 +201,7 @@ if (INDI_FOUND)
             ekos/guide/guideinterface.cpp
             ekos/guide/opscalibration.cpp
             ekos/guide/opsguide.cpp
+            ekos/guide/opsgpg.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
             ekos/guide/internalguide/internalguider.cpp
@@ -210,6 +212,8 @@ if (INDI_FOUND)
             ekos/guide/internalguide/imageautoguiding.cpp
             ekos/guide/internalguide/guidelog.cpp
             ekos/guide/internalguide/starcorrespondence.cpp
+            ekos/guide/internalguide/gpg.cpp
+            ekos/guide/internalguide/calibration.cpp
             ekos/guide/internalguide/guidestars.cpp
             ekos/guide/guideview.cpp
             # External Guide
@@ -235,6 +239,12 @@ if (INDI_FOUND)
 endif (INDI_FOUND)
 
 if (CFITSIO_FOUND)
+  set (gpg_SRCS
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/math_tools.cpp
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/covariance_functions.cpp
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/gaussian_process.cpp
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/gaussian_process_guider.cpp
+        )
     set (sep_SRCS
         fitsviewer/sep/analyse.c
         fitsviewer/sep/aperture.c
@@ -986,7 +996,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${gpg_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
 set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${hough_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
 IF (NOT ANDROID)

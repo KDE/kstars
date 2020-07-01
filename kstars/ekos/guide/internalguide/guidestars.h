@@ -19,6 +19,8 @@
 #include "vect.h"
 #include "matr.h"
 #include "../guideview.h"
+#include "calibration.h"
+
 /*
  * This class manages selecting a guide star, finding that star in a new image
  * and calculating the drift of the new star image.
@@ -64,10 +66,8 @@ class GuideStars
         bool getDrift(double oneStarDrift, double reticle_x, double reticle_y,
                       double *RADrift, double *DECDrift);
 
-        // Set calibration angle (degrees), binning (e.g. 2 for 2x2 binning),
-        // pixel_size (mm) and focal_length (mm).
-        void setCalibration(double angle_, int binning_,
-                            double pixel_size_, double focal_length_);
+        // Use this calibration object for conversions to arcseconds and RA/DEC.
+        void setCalibration(const Calibration &calibration);
 
         // Returns the sky background object that was obtained from SEP analysis.
         const SkyBackground &skybackground() const
@@ -148,13 +148,7 @@ class GuideStars
         // This maps between the newly detected stars and the reference stars.
         QList<Edge> detectedStars;
 
-        // calibration
-        Ekos::Matrix ROT_Z;
-        double calibration_angle = 0;
-        int binning {1};
-        double pixel_size {0};
-        double focal_length {0};
-        // Calibration must be initilized before drift can be calculated.
+        Calibration calibration;
         bool calibrationInitialized {false};
 
         friend class TestGuideStars;

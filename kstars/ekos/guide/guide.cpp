@@ -16,6 +16,7 @@
 #include "kstarsdata.h"
 #include "opscalibration.h"
 #include "opsguide.h"
+#include "opsgpg.h"
 #include "Options.h"
 #include "auxiliary/QProgressIndicator.h"
 #include "ekos/auxiliary/darklibrary.h"
@@ -35,6 +36,24 @@
 #include "ui_manualdither.h"
 
 #define CAPTURE_TIMEOUT_THRESHOLD 30000
+
+namespace
+{
+// These are used to index driftGraph->Graph().
+enum DRIFT_GRAPH_INDECES
+{
+    G_RA = 0,
+    G_DEC = 1,
+    G_RA_HIGHLIGHT = 2,
+    G_DEC_HIGHLIGHT = 3,
+    G_RA_PULSE = 4,
+    G_DEC_PULSE = 5,
+    G_SNR = 6,
+    G_RA_RMS = 7,
+    G_DEC_RMS = 8,
+    G_RMS = 9
+};
+}  // namespace
 
 namespace Ekos
 {
@@ -94,6 +113,19 @@ Guide::Guide() : QWidget()
     connect(guideDataClearB, &QPushButton::clicked, this, &Ekos::Guide::clearGuideGraphs);
     guideDataClearB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    // These icons seem very hard to read for this button. Just went with +.
+    // guideZoomInXB->setIcon(QIcon::fromTheme("zoom-in"));
+    guideZoomInXB->setText("+");
+    connect(guideZoomInXB, &QPushButton::clicked, this, &Ekos::Guide::slotZoomInX);
+    guideZoomInXB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    // These icons seem very hard to read for this button. Just went with -.
+    // guideZoomOutXB->setIcon(QIcon::fromTheme("zoom-out"));
+    guideZoomOutXB->setText("-");
+    connect(guideZoomOutXB, &QPushButton::clicked, this, &Ekos::Guide::slotZoomOutX);
+    guideZoomOutXB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+
     // Exposure
     //Should we set the range for the spin box here?
     QList<double> exposureValues;
@@ -101,10 +133,6 @@ Guide::Guide() : QWidget()
                    << 10 << 15 << 30;
     exposureIN->setRecommendedValues(exposureValues);
     connect(exposureIN, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
-
-
-
-
 
     // Init Internal Guider always
     internalGuider        = new InternalGuider();
@@ -122,6 +150,10 @@ Guide::Guide() : QWidget()
 
     page = dialog->addPage(opsGuide, i18n("Guide"));
     page->setIcon(QIcon::fromTheme("kstars_guides"));
+
+    opsGPG = new OpsGPG(internalGuider);
+    page = dialog->addPage(opsGPG, i18n("GPG RA Guider"));
+    page->setIcon(QIcon::fromTheme("pathshape"));
 
     internalGuider->setGuideView(guideView);
 
@@ -169,8 +201,12 @@ void Guide::guideAfterMeridianFlip()
 
     if (Options::resetGuideCalibration())
         clearCalibration();
-    guide();
 
+    // GPG guide algorithm should be reset on any slew.
+    if (Options::gPGEnabled())
+        guider->resetGPG();
+
+    guide();
 }
 
 void Guide::resizeEvent(QResizeEvent *event)
@@ -263,14 +299,18 @@ void Guide::buildTarget()
 
 void Guide::clearGuideGraphs()
 {
-    driftGraph->graph(0)->data()->clear(); //RA data
-    driftGraph->graph(1)->data()->clear(); //DEC data
-    driftGraph->graph(2)->data()->clear(); //RA highlighted point
-    driftGraph->graph(3)->data()->clear(); //DEC highlighted point
-    driftGraph->graph(4)->data()->clear(); //RA Pulses
-    driftGraph->graph(5)->data()->clear(); //DEC Pulses
-    driftPlot->graph(0)->data()->clear(); //Guide data
-    driftPlot->graph(1)->data()->clear(); //Guide highlighted point
+    driftGraph->graph(G_RA)->data()->clear(); //RA data
+    driftGraph->graph(G_DEC)->data()->clear(); //DEC data
+    driftGraph->graph(G_RA_HIGHLIGHT)->data()->clear(); //RA highlighted point
+    driftGraph->graph(G_DEC_HIGHLIGHT)->data()->clear(); //DEC highlighted point
+    driftGraph->graph(G_RA_PULSE)->data()->clear(); //RA Pulses
+    driftGraph->graph(G_DEC_PULSE)->data()->clear(); //DEC Pulses
+    driftGraph->graph(G_SNR)->data()->clear(); //SNR
+    driftGraph->graph(G_RA_RMS)->data()->clear(); //RA RMS
+    driftGraph->graph(G_DEC_RMS)->data()->clear(); //DEC RMS
+    driftGraph->graph(G_RMS)->data()->clear(); //RMS
+    driftPlot->graph(G_RA)->data()->clear(); //Guide data
+    driftPlot->graph(G_DEC)->data()->clear(); //Guide highlighted point
     driftGraph->clearItems();  //Clears dither text items from the graph
     driftGraph->replot();
     driftPlot->replot();
@@ -281,11 +321,11 @@ void Guide::clearGuideGraphs()
 
 void Guide::clearCalibrationGraphs()
 {
-    calibrationPlot->graph(0)->data()->clear(); //RA out
-    calibrationPlot->graph(1)->data()->clear(); //RA back
-    calibrationPlot->graph(2)->data()->clear(); //Backlash
-    calibrationPlot->graph(3)->data()->clear(); //DEC out
-    calibrationPlot->graph(4)->data()->clear(); //DEC back
+    calibrationPlot->graph(G_RA)->data()->clear(); //RA out
+    calibrationPlot->graph(G_DEC)->data()->clear(); //RA back
+    calibrationPlot->graph(G_RA_HIGHLIGHT)->data()->clear(); //Backlash
+    calibrationPlot->graph(G_DEC_HIGHLIGHT)->data()->clear(); //DEC out
+    calibrationPlot->graph(G_RA_PULSE)->data()->clear(); //DEC back
     calibrationPlot->replot();
 }
 
@@ -359,32 +399,51 @@ void Guide::setupNSEWLabels()
     }
 }
 
+void Guide::slotZoomInX()
+{
+    zoomX(driftGraphZoomLevel - 1);
+    driftGraph->replot();
+}
+void Guide::slotZoomOutX()
+{
+    zoomX(driftGraphZoomLevel + 1);
+    driftGraph->replot();
+}
+
+void Guide::zoomX(int zoomLevel)
+{
+    // The # of seconds displayd on the x-axis of the drift-graph for the various zoom levels.
+    static std::vector<int> zoomLevels = {15, 30, 60, 120, 300, 900, 1800, 3600, 7200, 14400};
+
+    zoomLevel = std::max(0, zoomLevel);
+    driftGraphZoomLevel = std::min(static_cast<int>(zoomLevels.size() - 1), zoomLevel);
+
+    double key = (guideTimer.isValid() || guideTimer.isNull()) ? 0 : guideTimer.elapsed() / 1000.0;
+    driftGraph->xAxis->setRange(key - zoomLevels[driftGraphZoomLevel], key);
+}
+
 void Guide::slotAutoScaleGraphs()
 {
     double accuracyRadius = accuracyRadiusSpin->value();
 
-    double key = guideTimer.elapsed() / 1000.0;
-    driftGraph->xAxis->setRange(key - 120, key);
+    zoomX(defaultXZoomLevel);
     driftGraph->yAxis->setRange(-3, 3);
-    driftGraph->graph(0)->rescaleValueAxis(false);
+    // First bool below is only_enlarge, 2nd is only look at values that are visible in X.
+    // Net result is all RA & DEC points within the times being plotted should be visible.
+    // This is only called when the autoScale button is pressed.
+    driftGraph->graph(G_RA)->rescaleValueAxis(false, true);
+    driftGraph->graph(G_DEC)->rescaleValueAxis(true, true);
     driftGraph->replot();
 
     driftPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
     driftPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
-    driftPlot->graph(0)->rescaleAxes(true);
-
     driftPlot->yAxis->setScaleRatio(driftPlot->xAxis, 1.0);
     driftPlot->xAxis->setScaleRatio(driftPlot->yAxis, 1.0);
-
     driftPlot->replot();
 
-    calibrationPlot->xAxis->setRange(-20, 20);
-    calibrationPlot->yAxis->setRange(-20, 20);
-    calibrationPlot->graph(0)->rescaleAxes(true);
-
+    calibrationPlot->rescaleAxes();
     calibrationPlot->yAxis->setScaleRatio(calibrationPlot->xAxis, 1.0);
     calibrationPlot->xAxis->setScaleRatio(calibrationPlot->yAxis, 1.0);
-
     calibrationPlot->replot();
 }
 
@@ -393,16 +452,20 @@ void Guide::guideHistory()
     int sliderValue = guideSlider->value();
     latestCheck->setChecked(sliderValue == guideSlider->maximum() - 1 || sliderValue == guideSlider->maximum());
 
-    driftGraph->graph(2)->data()->clear(); //Clear RA highlighted point
-    driftGraph->graph(3)->data()->clear(); //Clear DEC highlighted point
-    driftPlot->graph(1)->data()->clear(); //Clear Guide highlighted point
-    double t = driftGraph->graph(0)->dataMainKey(sliderValue); //Get time from RA data
-    double ra = driftGraph->graph(0)->dataMainValue(sliderValue); //Get RA from RA data
-    double de = driftGraph->graph(1)->dataMainValue(sliderValue); //Get DEC from DEC data
-    double raPulse = driftGraph->graph(4)->dataMainValue(sliderValue); //Get RA Pulse from RA pulse data
-    double dePulse = driftGraph->graph(5)->dataMainValue(sliderValue); //Get DEC Pulse from DEC pulse data
-    driftGraph->graph(2)->addData(t, ra); //Set RA highlighted point
-    driftGraph->graph(3)->addData(t, de); //Set DEC highlighted point
+    driftGraph->graph(G_RA_HIGHLIGHT)->data()->clear(); //Clear RA highlighted point
+    driftGraph->graph(G_DEC_HIGHLIGHT)->data()->clear(); //Clear DEC highlighted point
+    driftPlot->graph(G_DEC)->data()->clear(); //Clear Guide highlighted point
+    double t = driftGraph->graph(G_RA)->dataMainKey(sliderValue); //Get time from RA data
+    double ra = driftGraph->graph(G_RA)->dataMainValue(sliderValue); //Get RA from RA data
+    double de = driftGraph->graph(G_DEC)->dataMainValue(sliderValue); //Get DEC from DEC data
+    double raPulse = driftGraph->graph(G_RA_PULSE)->dataMainValue(sliderValue); //Get RA Pulse from RA pulse data
+    double dePulse = driftGraph->graph(G_DEC_PULSE)->dataMainValue(sliderValue); //Get DEC Pulse from DEC pulse data
+    double snr = 0;
+    if (driftGraph->graph(G_SNR)->data()->size() > 0)
+        snr = driftGraph->graph(G_SNR)->dataMainValue(sliderValue);
+    double rms = driftGraph->graph(G_RMS)->dataMainValue(sliderValue);
+    driftGraph->graph(G_RA_HIGHLIGHT)->addData(t, ra); //Set RA highlighted point
+    driftGraph->graph(G_DEC_HIGHLIGHT)->addData(t, de); //Set DEC highlighted point
 
     //This will allow the graph to scroll left and right along with the guide slider
     if (driftGraph->xAxis->range().contains(t) == false)
@@ -418,7 +481,7 @@ void Guide::guideHistory()
     }
     driftGraph->replot();
 
-    driftPlot->graph(1)->addData(ra, de); //Set guide highlighted point
+    driftPlot->graph(G_DEC)->addData(ra, de); //Set guide highlighted point
     driftPlot->replot();
 
     if(!graphOnLatestPt)
@@ -426,37 +489,50 @@ void Guide::guideHistory()
         QTime localTime = guideTimer;
         localTime = localTime.addSecs(t);
 
-        QPoint localTooltipCoordinates = driftGraph->graph(0)->dataPixelPosition(sliderValue).toPoint();
+        QPoint localTooltipCoordinates = driftGraph->graph(G_RA)->dataPixelPosition(sliderValue).toPoint();
         QPoint globalTooltipCoordinates = driftGraph->mapToGlobal(localTooltipCoordinates);
 
         if(raPulse == 0 && dePulse == 0)
         {
             QToolTip::showText(
                 globalTooltipCoordinates,
-                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds",
+                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR",
                       "<table>"
                       "<tr><td>LT:   </td><td>%1</td></tr>"
                       "<tr><td>RA:   </td><td>%2 \"</td></tr>"
                       "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                      "<tr><td>RMS:   </td><td>%4 \"</td></tr>"
+                      "<tr><td>SNR:   </td><td>%5 \"</td></tr>"
                       "</table>",
-                      localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
-                      QString::number(de, 'f', 2)));
+                      localTime.toString("hh:mm:ss AP"),
+                      QString::number(ra, 'f', 2),
+                      QString::number(de, 'f', 2),
+                      QString::number(rms, 'f', 2),
+                      QString::number(snr, 'f', 1)
+                     ));
         }
         else
         {
             QToolTip::showText(
                 globalTooltipCoordinates,
-                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms",
+                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR; %6 is RA Pulse in ms; %7 is DE Pulse in ms",
                       "<table>"
                       "<tr><td>LT:   </td><td>%1</td></tr>"
                       "<tr><td>RA:   </td><td>%2 \"</td></tr>"
                       "<tr><td>DE:   </td><td>%3 \"</td></tr>"
-                      "<tr><td>RA Pulse:   </td><td>%4 ms</td></tr>"
-                      "<tr><td>DE Pulse:   </td><td>%5 ms</td></tr>"
+                      "<tr><td>RMS:   </td><td>%4 \"</td></tr>"
+                      "<tr><td>SNR:   </td><td>%5 \"</td></tr>"
+                      "<tr><td>RA Pulse:   </td><td>%6 ms</td></tr>"
+                      "<tr><td>DE Pulse:   </td><td>%7 ms</td></tr>"
                       "</table>",
-                      localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
-                      QString::number(de, 'f', 2), QString::number(raPulse, 'f', 2), QString::number(dePulse, 'f',
-                              2))); //The pulses were divided by 100 before they were put on the graph.
+                      localTime.toString("hh:mm:ss AP"),
+                      QString::number(ra, 'f', 2),
+                      QString::number(de, 'f', 2),
+                      QString::number(rms, 'f', 2),
+                      QString::number(snr, 'f', 1),
+                      QString::number(raPulse, 'f', 2),
+                      QString::number(dePulse, 'f', 2)
+                     )); //The pulses were divided by 100 before they were put on the graph.
         }
 
     }
@@ -472,31 +548,78 @@ void Guide::setLatestGuidePoint(bool isChecked)
 void Guide::toggleShowRAPlot(bool isChecked)
 {
     Options::setRADisplayedOnGuideGraph(isChecked);
-    driftGraph->graph(0)->setVisible(isChecked);
-    driftGraph->graph(2)->setVisible(isChecked);
+    driftGraph->graph(G_RA)->setVisible(isChecked);
+    driftGraph->graph(G_RA_HIGHLIGHT)->setVisible(isChecked);
+    setRMSVisibility();
     driftGraph->replot();
 }
 
 void Guide::toggleShowDEPlot(bool isChecked)
 {
     Options::setDEDisplayedOnGuideGraph(isChecked);
-    driftGraph->graph(1)->setVisible(isChecked);
-    driftGraph->graph(3)->setVisible(isChecked);
+    driftGraph->graph(G_DEC)->setVisible(isChecked);
+    driftGraph->graph(G_DEC_HIGHLIGHT)->setVisible(isChecked);
+    setRMSVisibility();
     driftGraph->replot();
 }
 
 void Guide::toggleRACorrectionsPlot(bool isChecked)
 {
     Options::setRACorrDisplayedOnGuideGraph(isChecked);
-    driftGraph->graph(4)->setVisible(isChecked);
+    driftGraph->graph(G_RA_PULSE)->setVisible(isChecked);
     updateCorrectionsScaleVisibility();
 }
 
 void Guide::toggleDECorrectionsPlot(bool isChecked)
 {
     Options::setDECorrDisplayedOnGuideGraph(isChecked);
-    driftGraph->graph(5)->setVisible(isChecked);
+    driftGraph->graph(G_DEC_PULSE)->setVisible(isChecked);
     updateCorrectionsScaleVisibility();
+}
+
+void Guide::toggleShowSNRPlot(bool isChecked)
+{
+    Options::setSNRDisplayedOnGuideGraph(isChecked);
+    driftGraph->graph(G_SNR)->setVisible(isChecked);
+    driftGraph->replot();
+}
+
+void Guide::toggleShowRMSPlot(bool isChecked)
+{
+    Options::setRMSDisplayedOnGuideGraph(isChecked);
+    setRMSVisibility();
+    driftGraph->replot();
+}
+
+void Guide::setRMSVisibility()
+{
+    if (!Options::rMSDisplayedOnGuideGraph())
+    {
+        driftGraph->graph(G_RA_RMS)->setVisible(false);
+        driftGraph->graph(G_DEC_RMS)->setVisible(false);
+        driftGraph->graph(G_RMS)->setVisible(false);
+        return;
+    }
+
+    if ((Options::dEDisplayedOnGuideGraph() && Options::rADisplayedOnGuideGraph()) ||
+            (!Options::dEDisplayedOnGuideGraph() && !Options::rADisplayedOnGuideGraph()))
+    {
+        driftGraph->graph(G_RA_RMS)->setVisible(false);
+        driftGraph->graph(G_DEC_RMS)->setVisible(false);
+        driftGraph->graph(G_RMS)->setVisible(true);
+    }
+    else if (!Options::dEDisplayedOnGuideGraph() && Options::rADisplayedOnGuideGraph())
+    {
+        driftGraph->graph(G_RA_RMS)->setVisible(true);
+        driftGraph->graph(G_DEC_RMS)->setVisible(false);
+        driftGraph->graph(G_RMS)->setVisible(false);
+    }
+    else
+    {
+        driftGraph->graph(G_RA_RMS)->setVisible(false);
+        driftGraph->graph(G_DEC_RMS)->setVisible(true);
+        driftGraph->graph(G_RMS)->setVisible(false);
+    }
 }
 
 void Guide::updateCorrectionsScaleVisibility()
@@ -516,7 +639,7 @@ void Guide::setCorrectionGraphScale()
 
 void Guide::exportGuideData()
 {
-    int numPoints = driftGraph->graph(0)->dataCount();
+    int numPoints = driftGraph->graph(G_RA)->dataCount();
     if (numPoints == 0)
         return;
 
@@ -564,11 +687,11 @@ void Guide::exportGuideData()
 
     for (int i = 0; i < numPoints; i++)
     {
-        double t = driftGraph->graph(0)->dataMainKey(i);
-        double ra = driftGraph->graph(0)->dataMainValue(i);
-        double de = driftGraph->graph(1)->dataMainValue(i);
-        double raPulse = driftGraph->graph(4)->dataMainValue(i);
-        double dePulse = driftGraph->graph(5)->dataMainValue(i);
+        double t = driftGraph->graph(G_RA)->dataMainKey(i);
+        double ra = driftGraph->graph(G_RA)->dataMainValue(i);
+        double de = driftGraph->graph(G_DEC)->dataMainValue(i);
+        double raPulse = driftGraph->graph(G_RA_PULSE)->dataMainValue(i);
+        double dePulse = driftGraph->graph(G_DEC_PULSE)->dataMainValue(i);
 
         QTime localTime = guideTimer;
         localTime = localTime.addSecs(t);
@@ -1381,6 +1504,11 @@ void Guide::setCaptureComplete()
             capture();
             break;
 
+        case GUIDE_SUSPENDED:
+            if (Options::gPGEnabled())
+                guider->guide();
+            break;
+
         default:
             break;
     }
@@ -1656,6 +1784,10 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
             clearCalibration();
         }
 
+        // GPG guide algorithm should be reset on any slew.
+        if (Options::gPGEnabled())
+            guider->resetGPG();
+
         // If we're guiding, and the mount either slews or parks, then we abort.
         if (state == GUIDE_GUIDING || state == GUIDE_DITHERING)
         {
@@ -1822,13 +1954,7 @@ void Guide::setStatus(Ekos::GuideState newState)
         case GUIDE_CALIBRATION_SUCESS:
             appendLogText(i18n("Calibration completed."));
             calibrationComplete = true;
-            /*if (autoCalibrateGuide)
-            {
-                autoCalibrateGuide = false;
-                guide();
-            }
-            else
-                setBusy(false);*/
+
             if(guiderType !=
                     GUIDE_PHD2) //PHD2 will take care of this.  If this command is executed for PHD2, it might start guiding when it is first connected, if the calibration was completed already.
                 guide();
@@ -2225,6 +2351,7 @@ bool Guide::setGuiderType(int type)
         connect(guider, &Ekos::GuideInterface::newAxisDelta, this, &Ekos::Guide::setAxisDelta);
         connect(guider, &Ekos::GuideInterface::newAxisPulse, this, &Ekos::Guide::setAxisPulse);
         connect(guider, &Ekos::GuideInterface::newAxisSigma, this, &Ekos::Guide::setAxisSigma);
+        connect(guider, &Ekos::GuideInterface::newSNR, this, &Ekos::Guide::setSNR);
         connect(guider, &Ekos::GuideInterface::calibrationUpdate, this, &Ekos::Guide::calibrationUpdate);
 
         connect(guider, &Ekos::GuideInterface::guideEquipmentUpdated, this, &Ekos::Guide::configurePHD2Camera);
@@ -2257,28 +2384,6 @@ void Guide::updateTrackingBoxSize(int currentIndex)
         syncTrackingBoxPosition();
     }
 }
-
-
-/*
-void Guide::onXscaleChanged( int i )
-{
-    int rx, ry;
-
-    driftGraphics->getVisibleRanges( &rx, &ry );
-    driftGraphics->setVisibleRanges( i*driftGraphics->getGridN(), ry );
-    driftGraphics->update();
-
-}
-
-void Guide::onYscaleChanged( int i )
-{
-    int rx, ry;
-
-    driftGraphics->getVisibleRanges( &rx, &ry );
-    driftGraphics->setVisibleRanges( rx, i*driftGraphics->getGridN() );
-    driftGraphics->update();
-}
-*/
 
 void Guide::onThresholdChanged(int index)
 {
@@ -2518,12 +2623,6 @@ void Guide::setTrackingStar(int x, int y)
         }
     }
 
-    /*if (state == GUIDE_STAR_SELECT)
-    {
-        guider->setStarPosition(newStarPosition);
-        guider->calibrate();
-    }*/
-
     if (operationStack.isEmpty() == false)
         executeOperationStack();
 }
@@ -2541,39 +2640,30 @@ void Guide::setAxisDelta(double ra, double de)
 
     ra = -ra;  //The ra is backwards in sign from how it should be displayed on the graph.
 
-    driftGraph->graph(0)->addData(key, ra);
-    driftGraph->graph(1)->addData(key, de);
+    driftGraph->graph(G_RA)->addData(key, ra);
+    driftGraph->graph(G_DEC)->addData(key, de);
 
-    int currentNumPoints = driftGraph->graph(0)->dataCount();
+    int currentNumPoints = driftGraph->graph(G_RA)->dataCount();
     guideSlider->setMaximum(currentNumPoints);
     if(graphOnLatestPt)
         guideSlider->setValue(currentNumPoints);
 
-    // Expand range if it doesn't fit already
-    if (driftGraph->yAxis->range().contains(ra) == false)
-        driftGraph->yAxis->setRange(-1.25 * ra, 1.25 * ra);
-
-    if (driftGraph->yAxis->range().contains(de) == false)
-        driftGraph->yAxis->setRange(-1.25 * de, 1.25 * de);
-
-    // Show last 120 seconds
-    //driftGraph->xAxis->setRange(key, 120, Qt::AlignRight);
     if(graphOnLatestPt)
     {
         driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
-        driftGraph->graph(2)->data()->clear(); //Clear highlighted RA point
-        driftGraph->graph(3)->data()->clear(); //Clear highlighted DEC point
-        driftGraph->graph(2)->addData(key, ra); //Set highlighted RA point to latest point
-        driftGraph->graph(3)->addData(key, de); //Set highlighted DEC point to latest point
+        driftGraph->graph(G_RA_HIGHLIGHT)->data()->clear(); //Clear highlighted RA point
+        driftGraph->graph(G_DEC_HIGHLIGHT)->data()->clear(); //Clear highlighted DEC point
+        driftGraph->graph(G_RA_HIGHLIGHT)->addData(key, ra); //Set highlighted RA point to latest point
+        driftGraph->graph(G_DEC_HIGHLIGHT)->addData(key, de); //Set highlighted DEC point to latest point
     }
     driftGraph->replot();
 
     //Add to Drift Plot
-    driftPlot->graph(0)->addData(ra, de);
+    driftPlot->graph(G_RA)->addData(ra, de);
     if(graphOnLatestPt)
     {
-        driftPlot->graph(1)->data()->clear(); //Clear highlighted point
-        driftPlot->graph(1)->addData(ra, de); //Set highlighted point to latest point
+        driftPlot->graph(G_DEC)->data()->clear(); //Clear highlighted point
+        driftPlot->graph(G_DEC)->addData(ra, de); //Set highlighted point to latest point
     }
 
     if (driftPlot->xAxis->range().contains(ra) == false || driftPlot->yAxis->range().contains(de) == false)
@@ -2603,19 +2693,19 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
     switch (type)
     {
         case GuideInterface::RA_OUT:
-            calibrationPlot->graph(0)->addData(dx, dy);
+            calibrationPlot->graph(G_RA)->addData(dx, dy);
             break;
         case GuideInterface::RA_IN:
-            calibrationPlot->graph(1)->addData(dx, dy);
+            calibrationPlot->graph(G_DEC)->addData(dx, dy);
             break;
         case GuideInterface::BACKLASH:
-            calibrationPlot->graph(2)->addData(dx, dy);
+            calibrationPlot->graph(G_RA_HIGHLIGHT)->addData(dx, dy);
             break;
         case GuideInterface::DEC_OUT:
-            calibrationPlot->graph(3)->addData(dx, dy);
+            calibrationPlot->graph(G_DEC_HIGHLIGHT)->addData(dx, dy);
             break;
         case GuideInterface::DEC_IN:
-            calibrationPlot->graph(4)->addData(dx, dy);
+            calibrationPlot->graph(G_RA_PULSE)->addData(dx, dy);
             break;
         case GuideInterface::CALIBRATION_MESSAGE_ONLY:
             ;
@@ -2628,7 +2718,13 @@ void Guide::setAxisSigma(double ra, double de)
 {
     l_ErrRA->setText(QString::number(ra, 'f', 2));
     l_ErrDEC->setText(QString::number(de, 'f', 2));
-    l_TotalRMS->setText(QString::number(std::hypot(ra, de), 'f', 2));
+    const double total = std::hypot(ra, de);
+    l_TotalRMS->setText(QString::number(total, 'f', 2));
+    const double key = guideTimer.elapsed() / 1000.0;
+    driftGraph->graph(G_RA_RMS)->addData(key, ra);
+    driftGraph->graph(G_DEC_RMS)->addData(key, de);
+    driftGraph->graph(G_RMS)->addData(key, total);
+
     emit newAxisSigma(ra, de);
 }
 
@@ -2657,8 +2753,25 @@ void Guide::setAxisPulse(double ra, double de)
 
     double key = guideTimer.elapsed() / 1000.0;
 
-    driftGraph->graph(4)->addData(key, ra);
-    driftGraph->graph(5)->addData(key, de);
+    driftGraph->graph(G_RA_PULSE)->addData(key, ra);
+    driftGraph->graph(G_DEC_PULSE)->addData(key, de);
+}
+
+void Guide::setSNR(double snr)
+{
+    l_SNR->setText(QString::number(snr, 'f', 1));
+
+    double key = guideTimer.elapsed() / 1000.0;
+    driftGraph->graph(G_SNR)->addData(key, snr);
+
+    // Sets the SNR axis to have the maximum be 95% of the way up from the middle to the top.
+    QCPGraphData snrMax = *std::min_element(driftGraph->graph(G_SNR)->data()->begin(),
+                                            driftGraph->graph(G_SNR)->data()->end(),
+                                            [](QCPGraphData const & s1, QCPGraphData const & s2)
+    {
+        return s1.value > s2.value;
+    });
+    snrAxis->setRange(-1.05 * snrMax.value, 1.05 * snrMax.value);
 }
 
 void Guide::refreshColorScheme()
@@ -2666,27 +2779,28 @@ void Guide::refreshColorScheme()
     // Drift color legend
     if (driftGraph)
     {
-        if (driftGraph->graph(0) && driftGraph->graph(1) && driftGraph->graph(2) && driftGraph->graph(3) && driftGraph->graph(4)
-                && driftGraph->graph(5))
+        if (driftGraph->graph(G_RA) && driftGraph->graph(G_DEC) && driftGraph->graph(G_RA_HIGHLIGHT)
+                && driftGraph->graph(G_DEC_HIGHLIGHT) && driftGraph->graph(G_RA_PULSE)
+                && driftGraph->graph(G_DEC_PULSE))
         {
-            driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-            driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-            driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-            driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
-                                                  QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
-            driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-            driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
-                                                  QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+            driftGraph->graph(G_RA)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+            driftGraph->graph(G_DEC)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+            driftGraph->graph(G_RA_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+            driftGraph->graph(G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+                    QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+            driftGraph->graph(G_DEC_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+            driftGraph->graph(G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+                    QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
             QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
             raPulseColor.setAlpha(75);
-            driftGraph->graph(4)->setPen(QPen(raPulseColor));
-            driftGraph->graph(4)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
+            driftGraph->graph(G_RA_PULSE)->setPen(QPen(raPulseColor));
+            driftGraph->graph(G_RA_PULSE)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
 
             QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
             dePulseColor.setAlpha(75);
-            driftGraph->graph(5)->setPen(QPen(dePulseColor));
-            driftGraph->graph(5)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
+            driftGraph->graph(G_DEC_PULSE)->setPen(QPen(dePulseColor));
+            driftGraph->graph(G_DEC_PULSE)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
         }
     }
 }
@@ -2709,14 +2823,23 @@ void Guide::driftMouseOverLine(QMouseEvent *event)
 
         if (graph)
         {
-            int raIndex = driftGraph->graph(0)->findBegin(key);
-            int deIndex = driftGraph->graph(1)->findBegin(key);
+            int raIndex = driftGraph->graph(G_RA)->findBegin(key);
+            int deIndex = driftGraph->graph(G_DEC)->findBegin(key);
+            int rmsIndex = driftGraph->graph(G_RMS)->findBegin(key);
 
-            double raDelta = driftGraph->graph(0)->dataMainValue(raIndex);
-            double deDelta = driftGraph->graph(1)->dataMainValue(deIndex);
+            double raDelta = driftGraph->graph(G_RA)->dataMainValue(raIndex);
+            double deDelta = driftGraph->graph(G_DEC)->dataMainValue(deIndex);
 
-            double raPulse = driftGraph->graph(4)->dataMainValue(raIndex); //Get RA Pulse from RA pulse data
-            double dePulse = driftGraph->graph(5)->dataMainValue(deIndex); //Get DEC Pulse from DEC pulse data
+            double raPulse = driftGraph->graph(G_RA_PULSE)->dataMainValue(raIndex); //Get RA Pulse from RA pulse data
+            double dePulse = driftGraph->graph(G_DEC_PULSE)->dataMainValue(deIndex); //Get DEC Pulse from DEC pulse data
+
+            double rms = driftGraph->graph(G_RMS)->dataMainValue(rmsIndex);
+            double snr = 0;
+            if (driftGraph->graph(G_SNR)->data()->size() > 0)
+            {
+                int snrIndex = driftGraph->graph(G_SNR)->findBegin(key);
+                snr = driftGraph->graph(G_SNR)->dataMainValue(snrIndex);
+            }
 
             // Compute time value:
             QTime localTime = guideTimer;
@@ -2728,30 +2851,39 @@ void Guide::driftMouseOverLine(QMouseEvent *event)
             {
                 QToolTip::showText(
                     event->globalPos(),
-                    i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds;",
+                    i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR",
                           "<table>"
                           "<tr><td>LT:   </td><td>%1</td></tr>"
                           "<tr><td>RA:   </td><td>%2 \"</td></tr>"
                           "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                          "<tr><td>RMS:   </td><td>%4 \"</td></tr>"
+                          "<tr><td>SNR:   </td><td>%5 \"</td></tr>"
                           "</table>",
-                          localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2),
-                          QString::number(deDelta, 'f', 2)));
+                          localTime.toString("hh:mm:ss AP"),
+                          QString::number(raDelta, 'f', 2), QString::number(deDelta, 'f', 2),
+                          QString::number(rms, 'f', 2), QString::number(snr, 'f', 1)));
             }
             else
             {
                 QToolTip::showText(
                     event->globalPos(),
-                    i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms",
+                    i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR; %6 is RA Pulse in ms; %7 is DE Pulse in ms",
                           "<table>"
                           "<tr><td>LT:   </td><td>%1</td></tr>"
                           "<tr><td>RA:   </td><td>%2 \"</td></tr>"
                           "<tr><td>DE:   </td><td>%3 \"</td></tr>"
-                          "<tr><td>RA Pulse:   </td><td>%4 ms</td></tr>"
-                          "<tr><td>DE Pulse:   </td><td>%5 ms</td></tr>"
+                          "<tr><td>RMS:   </td><td>%4 \"</td></tr>"
+                          "<tr><td>SNR:   </td><td>%5 \"</td></tr>"
+                          "<tr><td>RA Pulse:   </td><td>%6 ms</td></tr>"
+                          "<tr><td>DE Pulse:   </td><td>%7 ms</td></tr>"
                           "</table>",
-                          localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2),
-                          QString::number(deDelta, 'f', 2), QString::number(raPulse, 'f', 2), QString::number(dePulse, 'f',
-                                  2))); //The pulses were divided by 100 before they were put on the graph.
+                          localTime.toString("hh:mm:ss AP"),
+                          QString::number(raDelta, 'f', 2),
+                          QString::number(deDelta, 'f', 2),
+                          QString::number(rms, 'f', 2),
+                          QString::number(snr, 'f', 1),
+                          QString::number(raPulse, 'f', 2),
+                          QString::number(dePulse, 'f', 2))); //The pulses were divided by 100 before they were put on the graph.
             }
         }
         else
@@ -3264,6 +3396,8 @@ void Guide::initPlots()
     showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
     showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
     showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
+    showSNRPlotCheck->setChecked(Options::sNRDisplayedOnGuideGraph());
+    showRMSPlotCheck->setChecked(Options::rMSDisplayedOnGuideGraph());
 
     buildTarget();
 }
@@ -3295,6 +3429,11 @@ void Guide::initDriftGraph()
     driftGraph->xAxis->setLabelColor(Qt::white);
     driftGraph->yAxis->setLabelColor(Qt::white);
     driftGraph->yAxis2->setLabelColor(Qt::white);
+
+    snrAxis = driftGraph->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    snrAxis->setVisible(false);
+    // This will be reset to the actual data values.
+    snrAxis->setRange(-100, 100);
 
     //Horizontal Axis Time Ticker Settings
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
@@ -3333,53 +3472,79 @@ void Guide::initDriftGraph()
 
     // RA Curve
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-    driftGraph->graph(0)->setName("RA");
-    driftGraph->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
+    driftGraph->graph(G_RA)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(G_RA)->setName("RA");
+    driftGraph->graph(G_RA)->setLineStyle(QCPGraph::lsStepLeft);
 
     // DE Curve
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-    driftGraph->graph(1)->setName("DE");
-    driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
+    driftGraph->graph(G_DEC)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    driftGraph->graph(G_DEC)->setName("DE");
+    driftGraph->graph(G_DEC)->setLineStyle(QCPGraph::lsStepLeft);
 
     // RA highlighted Point
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
-    driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-    driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
-                                          QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+    driftGraph->graph(G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
+    driftGraph->graph(G_RA_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
 
     // DE highlighted Point
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
-    driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
-    driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
-    driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
-                                          QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+    driftGraph->graph(G_DEC_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
+    driftGraph->graph(G_DEC_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    driftGraph->graph(G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
     // RA Pulse
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
     QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
     raPulseColor.setAlpha(75);
-    driftGraph->graph(4)->setPen(QPen(raPulseColor));
-    driftGraph->graph(4)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
-    driftGraph->graph(4)->setName("RA Pulse");
-    driftGraph->graph(4)->setLineStyle(QCPGraph::lsStepLeft);
+    driftGraph->graph(G_RA_PULSE)->setPen(QPen(raPulseColor));
+    driftGraph->graph(G_RA_PULSE)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
+    driftGraph->graph(G_RA_PULSE)->setName("RA Pulse");
+    driftGraph->graph(G_RA_PULSE)->setLineStyle(QCPGraph::lsStepLeft);
 
     // DEC Pulse
     driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
     QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
     dePulseColor.setAlpha(75);
-    driftGraph->graph(5)->setPen(QPen(dePulseColor));
-    driftGraph->graph(5)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
-    driftGraph->graph(5)->setName("DEC Pulse");
-    driftGraph->graph(5)->setLineStyle(QCPGraph::lsStepLeft);
+    driftGraph->graph(G_DEC_PULSE)->setPen(QPen(dePulseColor));
+    driftGraph->graph(G_DEC_PULSE)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
+    driftGraph->graph(G_DEC_PULSE)->setName("DEC Pulse");
+    driftGraph->graph(G_DEC_PULSE)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // SNR
+    driftGraph->addGraph(driftGraph->xAxis, snrAxis);
+    driftGraph->graph(G_SNR)->setPen(QPen(Qt::yellow));
+    driftGraph->graph(G_SNR)->setName("SNR");
+    driftGraph->graph(G_SNR)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // RA RMS
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(G_RA_RMS)->setPen(QPen(Qt::red));
+    driftGraph->graph(G_RA_RMS)->setName("RA RMS");
+    driftGraph->graph(G_RA_RMS)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // DEC RMS
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(G_DEC_RMS)->setPen(QPen(Qt::red));
+    driftGraph->graph(G_DEC_RMS)->setName("DEC RMS");
+    driftGraph->graph(G_DEC_RMS)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // Total RMS
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
+    driftGraph->graph(G_RMS)->setPen(QPen(Qt::red));
+    driftGraph->graph(G_RMS)->setName("RMS");
+    driftGraph->graph(G_RMS)->setLineStyle(QCPGraph::lsStepLeft);
 
     //This will prevent the highlighted points and Pulses from showing up in the legend.
-    driftGraph->legend->removeItem(5);
-    driftGraph->legend->removeItem(4);
-    driftGraph->legend->removeItem(3);
-    driftGraph->legend->removeItem(2);
+    driftGraph->legend->removeItem(G_DEC_RMS);
+    driftGraph->legend->removeItem(G_RA_RMS);
+    driftGraph->legend->removeItem(G_DEC_PULSE);
+    driftGraph->legend->removeItem(G_RA_PULSE);
+    driftGraph->legend->removeItem(G_DEC_HIGHLIGHT);
+    driftGraph->legend->removeItem(G_RA_HIGHLIGHT);
     //Dragging and zooming settings
     // make bottom axis transfer its range to the top axis if the graph gets zoomed:
     connect(driftGraph->xAxis,  static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
@@ -3395,12 +3560,14 @@ void Guide::initDriftGraph()
     connect(driftGraph, &QCustomPlot::mousePress, this, &Ekos::Guide::driftMouseClicked);
 
     //This sets the visibility of graph components to the stored values.
-    driftGraph->graph(0)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
-    driftGraph->graph(1)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
-    driftGraph->graph(2)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
-    driftGraph->graph(3)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
-    driftGraph->graph(4)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
-    driftGraph->graph(5)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
+    driftGraph->graph(G_RA)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
+    driftGraph->graph(G_DEC)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
+    driftGraph->graph(G_RA_HIGHLIGHT)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
+    driftGraph->graph(G_DEC_HIGHLIGHT)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
+    driftGraph->graph(G_RA_PULSE)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
+    driftGraph->graph(G_DEC_PULSE)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
+    driftGraph->graph(G_SNR)->setVisible(Options::sNRDisplayedOnGuideGraph()); //SNR
+    setRMSVisibility();
 
     updateCorrectionsScaleVisibility();
 }
@@ -3453,12 +3620,12 @@ void Guide::initDriftPlot()
     driftPlot->setInteraction(QCP::iRangeDrag, true);
 
     driftPlot->addGraph();
-    driftPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    driftPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssStar, Qt::gray, 5));
+    driftPlot->graph(G_RA)->setLineStyle(QCPGraph::lsNone);
+    driftPlot->graph(G_RA)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssStar, Qt::gray, 5));
 
     driftPlot->addGraph();
-    driftPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
-    driftPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
+    driftPlot->graph(G_DEC)->setLineStyle(QCPGraph::lsNone);
+    driftPlot->graph(G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
 
     driftPlot->resize(190, 190);
     driftPlot->replot();
@@ -3509,31 +3676,33 @@ void Guide::initCalibrationPlot()
     calibrationPlot->setInteraction(QCP::iRangeDrag, true);
 
     calibrationPlot->addGraph();
-    calibrationPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
+    calibrationPlot->graph(G_RA)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(G_RA)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
             QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 6));
-    calibrationPlot->graph(0)->setName("RA out");
+    calibrationPlot->graph(G_RA)->setName("RA out");
 
     calibrationPlot->addGraph();
-    calibrationPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::white, 2), QBrush(), 4));
-    calibrationPlot->graph(1)->setName("RA in");
+    calibrationPlot->graph(G_DEC)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::white, 2), QBrush(), 4));
+    calibrationPlot->graph(G_DEC)->setName("RA in");
 
     calibrationPlot->addGraph();
-    calibrationPlot->graph(2)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus, QPen(Qt::white, 2), QBrush(), 6));
-    calibrationPlot->graph(2)->setName("Backlash");
+    calibrationPlot->graph(G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus, QPen(Qt::white, 2),
+            QBrush(), 6));
+    calibrationPlot->graph(G_RA_HIGHLIGHT)->setName("Backlash");
 
     calibrationPlot->addGraph();
-    calibrationPlot->graph(3)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
+    calibrationPlot->graph(G_DEC_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
             QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
-    calibrationPlot->graph(3)->setName("DEC out");
+    calibrationPlot->graph(G_DEC_HIGHLIGHT)->setName("DEC out");
 
     calibrationPlot->addGraph();
-    calibrationPlot->graph(4)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(4)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow, 2), QBrush(), 4));
-    calibrationPlot->graph(4)->setName("DEC in");
+    calibrationPlot->graph(G_RA_PULSE)->setLineStyle(QCPGraph::lsNone);
+    calibrationPlot->graph(G_RA_PULSE)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow, 2),
+            QBrush(), 4));
+    calibrationPlot->graph(G_RA_PULSE)->setName("DEC in");
 
     calLabel = new QCPItemText(calibrationPlot);
     calLabel->setColor(QColor(255, 255, 255));
@@ -3723,6 +3892,8 @@ void Guide::initConnections()
     connect(showDECPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowDEPlot);
     connect(showRACorrectionsCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleRACorrectionsPlot);
     connect(showDECorrectionsCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleDECorrectionsPlot);
+    connect(showSNRPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowSNRPlot);
+    connect(showRMSPlotCheck, &QCheckBox::toggled, this, &Ekos::Guide::toggleShowRMSPlot);
     connect(correctionSlider, &QSlider::sliderMoved, this, &Ekos::Guide::setCorrectionGraphScale);
 
     connect(showGuideRateToolTipB, &QPushButton::clicked, [this]()

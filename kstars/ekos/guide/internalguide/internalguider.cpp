@@ -40,9 +40,6 @@ InternalGuider::InternalGuider()
 
 bool InternalGuider::guide()
 {
-    if (state == GUIDE_SUSPENDED)
-        return true;
-
     if (state >= GUIDE_GUIDING)
     {
         if (m_ImageGuideEnabled)
@@ -51,6 +48,10 @@ bool InternalGuider::guide()
             return processGuiding();
     }
 
+    if (state == GUIDE_SUSPENDED)
+    {
+        return true;
+    }
     guideFrame->disconnect(this);
 
     pmath->start();
@@ -182,7 +183,7 @@ bool InternalGuider::dither(double pixels)
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    Ekos::Matrix ROT_Z = pmath->getROTZ();
+    const Ekos::Matrix &ROT_Z = pmath->getCalibration().getRotation();
 
     if (state != GUIDE_DITHERING)
     {
@@ -214,6 +215,10 @@ bool InternalGuider::dither(double pixels)
 
         pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, ret_angle);
 
+        if (Options::gPGEnabled())
+            // This is the offset in image coordinates, but needs to be converted to RA.
+            pmath->getGPG().startDithering(diff_x, diff_y, pmath->getCalibration());
+
         state = GUIDE_DITHERING;
         emit newStatus(state);
 
@@ -242,6 +247,9 @@ bool InternalGuider::dither(double pixels)
             emit newStatus(state);
         }
 
+        if (Options::gPGEnabled())
+            pmath->getGPG().ditheringSettled(true);
+
         QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
     }
     else
@@ -266,6 +274,9 @@ bool InternalGuider::dither(double pixels)
                     emit newStatus(state);
                 }
 
+                if (Options::gPGEnabled())
+                    pmath->getGPG().ditheringSettled(false);
+
                 QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
                 return true;
             }
@@ -282,7 +293,7 @@ bool InternalGuider::processManualDithering()
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    Ekos::Matrix ROT_Z = pmath->getROTZ();
+    const Ekos::Matrix &ROT_Z = pmath->getCalibration().getRotation();
 
     Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0);
     star_pos.y      = -star_pos.y;
@@ -973,12 +984,11 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 KSNotification::event(QLatin1String("CalibrationSuccessful"),
                                       i18n("Guiding calibration completed successfully"));
 
-                //if (ui.autoStarCheck->isChecked())
-                //guideModule->selectAutoStar();
-
                 // Fill in mount
                 // These rates are in ms/pixel. Convert to pixels/second
-                guideLog.endCalibration(1000.0 / pmath->getDitherRate(0), 1000.0 / pmath->getDitherRate(1));
+                guideLog.endCalibration(
+                    1000.0 / pmath->getCalibration().raPulseMillisecondsPerPixel(),
+                    1000.0 / pmath->getCalibration().decPulseMillisecondsPerPixel());
             }
             else
             {
@@ -1103,9 +1113,15 @@ bool InternalGuider::processGuiding()
         }
         m_isFirstFrame = false;
     }
-
     // calc math. it tracks square
     pmath->performProcessing(&guideLog, state == GUIDE_GUIDING);
+
+    if (state == GUIDE_SUSPENDED)
+    {
+        if (Options::gPGEnabled())
+            emit frameCaptureRequested();
+        return true;
+    }
 
     if (pmath->isStarLost())
         m_starLostCounter++;
@@ -1211,6 +1227,8 @@ bool InternalGuider::processGuiding()
     emit newAxisPulse(raPulse, dePulse);
 
     emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
+    if (SEPMultiStarEnabled())
+        emit newSNR(pmath->getGuideStarSNR());
 
     return true;
 }
@@ -1501,14 +1519,25 @@ void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
     info->azimuth = this->mountAzimuth.Degrees();
     info->altitude = this->mountAltitude.Degrees();
     info->pierSide = this->pierSide;
-    double phi_ra, phi_dec, rate_ra, rate_dec;
-    pmath->getCalibration(&phi_ra, &phi_dec, &rate_ra, &rate_dec);
-    info->xangle = phi_ra;
-    info->yangle = phi_dec;
-    // ditherRate[GUIDE_RA] is in ms/pixel, xrate is in pixels/second.
-    info->xrate = 1000.0 / rate_ra;
-    info->yrate = 1000.0 / rate_dec;
 
+    // Not in calibration right now.
+    // double phi_ra, phi_dec;
+    // info->xangle = phi_ra;
+    // info->yangle = phi_dec;
+
+    // Calibration values in ms/pixel, xrate is in pixels/second.
+    info->xrate = 1000.0 / pmath->getCalibration().raPulseMillisecondsPerPixel();
+    info->yrate = 1000.0 / pmath->getCalibration().decPulseMillisecondsPerPixel();
+}
+
+void InternalGuider::updateGPGParameters()
+{
+    pmath->getGPG().updateParameters();
+}
+
+void InternalGuider::resetGPG()
+{
+    pmath->getGPG().reset();
 }
 
 }

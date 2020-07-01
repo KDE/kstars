@@ -146,6 +146,9 @@ class InternalGuider : public GuideInterface
         // Manual Dither
         bool processManualDithering();
 
+        void updateGPGParameters();
+        void resetGPG() override;
+
     public slots:
         void setDECSwap(bool enable);
 
