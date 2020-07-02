@@ -42,7 +42,7 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
@@ -87,9 +87,9 @@
      <property name="title">
       <string>Settings</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <layout class="QGridLayout" name="gridLayout">
+       <layout class="QGridLayout" name="gridLayout2">
         <property name="spacing">
          <number>3</number>
         </property>
@@ -124,7 +124,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_gpgs3a">
+         <widget class="QLabel" name="label_gpgs1a">
           <property name="toolTip">
            <string>If checked, the GPG estimates the mount's major period. Otherwise, it uses the entry above.</string>
           </property>
@@ -141,14 +141,14 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLabel" name="label_gpgs3c">
+         <widget class="QLabel" name="label_gpgs1b>
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_gpgs1a">
+         <widget class="QLabel" name="label_gpgs2a">
           <property name="toolTip">
            <string>The fraction of its prediction the GPG uses to move the mount.</string>
           </property>
@@ -174,7 +174,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLabel" name="label_gpgs1c">
+         <widget class="QLabel" name="label_gpgs2b">
           <property name="text">
            <string/>
           </property>
@@ -256,9 +256,9 @@
      <property name="title">
       <string>Expert Settings</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <layout class="QGridLayout" name="gridLayout">
+       <layout class="QGridLayout" name="gridLayout3">
         <property name="spacing">
          <number>3</number>
         </property>
