@@ -35,16 +35,15 @@ add_subdirectory(skyobjects)
 
 IF (CFITSIO_FOUND)
     add_subdirectory(fitsviewer)
-ENDIF ()
-
 IF (INDI_FOUND)
-add_subdirectory(internalguide)
 include_directories(
     ${kstars_SOURCE_DIR}/kstars/ekos/align
     ${kstars_SOURCE_DIR}/kstars/internalguide
     )
 add_subdirectory(polaralign)
-ENDIF()
+add_subdirectory(internalguide)
+ENDIF(INDI_FOUND)
+ENDIF(CFITSIO_FOUND)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)
