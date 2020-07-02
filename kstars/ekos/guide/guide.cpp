@@ -3042,6 +3042,8 @@ bool Guide::executeOneOperation(GuideState operation)
     bool actionRequired = false;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == nullptr)
+        return false;
 
     int subBinX, subBinY;
     targetChip->getBinning(&subBinX, &subBinY);

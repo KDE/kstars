@@ -78,6 +78,13 @@ bool InternalGuider::guide()
     return true;
 }
 
+/**
+ * @brief InternalGuider::abort Abort all internal guider operations.
+ * This includes calibration, dithering, guiding, capturing, and reaquiring.
+ * The state is set to IDLE or ABORTED depending on the current state since
+ * ABORTED can lead to different behavior by external actors than IDLE
+ * @return True if abort succeeds, false otherwise.
+ */
 bool InternalGuider::abort()
 {
     calibrationStage = CAL_IDLE;
@@ -85,7 +92,11 @@ bool InternalGuider::abort()
     logFile.close();
     guideLog.endGuiding();
 
-    if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
+    if (state == GUIDE_CALIBRATING ||
+            state == GUIDE_GUIDING ||
+            state == GUIDE_DITHERING ||
+            state == GUIDE_MANUAL_DITHERING ||
+            state == GUIDE_REACQUIRE)
     {
         if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
             emit newStatus(GUIDE_DITHERING_ERROR);

@@ -225,7 +225,7 @@ class InternalGuider : public GuideInterface
         Vector m_DitherTargetPosition;
         uint8_t m_DitherRetries {0};
 
-        QTime reacquireTimer;
+        QElapsedTimer reacquireTimer;
         int m_highRMSCounter {0};
 
         Ekos::Matrix ROT_Z;
