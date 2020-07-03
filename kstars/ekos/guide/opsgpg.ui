@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1056</width>
-    <height>680</height>
+    <width>471</width>
+    <height>570</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -27,7 +27,7 @@
     <number>3</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox_0">
+    <widget class="QGroupBox" name="copyrightGroupBox">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
@@ -43,6 +43,21 @@
       <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
@@ -83,11 +98,26 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_1">
+    <widget class="QGroupBox" name="settingsGroupBox">
      <property name="title">
       <string>Settings</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout2">
         <property name="spacing">
@@ -141,7 +171,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLabel" name="label_gpgs1b>
+         <widget class="QLabel" name="label_gpgs1b">
           <property name="text">
            <string/>
           </property>
@@ -252,11 +282,26 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="expertGroupBox">
      <property name="title">
       <string>Expert Settings</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout3">
         <property name="spacing">
