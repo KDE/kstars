@@ -488,8 +488,6 @@ class FITSData : public QObject
         bool HasDebayer { false };
         /// Is WCS data loaded?
         bool WCSLoaded { false };
-        /// Do we need to mark stars for the user?
-        bool markStars { false };
 
         /// Our very own file name
         QString m_Filename, m_compressedFilename;

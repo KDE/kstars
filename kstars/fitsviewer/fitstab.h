@@ -120,6 +120,7 @@ class FITSTab : public QWidget
 
         QString getPreviewText() const;
         void setPreviewText(const QString &value);
+        bool shouldComputeHFR() const;
 
     public slots:
         void modifyFITSState(bool clean = true);

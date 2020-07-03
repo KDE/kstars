@@ -594,10 +594,6 @@ void FITSData::calculateStats(bool refresh)
 
     // FIXME That's not really SNR, must implement a proper solution for this value
     stats.SNR = stats.mean[0] / stats.stddev[0];
-
-    if (refresh && markStars)
-        // Let's try to find star positions again after transformation
-        starsSearched = false;
 }
 
 int FITSData::calculateMinMax(bool refresh)

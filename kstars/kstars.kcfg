@@ -1437,6 +1437,10 @@
       <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
       <default>!KSUtils::isHardwareLimited()</default>
    </entry>
+   <entry name="AutoHFR" type="Bool">
+      <label>Automatically compute HFRs of fits images</label>
+      <default>false</default>
+   </entry>
    <entry name="AutoWCS" type="Bool">
       <label>Automatically process World-Coordinate-System (WCS) data when loading a FITS file.</label>
       <default>!KSUtils::isHardwareLimited()</default>
