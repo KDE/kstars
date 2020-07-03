@@ -164,6 +164,7 @@ class FITSView : public QScrollArea
         // Star Detection
         int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
         void toggleStars(bool enable);
+        void searchStars();
         void setStarsEnabled(bool enable);
         void setStarsHFREnabled(bool enable);
         void setStarFilterRange(float const innerRadius, float const outerRadius);

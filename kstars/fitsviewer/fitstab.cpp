@@ -430,6 +430,15 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
     view->loadFITS(imageURL.toLocalFile(), silent);
 }
 
+bool FITSTab::shouldComputeHFR() const
+{
+    if (viewer->isStarsMarked())
+        return true;
+    if (!Options::autoHFR())
+        return false;
+    return (view != nullptr) && (view->getMode() == FITS_NORMAL);
+}
+
 void FITSTab::processData()
 {
     FITSData *image_data = view->getImageData();
@@ -443,11 +452,18 @@ void FITSTab::processData()
       histogram->constructHistogram();
     }
 
-    if (viewer->isStarsMarked())
+    if (shouldComputeHFR())
     {
-        view->toggleStars(true);
+        view->searchStars();
         qCDebug(KSTARS_FITS) << "FITS HFR:" << image_data->getHFR();
     }
+    // This could both compute the HFRs and setup the graphics, however,
+    // if shouldComputeHFR() above is true, then that will compute the HFRs
+    // and this would notice that and just setup graphics. They are separated
+    // for the case where the graphics is not desired.
+    if (viewer->isStarsMarked())
+        view->toggleStars(true);
+
     evaluateStats();
 
     loadFITSHeader();
