@@ -42,6 +42,8 @@ public:
     // requested measurement, or -1 if the algorithm's done or if there's an error.
     int newMeasurement(int position, double value) override;
 
+    FocusAlgorithmInterface *Copy() override;
+
 private:
 
     // Called in newMeasurement. Sets up the next iteration.
@@ -111,6 +113,15 @@ private:
     bool solutionPending;
 };
 
+// Copies the object. Used in testing to examine alternate possible inputs given
+// the current state.
+FocusAlgorithmInterface *LinearFocusAlgorithm::Copy()
+{
+    LinearFocusAlgorithm *alg = new LinearFocusAlgorithm(params);
+    *alg = *this;
+    return dynamic_cast<FocusAlgorithmInterface*>(alg);
+}
+
 FocusAlgorithmInterface *MakeLinearFocuser(const FocusAlgorithmInterface::FocusParams& params)
 {
     return new LinearFocusAlgorithm(params);
@@ -139,48 +150,16 @@ void LinearFocusAlgorithm::computeInitialPosition()
     secondPassStartIndex = -1;
 
     qCDebug(KSTARS_EKOS_FOCUS)
-            << QString("Linear: v3.2. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9")
+            << QString("Linear: v3.3. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9 init#steps %10")
                .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
-               .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit);
+               .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(maxPositionLimit)
+               .arg(params.initialOutwardSteps);
 
-    const int position = params.startPosition;
-    int start, end;
-
-    // If the bounds allow, set the focus to half-travel above the current position
-    // and sample focusing in down-to half-travel below the current position.
-    if (position + params.maxTravel <= maxPositionLimit && position - params.maxTravel >= minPositionLimit)
-    {
-        start = position + params.maxTravel;
-        end = position - params.maxTravel;
-    }
-    else if (position + params.maxTravel > maxPositionLimit)
-    {
-        // If the above hits the focus-out bound, start from the highest focus position possible
-        // and sample down the travel amount.
-        start = maxPositionLimit;
-        end = std::max(minPositionLimit, start - params.maxTravel);
-    }
-    else
-    {
-        // If the range above hits the focus-in bound, try to start from max-travel above the min position
-        // and sample down to the min position.
-        start = std::min(minPositionLimit + params.maxTravel, maxPositionLimit);
-        end = minPositionLimit;
-    }
-
-    // Now that the start and end of the sampling interval is set,
-    // check to see if the params were reasonably set up.
-    // If too many steps (more than half the allotment) are required, honor stepSize over maxTravel.
-    const int nSteps = (start - end) / params.initialStepSize;
-    if (nSteps > params.maxIterations/2)
-    {
-        const int newStart = position + params.initialStepSize * (params.maxIterations/6);
-        start = std::min(newStart, maxPositionLimit);
-    }
-    requestedPosition = start;
+    requestedPosition = std::min(maxPositionLimit,
+                                 static_cast<int>(params.startPosition + params.initialOutwardSteps * params.initialStepSize));
     passStartPosition = requestedPosition;
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: initialPosition %1 sized %2")
-                                  .arg(start).arg(params.initialStepSize);
+                                  .arg(requestedPosition).arg(params.initialStepSize);
 }
 
 int LinearFocusAlgorithm::newMeasurement(int position, double value)
@@ -224,7 +203,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     if (inFirstPass)
     {
         constexpr int kMinPolynomialPoints = 5;
-        constexpr int kNumPolySolutionsRequired = 3;
+        constexpr int kNumPolySolutionsRequired = 2;
         constexpr int kNumRestartSolutionsRequired = 3;
         constexpr double kDecentValue = 2.5;
 
@@ -232,7 +211,18 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
         {
             PolynomialFit fit(2, positions, values);
             double minPos, minVal;
-            if (fit.findMinimum(position, 0, 100000, &minPos, &minVal))
+            bool foundFit = fit.findMinimum(position, 0, 100000, &minPos, &minVal);
+            if (!foundFit)
+            {
+                // I've found that the first sample can be odd--perhaps due to backlash.
+                // Try again skipping the first sample, if we have sufficient points.
+                if (values.size() > kMinPolynomialPoints) {
+                    PolynomialFit fit2(2, positions.mid(1), values.mid(1));
+                    foundFit = fit2.findMinimum(position, 0, 100000, &minPos, &minVal);
+                    minPos = minPos + 1;
+                }
+            }
+            if (foundFit)
             {
                 const int distanceToMin = static_cast<int>(position - minPos);
                 qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: poly fit(%1): %2 = %3 @ %4 distToMin %5")
