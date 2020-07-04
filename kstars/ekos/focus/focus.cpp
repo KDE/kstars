@@ -723,7 +723,8 @@ void Focus::start()
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
-            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(), currentTemperature);
+            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(), currentTemperature,
+            Options::initialFocusOutSteps());
         linearFocuser.reset(MakeLinearFocuser(params));
         linearRequestedPosition = linearFocuser->initialPosition();
         const int newPosition = adjustLinearPosition(position, linearRequestedPosition);
@@ -2343,7 +2344,8 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         }
         else
         {
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(currentPosition).arg(FocusSettleTime->value());
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(
+                                           currentPosition).arg(FocusSettleTime->value());
             capture(FocusSettleTime->value());
         }
     }
@@ -2408,7 +2410,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             if (currentPosition != newPosition)
             {
                 currentPosition = newPosition;
-                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << " (state = " << currentPositionState << ")";
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << " (state = " << currentPositionState
+                                           << ")";
                 absTicksLabel->setText(QString::number(currentPosition));
                 emit absolutePositionChanged(currentPosition);
             }
@@ -3452,6 +3455,8 @@ void Focus::syncSettings()
             Options::setFocusThreshold(dsb->value());
         else if (dsb == gaussianSigmaSpin)
             Options::setFocusGaussianSigma(dsb->value());
+        else if (dsb == initialFocusOutStepsIN)
+            Options::setInitialFocusOutSteps(dsb->value());
     }
     else if ( (sb = qobject_cast<QSpinBox*>(sender())))
     {
@@ -3562,12 +3567,15 @@ void Focus::loadSettings()
     stepIN->setValue(Options::focusTicks());
     // Single Max Step
     maxSingleStepIN->setValue(Options::focusMaxSingleStep());
+    // LinearFocus initial outward steps
+    initialFocusOutStepsIN->setValue(Options::initialFocusOutSteps());
     // Tolerance
     toleranceIN->setValue(Options::focusTolerance());
     // Threshold spin
     thresholdSpin->setValue(Options::focusThreshold());
     // Focus Algorithm
-    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
+    setFocusAlgorithm(static_cast<FocusAlgorithm>(Options::focusAlgorithm()));
+    // This must go below the above line (which sets focusAlgorithm from options).
     focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
     // Frames Count
     focusFramesSpin->setValue(Options::focusFramesCount());
@@ -3642,6 +3650,7 @@ void Focus::initSettingsConnections()
     connect(maxTravelIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(maxSingleStepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(initialFocusOutStepsIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(gaussianSigmaSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
@@ -3804,7 +3813,10 @@ void Focus::initConnections()
 
     // delayed capturing for waiting the scope to settle
     captureTimer.setSingleShot(true);
-    connect(&captureTimer, &QTimer::timeout, this, [&](){capture();});
+    connect(&captureTimer, &QTimer::timeout, this, [&]()
+    {
+        capture();
+    });
 
     // How long do we wait until an exposure times out and needs a retry?
     captureTimeout.setSingleShot(true);
@@ -3896,7 +3908,7 @@ void Focus::initConnections()
     // Update the focuser solution algorithm if the selection changes.
     connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
-        focusAlgorithm = static_cast<FocusAlgorithm>(index);
+        setFocusAlgorithm(static_cast<FocusAlgorithm>(index));
     });
 
     // Reset star center on auto star check toggle
@@ -3909,6 +3921,34 @@ void Focus::initConnections()
             focusView->setTrackingBox(QRect());
         }
     });
+}
+
+void Focus::setFocusAlgorithm(FocusAlgorithm algorithm)
+{
+    focusAlgorithm = algorithm;
+    switch(algorithm)
+    {
+        case FOCUS_ITERATIVE:
+            initialFocusOutStepsIN->setEnabled(false); // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(true);         // Max Step Size
+            break;
+
+        case FOCUS_POLYNOMIAL:
+            initialFocusOutStepsIN->setEnabled(false); // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(true);         // Max Step Size
+            break;
+
+        case FOCUS_LINEAR:
+            initialFocusOutStepsIN->setEnabled(true);  // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(false);        // Max Step Size
+            break;
+    }
 }
 
 void Focus::initView()

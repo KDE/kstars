@@ -427,6 +427,9 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        // Sets the algorithm and enables/disables various UI inputs.
+        void setFocusAlgorithm(FocusAlgorithm algorithm);
+
         // Move the focuser in (negative) or out (positive amount).
         bool changeFocus(int amount);
 

@@ -1546,6 +1546,41 @@
                </property>
               </widget>
              </item>
+
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_12b">
+               <property name="text">
+                <string>Out Step Multiple:</string>
+               </property>
+              </widget>
+             </item>
+
+             <item row="2" column="3">
+              <widget class="QDoubleSpinBox" name="initialFocusOutStepsIN">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;This number multiplied by initial-step-size is number of outward steps the Linear Focus algorithm moves away from the initial position at the start of focusing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>10</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+
             </layout>
            </item>
            <item>

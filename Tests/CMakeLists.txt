@@ -39,6 +39,7 @@ IF (INDI_FOUND)
 include_directories(
     ${kstars_SOURCE_DIR}/kstars/ekos/align
     ${kstars_SOURCE_DIR}/kstars/internalguide
+    ${kstars_SOURCE_DIR}/kstars/focus
     )
 add_subdirectory(polaralign)
 # FIXME
