@@ -1073,6 +1073,14 @@
 </driversList>
 <driversList>
     <devGroup group="CCDs">
+        <device label="SV305 CCD" mdpd="true">
+            <driver name="SV305 CCD">indi_sv305_ccd</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
         <device label="SX CCD" mdpd="true">
             <driver name="SX CCD">indi_sx_ccd</driver>
             <version>1.15</version>
