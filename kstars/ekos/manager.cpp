@@ -3509,6 +3509,7 @@ void Manager::syncActiveDevices()
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
                 {
+#if 0
                     if (tvp->tp[i].aux0 != nullptr)
                     {
                         bool *override = static_cast<bool *>(tvp->tp[i].aux0);
@@ -3516,6 +3517,14 @@ void Manager::syncActiveDevices()
                             continue;
                     }
                     devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+#endif
+                    // Active filter wheel should be set to whatever the user selects in capture module
+                    // TODO this should be profile specific
+                    if (QString(tvp->tp[i].text) != Options::defaultCaptureFilterWheel())
+                    {
+                        IUSaveText(&tvp->tp[i], Options::defaultCaptureFilterWheel().toLatin1().constData());
+                        oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                    }
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
                 {
@@ -3526,7 +3535,6 @@ void Manager::syncActiveDevices()
                 {
                     if (tvp->tp[i].text != devs.first()->getDeviceName())
                     {
-                        //propertyUpdated = true;
                         IUSaveText(&tvp->tp[i], devs.first()->getDeviceName().toLatin1().constData());
                         oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
