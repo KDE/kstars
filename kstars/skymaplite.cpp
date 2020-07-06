@@ -352,8 +352,8 @@ void SkyMapLite::slotCenter()
 
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
-    if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > -1.0 &&
-            focusPoint()->alt().Degrees() < -1.0)
+    if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > SkyPoint::altCrit &&
+        focusPoint()->alt().Degrees() <= SkyPoint::altCrit)
     {
         QString caption = i18n("Requested Position Below Horizon");
         QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");

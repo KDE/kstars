@@ -902,7 +902,7 @@ void KStars::initFocus()
     map()->showFocusCoords();
 
     //Check whether initial position is below the horizon.
-    if (Options::useAltAz() && Options::showGround() && map()->focus()->alt().Degrees() < -1.0)
+    if (Options::useAltAz() && Options::showGround() && map()->focus()->alt().Degrees() <= SkyPoint::altCrit)
     {
         QString caption = i18n("Initial Position is Below Horizon");
         QString message =

@@ -209,7 +209,7 @@ bool Projector::checkVisibility(const SkyPoint *p) const
         if( p->alt().Degrees() < -1.0 ) return false;
     }
     */ //Here we hope that the point has already been 'synchronized'
-    if (m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0)
+    if (m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() <= SkyPoint::altCrit)
         return false;
 
     if (m_vp.useAltAz)
