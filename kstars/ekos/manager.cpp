@@ -3518,13 +3518,27 @@ void Manager::syncActiveDevices()
                     }
                     devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
 #endif
+                    devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
                     // Active filter wheel should be set to whatever the user selects in capture module
-                    // TODO this should be profile specific
-                    if (QString(tvp->tp[i].text) != Options::defaultCaptureFilterWheel())
+                    const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
+                    // Does defaultFilterWheel exist in devices?
+                    for (auto &oneDev : devs)
                     {
-                        IUSaveText(&tvp->tp[i], Options::defaultCaptureFilterWheel().toLatin1().constData());
-                        oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                        if (oneDev->getDeviceName() == defaultFilterWheel)
+                        {
+                            // TODO this should be profile specific
+                            if (QString(tvp->tp[i].text) != defaultFilterWheel)
+                            {
+                                IUSaveText(&tvp->tp[i], defaultFilterWheel.toLatin1().constData());
+                                oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                                break;
+                            }
+
+                            continue;
+                        }
                     }
+                    // If it does not exist, then continue and pick from available devs below.
+
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
                 {
