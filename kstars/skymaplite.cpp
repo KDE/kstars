@@ -300,10 +300,13 @@ void SkyMapLite::setDestination(const dms &ra, const dms &dec)
 
 void SkyMapLite::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefracted)
 {
-    if (altIsRefracted) {
+    if (altIsRefracted)
+    {
         // The alt in the SkyPoint is always actual, not apparent
         destination()->setAlt(SkyPoint::unrefract(alt));
-    } else {
+    }
+    else
+    {
         destination()->setAlt(alt);
     }
     destination()->setAz(az);
@@ -358,7 +361,7 @@ void SkyMapLite::slotCenter()
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
     if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > SkyPoint::altCrit &&
-        focusPoint()->alt().Degrees() <= SkyPoint::altCrit)
+            focusPoint()->alt().Degrees() <= SkyPoint::altCrit)
     {
         QString caption = i18n("Requested Position Below Horizon");
         QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
@@ -987,9 +990,12 @@ void SkyMapLite::updateAutomaticMode()
 {
 #if defined(Q_OS_ANDROID)
     m_deviceOrientation->getOrientation();
-    if (Options::useRefraction() && Options::useAltAz()) {
+    if (Options::useRefraction() && Options::useAltAz())
+    {
         setFocusAltAz(SkyPoint::unrefract(dms(m_deviceOrientation->getAltitude())), dms(m_deviceOrientation->getAzimuth()));
-    } else {
+    }
+    else
+    {
         setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
     }
 

@@ -102,7 +102,8 @@ void SkyMapLite::mousePressEvent(QMouseEvent *e)
                 }
                 //}
                 break;
-            default:;
+            default:
+                ;
         }
     }
 }
@@ -445,7 +446,7 @@ void SkyMapLite::touchEvent(QTouchEvent *e)
                 double maxrad =
                     1000.0 /
                     Options::
-                        zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
+                    zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
                                             That's why radius remains constant*/
                 maxrad         = qMax(maxrad, 2.5);
                 SkyObject *obj = data->skyComposite()->objectNearest(clickedPoint(), maxrad);

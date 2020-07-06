@@ -208,20 +208,20 @@ class SkyPoint
             Alt = alt;
         }
 
-    /**
-     * Sets the apparent altitude, checking whether refraction corrections are enabled
-     *
-     * @param alt_apparent Apparent altitude (subject to Options::useRefraction())
-     */
-    void setAltRefracted(dms alt_apparent);
+        /**
+         * Sets the apparent altitude, checking whether refraction corrections are enabled
+         *
+         * @param alt_apparent Apparent altitude (subject to Options::useRefraction())
+         */
+        void setAltRefracted(dms alt_apparent);
 
-    /**
-     * Overloaded member function, provided for convenience.
-     * It behaves essentially like the above function.
-     *
-     * @param alt_apparent Apparent altitude (subject to Options::useRefraction())
-     */
-    void setAltRefracted(double alt_apparent);
+        /**
+         * Overloaded member function, provided for convenience.
+         * It behaves essentially like the above function.
+         *
+         * @param alt_apparent Apparent altitude (subject to Options::useRefraction())
+         */
+        void setAltRefracted(double alt_apparent);
 
         /**
          * Overloaded member function, provided for convenience.
@@ -300,7 +300,7 @@ class SkyPoint
          * Options::useRefraction to determine whether refraction
          * correction should be applied
          */
-    dms altRefracted() const;
+        dms altRefracted() const;
 
         /** @return the JD for the precessed coordinates */
         inline double getLastPrecessJD() const
@@ -668,7 +668,7 @@ class SkyPoint
          * @note If conditional is false, this method returns its argument unmodified. This is a convenience feature as it is often needed to gate these corrections.
          * @return altitude after refraction correction (if applicable), in degrees
          */
-    static double refract(const double alt, bool conditional=true);
+        static double refract(const double alt, bool conditional = true);
 
         /**
          * @short Remove refraction correction, depending on conditional
@@ -678,14 +678,14 @@ class SkyPoint
          * @return altitude without refraction correction, in degrees
          * @note If conditional is false, this method returns its argument unmodified. This is a convenience feature as it is often needed to gate these corrections.
          */
-    static double unrefract(const double alt, bool conditional=true);
+        static double unrefract(const double alt, bool conditional = true);
 
         /**
          * @short Apply refraction correction to altitude. Overloaded method using
          * dms provided for convenience
          * @see SkyPoint::refract( const double alt )
          */
-    static inline dms refract(const dms alt, bool conditional=true)
+        static inline dms refract(const dms alt, bool conditional = true)
         {
             return dms(refract(alt.Degrees(), conditional));
         }
@@ -695,7 +695,7 @@ class SkyPoint
          * dms provided for convenience
          * @see SkyPoint::unrefract( const double alt )
          */
-    static inline dms unrefract(const dms alt, bool conditional=true)
+        static inline dms unrefract(const dms alt, bool conditional = true)
         {
             return dms(unrefract(alt.Degrees(), conditional));
         }

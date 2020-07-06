@@ -510,7 +510,8 @@ void SkyMap::slotCopyCoordinates()
         Alt = deprecessedPoint.alt();
     }
 
-    QApplication::clipboard()->setText(i18nc("Equatorial & Horizontal Coordinates", "JNow:\t%1\t%2\nJ2000:\t%3\t%4\nAzAlt:\t%5\t%6",
+    QApplication::clipboard()->setText(i18nc("Equatorial & Horizontal Coordinates",
+                                       "JNow:\t%1\t%2\nJ2000:\t%3\t%4\nAzAlt:\t%5\t%6",
                                        JNowRA.toHMSString(),
                                        JNowDE.toDMSString(),
                                        J2000RA.toHMSString(),
@@ -1001,10 +1002,13 @@ void SkyMap::setDestination(const dms &ra, const dms &dec)
 
 void SkyMap::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefracted)
 {
-    if (altIsRefracted) {
+    if (altIsRefracted)
+    {
         // The alt in the SkyPoint is always actual, not apparent
         destination()->setAlt(SkyPoint::unrefract(alt));
-    } else {
+    }
+    else
+    {
         destination()->setAlt(alt);
     }
     destination()->setAz(az);

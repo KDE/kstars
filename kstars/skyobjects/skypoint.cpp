@@ -962,7 +962,8 @@ void SkyPoint::setAltRefracted(dms alt_apparent)
     setAlt(unrefract(alt_apparent, Options::useRefraction()));
 }
 
-void SkyPoint::setAltRefracted(double alt_apparent) {
+void SkyPoint::setAltRefracted(double alt_apparent)
+{
     setAlt(unrefract(alt_apparent, Options::useRefraction()));
 }
 
@@ -973,7 +974,8 @@ double SkyPoint::refractionCorr(double alt)
 
 double SkyPoint::refract(const double alt, bool conditional)
 {
-    if (!conditional) {
+    if (!conditional)
+    {
         return alt;
     }
     static double corrCrit = SkyPoint::refractionCorr(SkyPoint::altCrit);
@@ -993,7 +995,8 @@ double SkyPoint::refract(const double alt, bool conditional)
 // Convergence is quite fast just a few iterations.
 double SkyPoint::unrefract(const double alt, bool conditional)
 {
-    if (!conditional) {
+    if (!conditional)
+    {
         return alt;
     }
     double h0 = alt;
