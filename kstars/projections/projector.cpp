@@ -78,14 +78,13 @@ void Projector::setViewParams(const ViewParams &p)
     m_fov = sqrt(m_vp.width * m_vp.width + m_vp.height * m_vp.height) / (2 * m_vp.zoomFactor * dms::DegToRad);
     //Set checkVisibility variables
     double Ymax;
+    m_xrange = 1.2 * m_fov / m_cosY0;
     if (m_vp.useAltAz)
     {
-        m_xrange = 1.2 * m_fov / cos(m_vp.focus->alt().radians());
         Ymax     = fabs(m_vp.focus->alt().Degrees()) + m_fov;
     }
     else
     {
-        m_xrange = 1.2 * m_fov / cos(m_vp.focus->dec().radians());
         Ymax     = fabs(m_vp.focus->dec().Degrees()) + m_fov;
     }
     m_isPoleVisible = (Ymax >= 90.0);
