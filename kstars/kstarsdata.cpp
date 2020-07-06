@@ -964,6 +964,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                     az = 335.0;
                 if (az >= 0.0)
                 {
+                    // N.B. unrefract() doesn't matter at 90 degrees
                     map->setFocusAltAz(dms(90.0), map->focus()->az());
                     map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
                     map->setDestination(*map->focus());
@@ -972,6 +973,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
 
                 if (arg == "z" || arg == "zenith")
                 {
+                    // N.B. unrefract() doesn't matter at 90 degrees
                     map->setFocusAltAz(dms(90.0), map->focus()->az());
                     map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
                     map->setDestination(*map->focus());

@@ -312,7 +312,7 @@ void SkyMap::slotTransientLabel()
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
     if (hasFocus() && !slewing &&
-            !(Options::useAltAz() && Options::showGround() && SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0))
+            !(Options::useAltAz() && Options::showGround() && m_MousePoint.altRefracted().Degrees() < 0.0))
     {
         double maxrad = 1000.0 / Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest(&m_MousePoint, maxrad);
@@ -423,7 +423,7 @@ void SkyMap::slotCenter()
     //update the destination to the selected coordinates
     if (Options::useAltAz())
     {
-        setDestinationAltAz(foc->altRefracted(), foc->az());
+        setDestinationAltAz(foc->alt(), foc->az(), false);
     }
     else
     {
@@ -999,9 +999,14 @@ void SkyMap::setDestination(const dms &ra, const dms &dec)
     emit destinationChanged();
 }
 
-void SkyMap::setDestinationAltAz(const dms &alt, const dms &az)
+void SkyMap::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefracted)
 {
-    destination()->setAlt(alt);
+    if (altIsRefracted) {
+        // The alt in the SkyPoint is always actual, not apparent
+        destination()->setAlt(SkyPoint::unrefract(alt));
+    } else {
+        destination()->setAlt(alt);
+    }
     destination()->setAz(az);
     destination()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
     emit destinationChanged();
@@ -1024,7 +1029,7 @@ void SkyMap::updateFocus()
         {
             //Tracking any object in Alt/Az mode requires focus updates
             focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            setFocusAltAz(focusObject()->altRefracted(), focusObject()->az());
+            setFocusAltAz(focusObject()->alt(), focusObject()->az());
             focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
             setDestination(*focus());
         }

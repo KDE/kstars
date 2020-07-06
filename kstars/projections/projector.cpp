@@ -66,7 +66,11 @@ void Projector::setViewParams(const ViewParams &p)
     m_cosY0 = 0;
     if (m_vp.useAltAz)
     {
-        m_vp.focus->alt().SinCos(m_sinY0, m_cosY0);
+        // N.B. We explicitly check useRefraction and not use
+        // SkyPoint::altRefracted() here because it could be different
+        // from Options::useRefraction() in some future use-case
+        // --asimha
+        SkyPoint::refract(m_vp.focus->alt(), m_vp.useRefraction).SinCos(m_sinY0, m_cosY0);
     }
     else
     {
@@ -81,7 +85,7 @@ void Projector::setViewParams(const ViewParams &p)
     m_xrange = 1.2 * m_fov / m_cosY0;
     if (m_vp.useAltAz)
     {
-        Ymax     = fabs(m_vp.focus->alt().Degrees()) + m_fov;
+        Ymax     = fabs(SkyPoint::refract(m_vp.focus->alt().Degrees(), m_vp.useRefraction)) + m_fov;
     }
     else
     {
@@ -431,7 +435,7 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
     if (m_vp.useAltAz)
     {
         dx = -1.0 * dx; //Azimuth goes in opposite direction compared to RA
-        m_vp.focus->alt().SinCos(sinY0, cosY0);
+        SkyPoint::refract(m_vp.focus->alt(), m_vp.useRefraction).SinCos(sinY0, cosY0);
     }
     else
     {

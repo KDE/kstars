@@ -298,9 +298,14 @@ void SkyMapLite::setDestination(const dms &ra, const dms &dec)
     emit destinationChanged();
 }
 
-void SkyMapLite::setDestinationAltAz(const dms &alt, const dms &az)
+void SkyMapLite::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefracted)
 {
-    destination()->setAlt(alt);
+    if (altIsRefracted) {
+        // The alt in the SkyPoint is always actual, not apparent
+        destination()->setAlt(SkyPoint::unrefract(alt));
+    } else {
+        destination()->setAlt(alt);
+    }
     destination()->setAz(az);
     destination()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
     emit destinationChanged();
@@ -386,7 +391,7 @@ void SkyMapLite::slotCenter()
     //update the destination to the selected coordinates
     if (Options::useAltAz())
     {
-        setDestinationAltAz(focusPoint()->altRefracted(), focusPoint()->az());
+        setDestinationAltAz(focusPoint()->alt(), focusPoint()->az(), false);
     }
     else
     {
@@ -539,7 +544,7 @@ void SkyMapLite::slotClockSlewing()
         if ( Options::useAltAz() ) {
             //Tracking any object in Alt/Az mode requires focus updates
             focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
+            setFocusAltAz( focusObject()->alt(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( *focus() );
         } else {
@@ -702,7 +707,7 @@ void SkyMapLite::updateFocus()
         {
             //Tracking any object in Alt/Az mode requires focus updates
             focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            setFocusAltAz(focusObject()->altRefracted(), focusObject()->az());
+            setFocusAltAz(focusObject()->alt(), focusObject()->az());
             focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
             setDestination(*focus());
         }
@@ -982,7 +987,12 @@ void SkyMapLite::updateAutomaticMode()
 {
 #if defined(Q_OS_ANDROID)
     m_deviceOrientation->getOrientation();
-    setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
+    if (Options::useRefraction() && Options::useAltAz()) {
+        setFocusAltAz(SkyPoint::unrefract(dms(m_deviceOrientation->getAltitude())), dms(m_deviceOrientation->getAzimuth()));
+    } else {
+        setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
+    }
+
     setSkyRotation(-1 * m_deviceOrientation->getRoll());
 #endif
 }
