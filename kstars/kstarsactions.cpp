@@ -1409,15 +1409,15 @@ void KStars::slotPointFocus()
     map()->stopTracking();
 
     if (sender() == actionCollection()->action("zenith"))
-        map()->setDestinationAltAz(dms(90.0), map()->focus()->az());
+        map()->setDestinationAltAz(dms(90.0), map()->focus()->az(), Options::useRefraction());
     else if (sender() == actionCollection()->action("north"))
-        map()->setDestinationAltAz(dms(15.0), dms(0.0001));
+        map()->setDestinationAltAz(dms(15.0), dms(0.0001), Options::useRefraction());
     else if (sender() == actionCollection()->action("east"))
-        map()->setDestinationAltAz(dms(15.0), dms(90.0));
+        map()->setDestinationAltAz(dms(15.0), dms(90.0), Options::useRefraction());
     else if (sender() == actionCollection()->action("south"))
-        map()->setDestinationAltAz(dms(15.0), dms(180.0));
+        map()->setDestinationAltAz(dms(15.0), dms(180.0), Options::useRefraction());
     else if (sender() == actionCollection()->action("west"))
-        map()->setDestinationAltAz(dms(15.0), dms(270.0));
+        map()->setDestinationAltAz(dms(15.0), dms(270.0), Options::useRefraction());
 }
 
 void KStars::slotTrack()
@@ -1500,7 +1500,7 @@ void KStars::slotManualFocus()
         data()->setSnapNextFocus();
         if (Options::useAltAz())
         {
-            map()->setDestinationAltAz(focusDialog->point()->alt(), focusDialog->point()->az());
+            map()->setDestinationAltAz(focusDialog->point()->alt(), focusDialog->point()->az(), Options::useRefraction());
         }
         else
         {
@@ -1574,7 +1574,8 @@ void KStars::slotCoordSys()
                 map()->setFocus(map()->focusObject());
             else //need to recompute focus for unrefracted position
             {
-                map()->setFocusAltAz(SkyPoint::unrefract(map()->focus()->alt()), map()->focus()->az());
+                // FIXME: Changed focus()->alt() to be unrefracted by convention; is this still necessary? -- asimha 2020/07/05
+                map()->setFocusAltAz(map()->focus()->alt(), map()->focus()->az());
                 map()->focus()->HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
             }
         }
@@ -1585,7 +1586,8 @@ void KStars::slotCoordSys()
         Options::setUseAltAz(true);
         if (Options::useRefraction())
         {
-            map()->setFocusAltAz(map()->focus()->altRefracted(), map()->focus()->az());
+            // FIXME: Changed focus()->alt() to be unrefracted by convention; is this still necessary? -- asimha 2020/07/05
+            map()->setFocusAltAz(map()->focus()->alt(), map()->focus()->az());
         }
         actionCollection()->action("coordsys")->setText(i18n("Switch to star globe view (Equatorial &Coordinates)"));
     }

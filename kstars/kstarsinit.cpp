@@ -467,8 +467,8 @@ void KStars::initActions()
 
     // Disabled until fixed later
     actionCollection()->addAction("jmoontool", this, SLOT(slotJMoonTool()) )
-        << i18n("Jupiter's Moons")
-        << QKeySequence(Qt::CTRL+Qt::Key_J );
+            << i18n("Jupiter's Moons")
+            << QKeySequence(Qt::CTRL + Qt::Key_J );
 
     actionCollection()->addAction("flagmanager", this, SLOT(slotFlagManager())) << i18n("Flags");
 
@@ -740,7 +740,8 @@ void KStars::repopulateHIPS()
     }
 
     // Hips settings
-    ka = actionCollection()->addAction("hipssettings", HIPSManager::Instance(), SLOT(showSettings())) << i18n("HiPS Settings...");
+    ka = actionCollection()->addAction("hipssettings", HIPSManager::Instance(),
+                                       SLOT(showSettings())) << i18n("HiPS Settings...");
     hipsActionMenu->addSeparator();
     hipsActionMenu->addAction(ka);
 }
@@ -902,7 +903,7 @@ void KStars::initFocus()
     map()->showFocusCoords();
 
     //Check whether initial position is below the horizon.
-    if (Options::useAltAz() && Options::showGround() && map()->focus()->alt().Degrees() < -1.0)
+    if (Options::useAltAz() && Options::showGround() && map()->focus()->alt().Degrees() <= SkyPoint::altCrit)
     {
         QString caption = i18n("Initial Position is Below Horizon");
         QString message =

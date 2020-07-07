@@ -66,7 +66,11 @@ void Projector::setViewParams(const ViewParams &p)
     m_cosY0 = 0;
     if (m_vp.useAltAz)
     {
-        m_vp.focus->alt().SinCos(m_sinY0, m_cosY0);
+        // N.B. We explicitly check useRefraction and not use
+        // SkyPoint::altRefracted() here because it could be different
+        // from Options::useRefraction() in some future use-case
+        // --asimha
+        SkyPoint::refract(m_vp.focus->alt(), m_vp.useRefraction).SinCos(m_sinY0, m_cosY0);
     }
     else
     {
@@ -78,14 +82,13 @@ void Projector::setViewParams(const ViewParams &p)
     m_fov = sqrt(m_vp.width * m_vp.width + m_vp.height * m_vp.height) / (2 * m_vp.zoomFactor * dms::DegToRad);
     //Set checkVisibility variables
     double Ymax;
+    m_xrange = 1.2 * m_fov / m_cosY0;
     if (m_vp.useAltAz)
     {
-        m_xrange = 1.2 * m_fov / cos(m_vp.focus->alt().radians());
-        Ymax     = fabs(m_vp.focus->alt().Degrees()) + m_fov;
+        Ymax     = fabs(SkyPoint::refract(m_vp.focus->alt().Degrees(), m_vp.useRefraction)) + m_fov;
     }
     else
     {
-        m_xrange = 1.2 * m_fov / cos(m_vp.focus->dec().radians());
         Ymax     = fabs(m_vp.focus->dec().Degrees()) + m_fov;
     }
     m_isPoleVisible = (Ymax >= 90.0);
@@ -209,7 +212,7 @@ bool Projector::checkVisibility(const SkyPoint *p) const
         if( p->alt().Degrees() < -1.0 ) return false;
     }
     */ //Here we hope that the point has already been 'synchronized'
-    if (m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0)
+    if (m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() <= SkyPoint::altCrit)
         return false;
 
     if (m_vp.useAltAz)
@@ -432,7 +435,7 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
     if (m_vp.useAltAz)
     {
         dx = -1.0 * dx; //Azimuth goes in opposite direction compared to RA
-        m_vp.focus->alt().SinCos(sinY0, cosY0);
+        SkyPoint::refract(m_vp.focus->alt(), m_vp.useRefraction).SinCos(sinY0, cosY0);
     }
     else
     {
@@ -511,7 +514,7 @@ Vector2f Projector::toScreenVec(const SkyPoint *o, bool oRefract, bool *onVisibl
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
-//Convert dX, Y coords to screen pixel coords, using GNU extension if available
+    //Convert dX, Y coords to screen pixel coords, using GNU extension if available
 #if (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 1)
     sincos(dX, &sindX, &cosdX);
     sincos(Y, &sinY, &cosY);

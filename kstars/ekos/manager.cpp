@@ -3509,6 +3509,7 @@ void Manager::syncActiveDevices()
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
                 {
+#if 0
                     if (tvp->tp[i].aux0 != nullptr)
                     {
                         bool *override = static_cast<bool *>(tvp->tp[i].aux0);
@@ -3516,6 +3517,28 @@ void Manager::syncActiveDevices()
                             continue;
                     }
                     devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+#endif
+                    devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+                    // Active filter wheel should be set to whatever the user selects in capture module
+                    const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
+                    // Does defaultFilterWheel exist in devices?
+                    for (auto &oneDev : devs)
+                    {
+                        if (oneDev->getDeviceName() == defaultFilterWheel)
+                        {
+                            // TODO this should be profile specific
+                            if (QString(tvp->tp[i].text) != defaultFilterWheel)
+                            {
+                                IUSaveText(&tvp->tp[i], defaultFilterWheel.toLatin1().constData());
+                                oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                                break;
+                            }
+
+                            continue;
+                        }
+                    }
+                    // If it does not exist, then continue and pick from available devs below.
+
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
                 {
@@ -3526,7 +3549,6 @@ void Manager::syncActiveDevices()
                 {
                     if (tvp->tp[i].text != devs.first()->getDeviceName())
                     {
-                        //propertyUpdated = true;
                         IUSaveText(&tvp->tp[i], devs.first()->getDeviceName().toLatin1().constData());
                         oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }

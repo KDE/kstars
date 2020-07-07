@@ -116,7 +116,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Up:
             if (Options::useAltAz())
             {
-                focus()->setAlt(focus()->alt().Degrees() + step * MINZOOM / Options::zoomFactor());
+                focus()->setAltRefracted(focus()->altRefracted().Degrees() + step * MINZOOM / Options::zoomFactor());
                 if (focus()->alt().Degrees() > 90.0)
                     focus()->setAlt(90.0);
                 focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
@@ -136,7 +136,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Down:
             if (Options::useAltAz())
             {
-                focus()->setAlt(focus()->alt().Degrees() - step * MINZOOM / Options::zoomFactor());
+                focus()->setAltRefracted(focus()->altRefracted().Degrees() - step * MINZOOM / Options::zoomFactor());
                 if (focus()->alt().Degrees() < -90.0)
                     focus()->setAlt(-90.0);
                 focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
@@ -483,7 +483,7 @@ void SkyMap::keyReleaseEvent(QKeyEvent *e)
             slewing = false;
 
             if (Options::useAltAz())
-                setDestinationAltAz(focus()->alt(), focus()->az());
+                setDestinationAltAz(focus()->alt(), focus()->az(), false);
             else
                 setDestination(*focus());
 
@@ -583,10 +583,10 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
             m_MousePoint.EquatorialToHorizontal(data->lst(), data->geo()->lat());
             clickedPoint()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
             dms dAz  = m_MousePoint.az() - clickedPoint()->az();
-            dms dAlt = m_MousePoint.alt() - clickedPoint()->alt();
+            dms dAlt = m_MousePoint.altRefracted() - clickedPoint()->altRefracted();
             focus()->setAz(focus()->az().Degrees() - dAz.Degrees()); //move focus in opposite direction
             focus()->setAz(focus()->az().reduce());
-            focus()->setAlt(KSUtils::clamp(focus()->alt().Degrees() - dAlt.Degrees(), -90.0, 90.0));
+            focus()->setAltRefracted(KSUtils::clamp(focus()->altRefracted().Degrees() - dAlt.Degrees(), -90.0, 90.0));
             focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
         }
         else
@@ -663,7 +663,7 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *e)
         {
             slewing = false;
             if (Options::useAltAz())
-                setDestinationAltAz(focus()->alt(), focus()->az());
+                setDestinationAltAz(focus()->alt(), focus()->az(), false);
             else
                 setDestination(*focus());
         }
