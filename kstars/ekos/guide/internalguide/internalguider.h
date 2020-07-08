@@ -15,6 +15,7 @@
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
 #include "guidelog.h"
+#include "calibration.h"
 
 #include <QFile>
 #include <QPointer>
@@ -80,10 +81,9 @@ class InternalGuider : public GuideInterface
         bool dither(double pixels) override;
         bool ditherXY(double x, double y);
 
-        bool clearCalibration() override
-        {
-            return true;
-        }
+        bool clearCalibration() override;
+        bool restoreCalibration();
+
         bool reacquire() override;
 
         bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY) override;
@@ -97,8 +97,8 @@ class InternalGuider : public GuideInterface
         void setSquareAlgorithm(int index);
 
         // Reticle Parameters
-        void setReticleParameters(double x, double y, double angle);
-        bool getReticleParameters(double *x, double *y, double *angle);
+        void setReticleParameters(double x, double y);
+        bool getReticleParameters(double *x, double *y);
 
         // Guide Square Box Size
         void setGuideBoxSize(uint32_t value)
@@ -133,6 +133,7 @@ class InternalGuider : public GuideInterface
         bool useSubFrame();
         bool useRapidGuide();
 
+        const Calibration &getCalibration() const;
         bool isImageGuideEnabled() const;
         void setImageGuideEnabled(bool value);
 
@@ -200,8 +201,8 @@ class InternalGuider : public GuideInterface
             int last_pulse { 0 };
             int ra_total_pulse { 0 };
             int de_total_pulse { 0 };
-            double phi { 0 };
             uint8_t backlash { 0 };
+            Calibration tempCalibration;
         } m_CalibrationParams;
 
         struct

@@ -35,6 +35,11 @@ InternalGuider::InternalGuider()
     pmath.reset(new cgmath());
     connect(pmath.get(), &cgmath::newStarPosition, this, &InternalGuider::newStarPosition);
 
+    // Do this so that stored calibration will be visible on the
+    // guide options menu. Calibration will get restored again when needed.
+    pmath->getMutableCalibration()->restore(
+        pierSide, Options::reverseDecOnPierSideChange(), nullptr);
+
     state = GUIDE_IDLE;
 }
 
@@ -149,8 +154,8 @@ bool InternalGuider::ditherXY(double x, double y)
 {
     m_ProgressiveDither.clear();
     m_DitherRetries = 0;
-    double cur_x, cur_y, ret_angle;
-    pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
+    double cur_x, cur_y;
+    pmath->getReticleParameters(&cur_x, &cur_y);
 
     // Find out how many "jumps" we need to perform in order to get to target.
     // The current limit is now 1/4 of the box size to make sure the star stays within detection
@@ -172,13 +177,13 @@ bool InternalGuider::ditherXY(double x, double y)
         else if (fabs(targetY - y) < oneJump)
             targetY = y;
 
-        m_ProgressiveDither.enqueue(Vector(targetX, targetY, ret_angle));
+        m_ProgressiveDither.enqueue(Vector(targetX, targetY, -1));
 
     }
     while (targetX != x || targetY != y);
 
     m_DitherTargetPosition = m_ProgressiveDither.dequeue();
-    pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, m_DitherTargetPosition.z);
+    pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
     guideLog.ditherInfo(x, y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
     state = GUIDE_MANUAL_DITHERING;
@@ -191,10 +196,9 @@ bool InternalGuider::ditherXY(double x, double y)
 
 bool InternalGuider::dither(double pixels)
 {
-    double cur_x, cur_y, ret_angle;
-    pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
+    double cur_x, cur_y;
+    pmath->getReticleParameters(&cur_x, &cur_y);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    const Ekos::Matrix &ROT_Z = pmath->getCalibration().getRotation();
 
     if (state != GUIDE_DITHERING)
     {
@@ -208,7 +212,7 @@ bool InternalGuider::dither(double pixels)
         double diff_x = pixels * cos(angle);
         double diff_y = pixels * sin(angle);
 
-        if (pmath->declinationSwapEnabled())
+        if (pmath->getCalibration().declinationSwapEnabled())
             diff_y *= -1;
 
         if (fabs(diff_x + accumulator.first) > MAX_DITHER_TRAVEL)
@@ -224,7 +228,7 @@ bool InternalGuider::dither(double pixels)
                                    m_DitherTargetPosition.y;
         guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
-        pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, ret_angle);
+        pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
         if (Options::gPGEnabled())
             // This is the offset in image coordinates, but needs to be converted to RA.
@@ -238,17 +242,18 @@ bool InternalGuider::dither(double pixels)
         return true;
     }
 
-    Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0);
+    // These will be the RA & DEC drifts of the current star position from the reticle position in pixels.
+    double driftRA, driftDEC;
+    pmath->getCalibration().computeDrift(
+        Vector(cur_x, cur_y, 0),
+        Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0),
+        &driftRA, &driftDEC);
 
-    star_pos.y      = -star_pos.y;
-    star_pos        = star_pos * ROT_Z;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Diff star X:" << driftRA << "Y:" << driftDEC;
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
-
-
-    if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
+    if (fabs(driftRA) < 1 && fabs(driftDEC) < 1)
     {
-        pmath->setReticleParameters(cur_x, cur_y, ret_angle);
+        pmath->setReticleParameters(cur_x, cur_y);
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither complete.";
 
         if (Options::ditherSettle() > 0)
@@ -301,23 +306,25 @@ bool InternalGuider::dither(double pixels)
 
 bool InternalGuider::processManualDithering()
 {
-    double cur_x, cur_y, ret_angle;
-    pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
+    double cur_x, cur_y;
+    pmath->getReticleParameters(&cur_x, &cur_y);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    const Ekos::Matrix &ROT_Z = pmath->getCalibration().getRotation();
 
-    Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0);
-    star_pos.y      = -star_pos.y;
-    star_pos        = star_pos * ROT_Z;
+    // These will be the RA & DEC drifts of the current star position from the reticle position in pixels.
+    double driftRA, driftDEC;
+    pmath->getCalibration().computeDrift(
+        Vector(cur_x, cur_y, 0),
+        Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0),
+        &driftRA, &driftDEC);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dithering in progress. Diff star X:" << driftRA << "Y:" << driftDEC;
 
-    if (fabs(star_pos.x) < guideBoxSize / 5.0 && fabs(star_pos.y) < guideBoxSize / 5.0)
+    if (fabs(driftRA) < guideBoxSize / 5.0 && fabs(driftDEC) < guideBoxSize / 5.0)
     {
         if (m_ProgressiveDither.empty() == false)
         {
             m_DitherTargetPosition = m_ProgressiveDither.dequeue();
-            pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, m_DitherTargetPosition.z);
+            pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
             qCDebug(KSTARS_EKOS_GUIDE) << "Next Dither Jump X:" << m_DitherTargetPosition.x << "Jump Y:" << m_DitherTargetPosition.y;
             m_DitherRetries = 0;
 
@@ -326,9 +333,9 @@ bool InternalGuider::processManualDithering()
             return true;
         }
 
-        if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
+        if (fabs(driftRA) < 1 && fabs(driftDEC) < 1)
         {
-            pmath->setReticleParameters(cur_x, cur_y, ret_angle);
+            pmath->setReticleParameters(cur_x, cur_y);
             qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dither complete.";
 
             if (Options::ditherSettle() > 0)
@@ -417,11 +424,33 @@ bool InternalGuider::calibrate()
         return true;
     }
 
+    if (restoreCalibration())
+    {
+        calibrationStage = CAL_IDLE;
+        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+        KSNotification::event(QLatin1String("CalibrationRestored"),
+                              i18n("Guiding calibration restored"));
+        reset();
+        return true;
+    }
+
+    // Initialize the calibration parameters.
+    // CCD pixel values comes in in microns and we want mm.
+    pmath->getMutableCalibration()->setParameters(
+        ccdPixelSizeX / 1000.0, ccdPixelSizeY / 1000.0, mountFocalLength,
+        subBinX, subBinY, pierSide, mountRA, mountDEC);
+
+    // Also setup the temporary calibration used in calibrateRADECReticle().
+    // In truth, these values won't be used, as conversions from pixels to arcseconds
+    // aren't needed.
+    m_CalibrationParams.tempCalibration.setParameters(
+        ccdPixelSizeX / 1000.0, ccdPixelSizeY / 1000.0, mountFocalLength,
+        subBinX, subBinY, pierSide, mountRA, mountDEC);
+
     guideFrame->disconnect(this);
 
     // Must reset dec swap before we run any calibration procedure!
     emit DESwapChanged(false);
-    pmath->setDeclinationSwapEnabled(false);
     pmath->setLostStar(false);
 
     calibrationStage = CAL_START;
@@ -487,6 +516,23 @@ void InternalGuider::reset()
             Qt::UniqueConnection);
 }
 
+bool InternalGuider::clearCalibration()
+{
+    Options::setSerializedCalibration("");
+    pmath->getMutableCalibration()->reset();
+    return true;
+}
+
+bool InternalGuider::restoreCalibration()
+{
+    bool success = Options::reuseGuideCalibration() &&
+                   pmath->getMutableCalibration()->restore(
+                       pierSide, Options::reverseDecOnPierSideChange(), &mountDEC);
+    if (success)
+        emit DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
+    return success;
+}
+
 void InternalGuider::calibrateRADECRecticle(bool ra_only)
 {
     bool axis_calibration_complete = false;
@@ -514,7 +560,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             emit newLog(i18n("RA drifting forward..."));
 
-            pmath->getReticleParameters(&m_CalibrationCoords.start_x1, &m_CalibrationCoords.start_y1, nullptr);
+            pmath->getReticleParameters(&m_CalibrationCoords.start_x1, &m_CalibrationCoords.start_y1);
 
             m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
 
@@ -577,9 +623,11 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 qCDebug(KSTARS_EKOS_GUIDE) << "End X1 " << m_CalibrationCoords.end_x1 << " End Y1 " << m_CalibrationCoords.end_y1;
 
-                m_CalibrationParams.phi   = pmath->calculatePhi(m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1,
-                                            m_CalibrationCoords.end_x1, m_CalibrationCoords.end_y1);
-                ROT_Z = RotateZ(-M_PI * m_CalibrationParams.phi / 180.0); // derotates...
+                // This temporary calibration is just used to help find our way back to the origin.
+                // total_pulse is not used, but valid.
+                m_CalibrationParams.tempCalibration.calculate1D(m_CalibrationCoords.end_x1 - m_CalibrationCoords.start_x1,
+                        m_CalibrationCoords.end_y1 - m_CalibrationCoords.start_y1,
+                        m_CalibrationParams.ra_total_pulse);
 
                 m_CalibrationCoords.ra_distance = 0;
                 m_CalibrationParams.backlash = 0;
@@ -588,7 +636,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 m_CalibrationParams.ra_iterations++;
 
                 emit newLog(i18n("RA drifting reverse..."));
-                guideLog.endCalibrationSection(RA_INC_DIR, m_CalibrationParams.phi);
+                guideLog.endCalibrationSection(RA_INC_DIR, m_CalibrationParams.tempCalibration.getAngle());
             }
             else if (m_CalibrationParams.ra_iterations > m_CalibrationParams.turn_back_time)
             {
@@ -640,20 +688,22 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.ra_iterations << " Direction: RA_DEC_DIR" << " Duration: "
                                        << m_CalibrationParams.last_pulse << " ms.";
 
-            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1, 0);
-            star_pos.y      = -star_pos.y;
-            star_pos        = star_pos * ROT_Z;
+            double driftRA, driftDEC;
+            m_CalibrationParams.tempCalibration.computeDrift(
+                Vector(cur_x, cur_y, 0),
+                Vector(m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1, 0),
+                &driftRA, &driftDEC);
 
-            qCDebug(KSTARS_EKOS_GUIDE) << "Star x pos is " << star_pos.x << " from original point.";
+            qCDebug(KSTARS_EKOS_GUIDE) << "Star x pos is " << driftRA << " from original point.";
 
             if (m_CalibrationCoords.ra_distance == 0.0)
-                m_CalibrationCoords.ra_distance = star_pos.x;
+                m_CalibrationCoords.ra_distance = driftRA;
 
             guideLog.addCalibrationData(RA_DEC_DIR, cur_x, cur_y,
                                         m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1);
 
             // start point reached... so exit
-            if (star_pos.x < 1.5)
+            if (driftRA < 1.5)
             {
                 pmath->performProcessing();
 
@@ -664,7 +714,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             // If we'not moving much, try increasing pulse to 200% to clear any backlash
             // Also increase pulse width if we are going FARTHER and not back to our original position
             else if ( (fabs(cur_x - m_CalibrationCoords.last_x) < 0.5 && fabs(cur_y - m_CalibrationCoords.last_y) < 0.5)
-                      || star_pos.x > m_CalibrationCoords.ra_distance)
+                      || driftRA > m_CalibrationCoords.ra_distance)
             {
                 m_CalibrationParams.backlash++;
 
@@ -773,16 +823,18 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
         {
             double cur_x, cur_y;
             pmath->getStarScreenPosition(&cur_x, &cur_y);
-            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_CalibrationCoords.start_backlash_x,
-                              m_CalibrationCoords.start_backlash_y, 0);
-            star_pos.y      = -star_pos.y;
-            star_pos        = star_pos * ROT_Z;
+
+            double driftRA, driftDEC;
+            m_CalibrationParams.tempCalibration.computeDrift(
+                Vector(cur_x, cur_y, 0),
+                Vector(m_CalibrationCoords.start_backlash_x, m_CalibrationCoords.start_backlash_y, 0),
+                &driftRA, &driftDEC);
 
             // Exit the backlash phase either after 5 pulses, or after we've moved sufficiently in the
             // DEC direction.
             constexpr int MIN_DEC_BACKLASH_MOVE_PIXELS = 3;
             if ((++m_CalibrationParams.backlash_iterations >= 5) ||
-                    (fabs(star_pos.y) > MIN_DEC_BACKLASH_MOVE_PIXELS))
+                    (fabs(driftDEC) > MIN_DEC_BACKLASH_MOVE_PIXELS))
             {
                 // Copy of the section that ends CAL_RA_DEC when backlash is turned off.
                 double cur_x, cur_y;
@@ -791,7 +843,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                                        cur_x - m_CalibrationCoords.start_x1, cur_y - m_CalibrationCoords.start_y1);
                 qCDebug(KSTARS_EKOS_GUIDE) << QString("Stopping dec backlash caibration after %1 iterations, offset %2")
                                            .arg(m_CalibrationParams.backlash_iterations - 1)
-                                           .arg(star_pos.y, 4, 'f', 2);
+                                           .arg(driftDEC, 4, 'f', 2);
                 calibrationStage = CAL_DEC_INC;
                 m_CalibrationCoords.start_x2         = cur_x;
                 m_CalibrationCoords.start_y2         = cur_y;
@@ -847,16 +899,16 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 qCDebug(KSTARS_EKOS_GUIDE) << "End X2 " << m_CalibrationCoords.end_x2 << " End Y2 " << m_CalibrationCoords.end_y2;
 
-                m_CalibrationParams.phi   = pmath->calculatePhi(m_CalibrationCoords.start_x2, m_CalibrationCoords.start_y2,
-                                            m_CalibrationCoords.end_x2, m_CalibrationCoords.end_y2);
-                ROT_Z = RotateZ(-M_PI * m_CalibrationParams.phi / 180.0); // derotates...
+                m_CalibrationParams.tempCalibration.calculate1D(m_CalibrationCoords.end_x2 - m_CalibrationCoords.start_x2,
+                        m_CalibrationCoords.end_y2 - m_CalibrationCoords.start_y2,
+                        m_CalibrationParams.de_total_pulse);
 
                 m_CalibrationCoords.de_distance = 0;
 
                 emit newPulse(DEC_DEC_DIR, m_CalibrationParams.last_pulse);
                 emit newLog(i18n("DEC drifting reverse..."));
                 m_CalibrationParams.dec_iterations++;
-                guideLog.endCalibrationSection(DEC_INC_DIR, m_CalibrationParams.phi);
+                guideLog.endCalibrationSection(DEC_INC_DIR, m_CalibrationParams.tempCalibration.getAngle());
             }
             else if (m_CalibrationParams.dec_iterations > m_CalibrationParams.turn_back_time)
             {
@@ -911,39 +963,40 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << m_CalibrationParams.dec_iterations << " Direction: DEC_DEC_DIR" <<
                                        " Duration: " << m_CalibrationParams.last_pulse << " ms.";
 
-            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1, 0);
-            star_pos.y      = -star_pos.y;
-            star_pos        = star_pos * ROT_Z;
+            // Note: the way this temp calibration was set up above, with the DEC drifts, the ra axis is really dec.
+            // This will help the dec find its way home. Could convert to a full RA/DEC calibration.
+            double driftRA, driftDEC;
+            m_CalibrationParams.tempCalibration.computeDrift(
+                Vector(cur_x, cur_y, 0),
+                Vector(m_CalibrationCoords.start_x1, m_CalibrationCoords.start_y1, 0),
+                &driftRA, &driftDEC);
 
-            qCDebug(KSTARS_EKOS_GUIDE) << "Currently " << star_pos.x << star_pos.y << " from original point.";
+            qCDebug(KSTARS_EKOS_GUIDE) << "Currently " << driftRA << driftDEC << " from original point.";
 
             // Keep track of distance
             if (m_CalibrationCoords.de_distance == 0.0)
-                m_CalibrationCoords.de_distance = star_pos.x;
+                m_CalibrationCoords.de_distance = driftRA;
 
             // South?
             guideLog.addCalibrationData(DEC_DEC_DIR, cur_x, cur_y,
                                         m_CalibrationCoords.start_x2, m_CalibrationCoords.start_y2);
 
             // start point reached... so exit
-            if (star_pos.x < 1.5)
+            if (driftRA < 1.5)
             {
                 pmath->performProcessing();
-
-                m_CalibrationParams.de_total_pulse += m_CalibrationParams.last_pulse;
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
                 axis_calibration_complete = true;
             }
             // Increase pulse if we're not moving much or if we are moving _away_ from target.
             else if ( (fabs(cur_x - m_CalibrationCoords.last_x) < 0.5 && fabs(cur_y - m_CalibrationCoords.last_y) < 0.5)
-                      || star_pos.x > m_CalibrationCoords.de_distance)
+                      || driftRA > m_CalibrationCoords.de_distance)
             {
                 // Increase pulse by 200%
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration() * 2;
             }
             else
             {
-                m_CalibrationParams.de_total_pulse += m_CalibrationParams.last_pulse;
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
             }
 
@@ -1027,7 +1080,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
 void InternalGuider::setStarPosition(QVector3D &starCenter)
 {
-    pmath->setReticleParameters(starCenter.x(), starCenter.y(), -1);
+    pmath->setReticleParameters(starCenter.x(), starCenter.y());
 }
 
 void InternalGuider::trackingStarSelected(int x, int y)
@@ -1037,7 +1090,7 @@ void InternalGuider::trackingStarSelected(int x, int y)
 
     //int square_size = guide_squares[pmath->getSquareIndex()].size;
 
-    pmath->setReticleParameters(x, y, -1);
+    pmath->setReticleParameters(x, y);
     //pmath->moveSquare(x-square_size/(2*pmath->getBinX()), y-square_size/(2*pmath->getBinY()));
 
     //update_reticle_pos(x, y);
@@ -1060,7 +1113,7 @@ void InternalGuider::trackingStarSelected(int x, int y)
 
 void InternalGuider::setDECSwap(bool enable)
 {
-    pmath->setDeclinationSwapEnabled(enable);
+    pmath->getMutableCalibration()->setDeclinationSwapEnabled(enable);
 }
 
 void InternalGuider::setSquareAlgorithm(int index)
@@ -1070,14 +1123,14 @@ void InternalGuider::setSquareAlgorithm(int index)
     pmath->setSquareAlgorithm(index);
 }
 
-void InternalGuider::setReticleParameters(double x, double y, double angle)
+void InternalGuider::setReticleParameters(double x, double y)
 {
-    pmath->setReticleParameters(x, y, angle);
+    pmath->setReticleParameters(x, y);
 }
 
-bool InternalGuider::getReticleParameters(double *x, double *y, double *angle)
+bool InternalGuider::getReticleParameters(double *x, double *y)
 {
-    return pmath->getReticleParameters(x, y, angle);
+    return pmath->getReticleParameters(x, y);
 }
 
 bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
@@ -1120,7 +1173,7 @@ bool InternalGuider::processGuiding()
         if (state == GUIDE_GUIDING)
         {
             Vector star_pos = pmath->findLocalStarPosition();
-            pmath->setReticleParameters(star_pos.x, star_pos.y, -1);
+            pmath->setReticleParameters(star_pos.x, star_pos.y);
         }
         m_isFirstFrame = false;
     }
@@ -1530,12 +1583,8 @@ void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
     info->azimuth = this->mountAzimuth.Degrees();
     info->altitude = this->mountAltitude.Degrees();
     info->pierSide = this->pierSide;
-
-    // Not in calibration right now.
-    // double phi_ra, phi_dec;
-    // info->xangle = phi_ra;
-    // info->yangle = phi_dec;
-
+    info->xangle = pmath->getCalibration().getRAAngle();
+    info->yangle = pmath->getCalibration().getDECAngle();
     // Calibration values in ms/pixel, xrate is in pixels/second.
     info->xrate = 1000.0 / pmath->getCalibration().raPulseMillisecondsPerPixel();
     info->yrate = 1000.0 / pmath->getCalibration().decPulseMillisecondsPerPixel();
@@ -1551,4 +1600,8 @@ void InternalGuider::resetGPG()
     pmath->getGPG().reset();
 }
 
+const Calibration &InternalGuider::getCalibration() const
+{
+    return pmath->getCalibration();
+}
 }

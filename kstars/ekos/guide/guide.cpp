@@ -1321,7 +1321,10 @@ void Guide::setBusy(bool enable)
         if (guiderType == GUIDE_INTERNAL)
             darkFrameCheck->setEnabled(true);
 
-        if (calibrationComplete)
+        if (calibrationComplete ||
+                ((guiderType == GUIDE_INTERNAL) &&
+                 Options::reuseGuideCalibration() &&
+                 !Options::serializedCalibration().isEmpty()))
             clearCalibrationB->setEnabled(true);
         guideB->setEnabled(true);
         stopB->setEnabled(false);
@@ -1766,8 +1769,14 @@ void Guide::setPierSide(ISD::Telescope::PierSide newSide)
             state != GUIDE_CALIBRATING &&
             calibrationComplete)
     {
-        clearCalibration();
-        appendLogText(i18n("Pier side change detected. Clearing calibration."));
+        // Couldn't restore an old calibration if we call clearCalibration().
+        if (Options::reuseGuideCalibration())
+            calibrationComplete = false;
+        else
+        {
+            clearCalibration();
+            appendLogText(i18n("Pier side change detected. Clearing calibration."));
+        }
     }
 }
 
@@ -1783,7 +1792,11 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
             appendLogText(i18n("Mount is moving. Resetting calibration..."));
             clearCalibration();
         }
-
+        else if (Options::reuseGuideCalibration() && (guiderType == GUIDE_INTERNAL))
+        {
+            // It will restore it with the reused one, and this way it reselects a guide star.
+            calibrationComplete = false;
+        }
         // GPG guide algorithm should be reset on any slew.
         if (Options::gPGEnabled())
             guider->resetGPG();
@@ -1823,9 +1836,9 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-void Guide::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+void Guide::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide)
 {
-    guider->setMountCoords(ra, dec, az, alt);
+    guider->setMountCoords(ra, dec, az, alt, pierSide);
 }
 
 void Guide::setExposure(double value)

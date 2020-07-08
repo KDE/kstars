@@ -106,7 +106,6 @@ bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
     video_width  = vid_wd / binX;
     video_height = vid_ht / binY;
 
-    calibration.setBinning(binX, binY);
     guideStars.setCalibration(calibration);
 
     return true;
@@ -125,9 +124,6 @@ bool cgmath::setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double gu
         ccd_pix_ht = 0;
     if (guider_focal <= 0)
         guider_focal = 1;
-
-    // Values comes in in microns and we want mm.
-    calibration.setParameters(ccd_pix_wd / 1000.0, ccd_pix_ht / 1000.0, guider_focal);
 
     aperture = guider_aperture;
     guideStars.setCalibration(calibration);
@@ -153,7 +149,7 @@ void cgmath::createGuideLog()
     logTime.restart();
 }
 
-bool cgmath::setReticleParameters(double x, double y, double ang)
+bool cgmath::setReticleParameters(double x, double y)
 {
     // check frame ranges
     if (x < 0)
@@ -167,22 +163,15 @@ bool cgmath::setReticleParameters(double x, double y, double ang)
 
     reticle_pos = Vector(x, y, 0);
 
-    if (ang >= 0)
-        calibration.setAngle(ang);
-
     guideStars.setCalibration(calibration);
 
     return true;
 }
 
-bool cgmath::getReticleParameters(double *x, double *y, double *ang) const
+bool cgmath::getReticleParameters(double *x, double *y) const
 {
     *x = reticle_pos.x;
     *y = reticle_pos.y;
-
-    if (ang)
-        *ang = calibration.getAngle();
-
     return true;
 }
 
@@ -230,134 +219,33 @@ void cgmath::setSquareAlgorithm(int alg_idx)
 }
 
 
-bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse)
+bool cgmath::calculateAndSetReticle1D(
+    double start_x, double start_y, double end_x, double end_y, int RATotalPulse)
 {
-    double phi;
-
-    phi = calculatePhi(start_x, start_y, end_x, end_y);
-
-    if (phi < 0)
+    if (!calibration.calculate1D(end_x - start_x, end_y - start_y, RATotalPulse))
         return false;
 
-    setReticleParameters(start_x, start_y, phi);
-
-    if (RATotalPulse > 0)
-    {
-        double x   = end_x - start_x;
-        double y   = end_y - start_y;
-        double len = sqrt(x * x + y * y);
-
-        calibration.setRaPulseMsPerPixel(RATotalPulse / len);
-    }
+    calibration.save();
+    setReticleParameters(start_x, start_y);
 
     return true;
 }
 
-bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
-                                      double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-                                      bool *swap_dec, int RATotalPulse, int DETotalPulse)
+bool cgmath::calculateAndSetReticle2D(
+    double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
+    double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
+    bool *swap_dec, int RATotalPulse, int DETotalPulse)
 {
-    double phi_ra  = 0; // angle calculated by GUIDE_RA drift
-    double phi_dec = 0; // angle calculated by GUIDE_DEC drift
-    double phi     = 0;
 
-    Vector ra_vect  = Normalize(Vector(end_ra_x - start_ra_x, -(end_ra_y - start_ra_y), 0));
-    Vector dec_vect = Normalize(Vector(end_dec_x - start_dec_x, -(end_dec_y - start_dec_y), 0));
-
-    Vector try_increase = dec_vect * Ekos::RotateZ(M_PI / 2);
-    Vector try_decrease = dec_vect * Ekos::RotateZ(-M_PI / 2);
-
-    double cos_increase = try_increase & ra_vect;
-    double cos_decrease = try_decrease & ra_vect;
-
-    bool do_increase = cos_increase > cos_decrease ? true : false;
-
-    phi_ra = calculatePhi(start_ra_x, start_ra_y, end_ra_x, end_ra_y);
-    if (phi_ra < 0)
+    if (!calibration.calculate2D(end_ra_x - start_ra_x, end_ra_y - start_ra_y,
+                                 end_dec_x - start_dec_x, end_dec_y - start_dec_y,
+                                 swap_dec, RATotalPulse, DETotalPulse))
         return false;
 
-    phi_dec = calculatePhi(start_dec_x, start_dec_y, end_dec_x, end_dec_y);
-    if (phi_dec < 0)
-        return false;
-
-    // Store the calibration angles.
-    phiRA = phi_ra;
-    phiDEC = phi_dec;
-
-    if (do_increase)
-        phi_dec += 90;
-    else
-        phi_dec -= 90;
-
-    if (phi_dec > 360)
-        phi_dec -= 360.0;
-    if (phi_dec < 0)
-        phi_dec += 360.0;
-
-    if (fabs(phi_dec - phi_ra) > 180)
-    {
-        if (phi_ra > phi_dec)
-            phi_ra -= 360;
-        else
-            phi_dec -= 360;
-    }
-
-    // average angles
-    phi = (phi_ra + phi_dec) / 2;
-    if (phi < 0)
-        phi += 360.0;
-
-    // check DEC
-    if (swap_dec)
-        *swap_dec = dec_swap = do_increase ? false : true;
-
-    setReticleParameters(start_ra_x, start_ra_y, phi);
-
-    if (RATotalPulse > 0)
-    {
-        double x   = end_ra_x - start_ra_x;
-        double y   = end_ra_y - start_ra_y;
-        double len = sqrt(x * x + y * y);
-        calibration.setRaPulseMsPerPixel(RATotalPulse / len);
-    }
-
-    if (DETotalPulse > 0)
-    {
-        double x   = end_dec_x - start_dec_x;
-        double y   = end_dec_y - start_dec_y;
-        double len = sqrt(x * x + y * y);
-        calibration.setDecPulseMsPerPixel(DETotalPulse / len);
-    }
+    calibration.save();
+    setReticleParameters(start_ra_x, start_ra_y);
 
     return true;
-}
-
-double cgmath::calculatePhi(double start_x, double start_y, double end_x, double end_y) const
-{
-    double delta_x, delta_y;
-    double phi;
-
-    delta_x = end_x - start_x;
-    delta_y = -(end_y - start_y);
-
-    //if( (!Vector(delta_x, delta_y, 0)) < 2.5 )
-    // JM 2015-12-10: Lower threshold to 1 pixel
-    if ((!Vector(delta_x, delta_y, 0)) < 1)
-        return -1;
-
-    // 90 or 270 degrees
-    if (fabs(delta_x) < fabs(delta_y) / 1000000.0)
-    {
-        phi = delta_y > 0 ? 90.0 : 270;
-    }
-    else
-    {
-        phi = 180.0 / M_PI * atan2(delta_y, delta_x);
-        if (phi < 0)
-            phi += 360.0;
-    }
-
-    return phi;
 }
 
 void cgmath::do_ticks(void)

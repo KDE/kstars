@@ -119,8 +119,8 @@ class cgmath : public QObject
         // functions
         bool setVideoParameters(int vid_wd, int vid_ht, int binX, int binY);
         bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
-        bool setReticleParameters(double x, double y, double ang);
-        bool getReticleParameters(double *x, double *y, double *ang) const;
+        bool setReticleParameters(double x, double y);
+        bool getReticleParameters(double *x, double *y) const;
         int getSquareAlgorithmIndex(void) const;
         void setSquareAlgorithm(int alg_idx);
 
@@ -135,14 +135,7 @@ class cgmath : public QObject
         uint32_t getTicks(void) const;
 
         void setGuideView(GuideView *image);
-        bool declinationSwapEnabled()
-        {
-            return dec_swap;
-        }
-        void setDeclinationSwapEnabled(bool enable)
-        {
-            dec_swap = enable;
-        }
+
         GuideView *getGuideView()
         {
             return guideView;
@@ -176,11 +169,10 @@ class cgmath : public QObject
         void performProcessing(GuideLog *logger = nullptr, bool guiding = false);
 
         // Math
-        bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse = -1);
+        bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
         bool calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
                                       double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-                                      bool *swap_dec, int RATotalPulse = -1, int DETotalPulse = -1);
-        double calculatePhi(double start_x, double start_y, double end_x, double end_y) const;
+                                      bool *swap_dec, int RATotalPulse, int DETotalPulse);
 
         bool isImageGuideEnabled() const;
         void setImageGuideEnabled(bool value);
@@ -190,6 +182,10 @@ class cgmath : public QObject
         const Calibration &getCalibration()
         {
             return calibration;
+        }
+        Calibration *getMutableCalibration()
+        {
+            return &calibration;
         }
         QVector3D selectGuideStar();
         double getGuideStarSNR();
@@ -227,7 +223,6 @@ class cgmath : public QObject
         bool preview_mode { true };
         bool suspended { false };
         bool lost_star { false };
-        bool dec_swap { false };
 
         /// Index of threshold algorithm
         int square_alg_idx { SMART_THRESHOLD };
@@ -263,10 +258,6 @@ class cgmath : public QObject
         QVector<float *> partitionImage() const;
         uint32_t regionAxis { 64 };
         QVector<float *> referenceRegions;
-
-        // dithering
-        double phiRA = 0;
-        double phiDEC = 0;
 
         QFile logFile;
         QTime logTime;
