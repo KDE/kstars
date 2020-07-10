@@ -41,11 +41,14 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    //QSqlDatabase::removeDatabase("filter_db");
     QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
     userdb.open();
 
-    //delete (filterModel);
+    kcfg_FlatSyncFocus->setChecked(Options::flatSyncFocus());
+    connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, [this]()
+    {
+        Options::setFlatSyncFocus(kcfg_FlatSyncFocus->isChecked());
+    });
 
     filterModel = new QSqlTableModel(this, userdb);
     filterView->setModel(filterModel);
