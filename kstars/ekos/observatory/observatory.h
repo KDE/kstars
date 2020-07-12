@@ -58,9 +58,9 @@ class Observatory : public QWidget, public Ui::Observatory
          */
         Q_SCRIPTABLE void newStatus(bool isReady);
 
-        void newWeatherData(std::vector<ISD::Weather::WeatherData>);
+        void newWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
-private:
+    private:
         ObservatoryModel *mObservatoryModel = nullptr;
 
         void setDomeModel(ObservatoryDomeModel *model);
@@ -112,7 +112,7 @@ private:
         void initWeatherActions(bool enabled);
 
         void initSensorGraphs();
-        void updateSensorData(std::vector<ISD::Weather::WeatherData> weatherData);
+        void updateSensorData(const std::vector<ISD::Weather::WeatherData> &data);
         void updateSensorGraph(QString sensor_label, QDateTime now, double value);
 
 

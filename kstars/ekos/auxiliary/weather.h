@@ -77,7 +77,7 @@ class Weather : public QObject
          * @param status IPS_OK --> Good, IPS_BUSY --> Warning, IPS_ALERT --> Alert
          */
         void newStatus(ISD::Weather::Status status);
-        void newWeatherData(std::vector<ISD::Weather::WeatherData>);
+        void newWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
         void ready();
         // Signal when the underlying ISD::Weather signals a Disconnected()
         void disconnected();

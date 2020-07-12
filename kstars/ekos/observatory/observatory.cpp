@@ -628,25 +628,24 @@ void Observatory::updateSensorGraph(QString sensor_label, QDateTime now, double 
     }
 }
 
-void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weatherData)
+void Observatory::updateSensorData(const std::vector<ISD::Weather::WeatherData> &data)
 {
-    std::vector<ISD::Weather::WeatherData>::iterator it;
     QDateTime now = KStarsData::Instance()->lt();
 
-    for (it = weatherData.begin(); it != weatherData.end(); ++it)
+    for (auto &oneEntry : data)
     {
-        QString const id = it->label;
+        QString const id = oneEntry.label;
 
         if (sensorDataWidgets[id] == nullptr)
         {
-            QPushButton* labelWidget = new QPushButton(it->label);
+            QPushButton* labelWidget = new QPushButton(oneEntry.label);
             labelWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
             labelWidget->setCheckable(true);
             labelWidget->setStyleSheet("QPushButton:checked\n{\nbackground-color: maroon;\nborder: 1px outset;\nfont-weight:bold;\n}");
             // we need the object name since the label may contain '&' for keyboard shortcuts
-            labelWidget->setObjectName(it->label);
+            labelWidget->setObjectName(oneEntry.label);
 
-            QLineEdit* valueWidget = new QLineEdit(QString().setNum(it->value, 'f', 2));
+            QLineEdit* valueWidget = new QLineEdit(QString().setNum(oneEntry.value, 'f', 2));
             // fix width to enable stretching of the graph
             valueWidget->setMinimumWidth(96);
             valueWidget->setMaximumWidth(96);
@@ -669,12 +668,12 @@ void Observatory::updateSensorData(std::vector<ISD::Weather::WeatherData> weathe
         }
         else
         {
-            sensorDataWidgets[id]->first->setText(QString(it->label));
-            sensorDataWidgets[id]->second->setText(QString().setNum(it->value, 'f', 2));
+            sensorDataWidgets[id]->first->setText(QString(oneEntry.label));
+            sensorDataWidgets[id]->second->setText(QString().setNum(oneEntry.value, 'f', 2));
         }
 
         // store sensor data unit if necessary
-        updateSensorGraph(it->label, now, it->value);
+        updateSensorGraph(oneEntry.label, now, oneEntry.value);
     }
 }
 
@@ -762,10 +761,8 @@ void Observatory::setWeatherStatus(ISD::Weather::Status status)
         m_WeatherStatus = status;
     }
 
-    std::vector<ISD::Weather::WeatherData> weatherData = getWeatherModel()->getWeatherData();
-
     // update weather sensor data
-    updateSensorData(weatherData);
+    updateSensorData(getWeatherModel()->getWeatherData());
 
 }
 
