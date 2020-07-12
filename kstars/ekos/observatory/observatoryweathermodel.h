@@ -31,7 +31,10 @@ class ObservatoryWeatherModel : public QObject
         ObservatoryWeatherModel() = default;
 
         void initModel(Weather *weather);
-        bool isActive() {return initialized;}
+        bool isActive()
+        {
+            return initialized;
+        }
 
         ISD::Weather::Status status();
 
@@ -68,7 +71,7 @@ class ObservatoryWeatherModel : public QObject
         /**
          * @brief Retrieve the currently known weather sensor values
          */
-        std::vector<ISD::Weather::WeatherData> getWeatherData()
+        const std::vector<ISD::Weather::WeatherData> &getWeatherData() const
         {
             return m_WeatherData;
         }
@@ -105,7 +108,7 @@ class ObservatoryWeatherModel : public QObject
         // hold all sensor data received from the weather station
         std::vector<ISD::Weather::WeatherData> m_WeatherData;
         // update the stored values
-        void updateWeatherData(std::vector<ISD::Weather::WeatherData> entries);
+        void updateWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
         unsigned long findWeatherData(QString name);
 
     private slots:
@@ -114,7 +117,7 @@ class ObservatoryWeatherModel : public QObject
 
     signals:
         void newStatus(ISD::Weather::Status status);
-        void newWeatherData(std::vector<ISD::Weather::WeatherData>);
+        void newWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
         void ready();
         void disconnected();
         /**

@@ -3339,7 +3339,7 @@ void Focus::toggleVideo(bool enabled)
         currentCCD->setVideoStreamEnabled(enabled);
 }
 
-void Focus::setWeatherData(std::vector<ISD::Weather::WeatherData> data)
+void Focus::setWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
 {
     auto pos = std::find_if(data.begin(), data.end(), [](ISD::Weather::WeatherData oneEntry)
     {

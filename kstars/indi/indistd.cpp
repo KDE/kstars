@@ -170,7 +170,6 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             {
                 // Send immediately a heart beat
                 clientManager->sendNewNumber(nvp);
-                //watchDogTimer->start(0);
             }
         }
     }
@@ -208,7 +207,6 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
                 {
                     // Send immediately
                     clientManager->sendNewNumber(nvp);
-                    //watchDogTimer->start(0);
                 }
             }
         }
@@ -295,13 +293,15 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
         if (watchDogTimer == nullptr)
         {
             watchDogTimer = new QTimer(this);
-            connect(watchDogTimer, SIGNAL(timeout()), this, SLOT(resetWatchdog()));
+            connect(watchDogTimer, &QTimer::timeout, this, &GenericDevice::resetWatchdog);
         }
 
         if (connected && nvp->np[0].value > 0)
         {
-            // Reset timer 15 seconds before it is due
-            watchDogTimer->start(nvp->np[0].value * 60 * 1000 - 15 * 1000);
+            // Reset timer 5 seconds before it is due
+            // To account for any networking delays
+            double nextMS = qMax(100.0, (nvp->np[0].value - 5) * 1000);
+            watchDogTimer->start(nextMS);
         }
         else if (nvp->np[0].value == 0)
             watchDogTimer->stop();

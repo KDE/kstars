@@ -341,7 +341,7 @@ class Focus : public QWidget, public Ui::Focus
          * @brief setWeatherData Updates weather data that could be used to extract focus temperature from observatory
          * in case focus native temperature is not available.
          */
-        void setWeatherData(std::vector<ISD::Weather::WeatherData> data);
+        void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
     private slots:
         /**
