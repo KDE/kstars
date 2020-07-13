@@ -3630,6 +3630,7 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
     {
         Options::setCaptureLogging(enabled);
         Options::setINDICCDLogging(enabled);
+        Options::setINDIFilterWheelLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
     else if (name == "FOCUS")
