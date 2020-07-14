@@ -673,6 +673,11 @@ class Guide : public QWidget, public Ui::Guide
 
         QCPItemText *calLabel  { nullptr };
 
+        // State
+        KLed * idlingStateLed { nullptr };
+        KLed * preparingStateLed { nullptr };
+        KLed * runningStateLed { nullptr };
+
         // Axis for the SNR part of the driftGraph. Qt owns this pointer's memory.
         QCPAxis *snrAxis;
 

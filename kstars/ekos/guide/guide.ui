@@ -505,6 +505,49 @@
          <number>3</number>
         </property>
         <item>
+         <layout class="QHBoxLayout" name="stateGroupBox">
+          <item>
+           <widget class="QLabel" name="idlingStateLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Idling</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="preparingStateLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Preparing</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="runningStateLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Running</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <property name="spacing">
            <number>3</number>

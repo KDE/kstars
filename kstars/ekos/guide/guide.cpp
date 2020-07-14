@@ -3041,6 +3041,9 @@ bool Guide::executeOneOperation(GuideState operation)
 {
     bool actionRequired = false;
 
+    if (currentCCD == nullptr)
+        return actionRequired;
+
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     if (targetChip == nullptr)
         return false;
@@ -3911,6 +3914,94 @@ void Guide::initConnections()
     onInfoRateChanged(spinBox_GuideRate->value());
     connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             &Ekos::Guide::onInfoRateChanged);
+
+    // Guiding state
+    if (idlingStateLed == nullptr)
+    {
+        idlingStateLed = new KLed(Qt::gray, KLed::Off, KLed::Flat, KLed::Circular, this);
+        idlingStateLed->setObjectName("idlingStateLed");
+        stateGroupBox->insertWidget(0, idlingStateLed);
+    }
+    if (preparingStateLed == nullptr)
+    {
+        preparingStateLed = new KLed(Qt::gray, KLed::Off, KLed::Flat, KLed::Circular, this);
+        preparingStateLed->setObjectName("preparingStateLed");
+        stateGroupBox->insertWidget(2, preparingStateLed);
+    }
+    if (runningStateLed == nullptr)
+    {
+        runningStateLed = new KLed(Qt::gray, KLed::Off, KLed::Flat, KLed::Circular, this);
+        runningStateLed->setObjectName("runningStateLed");
+        stateGroupBox->insertWidget(4, runningStateLed);
+    }
+    connect(this, &Ekos::Guide::newStatus, this, [=]()
+    {
+        idlingStateLed->off();
+        preparingStateLed->off();
+        runningStateLed->off();
+        switch (state)
+        {
+        case GUIDE_DISCONNECTED:
+            idlingStateLed->setColor(Qt::red);
+            idlingStateLed->on();
+            break;
+        case GUIDE_CONNECTED:
+            idlingStateLed->setColor(Qt::green);
+            preparingStateLed->setColor(Qt::gray);
+            runningStateLed->setColor(Qt::gray);
+            idlingStateLed->on();
+            break;
+        case GUIDE_CAPTURE:
+        case GUIDE_LOOPING:
+        case GUIDE_DARK:
+        case GUIDE_SUBFRAME:
+            preparingStateLed->setColor(Qt::green);
+            runningStateLed->setColor(Qt::gray);
+            preparingStateLed->on();
+            break;
+        case GUIDE_STAR_SELECT:
+        case GUIDE_CALIBRATING:
+            preparingStateLed->setColor(Qt::yellow);
+            runningStateLed->setColor(Qt::gray);
+            preparingStateLed->on();
+            break;
+        case GUIDE_CALIBRATION_ERROR:
+            preparingStateLed->setColor(Qt::red);
+            runningStateLed->setColor(Qt::red);
+            preparingStateLed->on();
+            break;
+        case GUIDE_CALIBRATION_SUCESS:
+            preparingStateLed->setColor(Qt::green);
+            runningStateLed->setColor(Qt::yellow);
+            preparingStateLed->on();
+            break;
+        case GUIDE_GUIDING:
+            preparingStateLed->setColor(Qt::green);
+            runningStateLed->setColor(Qt::green);
+            runningStateLed->setState(KLed::On);
+            break;
+        case GUIDE_MANUAL_DITHERING:
+        case GUIDE_DITHERING:
+        case GUIDE_DITHERING_SETTLE:
+        case GUIDE_REACQUIRE:
+        case GUIDE_SUSPENDED:
+            runningStateLed->setColor(Qt::yellow);
+            runningStateLed->setState(KLed::On);
+            break;
+        case GUIDE_DITHERING_ERROR:
+        case GUIDE_ABORTED:
+            idlingStateLed->setColor(Qt::green);
+            preparingStateLed->setColor(Qt::red);
+            runningStateLed->setColor(Qt::red);
+            idlingStateLed->on();
+            break;
+        case GUIDE_IDLE:
+        default:
+            idlingStateLed->setColor(Qt::green);
+            idlingStateLed->on();
+            break;
+        }
+    });
 }
 
 void Guide::removeDevice(ISD::GDInterface *device)

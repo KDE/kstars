@@ -19,6 +19,7 @@
 
 #include "ekos/manager.h"
 #include "ekos/profileeditor.h"
+#include "Options.h"
 
 TestEkosGuide::TestEkosGuide(QObject *parent) : QObject(parent)
 {
@@ -193,9 +194,9 @@ void TestEkosGuide::testPHD2Connection()
     toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->guideModule());
     QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->guideModule(), 1000);
 
-    // Verify the phd2 server was connected successfully
+    // Verify the phd2 server was connected successfully - by default, PHD2 has a 16-second timeout to camera connection
     KTRY_GUIDE_GADGET(QPushButton, externalConnectB);
-    QTRY_VERIFY_WITH_TIMEOUT(!externalConnectB->isEnabled(), 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(!externalConnectB->isEnabled(), 30000);
     KTRY_GUIDE_GADGET(QPushButton, externalDisconnectB);
     QTRY_VERIFY_WITH_TIMEOUT(externalDisconnectB->isEnabled(), 10000);
 
@@ -203,6 +204,9 @@ void TestEkosGuide::testPHD2Connection()
     KTRY_GUIDE_GADGET(QPushButton, stopB);
     KTRY_GUIDE_GADGET(QPushButton, captureB);
     KTRY_GUIDE_GADGET(QPushButton, loopB);
+    KTRY_GUIDE_GADGET(QWidget, idlingStateLed);
+    KTRY_GUIDE_GADGET(QWidget, preparingStateLed);
+    KTRY_GUIDE_GADGET(QWidget, runningStateLed);
 
     // Run a few connect/disconnect cycles
     for (int count = 0; count < 10; count++)
@@ -212,7 +216,7 @@ void TestEkosGuide::testPHD2Connection()
         QVERIFY(loopB->isEnabled());
         QVERIFY(!stopB->isEnabled());
         KTRY_GUIDE_CLICK(externalDisconnectB);
-        QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 20000);
         QVERIFY(!guideB->isEnabled());
         QVERIFY(!captureB->isEnabled());
         QVERIFY(!loopB->isEnabled());
@@ -226,22 +230,21 @@ void TestEkosGuide::testPHD2Connection()
     for (int count = 0; count < 10; count++)
     {
         KTRY_GUIDE_CLICK(guideB);
-        QTest::qWait(500);
-        QEXPECT_FAIL("", "BUG Guide button is not disabled after being clicked", Continue);
-        QVERIFY(!guideB->isEnabled());
         QTRY_VERIFY_WITH_TIMEOUT(stopB->isEnabled(), 10000);
         QVERIFY(!guideB->isEnabled());
         QVERIFY(!captureB->isEnabled());
         QVERIFY(!loopB->isEnabled());
-        QWARN("HACK HACK HACK Guide/Stop test waiting for synchronisation to happen before stopping...");
-        QTest::qWait(500);
+        QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::On, 5000);
+        QVERIFY((dynamic_cast <KLed*> (idlingStateLed))->state() == KLed::Off);
+        QVERIFY((dynamic_cast <KLed*> (runningStateLed))->state() == KLed::Off);
         KTRY_GUIDE_CLICK(stopB);
         QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 10000);
         QVERIFY(!stopB->isEnabled());
         QVERIFY(captureB->isEnabled());
         QVERIFY(loopB->isEnabled());
-        QWARN("HACK HACK HACK Guide/Stop test waiting for synchronisation to happen after stopping...");
-        QTest::qWait(2000);
+        QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::Off, 5000);
+        QVERIFY((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::Off);
+        QVERIFY((dynamic_cast <KLed*> (runningStateLed))->state() == KLed::Off);
     }
 
     // Run a calibration with the telescope pointing at NCP (default position) - Calibration is bound to fail bcause of RA
@@ -249,104 +252,92 @@ void TestEkosGuide::testPHD2Connection()
     QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);
     KTRY_GUIDE_CLICK(guideB);
 
+    // Wait for calibration to start
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::On, 5000);
+
+    uint const calibration_timeout = Options::guideCalibrationTimeout();
+    Options::setGuideCalibrationTimeout(90);
+
+    uint const loststar_timeout = Options::guideLostStarTimeout();
+    Options::setGuideLostStarTimeout(30);
+
     // We need to wait a bit more than 62 times the default exposure, which is 1 second
-    QWARN("HACK HACK HACK Ekos does not feedback when calibration is done, waiting...");
-    QTest::qWait(62*1000*1.2);
-
-    // We have now two solutions: either PHD2 decided it should loop for an unknown reason very quickly, or PHD2 failed calibration after 62 attempts
-
-    // In the first case, Ekos is stuck waiting for PHD2
-    if (stopB->isEnabled())
-    {
-        QEXPECT_FAIL("", "BUG Guide calibration at NCP fails, but PHD2 loops and Ekos simply hangs without feedback.", Continue);
-        QVERIFY(guideB->isEnabled());
-
-        // Stop guiding, and attempt calibration again
-        KTRY_GUIDE_CLICK(stopB);
-        QTest::qWait(2000);
-        QVERIFY(guideB->isEnabled());
-        KTRY_GUIDE_CLICK(guideB);
-
-        // Again, we need to wait a bit more than 62 times the default exposure, which is 1 second
-        QWARN("HACK HACK HACK Ekos does not feedback when calibration is done, waiting...");
-        QTest::qWait(62*1000*1.2);
-    }
-
-    // We may be in the same situation again after recalibration
-    if (stopB->isEnabled())
-    {
-        // In that situation we can't even restore functionality by doing a disconnect/reconnect
-        KTRY_GUIDE_CLICK(externalDisconnectB);
-        QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 10000);
-        KTRY_GUIDE_CLICK(externalConnectB);
-        QTRY_VERIFY_WITH_TIMEOUT(externalDisconnectB->isEnabled(), 10000);
-
-        // Now the stop button is not enabled neither, and PHD2 loops
-    }
-
-    // In the second case, Ekos detected the abort and returned to the initial state, but PHD2 still loops
-    // Same situation if we disconnected and reconnected
-    if (!stopB->isEnabled())
-    {
-        // Now we're stuck because PHD2 is looping, and Ekos prevents stopping and will refuse to guide
-        KTRY_GUIDE_CLICK(guideB);
-        QTest::qWait(2000);
-        QEXPECT_FAIL("", "BUG Ekos re-enabled the guide button, but it is not functional anymore.", Continue);
-        QVERIFY(stopB->isEnabled());
-        // Instead:
-        QVERIFY(guideB->isEnabled());
-
-        // Now we can't even restore functionality by doing a disconnect/reconnect
-        KTRY_GUIDE_CLICK(externalDisconnectB);
-        QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 10000);
-        KTRY_GUIDE_CLICK(externalConnectB);
-        QTRY_VERIFY_WITH_TIMEOUT(externalDisconnectB->isEnabled(), 10000);
-
-        // Try to guide, will be rejected
-        QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 5000);
-        KTRY_GUIDE_CLICK(guideB);
-        QTest::qWait(2000);
-        QEXPECT_FAIL("", "BUG After Ekos reconnects, the guide button is still not functional.", Continue);
-        QVERIFY(stopB->isEnabled());
-        // Instead:
-        QVERIFY(guideB->isEnabled());
-
-        // Send an abort directly through the guider interface to restore functionality
-        Ekos::Manager::Instance()->guideModule()->getGuider()->abort();
-    }
+    // The default abort timer is configured for this with the relevant option, so just wait for the calibration to fail
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, Options::guideCalibrationTimeout() * 1200);
 
     // Run a calibration with the telescope pointing at Meridian - RA 3h DEC 0 at the current date is SW
     // And don't forget to track!
     QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3,0));
     Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
-    QTest::qWait(500);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 2000);
     QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);
     KTRY_GUIDE_CLICK(guideB);
 
     // We need to wait a bit more than 22 times the default exposure, which is 1 second
-    QWARN("HACK HACK HACK Ekos does not feedback when calibration is done, waiting...");
-    QTest::qWait(4000+22*1000*1.5+4000);
-    QTRY_VERIFY_WITH_TIMEOUT(stopB->isEnabled(), 2000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, Options::guideCalibrationTimeout() * 1200);
 
     // We can stop guiding now that calibration is done
     KTRY_GUIDE_CLICK(stopB);
-    QWARN("HACK HACK HACK Guide/Stop test waiting for synchronisation to happen after stopping...");
-    QTest::qWait(2000);
-    QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 2000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, 10000);
 
     // We can restart, and there will be no calibration to wait for
     KTRY_GUIDE_CLICK(guideB);
-    QTRY_VERIFY_WITH_TIMEOUT(stopB->isEnabled(), 10000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, 10000);
+
+    // Sync the telescope just enough for the star mass to drop, PHD2 will notify star lost
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3.01,0));
+    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::yellow, 10000);
+
+    // Sync the telescope back for the star mass to return, PHD2 will notify star selected
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3,0));
+    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, 10000);
+
+    // Sync the telescope just enough for the star mass to drop, PHD2 will notify star lost again
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3.01,0));
+    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::yellow, 10000);
+
+    // Wait for guiding to abort
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, Options::guideLostStarTimeout() * 1200);
+    QVERIFY((dynamic_cast <KLed*> (preparingStateLed))->color() == Qt::red);
+    QVERIFY((dynamic_cast <KLed*> (idlingStateLed))->color() == Qt::green);
+
+    // We can restart, and wait for calibration to end
+    KTRY_GUIDE_CLICK(guideB);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, Options::guideCalibrationTimeout() * 1200);
+
+    // It is apparently not possible to check the option "Stop guiding when mount moves" through the server connection
+    // TODO: update options to enable this
+#if 0
+    // Slew the telescope somewhere else, PHD2 will notify guiding abort
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->slew(3.1,0));
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, 10000);
+
+    // We can restart, and there will be no calibration to wait for
+    KTRY_GUIDE_CLICK(guideB);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, 5000);
+#endif
 
     // Run device disconnection tests
     // TODO: Ekos::Manager::Instance()->mountModule()->currentTelescope->Disconnect();
     // TODO: Ekos::Manager::Instance()->captureModule()->currentCCD->Disconnect();
 
+    // TODO: Manipulate PHD2 directly to dis/connect and loop
+
     // Stop now
     KTRY_GUIDE_CLICK(stopB);
-    QWARN("HACK HACK HACK Guide/Stop test waiting for synchronisation to happen after stopping...");
-    QTest::qWait(2000);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->state() == KLed::Off, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 2000);
+
+    // Revert timeout options
+    Options::setGuideCalibrationTimeout(calibration_timeout);
+    Options::setGuideLostStarTimeout(loststar_timeout);
 
     // Disconnect
     KTRY_GUIDE_CLICK(externalDisconnectB);
