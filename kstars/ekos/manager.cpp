@@ -3590,10 +3590,10 @@ void Manager::restartDriver(const QString &deviceName)
 
 void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
 {
+    // LOGGING, FILE, DEFAULT are exclusive, so one of them must be SET to TRUE
     if (name == "LOGGING")
     {
-        Options::setDisableLogging(enabled);
-        // Disable if required. If enabled, next call should be either FILE or DEFAULT.
+        Options::setDisableLogging(!enabled);
         if (!enabled)
             KSUtils::Logging::Disable();
     }
@@ -3609,11 +3609,13 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
         if (enabled)
             KSUtils::Logging::UseDefault();
     }
+    // VERBOSE should be set to TRUE if INDI or Ekos logging is selected.
     else if (name == "VERBOSE")
     {
         Options::setVerboseLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
+    // Toggle INDI Logging
     else if (name == "INDI")
     {
         Options::setINDILogging(enabled);
@@ -3628,6 +3630,7 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
     {
         Options::setCaptureLogging(enabled);
         Options::setINDICCDLogging(enabled);
+        Options::setINDIFilterWheelLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
     else if (name == "FOCUS")
