@@ -77,7 +77,9 @@ class PHD2 : public GuideInterface
             DISCONNECTED,
             CONNECTED,
             EQUIPMENT_DISCONNECTED,
-            EQUIPMENT_CONNECTED
+            EQUIPMENT_CONNECTED,
+            CONNECTING,
+            DISCONNECTING,
         };
         enum PHD2MessageType
         {
@@ -257,6 +259,7 @@ private slots:
 
         QTimer *abortTimer;
         QTimer *ditherTimer;
+        QTimer *stateTimer;
 
         double pixelScale = 0;
 
