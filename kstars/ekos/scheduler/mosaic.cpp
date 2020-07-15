@@ -297,7 +297,7 @@ void Mosaic::updateTargetFOV()
     map->slotCenter();
     qApp->processEvents();
 
-    pixelsPerArcminRA = (Options::zoomFactor() * dms::DegToRad / 60.0) * cos(center.dec0().radians());
+    pixelsPerArcminRA = (Options::zoomFactor() * dms::DegToRad / 60.0);
     pixelsPerArcminDE = Options::zoomFactor() * dms::DegToRad / 60.0;
 
     double fov_w = map->width() / pixelsPerArcminRA;
@@ -502,7 +502,8 @@ void Mosaic::createJobs()
 
             QPointF diffFromSkyMapCenter = skymapCenterPoint - tileCenterPoint;
 
-            tile->skyCenter.setRA0( (center.ra0().Degrees() + (diffFromSkyMapCenter.x() / (pixelsPerArcminRA * 60.0))) / 15.0);
+            tile->skyCenter.setRA0( (center.ra0().Degrees() + (diffFromSkyMapCenter.x() / (pixelsPerArcminRA * cos(
+                                         center.dec0().radians()) * 60.0))) / 15.0);
             tile->skyCenter.setDec0( center.dec0().Degrees() + (diffFromSkyMapCenter.y() / (pixelsPerArcminDE * 60.0)));
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile RA0:" << tile->skyCenter.ra0().toHMSString() << "DE0:" <<
