@@ -151,10 +151,9 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
 
         MosaicTile *mosaicTileItem { nullptr };
 
-        double pixelsPerArcmin { 0 };
+        double pixelsPerArcminRA { 0 }, pixelsPerArcminDE;
 
         QPointF screenPoint;
-
         QGraphicsScene scene;
 
         bool rememberAltAzOption;

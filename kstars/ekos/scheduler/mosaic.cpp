@@ -114,7 +114,8 @@ void MosaicTile::updateTiles()
 
     double x = initX, y = initY;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile FovW" << fovW << "FovH" << fovH << "initX" << x << "initY" << y << "Offset X " << xOffset << " Y " << yOffset;
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile FovW" << fovW << "FovH" << fovH << "initX" << x << "initY" << y <<
+                                   "Offset X " << xOffset << " Y " << yOffset;
 
     for (int row = 0; row < h; row++)
     {
@@ -296,16 +297,17 @@ void Mosaic::updateTargetFOV()
     map->slotCenter();
     qApp->processEvents();
 
-    pixelsPerArcmin = Options::zoomFactor() * dms::DegToRad / 60.0;
+    pixelsPerArcminRA = (Options::zoomFactor() * dms::DegToRad / 60.0) * cos(center.dec0().radians());
+    pixelsPerArcminDE = Options::zoomFactor() * dms::DegToRad / 60.0;
 
-    double fov_w = map->width() / pixelsPerArcmin;
-    double fov_h = map->height() / pixelsPerArcmin;
+    double fov_w = map->width() / pixelsPerArcminRA;
+    double fov_h = map->height() / pixelsPerArcminDE;
 
     // 150% of desired FOV so we get extra space for rotations
-    double x = (fov_w - targetWFOVSpin->value() * 2) / 2 * pixelsPerArcmin;
-    double y = (fov_h - targetHFOVSpin->value() * 2) / 2 * pixelsPerArcmin;
-    double w = targetWFOVSpin->value() * 2 * pixelsPerArcmin;
-    double h = targetHFOVSpin->value() * 2 * pixelsPerArcmin;
+    double x = (fov_w - targetWFOVSpin->value() * 2) / 2 * pixelsPerArcminRA;
+    double y = (fov_h - targetHFOVSpin->value() * 2) / 2 * pixelsPerArcminDE;
+    double w = targetWFOVSpin->value() * 2 * pixelsPerArcminRA;
+    double h = targetHFOVSpin->value() * 2 * pixelsPerArcminDE;
 
     // Get the sky map image
     if (m_skyChart)
@@ -328,8 +330,8 @@ void Mosaic::updateTargetFOV()
     scene.setSceneRect(skyMapItem->boundingRect());
 
     // Center tile
-    mosaicTileItem->setPos(skyMapItem->mapToScene(QPointF( mosaicWSpin->value()*cameraWFOVSpin->value()*pixelsPerArcmin / 2,
-                           mosaicHSpin->value()*cameraHFOVSpin->value()*pixelsPerArcmin / 2)));
+    mosaicTileItem->setPos(skyMapItem->mapToScene(QPointF( mosaicWSpin->value()*cameraWFOVSpin->value()*pixelsPerArcminRA / 2,
+                           mosaicHSpin->value()*cameraHFOVSpin->value()*pixelsPerArcminDE / 2)));
 }
 
 void Mosaic::render()
@@ -401,12 +403,12 @@ void Mosaic::constructMosaic()
 
         updateTargetFOV();
 
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile FOV in pixels W:" << cameraWFOVSpin->value() * pixelsPerArcmin << "H:"
-                                       << cameraHFOVSpin->value() * pixelsPerArcmin;
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile FOV in pixels W:" << cameraWFOVSpin->value() * pixelsPerArcminRA << "H:"
+                                       << cameraHFOVSpin->value() * pixelsPerArcminDE;
 
         mosaicTileItem->setDimension(mosaicWSpin->value(), mosaicHSpin->value());
         mosaicTileItem->setPA(rotationSpin->value());
-        mosaicTileItem->setFOV(cameraWFOVSpin->value() * pixelsPerArcmin, cameraHFOVSpin->value() * pixelsPerArcmin);
+        mosaicTileItem->setFOV(cameraWFOVSpin->value() * pixelsPerArcminRA, cameraHFOVSpin->value() * pixelsPerArcminDE);
         mosaicTileItem->setOverlap(overlapSpin->value());
         mosaicTileItem->updateTiles();
 
@@ -477,7 +479,8 @@ void Mosaic::createJobs()
         }
     }*/
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile W:" << mosaicTileItem->boundingRect().width() << "H:" << mosaicTileItem->boundingRect().height();
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile W:" << mosaicTileItem->boundingRect().width() << "H:" <<
+                                   mosaicTileItem->boundingRect().height();
 
     // We have two items:
     // 1. SkyMapItem is the pixmap we fetch from KStars that shows the sky field.
@@ -492,16 +495,18 @@ void Mosaic::createJobs()
         for (int j = 0; j < mosaicTileItem->getWidth(); j++)
         {
             OneTile *tile = mosaicTileItem->getTile(i, j);
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile #" << i * mosaicTileItem->getWidth() + j << "Center:" << tile->center << "Rot Center:" << tile->center_rot;
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile #" << i * mosaicTileItem->getWidth() + j << "Center:" << tile->center <<
+                                           "Rot Center:" << tile->center_rot;
 
             QPointF tileCenterPoint = mosaicTileItem->mapToItem(skyMapItem, tile->center);
 
             QPointF diffFromSkyMapCenter = skymapCenterPoint - tileCenterPoint;
 
-            tile->skyCenter.setRA0( (center.ra0().Degrees() + (diffFromSkyMapCenter.x() / (pixelsPerArcmin * 60.0))) / 15.0);
-            tile->skyCenter.setDec0( center.dec0().Degrees() + (diffFromSkyMapCenter.y() / (pixelsPerArcmin * 60.0)));
+            tile->skyCenter.setRA0( (center.ra0().Degrees() + (diffFromSkyMapCenter.x() / (pixelsPerArcminRA * 60.0))) / 15.0);
+            tile->skyCenter.setDec0( center.dec0().Degrees() + (diffFromSkyMapCenter.y() / (pixelsPerArcminDE * 60.0)));
 
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile RA0:" << tile->skyCenter.ra0().toHMSString() << "DE0:" << tile->skyCenter.dec0().toDMSString();
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile RA0:" << tile->skyCenter.ra0().toHMSString() << "DE0:" <<
+                                           tile->skyCenter.dec0().toDMSString();
         }
     }
 
