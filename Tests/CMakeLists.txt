@@ -41,6 +41,7 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/internalguide
     ${kstars_SOURCE_DIR}/kstars/focus
     )
+add_subdirectory(focus)
 add_subdirectory(polaralign)
 # FIXME
 # Disable this test for Windows since it fails for now
