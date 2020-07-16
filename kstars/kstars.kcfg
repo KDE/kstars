@@ -2415,9 +2415,20 @@
          <label>Always Reset guiding calibration before starting each job.</label>
          <default>true</default>
       </entry>
+      <entry name="ReuseGuideCalibration" type="Bool">
+         <label>Guider may re-use guiding calibration if one is available.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ReverseDecOnPierSideChange" type="Bool">
+         <label>Reverse DEC on pier-side change when reusing calibration.</label>
+         <default>false</default>
+      </entry>
       <entry name="GuideCalibrationBacklash" type="Bool">
          <label>Remove DEC backlash when calibrating guider.</label>
          <default>true</default>
+      </entry>
+      <entry name="SerializedCalibration" type="String">
+         <label>Last Calibration serialized.</label>
       </entry>
       <entry name="RealignAfterCalibrationFailure" type="Bool">
          <label>If guiding calibration fails, run alignment process again before proceeding to recalibration.</label>

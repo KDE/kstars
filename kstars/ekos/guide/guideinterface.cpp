@@ -66,17 +66,18 @@ bool GuideInterface::getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint1
     return true;
 }
 
-void GuideInterface::setStarPosition(QVector3D& starCenter)
+void GuideInterface::setStarPosition(QVector3D &starCenter)
 {
     INDI_UNUSED(starCenter);
 }
 
-void GuideInterface::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+void GuideInterface::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int side)
 {
     mountRA = dms::fromString(ra, false);
     mountDEC = dms::fromString(dec, true);
     mountAzimuth = dms::fromString(az, true);
     mountAltitude = dms::fromString(alt, true);
+    pierSide = static_cast<ISD::Telescope::PierSide>(side);
 }
 
 void GuideInterface::setPierSide(ISD::Telescope::PierSide newSide)

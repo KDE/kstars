@@ -14,6 +14,7 @@
 #include "kstars.h"
 #include "Options.h"
 #include "internalguide/internalguider.h"
+#include "internalguide/calibration.h"
 
 #include <QPushButton>
 #include <QFileDialog>
@@ -40,26 +41,45 @@ OpsCalibration::OpsCalibration(InternalGuider *guiderObject) : QFrame(KStars::In
 
 void OpsCalibration::showEvent(QShowEvent *)
 {
-    double x, y, ang;
-    guider->getReticleParameters(&x, &y, &ang);
+    double x, y;
+    guider->getReticleParameters(&x, &y);
 
     spinBox_ReticleX->setValue(x);
     spinBox_ReticleY->setValue(y);
-    spinBox_ReticleAngle->setValue(ang);
 
     uint16_t subX, subY, subW, subH, subBinX, subBinY;
     guider->getFrameParams(&subX, &subY, &subW, &subH, &subBinX, &subBinY);
 
     spinBox_ReticleX->setMaximum(subW);
     spinBox_ReticleY->setMaximum(subH);
+
+    auto cal = guider->getCalibration();
+    if (cal.isInitialized())
+    {
+        ra_cal_degrees->setText(QString::number(cal.getRAAngle(), 'f', 1));
+        ra_cal_mspp->setText(QString::number(cal.raPulseMillisecondsPerArcsecond(), 'f', 1));
+        dec_cal_degrees->setText(QString::number(cal.getDECAngle(), 'f', 1));
+        dec_cal_mspp->setText(QString::number(cal.decPulseMillisecondsPerArcsecond(), 'f', 1));
+        dec_cal_degrees_unit->setText(
+            cal.declinationSwapEnabled() ? "degrees (swapped)" : "degrees");
+    }
+    else
+    {
+        ra_cal_degrees->setText("xxxx");
+        ra_cal_mspp->setText("xxxx");
+        dec_cal_degrees->setText("xxxx");
+        dec_cal_degrees_unit->setText("degrees");
+        dec_cal_mspp->setText("xxxx");
+    }
 }
 
 void OpsCalibration::slotApply()
 {
-    // HY (6/29/29):
+    // HY (7/12/20):
     // This can be an issue if the window is opened and then the reticle changes, e.g.
     // if the options window is opened before guiding starts!
-    // I'd recommend removing it, don't see the benefit, but not part of this MR.
-    guider->setReticleParameters(spinBox_ReticleX->value(), spinBox_ReticleY->value(), spinBox_ReticleAngle->value());
+    // I've seen a few other random unintended changes of the reticle when setting other params.
+    // Commenting it out.
+    // guider->setReticleParameters(spinBox_ReticleX->value(), spinBox_ReticleY->value());
 }
 }

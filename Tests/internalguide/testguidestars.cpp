@@ -7,6 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "../indi/indiproperty.h"
 #include "ekos/guide/internalguide/guidestars.h"
 
 #include <QtTest>
@@ -49,7 +50,7 @@ Edge makeEdge(float x, float y)
     return e;
 }
 
-#define CompareFloat(d1,d2) QVERIFY(fabs((d1) - (d2)) < .0001)
+#define CompareFloat(d1,d2) QVERIFY(fabs((d1) - (d2)) < .001)
 
 void TestGuideStars::basicTest()
 {
@@ -61,9 +62,13 @@ void TestGuideStars::basicTest()
     const int binning = 1;
     double angle = 0.0;
     const double pixel_size = 3e-3, focal_length = 750.0;
+    dms ra, dec;
+    ra.setFromString("120:30:40");
+    dec.setFromString("10:20:30");
+    ISD::Telescope::PierSide side = ISD::Telescope::PIER_EAST;
+
     Calibration cal;
-    cal.setParameters(pixel_size, pixel_size, focal_length);
-    cal.setBinning(binning, binning);
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, dec);
     cal.setAngle(angle);
     g.setCalibration(cal);
 
@@ -237,6 +242,15 @@ void TestGuideStars::basicTest()
     CompareFloat(g.findMinDistance(2, edges), std::min(d02, d12));
 }
 
+// Takes the radians value input and converts to an angle in degrees 0 <= degrees < 360.
+double toDegrees(double radians)
+{
+    double degrees = 360.0 * radians / (2.0 * M_PI);
+    while (degrees < 0) degrees += 360.0;
+    while (degrees >= 360.0) degrees -= 360.0;
+    return degrees;
+}
+
 // This tests the Calibration class' API.
 void TestGuideStars::calibrationTest()
 {
@@ -244,14 +258,16 @@ void TestGuideStars::calibrationTest()
     double angle = 0.0;
     const double pixel_size = 3e-3, focal_length = 750.0;
     Calibration cal;
+    dms ra, dec;
+    ra.setFromString("120:30:40");
+    dec.setFromString("10:20:30");
+    ISD::Telescope::PierSide side = ISD::Telescope::PIER_EAST;
+
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, dec);
 
     // arcseconds = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
     // Then needs to be rotated by the angle. Start with angle = 0;
     double constant = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
-
-    cal.setParameters(pixel_size, pixel_size, focal_length);
-    cal.setBinning(binning, binning);
-    cal.setAngle(angle);
 
     CompareFloat(angle, cal.getAngle());
     CompareFloat(focal_length, cal.getFocalLength());
@@ -319,6 +335,232 @@ void TestGuideStars::calibrationTest()
     cal.rotateToRaDec(px.x, px.y, &rdx, &rdy);
     CompareFloat(-px.y, rdx);
     CompareFloat(px.x, rdy);
+
+    // Test saving and restoring the calibration.
+
+    // This should set the angle to 270 and keep raRate.
+    cal.calculate1D(0, 10, raRate * 10);
+    angle = 270;
+    const int binX = 2, binY = 3;
+    const double pixSzW = .005, pixSzH = .006;
+    cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
+    QString encodedCal = cal.serialize();
+    Calibration cal2;
+    QVERIFY(cal2.getFocalLength() != focal_length);
+    QVERIFY(cal2.ccd_pixel_width != pixSzW);
+    QVERIFY(cal2.ccd_pixel_height != pixSzH);
+    QVERIFY(cal2.getAngle() != angle);
+    QVERIFY(cal2.subBinX != binX);
+    QVERIFY(cal2.subBinY != binY);
+    QVERIFY(cal2.raPulseMillisecondsPerPixel() != raRate);
+    QVERIFY(cal2.decPulseMillisecondsPerPixel() != decRate);
+    QVERIFY(cal2.calibrationPierSide != side);
+    QVERIFY(!(cal2.calibrationRA == ra));
+    QVERIFY(!(cal2.calibrationDEC == dec));
+    // swap defaults to false, and we haven't done anything to change it.
+    QVERIFY(cal2.declinationSwapEnabled() == false);
+
+    QVERIFY(!cal2.restore(""));
+    QVERIFY(cal2.restore(encodedCal));
+    QCOMPARE(cal2.getFocalLength(), focal_length);
+    QCOMPARE(cal2.ccd_pixel_width, pixSzW);
+    QCOMPARE(cal2.ccd_pixel_height, pixSzH);
+    QCOMPARE(cal2.getAngle(), angle);
+    QCOMPARE(cal2.subBinX, binX);
+    QCOMPARE(cal2.subBinY, binY);
+    QCOMPARE(cal2.raPulseMillisecondsPerPixel(), raRate);
+    QCOMPARE(cal2.decPulseMillisecondsPerPixel(), decRate);
+    QCOMPARE(cal2.calibrationPierSide, side);
+    QVERIFY(cal2.calibrationRA == ra);
+    QVERIFY(cal2.calibrationDEC == dec);
+    // Swap still should be false.
+    QVERIFY(cal2.declinationSwapEnabled() == false);
+    bool swap;
+
+    // This is an options checkbox that the user modifies depending on his/her mount.
+    bool reverseDecOnPierChange = false;
+
+    // Test restoring with a pier side.
+    // This is same as above, as the encoded pier side was east.
+    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_EAST, reverseDecOnPierChange));
+    QCOMPARE(cal2.getAngle(), angle);
+    QCOMPARE(cal2.declinationSwapEnabled(), false);
+    // This tests that the rotation matrix got adjusted with the angle.
+    cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(-px.y, rdx);
+    CompareFloat(px.x, rdy);
+
+    // If we are now west, the angle should change by 180 degrees and dec-swap should invert.
+    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_WEST, reverseDecOnPierChange));
+    QCOMPARE(cal2.getAngle(), angle - 180.0);
+    QCOMPARE(cal2.declinationSwapEnabled(), true);
+    cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(-px.y, -rdx);
+    CompareFloat(px.x, -rdy);
+
+    // Set the user option to reverse DEC on pier-side change.
+    reverseDecOnPierChange = true;
+    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_WEST, reverseDecOnPierChange));
+    QCOMPARE(cal2.getAngle(), angle - 180.0);
+    QCOMPARE(cal2.declinationSwapEnabled(), false);
+    cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(-px.y, -rdx);
+    CompareFloat(px.x, -rdy);
+    reverseDecOnPierChange = false;
+
+    // If we go back east, the angle and decSwap should revert to their original values.
+    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_EAST, reverseDecOnPierChange));
+    QCOMPARE(cal2.getAngle(), angle);
+    QCOMPARE(cal2.declinationSwapEnabled(), false);
+    cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
+    CompareFloat(-px.y, rdx);
+    CompareFloat(px.x, rdy);
+
+    // Should not restore if the pier is unknown.
+    QVERIFY(!cal2.restore(encodedCal, ISD::Telescope::PIER_UNKNOWN, reverseDecOnPierChange));
+
+    // Calculate the rotation.
+    // Compute the angle the coordinates passed in make with the x-axis.
+    // Oddly, though, the method first negates the y-coorainate (as images have y=0 on
+    // top). So, account for that. Test in all 4 quadrents. Returns values 0-360 degrees.
+    double x = 5.0, y = -7.0;
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    x = -8.3, y = -2.4;
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    x = -10.3, y = 8.2;
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    x = 1.7, y = 8.2;
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    x = 0, y = -8.0;
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    x = 10, y = 0;
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    // Short vectors (size less than 1.0) should return -1.
+    x = .10, y = .20;
+    QCOMPARE(Calibration::calculateRotation(x, y), -1.0);
+
+    // Similar to above, a 1-D calibration.
+    // Distance was 5.0 pixels, took 10 seconds of pulse
+
+    x = 3.0, y = -4.0;
+    int pulseLength = 10000;
+    side = ISD::Telescope::PIER_WEST;
+    cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
+    cal.calculate1D(x, y, pulseLength);
+    QCOMPARE(cal.getAngle(), toDegrees(atan2(-y, x)));
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), pulseLength / std::hypot(x, y));
+
+    // 2-D calibrations take coordinates and pulse lengths for both axes.
+
+    // Made sure the ra and dec vectors were orthogonal and dec was 90-degrees greater
+    // than ra (ignoring that y-flip).
+    double ra_x = -16.0, ra_y = 16.0, dec_x = -12.0, dec_y = -12.0;
+    double ra_factor = 750.0;
+    int ra_pulse = std::hypot(ra_x, ra_y) * ra_factor;
+    // Correct for rounding, since pulse is an integer.
+    ra_factor = ra_pulse / std::hypot(ra_x, ra_y);
+    double dec_factor = 300.0;
+    int dec_pulse = std::hypot(dec_x, dec_y) * dec_factor;
+    dec_factor = dec_pulse / std::hypot(dec_x, dec_y);
+    cal.calculate2D(ra_x, ra_y, dec_x, dec_y, &swap, ra_pulse, dec_pulse);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), ra_factor);
+    QCOMPARE(cal.decPulseMillisecondsPerPixel(), dec_factor);
+    QCOMPARE(cal.getAngle(), toDegrees(atan2(-ra_y, ra_x)));
+    QCOMPARE(swap, false);
+
+    // Above we created a calibration where movement of size 1.0 along the x-axis in pixels
+    // gets rotated towards -16,16 but keeps its original length.
+    // Note, a 45-degree vector of length 1.0 has size length of sqrt(2)/2 in x and y.
+    const double size1side = sqrt(2.0) / 2.0;
+    cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
+    CompareFloat(rdx, -size1side);
+    CompareFloat(rdy, size1side);
+    // Similarly, a move (in dec) of size 1 down the y-axis would rotate toward -12,-12
+    cal.rotateToRaDec(0.0, -1.0, &rdx, &rdy);
+    CompareFloat(rdx, -size1side);
+    CompareFloat(rdy, -size1side);
+
+    // If we restored this on the EAST side
+    QVERIFY(cal.restore(cal.serialize(), ISD::Telescope::PIER_EAST, reverseDecOnPierChange));
+    // ...RA moves should be inverted
+    cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
+    CompareFloat(rdx, size1side);
+    CompareFloat(rdy, -size1side);
+    // ...and DEC moves should also invert.
+    cal.rotateToRaDec(0.0, -1.0, &rdx, &rdy);
+    CompareFloat(rdx, size1side);
+    CompareFloat(rdy, size1side);
+
+    // If we then move back to the WEST side, we should get the original results.
+    QVERIFY(cal.restore(cal.serialize(), ISD::Telescope::PIER_WEST, reverseDecOnPierChange));
+    cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
+    CompareFloat(rdx, -size1side);
+    CompareFloat(rdy, size1side);
+    cal.rotateToRaDec(0.0, -1.0, &rdx, &rdy);
+    CompareFloat(rdx, -size1side);
+    CompareFloat(rdy, -size1side);
+
+    // Test adjusting the RA rate according to DEC.
+
+    dms calDec;
+    calDec.setD(0, 0, 0);
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
+    encodedCal = cal.serialize();
+    double raPulseRate = cal.raPulseMillisecondsPerPixel();
+    dms currDec;
+    currDec.setD(0, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    currDec.setD(70, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate / std::cos(70.0 * M_PI / 180.0));
+    currDec.setD(-45, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate / std::cos(45.0 * M_PI / 180.0));
+    currDec.setD(20, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate / std::cos(20.0 * M_PI / 180.0));
+    // Set the rate back to its original value.
+    currDec.setD(0, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+
+    // Change the calibration DEC.
+    // A null calibration DEC should result in no-change to the ra pulse rate.
+    dms nullDEC;
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, nullDEC);
+    encodedCal = cal.serialize();
+    raPulseRate = cal.raPulseMillisecondsPerPixel();
+    currDec.setD(20, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    // Both 20 should result in no change.
+    calDec.setD(20, 0, 0);
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
+    encodedCal = cal.serialize();
+    currDec.setD(20, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    // Cal 20 and current 45 should change the rate accordingly.
+    currDec.setD(45, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    QCOMPARE(cal.raPulseMillisecondsPerPixel(),
+             raPulseRate * std::cos(20.0 * M_PI / 180.0) / std::cos(45.0 * M_PI / 180.0));
+    // Changing cal dec to > 60-degrees or < -60 degrees results in no rate change.
+    calDec.setD(65, 0, 0);
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
+    encodedCal = cal.serialize();
+    raPulseRate = cal.raPulseMillisecondsPerPixel();
+    currDec.setD(20, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    CompareFloat(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    calDec.setD(-70, 0, 0);
+    cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
+    encodedCal = cal.serialize();
+    raPulseRate = cal.raPulseMillisecondsPerPixel();
+    currDec.setD(20, 0, 0);
+    cal.restore(encodedCal, side, reverseDecOnPierChange, &currDec);
+    CompareFloat(cal.raPulseMillisecondsPerPixel(), raPulseRate);
 }
 
 QTEST_GUILESS_MAIN(TestGuideStars)
