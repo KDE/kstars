@@ -611,10 +611,12 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
         {
         case PAUSED:
             emit newLog(i18n("PHD2: Guiding resumed."));
+            abortTimer->stop();
             emit newStatus(Ekos::GUIDE_GUIDING);
             break;
         default:
             emit newLog(i18n("PHD2: Guiding started."));
+            abortTimer->stop();
             emit newStatus(Ekos::GUIDE_GUIDING);
             break;
         }
@@ -624,9 +626,10 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
         switch (state)
         {
         case CALIBRATING:
-            emit newLog(i18n("PHD2: Lock Position Lost."));
-            newstate = STOPPED;
-            emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+            emit newLog(i18n("PHD2: Lock Position Lost, continuing calibration."));
+            // Don't be paranoid, accept star-lost events during calibration and trust PHD2 to complete
+            //newstate = STOPPED;
+            //emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
             break;
         case GUIDING:
             emit newLog(i18n("PHD2: Star Lost. Trying to reacquire for %1s.", Options::guideLostStarTimeout()));
@@ -635,6 +638,7 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
             emit newStatus(Ekos::GUIDE_REACQUIRE);
             break;
         default:
+            emit newLog(i18n("PHD2: Lock Position Lost."));
             break;
         }
         break;

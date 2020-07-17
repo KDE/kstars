@@ -2181,7 +2181,7 @@
       </entry>
        <entry name="GuideCalibrationTimeout" type="UInt">
          <label>When calibration starts, wait this many seconds before aborting.</label>
-         <default>300</default>
+         <default>600</default>
       </entry>
       <entry name="GuideMaxDeltaRMS" type="Double">
          <label>Maximum delta RMS permitted while guiding before aborting.</label>
