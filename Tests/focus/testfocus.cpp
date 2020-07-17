@@ -70,7 +70,7 @@ void TestFocus::basicTest()
     int position = focuser->initialPosition();
     // The first position should be initialPosition + stepSize * initialOutwardSteps,
     // unless maxPositionAllowed or maxTravel doesn't allow that.
-    QCOMPARE(position, params.startPosition + params.initialOutwardSteps * params.initialStepSize);
+    QCOMPARE(position, static_cast <int> (params.startPosition + params.initialOutwardSteps * params.initialStepSize));
 
     params.maxTravel = 4 * params.initialStepSize;
     focuser.reset(MakeLinearFocuser(params));
