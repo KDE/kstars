@@ -2499,11 +2499,13 @@ void FITSData::setImageBuffer(uint8_t * buffer)
 bool FITSData::checkDebayer()
 {
     int status = 0;
-    char bayerPattern[64];
+    char bayerPattern[64], roworder[64];
 
     // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
     if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
+        
+    fits_read_keyword(fptr, "ROWORDER", roworder, nullptr, &status);
 
     if (stats.bitpix != 16 && stats.bitpix != 8)
     {
@@ -2512,6 +2514,21 @@ bool FITSData::checkDebayer()
     }
     QString pattern(bayerPattern);
     pattern = pattern.remove('\'').trimmed();
+    
+    QString order(roworder);
+    order = order.remove('\'').trimmed();
+    
+    if (order == "BOTTOM-UP") {
+        if (pattern == "RGGB")
+            pattern = "GBRG";
+        else if (pattern == "GBRG")
+            pattern = "RGGB";
+        else if (pattern == "GRBG")
+            pattern = "BGGR";
+        else if (pattern == "BGGR")
+            pattern = "GRBG";
+        else return false;
+    }
 
     if (pattern == "RGGB")
         debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
