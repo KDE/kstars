@@ -307,6 +307,11 @@ void cgmath::stop(void)
     preview_mode = true;
 }
 
+void cgmath::abort()
+{
+    guideStars.reset();
+}
+
 void cgmath::suspend(bool mode)
 {
     suspended = mode;

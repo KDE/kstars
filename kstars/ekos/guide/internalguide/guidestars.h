@@ -83,6 +83,11 @@ class GuideStars
             return guideStarSNR;
         }
 
+        void reset()
+        {
+            starCorrespondence.reset();
+        }
+
     private:
         // Used to initialize the StarCorrespondence object, which ultimately finds
         // the guidestar using the geometry between it and the other stars detected.
@@ -116,6 +121,9 @@ class GuideStars
 
         // Plot the positions of the neighbor stars on the guideView display.
         void plotStars(GuideView *guideView, const QRect &trackingBox);
+
+        // Adds the detected stars to the log when findGuideStar() fails.
+        void logDetectedStars();
 
         // These three methods are useful for testing.
         void setDetectedStars(const QList<Edge> &stars)

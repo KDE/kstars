@@ -194,6 +194,26 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
     }
 }
 
+void GuideStars::logDetectedStars()
+{
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("findGuideStar()  x      y      flux   HFR   SNR   Ref");
+        for (int i = 0; i < detectedStars.size(); ++i)
+        {
+            const auto &star = detectedStars[i];
+            auto bg = skybackground();
+            double snr = bg.SNR(star.sum, star.numPixels);
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 %7")
+                                       .arg(i, 3)
+                                       .arg(star.x, 6, 'f', 1)
+                                       .arg(star.y, 6, 'f', 1)
+                                       .arg(star.sum, 6, 'f', 0)
+                                       .arg(star.HFR, 6, 'f', 2)
+                                       .arg(snr, 5, 'f', 1)
+                                       .arg(starMap[i], 3);
+        }
+}
+
 // Find the guide star using the starCorrespondence algorithm (looking for
 // the other reference stars in the same relative position as when the guide star was selected).
 // If this method fails, it backs off to looking in the tracking box for the highest scoring star.
@@ -205,12 +225,26 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
     if (imageData == nullptr)
         return Vector(-1, -1, -1);
 
+    // If the guide star has not yet been set up, then establish it here.
+    // Not thrilled doing this, but this is the way the internal guider is setup
+    // when guiding is restarted by the scheduler (the normal establish guide star
+    // methods are not called).
+    if (starCorrespondence.size() == 0)
+    {
+        QVector3D v = selectGuideStar(imageData);
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("findGuideStar: Called without starCorrespondence. Refound guide star at %1 %2")
+                                   .arg(QString::number(v.x(), 'f', 1)).arg(QString::number(v.y(), 'f', 1));
+        return Vector(v.x(), v.y(), v.z());
+    }
+
     if (starCorrespondence.size() > 0)
     {
         findTopStars(imageData, STARS_TO_SEARCH, &detectedStars);
         if (detectedStars.empty())
             return Vector(-1, -1, -1);
+
         starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap);
+
         // Is there a correspondence to the guide star
         // Should we also weight distance to the tracking box?
         for (int i = 0; i < detectedStars.size(); ++i)
@@ -224,16 +258,28 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
                 qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence found " << i << "at" << star.x << star.y << "SNR" << SNR;
                 if (guideView != nullptr)
                     plotStars(guideView, trackingBox);
+                // Fail if the detected star is not in the tracking box.
+                if (trackingBox.isValid() && !trackingBox.contains(std::round(star.x), std::round(star.y)))
+                {
+                    logDetectedStars();
+                    qCDebug(KSTARS_EKOS_GUIDE) << QString("findGuideStar found a star at %1,%2 but it is outside the tracking box")
+                                               .arg(star.x, 6, 'f', 1)
+                                               .arg(star.y, 6, 'f', 1);                   
+                    return Vector(-1, -1, -1);
+
+                }
                 return Vector(star.x, star.y, 0);
             }
         }
     }
 
+    qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence not used. It failed to find the guide star.";
+    logDetectedStars();        
+
     if (trackingBox.isValid() == false)
         return Vector(-1, -1, -1);
 
     // If we didn't find a star that way, then fall back
-    qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence not used";
     findTopStars(imageData, 1, &detectedStars, &trackingBox);
     if (detectedStars.size() > 0)
     {

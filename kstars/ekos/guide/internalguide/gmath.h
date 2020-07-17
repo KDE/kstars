@@ -190,6 +190,9 @@ class cgmath : public QObject
         QVector3D selectGuideStar();
         double getGuideStarSNR();
 
+        // Currently only relevant to SEP MultiStar.
+        void abort();
+
     signals:
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);

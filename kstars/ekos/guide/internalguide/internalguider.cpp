@@ -115,6 +115,8 @@ bool InternalGuider::abort()
         qCDebug(KSTARS_EKOS_GUIDE) << "Stopping internal guider.";
     }
 
+    pmath->abort();
+
     m_ProgressiveDither.clear();
     m_starLostCounter = 0;
     m_highRMSCounter = 0;
@@ -196,8 +198,8 @@ bool InternalGuider::ditherXY(double x, double y)
 
 bool InternalGuider::dither(double pixels)
 {
-    double cur_x, cur_y;
-    pmath->getReticleParameters(&cur_x, &cur_y);
+    double cur_x, cur_y, ret_x, ret_y;
+    pmath->getReticleParameters(&ret_x, &ret_y);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
 
     if (state != GUIDE_DITHERING)
@@ -222,7 +224,7 @@ bool InternalGuider::dither(double pixels)
             diff_y *= -1.5;
         accumulator.second += diff_y;
 
-        m_DitherTargetPosition = Vector(cur_x, cur_y, 0) + Vector(diff_x, diff_y, 0);
+        m_DitherTargetPosition = Vector(ret_x, ret_y, 0) + Vector(diff_x, diff_y, 0);
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << m_DitherTargetPosition.x << " Y " <<
                                    m_DitherTargetPosition.y;

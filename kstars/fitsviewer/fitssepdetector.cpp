@@ -196,10 +196,15 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
 
     edges.clear();
 
-    qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Width" << "#HFR";
+    qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
+                         .arg(QString::number(bkg->global, 'f', 2))
+                         .arg(QString::number(bkg->globalrms, 'f', 2))
+                         .arg(bkg->bh).arg(bkg->bw);
+    qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Width" << "sum" << "numpix" << "#HFR";
     for (int i = 0; i < starCenters.count(); i++)
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
-                             << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->HFR;
+                             << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
+                             << starCenters[i]->numPixels << starCenters[i]->HFR;
 
 exit:
     delete[] data;
