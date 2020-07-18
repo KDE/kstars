@@ -4,6 +4,159 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.4.3 (Neowise):
+
+7b2c3a010 2020-07-18 Jasem Mutlaq         INDI driver sync
+11130020b 2020-07-17 Eric Dejouhanet      Bugfix  phd2 protocol tolerance
+19ec71c74 2020-07-17 Eric Dejouhanet      Fix qCompare int/double.
+29abc4aef 2020-07-17 Eric Dejouhanet      Fix focus test missing header.
+4fc154588 2020-07-16 Hy Murveit           Enable focus test
+2c4aab15d 2020-07-07 Hy Murveit           Save and restore calibration, with test. Refactor calibration code.
+b4c164f0a 2020-07-15 Jasem Mutlaq         Just account for the dec in the last step, no need to change the mosaic tile drawing code
+ef84f225e 2020-07-15 Jasem Mutlaq         Account for cos(dec) in mosaic tool
+0e0de5257 2020-07-14 Eric Dejouhanet      Improve fault tolerance during PHD2 interactions
+7d1de4a14 2020-07-13 Jasem Mutlaq         Add filter wheel logging to capture dbus
+adeebc903 2020-07-13 Jasem Mutlaq         Fix logging DBus call
+83bb3a765 2020-07-12 Jasem Mutlaq         Check that we process only WEATHER_PARAMETERS property
+dcd9dd52a 2020-07-12 Jasem Mutlaq         Use const reference to pass weather data instead of by value
+5a0ef1e81 2020-07-12 Jasem Mutlaq         Try to send 5secs before heart beat timeout instead of 15 secs
+4d7209279 2020-07-10 Jasem Mutlaq         Move flat focus option to filter manager for clarity
+dcf419875 2020-07-10 Jasem Mutlaq         INDI drivers sync
+d499f0bbb 2020-07-06 Jasem Mutlaq         Ensure that the default filter wheel exists in the current device list, otherwise fallback to filter wheel device list
+3d6975107 2020-07-06 Jasem Mutlaq         Ensure that the filter wheel is set to whatever the default is. Ignore override
+a4ea698e1 2020-07-05 Akarsh Simha         Code formatting (astyle) fixes
+e3dc576f5 2020-07-05 Akarsh Simha         [Needs testing] Major refactoring of refraction corrections that fixes some bugs
+4283c554f 2020-07-05 Akarsh Simha         Some refractoring: needs double-checking to be sure.
+10e98d37b 2020-07-05 Akarsh Simha         Remove incorrect comment -- we iterate for the inverse in SkyPoint::unrefract
+791f471c1 2020-07-05 Akarsh Simha         Replace -1.0 by SkyPoint::altCrit in various places (where we check for objects below the horizon)
+8576c3760 2020-07-04 Hy Murveit           Merge branch 'master' of https://invent.kde.org/education/kstars
+7137a2240 2020-07-04 Hy Murveit           Linear focus tests, UI, and tweaks
+749d40a51 2020-07-04 Akarsh Simha         Fix regression in rendering deep star catalogs from 3c299e52e57a1a52722bc9d3b9235b31a4306fb2
+4cdaf4457 2020-07-04 Jasem Mutlaq         INDI driver sync
+14c60f4dc 2020-07-03 Hy Murveit           Add a compute HFR option, and separate HFR computation from Mark Stars.
+706b372ac 2020-07-02 Hy Murveit           Merge branch 'master' of https://invent.kde.org/education/kstars
+92f1fbe58 2020-07-03 Jasem Mutlaq         Disable internalguide test in Windows
+712f85378 2020-07-03 Jasem Mutlaq         Re-arrange test requirements
+b7957ba6d 2020-07-03 Jasem Mutlaq         Move internal guide to INDI
+3acc0e989 2020-07-02 Jasem Mutlaq         Fix few issues with opsgpg UI file
+c331d2fe5 2020-07-02 Jasem Mutlaq         Add GUIDE_REACQUIRE to list of conditions which lead to GUIDE_ABORT
+1a46698f6 2020-07-01 Jasem Mutlaq         Dithering should be activated on preview
+6edf21614 2020-07-02 Hy Murveit           Fix compiler warnings in opsgpg
+446481d5f 2020-07-01 Jasem Mutlaq         Send to client if there is no object
+dae284f46 2020-07-01 Jasem Mutlaq         Do not start focus in preview capture
+43b0c54fd 2020-07-01 Jasem Mutlaq         Fix warnings
+ebf61c52f 2020-07-01 Hy Murveit           Gaussian Process Guider & guide graph
+17a8085bc 2020-06-29 Wolfgang Reissenberger Bugfix for correct activation of dome and weather UI
+db1a82113 2020-06-27 Eric Dejouhanet      Fix typo on DEC integral gain.
+d4b4cc2eb 2020-06-27 Jasem Mutlaq         Fix crash in image dump mode. Fix script parsing
+27c9bda00 2020-06-27 Jasem Mutlaq         Use regex to parse DBus command to fix a crash.
+eaae3bb6c 2020-06-27 Jasem Mutlaq         Increase icon size
+416181f40 2020-06-26 Jasem Mutlaq         Migrate the below horizon and Sun dialogs to KSMessageBox
+1fb950b4d 2020-06-26 Jasem Mutlaq         Add corresponding INDI driver call to logging as well
+632c41435 2020-06-26 Wolfgang Reissenberger Bugfix focuser duplicated abs position
+0e075c10e 2020-06-26 Jasem Mutlaq         Add more logging controls and sync filter rules after updataing them
+eac257180 2020-06-25 Jasem Mutlaq         Abort before time out
+32d82b183 2020-06-25 Jasem Mutlaq         INDI drivers sync
+f9ef809a6 2020-06-23 Wolfgang Reissenberger Fix crash in looping
+3ea1d0852 2020-06-23 Jasem Mutlaq         Add Ekos logging to DBus
+2afeec16f 2020-06-23 Wolfgang Reissenberger Bug fixing capture refactoring
+b7614fea3 2020-06-22 Hy Murveit           Remove obsolete code
+ad0936a94 2020-06-20 Jasem Mutlaq         Perform checks in 1000ms to enable proper shutdown sequence of multiple drivers per device
+e9eb0cdc6 2020-06-18 Jasem Mutlaq         Fix state machine transition. Do not emit unless we have an actual change in the state
+c85487ac5 2020-06-18 Hy Murveit           Internal guider improvements
+a36776e1e 2020-06-17 Jasem Mutlaq         Preview images should always be Client upload type
+58e9292b1 2020-06-17 Jasem Mutlaq         Fix issue where progress is not updated when remote images are captured. Thanks to Ken on INDI forums who found the issue
+8d1cc913e 2020-06-17 Jasem Mutlaq         Add support for camera driver restart. Still needs testing
+11f5b1758 2020-06-15 Hy Murveit           Graphics for SEP MultiStar
+cc17537dd 2020-06-15 Hy Murveit           Address the slew-never-started bug.
+b5693e22a 2020-06-14 Jasem Mutlaq         Disable spammy log for now
+b6ae9277f 2020-06-14 Eric Dejouhanet      Tests for the PHD2 guider link
+a223eb308 2020-06-13 Jasem Mutlaq         Add explicit offset control. Separate ISO and Gain controls
+fa66a4a10 2020-06-13 Jasem Mutlaq         Add explicit offset control. Separate ISO and Gain controls
+5804fa40b 2020-06-11 Hy Murveit           Cleaned up the multi-star guiding graphics
+0d98c7b5e 2020-06-11 Hy Murveit           Graphics for SEP MultiStar
+a4964e6a2 2020-06-11 Mohamad Kaouri       Added profile name uniqueness requirement
+bfa637c52 2020-06-11 Hy Murveit           SEP Multi-Star Internal Guider
+4293214ac 2020-06-10 Wolfgang Reissenberger Code refactoring unifying capture initialization for new sequences and continuing of sequences
+96a8ae0cc 2020-06-05 Jasem Mutlaq         INDI drivers sync
+e9533982c 2020-06-04 Chris Rowland        Allow for the case where the mount uses the pointing state early
+1b42c2f6f 2020-06-04 Jasem Mutlaq         Propagate weatherData from device to weather module and connect it with Focus
+6a8af56c1 2020-06-04 Jasem Mutlaq         Merge branch 'dmsummers/kstars-focus_temperature_logging' into HEAD
+3cb37ee62 2020-06-02 Florian Signoret     Keep focus temperature until next autofocus is complete
+160fd208a 2020-06-03 Hy Murveit           Changed name to isGuidingOn and made it a private method.
+d41401815 2020-06-02 Doug Summers         update to use WEATHER_TEMPERATURE name vs label
+032b712d3 2020-06-01 Doug Summers         focus log changes supporting addition of weather temperature sensor (when focuser sensor is unavailable) plus HFR addition to autofocus results, plu..
+c78d02b61 2020-06-02 Doug Summers         only log when focus logging is enabled
+af8ece546 2020-06-02 Jasem Mutlaq         Add extra register check in INDI Device
+19a8922e6 2020-06-01 Doug Summers         focus log changes supporting addition of weather temperature sensor (when focuser sensor is unavailable) plus HFR addition to autofocus results, plu..
+da5ccab3f 2020-06-01 Jasem Mutlaq         Ensure to register DBus modules as signals depend on order of creation
+80572f086 2020-05-30 Jasem Mutlaq         NO_ERROR appears to be reserved in Windows
+77ce9e42a 2020-05-27 Jasem Mutlaq         Use QElapseTimer instead of QTimer. Mark parking as failed state if state is ALERT and let calling function deal with the failure. Need to test
+3e583f43f 2020-05-27 Jasem Mutlaq         Only register a CCD device if the interface explicitly contains CCD_INTERFACE
+8e3147c72 2020-05-26 Jasem Mutlaq         Do not create a new device when a camera is reconnected again
+9cec1ad2c 2020-05-24 Jasem Mutlaq         Do not debayer streamed DSLR frames since they are motion JPGs
+7f3e50042 2020-05-24 Jasem Mutlaq         Sync INDI drivers
+96c82809d 2020-05-24 Jasem Mutlaq         use Delta symbol
+e1f84402f 2020-05-23 Jasem Mutlaq         Add missing header
+fb4e84ad9 2020-05-23 Jasem Mutlaq         Make transient message disappear after 10 seconds
+9ac60e4b0 2020-05-23 Jasem Mutlaq         Use #if defined and include kstars config
+a42bf8d62 2020-05-23 Jasem Mutlaq         polar alignment testing should be running only when INDI is installed
+c3edc7f24 2020-05-23 Chris Rowland        Add new polaralign class including test harness
+07de9e16a 2020-05-23 Jasem Mutlaq         Add support to edit filters names in Ekos capture module
+836e2f124 2020-05-23 Jasem Mutlaq         Use Delta instead of Change
+23e20970d 2020-05-23 Jasem Mutlaq         Formatting fix and disabling spammy log
+dbc9925b2 2020-05-23 Jasem Mutlaq         Only use Sextractor settings if the solver is set to offline.
+bf7a7cef4 2020-05-23 Jasem Mutlaq         Check filter index to prevent crash in align module on filter change.
+63c220e37 2020-05-23 Florian Signoret     Add autofocus on temperature change
+02baf5380 2020-05-23 Hy Murveit           Fixes to guide logger
+9fbdcb6ec 2020-05-22 Jasem Mutlaq         Update README.md
+1c40d394a 2020-05-21 Hy Murveit           Move where Git Tips was, and added code section at the bottom of the tips.
+f24231436 2020-05-21 Jasem Mutlaq         Fix indentations in README.md
+c17a522b8 2020-05-21 Hy Murveit           Updated README.md adding instructions for developement mostly. Also added authors.
+cb09caa45 2020-05-20 Hy Murveit           Change the guidelog directory to a guidelogs subdirectory.
+f8e21b9c7 2020-05-20 Yuri Chornoivan      GIT_SILENT: add KStars icon as repository logo
+0dbc6e5bc 2020-05-19 Hy Murveit           New user log for internal guider in Phd2 log format
+95be2c8f7 2020-05-19 Jasem Mutlaq         USE_LIBONVA --> HAVE_LIBNOVA
+eec7a3964 2020-05-17 Jasem Mutlaq         Update migration to gitlab info
+320e0fe89 2020-05-17 Jasem Mutlaq         Organize Ekos options by breaking them down into several components
+41d8323f8 2020-05-15 Jasem Mutlaq         Correct and simplify the meridian flip degree setting between mount and ekos
+6749f48a4 2020-05-15 Jasem Mutlaq         Use JNow instead of J2000 when measuring the mount HA circle as propoer by Chris Rowlands to accurate measure the Polar Alignment Error. Requires mo..
+a2ced315e 2020-05-15 Jasem Mutlaq         Add function to get UTC datetime from DATE-OBS header field
+2bfe15fea 2020-05-14 Jasem Mutlaq         Fix libnova location and linking
+f0f7c658b 2020-05-13 Hy Murveit           Add an internal guider calibration plot
+6a551dcb9 2020-05-13 Jasem Mutlaq         Add .cmake to ignore
+db21d0441 2020-05-12 Jasem Mutlaq         Fix libnova dependency issue
+234d06d46 2020-05-12 Jasem Mutlaq         Fix the mess I made with average RMS calculation, and simply use the hypotenuse function
+07fd9b4c5 2020-05-12 Jasem Mutlaq         Fix wrong RMS calculation again.. the division by 2 goes inside the sqrt
+6fbcea2b0 2020-05-12 Jasem Mutlaq         Only test file if libnova is found on system
+25e7799e9 2020-05-11 Jasem Mutlaq         Fix delta RMS calculation
+82569890a 2020-05-10 Jasem Mutlaq         Updates to SkyPoint to improve positions
+507b97075 2020-05-09 Jasem Mutlaq         Do not use typeof as it breaks compliation on Windows
+4688c4775 2020-05-09 Jasem Mutlaq         Fix date read in and improve output batch file for Almanac
+7434ad7ae 2020-05-07 Jasem Mutlaq         Add pause and toggleSequence to DBus interface as proposed by Ray
+ab232a0a9 2020-05-07 Hy Murveit           Save HA Limit Enable checkbox
+c264b91c4 2020-05-07 Jasem Mutlaq         Automatically debayer in video streams if supported
+ea7020906 2020-05-04 Hy Murveit           Internal guider didn't take binning into account when computing arc-seconds
+77c2bbe33 2020-05-04 Jasem Mutlaq         Implemented Bahtinov mask focus assistant, fix compiler warnings (in fpackutil.c and modcalcvizequinox.cpp)
+4c68c4a7d 2020-05-04 Wolfgang Reissenberger Option to acquire the guiding status from PHD2 to stay in sync
+01132e09a 2020-05-04 Eric Dejouhanet      Let UI tests customize the UI settings file.
+637c9248c 2020-05-04 Hy Murveit           Fix issue with Meridian Flip Retry
+913cbed49 2020-05-03 Jasem Mutlaq         Add syncDSLRToTargetChip function to set the INDI driver settings immediately without switching to capture module
+f66d63476 2020-05-03 Jasem Mutlaq         Don't run fitsviewer test if no fitsio
+3d738d3a6 2020-05-01 Hy Murveit           Comment out a couple wordy debug log messages
+3521aa720 2020-04-30 Jasem Mutlaq         Only process focus numbers
+e5b869391 2020-04-30 Yuri Chornoivan      Add missing space
+6ab4abe7d 2020-04-29 Chris Rowland        + Use the mount Pier Side property to manage Pier Flip + Add HA limits.
+6f9310924 2020-04-29 Jasem Mutlaq         Proper handling for restart crashed drivers
+9d0b76420 2020-04-29 Jasem Mutlaq         Directly use getDriverInterface
+30ac6d357 2020-04-29 Jasem Mutlaq         Migrate signal-slots to new format
+3c299e52e 2020-04-28 Jasem Mutlaq         Disable old warning
+cf56f127f 2020-04-27 Eric Dejouhanet      Make the Focus capture action include star detection
+3875af22a 2020-04-27 Hy Murveit           Fix bug where tab fitsviews weren't receiving images when fitsviewer was not enabled
+ec82fc3b7 2020-04-26 Yuri Chornoivan      Fix minor typos
+68fda2473 2020-04-26 Hy Murveit           Improve Overlay Rendering
+8ba2ccf79 2020-04-26 Jasem Mutlaq         Starting work on KStars v3.4.3
+
 3.4.2 (Borisov):
 
 c4ec429ac 2020-04-25 Jasem Mutlaq         Do not process un-registered property
