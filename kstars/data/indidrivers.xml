@@ -477,7 +477,7 @@
         </device>
         <device label="WatchDog">
             <driver name="WatchDog">indi_watchdog</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
         <device label="Joystick">
             <driver name="Joystick">indi_joystick</driver>
@@ -1135,7 +1135,7 @@
     <devGroup group="Weather">
         <device label="Weather Radio">
             <driver name="Weather Radio">indi_weatherradio</driver>
-            <version>1.3</version>
+            <version>1.5</version>
         </device>
     </devGroup>
 </driversList>
