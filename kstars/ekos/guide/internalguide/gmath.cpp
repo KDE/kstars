@@ -70,6 +70,7 @@ cgmath::cgmath() : QObject()
     // sky coord. system vars.
     scr_star_pos    = Vector(0);
     reticle_pos     = Vector(0);
+    last_star_position = Vector(-1, -1, -1);
 
     // processing
     in_params.reset();
@@ -480,6 +481,16 @@ void cgmath::setRegionAxis(const uint32_t &value)
 }
 
 Vector cgmath::findLocalStarPosition(void)
+{
+    Vector value = findLocalStarPositionInternal();
+    if (value.x != -1)
+    {
+        last_star_position = value;
+    }
+    return value;
+}
+
+Vector cgmath::findLocalStarPositionInternal(void)
 {
     if (square_alg_idx == SEP_MULTISTAR)
     {

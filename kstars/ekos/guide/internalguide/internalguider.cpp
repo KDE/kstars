@@ -202,6 +202,21 @@ bool InternalGuider::dither(double pixels)
     pmath->getReticleParameters(&ret_x, &ret_y);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
 
+    // TODO: getStarScreenPosition() can return -1, -1 which will really
+    // mess up computations below. Every time it is called, and there
+    // are several more, e.g. in calibration, we should check for
+    // lost stars and get out of trouble.
+    // Fixing here for now.
+
+    if (pmath->isStarLost() || (cur_x == -1) || (cur_y == -1))
+    {
+        // We patch things here so things aren't too crazy below, and below in
+        // processGuiding() we'll note the lost star and possibly abort.
+        Vector last_position = pmath->getLastStarPosition();
+        cur_x = last_position.x;
+        cur_y = last_position.y;
+    }
+
     if (state != GUIDE_DITHERING)
     {
         m_DitherRetries = 0;

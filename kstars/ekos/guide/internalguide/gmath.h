@@ -193,11 +193,22 @@ class cgmath : public QObject
         // Currently only relevant to SEP MultiStar.
         void abort();
 
+        // Tries to returns the successfully computed star position.
+        // This can be improved, e.g. no test to see if the system has slewed.
+        // It is used when findLocalStarPosition() fails and the system
+        // needs to do something sensible to get out of trouble.
+        Vector getLastStarPosition()
+        {
+            return last_star_position;
+        }
+
     signals:
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);
 
     private:
+        Vector findLocalStarPositionInternal(void);
+
         // Templated functions
         template <typename T>
         Vector findLocalStarPosition(void) const;
@@ -234,6 +245,9 @@ class cgmath : public QObject
         /// Star position on the screen
         Vector scr_star_pos;
         Vector reticle_pos;
+
+        // The last successfully computed star position.
+        Vector last_star_position;
 
         // processing
         uint32_t channel_ticks[2];
