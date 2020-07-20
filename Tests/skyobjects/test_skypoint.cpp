@@ -494,9 +494,9 @@ void TestSkyPoint::compare(QString msg, SkyPoint *sp)
 
 void TestSkyPoint::compare(QString msg, double ra1, double dec1, double ra2, double dec2, double err)
 {
-    qDebug(qPrintable(QString("%1 pos1 %2, %3 pos2 %4, %5 errors %6, %7 secs").arg(msg)
-                      .arg(ra1).arg(dec1).arg(ra2).arg(dec2)
-                      .arg((ra1 - ra2) * 3600.0, 6, 'f', 1).arg((dec1 - dec2) * 3600., 6, 'f', 1)));
+    qDebug() << qPrintable(QString("%1 pos1 %2, %3 pos2 %4, %5 errors %6, %7 secs").arg(msg)
+                           .arg(ra1).arg(dec1).arg(ra2).arg(dec2)
+                           .arg((ra1 - ra2) * 3600.0, 6, 'f', 1).arg((dec1 - dec2) * 3600., 6, 'f', 1));
     //QString str;
     //str.sprintf("%s pos1 %f, %f pos2 %f, %f errors %.1f, %.1f sec", msg.data(), ra1, dec1, ra2, dec2, (ra1 - ra2) *3600, (dec1 - dec2) * 3600 );
     //qDebug() << str;// << msg << "SP " << ra1 << ", " << dec1 << " Sp0 " << ra2 << ", " << dec2
