@@ -45,8 +45,8 @@ README.i18n:        Instructions for translators
 
 ## Development
 
-Code can be cloned, viewed and pull requests can be made via the [KStars repository](https://invent.kde.org/education/kstars). If you are new to remote git repositories, please see the Git Tips section below.
-Note: Previously KStars used Phabricator for its pull requests. That system is no longer in use.
+Code can be cloned, viewed and merge requests can be made via the [KStars repository](https://invent.kde.org/education/kstars). If you are new to remote git repositories, please see the Git Tips section below.
+Note: Previously KStars used Phabricator for its merge requests. That system is no longer in use.
 
 ### Integrated Development Environment IDE
 
@@ -122,11 +122,18 @@ KStars uses [Artistic Style](http://astyle.sourceforge.net) to format all the C+
 ```
 Some IDEs (e.g. QtCreator) support automatic formatting for the code everytime you save the file to disk.
 
+### Merge Request Descriptions
+
+See the section below, Git Tips, on technical specifics of how to generate a Merge Request.
+In the process of making the request, you will need to describe the request.
+Please use a format similar to [this one](https://invent.kde.org/education/kstars/-/merge_requests/33)
+which has sections for a summary of what was done, what was modified in each file, other relevant notes, and how to test your changes.
+
 ### Git Tips
 
 You must be familiar with git to make changes to KStars, and this is not the place for such a tutorial. There
 are many excellent resources for that on the web. The paragraph below, though, will give an overview of one way
-to make a Pull Request, given you already have sufficient git experience to clone KStars, make a local branch,
+to make a Merge Request, given you already have sufficient git experience to clone KStars, make a local branch,
 modify the code as you like, commit your changes to your local branch, and test your code throughly.
 
 Here's one good resource for a [fork-branch-git-workflow to make KStars changes](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow). The steps below are inspired by that page.
@@ -152,17 +159,17 @@ You are setup now. The following steps are used for each new feature you will to
     * git commit -a
 * **Push changes to your forked repo.**
     * git push origin YOUR_BRANCH_NAME
-* **Create a Pull Request**
+* **Create a Merge Request**
     * Use your browser to visit your forked repo at  https://invent.kde.org/YOUR_KDE_NAME/kstars
-    * You should see an option to create a Pull Request for YOUR_BRANCH_NAME. Do that.
-    * You should be able to see a new URL dedicated to that Pull Request.
+    * You should see an option to create a Merge Request for YOUR_BRANCH_NAME. Fill in the details (see the above section).
+    * You should be able to see a new URL dedicated to that Merge Request.
 * **Make Some Changes.** You may get requests to modify some of your code.
     * If so, you simply go back to your local branch, make and test your changes.
     * Commit your changes as above, inside your branch, with: git commit -a
     * Push your branch's changes to your forked repo as above with: git push origin YOUR_BRANCH_NAME
-    * You changes should automatically be added to Pull Request. Check the Pull Request's page to be sure.
+    * You changes should automatically be added to your Merge Request. Check the Merge Request's page to be sure.
 
-Once your Pull Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
+Once your Merge Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
 You may want to run the following regularly to make your environment up-to-date with KStars.
 ```
 cd ~/Projects/kstars
