@@ -120,8 +120,8 @@
     <p xml:lang="zh-TW">它提供了準確的夜空圖形化模擬，從地球上的任何地方，在任何日期與時間。顯示了包含一億個星體、一萬三千個深空物體、以及八個系內行星、還有太陽與月亮，以及數千個慧星、小行星、超新星與衛星。</p>
     <p>For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="ar">إن كنت طالبًا أو أستاذًا، فستجد أنّ البرمجيّة تدعم ضبط سرعة المحاكاة الذي يتيح عرض الظّواهر التي تحدث على فترات زمنيّة طويلة، وتدعم الكثير من الحسابات الفلكيّة المعروفة، وتوفّر حاسبة فلكيّة لتوقّع الاقترانات.</p>
-    <p xml:lang="ca">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per predir conjuncions i molts càlculs astronòmics habituals.</p>
-    <p xml:lang="ca-valencia">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per predir conjuncions i molts càlculs astronòmics habituals.</p>
+    <p xml:lang="ca">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
+    <p xml:lang="ca-valencia">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
     <p xml:lang="en-GB">For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="es">Para estudiantes y profesores, permite ajustar la velocidad de simulación para poder ver fenómenos que ocurren a lo largo de mucho tiempo; la calculadora astronómica de KStars permite predecir conjunciones y realizar cálculos astronómicos comunes.</p>
     <p xml:lang="et">Õpilastele ja õpetajatele on pakkuda muudetava kiirusega matkimised, mis lubavad uurida ka nähtusi, mis toimuvad väga pika aja vältel. KStarsi astrokalkulaator suudab ette ennustada taevakehade ühendusi ja teha veel paljusid astronoomilisi arvutusi.</p>
@@ -143,8 +143,8 @@
     <p xml:lang="zh-TW">對於學生與教師來說，它支援了可調整的模擬速度以檢視在極長的時間尺度下發生的現象，KStars Astrocalculator 可用來預測天體會合，也可以用來計算許多常見的天文學數據。</p>
     <p>For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!</p>
     <p xml:lang="ar">توفّر البرمجيّة لهواة الفلك مخطِّطًا للرّؤية، وأداة لتقويم الطّقس، ومحرّرًا لمجال الرّؤية لحساب مجال رؤية العتاد وعرضها. اطّلع على أجرام شيّقة في أداة ”السّماء هذه الليلة“، وارسم رسومًا بيانيّة لخطّ ارتفاع أيّ جرم مقابل وقته، واطبع رسومًا بيانيّة للسّماء بجودة عالية، واقرأ الكثير من المعلومات والموارد لتساعدك في اكتشاف العالم!</p>
-    <p xml:lang="ca">Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-ho. Descobreix objectes interessants amb l'eina «Què passa aquesta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimeix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per ajudar-vos a explorar l'univers!</p>
-    <p xml:lang="ca-valencia">Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-ho. Descobreix objectes interessants amb l'eina «Què passa aquesta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimeix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per ajudar-vos a explorar l'univers!</p>
+    <p xml:lang="ca">Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-lo. Descobreix objectes interessants amb l'eina «Què passa aquesta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimeix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per a ajudar-vos a explorar l'univers!</p>
+    <p xml:lang="ca-valencia">Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-lo. Descobreix objectes interessants amb l'eina «Què passa aquesta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimeix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per a ajudar-vos a explorar l'univers!</p>
     <p xml:lang="en-GB">For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!</p>
     <p xml:lang="es">Para el astrónomo aficionado, proporciona un planificador de observaciones, una herramienta de calendario celeste y un editor de campo visual para calcular el campo visual de su equipo y poder mostrarlo. Descubra interesantes objetos con la herramienta «¿Qué ocurre esta noche?», muestre gráficos de altitud frente a hora para cualquier objeto, imprima mapas del cielo de gran calidad y obtenga acceso a gran cantidad de información y recursos que le ayudarán a explorar el universo.</p>
     <p xml:lang="et">Amatöörastronoomile on pakkuda vaatluste kavandamine, taevakalendri tööriist ja vaatevälja kalkulaator varustuse vaatevälja väljaarvutamiseks ja selle kuvamiseks. Huvipakkuvaid objekte aitab leida tööriist "Mis on täna vaadata", kõigi objektide puhul saab koostada kõrguse/aja graafiku, taevakaarte on võimalik kõrge kvaliteediga trükkida ning lisaks pakume rohkelt teavet ja ressursse, mis aitavad sul universumit paremini tundma õppida!</p>
@@ -223,8 +223,8 @@
       <li>Default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="ar">الفهرس المبدئيّ والذي يحتوي النّجوم حتّى القدْر ٨</li>
       <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
-      <li xml:lang="ca">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
-      <li xml:lang="ca-valencia">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
+      <li xml:lang="ca">Catàleg predeterminat consistent en estrelles fins a magnitud 8</li>
+      <li xml:lang="ca-valencia">Catàleg predeterminat consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
@@ -251,8 +251,8 @@
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="ar">فهارس أخرى فيها ما يقارب ١٠٠ مليون نجم حتّى القدْر ١٦</li>
       <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
-      <li xml:lang="ca">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
-      <li xml:lang="ca-valencia">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
+      <li xml:lang="ca">Catàlegs addicionals consistents en 100 milions d'estrelles fins a magnitud 16</li>
+      <li xml:lang="ca-valencia">Catàlegs addicionals consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
