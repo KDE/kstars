@@ -198,24 +198,31 @@ bool InternalGuider::ditherXY(double x, double y)
 
 bool InternalGuider::dither(double pixels)
 {
-    double cur_x, cur_y, ret_x, ret_y;
+    double ret_x, ret_y;
     pmath->getReticleParameters(&ret_x, &ret_y);
-    pmath->getStarScreenPosition(&cur_x, &cur_y);
 
-    // TODO: getStarScreenPosition() can return -1, -1 which will really
-    // mess up computations below. Every time it is called, and there
-    // are several more, e.g. in calibration, we should check for
-    // lost stars and get out of trouble.
-    // Fixing here for now.
-
-    if (pmath->isStarLost() || (cur_x == -1) || (cur_y == -1))
+    // Just calling getStarScreenPosition() will get the position at the last time the guide star
+    // was found, which is likely before the most recent guide pulse.
+    // Instead we call findLocalStarPosition() which does the analysis from the image.
+    // Unfortunately, processGuiding() will repeat that computation.
+    // We currently don't cache it.
+    Vector star_position = pmath->findLocalStarPosition();
+    if (pmath->isStarLost() || (star_position.x == -1) || (star_position.y == -1))
     {
-        // We patch things here so things aren't too crazy below, and below in
-        // processGuiding() we'll note the lost star and possibly abort.
-        Vector last_position = pmath->getLastStarPosition();
-        cur_x = last_position.x;
-        cur_y = last_position.y;
+        // If the star position is lost, just lose this iteration.
+        // If it happens too many time, abort.
+        constexpr int abortStarLostThreshold = MAX_LOST_STAR_THRESHOLD * 3;
+        if (++m_starLostCounter > abortStarLostThreshold)
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "Too many consecutive lost stars." << m_starLostCounter << "Aborting dither.";
+            return abortDither();
+        }
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dither lost star. Trying again.";
+        emit frameCaptureRequested();
+        return true;
     }
+    else
+        m_starLostCounter = 0;
 
     if (state != GUIDE_DITHERING)
     {
@@ -262,15 +269,17 @@ bool InternalGuider::dither(double pixels)
     // These will be the RA & DEC drifts of the current star position from the reticle position in pixels.
     double driftRA, driftDEC;
     pmath->getCalibration().computeDrift(
-        Vector(cur_x, cur_y, 0),
+        star_position,
         Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0),
         &driftRA, &driftDEC);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Diff star X:" << driftRA << "Y:" << driftDEC;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Current" << star_position.x << star_position.y << "Target" <<
+                               m_DitherTargetPosition.x <<
+                               m_DitherTargetPosition.y << "Diff star X:" << driftRA << "Y:" << driftDEC;
 
     if (fabs(driftRA) < 1 && fabs(driftDEC) < 1)
     {
-        pmath->setReticleParameters(cur_x, cur_y);
+        pmath->setReticleParameters(star_position.x, star_position.y);
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither complete.";
 
         if (Options::ditherSettle() > 0)
@@ -288,37 +297,40 @@ bool InternalGuider::dither(double pixels)
     else
     {
         if (++m_DitherRetries > Options::ditherMaxIterations())
-        {
-            if (Options::ditherFailAbortsAutoGuide())
-            {
-                emit newStatus(Ekos::GUIDE_DITHERING_ERROR);
-                abort();
-                return false;
-            }
-            else
-            {
-                emit newLog(i18n("Warning: Dithering failed. Autoguiding shall continue as set in the options in case "
-                                 "of dither failure."));
-
-                if (Options::ditherSettle() > 0)
-                {
-                    state = GUIDE_DITHERING_SETTLE;
-                    guideLog.settleStartedInfo();
-                    emit newStatus(state);
-                }
-
-                if (Options::gPGEnabled())
-                    pmath->getGPG().ditheringSettled(false);
-
-                QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
-                return true;
-            }
-        }
+            return abortDither();
 
         processGuiding();
     }
 
     return true;
+}
+
+bool InternalGuider::abortDither()
+{
+    if (Options::ditherFailAbortsAutoGuide())
+    {
+        emit newStatus(Ekos::GUIDE_DITHERING_ERROR);
+        abort();
+        return false;
+    }
+    else
+    {
+        emit newLog(i18n("Warning: Dithering failed. Autoguiding shall continue as set in the options in case "
+                         "of dither failure."));
+
+        if (Options::ditherSettle() > 0)
+        {
+            state = GUIDE_DITHERING_SETTLE;
+            guideLog.settleStartedInfo();
+            emit newStatus(state);
+        }
+
+        if (Options::gPGEnabled())
+            pmath->getGPG().ditheringSettled(false);
+
+        QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
+        return true;
+    }
 }
 
 bool InternalGuider::processManualDithering()

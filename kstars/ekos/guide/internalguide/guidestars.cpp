@@ -40,13 +40,28 @@ GuideStars::GuideStars()
 {
 }
 
+// It's possible that we don't map all the stars, if there are too many.
+int GuideStars::getStarMap(int index)
+{
+    if (index >= starMap.size() || (index < 0))
+        return -1;
+    return starMap[index];
+}
+
 void GuideStars::setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << "setupStarCorrespondence: " << neighbors.size() << guideIndex;
     if (neighbors.size() >= MIN_STAR_CORRESPONDENCE_SIZE)
     {
+        starMap.clear();
         for (int i = 0; i < neighbors.size(); ++i)
+        {
             qCDebug(KSTARS_EKOS_GUIDE) << " adding ref: " << neighbors[i].x << neighbors[i].y;
+            // We need to initialize starMap, because findGuideStar(), which normally
+            // initializes starMap(), might call selectGuideStar() if it finds that
+            // the starCorrespondence is empty.
+            starMap.push_back(i);
+        }
         starCorrespondence.initialize(neighbors, guideIndex);
     }
     else
@@ -175,7 +190,7 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 
     for (int i = 0; i < detectedStars.size(); ++i)
     {
-        int refIndex = starMap[i];
+        int refIndex = getStarMap(i);
         if (refIndex >= 0)
         {
             found[refIndex] = true;
@@ -196,22 +211,22 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 
 void GuideStars::logDetectedStars()
 {
-        qCDebug(KSTARS_EKOS_GUIDE)
-                << QString("findGuideStar()  x      y      flux   HFR   SNR   Ref");
-        for (int i = 0; i < detectedStars.size(); ++i)
-        {
-            const auto &star = detectedStars[i];
-            auto bg = skybackground();
-            double snr = bg.SNR(star.sum, star.numPixels);
-            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 %7")
-                                       .arg(i, 3)
-                                       .arg(star.x, 6, 'f', 1)
-                                       .arg(star.y, 6, 'f', 1)
-                                       .arg(star.sum, 6, 'f', 0)
-                                       .arg(star.HFR, 6, 'f', 2)
-                                       .arg(snr, 5, 'f', 1)
-                                       .arg(starMap[i], 3);
-        }
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("findGuideStar()  x      y      flux   HFR   SNR   Ref");
+    for (int i = 0; i < detectedStars.size(); ++i)
+    {
+        const auto &star = detectedStars[i];
+        auto bg = skybackground();
+        double snr = bg.SNR(star.sum, star.numPixels);
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 %7")
+                                   .arg(i, 3)
+                                   .arg(star.x, 6, 'f', 1)
+                                   .arg(star.y, 6, 'f', 1)
+                                   .arg(star.sum, 6, 'f', 0)
+                                   .arg(star.HFR, 6, 'f', 2)
+                                   .arg(snr, 5, 'f', 1)
+                                   .arg(getStarMap(i), 3);
+    }
 }
 
 // Find the guide star using the starCorrespondence algorithm (looking for
@@ -249,7 +264,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
         // Should we also weight distance to the tracking box?
         for (int i = 0; i < detectedStars.size(); ++i)
         {
-            if (starMap[i] == starCorrespondence.guideStar())
+            if (getStarMap(i) == starCorrespondence.guideStar())
             {
                 auto &star = detectedStars[i];
                 double SNR = skyBackground.SNR(star.sum, star.numPixels);
@@ -264,7 +279,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
                     logDetectedStars();
                     qCDebug(KSTARS_EKOS_GUIDE) << QString("findGuideStar found a star at %1,%2 but it is outside the tracking box")
                                                .arg(star.x, 6, 'f', 1)
-                                               .arg(star.y, 6, 'f', 1);                   
+                                               .arg(star.y, 6, 'f', 1);
                     return Vector(-1, -1, -1);
 
                 }
@@ -274,7 +289,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
     }
 
     qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence not used. It failed to find the guide star.";
-    logDetectedStars();        
+    logDetectedStars();
 
     if (trackingBox.isValid() == false)
         return Vector(-1, -1, -1);
@@ -496,14 +511,14 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
         auto bg = skybackground();
         double snr = bg.SNR(detectedStars[i].sum, detectedStars[i].numPixels);
         // Probably should test SNR on the reference as well.
-        if (starMap[i] >= 0 && snr >= MIN_DRIFT_SNR)
+        if (getStarMap(i) >= 0 && snr >= MIN_DRIFT_SNR)
         {
-            auto ref = starCorrespondence.reference(starMap[i]);
+            auto ref = starCorrespondence.reference(getStarMap(i));
             ref.x += offset_x;
             ref.y += offset_y;
             double driftRA, driftDEC;
             computeStarDrift(star, ref, &driftRA, &driftDEC);
-            if (starMap[i] == starCorrespondence.guideStar())
+            if (getStarMap(i) == starCorrespondence.guideStar())
             {
                 guideStarRADrift = driftRA;
                 guideStarDECDrift = driftDEC;
@@ -521,7 +536,7 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
                                        .arg(star.sum, 6, 'f', 0)
                                        .arg(star.HFR, 6, 'f', 2)
                                        .arg(snr, 5, 'f', 1)
-                                       .arg(starMap[i], 3)
+                                       .arg(getStarMap(i), 3)
                                        .arg(ref.x, 6, 'f', 1)
                                        .arg(ref.y, 6, 'f', 1)
                                        .arg(ref.sum, 6, 'f', 0)

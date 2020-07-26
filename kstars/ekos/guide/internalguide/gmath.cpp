@@ -70,7 +70,6 @@ cgmath::cgmath() : QObject()
     // sky coord. system vars.
     scr_star_pos    = Vector(0);
     reticle_pos     = Vector(0);
-    last_star_position = Vector(-1, -1, -1);
 
     // processing
     in_params.reset();
@@ -481,16 +480,6 @@ void cgmath::setRegionAxis(const uint32_t &value)
 }
 
 Vector cgmath::findLocalStarPosition(void)
-{
-    Vector value = findLocalStarPositionInternal();
-    if (value.x != -1)
-    {
-        last_star_position = value;
-    }
-    return value;
-}
-
-Vector cgmath::findLocalStarPositionInternal(void)
 {
     if (square_alg_idx == SEP_MULTISTAR)
     {
@@ -1029,7 +1018,7 @@ void cgmath::process_axes(void)
         qCDebug(KSTARS_EKOS_GUIDE) << "delta         [" << k << "]= " << out_params.delta[k];
         qCDebug(KSTARS_EKOS_GUIDE) << "drift_integral[" << k << "]= " << drift_integral[k];
 
-        bool useGPG = Options::gPGEnabled() && (k == GUIDE_RA);
+        bool useGPG = Options::gPGEnabled() && (k == GUIDE_RA) && in_params.enabled[k];
         int pulse;
         GuideDirection dir;
         if (useGPG && gpg->computePulse(out_params.delta[k],

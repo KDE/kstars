@@ -1408,14 +1408,20 @@ void Guide::newFITS(IBLOB *bp)
 {
     INDI_UNUSED(bp);
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip->getCaptureMode() != FITS_GUIDE)
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" <<
+                                     targetChip->getCaptureMode();
+        return;
+    }
+
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
 
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
-
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     int subBinX = 1, subBinY = 1;
     targetChip->getBinning(&subBinX, &subBinY);
@@ -2425,6 +2431,9 @@ void Guide::onInfoRateChanged(double val)
 
 void Guide::onEnableDirRA(bool enable)
 {
+    // If RA guiding is enable or disabled, the GPG should be reset.
+    if (Options::gPGEnabled())
+        guider->resetGPG();
     Options::setRAGuideEnabled(enable);
 }
 
@@ -3947,72 +3956,72 @@ void Guide::initConnections()
         runningStateLed->setObjectName("runningStateLed");
         stateGroupBox->insertWidget(4, runningStateLed);
     }
-    connect(this, &Ekos::Guide::newStatus, this, [=]()
+    connect(this, &Ekos::Guide::newStatus, this, [ = ]()
     {
         idlingStateLed->off();
         preparingStateLed->off();
         runningStateLed->off();
         switch (state)
         {
-        case GUIDE_DISCONNECTED:
-            idlingStateLed->setColor(Qt::red);
-            idlingStateLed->on();
-            break;
-        case GUIDE_CONNECTED:
-            idlingStateLed->setColor(Qt::green);
-            preparingStateLed->setColor(Qt::gray);
-            runningStateLed->setColor(Qt::gray);
-            idlingStateLed->on();
-            break;
-        case GUIDE_CAPTURE:
-        case GUIDE_LOOPING:
-        case GUIDE_DARK:
-        case GUIDE_SUBFRAME:
-            preparingStateLed->setColor(Qt::green);
-            runningStateLed->setColor(Qt::gray);
-            preparingStateLed->on();
-            break;
-        case GUIDE_STAR_SELECT:
-        case GUIDE_CALIBRATING:
-            preparingStateLed->setColor(Qt::yellow);
-            runningStateLed->setColor(Qt::gray);
-            preparingStateLed->on();
-            break;
-        case GUIDE_CALIBRATION_ERROR:
-            preparingStateLed->setColor(Qt::red);
-            runningStateLed->setColor(Qt::red);
-            preparingStateLed->on();
-            break;
-        case GUIDE_CALIBRATION_SUCESS:
-            preparingStateLed->setColor(Qt::green);
-            runningStateLed->setColor(Qt::yellow);
-            preparingStateLed->on();
-            break;
-        case GUIDE_GUIDING:
-            preparingStateLed->setColor(Qt::green);
-            runningStateLed->setColor(Qt::green);
-            runningStateLed->setState(KLed::On);
-            break;
-        case GUIDE_MANUAL_DITHERING:
-        case GUIDE_DITHERING:
-        case GUIDE_DITHERING_SETTLE:
-        case GUIDE_REACQUIRE:
-        case GUIDE_SUSPENDED:
-            runningStateLed->setColor(Qt::yellow);
-            runningStateLed->setState(KLed::On);
-            break;
-        case GUIDE_DITHERING_ERROR:
-        case GUIDE_ABORTED:
-            idlingStateLed->setColor(Qt::green);
-            preparingStateLed->setColor(Qt::red);
-            runningStateLed->setColor(Qt::red);
-            idlingStateLed->on();
-            break;
-        case GUIDE_IDLE:
-        default:
-            idlingStateLed->setColor(Qt::green);
-            idlingStateLed->on();
-            break;
+            case GUIDE_DISCONNECTED:
+                idlingStateLed->setColor(Qt::red);
+                idlingStateLed->on();
+                break;
+            case GUIDE_CONNECTED:
+                idlingStateLed->setColor(Qt::green);
+                preparingStateLed->setColor(Qt::gray);
+                runningStateLed->setColor(Qt::gray);
+                idlingStateLed->on();
+                break;
+            case GUIDE_CAPTURE:
+            case GUIDE_LOOPING:
+            case GUIDE_DARK:
+            case GUIDE_SUBFRAME:
+                preparingStateLed->setColor(Qt::green);
+                runningStateLed->setColor(Qt::gray);
+                preparingStateLed->on();
+                break;
+            case GUIDE_STAR_SELECT:
+            case GUIDE_CALIBRATING:
+                preparingStateLed->setColor(Qt::yellow);
+                runningStateLed->setColor(Qt::gray);
+                preparingStateLed->on();
+                break;
+            case GUIDE_CALIBRATION_ERROR:
+                preparingStateLed->setColor(Qt::red);
+                runningStateLed->setColor(Qt::red);
+                preparingStateLed->on();
+                break;
+            case GUIDE_CALIBRATION_SUCESS:
+                preparingStateLed->setColor(Qt::green);
+                runningStateLed->setColor(Qt::yellow);
+                preparingStateLed->on();
+                break;
+            case GUIDE_GUIDING:
+                preparingStateLed->setColor(Qt::green);
+                runningStateLed->setColor(Qt::green);
+                runningStateLed->setState(KLed::On);
+                break;
+            case GUIDE_MANUAL_DITHERING:
+            case GUIDE_DITHERING:
+            case GUIDE_DITHERING_SETTLE:
+            case GUIDE_REACQUIRE:
+            case GUIDE_SUSPENDED:
+                runningStateLed->setColor(Qt::yellow);
+                runningStateLed->setState(KLed::On);
+                break;
+            case GUIDE_DITHERING_ERROR:
+            case GUIDE_ABORTED:
+                idlingStateLed->setColor(Qt::green);
+                preparingStateLed->setColor(Qt::red);
+                runningStateLed->setColor(Qt::red);
+                idlingStateLed->on();
+                break;
+            case GUIDE_IDLE:
+            default:
+                idlingStateLed->setColor(Qt::green);
+                idlingStateLed->on();
+                break;
         }
     });
 }

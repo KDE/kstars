@@ -174,6 +174,8 @@ class InternalGuider : public GuideInterface
         // Image Guiding
         bool processImageGuiding();
 
+        bool abortDither();
+
         void reset();
 
         // Logging
