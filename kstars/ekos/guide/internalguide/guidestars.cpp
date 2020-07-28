@@ -12,6 +12,7 @@
 #include <math.h>
 #include "ekos_guide_debug.h"
 #include "../guideview.h"
+#include <QTime>
 
 // Keeps at most this many reference "neighbor" stars
 #define MAX_GUIDE_STARS 10
@@ -355,6 +356,8 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, 
     if (imageData == nullptr)
         return;
 
+    QTime timer;
+    timer.restart();
     QList<Edge*> sepStars;
     int count = findAllSEPStars(imageData, &sepStars);
     if (count == 0)
@@ -387,7 +390,9 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, 
                 minDistances->append(findMinDistance(starIndex, sepStars));
         }
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars returning: " << stars->size();
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("Multistar: findTopStars returning: %1 stars, %2s")
+            .arg(stars->size()).arg(timer.elapsed() / 1000.0, 4, 'f', 2);
 }
 
 // Scores star detection relative to each other. Uses the star's SNR as the main measure.

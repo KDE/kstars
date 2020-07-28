@@ -43,6 +43,8 @@ void GuideView::clearNeighbors()
     neighbors.clear();
 }
 
+// We draw a circle around each "neighbor" star and draw a line from the guide star to the neighbor
+// Which starts at the reticle around the guide star and ends at the circle around the neighbor.
 void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
 {
     double origOpacity = painter->opacity();
@@ -63,21 +65,30 @@ void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
         const int x1 = (box.x() + box.width() / 2.0) * scale;
         const int y1 = (box.y() + box.height() / 2.0) * scale;
         painter->setOpacity(0.25);
-        painter->drawLine(x1, y1, neighbor.targetX * scale, neighbor.targetY * scale);
-    }
-    if (neighbor.found)
-    {
-        QPen pen2(Qt::black);
-        pen2.setWidth(2);
-        pen2.setStyle(Qt::SolidLine);
-        painter->setPen(pen2);
-        const double dx = neighbor.detectedX * scale;
-        const double dy = neighbor.detectedY * scale;
-        const double offset = 1 * scale;
-        painter->setOpacity(0.5);
-        painter->drawLine(dx - offset, dy, dx + offset, dy);
-        painter->drawLine(dx, dy - offset, dx, dy + offset);
-    }
+        const double dx = neighbor.targetX * scale - x1;
+        const double dy = neighbor.targetY * scale - y1;
 
+        const double lineLength = std::hypot(fabs(dx), fabs(dy));
+
+        // f1 indicates the place along line between the guide star and the neighbor star
+        // where the line should start because it intersects the reticle box around the guide star.
+        double f1;
+        if (fabs(dx) > fabs(dy))
+        {
+            const double rBox = scale * box.width() / 2.0;
+            f1 = std::hypot(rBox, fabs(dy) * rBox / fabs(dx)) / lineLength;
+        }
+        else
+        {
+            const double rBox = scale * box.height() / 2.0;
+            f1 = std::hypot(rBox, fabs(dx) * rBox / fabs(dy)) / lineLength;
+        }
+        // f2 indicates the place along line between the guide star and the neighbor star
+        // where the line should stop because it intersects the circle around the neighbor.
+        const double f2 = 1.0 - (r / lineLength);
+
+        if (f1 < 1 && lineLength > r)
+            painter->drawLine(x1 + dx * f1, y1 + dy * f1, x1 + dx * f2, y1 + dy * f2);
+    }
     painter->setOpacity(origOpacity);
 }
