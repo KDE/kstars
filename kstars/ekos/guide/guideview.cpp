@@ -12,6 +12,7 @@
 #include "guideview.h"
 
 #include <QPainter>
+#include <math.h>
 
 GuideView::GuideView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
 {
@@ -19,6 +20,8 @@ GuideView::GuideView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSVie
 
 void GuideView::drawOverlay(QPainter *painter, double scale)
 {
+    Q_UNUSED(scale);
+
     FITSView::drawOverlay(painter, getScale());
 
     for (const auto &neighbor : neighbors)
@@ -68,20 +71,20 @@ void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
         const double dx = neighbor.targetX * scale - x1;
         const double dy = neighbor.targetY * scale - y1;
 
-        const double lineLength = std::hypot(fabs(dx), fabs(dy));
+        const double lineLength = std::hypotf(fabs(dx), fabs(dy));
 
         // f1 indicates the place along line between the guide star and the neighbor star
         // where the line should start because it intersects the reticle box around the guide star.
         double f1;
-        if (fabs(dx) > fabs(dy))
+        if (std::fabs(dx) > std::fabs(dy))
         {
             const double rBox = scale * box.width() / 2.0;
-            f1 = std::hypot(rBox, fabs(dy) * rBox / fabs(dx)) / lineLength;
+            f1 = std::hypot(rBox, std::fabs(dy) * rBox / std::fabs(dx)) / lineLength;
         }
         else
         {
             const double rBox = scale * box.height() / 2.0;
-            f1 = std::hypot(rBox, fabs(dx) * rBox / fabs(dy)) / lineLength;
+            f1 = std::hypotf(rBox, std::fabs(dx) * rBox / std::fabs(dy)) / lineLength;
         }
         // f2 indicates the place along line between the guide star and the neighbor star
         // where the line should stop because it intersects the circle around the neighbor.
