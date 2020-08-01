@@ -532,7 +532,7 @@ void Focus::checkFocuser(int FocuserNum)
         focusBacklashSpin->setValue(0);
     }
 
-    getCurrentFocuserTemperature();
+    initializeFocuserTemperature();
 
     connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
     //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
@@ -582,19 +582,73 @@ void Focus::getAbsFocusPosition()
     }
 }
 
-void Focus::getCurrentFocuserTemperature()
+void Focus::initializeFocuserTemperature()
 {
-    INumberVectorProperty *focuserTemperature = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
+    INumberVectorProperty *temperatureProperty = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
 
-    if (focuserTemperature && focuserTemperature->s != IPS_ALERT)
+    if (temperatureProperty && temperatureProperty->s != IPS_ALERT)
     {
-        currentTemperature = focuserTemperature->np[0].value;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(currentTemperature, 0, 'f', 2);
+        focuserTemperature = temperatureProperty->np[0].value;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(focuserTemperature, 0, 'f', 2);
     }
     else
     {
-        currentTemperature = observatoryTemperature;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature not available; using observatory temperature");
+        focuserTemperature = INVALID_VALUE;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature is not available");
+    }
+}
+
+void Focus::setLastFocusTemperature()
+{
+    // The focus temperature is taken by default from the focuser.
+    // If unavailable, fallback to the observatory temperature.
+    if (focuserTemperature != INVALID_VALUE)
+    {
+        lastFocusTemperature = focuserTemperature;
+        lastFocusTemperatureSource = FOCUSER_TEMPERATURE;
+    }
+    else if (observatoryTemperature != INVALID_VALUE)
+    {
+        lastFocusTemperature = observatoryTemperature;
+        lastFocusTemperatureSource = OBSERVATORY_TEMPERATURE;
+    }
+    else
+    {
+        lastFocusTemperature = INVALID_VALUE;
+        lastFocusTemperatureSource = NO_TEMPERATURE;
+    }
+
+    emit newFocusTemperatureDelta(0);
+}
+
+void Focus::updateTemperature(TemperatureSource source, double newTemperature)
+{
+    if (source == FOCUSER_TEMPERATURE && focuserTemperature != newTemperature)
+    {
+        focuserTemperature = newTemperature;
+        emitTemperatureEvents(source, newTemperature);
+    }
+    else if (source == OBSERVATORY_TEMPERATURE && observatoryTemperature != newTemperature)
+    {
+        observatoryTemperature = newTemperature;
+        emitTemperatureEvents(source, newTemperature);
+    }
+}
+
+void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperature)
+{
+    if (source != lastFocusTemperatureSource)
+    {
+        return;
+    }
+
+    if (lastFocusTemperature != INVALID_VALUE && newTemperature != INVALID_VALUE)
+    {
+        emit newFocusTemperatureDelta(abs(newTemperature - lastFocusTemperature));
+    }
+    else
+    {
+        emit newFocusTemperatureDelta(0);
     }
 }
 
@@ -719,11 +773,11 @@ void Focus::start()
     // Used for all the focuser types.
     if (focusAlgorithm == FOCUS_LINEAR)
     {
-        getCurrentFocuserTemperature();
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
-            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(), currentTemperature,
+            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
+            focuserTemperature != INVALID_VALUE ? focuserTemperature : observatoryTemperature,
             Options::initialFocusOutSteps());
         linearFocuser.reset(MakeLinearFocuser(params));
         linearRequestedPosition = linearFocuser->initialPosition();
@@ -2378,19 +2432,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
     {
-        // avoid duplication of events if the temperature did not change since last time
-        if (currentTemperature - nvp->np[0].value == 0.0)
-            return;
-
-        currentTemperature = nvp->np[0].value;
-        if (lastFocusTemperature != INVALID_VALUE && currentTemperature != INVALID_VALUE)
-        {
-            emit newFocusTemperatureDelta(abs(currentTemperature - lastFocusTemperature));
-        }
-        else
-        {
-            emit newFocusTemperatureDelta(0);
-        }
+        updateTemperature(FOCUSER_TEMPERATURE, nvp->np[0].value);
         return;
     }
 
@@ -2911,24 +2953,20 @@ void Focus::setAutoFocusResult(bool status)
 
     if (status)
     {
-        // update focuser temperature before logging
-        getCurrentFocuserTemperature();
+        setLastFocusTemperature();
 
         // CR add auto focus position, temperature and filter to log in CSV format
         // this will help with setting up focus offsets and temperature compensation
         qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
-                                  << currentTemperature << ", filter, " << filter()
+                                  << lastFocusTemperature << ", filter, " << filter()
                                   << ", HFR, " << currentHFR;
 
 
         appendFocusLogText(QString("%1, %2, %3, %4\n")
                            .arg(QString::number(currentPosition))
-                           .arg(QString::number(currentTemperature, 'f', 1))
+                           .arg(QString::number(lastFocusTemperature, 'f', 1))
                            .arg(filter())
                            .arg(QString::number(currentHFR, 'f', 3)));
-
-        lastFocusTemperature = currentTemperature;
-        emit newFocusTemperatureDelta(0);
     }
 
     // In case of failure, go back to last position if the focuser is absolute
@@ -3348,7 +3386,7 @@ void Focus::setWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
 
     if (pos != data.end())
     {
-        observatoryTemperature = pos->value;
+        updateTemperature(OBSERVATORY_TEMPERATURE, pos->value);
     }
 }
 

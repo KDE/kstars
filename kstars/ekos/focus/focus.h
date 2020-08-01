@@ -54,6 +54,7 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } FocusType;
         typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR } FocusAlgorithm;
+        typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
              * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -461,7 +462,10 @@ class Focus : public QWidget, public Ui::Focus
          */
         bool appendHFR(double newHFR);
 
-        void getCurrentFocuserTemperature();
+        void initializeFocuserTemperature();
+        void setLastFocusTemperature();
+        void updateTemperature(TemperatureSource source, double newTemperature);
+        void emitTemperatureEvents(TemperatureSource source, double newTemperature);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
@@ -663,8 +667,9 @@ class Focus : public QWidget, public Ui::Focus
 
         bool hasDeviation { false };
 
-        double currentTemperature { INVALID_VALUE };
-        double lastFocusTemperature { INVALID_VALUE };
+        double focuserTemperature { INVALID_VALUE };
         double observatoryTemperature { INVALID_VALUE };
+        double lastFocusTemperature { INVALID_VALUE };
+        TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
 };
 }

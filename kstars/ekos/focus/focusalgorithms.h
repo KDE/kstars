@@ -41,7 +41,7 @@ public:
         double focusTolerance;
         // The name of the filter used, if any.
         QString filterName;
-        // The current focus temperature (from focuser or observatory).
+        // The temperature measured when starting the focus (from focuser or observatory).
         double temperature;
         // The number of outward steps taken at the start of the algorithm.
         double initialOutwardSteps;
