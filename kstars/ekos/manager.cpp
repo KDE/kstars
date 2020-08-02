@@ -467,6 +467,12 @@ void Manager::reset()
     genericDevices.clear();
     managedDevices.clear();
 
+    if (proxyDevices.empty() == false)
+    {
+        qDeleteAll(proxyDevices);
+        proxyDevices.clear();
+    }
+
     captureProcess.reset();
     focusProcess.reset();
     guideProcess.reset();
@@ -1556,7 +1562,14 @@ void Manager::setWeather(ISD::GDInterface * weatherDevice)
 
     initWeather();
 
-    weatherProcess->setWeather(weatherDevice);
+    if (weatherDevice->getType() != KSTARS_WEATHER)
+    {
+        ISD::Weather *source = new ISD::Weather(weatherDevice);
+        weatherProcess->setWeather(source);
+        proxyDevices.append(source);
+    }
+    else
+        weatherProcess->setWeather(weatherDevice);
 
     appendLogText(i18n("%1 is online.", weatherDevice->getDeviceName()));
 }
@@ -1636,7 +1649,18 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
         }
     }
 
-    // #2 Remove from Ekos Managed Device
+    // #2 Remove from Proxy device
+    // Proxy devices are ALL the devices we specifically create in Ekos Manager to handle specific interfaces
+    for (auto &device : proxyDevices)
+    {
+        if (device->getDeviceName() == devInterface->getDeviceName())
+        {
+            proxyDevices.removeOne(device);
+            device->deleteLater();
+        }
+    }
+
+    // #3 Remove from Ekos Managed Device
     // Managed devices are devices selected by the user in the device profile
     for (auto it = managedDevices.begin(); it != managedDevices.end();)
     {

@@ -1010,6 +1010,7 @@ DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
     interfacePtr = iPtr;
     baseDevice    = interfacePtr->getBaseDevice();
     clientManager = interfacePtr->getDriverInfo()->getClientManager();
+    m_isProxy = iPtr->getType() != KSTARS_UNKNOWN;
 
     connect(iPtr, &GDInterface::Connected, this, &DeviceDecorator::Connected);
     connect(iPtr, &GDInterface::Disconnected, this, &DeviceDecorator::Disconnected);
@@ -1025,7 +1026,8 @@ DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
 
 DeviceDecorator::~DeviceDecorator()
 {
-    delete (interfacePtr);
+    if (m_isProxy == false)
+        delete (interfacePtr);
 }
 
 bool DeviceDecorator::runCommand(int command, void *ptr)

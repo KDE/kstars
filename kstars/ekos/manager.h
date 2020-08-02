@@ -478,6 +478,9 @@ class Manager : public QDialog, public Ui::Manager
         // All generic devices (i.e. those define by INDI server)
         QList<ISD::GDInterface *> genericDevices;
 
+        // All proxy devices (generated devices by Ekos Manager for specific interfaces)
+        QList<ISD::GDInterface *> proxyDevices;
+
         // All Managed devices (ie. those explicitly defined in the profile)
         QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
 
