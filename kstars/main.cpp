@@ -108,9 +108,10 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
                          "2001-" + QString::number(QDate::currentDate().year()) +
-                         i18n("(c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"),
-                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, i18n(notice)),
-                         "https://edu.kde.org/kstars");
+                         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"),
+                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3", KSTARS_BUILD_TS,
+                               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ? "Pre-release beta snapshot. Do not use in production."
+                               : "Stable release.", i18n(notice)), "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
                         "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com",
