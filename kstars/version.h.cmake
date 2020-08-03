@@ -3,6 +3,6 @@
 /* KStars Build TS */
 #cmakedefine KSTARS_BUILD_TS "@KSTARS_BUILD_TS@"
 
-/* KStars Buile Release (Beta or Stable) */
+/* KStars Build Release (Beta or Stable) */
 #cmakedefine KSTARS_BUILD_RELEASE "@KSTARS_BUILD_RELEASE@"
 

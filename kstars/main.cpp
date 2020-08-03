@@ -105,8 +105,9 @@ int main(int argc, char *argv[])
 #ifndef KSTARS_LITE
 
     KCrash::initialize();
-
-    KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
+    QString versionString = QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
+    KAboutData aboutData("kstars", i18n("KStars"), versionString, i18n(description),
+                         KAboutLicense::GPL,
                          "2001-" + QString::number(QDate::currentDate().year()) +
                          i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"),
                          i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3", KSTARS_BUILD_TS,
