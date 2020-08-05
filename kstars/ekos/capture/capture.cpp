@@ -4980,7 +4980,13 @@ void Capture::setAlignStatus(AlignState state)
             {
                 appendLogText(i18n("Post flip re-alignment completed successfully."));
                 retries = 0;
-                checkGuidingAfterFlip();
+                // Trigger guiding if necessary.
+                if (checkGuidingAfterFlip() == false)
+                {
+                    // If no guiding is required, the meridian flip is complete
+                    setMeridianFlipStage(MF_NONE);
+                    m_State = CAPTURE_WAITING;
+                }
             }
             break;
 
