@@ -126,6 +126,13 @@ void ClientManager::removeProperty(INDI::Property *prop)
     }
 }
 
+void ClientManager::disconnectAll()
+{
+    disconnectServer();
+    for (auto &oneManager : blobManagers)
+        oneManager->disconnectServer();
+}
+
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
     QString deviceName = dp->getDeviceName();

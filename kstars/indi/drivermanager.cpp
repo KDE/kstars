@@ -773,7 +773,7 @@ bool DriverManager::disconnectRemoteHost(DriverInfo *dv)
     if (clientManager)
     {
         clientManager->removeManagedDriver(dv);
-        clientManager->disconnectServer();
+        clientManager->disconnectAll();
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
         clients.removeOne(clientManager);

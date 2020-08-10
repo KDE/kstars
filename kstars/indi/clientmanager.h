@@ -33,7 +33,7 @@ class ServerManager;
  * This enables the class to communicate with INDI server and to receive notification of devices, properties, and messages.
  *
  * @author Jasem Mutlaq
- * @version 1.1
+ * @version 1.2
  */
 #ifdef USE_QT5_INDI
 class ClientManager : public INDI::BaseClientQt
@@ -60,6 +60,11 @@ class ClientManager : public QObject, public INDI::BaseClient
          * @note This function is ALWAYS called from the main KStars thread.
          */
         void removeManagedDriver(DriverInfo *dv);
+
+        /**
+         * @brief disconnectAll Disconnect from server and disconnect all BLOB Managers.
+         */
+        void disconnectAll();
 
         int count()
         {
