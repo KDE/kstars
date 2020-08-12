@@ -57,7 +57,6 @@
 
 #include <KActionCollection>
 #include <KToolBar>
-#include <KToolInvocation>
 
 #include <QBitmap>
 #include <QToolTip>

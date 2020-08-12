@@ -43,8 +43,6 @@
 #include "indi/indilistener.h"
 #endif
 
-#include <KToolInvocation>
-
 #include <QDesktopServices>
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent)
