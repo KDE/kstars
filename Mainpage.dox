@@ -126,7 +126,7 @@ The following explanation is a \e very high level and general overview on the ba
 -# The sky map responds to user input from keyboard and mouse to perform various actions such as panning, zooming, invoking the popup menu for a particular object...etc.
 -# SimClock emits timeAdvanced() signal and the cycle repeats.
 -# The user can invoke tools, change settings, download new data, run scripts..etc while the cycle above is taking place in the background.
--# Upon exist destructors are called to properly terminate all objects, free memory, and save options if necessary.
+-# Upon exit destructors are called to properly terminate all objects, free memory, and save options if necessary.
 
 \author Jasem Mutlaq
 */
