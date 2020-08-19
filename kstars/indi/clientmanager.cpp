@@ -98,7 +98,8 @@ void ClientManager::newProperty(INDI::Property *prop)
         connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
         connect(bm.data(), &BlobManager::connected, [prop, this]()
         {
-            emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
+            if (prop && prop->getRegistered())
+                emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
         });
         blobManagers.append(bm);
     }
