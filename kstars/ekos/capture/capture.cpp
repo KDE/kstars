@@ -5415,16 +5415,17 @@ void Capture::openCalibrationDialog()
  * @brief Check all tasks that might be pending before capturing may start.
  *
  * The following checks are executed:
- * 1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
- * 2. Is the scope cover open (@see checkLightFrameScopeCoverOpen()).
- * 3. Has pausing been initiated (@see checkPausing()).
- * 4. Is a meridian flip already running (@see checkMeridianFlipRunning()) or ready
- *    for execution (@see checkMeridianFlipReady()).
- * 5. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
- * 6. Is post flip guiding running (@see checkGuidingAfterFlip().
- * 7. Is re-focusing required or ongoing (@see startFocusIfRequired()).
- * 8. Is dithering required or ongoing (@see checkDithering()).
- * 9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
+ *  1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
+ *  2. Is the scope cover open (@see checkLightFrameScopeCoverOpen()).
+ *  3. Has pausing been initiated (@see checkPausing()).
+ *  4. Is a meridian flip already running (@see checkMeridianFlipRunning()) or ready
+ *     for execution (@see checkMeridianFlipReady()).
+ *  5. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
+ *  6. Is post flip guiding required or running (@see checkGuidingAfterFlip().
+ *  7. Is the guiding deviation below the expected limit (@see setGuideDeviation(double,double)).
+ *  8. Is dithering required or ongoing (@see checkDithering()).
+ *  9. Is re-focusing required or ongoing (@see startFocusIfRequired()).
+ * 10. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
  *
  * If none of this is true, everything is ready and capturing may be started.
  *
@@ -5461,15 +5462,28 @@ IPState Capture::checkLightFramePendingTasks()
     if ((m_State == CAPTURE_CALIBRATING && guideState != GUIDE_GUIDING) || checkGuidingAfterFlip())
         return IPS_BUSY;
 
-    // step 7: check if re-focusing is required
-    if ((m_State == CAPTURE_FOCUSING  && focusState != FOCUS_COMPLETE) || startFocusIfRequired())
-        return IPS_BUSY;
+    // step 7: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
+    //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
+    //         Otherwise the meridian flip is complete
+    if (m_State == CAPTURE_CALIBRATING && meridianFlipStage == MF_GUIDING)
+    {
+        if (guideDeviationCheck->isChecked() == true)
+            return IPS_BUSY;
+        else
+            setMeridianFlipStage(MF_NONE);
+    }
 
     // step 8: check if dithering is required or running
     if ((m_State == CAPTURE_DITHERING && ditheringState != IPS_OK) || checkDithering())
         return IPS_BUSY;
 
-    // step 9: resume guiding if it was suspended
+    // step 9: check if re-focusing is required
+    //         Needs to be checked after dithering checks to avoid dithering in parallel
+    //         to focusing, since @startFocusIfRequired() might change its value over time
+    if ((m_State == CAPTURE_FOCUSING  && focusState != FOCUS_COMPLETE) || startFocusIfRequired())
+        return IPS_BUSY;
+
+    // step 10: resume guiding if it was suspended
     if (guideState == GUIDE_SUSPENDED)
     {
         appendLogText(i18n("Autoguiding resumed."));
