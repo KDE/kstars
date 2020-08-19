@@ -437,12 +437,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
+        <widget class="QCheckBox" name="kcfg_RealignAfterGuidingFailure">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding or guiding calibration fails then restart alignment process before proceeding to guiding or guiding recalibration process again. This can help recenter the target object in the field of view if the initial target strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Restart Alignment on Guiding Calibration Failure</string>
+          <string>Restart Alignment on Calibration or Guiding Failure</string>
          </property>
         </widget>
        </item>

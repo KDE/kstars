@@ -6815,9 +6815,9 @@ void Scheduler::setGuideStatus(Ekos::GuideState status)
             return;
     }
 
-    if (currentJob->getStage() == SchedulerJob::STAGE_GUIDING)
+    if (currentJob->getStage() >= SchedulerJob::STAGE_GUIDING)
     {
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage = " << currentJob->getStage();
 
         // If calibration stage complete?
         if (status == Ekos::GUIDE_GUIDING)
@@ -6847,8 +6847,8 @@ void Scheduler::setGuideStatus(Ekos::GuideState status)
 
             if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
-                if (status == Ekos::GUIDE_CALIBRATION_ERROR &&
-                        Options::realignAfterCalibrationFailure())
+                if ((status == Ekos::GUIDE_CALIBRATION_ERROR || status == Ekos::GUIDE_ABORTED) &&
+                        Options::realignAfterGuidingFailure())
                 {
                     appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
                     // JM: We have to go back to startSlew() since if we just call startAstrometry()

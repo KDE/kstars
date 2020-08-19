@@ -2430,8 +2430,8 @@
       <entry name="SerializedCalibration" type="String">
          <label>Last Calibration serialized.</label>
       </entry>
-      <entry name="RealignAfterCalibrationFailure" type="Bool">
-         <label>If guiding calibration fails, run alignment process again before proceeding to recalibration.</label>
+      <entry name="RealignAfterGuidingFailure" type="Bool">
+         <label>If guiding or guiding calibration fails, run alignment process again before restart guiding.</label>
          <default>false</default>
       </entry>
       <entry name="PreemptiveShutdownTime" type="Double">
