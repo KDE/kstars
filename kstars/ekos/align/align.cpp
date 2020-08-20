@@ -133,7 +133,18 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     vlayout->addWidget(alignView);
     alignWidget->setLayout(vlayout);
 
-    connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
+    connect(solveB, &QPushButton::clicked, [this]()
+    {
+        double ra, dec;
+        currentTelescope->getEqCoords(&ra, &dec);
+        targetCoord.setRA(ra);
+        targetCoord.setDec(dec);
+        // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
+        // Function to do that in case of any changes in the future in that function.
+        SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
+        setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+        captureAndSolve();
+    });
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
     connect(measureAltB, &QPushButton::clicked, this, &Ekos::Align::measureAltError);
     connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);
@@ -2834,7 +2845,7 @@ bool Align::captureAndSolve()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    if (focusState >= FOCUS_PROGRESS)
+    if (m_FocusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
@@ -2881,14 +2892,14 @@ bool Align::captureAndSolve()
         // If mount model was reset, we do not update targetCoord
         // since the RA/DE is now different immediately after the reset
         // so we still try to lock for the coordinates before the reset.
-        if (solverIterations == 0 && mountModelReset == false)
-        {
-            double ra, dec;
-            currentTelescope->getEqCoords(&ra, &dec);
-            targetCoord.setRA(ra);
-            targetCoord.setDec(dec);
-        }
-        mountModelReset = false;
+        //        if (solverIterations == 0 && mountModelReset == false)
+        //        {
+        //            double ra, dec;
+        //            currentTelescope->getEqCoords(&ra, &dec);
+        //            targetCoord.setRA(ra);
+        //            targetCoord.setDec(dec);
+        //        }
+        //        mountModelReset = false;
 
         solverTimer.start();
     }
@@ -3182,15 +3193,15 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         }
     }
 
-    if (solverIterations == 0 && mountModelReset == false)
-    {
-        double ra, dec;
-        currentTelescope->getEqCoords(&ra, &dec);
-        targetCoord.setRA(ra);
-        targetCoord.setDec(dec);
-    }
+    //    if (solverIterations == 0 && mountModelReset == false)
+    //    {
+    //        double ra, dec;
+    //        currentTelescope->getEqCoords(&ra, &dec);
+    //        targetCoord.setRA(ra);
+    //        targetCoord.setDec(dec);
+    //    }
 
-    mountModelReset = false;
+    //    mountModelReset = false;
 
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
@@ -4925,7 +4936,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 
 void Align::setFocusStatus(Ekos::FocusState state)
 {
-    focusState = state;
+    m_FocusState = state;
 }
 
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)
@@ -5177,6 +5188,24 @@ void Align::setCaptureStatus(CaptureState newState)
 {
     switch (newState)
     {
+        case CAPTURE_PROGRESS:
+        {
+            // Only reset targetCoord if capture wasn't suspended then resumed due to error duing ongoing
+            // capture
+            if (m_CaptureState != CAPTURE_SUSPENDED)
+            {
+                double ra, dec;
+                currentTelescope->getEqCoords(&ra, &dec);
+                targetCoord.setRA(ra);
+                targetCoord.setDec(dec);
+                // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
+                // Function to do that in case of any changes in the future in that function.
+                SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
+                setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+            }
+
+        }
+        break;
         case CAPTURE_ALIGNING:
             if (currentTelescope && currentTelescope->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
             {
@@ -5190,6 +5219,8 @@ void Align::setCaptureStatus(CaptureState newState)
         default:
             break;
     }
+
+    m_CaptureState = newState;
 }
 
 void Align::showFITSViewer()
@@ -6059,7 +6090,7 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         if (filterPositionPending)
         {
-            focusState = FOCUS_IDLE;
+            m_FocusState = FOCUS_IDLE;
             filterPositionPending = false;
             captureAndSolve();
         }
@@ -6334,4 +6365,13 @@ bool Align::didSlewStart()
     return false;
 }
 
+void Align::setTargetCoords(double ra, double de)
+{
+    targetCoord.setRA0(ra);
+    targetCoord.setDec0(de);
+    targetCoord.updateCoordsNow(KStarsData::Instance()->updateNum());
+
+    qCDebug(KSTARS_EKOS_ALIGN) << "Target Coordinates updated to RA:" << targetCoord.ra().toHMSString()
+                               << "DE:" << targetCoord.dec().toDMSString();
+}
 }

@@ -4560,6 +4560,21 @@ void Scheduler::startAstrometry()
     }
     else
     {
+        // JM 2020.08.20: Send J2000 TargetCoords to Align module so that we always resort back to the
+        // target original targets even if we drifted away due to any reason like guiding calibration failures.
+        const SkyPoint targetCoords = currentJob->getTargetCoords();
+        QList<QVariant> targetArgs;
+        targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
+
+        if ((reply = alignInterface->call(QDBus::AutoDetect, "setTargetCoords")).type() == QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetCoords request received DBUS error: %2").arg(
+                                                  currentJob->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+
         if ((reply = alignInterface->call(QDBus::AutoDetect, "captureAndSolve")).type() == QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' captureAndSolve request received DBUS error: %2").arg(
