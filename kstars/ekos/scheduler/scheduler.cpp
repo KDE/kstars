@@ -4566,7 +4566,8 @@ void Scheduler::startAstrometry()
         QList<QVariant> targetArgs;
         targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
 
-        if ((reply = alignInterface->call(QDBus::AutoDetect, "setTargetCoords")).type() == QDBusMessage::ErrorMessage)
+        if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords",
+                     targetArgs)).type() == QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetCoords request received DBUS error: %2").arg(
                                                   currentJob->getName(), reply.errorMessage());
