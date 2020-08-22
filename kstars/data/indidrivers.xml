@@ -191,15 +191,15 @@
         </device>
         <device label="iOptron v3" manufacturer="iOptron">
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
         <device label="iOptron CEM120" manufacturer="iOptron">
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
         <device label="iOptron CEM70" manufacturer="iOptron">
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
         <device label="Pulsar2">
             <driver name="Pulsar2">indi_lx200pulsar2</driver>
@@ -357,7 +357,7 @@
         </device>
         <device label="Sesto Senso 2">
             <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
         <device label="Lakeside">
             <driver name="Lakeside">indi_lakeside_focus</driver>
@@ -549,6 +549,10 @@
             <driver name="Dome  Scripting Gateway">indi_script_dome</driver>
             <version>1.0</version>
         </device>
+        <device label="DomePro2">
+            <driver name="DomePro2">indi_domepro2_dome</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Weather">
         <device label="Weather Simulator">
@@ -616,9 +620,9 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="CCDs">
-        <device label="AHP Telescope array" mdpd="true">
-            <driver name="AHP Telescope array correlator">indi_ahp_interferometer</driver>
+    <devGroup group="Detectors">
+        <device label="AHP XC Correlator" mdpd="true">
+            <driver name="AHP XC correlator">indi_ahp_correlator</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -649,25 +653,25 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true">
             <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ASI EAF">
             <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ASI ST4">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -691,13 +695,13 @@
     <devGroup group="CCDs">
         <device label="Atik CCD" mdpd="true">
             <driver name="Atik">indi_atik_ccd</driver>
-            <version>2.6</version>
+            <version>2.7</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Atik EFW" mdpd="true">
             <driver name="Atik">indi_atik_wheel</driver>
-            <version>2.6</version>
+            <version>2.7</version>
         </device>
     </devGroup>
 </driversList>
@@ -967,7 +971,7 @@
     <devGroup group="Domes">
         <device label="NexDome">
             <driver name="NexDome">indi_nexdome</driver>
-            <version>1.4</version>
+            <version>1.5</version>
         </device>
     </devGroup>
 </driversList>
@@ -1012,6 +1016,14 @@
         <device label="QSI CCD">
             <driver name="QSI CCD">indi_qsi_ccd</driver>
             <version>0.9</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="RPI Camera">
+            <driver name="RPI Camera">indi_rpicam</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1073,9 +1085,9 @@
 </driversList>
 <driversList>
     <devGroup group="CCDs">
-        <device label="SV305 CCD" mdpd="true">
-            <driver name="SV305 CCD">indi_sv305_ccd</driver>
-            <version>1.0</version>
+        <device label="SVBONY SV305" mdpd="true">
+            <driver name="SVBONY SV305">indi_sv305_ccd</driver>
+            <version>1.2</version>
         </device>
     </devGroup>
 </driversList>
@@ -1113,6 +1125,10 @@
             <driver name="ToupCam">indi_toupcam_ccd</driver>
             <version>0.4</version>
         </device>
+        <device label="Omegon Pro" mdpd="true">
+            <driver name="ToupCam">indi_toupcam_ccd</driver>
+            <version>0.4</version>
+        </device>
         <device label="Altair" mdpd="true">
             <driver name="Altair">indi_altair_ccd</driver>
             <version>0.4</version>
@@ -1135,7 +1151,7 @@
     <devGroup group="Weather">
         <device label="Weather Radio">
             <driver name="Weather Radio">indi_weatherradio</driver>
-            <version>1.5</version>
+            <version>1.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -1144,14 +1160,6 @@
         <device label="INDI Webcam">
             <driver name="INDI Webcam">indi_webcam_ccd</driver>
             <version>0.2</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="CCDs">
-        <device label="RPI Camera">
-            <driver name="RPI Camera">indi_rpicam</driver>
-            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
