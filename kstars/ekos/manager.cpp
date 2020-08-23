@@ -2056,7 +2056,7 @@ void Manager::processTabChange()
                     {
 
                         Options::setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
-                        alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
+                        //alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
                         alignProcess->setEnabled(true);
                     }
                 }

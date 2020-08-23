@@ -19,6 +19,8 @@
 #include "onlineastrometryparser.h"
 #include "astapastrometryparser.h"
 #include "opsalign.h"
+#include "opsprograms.h"
+#include "optionsprofileeditor.h"
 #include "opsastap.h"
 #include "opsastrometry.h"
 #include "opsastrometrycfg.h"
@@ -236,26 +238,28 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     opsAlign = new OpsAlign(this);
     connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
-    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("Astrometry.net"));
+    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
+    page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
+
+    opsPrograms = new OpsPrograms(this);
+    page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));
     page->setIcon(QIcon(":/icons/astrometry.svg"));
 
     opsAstrometry = new OpsAstrometry(this);
-    page = dialog->addPage(opsAstrometry, i18n("Solver Options"));
-    page->setIcon(QIcon::fromTheme("configure"));
+    page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
+    page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
 
-#ifndef Q_OS_WIN
-    opsAstrometryCfg = new OpsAstrometryCfg(this);
-    page = dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
-    page->setIcon(QIcon::fromTheme("document-edit"));
+    optionsProfileEditor = new OptionsProfileEditor(this);
+    page = dialog->addPage(optionsProfileEditor, i18n("Options Profiles Editor"));
+    page->setIcon(QIcon::fromTheme("configure"));
 
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
     page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
     page->setIcon(QIcon::fromTheme("map-flat"));
-#endif
 
-    opsASTAP = new OpsASTAP(this);
-    page = dialog->addPage(opsASTAP, i18n("ASTAP"));
-    page->setIcon(QIcon(":/icons/astap.ico"));
+   // opsASTAP = new OpsASTAP(this);
+   // page = dialog->addPage(opsASTAP, i18n("ASTAP"));
+   // page->setIcon(QIcon(":/icons/astap.ico"));
 
     connect(editOptionsB, &QPushButton::clicked, dialog, &QDialog::show);
 
@@ -278,31 +282,31 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     rememberAutoWCS   = Options::autoWCS();
     rememberMeridianFlip = Options::executeMeridianFlip();
 
-    solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
-    solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
+   // solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
+    //solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
 
     // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
     // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accommodate that.
-    if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
-    {
-        Options::setSolverBackend(SOLVER_ASTROMETRYNET);
-    }
+  //  if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
+  //  {
+  //      Options::setSolverBackend(SOLVER_ASTROMETRYNET);
+ //   }
+//
+   // solverBackendGroup->button(Options::solverBackend())->setChecked(true);
+   // connect(solverBackendGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
+    //        this, &Align::setSolverBackend);
 
-    solverBackendGroup->button(Options::solverBackend())->setChecked(true);
-    connect(solverBackendGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-            this, &Align::setSolverBackend);
-
-    astrometryTypeCombo->addItem(i18n("Online"));
+    //astrometryTypeCombo->addItem(i18n("Online"));
 #ifndef Q_OS_WIN
-    astrometryTypeCombo->addItem(i18n("Offline"));
+   // astrometryTypeCombo->addItem(i18n("Offline"));
 #endif
-    astrometryTypeCombo->addItem(i18n("Remote"));
+    //astrometryTypeCombo->addItem(i18n("Remote"));
 
-    astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
-    connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-            &Ekos::Align::setAstrometrySolverType);
+   // astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
+   // connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+   //         &Ekos::Align::setAstrometrySolverType);
 
-    setSolverBackend(solverBackendGroup->checkedId());
+    //setSolverBackend(solverBackendGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
@@ -338,9 +342,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(PAHfirstDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
     connect(PAHsecondDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
 
-    if (solverOptions->text().contains("no-fits2fits"))
-        appendLogText(i18n(
-                          "Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
+    //if (solverOptions->text().contains("no-fits2fits"))
+   //     appendLogText(i18n(
+    //                      "Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
 
     hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
 
@@ -510,6 +514,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+
+    optionsList = StellarSolver::getBuiltInProfiles();
+    foreach(SSolver::Parameters param, optionsList)
+    {
+        optionsProfile->addItem(param.listName);
+    }
+    optionsProfile->setCurrentText("ParallelSmallScale");  //This should be changed later
 }
 
 Align::~Align()
@@ -1851,7 +1863,7 @@ void Align::checkAlignmentTimeout()
     }
     // TODO must also account for loadAndSlew. Retain file name
 }
-
+/**
 void Align::setSolverBackend(int type)
 {
     if (sender() == nullptr && type >= 0 && type <= 1)
@@ -1906,7 +1918,9 @@ void Align::setSolverBackend(int type)
     generateArgs();
 
 }
+**/
 
+/**
 void Align::setAstrometrySolverType(int type)
 {
     if (sender() == nullptr && type >= 0 && type <= 2)
@@ -1978,7 +1992,7 @@ void Align::setAstrometrySolverType(int type)
     else
         parser->disconnect();
 }
-
+**/
 bool Align::setCamera(const QString &device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
@@ -2022,8 +2036,8 @@ void Align::checkCCD(int ccdNum)
     if (targetChip && targetChip->isCapturing())
         return;
 
-    if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
-        (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
+  //  if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    //    (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
 
     syncCCDInfo();
 
@@ -2204,7 +2218,7 @@ bool Align::syncTelescopeInfo()
 
         calculateFOV();
 
-        generateArgs();
+        //generateArgs();
 
         return true;
     }
@@ -2306,7 +2320,7 @@ void Align::syncCCDInfo()
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         calculateFOV();
-        generateArgs();
+        //generateArgs();
     }
 }
 
@@ -2474,6 +2488,7 @@ void Align::calculateFOV()
     }
 }
 
+/**
 QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solverType)
 {
     QStringList solver_args;
@@ -2582,6 +2597,7 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solver
 
     return solver_args;
 }
+**/
 
 //This will generate the high and low scale of the imager field size based on the stated units.
 void Align::generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance)
@@ -2604,6 +2620,7 @@ void Align::generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high,
     fov_high = QString::number(fov_upper);
 }
 
+/**
 void Align::generateArgs()
 {
     QVariantMap optionsMap;
@@ -2649,19 +2666,18 @@ void Align::generateArgs()
 
         if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
         {
-            QString units = ImageScales[Options::astrometryImageScaleUnits()];
             if (Options::astrometryAutoUpdateImageScale())
             {
                 QString fov_low, fov_high;
                 double fov_w = fov_x;
                 double fov_h = fov_y;
 
-                if (units == "dw")
+                if (Options::astrometryImageScaleUnits() == SSolver::DEG_WIDTH)
                 {
                     fov_w /= 60;
                     fov_h /= 60;
                 }
-                else if (units == "app")
+                else if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
                 {
                     fov_w = fov_pixscale;
                     fov_h = fov_pixscale;
@@ -2672,13 +2688,13 @@ void Align::generateArgs()
 
                 optionsMap["scaleL"]     = fov_low;
                 optionsMap["scaleH"]     = fov_high;
-                optionsMap["scaleUnits"] = units;
+                //optionsMap["scaleUnits"] = units;
             }
             else
             {
                 optionsMap["scaleL"]     = Options::astrometryImageScaleLow();
                 optionsMap["scaleH"]     = Options::astrometryImageScaleHigh();
-                optionsMap["scaleUnits"] = units;
+                //optionsMap["scaleUnits"] = units;
             }
         }
 
@@ -2715,6 +2731,7 @@ void Align::generateArgs()
     solverOptions->setText(options);
     solverOptions->setToolTip(options);
 }
+**/
 
 bool Align::captureAndSolve()
 {
@@ -2722,13 +2739,13 @@ bool Align::captureAndSolve()
     m_CaptureTimer.stop();
 
 #ifdef Q_OS_OSX
-    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
+    if(solverTypeCombo->currentIndex() == SSolver::SOLVER_LOCALASTROMETRY)
     {
         if(!Options::useSextractor())
         {
             if(Options::useDefaultPython())
             {
-                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
                 {
                     KSNotification::error(
                         i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
@@ -2765,8 +2782,8 @@ bool Align::captureAndSolve()
         currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(FOVScopeCombo->currentIndex()));
     }
 
-    if (parser->init() == false)
-        return false;
+    //if (parser->init() == false)
+    //    return false;
 
     if (focal_length == -1 || aperture == -1)
     {
@@ -2843,7 +2860,7 @@ bool Align::captureAndSolve()
 
     connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
-
+/**
     // In case of remote solver, check if we need to update active CCD
     if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
@@ -2882,6 +2899,7 @@ bool Align::captureAndSolve()
 
         solverTimer.start();
     }
+    **/
 
     if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
     {
@@ -3014,9 +3032,10 @@ void Align::newFITS(IBLOB *bp)
     }
 
     appendLogText(i18n("Image received."));
-
+/**
     if (solverBackendGroup->checkedId() != SOLVER_REMOTE)
     {
+    **/
         if (blobType == ISD::CCD::BLOB_FITS)
         {
             ISD::CCDChip *targetChip =
@@ -3055,7 +3074,8 @@ void Align::newFITS(IBLOB *bp)
         }
 
         setCaptureComplete();
-    }
+    //}
+
 }
 
 void Align::setCaptureComplete()
@@ -3071,8 +3091,7 @@ void Align::setCaptureComplete()
 
     emit newImage(alignView);
 
-    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET &&
-            astrometryTypeCombo->currentIndex() == SOLVER_ONLINE &&
+    if (solverTypeCombo->currentIndex() == SSolver::SOLVER_ONLINEASTROMETRY &&
             Options::astrometryUseJPEG())
     {
         ISD::CCDChip *targetChip =
@@ -3088,7 +3107,8 @@ void Align::setCaptureComplete()
 
     solverFOV->setImage(alignView->getDisplayImage());
 
-    startSolving(blobFileName);
+    fileToSolve = blobFileName;
+    startSolving();
 }
 
 void Align::setSolverAction(int mode)
@@ -3097,38 +3117,58 @@ void Align::setSolverAction(int mode)
     currentGotoMode = static_cast<GotoMode>(mode);
 }
 
-void Align::startSolving(const QString &filename, bool isGenerated)
+void Align::startSolving()
 {
-
-    //Note this is temporary, just a test to see if it works.
-    //To really integrate StellarSolver, some of the options that I hard coded here should be in the Align options
-    //Also this is currently just working off the image in the Alignview.  That will NOT work for the Load and Slew command.
+    //getSolverOptionsFromFITS(fileToSolve); //This should not have to get this stuff from the file, it already knows it!
 
     FITSData *data = alignView->getImageData();
-    stellarSolver = new StellarSolver(SSolver::STELLARSOLVER, data->getStatistics(), data->getImageBuffer());
+    stellarSolver = new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer());
+    stellarSolver->setSextractorType((SSolver::SextractorType)sextractorTypeCombo->currentIndex());
+    stellarSolver->setSolverType((SSolver::SolverType)solverTypeCombo->currentIndex());
     connect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
     connect(stellarSolver, &StellarSolver::logOutput, this, &Align::appendLogText);
     stellarSolver->setIndexFolderPaths(KSUtils::getAstrometryDataDirs());
-    stellarSolver->setParameterProfile(SSolver::Parameters::PARALLEL_SMALLSCALE);
+    stellarSolver->setParameters(optionsList.at(optionsProfile->currentIndex()));
+
+    if(stellarSolver->solverType == SSolver::SOLVER_LOCALASTROMETRY || stellarSolver->solverType == SSolver::SOLVER_ASTAP)
+    {
+        stellarSolver->fileToProcess = fileToSolve;
+
+        if(Options::sextractorIsInternal())
+            stellarSolver->sextractorBinaryPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/sex";
+        else
+            stellarSolver->sextractorBinaryPath = Options::sextractorBinary();
+
+        if (Options::astrometrySolverIsInternal())
+            stellarSolver->solverPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field";
+        else
+            stellarSolver->solverPath= Options::astrometrySolverBinary();
+
+        stellarSolver->astapBinaryPath = Options::aSTAPExecutable();
+        if (Options::astrometryWCSIsInternal())
+            stellarSolver->wcsPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/wcsinfo";
+        else
+            stellarSolver->wcsPath = Options::astrometryWCSInfo();
+        //stellarSolver->cleanupTemporaryFiles = ui->cleanupTemp->isChecked();
+
+        stellarSolver->autoGenerateAstroConfig = true; //No need for a conf file this way.
+    }
+
+    if(stellarSolver->solverType == SSolver::SOLVER_ONLINEASTROMETRY )
+    {
+        stellarSolver->astrometryAPIKey = Options::astrometryAPIKey();
+        stellarSolver->astrometryAPIURL = Options::astrometryAPIURL();
+    }
+
     //Setting the initial search scale settings
     if(Options::astrometryUseImageScale())
     {
-        QString fov_low, fov_high;
-        double fov_w = fov_x;
-        double fov_h = fov_y;
        SSolver::ScaleUnits units = (SSolver::ScaleUnits)Options::astrometryImageScaleUnits();
-
-        if (units == SSolver::ARCMIN_WIDTH)
-        {
-            fov_w /= 60;
-            fov_h /= 60;
-        }
-        else if (units == SSolver::ARCSEC_PER_PIX)
-        {
-            fov_w = fov_pixscale;
-            fov_h = fov_pixscale;
-        }
-        stellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
+       double fov = Options::astrometryImageScaleLow();
+       double fovH = Options::astrometryImageScaleHigh();
+       appendLogText("Low: " + QString::number( fov));
+       appendLogText("High: " + QString::number( fovH));
+       stellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
     }
     else
         stellarSolver->setUseScale(false);
@@ -3281,7 +3321,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     m_AlignTimer.stop();
-
+/**
     if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET &&
             astrometryTypeCombo->currentIndex() == SOLVER_REMOTE &&
             remoteParser.get() != nullptr)
@@ -3289,6 +3329,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         // Disable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(false);
     }
+    **/
 
     int binx, biny;
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
@@ -3655,7 +3696,8 @@ void Align::solverFailed()
 void Align::abort()
 {
     m_CaptureTimer.stop();
-    parser->stopSolver();
+    stellarSolver->abort();
+    //parser->stopSolver();
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
@@ -3828,7 +3870,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     Options::setAstrometryPositionRA(nvp->np[0].value * 15);
                     Options::setAstrometryPositionDE(nvp->np[1].value);
 
-                    generateArgs();
+                    //generateArgs();
                 }
 
                 // If dome is syncing, wait until it stops
@@ -4715,13 +4757,13 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
-    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
+    if(solverTypeCombo->currentIndex()==SSolver::SOLVER_LOCALASTROMETRY)
     {
         if(!Options::useSextractor())
         {
             if(Options::useDefaultPython())
             {
-                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
                 {
                     KSNotification::error(
                         i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
@@ -4760,7 +4802,9 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSolving(newFileURL, false);
+    alignView->loadFITS(newFileURL,false);
+    fileToSolve = newFileURL;
+    connect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     return true;
 }
@@ -4784,23 +4828,23 @@ void Align::setBinningIndex(int binIndex)
     }
 
     // Need to calculate FOV and args for APP
-    if (Options::astrometryImageScaleUnits() == OpsAstrometry::SCALE_ARCSECPERPIX)
+    if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
     {
         calculateFOV();
-        generateArgs();
+        //generateArgs();
     }
 }
-
+/**
 void Align::setSolverArguments(const QString &value)
 {
-    solverOptions->setText(value);
+    //solverOptions->setText(value);
 }
 
 QString Align::solverArguments()
 {
-    return solverOptions->text();
+   // return solverOptions->text();
 }
-
+**/
 void Align::setFOVTelescopeType(int index)
 {
     FOVScopeCombo->setCurrentIndex(index);
@@ -4979,6 +5023,7 @@ void Align::setFocusStatus(Ekos::FocusState state)
     focusState = state;
 }
 
+/**
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 {
     QVariantMap optionsMap;
@@ -5200,6 +5245,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
     return solver_args;
 }
+**/
 
 uint8_t Align::getSolverDownsample(uint16_t binnedW)
 {
@@ -6237,7 +6283,7 @@ QStringList Align::getActiveSolvers() const
 
 int Align::getActiveSolverIndex() const
 {
-    return solverBackendGroup->checkedId();
+    return solverTypeCombo->currentIndex();
 }
 
 QString Align::getPAHMessage() const
@@ -6286,8 +6332,8 @@ QJsonObject Align::getSettings() const
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
-    settings.insert("solverBackend", solverBackendGroup->checkedId());
-    settings.insert("solverType", astrometryTypeCombo->currentIndex());
+    //settings.insert("solverBackend", solverBackendGroup->checkedId());
+    //settings.insert("solverType", astrometryTypeCombo->currentIndex());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
 
     return settings;
@@ -6304,9 +6350,9 @@ void Align::setSettings(const QJsonObject &settings)
 
     gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
 
-    int solverBackend = settings["solverBackend"].toInt(1);
-    int solverType = settings["solverType"].toInt(1);
-
+    //int solverBackend = settings["solverBackend"].toInt(1);
+    //int solverType = settings["solverType"].toInt(1);
+/**
     if (solverBackend == SOLVER_ASTROMETRYNET)
     {
         Options::setAstrometrySolverType(solverType);
@@ -6317,6 +6363,7 @@ void Align::setSettings(const QJsonObject &settings)
     {
         solverBackendGroup->button(SOLVER_ASTAP)->animateClick();
     }
+    **/
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 }
 

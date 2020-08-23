@@ -114,10 +114,13 @@ if (INDI_FOUND)
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
+            ekos/align/opsprograms.ui
             ekos/align/opsalign.ui
             ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
+            ekos/align/optionsprofileeditor.ui
             ekos/align/mountmodel.ui
+            ekos/align/optionsprofileeditor.ui
             ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
@@ -186,8 +189,10 @@ if (INDI_FOUND)
             ekos/align/astrometryparser.cpp
             ekos/align/opsastrometry.cpp
             ekos/align/opsalign.cpp
+            ekos/align/opsprograms.cpp
             ekos/align/opsastrometrycfg.cpp
             ekos/align/opsastrometryindexfiles.cpp
+            ekos/align/optionsprofileeditor.cpp
             ekos/align/opsastap.cpp
             ekos/align/offlineastrometryparser.cpp
             ekos/align/onlineastrometryparser.cpp

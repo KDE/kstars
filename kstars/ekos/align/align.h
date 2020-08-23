@@ -48,6 +48,8 @@ class RemoteAstrometryParser;
 class ASTAPAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;
+class OptionsProfileEditor;
+class OpsPrograms;
 class OpsASTAP;
 class OpsAstrometryCfg;
 class OpsAstrometryIndexFiles;
@@ -77,7 +79,7 @@ class Align : public QWidget, public Ui::Align
         Q_PROPERTY(QList<double> fov READ fov)
         Q_PROPERTY(QList<double> cameraInfo READ cameraInfo)
         Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo)
-        Q_PROPERTY(QString solverArguments READ solverArguments WRITE setSolverArguments)
+        //Q_PROPERTY(QString solverArguments READ solverArguments WRITE setSolverArguments)
 
     public:
         explicit Align(ProfileInfo *activeProfile);
@@ -121,9 +123,6 @@ class Align : public QWidget, public Ui::Align
             PAH_ERROR
         } PAHStage;
         typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
-
-        // Image Scales
-        const QStringList ImageScales = { "dw", "aw", "app" };
 
         enum CircleSolution
         {
@@ -178,10 +177,11 @@ class Align : public QWidget, public Ui::Align
              * @param isGenerated Set to true if filename is generated from a CCD capture operation. If the file is loaded from any storage or network media, pass false.
              * @return Returns true if device if found and selected, false otherwise.
              */
-        Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated = true);
+        Q_SCRIPTABLE Q_NOREPLY void startSolving();
 
         StellarSolver *stellarSolver = nullptr;
-
+        QList<SSolver::Parameters> optionsList;
+        QString fileToSolve;
 
 
         /** DBUS interface function.
@@ -227,13 +227,13 @@ class Align : public QWidget, public Ui::Align
              * Sets the arguments that gets passed to the astrometry.net offline solver.
              * @param value space-separated arguments.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString &value);
+        //Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString &value);
 
         /** DBUS interface function.
              * Get existing solver options.
              * @return String containing all arguments.
              */
-        Q_SCRIPTABLE QString solverArguments();
+        //Q_SCRIPTABLE QString solverArguments();
 
         /** DBUS interface function.
              * Sets the telescope type (PRIMARY or GUIDE) that should be used for FOV calculations. This value is loaded form driver settings by default.
@@ -309,7 +309,7 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief Generate arguments we pass to the online and offline solvers. Keep user own arguments in place.
              */
-        void generateArgs();
+        //void generateArgs();
 
         /**
              * @brief Does our parser exist in the system?
@@ -358,7 +358,7 @@ class Align : public QWidget, public Ui::Align
              * @param optionsMap List of key=value pairs for all astrometry.net options
              * @return String List of valid astrometry.net options
              */
-        static QStringList generateOptions(const QVariantMap &optionsMap, uint8_t solverType = SOLVER_ASTROMETRYNET);
+        //static QStringList generateOptions(const QVariantMap &optionsMap, uint8_t solverType = SOLVER_ASTROMETRYNET);
         static void generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance = 0.05);
 
     public slots:
@@ -414,13 +414,13 @@ class Align : public QWidget, public Ui::Align
              * Select the solver type
              * @param type Set solver type. 0 ASTAP, 1 astrometry.net
              */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverBackend(int type);
+        //Q_SCRIPTABLE Q_NOREPLY void setSolverBackend(int type);
 
         /** DBUS interface function.
              * Select the astrometry solver type
              * @param type Set solver type. 0 online, 1 offline, 2 remote
              */
-        Q_SCRIPTABLE Q_NOREPLY void setAstrometrySolverType(int type);
+        //Q_SCRIPTABLE Q_NOREPLY void setAstrometrySolverType(int type);
 
         /** DBUS interface function.
              * Capture and solve an image using the astrometry.net engine
@@ -665,7 +665,7 @@ class Align : public QWidget, public Ui::Align
              * @param filename FITS path
              * @return List of Solver options
              */
-        QStringList getSolverOptionsFromFITS(const QString &filename);
+       // QStringList getSolverOptionsFromFITS(const QString &filename);
 
         uint8_t getSolverDownsample(uint16_t binnedW);
 
@@ -904,9 +904,11 @@ class Align : public QWidget, public Ui::Align
         // Astrometry Options
         OpsAstrometry *opsAstrometry { nullptr };
         OpsAlign *opsAlign { nullptr };
+        OpsPrograms *opsPrograms { nullptr };
         OpsAstrometryCfg *opsAstrometryCfg { nullptr };
         OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
         OpsASTAP *opsASTAP { nullptr };
+        OptionsProfileEditor *optionsProfileEditor { nullptr };
         QCPCurve *centralTarget { nullptr };
         QCPCurve *yellowTarget { nullptr };
         QCPCurve *redTarget { nullptr };

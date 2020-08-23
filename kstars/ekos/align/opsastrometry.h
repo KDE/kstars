@@ -11,6 +11,7 @@
 #pragma once
 
 #include "ui_opsastrometry.h"
+#include "parameters.h"
 
 #include <QWidget>
 
@@ -25,12 +26,6 @@ class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
     Q_OBJECT
 
   public:
-    enum
-    {
-        SCALE_DEGREES,
-        SCALE_ARCMINUTES,
-        SCALE_ARCSECPERPIX
-    };
 
     explicit OpsAstrometry(Align *parent);
     virtual ~OpsAstrometry() override = default;
