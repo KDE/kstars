@@ -5192,7 +5192,7 @@ void Align::setCaptureStatus(CaptureState newState)
         {
             // Only reset targetCoord if capture wasn't suspended then resumed due to error duing ongoing
             // capture
-            if (m_CaptureState != CAPTURE_SUSPENDED)
+            if (currentTelescope && m_CaptureState != CAPTURE_SUSPENDED)
             {
                 double ra, dec;
                 currentTelescope->getEqCoords(&ra, &dec);
