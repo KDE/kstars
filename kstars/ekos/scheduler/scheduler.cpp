@@ -4434,8 +4434,15 @@ void Scheduler::findNextJob()
             /* FIXME: raise priority to allow other jobs to schedule in-between */
             executeJob(currentJob);
 
+            /* JM 2020-08-23: If user opts to force realign instead of for each job then we force this FIRST */
+            if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
+            {
+                stopGuiding();
+                currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
+                startAstrometry();
+            }
             /* If we are guiding, continue capturing */
-            if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            else if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) )
             {
                 currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
                 startCapture();
@@ -4470,9 +4477,19 @@ void Scheduler::findNextJob()
     {
         executeJob(currentJob);
 
-        currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+        if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
+        {
+            stopGuiding();
+            currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
+            startAstrometry();
+        }
+        else
+        {
+            currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+            startCapture();
+        }
+
         captureBatch++;
-        startCapture();
 
         appendLogText(i18n("Job '%1' is repeating, looping indefinitely.", currentJob->getName()));
         /* currentJob remains the same */
@@ -4504,9 +4521,19 @@ void Scheduler::findNextJob()
         {
             executeJob(currentJob);
 
-            currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+            if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
+            {
+                stopGuiding();
+                currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
+                startAstrometry();
+            }
+            else
+            {
+                currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+                startCapture();
+            }
+
             captureBatch++;
-            startCapture();
 
             appendLogText(i18np("Job '%1' completed #%2 batch before completion time, restarted.",
                                 "Job '%1' completed #%2 batches before completion time, restarted.",

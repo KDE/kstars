@@ -430,9 +430,19 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="kfcg_ResetMountModelBeforeJob">
+        <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
          <property name="text">
           <string>Reset Mount Model Before Starting Each Job</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
+         <property name="toolTip">
+          <string>If Align is enabled, scheduler would a realignment procedure before restarting any jobs even if guiding is active.</string>
+         </property>
+         <property name="text">
+          <string>Force Re-alignment Before Starting Each Job</string>
          </property>
         </widget>
        </item>

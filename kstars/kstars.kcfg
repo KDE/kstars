@@ -2415,6 +2415,10 @@
          <label>Always Reset guiding calibration before starting each job.</label>
          <default>true</default>
       </entry>
+      <entry name="ForceAlignmentBeforeJob" type="Bool">
+         <label>Force alignment before starting or restarting each job.</label>
+         <default>false</default>
+      </entry>
       <entry name="ReuseGuideCalibration" type="Bool">
          <label>Guider may re-use guiding calibration if one is available.</label>
          <default>false</default>
