@@ -8,6 +8,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "kstars_ui_tests.h"
 #include "test_ekos_simulator.h"
 
 #if defined(HAVE_INDI)
@@ -158,5 +159,7 @@ void TestEkosSimulator::testMountSlew()
     QVERIFY(Ekos::Manager::Instance()->mountModule()->abort());
 #endif
 }
+
+QTEST_KSTARS_MAIN(TestEkosSimulator)
 
 #endif // HAVE_INDI

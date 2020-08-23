@@ -34,10 +34,11 @@
     QVERIFY2(name != nullptr, QString(#klass "'%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
 
 #define KTRY_EKOS_CLICK(button) do { \
-    QTimer::singleShot(200, Ekos::Manager::Instance(), []() { \
+    QTimer::singleShot(100, Ekos::Manager::Instance(), []() { \
         KTRY_EKOS_GADGET(QPushButton, button); \
         QVERIFY2(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str()); \
-        QTest::mouseClick(button, Qt::LeftButton); }); } while(false)
+        QTest::mouseClick(button, Qt::LeftButton); }); \
+    QTest::qWait(200); } while(false)
 
 #define KTRY_EKOS_START_SIMULATORS() do { \
     KTRY_EKOS_SELECT_PROFILE("Simulators"); \

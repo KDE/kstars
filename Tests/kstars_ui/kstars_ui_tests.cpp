@@ -50,16 +50,15 @@ QT_BEGIN_NAMESPACE
 QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS
 QT_END_NAMESPACE
 
-int main(int argc, char *argv[])
+void prepare_tests()
 {
-    // Create our test application
-    QApplication app(argc, argv);
-    app.setAttribute(Qt::AA_Use96Dpi, true);
+    // Configure our test UI
+    QApplication::instance()->setAttribute(Qt::AA_Use96Dpi, true);
     QTEST_ADD_GPU_BLACKLIST_SUPPORT
     QTEST_SET_MAIN_SOURCE_PATH
     QApplication::processEvents();
 
-    // Prepare our configuration
+    // Prepare our KStars configuration
     srand((unsigned int)time(nullptr));
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
@@ -67,74 +66,41 @@ int main(int argc, char *argv[])
 
     // Explicitly provide the RC file from the main app resources, not the user-customized one
     KStars::setResourceFile(":/kxmlgui5/kstars/kstarsui.rc");
+}
 
-    // This holds the final result of the test session
+int run_wizards(int argc, char *argv[])
+{
     int failure = 0;
 
-    // Execute tests in sequence, eventually skipping sub-tests based on prior ones
-    QTimer::singleShot(1000, &app, [&]
+    // This cleans the test user settings, creates our instance and manages the startup wizard
+    if (!failure)
     {
-        qDebug("Starting tests...");
-
-        // This is a no-op test class for documentation
-        KStarsUiTests * tc = new KStarsUiTests();
-        failure |= QTest::qExec(tc, argc, argv);
-        delete tc;
-
-        // This cleans the test user settings, creates our instance and manages the startup wizard
-        if (!failure)
-        {
-            TestKStarsStartup * ti = new TestKStarsStartup();
-            failure |= QTest::qExec(ti, argc, argv);
-            delete ti;
-        }
+        TestKStarsStartup * ti = new TestKStarsStartup();
+        failure |= QTest::qExec(ti);//, argc, argv);
+        delete ti;
+    }
 
 #if defined(HAVE_INDI)
-        if (!failure)
-        {
-            TestEkosWizard * ew = new TestEkosWizard();
-            failure |= QTest::qExec(ew, argc, argv);
-            delete ew;
-        }
-
-        if (!failure)
-        {
-            TestEkos * ek = new TestEkos();
-            failure |= QTest::qExec(ek, argc, argv);
-            delete ek;
-        }
-
-        if (!failure)
-        {
-            TestEkosSimulator * ek = new TestEkosSimulator();
-            failure |= QTest::qExec(ek, argc, argv);
-            delete ek;
-        }
-
-        if (!failure)
-        {
-            TestEkosGuide * ek = new TestEkosGuide();
-            failure |= QTest::qExec(ek, argc, argv);
-            delete ek;
-        }
-
-        if (!failure)
-        {
-            TestEkosFocus * ek = new TestEkosFocus();
-            failure |= QTest::qExec(ek, argc, argv);
-            delete ek;
-        }
+    // If we test with INDI, this takes care of the Ekos startup wizard
+    if (!failure)
+    {
+        TestEkosWizard * ew = new TestEkosWizard();
+        failure |= QTest::qExec(ew);//, argc, argv);
+        delete ew;
+    }
 #endif
 
-        // Done testing, successful or not
-        qDebug("Tests are done.");
-        app.quit();
-    });
+    return failure;
+}
+
+void execute_tests()
+{
+    QCoreApplication *app = QApplication::instance();
 
     // Limit execution duration
-    QTimer::singleShot(9 * 60 * 1000, &app, &QCoreApplication::quit);
+    QTimer::singleShot(9 * 60 * 1000, app, &QCoreApplication::quit);
 
-    app.exec();
+    app->exec();
 
     // Clean our instance up if it is still alive
     if( KStars::Instance() != nullptr)
@@ -142,7 +108,44 @@ int main(int argc, char *argv[])
         KStars::Instance()->close();
         delete KStars::Instance();
     }
-
-    return failure;
 }
 
+#if 1
+//QTEST_KSTARS_MAIN(KStarsUiTests)
+#else
+// This weak main function serves when only the KStars tests are run, and nothing else.
+// It serves as an expanded example to what happens when running tests with KSTARS_UI_TEST.
+int __attribute__((weak)) main(int argc, char * argv[])
+{
+    // We create our application
+    QApplication app(argc, argv);
+
+    // We configure our application environment
+    prepare_tests();
+
+    int failure = 0;
+
+    // We delay the tests with a timer because we need to run tests in an initialized UI
+    QTimer::singleShot(1000, QApplication::instance(), [&] {
+
+        qDebug("Starting tests...");
+
+        // Run KStars wizard
+        failure |= run_wizards(argc, argv);
+
+        // Run example tests - we'd better test our documentation :)
+        KStarsUiTests tc;
+        failure |= QTest::qExec(&tc, argc, argv);
+
+        qDebug("Tests are done.");
+
+        QApplication::instance()->quit();
+    });
+
+    // We launch the UI application, and let delayed tests do their job asynchronously
+    execute_tests();
+
+    // And we return the result
+    return failure;
+}
+#endif

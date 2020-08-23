@@ -152,4 +152,3 @@ void TestKStarsStartup::testInitialConditions()
              m_InitialConditions.dateTime.toSecsSinceEpoch());
 #endif
 }
-

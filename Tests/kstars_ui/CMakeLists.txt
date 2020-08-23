@@ -1,12 +1,7 @@
 
 SET(KSTARS_UI_TESTS_SRC
     kstars_ui_tests.cpp
-    test_kstars_startup.cpp
-    test_ekos_wizard.cpp
-    test_ekos.cpp
-    test_ekos_focus.cpp
-    test_ekos_guide.cpp
-    test_ekos_simulator.cpp)
+    test_kstars_startup.cpp)
 
 include_directories(${CFITSIO_INCLUDE_DIR})
 
@@ -20,14 +15,36 @@ ECM_ADD_APP_ICON(KSTARS_UI_TESTS_SRC ICONS
 
 QT5_ADD_RESOURCES(KSTARS_UI_TESTS_SRC ../../kstars/data/kstars.qrc)
 
-ADD_EXECUTABLE(kstars_ui_tests ${KSTARS_UI_TESTS_SRC})
-TARGET_LINK_LIBRARIES(kstars_ui_tests ${TEST_LIBRARIES} ${CFITSIO_LIBRARIES})
-ADD_CUSTOM_COMMAND( TARGET kstars_ui_tests POST_BUILD
+IF (INDI_FOUND)
+
+INCLUDE_DIRECTORIES(${INDI_INCLUDE_DIR})
+SET(KSTARS_UI_EKOS_SRC ${KSTARS_UI_TESTS_SRC} test_ekos_wizard.cpp)
+SET(KSTARS_UI_EKOS_LIBS ${TEST_LIBRARIES} ${CFITSIO_LIBRARIES} ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
+
+ADD_EXECUTABLE(test_ekos ${KSTARS_UI_EKOS_SRC} test_ekos.cpp)
+TARGET_LINK_LIBRARIES(test_ekos ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosProfiles COMMAND test_ekos)
+
+ADD_EXECUTABLE(test_ekos_simulator ${KSTARS_UI_EKOS_SRC} test_ekos_simulator.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_simulator ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosSimulator COMMAND test_ekos_simulator)
+
+ADD_EXECUTABLE(test_ekos_focus ${KSTARS_UI_EKOS_SRC} test_ekos_focus.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_focus ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosFocus COMMAND test_ekos_focus)
+
+ADD_EXECUTABLE(test_ekos_guide ${KSTARS_UI_EKOS_SRC} test_ekos_guide.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_guide ${KSTARS_UI_EKOS_LIBS})
+ADD_CUSTOM_COMMAND( TARGET test_ekos_guide POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_SOURCE_DIR}/phd2_Simulators.PHDGuidingV2
             ${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2)
+ADD_TEST(NAME TestEkosGuide COMMAND test_ekos_guide)
 
-IF (INDI_FOUND)
-    INCLUDE_DIRECTORIES(${INDI_INCLUDE_DIR})
-    TARGET_LINK_LIBRARIES(kstars_ui_tests ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
+ELSE ()
+
+ADD_EXECUTABLE(test_kstars_ui ${KSTARS_UI_TESTS_SRC})
+TARGET_LINK_LIBRARIES(test_kstars_ui ${TEST_LIBRARIES})
+ADD_TEST(NAME TestKstarsUI COMMAND test_kstars_ui)
+
 ENDIF ()

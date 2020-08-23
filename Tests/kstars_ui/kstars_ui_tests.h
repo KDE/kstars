@@ -21,6 +21,44 @@
 
 class KStars;
 
+// We need to call a set of preliminary operations for each UI test, such as the KStars Wizard setup.
+// We also need QtCreator to detect our tests - that application scans class definitions for qExec calls.
+
+// If no KSTARS_UI_TEST is defined, this is our default main
+//extern int main(int argc, char *argv[]) __attribute__((weak));
+
+// The KSTARS_UI_TEST macro is used like QTEST_MAIN, and runs:
+// - The Qt UI configuration
+// - The KStars environment configuration
+// - The KStars wizard, and eventually the Ekos wizard if INDI is available
+// - The designated test class
+// Execution of the application is asynchronous, and tests are delayed as if an end-user was using the app
+
+extern void prepare_tests();
+extern int run_wizards(int argc, char **argv);
+extern void execute_tests();
+
+#define QTEST_KSTARS_MAIN(klass) \
+    int main(int argc, char *argv[]) { \
+        klass tc; \
+        for (int i = 0; i < argc; i++) \
+            if (!strcmp("-functions", argv[i])) \
+                return QTest::qExec(&tc, argc, argv); \
+        QApplication app(argc, argv); \
+        prepare_tests(); \
+        int failure = 0; \
+        QTimer::singleShot(1000, &app, [&] { \
+            qDebug("Starting tests..."); \
+            failure |= run_wizards(argc, argv); \
+            if (!failure) { \
+                failure |= QTest::qExec(&tc, argc, argv); \
+            } \
+            qDebug("Tests are done."); \
+            app.quit(); \
+        }); \
+        execute_tests(); \
+        return failure; }
+
 // All QTest features are macros returning with no error code.
 // Therefore, in order to bail out at first failure, tests cannot use functions to run sub-tests and are required to use grouping macros too.
 // Tests classes in this folder should attempt to provide new macro shortcuts once their details are properly validated

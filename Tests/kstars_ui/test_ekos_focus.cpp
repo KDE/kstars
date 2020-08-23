@@ -64,7 +64,7 @@ void TestEkosFocus::testStarDetection_data()
     KSNumbers const numbers(now.djd());
     CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst());
 
-    std::list<char const *> Objects = { "Polaris", "Mizar", "M 51", "M 13", "M 47", "Pherkab", "Dubhe", "Vega", "NGC 2238", "M 81" };
+    std::list<char const *> Objects = { "Polaris", "Mizar", "M 51", "M 13", "M 47", "Vega", "NGC 2238", "M 81" };
     size_t count = 0;
 
     foreach (char const *name, Objects)
@@ -170,5 +170,7 @@ void TestEkosFocus::testStarDetection()
     }
 #endif
 }
+
+QTEST_KSTARS_MAIN(TestEkosFocus)
 
 #endif // HAVE_INDI

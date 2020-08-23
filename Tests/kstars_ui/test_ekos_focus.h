@@ -36,10 +36,11 @@
  * @warning Fails the test if the button is not currently enabled.
  */
 #define KTRY_FOCUS_CLICK(button) do { \
-    QTimer::singleShot(200, Ekos::Manager::Instance(), []() { \
+    QTimer::singleShot(100, Ekos::Manager::Instance(), []() { \
         KTRY_FOCUS_GADGET(QPushButton, button); \
         QVERIFY2(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str()); \
-        QTest::mouseClick(button, Qt::LeftButton); }); } while(false)
+        QTest::mouseClick(button, Qt::LeftButton); }); \
+    QTest::qWait(200); } while(false)
 
 /** @brief Helper to set a string text into a QComboBox in the Focus module.
  * @param combobox is the gadget name of the QComboBox to look for in the UI configuration.

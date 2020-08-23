@@ -692,6 +692,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             break;
 
         case CLEAR_CALIBRATION_COMMAND_RECEIVED:    //clear_calibration
+            emit newLog(i18n("PHD2: Calibration is cleared"));
             break;
 
         case DITHER_COMMAND_RECEIVED:               //dither
