@@ -1447,8 +1447,23 @@ bool Mount::sync(const QString &RA, const QString &DEC)
 {
     dms ra, de;
 
-    ra = dms::fromString(RA, false);
-    de = dms::fromString(DEC, true);
+    if (m_equatorialCheck->property("checked").toBool())
+    {
+        ra = dms::fromString(RA, false);
+        de = dms::fromString(DEC, true);
+    }
+    else
+    {
+        dms az = dms::fromString(RA, true);
+        dms at = dms::fromString(DEC, true);
+        SkyPoint horizontalTarget;
+        horizontalTarget.setAz(az);
+        horizontalTarget.setAlt(at);
+        horizontalTarget.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+        ra = horizontalTarget.ra();
+        de = horizontalTarget.dec();
+    }
 
     if (m_J2000Check->property("checked").toBool())
     {
