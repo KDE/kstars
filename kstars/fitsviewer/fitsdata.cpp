@@ -985,9 +985,22 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
     switch (algorithm)
     {
         case ALGORITHM_SEP:
-            count = FITSSEPDetector(this)
-                    .findSources(starCenters, trackingBox);
+        {
+            if (m_Mode == FITS_NORMAL && trackingBox.isNull() && Options::quickHFR())
+            {
+                // Just finds stars in the center 25% of the image.
+                const int w = getStatistics().width;
+                const int h = getStatistics().height;
+                QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
+                count = FITSSEPDetector(this)
+                        .configure("radiusIsBoundary", "false") // need this with QRect.
+                        .findSources(starCenters, middle);
+            }
+            else
+                count = FITSSEPDetector(this)
+                        .findSources(starCenters, trackingBox);
             break;
+        }
 
         case ALGORITHM_GRADIENT:
             count = FITSGradientDetector(this)
@@ -2504,7 +2517,7 @@ bool FITSData::checkDebayer()
     // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
     if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
-        
+
     fits_read_keyword(fptr, "ROWORDER", roworder, nullptr, &status);
 
     if (stats.bitpix != 16 && stats.bitpix != 8)
@@ -2514,11 +2527,12 @@ bool FITSData::checkDebayer()
     }
     QString pattern(bayerPattern);
     pattern = pattern.remove('\'').trimmed();
-    
+
     QString order(roworder);
     order = order.remove('\'').trimmed();
-    
-    if (order == "BOTTOM-UP") {
+
+    if (order == "BOTTOM-UP")
+    {
         if (pattern == "RGGB")
             pattern = "GBRG";
         else if (pattern == "GBRG")

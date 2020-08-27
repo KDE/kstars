@@ -34,6 +34,7 @@ InternalGuider::InternalGuider()
     // Create math object
     pmath.reset(new cgmath());
     connect(pmath.get(), &cgmath::newStarPosition, this, &InternalGuider::newStarPosition);
+    connect(pmath.get(), &cgmath::guideStats, this, &InternalGuider::guideStats);
 
     // Do this so that stored calibration will be visible on the
     // guide options menu. Calibration will get restored again when needed.

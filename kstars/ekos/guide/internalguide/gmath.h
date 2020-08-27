@@ -197,6 +197,10 @@ class cgmath : public QObject
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);
 
+        // For Analyze.
+        void guideStats(double raError, double decError, int raPulse, int decPulse,
+                        double snr, double skyBg, int numStars);
+
     private:
         // Templated functions
         template <typename T>
@@ -213,6 +217,9 @@ class cgmath : public QObject
 
         // Old-stye Logging--deprecate.
         void createGuideLog();
+
+        // For Analyze.
+        void emitStats();
 
         /// Global channel ticker
         uint32_t ticks { 0 };

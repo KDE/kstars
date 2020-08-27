@@ -1180,6 +1180,9 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
         // process statistics
         calc_square_err();
 
+        if (guiding)
+            emitStats();
+
         // finally process tickers
         do_ticks();
     }
@@ -1216,6 +1219,28 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
         logger->addGuideData(data);
     }
     qCDebug(KSTARS_EKOS_GUIDE) << "################## FINISH PROCESSING ##################";
+}
+
+void cgmath::emitStats()
+{
+    double pulseRA = 0;
+    if (out_params.pulse_dir[GUIDE_RA] == RA_DEC_DIR)
+        pulseRA = out_params.pulse_length[GUIDE_RA];
+    else if (out_params.pulse_dir[GUIDE_RA] == RA_INC_DIR)
+        pulseRA = -out_params.pulse_length[GUIDE_RA];
+    double pulseDEC = 0;
+    if (out_params.pulse_dir[GUIDE_DEC] == DEC_DEC_DIR)
+        pulseDEC = -out_params.pulse_length[GUIDE_DEC];
+    else if (out_params.pulse_dir[GUIDE_DEC] == DEC_INC_DIR)
+        pulseDEC = out_params.pulse_length[GUIDE_DEC];
+
+    const bool hasGuidestars = (square_alg_idx == SEP_MULTISTAR);
+    const double snr = hasGuidestars ? guideStars.getGuideStarSNR() : 0;
+    const double skyBG = hasGuidestars ? guideStars.skybackground().mean : 0;
+    const int numStars = hasGuidestars ? guideStars.skybackground().starsDetected : 0;  // wait for rob's release
+
+    emit guideStats(-out_params.delta[GUIDE_RA], -out_params.delta[GUIDE_DEC],
+                    pulseRA, pulseDEC, snr, skyBG, numStars);
 }
 
 void cgmath::calc_square_err(void)

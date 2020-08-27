@@ -749,6 +749,9 @@ void Focus::start()
                                 << " Tolerance: " << toleranceIN->value()
                                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
+    emit autofocusStarting(focuserTemperature != INVALID_VALUE
+                           ? focuserTemperature : observatoryTemperature, filter());
+
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
     else
@@ -834,6 +837,17 @@ void Focus::checkStopFocus()
 
 void Focus::abort()
 {
+    QString str = "";
+    const int size = hfr_position.size();
+    for (int i = 0; i < size; ++i)
+    {
+        str.append(QString("%1%2|%3")
+                   .arg(i == 0 ? "" : "|" )
+                   .arg(QString::number(hfr_position[i], 'f', 0))
+                   .arg(QString::number(hfr_value[i], 'f', 3)));
+    }
+
+    emit autofocusAborted(filter(), str);
     stop(true);
 }
 
@@ -1260,6 +1274,20 @@ bool Focus::appendHFR(double newHFR)
     return HFRFrames.count() < focusFramesSpin->value();
 }
 
+void Focus::emitComplete()
+{
+    QString str = "";
+    const int size = hfr_position.size();
+    for (int i = 0; i < size; ++i)
+    {
+        str.append(QString("%1%2|%3")
+                   .arg(i == 0 ? "" : "|" )
+                   .arg(QString::number(hfr_position[i], 'f', 0))
+                   .arg(QString::number(hfr_value[i], 'f', 3)));
+    }
+    emit autofocusComplete(filter(), str);
+}
+
 void Focus::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
@@ -1333,6 +1361,7 @@ void Focus::setCaptureComplete()
             if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
             {
                 polySolutionFound = 0;
+                emitComplete();
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
@@ -1903,6 +1932,7 @@ void Focus::autoFocusLinear()
     {
         if (linearFocuser->isDone() && linearFocuser->solution() != -1)
         {
+            emitComplete();
             appendLogText(i18np("Autofocus complete after %1 iteration.",
                                 "Autofocus complete after %1 iterations.", hfr_position.count()));
             stop();
@@ -1998,6 +2028,7 @@ void Focus::autoFocusAbs()
                 }
                 else
                 {
+                    emitComplete();
                     appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                     stop();
                     setAutoFocusResult(true);
@@ -2187,6 +2218,7 @@ void Focus::autoFocusAbs()
             // Ops, we can't go any further, we're done.
             if (targetPosition == currentPosition)
             {
+                emitComplete();
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
@@ -2309,6 +2341,7 @@ void Focus::autoFocusRel()
         case FOCUS_OUT:
             if (fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
             {
+                emitComplete();
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);

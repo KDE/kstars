@@ -377,7 +377,8 @@ class Guide : public QWidget, public Ui::Guide
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
-        void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide);
+        void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
+                            const QString &ha);
 
         // Update Pier Side
         void setPierSide(ISD::Telescope::PierSide newSide);
@@ -492,6 +493,9 @@ class Guide : public QWidget, public Ui::Guide
         void newAxisDelta(double ra, double de);
         // Sigma deviations in arcsecs RMS
         void newAxisSigma(double ra, double de);
+
+        void guideStats(double raError, double decError, int raPulse, int decPulse,
+                        double snr, double skyBg, int numStars);
 
         void guideChipUpdated(ISD::CCDChip *);
 

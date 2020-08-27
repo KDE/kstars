@@ -483,6 +483,10 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
                 emit newAxisPulse(pulse_ra, pulse_dec);
 
+                // Does PHD2 real a sky background or num-stars measure?
+                emit guideStats(diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec,
+                                std::isfinite(snr) ? snr : 0, 0, 0);
+
                 double total_sqr_RA_error = 0.0;
                 double total_sqr_DE_error = 0.0;
 

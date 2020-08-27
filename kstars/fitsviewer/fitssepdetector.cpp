@@ -33,6 +33,8 @@ FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant
         deblendNThresh = value.toInt();
     else if (param == "deblendMincont")
         deblendMincont = value.toDouble();
+    else if (param == "radiusIsBoundary")
+        radiusIsBoundary = value.toBool();
     else
         qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
     return *this;
@@ -76,7 +78,8 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         y = boundary.y();
         w = boundary.width();
         h = boundary.height();
-        maxRadius = w;
+        if (radiusIsBoundary)
+            maxRadius = w;
     }
 
     auto * data = new float[w * h];
@@ -99,7 +102,10 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
             getFloatBuffer<uint32_t>(data, x, y, w, h, image_data);
             break;
         case TFLOAT:
-            memcpy(data, image_data->getImageBuffer(), sizeof(float)*w * h);
+            if (boundary.isNull())
+                memcpy(data, image_data->getImageBuffer(), sizeof(float)*w * h);
+            else
+                getFloatBuffer<float>(data, x, y, w, h, image_data);
             break;
         case TLONGLONG:
             getFloatBuffer<int64_t>(data, x, y, w, h, image_data);
@@ -148,6 +154,8 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
                          deblendNThresh, deblendMincont, 1, 1.0, &catalog);
     if (status != 0) goto exit;
     qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
+    if (bg != nullptr)
+        bg->setStarsDetected(catalog->nobj);
 
     // Skip the 20% largest stars if we have plenty.
     if (catalog->nobj * (1 - fractionRemoved) > maxNumCenters)
@@ -257,12 +265,14 @@ SkyBackground::SkyBackground(double mean_, double sigma_, double numPixels_)
     initialize(mean_, sigma_, numPixels_);
 }
 
-void SkyBackground::initialize(double mean_, double sigma_, double numPixelsInSkyEstimate_)
+void SkyBackground::initialize(double mean_, double sigma_,
+                               double numPixelsInSkyEstimate_, int numStars_)
 {
     mean = mean_;
     sigma = sigma_;
     numPixelsInSkyEstimate = numPixelsInSkyEstimate_;
     varSky = sigma_ * sigma_;
+    starsDetected = numStars_;
 }
 
 // Taken from: http://www1.phys.vt.edu/~jhs/phys3154/snr20040108.pdf

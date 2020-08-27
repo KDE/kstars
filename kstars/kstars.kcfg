@@ -1441,6 +1441,10 @@
       <label>Automatically compute HFRs of fits images</label>
       <default>false</default>
    </entry>
+   <entry name="QuickHFR" type="Bool">
+      <label>Compute the HFRs of normal images quickly by looking at the center 25% only.</label>
+      <default>true</default>
+   </entry>
    <entry name="AutoWCS" type="Bool">
       <label>Automatically process World-Coordinate-System (WCS) data when loading a FITS file.</label>
       <default>!KSUtils::isHardwareLimited()</default>
@@ -2502,6 +2506,72 @@
          <label>Re-schedule jobs that ran into errors.</label>
          <default>false</default>
       </entry>
+   </group>
+   <group name="Analyze">
+    <entry name="AnalyzeHFR" type="Bool">
+      <whatsthis>Display HFR on the Analyze Statistics Plot.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="AnalyzeNumStars" type="Bool">
+      <whatsthis>Display NumStars on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeSkyBg" type="Bool">
+      <whatsthis>Display SkyBackground on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeSNR" type="Bool">
+      <whatsthis>Display SNR on the Analyze Statistics Plot.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="AnalyzeRA" type="Bool">
+      <whatsthis>Display RA on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeDEC" type="Bool">
+      <whatsthis>Display DEC on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeRAp" type="Bool">
+      <whatsthis>Display RA Pulses on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeDECp" type="Bool">
+      <whatsthis>Display DEC Pulses on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeDrift" type="Bool">
+      <whatsthis>Display Drift on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeRMS" type="Bool">
+      <whatsthis>Display RMS Error on the Analyze Statistics Plot.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="AnalyzeMountRA" type="Bool">
+      <whatsthis>Display Mount RA on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeMountDEC" type="Bool">
+      <whatsthis>Display Mount DEC on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeMountHA" type="Bool">
+      <whatsthis>Display Mount Hour Angle on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeAz" type="Bool">
+      <whatsthis>Display Azimuth on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeAlt" type="Bool">
+      <whatsthis>Display Altitude on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzePierSide" type="Bool">
+      <whatsthis>Display PierSide on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
    </group>
    <group name="INDI Lite">
       <entry name="LastServer" type="String">

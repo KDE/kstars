@@ -120,6 +120,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // Enable scheduler Tab
     toolsWidget->setTabEnabled(1, false);
 
+    // Enable analyze Tab
+    toolsWidget->setTabEnabled(2, false);
+
     // Start/Stop INDI Server
     connect(processINDIB, &QPushButton::clicked, this, &Ekos::Manager::processINDI);
     processINDIB->setIcon(QIcon::fromTheme("media-playback-start"));
@@ -281,8 +284,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     // Initialize Ekos Scheduler Module
     schedulerProcess.reset(new Ekos::Scheduler());
-    toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
-    toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
+    int index = toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
@@ -290,6 +293,13 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
+
+    // Initialize Ekos Analyze Module
+    analyzeProcess.reset(new Ekos::Analyze());
+    index = toolsWidget->addTab(analyzeProcess.get(), QIcon(":/icons/ekos_analyze.png"), "");
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Analyze"));
+
+    numPermanentTabs = index + 1;
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -323,15 +333,13 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         QTransform trans;
         trans.rotate(90);
 
-        QIcon icon  = toolsWidget->tabIcon(0);
-        QPixmap pix = icon.pixmap(QSize(48, 48));
-        icon        = QIcon(pix.transformed(trans));
-        toolsWidget->setTabIcon(0, icon);
-
-        icon = toolsWidget->tabIcon(1);
-        pix  = icon.pixmap(QSize(48, 48));
-        icon = QIcon(pix.transformed(trans));
-        toolsWidget->setTabIcon(1, icon);
+        for (int i = 0; i < numPermanentTabs; ++i)
+        {
+            QIcon icon  = toolsWidget->tabIcon(i);
+            QPixmap pix = icon.pixmap(QSize(48, 48));
+            icon        = QIcon(pix.transformed(trans));
+            toolsWidget->setTabIcon(i, icon);
+        }
     }
 
     //Note:  This is to prevent a button from being called the default button
@@ -2577,7 +2585,7 @@ void Manager::removeTabs()
 {
     disconnect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
 
-    for (int i = 2; i < toolsWidget->count(); i++)
+    for (int i = numPermanentTabs; i < toolsWidget->count(); i++)
         toolsWidget->removeTab(i);
 
     alignProcess.reset();
@@ -2869,8 +2877,11 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
 }
 
-void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
+                                int pierSide, const QString &ha)
 {
+    Q_UNUSED(ha);
+    Q_UNUSED(pierSide);
     raOUT->setText(ra);
     decOUT->setText(dec);
     azOUT->setText(az);
@@ -3483,6 +3494,62 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(),
                 &EkosLive::Media::setCorrectionVector);
     }
+    // Analyze connections.
+    if (analyzeProcess.get())
+    {
+        if (captureProcess.get())
+        {
+            connect(captureProcess.get(), &Ekos::Capture::captureComplete,
+                    analyzeProcess.get(), &Ekos::Analyze::captureComplete, Qt::UniqueConnection);
+            connect(captureProcess.get(), &Ekos::Capture::captureStarting,
+                    analyzeProcess.get(), &Ekos::Analyze::captureStarting, Qt::UniqueConnection);
+            connect(captureProcess.get(), &Ekos::Capture::captureAborted,
+                    analyzeProcess.get(), &Ekos::Analyze::captureAborted, Qt::UniqueConnection);
+#if 0
+            // Meridian Flip
+            connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted,
+                    analyzeProcess.get(), &Ekos::Analyze::meridianFlipStarted, Qt::UniqueConnection);
+            connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted,
+                    analyzeProcess.get(), &Ekos::Analyze::meridianFlipComplete, Qt::UniqueConnection);
+#endif
+        }
+        if (guideProcess.get())
+        {
+            connect(guideProcess.get(), &Ekos::Guide::newStatus,
+                    analyzeProcess.get(), &Ekos::Analyze::guideState, Qt::UniqueConnection);
+
+            connect(guideProcess.get(), &Ekos::Guide::guideStats,
+                    analyzeProcess.get(), &Ekos::Analyze::guideStats, Qt::UniqueConnection);
+        }
+    }
+    if (focusProcess.get())
+    {
+        connect(focusProcess.get(), &Ekos::Focus::autofocusComplete,
+                analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::autofocusStarting,
+                analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,
+                analyzeProcess.get(), &Ekos::Analyze::autofocusAborted, Qt::UniqueConnection);
+    }
+    if (alignProcess.get())
+    {
+        connect(alignProcess.get(), &Ekos::Align::newStatus,
+                analyzeProcess.get(), &Ekos::Analyze::alignState, Qt::UniqueConnection);
+
+    }
+    if (mountProcess.get())
+    {
+        // void newStatus(ISD::Telescope::Status status);
+        connect(mountProcess.get(), &Ekos::Mount::newStatus,
+                analyzeProcess.get(), &Ekos::Analyze::mountState, Qt::UniqueConnection);
+        //void newCoords(const QString &ra, const QString &dec,
+        //               const QString &az, const QString &alt, int pierSide);
+        connect(mountProcess.get(), &Ekos::Mount::newCoords,
+                analyzeProcess.get(), &Ekos::Analyze::mountCoords, Qt::UniqueConnection);
+        // void newMeridianFlipStatus(MeridianFlipStatus status);
+        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus,
+                analyzeProcess.get(), &Ekos::Analyze::mountFlipStatus, Qt::UniqueConnection);
+    }
 }
 
 void Manager::setEkosLiveConnected(bool enabled)
@@ -3586,7 +3653,7 @@ void Manager::syncActiveDevices()
     }
 }
 
-bool Manager::checkUniqueBinaryDriver(DriverInfo *primaryDriver, DriverInfo *secondaryDriver)
+bool Manager::checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver)
 {
     if (!primaryDriver || !secondaryDriver)
         return false;

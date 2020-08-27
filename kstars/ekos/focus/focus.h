@@ -387,6 +387,10 @@ class Focus : public QWidget, public Ui::Focus
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
 
+        // Signals for Analyze.
+        void autofocusStarting(double temperature, const QString &filter);
+        void autofocusComplete(const QString &filter, const QString &points);
+        void autofocusAborted(const QString &filter, const QString &points);
     private:
 
         ////////////////////////////////////////////////////////////////////
@@ -461,6 +465,12 @@ class Focus : public QWidget, public Ui::Focus
          * @return true if a new sample is required, else false.
          */
         bool appendHFR(double newHFR);
+
+
+        /**
+         * @brief emitComplete emits the message needed for Analyze when focus completes.
+         */
+        void emitComplete();
 
         void initializeFocuserTemperature();
         void setLastFocusTemperature();

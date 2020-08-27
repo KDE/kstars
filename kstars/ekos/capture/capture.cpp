@@ -687,6 +687,7 @@ void Capture::stop(CaptureState targetState)
                     stopText = i18n("CCD capture aborted");
                     break;
             }
+            emit captureAborted(activeJob->getExposure());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText);
             appendLogText(stopText);
             activeJob->abort();
@@ -1777,6 +1778,10 @@ IPState Capture::setCaptureComplete()
 
     appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
 
+    FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
+    double hfr = currentImage ? currentImage->getImageData()->getHFR(HFR_AVERAGE) : 0;
+    emit captureComplete(blobFilename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
+
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
@@ -2237,6 +2242,7 @@ void Capture::captureImage()
     {
         case SequenceJob::CAPTURE_OK:
         {
+            emit captureStarting(activeJob->getExposure(), activeJob->getFilterName());
             appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
                                activeJob->getFilterName()));
             captureTimeout.start(static_cast<int>(activeJob->getExposure()) * 1000 + CAPTURE_TIMEOUT_THRESHOLD);

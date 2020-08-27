@@ -102,6 +102,8 @@ if (INDI_FOUND)
             ekos/manager.ui
             ekos/profileeditor.ui
             ekos/profilewizard.ui
+            # Analyze
+            ekos/analyze/analyze.ui
             # Scheduler
             ekos/scheduler/scheduler.ui
             ekos/scheduler/mosaic.ui
@@ -167,6 +169,9 @@ if (INDI_FOUND)
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
+
+            # Analyze
+            ekos/analyze/analyze.cpp
 
             # Scheduler
             ekos/scheduler/schedulerjob.cpp
@@ -982,6 +987,7 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_align_debug.h IDENTIFIER
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_guide_debug.h IDENTIFIER KSTARS_EKOS_GUIDE CATEGORY_NAME org.kde.kstars.ekos.guide)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER KSTARS_EKOS_MOUNT CATEGORY_NAME org.kde.kstars.ekos.mount)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_analyze_debug.h IDENTIFIER KSTARS_EKOS_ANALYZE CATEGORY_NAME org.kde.kstars.ekos.analyze)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDENTIFIER KSTARS_EKOS_OBSERVATORY CATEGORY_NAME org.kde.kstars.ekos.observatory)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})

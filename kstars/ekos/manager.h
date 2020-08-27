@@ -28,6 +28,7 @@
 #include "indi/indistd.h"
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
+#include "analyze/analyze.h"
 #include "observatory/observatory.h"
 #include "auxiliary/filtermanager.h"
 #include "auxiliary/serialportassistant.h"
@@ -390,7 +391,8 @@ class Manager : public QDialog, public Ui::Manager
         void wizardProfile();
 
         // Mount Summary
-        void updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
+        void updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
+                               const QString &ha);
         void updateMountStatus(ISD::Telescope::Status status);
         void setTarget(SkyObject *o);
 
@@ -490,6 +492,7 @@ class Manager : public QDialog, public Ui::Manager
         std::unique_ptr<Guide> guideProcess;
         std::unique_ptr<Align> alignProcess;
         std::unique_ptr<Mount> mountProcess;
+        std::unique_ptr<Analyze> analyzeProcess;
         std::unique_ptr<Scheduler> schedulerProcess;
         std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<Dome> domeProcess;
@@ -545,6 +548,9 @@ class Manager : public QDialog, public Ui::Manager
 
         // Logs
         QPointer<OpsLogs> opsLogs;
+
+        // E.g. Setup, Scheduler, and Analyze.
+        int numPermanentTabs { 0 };
 
         friend class EkosLive::Client;
         friend class EkosLive::Message;

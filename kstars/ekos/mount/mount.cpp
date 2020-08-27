@@ -645,8 +645,9 @@ void Mount::updateTelescopeCoords()
         lastAlt = currentAlt;
         lastHa = hourAngle();
 
+        dms ha2(lst - telescopeCoord.ra());
         emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text(),
-                       currentTelescope->pierSide());
+                       currentTelescope->pierSide(), ha2.toHMSString());
 
         ISD::Telescope::Status currentStatus = currentTelescope->status();
         if (m_Status != currentStatus)

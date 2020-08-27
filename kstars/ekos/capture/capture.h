@@ -757,6 +757,12 @@ class Capture : public QWidget, public Ui::Capture
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
+        // Signals for the Analyze tab.
+        void captureComplete(const QString &filename, double exposureSeconds,
+                             const QString &filter, double hfr);
+        void captureStarting(double exposureSeconds, const QString &filter);
+        void captureAborted(double exposureSeconds);
+
     private:
         void setBusy(bool enable);
         IPState resumeSequence();

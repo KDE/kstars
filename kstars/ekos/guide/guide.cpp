@@ -1842,8 +1842,10 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-void Guide::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide)
+void Guide::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
+                           const QString &ha)
 {
+    Q_UNUSED(ha);
     guider->setMountCoords(ra, dec, az, alt, pierSide);
 }
 
@@ -2366,6 +2368,7 @@ bool Guide::setGuiderType(int type)
         connect(guider, &Ekos::GuideInterface::newLog, this, &Ekos::Guide::appendLogText);
         connect(guider, &Ekos::GuideInterface::newStatus, this, &Ekos::Guide::setStatus);
         connect(guider, &Ekos::GuideInterface::newStarPosition, this, &Ekos::Guide::setStarPosition);
+        connect(guider, &Ekos::GuideInterface::guideStats, this, &Ekos::Guide::guideStats);
 
         connect(guider, &Ekos::GuideInterface::newAxisDelta, this, &Ekos::Guide::setAxisDelta);
         connect(guider, &Ekos::GuideInterface::newAxisPulse, this, &Ekos::Guide::setAxisPulse);
