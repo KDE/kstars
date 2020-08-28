@@ -90,9 +90,6 @@ int run_wizards(int argc, char *argv[])
     }
 #endif
 
-    Q_UNUSED(argc);
-    Q_UNUSED(argv);
-
     return failure;
 }
 
@@ -113,6 +110,42 @@ void execute_tests()
     }
 }
 
-#if !defined(HAVE_INDI)
-QTEST_KSTARS_MAIN(KStarsUiTests)
+#if 1
+//QTEST_KSTARS_MAIN(KStarsUiTests)
+#else
+// This weak main function serves when only the KStars tests are run, and nothing else.
+// It serves as an expanded example to what happens when running tests with KSTARS_UI_TEST.
+int __attribute__((weak)) main(int argc, char * argv[])
+{
+    // We create our application
+    QApplication app(argc, argv);
+
+    // We configure our application environment
+    prepare_tests();
+
+    int failure = 0;
+
+    // We delay the tests with a timer because we need to run tests in an initialized UI
+    QTimer::singleShot(1000, QApplication::instance(), [&] {
+
+        qDebug("Starting tests...");
+
+        // Run KStars wizard
+        failure |= run_wizards(argc, argv);
+
+        // Run example tests - we'd better test our documentation :)
+        KStarsUiTests tc;
+        failure |= QTest::qExec(&tc, argc, argv);
+
+        qDebug("Tests are done.");
+
+        QApplication::instance()->quit();
+    });
+
+    // We launch the UI application, and let delayed tests do their job asynchronously
+    execute_tests();
+
+    // And we return the result
+    return failure;
+}
 #endif

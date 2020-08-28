@@ -21,12 +21,9 @@ INCLUDE_DIRECTORIES(${INDI_INCLUDE_DIR})
 SET(KSTARS_UI_EKOS_SRC ${KSTARS_UI_TESTS_SRC} test_ekos_wizard.cpp)
 SET(KSTARS_UI_EKOS_LIBS ${TEST_LIBRARIES} ${CFITSIO_LIBRARIES} ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
 
-# FIXME: this particular test crashes when done on the EGLFS platform
-# Disabling until we find the reason, other tests do cover this scenario
-
-# ADD_EXECUTABLE(test_ekos ${KSTARS_UI_EKOS_SRC} test_ekos.cpp)
-# TARGET_LINK_LIBRARIES(test_ekos ${KSTARS_UI_EKOS_LIBS})
-# ADD_TEST(NAME TestEkosProfiles COMMAND test_ekos)
+ADD_EXECUTABLE(test_ekos ${KSTARS_UI_EKOS_SRC} test_ekos.cpp)
+TARGET_LINK_LIBRARIES(test_ekos ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosProfiles COMMAND test_ekos)
 
 ADD_EXECUTABLE(test_ekos_simulator ${KSTARS_UI_EKOS_SRC} test_ekos_simulator.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_simulator ${KSTARS_UI_EKOS_LIBS})
