@@ -236,7 +236,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     }
 
     edges.clear();
-
+/** I commented this out, but some of it might still be useful
     qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
                          .arg(QString::number(bkg->global, 'f', 2))
                          .arg(QString::number(bkg->globalrms, 'f', 2))
@@ -248,7 +248,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
                              << starCenters[i]->numPixels << starCenters[i]->HFR;
 
 
-    /** I commented this out, but some of it might still be useful
+
 exit:
     delete[] data;
     sep_bkg_free(bkg);
