@@ -131,19 +131,17 @@ void INDIListener::addClient(ClientManager *cm)
     clients.append(cm);
 
     connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
+    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty, Qt::BlockingQueuedConnection);
 
-    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
+    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::QueuedConnection);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
     connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
     connect(cm, &ClientManager::newINDINumber, this, &INDIListener::processNumber);
     connect(cm, &ClientManager::newINDILight, this, &INDIListener::processLight);
     connect(cm, &ClientManager::newINDIBLOB, this, &INDIListener::processBLOB);
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
     connect(cm, &ClientManager::newINDIUniversalMessage, this, &INDIListener::processUniversalMessage);
-#endif
 }
 
 void INDIListener::removeClient(ClientManager *cm)

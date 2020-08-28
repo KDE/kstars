@@ -247,7 +247,6 @@ void GUIManager::removeDevice(const QString &name)
 
 void GUIManager::buildDevice(DeviceInfo *di)
 {
-    //qDebug() << "In build Device for device with tree label " << di->getTreeLabel() << endl;
     ClientManager *cm = di->getDriverInfo()->getClientManager();
 
     if (cm == nullptr)
@@ -258,14 +257,8 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
+    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::QueuedConnection);
-    //    connect(cm, &ClientManager::removeINDIProperty, [gdm](const QString & device, const QString & name)
-    //    {
-    //        if (device == gdm->name())
-    //            QMetaObject::invokeMethod(gdm, "removeProperty", Qt::QueuedConnection, Q_ARG(QString, name));
-    //    });
-
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
     connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
     connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);
