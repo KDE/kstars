@@ -41,18 +41,20 @@ public:
         double focusTolerance;
         // The name of the filter used, if any.
         QString filterName;
-        // The current focus temperature (from focuser or observatory).
+        // The temperature measured when starting the focus (from focuser or observatory).
         double temperature;
+        // The number of outward steps taken at the start of the algorithm.
+        double initialOutwardSteps;
 
         FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,
                     int _minPositionAllowed, int _maxPositionAllowed,
                     int _maxIterations, double _focusTolerance, const QString &filterName_,
-                    double _temperature) :
+                    double _temperature, double _initialOutwardSteps) :
             maxTravel(_maxTravel), initialStepSize(_initialStepSize),
             startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),
             maxPositionAllowed(_maxPositionAllowed), maxIterations(_maxIterations),
             focusTolerance(_focusTolerance), filterName(filterName_),
-            temperature(_temperature) {}
+            temperature(_temperature), initialOutwardSteps(_initialOutwardSteps) {}
     };
 
     // Constructor initializes an autofocus algorithm from the input params.
@@ -80,6 +82,9 @@ public:
 
     // Returns the params used to construct this object.
     const FocusParams& getParams() const { return params; }
+
+    // For testing.
+    virtual FocusAlgorithmInterface *Copy() = 0;
 
   protected:
     FocusParams params;

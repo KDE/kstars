@@ -70,8 +70,6 @@ void KStars::setAltAz(double alt, double az, bool altIsRefracted)
 {
     SkyPoint p;
     if (altIsRefracted) {
-        // This is not ideal, because unrefract and refract are not exact inverses
-        // of each other due to numerics. But this is the best we have :-)
         alt = SkyPoint::unrefract(alt);
     }
     p.setAlt(alt);

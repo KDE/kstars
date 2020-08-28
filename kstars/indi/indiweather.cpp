@@ -54,15 +54,19 @@ void Weather::processNumber(INumberVectorProperty *nvp)
 {
     if (nvp == nullptr)
         return;
-    std::vector<WeatherData> entries;
 
-    // read all sensor values received
-    for (int i = 0; i < nvp->nnp; i++)
+    if (!strcmp(nvp->name, "WEATHER_PARAMETERS"))
     {
-        INumber number = nvp->np[i];
-        entries.push_back({QString(number.name), QString(number.label), number.value});
+        m_WeatherData.clear();
+
+        // read all sensor values received
+        for (int i = 0; i < nvp->nnp; i++)
+        {
+            INumber number = nvp->np[i];
+            m_WeatherData.push_back({QString(number.name), QString(number.label), number.value});
+        }
+        emit newWeatherData(m_WeatherData);
     }
-    emit newWeatherData(entries);
 
     // and now continue with the standard behavior
     DeviceDecorator::processNumber(nvp);

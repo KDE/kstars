@@ -102,7 +102,8 @@ void SkyMapLite::mousePressEvent(QMouseEvent *e)
                 }
                 //}
                 break;
-            default:;
+            default:
+                ;
         }
     }
 }
@@ -135,7 +136,7 @@ void SkyMapLite::mouseReleaseEvent(QMouseEvent *)
         {
             setSlewing(false);
             if (Options::useAltAz())
-                setDestinationAltAz(focus()->alt(), focus()->az());
+                setDestinationAltAz(focus()->alt(), focus()->az(), false);
             else
                 setDestination(*focus());
         }
@@ -230,10 +231,10 @@ void SkyMapLite::mouseMoveEvent(QMouseEvent *e)
             m_MousePoint.EquatorialToHorizontal(data->lst(), data->geo()->lat());
             clickedPoint()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
             dms dAz  = m_MousePoint.az() - clickedPoint()->az();
-            dms dAlt = m_MousePoint.alt() - clickedPoint()->alt();
+            dms dAlt = m_MousePoint.altRefracted() - clickedPoint()->altRefracted();
             focus()->setAz(focus()->az().Degrees() - dAz.Degrees()); //move focus in opposite direction
             focus()->setAz(focus()->az().reduce());
-            focus()->setAlt(KSUtils::clamp(focus()->alt().Degrees() - dAlt.Degrees(), -90.0, 90.0));
+            focus()->setAltRefracted(KSUtils::clamp(focus()->altRefracted().Degrees() - dAlt.Degrees(), -90.0, 90.0));
             focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
         }
         else
@@ -396,7 +397,7 @@ void SkyMapLite::touchEvent(QTouchEvent *e)
             {
                 setSlewing(false);
                 if (Options::useAltAz())
-                    setDestinationAltAz(focus()->alt(), focus()->az());
+                    setDestinationAltAz(focus()->alt(), focus()->az(), false);
                 else
                     setDestination(*focus());
             }
@@ -445,7 +446,7 @@ void SkyMapLite::touchEvent(QTouchEvent *e)
                 double maxrad =
                     1000.0 /
                     Options::
-                        zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
+                    zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
                                             That's why radius remains constant*/
                 maxrad         = qMax(maxrad, 2.5);
                 SkyObject *obj = data->skyComposite()->objectNearest(clickedPoint(), maxrad);

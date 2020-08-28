@@ -426,7 +426,8 @@ class Mount : public QWidget, public Ui::Mount
 
     signals:
         void newLog(const QString &text);
-        void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
+        void newCoords(const QString &ra, const QString &dec, const QString &az,
+                       const QString &alt, int pierSide, const QString &ha);
         void newTarget(const QString &name);
         void newStatus(ISD::Telescope::Status status);
         void newParkStatus(ISD::ParkStatus status);

@@ -3,7 +3,6 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
-    ${kstars_SOURCE_DIR}/kstars/internalguide
     ${kstars_SOURCE_DIR}/kstars/time
     )
 
@@ -36,13 +35,21 @@ add_subdirectory(skyobjects)
 
 IF (CFITSIO_FOUND)
     add_subdirectory(fitsviewer)
-ENDIF ()
-
 IF (INDI_FOUND)
-add_subdirectory(internalguide)
-include_directories(${kstars_SOURCE_DIR}/kstars/ekos/align)
+include_directories(
+    ${kstars_SOURCE_DIR}/kstars/ekos/align
+    ${kstars_SOURCE_DIR}/kstars/internalguide
+    ${kstars_SOURCE_DIR}/kstars/focus
+    )
+add_subdirectory(focus)
 add_subdirectory(polaralign)
-ENDIF()
+# FIXME
+# Disable this test for Windows since it fails for now
+if (NOT WIN32)
+add_subdirectory(internalguide)
+endif(NOT WIN32)
+ENDIF(INDI_FOUND)
+ENDIF(CFITSIO_FOUND)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)

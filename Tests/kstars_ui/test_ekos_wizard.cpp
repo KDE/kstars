@@ -89,4 +89,6 @@ void TestEkosWizard::testProfileWizard()
     KVERIFY_EKOS_IS_HIDDEN();
 }
 
+// There is no test-main macro in this test because that sequence is done systematically
+
 #endif // HAVE_INDI

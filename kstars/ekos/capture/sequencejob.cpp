@@ -78,7 +78,7 @@ void SequenceJob::prepareCapture()
     // Filter changes are actually done in capture();
     prepareActions[ACTION_FILTER] = true;
     if (targetFilter != -1 && activeFilter != nullptr &&
-        frameType == FRAME_LIGHT && targetFilter != currentFilter)
+            frameType == FRAME_LIGHT && targetFilter != currentFilter)
         emit prepareState(CAPTURE_CHANGING_FILTER);
 
     // Check if we need to update temperature
@@ -90,7 +90,8 @@ void SequenceJob::prepareCapture()
     }
 
     // Check if we need to update rotator
-    if (targetRotation != Ekos::INVALID_VALUE && fabs(currentRotation - targetRotation) * 60 > Options::astrometryRotatorThreshold())
+    if (targetRotation != Ekos::INVALID_VALUE
+            && fabs(currentRotation - targetRotation) * 60 > Options::astrometryRotatorThreshold())
     {
         // PA = RawAngle * Multiplier + Offset
         double rawAngle = (targetRotation - Options::pAOffset()) / Options::pAMultiplier();
@@ -248,6 +249,11 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     if (gain != -1)
     {
         activeCCD->setGain(gain);
+    }
+
+    if (offset != -1)
+    {
+        activeCCD->setOffset(offset);
     }
 
     if (targetFilter != -1 && activeFilter != nullptr)
@@ -517,6 +523,16 @@ double SequenceJob::getGain() const
 void SequenceJob::setGain(double value)
 {
     gain = value;
+}
+
+double SequenceJob::getOffset() const
+{
+    return offset;
+}
+
+void SequenceJob::setOffset(double value)
+{
+    offset = value;
 }
 
 double SequenceJob::getTargetRotation() const

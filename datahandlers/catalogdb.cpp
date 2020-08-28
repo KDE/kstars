@@ -34,7 +34,13 @@
 
 bool CatalogDB::Initialize()
 {
-    skydb_         = QSqlDatabase::addDatabase("QSQLITE", "skydb");
+    skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
+    if (!skydb_.isValid())
+    {
+        qCCritical(KSTARS_CATALOG()) << "Unable to prepare database of type sqlite!";
+        return false;
+    }
+
     QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycomponents.sqlite"));
     if (dbfile.isEmpty())
         dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("skycomponents.sqlite");
@@ -117,6 +123,7 @@ void CatalogDB::FirstRun()
             qCWarning(KSTARS_CATALOG) << query.lastError();
         }
     }
+    qCWarning(KSTARS_CATALOG) << "Additional Sky Catalog Database rebuilt.";
 }
 
 CatalogDB::~CatalogDB()

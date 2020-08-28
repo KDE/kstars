@@ -954,10 +954,17 @@ bool SkyPoint::checkCircumpolar(const dms *gLat) const
 
 dms SkyPoint::altRefracted() const
 {
-    if (Options::useRefraction())
-        return refract(Alt);
-    else
-        return Alt;
+    return refract(Alt, Options::useRefraction());
+}
+
+void SkyPoint::setAltRefracted(dms alt_apparent)
+{
+    setAlt(unrefract(alt_apparent, Options::useRefraction()));
+}
+
+void SkyPoint::setAltRefracted(double alt_apparent)
+{
+    setAlt(unrefract(alt_apparent, Options::useRefraction()));
 }
 
 double SkyPoint::refractionCorr(double alt)
@@ -965,8 +972,12 @@ double SkyPoint::refractionCorr(double alt)
     return 1.02 / tan(dms::DegToRad * (alt + 10.3 / (alt + 5.11))) / 60;
 }
 
-double SkyPoint::refract(const double alt)
+double SkyPoint::refract(const double alt, bool conditional)
 {
+    if (!conditional)
+    {
+        return alt;
+    }
     static double corrCrit = SkyPoint::refractionCorr(SkyPoint::altCrit);
 
     if (alt > SkyPoint::altCrit)
@@ -978,11 +989,16 @@ double SkyPoint::refract(const double alt)
 }
 
 // Found uncorrected value by solving equation. This is OK since
-// unrefract is never called in loops.
+// unrefract is never called in loops with the potential exception of
+// slewing.
 //
 // Convergence is quite fast just a few iterations.
-double SkyPoint::unrefract(const double alt)
+double SkyPoint::unrefract(const double alt, bool conditional)
 {
+    if (!conditional)
+    {
+        return alt;
+    }
     double h0 = alt;
     double h1 =
         alt -

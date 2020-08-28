@@ -1588,6 +1588,12 @@ void FITSView::toggleStars(bool enable)
     markStars = enable;
 
     if (markStars && !imageData->areStarsSearched())
+        searchStars();
+}
+
+void FITSView::searchStars()
+{
+    if (!imageData->areStarsSearched())
     {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);

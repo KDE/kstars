@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>409</width>
-    <height>439</height>
+    <height>414</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -430,9 +430,19 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="kfcg_ResetMountModelBeforeJob">
+        <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
          <property name="text">
           <string>Reset Mount Model Before Starting Each Job</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
+         <property name="toolTip">
+          <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
+         </property>
+         <property name="text">
+          <string>Force Re-alignment Before Starting Each Job</string>
          </property>
         </widget>
        </item>
@@ -611,16 +621,6 @@
         <widget class="QCheckBox" name="kcfg_ResetMountModelAfterMeridian">
          <property name="text">
           <string>Reset Mount Model After Meridian Flip</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_FlatSyncFocus">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If using a filter wheel and an absolute position focuser, then always remember the focus position of the autofocus process for light frames in each filter. Before a flat frame is captured, the focuser is moved to the same focus point as light frames.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Capture flat frames at the same focus as light frames</string>
          </property>
         </widget>
        </item>

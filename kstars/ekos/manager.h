@@ -28,6 +28,7 @@
 #include "indi/indistd.h"
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
+#include "analyze/analyze.h"
 #include "observatory/observatory.h"
 #include "auxiliary/filtermanager.h"
 #include "auxiliary/serialportassistant.h"
@@ -244,6 +245,23 @@ class Manager : public QDialog, public Ui::Manager
         }
 
         /**
+         * DBUS interface function. Toggle Ekos logging.
+         * @param name Name of logging to toggle. Available options are:
+         * ** VERBOSE
+         * ** INDI
+         * ** FITS
+         * ** CAPTURE
+         * ** FOCUS
+         * ** GUIDE
+         * ** ALIGNMENT
+         * ** MOUNT
+         * ** SCHEDULER
+         * ** OBSERVATORY
+         * @param enabled True to enable, false otherwise.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void setEkosLoggingEnabled(const QString &name, bool enabled);
+
+        /**
          * DBUS interface function.
          * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
          * it establishes connection to the remote INDI server.
@@ -373,7 +391,8 @@ class Manager : public QDialog, public Ui::Manager
         void wizardProfile();
 
         // Mount Summary
-        void updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
+        void updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
+                               const QString &ha);
         void updateMountStatus(ISD::Telescope::Status status);
         void setTarget(SkyObject *o);
 
@@ -435,7 +454,8 @@ class Manager : public QDialog, public Ui::Manager
         const QList<ISD::GDInterface *> &getAllDevices() const;
 
         ProfileInfo *getCurrentProfile();
-        void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture);
+        void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength,
+                                            double &guideAperture);
         void updateProfileLocation(ProfileInfo *pi);
         void setProfileMapping(const QJsonObject &payload)
         {
@@ -460,6 +480,9 @@ class Manager : public QDialog, public Ui::Manager
         // All generic devices (i.e. those define by INDI server)
         QList<ISD::GDInterface *> genericDevices;
 
+        // All proxy devices (generated devices by Ekos Manager for specific interfaces)
+        QList<ISD::GDInterface *> proxyDevices;
+
         // All Managed devices (ie. those explicitly defined in the profile)
         QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
 
@@ -469,6 +492,7 @@ class Manager : public QDialog, public Ui::Manager
         std::unique_ptr<Guide> guideProcess;
         std::unique_ptr<Align> alignProcess;
         std::unique_ptr<Mount> mountProcess;
+        std::unique_ptr<Analyze> analyzeProcess;
         std::unique_ptr<Scheduler> schedulerProcess;
         std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<Dome> domeProcess;
@@ -524,6 +548,9 @@ class Manager : public QDialog, public Ui::Manager
 
         // Logs
         QPointer<OpsLogs> opsLogs;
+
+        // E.g. Setup, Scheduler, and Analyze.
+        int numPermanentTabs { 0 };
 
         friend class EkosLive::Client;
         friend class EkosLive::Message;

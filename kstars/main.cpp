@@ -105,11 +105,14 @@ int main(int argc, char *argv[])
 #ifndef KSTARS_LITE
 
     KCrash::initialize();
-
-    KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
-                         "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"),
-                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, i18n(notice)),
-                         "https://edu.kde.org/kstars");
+    QString versionString = QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
+    KAboutData aboutData("kstars", i18n("KStars"), versionString, i18n(description),
+                         KAboutLicense::GPL,
+                         "2001-" + QString::number(QDate::currentDate().year()) +
+                         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"),
+                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3", KSTARS_BUILD_TS,
+                               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ? "Pre-release beta snapshot. Do not use in production."
+                               : "Stable release.", i18n(notice)), "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
                         "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com",
@@ -123,7 +126,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com", i18n("Ekos Scheduler Improvements"));
     aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(), "sterne-jaeger@t-online.de",
                         i18n("Ekos Scheduler & Observatory Improvements"));
-    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS Improvements"));
+    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS, Focus, Guide Improvements"));
 
     // Inactive developers
     aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
@@ -306,7 +309,7 @@ int main(int argc, char *argv[])
             qCDebug(KSTARS) << "Saved to file: %1" << fname;
 
         delete map;
-        delete dat;
+        //delete dat;
         return 0;
     }
 

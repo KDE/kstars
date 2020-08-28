@@ -89,11 +89,11 @@ void OptionsTreeView::resizeColumns()
             {
                 child->setExpanded(true);
 
-                #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
                 int w = qfm.horizontalAdvance(child->text(icol)) + 4;
-                #else
+#else
                 int w = qfm.width(child->text(icol)) + 4;
-                #endif
+#endif
 
                 if (icol == 0)
                 {
@@ -1132,10 +1132,10 @@ void ScriptBuilder::readScript(QTextStream &istream)
             QStringList fn;
 
             // If the function lacks any arguments, do not attempt to split
-            if (fn_name != line)
-                fn = line.split(' ');
+            //            if (fn_name != line)
+            //                fn = line.split(' ');
 
-            if (parseFunction(fn_name, fn))
+            if (parseFunction(fn_name, line))
             {
                 sb->ScriptListBox->addItem(ScriptList.last()->name());
                 // Initially, any read script is valid!
@@ -1155,77 +1155,74 @@ void ScriptBuilder::readScript(QTextStream &istream)
     }
 }
 
-bool ScriptBuilder::parseFunction(QString fn_name, QStringList &fn)
+bool ScriptBuilder::parseFunction(const QString &fn_name, const QString &fn_args)
 {
     // clean up the string list first if needed
     // We need to perform this in case we havea quoted string "NGC 3000" because this will counted
     // as two arguments, and it should be counted as one.
-    bool foundQuote(false), quoteProcessed(false);
-    QString cur, arg;
-    QStringList::iterator it;
+    //    bool foundQuote(false), quoteProcessed(false);
+    //    QString cur, arg;
+    //    QStringList::iterator it;
 
-    for (it = fn.begin(); it != fn.end(); ++it)
+    //    for (it = fn.begin(); it != fn.end(); ++it)
+    //    {
+    //        cur = (*it);
+
+    //        cur = cur.mid(cur.indexOf(":") + 1).remove('\'');
+
+    //        (*it) = cur;
+
+    //        if (cur.startsWith('\"'))
+    //        {
+    //            arg += cur.rightRef(cur.length() - 1);
+    //            arg += ' ';
+    //            foundQuote     = true;
+    //            quoteProcessed = true;
+    //        }
+    //        else if (cur.endsWith('\"'))
+    //        {
+    //            arg += cur.leftRef(cur.length() - 1);
+    //            arg += '\'';
+    //            foundQuote = false;
+    //        }
+    //        else if (foundQuote)
+    //        {
+    //            arg += cur;
+    //            arg += ' ';
+    //        }
+    //        else
+    //        {
+    //            arg += cur;
+    //            arg += '\'';
+    //        }
+    //    }
+
+    //    if (quoteProcessed)
+    //        fn = arg.split(' ', QString::SkipEmptyParts);
+
+    QRegularExpression re("(?<=:)[^:\\s]*");
+    QRegularExpressionMatchIterator i = re.globalMatch(fn_args);
+    QStringList fn;
+    while (i.hasNext())
     {
-        cur = (*it);
-
-        cur = cur.mid(cur.indexOf(":") + 1).remove('\'');
-
-        (*it) = cur;
-
-        if (cur.startsWith('\"'))
-        {
-            arg += cur.rightRef(cur.length() - 1);
-            arg += ' ';
-            foundQuote     = true;
-            quoteProcessed = true;
-        }
-        else if (cur.endsWith('\"'))
-        {
-            arg += cur.leftRef(cur.length() - 1);
-            arg += '\'';
-            foundQuote = false;
-        }
-        else if (foundQuote)
-        {
-            arg += cur;
-            arg += ' ';
-        }
-        else
-        {
-            arg += cur;
-            arg += '\'';
-        }
-    }
-
-    if (quoteProcessed)
-        fn = arg.split('\'', QString::SkipEmptyParts);
+        QRegularExpressionMatch match = i.next();
+        fn << match.captured(0).remove("\"");
+    };
 
     //loop over known functions to find a name match
-    foreach (ScriptFunction *sf, KStarsFunctionList)
+    for (auto &sf : KStarsFunctionList)
     {
         if (fn_name == sf->name())
         {
-            if (fn_name == "setGeoLocation")
-            {
-                QString city(fn[0]), prov, cntry(fn[1]);
-                prov.clear();
-                if (fn.count() == 4)
-                {
-                    prov  = fn[1];
-                    cntry = fn[2];
-                }
-                if (fn.count() == 3 || fn.count() == 4)
-                {
-                    ScriptList.append(new ScriptFunction(sf));
-                    ScriptList.last()->setArg(0, city);
-                    ScriptList.last()->setArg(1, prov);
-                    ScriptList.last()->setArg(2, cntry);
-                }
-                else
-                    return false;
-            }
-            else if (fn.count() != sf->numArgs())
-                return false;
+            //            if (fn_name == "setGeoLocation")
+            //            {
+            //                ScriptList.append(new ScriptFunction(sf));
+            //                ScriptList.last()->setArg(0, fn[0]);
+            //                ScriptList.last()->setArg(1, fn[1]);
+            //                ScriptList.last()->setArg(2, fn[2]);
+            //            }
+            //            else if (fn.count() != sf->numArgs())
+            //                return false;
 
             ScriptList.append(new ScriptFunction(sf));
 

@@ -388,7 +388,7 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
 
     led.setColor(Qt::green);
 
-    if (markStars)
+    if (tab->shouldComputeHFR())
         updateStatusBar(i18np("%1 star detected. HFR=%2", "%1 stars detected. HFR=%2",
                               tab->getView()->getImageData()->getDetectedStars(), tab->getView()->getImageData()->getHFR()),
                         FITS_MESSAGE);
@@ -565,7 +565,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     if (isVisible())
         view->updateFrame();
 
-    if (markStars)
+    if (fitsTabs[currentIndex]->shouldComputeHFR())
         updateStatusBar(i18np("%1 star detected. HFR=%2", "%1 stars detected. HFR=%2",
                               view->getImageData()->getDetectedStars(), view->getImageData()->getHFR()),
                         FITS_MESSAGE);

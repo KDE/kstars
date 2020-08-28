@@ -252,6 +252,19 @@ class CCD : public DeviceDecorator
         bool setGain(double value);
         bool getGainMinMaxStep(double *min, double *max, double *step);
 
+        // offset controls
+        bool hasOffset()
+        {
+            return offsetN != nullptr;
+        }
+        bool getOffset(double *value);
+        IPerm getOffsetPermission() const
+        {
+            return offsetPerm;
+        }
+        bool setOffset(double value);
+        bool getOffsetMinMaxStep(double *min, double *max, double *step);
+
         // Rapid Guide
         bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage = false, bool showMarker = false);
         bool setRapidGuide(CCDChip *targetChip, bool enable);
@@ -393,6 +406,9 @@ class CCD : public DeviceDecorator
         // Gain, since it is spread among different vector properties, let's try to find the property itself.
         INumber *gainN { nullptr };
         IPerm gainPerm { IP_RO };
+
+        INumber *offsetN { nullptr };
+        IPerm offsetPerm { IP_RO };
 
         QPointer<FITSViewer> m_FITSViewerWindows;
         QPointer<ImageViewer> m_ImageViewerWindow;

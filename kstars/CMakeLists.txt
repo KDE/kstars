@@ -102,6 +102,8 @@ if (INDI_FOUND)
             ekos/manager.ui
             ekos/profileeditor.ui
             ekos/profilewizard.ui
+            # Analyze
+            ekos/analyze/analyze.ui
             # Scheduler
             ekos/scheduler/scheduler.ui
             ekos/scheduler/mosaic.ui
@@ -130,6 +132,7 @@ if (INDI_FOUND)
             ekos/guide/guide.ui
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
+            ekos/guide/opsgpg.ui
             ekos/guide/manualdither.ui
             ekos/observatory/observatory.ui
             #TODO remove from GIT
@@ -170,6 +173,9 @@ if (INDI_FOUND)
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
 
+            # Analyze
+            ekos/analyze/analyze.cpp
+
             # Scheduler
             ekos/scheduler/schedulerjob.cpp
             ekos/scheduler/scheduler.cpp
@@ -205,6 +211,7 @@ if (INDI_FOUND)
             ekos/guide/guideinterface.cpp
             ekos/guide/opscalibration.cpp
             ekos/guide/opsguide.cpp
+            ekos/guide/opsgpg.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
             ekos/guide/internalguide/internalguider.cpp
@@ -215,7 +222,10 @@ if (INDI_FOUND)
             ekos/guide/internalguide/imageautoguiding.cpp
             ekos/guide/internalguide/guidelog.cpp
             ekos/guide/internalguide/starcorrespondence.cpp
+            ekos/guide/internalguide/gpg.cpp
+            ekos/guide/internalguide/calibration.cpp
             ekos/guide/internalguide/guidestars.cpp
+            ekos/guide/guideview.cpp
             # External Guide
             ekos/guide/externalguide/phd2.cpp
             ekos/guide/externalguide/linguider.cpp
@@ -239,6 +249,12 @@ if (INDI_FOUND)
 endif (INDI_FOUND)
 
 if (CFITSIO_FOUND)
+  set (gpg_SRCS
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/math_tools.cpp
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/covariance_functions.cpp
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/gaussian_process.cpp
+        ekos/guide/internalguide/MPI_IS_gaussian_process/src/gaussian_process_guider.cpp
+        )
     set (sep_SRCS
         fitsviewer/sep/analyse.c
         fitsviewer/sep/aperture.c
@@ -976,6 +992,7 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_align_debug.h IDENTIFIER
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_guide_debug.h IDENTIFIER KSTARS_EKOS_GUIDE CATEGORY_NAME org.kde.kstars.ekos.guide)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER KSTARS_EKOS_MOUNT CATEGORY_NAME org.kde.kstars.ekos.mount)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_analyze_debug.h IDENTIFIER KSTARS_EKOS_ANALYZE CATEGORY_NAME org.kde.kstars.ekos.analyze)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDENTIFIER KSTARS_EKOS_OBSERVATORY CATEGORY_NAME org.kde.kstars.ekos.observatory)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
@@ -990,7 +1007,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${gpg_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
 set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${hough_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
 IF (NOT ANDROID)

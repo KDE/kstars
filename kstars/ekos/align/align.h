@@ -20,6 +20,7 @@
 
 #include <QTime>
 #include <QTimer>
+#include <QElapsedTimer>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 #include <QtDBus/qtdbusglobal.h>
@@ -436,6 +437,17 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE bool loadAndSlew(QString fileURL = QString());
 
         /** DBUS interface function.
+             * Sets the target coordinates that the solver compares the solution coordinates to.
+             * By default, the target coordinates are those of the current mount when the capture and
+             * solve operation is started. In case of SYNC, only the error between the the solution and target
+             * coordinates is calculated. When Slew to Target is selected, the mount would be slewed afterwards to
+             * this target coordinate.
+             * @param ra J2000 Right Ascension in hours.
+             * @param de J2000 Declination in degrees.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setTargetCoords(double ra, double de);
+
+        /** DBUS interface function.
              * Sets the binning of the selected CCD device.
              * @param binIndex Index of binning value. Default values range from 0 (binning 1x1) to 3 (binning 4x4)
              */
@@ -797,6 +809,12 @@ class Align : public QWidget, public Ui::Align
 
         /// Have we slewed?
         bool m_wasSlewStarted { false };
+        // Above flag only stays false for 10s after slew start.
+        QElapsedTimer slewStartTimer;
+        bool didSlewStart();
+        // Only wait this many milliseconds for slew to start.
+        // Otherwise assume it has begun.
+        static constexpr int MAX_WAIT_FOR_SLEW_START_MSEC = 10000;
 
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
@@ -842,7 +860,8 @@ class Align : public QWidget, public Ui::Align
 
         // State
         AlignState state { ALIGN_IDLE };
-        FocusState focusState { FOCUS_IDLE };
+        FocusState m_FocusState { FOCUS_IDLE };
+        CaptureState m_CaptureState { CAPTURE_IDLE };
 
         // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
         ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };

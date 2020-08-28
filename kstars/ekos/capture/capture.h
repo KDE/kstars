@@ -427,6 +427,16 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void toggleSequence();
 
+
+        /** DBus interface function
+         * @brief restartCamera Restarts the INDI driver associated with a camera. Remote and Local drivers are supported.
+         * @param name Name of camera to restart. If a driver defined multiple cameras, they would be removed and added again
+         * after driver restart.
+         * @note Restarting camera should only be used as a last resort when it comes completely unresponsive. Due the complex
+         * nature of driver interactions with Ekos, restarting cameras can lead to unexpected behavior.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name);
+
         /** @}*/
 
         /**
@@ -747,6 +757,12 @@ class Capture : public QWidget, public Ui::Capture
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
+        // Signals for the Analyze tab.
+        void captureComplete(const QString &filename, double exposureSeconds,
+                             const QString &filter, double hfr);
+        void captureStarting(double exposureSeconds, const QString &filter);
+        void captureAborted(double exposureSeconds);
+
     private:
         void setBusy(bool enable);
         IPState resumeSequence();
@@ -776,6 +792,9 @@ class Capture : public QWidget, public Ui::Capture
         void setGain(double value);
         double getGain();
 
+        void setOffset(double value);
+        double getOffset();
+
         // DSLR Info
         void cullToDSLRLimits();
         //void syncDriverToDSLRLimits();
@@ -786,8 +805,10 @@ class Capture : public QWidget, public Ui::Capture
          * @brief Check if a meridian flip has already been started
          * @return true iff the scope has started the meridian flip
          */
-        inline bool checkMeridianFlipRunning() {
-            return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;}
+        inline bool checkMeridianFlipRunning()
+        {
+            return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;
+        }
 
         /**
          * @brief Check whether a meridian flip has been requested and trigger it
@@ -998,9 +1019,8 @@ class Capture : public QWidget, public Ui::Capture
         void processFlipCompleted();
 
         // Controls
-        QPointer<QComboBox> ISOCombo;
-        QPointer<QDoubleSpinBox> GainSpin;
         double GainSpinSpecialValue;
+        double OffsetSpinSpecialValue;
 
         QList<double> downloadTimes;
         QElapsedTimer downloadTimer;

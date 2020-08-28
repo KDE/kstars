@@ -49,6 +49,7 @@ namespace
 // Calls QApplication::exit
 void fatalErrorMessage(QString fname)
 {
+    qCCritical(KSTARS) << i18n("Critical File not Found: %1", fname);
     KSNotification::sorry(i18n("The file  %1 could not be found. "
                                "KStars cannot run properly without this file. "
                                "KStars searches for this file in following locations:\n\n\t"
@@ -57,7 +58,6 @@ void fatalErrorMessage(QString fname)
                                fname, QStandardPaths::standardLocations(QStandardPaths::DataLocation).join("\n\t")),
                           i18n("Critical File Not Found: %1", fname)); // FIXME: Must list locations depending on file type
 
-    qDebug() << i18n("Critical File Not Found: %1", fname);
     qApp->exit(1);
 }
 
@@ -66,6 +66,7 @@ void fatalErrorMessage(QString fname)
 // Calls QApplication::exit if he don't
 bool nonFatalErrorMessage(QString fname)
 {
+    qCWarning(KSTARS) << i18n( "Non-Critical File Not Found: %1", fname );
 #ifdef KSTARS_LITE
     Q_UNUSED(fname);
     return true;
@@ -169,7 +170,8 @@ bool KStarsData::initialize()
                 QSqlQuery query(fixcitydb);
                 if (query.exec("alter table city add column Elevation real default -10;") == false)
                 {
-                    emit progressText(QString("failed to add Elevation column to city table in mycitydb.sqlite: &1").arg(query.lastError().text()));
+                    emit progressText(QString("failed to add Elevation column to city table in mycitydb.sqlite: &1").arg(
+                                          query.lastError().text()));
                 }
             }
             else
@@ -906,7 +908,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
     {
         QString line = istream.readLine();
         line.remove("string:");
-        line.remove("int:");
+        line.remove("int32:");
         line.remove("double:");
         line.remove("bool:");
 
@@ -963,6 +965,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                     az = 335.0;
                 if (az >= 0.0)
                 {
+                    // N.B. unrefract() doesn't matter at 90 degrees
                     map->setFocusAltAz(dms(90.0), map->focus()->az());
                     map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
                     map->setDestination(*map->focus());
@@ -971,6 +974,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
 
                 if (arg == "z" || arg == "zenith")
                 {
+                    // N.B. unrefract() doesn't matter at 90 degrees
                     map->setFocusAltAz(dms(90.0), map->focus()->az());
                     map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
                     map->setDestination(*map->focus());

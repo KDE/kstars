@@ -309,9 +309,8 @@ void ProfileWizard::processRemoteEquipmentSelection()
 {
     QToolButton *button = qobject_cast<QToolButton*>(sender());
     if (!button)
-        return;
-
-    if (button == equipmentStellarmateB)
+        wizardContainer->setCurrentIndex(GENERIC_EQUIPMENT);
+    else if (button == equipmentStellarmateB)
     {
         PiHost->setText("stellarmate.local");
         wizardContainer->setCurrentIndex(PI_EQUIPMENT);
@@ -320,9 +319,5 @@ void ProfileWizard::processRemoteEquipmentSelection()
     {
         PiHost->setText("atikbase.local");
         wizardContainer->setCurrentIndex(PI_EQUIPMENT);
-    }
-    else
-    {
-        wizardContainer->setCurrentIndex(GENERIC_EQUIPMENT);
     }
 }

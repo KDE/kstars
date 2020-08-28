@@ -352,6 +352,11 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         if (currentRegion >= m_starBlockList.size())
             continue;
 
+        if (!staticStars)
+        {
+            m_starBlockList.at(currentRegion)->fillToMag(maglim);
+        }
+
         //        if (!staticStars && !m_starBlockList.at(currentRegion)->fillToMag(maglim) &&
         //            maglim <= m_FaintMagnitude * (1 - 1.5 / 16))
         //        {

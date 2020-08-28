@@ -27,8 +27,11 @@
 #include "starcorrespondence.h"
 #include "fitsviewer/fitssepdetector.h"
 #include "guidestars.h"
+#include "calibration.h"
 
-class FITSView;
+#include "gpg.h"
+
+class GuideView;
 class FITSData;
 class Edge;
 
@@ -116,33 +119,24 @@ class cgmath : public QObject
         // functions
         bool setVideoParameters(int vid_wd, int vid_ht, int binX, int binY);
         bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
-        void getGuiderParameters(double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal);
-        bool setReticleParameters(double x, double y, double ang);
-        bool getReticleParameters(double *x, double *y, double *ang) const;
+        bool setReticleParameters(double x, double y);
+        bool getReticleParameters(double *x, double *y) const;
         int getSquareAlgorithmIndex(void) const;
         void setSquareAlgorithm(int alg_idx);
 
-        Ekos::Matrix getROTZ()
+        GPG &getGPG()
         {
-            return ROT_Z;
+            return *gpg;
         }
         const cproc_out_params *getOutputParameters() const
         {
             return &out_params;
         }
-        info_params_t getInfoParameters(void) const;
         uint32_t getTicks(void) const;
 
-        void setGuideView(FITSView *image);
-        bool declinationSwapEnabled()
-        {
-            return dec_swap;
-        }
-        void setDeclinationSwapEnabled(bool enable)
-        {
-            dec_swap = enable;
-        }
-        FITSView *getGuideView()
+        void setGuideView(GuideView *image);
+
+        GuideView *getGuideView()
         {
             return guideView;
         }
@@ -153,10 +147,6 @@ class cgmath : public QObject
 
         // Based on PHD2 algorithm
         QList<Edge *> PSFAutoFind(int extraEdgeAllowance = 0);
-
-        /*void moveSquare( double newx, double newy );
-            void resizeSquare( int size_idx );
-            Vector getSquarePosition() { return square_pos; }*/
 
         // Rapid Guide
         void setRapidGuide(bool enable);
@@ -170,7 +160,6 @@ class cgmath : public QObject
         bool isSuspended(void) const;
 
         // Star tracking
-        void getStarDrift(double *dx, double *dy) const;
         void getStarScreenPosition(double *dx, double *dy) const;
         Vector findLocalStarPosition(void);
         bool isStarLost(void) const;
@@ -180,26 +169,37 @@ class cgmath : public QObject
         void performProcessing(GuideLog *logger = nullptr, bool guiding = false);
 
         // Math
-        bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse = -1);
+        bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
         bool calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
                                       double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-                                      bool *swap_dec, int RATotalPulse = -1, int DETotalPulse = -1);
-        double calculatePhi(double start_x, double start_y, double end_x, double end_y) const;
-
-        // Dither
-        double getDitherRate(int axis);
+                                      bool *swap_dec, int RATotalPulse, int DETotalPulse);
 
         bool isImageGuideEnabled() const;
         void setImageGuideEnabled(bool value);
 
         void setRegionAxis(const uint32_t &value);
 
-        void getCalibration(double *phi_ra, double *phi_dec, double *rate_ra, double *rate_dec);
+        const Calibration &getCalibration()
+        {
+            return calibration;
+        }
+        Calibration *getMutableCalibration()
+        {
+            return &calibration;
+        }
         QVector3D selectGuideStar();
+        double getGuideStarSNR();
+
+        // Currently only relevant to SEP MultiStar.
+        void abort();
 
     signals:
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);
+
+        // For Analyze.
+        void guideStats(double raError, double decError, int raPulse, int decPulse,
+                        double snr, double skyBg, int numStars);
 
     private:
         // Templated functions
@@ -218,37 +218,29 @@ class cgmath : public QObject
         // Old-stye Logging--deprecate.
         void createGuideLog();
 
+        // For Analyze.
+        void emitStats();
+
         /// Global channel ticker
         uint32_t ticks { 0 };
         /// Pointer to image
-        QPointer<FITSView> guideView;
+        QPointer<GuideView> guideView;
         /// Video frame width
         int video_width { -1 };
         /// Video frame height
         int video_height { -1 };
-        double ccd_pixel_width { 0 };
-        double ccd_pixel_height { 0 };
         double aperture { 0 };
-        double focal { 0 };
-        Ekos::Matrix ROT_Z;
         bool preview_mode { true };
         bool suspended { false };
         bool lost_star { false };
-        bool dec_swap { false };
 
         /// Index of threshold algorithm
         int square_alg_idx { SMART_THRESHOLD };
-        int subBinX { 1 };
-        int subBinY { 1 };
 
         // sky coord. system vars.
-        /// Star position in reticle coord. system
-        Vector star_pos;
         /// Star position on the screen
         Vector scr_star_pos;
         Vector reticle_pos;
-        Vector reticle_orts[2];
-        double reticle_angle { 0 };
 
         // processing
         uint32_t channel_ticks[2];
@@ -277,13 +269,11 @@ class cgmath : public QObject
         uint32_t regionAxis { 64 };
         QVector<float *> referenceRegions;
 
-        // dithering
-        double ditherRate[2];
-        double phiRA = 0;
-        double phiDEC = 0;
-
         QFile logFile;
         QTime logTime;
 
         GuideStars guideStars;
+
+        std::unique_ptr<GPG> gpg;
+        Calibration calibration;
 };

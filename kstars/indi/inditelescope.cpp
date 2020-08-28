@@ -9,6 +9,7 @@
 
 #include "inditelescope.h"
 
+#include "ksmessagebox.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
 #include "indidevice.h"
@@ -625,12 +626,10 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     INumber *DecEle                = nullptr;
     INumber *AzEle                 = nullptr;
     INumber *AltEle                = nullptr;
-    INumberVectorProperty *EqProp  = nullptr;
-    INumberVectorProperty *HorProp = nullptr;
     double currentRA = 0, currentDEC = 0, currentAlt = 0, currentAz = 0, targetAlt = 0;
     bool useJ2000(false);
 
-    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
+    INumberVectorProperty *EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == nullptr)
     {
         // J2000 Property
@@ -639,7 +638,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             useJ2000 = true;
     }
 
-    HorProp = baseDevice->getNumber("HORIZONTAL_COORD");
+    INumberVectorProperty *HorProp = baseDevice->getNumber("HORIZONTAL_COORD");
 
     if (EqProp && EqProp->p == IP_RO)
         EqProp = nullptr;
@@ -698,13 +697,127 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         }
     }
 
+    auto sendToClient = [ = ]()
+    {
+        if (EqProp)
+        {
+            dms ra, de;
+
+            if (useJ2000)
+            {
+                // If we have invalid DEC, then convert coords to J2000
+                if (ScopeTarget->dec0().Degrees() == 180.0)
+                {
+                    ScopeTarget->setRA0(ScopeTarget->ra());
+                    ScopeTarget->setDec0(ScopeTarget->dec());
+                    ScopeTarget->catalogueCoord( KStars::Instance()->data()->ut().djd());
+                    ra = ScopeTarget->ra();
+                    de = ScopeTarget->dec();
+                }
+                else
+                {
+                    ra = ScopeTarget->ra0();
+                    de = ScopeTarget->dec0();
+                }
+            }
+            else
+            {
+                ra = ScopeTarget->ra();
+                de = ScopeTarget->dec();
+            }
+
+            RAEle->value  = ra.Hours();
+            DecEle->value = de.Degrees();
+            clientManager->sendNewNumber(EqProp);
+
+            qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ra.toHMSString() <<
+                                 "(" << RAEle->value << ") DE:" << de.toDMSString() <<
+                                 "(" << DecEle->value << ")";
+
+            RAEle->value  = currentRA;
+            DecEle->value = currentDEC;
+        }
+        // Only send Horizontal Coord property if Equatorial is not available.
+        else if (HorProp)
+        {
+            AzEle->value  = ScopeTarget->az().Degrees();
+            AltEle->value = ScopeTarget->alt().Degrees();
+            clientManager->sendNewNumber(HorProp);
+            AzEle->value  = currentAz;
+            AltEle->value = currentAlt;
+        }
+
+    };
+
+    auto checkObject = [ = ]()
+    {
+        double maxrad = 1000.0 / Options::zoomFactor();
+        currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
+        if (currentObject)
+        {
+            auto checkTrackModes = [ = ]()
+            {
+                if (m_hasTrackModes)
+                {
+                    // Tracking Moon
+                    if (currentObject->type() == SkyObject::MOON)
+                    {
+                        if (currentTrackMode != TRACK_LUNAR && TrackMap.contains(TRACK_LUNAR))
+                            setTrackMode(TrackMap.value(TRACK_LUNAR));
+                    }
+                    // Tracking Sun
+                    else if (currentObject->name() == i18n("Sun"))
+                    {
+                        if (currentTrackMode != TRACK_SOLAR && TrackMap.contains(TRACK_SOLAR))
+                            setTrackMode(TrackMap.value(TRACK_SOLAR));
+                    }
+                    // If Last track mode was either set to SOLAR or LUNAR but now we are slewing to a different object
+                    // then we automatically fallback to sidereal. If the current track mode is CUSTOM or something else, nothing
+                    // changes.
+                    else if (currentTrackMode == TRACK_SOLAR || currentTrackMode == TRACK_LUNAR)
+                        setTrackMode(TRACK_SIDEREAL);
+
+                }
+
+                emit newTarget(currentObject->name());
+
+                sendToClient();
+            };
+
+            // Sun Warning
+            if (currentObject->name() == i18n("Sun"))
+            {
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+                {
+                    KSMessageBox::Instance()->disconnect(this);
+                    checkTrackModes();
+                });
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
+                {
+                    KSMessageBox::Instance()->disconnect(this);
+                });
+
+                KSMessageBox::Instance()->questionYesNo(
+                    i18n("Warning! Looking at the Sun without proper protection can lead to irreversible eye damage!"),
+                    i18n("Sun Warning"));
+            }
+            else
+                checkTrackModes();
+        }
+        else
+            sendToClient();
+    };
+
     if (targetAlt < 0)
     {
-        if (KMessageBox::warningContinueCancel(
-                    nullptr, i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"),
-                    i18n("Telescope Motion"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                    QString("telescope_coordinates_below_horizon_warning")) == KMessageBox::Cancel)
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
         {
+            KSMessageBox::Instance()->disconnect(this);
+            checkObject();
+        });
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
             if (EqProp)
             {
                 RAEle->value  = currentRA;
@@ -715,97 +828,13 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 AzEle->value  = currentAz;
                 AltEle->value = currentAlt;
             }
+        });
 
-            return false;
-        }
+        KSMessageBox::Instance()->questionYesNo(i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"),
+                                                i18n("Telescope Motion"), 15, false);
     }
-
-    double maxrad = 1000.0 / Options::zoomFactor();
-    currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
-    if (currentObject)
-    {
-        // Sun Warning
-        if (currentObject->name() == i18n("Sun"))
-        {
-            if (KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Warning! Looking at the Sun without proper protection can lead to irreversible eye damage!"),
-                        i18n("Sun Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                        QString("telescope_ignore_sun_warning")) == KMessageBox::Cancel)
-                return false;
-        }
-
-        if (m_hasTrackModes)
-        {
-            // Tracking Moon
-            if (currentObject->type() == SkyObject::MOON)
-            {
-                if (currentTrackMode != TRACK_LUNAR && TrackMap.contains(TRACK_LUNAR))
-                    setTrackMode(TrackMap.value(TRACK_LUNAR));
-            }
-            // Tracking Sun
-            else if (currentObject->name() == i18n("Sun"))
-            {
-                if (currentTrackMode != TRACK_SOLAR && TrackMap.contains(TRACK_SOLAR))
-                    setTrackMode(TrackMap.value(TRACK_SOLAR));
-            }
-            // If Last track mode was either set to SOLAR or LUNAR but now we are slewing to a different object
-            // then we automatically fallback to sidereal. If the current track mode is CUSTOM or something else, nothing
-            // changes.
-            else if (currentTrackMode == TRACK_SOLAR || currentTrackMode == TRACK_LUNAR)
-                setTrackMode(TRACK_SIDEREAL);
-
-        }
-
-        emit newTarget(currentObject->name());
-    }
-
-    if (EqProp)
-    {
-        dms ra, de;
-
-        if (useJ2000)
-        {
-            // If we have invalid DEC, then convert coords to J2000
-            if (ScopeTarget->dec0().Degrees() == 180.0)
-            {
-                ScopeTarget->setRA0(ScopeTarget->ra());
-                ScopeTarget->setDec0(ScopeTarget->dec());
-                ScopeTarget->catalogueCoord( KStars::Instance()->data()->ut().djd());
-                ra = ScopeTarget->ra();
-                de = ScopeTarget->dec();
-            }
-            else
-            {
-                ra = ScopeTarget->ra0();
-                de = ScopeTarget->dec0();
-            }
-        }
-        else
-        {
-            ra = ScopeTarget->ra();
-            de = ScopeTarget->dec();
-        }
-
-        RAEle->value  = ra.Hours();
-        DecEle->value = de.Degrees();
-        clientManager->sendNewNumber(EqProp);
-
-        qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ra.toHMSString() <<
-                             "(" << RAEle->value << ") DE:" << de.toDMSString() <<
-                             "(" << DecEle->value << ")";
-
-        RAEle->value  = currentRA;
-        DecEle->value = currentDEC;
-    }
-    // Only send Horizontal Coord property if Equatorial is not available.
-    else if (HorProp)
-    {
-        AzEle->value  = ScopeTarget->az().Degrees();
-        AltEle->value = ScopeTarget->alt().Degrees();
-        clientManager->sendNewNumber(HorProp);
-        AzEle->value  = currentAz;
-        AltEle->value = currentAlt;
-    }
+    else
+        checkObject();
 
     return true;
 }

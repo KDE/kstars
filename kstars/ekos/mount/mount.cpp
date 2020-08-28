@@ -645,7 +645,9 @@ void Mount::updateTelescopeCoords()
         lastAlt = currentAlt;
         lastHa = hourAngle();
 
-        emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
+        dms ha2(lst - telescopeCoord.ra());
+        emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text(),
+                       currentTelescope->pierSide(), ha2.toHMSString());
 
         ISD::Telescope::Status currentStatus = currentTelescope->status();
         if (m_Status != currentStatus)
@@ -1445,8 +1447,23 @@ bool Mount::sync(const QString &RA, const QString &DEC)
 {
     dms ra, de;
 
-    ra = dms::fromString(RA, false);
-    de = dms::fromString(DEC, true);
+    if (m_equatorialCheck->property("checked").toBool())
+    {
+        ra = dms::fromString(RA, false);
+        de = dms::fromString(DEC, true);
+    }
+    else
+    {
+        dms az = dms::fromString(RA, true);
+        dms at = dms::fromString(DEC, true);
+        SkyPoint horizontalTarget;
+        horizontalTarget.setAz(az);
+        horizontalTarget.setAlt(at);
+        horizontalTarget.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+        ra = horizontalTarget.ra();
+        de = horizontalTarget.dec();
+    }
 
     if (m_J2000Check->property("checked").toBool())
     {

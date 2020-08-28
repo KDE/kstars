@@ -120,6 +120,11 @@ Capture::Capture()
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             &Ekos::Capture::checkFilter);
 
+    connect(restartCameraB, &QPushButton::clicked, [this]()
+    {
+        restartCamera(CCDCaptureCombo->currentText());
+    });
+
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
     {
         if (currentCCD)
@@ -347,6 +352,9 @@ Capture::Capture()
         const double newGain = getGain();
         if (GainSpin && newGain >= 0)
             GainSpin->setValue(newGain);
+        const int newOffset = getOffset();
+        if (newOffset >= 0)
+            OffsetSpin->setValue(newOffset);
     });
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
@@ -679,6 +687,7 @@ void Capture::stop(CaptureState targetState)
                     stopText = i18n("CCD capture aborted");
                     break;
             }
+            emit captureAborted(activeJob->getExposure());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText);
             appendLogText(stopText);
             activeJob->abort();
@@ -936,66 +945,22 @@ void Capture::checkCCD(int ccdNum)
         }
 
         QStringList isoList = targetChip->getISOList();
-        //ISOCombo->clear();
+        ISOCombo->clear();
 
         transferFormatCombo->blockSignals(true);
         transferFormatCombo->clear();
-
-        delete (ISOCombo);
-        delete (GainSpin);
-        //ISOLabel->hide();
 
         if (isoList.isEmpty())
         {
             // Only one transfer format
             transferFormatCombo->addItem(i18n("FITS"));
-
-            if (currentCCD->hasGain())
-            {
-                ISOLabel->setText(QString("%1:").arg(i18nc("Camera Gain", "Gain")));
-                //ISOLabel->show();
-
-                GainSpin = new QDoubleSpinBox(CCDFWGroup);
-                double min, max, step, value, targetCustomGain;
-                currentCCD->getGainMinMaxStep(&min, &max, &step);
-
-                // Allow the possibility of no gain value at all.
-                GainSpinSpecialValue = min - step;
-                GainSpin->setRange(GainSpinSpecialValue, max);
-                GainSpin->setSpecialValueText(i18n("--"));
-
-                GainSpin->setSingleStep(step);
-                currentCCD->getGain(&value);
-
-                targetCustomGain = getGain();
-
-                // Set the custom gain if we have one
-                // otherwise it will not have an effect.
-                if (targetCustomGain > 0)
-                    GainSpin->setValue(targetCustomGain);
-                else
-                    GainSpin->setValue(GainSpinSpecialValue);
-
-                GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
-
-                connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
-                {
-                    if (GainSpin->value() != GainSpinSpecialValue)
-                        setGain(GainSpin->value());
-                });
-
-                gridLayout->addWidget(GainSpin, 4, 3, 1, 2);
-            }
+            ISOCombo->setEnabled(false);
         }
         else
         {
-            ISOLabel->setText(QString("%1:").arg(i18nc("Camera ISO", "ISO")));
-            //ISOLabel->show();
-
-            ISOCombo = new QComboBox(CCDFWGroup);
+            ISOCombo->setEnabled(true);
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
-            gridLayout->addWidget(ISOCombo, 4, 3, 1, 2);
 
             // DSLRs have two transfer formats
             transferFormatCombo->addItem(i18n("FITS"));
@@ -1029,6 +994,74 @@ void Capture::checkCCD(int ccdNum)
         }
 
         transferFormatCombo->blockSignals(false);
+
+        // Gain Check
+        if (currentCCD->hasGain())
+        {
+            double min, max, step, value, targetCustomGain;
+            currentCCD->getGainMinMaxStep(&min, &max, &step);
+
+            // Allow the possibility of no gain value at all.
+            GainSpinSpecialValue = min - step;
+            GainSpin->setRange(GainSpinSpecialValue, max);
+            GainSpin->setSpecialValueText(i18n("--"));
+            GainSpin->setEnabled(true);
+            GainSpin->setSingleStep(step);
+            currentCCD->getGain(&value);
+
+            targetCustomGain = getGain();
+
+            // Set the custom gain if we have one
+            // otherwise it will not have an effect.
+            if (targetCustomGain > 0)
+                GainSpin->setValue(targetCustomGain);
+            else
+                GainSpin->setValue(GainSpinSpecialValue);
+
+            GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+            connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
+            {
+                if (GainSpin->value() != GainSpinSpecialValue)
+                    setGain(GainSpin->value());
+            });
+        }
+        else
+            GainSpin->setEnabled(false);
+
+        // Offset checks
+        if (currentCCD->hasOffset())
+        {
+            double min, max, step, value, targetCustomOffset;
+            currentCCD->getOffsetMinMaxStep(&min, &max, &step);
+
+            // Allow the possibility of no Offset value at all.
+            OffsetSpinSpecialValue = min - step;
+            OffsetSpin->setRange(OffsetSpinSpecialValue, max);
+            OffsetSpin->setSpecialValueText(i18n("--"));
+            OffsetSpin->setEnabled(true);
+            OffsetSpin->setSingleStep(step);
+            currentCCD->getOffset(&value);
+
+            targetCustomOffset = getOffset();
+
+            // Set the custom Offset if we have one
+            // otherwise it will not have an effect.
+            if (targetCustomOffset > 0)
+                OffsetSpin->setValue(targetCustomOffset);
+            else
+                OffsetSpin->setValue(OffsetSpinSpecialValue);
+
+            OffsetSpin->setReadOnly(currentCCD->getOffsetPermission() == IP_RO);
+
+            connect(OffsetSpin, &QDoubleSpinBox::editingFinished, [this]()
+            {
+                if (OffsetSpin->value() != OffsetSpinSpecialValue)
+                    setOffset(OffsetSpin->value());
+            });
+        }
+        else
+            OffsetSpin->setEnabled(false);
 
         customPropertiesDialog->setCCD(currentCCD);
 
@@ -1454,24 +1487,41 @@ void Capture::syncFilterInfo()
 }
 
 /**
- * @brief Ensure whether there are pending preparation tasks to be executed (focusing, dithering, etc.)
+ * @brief Ensure that all pending preparation tasks are be completed (focusing, dithering, etc.)
  *        and start the next exposure.
  *
- * Before starting to capture the next image, checkLightFramePendingTasks() is called to check if all
- * pending preparation tasks have been completed successfully. Only if this is the case, the sequence timer
- * #seqTimer is started to wait the configured delay and starts capturing the next image.
+ * Checks of pending preparations depends upon the frame type:
  *
+ * - For light frames, pending preparations like focusing, dithering etc. needs
+ *   to be checked before each single frame capture. efore starting to capture the next light frame,
+ *   checkLightFramePendingTasks() is called to check if all pending preparation tasks have
+ *   been completed successfully. As soon as this is the case, the sequence timer
+ *   #seqTimer is started to wait the configured delay and starts capturing the next image.
+ *
+ * - For bias, dark and flat frames, preparation jobs are only executed when starting a sequence.
+ *   Hence, for these frames we directly start the sequence timer #seqTimer.
  *
  * @return IPS_OK, iff all pending preparation jobs are completed (@see checkLightFramePendingTasks()).
  *         In that case, the #seqTimer is started to wait for the configured settling delay and then
- *         capture the next image (@see Capture::captureImage).
+ *         capture the next image (@see Capture::captureImage). In case that a pending task aborted,
+ *         IPS_IDLE is returned.
  */
 IPState Capture::startNextExposure()
 {
-    IPState pending = checkLightFramePendingTasks();
-    if (pending != IPS_OK)
-        // there are still some jobs pending
-        return pending;
+    // Since this function is looping while pending tasks are running in parallel
+    // it might happen that one of them leads to abort() which sets the #activeJob to nullptr.
+    // In this case we terminate the loop by returning #IPS_IDLE without starting a new capture.
+    if (activeJob == nullptr)
+        return IPS_IDLE;
+
+    // check pending jobs for light frames. All other frame types do not contain mid-sequence checks.
+    if (activeJob->getFrameType() == FRAME_LIGHT)
+    {
+        IPState pending = checkLightFramePendingTasks();
+        if (pending != IPS_OK)
+            // there are still some jobs pending
+            return pending;
+    }
 
     // nothing pending, let's start the next exposure
     if (seqDelay > 0)
@@ -1701,9 +1751,13 @@ IPState Capture::setCaptureComplete()
     /* Decrease the dithering counter */
     ditherCounter--;
 
-    // Do not send new image if the image was stored on the server.
-    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        emit newImage(activeJob);
+    // For Client/Both images, send file name.
+    else
         sendNewImage(blobFilename, blobChip);
+
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
@@ -1723,6 +1777,10 @@ IPState Capture::setCaptureComplete()
     imgProgress->setValue(activeJob->getCompleted());
 
     appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
+
+    FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
+    double hfr = currentImage ? currentImage->getImageData()->getHFR(HFR_AVERAGE) : 0;
+    emit captureComplete(blobFilename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
 
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -1791,6 +1849,8 @@ void Capture::processJobCompletion()
 /**
  * @brief Check, whether dithering is necessary and, in that case initiate it.
  *
+ *  Dithering is only required for batch images and does not apply for PREVIEW.
+ *
  * There are several situations that determine, if dithering is necessary:
  * 1. the current job captures light frames AND the dither counter has reached 0 AND
  * 2. guiding is running OR the manual dithering option is selected AND
@@ -1801,6 +1861,10 @@ void Capture::processJobCompletion()
  */
 bool Capture::checkDithering()
 {
+    // No need if preview only
+    if (activeJob && activeJob->isPreview())
+        return false;
+
     if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
             // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
             && meridianFlipStage != MF_GUIDING
@@ -1811,7 +1875,7 @@ bool Capture::checkDithering()
             // Must be only done for light frames
             && activeJob->getFrameType() == FRAME_LIGHT
             // Check dither counter
-            && ditherCounter <= 0)
+            && ditherCounter == 0)
     {
         ditherCounter = Options::ditherFrames();
 
@@ -1915,7 +1979,11 @@ IPState Capture::resumeSequence()
  */
 bool Capture::startFocusIfRequired()
 {
-    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT)
+    // Do not start focus if:
+    // 1. There is no active job, or
+    // 2. Target frame is not LIGHT
+    // 3. Capture is preview only
+    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT || activeJob->isPreview())
         return false;
 
     isRefocus = false;
@@ -1989,7 +2057,7 @@ bool Capture::startFocusIfRequired()
             targetChip->abortExposure();
 
         setFocusStatus(FOCUS_PROGRESS);
-        emit checkFocus(HFRPixels->value() == 0.0 ? 0.1: HFRPixels->value());
+        emit checkFocus(HFRPixels->value() == 0.0 ? 0.1 : HFRPixels->value());
 
         qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
         m_State = CAPTURE_FOCUSING;
@@ -2018,7 +2086,10 @@ void Capture::captureOne()
     }
 
     if (addJob(true))
+    {
+        m_State = CAPTURE_PROGRESS;
         prepareJob(jobs.last());
+    }
 }
 
 void Capture::startFraming()
@@ -2128,7 +2199,7 @@ void Capture::captureImage()
     if (activeJob->isPreview())
     {
         rememberUploadMode = activeJob->getUploadMode();
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        activeJob->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
@@ -2171,6 +2242,7 @@ void Capture::captureImage()
     {
         case SequenceJob::CAPTURE_OK:
         {
+            emit captureStarting(activeJob->getExposure(), activeJob->getFilterName());
             appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
                                activeJob->getFilterName()));
             captureTimeout.start(static_cast<int>(activeJob->getExposure()) * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
@@ -2459,6 +2531,9 @@ bool Capture::addJob(bool preview)
     if (getGain() >= 0)
         job->setGain(getGain());
 
+    if (getOffset() >= 0)
+        job->setOffset(getOffset());
+
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
@@ -2612,8 +2687,7 @@ bool Capture::addJob(bool preview)
         iso->setText(ISOCombo->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (GainSpin && GainSpin->value() >= 0 &&
-             std::fabs(GainSpin->value() - GainSpinSpecialValue) > 0)
+    else if (GainSpin->value() >= 0 && std::fabs(GainSpin->value() - GainSpinSpecialValue) > 0)
     {
         iso->setText(GainSpin->cleanText());
         jsonJob.insert("ISO/Gain", iso->text());
@@ -2626,7 +2700,21 @@ bool Capture::addJob(bool preview)
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    if (OffsetSpin->value() >= 0 && std::fabs(OffsetSpin->value() - OffsetSpinSpecialValue) > 0)
+    {
+        offset->setText(OffsetSpin->cleanText());
+        jsonJob.insert("Offset", offset->text());
+    }
+    else
+    {
+        offset->setText("--");
+        jsonJob.insert("Offset", "--");
+    }
+    offset->setTextAlignment(Qt::AlignHCenter);
+    offset->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
     job->setCountCell(count);
     jsonJob.insert("Count", count->text());
 
@@ -2638,7 +2726,8 @@ bool Capture::addJob(bool preview)
         queueTable->setItem(currentRow, 3, bin);
         queueTable->setItem(currentRow, 4, exp);
         queueTable->setItem(currentRow, 5, iso);
-        queueTable->setItem(currentRow, 6, count);
+        queueTable->setItem(currentRow, 6, offset);
+        queueTable->setItem(currentRow, 7, count);
 
         m_SequenceArray.append(jsonJob);
         emit sequenceChanged(m_SequenceArray);
@@ -3206,7 +3295,9 @@ void Capture::updatePreCaptureCalibrationStatus()
 
 void Capture::setFocusTemperatureDelta(double focusTemperatureDelta)
 {
-    qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
+    // This produces too much log spam
+    // Maybe add a threshold to report later?
+    //qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
     this->focusTemperatureDelta = focusTemperatureDelta;
 }
 
@@ -3262,7 +3353,8 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview() || activeJob->getExposeLeft() == 0.0)))
+    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview()
+            || activeJob->getExposeLeft() == 0.0)))
         return;
 
     double deviation_rms = sqrt( (delta_ra * delta_ra + delta_dec * delta_dec) / 2.0);
@@ -3533,7 +3625,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
 
                 // after a meridian flip we do not need to dither
                 if ( Options::ditherEnabled() || Options::ditherNoGuiding())
-                     ditherCounter = Options::ditherFrames();
+                    ditherCounter = Options::ditherFrames();
 
                 break;
 
@@ -3947,8 +4039,11 @@ bool Capture::processJobInfo(XMLEle * root)
 
             customPropertiesDialog->setCustomProperties(propertyMap);
             const double gain = getGain();
-            if (GainSpin && gain >= 0)
+            if (gain >= 0)
                 GainSpin->setValue(gain);
+            const double offset = getOffset();
+            if (offset >= 0)
+                OffsetSpin->setValue(offset);
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -4332,14 +4427,17 @@ void Capture::syncGUIToJob(SequenceJob * job)
     if (ISOCombo)
         ISOCombo->setCurrentIndex(job->getISOIndex());
 
-    if (GainSpin)
-    {
-        double value = getGain();
-        if (value >= 0)
-            GainSpin->setValue(value);
-        else
-            GainSpin->setValue(GainSpinSpecialValue);
-    }
+    double gain = getGain();
+    if (gain >= 0)
+        GainSpin->setValue(gain);
+    else
+        GainSpin->setValue(GainSpinSpecialValue);
+
+    double offset = getOffset();
+    if (offset >= 0)
+        OffsetSpin->setValue(offset);
+    else
+        OffsetSpin->setValue(OffsetSpinSpecialValue);
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
@@ -4361,10 +4459,16 @@ QJsonObject Capture::getSettings()
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (GainSpin && GainSpin->value() != GainSpinSpecialValue)
+    if (GainSpin->value() != GainSpinSpecialValue)
         gain = GainSpin->value();
     else if (currentCCD && currentCCD->hasGain())
         currentCCD->getGain(&gain);
+
+    double offset = -1;
+    if (OffsetSpin->value() != OffsetSpinSpecialValue)
+        offset = OffsetSpin->value();
+    else if (currentCCD && currentCCD->hasOffset())
+        currentCCD->getOffset(&offset);
 
     int iso = -1;
     if (ISOCombo)
@@ -4381,6 +4485,7 @@ QJsonObject Capture::getSettings()
     settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("format", transferFormatCombo->currentIndex());
     settings.insert("gain", gain);
+    settings.insert("offset", offset);
     settings.insert("temperature", temperatureIN->value());
 
     return settings;
@@ -4748,7 +4853,7 @@ bool Capture::checkGuidingAfterFlip()
         return false;
     // If we're not autoguiding then we're done
     if (resumeGuidingAfterFlip == false)
-       return false;
+        return false;
 
     // if we are waiting for a calibration, start it
     if (m_State < CAPTURE_CALIBRATING)
@@ -4782,7 +4887,7 @@ bool Capture::checkAlignmentAfterFlip()
         return false;
     // If we do not need to align then we're done
     if (resumeAlignmentAfterFlip == false)
-       return false;
+        return false;
 
     // if we are waiting for a calibration, start it
     if (m_State < CAPTURE_ALIGNING)
@@ -4881,7 +4986,13 @@ void Capture::setAlignStatus(AlignState state)
             {
                 appendLogText(i18n("Post flip re-alignment completed successfully."));
                 retries = 0;
-                checkGuidingAfterFlip();
+                // Trigger guiding if necessary.
+                if (checkGuidingAfterFlip() == false)
+                {
+                    // If no guiding is required, the meridian flip is complete
+                    setMeridianFlipStage(MF_NONE);
+                    m_State = CAPTURE_WAITING;
+                }
             }
             break;
 
@@ -4946,7 +5057,10 @@ void Capture::setGuideStatus(GuideState state)
             {
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
                 appendLogText(i18n("Dither complete. Resuming in %1 seconds...", Options::guidingSettle()));
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]() {ditheringState = IPS_OK;});
+                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]()
+                {
+                    ditheringState = IPS_OK;
+                });
             }
             else
             {
@@ -4965,7 +5079,10 @@ void Capture::setGuideStatus(GuideState state)
                 // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
                 appendLogText(i18n("Warning: Dithering failed. Resuming in %1 seconds...", Options::guidingSettle()));
                 // set dithering state to OK after settling time and signal to proceed
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]() {ditheringState = IPS_OK;});
+                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]()
+                {
+                    ditheringState = IPS_OK;
+                });
             }
             else
             {
@@ -5304,16 +5421,17 @@ void Capture::openCalibrationDialog()
  * @brief Check all tasks that might be pending before capturing may start.
  *
  * The following checks are executed:
- * 1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
- * 2. Is the scope cover open (@see checkLightFrameScopeCoverOpen()).
- * 3. Has pausing been initiated (@see checkPausing()).
- * 4. Is a meridian flip already running (@see checkMeridianFlipRunning()) or ready
- *    for execution (@see checkMeridianFlipReady()).
- * 5. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
- * 6. Is post flip guiding running (@see checkGuidingAfterFlip().
- * 7. Is re-focusing required or ongoing (@see startFocusIfRequired()).
- * 8. Is dithering required or ongoing (@see checkDithering()).
- * 9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
+ *  1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
+ *  2. Is the scope cover open (@see checkLightFrameScopeCoverOpen()).
+ *  3. Has pausing been initiated (@see checkPausing()).
+ *  4. Is a meridian flip already running (@see checkMeridianFlipRunning()) or ready
+ *     for execution (@see checkMeridianFlipReady()).
+ *  5. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
+ *  6. Is post flip guiding required or running (@see checkGuidingAfterFlip().
+ *  7. Is the guiding deviation below the expected limit (@see setGuideDeviation(double,double)).
+ *  8. Is dithering required or ongoing (@see checkDithering()).
+ *  9. Is re-focusing required or ongoing (@see startFocusIfRequired()).
+ * 10. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
  *
  * If none of this is true, everything is ready and capturing may be started.
  *
@@ -5350,15 +5468,28 @@ IPState Capture::checkLightFramePendingTasks()
     if ((m_State == CAPTURE_CALIBRATING && guideState != GUIDE_GUIDING) || checkGuidingAfterFlip())
         return IPS_BUSY;
 
-    // step 7: check if re-focusing is required
-    if ((m_State == CAPTURE_FOCUSING  && focusState != FOCUS_COMPLETE) || startFocusIfRequired())
-        return IPS_BUSY;
+    // step 7: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
+    //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
+    //         Otherwise the meridian flip is complete
+    if (m_State == CAPTURE_CALIBRATING && meridianFlipStage == MF_GUIDING)
+    {
+        if (guideDeviationCheck->isChecked() == true)
+            return IPS_BUSY;
+        else
+            setMeridianFlipStage(MF_NONE);
+    }
 
     // step 8: check if dithering is required or running
     if ((m_State == CAPTURE_DITHERING && ditheringState != IPS_OK) || checkDithering())
         return IPS_BUSY;
 
-    // step 9: resume guiding if it was suspended
+    // step 9: check if re-focusing is required
+    //         Needs to be checked after dithering checks to avoid dithering in parallel
+    //         to focusing, since @startFocusIfRequired() might change its value over time
+    if ((m_State == CAPTURE_FOCUSING  && focusState != FOCUS_COMPLETE) || startFocusIfRequired())
+        return IPS_BUSY;
+
+    // step 10: resume guiding if it was suspended
     if (guideState == GUIDE_SUSPENDED)
     {
         appendLogText(i18n("Autoguiding resumed."));
@@ -5406,6 +5537,7 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                 // Otherwise, we ask user to confirm manually
                 calibrationCheckType = CAL_CHECK_CONFIRMATION;
 
+                // Continue
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
                     //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
@@ -5413,6 +5545,14 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                     m_TelescopeCoveredDarkExposure = false;
                     m_TelescopeCoveredFlatExposure = false;
                     calibrationCheckType = CAL_CHECK_TASK;
+                });
+
+                // Cancel
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                {
+                    KSMessageBox::Instance()->disconnect(this);
+                    calibrationCheckType = CAL_CHECK_TASK;
+                    abort();
                 });
 
                 KSMessageBox::Instance()->warningContinueCancel(i18n("Remove cover from the telescope in order to continue."),
@@ -6604,6 +6744,12 @@ void Capture::setSettings(const QJsonObject &settings)
         setGain(gain);
     }
 
+    double offset = settings["offset"].toDouble(-1);
+    if (offset >= 0 && currentCCD && currentCCD->hasOffset())
+    {
+        setOffset(offset);
+    }
+
     int format = settings["format"].toInt(-1);
     if (format >= 0)
     {
@@ -6763,7 +6909,11 @@ void Capture::removeDevice(ISD::GDInterface *device)
         else
             CCDCaptureCombo->setCurrentIndex(0);
 
-        checkCCD();
+        //checkCCD();
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkCCD();
+        });
     }
 
     if (Filters.contains(static_cast<ISD::Filter *>(device)))
@@ -6778,7 +6928,12 @@ void Capture::removeDevice(ISD::GDInterface *device)
         }
         else
             FilterDevicesCombo->setCurrentIndex(0);
-        checkFilter();
+
+        //checkFilter();
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkFilter();
+        });
     }
 }
 
@@ -6798,7 +6953,7 @@ void Capture::setGain(double value)
     }
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
-        QMap<QString, double> ccdGain;
+        QMap<QString, double> ccdGain = customProps["CCD_CONTROLS"];
         ccdGain["Gain"] = value;
         customProps["CCD_CONTROLS"] = ccdGain;
     }
@@ -6808,9 +6963,6 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
-    if (!GainSpin)
-        return -1;
-
     QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
@@ -6824,6 +6976,50 @@ double Capture::getGain()
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
         return customProps["CCD_CONTROLS"].value("Gain", -1);
+    }
+
+    return -1;
+}
+
+void Capture::setOffset(double value)
+{
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+    // Offset is manifested in two forms
+    // Property CCD_OFFSET and
+    // Part of CCD_CONTROLS properties.
+    // Therefore, we have to find what the currently camera supports first.
+    if (currentCCD->getProperty("CCD_OFFSET"))
+    {
+        QMap<QString, double> ccdOffset;
+        ccdOffset["OFFSET"] = value;
+        customProps["CCD_OFFSET"] = ccdOffset;
+    }
+    else if (currentCCD->getProperty("CCD_CONTROLS"))
+    {
+        QMap<QString, double> ccdOffset = customProps["CCD_CONTROLS"];
+        ccdOffset["Offset"] = value;
+        customProps["CCD_CONTROLS"] = ccdOffset;
+    }
+
+    customPropertiesDialog->setCustomProperties(customProps);
+}
+
+double Capture::getOffset()
+{
+    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+    // Gain is manifested in two forms
+    // Property CCD_GAIN and
+    // Part of CCD_CONTROLS properties.
+    // Therefore, we have to find what the currently camera supports first.
+    if (currentCCD->getProperty("CCD_OFFSET"))
+    {
+        return customProps["CCD_OFFSET"].value("OFFSET", -1);
+    }
+    else if (currentCCD->getProperty("CCD_CONTROLS"))
+    {
+        return customProps["CCD_CONTROLS"].value("Offset", -1);
     }
 
     return -1;
@@ -6970,4 +7166,20 @@ void Capture::editFilterName()
     }
 }
 
+void Capture::restartCamera(const QString &name)
+{
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, name]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+        abort();
+        emit driverTimedout(name);
+    });
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+    });
+
+    KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to restart %1 camera driver?", name),
+                                            i18n("Driver Restart"), 5);
+}
 }

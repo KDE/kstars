@@ -193,6 +193,32 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_AutoHFR">
+          <property name="toolTip">
+           <string>Compute the HFR of images loaded into fitsviewer.</string>
+          </property>
+          <property name="text">
+           <string>Auto Compute HFR</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_QuickHFR">
+          <property name="toolTip">
+           <string>When computing the HFR, run it quickly by only looking at 25% of the image.</string>
+          </property>
+          <property name="text">
+           <string>Quick HFR</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

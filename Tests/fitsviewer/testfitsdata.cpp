@@ -35,7 +35,7 @@ void TestFitsData::init()
     QVERIFY(fd != nullptr);
 
     QFuture<bool> worker = fd->loadFITS(m_FitsFixture);
-    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 }
 
@@ -67,7 +67,7 @@ void TestFitsData::runFocusHFR(const QString &filename, int nstars, float hfr)
     QVERIFY(d != nullptr);
 
     QFuture<bool> worker = d->loadFITS(filename);
-    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
     QCOMPARE(d->findStars(ALGORITHM_SEP), nstars);
@@ -89,7 +89,7 @@ void TestFitsData::testBahtinovFocusHFR()
     QVERIFY(d != nullptr);
 
     QFuture<bool> worker = d->loadFITS(m_BahtinovFixture);
-    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
     // The bahtinov algorithm depends on which star is selected and number of average rows - not sure how to fiddle with that yet

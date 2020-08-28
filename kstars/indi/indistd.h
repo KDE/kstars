@@ -278,6 +278,9 @@ class DeviceDecorator : public GDInterface
         INDI::BaseDevice *baseDevice { nullptr };
         ClientManager *clientManager { nullptr };
         GDInterface *interfacePtr { nullptr };
+
+    private:
+        bool m_isProxy { false };
 };
 
 /**

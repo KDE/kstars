@@ -98,7 +98,8 @@ void ClientManager::newProperty(INDI::Property *prop)
         connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
         connect(bm.data(), &BlobManager::connected, [prop, this]()
         {
-            emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
+            if (prop && prop->getRegistered())
+                emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
         });
         blobManagers.append(bm);
     }
@@ -124,6 +125,13 @@ void ClientManager::removeProperty(INDI::Property *prop)
             }
         }
     }
+}
+
+void ClientManager::disconnectAll()
+{
+    disconnectServer();
+    for (auto &oneManager : blobManagers)
+        oneManager->disconnectServer();
 }
 
 void ClientManager::removeDevice(INDI::BaseDevice *dp)

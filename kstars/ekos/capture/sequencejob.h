@@ -304,6 +304,9 @@ class SequenceJob : public QObject
         double getGain() const;
         void setGain(double value);
 
+        double getOffset() const;
+        void setOffset(double value);
+
         double getTargetRotation() const;
         void setTargetRotation(double value);
 
@@ -360,6 +363,7 @@ class SequenceJob : public QObject
         double currentTemperature { 0 };
         double targetTemperature { 0 };
         double gain { -1 };
+        double offset { -1 };
         // Rotation in absolute ticks, NOT angle
         double targetRotation { 0 };
         double currentRotation { 0 };

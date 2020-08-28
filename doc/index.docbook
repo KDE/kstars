@@ -66,6 +66,7 @@
   <!ENTITY tool-ekos-profile-editor SYSTEM "ekos-profile-editor.docbook">
   <!ENTITY tool-ekos-profile-wizard SYSTEM "ekos-profile-wizard.docbook">
   <!ENTITY tool-ekos-scheduler SYSTEM "ekos-scheduler.docbook">
+  <!ENTITY tool-ekos-analyze SYSTEM "ekos-analyze.docbook">
   <!ENTITY tool-ekos-setup SYSTEM "ekos-setup.docbook">
   <!ENTITY tool-ekos-tutorials SYSTEM "ekos-tutorials.docbook">
   <!ENTITY tool-ekos-user-interface SYSTEM "ekos-user-interface.docbook">

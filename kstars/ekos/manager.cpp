@@ -120,6 +120,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // Enable scheduler Tab
     toolsWidget->setTabEnabled(1, false);
 
+    // Enable analyze Tab
+    toolsWidget->setTabEnabled(2, false);
+
     // Start/Stop INDI Server
     connect(processINDIB, &QPushButton::clicked, this, &Ekos::Manager::processINDI);
     processINDIB->setIcon(QIcon::fromTheme("media-playback-start"));
@@ -281,8 +284,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     // Initialize Ekos Scheduler Module
     schedulerProcess.reset(new Ekos::Scheduler());
-    toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
-    toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
+    int index = toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
@@ -290,6 +293,13 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
+
+    // Initialize Ekos Analyze Module
+    analyzeProcess.reset(new Ekos::Analyze());
+    index = toolsWidget->addTab(analyzeProcess.get(), QIcon(":/icons/ekos_analyze.png"), "");
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Analyze"));
+
+    numPermanentTabs = index + 1;
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -323,15 +333,13 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         QTransform trans;
         trans.rotate(90);
 
-        QIcon icon  = toolsWidget->tabIcon(0);
-        QPixmap pix = icon.pixmap(QSize(48, 48));
-        icon        = QIcon(pix.transformed(trans));
-        toolsWidget->setTabIcon(0, icon);
-
-        icon = toolsWidget->tabIcon(1);
-        pix  = icon.pixmap(QSize(48, 48));
-        icon = QIcon(pix.transformed(trans));
-        toolsWidget->setTabIcon(1, icon);
+        for (int i = 0; i < numPermanentTabs; ++i)
+        {
+            QIcon icon  = toolsWidget->tabIcon(i);
+            QPixmap pix = icon.pixmap(QSize(48, 48));
+            icon        = QIcon(pix.transformed(trans));
+            toolsWidget->setTabIcon(i, icon);
+        }
     }
 
     //Note:  This is to prevent a button from being called the default button
@@ -466,6 +474,12 @@ void Manager::reset()
 
     genericDevices.clear();
     managedDevices.clear();
+
+    if (proxyDevices.empty() == false)
+    {
+        qDeleteAll(proxyDevices);
+        proxyDevices.clear();
+    }
 
     captureProcess.reset();
     focusProcess.reset();
@@ -1556,7 +1570,14 @@ void Manager::setWeather(ISD::GDInterface * weatherDevice)
 
     initWeather();
 
-    weatherProcess->setWeather(weatherDevice);
+    if (weatherDevice->getType() != KSTARS_WEATHER)
+    {
+        ISD::Weather *source = new ISD::Weather(weatherDevice);
+        weatherProcess->setWeather(source);
+        proxyDevices.append(source);
+    }
+    else
+        weatherProcess->setWeather(weatherDevice);
 
     appendLogText(i18n("%1 is online.", weatherDevice->getDeviceName()));
 }
@@ -1636,7 +1657,18 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
         }
     }
 
-    // #2 Remove from Ekos Managed Device
+    // #2 Remove from Proxy device
+    // Proxy devices are ALL the devices we specifically create in Ekos Manager to handle specific interfaces
+    for (auto &device : proxyDevices)
+    {
+        if (device->getDeviceName() == devInterface->getDeviceName())
+        {
+            proxyDevices.removeOne(device);
+            device->deleteLater();
+        }
+    }
+
+    // #3 Remove from Ekos Managed Device
     // Managed devices are devices selected by the user in the device profile
     for (auto it = managedDevices.begin(); it != managedDevices.end();)
     {
@@ -2553,7 +2585,7 @@ void Manager::removeTabs()
 {
     disconnect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
 
-    for (int i = 2; i < toolsWidget->count(); i++)
+    for (int i = numPermanentTabs; i < toolsWidget->count(); i++)
         toolsWidget->removeTab(i);
 
     alignProcess.reset();
@@ -2845,8 +2877,11 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
 }
 
-void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
+                                int pierSide, const QString &ha)
 {
+    Q_UNUSED(ha);
+    Q_UNUSED(pierSide);
     raOUT->setText(ra);
     decOUT->setText(dec);
     azOUT->setText(az);
@@ -2921,10 +2956,6 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
 {
     // Image is set to nullptr only on initial capture start up
     int completed = job->getCompleted();
-    //    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    //        completed = job->getCompleted() + 1;
-    //    else
-    //        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
 
     if (job->isPreview() == false)
     {
@@ -2949,14 +2980,12 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
-    if (job->getStatus() == SequenceJob::JOB_BUSY)
+
+    const QString filename = job->property("filename").toString();
+    if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
-        //        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
-        //        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
-        //        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
-        QString filename = job->property("filename").toString();
         ekosLiveClient.get()->media()->sendPreviewImage(filename, uuid);
         if (job->isPreview() == false)
             ekosLiveClient.get()->cloud()->sendPreviewImage(filename, uuid);
@@ -3465,6 +3494,62 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(),
                 &EkosLive::Media::setCorrectionVector);
     }
+    // Analyze connections.
+    if (analyzeProcess.get())
+    {
+        if (captureProcess.get())
+        {
+            connect(captureProcess.get(), &Ekos::Capture::captureComplete,
+                    analyzeProcess.get(), &Ekos::Analyze::captureComplete, Qt::UniqueConnection);
+            connect(captureProcess.get(), &Ekos::Capture::captureStarting,
+                    analyzeProcess.get(), &Ekos::Analyze::captureStarting, Qt::UniqueConnection);
+            connect(captureProcess.get(), &Ekos::Capture::captureAborted,
+                    analyzeProcess.get(), &Ekos::Analyze::captureAborted, Qt::UniqueConnection);
+#if 0
+            // Meridian Flip
+            connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted,
+                    analyzeProcess.get(), &Ekos::Analyze::meridianFlipStarted, Qt::UniqueConnection);
+            connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted,
+                    analyzeProcess.get(), &Ekos::Analyze::meridianFlipComplete, Qt::UniqueConnection);
+#endif
+        }
+        if (guideProcess.get())
+        {
+            connect(guideProcess.get(), &Ekos::Guide::newStatus,
+                    analyzeProcess.get(), &Ekos::Analyze::guideState, Qt::UniqueConnection);
+
+            connect(guideProcess.get(), &Ekos::Guide::guideStats,
+                    analyzeProcess.get(), &Ekos::Analyze::guideStats, Qt::UniqueConnection);
+        }
+    }
+    if (focusProcess.get())
+    {
+        connect(focusProcess.get(), &Ekos::Focus::autofocusComplete,
+                analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::autofocusStarting,
+                analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,
+                analyzeProcess.get(), &Ekos::Analyze::autofocusAborted, Qt::UniqueConnection);
+    }
+    if (alignProcess.get())
+    {
+        connect(alignProcess.get(), &Ekos::Align::newStatus,
+                analyzeProcess.get(), &Ekos::Analyze::alignState, Qt::UniqueConnection);
+
+    }
+    if (mountProcess.get())
+    {
+        // void newStatus(ISD::Telescope::Status status);
+        connect(mountProcess.get(), &Ekos::Mount::newStatus,
+                analyzeProcess.get(), &Ekos::Analyze::mountState, Qt::UniqueConnection);
+        //void newCoords(const QString &ra, const QString &dec,
+        //               const QString &az, const QString &alt, int pierSide);
+        connect(mountProcess.get(), &Ekos::Mount::newCoords,
+                analyzeProcess.get(), &Ekos::Analyze::mountCoords, Qt::UniqueConnection);
+        // void newMeridianFlipStatus(MeridianFlipStatus status);
+        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus,
+                analyzeProcess.get(), &Ekos::Analyze::mountFlipStatus, Qt::UniqueConnection);
+    }
 }
 
 void Manager::setEkosLiveConnected(bool enabled)
@@ -3515,6 +3600,7 @@ void Manager::syncActiveDevices()
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
                 {
+#if 0
                     if (tvp->tp[i].aux0 != nullptr)
                     {
                         bool *override = static_cast<bool *>(tvp->tp[i].aux0);
@@ -3522,6 +3608,28 @@ void Manager::syncActiveDevices()
                             continue;
                     }
                     devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+#endif
+                    devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+                    // Active filter wheel should be set to whatever the user selects in capture module
+                    const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
+                    // Does defaultFilterWheel exist in devices?
+                    for (auto &oneDev : devs)
+                    {
+                        if (oneDev->getDeviceName() == defaultFilterWheel)
+                        {
+                            // TODO this should be profile specific
+                            if (QString(tvp->tp[i].text) != defaultFilterWheel)
+                            {
+                                IUSaveText(&tvp->tp[i], defaultFilterWheel.toLatin1().constData());
+                                oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                                break;
+                            }
+
+                            continue;
+                        }
+                    }
+                    // If it does not exist, then continue and pick from available devs below.
+
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
                 {
@@ -3532,7 +3640,6 @@ void Manager::syncActiveDevices()
                 {
                     if (tvp->tp[i].text != devs.first()->getDeviceName())
                     {
-                        //propertyUpdated = true;
                         IUSaveText(&tvp->tp[i], devs.first()->getDeviceName().toLatin1().constData());
                         oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
@@ -3546,7 +3653,7 @@ void Manager::syncActiveDevices()
     }
 }
 
-bool Manager::checkUniqueBinaryDriver(DriverInfo *primaryDriver, DriverInfo *secondaryDriver)
+bool Manager::checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver)
 {
     if (!primaryDriver || !secondaryDriver)
         return false;
@@ -3572,4 +3679,83 @@ void Manager::restartDriver(const QString &deviceName)
         INDI::WebManager::restartDriver(currentProfile, deviceName);
 }
 
+void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
+{
+    // LOGGING, FILE, DEFAULT are exclusive, so one of them must be SET to TRUE
+    if (name == "LOGGING")
+    {
+        Options::setDisableLogging(!enabled);
+        if (!enabled)
+            KSUtils::Logging::Disable();
+    }
+    else if (name == "FILE")
+    {
+        Options::setLogToFile(enabled);
+        if (enabled)
+            KSUtils::Logging::UseFile();
+    }
+    else if (name == "DEFAULT")
+    {
+        Options::setLogToDefault(enabled);
+        if (enabled)
+            KSUtils::Logging::UseDefault();
+    }
+    // VERBOSE should be set to TRUE if INDI or Ekos logging is selected.
+    else if (name == "VERBOSE")
+    {
+        Options::setVerboseLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    // Toggle INDI Logging
+    else if (name == "INDI")
+    {
+        Options::setINDILogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "FITS")
+    {
+        Options::setFITSLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "CAPTURE")
+    {
+        Options::setCaptureLogging(enabled);
+        Options::setINDICCDLogging(enabled);
+        Options::setINDIFilterWheelLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "FOCUS")
+    {
+        Options::setFocusLogging(enabled);
+        Options::setINDIFocuserLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "GUIDE")
+    {
+        Options::setGuideLogging(enabled);
+        Options::setINDICCDLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "ALIGNMENT")
+    {
+        Options::setAlignmentLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "MOUNT")
+    {
+        Options::setMountLogging(enabled);
+        Options::setINDIMountLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "SCHEDULER")
+    {
+        Options::setSchedulerLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+    else if (name == "OBSERVATORY")
+    {
+        Options::setObservatoryLogging(enabled);
+        KSUtils::Logging::SyncFilterRules();
+    }
+}
 }

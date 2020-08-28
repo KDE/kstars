@@ -46,13 +46,12 @@ Vector2f EquirectangularProjector::toScreenVec(const SkyPoint *o, bool oRefract,
     oRefract &= m_vp.useRefraction;
     if (m_vp.useAltAz)
     {
-        if (oRefract)
-            Y = SkyPoint::refract(o->alt()).radians(); //account for atmospheric refraction
-        else
-            Y = o->alt().radians();
+        double Y0;
+        Y = SkyPoint::refract(o->alt(), oRefract).radians(); //account for atmospheric refraction
+        Y0 = SkyPoint::refract(m_vp.focus->alt(), oRefract).radians();
         dX = m_vp.focus->az().reduce().radians() - o->az().reduce().radians();
 
-        p[1] = 0.5 * m_vp.height - m_vp.zoomFactor * (Y - m_vp.focus->alt().radians());
+        p[1] = 0.5 * m_vp.height - m_vp.zoomFactor * (Y - Y0);
     }
     else
     {
@@ -84,7 +83,7 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
         dms az, alt;
         dx = -1.0 * dx; //Azimuth goes in opposite direction compared to RA
         az.setRadians(dx + m_vp.focus->az().radians());
-        alt.setRadians(dy + m_vp.focus->alt().radians());
+        alt.setRadians(dy + SkyPoint::refract(m_vp.focus->alt(), m_vp.useRefraction).radians());
         result.setAz(az.reduce());
         if (m_vp.useRefraction)
             alt = SkyPoint::unrefract(alt);

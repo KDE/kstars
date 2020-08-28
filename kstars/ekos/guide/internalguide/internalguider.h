@@ -15,6 +15,7 @@
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
 #include "guidelog.h"
+#include "calibration.h"
 
 #include <QFile>
 #include <QPointer>
@@ -26,7 +27,7 @@
 class QVector3D;
 
 class cgmath;
-class FITSView;
+class GuideView;
 class Edge;
 
 namespace Ekos
@@ -80,10 +81,9 @@ class InternalGuider : public GuideInterface
         bool dither(double pixels) override;
         bool ditherXY(double x, double y);
 
-        bool clearCalibration() override
-        {
-            return true;
-        }
+        bool clearCalibration() override;
+        bool restoreCalibration();
+
         bool reacquire() override;
 
         bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY) override;
@@ -97,8 +97,8 @@ class InternalGuider : public GuideInterface
         void setSquareAlgorithm(int index);
 
         // Reticle Parameters
-        void setReticleParameters(double x, double y, double angle);
-        bool getReticleParameters(double *x, double *y, double *angle);
+        void setReticleParameters(double x, double y);
+        bool getReticleParameters(double *x, double *y);
 
         // Guide Square Box Size
         void setGuideBoxSize(uint32_t value)
@@ -107,7 +107,7 @@ class InternalGuider : public GuideInterface
         }
 
         // Guide View
-        void setGuideView(FITSView *guideView);
+        void setGuideView(GuideView *guideView);
 
         // Region Axis
         void setRegionAxis(uint32_t value);
@@ -133,6 +133,7 @@ class InternalGuider : public GuideInterface
         bool useSubFrame();
         bool useRapidGuide();
 
+        const Calibration &getCalibration() const;
         bool isImageGuideEnabled() const;
         void setImageGuideEnabled(bool value);
 
@@ -145,6 +146,9 @@ class InternalGuider : public GuideInterface
 
         // Manual Dither
         bool processManualDithering();
+
+        void updateGPGParameters();
+        void resetGPG() override;
 
     public slots:
         void setDECSwap(bool enable);
@@ -170,13 +174,15 @@ class InternalGuider : public GuideInterface
         // Image Guiding
         bool processImageGuiding();
 
+        bool abortDither();
+
         void reset();
 
         // Logging
         void fillGuideInfo(GuideLog::GuideInfo *info);
 
         std::unique_ptr<cgmath> pmath;
-        QPointer<FITSView> guideFrame;
+        QPointer<GuideView> guideFrame;
         bool m_isStarted { false };
         bool m_isSubFramed { false };
         bool m_isFirstFrame { false };
@@ -197,8 +203,8 @@ class InternalGuider : public GuideInterface
             int last_pulse { 0 };
             int ra_total_pulse { 0 };
             int de_total_pulse { 0 };
-            double phi { 0 };
             uint8_t backlash { 0 };
+            Calibration tempCalibration;
         } m_CalibrationParams;
 
         struct
@@ -215,12 +221,14 @@ class InternalGuider : public GuideInterface
             double last_y { 0 };
             double ra_distance {0};
             double de_distance {0};
+            double start_backlash_x { 0 };
+            double start_backlash_y { 0 };
         } m_CalibrationCoords;
 
         Vector m_DitherTargetPosition;
         uint8_t m_DitherRetries {0};
 
-        QTime reacquireTimer;
+        QElapsedTimer reacquireTimer;
         int m_highRMSCounter {0};
 
         Ekos::Matrix ROT_Z;

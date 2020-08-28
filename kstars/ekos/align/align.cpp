@@ -134,7 +134,18 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     vlayout->addWidget(alignView);
     alignWidget->setLayout(vlayout);
 
-    connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
+    connect(solveB, &QPushButton::clicked, [this]()
+    {
+        double ra, dec;
+        currentTelescope->getEqCoords(&ra, &dec);
+        targetCoord.setRA(ra);
+        targetCoord.setDec(dec);
+        // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
+        // Function to do that in case of any changes in the future in that function.
+        SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
+        setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+        captureAndSolve();
+    });
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
     connect(measureAltB, &QPushButton::clicked, this, &Ekos::Align::measureAltError);
     connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);
@@ -2126,7 +2137,12 @@ void Align::removeDevice(ISD::GDInterface *device)
         }
         else
             CCDCaptureCombo->setCurrentIndex(0);
-        checkCCD();
+
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkCCD();
+        });
+        //checkCCD();
     }
 
     if (Filters.contains(static_cast<ISD::Filter *>(device)))
@@ -2142,7 +2158,11 @@ void Align::removeDevice(ISD::GDInterface *device)
         else
             FilterDevicesCombo->setCurrentIndex(0);
 
-        checkFilter();
+        //checkFilter();
+        QTimer::singleShot(1000, this, [this]()
+        {
+            checkFilter();
+        });
     }
 
 }
@@ -2841,7 +2861,7 @@ bool Align::captureAndSolve()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    if (focusState >= FOCUS_PROGRESS)
+    if (m_FocusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
@@ -2888,14 +2908,14 @@ bool Align::captureAndSolve()
         // If mount model was reset, we do not update targetCoord
         // since the RA/DE is now different immediately after the reset
         // so we still try to lock for the coordinates before the reset.
-        if (solverIterations == 0 && mountModelReset == false)
-        {
-            double ra, dec;
-            currentTelescope->getEqCoords(&ra, &dec);
-            targetCoord.setRA(ra);
-            targetCoord.setDec(dec);
-        }
-        mountModelReset = false;
+        //        if (solverIterations == 0 && mountModelReset == false)
+        //        {
+        //            double ra, dec;
+        //            currentTelescope->getEqCoords(&ra, &dec);
+        //            targetCoord.setRA(ra);
+        //            targetCoord.setDec(dec);
+        //        }
+        //        mountModelReset = false;
 
         solverTimer.start();
     }
@@ -3254,15 +3274,15 @@ void Align::startSolving()
         }
     }
 
-    if (solverIterations == 0 && mountModelReset == false)
-    {
-        double ra, dec;
-        currentTelescope->getEqCoords(&ra, &dec);
-        targetCoord.setRA(ra);
-        targetCoord.setDec(dec);
-    }
+    //    if (solverIterations == 0 && mountModelReset == false)
+    //    {
+    //        double ra, dec;
+    //        currentTelescope->getEqCoords(&ra, &dec);
+    //        targetCoord.setRA(ra);
+    //        targetCoord.setDec(dec);
+    //    }
 
-    mountModelReset = false;
+    //    mountModelReset = false;
 
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
@@ -3923,7 +3943,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                     case ALIGN_SLEWING:
 
-                        if (m_wasSlewStarted == false)
+                        if (!didSlewStart())
                         {
                             // If mount has not started slewing yet, then skip
                             //qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
@@ -4252,7 +4272,7 @@ void Align::Slew()
     // JM 2019-08-23: Do not assume that slew was started immediately. Wait until IPS_BUSY state is triggered
     // from Goto
     currentTelescope->Slew(&targetCoord);
-
+    slewStartTimer.start();
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(),
                        targetCoord.dec().toDMSString()));
 }
@@ -4985,8 +5005,8 @@ void Align::setWCSEnabled(bool enable)
     }
 
     ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
-
-    clientManager->sendNewSwitch(wcsControl);
+    if (clientManager)
+        clientManager->sendNewSwitch(wcsControl);
 }
 
 void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state)
@@ -5020,7 +5040,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 
 void Align::setFocusStatus(Ekos::FocusState state)
 {
-    focusState = state;
+    m_FocusState = state;
 }
 
 /**
@@ -5274,6 +5294,24 @@ void Align::setCaptureStatus(CaptureState newState)
 {
     switch (newState)
     {
+        case CAPTURE_PROGRESS:
+        {
+            // Only reset targetCoord if capture wasn't suspended then resumed due to error duing ongoing
+            // capture
+            if (currentTelescope && m_CaptureState != CAPTURE_SUSPENDED)
+            {
+                double ra, dec;
+                currentTelescope->getEqCoords(&ra, &dec);
+                targetCoord.setRA(ra);
+                targetCoord.setDec(dec);
+                // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
+                // Function to do that in case of any changes in the future in that function.
+                SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
+                setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+            }
+
+        }
+        break;
         case CAPTURE_ALIGNING:
             if (currentTelescope && currentTelescope->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
             {
@@ -5287,6 +5325,8 @@ void Align::setCaptureStatus(CaptureState newState)
         default:
             break;
     }
+
+    m_CaptureState = newState;
 }
 
 void Align::showFITSViewer()
@@ -6156,7 +6196,7 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         if (filterPositionPending)
         {
-            focusState = FOCUS_IDLE;
+            m_FocusState = FOCUS_IDLE;
             filterPositionPending = false;
             captureAndSolve();
         }
@@ -6419,4 +6459,26 @@ void Align::syncFOV()
     }
 }
 
+// m_wasSlewStarted can't be false for more than 10s after a slew starts.
+bool Align::didSlewStart()
+{
+    if (m_wasSlewStarted)
+        return true;
+    if (slewStartTimer.isValid() && slewStartTimer.elapsed() > MAX_WAIT_FOR_SLEW_START_MSEC)
+    {
+        qCDebug(KSTARS_EKOS_ALIGN) << "Slew timed out...waited > 10s, it must have started already.";
+        return true;
+    }
+    return false;
+}
+
+void Align::setTargetCoords(double ra, double de)
+{
+    targetCoord.setRA0(ra);
+    targetCoord.setDec0(de);
+    targetCoord.updateCoordsNow(KStarsData::Instance()->updateNum());
+
+    qCDebug(KSTARS_EKOS_ALIGN) << "Target Coordinates updated to RA:" << targetCoord.ra().toHMSString()
+                               << "DE:" << targetCoord.dec().toDMSString();
+}
 }

@@ -178,7 +178,7 @@ class SkyMapLite : public QQuickItem
         void setFocus(const dms &ra, const dms &dec);
 
         /** @short sets the focus point of the sky map, using its alt/az coordinates
-             *@param alt the new altitude
+             *@param alt the new altitude (actual, i.e. without refraction correction)
              *@param az the new azimuth
              */
         void setFocusAltAz(const dms &alt, const dms &az);
@@ -205,8 +205,9 @@ class SkyMapLite : public QQuickItem
         /** @short sets the destination point of the sky map, using its alt/az coordinates.
              *@param alt the new altitude
              *@param az the new azimuth
+             *@param altIsRefracted set to true if the altitude supplied is apparent
              */
-        void setDestinationAltAz(const dms &alt, const dms &az);
+        void setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefracted);
 
         /** @short set the FocusPoint; the position that is to be the next Destination.
              *@param f a pointer to the FocusPoint SkyPoint.

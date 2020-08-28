@@ -532,7 +532,7 @@ void Focus::checkFocuser(int FocuserNum)
         focusBacklashSpin->setValue(0);
     }
 
-    getCurrentFocuserTemperature();
+    initializeFocuserTemperature();
 
     connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
     //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
@@ -564,7 +564,7 @@ void Focus::getAbsFocusPosition()
 
     if (absMove)
     {
-        currentPosition = absMove->np[0].value;
+        currentPosition = static_cast<int>(absMove->np[0].value);
         absMotionMax    = absMove->np[0].max;
         absMotionMin    = absMove->np[0].min;
 
@@ -575,26 +575,80 @@ void Focus::getAbsFocusPosition()
         maxTravelIN->setMinimum(absMove->np[0].min);
         maxTravelIN->setMaximum(absMove->np[0].max);
 
-        absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+        absTicksLabel->setText(QString::number(currentPosition));
 
         stepIN->setMaximum(absMove->np[0].max / 2);
         //absTicksSpin->setValue(currentPosition);
     }
 }
 
-void Focus::getCurrentFocuserTemperature()
+void Focus::initializeFocuserTemperature()
 {
-    INumberVectorProperty *focuserTemperature = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
+    INumberVectorProperty *temperatureProperty = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
 
-    if (focuserTemperature && focuserTemperature->s != IPS_ALERT)
+    if (temperatureProperty && temperatureProperty->s != IPS_ALERT)
     {
-        currentTemperature = focuserTemperature->np[0].value;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(currentTemperature, 0, 'f', 2);
+        focuserTemperature = temperatureProperty->np[0].value;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(focuserTemperature, 0, 'f', 2);
     }
     else
     {
-        currentTemperature = observatoryTemperature;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature not available; using observatory temperature");
+        focuserTemperature = INVALID_VALUE;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature is not available");
+    }
+}
+
+void Focus::setLastFocusTemperature()
+{
+    // The focus temperature is taken by default from the focuser.
+    // If unavailable, fallback to the observatory temperature.
+    if (focuserTemperature != INVALID_VALUE)
+    {
+        lastFocusTemperature = focuserTemperature;
+        lastFocusTemperatureSource = FOCUSER_TEMPERATURE;
+    }
+    else if (observatoryTemperature != INVALID_VALUE)
+    {
+        lastFocusTemperature = observatoryTemperature;
+        lastFocusTemperatureSource = OBSERVATORY_TEMPERATURE;
+    }
+    else
+    {
+        lastFocusTemperature = INVALID_VALUE;
+        lastFocusTemperatureSource = NO_TEMPERATURE;
+    }
+
+    emit newFocusTemperatureDelta(0);
+}
+
+void Focus::updateTemperature(TemperatureSource source, double newTemperature)
+{
+    if (source == FOCUSER_TEMPERATURE && focuserTemperature != newTemperature)
+    {
+        focuserTemperature = newTemperature;
+        emitTemperatureEvents(source, newTemperature);
+    }
+    else if (source == OBSERVATORY_TEMPERATURE && observatoryTemperature != newTemperature)
+    {
+        observatoryTemperature = newTemperature;
+        emitTemperatureEvents(source, newTemperature);
+    }
+}
+
+void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperature)
+{
+    if (source != lastFocusTemperatureSource)
+    {
+        return;
+    }
+
+    if (lastFocusTemperature != INVALID_VALUE && newTemperature != INVALID_VALUE)
+    {
+        emit newFocusTemperatureDelta(abs(newTemperature - lastFocusTemperature));
+    }
+    else
+    {
+        emit newFocusTemperatureDelta(0);
     }
 }
 
@@ -695,6 +749,9 @@ void Focus::start()
                                 << " Tolerance: " << toleranceIN->value()
                                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
+    emit autofocusStarting(focuserTemperature != INVALID_VALUE
+                           ? focuserTemperature : observatoryTemperature, filter());
+
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
     else
@@ -719,11 +776,12 @@ void Focus::start()
     // Used for all the focuser types.
     if (focusAlgorithm == FOCUS_LINEAR)
     {
-        getCurrentFocuserTemperature();
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
-            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(), currentTemperature);
+            MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
+            focuserTemperature != INVALID_VALUE ? focuserTemperature : observatoryTemperature,
+            Options::initialFocusOutSteps());
         linearFocuser.reset(MakeLinearFocuser(params));
         linearRequestedPosition = linearFocuser->initialPosition();
         const int newPosition = adjustLinearPosition(position, linearRequestedPosition);
@@ -779,6 +837,17 @@ void Focus::checkStopFocus()
 
 void Focus::abort()
 {
+    QString str = "";
+    const int size = hfr_position.size();
+    for (int i = 0; i < size; ++i)
+    {
+        str.append(QString("%1%2|%3")
+                   .arg(i == 0 ? "" : "|" )
+                   .arg(QString::number(hfr_position[i], 'f', 0))
+                   .arg(QString::number(hfr_value[i], 'f', 3)));
+    }
+
+    emit autofocusAborted(filter(), str);
     stop(true);
 }
 
@@ -834,10 +903,15 @@ void Focus::stop(bool aborted)
     }
 }
 
-void Focus::capture()
+void Focus::capture(double settleTime)
 {
-    captureTimeout.stop();
-
+    // If capturing should be delayed by a given settling time, we start the capture timer.
+    // This is intentionally designed re-entrant, i.e. multiple calls with settle time > 0 takes the last delay
+    if (settleTime > 0 && captureInProgress == false)
+    {
+        captureTimer.start(static_cast<int>(settleTime * 1000));
+        return;
+    }
     if (captureInProgress)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
@@ -856,6 +930,9 @@ void Focus::capture()
         return;
     }
 
+    // reset timeout for receiving an image
+    captureTimeout.stop();
+    // reset timeout for focus star selection
     waitStarSelectTimer.stop();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
@@ -949,7 +1026,11 @@ void Focus::capture()
     }
 
     captureInProgress = true;
-    emit newStatus(FOCUS_PROGRESS);
+    if (state != FOCUS_PROGRESS)
+    {
+        state = FOCUS_PROGRESS;
+        emit newStatus(state);
+    }
 
     focusView->setBaseSize(focusingWidget->size());
 
@@ -1193,6 +1274,20 @@ bool Focus::appendHFR(double newHFR)
     return HFRFrames.count() < focusFramesSpin->value();
 }
 
+void Focus::emitComplete()
+{
+    QString str = "";
+    const int size = hfr_position.size();
+    for (int i = 0; i < size; ++i)
+    {
+        str.append(QString("%1%2|%3")
+                   .arg(i == 0 ? "" : "|" )
+                   .arg(QString::number(hfr_position[i], 'f', 0))
+                   .arg(QString::number(hfr_value[i], 'f', 3)));
+    }
+    emit autofocusComplete(filter(), str);
+}
+
 void Focus::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
@@ -1246,7 +1341,7 @@ void Focus::setCaptureComplete()
 
         // Let signal the current HFR now depending on whether the focuser is absolute or relative
         if (canAbsMove)
-            emit newHFR(currentHFR, static_cast<int>(currentPosition));
+            emit newHFR(currentHFR, currentPosition);
         else
             emit newHFR(currentHFR, -1);
 
@@ -1266,6 +1361,7 @@ void Focus::setCaptureComplete()
             if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
             {
                 polySolutionFound = 0;
+                emitComplete();
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
@@ -1592,7 +1688,17 @@ void Focus::setCaptureComplete()
 
     // If we are not in autofocus process, we're done.
     if (inAutoFocus == false)
+    {
+        // If we are done and there is no further autofocus,
+        // we reset state to IDLE
+        if (state != Ekos::FOCUS_IDLE)
+        {
+            state = Ekos::FOCUS_IDLE;
+            qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+            emit newStatus(state);
+        }
         return;
+    }
 
     // Set state to progress
     if (state != Ekos::FOCUS_PROGRESS)
@@ -1772,7 +1878,7 @@ void Focus::autoFocusLinear()
     if (!canAbsMove && !canRelMove && canTimerMove)
     {
         const bool kFixPosition = true;
-        if (kFixPosition && (linearRequestedPosition != static_cast<int>(currentPosition)))
+        if (kFixPosition && (linearRequestedPosition != currentPosition))
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Linear: warning, changing position " << currentPosition << " to "
                                        << linearRequestedPosition;
@@ -1821,11 +1927,12 @@ void Focus::autoFocusLinear()
     }
 
     linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
-    const int nextPosition = adjustLinearPosition(static_cast<int>(currentPosition), linearRequestedPosition);
+    const int nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition);
     if (linearRequestedPosition == -1)
     {
         if (linearFocuser->isDone() && linearFocuser->solution() != -1)
         {
+            emitComplete();
             appendLogText(i18np("Autofocus complete after %1 iteration.",
                                 "Autofocus complete after %1 iterations.", hfr_position.count()));
             stop();
@@ -1921,6 +2028,7 @@ void Focus::autoFocusAbs()
                 }
                 else
                 {
+                    emitComplete();
                     appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                     stop();
                     setAutoFocusResult(true);
@@ -2110,6 +2218,7 @@ void Focus::autoFocusAbs()
             // Ops, we can't go any further, we're done.
             if (targetPosition == currentPosition)
             {
+                emitComplete();
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
@@ -2232,6 +2341,7 @@ void Focus::autoFocusRel()
         case FOCUS_OUT:
             if (fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
             {
+                emitComplete();
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 setAutoFocusResult(true);
@@ -2321,7 +2431,9 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         }
         else
         {
-            QTimer::singleShot(FocusSettleTime->value() * 1000, this, &Ekos::Focus::capture);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(
+                                           currentPosition).arg(FocusSettleTime->value());
+            capture(FocusSettleTime->value());
         }
     }
     else if (state == IPS_ALERT)
@@ -2353,15 +2465,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
     {
-        currentTemperature = nvp->np[0].value;
-        if (lastFocusTemperature != INVALID_VALUE && currentTemperature != INVALID_VALUE)
-        {
-            emit newFocusTemperatureDelta(abs(currentTemperature - lastFocusTemperature));
-        }
-        else
-        {
-            emit newFocusTemperatureDelta(0);
-        }
+        updateTemperature(FOCUSER_TEMPERATURE, nvp->np[0].value);
         return;
     }
 
@@ -2370,10 +2474,22 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
         if (pos)
         {
-            currentPosition = pos->value;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Abs Focuser position changed to %1").arg(currentPosition);
-            absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
-            emit absolutePositionChanged(currentPosition);
+            int newPosition = static_cast<int>(pos->value);
+            // Some absolute focuser constantly report the position without a state change.
+            // Therefore we ignore it if both value and state are the same as last time.
+            if (currentPosition == newPosition && currentPositionState == nvp->s)
+                return;
+
+            currentPositionState = nvp->s;
+
+            if (currentPosition != newPosition)
+            {
+                currentPosition = newPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << " (state = " << currentPositionState
+                                           << ")";
+                absTicksLabel->setText(QString::number(currentPosition));
+                emit absolutePositionChanged(currentPosition);
+            }
         }
 
         if (adjustFocus && nvp->s == IPS_OK)
@@ -2783,10 +2899,13 @@ void Focus::focusStarSelected(int x, int y)
     }
 
     waitStarSelectTimer.stop();
-    state = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
-    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-
-    emit newStatus(state);
+    FocusState nextState = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
+    if (nextState != state)
+    {
+        state = nextState;
+        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+        emit newStatus(state);
+    }
 }
 
 void Focus::checkFocus(double requiredHFR)
@@ -2867,24 +2986,20 @@ void Focus::setAutoFocusResult(bool status)
 
     if (status)
     {
-        // update focuser temperature before logging
-        getCurrentFocuserTemperature();
+        setLastFocusTemperature();
 
         // CR add auto focus position, temperature and filter to log in CSV format
         // this will help with setting up focus offsets and temperature compensation
         qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
-                                  << currentTemperature << ", filter, " << filter()
+                                  << lastFocusTemperature << ", filter, " << filter()
                                   << ", HFR, " << currentHFR;
 
 
         appendFocusLogText(QString("%1, %2, %3, %4\n")
                            .arg(QString::number(currentPosition))
-                           .arg(QString::number(currentTemperature, 'f', 1))
+                           .arg(QString::number(lastFocusTemperature, 'f', 1))
                            .arg(filter())
                            .arg(QString::number(currentHFR, 'f', 3)));
-
-        lastFocusTemperature = currentTemperature;
-        emit newFocusTemperatureDelta(0);
     }
 
     // In case of failure, go back to last position if the focuser is absolute
@@ -3138,8 +3253,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
         {
             Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
             focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
-            checkFocuser();
-            resetButtons();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFocuser();
+                resetButtons();
+            });
+
         }
     }
 
@@ -3160,8 +3279,11 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             else
                 CCDCaptureCombo->setCurrentIndex(0);
 
-            checkCCD();
-            resetButtons();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkCCD();
+                resetButtons();
+            });
         }
     }
 
@@ -3179,8 +3301,12 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
             }
             else
                 FilterDevicesCombo->setCurrentIndex(0);
-            checkFilter();
-            resetButtons();
+
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFilter();
+                resetButtons();
+            });
         }
     }
 }
@@ -3284,7 +3410,7 @@ void Focus::toggleVideo(bool enabled)
         currentCCD->setVideoStreamEnabled(enabled);
 }
 
-void Focus::setWeatherData(std::vector<ISD::Weather::WeatherData> data)
+void Focus::setWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
 {
     auto pos = std::find_if(data.begin(), data.end(), [](ISD::Weather::WeatherData oneEntry)
     {
@@ -3293,7 +3419,7 @@ void Focus::setWeatherData(std::vector<ISD::Weather::WeatherData> data)
 
     if (pos != data.end())
     {
-        observatoryTemperature = pos->value;
+        updateTemperature(OBSERVATORY_TEMPERATURE, pos->value);
     }
 }
 
@@ -3400,6 +3526,8 @@ void Focus::syncSettings()
             Options::setFocusThreshold(dsb->value());
         else if (dsb == gaussianSigmaSpin)
             Options::setFocusGaussianSigma(dsb->value());
+        else if (dsb == initialFocusOutStepsIN)
+            Options::setInitialFocusOutSteps(dsb->value());
     }
     else if ( (sb = qobject_cast<QSpinBox*>(sender())))
     {
@@ -3510,12 +3638,15 @@ void Focus::loadSettings()
     stepIN->setValue(Options::focusTicks());
     // Single Max Step
     maxSingleStepIN->setValue(Options::focusMaxSingleStep());
+    // LinearFocus initial outward steps
+    initialFocusOutStepsIN->setValue(Options::initialFocusOutSteps());
     // Tolerance
     toleranceIN->setValue(Options::focusTolerance());
     // Threshold spin
     thresholdSpin->setValue(Options::focusThreshold());
     // Focus Algorithm
-    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
+    setFocusAlgorithm(static_cast<FocusAlgorithm>(Options::focusAlgorithm()));
+    // This must go below the above line (which sets focusAlgorithm from options).
     focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
     // Frames Count
     focusFramesSpin->setValue(Options::focusFramesCount());
@@ -3590,6 +3721,7 @@ void Focus::initSettingsConnections()
     connect(maxTravelIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(maxSingleStepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(initialFocusOutStepsIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(gaussianSigmaSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
@@ -3750,6 +3882,13 @@ void Focus::initConnections()
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
 
+    // delayed capturing for waiting the scope to settle
+    captureTimer.setSingleShot(true);
+    connect(&captureTimer, &QTimer::timeout, this, [&]()
+    {
+        capture();
+    });
+
     // How long do we wait until an exposure times out and needs a retry?
     captureTimeout.setSingleShot(true);
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Focus::processCaptureTimeout);
@@ -3840,7 +3979,7 @@ void Focus::initConnections()
     // Update the focuser solution algorithm if the selection changes.
     connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
-        focusAlgorithm = static_cast<FocusAlgorithm>(index);
+        setFocusAlgorithm(static_cast<FocusAlgorithm>(index));
     });
 
     // Reset star center on auto star check toggle
@@ -3853,6 +3992,34 @@ void Focus::initConnections()
             focusView->setTrackingBox(QRect());
         }
     });
+}
+
+void Focus::setFocusAlgorithm(FocusAlgorithm algorithm)
+{
+    focusAlgorithm = algorithm;
+    switch(algorithm)
+    {
+        case FOCUS_ITERATIVE:
+            initialFocusOutStepsIN->setEnabled(false); // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(true);         // Max Step Size
+            break;
+
+        case FOCUS_POLYNOMIAL:
+            initialFocusOutStepsIN->setEnabled(false); // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(true);         // Max Step Size
+            break;
+
+        case FOCUS_LINEAR:
+            initialFocusOutStepsIN->setEnabled(true);  // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(false);        // Max Step Size
+            break;
+    }
 }
 
 void Focus::initView()

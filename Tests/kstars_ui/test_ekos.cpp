@@ -334,4 +334,6 @@ void TestEkos::testManipulateProfiles()
     QVERIFY(profileCBox->currentText() != testProfileName);
 }
 
+QTEST_KSTARS_MAIN(TestEkos)
+
 #endif // HAVE_INDI

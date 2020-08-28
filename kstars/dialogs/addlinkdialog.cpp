@@ -23,7 +23,6 @@
 #include <QDesktopServices>
 
 #include <KMessageBox>
-#include <KToolInvocation>
 
 #include "skyobjects/skyobject.h"
 

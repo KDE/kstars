@@ -54,6 +54,7 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } FocusType;
         typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR } FocusAlgorithm;
+        typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
              * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -225,8 +226,9 @@ class Focus : public QWidget, public Ui::Focus
 
         /** DBUS interface function.
              * Capture a focus frame.
+             * @param settleTime if > 0 wait for the given time in seconds before starting to capture
              */
-        Q_SCRIPTABLE Q_NOREPLY void capture();
+        Q_SCRIPTABLE Q_NOREPLY void capture(double settleTime = 0.0);
 
         /** DBUS interface function.
              * Focus inward
@@ -340,7 +342,7 @@ class Focus : public QWidget, public Ui::Focus
          * @brief setWeatherData Updates weather data that could be used to extract focus temperature from observatory
          * in case focus native temperature is not available.
          */
-        void setWeatherData(std::vector<ISD::Weather::WeatherData> data);
+        void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
     private slots:
         /**
@@ -385,6 +387,10 @@ class Focus : public QWidget, public Ui::Focus
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
 
+        // Signals for Analyze.
+        void autofocusStarting(double temperature, const QString &filter);
+        void autofocusComplete(const QString &filter, const QString &points);
+        void autofocusAborted(const QString &filter, const QString &points);
     private:
 
         ////////////////////////////////////////////////////////////////////
@@ -426,6 +432,9 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        // Sets the algorithm and enables/disables various UI inputs.
+        void setFocusAlgorithm(FocusAlgorithm algorithm);
+
         // Move the focuser in (negative) or out (positive amount).
         bool changeFocus(int amount);
 
@@ -457,7 +466,16 @@ class Focus : public QWidget, public Ui::Focus
          */
         bool appendHFR(double newHFR);
 
-        void getCurrentFocuserTemperature();
+
+        /**
+         * @brief emitComplete emits the message needed for Analyze when focus completes.
+         */
+        void emitComplete();
+
+        void initializeFocuserTemperature();
+        void setLastFocusTemperature();
+        void updateTemperature(TemperatureSource source, double newTemperature);
+        void emitTemperatureEvents(TemperatureSource source, double newTemperature);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
@@ -510,7 +528,9 @@ class Focus : public QWidget, public Ui::Focus
          * Absolute position focusers
          ****************************/
         /// Absolute focus position
-        double currentPosition { 0 };
+        int currentPosition { 0 };
+        /// Motion state of the absolute focuser
+        IPState currentPositionState {IPS_IDLE};
         /// What was our position before we started the focus process?
         int initialFocuserAbsPosition { -1 };
         /// Pulse duration in ms for relative focusers that only support timers, or the number of ticks in a relative or absolute focuser
@@ -638,7 +658,8 @@ class Focus : public QWidget, public Ui::Focus
         QCPGraph *focusPoint = nullptr;
         bool polynomialGraphIsShown = false;
 
-        // Capture timeout timer
+        // Capture timers
+        QTimer captureTimer;
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
         uint8_t captureFailureCounter { 0 };
@@ -656,8 +677,9 @@ class Focus : public QWidget, public Ui::Focus
 
         bool hasDeviation { false };
 
-        double currentTemperature { INVALID_VALUE };
-        double lastFocusTemperature { INVALID_VALUE };
+        double focuserTemperature { INVALID_VALUE };
         double observatoryTemperature { INVALID_VALUE };
+        double lastFocusTemperature { INVALID_VALUE };
+        TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
 };
 }
