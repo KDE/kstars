@@ -1,0 +1,161 @@
+version: 1
+script:
+  - rm -rf AppDir || true
+  - DESTDIR=AppDir make install
+  - for F in $(dpkg-query -L libraw20); do cp $F --parent -t AppDir -v; done
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: org.kde.kstars
+    name: KStars
+    icon: kstars
+    version: latest
+    exec: usr/bin/kstars
+    exec_args: $@
+  runtime:
+    path_mappings:
+      - /usr/lib/x86_64-linux-gnu/qt5:$APPDIR/usr/lib/x86_64-linux-gnu/qt5
+      - /usr/share/xsessions/plasma/kstars:$APPDIR/usr/share/xsessions/plasma/kstars
+      - /usr/share/kstars:$APPDIR/usr/share/kstars
+      - /usr/share/indi:$APPDIR/usr/share/indi
+    env:
+      APPDIR_LIBRARY_PATH: $APPDIR/usr/lib/x86_64-linux-gnu/libcanberra-0.30:$APPDIR/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/pulseaudio
+  apt:
+    arch: amd64
+    sources:
+      - sourceline: deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3B4FE6ACC0B21F32"
+      - sourceline: deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+      - sourceline: deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+      - sourceline: deb [arch=amd64] http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
+      - sourceline: deb [arch=amd64] http://ppa.launchpad.net/mutlaqja/ppa/ubuntu bionic main
+        key_url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x7da5c2d272b4c6f8e7cea9c6487cec2b3f33a288"
+      - sourceline: deb [arch=amd64] http://ppa.launchpad.net/pch/phd2/ubuntu bionic main
+        key_url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xdae27ffb13432bed41181735e3dbd5d75cfabf12"
+
+    include:
+      - frameworkintegration
+      - kimageformat-plugins
+      - libbz2-1.0
+      - libcanberra-pulse
+      - libcfitsio5
+      - libexpat1
+      - libfam0
+      - libgcrypt20
+      - libjpeg-turbo8
+      - libkf5archive5
+      - libkf5attica5
+      - libkf5bookmarks5
+      - libkf5codecs5
+      - libkf5completion5
+      - libkf5configcore5
+      - libkf5configgui5
+      - libkf5configwidgets5
+      - libkf5coreaddons5
+      - libkf5crash5
+      - libkf5dbusaddons5
+      - libkf5globalaccel5
+      - libkf5guiaddons5
+      - libkf5i18n5
+      - libkf5iconthemes5
+      - libkf5itemviews5
+      - libkf5jobwidgets5
+      - libkf5kiocore5
+      - libkf5kiofilewidgets5
+      - libkf5kiogui5
+      - libkf5kiowidgets5
+      - libkf5newstuff5
+      - libkf5newstuffcore5
+      - libkf5notifications5
+      - libkf5notifyconfig5
+      - libkf5package5
+      - libkf5plotting5
+      - libkf5service5
+      - libkf5solid5
+      - libkf5sonnetcore5
+      - libkf5sonnetui5
+      - libkf5style5
+      - libkf5textwidgets5
+      - libkf5waylandclient5
+      - libkf5widgetsaddons5
+      - libkf5windowsystem5
+      - libkf5xmlgui5
+      - liblz4-1
+      - libopenexr22
+      - libpciaccess0
+      - libpcre3
+      - libqt5concurrent5
+      - libqt5quickcontrols2-5
+      - libqt5quicktemplates2-5
+      - libqt5keychain1
+      - libqt5sql5-sqlite
+      - libqt5svg5
+      - libqt5texttospeech5
+      - libqt5x11extras5
+      - libqt5websockets5
+      - libsm6
+      - libsystemd0
+      - libxau6
+      - libxcb-render-util0
+      - libxcb-sync1
+      - libxcb-xinerama0
+      - libxcb-xkb1
+      - libxdamage1
+      - libxdmcp6
+      - libxext6
+      - libxfixes3
+      - libxrender1
+      - libxshmfence1
+      - libxxf86vm1
+      - libgsl23
+      - libzstd1
+      - plasma-integration
+      - qt5-image-formats-plugins
+      - xplanet
+      - libnova-0.16-0
+      - libwcs5
+      - libindi-data
+    exclude:
+      - breeze
+      - breeze-icon-theme
+      - breeze-cursor-theme
+      - kde-style-breeze
+      - perl
+      - gnupg
+      - gpg
+      - gpgv
+      - gpgsm
+      - xkb-data
+      - sound-theme-freedesktop
+  files:
+    exclude:
+      - usr/share/man
+      - usr/share/doc/*/README.*
+      - usr/share/doc/*/changelog.*
+      - usr/share/doc/*/NEWS.*
+      - usr/share/doc/*/TODO.*
+  test:
+    fedora:
+      image: appimagecrafters/tests-env:fedora-30
+      command: "mkdir -p /home/$USER/.local/share/kstars && ./AppRun"
+      use_host_x: true
+    debian:
+      image: appimagecrafters/tests-env:debian-stable
+      command: "mkdir -p /home/$USER/.local/share/kstars && ./AppRun"
+      use_host_x: true
+    arch:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: "mkdir -p /home/$USER/.local/share/kstars && ./AppRun"
+      use_host_x: true
+    centos:
+      image: appimagecrafters/tests-env:centos-7
+      command: "mkdir -p /home/$USER/.local/share/kstars && ./AppRun"
+      use_host_x: true
+    ubuntu:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: "mkdir -p /home/$USER/.local/share/kstars && ./AppRun"
+      use_host_x: true
+AppImage:
+  arch: x86_64
+  update-information: None
+  sign-key: None
