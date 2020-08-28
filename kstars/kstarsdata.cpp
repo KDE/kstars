@@ -49,6 +49,7 @@ namespace
 // Calls QApplication::exit
 void fatalErrorMessage(QString fname)
 {
+    qCCritical(KSTARS) << i18n("Critical File not Found: %1", fname);
     KSNotification::sorry(i18n("The file  %1 could not be found. "
                                "KStars cannot run properly without this file. "
                                "KStars searches for this file in following locations:\n\n\t"
@@ -57,7 +58,6 @@ void fatalErrorMessage(QString fname)
                                fname, QStandardPaths::standardLocations(QStandardPaths::DataLocation).join("\n\t")),
                           i18n("Critical File Not Found: %1", fname)); // FIXME: Must list locations depending on file type
 
-    qDebug() << i18n("Critical File Not Found: %1", fname);
     qApp->exit(1);
 }
 
@@ -66,6 +66,7 @@ void fatalErrorMessage(QString fname)
 // Calls QApplication::exit if he don't
 bool nonFatalErrorMessage(QString fname)
 {
+    qCWarning(KSTARS) << i18n( "Non-Critical File Not Found: %1", fname );
 #ifdef KSTARS_LITE
     Q_UNUSED(fname);
     return true;
