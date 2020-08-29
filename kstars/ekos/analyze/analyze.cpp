@@ -1372,8 +1372,15 @@ void Analyze::zoomIn()
 {
     if (plotWidth > 0.5)
     {
-        // Try to keep the center of the plot in the same place.
-        plotStart += plotWidth / 4.0;
+        if (keepCurrentCB->isChecked())
+            // If we're keeping to the end of the data, keep the end on the right.
+            plotStart = std::max(0.0, maxXValue - plotWidth / 4.0);
+        else if (statsCursorTime >= 0)
+            // If there is a cursor, try to move it to the center.
+            plotStart = std::max(0.0, statsCursorTime - plotWidth / 4.0);
+        else
+            // Keep the center the same.
+            plotStart += plotWidth / 4.0;
         plotWidth = plotWidth / 2.0;
     }
     fullWidthCB->setChecked(false);
