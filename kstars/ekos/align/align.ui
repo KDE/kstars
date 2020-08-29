@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>914</width>
+    <width>920</width>
     <height>675</height>
    </rect>
   </property>
@@ -29,6 +29,9 @@
    <item>
     <layout class="QVBoxLayout" name="leftLayout">
      <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <item>
@@ -296,10 +299,13 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="pixScaleOut">
+        <item row="1" column="1" colspan="3">
+         <widget class="QLineEdit" name="errOut">
           <property name="toolTip">
-           <string>Image scale in arcsecs/pixel</string>
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
+          </property>
+          <property name="text">
+           <string/>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -316,16 +322,10 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="FOVOut">
-          <property name="toolTip">
-           <string>Effective field of view size in arcminutes.</string>
-          </property>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>false</bool>
+           <string>DE:</string>
           </property>
          </widget>
         </item>
@@ -339,44 +339,10 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="SolverRAOut">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>RA:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="err">
-          <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
-          </property>
-          <property name="text">
-           <string>Err:</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="3">
          <widget class="QLineEdit" name="SolverDecOut">
           <property name="readOnly">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="toolTip">
-           <string>Effective field of view size in arcminutes.</string>
-          </property>
-          <property name="text">
-           <string>FOV:</string>
           </property>
          </widget>
         </item>
@@ -390,21 +356,28 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_6">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>DE:</string>
+           <string>RA:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="3">
-         <widget class="QLineEdit" name="errOut">
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="FOVOut">
           <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
+           <string>Effective field of view size in arcminutes.</string>
           </property>
           <property name="text">
            <string/>
           </property>
+          <property name="readOnly">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="SolverRAOut">
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -427,13 +400,43 @@
           </item>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="err">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
+          </property>
+          <property name="text">
+           <string>Err:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="pixScaleOut">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="toolTip">
+           <string>Effective field of view size in arcminutes.</string>
+          </property>
+          <property name="text">
+           <string>FOV:</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="plateSolverOptionsGroup">
        <property name="title">
-        <string>Solver Options</string>
+        <string>Plate Solve Capture Options</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
@@ -589,127 +592,70 @@
           </item>
          </layout>
         </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Stellar Solver Options</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_17">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_26">
-            <property name="text">
-             <string>Sextractor: </string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="sextractorTypeCombo">
-            <item>
-             <property name="text">
-              <string>Internal SEP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>External</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Built In</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_25">
-            <property name="text">
-             <string>Solver:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="solverTypeCombo">
-            <item>
-             <property name="text">
-              <string>StellarSolver</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Local Astrometry</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>ASTAP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Online</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_20">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>Solver Options:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="optionsProfile"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="editOptionsB">
-            <property name="minimumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Edit solver options</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::MinimumExpanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
+         <widget class="QPushButton" name="editOptionsB">
+          <property name="minimumSize">
            <size>
-            <width>20</width>
-            <height>40</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
-         </spacer>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Edit solver options</string>
+          </property>
+          <property name="text">
+           <string>Edit Options</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
@@ -1830,6 +1776,5 @@
  </connections>
  <buttongroups>
   <buttongroup name="gotoModeButtonGroup"/>
-  <buttongroup name="solverBackendGroup"/>
  </buttongroups>
 </ui>

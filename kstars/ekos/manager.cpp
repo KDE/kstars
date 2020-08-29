@@ -2076,7 +2076,7 @@ void Manager::processTabChange()
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
                 //#ifdef Q_OS_WIN
-                else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
+               /** else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
                 {
                     // If current setting is remote astrometry and profile doesn't contain
                     // remote astrometry, then we switch to online solver. Otherwise, the whole align
@@ -2092,6 +2092,7 @@ void Manager::processTabChange()
                         alignProcess->setEnabled(true);
                     }
                 }
+                **/
                 //#endif
             }
         }

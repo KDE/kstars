@@ -18,7 +18,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_18">
       <item row="0" column="1">
-       <widget class="QComboBox" name="sextractorTypeForSextraction">
+       <widget class="QComboBox" name="kcfg_FocusSextractorType">
         <item>
          <property name="text">
           <string>Internal Sextractor</string>
@@ -56,7 +56,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="focusProfile">
+         <widget class="QComboBox" name="kcfg_FocusOptionsProfile">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -111,7 +111,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="guidingProfile">
+         <widget class="QComboBox" name="kcfg_GuideOptionsProfile">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -133,7 +133,7 @@
        </layout>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="sextractorTypeForSextraction_2">
+       <widget class="QComboBox" name="kcfg_GuideSextractorType">
         <item>
          <property name="text">
           <string>Internal Sextractor</string>
@@ -200,7 +200,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="solverType">
+       <widget class="QComboBox" name="kcfg_SolverType">
         <item>
          <property name="text">
           <string>StellarSolver</string>
@@ -266,7 +266,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QComboBox" name="sextractorTypeForSolving">
+       <widget class="QComboBox" name="kcfg_SolveSextractorType">
         <item>
          <property name="text">
           <string>Internal Sextractor</string>
@@ -297,7 +297,7 @@
       <item row="1" column="3">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QComboBox" name="solverProfile">
+         <widget class="QComboBox" name="kcfg_SolveOptionsProfile">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -317,6 +317,49 @@
          </widget>
         </item>
        </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Logging</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_34">
+        <property name="text">
+         <string>Log Level:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="kcfg_LoggerLevel">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>LOG_NONE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>LOG_MSG</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>LOG_VERB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>LOG_ALL</string>
+         </property>
+        </item>
+       </widget>
       </item>
      </layout>
     </widget>

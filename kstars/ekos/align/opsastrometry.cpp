@@ -110,8 +110,8 @@ void OpsAstrometry::slotUpdatePosition()
 
 void OpsAstrometry::slotApply()
 {
-    if (Options::solverBackend() != 1)
-        return;
+    //if (Options::solverBackend() != 1)
+    //    return;
 
     bool raOK = false, deOK = false;
     dms RA = estRA->createDms(false, &raOK);

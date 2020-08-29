@@ -41,9 +41,9 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     optionsList = temp.getBuiltInProfiles();
     foreach(SSolver::Parameters param, optionsList)
     {
-        focusProfile->addItem(param.listName);
-        guidingProfile->addItem(param.listName);
-        solverProfile->addItem(param.listName);
+        kcfg_FocusOptionsProfile->addItem(param.listName);
+        kcfg_GuideOptionsProfile->addItem(param.listName);
+        kcfg_SolveOptionsProfile->addItem(param.listName);
     }
 
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));

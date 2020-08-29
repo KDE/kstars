@@ -526,13 +526,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     for (auto &button : qButtons)
         button->setAutoDefault(false);
 
-
     optionsList = StellarSolver::getBuiltInProfiles();
-    foreach(SSolver::Parameters param, optionsList)
-    {
-        optionsProfile->addItem(param.listName);
-    }
-    optionsProfile->setCurrentText("ParallelSmallScale");  //This should be changed later
 }
 
 Align::~Align()
@@ -2759,7 +2753,7 @@ bool Align::captureAndSolve()
     m_CaptureTimer.stop();
 
 #ifdef Q_OS_OSX
-    if(solverTypeCombo->currentIndex() == SSolver::SOLVER_LOCALASTROMETRY)
+    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY)
     {
         if(!Options::useSextractor())
         {
@@ -3111,7 +3105,7 @@ void Align::setCaptureComplete()
 
     emit newImage(alignView);
 
-    if (solverTypeCombo->currentIndex() == SSolver::SOLVER_ONLINEASTROMETRY &&
+    if (Options::solverType() == SSolver::SOLVER_ONLINEASTROMETRY &&
             Options::astrometryUseJPEG())
     {
         ISD::CCDChip *targetChip =
@@ -3143,12 +3137,12 @@ void Align::startSolving()
 
     FITSData *data = alignView->getImageData();
     stellarSolver = new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer());
-    stellarSolver->setSextractorType((SSolver::SextractorType)sextractorTypeCombo->currentIndex());
-    stellarSolver->setSolverType((SSolver::SolverType)solverTypeCombo->currentIndex());
+    stellarSolver->setSextractorType((SSolver::SextractorType)Options::solveSextractorType());
+    stellarSolver->setSolverType((SSolver::SolverType)Options::solverType());
     connect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
     connect(stellarSolver, &StellarSolver::logOutput, this, &Align::appendLogText);
     stellarSolver->setIndexFolderPaths(KSUtils::getAstrometryDataDirs());
-    stellarSolver->setParameters(optionsList.at(optionsProfile->currentIndex()));
+    stellarSolver->setParameters(optionsList.at(Options::solveOptionsProfile()));
 
     if(stellarSolver->solverType == SSolver::SOLVER_LOCALASTROMETRY || stellarSolver->solverType == SSolver::SOLVER_ASTAP)
     {
@@ -3197,6 +3191,8 @@ void Align::startSolving()
         stellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
     else
         stellarSolver->setUsePostion(false);
+
+    stellarSolver->setLogLevel((SSolver::logging_level)Options::loggerLevel());
 
     stellarSolver->startProcess();
 
@@ -4777,7 +4773,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
-    if(solverTypeCombo->currentIndex()==SSolver::SOLVER_LOCALASTROMETRY)
+    if(Options::solverType()==SSolver::SOLVER_LOCALASTROMETRY)
     {
         if(!Options::useSextractor())
         {
@@ -6323,7 +6319,7 @@ QStringList Align::getActiveSolvers() const
 
 int Align::getActiveSolverIndex() const
 {
-    return solverTypeCombo->currentIndex();
+    return Options::solverType();
 }
 
 QString Align::getPAHMessage() const
