@@ -358,9 +358,9 @@ void Analyze::initInputSelection()
     dirPath = QUrl::fromLocalFile(KSPaths::writableLocation(
                                       QStandardPaths::GenericDataLocation) + "analyze/");
 
-    inputCombo->addItem("Current Session");
-    inputCombo->addItem("Read from File");
-    inputCombo->addItem("Set alternative image-file base directory");
+    inputCombo->addItem(i18n("Current Session"));
+    inputCombo->addItem(i18n("Read from File"));
+    inputCombo->addItem(i18n("Set alternative image-file base directory"));
     inputValue->setText("");
     connect(inputCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
@@ -370,7 +370,7 @@ void Analyze::initInputSelection()
             if (!runtimeDisplay)
             {
                 reset();
-                inputValue->setText("Current Session");
+                inputValue->setText(i18n("Current Session"));
                 maxXValue = readDataFromFile(logFilename);
                 runtimeDisplay = true;
             }
@@ -383,7 +383,7 @@ void Analyze::initInputSelection()
         {
             // Input from a file.
             QUrl inputURL = QFileDialog::getOpenFileUrl(this, i18n("Select input file"), dirPath,
-                            "Analyze Log (*.analyze);;All Files (*)");
+                            i18n("Analyze Log (*.analyze);;All Files (*)"));
             if (inputURL.isEmpty())
                 return;
             dirPath = QUrl(inputURL.url(QUrl::RemoveFilename));
@@ -402,7 +402,7 @@ void Analyze::initInputSelection()
         else if (index == 2)
         {
             QString dir = QFileDialog::getExistingDirectory(
-                              this, tr("Set an alternate base directory for your captured images"),
+                              this, i18n("Set an alternate base directory for your captured images"),
                               QDir::homePath(),
                               QFileDialog::ShowDirsOnly);
             if (dir.size() > 0)
@@ -472,7 +472,7 @@ void Analyze::highlightTimelineItem(double y, double start, double end)
 }
 
 // These help calculate the RMS values of the ra and drift errors. It takes
-// an approximate moving average of the squared errors roughtly averaged over
+// an approximate moving average of the squared errors roughly averaged over
 // 40 samples implemented by a simple digital low-pass filter.
 void Analyze::initRmsFilter()
 {
@@ -845,7 +845,7 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
     }
 }
 
-// When the user clicks on a partular capture session in the timeline,
+// When the user clicks on a particular capture session in the timeline,
 // a table is rendered in the infoBox, and, if it was a double click,
 // the fits file is displayed, if it can be found.
 void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
@@ -1015,7 +1015,7 @@ void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
     graphicsPlot->xAxis->setScaleRatio(graphicsPlot->yAxis);
 }
 
-// When the user clicks on a partular mount session in the timeline,
+// When the user clicks on a particular mount session in the timeline,
 // a table is rendered in the infoBox.
 void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
 {
@@ -1027,7 +1027,7 @@ void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
     infoBox->setHtml(c.html());
 }
 
-// When the user clicks on a partular align session in the timeline,
+// When the user clicks on a particular align session in the timeline,
 // a table is rendered in the infoBox.
 void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 {
@@ -1038,7 +1038,7 @@ void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
     infoBox->setHtml(c.html());
 }
 
-// When the user clicks on a partular meridian flip session in the timeline,
+// When the user clicks on a particular meridian flip session in the timeline,
 // a table is rendered in the infoBox.
 void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 {
@@ -1424,12 +1424,12 @@ void Analyze::initTimelinePlot()
 
     // This places the labels on the left of the timeline.
     QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
-    textTicker->addTick(CAPTURE_Y, "Capture");
-    textTicker->addTick(FOCUS_Y, "Focus");
-    textTicker->addTick(ALIGN_Y, "Align");
-    textTicker->addTick(GUIDE_Y, "Guide");
-    textTicker->addTick(MERIDIAN_FLIP_Y, "Flip");
-    textTicker->addTick(MOUNT_Y, "Mount");
+    textTicker->addTick(CAPTURE_Y, i18n("Capture"));
+    textTicker->addTick(FOCUS_Y, i18n("Focus"));
+    textTicker->addTick(ALIGN_Y, i18n("Align"));
+    textTicker->addTick(GUIDE_Y, i18n("Guide"));
+    textTicker->addTick(MERIDIAN_FLIP_Y, i18n("Flip"));
+    textTicker->addTick(MOUNT_Y, i18n("Mount"));
     timelinePlot->yAxis->setTicker(textTicker);
 }
 
@@ -2560,7 +2560,7 @@ void Analyze::processMountFlipState(double time, const QString &statusString, bo
     {
         if (state == Mount::FLIP_COMPLETED || state == Mount::FLIP_ERROR)
         {
-            // These states are really commetaries on the previous states.
+            // These states are really commentaries on the previous states.
             addSession(mountFlipStateStartedTime, time, MERIDIAN_FLIP_Y, mountFlipStateBrush(state));
             mountFlipSessions.add(MountFlipSession(mountFlipStateStartedTime, time, nullptr, state));
         }
