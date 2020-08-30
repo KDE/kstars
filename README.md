@@ -120,7 +120,7 @@ KStars uses [Artistic Style](http://astyle.sourceforge.net) to format all the C+
 --lineend=linux
 --max-code-length=124
 ```
-Some IDEs (e.g. QtCreator) support automatic formatting for the code everytime you save the file to disk.
+Some IDEs (e.g. QtCreator) support automatic formatting for the code every time you save the file to disk.
 
 ### Merge Request Descriptions
 
@@ -134,7 +134,7 @@ which has sections for a summary of what was done, what was modified in each fil
 You must be familiar with git to make changes to KStars, and this is not the place for such a tutorial. There
 are many excellent resources for that on the web. The paragraph below, though, will give an overview of one way
 to make a Merge Request, given you already have sufficient git experience to clone KStars, make a local branch,
-modify the code as you like, commit your changes to your local branch, and test your code throughly.
+modify the code as you like, commit your changes to your local branch, and test your code thoroughly.
 
 Here's one good resource for a [fork-branch-git-workflow to make KStars changes](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow). The steps below are inspired by that page.
 
