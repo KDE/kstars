@@ -15,6 +15,7 @@
 #include "kstars.h"
 #include "ksnotification.h"
 #include "Options.h"
+#include "stellarsolver.h"
 
 #include <KConfigDialog>
 #include <QProcess>
@@ -26,6 +27,8 @@ OpsPrograms::OpsPrograms(Align *parent) : QWidget(KStars::Instance())
     setupUi(this);
 
     alignModule = parent;
+
+    connect(defaultPathSelector,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OpsPrograms::loadDefaultPaths);
 
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("alignsettings");
@@ -208,5 +211,53 @@ void OpsPrograms::togglePythonDefault()
 void OpsPrograms::slotApply()
 {
     emit settingsUpdated();
+}
+
+void OpsPrograms::loadDefaultPaths(int option)
+{
+    switch(option)
+    {
+        case 0:
+            break;
+    default:
+        break;
+    }
+
+    ExternalProgramPaths paths;
+
+    switch(option)
+    {
+        case 0:
+            paths = StellarSolver::getLinuxDefaultPaths();
+            break;
+        case 1:
+            paths = StellarSolver::getLinuxInternalPaths();
+            break;
+        case 2:
+            paths = StellarSolver::getMacHomebrewPaths();
+            break;
+        case 3:
+            paths = StellarSolver::getMacInternalPaths();
+            break;
+        case 4:
+            paths = StellarSolver::getWinANSVRPaths();
+            break;
+        case 5:
+            paths = StellarSolver::getWinCygwinPaths();
+            break;
+        default:
+            paths = StellarSolver::getLinuxDefaultPaths();
+            break;
+    }
+
+    if( ! kcfg_SextractorIsInternal->isChecked())
+        kcfg_SextractorBinary->setText(paths.sextractorBinaryPath);
+    if( ! kcfg_AstrometryConfFileIsInternal->isChecked())
+        kcfg_AstrometryConfFile->setText(paths.confPath);
+    if( ! kcfg_AstrometrySolverIsInternal->isChecked())
+        kcfg_AstrometrySolverBinary->setText(paths.solverPath);
+    kcfg_ASTAPExecutable->setText(paths.astapBinaryPath);
+    if( ! kcfg_AstrometryWCSIsInternal->isChecked())
+        kcfg_AstrometryWCSInfo->setText(paths.wcsPath);
 }
 }

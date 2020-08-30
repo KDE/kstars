@@ -33,6 +33,7 @@ class OpsPrograms : public QWidget, public Ui::OpsPrograms
 
   protected:
   private slots:
+    void loadDefaultPaths(int option);
     void toggleSolverInternal();
     void setupPython();
     void toggleConfigInternal();

@@ -18,7 +18,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QComboBox" name="setPathsAutomatically">
+       <widget class="QComboBox" name="defaultPathSelector">
         <item>
          <property name="text">
           <string>Linux Default</string>
@@ -272,38 +272,31 @@
       <string>Online Astrometry.net or Remote ANSVR</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>API URL</string>
         </property>
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="0" column="0">
        <widget class="QLabel" name="label_18">
         <property name="text">
          <string>API URL:</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>API Key:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
+      <item row="2" column="3">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Time out:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="5">
+      <item row="2" column="4">
        <widget class="QSpinBox" name="kcfg_AstrometryTimeout">
         <property name="toolTip">
          <string>Timeout in seconds to wait for astrometry solver to complete</string>
@@ -316,7 +309,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="5">
+      <item row="0" column="4">
        <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
         <property name="toolTip">
          <string>API Key</string>
@@ -326,31 +319,14 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
-        <property name="toolTip">
-         <string>API URL</string>
-        </property>
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_17">
         <property name="text">
-         <string/>
+         <string>API Key:</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Rotator:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
        <widget class="QCheckBox" name="kcfg_AstrometryUseJPEG">
         <property name="toolTip">
          <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
