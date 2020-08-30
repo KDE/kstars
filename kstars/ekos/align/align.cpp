@@ -607,29 +607,29 @@ void Align::handlePointTooltip(QMouseEvent *event)
             if (point < 0)
                 return;
             QToolTip::showText(event->globalPos(),
-                               tr("<table>"
+                               i18n("<table>"
                                   "<tr>"
-                                  "<th colspan=\"2\">Object %L1: %L2</th>"
+                                  "<th colspan=\"2\">Object %1: %2</th>"
                                   "</tr>"
                                   "<tr>"
-                                  "<td>RA:</td><td>%L3</td>"
+                                  "<td>RA:</td><td>%3</td>"
                                   "</tr>"
                                   "<tr>"
-                                  "<td>DE:</td><td>%L4</td>"
+                                  "<td>DE:</td><td>%4</td>"
                                   "</tr>"
                                   "<tr>"
-                                  "<td>dRA:</td><td>%L5</td>"
+                                  "<td>dRA:</td><td>%5</td>"
                                   "</tr>"
                                   "<tr>"
-                                  "<td>dDE:</td><td>%L6</td>"
+                                  "<td>dDE:</td><td>%6</td>"
                                   "</tr>"
-                                  "</table>")
-                               .arg(point + 1)
-                               .arg(solutionTable->item(point, 2)->text(),
-                                    solutionTable->item(point, 0)->text(),
-                                    solutionTable->item(point, 1)->text(),
-                                    solutionTable->item(point, 4)->text(),
-                                    solutionTable->item(point, 5)->text()),
+                                  "</table>",
+                                  point + 1,
+                                  solutionTable->item(point, 2)->text(),
+                                  solutionTable->item(point, 0)->text(),
+                                  solutionTable->item(point, 1)->text(),
+                                  solutionTable->item(point, 4)->text(),
+                                  solutionTable->item(point, 5)->text()),
                                alignPlot, alignPlot->rect());
         }
     }

@@ -582,27 +582,27 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, int data
 
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
-                                   tr("<table>"
+                                   i18n("<table>"
                                       "<tr>"
-                                      "<th colspan=\"2\">%L1</th>"
+                                      "<th colspan=\"2\">%1</th>"
                                       "</tr>"
                                       "<tr>"
                                       "<td>LST:   </td>"
-                                      "<td>%L3</td>"
+                                      "<td>%3</td>"
                                       "</tr>"
                                       "<tr>"
                                       "<td>LT:   </td>"
-                                      "<td>%L2</td>"
+                                      "<td>%2</td>"
                                       "</tr>"
                                       "<tr>"
                                       "<td>Altitude:   </td>"
-                                      "<td>%L4</td>"
+                                      "<td>%4</td>"
                                       "</tr>"
-                                      "</table>")
-                                       .arg((graph->name().isEmpty() ? "???" : graph->name()),
-                                            localTime.toString(),
-                                            localSiderealTime.toString(),
-                                            QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
+                                      "</table>",
+                                      graph->name().isEmpty() ? "???" : graph->name(),
+                                      localTime.toString(),
+                                      localSiderealTime.toString(),
+                                      QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
         }
@@ -935,26 +935,26 @@ void AltVsTime::mouseOverLine(QMouseEvent *event)
 
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
-                                   tr("<table>"
+                                   i18n("<table>"
                                       "<tr>"
-                                      "<th colspan=\"2\">%L1</th>"
+                                      "<th colspan=\"2\">%1</th>"
                                       "</tr>"
                                       "<tr>"
                                       "<td>LST:   </td>"
-                                      "<td>%L3</td>"
+                                      "<td>%3</td>"
                                       "</tr>"
                                       "<tr>"
                                       "<td>LT:   </td>"
-                                      "<td>%L2</td>"
+                                      "<td>%2</td>"
                                       "</tr>"
                                       "<tr>"
                                       "<td>Altitude:   </td>"
-                                      "<td>%L4</td>"
+                                      "<td>%4</td>"
                                       "</tr>"
-                                      "</table>")
-                                       .arg((graph->name().isEmpty() ? "???" : graph->name()),
-                                            localTime.toString(), localSiderealTime.toString(),
-                                            QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
+                                      "</table>",
+                                      graph->name().isEmpty() ? "???" : graph->name(),
+                                      localTime.toString(), localSiderealTime.toString(),
+                                      QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
             else
