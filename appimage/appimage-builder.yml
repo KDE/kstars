@@ -114,6 +114,7 @@ AppDir:
       - xplanet
       - libnova-0.16-0
       - libwcs5
+      - indi-bin
       - libindi-data
     exclude:
       - breeze
