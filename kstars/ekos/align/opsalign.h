@@ -32,6 +32,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
   protected:
   private slots:
     void slotApply();
+    void reload();
 
   signals:
     void settingsUpdated();

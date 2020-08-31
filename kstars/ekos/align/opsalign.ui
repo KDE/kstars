@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>597</width>
-    <height>447</height>
+    <height>474</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -379,6 +379,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="reloadProfiles">
+     <property name="text">
+      <string>Reload Options Profiles</string>
+     </property>
     </widget>
    </item>
    <item>

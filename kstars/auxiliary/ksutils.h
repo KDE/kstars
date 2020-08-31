@@ -267,7 +267,6 @@ QStringList getAstrometryDataDirs();
 bool addAstrometryDataDir(QString dataDir);
 bool removeAstrometryDataDir(QString dataDir);
 
-
 struct JPLFilter
 {
     QByteArray item;

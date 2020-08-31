@@ -69,16 +69,30 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="loadSettings">
+         <widget class="QPushButton" name="reloadProfiles">
           <property name="text">
-           <string>Load</string>
+           <string>Reload</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="saveSettings">
+         <widget class="QPushButton" name="loadBackups">
           <property name="text">
-           <string>Save</string>
+           <string>Load Backup</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveBackups">
+          <property name="text">
+           <string>Save Backup</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="loadDefaults">
+          <property name="text">
+           <string>Default Profiles</string>
           </property>
          </widget>
         </item>

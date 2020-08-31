@@ -37,17 +37,23 @@ class OptionsProfileEditor : public QWidget, public Ui::OptionsProfileEditor
     void sendSettingsToUI(SSolver::Parameters a);
 
     //These functions save and load the settings of the program.
+    void loadProfiles();
+    void saveProfiles();
     void loadOptionsProfile();
-    void saveOptionsProfiles();
-    void loadOptionsProfiles();
+    void saveBackupProfiles();
+    void loadBackupProfiles();
+    void loadDefaultProfiles();
 
+    void connectOptionsProfileComboBox();
+    void disconnectOptionsProfileComboBox();
   protected:
 
   private slots:
 
-    //void slotApply();
+    void slotApply();
 
   private:
+    QString savedOptionsProfiles;
     void settingJustChanged();
     QString dirPath = QDir::homePath();
     QList<SSolver::Parameters> optionsList;

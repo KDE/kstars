@@ -15,6 +15,7 @@
 #include "kstars.h"
 #include "ksnotification.h"
 #include "Options.h"
+#include "kspaths.h"
 
 #include <KConfigDialog>
 #include <QProcess>
@@ -37,21 +38,32 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     editSolverProfile->setIcon(QIcon::fromTheme("document-edit"));
     editSolverProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    StellarSolver temp(SSolver::SOLVE, FITSImage::Statistic(), nullptr, this);
-    optionsList = temp.getBuiltInProfiles();
+    reload();
+
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(reloadProfiles, &QAbstractButton::clicked,this, &OpsAlign::reload);
+
+}
+
+void OpsAlign::reload()
+{
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+
+    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    kcfg_FocusOptionsProfile->clear();
+    kcfg_GuideOptionsProfile->clear();
+    kcfg_SolveOptionsProfile->clear();
     foreach(SSolver::Parameters param, optionsList)
     {
         kcfg_FocusOptionsProfile->addItem(param.listName);
         kcfg_GuideOptionsProfile->addItem(param.listName);
         kcfg_SolveOptionsProfile->addItem(param.listName);
     }
-
-    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
-    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
-
+    kcfg_FocusOptionsProfile->setCurrentIndex(Options::focusOptionsProfile());
+    kcfg_GuideOptionsProfile->setCurrentIndex(Options::guideOptionsProfile());
+    kcfg_SolveOptionsProfile->setCurrentIndex(Options::solveOptionsProfile());
 }
-
-
 
 void OpsAlign::slotApply()
 {
