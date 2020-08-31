@@ -6894,11 +6894,7 @@ void Scheduler::setGuideStatus(Ekos::GuideState status)
                         Options::realignAfterCalibrationFailure())
                 {
                     appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
-                    // JM: We have to go back to startSlew() since if we just call startAstrometry()
-                    // It would captureAndSolve at the _current_ coords which could be way off center if the calibration
-                    // process took a wild ride search for a suitable guide star and then failed. So startSlew() would ensure
-                    // we're back on our target and then it proceed to alignment (focus is skipped since it is done if it was checked anyway).
-                    startSlew();
+                    startAstrometry();
                 }
                 else
                 {
