@@ -250,7 +250,7 @@ class Logging
         static void Write(QTextStream &stream, QtMsgType type, const QMessageLogContext &context, const QString &msg);
 };
 
-QString getDefaultPath(QString option);
+QString getDefaultPath(const QString &option);
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
