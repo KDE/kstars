@@ -709,10 +709,15 @@ void Manager::start()
             {
                 QString name, label, host("localhost"), port("7624");
                 QStringList properties = remoteDriver.split(QRegExp("[@:]"));
-                if (properties.length() > 1)
+                if (properties.length() > 0)
                 {
-                    name = properties[0];
-                    host = properties[1];
+                    if (properties.length() == 1)
+                        host = properties[0];
+                    else if (properties.length() == 2)
+                    {
+                        name = properties[0];
+                        host = properties[1];
+                    }
 
                     if (properties.length() > 2)
                         port = properties[2];
@@ -732,7 +737,7 @@ void Manager::start()
         }
 
 
-        if (haveCCD == false && haveGuider == false)
+        if (haveCCD == false && haveGuider == false && currentProfile->remotedrivers.isEmpty())
         {
             KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
             managedDrivers.clear();
@@ -758,7 +763,7 @@ void Manager::start()
 
         Options::setGuiderType(currentProfile->guidertype);
 
-        if (haveCCD == false && haveGuider == false)
+        if (haveCCD == false && haveGuider == false && currentProfile->remotedrivers.isEmpty())
         {
             KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
             delete (remote_indi);
