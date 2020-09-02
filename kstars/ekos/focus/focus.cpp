@@ -2655,7 +2655,7 @@ void Focus::appendFocusLogText(const QString &lines)
             if (m_FocusLogEnabled)
             {
                 QTextStream header(&m_FocusLogFile);
-                header << "date, time, position, temperature, filter, HFR\n";
+                header << "date, time, position, temperature, filter, HFR, altitude\n";
                 header.flush();
             }
             else
@@ -2992,14 +2992,15 @@ void Focus::setAutoFocusResult(bool status)
         // this will help with setting up focus offsets and temperature compensation
         qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
                                   << lastFocusTemperature << ", filter, " << filter()
-                                  << ", HFR, " << currentHFR;
+                                  << ", HFR, " << currentHFR << ", altitude, " << mountAlt;
 
 
-        appendFocusLogText(QString("%1, %2, %3, %4\n")
+        appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
                            .arg(QString::number(currentPosition))
                            .arg(QString::number(lastFocusTemperature, 'f', 1))
                            .arg(filter())
-                           .arg(QString::number(currentHFR, 'f', 3)));
+                           .arg(QString::number(currentHFR, 'f', 3))
+                           .arg(QString::number(mountAlt, 'f', 1)));
     }
 
     // In case of failure, go back to last position if the focuser is absolute
@@ -3242,6 +3243,16 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
             resetButtons();
             break;
     }
+}
+
+void Focus::mountCoords(__attribute__ ((unused)) const QString &ra, 
+                        __attribute__ ((unused)) const QString &dec, 
+                        __attribute__ ((unused)) const QString &az,
+                        const QString &alt,
+                        __attribute__ ((unused)) int pierSide, 
+                        __attribute__ ((unused)) const QString &ha)
+{
+    mountAlt = dms(alt, true).Degrees();
 }
 
 void Focus::removeDevice(ISD::GDInterface *deviceRemoved)

@@ -12,6 +12,7 @@
 #include "ui_focus.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indiccd.h"
 #include "indi/indifocuser.h"
@@ -331,6 +332,10 @@ class Focus : public QWidget, public Ui::Focus
 
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
+
+        // Update Altitude From Mount
+        void mountCoords(const QString &ra, const QString &dec, const QString &az,
+                         const QString &alt, int pierSide, const QString &ha);
 
         /**
          * @brief toggleVideo Turn on and off video streaming if supported by the camera.
@@ -681,5 +686,8 @@ class Focus : public QWidget, public Ui::Focus
         double observatoryTemperature { INVALID_VALUE };
         double lastFocusTemperature { INVALID_VALUE };
         TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
+
+        // Mount altitude value for logging
+        double mountAlt { INVALID_VALUE };
 };
 }
