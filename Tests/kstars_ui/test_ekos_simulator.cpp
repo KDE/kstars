@@ -144,17 +144,25 @@ void TestEkosSimulator::testMountSlew()
 
     QLineEdit * raOut = ekos->findChild<QLineEdit*>("raOUT");
     QVERIFY(raOut != nullptr);
-    QTRY_VERIFY_WITH_TIMEOUT(abs(clampRA(RA) - clampRA(raOut->text())) < 2, 15000);
+    QTRY_VERIFY_WITH_TIMEOUT(abs(clampRA(RA) - clampRA(raOut->text())) <= 2, 15000);
     QTest::qWait(100);
     if (clampRA(RA) != clampRA(raOut->text()))
-        QWARN(QString("Target '%1' slewed to with offset RA %2").arg(NAME).arg(abs(clampRA(RA) - clampRA(raOut->text()))).toStdString().c_str());
+        QWARN(QString("Target '%1', RA %2, slewed to RA %3 with offset RA %4")
+              .arg(NAME)
+              .arg(clampRA(RA))
+              .arg(clampRA(raOut->text()))
+              .arg(abs(clampRA(RA) - clampRA(raOut->text()))).toStdString().c_str());
 
     QLineEdit * deOut = Ekos::Manager::Instance()->findChild<QLineEdit*>("decOUT");
     QVERIFY(deOut != nullptr);
-    QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) < 2, 20000);
+    QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) <= 2, 20000);
     QTest::qWait(100);
     if (clampDE(DEC) != clampDE(deOut->text()))
-        QWARN(QString("Target '%1' slewed to with coordinate offset DEC %2").arg(NAME).arg(abs(clampDE(DEC) - clampDE(deOut->text()))).toStdString().c_str());
+        QWARN(QString("Target '%1', DEC %2, slewed to DEC %3 with coordinate offset DEC %4")
+              .arg(NAME)
+              .arg(clampDE(DEC))
+              .arg(clampDE(deOut->text()))
+              .arg(abs(clampDE(DEC) - clampDE(deOut->text()))).toStdString().c_str());
 
     QVERIFY(Ekos::Manager::Instance()->mountModule()->abort());
 #endif
