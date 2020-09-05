@@ -48,6 +48,18 @@ GenericDevice::GenericDevice(DeviceInfo &idv)
     dType = KSTARS_UNKNOWN;
 
     registerDBusType();
+
+    // JM 2020-09-05: In case KStars time change, update driver time if applicable.
+    connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, [this]()
+    {
+        if (baseDevice && baseDevice->isConnected() && Options::useTimeUpdate() && Options::useKStarsSource())
+        {
+            ITextVectorProperty *tvp = baseDevice->getText("TIME_UTC");
+            if (tvp && tvp->p != IP_RO)
+                updateTime();
+        }
+    });
+
 }
 
 void GenericDevice::registerDBusType()
