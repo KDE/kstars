@@ -190,7 +190,7 @@ int dms::arcmin(void) const
     if (std::isnan(D))
         return 0;
 
-    int am = int(float(60.0 * (fabs(D) - abs(degree()))));
+    int am = int(60.0 * (fabs(D) - abs(degree())));
     if (D < 0.0 && D > -1.0) //angle less than zero, but greater than -1.0
     {
         am = -1 * am; //make minute negative
@@ -203,7 +203,7 @@ int dms::arcsec(void) const
     if (std::isnan(D))
         return 0;
 
-    int as = int(float(60.0 * (60.0 * (fabs(D) - abs(degree())) - abs(arcmin()))));
+    int as = int(60.0 * (60.0 * (fabs(D) - abs(degree())) - abs(arcmin())));
     //If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
     if (degree() == 0 && arcmin() == 0 && D < 0.0)
     {
@@ -217,7 +217,7 @@ int dms::marcsec(void) const
     if (std::isnan(D))
         return 0;
 
-    int as = int(float(1000.0 * (60.0 * (60.0 * (fabs(D) - abs(degree())) - abs(arcmin())) - abs(arcsec()))));
+    int as = int(1000.0 * (60.0 * (60.0 * (fabs(D) - abs(degree())) - abs(arcmin())) - abs(arcsec())));
     //If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
     if (degree() == 0 && arcmin() == 0 && arcsec() == 0 && D < 0.0)
     {
@@ -228,7 +228,7 @@ int dms::marcsec(void) const
 
 int dms::minute(void) const
 {
-    int hm = int(float(60.0 * (fabs(Hours()) - abs(hour()))));
+    int hm = int(60.0 * (fabs(Hours()) - abs(hour())));
     if (Hours() < 0.0 && Hours() > -1.0) //angle less than zero, but greater than -1.0
     {
         hm = -1 * hm; //make minute negative
@@ -238,7 +238,7 @@ int dms::minute(void) const
 
 int dms::second(void) const
 {
-    int hs = int(float(60.0 * (60.0 * (fabs(Hours()) - abs(hour())) - abs(minute()))));
+    int hs = int(60.0 * (60.0 * (fabs(Hours()) - abs(hour())) - abs(minute())));
     if (hour() == 0 && minute() == 0 && Hours() < 0.0)
     {
         hs = -1 * hs;
@@ -248,7 +248,7 @@ int dms::second(void) const
 
 int dms::msecond(void) const
 {
-    int hs = int(float(1000.0 * (60.0 * (60.0 * (fabs(Hours()) - abs(hour())) - abs(minute())) - abs(second()))));
+    int hs = int(1000.0 * (60.0 * (60.0 * (fabs(Hours()) - abs(hour())) - abs(minute())) - abs(second())));
     if (hour() == 0 && minute() == 0 && second() == 0 && Hours() < 0.0)
     {
         hs = -1 * hs;
