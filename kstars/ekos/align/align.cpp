@@ -1835,6 +1835,7 @@ void Align::finishAlignmentPoint(bool solverSucceeded)
 
 bool Align::isParserOK()
 {
+    return true; //For now
     Q_ASSERT_X(parser, __FUNCTION__, "Astrometry parser is not valid.");
 
     bool rc = parser->init();
