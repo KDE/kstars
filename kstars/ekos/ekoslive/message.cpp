@@ -30,7 +30,8 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Message::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Message::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Message::onError);
+    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
+            &Message::onError);
 
 }
 
@@ -949,12 +950,14 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
 {
     if (command == commands[ADD_SCOPE])
     {
-        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
+        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
+                payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble());
     }
     else if (command == commands[UPDATE_SCOPE])
     {
-        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
+        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
+                payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble(), payload["id"].toString());
     }
     else if (command == commands[DELETE_SCOPE])
@@ -998,7 +1001,8 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     {
         QJsonObject propObject;
         if (oneDevice->getJSONProperty(payload["property"].toString(), propObject, payload["compact"].toBool(true)))
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
     // Set specific property
     else if (command == commands[DEVICE_PROPERTY_SET])
@@ -1016,7 +1020,14 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
                 properties.append(singleProp);
         }
 
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", properties}}).toJson(QJsonDocument::Compact));
+        QJsonObject response =
+        {
+            {"device", device},
+            {"properties", properties}
+        };
+
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", response}}).toJson(
+            QJsonDocument::Compact));
     }
     // Subscribe to one or more properties
     // When subscribed, the updates are immediately pushed as soon as they are received.
@@ -1032,12 +1043,14 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
 
 void Message::requestDSLRInfo(const QString &cameraName)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(QJsonDocument::Compact));
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(
+        QJsonDocument::Compact));
 }
 
 void Message::sendDialog(const QJsonObject &message)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(QJsonDocument::Compact));
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(
+        QJsonDocument::Compact));
 }
 
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
@@ -1196,7 +1209,8 @@ void Message::processNewNumber(INumberVectorProperty *nvp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(nvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 
@@ -1206,7 +1220,8 @@ void Message::processNewText(ITextVectorProperty *tvp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(tvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 
@@ -1216,7 +1231,8 @@ void Message::processNewSwitch(ISwitchVectorProperty *svp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(svp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 
@@ -1226,7 +1242,8 @@ void Message::processNewLight(ILightVectorProperty *lvp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(lvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 

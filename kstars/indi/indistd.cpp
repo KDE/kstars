@@ -1293,7 +1293,7 @@ void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool co
         switches.append(oneSwitch);
     }
 
-    propObject = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
+    propObject = {{"device", svp->device}, {"name", svp->name}, {"state", svp->s}, {"switches", switches}};
     if (!compact)
     {
         propObject.insert("label", svp->label);
@@ -1319,7 +1319,7 @@ void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool co
         numbers.append(oneNumber);
     }
 
-    propObject = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
+    propObject = {{"device", nvp->device}, {"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
     if (!compact)
     {
         propObject.insert("label", nvp->label);
@@ -1341,7 +1341,7 @@ void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool comp
         Texts.append(oneText);
     }
 
-    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
+    propObject = {{"device", tvp->device}, {"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
     if (!compact)
     {
         propObject.insert("label", tvp->label);
@@ -1363,7 +1363,7 @@ void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool com
         Lights.append(oneLight);
     }
 
-    propObject = {{"name", lvp->name}, {"state", lvp->s}, {"lights", Lights}};
+    propObject = {{"device", lvp->device}, {"name", lvp->name}, {"state", lvp->s}, {"lights", Lights}};
     if (!compact)
     {
         propObject.insert("label", lvp->label);
