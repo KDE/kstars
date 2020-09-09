@@ -2531,7 +2531,7 @@ bool FITSData::checkDebayer()
     QString order(roworder);
     order = order.remove('\'').trimmed();
 
-    if (order == "BOTTOM-UP")
+    if (order == "BOTTOM-UP" && !(stats.height % 2))
     {
         if (pattern == "RGGB")
             pattern = "GBRG";
