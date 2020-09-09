@@ -75,6 +75,10 @@
 build-and-test:
   stage: test
   interruptible: true
+  retry:
+    max: 2
+    when:
+      - job_execution_timeout
   image: tallfurryman/kstars-ci
   #  before_script:
   #    - *install_build_dependencies
@@ -147,6 +151,10 @@ build-and-test:
 #        kstars-build/Testing/**.xml
 
 build-appimage:
+  retry:
+    max: 2
+    when:
+      - job_execution_timeout
   image: tallfurryman/kstars-ci
   before_script:
     - apt-get install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot wget gpg-agent
