@@ -3246,8 +3246,8 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-void Focus::mountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
-                        int pierSide, const QString &ha)
+void Focus::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
+                           int pierSide, const QString &ha)
 {
     Q_UNUSED(ra);
     Q_UNUSED(dec);

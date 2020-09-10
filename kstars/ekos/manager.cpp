@@ -3449,7 +3449,7 @@ void Manager::connectModules()
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, focusProcess.get(), &Ekos::Focus::setMountStatus,
                 Qt::UniqueConnection);
-        connect(mountProcess.get(), &Ekos::Mount::newCoords, focusProcess.get(), &Ekos::Focus::mountCoords,
+        connect(mountProcess.get(), &Ekos::Mount::newCoords, focusProcess.get(), &Ekos::Focus::setMountCoords,
                 Qt::UniqueConnection);
     }
 
