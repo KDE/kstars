@@ -107,7 +107,7 @@ void SkyPoint::EquatorialToHorizontal(const CachingDms *LST, const CachingDms *l
     else
         AzRad = acos(arg);
 
-    if (sinHA > 0.0)
+    if (sinHA > 0.0 && AzRad != 0.0)
         AzRad = 2.0 * dms::PI - AzRad; // resolve acos() ambiguity
 
     Alt.setRadians(AltRad);
