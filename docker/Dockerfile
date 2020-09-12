@@ -62,5 +62,9 @@ RUN apt update && apt -y --no-install-recommends install \
       phd2 \
       xvfb
 
+RUN apt update && apt -y --no-install-recommends install qt5ct
+RUN d=/root/.config/qt5ct ; mkdir -p "$d" && echo '[Appearance]\nicon_theme=breeze' > "$d/qt5ct.conf"
+ENV QT_QPA_PLATFORMTHEME=qt5ct
+
 CMD /bin/bash
 

@@ -1,0 +1,117 @@
+/*  KStars UI tests
+    Copyright (C) 2020
+    Eric Dejouhanet <eric.dejouhanet@gmail.com>
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
+
+#ifndef TESTEKOSCAPTURE_H
+#define TESTEKOSCAPTURE_H
+
+#include "config-kstars.h"
+
+#if defined(HAVE_INDI)
+
+#include <QObject>
+#include <QPushButton>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QtTest>
+
+/** @brief Helper to retrieve a gadget in the Capture tab specifically.
+ * @param klass is the class of the gadget to look for.
+ * @param name is the gadget name to look for in the UI configuration.
+ * @warning Fails the test if the gadget "name" of class "klass" does not exist in the Capture module
+ */
+#define KTRY_CAPTURE_GADGET(klass, name) klass * const name = Ekos::Manager::Instance()->captureModule()->findChild<klass*>(#name); \
+    QVERIFY2(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
+
+/** @brief Helper to click a button in the Capture tab specifically.
+ * @param button is the gadget name of the button to look for in the UI configuration.
+ * @warning Fails the test if the button is not currently enabled.
+ */
+#define KTRY_CAPTURE_CLICK(button) do { \
+    QTimer::singleShot(100, Ekos::Manager::Instance(), []() { \
+        KTRY_CAPTURE_GADGET(QPushButton, button); \
+        QVERIFY2(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str()); \
+        QTest::mouseClick(button, Qt::LeftButton); }); \
+    QTest::qWait(200); } while(false)
+
+/** @brief Helper to set a string text into a QComboBox in the Capture module.
+ * @param combobox is the gadget name of the QComboBox to look for in the UI configuration.
+ * @param text is the string text to set in the gadget.
+ * @note This is a contrived method to set a text into a QComboBox programmatically *and* emit the "activated" message.
+ * @warning Fails the test if the name does not exist in the Capture UI or if the text cannot be set in the gadget.
+ */
+#define KTRY_CAPTURE_COMBO_SET(combobox, text) do { \
+    KTRY_CAPTURE_GADGET(QComboBox, combobox); \
+    int const cbIndex = combobox->findText(text); \
+    QVERIFY(0 <= cbIndex); \
+    combobox->setCurrentIndex(cbIndex); \
+    combobox->activated(cbIndex); \
+    QCOMPARE(combobox->currentText(), QString(text)); } while(false);
+
+/** @brief Helper to add a Light frame to a Capture job.
+ * @param exposure is the exposure duration.
+ * @param count is the number of exposures to execute.
+ * @param delay is the delay after exposure.
+ * @param filter is the filter name to set.
+ * @param destination is the folder to store fames to.
+ */
+#define KTRY_CAPTURE_ADD_LIGHT(exposure, count, delay, filter, destination) do { \
+    KTRY_CAPTURE_GADGET(QTableWidget, queueTable); \
+    int const jcount = queueTable->rowCount(); \
+    KTRY_CAPTURE_GADGET(QDoubleSpinBox, exposureIN); \
+    exposureIN->setValue((double)(exposure)); \
+    KTRY_CAPTURE_GADGET(QSpinBox, countIN); \
+    countIN->setValue((int)(count)); \
+    KTRY_CAPTURE_GADGET(QSpinBox, delayIN); \
+    delayIN->setValue((int)(delay)); \
+    KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo); \
+    KTRY_CAPTURE_COMBO_SET(frameTypeCombo, "Light"); \
+    KTRY_CAPTURE_GADGET(QComboBox, transferFormatCombo); \
+    KTRY_CAPTURE_COMBO_SET(transferFormatCombo, "FITS"); \
+    KTRY_CAPTURE_GADGET(QComboBox, frameTypeCombo); \
+    KTRY_CAPTURE_COMBO_SET(FilterPosCombo, (filter)); \
+    KTRY_CAPTURE_GADGET(QLineEdit, fitsDir); \
+    fitsDir->setText(destination); \
+    KTRY_CAPTURE_CLICK(addToQueueB); \
+    QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == (jcount+1), 1000); } while(false);
+
+class TestEkosCapture : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit TestEkosCapture(QObject *parent = nullptr);
+
+private:
+    QStringList searchFITS(QDir const &dir) const;
+
+private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
+    void init();
+    void cleanup();
+
+    /** @brief Test addition, UI sync and removal of capture jobs. */
+    void testAddCaptureJob();
+
+    /** @brief Test that storing to a system temporary folder makes the capture a preview. */
+    void testCaptureToTemporary();
+
+    /** @brief Test capturing a single frame in multiple attempts. */
+    void testCaptureSingle();
+
+    /** @brief Test capturing multiple frames in multiple attempts. */
+    void testCaptureMultiple();
+};
+
+#endif // HAVE_INDI
+#endif // TESTEKOSCAPTURE_H
