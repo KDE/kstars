@@ -1313,8 +1313,9 @@ void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool co
         {
             oneNumber.insert("label", nvp->np[i].label);
             oneNumber.insert("min", nvp->np[i].min);
-            oneNumber.insert("mix", nvp->np[i].max);
+            oneNumber.insert("max", nvp->np[i].max);
             oneNumber.insert("step", nvp->np[i].step);
+            oneNumber.insert("format", nvp->np[i].format);
         }
         numbers.append(oneNumber);
     }
@@ -1333,7 +1334,7 @@ void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool comp
     QJsonArray Texts;
     for (int i = 0; i < tvp->ntp; i++)
     {
-        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"value", tvp->tp[i].text}};
+        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"text", tvp->tp[i].text}};
         if (!compact)
         {
             oneText.insert("label", tvp->tp[i].label);
