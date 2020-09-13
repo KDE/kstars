@@ -707,20 +707,37 @@ void Manager::start()
         {
             for (auto remoteDriver : currentProfile->remotedrivers.split(","))
             {
-                QString name, label, host("localhost"), port("7624");
-                QStringList properties = remoteDriver.split(QRegExp("[@:]"));
-                if (properties.length() > 0)
-                {
-                    if (properties.length() == 1)
-                        host = properties[0];
-                    else if (properties.length() == 2)
-                    {
-                        name = properties[0];
-                        host = properties[1];
-                    }
+                QString name, label, host("localhost"), port("7624"), hostport(host+':'+port);
 
-                    if (properties.length() > 2)
-                        port = properties[2];
+                // Possible configurations:
+                // - device
+                // - device@host
+                // - device@host:port
+                // - @host
+                // - @host:port
+
+                {
+                    QStringList device_location = remoteDriver.split('@');
+
+                    // device or device@host:port
+                    if (device_location.length() > 0)
+                        name = device_location[0];
+
+                    // device@host:port or @host:port
+                    if (device_location.length() > 1)
+                        hostport = device_location[1];
+                }
+
+                {
+                    QStringList location = hostport.split(':');
+
+                    // host or host:port
+                    if (location.length() > 0)
+                        host = location[0];
+
+                    // host:port
+                    if (location.length() > 1)
+                        port = location[1];
                 }
 
                 DriverInfo * dv = new DriverInfo(name);
@@ -833,11 +850,14 @@ void Manager::start()
             m_ekosStatus = Ekos::Pending;
             emit ekosStatusChanged(m_ekosStatus);
 
-            if (currentProfile->autoConnect)
-                appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
-            else
-                appendLogText(
-                    i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
+            if (managedDrivers.size() > 0)
+            {
+                if (currentProfile->autoConnect)
+                    appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
+                else
+                    appendLogText(
+                        i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
+            }
 
             QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
         };
