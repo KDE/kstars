@@ -5,6 +5,10 @@
 # As of 202009, two-stage pipeline fails on propagation of artifact from stage build to stage test
 # Probably because the upload uses a webdav REST API, and there are many large files in the list
 
+stages:
+  - build
+  - test
+
 # We cache the ccache folder
 cache:
   key: "CCACHE-DB-$CI_JOB_ID"
@@ -14,6 +18,24 @@ cache:
 # Impact: we need a first build to succeed before the cache is available on the runner for further builds
 #  when:
 #    - always
+
+# Run a preparatory build that will update the cache but not do anything else
+build:
+  stage: build
+  interruptible: true
+  image: tallfurryman/kstars-ci
+  before_script:
+    - apt update && apt install -y --no-install-recommends ccache && update-ccache-symlinks
+    - mkdir -p .ccache
+    - export CCACHE_BASEDIR=${PWD}
+    - export CCACHE_DIR=${PWD}/.ccache
+    - du -hs ${CCACHE_DIR}
+    - ccache -s
+  script:
+    - mkdir -p kstars-build
+    - cd kstars-build
+    - cmake -DCMAKE_BUILD_TYPE=Release .. -DCCACHE_SUPPORT=ON -DENABLE_TESTING=OFF -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DKDE_SKIP_TEST_SETTINGS=ON
+    - make -j$(nproc) clean all
 
 # Run the full validation in one step
 # The artifacts take far too much time to propagate from one step to the other
@@ -44,12 +66,8 @@ build-and-test:
       junit:
         kstars-build/junit_result.xml
 
-# We build and test
-#stages:
-#  - build
-#  - test
-
 build-appimage:
+  stage: test
   image: tallfurryman/kstars-ci
   before_script:
     - apt-get install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot wget gpg-agent
