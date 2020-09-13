@@ -7,9 +7,13 @@
 
 # We cache the ccache folder
 cache:
-  key: "$CI_JOB_ID"
+  key: "CCACHE-DB-$CI_JOB_ID"
   paths:
     - .ccache
+# Unfortunately, cache:when is not available in the KDE version of gitlab
+# Impact: we need a first build to succeed before the cache is available on the runner for further builds
+#  when:
+#    - always
 
 # Run the full validation in one step
 # The artifacts take far too much time to propagate from one step to the other
@@ -20,11 +24,12 @@ build-and-test:
   interruptible: true
   image: tallfurryman/kstars-ci
   before_script:
-    - apt update && apt install -y --no-install-recommends ccache
+    - apt update && apt install -y --no-install-recommends ccache && update-ccache-symlinks
     - mkdir -p .ccache
     - export CCACHE_BASEDIR=${PWD}
     - export CCACHE_DIR=${PWD}/.ccache
     - du -hs ${CCACHE_DIR}
+    - ccache -s
   script:
     - mkdir -p kstars-build
     - cd kstars-build
