@@ -1032,7 +1032,7 @@ void FITSView::drawPixelGrid(QPainter * painter, double scale)
     painter->setPen(QPen(Qt::red, scaleSize(1)));
     painter->drawText(cX - 30, height - 5, QString::number((int)((cX) / scale)));
     QString str = QString::number((int)((cY) / scale));
-    painter->drawText(width - (fm.width(str) + 10), cY - 5, str);
+    painter->drawText(width - (fm.horizontalAdvance(str) + 10), cY - 5, str);
     if (!showCrosshair)
     {
         painter->drawLine(cX, 0, cX, height);
@@ -1051,9 +1051,9 @@ void FITSView::drawPixelGrid(QPainter * painter, double scale)
     for (int y = deltaY; y < cY - deltaY; y += deltaY)
     {
         QString str = QString::number((int)((cY + y) / scale));
-        painter->drawText(width - (fm.width(str) + 10), cY + y - 5, str);
+        painter->drawText(width - (fm.horizontalAdvance(str) + 10), cY + y - 5, str);
         str = QString::number((int)((cY - y) / scale));
-        painter->drawText(width - (fm.width(str) + 10), cY - y - 5, str);
+        painter->drawText(width - (fm.horizontalAdvance(str) + 10), cY - y - 5, str);
         painter->drawLine(0, cY + y, width, cY + y);
         painter->drawLine(0, cY - y, width, cY - y);
     }
@@ -1275,7 +1275,7 @@ bool FITSView::pointIsInImage(QPointF pt, double scale)
 QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str, double scale)
 {
     QFontMetrics fm(painter->font());
-    int strWidth = fm.width(str);
+    int strWidth = fm.horizontalAdvance(str);
     int strHeight = fm.height();
     int image_width = imageData->width();
     int image_height = imageData->height();
@@ -1593,6 +1593,10 @@ void FITSView::toggleStars(bool enable)
 
 void FITSView::searchStars()
 {
+    QVariant frameType;
+    if (!imageData || !imageData->getRecordValue("FRAME", frameType) || frameType.toString() != "Light")
+        return;
+
     if (!imageData->areStarsSearched())
     {
         QApplication::setOverrideCursor(Qt::WaitCursor);
