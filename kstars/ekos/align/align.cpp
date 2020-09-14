@@ -608,28 +608,28 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(event->globalPos(),
                                i18n("<table>"
-                                  "<tr>"
-                                  "<th colspan=\"2\">Object %1: %2</th>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>RA:</td><td>%3</td>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>DE:</td><td>%4</td>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>dRA:</td><td>%5</td>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>dDE:</td><td>%6</td>"
-                                  "</tr>"
-                                  "</table>",
-                                  point + 1,
-                                  solutionTable->item(point, 2)->text(),
-                                  solutionTable->item(point, 0)->text(),
-                                  solutionTable->item(point, 1)->text(),
-                                  solutionTable->item(point, 4)->text(),
-                                  solutionTable->item(point, 5)->text()),
+                                    "<tr>"
+                                    "<th colspan=\"2\">Object %1: %2</th>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>RA:</td><td>%3</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>DE:</td><td>%4</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dRA:</td><td>%5</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dDE:</td><td>%6</td>"
+                                    "</tr>"
+                                    "</table>",
+                                    point + 1,
+                                    solutionTable->item(point, 2)->text(),
+                                    solutionTable->item(point, 0)->text(),
+                                    solutionTable->item(point, 1)->text(),
+                                    solutionTable->item(point, 4)->text(),
+                                    solutionTable->item(point, 5)->text()),
                                alignPlot, alignPlot->rect());
         }
     }
@@ -2039,6 +2039,52 @@ void Align::checkCCD(int ccdNum)
 
     syncCCDInfo();
 
+    QStringList isoList = targetChip->getISOList();
+    ISOCombo->clear();
+
+    if (isoList.isEmpty())
+    {
+        ISOCombo->setEnabled(false);
+    }
+    else
+    {
+        ISOCombo->setEnabled(true);
+        ISOCombo->addItems(isoList);
+        ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+    }
+
+    // Gain Check
+    if (currentCCD->hasGain())
+    {
+        double min, max, step, value;
+        currentCCD->getGainMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no gain value at all.
+        GainSpinSpecialValue = min - step;
+        GainSpin->setRange(GainSpinSpecialValue, max);
+        GainSpin->setSpecialValueText(i18n("--"));
+        GainSpin->setEnabled(true);
+        GainSpin->setSingleStep(step);
+        currentCCD->getGain(&value);
+
+        // Set the custom gain if we have one
+        // otherwise it will not have an effect.
+        if (TargetCustomGainValue > 0)
+            GainSpin->setValue(TargetCustomGainValue);
+        else
+            GainSpin->setValue(GainSpinSpecialValue);
+
+        GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+        connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
+        {
+            if (GainSpin->value() != GainSpinSpecialValue)
+                TargetCustomGainValue = GainSpin->value();
+        });
+    }
+    else
+        GainSpin->setEnabled(false);
+
     syncTelescopeInfo();
 }
 
@@ -2931,6 +2977,13 @@ bool Align::captureAndSolve()
 
     int bin = Options::solverBinningIndex() + 1;
     targetChip->setBinning(bin, bin);
+
+    // Set gain if applicable
+    if (currentCCD->hasGain() && GainSpin->value() != GainSpinSpecialValue)
+        currentCCD->setGain(GainSpin->value());
+    // Set ISO if applicable
+    if (ISOCombo->currentIndex() >= 0)
+        targetChip->setISOIndex(ISOCombo->currentIndex());
 
     // In case we're in refresh phase of the polar alignment helper then we use capture value from there
     if (pahStage == PAH_REFRESH)
