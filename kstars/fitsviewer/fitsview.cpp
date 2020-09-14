@@ -1032,7 +1032,11 @@ void FITSView::drawPixelGrid(QPainter * painter, double scale)
     painter->setPen(QPen(Qt::red, scaleSize(1)));
     painter->drawText(cX - 30, height - 5, QString::number((int)((cX) / scale)));
     QString str = QString::number((int)((cY) / scale));
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
+    painter->drawText(width - (fm.width(str) + 10), cY - 5, str);
+#else
     painter->drawText(width - (fm.horizontalAdvance(str) + 10), cY - 5, str);
+#endif
     if (!showCrosshair)
     {
         painter->drawLine(cX, 0, cX, height);
@@ -1051,9 +1055,17 @@ void FITSView::drawPixelGrid(QPainter * painter, double scale)
     for (int y = deltaY; y < cY - deltaY; y += deltaY)
     {
         QString str = QString::number((int)((cY + y) / scale));
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
+        painter->drawText(width - (fm.width(str) + 10), cY + y - 5, str);
+#else
         painter->drawText(width - (fm.horizontalAdvance(str) + 10), cY + y - 5, str);
+#endif
         str = QString::number((int)((cY - y) / scale));
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
+        painter->drawText(width - (fm.width(str) + 10), cY - y - 5, str);
+#else
         painter->drawText(width - (fm.horizontalAdvance(str) + 10), cY - y - 5, str);
+#endif
         painter->drawLine(0, cY + y, width, cY + y);
         painter->drawLine(0, cY - y, width, cY - y);
     }
@@ -1275,7 +1287,11 @@ bool FITSView::pointIsInImage(QPointF pt, double scale)
 QPointF FITSView::getPointForGridLabel(QPainter *painter, const QString &str, double scale)
 {
     QFontMetrics fm(painter->font());
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
+    int strWidth = fm.width(str);
+#else
     int strWidth = fm.horizontalAdvance(str);
+#endif
     int strHeight = fm.height();
     int image_width = imageData->width();
     int image_height = imageData->height();
