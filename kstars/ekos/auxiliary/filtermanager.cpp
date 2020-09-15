@@ -255,7 +255,7 @@ void FilterManager::initFilterProperties()
     if (m_currentFilterLabels.isEmpty() == false)
         refreshFilterModel();
 
-    if (m_ActiveFilters.count() >= m_currentFilterPosition)
+    if (m_currentFilterPosition >= 1 && m_currentFilterPosition <= m_ActiveFilters.count())
         lastFilterOffset = m_ActiveFilters[m_currentFilterPosition - 1]->offset();
 }
 
