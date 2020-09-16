@@ -552,7 +552,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         m_Manager->captureModule()->setFileSettings(payload["file"].toObject());
 
         // Calibration Settings
-        m_Manager->captureModule()->setFileSettings(payload["calibration"].toObject());
+        m_Manager->captureModule()->setCalibrationSettings(payload["calibration"].toObject());
 
         // Now add job
         capture->addJob();
