@@ -126,7 +126,7 @@ class Message : public QObject
 
         // Capture
         void processCaptureCommands(const QString &command, const QJsonObject &payload);
-        void setCaptureSettings(const QJsonObject &settings);
+        void setCapturePresetSettings(const QJsonObject &settings);
         void sendTemperature(double value);
 
         // Mount

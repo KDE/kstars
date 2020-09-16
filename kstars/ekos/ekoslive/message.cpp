@@ -281,7 +281,7 @@ void Message::sendCameras()
     }
 
     if (m_Manager->captureModule())
-        sendCaptureSettings(m_Manager->captureModule()->getSettings());
+        sendCaptureSettings(m_Manager->captureModule()->getPresetSettings());
 }
 
 void Message::sendMounts()
@@ -501,9 +501,9 @@ void Message::sendFilterWheels()
     sendResponse(commands[GET_FILTER_WHEELS], filterList);
 }
 
-void Message::setCaptureSettings(const QJsonObject &settings)
+void Message::setCapturePresetSettings(const QJsonObject &settings)
 {
-    m_Manager->captureModule()->setSettings(settings);
+    m_Manager->captureModule()->setPresetSettings(settings);
 }
 
 void Message::processCaptureCommands(const QString &command, const QJsonObject &payload)
@@ -512,18 +512,18 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 
     if (command == commands[CAPTURE_PREVIEW])
     {
-        setCaptureSettings(payload);
+        setCapturePresetSettings(payload);
         capture->captureOne();
     }
     else if (command == commands[CAPTURE_TOGGLE_CAMERA])
     {
         capture->setCamera(payload["camera"].toString());
-        sendCaptureSettings(capture->getSettings());
+        sendCaptureSettings(capture->getPresetSettings());
     }
     else if (command == commands[CAPTURE_TOGGLE_FILTER_WHEEL])
     {
         capture->setFilterWheel(payload["fw"].toString());
-        sendCaptureSettings(capture->getSettings());
+        sendCaptureSettings(capture->getPresetSettings());
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
@@ -542,12 +542,17 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_ADD_SEQUENCE])
     {
         // Set capture settings first
-        setCaptureSettings(payload);
+        setCapturePresetSettings(payload["preset"].toObject());
 
         // Then sequence settings
         capture->setCount(static_cast<uint16_t>(payload["count"].toInt()));
         capture->setDelay(static_cast<uint16_t>(payload["delay"].toInt()));
-        capture->setPrefix(payload["prefix"].toString());
+
+        // File Settings
+        m_Manager->captureModule()->setFileSettings(payload["file"].toObject());
+
+        // Calibration Settings
+        m_Manager->captureModule()->setFileSettings(payload["calibration"].toObject());
 
         // Now add job
         capture->addJob();
@@ -555,6 +560,14 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
     {
         capture->removeJob(payload["index"].toInt());
+    }
+    else if (command == commands[CAPTURE_SET_LIMITS])
+    {
+        capture->setLimitSettings(payload);
+    }
+    else if (command == commands[CAPTURE_GET_LIMITS])
+    {
+        sendResponse(commands[CAPTURE_GET_LIMITS], capture->getLimitSettings());
     }
 }
 

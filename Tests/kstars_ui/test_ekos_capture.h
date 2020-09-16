@@ -66,18 +66,18 @@
 #define KTRY_CAPTURE_ADD_LIGHT(exposure, count, delay, filter, destination) do { \
     KTRY_CAPTURE_GADGET(QTableWidget, queueTable); \
     int const jcount = queueTable->rowCount(); \
-    KTRY_CAPTURE_GADGET(QDoubleSpinBox, exposureIN); \
-    exposureIN->setValue((double)(exposure)); \
-    KTRY_CAPTURE_GADGET(QSpinBox, countIN); \
-    countIN->setValue((int)(count)); \
-    KTRY_CAPTURE_GADGET(QSpinBox, delayIN); \
-    delayIN->setValue((int)(delay)); \
-    KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo); \
-    KTRY_CAPTURE_COMBO_SET(frameTypeCombo, "Light"); \
-    KTRY_CAPTURE_GADGET(QComboBox, transferFormatCombo); \
-    KTRY_CAPTURE_COMBO_SET(transferFormatCombo, "FITS"); \
-    KTRY_CAPTURE_GADGET(QComboBox, frameTypeCombo); \
-    KTRY_CAPTURE_COMBO_SET(FilterPosCombo, (filter)); \
+    KTRY_CAPTURE_GADGET(QDoubleSpinBox, captureExposureN); \
+    captureExposureN->setValue((double)(exposure)); \
+    KTRY_CAPTURE_GADGET(QSpinBox, captureCountN); \
+    captureCountN->setValue((int)(count)); \
+    KTRY_CAPTURE_GADGET(QSpinBox, captureDelayN); \
+    captureDelayN->setValue((int)(delay)); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS); \
+    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Light"); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureFormatS); \
+    KTRY_CAPTURE_COMBO_SET(captureFormatS, "FITS"); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
+    KTRY_CAPTURE_COMBO_SET(captureFilterS, (filter)); \
     KTRY_CAPTURE_GADGET(QLineEdit, fitsDir); \
     fitsDir->setText(destination); \
     KTRY_CAPTURE_CLICK(addToQueueB); \

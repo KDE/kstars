@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>661</width>
     <height>588</height>
    </rect>
   </property>
@@ -135,7 +135,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QComboBox" name="CCDCaptureCombo">
+           <widget class="QComboBox" name="cameraS">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -177,7 +177,7 @@
            </widget>
           </item>
           <item row="1" column="5">
-           <widget class="QDoubleSpinBox" name="temperatureIN">
+           <widget class="QDoubleSpinBox" name="cameraTemperatureN">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -212,7 +212,7 @@
            </widget>
           </item>
           <item row="0" column="5">
-           <widget class="QComboBox" name="FilterDevicesCombo">
+           <widget class="QComboBox" name="filterWheelS">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -293,7 +293,7 @@ font-weight:bold;
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="temperatureCheck">
+             <widget class="QCheckBox" name="cameraTemperatureS">
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enforce temperature value before capturing an image&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -344,7 +344,8 @@ font-weight:bold;
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="system-shutdown"/>
+             <iconset theme="system-shutdown">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -413,7 +414,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="NonLinearDoubleSpinBox" name="exposureIN">
+         <widget class="NonLinearDoubleSpinBox" name="captureExposureN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -453,7 +454,7 @@ font-weight:bold;
            <number>2</number>
           </property>
           <item>
-           <widget class="QComboBox" name="FilterPosCombo">
+           <widget class="QComboBox" name="captureFilterS">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -516,7 +517,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QSpinBox" name="countIN">
+         <widget class="QSpinBox" name="captureCountN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -548,7 +549,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="3" column="3">
-         <widget class="QSpinBox" name="delayIN">
+         <widget class="QSpinBox" name="captureDelayN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -568,7 +569,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QComboBox" name="transferFormatCombo">
+         <widget class="QComboBox" name="captureFormatS">
           <property name="toolTip">
            <string>Image Transfer Format</string>
           </property>
@@ -595,7 +596,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="4" column="3" colspan="2">
-         <widget class="QComboBox" name="ISOCombo">
+         <widget class="QComboBox" name="captureISOS">
           <property name="toolTip">
            <string>Camera ISO</string>
           </property>
@@ -615,7 +616,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QComboBox" name="frameTypeCombo">
+         <widget class="QComboBox" name="captureTypeS">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -638,7 +639,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="5" column="3" colspan="2">
-         <widget class="QDoubleSpinBox" name="GainSpin">
+         <widget class="QDoubleSpinBox" name="captureGainN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -691,7 +692,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="frameXIN">
+           <widget class="QSpinBox" name="captureFrameXN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -714,7 +715,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="frameYIN">
+           <widget class="QSpinBox" name="captureFrameYN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -739,7 +740,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="6" column="3" colspan="2">
-         <widget class="QDoubleSpinBox" name="OffsetSpin">
+         <widget class="QDoubleSpinBox" name="captureOffsetN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -792,7 +793,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="frameWIN">
+           <widget class="QSpinBox" name="captureFrameWN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -818,7 +819,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="frameHIN">
+           <widget class="QSpinBox" name="captureFrameHN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -922,7 +923,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="binXIN">
+           <widget class="QSpinBox" name="captureBinHN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -957,7 +958,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="binYIN">
+           <widget class="QSpinBox" name="captureBinVN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1078,7 +1079,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="3" column="3" colspan="2">
-           <widget class="QLineEdit" name="remoteDirIN">
+           <widget class="QLineEdit" name="fileRemoteDirT">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -1098,14 +1099,14 @@ font-weight:bold;
            </widget>
           </item>
           <item row="1" column="1" colspan="2">
-           <widget class="QLineEdit" name="postCaptureScriptIN">
+           <widget class="QLineEdit" name="fileScriptT">
             <property name="clearButtonEnabled">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QComboBox" name="uploadModeCombo">
+           <widget class="QComboBox" name="fileUploadModeS">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1143,7 +1144,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="1" colspan="2">
-           <widget class="QLineEdit" name="prefixIN">
+           <widget class="QLineEdit" name="filePrefixT">
             <property name="placeholderText">
              <string>Target</string>
             </property>
@@ -1187,7 +1188,7 @@ font-weight:bold;
              <number>1</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="filterCheck">
+             <widget class="QCheckBox" name="fileFilterS">
               <property name="toolTip">
                <string>Append the active filter slot to the prefix</string>
               </property>
@@ -1197,7 +1198,7 @@ font-weight:bold;
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="expDurationCheck">
+             <widget class="QCheckBox" name="fileDurationS">
               <property name="toolTip">
                <string>Append the expose duration to the prefix</string>
               </property>
@@ -1207,7 +1208,7 @@ font-weight:bold;
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="ISOCheck">
+             <widget class="QCheckBox" name="fileTimestampS">
               <property name="toolTip">
                <string>Append time stamp to the prefix</string>
               </property>
@@ -1222,7 +1223,7 @@ font-weight:bold;
            </layout>
           </item>
           <item row="2" column="4">
-           <widget class="QPushButton" name="selectFITSDirB">
+           <widget class="QPushButton" name="selectFileDirectoryB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1247,7 +1248,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="2" column="1" colspan="3">
-           <widget class="QLineEdit" name="fitsDir"/>
+           <widget class="QLineEdit" name="fileDirectoryT"/>
           </item>
          </layout>
         </item>
@@ -1276,7 +1277,7 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item row="0" column="0">
-         <widget class="QCheckBox" name="guideDeviationCheck">
+         <widget class="QCheckBox" name="limitGuideDeviationS">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1292,7 +1293,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="guideDeviation">
+         <widget class="QDoubleSpinBox" name="limitGuideDeviationN">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1321,7 +1322,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QCheckBox" name="autofocusCheck">
+         <widget class="QCheckBox" name="limitFocusHFRS">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1334,7 +1335,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QDoubleSpinBox" name="HFRPixels">
+         <widget class="QDoubleSpinBox" name="limitFocusHFRN">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1369,7 +1370,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QCheckBox" name="temperatureDeltaCheck">
+         <widget class="QCheckBox" name="limitFocusDeltaTS">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1382,7 +1383,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QDoubleSpinBox" name="temperatureDelta">
+         <widget class="QDoubleSpinBox" name="limitFocusDeltaTN">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1411,7 +1412,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QCheckBox" name="refocusEveryNCheck">
+         <widget class="QCheckBox" name="limitRefocusS">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -1421,7 +1422,7 @@ font-weight:bold;
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QSpinBox" name="refocusEveryN">
+         <widget class="QSpinBox" name="limitRefocusN">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -2323,30 +2324,30 @@ font-weight:bold;
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>CCDCaptureCombo</tabstop>
-  <tabstop>FilterDevicesCombo</tabstop>
+  <tabstop>cameraS</tabstop>
+  <tabstop>filterWheelS</tabstop>
   <tabstop>filterManagerB</tabstop>
-  <tabstop>temperatureCheck</tabstop>
+  <tabstop>cameraTemperatureS</tabstop>
   <tabstop>setTemperatureB</tabstop>
-  <tabstop>exposureIN</tabstop>
-  <tabstop>FilterPosCombo</tabstop>
-  <tabstop>countIN</tabstop>
-  <tabstop>delayIN</tabstop>
-  <tabstop>frameXIN</tabstop>
-  <tabstop>frameYIN</tabstop>
-  <tabstop>frameWIN</tabstop>
-  <tabstop>frameHIN</tabstop>
-  <tabstop>binXIN</tabstop>
-  <tabstop>binYIN</tabstop>
-  <tabstop>prefixIN</tabstop>
-  <tabstop>filterCheck</tabstop>
-  <tabstop>expDurationCheck</tabstop>
-  <tabstop>ISOCheck</tabstop>
-  <tabstop>postCaptureScriptIN</tabstop>
-  <tabstop>fitsDir</tabstop>
-  <tabstop>selectFITSDirB</tabstop>
-  <tabstop>uploadModeCombo</tabstop>
-  <tabstop>remoteDirIN</tabstop>
+  <tabstop>captureExposureN</tabstop>
+  <tabstop>captureFilterS</tabstop>
+  <tabstop>captureCountN</tabstop>
+  <tabstop>captureDelayN</tabstop>
+  <tabstop>captureFrameXN</tabstop>
+  <tabstop>captureFrameYN</tabstop>
+  <tabstop>captureFrameWN</tabstop>
+  <tabstop>captureFrameHN</tabstop>
+  <tabstop>captureBinHN</tabstop>
+  <tabstop>captureBinVN</tabstop>
+  <tabstop>filePrefixT</tabstop>
+  <tabstop>fileFilterS</tabstop>
+  <tabstop>fileDurationS</tabstop>
+  <tabstop>fileTimestampS</tabstop>
+  <tabstop>fileScriptT</tabstop>
+  <tabstop>fileDirectoryT</tabstop>
+  <tabstop>selectFileDirectoryB</tabstop>
+  <tabstop>fileUploadModeS</tabstop>
+  <tabstop>fileRemoteDirT</tabstop>
   <tabstop>addToQueueB</tabstop>
   <tabstop>removeFromQueueB</tabstop>
   <tabstop>queueUpB</tabstop>
@@ -2360,10 +2361,10 @@ font-weight:bold;
   <tabstop>liveVideoB</tabstop>
   <tabstop>startB</tabstop>
   <tabstop>pauseB</tabstop>
-  <tabstop>guideDeviationCheck</tabstop>
-  <tabstop>guideDeviation</tabstop>
-  <tabstop>autofocusCheck</tabstop>
-  <tabstop>HFRPixels</tabstop>
+  <tabstop>limitGuideDeviationS</tabstop>
+  <tabstop>limitGuideDeviationN</tabstop>
+  <tabstop>limitFocusHFRS</tabstop>
+  <tabstop>limitFocusHFRN</tabstop>
   <tabstop>darkSubCheck</tabstop>
   <tabstop>filterCombo</tabstop>
  </tabstops>

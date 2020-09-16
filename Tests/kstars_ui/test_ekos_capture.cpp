@@ -72,11 +72,11 @@ QStringList TestEkosCapture::searchFITS(QDir const &dir) const
 
 void TestEkosCapture::testAddCaptureJob()
 {
-    KTRY_CAPTURE_GADGET(QDoubleSpinBox, exposureIN);
-    KTRY_CAPTURE_GADGET(QSpinBox, countIN);
-    KTRY_CAPTURE_GADGET(QSpinBox, delayIN);
-    KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo);
-    KTRY_CAPTURE_GADGET(QComboBox, frameTypeCombo);
+    KTRY_CAPTURE_GADGET(QDoubleSpinBox, captureExposureN);
+    KTRY_CAPTURE_GADGET(QSpinBox, captureCountN);
+    KTRY_CAPTURE_GADGET(QSpinBox, captureDelayN);
+    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS);
+    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
     KTRY_CAPTURE_GADGET(QPushButton, addToQueueB);
 
     QString frameTypes[] = {"Light", "Dark", "Flat"};
@@ -89,11 +89,11 @@ void TestEkosCapture::testAddCaptureJob()
     int const job_count = 50;
     for (int i = 0; i < job_count; i++)
     {
-        exposureIN->setValue(((double)i)/10.0);
-        countIN->setValue(i);
-        delayIN->setValue(i);
-        KTRY_CAPTURE_COMBO_SET(frameTypeCombo, frameTypes[i % frameTypeCount]);
-        KTRY_CAPTURE_COMBO_SET(FilterPosCombo, filterTypes[i % filterTypeCount]);
+        captureExposureN->setValue(((double)i)/10.0);
+        captureCountN->setValue(i);
+        captureDelayN->setValue(i);
+        KTRY_CAPTURE_COMBO_SET(captureTypeS, frameTypes[i % frameTypeCount]);
+        KTRY_CAPTURE_COMBO_SET(captureFilterS, filterTypes[i % filterTypeCount]);
         KTRY_CAPTURE_CLICK(addToQueueB);
     }
 
@@ -110,11 +110,11 @@ void TestEkosCapture::testAddCaptureJob()
         QVERIFY(index < queueTable->rowCount());
         queueTable->setCurrentCell(index, 1);
         QTRY_VERIFY_WITH_TIMEOUT(queueTable->currentRow() == index, 1000);
-        QCOMPARE(exposureIN->value(), ((double)index)/10.0);
-        QCOMPARE(countIN->value(), index);
-        QCOMPARE(delayIN->value(), index);
-        QCOMPARE(frameTypeCombo->currentText(), frameTypes[index % frameTypeCount]);
-        QCOMPARE(FilterPosCombo->currentText(), filterTypes[index % filterTypeCount]);
+        QCOMPARE(captureExposureN->value(), ((double)index)/10.0);
+        QCOMPARE(captureCountN->value(), index);
+        QCOMPARE(captureDelayN->value(), index);
+        QCOMPARE(captureTypeS->currentText(), frameTypes[index % frameTypeCount]);
+        QCOMPARE(captureFilterS->currentText(), filterTypes[index % filterTypeCount]);
     }
 
     // Remove all the rows
