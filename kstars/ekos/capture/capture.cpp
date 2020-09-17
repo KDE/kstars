@@ -6808,6 +6808,8 @@ void Capture::setCalibrationSettings(const QJsonObject &settings)
     const double al = settings["al"].toDouble(wallCoord.alt().Degrees());
     const int adu = settings["adu"].toInt(static_cast<int>(std::round(targetADU)));
     const int tolerance = settings["tolerance"].toInt(static_cast<int>(std::round(targetADUTolerance)));
+    const bool parkMount = settings["parkMount"].toBool(preMountPark);
+    const bool parkDome = settings["parkDome"].toBool(preDomePark);
 
     flatFieldSource = static_cast<FlatFieldSource>(source);
     flatFieldDuration = static_cast<FlatFieldDuration>(duration);
@@ -6815,6 +6817,8 @@ void Capture::setCalibrationSettings(const QJsonObject &settings)
     wallCoord.setAlt(al);
     targetADU = adu;
     targetADUTolerance = tolerance;
+    preMountPark = parkMount;
+    preDomePark = parkDome;
 }
 
 QJsonObject Capture::getCalibrationSettings()
@@ -6826,7 +6830,9 @@ QJsonObject Capture::getCalibrationSettings()
         {"az", wallCoord.az().Degrees()},
         {"al", wallCoord.alt().Degrees()},
         {"adu", targetADU},
-        {"tolerance", targetADUTolerance}
+        {"tolerance", targetADUTolerance},
+        {"parkMount", preMountPark},
+        {"parkDome", preDomePark},
     };
 
     return settings;

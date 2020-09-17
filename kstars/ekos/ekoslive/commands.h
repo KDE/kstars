@@ -75,6 +75,8 @@ enum COMMANDS
     CAPTURE_SET_SETTINGS,
     CAPTURE_SET_LIMITS,
     CAPTURE_GET_LIMITS,
+    CAPTURE_GET_CALIBRATION_SETTINGS,
+    CAPTURE_GET_FILE_SETTINGS,
     CAPTURE_LOOP,
 
     // Mount
@@ -216,6 +218,8 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_SET_SETTINGS, "capture_set_settings"},
     {CAPTURE_SET_LIMITS, "capture_set_limits"},
     {CAPTURE_GET_LIMITS, "capture_get_limits"},
+    {CAPTURE_GET_CALIBRATION_SETTINGS, "capture_get_calibration_settings"},
+    {CAPTURE_GET_FILE_SETTINGS, "capture_get_file_settings"},
     {CAPTURE_LOOP, "capture_loop"},
 
     {MOUNT_PARK, "mount_park"},

@@ -569,6 +569,14 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     {
         sendResponse(commands[CAPTURE_GET_LIMITS], capture->getLimitSettings());
     }
+    else if (command == commands[CAPTURE_GET_CALIBRATION_SETTINGS])
+    {
+        sendResponse(commands[CAPTURE_GET_CALIBRATION_SETTINGS], capture->getCalibrationSettings());
+    }
+    else if (command == commands[CAPTURE_GET_FILE_SETTINGS])
+    {
+        sendResponse(commands[CAPTURE_GET_FILE_SETTINGS], capture->getFileSettings());
+    }
 }
 
 void Message::sendCaptureSequence(const QJsonArray &sequenceArray)
