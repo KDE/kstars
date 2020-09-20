@@ -96,6 +96,25 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     loadDrivers();
     // Load scope equipment
     loadScopeEquipment();
+
+    // Shared tooltips
+    ui->remoteDrivers->setToolTip(ui->remoteDriversLabel->toolTip());
+    ui->aux1Combo->setToolTip(ui->aux1Label->toolTip());
+    ui->aux2Combo->setToolTip(ui->aux2Label->toolTip());
+    ui->aux3Combo->setToolTip(ui->aux3Label->toolTip());
+    ui->aux4Combo->setToolTip(ui->aux4Label->toolTip());
+    ui->filterCombo->setToolTip(ui->filterLabel->toolTip());
+    ui->AOCombo->setToolTip(ui->AOLabel->toolTip());
+    ui->domeCombo->setToolTip(ui->domeLabel->toolTip());
+    ui->weatherCombo->setToolTip(ui->weatherLabel->toolTip());
+    ui->localMode->setToolTip(ui->modeLabel->toolTip());
+    ui->remoteMode->setToolTip(ui->modeLabel->toolTip());
+    ui->remoteHostLabel->setToolTip(ui->remoteHost->toolTip());
+    ui->remotePortLabel->setToolTip(ui->remotePort->toolTip());
+    ui->externalGuidePortLabel->setToolTip(ui->externalGuidePort->toolTip());
+    ui->INDIWebManagerPortLabel->setToolTip(ui->INDIWebManagerPort->toolTip());
+    ui->guideTypeCombo->setToolTip(ui->guidingTypeLabel->toolTip());
+    ui->externalGuideHostLabel->setToolTip(ui->externalGuideHost->toolTip());
 }
 
 void ProfileEditor::loadScopeEquipment()
