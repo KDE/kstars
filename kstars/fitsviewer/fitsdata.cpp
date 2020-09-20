@@ -363,15 +363,92 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     return true;
 }
 
-int FITSData::saveFITS(const QString &newFilename)
+bool FITSData::saveImage(const QString &newFilename)
 {
     if (newFilename == m_Filename)
-        return 0;
+        return true;
+
+    const QString ext = QFileInfo(newFilename).suffix();
+
+    if (ext == "jpg" || ext == "png")
+    {
+        double min, max;
+        QImage fitsImage = FITSToImage(newFilename);
+        getMinMax(&min, &max);
+
+        if (min == max)
+        {
+            fitsImage.fill(Qt::white);
+        }
+        else if (channels() == 1)
+        {
+            fitsImage = QImage(width(), height(), QImage::Format_Indexed8);
+
+            fitsImage.setColorCount(256);
+            for (int i = 0; i < 256; i++)
+                fitsImage.setColor(i, qRgb(i, i, i));
+        }
+        else
+        {
+            fitsImage = QImage(width(), height(), QImage::Format_RGB32);
+        }
+
+        double dataMin = stats.mean[0] - stats.stddev[0];
+        double dataMax = stats.mean[0] + stats.stddev[0] * 3;
+
+        double bscale = 255. / (dataMax - dataMin);
+        double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
+
+        // Long way to do this since we do not want to use templated functions here
+        switch (property("dataType").toInt())
+        {
+            case TBYTE:
+                convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TSHORT:
+                convertToQImage<int16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TUSHORT:
+                convertToQImage<uint16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TLONG:
+                convertToQImage<int32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TULONG:
+                convertToQImage<uint32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TFLOAT:
+                convertToQImage<float>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TLONGLONG:
+                convertToQImage<int64_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            case TDOUBLE:
+                convertToQImage<double>(dataMin, dataMax, bscale, bzero, fitsImage);
+                break;
+
+            default:
+                break;
+        }
+
+        fitsImage.save(newFilename, ext.toLatin1().constData());
+
+        m_Filename = newFilename;
+        qCInfo(KSTARS_FITS) << "Saved image file:" << m_Filename;
+        return true;
+    }
 
     if (m_isCompressed)
     {
         KSNotification::error(i18n("Saving compressed files is not supported."));
-        return -1;
+        return false;
     }
 
     int status = 0, exttype = 0;
@@ -400,7 +477,7 @@ int FITSData::saveFITS(const QString &newFilename)
         {
             qCCritical(KSTARS_FITS()) << "FITS: Failed to copy " << m_Filename << " to " << finalFileName;
             fptr = nullptr;
-            return -1;
+            return false;
         }
 
         if (m_isTemporary && autoRemoveTemporaryFITS)
@@ -416,7 +493,7 @@ int FITSData::saveFITS(const QString &newFilename)
         fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status);
         fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status);
 
-        return 0;
+        return true;
     }
 
     nelements = stats.samples_per_channel * m_Channels;
@@ -437,7 +514,7 @@ int FITSData::saveFITS(const QString &newFilename)
     if (fits_copy_header(fptr, new_fptr, &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     fits_flush_file(fptr, &status);
@@ -445,7 +522,7 @@ int FITSData::saveFITS(const QString &newFilename)
     if (fits_close_file(fptr, &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     status = 0;
@@ -455,14 +532,14 @@ int FITSData::saveFITS(const QString &newFilename)
     if (fits_movabs_hdu(fptr, 1, &exttype, &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     /* Write Data */
     if (fits_write_img(fptr, m_DataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     /* Write keywords */
@@ -471,35 +548,35 @@ int FITSData::saveFITS(const QString &newFilename)
     if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     // Maximum
     if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     // NAXIS1
     if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     // NAXIS2
     if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     // ISO Date
     if (fits_write_date(fptr, &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     QString history =
@@ -508,7 +585,7 @@ int FITSData::saveFITS(const QString &newFilename)
     if (fits_write_history(fptr, history.toLatin1(), &status))
     {
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     int rot = 0, mirror = 0;
@@ -538,7 +615,7 @@ int FITSData::saveFITS(const QString &newFilename)
 
     qCInfo(KSTARS_FITS) << "Saved FITS file:" << m_Filename;
 
-    return status;
+    return true;
 }
 
 void FITSData::clearImageBuffers()

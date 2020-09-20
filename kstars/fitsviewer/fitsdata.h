@@ -133,8 +133,8 @@ class FITSData : public QObject
          */
         bool loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
                                 size_t fits_buffer_size, bool silent);
-        /* Save FITS */
-        int saveFITS(const QString &newFilename);
+        /* Save FITS or JPG/PNG*/
+        bool saveImage(const QString &newFilename);
         /* Rescale image lineary from image_buffer, fit to window if desired */
         int rescale(FITSZoom type);
         /* Calculate stats */

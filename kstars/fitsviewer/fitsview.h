@@ -68,10 +68,10 @@ class FITSView : public QScrollArea
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
          * @param inFilename FITS File name to use
          */
-         bool loadFITSFromData(FITSData *data, const QString &inFilename);
-  
+        bool loadFITSFromData(FITSData *data, const QString &inFilename);
+
         // Save FITS
-        int saveFITS(const QString &newFilename);
+        bool saveImage(const QString &newFilename);
         // Rescale image lineary from image_buffer, fit to window if desired
         bool rescale(FITSZoom type);
 
@@ -204,16 +204,22 @@ class FITSView : public QScrollArea
         //void setLoadWCSEnabled(bool value);
 
         // Returns the params set to stretch the image.
-        StretchParams getStretchParams() const { return stretchParams; }
+        StretchParams getStretchParams() const
+        {
+            return stretchParams;
+        }
 
         // Returns true if we're automatically generating stretch parameters.
         // Note: this is not whether we're stretching, that's controlled by stretchImage.
-        bool getAutoStretch() const { return autoStretch; }
+        bool getAutoStretch() const
+        {
+            return autoStretch;
+        }
 
         // Sets the params for stretching. Will also stretch and re-display the image.
         // This only sets the first channel stretch params. For RGB images, the G&B channel
         // stretch parameters are a function of the Red input param and the existing RGB params.
-        void setStretchParams(const StretchParams& params);
+        void setStretchParams(const StretchParams &params);
 
         // Sets whether to stretch the image or not.
         // Will also re-display the image if onOff != stretchImage.
@@ -223,7 +229,10 @@ class FITSView : public QScrollArea
         void setAutoStretchParams();
 
         // When sampling is > 1, we will display the image at a lower resolution.
-        void setSampling(int value) { if (value > 0) sampling = value; }
+        void setSampling(int value)
+        {
+            if (value > 0) sampling = value;
+        }
 
     public slots:
         void wheelEvent(QWheelEvent *event) override;
@@ -272,7 +281,7 @@ class FITSView : public QScrollArea
         void calculateMaxPixel(double min, double max);
         void initDisplayImage();
 
-        QPointF getPointForGridLabel(QPainter *painter, const QString& str, double scale);
+        QPointF getPointForGridLabel(QPainter *painter, const QString &str, double scale);
         bool pointIsInImage(QPointF pt, double scale);
 
         void loadInFrame();
@@ -300,7 +309,7 @@ class FITSView : public QScrollArea
         bool isLargeImage();
         void updateFrameLargeImage();
         void updateFrameSmallImage();
-        bool drawHFR(QPainter * painter, const QString & hfr, int x, int y);
+        bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
 
 
         QLabel *noImageLabel { nullptr };
@@ -386,14 +395,14 @@ class FITSView : public QScrollArea
         QAction *toggleStarsAction { nullptr };
         QAction *toggleProfileAction { nullptr };
         QAction *toggleStretchAction { nullptr };
-  
+
 
         //Star Profile Viewer
 #ifdef HAVE_DATAVISUALIZATION
         QPointer<StarProfileViewer> starProfileWidget;
 #endif
 
-signals:
+    signals:
         void newStatus(const QString &msg, FITSBar id);
         void debayerToggled(bool);
         void wcsToggled(bool);

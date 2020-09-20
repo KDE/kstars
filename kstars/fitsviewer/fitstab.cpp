@@ -32,7 +32,8 @@
 
 #include <fits_debug.h>
 
-namespace {
+namespace
+{
 const char kAutoToolTip[] = "Automatically find stretch parameters";
 const char kStretchOffToolTip[] = "Stretch the image";
 const char kStretchOnToolTip[] = "Disable stretching of the image.";
@@ -107,7 +108,8 @@ void FITSTab::clearRecentFITS()
     connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
 }
 
-namespace {
+namespace
+{
 
 // Sets the text value in the slider's value display, and if adjustSlider is true,
 // moves the slider to the correct position.
@@ -122,7 +124,7 @@ void setSlider(QSlider *slider, QLabel *label, float value, float maxValue, bool
 // Adds the following to a horizontal layout (left to right): a vertical line,
 // a label with the slider's name, a slider, and a text field to display the slider's value.
 void setupStretchSlider(QSlider *slider, QLabel *label, QLabel *val, int fontSize,
-                        const QString& name, QHBoxLayout *layout)
+                        const QString &name, QHBoxLayout *layout)
 {
     QFrame* line = new QFrame();
     line->setFrameShape(QFrame::VLine);
@@ -251,7 +253,8 @@ QHBoxLayout* FITSTab::setupStretchBar()
     highlightsLabel.reset(new QLabel());
     highlightsVal.reset(new QLabel());
     highlightsSlider.reset(new QSlider(Qt::Horizontal, this));
-    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Hightlights", stretchBarLayout);
+    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Hightlights",
+                       stretchBarLayout);
 
     // Separator
     QFrame* line4 = new QFrame();
@@ -262,27 +265,31 @@ QHBoxLayout* FITSTab::setupStretchBar()
     autoButton.reset(new QPushButton());
     setupStretchButton(autoButton.get(), "tools-wizard", kAutoToolTip, stretchBarLayout);
 
-    connect(stretchButton.get(), &QPushButton::clicked, [=]() {
+    connect(stretchButton.get(), &QPushButton::clicked, [ = ]()
+    {
         // This will toggle whether we're currently stretching.
         view->setStretch(!view->isImageStretched());
     });
 
     // Make rough displays for the slider movement.
-    connect(shadowsSlider.get(), &QSlider::sliderMoved, [=](int value) {
+    connect(shadowsSlider.get(), &QSlider::sliderMoved, [ = ](int value)
+    {
         StretchParams params = view->getStretchParams();
         params.grey_red.shadows = this->maxShadows * value / 10000.0f;
         view->setSampling(4);
         view->setStretchParams(params);
         view->setSampling(1);
-      });
-    connect(midtonesSlider.get(), &QSlider::sliderMoved, [=](int value) {
+    });
+    connect(midtonesSlider.get(), &QSlider::sliderMoved, [ = ](int value)
+    {
         StretchParams params = view->getStretchParams();
         params.grey_red.midtones = this->maxMidtones * value / 10000.0f;
         view->setSampling(4);
         view->setStretchParams(params);
         view->setSampling(1);
     });
-    connect(highlightsSlider.get(), &QSlider::sliderMoved, [=](int value) {
+    connect(highlightsSlider.get(), &QSlider::sliderMoved, [ = ](int value)
+    {
         StretchParams params = view->getStretchParams();
         params.grey_red.highlights = this->maxHighlights * value / 10000.0f;
         view->setSampling(4);
@@ -291,25 +298,29 @@ QHBoxLayout* FITSTab::setupStretchBar()
     });
 
     // Make a final full-res display when the slider is released.
-    connect(shadowsSlider.get(), &QSlider::sliderReleased, [=]() {
+    connect(shadowsSlider.get(), &QSlider::sliderReleased, [ = ]()
+    {
         if (!view) return;
         rescaleShadows();
         StretchParams params = view->getStretchParams();
         view->setStretchParams(params);
     });
-    connect(midtonesSlider.get(), &QSlider::sliderReleased, [=]() {
+    connect(midtonesSlider.get(), &QSlider::sliderReleased, [ = ]()
+    {
         if (!view) return;
         rescaleMidtones();
         StretchParams params = view->getStretchParams();
         view->setStretchParams(params);
     });
-    connect(highlightsSlider.get(), &QSlider::sliderReleased, [=]() {
+    connect(highlightsSlider.get(), &QSlider::sliderReleased, [ = ]()
+    {
         if (!view) return;
         StretchParams params = view->getStretchParams();
         view->setStretchParams(params);
     });
 
-    connect(autoButton.get(), &QPushButton::clicked, [=]() {
+    connect(autoButton.get(), &QPushButton::clicked, [ = ]()
+    {
         // If we're not currently using automatic stretch parameters, turn that on.
         // If we're already using automatic parameters, don't do anything.
         // User can just move the sliders to take manual control.
@@ -322,10 +333,11 @@ QHBoxLayout* FITSTab::setupStretchBar()
 
     // This is mostly useful right at the start, when the image is displayed without any user interaction.
     // Check for slider-in-use, as we don't wont to rescale while the user is active.
-    connect(view.get(), &FITSView::newStatus, [=](const QString &ignored) {
+    connect(view.get(), &FITSView::newStatus, [ = ](const QString & ignored)
+    {
         Q_UNUSED(ignored)
         bool slidersInUse = shadowsSlider->isSliderDown() || midtonesSlider->isSliderDown() ||
-                highlightsSlider->isSliderDown();
+                            highlightsSlider->isSliderDown();
         if (!slidersInUse)
         {
             rescaleShadows();
@@ -413,7 +425,8 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
 void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
-  if (setupView(mode, filter)) {
+    if (setupView(mode, filter))
+    {
 
         // On Success loading image
         connect(view.get(), &FITSView::loaded, [&]()
@@ -449,7 +462,7 @@ void FITSTab::processData()
     // Otherwise wait until histogram is needed before creating it.
     if (fitsSplitter->sizes().at(0) != 0)
     {
-      histogram->constructHistogram();
+        histogram->constructHistogram();
     }
 
     if (shouldComputeHFR())
@@ -471,17 +484,17 @@ void FITSTab::processData()
     // Don't add it to the list if it is already there
     if (recentImages->findItems(currentURL.toLocalFile(), Qt::MatchExactly).count() == 0)
     {
-      if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
-      {
-        disconnect(recentImages, &QListWidget::currentRowChanged, this,
-                   &FITSTab::selectRecentFITS);
-        recentImages->addItem(currentURL.toLocalFile());
-        recentImages->setCurrentRow(recentImages->count() - 1);
-        connect(recentImages, &QListWidget::currentRowChanged,  this,
-                &FITSTab::selectRecentFITS);
-      }
+        if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
+        {
+            disconnect(recentImages, &QListWidget::currentRowChanged, this,
+                       &FITSTab::selectRecentFITS);
+            recentImages->addItem(currentURL.toLocalFile());
+            recentImages->setCurrentRow(recentImages->count() - 1);
+            connect(recentImages, &QListWidget::currentRowChanged,  this,
+                    &FITSTab::selectRecentFITS);
+        }
     }
-        
+
     view->updateFrame();
 }
 
@@ -496,9 +509,9 @@ bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL,
 
     if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
     {
-      // On Failure to load
-      // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
-      return false;
+        // On Failure to load
+        // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
+        return false;
     }
 
     processData();
@@ -520,9 +533,9 @@ void FITSTab::modifyFITSState(bool clean)
     emit changeStatus(clean);
 }
 
-int FITSTab::saveFITS(const QString &filename)
+bool FITSTab::saveImage(const QString &filename)
 {
-    return view->saveFITS(filename);
+    return view->saveImage(filename);
 }
 
 void FITSTab::copyFITS()
@@ -652,7 +665,9 @@ bool FITSTab::saveFile()
     if (currentURL.isEmpty())
     {
         currentURL =
-            QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save FITS"), currentDir, "FITS (*.fits *.fits.gz *.fit)");
+            QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save FITS"), currentDir,
+                                        "FITS (*.fits *.fits.gz *.fit);;Images (*.jpg *.png)");
+
         // if user presses cancel
         if (currentURL.isEmpty())
         {
@@ -660,41 +675,22 @@ bool FITSTab::saveFile()
             return false;
         }
 
+        // If no extension is selected, assume FITS.
         if (currentURL.toLocalFile().contains('.') == 0)
             currentURL.setPath(currentURL.toLocalFile() + ".fits");
-
-        // Already display by dialog
-        /*if (QFile::exists(currentURL.toLocalFile()))
-        {
-            int r = KMessageBox::warningContinueCancel(0,
-                        i18n( "A file named \"%1\" already exists. "
-                              "Overwrite it?", currentURL.fileName() ),
-                        i18n( "Overwrite File?" ),
-                        KGuiItem(i18n( "&Overwrite" )) );
-            if(r==KMessageBox::Cancel)
-                return false;
-
-        }*/
     }
 
     if (currentURL.isValid())
     {
-        int err_status = 0;
+        QString localFile = currentURL.toLocalFile();
+        if (localFile.contains(".fit"))
+            localFile = "!" + localFile;
 
-        if ((err_status = saveFITS('!' + currentURL.toLocalFile())) != 0)
+        if (!saveImage(localFile))
         {
-            // -1000 = user canceled
-            if (err_status == -1000)
-                return false;
-
-            char err_text[FLEN_STATUS];
-            fits_get_errstatus(err_status, err_text);
-            // Use KMessageBox or something here
-            KSNotification::error(i18n("FITS file save error: %1", QString::fromUtf8(err_text)), i18n("FITS Save"));
+            KSNotification::error(i18n("Image save error: %1", view->getImageData()->getLastError()), i18n("Image Save"));
             return false;
         }
-
-        //statusBar()->changeItem(i18n("File saved."), 3);
 
         emit newStatus(i18n("File saved to %1", currentURL.url()), FITS_MESSAGE);
         modifyFITSState();

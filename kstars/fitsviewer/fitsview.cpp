@@ -441,9 +441,16 @@ void FITSView::loadInFrame()
         emit failed();
 }
 
-int FITSView::saveFITS(const QString &newFilename)
+bool FITSView::saveImage(const QString &newFilename)
 {
-    return imageData->saveFITS(newFilename);
+    const QString ext = QFileInfo(newFilename).suffix();
+    if (ext == "jpg" || ext == "png")
+    {
+        rawImage.save(newFilename, ext.toLatin1().constData());
+        return true;
+    }
+
+    return imageData->saveImage(newFilename);
 }
 
 bool FITSView::rescale(FITSZoom type)

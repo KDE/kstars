@@ -140,7 +140,7 @@ bool DarkLibrary::saveDarkFile(FITSData *darkData)
 
     QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks/darkframe_" + ts + ".fits";
 
-    if (darkData->saveFITS(path) != 0)
+    if (darkData->saveImage(path) != 0)
     {
         qCritical() << "DarkLibrary: Failed to save dark frame " << path;
         return false;
