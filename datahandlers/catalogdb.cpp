@@ -515,10 +515,16 @@ bool CatalogDB::AddCatalogContents(const QString &fname)
         char delimiter;
 
         QTextStream stream(&ccFile);
-        // TODO(spacetime) : Decide appropriate number of lines to be read
+
         QStringList lines;
-        for (int times = 10; times >= 0 && !stream.atEnd(); --times)
-            lines.append(stream.readLine());
+        while(!stream.atEnd()) {
+            auto line = stream.readLine();
+            lines.append(line);
+            if (!line.startsWith('#'))
+                break;
+        }
+
+
         /*WAS
           * = stream.readAll().split('\n', QString::SkipEmptyParts);
           * Memory Hog!
