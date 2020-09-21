@@ -621,6 +621,9 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
         if (d.at(0) != '#')
             break; // no longer in header!
 
+        if (d.startsWith("##"))
+            continue; // comment
+
         int idelimiter = d.indexOf("# Delimiter: ");
         int iname      = d.indexOf("# Name: ");
         int iprefix    = d.indexOf("# Prefix: ");
