@@ -461,6 +461,19 @@ void DeepSkyComponent::draw(SkyPainter *skyp)
 #endif
 }
 
+double DeepSkyComponent::determineDeepSkyMagnitudeLimit() {
+    double maglim = Options::magLimitDrawDeepSky();
+    double lgmin  = log10(MINZOOM);
+    double lgmax  = log10(MAXZOOM);
+    double lgz    = log10(Options::zoomFactor());
+
+    if (lgz <= 0.75 * lgmax)
+        maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut()) * (0.75 * lgmax - lgz) /
+                  (0.75 * lgmax - lgmin);
+
+    return maglim;
+}
+
 void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, DeepSkyIndex *dsIndex,
                                           const QString &colorString, bool drawImage)
 {
@@ -481,19 +494,15 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
     m_hideLabels = (map->isSlewing() && Options::hideOnSlew()) ||
                    !(Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames());
 
-    double maglim              = Options::magLimitDrawDeepSky();
     bool showUnknownMagObjects = Options::showUnknownMagObjects();
 
     //adjust maglimit for ZoomLevel
-    double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
-    double lgz   = log10(Options::zoomFactor());
-    if (lgz <= 0.75 * lgmax)
-        maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut()) * (0.75 * lgmax - lgz) /
-                  (0.75 * lgmax - lgmin);
-    m_zoomMagLimit = maglim;
+    m_zoomMagLimit = DeepSkyComponent::determineDeepSkyMagnitudeLimit();
 
     double labelMagLim = Options::deepSkyLabelDensity();
+    double lgmin  = log10(MINZOOM);
+    double lgmax  = log10(MAXZOOM);
+    double lgz    = log10(Options::zoomFactor());
     labelMagLim += (Options::magLimitDrawDeepSky() - labelMagLim) * (lgz - lgmin) / (lgmax - lgmin);
     if (labelMagLim > Options::magLimitDrawDeepSky())
         labelMagLim = Options::magLimitDrawDeepSky();
