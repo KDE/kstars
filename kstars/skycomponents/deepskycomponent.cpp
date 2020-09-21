@@ -510,6 +510,8 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
     //DrawID drawID = m_skyMesh->drawID();
     MeshIterator region(m_skyMesh, DRAW_BUF);
 
+    auto zoomFactor = Options::zoomFactor();
+    auto sizeRescaling = dms::PI * zoomFactor / 10800.0;
     while (region.hasNext())
     {
         Trixel trixel       = region.next();
@@ -533,13 +535,13 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
             }
 
             float mag  = obj->mag();
-            float size = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+            float size = obj->a() * sizeRescaling;
 
             //only draw objects if flags set, it's bigger than 1 pixel (unless
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
-            bool sizeCriterion = (size > 1.0 || Options::zoomFactor() > 2000.);
-            bool magCriterion  = (mag < (float)maglim) || (showUnknownMagObjects && (std::isnan(mag) || mag > 36.0));
+            bool sizeCriterion = (size > 1.0 || zoomFactor > 2000.);
+            bool magCriterion  = (mag < float(m_zoomMagLimit)) || (showUnknownMagObjects && (std::isnan(mag) || mag > 36.0));
             if (sizeCriterion && magCriterion)
             {
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
