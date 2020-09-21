@@ -6845,7 +6845,7 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     const bool focusHFRCheck = settings["focusHFRCheck"].toBool(limitFocusHFRS->isChecked());
     const double focusHFRValue = settings["focusHFRValue"].toDouble(limitFocusHFRN->value());
     const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(limitFocusDeltaTS->isChecked());
-    const bool focusDeltaTValue = settings["focusDeltaTValue"].toDouble(limitFocusDeltaTN->value());
+    const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(limitFocusDeltaTN->value());
     const bool refocusNCheck = settings["refocusNCheck"].toBool(limitRefocusS->isChecked());
     const int refocusNValue = settings["refocusNValue"].toInt(limitRefocusN->value());
 
