@@ -996,7 +996,9 @@ void ObservingList::slotSaveList()
     if (!f.open(QIODevice::WriteOnly))
     {
         qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
-        KMessageBox::error(this, i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.", f.fileName()), i18n("Could not save observing wishlist"));
+        KMessageBox::error(this,
+                           i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.",
+                                f.fileName()), i18n("Could not save observing wishlist"));
         return;
     }
     QTextStream writeemall(&f);
@@ -1060,10 +1062,11 @@ void ObservingList::slotLoadWishList()
     if (!failedObjects.isEmpty())
     {
         QMessageBox msgBox = {QMessageBox::Icon::Warning,
-                                  i18n("Observing wishlist truncated: %1 object(s) not found", failedObjects.size()),
-                                  i18n("%1 object(s) could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup."),
-                                  QMessageBox::Ok,
-                                  this};
+                              i18n("Observing wishlist truncated: %1 object(s) not found", failedObjects.size()),
+                              i18n("%1 object(s) could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup."),
+                              QMessageBox::Ok,
+                              this
+                             };
         msgBox.setDetailedText(failedObjects.join("\n"));
         msgBox.exec();
     }
