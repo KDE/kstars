@@ -645,6 +645,8 @@ double Analyze::processInputLine(const QString &line)
     const double time = QString(list[1]).toDouble(&ok);
     if (!ok)
         return 0;
+    if (time < 0 || time > 3600 * 24 * 10)
+        return 0;
 
     if ((list[0] == "CaptureStarting") && (list.size() == 4))
     {
@@ -1146,7 +1148,7 @@ void Analyze::processStatsClick(QMouseEvent *event, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     double xval = statsPlot->xAxis->pixelToCoord(event->x());
-    if (event->button() == Qt::RightButton)
+    if (event->button() == Qt::RightButton || event->modifiers() == Qt::ControlModifier)
         // Resets the range. Replot will take care of ra/dec needing negative values.
         statsPlot->yAxis->setRange(0, 5);
     else
@@ -1166,6 +1168,12 @@ void Analyze::timelineMouseDoubleClick(QMouseEvent *event)
 
 void Analyze::statsMousePress(QMouseEvent *event)
 {
+    // If we're on the legend, adjust the y-axis.
+    if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
+    {
+        yAxisInitialPos = statsPlot->yAxis->pixelToCoord(event->y());
+        return;
+    }
     processStatsClick(event, false);
 }
 
@@ -1177,6 +1185,15 @@ void Analyze::statsMouseDoubleClick(QMouseEvent *event)
 // Allow the user to click and hold, causing the cursor to move in real-time.
 void Analyze::statsMouseMove(QMouseEvent *event)
 {
+    // If we're on the legend, adjust the y-axis.
+    if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
+    {
+        auto range = statsPlot->yAxis->range();
+        double yDiff = yAxisInitialPos - statsPlot->yAxis->pixelToCoord(event->y());
+        statsPlot->yAxis->setRange(range.lower + yDiff, range.upper + yDiff);
+        replot();
+        return;
+    }
     processStatsClick(event, false);
 }
 
@@ -1757,8 +1774,8 @@ void Analyze::helpMessage()
 // correct analyzeStartTime.
 double Analyze::logTime(const QDateTime &time)
 {
-    if (!startTimeInitialized)
-        return 0;
+    if (!logInitialized)
+        startLog();
     return (time.toMSecsSinceEpoch() - analyzeStartTime.toMSecsSinceEpoch()) / 1000.0;
 }
 
@@ -1796,8 +1813,6 @@ void Analyze::startLog()
     startTimeInitialized = true;
     if (runtimeDisplay)
         displayStartTime = analyzeStartTime;
-    if (!logEnabled)
-        return;
     if (logInitialized)
         return;
     QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "analyze/";
@@ -1821,8 +1836,6 @@ void Analyze::startLog()
 
 void Analyze::appendToLog(const QString &lines)
 {
-    if (!logEnabled)
-        return;
     if (!logInitialized)
         startLog();
     QTextStream out(&logFile);

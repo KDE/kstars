@@ -352,7 +352,6 @@ class Analyze : public QWidget, public Ui::Analyze
         QString logFilename { "" };
         QFile logFile;
         bool logInitialized { false };
-        bool logEnabled { true };
 
         // These define the view for the timeline and stats plots.
         // The plots start plotStart seconds from the start of the session, and
@@ -381,6 +380,8 @@ class Analyze : public QWidget, public Ui::Analyze
         QCPAxis *snrAxis;
         QCPAxis *numStarsAxis;
         QCPAxis *skyBgAxis;
+        // Used to keep track of the y-axis position when moving it with the mouse.
+        double yAxisInitialPos = { 0 };
 
         // Used to display clock-time on the X-axis.
         QSharedPointer<OffsetDateTimeTicker> dateTicker;
