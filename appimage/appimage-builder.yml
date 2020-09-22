@@ -1,7 +1,7 @@
 version: 1
 script:
   - rm -rf AppDir || true
-  - DESTDIR=AppDir make install
+  - DESTDIR=AppDir ninja install
   - for F in $(dpkg-query -L libraw20); do cp $F --parent -t AppDir -v; done
 AppDir:
   path: ./AppDir

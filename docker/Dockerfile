@@ -62,9 +62,34 @@ RUN apt update && apt -y --no-install-recommends install \
       phd2 \
       xvfb
 
+# QT5 theme
+ENV QT_QPA_PLATFORMTHEME=qt5ct
 RUN apt update && apt -y --no-install-recommends install qt5ct
 RUN d=/root/.config/qt5ct ; mkdir -p "$d" && echo '[Appearance]\nicon_theme=breeze' > "$d/qt5ct.conf"
-ENV QT_QPA_PLATFORMTHEME=qt5ct
+
+# Ninja
+RUN apt update && apt -y --no-install-recommends install ninja-build
+
+# CCache
+ENV CCACHE_DIR=/var/ccache
+RUN apt update && apt -y --no-install-recommends install ccache
+RUN mkdir -p $CCACHE_DIR && chmod a=rwx $CCACHE_DIR && update-ccache-symlinks
+
+# AppImage
+RUN apt update && apt -y --no-install-recommends install \
+      python3-pip \
+      python3-setuptools \
+      patchelf \
+      desktop-file-utils \
+      libgdk-pixbuf2.0-dev \
+      fakeroot \
+      wget \
+      gpg-agent
+
+# Saxon
+RUN apt install -y --no-install-recommends \
+      libsaxon-java \
+      openjdk-11-jre-headless
 
 CMD /bin/bash
 
