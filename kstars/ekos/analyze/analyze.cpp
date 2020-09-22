@@ -1647,6 +1647,11 @@ void Analyze::reset()
     resetGraphicsPlot();
 
     infoBox->setText("");
+    QPalette p = infoBox->palette();
+    p.setColor(QPalette::Base, Qt::black);
+    p.setColor(QPalette::Text, Qt::white);
+    infoBox->setPalette(p);
+
     inputValue->clear();
     captureSessions.clear();
     focusSessions.clear();
