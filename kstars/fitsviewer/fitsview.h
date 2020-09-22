@@ -66,9 +66,9 @@ class FITSView : public QScrollArea
 
         /**
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
-         * @param inFilename FITS File name to use
+         * @param data pointer to FITSData objects
          */
-        bool loadFITSFromData(FITSData *data, const QString &inFilename);
+        bool loadFITSFromData(FITSData *data);
 
         // Save FITS
         bool saveImage(const QString &newFilename);

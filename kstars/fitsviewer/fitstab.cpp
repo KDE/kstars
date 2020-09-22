@@ -498,8 +498,7 @@ void FITSTab::processData()
     view->updateFrame();
 }
 
-bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL,
-                               FITSMode mode, FITSScale filter)
+bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL, FITSMode mode, FITSScale filter)
 {
     setupView(mode, filter);
 
@@ -507,7 +506,8 @@ bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL,
 
     view->setFilter(filter);
 
-    if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
+    //if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
+    if (!view->loadFITSFromData(data))
     {
         // On Failure to load
         // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
