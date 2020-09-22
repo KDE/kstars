@@ -104,6 +104,15 @@ class DeepSkyComponent : public SkyComponent
 
     bool selected() override;
 
+    /**
+     * @short Return the deep-sky limiting magnitude for the current zoom level
+     *
+     * The zoom level and various settings are determined by querying @class Options
+     * @note Also used by CatalogComponent::draw
+     */
+    static double determineDeepSkyMagnitudeLimit(void);
+
+
   private:
     /**
      * @short Read the ngcic.dat deep-sky database.

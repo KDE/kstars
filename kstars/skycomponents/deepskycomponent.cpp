@@ -461,6 +461,19 @@ void DeepSkyComponent::draw(SkyPainter *skyp)
 #endif
 }
 
+double DeepSkyComponent::determineDeepSkyMagnitudeLimit() {
+    double maglim = Options::magLimitDrawDeepSky();
+    double lgmin  = log10(MINZOOM);
+    double lgmax  = log10(MAXZOOM);
+    double lgz    = log10(Options::zoomFactor());
+
+    if (lgz <= 0.75 * lgmax)
+        maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut()) * (0.75 * lgmax - lgz) /
+                  (0.75 * lgmax - lgmin);
+
+    return maglim;
+}
+
 void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, DeepSkyIndex *dsIndex,
                                           const QString &colorString, bool drawImage)
 {
@@ -481,19 +494,15 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
     m_hideLabels = (map->isSlewing() && Options::hideOnSlew()) ||
                    !(Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames());
 
-    double maglim              = Options::magLimitDrawDeepSky();
     bool showUnknownMagObjects = Options::showUnknownMagObjects();
 
     //adjust maglimit for ZoomLevel
-    double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
-    double lgz   = log10(Options::zoomFactor());
-    if (lgz <= 0.75 * lgmax)
-        maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut()) * (0.75 * lgmax - lgz) /
-                  (0.75 * lgmax - lgmin);
-    m_zoomMagLimit = maglim;
+    m_zoomMagLimit = DeepSkyComponent::determineDeepSkyMagnitudeLimit();
 
     double labelMagLim = Options::deepSkyLabelDensity();
+    double lgmin  = log10(MINZOOM);
+    double lgmax  = log10(MAXZOOM);
+    double lgz    = log10(Options::zoomFactor());
     labelMagLim += (Options::magLimitDrawDeepSky() - labelMagLim) * (lgz - lgmin) / (lgmax - lgmin);
     if (labelMagLim > Options::magLimitDrawDeepSky())
         labelMagLim = Options::magLimitDrawDeepSky();
@@ -501,6 +510,8 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
     //DrawID drawID = m_skyMesh->drawID();
     MeshIterator region(m_skyMesh, DRAW_BUF);
 
+    auto zoomFactor = Options::zoomFactor();
+    auto sizeRescaling = dms::PI * zoomFactor / 10800.0;
     while (region.hasNext())
     {
         Trixel trixel       = region.next();
@@ -524,13 +535,13 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
             }
 
             float mag  = obj->mag();
-            float size = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+            float size = obj->a() * sizeRescaling;
 
             //only draw objects if flags set, it's bigger than 1 pixel (unless
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
-            bool sizeCriterion = (size > 1.0 || Options::zoomFactor() > 2000.);
-            bool magCriterion  = (mag < (float)maglim) || (showUnknownMagObjects && (std::isnan(mag) || mag > 36.0));
+            bool sizeCriterion = (size > 1.0 || zoomFactor > 2000.);
+            bool magCriterion  = (mag < float(m_zoomMagLimit)) || (showUnknownMagObjects && (std::isnan(mag) || mag > 36.0));
             if (sizeCriterion && magCriterion)
             {
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
