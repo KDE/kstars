@@ -36,7 +36,7 @@ build:
   stage: build
   interruptible: true
   before_script:
-    - du -hs ${CCACHE_DIR}
+    - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
   script:
     - *build_recipe
   after_script:
