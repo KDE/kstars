@@ -2169,7 +2169,10 @@ void Align::removeDevice(ISD::GDInterface *device)
             CCDCaptureCombo->setCurrentIndex(-1);
         }
         else
+        {
+            currentCCD = CCDs[0];
             CCDCaptureCombo->setCurrentIndex(0);
+        }
 
         QTimer::singleShot(1000, this, [this]()
         {

@@ -4047,7 +4047,10 @@ void Guide::removeDevice(ISD::GDInterface *device)
             guiderCombo->setCurrentIndex(-1);
         }
         else
+        {
+            currentCCD = CCDs[0];
             guiderCombo->setCurrentIndex(0);
+        }
 
         QTimer::singleShot(1000, this, [this]()
         {
