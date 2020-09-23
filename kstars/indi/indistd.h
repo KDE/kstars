@@ -314,6 +314,7 @@ void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool co
 void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool compact = true);
 void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool compact = true);
 void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool compact = true);
+void propertyToJson(INDI::Property *prop, QJsonObject &propObject, bool compact = true);
 
 }
 

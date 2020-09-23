@@ -1371,6 +1371,27 @@ void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool com
         propObject.insert("group", lvp->group);
     }
 }
+
+void propertyToJson(INDI::Property *prop, QJsonObject &propObject, bool compact)
+{
+    switch (prop->getType())
+    {
+        case INDI_SWITCH:
+            propertyToJson(prop->getSwitch(), propObject, compact);
+            break;
+        case INDI_TEXT:
+            propertyToJson(prop->getText(), propObject, compact);
+            break;
+        case INDI_NUMBER:
+            propertyToJson(prop->getNumber(), propObject, compact);
+            break;
+        case INDI_LIGHT:
+            propertyToJson(prop->getLight(), propObject, compact);
+            break;
+        default:
+            break;
+    }
+}
 }
 
 #ifndef KSTARS_LITE

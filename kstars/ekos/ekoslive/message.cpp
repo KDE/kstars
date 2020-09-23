@@ -1224,6 +1224,26 @@ void Message::processDialogResponse(const QJsonObject &payload)
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 
+void Message::processNewProperty(INDI::Property *prop)
+{
+    QJsonObject propObject;
+    ISD::propertyToJson(prop, propObject, false);
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_ADD]}, {"payload", propObject}}).toJson(
+        QJsonDocument::Compact));
+}
+
+void Message::processDeleteProperty(const QString &device, const QString &name)
+{
+    QJsonObject payload =
+    {
+        {"device", device},
+        {"name", name}
+    };
+
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_REMOVE]}, {"payload", payload}}).toJson(
+        QJsonDocument::Compact));
+}
+
 void Message::processNewNumber(INumberVectorProperty *nvp)
 {
     if (m_PropertySubscriptions.contains(nvp->name))
