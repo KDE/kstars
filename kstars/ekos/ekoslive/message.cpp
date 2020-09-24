@@ -218,6 +218,8 @@ void Message::onTextReceived(const QString &message)
         processOptionsCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
+    else if (command.startsWith("fm_"))
+        processFilterManagerCommands(command, payload);
     else if (command.startsWith("device_"))
         processDeviceCommands(command, payload);
 }
@@ -1001,6 +1003,19 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
                 payload["pixelw"].toDouble(),
                 payload["pixelh"].toDouble());
 
+    }
+}
+
+void Message::processFilterManagerCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[FM_GET_DATA])
+    {
+        QJsonArray data = m_Manager->getFilterManager()->toJSON();
+        sendResponse(commands[FM_GET_DATA], data);
+    }
+    else if (command == commands[FM_SET_DATA])
+    {
+        m_Manager->getFilterManager()->setFilterData(payload["data"].toArray());
     }
 }
 

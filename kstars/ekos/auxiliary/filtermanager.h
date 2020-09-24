@@ -45,7 +45,20 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             NO_AUTOFOCUS_POLICY = CHANGE_POLICY | OFFSET_POLICY
         } FilterPolicy;
 
+        enum
+        {
+            FM_LABEL = 4,
+            FM_EXPOSURE,
+            FM_OFFSET,
+            FM_AUTO_FOCUS,
+            FM_LOCK_FILTER,
+            FM_FLAT_FOCUS
+        };
+
         FilterManager();
+
+        QJsonArray toJSON();
+        void setFilterData(const QJsonArray &settings);
 
         void refreshFilterModel();
 

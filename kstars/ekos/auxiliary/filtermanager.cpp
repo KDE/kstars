@@ -738,4 +738,51 @@ bool FilterManager::setFilterNames(const QStringList &newLabels)
     return true;
 }
 
+QJsonArray FilterManager::toJSON()
+{
+    QJsonArray data;
+
+    for (int i = 0; i < filterModel->rowCount(); ++i)
+    {
+        QJsonObject oneFilter =
+        {
+            {"index", i},
+            {"label", filterModel->data(filterModel->index(i, FM_LABEL)).toString()},
+            {"exposure", filterModel->data(filterModel->index(i, FM_EXPOSURE)).toDouble()},
+            {"offset", filterModel->data(filterModel->index(i, FM_OFFSET)).toInt()},
+            {"autofocus", filterModel->data(filterModel->index(i, FM_AUTO_FOCUS)).toBool()},
+            {"lock", filterModel->data(filterModel->index(i, FM_LOCK_FILTER)).toString()},
+            {"flat", filterModel->data(filterModel->index(i, FM_FLAT_FOCUS)).toInt()},
+        };
+
+        data.append(oneFilter);
+    }
+
+    return data;
+
+}
+
+void FilterManager::setFilterData(const QJsonArray &settings)
+{
+    QStringList labels = getFilterLabels();
+
+    for (auto oneSetting : settings)
+    {
+        QJsonObject oneFilter = oneSetting.toObject();
+        int row = oneFilter["index"].toInt();
+
+        labels[row] = oneFilter["label"].toString();
+        filterModel->setData(filterModel->index(row, FM_LABEL), oneFilter["label"].toString());
+        filterModel->setData(filterModel->index(row, FM_EXPOSURE), oneFilter["exposure"].toDouble());
+        filterModel->setData(filterModel->index(row, FM_OFFSET), oneFilter["offset"].toInt());
+        filterModel->setData(filterModel->index(row, FM_AUTO_FOCUS), oneFilter["autofocus"].toBool());
+        filterModel->setData(filterModel->index(row, FM_LOCK_FILTER), oneFilter["lock"].toString());
+        filterModel->setData(filterModel->index(row, FM_FLAT_FOCUS), oneFilter["flat"].toInt());
+    }
+
+    setFilterNames(labels);
+    filterModel->submitAll();
+    refreshFilterModel();
+}
+
 }

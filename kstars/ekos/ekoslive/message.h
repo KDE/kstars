@@ -164,6 +164,9 @@ class Message : public QObject
         // DSLRs
         void processDSLRCommands(const QString &command, const QJsonObject &payload);
 
+        // Filter Manager commands
+        void processFilterManagerCommands(const QString &command, const QJsonObject &payload);
+
         // Low-level Device commands
         void processDeviceCommands(const QString &command, const QJsonObject &payload);
 

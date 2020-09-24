@@ -134,6 +134,10 @@ class Manager : public QDialog, public Ui::Manager
         {
             return summaryPreview.get();
         }
+        FilterManager *getFilterManager()
+        {
+            return filterManager.data();
+        }
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventType event);
 

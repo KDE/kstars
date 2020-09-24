@@ -160,6 +160,10 @@ enum COMMANDS
     // Dialogs
     DIALOG_GET_INFO,
     DIALOG_GET_RESPONSE,
+
+    // Filter Manager
+    FM_GET_DATA,
+    FM_SET_DATA,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -290,7 +294,10 @@ static QMap<COMMANDS, QString> const commands =
     {DEVICE_PROPERTY_UNSUBSCRIBE, "device_property_unsubscribe"},
 
     {DIALOG_GET_INFO, "dialog_get_info"},
-    {DIALOG_GET_RESPONSE, "dialog_get_response"}
+    {DIALOG_GET_RESPONSE, "dialog_get_response"},
+
+    {FM_GET_DATA, "fm_get_data"},
+    {FM_SET_DATA, "fm_set_data"}
 };
 
 }
