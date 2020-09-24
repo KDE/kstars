@@ -1010,12 +1010,12 @@ void Message::processFilterManagerCommands(const QString &command, const QJsonOb
 {
     if (command == commands[FM_GET_DATA])
     {
-        QJsonArray data = m_Manager->getFilterManager()->toJSON();
+        QJsonObject data = m_Manager->getFilterManager()->toJSON();
         sendResponse(commands[FM_GET_DATA], data);
     }
     else if (command == commands[FM_SET_DATA])
     {
-        m_Manager->getFilterManager()->setFilterData(payload["data"].toArray());
+        m_Manager->getFilterManager()->setFilterData(payload);
     }
 }
 

@@ -738,9 +738,12 @@ bool FilterManager::setFilterNames(const QStringList &newLabels)
     return true;
 }
 
-QJsonArray FilterManager::toJSON()
+QJsonObject FilterManager::toJSON()
 {
-    QJsonArray data;
+    if (!m_currentFilterDevice)
+        return QJsonObject();
+
+    QJsonArray filters;
 
     for (int i = 0; i < filterModel->rowCount(); ++i)
     {
@@ -755,20 +758,33 @@ QJsonArray FilterManager::toJSON()
             {"flat", filterModel->data(filterModel->index(i, FM_FLAT_FOCUS)).toInt()},
         };
 
-        data.append(oneFilter);
+        filters.append(oneFilter);
     }
+
+    QJsonObject data =
+    {
+        {"device", m_currentFilterDevice->getDeviceName()},
+        {"filters", filters}
+    };
 
     return data;
 
 }
 
-void FilterManager::setFilterData(const QJsonArray &settings)
+void FilterManager::setFilterData(const QJsonObject &settings)
 {
+    if (!m_currentFilterDevice)
+        return;
+
+    if (settings["device"].toString() != m_currentFilterDevice->getDeviceName())
+        return;
+
+    QJsonArray filters = settings["filters"].toArray();
     QStringList labels = getFilterLabels();
 
-    for (auto oneSetting : settings)
+    for (auto oneFilterRef : filters)
     {
-        QJsonObject oneFilter = oneSetting.toObject();
+        QJsonObject oneFilter = oneFilterRef.toObject();
         int row = oneFilter["index"].toInt();
 
         labels[row] = oneFilter["label"].toString();

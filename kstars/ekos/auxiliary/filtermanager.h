@@ -57,8 +57,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
 
         FilterManager();
 
-        QJsonArray toJSON();
-        void setFilterData(const QJsonArray &settings);
+        QJsonObject toJSON();
+        void setFilterData(const QJsonObject &settings);
 
         void refreshFilterModel();
 
