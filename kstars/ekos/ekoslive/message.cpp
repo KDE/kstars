@@ -1028,7 +1028,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     // Set specific property
     else if (command == commands[DEVICE_PROPERTY_SET])
     {
-        oneDevice->setJSONProperty(payload["property"].toString(), payload["value"].toArray());
+        oneDevice->setJSONProperty(payload["property"].toString(), payload["elements"].toArray());
     }
     // Return ALL properties
     else if (command == commands[DEVICE_GET])

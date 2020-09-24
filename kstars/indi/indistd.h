@@ -95,7 +95,7 @@ class GDInterface : public QObject
         virtual INDI::Property *getProperty(const QString &propName) = 0;
         virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) = 0;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) = 0;
-        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) = 0;
+        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements) = 0;
 
         virtual ~GDInterface() = default;
 
@@ -196,7 +196,7 @@ class GenericDevice : public GDInterface
         virtual INDI::Property *getProperty(const QString &propName) override;
         virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
-        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
+        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements) override;
 
     public slots:
         virtual bool Connect() override;
@@ -266,7 +266,7 @@ class DeviceDecorator : public GDInterface
         INDI::Property *getProperty(const QString &propName) override;
         bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
-        bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
+        bool setJSONProperty(const QString &propName, const QJsonArray &propElements) override;
 
     public slots:
         virtual bool Connect() override;

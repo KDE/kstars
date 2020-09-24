@@ -861,7 +861,7 @@ INDI::Property *GenericDevice::getProperty(const QString &propName)
     return nullptr;
 }
 
-bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &propValue)
+bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &propElements)
 {
     for (auto &oneProp : properties)
     {
@@ -875,7 +875,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                     if (svp->r == ISR_1OFMANY || svp->r == ISR_ATMOST1)
                         IUResetSwitch(svp);
 
-                    for (auto oneElement : propValue)
+                    for (auto oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         ISwitch *sp = IUFindSwitch(svp, oneElementObject["name"].toString().toLatin1().constData());
@@ -892,7 +892,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                 case INDI_NUMBER:
                 {
                     INumberVectorProperty *nvp = oneProp->getNumber();
-                    for (auto oneElement : propValue)
+                    for (auto oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         INumber *np = IUFindNumber(nvp, oneElementObject["name"].toString().toLatin1().constData());
@@ -907,7 +907,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                 case INDI_TEXT:
                 {
                     ITextVectorProperty *tvp = oneProp->getText();
-                    for (auto oneElement : propValue)
+                    for (auto oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         IText *tp = IUFindText(tvp, oneElementObject["name"].toString().toLatin1().constData());
@@ -1152,9 +1152,9 @@ bool DeviceDecorator::getJSONBLOB(const QString &propName, const QString &elemen
     return interfacePtr->getJSONBLOB(propName, elementName, blobObject);
 }
 
-bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propValue)
+bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propElements)
 {
-    return interfacePtr->setJSONProperty(propName, propValue);
+    return interfacePtr->setJSONProperty(propName, propElements);
 }
 
 bool DeviceDecorator::isConnected()
