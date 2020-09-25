@@ -102,6 +102,10 @@ class KStars : public KXmlGuiWindow
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
+        Q_SCRIPTABLE Q_PROPERTY(QString colorScheme READ colorScheme NOTIFY colorSchemeChanged)
+
+    public:
+        Q_SCRIPTABLE QString colorScheme() const;
 
     private:
         /**
@@ -489,6 +493,12 @@ class KStars : public KXmlGuiWindow
 
         /** @}*/
 
+    signals:
+        /** DBUS interface notification. Color scheme was updated.
+         */
+        void colorSchemeChanged();
+
+    public Q_SLOTS:
         /**
              * Update time-dependent data and (possibly) repaint the sky map.
              * @param automaticDSTchange change DST status automatically?

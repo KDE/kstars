@@ -197,11 +197,8 @@ void TestEkos::testManipulateProfiles()
         mountCBox->setCurrentText(lookup);
         QCOMPARE(mountCBox->currentText(), lookup);
 
-        QComboBox * const ccdCBox = profileEditor->findChild<QComboBox*>("ccdCombo");
-        QVERIFY(nullptr != ccdCBox);
-        lookup = "CCD Simulator";
-        ccdCBox->setCurrentText(lookup); // FIXME: Move this to fixtures
-        QCOMPARE(ccdCBox->currentText(), lookup);
+        // Same, with a macro helper
+        KTRY_PROFILEEDITOR_TREE_COMBOBOX(ccdCombo, "CCD Simulator");
 
         // Save the profile using the "Save" button
         QDialogButtonBox* buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");

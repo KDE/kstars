@@ -169,6 +169,8 @@ Guide::Guide() : QWidget()
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    connect(KStars::Instance(), &KStars::colorSchemeChanged, this, &Ekos::Guide::refreshColorScheme);
 }
 
 Guide::~Guide()

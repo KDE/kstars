@@ -67,6 +67,9 @@ private slots:
 
     void testMountSlew_data();
     void testMountSlew();
+
+    void testColorSchemes_data();
+    void testColorSchemes();
 };
 
 #endif // HAVE_INDI

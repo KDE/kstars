@@ -168,6 +168,54 @@ void TestEkosSimulator::testMountSlew()
 #endif
 }
 
+void TestEkosSimulator::testColorSchemes_data()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+    QTest::addColumn<QString>("NAME");
+    QTest::addColumn<QString>("FILENAME");
+
+    QTest::addRow("Classic, friendly name") << "Default Colors" << "classic.colors";
+    QTest::addRow("Chart, friendly name") << "Star Chart" << "chart.colors",
+    QTest::addRow("Night, friendly name") << "Night Vision" << "night.colors",
+    QTest::addRow("Moonless, friendly name") << "Moonless Night" << "moonless-night.colors";
+
+    QTest::addRow("Classic, short name") << "classic" << "classic.colors";
+    QTest::addRow("Chart, short name") << "chart" << "chart.colors",
+    QTest::addRow("Night, short name") << "night" << "night.colors",
+    QTest::addRow("Moonless, short name") << "moonless-night" << "moonless-night.colors";
+
+    QTest::addRow("Classic, full name") << "classic.colors" << "classic.colors";
+    QTest::addRow("Chart, full name") << "chart.colors" << "chart.colors",
+    QTest::addRow("Night, full name") << "night.colors" << "night.colors",
+    QTest::addRow("Moonless, full name") << "moonless-night.colors" << "moonless-night.colors";
+#endif
+}
+
+void TestEkosSimulator::testColorSchemes()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+    QFETCH(QString, NAME);
+    QFETCH(QString, FILENAME);
+
+    KStars::Instance()->loadColorScheme(NAME);
+    QTRY_COMPARE_WITH_TIMEOUT(KStars::Instance()->colorScheme(), FILENAME, 1000);
+    QVERIFY(KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError").isValid());
+    QVERIFY(Ekos::Manager::Instance()->guideModule() != nullptr);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(0)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(1)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("DEGuideError"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(2)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(3)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("DEGuideError"), 1000);
+#endif
+}
+
 QTEST_KSTARS_MAIN(TestEkosSimulator)
 
 #endif // HAVE_INDI
