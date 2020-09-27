@@ -3838,7 +3838,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 {
                     m_ObserverName = QString(pcdataXMLEle(ep));
                 }
-                else if (!strcmp(tagXMLEle(ep), "limitGuideDeviationN"))
+                else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                 {
                     limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
@@ -3858,7 +3858,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     double const deltaValue = cLocale.toDouble(pcdataXMLEle(ep));
                     limitFocusDeltaTN->setValue(deltaValue);
                 }
-                else if (!strcmp(tagXMLEle(ep), "limitRefocusN"))
+                else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
                 {
                     limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
@@ -4216,8 +4216,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Observer>" << m_ObserverName << "</Observer>" << endl;
     outstream << "<CCD>" << cameraS->currentText() << "</CCD>" << endl;
     outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << endl;
-    outstream << "<limitGuideDeviationN enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitGuideDeviationN->value()) << "</limitGuideDeviationN>" << endl;
+    outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
     if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
@@ -4227,8 +4227,8 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(Options::saveHFRToFile() ? limitFocusHFRN->value() : 0) << "</Autofocus>" << endl;
     outstream << "<RefocusOnTemperatureDelta enabled='" << (limitFocusDeltaTS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
-    outstream << "<limitRefocusN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitRefocusN->value()) << "</limitRefocusN>" << endl;
+    outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
     foreach (SequenceJob * job, jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
