@@ -1,6 +1,7 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars">
+    <property name="colorScheme" type="s" access="readwrite"/>
     <method name="setRaDec">
       <arg name="ra" type="d" direction="in"/>
       <arg name="dec" type="d" direction="in"/>
@@ -123,10 +124,6 @@
     <method name="setColor">
       <arg name="colorName" type="s" direction="in"/>
       <arg name="value" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="loadColorScheme">
-      <arg name="name" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="exportImage">
