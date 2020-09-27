@@ -78,8 +78,8 @@
     KTRY_CAPTURE_COMBO_SET(captureFormatS, "FITS"); \
     KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
     KTRY_CAPTURE_COMBO_SET(captureFilterS, (filter)); \
-    KTRY_CAPTURE_GADGET(QLineEdit, fitsDir); \
-    fitsDir->setText(destination); \
+    KTRY_CAPTURE_GADGET(QLineEdit, fileDirectoryT); \
+    fileDirectoryT->setText(destination); \
     KTRY_CAPTURE_CLICK(addToQueueB); \
     QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == (jcount+1), 1000); } while(false);
 
