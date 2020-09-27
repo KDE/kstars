@@ -4069,105 +4069,105 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     // We serialize sequence data to XML using the C locale
     QLocale cLocale = QLocale::c();
 
-    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SchedulerList version='1.4'>" << endl;
-    outstream << "<Profile>" << schedulerProfileCombo->currentText() << "</Profile>" << endl;
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
+    outstream << "<SchedulerList version='1.4'>" << Qt::endl;
+    outstream << "<Profile>" << schedulerProfileCombo->currentText() << "</Profile>" << Qt::endl;
 
     foreach (SchedulerJob *job, jobs)
     {
-        outstream << "<Job>" << endl;
+        outstream << "<Job>" << Qt::endl;
 
-        outstream << "<Name>" << job->getName() << "</Name>" << endl;
-        outstream << "<Priority>" << job->getPriority() << "</Priority>" << endl;
-        outstream << "<Coordinates>" << endl;
-        outstream << "<J2000RA>" << cLocale.toString(job->getTargetCoords().ra0().Hours()) << "</J2000RA>" << endl;
-        outstream << "<J2000DE>" << cLocale.toString(job->getTargetCoords().dec0().Degrees()) << "</J2000DE>" << endl;
-        outstream << "</Coordinates>" << endl;
+        outstream << "<Name>" << job->getName() << "</Name>" << Qt::endl;
+        outstream << "<Priority>" << job->getPriority() << "</Priority>" << Qt::endl;
+        outstream << "<Coordinates>" << Qt::endl;
+        outstream << "<J2000RA>" << cLocale.toString(job->getTargetCoords().ra0().Hours()) << "</J2000RA>" << Qt::endl;
+        outstream << "<J2000DE>" << cLocale.toString(job->getTargetCoords().dec0().Degrees()) << "</J2000DE>" << Qt::endl;
+        outstream << "</Coordinates>" << Qt::endl;
 
         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
-            outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << endl;
+            outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << Qt::endl;
 
-        outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << endl;
+        outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << Qt::endl;
 
-        outstream << "<StartupCondition>" << endl;
+        outstream << "<StartupCondition>" << Qt::endl;
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
-            outstream << "<Condition>ASAP</Condition>" << endl;
+            outstream << "<Condition>ASAP</Condition>" << Qt::endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
-            outstream << "<Condition value='" << cLocale.toString(job->getCulminationOffset()) << "'>Culmination</Condition>" << endl;
+            outstream << "<Condition value='" << cLocale.toString(job->getCulminationOffset()) << "'>Culmination</Condition>" << Qt::endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
             outstream << "<Condition value='" << job->getFileStartupTime().toString(Qt::ISODate) << "'>At</Condition>"
-                      << endl;
-        outstream << "</StartupCondition>" << endl;
+                      << Qt::endl;
+        outstream << "</StartupCondition>" << Qt::endl;
 
-        outstream << "<Constraints>" << endl;
+        outstream << "<Constraints>" << Qt::endl;
         if (-90 < job->getMinAltitude())
-            outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" << endl;
+            outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" << Qt::endl;
         if (job->getMinMoonSeparation() > 0)
             outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
-                      << endl;
+                      << Qt::endl;
         if (job->getEnforceWeather())
-            outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
+            outstream << "<Constraint>EnforceWeather</Constraint>" << Qt::endl;
         if (job->getEnforceTwilight())
-            outstream << "<Constraint>EnforceTwilight</Constraint>" << endl;
-        outstream << "</Constraints>" << endl;
+            outstream << "<Constraint>EnforceTwilight</Constraint>" << Qt::endl;
+        outstream << "</Constraints>" << Qt::endl;
 
-        outstream << "<CompletionCondition>" << endl;
+        outstream << "<CompletionCondition>" << Qt::endl;
         if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
-            outstream << "<Condition>Sequence</Condition>" << endl;
+            outstream << "<Condition>Sequence</Condition>" << Qt::endl;
         else if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
-            outstream << "<Condition value='" << cLocale.toString(job->getRepeatsRequired()) << "'>Repeat</Condition>" << endl;
+            outstream << "<Condition value='" << cLocale.toString(job->getRepeatsRequired()) << "'>Repeat</Condition>" << Qt::endl;
         else if (job->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
-            outstream << "<Condition>Loop</Condition>" << endl;
+            outstream << "<Condition>Loop</Condition>" << Qt::endl;
         else if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
             outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>"
-                      << endl;
-        outstream << "</CompletionCondition>" << endl;
+                      << Qt::endl;
+        outstream << "</CompletionCondition>" << Qt::endl;
 
-        outstream << "<Steps>" << endl;
+        outstream << "<Steps>" << Qt::endl;
         if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
-            outstream << "<Step>Track</Step>" << endl;
+            outstream << "<Step>Track</Step>" << Qt::endl;
         if (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
-            outstream << "<Step>Focus</Step>" << endl;
+            outstream << "<Step>Focus</Step>" << Qt::endl;
         if (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
-            outstream << "<Step>Align</Step>" << endl;
+            outstream << "<Step>Align</Step>" << Qt::endl;
         if (job->getStepPipeline() & SchedulerJob::USE_GUIDE)
-            outstream << "<Step>Guide</Step>" << endl;
-        outstream << "</Steps>" << endl;
+            outstream << "<Step>Guide</Step>" << Qt::endl;
+        outstream << "</Steps>" << Qt::endl;
 
-        outstream << "</Job>" << endl;
+        outstream << "</Job>" << Qt::endl;
     }
 
-    outstream << "<ErrorHandlingStrategy value='" << getErrorHandlingStrategy() << "'>" << endl;
+    outstream << "<ErrorHandlingStrategy value='" << getErrorHandlingStrategy() << "'>" << Qt::endl;
     if (errorHandlingRescheduleErrorsCB->isChecked())
-        outstream << "<RescheduleErrors />" << endl;
-    outstream << "<delay>" << errorHandlingDelaySB->value() << "</delay>" << endl;
-    outstream << "</ErrorHandlingStrategy>" << endl;
+        outstream << "<RescheduleErrors />" << Qt::endl;
+    outstream << "<delay>" << errorHandlingDelaySB->value() << "</delay>" << Qt::endl;
+    outstream << "</ErrorHandlingStrategy>" << Qt::endl;
 
-    outstream << "<StartupProcedure>" << endl;
+    outstream << "<StartupProcedure>" << Qt::endl;
     if (startupScript->text().isEmpty() == false)
-        outstream << "<Procedure value='" << startupScript->text() << "'>StartupScript</Procedure>" << endl;
+        outstream << "<Procedure value='" << startupScript->text() << "'>StartupScript</Procedure>" << Qt::endl;
     if (unparkDomeCheck->isChecked())
-        outstream << "<Procedure>UnparkDome</Procedure>" << endl;
+        outstream << "<Procedure>UnparkDome</Procedure>" << Qt::endl;
     if (unparkMountCheck->isChecked())
-        outstream << "<Procedure>UnparkMount</Procedure>" << endl;
+        outstream << "<Procedure>UnparkMount</Procedure>" << Qt::endl;
     if (uncapCheck->isChecked())
-        outstream << "<Procedure>UnparkCap</Procedure>" << endl;
-    outstream << "</StartupProcedure>" << endl;
+        outstream << "<Procedure>UnparkCap</Procedure>" << Qt::endl;
+    outstream << "</StartupProcedure>" << Qt::endl;
 
-    outstream << "<ShutdownProcedure>" << endl;
+    outstream << "<ShutdownProcedure>" << Qt::endl;
     if (warmCCDCheck->isChecked())
-        outstream << "<Procedure>WarmCCD</Procedure>" << endl;
+        outstream << "<Procedure>WarmCCD</Procedure>" << Qt::endl;
     if (capCheck->isChecked())
-        outstream << "<Procedure>ParkCap</Procedure>" << endl;
+        outstream << "<Procedure>ParkCap</Procedure>" << Qt::endl;
     if (parkMountCheck->isChecked())
-        outstream << "<Procedure>ParkMount</Procedure>" << endl;
+        outstream << "<Procedure>ParkMount</Procedure>" << Qt::endl;
     if (parkDomeCheck->isChecked())
-        outstream << "<Procedure>ParkDome</Procedure>" << endl;
+        outstream << "<Procedure>ParkDome</Procedure>" << Qt::endl;
     if (shutdownScript->text().isEmpty() == false)
-        outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << endl;
-    outstream << "</ShutdownProcedure>" << endl;
+        outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << Qt::endl;
+    outstream << "</ShutdownProcedure>" << Qt::endl;
 
-    outstream << "</SchedulerList>" << endl;
+    outstream << "</SchedulerList>" << Qt::endl;
 
     appendLogText(i18n("Scheduler list saved to %1", fileURL.toLocalFile()));
     file.close();

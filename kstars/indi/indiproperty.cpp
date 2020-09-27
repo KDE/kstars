@@ -622,7 +622,7 @@ void INDI_P::sendBlob()
             IBLOB *bp = &(bvp->bp[index]);
             ep->setBLOBDirty(false);
 
-            //qDebug() << "SENDING BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << endl;
+            //qDebug() << "SENDING BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << Qt::endl;
             pg->getDevice()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
 
         }

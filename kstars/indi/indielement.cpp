@@ -626,7 +626,7 @@ void INDI_E::browseBlob()
     if ((pos = filename.lastIndexOf(".")) != -1)
         format = filename.mid(pos, filename.length());
 
-    //qDebug() << "Filename is " << fp.fileName() << endl;
+    //qDebug() << "Filename is " << fp.fileName() << Qt::endl;
 
     if (!fp.open(QIODevice::ReadOnly))
     {

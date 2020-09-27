@@ -287,7 +287,7 @@ void OnlineAstrometryParser::getJobID()
 
 void OnlineAstrometryParser::checkJobs()
 {
-    //qDebug() << "with jobID " << jobID << endl;
+    //qDebug() << "with jobID " << jobID << Qt::endl;
 
     QNetworkRequest request;
     QUrl getJobStatus = QUrl(QString("%1/api/jobs/%2").arg(Options::astrometryAPIURL()).arg(jobID));

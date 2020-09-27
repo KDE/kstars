@@ -699,7 +699,7 @@ void Guide::exportGuideData()
         localTime = localTime.addSecs(t);
 
         outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << raPulse << ',' <<
-                  dePulse << ',' << endl;
+                  dePulse << ',' << Qt::endl;
     }
     appendLogText(i18n("Guide Data Saved as: %1", path));
     file.close();

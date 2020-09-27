@@ -1330,8 +1330,8 @@ bool Align::saveAlignmentPoints(const QString &path)
 
     QTextStream outstream(&file);
 
-    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<AlignmentList version='" << AL_FORMAT_VERSION << "'>" << endl;
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
+    outstream << "<AlignmentList version='" << AL_FORMAT_VERSION << "'>" << Qt::endl;
 
     for (int i = 0; i < mountModel.alignTable->rowCount(); i++)
     {
@@ -1345,13 +1345,13 @@ bool Align::saveAlignmentPoints(const QString &path)
         QString deString  = deCell->text();
         QString objString = objNameCell->text();
 
-        outstream << "<AlignmentPoint>" << endl;
-        outstream << "<RA>" << raString << "</RA>" << endl;
-        outstream << "<DE>" << deString << "</DE>" << endl;
-        outstream << "<NAME>" << objString << "</NAME>" << endl;
-        outstream << "</AlignmentPoint>" << endl;
+        outstream << "<AlignmentPoint>" << Qt::endl;
+        outstream << "<RA>" << raString << "</RA>" << Qt::endl;
+        outstream << "<DE>" << deString << "</DE>" << Qt::endl;
+        outstream << "<NAME>" << objString << "</NAME>" << Qt::endl;
+        outstream << "</AlignmentPoint>" << Qt::endl;
     }
-    outstream << "</AlignmentList>" << endl;
+    outstream << "</AlignmentList>" << Qt::endl;
     appendLogText(i18n("Alignment List saved to %1", path));
     file.close();
     return true;
@@ -1489,7 +1489,7 @@ void Align::exportSolutionPoints()
     QString epoch = QString::number(KStarsDateTime::currentDateTime().epoch());
 
     outstream << "RA (J" << epoch << "),DE (J" << epoch
-              << "),RA (degrees),DE (degrees),Name,RA Error (arcsec),DE Error (arcsec)" << endl;
+              << "),RA (degrees),DE (degrees),Name,RA Error (arcsec),DE Error (arcsec)" << Qt::endl;
 
     for (int i = 0; i < solutionTable->rowCount(); i++)
     {
@@ -1508,7 +1508,7 @@ void Align::exportSolutionPoints()
         dms deDMS = dms::fromString(deCell->text(), true);
         outstream << raDMS.toHMSString() << ',' << deDMS.toDMSString() << ',' << raDMS.Degrees() << ','
                   << deDMS.Degrees() << ',' << objNameCell->text() << ',' << raErrorCell->text().remove('\"') << ','
-                  << deErrorCell->text().remove('\"') << endl;
+                  << deErrorCell->text().remove('\"') << Qt::endl;
     }
     appendLogText(i18n("Solution Points Saved as: %1", path));
     file.close();
