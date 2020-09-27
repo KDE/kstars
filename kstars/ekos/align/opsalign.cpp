@@ -33,10 +33,19 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
     editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
     editFocusProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(editFocusProfile,&QAbstractButton::clicked, this, [this]{
+        emit needToLoadProfile(kcfg_FocusOptionsProfile->currentIndex());
+    });
     editGuidingProfile->setIcon(QIcon::fromTheme("document-edit"));
     editGuidingProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(editFocusProfile,&QAbstractButton::clicked, this, [this]{
+        emit needToLoadProfile(kcfg_GuideOptionsProfile->currentIndex());
+    });
     editSolverProfile->setIcon(QIcon::fromTheme("document-edit"));
     editSolverProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(editSolverProfile,&QAbstractButton::clicked, this, [this]{
+        emit needToLoadProfile(kcfg_SolveOptionsProfile->currentIndex());
+    });
 
     reload();
 

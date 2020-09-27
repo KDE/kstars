@@ -264,6 +264,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page = dialog->addPage(optionsProfileEditor, i18n("Options Profiles Editor"));
     page->setIcon(QIcon::fromTheme("configure"));
 
+    connect(opsAlign,&OpsAlign::needToLoadProfile, this, [this, dialog, page](int profile){
+        optionsProfileEditor->loadProfile(profile);
+        dialog->setCurrentPage(page);
+    });
+
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
     page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
     page->setIcon(QIcon::fromTheme("map-flat"));

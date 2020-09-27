@@ -99,6 +99,11 @@ void OptionsProfileEditor::settingJustChanged()
     optionsAreSaved = false;
 }
 
+void OptionsProfileEditor::loadProfile(int profile)
+{
+    optionsProfile->setCurrentIndex(profile);
+}
+
 void OptionsProfileEditor::loadOptionsProfile()
 {
 

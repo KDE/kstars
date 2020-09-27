@@ -36,6 +36,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
 
   signals:
     void settingsUpdated();
+    void needToLoadProfile(int profile);
 
   private:
     QList<SSolver::Parameters> optionsList;

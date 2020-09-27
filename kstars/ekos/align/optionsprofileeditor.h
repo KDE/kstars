@@ -46,11 +46,14 @@ class OptionsProfileEditor : public QWidget, public Ui::OptionsProfileEditor
 
     void connectOptionsProfileComboBox();
     void disconnectOptionsProfileComboBox();
+public slots:
+    void loadProfile(int profile);
   protected:
 
   private slots:
 
     void slotApply();
+
 
   private:
     QString savedOptionsProfiles;
