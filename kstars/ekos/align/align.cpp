@@ -6325,23 +6325,46 @@ QJsonObject Align::getSettings() const
     settings.insert("solverBackend", solverBackendGroup->checkedId());
     settings.insert("solverType", astrometryTypeCombo->currentIndex());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
+    settings.insert("gain", GainSpin->value());
+    settings.insert("iso", ISOCombo->currentIndex());
+    settings.insert("dark", alignDarkFrameCheck->isChecked());
 
     return settings;
 }
 
 void Align::setSettings(const QJsonObject &settings)
 {
-    CCDCaptureCombo->setCurrentText(settings["camera"].toString());
-    FilterDevicesCombo->setCurrentText(settings["fw"].toString());
-    FilterPosCombo->setCurrentText(settings["filter"].toString());
-    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
-    exposureIN->setValue(settings["exp"].toDouble(1));
-    binningCombo->setCurrentIndex(settings["bin"].toInt() - 1);
+    // Camera
+    const QString camera = settings["camera"].toString(CCDCaptureCombo->currentText());
+    if (camera != CCDCaptureCombo->currentText())
+        CCDCaptureCombo->setCurrentText(camera);
+
+    // Filter Wheel
+    const QString fw = settings["fw"].toString(FilterDevicesCombo->currentText());
+    if (fw != FilterDevicesCombo->currentText())
+        FilterDevicesCombo->setCurrentText(fw);
+
+    // Filter
+    const QString filter = settings["filter"].toString(FilterPosCombo->currentText());
+    if (filter != FilterPosCombo->currentText())
+    {
+        FilterPosCombo->setCurrentText(fw);
+        Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
+    }
+
+    // Exposure
+    const double exposure = settings["exp"].toDouble(exposureIN->value());
+    if (exposure != exposureIN->value())
+        exposureIN->setValue(exposure);
+
+    // Binning
+    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
+    if (bin != binningCombo->currentIndex())
+        binningCombo->setCurrentIndex(bin);
 
     gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
-
-    int solverBackend = settings["solverBackend"].toInt(1);
-    int solverType = settings["solverType"].toInt(1);
+    const int solverBackend = settings["solverBackend"].toInt(1);
+    const int solverType = settings["solverType"].toInt(1);
 
     if (solverBackend == SOLVER_ASTROMETRYNET)
     {
@@ -6354,6 +6377,24 @@ void Align::setSettings(const QJsonObject &settings)
         solverBackendGroup->button(SOLVER_ASTAP)->animateClick();
     }
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
+
+    if (GainSpin->value() != GainSpinSpecialValue)
+    {
+        const double gain = settings["gain"].toDouble(GainSpin->value());
+        if (gain != GainSpin->value())
+            GainSpin->setValue(gain);
+    }
+
+    if (ISOCombo->count() > 0)
+    {
+        const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
+        if (iso != ISOCombo->currentIndex())
+            ISOCombo->setCurrentIndex(iso);
+    }
+
+    const bool dark = settings["dark"].toBool(alignDarkFrameCheck->isChecked());
+    if (dark != alignDarkFrameCheck->isChecked())
+        alignDarkFrameCheck->setChecked(dark);
 }
 
 void Align::syncSettings()
