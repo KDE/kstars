@@ -1002,7 +1002,7 @@ void Logging::Write(QTextStream &stream, QtMsgType type, const QMessageLogContex
     stream << "[" << qSetFieldWidth(30) << context.category << qSetFieldWidth(0) << "] - ";
     stream << msg << '\n';
     stream.flush();
-    //stream << qFormatLogMessage(type, context, msg) << Qt::endl;
+    //stream << qFormatLogMessage(type, context, msg) << endl;
 }
 
 void Logging::UseDefault()

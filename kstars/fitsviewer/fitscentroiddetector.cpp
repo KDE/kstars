@@ -451,7 +451,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
                 starCenters.removeOne(center);
 
         //foreach(Edge *center, starCenters)
-        //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << Qt::endl;
+        //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
     }
 
     // Release memory

@@ -679,8 +679,8 @@ void DriverManager::processRemoteTree(bool dState)
         if (dv->getDriverSource() != HOST_SOURCE)
             continue;
 
-        //qDebug() << "Current item port " << currentItem->text(HOST_PORT_COLUMN) << " current dev " << dv->getName() << " -- port " << dv->getPort() << Qt::endl;
-        //qDebug() << "dState is : " << (dState ? "True" : "False") << Qt::endl;
+        //qDebug() << "Current item port " << currentItem->text(HOST_PORT_COLUMN) << " current dev " << dv->getName() << " -- port " << dv->getPort() << endl;
+        //qDebug() << "dState is : " << (dState ? "True" : "False") << endl;
 
         if (currentItem->text(HOST_NAME_COLUMN) == dv->getName() &&
                 currentItem->text(HOST_PORT_COLUMN) == dv->getPort())
@@ -804,7 +804,7 @@ void DriverManager::updateMenuActions()
     tmpAction = KStars::Instance()->actionCollection()->action("indi_cpl");
     if (tmpAction != nullptr)
     {
-        //qDebug() << "indi_cpl action set to active" << Qt::endl;
+        //qDebug() << "indi_cpl action set to active" << endl;
         tmpAction->setEnabled(activeDevice);
     }
 }

@@ -251,7 +251,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     if (cm == nullptr)
     {
-        qCritical() << "ClientManager is null in build device!" << Qt::endl;
+        qCritical() << "ClientManager is null in build device!" << endl;
         return;
     }
 

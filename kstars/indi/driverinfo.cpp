@@ -99,7 +99,7 @@ void DriverInfo::setServerState(bool inState)
 
 void DriverInfo::setClientState(bool inState)
 {
-    //qDebug() << "Request to change " << name << " client status to " << (inState ? "True" : "False") << Qt::endl;
+    //qDebug() << "Request to change " << name << " client status to " << (inState ? "True" : "False") << endl;
 
     if (inState == clientState)
         return;
@@ -109,7 +109,7 @@ void DriverInfo::setClientState(bool inState)
     if (clientState == false)
         clientManager = nullptr;
 
-    //qDebug() << "Client state for this device changed, calling device state changed signal " << Qt::endl;
+    //qDebug() << "Client state for this device changed, calling device state changed signal " << endl;
 
     emit deviceStateChanged(this);
 }

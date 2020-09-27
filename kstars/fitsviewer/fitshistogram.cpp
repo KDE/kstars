@@ -536,7 +536,7 @@ bool FITSHistogramCommand::calculateDelta(const uint8_t * buffer)
 
     if (raw_delta == nullptr)
     {
-        qWarning() << "Error! not enough memory to create image delta" << Qt::endl;
+        qWarning() << "Error! not enough memory to create image delta" << endl;
         return false;
     }
 
@@ -588,7 +588,7 @@ bool FITSHistogramCommand::reverseDelta()
 
     if (output_image == nullptr)
     {
-        qWarning() << "Error! not enough memory to create output image" << Qt::endl;
+        qWarning() << "Error! not enough memory to create output image" << endl;
         return false;
     }
 
@@ -597,7 +597,7 @@ bool FITSHistogramCommand::reverseDelta()
     if (raw_delta == nullptr)
     {
         delete[] output_image;
-        qWarning() << "Error! not enough memory to create image delta" << Qt::endl;
+        qWarning() << "Error! not enough memory to create image delta" << endl;
         return false;
     }
 
@@ -662,7 +662,7 @@ void FITSHistogramCommand::redo()
             {
                 qWarning()
                         << "Error! not enough memory to create image buffer in redo()"
-                        << Qt::endl;
+                        << endl;
                 QApplication::restoreOverrideCursor();
                 return;
             }

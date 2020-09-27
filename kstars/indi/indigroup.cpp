@@ -89,7 +89,7 @@ bool INDI_G::removeProperty(const QString &probName)
         {
             propList.removeOne(pp);
             propertyLayout->removeItem(pp->getContainer());
-            //qDebug() << "Removing GUI property " << probName << " from gorup " << name << " with size " << propList.size() << " and count " << propList.count() << Qt::endl;
+            //qDebug() << "Removing GUI property " << probName << " from gorup " << name << " with size " << propList.size() << " and count " << propList.count() << endl;
             delete (pp);
             return true;
         }

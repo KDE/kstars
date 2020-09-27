@@ -138,13 +138,13 @@ void cgmath::createGuideLog()
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
 
-    out << "Guiding rate,x15 arcsec/sec: " << Options::guidingRate() << Qt::endl;
-    out << "Focal,mm: " << calibration.getFocalLength() << Qt::endl;
-    out << "Aperture,mm: " << aperture << Qt::endl;
-    out << "F/D: " << calibration.getFocalLength() / aperture << Qt::endl;
+    out << "Guiding rate,x15 arcsec/sec: " << Options::guidingRate() << endl;
+    out << "Focal,mm: " << calibration.getFocalLength() << endl;
+    out << "Aperture,mm: " << aperture << endl;
+    out << "F/D: " << calibration.getFocalLength() / aperture << endl;
     out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error "
         "(arcsec), DEC Correction (ms), DEC Correction Direction"
-        << Qt::endl;
+        << endl;
 
     logTime.restart();
 }
@@ -1075,7 +1075,7 @@ void cgmath::process_axes(void)
         QTextStream out(&logFile);
         out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << ","
             << get_direction_string(out_params.pulse_dir[0]) << "," << out_params.delta[1] << ","
-            << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << Qt::endl;
+            << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
     }
 }
 

@@ -423,7 +423,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
             ascii_data_file->setFileName(filename);
             if (!ascii_data_file->open(QIODevice::WriteOnly))
             {
-                qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << ascii_data_file->fileName() << Qt::endl;
+                qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << ascii_data_file->fileName() << endl;
                 return;
             }
 
@@ -444,7 +444,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
         QFile fits_temp_file(filename);
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
-            qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << fits_temp_file.fileName() << Qt::endl;
+            qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << fits_temp_file.fileName() << endl;
             return;
         }
 
@@ -757,7 +757,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 {
     GDSetCommand *indiCommand = static_cast<GDSetCommand *>(setPropCommand);
 
-    //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue << Qt::endl;
+    //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue << endl;
 
     INDI::Property *pp = baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
 
@@ -783,7 +783,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             sp->s = indiCommand->elementValue.toInt() == 0 ? ISS_OFF : ISS_ON;
 
-            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << Qt::endl;
+            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
             clientManager->sendNewSwitch(svp);
 
             return true;
@@ -808,7 +808,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             np->value = value;
 
-            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << Qt::endl;
+            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
             clientManager->sendNewNumber(nvp);
         }
         break;
@@ -1277,7 +1277,7 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
 
     clientManager->sendNewNumber(npulse);
 
-    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << Qt::endl;
+    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
 
     return true;
 }

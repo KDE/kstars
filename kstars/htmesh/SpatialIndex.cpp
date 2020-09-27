@@ -484,7 +484,7 @@ void SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const
     		break;
     	}
     */
-    //    cerr << "---------- Point by id: " << name << Qt::endl;
+    //    cerr << "---------- Point by id: " << name << endl;
     //	v0.show(); v1.show(); v2.show();
     center_x = v0.x_ + v1.x_ + v2.x_;
     center_y = v0.y_ + v1.y_ + v2.y_;
@@ -497,9 +497,9 @@ void SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const
     vec.x_ = center_x;
     vec.y_ = center_y;
     vec.z_ = center_z; // I don't want it normalized or radec to be set,
-    //	cerr << " - - - - " << Qt::endl;
+    //	cerr << " - - - - " << endl;
     //	vec.show();
-    //	cerr << "---------- Point by id Retuning" << Qt::endl;
+    //	cerr << "---------- Point by id Retuning" << endl;
 }
 //////////////////IDBYPOINT////////////////////////////////////////////////
 // Find a leaf node where a vector points to
