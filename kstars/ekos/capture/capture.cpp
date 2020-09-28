@@ -3992,7 +3992,7 @@ bool Capture::processJobInfo(XMLEle * root)
         {
             fileScriptT->setText(pcdataXMLEle(ep));
         }
-        else if (!strcmp(tagXMLEle(ep), "fileDirectoryTectory"))
+        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fileDirectoryT->setText(pcdataXMLEle(ep));
         }
@@ -4265,7 +4265,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Delay>" << cLocale.toString(job->getDelay() / 1000.0) << "</Delay>" << endl;
         if (job->getPostCaptureScript().isEmpty() == false)
             outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
-        outstream << "<fileDirectoryTectory>" << job->getLocalDir() << "</fileDirectoryTectory>" << endl;
+        outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
         if (job->getRemoteDir().isEmpty() == false)
             outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
