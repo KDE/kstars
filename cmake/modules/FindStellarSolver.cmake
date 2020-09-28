@@ -49,7 +49,8 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
   find_path(STELLARSOLVER_INCLUDE_DIR stellarsolver.h
         ${PC_STELLARSOLVER_INCLUDE_DIRS}
         ${_obIncDir}
-        ${GNUWIN32_DIR}/include/libstellarsolver/
+        ${GNUWIN32_DIR}/include/libstellarsolver
+        C:/CraftRoot/include/libstellarsolver
   )
 
   find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver
@@ -57,6 +58,7 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
         ${PC_STELLARSOLVER_LIBRARY_DIRS}
         ${_obIncDir}
         ${GNUWIN32_DIR}/lib
+        C:/CraftRoot/lib
   )
 
   if(STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
