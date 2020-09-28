@@ -56,4 +56,5 @@ class GPG
   private:
         std::unique_ptr<GaussianProcessGuider> gpg;
         int gpgSamples = 0;
+        int gpgSkippedSamples = 0;
 };
