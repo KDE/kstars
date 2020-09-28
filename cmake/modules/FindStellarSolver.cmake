@@ -35,7 +35,7 @@ if (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
 
   # in cache already
   set(STELLARSOLVER_FOUND TRUE)
-  message(STATUS "Found StellarSolver: ${STELLARSOLVER_LIBRARIES}")
+  message(STATUS "Found StellarSolver: ${STELLARSOLVER_LIBRARIES}, ${STELLARSOLVER_INCLUDE_DIR}")
 
 else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
 
@@ -47,18 +47,16 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
   endif (NOT WIN32)
 
   find_path(STELLARSOLVER_INCLUDE_DIR stellarsolver.h
-            ${_obIncDir}
-            ${GNUWIN32_DIR}/include/libstellarsolver/
-            /usr/include/libstellarsolver
-            /Users/rlancaste/AstroRoot/craft-root/include/libstellarsolver/
-            
-        )
+        ${PC_STELLARSOLVER_INCLUDE_DIRS}
+        ${_obIncDir}
+        ${GNUWIN32_DIR}/include/libstellarsolver/
+  )
 
-  find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver.a
+  find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver
     PATHS
+        ${PC_STELLARSOLVER_LIBRARY_DIRS}
         ${_obIncDir}
         ${GNUWIN32_DIR}/lib
-        /Users/rlancaste/AstroRoot/craft-root/lib
   )
 
   if(STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
@@ -69,7 +67,7 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
 
   if (STELLARSOLVER_FOUND)
     if (NOT STELLARSOLVER_FIND_QUIETLY)
-      message(STATUS "Found StellarSolver: ${STELLARSOLVER_LIBRARIES}")
+        message(STATUS "Found StellarSolver: ${STELLARSOLVER_LIBRARIES}, ${STELLARSOLVER_INCLUDE_DIR}")
     endif (NOT STELLARSOLVER_FIND_QUIETLY)
   else (STELLARSOLVER_FOUND)
     if (STELLARSOLVER_FIND_REQUIRED)
