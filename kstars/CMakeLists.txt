@@ -1170,6 +1170,11 @@ endif(INDI_FOUND)
 if(STELLARSOLVER_FOUND)
     include_directories(${STELLARSOLVER_INCLUDE_DIR})
     target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
+    ##why is this necessary??
+    if(WIN32)
+        find_package(Boost 1.45.0 COMPONENTS regex)
+        target_link_libraries(KStarsLib wsock32 ${Boost_LIBRARIES})
+    endif(WIN32)
 endif(STELLARSOLVER_FOUND)
 
 if(WCSLIB_FOUND)

@@ -52,14 +52,22 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
         ${GNUWIN32_DIR}/include/libstellarsolver
         C:/CraftRoot/include/libstellarsolver
   )
-
-  find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver
-    PATHS
-        ${PC_STELLARSOLVER_LIBRARY_DIRS}
+    #This should not be necessary
+    if (WIN32)
+        find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolverstatic
+        PATHS
         ${_obIncDir}
         ${GNUWIN32_DIR}/lib
         C:/CraftRoot/lib
-  )
+        )
+    else(WIN32)
+        find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver
+        PATHS
+        ${PC_STELLARSOLVER_LIBRARY_DIRS}
+        ${_obIncDir}
+        ${GNUWIN32_DIR}/lib
+    )
+    endif(WIN32)
 
   if(STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
     set(STELLARSOLVER_FOUND TRUE)
