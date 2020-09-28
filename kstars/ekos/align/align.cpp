@@ -4808,6 +4808,8 @@ bool Align::loadAndSlew(QString fileURL)
     QFile::copy(fileURL, newFileURL);
     QFileInfo newFileInfo(newFileURL);
 
+    if(!newFileInfo.exists())
+        return false;
 
     dirPath = fileInfo.absolutePath();
 

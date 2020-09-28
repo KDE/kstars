@@ -217,8 +217,11 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     {
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
-        if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
+        if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status)){
+            if(privateLoadOtherFormat(fits_buffer, fits_buffer_size, silent))
+                return true;
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
+        }
         else
             stats.size = QFile(m_Filename).size();
     }
@@ -359,6 +362,104 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         checkForWCS();
 
     starsSearched = false;
+
+    return true;
+}
+
+bool FITSData::privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent)
+{
+    QImageReader fileReader(m_Filename.toLatin1());
+
+    if (QImageReader::supportedImageFormats().contains(fileReader.format()) == false)
+    {
+         qCCritical(KSTARS_FITS) << "Failed to convert" << m_Filename << "to FITS since format, " << fileReader.format() << ", is not supported in Qt";
+        return false;
+    }
+
+    QString errMessage;
+    QImage imageFromFile;
+    if(!imageFromFile.load(m_Filename.toLatin1()))
+    {
+         qCCritical(KSTARS_FITS) << "Failed to open image.";
+        return false;
+    }
+
+    imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
+
+    int fitsBitPix = 8; //Note: This will need to be changed.  I think QT only loads 8 bpp images.  Also the depth method gives the total bits per pixel in the image not just the bits per pixel in each channel.
+     switch (fitsBitPix)
+        {
+            case BYTE_IMG:
+                stats.dataType      = TBYTE;
+                stats.bytesPerPixel = sizeof(uint8_t);
+                break;
+            case SHORT_IMG:
+                // Read SHORT image as USHORT
+                stats.dataType      = TUSHORT;
+                stats.bytesPerPixel = sizeof(int16_t);
+                break;
+            case USHORT_IMG:
+                stats.dataType      = TUSHORT;
+                stats.bytesPerPixel = sizeof(uint16_t);
+                break;
+            case LONG_IMG:
+                // Read LONG image as ULONG
+                stats.dataType      = TULONG;
+                stats.bytesPerPixel = sizeof(int32_t);
+                break;
+            case ULONG_IMG:
+                stats.dataType      = TULONG;
+                stats.bytesPerPixel = sizeof(uint32_t);
+                break;
+            case FLOAT_IMG:
+                stats.dataType      = TFLOAT;
+                stats.bytesPerPixel = sizeof(float);
+                break;
+            case LONGLONG_IMG:
+                stats.dataType      = TLONGLONG;
+                stats.bytesPerPixel = sizeof(int64_t);
+                break;
+            case DOUBLE_IMG:
+                stats.dataType      = TDOUBLE;
+                stats.bytesPerPixel = sizeof(double);
+                break;
+            default:
+                errMessage = QString("Bit depth %1 is not supported.").arg(fitsBitPix);
+                QMessageBox::critical(nullptr,"Message",errMessage);
+                 qCCritical(KSTARS_FITS) << errMessage;
+                return false;
+        }
+
+    stats.width = static_cast<uint16_t>(imageFromFile.width());
+    stats.height = static_cast<uint16_t>(imageFromFile.height());
+    m_Channels = 3;
+    stats.samples_per_channel = stats.width * stats.height;
+    clearImageBuffers();
+    m_ImageBufferSize = stats.samples_per_channel * m_Channels * static_cast<uint16_t>(stats.bytesPerPixel);
+    m_ImageBuffer = new uint8_t[m_ImageBufferSize];
+    if (m_ImageBuffer == nullptr)
+    {
+         qCCritical(KSTARS_FITS) << QString("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ").arg(m_ImageBufferSize);
+        clearImageBuffers();
+        return false;
+    }
+
+    auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+    auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
+
+    // Data in RGB32, with bytes in the order of B,G,R,A, we need to copy them into 3 layers for FITS
+
+    uint8_t * rBuff = debayered_buffer;
+    uint8_t * gBuff = debayered_buffer + (stats.width * stats.height);
+    uint8_t * bBuff = debayered_buffer + (stats.width * stats.height * 2);
+
+    int imax = stats.samples_per_channel * 4 - 4;
+    for (int i = 0; i <= imax; i += 4)
+    {
+        *rBuff++ = original_bayered_buffer[i + 2];
+        *gBuff++ = original_bayered_buffer[i + 1];
+        *bBuff++ = original_bayered_buffer[i + 0];
+    }
 
     return true;
 }

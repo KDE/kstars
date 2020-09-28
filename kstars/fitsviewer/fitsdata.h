@@ -409,6 +409,7 @@ class FITSData : public QObject
     private:
         void loadCommon(const QString &inFilename);
         bool privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent);
+        bool privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent);
         void rotWCSFITS(int angle, int mirror);
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();
