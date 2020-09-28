@@ -1150,11 +1150,6 @@ if(INDI_FOUND)
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
     endif ()
 
-    if(STELLARSOLVER_FOUND)
-        include_directories(${STELLARSOLVER_INCLUDE_DIR})
-        target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
-    endif(STELLARSOLVER_FOUND)
-
     if(WIN32 OR ANDROID)
         if(ANDROID)
             target_link_libraries(KStarsLiteLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${CFITSIO_LIBRARIES} ${LIBRAW_LIBRARIES})
@@ -1171,6 +1166,11 @@ if(INDI_FOUND)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
+
+if(STELLARSOLVER_FOUND)
+    include_directories(${STELLARSOLVER_INCLUDE_DIR})
+    target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
+endif(STELLARSOLVER_FOUND)
 
 if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
