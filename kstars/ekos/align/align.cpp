@@ -3140,7 +3140,7 @@ void Align::setSolverAction(int mode)
 void Align::startSolving()
 {
     //getSolverOptionsFromFITS(fileToSolve); //This should not have to get this stuff from the file, it already knows it!
-
+    disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     FITSData *data = alignView->getImageData();
     stellarSolver = new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer());
     stellarSolver->setSextractorType((SSolver::SextractorType)Options::solveSextractorType());
