@@ -6348,7 +6348,7 @@ void Align::setSettings(const QJsonObject &settings)
     const QString filter = settings["filter"].toString(FilterPosCombo->currentText());
     if (filter != FilterPosCombo->currentText())
     {
-        FilterPosCombo->setCurrentText(fw);
+        FilterPosCombo->setCurrentText(filter);
         Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
     }
 
@@ -6378,23 +6378,36 @@ void Align::setSettings(const QJsonObject &settings)
     }
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
-    if (GainSpin->value() != GainSpinSpecialValue)
+    // Gain
+    if (GainSpin->isEnabled())
     {
         const double gain = settings["gain"].toDouble(GainSpin->value());
         if (gain != GainSpin->value())
             GainSpin->setValue(gain);
     }
 
-    if (ISOCombo->count() > 0)
+    // ISO
+    if (ISOCombo->isEnabled())
     {
         const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
         if (iso != ISOCombo->currentIndex())
             ISOCombo->setCurrentIndex(iso);
     }
 
+    // Dark
     const bool dark = settings["dark"].toBool(alignDarkFrameCheck->isChecked());
     if (dark != alignDarkFrameCheck->isChecked())
         alignDarkFrameCheck->setChecked(dark);
+
+    // Accuracy
+    const int accuracy = settings["accuracy"].toInt(accuracySpin->value());
+    if (accuracy != accuracySpin->value())
+        accuracySpin->setValue(accuracy);
+
+    // Settle
+    const int settle = settings["settle"].toInt(delaySpin->value());
+    if (settle != delaySpin->value())
+        delaySpin->setValue(settle);
 }
 
 void Align::syncSettings()
