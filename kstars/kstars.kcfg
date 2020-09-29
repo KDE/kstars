@@ -1928,6 +1928,10 @@
          <label>Level of verbosity in the log.</label>
          <default>1</default>
       </entry>
+      <entry name="IndexFolderList" type="StringList">
+         <label>List of index folder paths.</label>
+         <whatsthis>List of folders in which astrometry Index Files can be found.</whatsthis>
+      </entry>
    </group>
    <group name="Align">
       <entry name="DefaultAlignCCD" type="String">

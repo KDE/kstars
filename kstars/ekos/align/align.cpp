@@ -3147,7 +3147,7 @@ void Align::startSolving()
     stellarSolver->setSolverType((SSolver::SolverType)Options::solverType());
     connect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
     connect(stellarSolver, &StellarSolver::logOutput, this, &Align::appendLogText);
-    stellarSolver->setIndexFolderPaths(KSUtils::getAstrometryDataDirs());
+    stellarSolver->setIndexFolderPaths(Options::indexFolderList());
     stellarSolver->setParameters(optionsList.at(Options::solveOptionsProfile()));
 
     if(stellarSolver->solverType == SSolver::SOLVER_LOCALASTROMETRY || stellarSolver->solverType == SSolver::SOLVER_ASTAP)
