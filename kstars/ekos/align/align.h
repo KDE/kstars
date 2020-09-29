@@ -626,6 +626,7 @@ class Align : public QWidget, public Ui::Align
         void settingsUpdated(const QJsonObject &settings);
 
     private:
+        bool blindSolve = false;
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
             */
