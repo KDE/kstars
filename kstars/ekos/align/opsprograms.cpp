@@ -75,11 +75,6 @@ OpsPrograms::OpsPrograms(Align *parent) : QWidget(KStars::Instance())
 
 #endif
 
-#ifdef Q_OS_WIN
-    kcfg_AstrometrySolverBinary->setEnabled(false);
-    kcfg_AstrometryWCSInfo->setEnabled(false);
-    kcfg_AstrometryConfFile->setEnabled(false);
-#endif
 }
 
 void OpsPrograms::setupPython()
@@ -215,34 +210,29 @@ void OpsPrograms::slotApply()
 
 void OpsPrograms::loadDefaultPaths(int option)
 {
-    switch(option)
-    {
-        case 0:
-            break;
-    default:
-        break;
-    }
-
     ExternalProgramPaths paths;
 
     switch(option)
     {
         case 0:
-            paths = StellarSolver::getLinuxDefaultPaths();
+            return;
             break;
         case 1:
-            paths = StellarSolver::getLinuxInternalPaths();
+            paths = StellarSolver::getLinuxDefaultPaths();
             break;
         case 2:
-            paths = StellarSolver::getMacHomebrewPaths();
+            paths = StellarSolver::getLinuxInternalPaths();
             break;
         case 3:
-            paths = StellarSolver::getMacInternalPaths();
+            paths = StellarSolver::getMacHomebrewPaths();
             break;
         case 4:
-            paths = StellarSolver::getWinANSVRPaths();
+            paths = StellarSolver::getMacInternalPaths();
             break;
         case 5:
+            paths = StellarSolver::getWinANSVRPaths();
+            break;
+        case 6:
             paths = StellarSolver::getWinCygwinPaths();
             break;
         default:
@@ -259,5 +249,7 @@ void OpsPrograms::loadDefaultPaths(int option)
     kcfg_ASTAPExecutable->setText(paths.astapBinaryPath);
     if( ! kcfg_AstrometryWCSIsInternal->isChecked())
         kcfg_AstrometryWCSInfo->setText(paths.wcsPath);
+
+    defaultPathSelector->setCurrentIndex(0);
 }
 }

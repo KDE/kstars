@@ -21,6 +21,11 @@
        <widget class="QComboBox" name="defaultPathSelector">
         <item>
          <property name="text">
+          <string>Select to load one of the default sets</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Linux Default</string>
          </property>
         </item>
