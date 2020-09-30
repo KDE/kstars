@@ -7001,10 +7001,10 @@ void Capture::createDSLRDialog()
     connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
     {
         addDSLRInfo(QString(currentCCD->getDeviceName()),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxWidth),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxHeight),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelW),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelH));
+                    dslrInfoDialog->sensorMaxWidth,
+                    dslrInfoDialog->sensorMaxHeight,
+                    dslrInfoDialog->sensorPixelW,
+                    dslrInfoDialog->sensorPixelH);
     });
 
     dslrInfoDialog->show();
@@ -7249,7 +7249,7 @@ QString Capture::MFStageString(MFStage stage)
 
 void Capture::syncDSLRToTargetChip(const QString &model)
 {
-    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
     {
         return (oneDSLRInfo["Model"] == model);
     });
@@ -7258,8 +7258,8 @@ void Capture::syncDSLRToTargetChip(const QString &model)
     if (pos != DSLRInfos.end())
     {
         auto camera = *pos;
-        targetChip->setImageInfo(camera["Width"].toDouble(),
-                                 camera["Height"].toDouble(),
+        targetChip->setImageInfo(camera["Width"].toInt(),
+                                 camera["Height"].toInt(),
                                  camera["PixelW"].toDouble(),
                                  camera["PixelH"].toDouble(),
                                  8);
