@@ -1931,6 +1931,7 @@
       <entry name="IndexFolderList" type="StringList">
          <label>List of index folder paths.</label>
          <whatsthis>List of folders in which astrometry Index Files can be found.</whatsthis>
+         <default code="true">KSUtils::getDefaultIndexFolderPaths()</default>
       </entry>
    </group>
    <group name="Align">

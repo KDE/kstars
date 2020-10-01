@@ -251,6 +251,7 @@ class Logging
 };
 
 QString getDefaultPath(QString option);
+QStringList getDefaultIndexFolderPaths();
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);

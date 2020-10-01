@@ -3145,6 +3145,22 @@ void Align::setSolverAction(int mode)
 
 void Align::startSolving()
 {
+    //This is needed because they might have directories stored in the config file.
+    QStringList indexFileDirs = Options::indexFolderList();
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
+    bool updated = false;
+    foreach(QString dataDir, astrometryDataDirs)
+    {
+        if(!indexFileDirs.contains(dataDir))
+        {
+            indexFileDirs.append(dataDir);
+            updated = true;
+        }
+    }
+    if(updated)
+        Options::setIndexFolderList(indexFileDirs);
+    ///
+
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     FITSData *data = alignView->getImageData();
     stellarSolver = new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer());
