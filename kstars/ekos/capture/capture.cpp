@@ -1924,6 +1924,9 @@ IPState Capture::resumeSequence()
 
         if (next_job)
         {
+            //check delta also when starting a new job!
+            isTemperatureDeltaCheckActive = (m_AutoFocusReady && limitFocusDeltaTS->isChecked());
+            
             prepareJob(next_job);
 
             //Resume guiding if it was suspended before
