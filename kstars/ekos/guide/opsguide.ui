@@ -187,7 +187,37 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="4">
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="label_20">
+        <property name="toolTip">
+         <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
+        </property>
+        <property name="text">
+         <string>Max MultiStar HFR</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>pixels</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QDoubleSpinBox" name="kcfg_GuideMaxHFR">
+        <property name="minimum">
+         <double>0.500000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>20.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>4.5</double>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="4">
        <widget class="QCheckBox" name="kcfg_RapidGuideEnabled">
         <property name="enabled">
          <bool>false</bool>
@@ -197,7 +227,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="4">
+      <item row="6" column="0" colspan="4">
        <widget class="QCheckBox" name="kcfg_SaveGuideLog">
         <property name="enabled">
          <bool>true</bool>

@@ -169,6 +169,8 @@ Guide::Guide() : QWidget()
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    connect(KStars::Instance(), &KStars::colorSchemeChanged, this, &Ekos::Guide::refreshColorScheme);
 }
 
 Guide::~Guide()
@@ -4047,7 +4049,10 @@ void Guide::removeDevice(ISD::GDInterface *device)
             guiderCombo->setCurrentIndex(-1);
         }
         else
+        {
+            currentCCD = CCDs[0];
             guiderCombo->setCurrentIndex(0);
+        }
 
         QTimer::singleShot(1000, this, [this]()
         {

@@ -738,4 +738,67 @@ bool FilterManager::setFilterNames(const QStringList &newLabels)
     return true;
 }
 
+QJsonObject FilterManager::toJSON()
+{
+    if (!m_currentFilterDevice)
+        return QJsonObject();
+
+    QJsonArray filters;
+
+    for (int i = 0; i < filterModel->rowCount(); ++i)
+    {
+        QJsonObject oneFilter =
+        {
+            {"index", i},
+            {"label", filterModel->data(filterModel->index(i, FM_LABEL)).toString()},
+            {"exposure", filterModel->data(filterModel->index(i, FM_EXPOSURE)).toDouble()},
+            {"offset", filterModel->data(filterModel->index(i, FM_OFFSET)).toInt()},
+            {"autofocus", filterModel->data(filterModel->index(i, FM_AUTO_FOCUS)).toBool()},
+            {"lock", filterModel->data(filterModel->index(i, FM_LOCK_FILTER)).toString()},
+            {"flat", filterModel->data(filterModel->index(i, FM_FLAT_FOCUS)).toInt()},
+        };
+
+        filters.append(oneFilter);
+    }
+
+    QJsonObject data =
+    {
+        {"device", m_currentFilterDevice->getDeviceName()},
+        {"filters", filters}
+    };
+
+    return data;
+
+}
+
+void FilterManager::setFilterData(const QJsonObject &settings)
+{
+    if (!m_currentFilterDevice)
+        return;
+
+    if (settings["device"].toString() != m_currentFilterDevice->getDeviceName())
+        return;
+
+    QJsonArray filters = settings["filters"].toArray();
+    QStringList labels = getFilterLabels();
+
+    for (auto oneFilterRef : filters)
+    {
+        QJsonObject oneFilter = oneFilterRef.toObject();
+        int row = oneFilter["index"].toInt();
+
+        labels[row] = oneFilter["label"].toString();
+        filterModel->setData(filterModel->index(row, FM_LABEL), oneFilter["label"].toString());
+        filterModel->setData(filterModel->index(row, FM_EXPOSURE), oneFilter["exposure"].toDouble());
+        filterModel->setData(filterModel->index(row, FM_OFFSET), oneFilter["offset"].toInt());
+        filterModel->setData(filterModel->index(row, FM_AUTO_FOCUS), oneFilter["autofocus"].toBool());
+        filterModel->setData(filterModel->index(row, FM_LOCK_FILTER), oneFilter["lock"].toString());
+        filterModel->setData(filterModel->index(row, FM_FLAT_FOCUS), oneFilter["flat"].toInt());
+    }
+
+    setFilterNames(labels);
+    filterModel->submitAll();
+    refreshFilterModel();
+}
+
 }

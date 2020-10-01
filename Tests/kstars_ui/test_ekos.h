@@ -60,6 +60,19 @@
         QVERIFY2(name != nullptr, QString(#klass "'%1' does not exist and cannot be used").arg(#name).toStdString().c_str()); \
     } while(false)
 
+#define KTRY_PROFILEEDITOR_TREE_COMBOBOX(name, strvalue) \
+    KTRY_PROFILEEDITOR_GADGET(QComboBox, name); do { \
+    QString lookup(strvalue); \
+    QModelIndexList const list = name->model()->match(name->model()->index(0, 0), Qt::DisplayRole, QVariant::fromValue(lookup), 1, Qt::MatchRecursive); \
+    QVERIFY(0 < list.count()); \
+    QModelIndex const &item = list.first(); \
+    QCOMPARE(list.value(0).data().toString(), lookup); \
+    QVERIFY(!item.parent().parent().isValid()); \
+    name->setRootModelIndex(item.parent()); \
+    name->setCurrentText(lookup); \
+    QCOMPARE(name->currentText(), lookup); } while(false)
+
+
 class TestEkos: public QObject
 {
     Q_OBJECT

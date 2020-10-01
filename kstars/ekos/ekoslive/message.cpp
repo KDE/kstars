@@ -218,6 +218,8 @@ void Message::onTextReceived(const QString &message)
         processOptionsCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
+    else if (command.startsWith("fm_"))
+        processFilterManagerCommands(command, payload);
     else if (command.startsWith("device_"))
         processDeviceCommands(command, payload);
 }
@@ -1004,6 +1006,19 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
     }
 }
 
+void Message::processFilterManagerCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[FM_GET_DATA])
+    {
+        QJsonObject data = m_Manager->getFilterManager()->toJSON();
+        sendResponse(commands[FM_GET_DATA], data);
+    }
+    else if (command == commands[FM_SET_DATA])
+    {
+        m_Manager->getFilterManager()->setFilterData(payload);
+    }
+}
+
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {
     QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
@@ -1028,7 +1043,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     // Set specific property
     else if (command == commands[DEVICE_PROPERTY_SET])
     {
-        oneDevice->setJSONProperty(payload["property"].toString(), payload["value"].toArray());
+        oneDevice->setJSONProperty(payload["property"].toString(), payload["elements"].toArray());
     }
     // Return ALL properties
     else if (command == commands[DEVICE_GET])
@@ -1222,6 +1237,26 @@ void Message::setBoundingRect(QRect rect, QSize view)
 void Message::processDialogResponse(const QJsonObject &payload)
 {
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
+}
+
+void Message::processNewProperty(INDI::Property *prop)
+{
+    QJsonObject propObject;
+    ISD::propertyToJson(prop, propObject, false);
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_ADD]}, {"payload", propObject}}).toJson(
+        QJsonDocument::Compact));
+}
+
+void Message::processDeleteProperty(const QString &device, const QString &name)
+{
+    QJsonObject payload =
+    {
+        {"device", device},
+        {"name", name}
+    };
+
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_REMOVE]}, {"payload", payload}}).toJson(
+        QJsonDocument::Compact));
 }
 
 void Message::processNewNumber(INumberVectorProperty *nvp)

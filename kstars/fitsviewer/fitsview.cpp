@@ -33,6 +33,7 @@
 #include <QToolBar>
 #include <QGraphicsOpacityEffect>
 #include <QApplication>
+#include <QImageReader>
 #include <QGestureEvent>
 
 #include <unistd.h>
@@ -327,10 +328,8 @@ void FITSView::loadFITS(const QString &inFilename, bool silent)
     fitsWatcher.setFuture(imageData->loadFITS(inFilename, silent));
 }
 
-bool FITSView::loadFITSFromData(FITSData *data, const QString &inFilename)
+bool FITSView::loadFITSFromData(FITSData *data)
 {
-    Q_UNUSED(inFilename)
-
     if (floatingToolBar != nullptr)
     {
         floatingToolBar->setVisible(true);
@@ -444,7 +443,7 @@ void FITSView::loadInFrame()
 bool FITSView::saveImage(const QString &newFilename)
 {
     const QString ext = QFileInfo(newFilename).suffix();
-    if (ext == "jpg" || ext == "png")
+    if (QImageReader::supportedImageFormats().contains(ext.toLatin1()))
     {
         rawImage.save(newFilename, ext.toLatin1().constData());
         return true;

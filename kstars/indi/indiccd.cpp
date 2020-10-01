@@ -1806,12 +1806,13 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data)
 {
     FITSMode mode = targetChip->getCaptureMode();
     FITSView *view = targetChip->getImageView(mode);
-    QString filename = QString(static_cast<const char *>(bp->aux2));
+    //QString filename = QString(static_cast<const char *>(bp->aux2));
 
     if (view)
     {
         view->setFilter(targetChip->getCaptureFilter());
-        if (!view->loadFITSFromData(data, filename))
+        //if (!view->loadFITSFromData(data, filename))
+        if (!view->loadFITSFromData(data))
         {
             emit newExposureValue(targetChip, 0, IPS_ALERT);
             return;

@@ -707,7 +707,7 @@ void Manager::start()
         {
             for (auto remoteDriver : currentProfile->remotedrivers.split(","))
             {
-                QString name, label, host("localhost"), port("7624"), hostport(host+':'+port);
+                QString name, label, host("localhost"), port("7624"), hostport(host + ':' + port);
 
                 // Possible configurations:
                 // - device
@@ -1207,6 +1207,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
     connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
+    connect(devInterface, &ISD::GDInterface::propertyDeleted, this, &Ekos::Manager::processDeleteProperty);
     connect(devInterface, &ISD::GDInterface::interfaceDefined, this, &Ekos::Manager::syncActiveDevices);
 
     connect(devInterface, &ISD::GDInterface::numberUpdated, this, &Ekos::Manager::processNewNumber);
@@ -1801,9 +1802,17 @@ void Manager::processNewNumber(INumberVectorProperty * nvp)
     */
 }
 
+void Manager::processDeleteProperty(const QString &name)
+{
+    ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
+    ekosLiveClient.get()->message()->processDeleteProperty(deviceInterface->getDeviceName(), name);
+}
+
 void Manager::processNewProperty(INDI::Property * prop)
 {
     ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
+
+    ekosLiveClient.get()->message()->processNewProperty(prop);
 
     if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
     {

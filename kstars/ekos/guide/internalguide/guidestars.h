@@ -94,10 +94,13 @@ class GuideStars
         void setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex);
 
         // Evaluates which stars are desirable as guide stars and reference stars.
-        void evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores, const QRect *roi) const;
+        void evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores,
+                              const QRect *roi, const double maxHFR) const;
 
         // Returns the top num stars according to the evaluateSEPStars criteria.
-        void findTopStars(FITSData *imageData, int num, QList<Edge> *stars, const QRect *roi = nullptr,
+        void findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
+                          const double maxHFR,
+                          const QRect *roi = nullptr,
                           QList<double> *outputScores = nullptr,
                           QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algoritms.

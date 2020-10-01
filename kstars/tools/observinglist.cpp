@@ -1062,11 +1062,10 @@ void ObservingList::slotLoadWishList()
     if (!failedObjects.isEmpty())
     {
         QMessageBox msgBox = {QMessageBox::Icon::Warning,
-                              i18n("Observing wishlist truncated: %1 object(s) not found", failedObjects.size()),
-                              i18n("%1 object(s) could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup."),
-                              QMessageBox::Ok,
-                              this
-                             };
+                                  i18np("Observing wishlist truncated: %1 object not found", "Observing wishlist truncated: %1 objects not found", failedObjects.size()),
+                                  i18np("%1 object could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup.", "%1 objects could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup.", failedObjects.size()),
+                                  QMessageBox::Ok,
+                                  this};
         msgBox.setDetailedText(failedObjects.join("\n"));
         msgBox.exec();
     }

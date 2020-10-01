@@ -498,8 +498,7 @@ void FITSTab::processData()
     view->updateFrame();
 }
 
-bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL,
-                               FITSMode mode, FITSScale filter)
+bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL, FITSMode mode, FITSScale filter)
 {
     setupView(mode, filter);
 
@@ -507,7 +506,8 @@ bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL,
 
     view->setFilter(filter);
 
-    if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
+    //if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
+    if (!view->loadFITSFromData(data))
     {
         // On Failure to load
         // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
@@ -666,7 +666,7 @@ bool FITSTab::saveFile()
     {
         currentURL =
             QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save FITS"), currentDir,
-                                        "FITS (*.fits *.fits.gz *.fit);;Images (*.jpg *.png)");
+                                        "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
 
         // if user presses cancel
         if (currentURL.isEmpty())

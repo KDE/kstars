@@ -3838,7 +3838,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 {
                     m_ObserverName = QString(pcdataXMLEle(ep));
                 }
-                else if (!strcmp(tagXMLEle(ep), "limitGuideDeviationN"))
+                else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                 {
                     limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
@@ -3858,7 +3858,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     double const deltaValue = cLocale.toDouble(pcdataXMLEle(ep));
                     limitFocusDeltaTN->setValue(deltaValue);
                 }
-                else if (!strcmp(tagXMLEle(ep), "limitRefocusN"))
+                else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
                 {
                     limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
@@ -3992,7 +3992,7 @@ bool Capture::processJobInfo(XMLEle * root)
         {
             fileScriptT->setText(pcdataXMLEle(ep));
         }
-        else if (!strcmp(tagXMLEle(ep), "fileDirectoryTectory"))
+        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fileDirectoryT->setText(pcdataXMLEle(ep));
         }
@@ -4216,8 +4216,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Observer>" << m_ObserverName << "</Observer>" << endl;
     outstream << "<CCD>" << cameraS->currentText() << "</CCD>" << endl;
     outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << endl;
-    outstream << "<limitGuideDeviationN enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitGuideDeviationN->value()) << "</limitGuideDeviationN>" << endl;
+    outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
     if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
@@ -4227,8 +4227,8 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(Options::saveHFRToFile() ? limitFocusHFRN->value() : 0) << "</Autofocus>" << endl;
     outstream << "<RefocusOnTemperatureDelta enabled='" << (limitFocusDeltaTS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
-    outstream << "<limitRefocusN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitRefocusN->value()) << "</limitRefocusN>" << endl;
+    outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
     foreach (SequenceJob * job, jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
@@ -4265,7 +4265,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Delay>" << cLocale.toString(job->getDelay() / 1000.0) << "</Delay>" << endl;
         if (job->getPostCaptureScript().isEmpty() == false)
             outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
-        outstream << "<fileDirectoryTectory>" << job->getLocalDir() << "</fileDirectoryTectory>" << endl;
+        outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
         if (job->getRemoteDir().isEmpty() == false)
             outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
@@ -6845,7 +6845,7 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     const bool focusHFRCheck = settings["focusHFRCheck"].toBool(limitFocusHFRS->isChecked());
     const double focusHFRValue = settings["focusHFRValue"].toDouble(limitFocusHFRN->value());
     const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(limitFocusDeltaTS->isChecked());
-    const bool focusDeltaTValue = settings["focusDeltaTValue"].toDouble(limitFocusDeltaTN->value());
+    const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(limitFocusDeltaTN->value());
     const bool refocusNCheck = settings["refocusNCheck"].toBool(limitRefocusS->isChecked());
     const int refocusNValue = settings["refocusNValue"].toInt(limitRefocusN->value());
 
@@ -7001,10 +7001,10 @@ void Capture::createDSLRDialog()
     connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
     {
         addDSLRInfo(QString(currentCCD->getDeviceName()),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxWidth),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxHeight),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelW),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelH));
+                    dslrInfoDialog->sensorMaxWidth,
+                    dslrInfoDialog->sensorMaxHeight,
+                    dslrInfoDialog->sensorPixelW,
+                    dslrInfoDialog->sensorPixelH);
     });
 
     dslrInfoDialog->show();
@@ -7249,7 +7249,7 @@ QString Capture::MFStageString(MFStage stage)
 
 void Capture::syncDSLRToTargetChip(const QString &model)
 {
-    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
     {
         return (oneDSLRInfo["Model"] == model);
     });
@@ -7258,8 +7258,8 @@ void Capture::syncDSLRToTargetChip(const QString &model)
     if (pos != DSLRInfos.end())
     {
         auto camera = *pos;
-        targetChip->setImageInfo(camera["Width"].toDouble(),
-                                 camera["Height"].toDouble(),
+        targetChip->setImageInfo(camera["Width"].toInt(),
+                                 camera["Height"].toInt(),
                                  camera["PixelW"].toDouble(),
                                  camera["PixelH"].toDouble(),
                                  8);

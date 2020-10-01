@@ -327,6 +327,14 @@
             <driver name="Pegasus DMFC">indi_dmfc_focus</driver>
             <version>1.0</version>
         </device>
+        <device label="Pyxis" manufacturer="Optec">
+            <driver name="Pyxis">indi_pyxis_rotator</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Pegasus Falcon" manufacturer="Pegasus Astro">
+            <driver name="Pegasus Falcon">indi_falcon_rotator</driver>
+            <version>1.0</version>
+        </device>
         <device label="Microtouch">
             <driver name="Microtouch">indi_microtouch_focus</driver>
             <version>0.1</version>
@@ -503,10 +511,6 @@
             <driver name="SnapCap">indi_snapcap</driver>
             <version>1.0</version>
         </device>
-        <device label="Pyxis" manufacturer="Optec">
-            <driver name="Pyxis">indi_pyxis_rotator</driver>
-            <version>1.0</version>
-        </device>
         <device label="Arduino ST4" manufacturer="DIY">
             <driver name="Arduino ST4">indi_arduinost4</driver>
             <version>1.0</version>
@@ -653,25 +657,25 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true" manufacturer="ZWO">
             <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ASI EAF" manufacturer="ZWO">
             <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ASI ST4" manufacturer="ZWO">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
 </driversList>
@@ -725,7 +729,11 @@
     <devGroup group="Telescopes">
         <device label="Celestron AUX" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.6</version>
+            <version>0.7</version>
+        </device>
+        <device label="Celestron WiFi" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>0.7</version>
         </device>
     </devGroup>
 </driversList>
@@ -1151,7 +1159,7 @@
     <devGroup group="Weather">
         <device label="Weather Radio" manufacturer="DIY">
             <driver name="Weather Radio">indi_weatherradio</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
 </driversList>
