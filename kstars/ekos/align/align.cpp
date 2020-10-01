@@ -42,6 +42,7 @@
 #include "indi/indifilter.h"
 #include "profileinfo.h"
 #include "ksnotification.h"
+#include "kspaths.h"
 
 #include <KConfigDialog>
 #include <KActionCollection>
@@ -262,6 +263,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     optionsProfileEditor = new OptionsProfileEditor(this);
     page = dialog->addPage(optionsProfileEditor, i18n("Options Profiles Editor"));
+    connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, [this](){
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    });
     page->setIcon(QIcon::fromTheme("configure"));
 
     connect(opsAlign,&OpsAlign::needToLoadProfile, this, [this, dialog, page](int profile){
@@ -531,7 +535,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     for (auto &button : qButtons)
         button->setAutoDefault(false);
 
-    optionsList = StellarSolver::getBuiltInProfiles();
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
 }
 
 Align::~Align()
@@ -3188,6 +3193,7 @@ void Align::startSolving()
        double fovH = Options::astrometryImageScaleHigh();
        appendLogText("Low: " + QString::number( fov));
        appendLogText("High: " + QString::number( fovH));
+       appendLogText("units: " + QString::number(Options::astrometryImageScaleUnits()));
        stellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
     }
     else

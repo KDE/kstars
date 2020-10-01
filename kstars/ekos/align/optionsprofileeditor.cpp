@@ -330,6 +330,7 @@ void OptionsProfileEditor::slotApply()
     optionsAreSaved = true;
 
     saveProfiles();
+    emit optionsProfilesUpdated();
 }
 
 }

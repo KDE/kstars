@@ -627,6 +627,7 @@ class Align : public QWidget, public Ui::Align
 
     private:
         bool blindSolve = false;
+        QString savedOptionsProfiles;
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
             */
