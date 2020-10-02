@@ -106,7 +106,7 @@ class GDInterface : public QObject
         virtual bool setProperty(QObject *)                       = 0;
 
     protected:
-        DeviceFamily dType { KSTARS_CCD };
+        DeviceFamily dType { KSTARS_UNKNOWN };
         uint32_t driverInterface { 0 };
         QString driverVersion;
         QHash<QString, INDI::Property *> properties;

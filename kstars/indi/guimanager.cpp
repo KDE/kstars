@@ -191,8 +191,11 @@ void GUIManager::removeClient(ClientManager *cm)
 {
     clients.removeOne(cm);
 
-    foreach (INDI_D *gdv, guidevices)
+    QMutableListIterator<INDI_D*> it(guidevices);
+    while (it.hasNext())
     {
+        INDI_D *gdv = it.next();
+
         if (gdv->getClientManager() == cm)
         {
             for (int i = 0; i < mainTabWidget->count(); i++)
@@ -204,7 +207,7 @@ void GUIManager::removeClient(ClientManager *cm)
                 }
             }
 
-            guidevices.removeOne(gdv);
+            it.remove();
             gdv->deleteLater();
             //break;
         }
@@ -221,6 +224,8 @@ void GUIManager::removeDevice(const QString &name)
     if (dp == nullptr)
         return;
 
+    dp->disconnect();
+
     // Hack to give mainTabWidget sometime to remove its item as these calls are coming from a different thread
     // the clientmanager thread. Sometimes removeTab() requires sometime to be removed properly and hence the wait.
     if (mainTabWidget->count() != guidevices.count())
@@ -236,7 +241,7 @@ void GUIManager::removeDevice(const QString &name)
     }
 
     guidevices.removeOne(dp);
-    delete (dp);
+    dp->deleteLater();
 
     if (guidevices.isEmpty())
     {

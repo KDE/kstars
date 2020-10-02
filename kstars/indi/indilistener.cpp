@@ -221,7 +221,7 @@ void INDIListener::removeDevice(const QString &deviceName)
         {
             emit deviceRemoved(oneDevice);
             devices.removeOne(oneDevice);
-            delete (oneDevice);
+            oneDevice->deleteLater();
             break;
         }
     }
