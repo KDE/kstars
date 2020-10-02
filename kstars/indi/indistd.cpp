@@ -37,13 +37,13 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
     elementValue = qValue;
 }
 
-GenericDevice::GenericDevice(DeviceInfo &idv)
+GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
 {
     deviceInfo    = &idv;
     driverInfo    = idv.getDriverInfo();
     baseDevice    = idv.getBaseDevice();
     m_Name        = baseDevice->getDeviceName();
-    clientManager = driverInfo->getClientManager();
+    clientManager = cm;
 
     dType = KSTARS_UNKNOWN;
 

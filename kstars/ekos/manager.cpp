@@ -1820,7 +1820,11 @@ void Manager::processNewProperty(INDI::Property * prop)
         const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
         // If we don't have port mapping, then we connect immediately.
         if (port.isEmpty())
+            QTimer::singleShot(50, this, [deviceInterface]()
+        {
             deviceInterface->Connect();
+        });
+
         return;
     }
 

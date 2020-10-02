@@ -142,7 +142,7 @@ class GenericDevice : public GDInterface
         Q_OBJECT
 
     public:
-        explicit GenericDevice(DeviceInfo &idv);
+        explicit GenericDevice(DeviceInfo &idv, ClientManager *cm);
         virtual ~GenericDevice() override = default;
 
         virtual void registerProperty(INDI::Property *prop) override;
