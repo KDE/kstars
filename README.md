@@ -120,7 +120,7 @@ KStars uses [Artistic Style](http://astyle.sourceforge.net) to format all the C+
 --lineend=linux
 --max-code-length=124
 ```
-Some IDEs (e.g. QtCreator) support automatic formatting for the code everytime you save the file to disk.
+Some IDEs (e.g. QtCreator) support automatic formatting for the code every time you save the file to disk.
 
 ### Merge Request Descriptions
 
@@ -134,9 +134,11 @@ which has sections for a summary of what was done, what was modified in each fil
 You must be familiar with git to make changes to KStars, and this is not the place for such a tutorial. There
 are many excellent resources for that on the web. The paragraph below, though, will give an overview of one way
 to make a Merge Request, given you already have sufficient git experience to clone KStars, make a local branch,
-modify the code as you like, commit your changes to your local branch, and test your code throughly.
+modify the code as you like, commit your changes to your local branch, and test your code thoroughly.
 
 Here's one good resource for a [fork-branch-git-workflow to make KStars changes](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow). The steps below are inspired by that page.
+
+**One-time KStars git environment setup.**
 
 * [Make your KDE identity](https://community.kde.org/Infrastructure/Get_a_Developer_Account)
 * **Login.** Go to the [KStars gitlab page](https://invent.kde.org/education/kstars) and login in the upper right corner.
@@ -150,7 +152,9 @@ Here's one good resource for a [fork-branch-git-workflow to make KStars changes]
 * **Add your upstream.** Add the KStars main repo to your forked repo.
     * git remote add upstream https://invent.kde.org/education/kstars
 
-You are setup now. The following steps are used for each new feature you will to develop.
+You are set up now.
+
+**Steps used for each change.** After the one-time setup (above), the steps below could be used for each new feature submission. In summary, you will make a feature branch in your local repository, make your desired changes there and test, push them to your fork, create a request to merge your fork with the main KStars repo, wait for feedback, and possibly iterate on your changes hoping for approval from an authority.
 
 * **Create your feature branch.**
     * git checkout -b YOUR_BRANCH_NAME
@@ -167,10 +171,29 @@ You are setup now. The following steps are used for each new feature you will to
     * If so, you simply go back to your local branch, make and test your changes.
     * Commit your changes as above, inside your branch, with: git commit -a
     * Push your branch's changes to your forked repo as above with: git push origin YOUR_BRANCH_NAME
-    * You changes should automatically be added to your Merge Request. Check the Merge Request's page to be sure.
+    * Your changes should automatically be added to your Merge Request. Check the Merge Request's page to be sure.
+    * You may need to rebase your code--see below for details.
 
-Once your Merge Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
-You may want to run the following regularly to make your environment up-to-date with KStars.
+**Rebasing your changes.** Others may be making changes to KStars at the same time you are working on your feature.
+Rebasing is updating your version of KStars and your particular changes to make it as if you changed the latest KStars version,
+e.g. reflect changes to the codebase made after you cloned or updated your own KStars copy. This is a significant topic
+you can Google, but the following instructions work most of the time.
+
+```
+cd ~/Projects/kstars
+git checkout master
+git pull upstream master  # Get the master from the main KStars repo onto your local clone
+git push origin master    # Then push your updated local clone into your forked repo
+git checkout YOUR_BRANCH_NAME
+git rebase master
+git push origin YOUR_BRANCH_NAME -f
+```
+
+If there are complications with the rebase, git will make suggestions on how to correct the issues.
+
+**Your next change**. Once your Merge Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
+The next change will use another (new) feature branch, and the first feature branch could be deleted.
+You may want to run the following regularly to keep your master branch up-to-date with KStars.
 ```
 cd ~/Projects/kstars
 git checkout master

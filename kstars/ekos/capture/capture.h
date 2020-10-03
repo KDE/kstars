@@ -342,13 +342,46 @@ class Capture : public QWidget, public Ui::Capture
          * @brief setSettings Set capture settings
          * @param settings list of settings
          */
-        void setSettings(const QJsonObject &settings);
+        void setPresetSettings(const QJsonObject &settings);
 
         /**
          * @brief getSettings get current capture settings as a JSON Object
          * @return settings as JSON object
          */
-        QJsonObject getSettings();
+        QJsonObject getPresetSettings();
+
+        /**
+         * @brief setFileSettings Set File Settings
+         * @param settings as JSON object
+         */
+        void setFileSettings(const QJsonObject &settings);
+        /**
+         * @brief getFileSettings Compile file setting
+         * @return File settings as JSON object
+         */
+        QJsonObject getFileSettings();
+
+        /**
+         * @brief setCalibrationSettings Set Calibration settings
+         * @param settings as JSON object
+         */
+        void setCalibrationSettings(const QJsonObject &settings);
+        /**
+         * @brief getCalibrationSettings Get Calibration settings
+         * @return settings as JSON object
+         */
+        QJsonObject getCalibrationSettings();
+
+        /**
+         * @brief setLimitSettings Set limit settings
+         * @param settings as JSON Object
+         */
+        void setLimitSettings(const QJsonObject &settings);
+        /**
+         * @brief getLimitSettings Get Limit Settings
+         * @return settings as JSON Object
+         */
+        QJsonObject getLimitSettings();
 
         /**
          * @brief addDSLRInfo Save DSLR Info the in the database. If the interactive dialog was open, close it.
@@ -455,7 +488,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setExposure(double value)
         {
-            exposureIN->setValue(value);
+            captureExposureN->setValue(value);
         }
 
         /**
@@ -464,7 +497,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setCount(uint16_t count)
         {
-            countIN->setValue(count);
+            captureCountN->setValue(count);
         }
 
         /**
@@ -473,7 +506,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setDelay(uint16_t delay)
         {
-            delayIN->setValue(delay);
+            captureDelayN->setValue(delay);
         }
 
         /**
@@ -482,7 +515,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setPrefix(const QString &prefix)
         {
-            prefixIN->setText(prefix);
+            filePrefixT->setText(prefix);
         }
 
         /**
@@ -492,8 +525,8 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setBinning(int horBin, int verBin)
         {
-            binXIN->setValue(horBin);
-            binYIN->setValue(verBin);
+            captureBinHN->setValue(horBin);
+            captureBinVN->setValue(verBin);
         }
 
         /**
@@ -502,7 +535,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setISO(int index)
         {
-            ISOCombo->setCurrentIndex(index);
+            captureISOS->setCurrentIndex(index);
         }
 
         /**
@@ -586,7 +619,7 @@ class Capture : public QWidget, public Ui::Capture
 
         void setForceTemperature(bool enabled)
         {
-            temperatureCheck->setChecked(enabled);
+            cameraTemperatureS->setChecked(enabled);
         }
 
         /**
@@ -601,7 +634,7 @@ class Capture : public QWidget, public Ui::Capture
 
         void setFrameType(const QString &type)
         {
-            frameTypeCombo->setCurrentText(type);
+            captureTypeS->setCurrentText(type);
         }
 
         // Logs

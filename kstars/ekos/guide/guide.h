@@ -399,7 +399,10 @@ class Guide : public QWidget, public Ui::Guide
              */
         void setDECSwap(bool enable);
 
+        /** @brief Update colors following a color scheme update notification.
+         */
         void refreshColorScheme();
+
         void setupNSEWLabels();
 
         //plot slots

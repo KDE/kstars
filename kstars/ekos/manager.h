@@ -134,6 +134,10 @@ class Manager : public QDialog, public Ui::Manager
         {
             return summaryPreview.get();
         }
+        FilterManager *getFilterManager()
+        {
+            return filterManager.data();
+        }
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventType event);
 
@@ -339,6 +343,7 @@ class Manager : public QDialog, public Ui::Manager
 
         void processNewDevice(ISD::GDInterface *);
         void processNewProperty(INDI::Property *);
+        void processDeleteProperty(const QString &name);
 
         void processNewNumber(INumberVectorProperty *nvp);
         void processNewText(ITextVectorProperty *tvp);

@@ -2223,6 +2223,10 @@
          <label>Maximum delta RMS permitted while guiding before aborting.</label>
          <default>10</default>
       </entry>
+      <entry name="GuideMaxHFR" type="Double">
+         <label>Maximum HFR permitted for SEP MultiStar guide star.</label>
+         <default>4.5</default>
+      </entry>
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>
          <default>true</default>

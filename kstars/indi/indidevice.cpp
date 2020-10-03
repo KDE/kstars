@@ -198,8 +198,12 @@ bool INDI_D::updateTextGUI(ITextVectorProperty *tvp)
 
     for (const auto &pg : groupsList)
     {
-        if ((guiProp = pg->getProperty(propName)) != nullptr)
+        INDI_P * const p = pg->getProperty(propName);
+        if (p != nullptr)
+        {
+            guiProp = p;
             break;
+        }
     }
 
     if (guiProp == nullptr)
@@ -223,8 +227,12 @@ bool INDI_D::updateNumberGUI(INumberVectorProperty *nvp)
 
     for (const auto &pg : groupsList)
     {
-        if ((guiProp = pg->getProperty(propName)) != nullptr)
+        INDI_P * const p = pg->getProperty(propName);
+        if (p != nullptr)
+        {
+            guiProp = p;
             break;
+        }
     }
 
     if (guiProp == nullptr)
@@ -248,8 +256,12 @@ bool INDI_D::updateLightGUI(ILightVectorProperty *lvp)
 
     for (const auto &pg : groupsList)
     {
-        if ((guiProp = pg->getProperty(propName)) != nullptr)
+        INDI_P * const p = pg->getProperty(propName);
+        if (p != nullptr)
+        {
+            guiProp = p;
             break;
+        }
     }
 
     if (guiProp == nullptr)
@@ -273,8 +285,12 @@ bool INDI_D::updateBLOBGUI(IBLOB *bp)
 
     for (const auto &pg : groupsList)
     {
-        if ((guiProp = pg->getProperty(propName)) != nullptr)
+        INDI_P * const p = pg->getProperty(propName);
+        if (p != nullptr)
+        {
+            guiProp = p;
             break;
+        }
     }
 
     if (guiProp == nullptr)

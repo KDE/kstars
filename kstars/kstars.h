@@ -102,6 +102,10 @@ class KStars : public KXmlGuiWindow
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
+        Q_SCRIPTABLE Q_PROPERTY(QString colorScheme READ colorScheme WRITE loadColorScheme NOTIFY colorSchemeChanged)
+
+    public:
+        Q_SCRIPTABLE QString colorScheme() const;
 
     private:
         /**
@@ -247,7 +251,7 @@ class KStars : public KXmlGuiWindow
              * @param az the Azimuth coordinate for the focus (in Degrees)
              * @param altIsRefracted If set to true, the altitude is interpreted as if it were corrected for atmospheric refraction (i.e. the altitude is an apparent altitude)
              */
-        Q_SCRIPTABLE Q_NOREPLY void setAltAz(double alt, double az, bool altIsRefracted=false);
+        Q_SCRIPTABLE Q_NOREPLY void setAltAz(double alt, double az, bool altIsRefracted = false);
 
         /** DBUS interface function.
              * Point in the direction described by the string argument.
@@ -489,6 +493,12 @@ class KStars : public KXmlGuiWindow
 
         /** @}*/
 
+    signals:
+        /** DBUS interface notification. Color scheme was updated.
+         */
+        void colorSchemeChanged();
+
+    public Q_SLOTS:
         /**
              * Update time-dependent data and (possibly) repaint the sky map.
              * @param automaticDSTchange change DST status automatically?

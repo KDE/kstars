@@ -37,17 +37,31 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
     elementValue = qValue;
 }
 
-GenericDevice::GenericDevice(DeviceInfo &idv)
+GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
 {
     deviceInfo    = &idv;
     driverInfo    = idv.getDriverInfo();
     baseDevice    = idv.getBaseDevice();
     m_Name        = baseDevice->getDeviceName();
-    clientManager = driverInfo->getClientManager();
+    clientManager = cm;
 
     dType = KSTARS_UNKNOWN;
 
     registerDBusType();
+
+    // JM 2020-09-05: In case KStars time change, update driver time if applicable.
+    connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, this, [this]()
+    {
+        if (Options::useTimeUpdate() && Options::useKStarsSource())
+        {
+            if (dType != KSTARS_UNKNOWN && baseDevice != nullptr && baseDevice->isConnected())
+            {
+                ITextVectorProperty *tvp = baseDevice->getText("TIME_UTC");
+                if (tvp && tvp->p != IP_RO)
+                    updateTime();
+            }
+        }
+    });
 }
 
 void GenericDevice::registerDBusType()
@@ -849,7 +863,7 @@ INDI::Property *GenericDevice::getProperty(const QString &propName)
     return nullptr;
 }
 
-bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &propValue)
+bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &propElements)
 {
     for (auto &oneProp : properties)
     {
@@ -863,7 +877,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                     if (svp->r == ISR_1OFMANY || svp->r == ISR_ATMOST1)
                         IUResetSwitch(svp);
 
-                    for (auto oneElement : propValue)
+                    for (auto oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         ISwitch *sp = IUFindSwitch(svp, oneElementObject["name"].toString().toLatin1().constData());
@@ -880,7 +894,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                 case INDI_NUMBER:
                 {
                     INumberVectorProperty *nvp = oneProp->getNumber();
-                    for (auto oneElement : propValue)
+                    for (auto oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         INumber *np = IUFindNumber(nvp, oneElementObject["name"].toString().toLatin1().constData());
@@ -895,7 +909,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                 case INDI_TEXT:
                 {
                     ITextVectorProperty *tvp = oneProp->getText();
-                    for (auto oneElement : propValue)
+                    for (auto oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         IText *tp = IUFindText(tvp, oneElementObject["name"].toString().toLatin1().constData());
@@ -1140,9 +1154,9 @@ bool DeviceDecorator::getJSONBLOB(const QString &propName, const QString &elemen
     return interfacePtr->getJSONBLOB(propName, elementName, blobObject);
 }
 
-bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propValue)
+bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propElements)
 {
-    return interfacePtr->setJSONProperty(propName, propValue);
+    return interfacePtr->setJSONProperty(propName, propElements);
 }
 
 bool DeviceDecorator::isConnected()
@@ -1281,7 +1295,7 @@ void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool co
         switches.append(oneSwitch);
     }
 
-    propObject = {{"name", svp->name}, {"state", svp->s}, {"switches", switches}};
+    propObject = {{"device", svp->device}, {"name", svp->name}, {"state", svp->s}, {"switches", switches}};
     if (!compact)
     {
         propObject.insert("label", svp->label);
@@ -1301,13 +1315,14 @@ void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool co
         {
             oneNumber.insert("label", nvp->np[i].label);
             oneNumber.insert("min", nvp->np[i].min);
-            oneNumber.insert("mix", nvp->np[i].max);
+            oneNumber.insert("max", nvp->np[i].max);
             oneNumber.insert("step", nvp->np[i].step);
+            oneNumber.insert("format", nvp->np[i].format);
         }
         numbers.append(oneNumber);
     }
 
-    propObject = {{"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
+    propObject = {{"device", nvp->device}, {"name", nvp->name}, {"state", nvp->s}, {"numbers", numbers}};
     if (!compact)
     {
         propObject.insert("label", nvp->label);
@@ -1321,7 +1336,7 @@ void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool comp
     QJsonArray Texts;
     for (int i = 0; i < tvp->ntp; i++)
     {
-        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"value", tvp->tp[i].text}};
+        QJsonObject oneText = {{"name", tvp->tp[i].name}, {"text", tvp->tp[i].text}};
         if (!compact)
         {
             oneText.insert("label", tvp->tp[i].label);
@@ -1329,7 +1344,7 @@ void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool comp
         Texts.append(oneText);
     }
 
-    propObject = {{"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
+    propObject = {{"device", tvp->device}, {"name", tvp->name}, {"state", tvp->s}, {"texts", Texts}};
     if (!compact)
     {
         propObject.insert("label", tvp->label);
@@ -1351,11 +1366,32 @@ void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool com
         Lights.append(oneLight);
     }
 
-    propObject = {{"name", lvp->name}, {"state", lvp->s}, {"lights", Lights}};
+    propObject = {{"device", lvp->device}, {"name", lvp->name}, {"state", lvp->s}, {"lights", Lights}};
     if (!compact)
     {
         propObject.insert("label", lvp->label);
         propObject.insert("group", lvp->group);
+    }
+}
+
+void propertyToJson(INDI::Property *prop, QJsonObject &propObject, bool compact)
+{
+    switch (prop->getType())
+    {
+        case INDI_SWITCH:
+            propertyToJson(prop->getSwitch(), propObject, compact);
+            break;
+        case INDI_TEXT:
+            propertyToJson(prop->getText(), propObject, compact);
+            break;
+        case INDI_NUMBER:
+            propertyToJson(prop->getNumber(), propObject, compact);
+            break;
+        case INDI_LIGHT:
+            propertyToJson(prop->getLight(), propObject, compact);
+            break;
+        default:
+            break;
     }
 }
 }

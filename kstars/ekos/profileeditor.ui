@@ -91,7 +91,10 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>Load current site settings when Ekos is online. This option should only be used when connecting to a remote geographic site.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;Send current KStars geographical site settings to drivers once Ekos is online.&lt;/p&gt;
+&lt;p&gt;This option should only be used when connecting to a remote geographic site.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Site Info</string>
@@ -104,6 +107,9 @@
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="1" column="0">
          <widget class="QLabel" name="guidingTypeLabel">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Select which plug-in the Guider module should use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string>Guiding:</string>
           </property>
@@ -111,6 +117,13 @@
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="modeLabel">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;Connection mode to use for the INDI server:&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-weight:600&quot;&gt;Local&lt;/span&gt;&lt;br/&gt;Connect to a local INDI server, created when Ekos starts.&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-weight:600&quot;&gt;Remote&lt;/span&gt;&lt;br/&gt;Connect to a remote INDI server that is already running.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string>Mode:</string>
           </property>
@@ -124,6 +137,9 @@
           <property name="text">
            <string>Port:</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
         <item row="1" column="9">
@@ -133,6 +149,9 @@
           </property>
           <property name="text">
            <string>Port:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -151,6 +170,9 @@
           <property name="text">
            <string>Host:</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
         <item row="0" column="9">
@@ -160,6 +182,9 @@
           </property>
           <property name="text">
            <string>Port:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -175,7 +200,7 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>INDI Web Manager port</string>
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;INDI Web Manager port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>8624</string>
@@ -192,6 +217,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Remote INDI server host or address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string notr="true">localhost</string>
@@ -210,7 +238,7 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Remote INDI Server Port</string>
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Remote INDI Server Port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>7624</string>
@@ -228,6 +256,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;External guider host or address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string>localhost</string>
           </property>
@@ -236,7 +267,7 @@
         <item row="2" column="7">
          <widget class="QPushButton" name="indihubB">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Configure INDIHub&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Configure INDIHub.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>INDI Hub</string>
@@ -274,12 +305,15 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;External guider port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
          </widget>
         </item>
         <item row="2" column="8">
          <widget class="QPushButton" name="scanB">
           <property name="toolTip">
-           <string>Scan local network for INDI web managers.</string>
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Scan local network for INDI web managers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Scan</string>
@@ -303,6 +337,9 @@
           </property>
           <property name="text">
            <string>Host:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -337,7 +374,7 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.</string>
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>INDI Web Manager</string>
@@ -356,7 +393,7 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Open Web Manager in browser</string>
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Open Web Manager in browser.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Web Manager</string>
@@ -398,7 +435,7 @@
        </widget>
       </item>
       <item row="3" column="4">
-       <widget class="QLabel" name="label_17">
+       <widget class="QLabel" name="aux4Label">
         <property name="toolTip">
          <string>Auxiliary #4</string>
         </property>
@@ -415,7 +452,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="filterLabel">
         <property name="toolTip">
          <string>Filter Wheel</string>
         </property>
@@ -458,7 +495,7 @@
        </widget>
       </item>
       <item row="2" column="4">
-       <widget class="QLabel" name="label_15">
+       <widget class="QLabel" name="aux3Label">
         <property name="toolTip">
          <string>Auxiliary #3</string>
         </property>
@@ -507,7 +544,7 @@
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="weatherLabel">
         <property name="toolTip">
          <string>Weather Station</string>
         </property>
@@ -530,14 +567,17 @@
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="domeLabel">
+        <property name="toolTip">
+         <string>Dome Controller</string>
+        </property>
         <property name="text">
          <string>Dome:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLabel" name="label_12">
+       <widget class="QLabel" name="AOLabel">
         <property name="toolTip">
          <string>Adaptive Optics</string>
         </property>
@@ -587,7 +627,7 @@
        </widget>
       </item>
       <item row="0" column="4">
-       <widget class="QLabel" name="label_16">
+       <widget class="QLabel" name="aux1Label">
         <property name="toolTip">
          <string>Auxiliary #1</string>
         </property>
@@ -623,7 +663,7 @@
        </widget>
       </item>
       <item row="1" column="4">
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="aux2Label">
         <property name="toolTip">
          <string>Auxiliary #2</string>
         </property>
@@ -646,9 +686,9 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="remoteDriversLabel">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify Remote drivers to chain with INDI server. Remote INDI drivers must be already running. If port is different from the default (7624), then it must be specified. For example, to connect to ZWO ASI120MC driver running on 192.168.1.50 on port 8000, the connection string is:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;ZWO ASI120MC&amp;quot;@192.168.1.50:8000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add remote INDI drivers to chain with the local INDI server configured by this profile. Format this field as a comma-separated list of quoted driver name, host name/address and optional port:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;ZWO ASI120MC&amp;quot;@192.168.1.50:8000&lt;/span&gt;&lt;br/&gt;Connect to the named camera on 192.168.1.50, port 8000.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;EQMod Mount&amp;quot;@192.168.1.50&lt;/span&gt;&lt;br/&gt;Connect to the named mount on 192.168.1.50, port 7624.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;@192.168.1.50:8000&lt;/span&gt;&lt;br/&gt;Connect to all drivers found on 192.168.1.50, port 8000.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;@192.168.1.50&lt;/span&gt;&lt;br/&gt;Connect to all drivers found on 192.168.1.50, port 7624.&lt;/p&gt;&lt;p&gt;When omitted, host defaults to localhost and port defaults to 7624.&lt;br/&gt;Remote INDI drivers must be already running for the connection to succeed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Remote:</string>
@@ -658,7 +698,7 @@
       <item row="4" column="1" colspan="5">
        <widget class="QLineEdit" name="remoteDrivers">
         <property name="placeholderText">
-         <string>driver1@remotehost:port,driver2@remotehost:port</string>
+         <string>driver@host:port,driver@host,@host:port,@host,driver</string>
         </property>
        </widget>
       </item>
@@ -786,7 +826,6 @@
   <tabstop>loadSiteCheck</tabstop>
  </tabstops>
  <resources>
-  <include location="../data/kstars.qrc"/>
   <include location="../data/kstars.qrc"/>
  </resources>
  <connections/>

@@ -67,6 +67,8 @@ class ProfileEditor : public QDialog
         void showINDIHub();
 
     private:
+        void populateManufacturerCombo(QStandardItemModel *model, QComboBox *combo, const QString &selectedDriver, bool isLocal,
+                                       int family);
         QString getTooltip(DriverInfo *dv);
         void scanIP(const QString &ip);
         void clearAllRequests();
@@ -75,6 +77,9 @@ class ProfileEditor : public QDialog
         ProfileInfo *pi { nullptr };
         QList<OAL::Scope *> m_scopeList;
         QStandardItemModel *m_MountModel { nullptr };
+        QStandardItemModel *m_CameraModel { nullptr };
+        QStandardItemModel *m_GuiderModel { nullptr };
+        QStandardItemModel *m_FocuserModel { nullptr };
         uint8_t m_INDIHub { 0 };
 
         QPointer<QProgressDialog> m_ProgressDialog;

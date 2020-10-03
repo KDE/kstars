@@ -30,7 +30,8 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Message::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Message::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Message::onError);
+    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
+            &Message::onError);
 
 }
 
@@ -217,6 +218,8 @@ void Message::onTextReceived(const QString &message)
         processOptionsCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
+    else if (command.startsWith("fm_"))
+        processFilterManagerCommands(command, payload);
     else if (command.startsWith("device_"))
         processDeviceCommands(command, payload);
 }
@@ -280,7 +283,7 @@ void Message::sendCameras()
     }
 
     if (m_Manager->captureModule())
-        sendCaptureSettings(m_Manager->captureModule()->getSettings());
+        sendCaptureSettings(m_Manager->captureModule()->getPresetSettings());
 }
 
 void Message::sendMounts()
@@ -500,9 +503,9 @@ void Message::sendFilterWheels()
     sendResponse(commands[GET_FILTER_WHEELS], filterList);
 }
 
-void Message::setCaptureSettings(const QJsonObject &settings)
+void Message::setCapturePresetSettings(const QJsonObject &settings)
 {
-    m_Manager->captureModule()->setSettings(settings);
+    m_Manager->captureModule()->setPresetSettings(settings);
 }
 
 void Message::processCaptureCommands(const QString &command, const QJsonObject &payload)
@@ -511,18 +514,18 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 
     if (command == commands[CAPTURE_PREVIEW])
     {
-        setCaptureSettings(payload);
+        setCapturePresetSettings(payload);
         capture->captureOne();
     }
     else if (command == commands[CAPTURE_TOGGLE_CAMERA])
     {
         capture->setCamera(payload["camera"].toString());
-        sendCaptureSettings(capture->getSettings());
+        sendCaptureSettings(capture->getPresetSettings());
     }
     else if (command == commands[CAPTURE_TOGGLE_FILTER_WHEEL])
     {
         capture->setFilterWheel(payload["fw"].toString());
-        sendCaptureSettings(capture->getSettings());
+        sendCaptureSettings(capture->getPresetSettings());
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
@@ -541,12 +544,17 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_ADD_SEQUENCE])
     {
         // Set capture settings first
-        setCaptureSettings(payload);
+        setCapturePresetSettings(payload["preset"].toObject());
 
         // Then sequence settings
         capture->setCount(static_cast<uint16_t>(payload["count"].toInt()));
         capture->setDelay(static_cast<uint16_t>(payload["delay"].toInt()));
-        capture->setPrefix(payload["prefix"].toString());
+
+        // File Settings
+        m_Manager->captureModule()->setFileSettings(payload["file"].toObject());
+
+        // Calibration Settings
+        m_Manager->captureModule()->setCalibrationSettings(payload["calibration"].toObject());
 
         // Now add job
         capture->addJob();
@@ -554,6 +562,22 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
     {
         capture->removeJob(payload["index"].toInt());
+    }
+    else if (command == commands[CAPTURE_SET_LIMITS])
+    {
+        capture->setLimitSettings(payload);
+    }
+    else if (command == commands[CAPTURE_GET_LIMITS])
+    {
+        sendResponse(commands[CAPTURE_GET_LIMITS], capture->getLimitSettings());
+    }
+    else if (command == commands[CAPTURE_GET_CALIBRATION_SETTINGS])
+    {
+        sendResponse(commands[CAPTURE_GET_CALIBRATION_SETTINGS], capture->getCalibrationSettings());
+    }
+    else if (command == commands[CAPTURE_GET_FILE_SETTINGS])
+    {
+        sendResponse(commands[CAPTURE_GET_FILE_SETTINGS], capture->getFileSettings());
     }
 }
 
@@ -949,12 +973,14 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
 {
     if (command == commands[ADD_SCOPE])
     {
-        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
+        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
+                payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble());
     }
     else if (command == commands[UPDATE_SCOPE])
     {
-        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(), payload["driver"].toString(),
+        KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
+                payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble(), payload["id"].toString());
     }
     else if (command == commands[DELETE_SCOPE])
@@ -980,6 +1006,19 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
     }
 }
 
+void Message::processFilterManagerCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[FM_GET_DATA])
+    {
+        QJsonObject data = m_Manager->getFilterManager()->toJSON();
+        sendResponse(commands[FM_GET_DATA], data);
+    }
+    else if (command == commands[FM_SET_DATA])
+    {
+        m_Manager->getFilterManager()->setFilterData(payload);
+    }
+}
+
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {
     QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
@@ -998,12 +1037,13 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     {
         QJsonObject propObject;
         if (oneDevice->getJSONProperty(payload["property"].toString(), propObject, payload["compact"].toBool(true)))
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
     // Set specific property
     else if (command == commands[DEVICE_PROPERTY_SET])
     {
-        oneDevice->setJSONProperty(payload["property"].toString(), payload["value"].toArray());
+        oneDevice->setJSONProperty(payload["property"].toString(), payload["elements"].toArray());
     }
     // Return ALL properties
     else if (command == commands[DEVICE_GET])
@@ -1016,7 +1056,14 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
                 properties.append(singleProp);
         }
 
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", properties}}).toJson(QJsonDocument::Compact));
+        QJsonObject response =
+        {
+            {"device", device},
+            {"properties", properties}
+        };
+
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", response}}).toJson(
+            QJsonDocument::Compact));
     }
     // Subscribe to one or more properties
     // When subscribed, the updates are immediately pushed as soon as they are received.
@@ -1032,12 +1079,14 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
 
 void Message::requestDSLRInfo(const QString &cameraName)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(QJsonDocument::Compact));
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(
+        QJsonDocument::Compact));
 }
 
 void Message::sendDialog(const QJsonObject &message)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(QJsonDocument::Compact));
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(
+        QJsonDocument::Compact));
 }
 
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
@@ -1190,13 +1239,34 @@ void Message::processDialogResponse(const QJsonObject &payload)
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 
+void Message::processNewProperty(INDI::Property *prop)
+{
+    QJsonObject propObject;
+    ISD::propertyToJson(prop, propObject, false);
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_ADD]}, {"payload", propObject}}).toJson(
+        QJsonDocument::Compact));
+}
+
+void Message::processDeleteProperty(const QString &device, const QString &name)
+{
+    QJsonObject payload =
+    {
+        {"device", device},
+        {"name", name}
+    };
+
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_REMOVE]}, {"payload", payload}}).toJson(
+        QJsonDocument::Compact));
+}
+
 void Message::processNewNumber(INumberVectorProperty *nvp)
 {
     if (m_PropertySubscriptions.contains(nvp->name))
     {
         QJsonObject propObject;
         ISD::propertyToJson(nvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 
@@ -1206,7 +1276,8 @@ void Message::processNewText(ITextVectorProperty *tvp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(tvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 
@@ -1216,7 +1287,8 @@ void Message::processNewSwitch(ISwitchVectorProperty *svp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(svp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 
@@ -1226,7 +1298,8 @@ void Message::processNewLight(ILightVectorProperty *lvp)
     {
         QJsonObject propObject;
         ISD::propertyToJson(lvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(QJsonDocument::Compact));
+        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonDocument::Compact));
     }
 }
 

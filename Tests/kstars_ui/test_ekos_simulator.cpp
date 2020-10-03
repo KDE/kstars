@@ -25,29 +25,29 @@ void TestEkosSimulator::initTestCase()
 {
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
-    KTRY_EKOS_START_SIMULATORS();
-
-    // HACK: Reset clock to initial conditions
-    KHACK_RESET_EKOS_TIME();
 }
 
 void TestEkosSimulator::cleanupTestCase()
 {
-    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
-        if (d->isVisible())
-            d->hide();
-
-    KTRY_EKOS_STOP_SIMULATORS();
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
 
 void TestEkosSimulator::init()
 {
+    KTRY_EKOS_START_SIMULATORS();
+
+    // HACK: Reset clock to initial conditions
+    KHACK_RESET_EKOS_TIME();
 }
 
 void TestEkosSimulator::cleanup()
 {
+    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
+        if (d->isVisible())
+            d->hide();
+
+    KTRY_EKOS_STOP_SIMULATORS();
 }
 
 
@@ -144,19 +144,75 @@ void TestEkosSimulator::testMountSlew()
 
     QLineEdit * raOut = ekos->findChild<QLineEdit*>("raOUT");
     QVERIFY(raOut != nullptr);
-    QTRY_VERIFY_WITH_TIMEOUT(abs(clampRA(RA) - clampRA(raOut->text())) < 2, 15000);
+    QTRY_VERIFY_WITH_TIMEOUT(abs(clampRA(RA) - clampRA(raOut->text())) <= 2, 15000);
     QTest::qWait(100);
     if (clampRA(RA) != clampRA(raOut->text()))
-        QWARN(QString("Target '%1' slewed to with offset RA %2").arg(NAME).arg(abs(clampRA(RA) - clampRA(raOut->text()))).toStdString().c_str());
+        QWARN(QString("Target '%1', RA %2, slewed to RA %3 with offset RA %4")
+              .arg(NAME)
+              .arg(clampRA(RA))
+              .arg(clampRA(raOut->text()))
+              .arg(abs(clampRA(RA) - clampRA(raOut->text()))).toStdString().c_str());
 
     QLineEdit * deOut = Ekos::Manager::Instance()->findChild<QLineEdit*>("decOUT");
     QVERIFY(deOut != nullptr);
-    QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) < 2, 20000);
+    QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) <= 2, 20000);
     QTest::qWait(100);
     if (clampDE(DEC) != clampDE(deOut->text()))
-        QWARN(QString("Target '%1' slewed to with coordinate offset DEC %2").arg(NAME).arg(abs(clampDE(DEC) - clampDE(deOut->text()))).toStdString().c_str());
+        QWARN(QString("Target '%1', DEC %2, slewed to DEC %3 with coordinate offset DEC %4")
+              .arg(NAME)
+              .arg(clampDE(DEC))
+              .arg(clampDE(deOut->text()))
+              .arg(abs(clampDE(DEC) - clampDE(deOut->text()))).toStdString().c_str());
 
     QVERIFY(Ekos::Manager::Instance()->mountModule()->abort());
+#endif
+}
+
+void TestEkosSimulator::testColorSchemes_data()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+    QTest::addColumn<QString>("NAME");
+    QTest::addColumn<QString>("FILENAME");
+
+    QTest::addRow("Classic, friendly name") << "Default Colors" << "classic.colors";
+    QTest::addRow("Chart, friendly name") << "Star Chart" << "chart.colors",
+    QTest::addRow("Night, friendly name") << "Night Vision" << "night.colors",
+    QTest::addRow("Moonless, friendly name") << "Moonless Night" << "moonless-night.colors";
+
+    QTest::addRow("Classic, short name") << "classic" << "classic.colors";
+    QTest::addRow("Chart, short name") << "chart" << "chart.colors",
+    QTest::addRow("Night, short name") << "night" << "night.colors",
+    QTest::addRow("Moonless, short name") << "moonless-night" << "moonless-night.colors";
+
+    QTest::addRow("Classic, full name") << "classic.colors" << "classic.colors";
+    QTest::addRow("Chart, full name") << "chart.colors" << "chart.colors",
+    QTest::addRow("Night, full name") << "night.colors" << "night.colors",
+    QTest::addRow("Moonless, full name") << "moonless-night.colors" << "moonless-night.colors";
+#endif
+}
+
+void TestEkosSimulator::testColorSchemes()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+    QFETCH(QString, NAME);
+    QFETCH(QString, FILENAME);
+
+    KStars::Instance()->loadColorScheme(NAME);
+    QTRY_COMPARE_WITH_TIMEOUT(KStars::Instance()->colorScheme(), FILENAME, 1000);
+    QVERIFY(KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError").isValid());
+    QVERIFY(Ekos::Manager::Instance()->guideModule() != nullptr);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(0)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(1)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("DEGuideError"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(2)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(3)->pen().color(),
+                              KStars::Instance()->data()->colorScheme()->colorNamed("DEGuideError"), 1000);
 #endif
 }
 

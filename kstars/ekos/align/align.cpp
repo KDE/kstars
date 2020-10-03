@@ -622,25 +622,25 @@ void Align::handlePointTooltip(QMouseEvent *event)
             if (point < 0)
                 return;
             QToolTip::showText(event->globalPos(),
-                               tr("<table>"
-                                  "<tr>"
-                                  "<th colspan=\"2\">Object %L1: %L2</th>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>RA:</td><td>%L3</td>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>DE:</td><td>%L4</td>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>dRA:</td><td>%L5</td>"
-                                  "</tr>"
-                                  "<tr>"
-                                  "<td>dDE:</td><td>%L6</td>"
-                                  "</tr>"
-                                  "</table>")
-                               .arg(point + 1)
-                               .arg(solutionTable->item(point, 2)->text(),
+                               i18n("<table>"
+                                    "<tr>"
+                                    "<th colspan=\"2\">Object %1: %2</th>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>RA:</td><td>%3</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>DE:</td><td>%4</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dRA:</td><td>%5</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dDE:</td><td>%6</td>"
+                                    "</tr>"
+                                    "</table>",
+                                    point + 1,
+                                    solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
                                     solutionTable->item(point, 1)->text(),
                                     solutionTable->item(point, 4)->text(),
@@ -2057,6 +2057,52 @@ void Align::checkCCD(int ccdNum)
 
     syncCCDInfo();
 
+    QStringList isoList = targetChip->getISOList();
+    ISOCombo->clear();
+
+    if (isoList.isEmpty())
+    {
+        ISOCombo->setEnabled(false);
+    }
+    else
+    {
+        ISOCombo->setEnabled(true);
+        ISOCombo->addItems(isoList);
+        ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+    }
+
+    // Gain Check
+    if (currentCCD->hasGain())
+    {
+        double min, max, step, value;
+        currentCCD->getGainMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no gain value at all.
+        GainSpinSpecialValue = min - step;
+        GainSpin->setRange(GainSpinSpecialValue, max);
+        GainSpin->setSpecialValueText(i18n("--"));
+        GainSpin->setEnabled(true);
+        GainSpin->setSingleStep(step);
+        currentCCD->getGain(&value);
+
+        // Set the custom gain if we have one
+        // otherwise it will not have an effect.
+        if (TargetCustomGainValue > 0)
+            GainSpin->setValue(TargetCustomGainValue);
+        else
+            GainSpin->setValue(GainSpinSpecialValue);
+
+        GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+        connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
+        {
+            if (GainSpin->value() != GainSpinSpecialValue)
+                TargetCustomGainValue = GainSpin->value();
+        });
+    }
+    else
+        GainSpin->setEnabled(false);
+
     syncTelescopeInfo();
 }
 
@@ -2141,7 +2187,10 @@ void Align::removeDevice(ISD::GDInterface *device)
             CCDCaptureCombo->setCurrentIndex(-1);
         }
         else
+        {
+            currentCCD = CCDs[0];
             CCDCaptureCombo->setCurrentIndex(0);
+        }
 
         QTimer::singleShot(1000, this, [this]()
         {
@@ -2953,6 +3002,13 @@ bool Align::captureAndSolve()
 
     int bin = Options::solverBinningIndex() + 1;
     targetChip->setBinning(bin, bin);
+
+    // Set gain if applicable
+    if (currentCCD->hasGain() && GainSpin->value() != GainSpinSpecialValue)
+        currentCCD->setGain(GainSpin->value());
+    // Set ISO if applicable
+    if (ISOCombo->currentIndex() >= 0)
+        targetChip->setISOIndex(ISOCombo->currentIndex());
 
     // In case we're in refresh phase of the polar alignment helper then we use capture value from there
     if (pahStage == PAH_REFRESH)
@@ -6402,24 +6458,53 @@ QJsonObject Align::getSettings() const
     //settings.insert("solverBackend", solverBackendGroup->checkedId());
     //settings.insert("solverType", astrometryTypeCombo->currentIndex());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
+    settings.insert("gain", GainSpin->value());
+    settings.insert("iso", ISOCombo->currentIndex());
+    settings.insert("dark", alignDarkFrameCheck->isChecked());
 
     return settings;
 }
 
 void Align::setSettings(const QJsonObject &settings)
 {
-    CCDCaptureCombo->setCurrentText(settings["camera"].toString());
-    FilterDevicesCombo->setCurrentText(settings["fw"].toString());
-    FilterPosCombo->setCurrentText(settings["filter"].toString());
-    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
-    exposureIN->setValue(settings["exp"].toDouble(1));
-    binningCombo->setCurrentIndex(settings["bin"].toInt() - 1);
+    // Camera
+    const QString camera = settings["camera"].toString(CCDCaptureCombo->currentText());
+    if (camera != CCDCaptureCombo->currentText())
+        CCDCaptureCombo->setCurrentText(camera);
 
-    gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
+    // Filter Wheel
+    const QString fw = settings["fw"].toString(FilterDevicesCombo->currentText());
+    if (fw != FilterDevicesCombo->currentText())
+        FilterDevicesCombo->setCurrentText(fw);
+
+    // Filter
+    const QString filter = settings["filter"].toString(FilterPosCombo->currentText());
+    if (filter != FilterPosCombo->currentText())
+    {
+        FilterPosCombo->setCurrentText(filter);
+        Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
+    }
+
+    // Exposure
+    const double exposure = settings["exp"].toDouble(exposureIN->value());
+    if (exposure != exposureIN->value())
+        exposureIN->setValue(exposure);
+
 
     //int solverBackend = settings["solverBackend"].toInt(1);
     //int solverType = settings["solverType"].toInt(1);
 /**
+
+    // Binning
+    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
+    if (bin != binningCombo->currentIndex())
+        binningCombo->setCurrentIndex(bin);
+
+    gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
+    const int solverBackend = settings["solverBackend"].toInt(1);
+    const int solverType = settings["solverType"].toInt(1);
+
+
     if (solverBackend == SOLVER_ASTROMETRYNET)
     {
         Options::setAstrometrySolverType(solverType);
@@ -6431,7 +6516,39 @@ void Align::setSettings(const QJsonObject &settings)
         solverBackendGroup->button(SOLVER_ASTAP)->animateClick();
     }
     **/
+
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
+
+    // Gain
+    if (GainSpin->isEnabled())
+    {
+        const double gain = settings["gain"].toDouble(GainSpin->value());
+        if (gain != GainSpin->value())
+            GainSpin->setValue(gain);
+    }
+
+    // ISO
+    if (ISOCombo->isEnabled())
+    {
+        const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
+        if (iso != ISOCombo->currentIndex())
+            ISOCombo->setCurrentIndex(iso);
+    }
+
+    // Dark
+    const bool dark = settings["dark"].toBool(alignDarkFrameCheck->isChecked());
+    if (dark != alignDarkFrameCheck->isChecked())
+        alignDarkFrameCheck->setChecked(dark);
+
+    // Accuracy
+    const int accuracy = settings["accuracy"].toInt(accuracySpin->value());
+    if (accuracy != accuracySpin->value())
+        accuracySpin->setValue(accuracy);
+
+    // Settle
+    const int settle = settings["settle"].toInt(delaySpin->value());
+    if (settle != delaySpin->value())
+        delaySpin->setValue(settle);
 }
 
 void Align::syncSettings()

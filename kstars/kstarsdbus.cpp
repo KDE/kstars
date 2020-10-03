@@ -620,6 +620,11 @@ void KStars::setColor(const QString &name, const QString &value)
     }
 }
 
+QString KStars::colorScheme() const
+{
+    return data()->colorScheme()->fileName();
+}
+
 void KStars::loadColorScheme(const QString &name)
 {
     data()->colorScheme()->load(name);
@@ -685,17 +690,11 @@ void KStars::loadColorScheme(const QString &name)
     }
 #endif
 
-#ifdef HAVE_INDI
-    if (Ekos::Manager::Instance()->guideModule())
-    {
-        Ekos::Manager::Instance()->guideModule()->refreshColorScheme();
-    }
-#endif
-
     Options::setColorSchemeFile(name);
 
-    map()->forceUpdate();
+    emit colorSchemeChanged();
 
+    map()->forceUpdate();
 }
 
 void KStars::exportImage(const QString &url, int w, int h, bool includeLegend)

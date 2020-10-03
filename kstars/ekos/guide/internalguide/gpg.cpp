@@ -19,6 +19,13 @@
 namespace
 {
 
+// Don't have GPG model large errors. Instantaneous large errors are probably not due to
+// periodic error, but rather one-offs.
+constexpr double MAX_ARCSEC_ERROR = 5.0;
+
+// If we skip this many samples, reset gpg.
+constexpr int MAX_SKIPPED_SAMPLES = 4;
+  
 // Fills parameters from the KStars options.
 void getGPGParameters(GaussianProcessGuider::guide_parameters *parameters)
 {
@@ -40,8 +47,11 @@ void getGPGParameters(GaussianProcessGuider::guide_parameters *parameters)
 
 // Returns the SNR returned by guideStars, or if guideStars is null (e.g. we aren't
 // running SEP MultiStar, then just 50, as this isn't a critical parameter.
-double getSNR(const GuideStars *guideStars)
+double getSNR(const GuideStars *guideStars, const double raArcsecError)
 {
+    if (fabs(raArcsecError) > MAX_ARCSEC_ERROR)
+        return 1.0;
+
     // If no SEP MultiStar, just fudge the SNR. Won't be a big deal.
     if (guideStars == nullptr)
         return 50.0;
@@ -91,6 +101,7 @@ GPG::GPG()
 void GPG::reset()
 {
     gpgSamples = 0;
+    gpgSkippedSamples = 0;
     gpg->reset();
     qCDebug(KSTARS_EKOS_GUIDE) << "Resetting GPG";
 }
@@ -156,7 +167,7 @@ void GPG::suspended(const Vector &guideStarPosition,
 
     QTime gpgTimer;
     gpgTimer.restart();
-    const double gpgResult = gpg->result(gpgInput, getSNR(guideStars), Options::guideExposure());
+    const double gpgResult = gpg->result(gpgInput, getSNR(guideStars, gpgInput), Options::guideExposure());
     // Store the updated period length.
     std::vector<double> gpgParams = gpg->GetGPHyperparameters();
     Options::setGPGPeriod(gpgParams[PKPeriodLength]);
@@ -178,6 +189,21 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
     if (!Options::gPGEnabled())
         return false;
 
+    if (fabs(raArcsecError) > MAX_ARCSEC_ERROR)
+    {
+        if (++gpgSkippedSamples > MAX_SKIPPED_SAMPLES)
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "Resetting GPG because RA error = "
+                                       << raArcsecError;
+            reset();
+        }
+        else
+            qCDebug(KSTARS_EKOS_GUIDE) << "Skipping GPG because RA error = "
+                                       << raArcsecError;
+        return false;
+    }
+    gpgSkippedSamples = 0;
+
     // I want to start off the gpg on the right foot.
     // If the initial guiding is messed up by an early focus,
     // wait until RA has settled down.
@@ -192,7 +218,7 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
     // GPG input is in RA arcseconds.
     QTime gpgTimer;
     gpgTimer.restart();
-    const double gpgResult = gpg->result(raArcsecError, getSNR(guideStars), Options::guideExposure());
+    const double gpgResult = gpg->result(raArcsecError, getSNR(guideStars, raArcsecError), Options::guideExposure());
     const double gpgTime = gpgTimer.elapsed();
     gpgSamples++;
 

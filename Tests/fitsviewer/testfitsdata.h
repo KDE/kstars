@@ -16,33 +16,40 @@
 
 class TestFitsData : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestFitsData(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestFitsData(QObject *parent = nullptr);
 
-public:
-    QString const m_FitsFixture { "m47_sim_stars.fits" };
-    QString const m_FocusFixture1 { "ngc4535-autofocus1.fits" };
-    QString const m_FocusFixture2 { "ngc4535-autofocus2.fits" };
-    QString const m_FocusFixture3 { "ngc4535-autofocus3.fits" };
-    QString const m_BahtinovFixture { "bahtinov-focus.fits" };
-    FITSData * fd { nullptr };
+    private:
+        void initGenericDataFixture();
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testLoadFits();
-    void testCentroidAlgorithmBenchmark();
-    void testGradientAlgorithmBenchmark();
-    void testThresholdAlgorithmBenchmark();
-    void testSEPAlgorithmBenchmark();
-    void testFocusHFR();
-    void runFocusHFR(const QString &filename, int nstars, float hfr);
-    void testBahtinovFocusHFR();
+        void testLoadFits_data();
+        void testLoadFits();
+
+        void testCentroidAlgorithmBenchmark_data();
+        void testCentroidAlgorithmBenchmark();
+
+        void testGradientAlgorithmBenchmark_data();
+        void testGradientAlgorithmBenchmark();
+
+        void testThresholdAlgorithmBenchmark_data();
+        void testThresholdAlgorithmBenchmark();
+
+        void testSEPAlgorithmBenchmark_data();
+        void testSEPAlgorithmBenchmark();
+
+        void testComputeHFR_data();
+        void testComputeHFR();
+
+        void testBahtinovFocusHFR_data();
+        void testBahtinovFocusHFR();
 };
 
 #endif // TESTFITSDATA_H

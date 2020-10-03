@@ -57,6 +57,8 @@
 
 #include <KPlotting/KPlotAxis>
 #include <KPlotting/KPlotObject>
+#include <KMessageBox>
+#include <QMessageBox>
 
 #include <kstars_debug.h>
 
@@ -994,6 +996,7 @@ void ObservingList::slotSaveList()
     if (!f.open(QIODevice::WriteOnly))
     {
         qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
+        KMessageBox::error(this, i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.", f.fileName()), i18n("Could not save observing wishlist"));
         return;
     }
     QTextStream writeemall(&f);
@@ -1019,6 +1022,9 @@ void ObservingList::slotLoadWishList()
     addingObjectsProgress->setMaximum(0);
     addingObjectsProgress->setMinimum(0);
     addingObjectsProgress->show();
+
+    QStringList failedObjects;
+
     while (!istream.atEnd())
     {
         line = istream.readLine();
@@ -1041,12 +1047,26 @@ void ObservingList::slotLoadWishList()
             o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName(line);
         if (o)
             slotAddObject(o, false, true);
+        else
+            failedObjects.append(line);
+
         if (addingObjectsProgress->wasCanceled())
             break;
         qApp->processEvents();
     }
     delete (addingObjectsProgress);
     f.close();
+
+    if (!failedObjects.isEmpty())
+    {
+        QMessageBox msgBox = {QMessageBox::Icon::Warning,
+                                  i18np("Observing wishlist truncated: %1 object not found", "Observing wishlist truncated: %1 objects not found", failedObjects.size()),
+                                  i18np("%1 object could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup.", "%1 objects could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup.", failedObjects.size()),
+                                  QMessageBox::Ok,
+                                  this};
+        msgBox.setDetailedText(failedObjects.join("\n"));
+        msgBox.exec();
+    }
 }
 
 void ObservingList::slotSaveSession(bool nativeSave)

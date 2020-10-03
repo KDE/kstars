@@ -168,7 +168,7 @@ void Focus::checkCCD(int ccdNum)
             return;
     }
 
-    if (ccdNum >= 0 && ccdNum <= CCDs.count())
+    if (ccdNum >= 0 && ccdNum < CCDs.count())
     {
         currentCCD = CCDs.at(ccdNum);
 
@@ -1683,7 +1683,7 @@ void Focus::setCaptureComplete()
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
         QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
-        focusView->getImageData()->saveFITS(filename);
+        focusView->getImageData()->saveImage(filename);
     }
 
     // If we are not in autofocus process, we're done.
@@ -1877,8 +1877,9 @@ void Focus::autoFocusLinear()
 
     if (!canAbsMove && !canRelMove && canTimerMove)
     {
-        const bool kFixPosition = true;
-        if (kFixPosition && (linearRequestedPosition != currentPosition))
+        //const bool kFixPosition = true;
+        if (linearRequestedPosition != currentPosition)
+            //if (kFixPosition && (linearRequestedPosition != currentPosition))
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Linear: warning, changing position " << currentPosition << " to "
                                        << linearRequestedPosition;
@@ -2117,7 +2118,7 @@ void Focus::autoFocusAbs()
 
             {
                 // HFR increased, let's deal with it.
-                HFRInc++;
+                //HFRInc++;
                 HFRDec = 0;
 
                 // Reality Check: If it's first time, let's capture again and see if it changes.
@@ -2360,7 +2361,7 @@ void Focus::autoFocusRel()
             }
             else
             {
-                HFRInc++;
+                //HFRInc++;
 
                 lastHFR = currentHFR;
 
@@ -2655,7 +2656,7 @@ void Focus::appendFocusLogText(const QString &lines)
             if (m_FocusLogEnabled)
             {
                 QTextStream header(&m_FocusLogFile);
-                header << "date, time, position, temperature, filter, HFR\n";
+                header << "date, time, position, temperature, filter, HFR, altitude\n";
                 header.flush();
             }
             else
@@ -2992,14 +2993,15 @@ void Focus::setAutoFocusResult(bool status)
         // this will help with setting up focus offsets and temperature compensation
         qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position, " << currentPosition << ", temperature, "
                                   << lastFocusTemperature << ", filter, " << filter()
-                                  << ", HFR, " << currentHFR;
+                                  << ", HFR, " << currentHFR << ", altitude, " << mountAlt;
 
 
-        appendFocusLogText(QString("%1, %2, %3, %4\n")
+        appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
                            .arg(QString::number(currentPosition))
                            .arg(QString::number(lastFocusTemperature, 'f', 1))
                            .arg(filter())
-                           .arg(QString::number(currentHFR, 'f', 3)));
+                           .arg(QString::number(currentHFR, 'f', 3))
+                           .arg(QString::number(mountAlt, 'f', 1)));
     }
 
     // In case of failure, go back to last position if the focuser is absolute
@@ -3244,6 +3246,17 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
+void Focus::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
+                           int pierSide, const QString &ha)
+{
+    Q_UNUSED(ra);
+    Q_UNUSED(dec);
+    Q_UNUSED(az);
+    Q_UNUSED(pierSide);
+    Q_UNUSED(ha);
+    mountAlt = dms(alt, true).Degrees();
+}
+
 void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
 {
     // Check in Focusers
@@ -3258,7 +3271,6 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
                 checkFocuser();
                 resetButtons();
             });
-
         }
     }
 
@@ -3277,7 +3289,10 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
                 CCDCaptureCombo->setCurrentIndex(-1);
             }
             else
+            {
+                currentCCD = CCDs[0];
                 CCDCaptureCombo->setCurrentIndex(0);
+            }
 
             QTimer::singleShot(1000, this, [this]()
             {

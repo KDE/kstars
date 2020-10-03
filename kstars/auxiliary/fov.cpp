@@ -37,7 +37,7 @@
 #include <algorithm>
 
 QList<FOV *> FOVManager::m_FOVs;
-int FOV::m_ID=1;
+int FOV::m_ID = 1;
 
 FOVManager::~FOVManager()
 {
@@ -168,13 +168,14 @@ void FOVManager::releaseCache()
     m_FOVs.clear();
 }
 
-FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col, bool useLockedCP) : QObject()
+FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col,
+         bool useLockedCP) : QObject()
 {
     qRegisterMetaType<FOV::Shape>("FOV::Shape");
     qDBusRegisterMetaType<FOV::Shape>();
 
     new FovAdaptor(this);
-    QDBusConnection::sessionBus().registerObject(QString("/KStars/FOV/%1").arg(getID()) , this);
+    QDBusConnection::sessionBus().registerObject(QString("/KStars/FOV/%1").arg(getID()), this);
 
     m_name  = n;
     m_sizeX = a;
@@ -198,7 +199,7 @@ FOV::FOV() : QObject()
     qDBusRegisterMetaType<FOV::Shape>();
 
     new FovAdaptor(this);
-    QDBusConnection::sessionBus().registerObject(QString("/KStars/FOV/%1").arg(getID()) , this);
+    QDBusConnection::sessionBus().registerObject(QString("/KStars/FOV/%1").arg(getID()), this);
 
     m_name  = i18n("No FOV");
     m_color = "#FFFFFF";
@@ -216,8 +217,8 @@ FOV::FOV(const FOV &other) : QObject()
     m_sizeX  = other.m_sizeX;
     m_sizeY  = other.m_sizeY;
     m_shape  = other.m_shape;
-    m_offsetX= other.m_offsetX;
-    m_offsetY= other.m_offsetY;
+    m_offsetX = other.m_offsetX;
+    m_offsetY = other.m_offsetY;
     m_PA     = other.m_PA;
     m_imageDisplay = other.m_imageDisplay;
     m_lockCelestialPole = other.m_lockCelestialPole;
@@ -230,8 +231,8 @@ void FOV::sync(const FOV &other)
     m_sizeX  = other.m_sizeX;
     m_sizeY  = other.m_sizeY;
     m_shape  = other.m_shape;
-    m_offsetX= other.m_offsetX;
-    m_offsetY= other.m_offsetY;
+    m_offsetX = other.m_offsetX;
+    m_offsetY = other.m_offsetY;
     m_PA     = other.m_PA;
     m_imageDisplay = other.m_imageDisplay;
     m_lockCelestialPole = other.m_lockCelestialPole;
@@ -287,19 +288,26 @@ void FOV::draw(QPainter &p, float zoomFactor)
             p.drawLine(center.x() + pixelSizeX / 20, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 70,
                        center.y() - (0.7 * pixelSizeY));
 
-            int fontSize = pixelSizeX / 15;
-            if (fontSize <= 4)
-                break;
+            if (name().count() > 0)
+            {
+                int fontSize = pixelSizeX / 15;
+                fontSize *= 14.0 / name().count();
+                if (fontSize <= 4)
+                    break;
 
-            QFont font = p.font();
-            font.setPixelSize(fontSize);
-            p.setFont(font);
+                QFont font = p.font();
+                font.setPixelSize(fontSize);
+                p.setFont(font);
 
-            QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
-            p.drawText(nameRect, Qt::AlignCenter, name());
+                QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
+                               pixelSizeX / 10);
+                p.drawText(nameRect, Qt::AlignCenter, name());
 
-            QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
-            p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1), QString::number(m_sizeY, 'f', 1)));
+                QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
+                               pixelSizeX / 10);
+                p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1), QString::number(m_sizeY, 'f',
+                           1)));
+            }
         }
         break;
         case CIRCLE:
@@ -329,7 +337,8 @@ void FOV::draw(QPainter &p, float zoomFactor)
             p.setBrush(Qt::NoBrush);
             break;
         }
-        default:;
+        default:
+            ;
     }
 
     p.restore();
@@ -348,7 +357,8 @@ void FOV::draw(QPainter &p, float x, float y)
         case BULLSEYE:
             zoomFactor /= 8;
             break;
-        default:;
+        default:
+            ;
     }
     draw(p, zoomFactor);
 }
@@ -393,7 +403,7 @@ void FOV::setLockCelestialPole(bool lockCelestialPole)
     m_lockCelestialPole = lockCelestialPole;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const FOV::Shape& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const FOV::Shape &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);

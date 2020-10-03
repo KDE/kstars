@@ -100,13 +100,13 @@ Capture::Capture()
     filterManagerB->setIcon(QIcon::fromTheme("view-filter"));
     filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    FilterDevicesCombo->addItem("--");
+    filterWheelS->addItem("--");
 
-    connect(binXIN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), binYIN, &QSpinBox::setValue);
+    connect(captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), captureBinVN, &QSpinBox::setValue);
 
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+    connect(cameraS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultCCD);
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkCCD);
+    connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkCCD);
 
     connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Capture::toggleVideo);
 
@@ -115,17 +115,17 @@ Capture::Capture()
 
     connect(clearConfigurationB, &QPushButton::clicked, this, &Ekos::Capture::clearCameraConfiguration);
 
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+    connect(filterWheelS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultFilterWheel);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+    connect(filterWheelS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             &Ekos::Capture::checkFilter);
 
     connect(restartCameraB, &QPushButton::clicked, [this]()
     {
-        restartCamera(CCDCaptureCombo->currentText());
+        restartCamera(cameraS->currentText());
     });
 
-    connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
+    connect(cameraTemperatureS, &QCheckBox::toggled, [this](bool toggled)
     {
         if (currentCCD)
         {
@@ -137,7 +137,7 @@ Capture::Capture()
 
     connect(filterEditB, &QPushButton::clicked, this, &Ekos::Capture::editFilterName);
 
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    connect(captureFilterS, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [ = ]()
     {
         updateHFRThreshold();
@@ -151,7 +151,7 @@ Capture::Capture()
     connect(removeFromQueueB, &QPushButton::clicked, this, &Ekos::Capture::removeJobFromQueue);
     connect(queueUpB, &QPushButton::clicked, this, &Ekos::Capture::moveJobUp);
     connect(queueDownB, &QPushButton::clicked, this, &Ekos::Capture::moveJobDown);
-    connect(selectFITSDirB, &QPushButton::clicked, this, &Ekos::Capture::saveFITSDirectory);
+    connect(selectFileDirectoryB, &QPushButton::clicked, this, &Ekos::Capture::saveFITSDirectory);
     connect(queueSaveB, &QPushButton::clicked, this, static_cast<void(Ekos::Capture::*)()>(&Ekos::Capture::saveSequenceQueue));
     connect(queueSaveAsB, &QPushButton::clicked, this, &Ekos::Capture::saveSequenceQueueAs);
     connect(queueLoadB, &QPushButton::clicked, this, static_cast<void(Ekos::Capture::*)()>(&Ekos::Capture::loadSequenceQueue));
@@ -162,7 +162,7 @@ Capture::Capture()
     connect(setTemperatureB, &QPushButton::clicked, [&]()
     {
         if (currentCCD)
-            currentCCD->setTemperature(temperatureIN->value());
+            currentCCD->setTemperature(cameraTemperatureN->value());
     });
     connect(coolerOnB, &QPushButton::clicked, [&]()
     {
@@ -174,9 +174,9 @@ Capture::Capture()
         if (currentCCD)
             currentCCD->setCoolerControl(false);
     });
-    connect(temperatureIN, &QDoubleSpinBox::editingFinished, setTemperatureB,
+    connect(cameraTemperatureN, &QDoubleSpinBox::editingFinished, setTemperatureB,
             static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
-    connect(frameTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFrameType);
+    connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFrameType);
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Capture::resetFrame);
     connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
     connect(rotatorB, &QPushButton::clicked, rotatorSettings.get(), &Ekos::Capture::show);
@@ -189,9 +189,8 @@ Capture::Capture()
     queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueDownB->setIcon(QIcon::fromTheme("go-down"));
     queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectFITSDirB->setIcon(
-        QIcon::fromTheme("document-open-folder"));
-    selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    selectFileDirectoryB->setIcon(QIcon::fromTheme("document-open-folder"));
+    selectFileDirectoryB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueLoadB->setIcon(QIcon::fromTheme("document-open"));
     queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
@@ -210,7 +209,7 @@ Capture::Capture()
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 
-    fitsDir->setText(Options::fitsDir());
+    fileDirectoryT->setText(Options::fitsDir());
 
     for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -219,22 +218,22 @@ Capture::Capture()
     /// Settings
     ////////////////////////////////////////////////////////////////////////
     // #1 Guide Deviation Check
-    guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
-    connect(guideDeviationCheck, &QCheckBox::toggled, [ = ](bool checked)
+    limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
+    connect(limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceGuideDeviation(checked);
     });
 
     // #2 Guide Deviation Value
-    guideDeviation->setValue(Options::guideDeviation());
-    connect(guideDeviation, &QDoubleSpinBox::editingFinished, [ = ]()
+    limitGuideDeviationN->setValue(Options::guideDeviation());
+    connect(limitGuideDeviationN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setGuideDeviation(guideDeviation->value());
+        Options::setGuideDeviation(limitGuideDeviationN->value());
     });
 
     // 3. Autofocus HFR Check
-    autofocusCheck->setChecked(Options::enforceAutofocus());
-    connect(autofocusCheck, &QCheckBox::toggled, [ = ](bool checked)
+    limitFocusHFRS->setChecked(Options::enforceAutofocus());
+    connect(limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceAutofocus(checked);
         if (checked == false)
@@ -242,15 +241,15 @@ Capture::Capture()
     });
 
     // 4. Autofocus HFR Deviation
-    HFRPixels->setValue(Options::hFRDeviation());
-    connect(HFRPixels, &QDoubleSpinBox::editingFinished, [ = ]()
+    limitFocusHFRN->setValue(Options::hFRDeviation());
+    connect(limitFocusHFRN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setHFRDeviation(HFRPixels->value());
+        Options::setHFRDeviation(limitFocusHFRN->value());
     });
 
     // 5. Autofocus temperature Check
-    temperatureDeltaCheck->setChecked(Options::enforceAutofocusOnTemperature());
-    connect(temperatureDeltaCheck, &QCheckBox::toggled, [ = ](bool checked)
+    limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
+    connect(limitFocusDeltaTS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceAutofocusOnTemperature(checked);
         if (checked == false)
@@ -258,68 +257,68 @@ Capture::Capture()
     });
 
     // 6. Autofocus temperature Delta
-    temperatureDelta->setValue(Options::maxFocusTemperatureDelta());
-    connect(temperatureDelta, &QDoubleSpinBox::editingFinished, [ = ]()
+    limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
+    connect(limitFocusDeltaTN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setMaxFocusTemperatureDelta(temperatureDelta->value());
+        Options::setMaxFocusTemperatureDelta(limitFocusDeltaTN->value());
     });
 
     // 7. Refocus Every Check
-    refocusEveryNCheck->setChecked(Options::enforceRefocusEveryN());
-    connect(refocusEveryNCheck, &QCheckBox::toggled, [ = ](bool checked)
+    limitRefocusS->setChecked(Options::enforceRefocusEveryN());
+    connect(limitRefocusS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceRefocusEveryN(checked);
     });
 
     // 8. Refocus Every Value
-    refocusEveryN->setValue(static_cast<int>(Options::refocusEveryN()));
-    connect(refocusEveryN, &QDoubleSpinBox::editingFinished, [ = ]()
+    limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
+    connect(limitRefocusN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setRefocusEveryN(static_cast<uint>(refocusEveryN->value()));
+        Options::setRefocusEveryN(static_cast<uint>(limitRefocusN->value()));
     });
 
     // 9. File settings: filter name
-    filterCheck->setChecked(Options::fileSettingsUseFilter());
-    connect(filterCheck, &QCheckBox::toggled, [ = ](bool checked)
+    fileFilterS->setChecked(Options::fileSettingsUseFilter());
+    connect(fileFilterS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setFileSettingsUseFilter(checked);
     });
 
     // 10. File settings: duration
-    expDurationCheck->setChecked(Options::fileSettingsUseDuration());
-    connect(expDurationCheck, &QCheckBox::toggled, [ = ](bool checked)
+    fileDurationS->setChecked(Options::fileSettingsUseDuration());
+    connect(fileDurationS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setFileSettingsUseDuration(checked);
     });
 
     // 11. File settings: timestamp
-    ISOCheck->setChecked(Options::fileSettingsUseTimestamp());
-    connect(ISOCheck, &QCheckBox::toggled, [ = ](bool checked)
+    fileTimestampS->setChecked(Options::fileSettingsUseTimestamp());
+    connect(fileTimestampS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setFileSettingsUseTimestamp(checked);
     });
 
     QCheckBox * const checkBoxes[] =
     {
-        guideDeviationCheck,
-        refocusEveryNCheck,
-        guideDeviationCheck,
+        limitGuideDeviationS,
+        limitRefocusS,
+        limitGuideDeviationS,
     };
     for (const QCheckBox * control : checkBoxes)
         connect(control, &QCheckBox::toggled, this, &Ekos::Capture::setDirty);
 
     QDoubleSpinBox * const dspinBoxes[]
     {
-        HFRPixels,
-        temperatureDelta,
-        guideDeviation,
+        limitFocusHFRN,
+        limitFocusDeltaTN,
+        limitGuideDeviationN,
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
                 &Ekos::Capture::setDirty);
 
-    connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::setDirty);
-    connect(remoteDirIN, &QLineEdit::editingFinished, this, &Ekos::Capture::setDirty);
+    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::setDirty);
+    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, &Ekos::Capture::setDirty);
 
     m_ObserverName = Options::defaultObserver();
     observerB->setIcon(QIcon::fromTheme("im-user"));
@@ -335,10 +334,10 @@ Capture::Capture()
             this, &Ekos::Capture::postScriptFinished);
 
     // Remote directory
-    connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             [&](int index)
     {
-        remoteDirIN->setEnabled(index != 0);
+        fileRemoteDirT->setEnabled(index != 0);
     });
 
     customPropertiesDialog.reset(new CustomProperties());
@@ -350,11 +349,11 @@ Capture::Capture()
     connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, [&]()
     {
         const double newGain = getGain();
-        if (GainSpin && newGain >= 0)
-            GainSpin->setValue(newGain);
+        if (captureGainN && newGain >= 0)
+            captureGainN->setValue(newGain);
         const int newOffset = getOffset();
         if (newOffset >= 0)
-            OffsetSpin->setValue(newOffset);
+            captureOffsetN->setValue(newOffset);
     });
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
@@ -364,24 +363,24 @@ Capture::Capture()
     targetADU = Options::calibrationADUValue();
     targetADUTolerance = Options::calibrationADUValueTolerance();
 
-    fitsDir->setText(Options::captureDirectory());
-    connect(fitsDir, &QLineEdit::textChanged, [&]()
+    fileDirectoryT->setText(Options::captureDirectory());
+    connect(fileDirectoryT, &QLineEdit::textChanged, [&]()
     {
-        Options::setCaptureDirectory(fitsDir->text());
+        Options::setCaptureDirectory(fileDirectoryT->text());
     });
 
     if (Options::remoteCaptureDirectory().isEmpty() == false)
     {
-        remoteDirIN->setText(Options::remoteCaptureDirectory());
+        fileRemoteDirT->setText(Options::remoteCaptureDirectory());
     }
-    connect(remoteDirIN, &QLineEdit::editingFinished, [&]()
+    connect(fileRemoteDirT, &QLineEdit::editingFinished, [&]()
     {
-        Options::setRemoteCaptureDirectory(remoteDirIN->text());
+        Options::setRemoteCaptureDirectory(fileRemoteDirT->text());
     });
 
     // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
     connect(
-        transferFormatCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+        captureFormatS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
         [&](uint index)
     {
         if (currentCCD)
@@ -430,23 +429,23 @@ void Capture::addCCD(ISD::GDInterface * newCCD)
 
     CCDs.append(ccd);
 
-    CCDCaptureCombo->addItem(ccd->getDeviceName());
+    cameraS->addItem(ccd->getDeviceName());
 
     if (Filters.count() > 0)
         syncFilterInfo();
 
     checkCCD();
 
-    emit settingsUpdated(getSettings());
+    emit settingsUpdated(getPresetSettings());
 }
 
 void Capture::addGuideHead(ISD::GDInterface * newCCD)
 {
     QString guiderName = newCCD->getDeviceName() + QString(" Guider");
 
-    if (CCDCaptureCombo->findText(guiderName) == -1)
+    if (cameraS->findText(guiderName) == -1)
     {
-        CCDCaptureCombo->addItem(guiderName);
+        cameraS->addItem(guiderName);
         CCDs.append(static_cast<ISD::CCD *>(newCCD));
     }
 }
@@ -459,7 +458,7 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
             return;
     }
 
-    FilterDevicesCombo->addItem(newFilter->getDeviceName());
+    filterWheelS->addItem(newFilter->getDeviceName());
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
 
@@ -467,15 +466,15 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
 
     int filterWheelIndex = 1;
     if (Options::defaultCaptureFilterWheel().isEmpty() == false)
-        filterWheelIndex = FilterDevicesCombo->findText(Options::defaultCaptureFilterWheel());
+        filterWheelIndex = filterWheelS->findText(Options::defaultCaptureFilterWheel());
 
     if (filterWheelIndex < 1)
         filterWheelIndex = 1;
 
     checkFilter(filterWheelIndex);
-    FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
+    filterWheelS->setCurrentIndex(filterWheelIndex);
 
-    emit settingsUpdated(getSettings());
+    emit settingsUpdated(getPresetSettings());
 }
 
 void Capture::pause()
@@ -644,11 +643,11 @@ void Capture::start()
 
     setBusy(true);
 
-    if (guideDeviationCheck->isChecked() && autoGuideReady == false)
+    if (limitGuideDeviationS->isChecked() && autoGuideReady == false)
         appendLogText(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
-    if (autofocusCheck->isChecked() && m_AutoFocusReady == false)
+    if (limitFocusHFRS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
-    if (temperatureDeltaCheck->isChecked() && m_AutoFocusReady == false)
+    if (limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
     prepareJob(first_job);
 }
@@ -756,7 +755,7 @@ void Capture::stop(CaptureState targetState)
     disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
-    currentCCD->setFITSDir("");
+    currentCCD->setFITSDir(QString());
 
     // In case of exposure looping, let's abort
     if (currentCCD->isLooping())
@@ -807,10 +806,10 @@ void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
 
 bool Capture::setCamera(const QString &device)
 {
-    for (int i = 0; i < CCDCaptureCombo->count(); i++)
-        if (device == CCDCaptureCombo->itemText(i))
+    for (int i = 0; i < cameraS->count(); i++)
+        if (device == cameraS->itemText(i))
         {
-            CCDCaptureCombo->setCurrentIndex(i);
+            cameraS->setCurrentIndex(i);
             checkCCD(i);
             return true;
         }
@@ -830,7 +829,7 @@ void Capture::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
     {
-        ccdNum = CCDCaptureCombo->currentIndex();
+        ccdNum = cameraS->currentIndex();
 
         if (ccdNum == -1)
             return;
@@ -841,7 +840,7 @@ void Capture::checkCCD(int ccdNum)
         // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
 
-        if (CCDCaptureCombo->itemText(ccdNum).right(6) == QString("Guider"))
+        if (cameraS->itemText(ccdNum).right(6) == QString("Guider"))
         {
             useGuideHead = true;
             targetChip   = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
@@ -887,44 +886,44 @@ void Capture::checkCCD(int ccdNum)
 
         if (currentCCD->hasCooler())
         {
-            temperatureCheck->setEnabled(true);
-            temperatureIN->setEnabled(true);
+            cameraTemperatureS->setEnabled(true);
+            cameraTemperatureN->setEnabled(true);
 
             if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
             {
                 double min, max, step;
                 setTemperatureB->setEnabled(true);
-                temperatureIN->setReadOnly(false);
-                temperatureCheck->setEnabled(true);
+                cameraTemperatureN->setReadOnly(false);
+                cameraTemperatureS->setEnabled(true);
                 currentCCD->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
-                temperatureIN->setMinimum(min);
-                temperatureIN->setMaximum(max);
-                temperatureIN->setSingleStep(1);
+                cameraTemperatureN->setMinimum(min);
+                cameraTemperatureN->setMaximum(max);
+                cameraTemperatureN->setSingleStep(1);
                 bool isChecked = currentCCD->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(currentCCD->getDeviceName()),
                                  false).toBool();
-                temperatureCheck->setChecked(isChecked);
+                cameraTemperatureS->setChecked(isChecked);
             }
             else
             {
                 setTemperatureB->setEnabled(false);
-                temperatureIN->setReadOnly(true);
-                temperatureCheck->setEnabled(false);
-                temperatureCheck->setChecked(false);
+                cameraTemperatureN->setReadOnly(true);
+                cameraTemperatureS->setEnabled(false);
+                cameraTemperatureS->setChecked(false);
             }
 
             double temperature = 0;
             if (currentCCD->getTemperature(&temperature))
             {
                 temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
-                if (temperatureIN->cleanText().isEmpty())
-                    temperatureIN->setValue(temperature);
+                if (cameraTemperatureN->cleanText().isEmpty())
+                    cameraTemperatureN->setValue(temperature);
             }
         }
         else
         {
-            temperatureCheck->setEnabled(false);
-            temperatureIN->setEnabled(false);
-            temperatureIN->clear();
+            cameraTemperatureS->setEnabled(false);
+            cameraTemperatureN->setEnabled(false);
+            cameraTemperatureN->clear();
             temperatureOUT->clear();
             setTemperatureB->setEnabled(false);
         }
@@ -933,42 +932,42 @@ void Capture::checkCCD(int ccdNum)
 
         QStringList frameTypes = targetChip->getFrameTypes();
 
-        frameTypeCombo->clear();
+        captureTypeS->clear();
 
         if (frameTypes.isEmpty())
-            frameTypeCombo->setEnabled(false);
+            captureTypeS->setEnabled(false);
         else
         {
-            frameTypeCombo->setEnabled(true);
-            frameTypeCombo->addItems(frameTypes);
-            frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
+            captureTypeS->setEnabled(true);
+            captureTypeS->addItems(frameTypes);
+            captureTypeS->setCurrentIndex(targetChip->getFrameType());
         }
 
         QStringList isoList = targetChip->getISOList();
-        ISOCombo->clear();
+        captureISOS->clear();
 
-        transferFormatCombo->blockSignals(true);
-        transferFormatCombo->clear();
+        captureFormatS->blockSignals(true);
+        captureFormatS->clear();
 
         if (isoList.isEmpty())
         {
             // Only one transfer format
-            transferFormatCombo->addItem(i18n("FITS"));
-            ISOCombo->setEnabled(false);
+            captureFormatS->addItem(i18n("FITS"));
+            captureISOS->setEnabled(false);
         }
         else
         {
-            ISOCombo->setEnabled(true);
-            ISOCombo->addItems(isoList);
-            ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+            captureISOS->setEnabled(true);
+            captureISOS->addItems(isoList);
+            captureISOS->setCurrentIndex(targetChip->getISOIndex());
 
             // DSLRs have two transfer formats
-            transferFormatCombo->addItem(i18n("FITS"));
-            transferFormatCombo->addItem(i18n("Native"));
+            captureFormatS->addItem(i18n("FITS"));
+            captureFormatS->addItem(i18n("Native"));
 
-            //transferFormatCombo->setCurrentIndex(currentCCD->getTargetTransferFormat());
+            //captureFormatS->setCurrentIndex(currentCCD->getTargetTransferFormat());
             // 2018-05-07 JM: Set value to the value in options
-            transferFormatCombo->setCurrentIndex(static_cast<int>(Options::captureFormatIndex()));
+            captureFormatS->setCurrentIndex(static_cast<int>(Options::captureFormatIndex()));
 
             uint16_t w, h;
             uint8_t bbp {8};
@@ -993,7 +992,7 @@ void Capture::checkCCD(int ccdNum)
             }
         }
 
-        transferFormatCombo->blockSignals(false);
+        captureFormatS->blockSignals(false);
 
         // Gain Check
         if (currentCCD->hasGain())
@@ -1003,10 +1002,10 @@ void Capture::checkCCD(int ccdNum)
 
             // Allow the possibility of no gain value at all.
             GainSpinSpecialValue = min - step;
-            GainSpin->setRange(GainSpinSpecialValue, max);
-            GainSpin->setSpecialValueText(i18n("--"));
-            GainSpin->setEnabled(true);
-            GainSpin->setSingleStep(step);
+            captureGainN->setRange(GainSpinSpecialValue, max);
+            captureGainN->setSpecialValueText(i18n("--"));
+            captureGainN->setEnabled(true);
+            captureGainN->setSingleStep(step);
             currentCCD->getGain(&value);
 
             targetCustomGain = getGain();
@@ -1014,20 +1013,20 @@ void Capture::checkCCD(int ccdNum)
             // Set the custom gain if we have one
             // otherwise it will not have an effect.
             if (targetCustomGain > 0)
-                GainSpin->setValue(targetCustomGain);
+                captureGainN->setValue(targetCustomGain);
             else
-                GainSpin->setValue(GainSpinSpecialValue);
+                captureGainN->setValue(GainSpinSpecialValue);
 
-            GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+            captureGainN->setReadOnly(currentCCD->getGainPermission() == IP_RO);
 
-            connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
+            connect(captureGainN, &QDoubleSpinBox::editingFinished, [this]()
             {
-                if (GainSpin->value() != GainSpinSpecialValue)
-                    setGain(GainSpin->value());
+                if (captureGainN->value() != GainSpinSpecialValue)
+                    setGain(captureGainN->value());
             });
         }
         else
-            GainSpin->setEnabled(false);
+            captureGainN->setEnabled(false);
 
         // Offset checks
         if (currentCCD->hasOffset())
@@ -1037,10 +1036,10 @@ void Capture::checkCCD(int ccdNum)
 
             // Allow the possibility of no Offset value at all.
             OffsetSpinSpecialValue = min - step;
-            OffsetSpin->setRange(OffsetSpinSpecialValue, max);
-            OffsetSpin->setSpecialValueText(i18n("--"));
-            OffsetSpin->setEnabled(true);
-            OffsetSpin->setSingleStep(step);
+            captureOffsetN->setRange(OffsetSpinSpecialValue, max);
+            captureOffsetN->setSpecialValueText(i18n("--"));
+            captureOffsetN->setEnabled(true);
+            captureOffsetN->setSingleStep(step);
             currentCCD->getOffset(&value);
 
             targetCustomOffset = getOffset();
@@ -1048,20 +1047,20 @@ void Capture::checkCCD(int ccdNum)
             // Set the custom Offset if we have one
             // otherwise it will not have an effect.
             if (targetCustomOffset > 0)
-                OffsetSpin->setValue(targetCustomOffset);
+                captureOffsetN->setValue(targetCustomOffset);
             else
-                OffsetSpin->setValue(OffsetSpinSpecialValue);
+                captureOffsetN->setValue(OffsetSpinSpecialValue);
 
-            OffsetSpin->setReadOnly(currentCCD->getOffsetPermission() == IP_RO);
+            captureOffsetN->setReadOnly(currentCCD->getOffsetPermission() == IP_RO);
 
-            connect(OffsetSpin, &QDoubleSpinBox::editingFinished, [this]()
+            connect(captureOffsetN, &QDoubleSpinBox::editingFinished, [this]()
             {
-                if (OffsetSpin->value() != OffsetSpinSpecialValue)
-                    setOffset(OffsetSpin->value());
+                if (captureOffsetN->value() != OffsetSpinSpecialValue)
+                    setOffset(captureOffsetN->value());
             });
         }
         else
-            OffsetSpin->setEnabled(false);
+            captureOffsetN->setEnabled(false);
 
         customPropertiesDialog->setCCD(currentCCD);
 
@@ -1095,21 +1094,21 @@ void Capture::setGuideChip(ISD::CCDChip * chip)
 
 void Capture::resetFrameToZero()
 {
-    frameXIN->setMinimum(0);
-    frameXIN->setMaximum(0);
-    frameXIN->setValue(0);
+    captureFrameXN->setMinimum(0);
+    captureFrameXN->setMaximum(0);
+    captureFrameXN->setValue(0);
 
-    frameYIN->setMinimum(0);
-    frameYIN->setMaximum(0);
-    frameYIN->setValue(0);
+    captureFrameYN->setMinimum(0);
+    captureFrameYN->setMaximum(0);
+    captureFrameYN->setValue(0);
 
-    frameWIN->setMinimum(0);
-    frameWIN->setMaximum(0);
-    frameWIN->setValue(0);
+    captureFrameWN->setMinimum(0);
+    captureFrameWN->setMaximum(0);
+    captureFrameWN->setValue(0);
 
-    frameHIN->setMinimum(0);
-    frameHIN->setMaximum(0);
-    frameHIN->setValue(0);
+    captureFrameHN->setMinimum(0);
+    captureFrameHN->setMaximum(0);
+    captureFrameHN->setValue(0);
 }
 
 void Capture::updateFrameProperties(int reset)
@@ -1124,13 +1123,13 @@ void Capture::updateFrameProperties(int reset)
     targetChip =
         useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-    frameWIN->setEnabled(targetChip->canSubframe());
-    frameHIN->setEnabled(targetChip->canSubframe());
-    frameXIN->setEnabled(targetChip->canSubframe());
-    frameYIN->setEnabled(targetChip->canSubframe());
+    captureFrameWN->setEnabled(targetChip->canSubframe());
+    captureFrameHN->setEnabled(targetChip->canSubframe());
+    captureFrameXN->setEnabled(targetChip->canSubframe());
+    captureFrameYN->setEnabled(targetChip->canSubframe());
 
-    binXIN->setEnabled(targetChip->canBin());
-    binYIN->setEnabled(targetChip->canBin());
+    captureBinHN->setEnabled(targetChip->canBin());
+    captureBinVN->setEnabled(targetChip->canBin());
 
     QList<double> exposureValues;
     exposureValues << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.25 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 5 << 6 << 7 << 8 << 9 <<
@@ -1139,9 +1138,9 @@ void Capture::updateFrameProperties(int reset)
     if (currentCCD->getMinMaxStep(exposureProp, exposureElem, &min, &max, &step))
     {
         if (min < 0.001)
-            exposureIN->setDecimals(6);
+            captureExposureN->setDecimals(6);
         else
-            exposureIN->setDecimals(3);
+            captureExposureN->setDecimals(3);
         for(int i = 0; i < exposureValues.count(); i++)
         {
             double value = exposureValues.at(i);
@@ -1156,7 +1155,7 @@ void Capture::updateFrameProperties(int reset)
         exposureValues.append(max);
     }
 
-    exposureIN->setRecommendedValues(exposureValues);
+    captureExposureN->setRecommendedValues(exposureValues);
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
@@ -1173,9 +1172,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            frameWIN->setMinimum(static_cast<int>(min));
-            frameWIN->setMaximum(static_cast<int>(max));
-            frameWIN->setSingleStep(xstep);
+            captureFrameWN->setMinimum(static_cast<int>(min));
+            captureFrameWN->setMaximum(static_cast<int>(max));
+            captureFrameWN->setSingleStep(xstep);
         }
     }
     else
@@ -1196,9 +1195,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            frameHIN->setMinimum(static_cast<int>(min));
-            frameHIN->setMaximum(static_cast<int>(max));
-            frameHIN->setSingleStep(ystep);
+            captureFrameHN->setMinimum(static_cast<int>(min));
+            captureFrameHN->setMaximum(static_cast<int>(max));
+            captureFrameHN->setSingleStep(ystep);
         }
     }
     else
@@ -1217,9 +1216,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            frameXIN->setMinimum(static_cast<int>(min));
-            frameXIN->setMaximum(static_cast<int>(max));
-            frameXIN->setSingleStep(static_cast<int>(step));
+            captureFrameXN->setMinimum(static_cast<int>(min));
+            captureFrameXN->setMaximum(static_cast<int>(max));
+            captureFrameXN->setSingleStep(static_cast<int>(step));
         }
     }
     else
@@ -1238,9 +1237,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            frameYIN->setMinimum(static_cast<int>(min));
-            frameYIN->setMaximum(static_cast<int>(max));
-            frameYIN->setSingleStep(static_cast<int>(step));
+            captureFrameYN->setMinimum(static_cast<int>(min));
+            captureFrameYN->setMaximum(static_cast<int>(max));
+            captureFrameYN->setSingleStep(static_cast<int>(step));
         }
     }
     else
@@ -1256,8 +1255,8 @@ void Capture::updateFrameProperties(int reset)
 
         settings["x"]    = 0;
         settings["y"]    = 0;
-        settings["w"]    = frameWIN->maximum();
-        settings["h"]    = frameHIN->maximum();
+        settings["w"]    = captureFrameWN->maximum();
+        settings["h"]    = captureFrameHN->maximum();
         settings["binx"] = 1;
         settings["biny"] = 1;
 
@@ -1274,10 +1273,10 @@ void Capture::updateFrameProperties(int reset)
         h = settings["h"].toInt();
 
         // Bound them
-        x = qBound(frameXIN->minimum(), x, frameXIN->maximum() - 1);
-        y = qBound(frameYIN->minimum(), y, frameYIN->maximum() - 1);
-        w = qBound(frameWIN->minimum(), w, frameWIN->maximum());
-        h = qBound(frameHIN->minimum(), h, frameHIN->maximum());
+        x = qBound(captureFrameXN->minimum(), x, captureFrameXN->maximum() - 1);
+        y = qBound(captureFrameYN->minimum(), y, captureFrameYN->maximum() - 1);
+        w = qBound(captureFrameWN->minimum(), w, captureFrameWN->maximum());
+        h = qBound(captureFrameHN->minimum(), h, captureFrameHN->maximum());
 
         settings["x"] = x;
         settings["y"] = y;
@@ -1298,26 +1297,26 @@ void Capture::updateFrameProperties(int reset)
         if (targetChip->canBin())
         {
             targetChip->getMaxBin(&binx, &biny);
-            binXIN->setMaximum(binx);
-            binYIN->setMaximum(biny);
+            captureBinHN->setMaximum(binx);
+            captureBinVN->setMaximum(biny);
 
-            binXIN->setValue(settings["binx"].toInt());
-            binYIN->setValue(settings["biny"].toInt());
+            captureBinHN->setValue(settings["binx"].toInt());
+            captureBinVN->setValue(settings["biny"].toInt());
         }
         else
         {
-            binXIN->setValue(1);
-            binYIN->setValue(1);
+            captureBinHN->setValue(1);
+            captureBinVN->setValue(1);
         }
 
         if (x >= 0)
-            frameXIN->setValue(x);
+            captureFrameXN->setValue(x);
         if (y >= 0)
-            frameYIN->setValue(y);
+            captureFrameYN->setValue(y);
         if (w > 0)
-            frameWIN->setValue(w);
+            captureFrameWN->setValue(w);
         if (h > 0)
-            frameHIN->setValue(h);
+            captureFrameHN->setValue(h);
     }
 }
 
@@ -1344,22 +1343,22 @@ void Capture::resetFrame()
 
 void Capture::syncFrameType(ISD::GDInterface * ccd)
 {
-    if (ccd->getDeviceName() != CCDCaptureCombo->currentText().toLatin1())
+    if (ccd->getDeviceName() != cameraS->currentText().toLatin1())
         return;
 
     ISD::CCDChip * tChip = (static_cast<ISD::CCD *>(ccd))->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     QStringList frameTypes = tChip->getFrameTypes();
 
-    frameTypeCombo->clear();
+    captureTypeS->clear();
 
     if (frameTypes.isEmpty())
-        frameTypeCombo->setEnabled(false);
+        captureTypeS->setEnabled(false);
     else
     {
-        frameTypeCombo->setEnabled(true);
-        frameTypeCombo->addItems(frameTypes);
-        frameTypeCombo->setCurrentIndex(tChip->getFrameType());
+        captureTypeS->setEnabled(true);
+        captureTypeS->addItems(frameTypes);
+        captureTypeS->setCurrentIndex(tChip->getFrameType());
     }
 }
 
@@ -1367,15 +1366,15 @@ bool Capture::setFilterWheel(const QString &device)
 {
     bool deviceFound = false;
 
-    for (int i = 0; i < FilterDevicesCombo->count(); i++)
-        if (device == FilterDevicesCombo->itemText(i))
+    for (int i = 0; i < filterWheelS->count(); i++)
+        if (device == filterWheelS->itemText(i))
         {
             // Check Combo if it was set to something else.
-            if (FilterDevicesCombo->currentIndex() != i)
+            if (filterWheelS->currentIndex() != i)
             {
-                FilterDevicesCombo->blockSignals(true);
-                FilterDevicesCombo->setCurrentIndex(i);
-                FilterDevicesCombo->blockSignals(false);
+                filterWheelS->blockSignals(true);
+                filterWheelS->setCurrentIndex(i);
+                filterWheelS->blockSignals(false);
             }
 
             checkFilter(i);
@@ -1391,17 +1390,17 @@ bool Capture::setFilterWheel(const QString &device)
 
 QString Capture::filterWheel()
 {
-    if (FilterDevicesCombo->currentIndex() >= 1)
-        return FilterDevicesCombo->currentText();
+    if (filterWheelS->currentIndex() >= 1)
+        return filterWheelS->currentText();
 
     return QString();
 }
 
 bool Capture::setFilter(const QString &filter)
 {
-    if (FilterDevicesCombo->currentIndex() >= 1)
+    if (filterWheelS->currentIndex() >= 1)
     {
-        FilterPosCombo->setCurrentText(filter);
+        captureFilterS->setCurrentText(filter);
         return true;
     }
 
@@ -1410,14 +1409,14 @@ bool Capture::setFilter(const QString &filter)
 
 QString Capture::filter()
 {
-    return FilterPosCombo->currentText();
+    return captureFilterS->currentText();
 }
 
 void Capture::checkFilter(int filterNum)
 {
     if (filterNum == -1)
     {
-        filterNum = FilterDevicesCombo->currentIndex();
+        filterNum = filterWheelS->currentIndex();
         if (filterNum == -1)
             return;
     }
@@ -1428,7 +1427,7 @@ void Capture::checkFilter(int filterNum)
         currentFilter = nullptr;
         m_CurrentFilterPosition = -1;
         filterEditB->setEnabled(false);
-        FilterPosCombo->clear();
+        captureFilterS->clear();
         syncFilterInfo();
         return;
     }
@@ -1440,15 +1439,15 @@ void Capture::checkFilter(int filterNum)
 
     syncFilterInfo();
 
-    FilterPosCombo->clear();
+    captureFilterS->clear();
 
-    FilterPosCombo->addItems(filterManager->getFilterLabels());
+    captureFilterS->addItems(filterManager->getFilterLabels());
 
     m_CurrentFilterPosition = filterManager->getFilterPosition();
 
     filterEditB->setEnabled(m_CurrentFilterPosition > 0);
 
-    FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
+    captureFilterS->setCurrentIndex(m_CurrentFilterPosition - 1);
 
 
     /*if (activeJob &&
@@ -1946,7 +1945,7 @@ IPState Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure.
     else
     {
-        isTemperatureDeltaCheckActive = (m_AutoFocusReady && temperatureDeltaCheck->isChecked());
+        isTemperatureDeltaCheckActive = (m_AutoFocusReady && limitFocusDeltaTS->isChecked());
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
         if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
@@ -1987,15 +1986,15 @@ bool Capture::startFocusIfRequired()
         return false;
 
     isRefocus = false;
-    isInSequenceFocus = (m_AutoFocusReady && autofocusCheck->isChecked());
+    isInSequenceFocus = (m_AutoFocusReady && limitFocusHFRS->isChecked());
 
     // check if time for forced refocus
-    if (refocusEveryNCheck->isChecked())
+    if (limitRefocusS->isChecked())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() <<
-                                     ". Requested Interval (secs): " << refocusEveryN->value() * 60;
+                                     ". Requested Interval (secs): " << limitRefocusN->value() * 60;
 
-        if (getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value() * 60)
+        if (getRefocusEveryNTimerElapsedSec() >= limitRefocusN->value() * 60)
         {
             isRefocus = true;
             appendLogText(i18n("Scheduled refocus starting after %1 seconds...", getRefocusEveryNTimerElapsedSec()));
@@ -2005,9 +2004,9 @@ bool Capture::startFocusIfRequired()
     if (!isRefocus && isTemperatureDeltaCheckActive)
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " << focusTemperatureDelta <<
-                                     ". Requested maximum delta (°C): " << temperatureDelta->value();
+                                     ". Requested maximum delta (°C): " << limitFocusDeltaTN->value();
 
-        if (focusTemperatureDelta > temperatureDelta->value())
+        if (focusTemperatureDelta > limitFocusDeltaTN->value())
         {
             isRefocus = true;
             appendLogText(i18n("Refocus starting because of temperature change of %1 °C...", focusTemperatureDelta));
@@ -2023,7 +2022,7 @@ bool Capture::startFocusIfRequired()
             targetChip->abortExposure();
 
         // If we are over 30 mins since last autofocus, we'll reset frame.
-        if (refocusEveryN->value() >= 30)
+        if (limitRefocusN->value() >= 30)
             emit resetFocus();
 
         // force refocus
@@ -2057,7 +2056,7 @@ bool Capture::startFocusIfRequired()
             targetChip->abortExposure();
 
         setFocusStatus(FOCUS_PROGRESS);
-        emit checkFocus(HFRPixels->value() == 0.0 ? 0.1 : HFRPixels->value());
+        emit checkFocus(limitFocusHFRN->value() == 0.0 ? 0.1 : limitFocusHFRN->value());
 
         qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
         m_State = CAPTURE_FOCUSING;
@@ -2072,14 +2071,14 @@ void Capture::captureOne()
 {
 
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    /*if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
+    /*if (fileUploadModeS->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
     {
         appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local or both. Please change "
                            "upload mode to client and try again."));
         return;
     }*/
 
-    if (transferFormatCombo->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+    if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     {
         appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
         return;
@@ -2456,7 +2455,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
 
 void Capture::updateCCDTemperature(double value)
 {
-    if (temperatureCheck->isEnabled() == false)
+    if (cameraTemperatureS->isEnabled() == false)
     {
         if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
             checkCCD();
@@ -2464,8 +2463,8 @@ void Capture::updateCCDTemperature(double value)
 
     temperatureOUT->setText(QString("%L1").arg(value, 0, 'f', 2));
 
-    if (temperatureIN->cleanText().isEmpty())
-        temperatureIN->setValue(value);
+    if (cameraTemperatureN->cleanText().isEmpty())
+        cameraTemperatureN->setValue(value);
 
     //if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
     if (activeJob)
@@ -2499,13 +2498,13 @@ bool Capture::addJob(bool preview)
         return false;
     }
 
-    if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT && remoteDirIN->text().isEmpty())
+    if (fileUploadModeS->currentIndex() != ISD::CCD::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
     {
         KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
         return false;
     }
 
-    if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_LOCAL && fitsDir->text().isEmpty())
+    if (fileUploadModeS->currentIndex() != ISD::CCD::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
     {
         KSNotification::error(i18n("You must set local directory for Client & Both modes."));
         return false;
@@ -2525,8 +2524,8 @@ bool Capture::addJob(bool preview)
         return false;
     }
 
-    if (ISOCombo)
-        job->setISOIndex(ISOCombo->currentIndex());
+    if (captureISOS)
+        job->setISOIndex(captureISOS->currentIndex());
 
     if (getGain() >= 0)
         job->setGain(getGain());
@@ -2534,23 +2533,23 @@ bool Capture::addJob(bool preview)
     if (getOffset() >= 0)
         job->setOffset(getOffset());
 
-    job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
+    job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(captureFormatS->currentIndex()));
 
     job->setPreview(preview);
 
-    if (temperatureIN->isEnabled())
+    if (cameraTemperatureN->isEnabled())
     {
         double currentTemperature;
         currentCCD->getTemperature(&currentTemperature);
-        job->setEnforceTemperature(temperatureCheck->isChecked());
-        job->setTargetTemperature(temperatureIN->value());
+        job->setEnforceTemperature(cameraTemperatureS->isChecked());
+        job->setTargetTemperature(cameraTemperatureN->value());
         job->setCurrentTemperature(currentTemperature);
     }
 
     job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
-    job->setUploadMode(static_cast<ISD::CCD::UploadMode>(uploadModeCombo->currentIndex()));
-    job->setPostCaptureScript(postCaptureScriptIN->text());
+    job->setUploadMode(static_cast<ISD::CCD::UploadMode>(fileUploadModeS->currentIndex()));
+    job->setPostCaptureScript(fileScriptT->text());
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
     job->setPreMountPark(preMountPark);
@@ -2559,35 +2558,35 @@ bool Capture::addJob(bool preview)
     job->setTargetADU(targetADU);
     job->setTargetADUTolerance(targetADUTolerance);
 
-    imagePrefix = prefixIN->text();
+    imagePrefix = filePrefixT->text();
 
     // JM 2019-11-26: In case there is no raw prefix set
     // BUT target name is set, we update the prefix to include
     // the target name, which is usually set by the scheduler.
     if (imagePrefix.isEmpty() && !m_TargetName.isEmpty())
     {
-        prefixIN->setText(m_TargetName);
+        filePrefixT->setText(m_TargetName);
         imagePrefix = m_TargetName;
     }
 
     constructPrefix(imagePrefix);
 
-    job->setPrefixSettings(prefixIN->text(), filterCheck->isChecked(), expDurationCheck->isChecked(),
-                           ISOCheck->isChecked());
-    job->setFrameType(static_cast<CCDFrameType>(frameTypeCombo->currentIndex()));
+    job->setPrefixSettings(filePrefixT->text(), fileFilterS->isChecked(), fileDurationS->isChecked(),
+                           fileTimestampS->isChecked());
+    job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
     job->setFullPrefix(imagePrefix);
 
     //if (filterSlot != nullptr && currentFilter != nullptr)
-    if (FilterPosCombo->currentIndex() != -1 && currentFilter != nullptr)
-        job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
+    if (captureFilterS->currentIndex() != -1 && currentFilter != nullptr)
+        job->setTargetFilter(captureFilterS->currentIndex() + 1, captureFilterS->currentText());
 
-    job->setExposure(exposureIN->value());
+    job->setExposure(captureExposureN->value());
 
-    job->setCount(countIN->value());
+    job->setCount(captureCountN->value());
 
-    job->setBin(binXIN->value(), binYIN->value());
+    job->setBin(captureBinHN->value(), captureBinVN->value());
 
-    job->setDelay(delayIN->value() * 1000); /* in ms */
+    job->setDelay(captureDelayN->value() * 1000); /* in ms */
 
     job->setActiveChip(targetChip);
     job->setActiveCCD(currentCCD);
@@ -2603,9 +2602,9 @@ bool Capture::addJob(bool preview)
         job->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
     }
 
-    job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
-    job->setRemoteDir(remoteDirIN->text());
-    job->setLocalDir(fitsDir->text());
+    job->setFrame(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(), captureFrameHN->value());
+    job->setRemoteDir(fileRemoteDirT->text());
+    job->setLocalDir(fileDirectoryT->text());
 
     if (m_JobUnderEdit == false)
     {
@@ -2627,9 +2626,9 @@ bool Capture::addJob(bool preview)
 
     /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
     if (m_TargetName.isEmpty())
-        directoryPostfix = QLatin1String("/") + frameTypeCombo->currentText();
+        directoryPostfix = QLatin1String("/") + captureTypeS->currentText();
     else
-        directoryPostfix = QLatin1String("/") + m_TargetName + QLatin1String("/") + frameTypeCombo->currentText();
+        directoryPostfix = QLatin1String("/") + m_TargetName + QLatin1String("/") + captureTypeS->currentText();
     if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) &&  job->getFilterName().isEmpty() == false)
         directoryPostfix += QLatin1String("/") + job->getFilterName();
 
@@ -2650,46 +2649,46 @@ bool Capture::addJob(bool preview)
     QTableWidgetItem * filter = m_JobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
     jsonJob.insert("Filter", "--");
-    /*if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
-            FilterPosCombo->count() > 0)*/
-    if (FilterPosCombo->count() > 0 &&
-            (frameTypeCombo->currentIndex() == FRAME_LIGHT || frameTypeCombo->currentIndex() == FRAME_FLAT))
+    /*if (captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&
+            captureTypeS->currentText().compare("Dark", Qt::CaseInsensitive) &&
+            captureFilterS->count() > 0)*/
+    if (captureFilterS->count() > 0 &&
+            (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT))
     {
-        filter->setText(FilterPosCombo->currentText());
-        jsonJob.insert("Filter", FilterPosCombo->currentText());
+        filter->setText(captureFilterS->currentText());
+        jsonJob.insert("Filter", captureFilterS->currentText());
     }
 
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
-    type->setText(frameTypeCombo->currentText());
+    type->setText(captureTypeS->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Type", type->text());
 
     QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
-    bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
+    bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Bin", bin->text());
 
     QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
-    exp->setText(QString("%L1").arg(exposureIN->value(), 0, 'f', exposureIN->decimals()));
+    exp->setText(QString("%L1").arg(captureExposureN->value(), 0, 'f', captureExposureN->decimals()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Exp", exp->text());
 
     QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
-    if (ISOCombo && ISOCombo->currentIndex() != -1)
+    if (captureISOS && captureISOS->currentIndex() != -1)
     {
-        iso->setText(ISOCombo->currentText());
+        iso->setText(captureISOS->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (GainSpin->value() >= 0 && std::fabs(GainSpin->value() - GainSpinSpecialValue) > 0)
+    else if (captureGainN->value() >= 0 && std::fabs(captureGainN->value() - GainSpinSpecialValue) > 0)
     {
-        iso->setText(GainSpin->cleanText());
+        iso->setText(captureGainN->cleanText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
     else
@@ -2701,9 +2700,9 @@ bool Capture::addJob(bool preview)
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
-    if (OffsetSpin->value() >= 0 && std::fabs(OffsetSpin->value() - OffsetSpinSpecialValue) > 0)
+    if (captureOffsetN->value() >= 0 && std::fabs(captureOffsetN->value() - OffsetSpinSpecialValue) > 0)
     {
-        offset->setText(OffsetSpin->cleanText());
+        offset->setText(captureOffsetN->cleanText());
         jsonJob.insert("Offset", offset->text());
     }
     else
@@ -3343,7 +3342,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         double deviation_rms = std::hypot(delta_ra, delta_dec);
         // If the user didn't select any guiding deviation, we fall through
         // otherwise we can for deviation RMS
-        if (guideDeviationCheck->isChecked() == false || deviation_rms < guideDeviation->value())
+        if (limitGuideDeviationS->isChecked() == false || deviation_rms < limitGuideDeviationN->value())
         {
             appendLogText(i18n("Post meridian flip calibration completed successfully."));
             // N.B. Set meridian flip stage AFTER resumeSequence() always
@@ -3353,7 +3352,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview()
+    if (limitGuideDeviationS->isChecked() == false || (activeJob && (activeJob->isPreview()
             || activeJob->getExposeLeft() == 0.0)))
         return;
 
@@ -3365,7 +3364,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     // And we accounted for the spike
     if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
     {
-        if (deviation_rms > guideDeviation->value())
+        if (deviation_rms > limitGuideDeviationN->value())
         {
             // Ignore spikes ONCE
             if (m_SpikeDetected == false)
@@ -3376,7 +3375,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, "
                                "suspending exposure and waiting for guider up to %3 seconds.",
-                               deviationText, guideDeviation->value(),
+                               deviationText, limitGuideDeviationN->value(),
                                QString("%L1").arg(guideDeviationTimer.interval() / 1000.0, 0, 'f', 3)));
 
             suspend();
@@ -3407,24 +3406,24 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     if (abortedJob && m_DeviationDetected)
     {
-        if (deviation_rms <= guideDeviation->value())
+        if (deviation_rms <= limitGuideDeviationN->value())
         {
             guideDeviationTimer.stop();
 
             if (seqDelay == 0)
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
                                    "resuming exposure.",
-                                   deviationText, guideDeviation->value()));
+                                   deviationText, limitGuideDeviationN->value()));
             else
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
                                    "resuming exposure in %3 seconds.",
-                                   deviationText, guideDeviation->value(), seqDelay / 1000.0));
+                                   deviationText, limitGuideDeviationN->value(), seqDelay / 1000.0));
 
             QTimer::singleShot(seqDelay, this, &Ekos::Capture::start);
             return;
         }
         else appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
-                                    deviationText, guideDeviation->value()));
+                                    deviationText, limitGuideDeviationN->value()));
     }
 }
 
@@ -3441,7 +3440,7 @@ void Capture::setFocusStatus(FocusState state)
         // enable option to have a refocus event occur if HFR goes over threshold
         m_AutoFocusReady = true;
 
-        //if (HFRPixels->value() == 0.0 && fileHFR == 0.0)
+        //if (limitFocusHFRN->value() == 0.0 && fileHFR == 0.0)
         if (fileHFR == 0.0)
         {
             QList<double> filterHFRList;
@@ -3451,7 +3450,7 @@ void Capture::setFocusStatus(FocusState state)
                 // We check if filter lock is used, and store that instead of the current filter.
                 // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
                 // If no lock filter exists, then we store as is (HA)
-                QString currentFilterText = FilterPosCombo->itemText(m_CurrentFilterPosition - 1);
+                QString currentFilterText = captureFilterS->itemText(m_CurrentFilterPosition - 1);
                 //QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
                 //QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
 
@@ -3476,7 +3475,7 @@ void Capture::setFocusStatus(FocusState state)
 
             // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
             // in case in-sequence-focusing is used.
-            HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
+            limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
         }
 
         // successful focus so reset elapsed time
@@ -3521,13 +3520,13 @@ void Capture::updateHFRThreshold()
         return;
 
     QList<double> filterHFRList;
-    if (FilterPosCombo->currentIndex() != -1)
+    if (captureFilterS->currentIndex() != -1)
     {
         // If we are using filters, then we retrieve which filter is currently active.
         // We check if filter lock is used, and store that instead of the current filter.
         // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
         // If no lock filter exists, then we store as is (HA)
-        QString currentFilterText = FilterPosCombo->currentText();
+        QString currentFilterText = captureFilterS->currentText();
         QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
         QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
 
@@ -3541,7 +3540,7 @@ void Capture::updateHFRThreshold()
 
     if (filterHFRList.empty())
     {
-        HFRPixels->setValue(Options::hFRDeviation());
+        limitFocusHFRN->setValue(Options::hFRDeviation());
         return;
     }
 
@@ -3554,7 +3553,7 @@ void Capture::updateHFRThreshold()
 
     // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
     // in case in-sequence-focusing is used.
-    HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
+    limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
 
 void Capture::setMeridianFlipStage(MFStage stage)
@@ -3620,7 +3619,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                 {
                     qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
                     //firstAutoFocus = true;
-                    HFRPixels->setValue(fileHFR);
+                    limitFocusHFRN->setValue(fileHFR);
                 }
 
                 // after a meridian flip we do not need to dither
@@ -3738,7 +3737,7 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
                         .replace( QRegularExpression("_{2,}"), "_")
                         // Remove any _ at the end
                         .replace( QRegularExpression("_$"), "");
-            prefixIN->setText(sanitized);
+            filePrefixT->setText(sanitized);
         }
     });
 
@@ -3774,7 +3773,7 @@ void Capture::saveFITSDirectory()
     if (dir.isEmpty())
         return;
 
-    fitsDir->setText(dir);
+    fileDirectoryT->setText(dir);
 }
 
 void Capture::loadSequenceQueue()
@@ -3841,31 +3840,31 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                 {
-                    guideDeviationCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    guideDeviation->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                    limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
                 {
-                    autofocusCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    limitFocusHFRS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     double const HFRValue = cLocale.toDouble(pcdataXMLEle(ep));
                     // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
                     // Note that HFR value will only be serialized to XML when option "Save Sequence HFR to File" is enabled
                     fileHFR = HFRValue > 0.0 ? HFRValue : 0.0;
-                    HFRPixels->setValue(fileHFR);
+                    limitFocusHFRN->setValue(fileHFR);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusOnTemperatureDelta"))
                 {
-                    temperatureDeltaCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    limitFocusDeltaTS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     double const deltaValue = cLocale.toDouble(pcdataXMLEle(ep));
-                    temperatureDelta->setValue(deltaValue);
+                    limitFocusDeltaTN->setValue(deltaValue);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
                 {
-                    refocusEveryNCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
                     // Set the refocus period from XML, or reset it to zero, don't let another unrelated older refocus period be used.
                     refocusEveryNMinutesValue = minutesValue > 0 ? minutesValue : 0;
-                    refocusEveryN->setValue(refocusEveryNMinutesValue);
+                    limitRefocusN->setValue(refocusEveryNMinutesValue);
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
@@ -3877,13 +3876,13 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else if (!strcmp(tagXMLEle(ep), "CCD"))
                 {
-                    CCDCaptureCombo->setCurrentText(pcdataXMLEle(ep));
+                    cameraS->setCurrentText(pcdataXMLEle(ep));
                     // Signal "activated" of QComboBox does not fire when changing the text programmatically
                     setCamera(pcdataXMLEle(ep));
                 }
                 else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
                 {
-                    FilterDevicesCombo->setCurrentText(pcdataXMLEle(ep));
+                    filterWheelS->setCurrentText(pcdataXMLEle(ep));
                     checkFilter();
                 }
                 else
@@ -3921,98 +3920,98 @@ bool Capture::processJobInfo(XMLEle * root)
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
-            exposureIN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+            captureExposureN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
         else if (!strcmp(tagXMLEle(ep), "Binning"))
         {
             subEP = findXMLEle(ep, "X");
             if (subEP)
-                binXIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                captureBinHN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "Y");
             if (subEP)
-                binYIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                captureBinVN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Frame"))
         {
             subEP = findXMLEle(ep, "X");
             if (subEP)
-                frameXIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                captureFrameXN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "Y");
             if (subEP)
-                frameYIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                captureFrameYN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "W");
             if (subEP)
-                frameWIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                captureFrameWN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "H");
             if (subEP)
-                frameHIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
+                captureFrameHN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Temperature"))
         {
-            if (temperatureIN->isEnabled())
-                temperatureIN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+            if (cameraTemperatureN->isEnabled())
+                cameraTemperatureN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
 
-            // If force attribute exist, we change temperatureCheck, otherwise do nothing.
+            // If force attribute exist, we change cameraTemperatureS, otherwise do nothing.
             if (!strcmp(findXMLAttValu(ep, "force"), "true"))
-                temperatureCheck->setChecked(true);
+                cameraTemperatureS->setChecked(true);
             else if (!strcmp(findXMLAttValu(ep, "force"), "false"))
-                temperatureCheck->setChecked(false);
+                cameraTemperatureS->setChecked(false);
         }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
-            //FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
-            FilterPosCombo->setCurrentText(pcdataXMLEle(ep));
+            //captureFilterS->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
+            captureFilterS->setCurrentText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
-            frameTypeCombo->setCurrentText(pcdataXMLEle(ep));
+            captureTypeS->setCurrentText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
-                prefixIN->setText(pcdataXMLEle(subEP));
+                filePrefixT->setText(pcdataXMLEle(subEP));
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
-                filterCheck->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
+                fileFilterS->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "ExpEnabled");
             if (subEP)
-                expDurationCheck->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
+                fileDurationS->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "TimeStampEnabled");
             if (subEP)
-                ISOCheck->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
+                fileTimestampS->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
-            countIN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
+            captureCountN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Delay"))
         {
-            delayIN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
+            captureDelayN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
         {
-            postCaptureScriptIN->setText(pcdataXMLEle(ep));
+            fileScriptT->setText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
-            fitsDir->setText(pcdataXMLEle(ep));
+            fileDirectoryT->setText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
-            remoteDirIN->setText(pcdataXMLEle(ep));
+            fileRemoteDirT->setText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
-            uploadModeCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
+            fileUploadModeS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
-            if (ISOCombo)
-                ISOCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
+            if (captureISOS)
+                captureISOS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
         {
-            transferFormatCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
+            captureFormatS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation"))
         {
@@ -4040,10 +4039,10 @@ bool Capture::processJobInfo(XMLEle * root)
             customPropertiesDialog->setCustomProperties(propertyMap);
             const double gain = getGain();
             if (gain >= 0)
-                GainSpin->setValue(gain);
+                captureGainN->setValue(gain);
             const double offset = getOffset();
             if (offset >= 0)
-                OffsetSpin->setValue(offset);
+                captureOffsetN->setValue(offset);
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -4215,21 +4214,21 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << endl;
     if (m_ObserverName.isEmpty() == false)
         outstream << "<Observer>" << m_ObserverName << "</Observer>" << endl;
-    outstream << "<CCD>" << CCDCaptureCombo->currentText() << "</CCD>" << endl;
-    outstream << "<FilterWheel>" << FilterDevicesCombo->currentText() << "</FilterWheel>" << endl;
-    outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(guideDeviation->value()) << "</GuideDeviation>" << endl;
+    outstream << "<CCD>" << cameraS->currentText() << "</CCD>" << endl;
+    outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << endl;
+    outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
-    if (autofocusCheck->isChecked() && !Options::saveHFRToFile())
+    if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
                           "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to File\" is not enabled. "
                           "Current HFR value will not be written to sequence file."));
-    outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(Options::saveHFRToFile() ? HFRPixels->value() : 0) << "</Autofocus>" << endl;
-    outstream << "<RefocusOnTemperatureDelta enabled='" << (temperatureDeltaCheck->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(temperatureDelta->value()) << "</RefocusOnTemperatureDelta>" << endl;
-    outstream << "<RefocusEveryN enabled='" << (refocusEveryNCheck->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(refocusEveryN->value()) << "</RefocusEveryN>" << endl;
+    outstream << "<Autofocus enabled='" << (limitFocusHFRS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(Options::saveHFRToFile() ? limitFocusHFRN->value() : 0) << "</Autofocus>" << endl;
+    outstream << "<RefocusOnTemperatureDelta enabled='" << (limitFocusDeltaTS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
+    outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
     foreach (SequenceJob * job, jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
@@ -4385,31 +4384,31 @@ void Capture::syncGUIToJob(SequenceJob * job)
 
     job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
-    exposureIN->setValue(job->getExposure());
-    binXIN->setValue(job->getXBin());
-    binYIN->setValue(job->getYBin());
-    frameXIN->setValue(job->getSubX());
-    frameYIN->setValue(job->getSubY());
-    frameWIN->setValue(job->getSubW());
-    frameHIN->setValue(job->getSubH());
-    FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
-    frameTypeCombo->setCurrentIndex(job->getFrameType());
-    prefixIN->setText(rawPrefix);
-    filterCheck->setChecked(filterEnabled);
-    expDurationCheck->setChecked(expEnabled);
-    ISOCheck->setChecked(tsEnabled);
-    countIN->setValue(job->getCount());
-    delayIN->setValue(job->getDelay() / 1000);
-    postCaptureScriptIN->setText(job->getPostCaptureScript());
-    uploadModeCombo->setCurrentIndex(job->getUploadMode());
-    remoteDirIN->setEnabled(uploadModeCombo->currentIndex() != 0);
-    remoteDirIN->setText(job->getRemoteDir());
-    fitsDir->setText(job->getLocalDir());
+    captureExposureN->setValue(job->getExposure());
+    captureBinHN->setValue(job->getXBin());
+    captureBinVN->setValue(job->getYBin());
+    captureFrameXN->setValue(job->getSubX());
+    captureFrameYN->setValue(job->getSubY());
+    captureFrameWN->setValue(job->getSubW());
+    captureFrameHN->setValue(job->getSubH());
+    captureFilterS->setCurrentIndex(job->getTargetFilter() - 1);
+    captureTypeS->setCurrentIndex(job->getFrameType());
+    filePrefixT->setText(rawPrefix);
+    fileFilterS->setChecked(filterEnabled);
+    fileDurationS->setChecked(expEnabled);
+    fileTimestampS->setChecked(tsEnabled);
+    captureCountN->setValue(job->getCount());
+    captureDelayN->setValue(job->getDelay() / 1000);
+    fileScriptT->setText(job->getPostCaptureScript());
+    fileUploadModeS->setCurrentIndex(job->getUploadMode());
+    fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
+    fileRemoteDirT->setText(job->getRemoteDir());
+    fileDirectoryT->setText(job->getLocalDir());
 
     // Temperature Options
-    temperatureCheck->setChecked(job->getEnforceTemperature());
+    cameraTemperatureS->setChecked(job->getEnforceTemperature());
     if (job->getEnforceTemperature())
-        temperatureIN->setValue(job->getTargetTemperature());
+        cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -4424,22 +4423,22 @@ void Capture::syncGUIToJob(SequenceJob * job)
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
 
-    if (ISOCombo)
-        ISOCombo->setCurrentIndex(job->getISOIndex());
+    if (captureISOS)
+        captureISOS->setCurrentIndex(job->getISOIndex());
 
     double gain = getGain();
     if (gain >= 0)
-        GainSpin->setValue(gain);
+        captureGainN->setValue(gain);
     else
-        GainSpin->setValue(GainSpinSpecialValue);
+        captureGainN->setValue(GainSpinSpecialValue);
 
     double offset = getOffset();
     if (offset >= 0)
-        OffsetSpin->setValue(offset);
+        captureOffsetN->setValue(offset);
     else
-        OffsetSpin->setValue(OffsetSpinSpecialValue);
+        captureOffsetN->setValue(OffsetSpinSpecialValue);
 
-    transferFormatCombo->setCurrentIndex(job->getTransforFormat());
+    captureFormatS->setCurrentIndex(job->getTransforFormat());
 
     if (job->getTargetRotation() != Ekos::INVALID_VALUE)
     {
@@ -4449,44 +4448,44 @@ void Capture::syncGUIToJob(SequenceJob * job)
     else
         rotatorSettings->setRotationEnforced(false);
 
-    emit settingsUpdated(getSettings());
+    emit settingsUpdated(getPresetSettings());
 }
 
-QJsonObject Capture::getSettings()
+QJsonObject Capture::getPresetSettings()
 {
     QJsonObject settings;
 
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (GainSpin->value() != GainSpinSpecialValue)
-        gain = GainSpin->value();
+    if (captureGainN->value() != GainSpinSpecialValue)
+        gain = captureGainN->value();
     else if (currentCCD && currentCCD->hasGain())
         currentCCD->getGain(&gain);
 
     double offset = -1;
-    if (OffsetSpin->value() != OffsetSpinSpecialValue)
-        offset = OffsetSpin->value();
+    if (captureOffsetN->value() != OffsetSpinSpecialValue)
+        offset = captureOffsetN->value();
     else if (currentCCD && currentCCD->hasOffset())
         currentCCD->getOffset(&offset);
 
     int iso = -1;
-    if (ISOCombo)
-        iso = ISOCombo->currentIndex();
+    if (captureISOS)
+        iso = captureISOS->currentIndex();
     else if (currentCCD)
         iso = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex();
 
-    settings.insert("camera", CCDCaptureCombo->currentText());
-    settings.insert("fw", FilterDevicesCombo->currentText());
-    settings.insert("filter", FilterPosCombo->currentText());
-    settings.insert("exp", exposureIN->value());
-    settings.insert("bin", binXIN->value());
+    settings.insert("camera", cameraS->currentText());
+    settings.insert("fw", filterWheelS->currentText());
+    settings.insert("filter", captureFilterS->currentText());
+    settings.insert("exp", captureExposureN->value());
+    settings.insert("bin", captureBinHN->value());
     settings.insert("iso", iso);
-    settings.insert("frameType", frameTypeCombo->currentIndex());
-    settings.insert("format", transferFormatCombo->currentIndex());
+    settings.insert("frameType", captureTypeS->currentIndex());
+    settings.insert("format", captureFormatS->currentIndex());
     settings.insert("gain", gain);
     settings.insert("offset", offset);
-    settings.insert("temperature", temperatureIN->value());
+    settings.insert("temperature", cameraTemperatureN->value());
 
     return settings;
 }
@@ -4545,38 +4544,38 @@ void Capture::constructPrefix(QString &imagePrefix)
     if (imagePrefix.isEmpty() == false)
         imagePrefix += '_';
 
-    imagePrefix += frameTypeCombo->currentText();
+    imagePrefix += captureTypeS->currentText();
 
-    /*if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
-            frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))*/
-    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
-            (frameTypeCombo->currentIndex() == FRAME_LIGHT || frameTypeCombo->currentIndex() == FRAME_FLAT))
+    /*if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
+            captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&
+            captureTypeS->currentText().compare("Dark", Qt::CaseInsensitive))*/
+    if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
+            (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT))
     {
         imagePrefix += '_';
-        imagePrefix += FilterPosCombo->currentText();
+        imagePrefix += captureFilterS->currentText();
     }
-    if (expDurationCheck->isChecked())
+    if (fileDurationS->isChecked())
     {
         //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
         imagePrefix += '_';
 
-        double exposureValue = exposureIN->value();
+        double exposureValue = captureExposureN->value();
 
         // Don't use the locale for exposure value in the capture file name, so that we get a "." as decimal separator
         if (exposureValue == static_cast<int>(exposureValue))
             // Whole number
-            imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+            imagePrefix += QString::number(captureExposureN->value(), 'd', 0) + QString("_secs");
         else
         {
             // Decimal
-            if (exposureIN->value() >= 0.001)
-                imagePrefix += QString::number(exposureIN->value(), 'f', 3) + QString("_secs");
+            if (captureExposureN->value() >= 0.001)
+                imagePrefix += QString::number(captureExposureN->value(), 'f', 3) + QString("_secs");
             else
-                imagePrefix += QString::number(exposureIN->value(), 'f', 6) + QString("_secs");
+                imagePrefix += QString::number(captureExposureN->value(), 'f', 6) + QString("_secs");
         }
     }
-    if (ISOCheck->isChecked())
+    if (fileTimestampS->isChecked())
     {
         imagePrefix += SequenceJob::ISOMarker;
     }
@@ -4712,21 +4711,21 @@ int Capture::getActiveJobRemainingTime()
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
 {
-    guideDeviationCheck->setChecked(enable);
+    limitGuideDeviationS->setChecked(enable);
     if (enable)
-        guideDeviation->setValue(value);
+        limitGuideDeviationN->setValue(value);
 }
 
 void Capture::setInSequenceFocus(bool enable, double HFR)
 {
-    autofocusCheck->setChecked(enable);
+    limitFocusHFRS->setChecked(enable);
     if (enable)
-        HFRPixels->setValue(HFR);
+        limitFocusHFRN->setValue(HFR);
 }
 
 void Capture::setTargetTemperature(double temperature)
 {
-    temperatureIN->setValue(temperature);
+    cameraTemperatureN->setValue(temperature);
 }
 
 void Capture::clearSequenceQueue()
@@ -4945,7 +4944,7 @@ bool Capture::checkMeridianFlipReady()
     // meridian flip requested or already in action
 
     // Reset frame if we need to do focusing later on
-    if (isInSequenceFocus || (refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
+    if (isInSequenceFocus || (limitRefocusS->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
         emit resetFocus();
 
     // signal that meridian flip may take place
@@ -5296,7 +5295,7 @@ void Capture::clearAutoFocusHFR()
     if (fileHFR > 0)
         return;
 
-    HFRPixels->setValue(0);
+    limitFocusHFRN->setValue(0);
     //firstAutoFocus = true;
 }
 
@@ -5473,7 +5472,7 @@ IPState Capture::checkLightFramePendingTasks()
     //         Otherwise the meridian flip is complete
     if (m_State == CAPTURE_CALIBRATING && meridianFlipStage == MF_GUIDING)
     {
-        if (guideDeviationCheck->isChecked() == true)
+        if (limitGuideDeviationS->isChecked() == true)
             return IPS_BUSY;
         else
             setMeridianFlipStage(MF_NONE);
@@ -5625,7 +5624,7 @@ IPState Capture::checkDarkFramePendingTasks()
     QString deviceName = currentCCD->getDeviceName();
 
     bool hasShutter   = shutterfulCCDs.contains(deviceName);
-    bool hasNoShutter = shutterlessCCDs.contains(deviceName) || (ISOCombo && ISOCombo->count() > 0);
+    bool hasNoShutter = shutterlessCCDs.contains(deviceName) || (captureISOS && captureISOS->count() > 0);
 
     // If we have no information, we ask before we proceed.
     if (hasShutter == false && hasNoShutter == false)
@@ -6209,7 +6208,7 @@ bool Capture::processPostCaptureCalibrationStage()
             else if (saturated)
             {
                 double nextExposure = activeJob->getExposure() * 0.1;
-                nextExposure = qBound(exposureIN->minimum(), nextExposure, exposureIN->maximum());
+                nextExposure = qBound(captureExposureN->minimum(), nextExposure, captureExposureN->maximum());
 
                 appendLogText(i18n("Current image is saturated (%1). Next exposure is %2 seconds.",
                                    QString::number(currentADU, 'f', 0), QString("%L1").arg(nextExposure, 0, 'f', 6)));
@@ -6236,7 +6235,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     currentCCD->setUploadMode(rememberUploadMode);
 
                     // Get raw prefix
-                    exposureIN->setValue(activeJob->getExposure());
+                    captureExposureN->setValue(activeJob->getExposure());
                     QString imagePrefix = activeJob->property("rawPrefix").toString();
                     constructPrefix(imagePrefix);
                     activeJob->setFullPrefix(imagePrefix);
@@ -6272,7 +6271,7 @@ bool Capture::processPostCaptureCalibrationStage()
             }
 
             // Limit to minimum and maximum values
-            nextExposure = qBound(exposureIN->minimum(), nextExposure, exposureIN->maximum());
+            nextExposure = qBound(captureExposureN->minimum(), nextExposure, captureExposureN->maximum());
 
             appendLogText(i18n("Current ADU is %1 Next exposure is %2 seconds.", QString::number(currentADU, 'f', 0),
                                QString("%L1").arg(nextExposure, 0, 'f', 6)));
@@ -6486,12 +6485,12 @@ void Capture::showObserverDialog()
 void Capture::startRefocusTimer(bool forced)
 {
     /* If refocus is requested, only restart timer if not already running in order to keep current elapsed time since last refocus */
-    if (refocusEveryNCheck->isChecked())
+    if (limitRefocusS->isChecked())
     {
         // How much time passed since we last started the time
         long elapsedSecs = refocusEveryNTimer.elapsed() / 1000;
         // How many seconds do we wait for between focusing (60 mins ==> 3600 secs)
-        int totalSecs   = refocusEveryN->value() * 60;
+        int totalSecs   = limitRefocusN->value() * 60;
 
         if (!refocusEveryNTimer.isValid() || forced)
         {
@@ -6573,7 +6572,7 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
                     break;
 
                 case FILTER_CHANGE:
-                    appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterManager->getTargetFilterPosition() - 1)));
+                    appendLogText(i18n("Changing filter to %1...", captureFilterS->itemText(filterManager->getTargetFilterPosition() - 1)));
                     break;
 
                 case FILTER_AUTOFOCUS:
@@ -6589,15 +6588,15 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
     {
-        FilterPosCombo->clear();
-        FilterPosCombo->addItems(filterManager->getFilterLabels());
+        captureFilterS->clear();
+        captureFilterS->addItems(filterManager->getFilterLabels());
         m_CurrentFilterPosition = filterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
+        captureFilterS->setCurrentIndex(m_CurrentFilterPosition - 1);
     });
     connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
     {
         m_CurrentFilterPosition = filterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
+        captureFilterS->setCurrentIndex(m_CurrentFilterPosition - 1);
     });
 }
 
@@ -6676,16 +6675,16 @@ void Capture::cullToDSLRLimits()
 
     if (pos != DSLRInfos.end())
     {
-        if (frameWIN->maximum() == 0 || frameWIN->maximum() > (*pos)["Width"].toInt())
+        if (captureFrameWN->maximum() == 0 || captureFrameWN->maximum() > (*pos)["Width"].toInt())
         {
-            frameWIN->setValue((*pos)["Width"].toInt());
-            frameWIN->setMaximum((*pos)["Width"].toInt());
+            captureFrameWN->setValue((*pos)["Width"].toInt());
+            captureFrameWN->setMaximum((*pos)["Width"].toInt());
         }
 
-        if (frameHIN->maximum() == 0 || frameHIN->maximum() > (*pos)["Height"].toInt())
+        if (captureFrameHN->maximum() == 0 || captureFrameHN->maximum() > (*pos)["Height"].toInt())
         {
-            frameHIN->setValue((*pos)["Height"].toInt());
-            frameHIN->setMaximum((*pos)["Height"].toInt());
+            captureFrameHN->setValue((*pos)["Height"].toInt());
+            captureFrameHN->setMaximum((*pos)["Height"].toInt());
         }
     }
 }
@@ -6699,34 +6698,33 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
     ignoreJobProgress = false;
 }
 
-void Capture::setSettings(const QJsonObject &settings)
+void Capture::setPresetSettings(const QJsonObject &settings)
 {
     // FIXME: QComboBox signal "activated" does not trigger when setting text programmatically.
     const QString targetCamera = settings["camera"].toString();
     const QString targetFW = settings["fw"].toString();
     const QString targetFilter = settings["filter"].toString();
 
-    if (CCDCaptureCombo->currentText() != targetCamera)
+    if (cameraS->currentText() != targetCamera)
     {
-
-        const int index = CCDCaptureCombo->findText(targetCamera);
-        CCDCaptureCombo->setCurrentIndex(index);
+        const int index = cameraS->findText(targetCamera);
+        cameraS->setCurrentIndex(index);
         checkCCD(index);
     }
 
-    if (!targetFW.isEmpty() && FilterDevicesCombo->currentText() != targetFW)
+    if (!targetFW.isEmpty() && filterWheelS->currentText() != targetFW)
     {
-        const int index = FilterDevicesCombo->findText(targetFW);
-        FilterDevicesCombo->setCurrentIndex(index);
+        const int index = filterWheelS->findText(targetFW);
+        filterWheelS->setCurrentIndex(index);
         checkFilter(index);
     }
 
-    if (!targetFilter.isEmpty() && FilterPosCombo->currentText() != targetFilter)
+    if (!targetFilter.isEmpty() && captureFilterS->currentText() != targetFilter)
     {
-        FilterPosCombo->setCurrentIndex(FilterPosCombo->findText(targetFilter));
+        captureFilterS->setCurrentIndex(captureFilterS->findText(targetFilter));
     }
 
-    exposureIN->setValue(settings["exp"].toDouble(1));
+    captureExposureN->setValue(settings["exp"].toDouble(1));
 
     int bin = settings["bin"].toInt(1);
     setBinning(bin, bin);
@@ -6753,15 +6751,152 @@ void Capture::setSettings(const QJsonObject &settings)
     int format = settings["format"].toInt(-1);
     if (format >= 0)
     {
-        transferFormatCombo->setCurrentIndex(format);
+        captureFormatS->setCurrentIndex(format);
     }
 
-    frameTypeCombo->setCurrentIndex(qMax(0, settings["frameType"].toInt(0)));
+    captureTypeS->setCurrentIndex(qMax(0, settings["frameType"].toInt(0)));
 
     // ISO
     int isoIndex = settings["iso"].toInt(-1);
     if (isoIndex >= 0)
         setISO(isoIndex);
+}
+
+void Capture::setFileSettings(const QJsonObject &settings)
+{
+    const QString prefix = settings["prefix"].toString(filePrefixT->text());
+    const QString script = settings["script"].toString(fileScriptT->text());
+    const QString directory = settings["directory"].toString(fileDirectoryT->text());
+    const bool filter = settings["filter"].toBool(fileFilterS->isChecked());
+    const bool duration = settings["duration"].toBool(fileDurationS->isChecked());
+    const bool ts = settings["ts"].toBool(fileTimestampS->isChecked());
+    const int upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
+    const QString remote = settings["remote"].toString(fileRemoteDirT->text());
+
+    filePrefixT->setText(prefix);
+    fileScriptT->setText(script);
+    fileDirectoryT->setText(directory);
+    fileFilterS->setChecked(filter);
+    fileDurationS->setChecked(duration);
+    fileTimestampS->setChecked(ts);
+    fileUploadModeS->setCurrentIndex(upload);
+    fileRemoteDirT->setText(remote);
+}
+
+QJsonObject Capture::getFileSettings()
+{
+    QJsonObject settings =
+    {
+        {"prefix", filePrefixT->text()},
+        {"script", fileScriptT->text()},
+        {"directory", fileDirectoryT->text()},
+        {"filter", fileFilterS->isChecked()},
+        {"duration", fileDurationS->isChecked()},
+        {"ts", fileTimestampS->isChecked()},
+        {"upload", fileUploadModeS->currentIndex()},
+        {"remote", fileRemoteDirT->text()}
+    };
+
+    return settings;
+}
+
+void Capture::setCalibrationSettings(const QJsonObject &settings)
+{
+    const int source = settings["source"].toInt(flatFieldSource);
+    const int duration = settings["duration"].toInt(flatFieldDuration);
+    const double az = settings["az"].toDouble(wallCoord.az().Degrees());
+    const double al = settings["al"].toDouble(wallCoord.alt().Degrees());
+    const int adu = settings["adu"].toInt(static_cast<int>(std::round(targetADU)));
+    const int tolerance = settings["tolerance"].toInt(static_cast<int>(std::round(targetADUTolerance)));
+    const bool parkMount = settings["parkMount"].toBool(preMountPark);
+    const bool parkDome = settings["parkDome"].toBool(preDomePark);
+
+    flatFieldSource = static_cast<FlatFieldSource>(source);
+    flatFieldDuration = static_cast<FlatFieldDuration>(duration);
+    wallCoord.setAz(az);
+    wallCoord.setAlt(al);
+    targetADU = adu;
+    targetADUTolerance = tolerance;
+    preMountPark = parkMount;
+    preDomePark = parkDome;
+}
+
+QJsonObject Capture::getCalibrationSettings()
+{
+    QJsonObject settings =
+    {
+        {"source", flatFieldSource},
+        {"duration", flatFieldDuration},
+        {"az", wallCoord.az().Degrees()},
+        {"al", wallCoord.alt().Degrees()},
+        {"adu", targetADU},
+        {"tolerance", targetADUTolerance},
+        {"parkMount", preMountPark},
+        {"parkDome", preDomePark},
+    };
+
+    return settings;
+}
+
+void Capture::setLimitSettings(const QJsonObject &settings)
+{
+    const bool deviationCheck = settings["deviationCheck"].toBool(limitGuideDeviationS->isChecked());
+    const double deviationValue = settings["deviationValue"].toDouble(limitGuideDeviationN->value());
+    const bool focusHFRCheck = settings["focusHFRCheck"].toBool(limitFocusHFRS->isChecked());
+    const double focusHFRValue = settings["focusHFRValue"].toDouble(limitFocusHFRN->value());
+    const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(limitFocusDeltaTS->isChecked());
+    const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(limitFocusDeltaTN->value());
+    const bool refocusNCheck = settings["refocusNCheck"].toBool(limitRefocusS->isChecked());
+    const int refocusNValue = settings["refocusNValue"].toInt(limitRefocusN->value());
+
+    if (deviationCheck)
+    {
+        limitGuideDeviationS->setChecked(true);
+        limitGuideDeviationN->setValue(deviationValue);
+    }
+    else
+        limitGuideDeviationS->setChecked(false);
+
+    if (focusHFRCheck)
+    {
+        limitFocusHFRS->setChecked(true);
+        limitFocusHFRN->setValue(focusHFRValue);
+    }
+    else
+        limitFocusHFRS->setChecked(false);
+
+    if (focusDeltaTCheck)
+    {
+        limitFocusDeltaTS->setChecked(true);
+        limitFocusDeltaTN->setValue(focusDeltaTValue);
+    }
+    else
+        limitFocusDeltaTS->setChecked(false);
+
+    if (refocusNCheck)
+    {
+        limitRefocusS->setChecked(true);
+        limitRefocusN->setValue(refocusNValue);
+    }
+    else
+        limitRefocusS->setChecked(false);
+}
+
+QJsonObject Capture::getLimitSettings()
+{
+    QJsonObject settings =
+    {
+        {"deviationCheck", limitGuideDeviationS->isChecked()},
+        {"deviationValue", limitGuideDeviationN->value()},
+        {"focusHFRCheck", limitFocusHFRS->isChecked()},
+        {"focusHFRValue", limitFocusHFRN->value()},
+        {"focusDeltaTCheck", limitFocusDeltaTS->isChecked()},
+        {"focusDeltaTValue", limitFocusDeltaTN->value()},
+        {"refocusNCheck", limitRefocusS->isChecked()},
+        {"refocusNValue", limitRefocusN->value()},
+    };
+
+    return settings;
 }
 
 void Capture::clearCameraConfiguration()
@@ -6792,7 +6927,7 @@ void Capture::clearCameraConfiguration()
         }
 
         // For DSLRs, immediately ask them to enter the values again.
-        if (ISOCombo && ISOCombo->count() > 0)
+        if (captureISOS && captureISOS->count() > 0)
         {
             createDSLRDialog();
         }
@@ -6823,8 +6958,8 @@ void Capture::processCaptureTimeout()
         currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
-        targetChip->capture(exposureIN->value());
-        captureTimeout.start(static_cast<int>(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
+        targetChip->capture(captureExposureN->value());
+        captureTimeout.start(static_cast<int>(captureExposureN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
     };
 
     m_CaptureTimeoutCounter++;
@@ -6866,10 +7001,10 @@ void Capture::createDSLRDialog()
     connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
     {
         addDSLRInfo(QString(currentCCD->getDeviceName()),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxWidth),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorMaxHeight),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelW),
-                    static_cast<uint32_t>(dslrInfoDialog->sensorPixelH));
+                    dslrInfoDialog->sensorMaxWidth,
+                    dslrInfoDialog->sensorMaxHeight,
+                    dslrInfoDialog->sensorPixelW,
+                    dslrInfoDialog->sensorPixelH);
     });
 
     dslrInfoDialog->show();
@@ -6898,16 +7033,16 @@ void Capture::removeDevice(ISD::GDInterface *device)
     {
         ISD::CCD *oneCCD = static_cast<ISD::CCD *>(device);
         CCDs.removeAll(oneCCD);
-        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
-        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName() + QString(" Guider")));
+        cameraS->removeItem(cameraS->findText(device->getDeviceName()));
+        cameraS->removeItem(cameraS->findText(device->getDeviceName() + QString(" Guider")));
 
         if (CCDs.empty())
         {
             currentCCD = nullptr;
-            CCDCaptureCombo->setCurrentIndex(-1);
+            cameraS->setCurrentIndex(-1);
         }
         else
-            CCDCaptureCombo->setCurrentIndex(0);
+            cameraS->setCurrentIndex(0);
 
         //checkCCD();
         QTimer::singleShot(1000, this, [this]()
@@ -6920,14 +7055,14 @@ void Capture::removeDevice(ISD::GDInterface *device)
     {
         Filters.removeOne(static_cast<ISD::Filter *>(device));
         filterManager->removeDevice(device);
-        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
+        filterWheelS->removeItem(filterWheelS->findText(device->getDeviceName()));
         if (Filters.empty())
         {
             currentFilter = nullptr;
-            FilterDevicesCombo->setCurrentIndex(-1);
+            filterWheelS->setCurrentIndex(-1);
         }
         else
-            FilterDevicesCombo->setCurrentIndex(0);
+            filterWheelS->setCurrentIndex(0);
 
         //checkFilter();
         QTimer::singleShot(1000, this, [this]()
@@ -7043,8 +7178,8 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
         if (oneCamera->getDeviceName() == camera)
         {
             // Set camera again to the one we restarted
-            CCDCaptureCombo->setCurrentIndex(CCDCaptureCombo->findText(camera));
-            FilterDevicesCombo->setCurrentIndex(FilterDevicesCombo->findText(filterWheel));
+            cameraS->setCurrentIndex(cameraS->findText(camera));
+            filterWheelS->setCurrentIndex(filterWheelS->findText(filterWheel));
             checkCCD();
 
             // restart capture
@@ -7114,7 +7249,7 @@ QString Capture::MFStageString(MFStage stage)
 
 void Capture::syncDSLRToTargetChip(const QString &model)
 {
-    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
     {
         return (oneDSLRInfo["Model"] == model);
     });
@@ -7123,8 +7258,8 @@ void Capture::syncDSLRToTargetChip(const QString &model)
     if (pos != DSLRInfos.end())
     {
         auto camera = *pos;
-        targetChip->setImageInfo(camera["Width"].toDouble(),
-                                 camera["Height"].toDouble(),
+        targetChip->setImageInfo(camera["Width"].toInt(),
+                                 camera["Height"].toInt(),
                                  camera["PixelW"].toDouble(),
                                  camera["PixelH"].toDouble(),
                                  8);

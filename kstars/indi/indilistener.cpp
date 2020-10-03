@@ -141,9 +141,7 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, &ClientManager::newINDINumber, this, &INDIListener::processNumber);
     connect(cm, &ClientManager::newINDILight, this, &INDIListener::processLight);
     connect(cm, &ClientManager::newINDIBLOB, this, &INDIListener::processBLOB);
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
     connect(cm, &ClientManager::newINDIUniversalMessage, this, &INDIListener::processUniversalMessage);
-#endif
 }
 
 void INDIListener::removeClient(ClientManager *cm)
@@ -188,9 +186,12 @@ void INDIListener::removeClient(ClientManager *cm)
 
 void INDIListener::processDevice(DeviceInfo *dv)
 {
+    ClientManager *cm = qobject_cast<ClientManager *>(sender());
+    Q_ASSERT_X(cm, __FUNCTION__, "Client manager is not valid.");
+
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getBaseDevice()->getDeviceName();
 
-    ISD::GDInterface *gd = new ISD::GenericDevice(*dv);
+    ISD::GDInterface *gd = new ISD::GenericDevice(*dv, cm);
 
     devices.append(gd);
 
@@ -223,7 +224,7 @@ void INDIListener::removeDevice(const QString &deviceName)
         {
             emit deviceRemoved(oneDevice);
             devices.removeOne(oneDevice);
-            delete (oneDevice);
+            oneDevice->deleteLater();
             break;
         }
     }

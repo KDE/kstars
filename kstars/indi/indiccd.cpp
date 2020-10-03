@@ -917,6 +917,7 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 
 CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
+    dType = KSTARS_CCD;
     primaryChip.reset(new CCDChip(this, CCDChip::PRIMARY_CCD));
 
     readyTimer.reset(new QTimer());
@@ -1806,12 +1807,13 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data)
 {
     FITSMode mode = targetChip->getCaptureMode();
     FITSView *view = targetChip->getImageView(mode);
-    QString filename = QString(static_cast<const char *>(bp->aux2));
+    //QString filename = QString(static_cast<const char *>(bp->aux2));
 
     if (view)
     {
         view->setFilter(targetChip->getCaptureFilter());
-        if (!view->loadFITSFromData(data, filename))
+        //if (!view->loadFITSFromData(data, filename))
+        if (!view->loadFITSFromData(data))
         {
             emit newExposureValue(targetChip, 0, IPS_ALERT);
             return;

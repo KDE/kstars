@@ -1470,6 +1470,10 @@ void KStars::slotManualFocus()
         //If the requested position is very near the pole, we need to point first
         //to an intermediate location just below the pole in order to get the longitudinal
         //position (RA/Az) right.
+
+        // Do not access (RA0, Dec0) of focusDialog->point() as it can be of unknown epoch.
+        // (RA, Dec) should be synced to JNow
+        // -- asimha (2020-07-06)
         double realAlt(focusDialog->point()->alt().Degrees());
         double realDec(focusDialog->point()->dec().Degrees());
         if (Options::useAltAz() && realAlt > 89.0)
@@ -1500,7 +1504,8 @@ void KStars::slotManualFocus()
         data()->setSnapNextFocus();
         if (Options::useAltAz())
         {
-            map()->setDestinationAltAz(focusDialog->point()->alt(), focusDialog->point()->az(), Options::useRefraction());
+            // N.B. We have applied unrefract() in focusDialog
+            map()->setDestinationAltAz(focusDialog->point()->alt(), focusDialog->point()->az(), false);
         }
         else
         {

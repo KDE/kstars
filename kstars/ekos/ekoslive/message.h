@@ -107,6 +107,8 @@ class Message : public QObject
         void processNewText(ITextVectorProperty *tvp);
         void processNewSwitch(ISwitchVectorProperty *svp);
         void processNewLight(ILightVectorProperty *lvp);
+        void processNewProperty(INDI::Property *prop);
+        void processDeleteProperty(const QString &device, const QString &name);
 
     private slots:
 
@@ -126,7 +128,7 @@ class Message : public QObject
 
         // Capture
         void processCaptureCommands(const QString &command, const QJsonObject &payload);
-        void setCaptureSettings(const QJsonObject &settings);
+        void setCapturePresetSettings(const QJsonObject &settings);
         void sendTemperature(double value);
 
         // Mount
@@ -161,6 +163,9 @@ class Message : public QObject
 
         // DSLRs
         void processDSLRCommands(const QString &command, const QJsonObject &payload);
+
+        // Filter Manager commands
+        void processFilterManagerCommands(const QString &command, const QJsonObject &payload);
 
         // Low-level Device commands
         void processDeviceCommands(const QString &command, const QJsonObject &payload);

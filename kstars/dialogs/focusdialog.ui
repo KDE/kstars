@@ -161,10 +161,10 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Altitude</string>
+          <string>Altitude. Interpreted as the apparent altitude when refraction corrections are enabled.</string>
          </property>
          <property name="text">
-          <string>Alt:</string>
+          <string>Alt (apparent):</string>
          </property>
         </widget>
        </item>

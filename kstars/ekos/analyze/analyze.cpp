@@ -358,9 +358,9 @@ void Analyze::initInputSelection()
     dirPath = QUrl::fromLocalFile(KSPaths::writableLocation(
                                       QStandardPaths::GenericDataLocation) + "analyze/");
 
-    inputCombo->addItem("Current Session");
-    inputCombo->addItem("Read from File");
-    inputCombo->addItem("Set alternative image-file base directory");
+    inputCombo->addItem(i18n("Current Session"));
+    inputCombo->addItem(i18n("Read from File"));
+    inputCombo->addItem(i18n("Set alternative image-file base directory"));
     inputValue->setText("");
     connect(inputCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
@@ -370,7 +370,7 @@ void Analyze::initInputSelection()
             if (!runtimeDisplay)
             {
                 reset();
-                inputValue->setText("Current Session");
+                inputValue->setText(i18n("Current Session"));
                 maxXValue = readDataFromFile(logFilename);
                 runtimeDisplay = true;
             }
@@ -383,7 +383,7 @@ void Analyze::initInputSelection()
         {
             // Input from a file.
             QUrl inputURL = QFileDialog::getOpenFileUrl(this, i18n("Select input file"), dirPath,
-                            "Analyze Log (*.analyze);;All Files (*)");
+                            i18n("Analyze Log (*.analyze);;All Files (*)"));
             if (inputURL.isEmpty())
                 return;
             dirPath = QUrl(inputURL.url(QUrl::RemoveFilename));
@@ -402,7 +402,7 @@ void Analyze::initInputSelection()
         else if (index == 2)
         {
             QString dir = QFileDialog::getExistingDirectory(
-                              this, tr("Set an alternate base directory for your captured images"),
+                              this, i18n("Set an alternate base directory for your captured images"),
                               QDir::homePath(),
                               QFileDialog::ShowDirsOnly);
             if (dir.size() > 0)
@@ -472,7 +472,7 @@ void Analyze::highlightTimelineItem(double y, double start, double end)
 }
 
 // These help calculate the RMS values of the ra and drift errors. It takes
-// an approximate moving average of the squared errors roughtly averaged over
+// an approximate moving average of the squared errors roughly averaged over
 // 40 samples implemented by a simple digital low-pass filter.
 void Analyze::initRmsFilter()
 {
@@ -644,6 +644,8 @@ double Analyze::processInputLine(const QString &line)
     // in the csv line is a double which represents seconds since start of the log.
     const double time = QString(list[1]).toDouble(&ok);
     if (!ok)
+        return 0;
+    if (time < 0 || time > 3600 * 24 * 10)
         return 0;
 
     if ((list[0] == "CaptureStarting") && (list.size() == 4))
@@ -845,7 +847,7 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
     }
 }
 
-// When the user clicks on a partular capture session in the timeline,
+// When the user clicks on a particular capture session in the timeline,
 // a table is rendered in the infoBox, and, if it was a double click,
 // the fits file is displayed, if it can be found.
 void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
@@ -1015,7 +1017,7 @@ void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
     graphicsPlot->xAxis->setScaleRatio(graphicsPlot->yAxis);
 }
 
-// When the user clicks on a partular mount session in the timeline,
+// When the user clicks on a particular mount session in the timeline,
 // a table is rendered in the infoBox.
 void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
 {
@@ -1027,7 +1029,7 @@ void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
     infoBox->setHtml(c.html());
 }
 
-// When the user clicks on a partular align session in the timeline,
+// When the user clicks on a particular align session in the timeline,
 // a table is rendered in the infoBox.
 void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 {
@@ -1038,7 +1040,7 @@ void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
     infoBox->setHtml(c.html());
 }
 
-// When the user clicks on a partular meridian flip session in the timeline,
+// When the user clicks on a particular meridian flip session in the timeline,
 // a table is rendered in the infoBox.
 void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 {
@@ -1146,7 +1148,7 @@ void Analyze::processStatsClick(QMouseEvent *event, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     double xval = statsPlot->xAxis->pixelToCoord(event->x());
-    if (event->button() == Qt::RightButton)
+    if (event->button() == Qt::RightButton || event->modifiers() == Qt::ControlModifier)
         // Resets the range. Replot will take care of ra/dec needing negative values.
         statsPlot->yAxis->setRange(0, 5);
     else
@@ -1166,6 +1168,12 @@ void Analyze::timelineMouseDoubleClick(QMouseEvent *event)
 
 void Analyze::statsMousePress(QMouseEvent *event)
 {
+    // If we're on the legend, adjust the y-axis.
+    if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
+    {
+        yAxisInitialPos = statsPlot->yAxis->pixelToCoord(event->y());
+        return;
+    }
     processStatsClick(event, false);
 }
 
@@ -1177,6 +1185,15 @@ void Analyze::statsMouseDoubleClick(QMouseEvent *event)
 // Allow the user to click and hold, causing the cursor to move in real-time.
 void Analyze::statsMouseMove(QMouseEvent *event)
 {
+    // If we're on the legend, adjust the y-axis.
+    if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
+    {
+        auto range = statsPlot->yAxis->range();
+        double yDiff = yAxisInitialPos - statsPlot->yAxis->pixelToCoord(event->y());
+        statsPlot->yAxis->setRange(range.lower + yDiff, range.upper + yDiff);
+        replot();
+        return;
+    }
     processStatsClick(event, false);
 }
 
@@ -1372,8 +1389,15 @@ void Analyze::zoomIn()
 {
     if (plotWidth > 0.5)
     {
-        // Try to keep the center of the plot in the same place.
-        plotStart += plotWidth / 4.0;
+        if (keepCurrentCB->isChecked())
+            // If we're keeping to the end of the data, keep the end on the right.
+            plotStart = std::max(0.0, maxXValue - plotWidth / 4.0);
+        else if (statsCursorTime >= 0)
+            // If there is a cursor, try to move it to the center.
+            plotStart = std::max(0.0, statsCursorTime - plotWidth / 4.0);
+        else
+            // Keep the center the same.
+            plotStart += plotWidth / 4.0;
         plotWidth = plotWidth / 2.0;
     }
     fullWidthCB->setChecked(false);
@@ -1424,12 +1448,12 @@ void Analyze::initTimelinePlot()
 
     // This places the labels on the left of the timeline.
     QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
-    textTicker->addTick(CAPTURE_Y, "Capture");
-    textTicker->addTick(FOCUS_Y, "Focus");
-    textTicker->addTick(ALIGN_Y, "Align");
-    textTicker->addTick(GUIDE_Y, "Guide");
-    textTicker->addTick(MERIDIAN_FLIP_Y, "Flip");
-    textTicker->addTick(MOUNT_Y, "Mount");
+    textTicker->addTick(CAPTURE_Y, i18n("Capture"));
+    textTicker->addTick(FOCUS_Y, i18n("Focus"));
+    textTicker->addTick(ALIGN_Y, i18n("Align"));
+    textTicker->addTick(GUIDE_Y, i18n("Guide"));
+    textTicker->addTick(MERIDIAN_FLIP_Y, i18n("Flip"));
+    textTicker->addTick(MOUNT_Y, i18n("Mount"));
     timelinePlot->yAxis->setTicker(textTicker);
 }
 
@@ -1623,6 +1647,11 @@ void Analyze::reset()
     resetGraphicsPlot();
 
     infoBox->setText("");
+    QPalette p = infoBox->palette();
+    p.setColor(QPalette::Base, Qt::black);
+    p.setColor(QPalette::Text, Qt::white);
+    infoBox->setPalette(p);
+
     inputValue->clear();
     captureSessions.clear();
     focusSessions.clear();
@@ -1750,8 +1779,8 @@ void Analyze::helpMessage()
 // correct analyzeStartTime.
 double Analyze::logTime(const QDateTime &time)
 {
-    if (!startTimeInitialized)
-        return 0;
+    if (!logInitialized)
+        startLog();
     return (time.toMSecsSinceEpoch() - analyzeStartTime.toMSecsSinceEpoch()) / 1000.0;
 }
 
@@ -1789,8 +1818,6 @@ void Analyze::startLog()
     startTimeInitialized = true;
     if (runtimeDisplay)
         displayStartTime = analyzeStartTime;
-    if (!logEnabled)
-        return;
     if (logInitialized)
         return;
     QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "analyze/";
@@ -1814,8 +1841,6 @@ void Analyze::startLog()
 
 void Analyze::appendToLog(const QString &lines)
 {
-    if (!logEnabled)
-        return;
     if (!logInitialized)
         startLog();
     QTextStream out(&logFile);
@@ -2560,7 +2585,7 @@ void Analyze::processMountFlipState(double time, const QString &statusString, bo
     {
         if (state == Mount::FLIP_COMPLETED || state == Mount::FLIP_ERROR)
         {
-            // These states are really commetaries on the previous states.
+            // These states are really commentaries on the previous states.
             addSession(mountFlipStateStartedTime, time, MERIDIAN_FLIP_Y, mountFlipStateBrush(state));
             mountFlipSessions.add(MountFlipSession(mountFlipStateStartedTime, time, nullptr, state));
         }

@@ -39,6 +39,9 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     pi = nullptr;
 
     m_MountModel = new QStandardItemModel(this);
+    m_CameraModel = new QStandardItemModel(this);
+    m_GuiderModel = new QStandardItemModel(this);
+    m_FocuserModel = new QStandardItemModel(this);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -93,6 +96,25 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     loadDrivers();
     // Load scope equipment
     loadScopeEquipment();
+
+    // Shared tooltips
+    ui->remoteDrivers->setToolTip(ui->remoteDriversLabel->toolTip());
+    ui->aux1Combo->setToolTip(ui->aux1Label->toolTip());
+    ui->aux2Combo->setToolTip(ui->aux2Label->toolTip());
+    ui->aux3Combo->setToolTip(ui->aux3Label->toolTip());
+    ui->aux4Combo->setToolTip(ui->aux4Label->toolTip());
+    ui->filterCombo->setToolTip(ui->filterLabel->toolTip());
+    ui->AOCombo->setToolTip(ui->AOLabel->toolTip());
+    ui->domeCombo->setToolTip(ui->domeLabel->toolTip());
+    ui->weatherCombo->setToolTip(ui->weatherLabel->toolTip());
+    ui->localMode->setToolTip(ui->modeLabel->toolTip());
+    ui->remoteMode->setToolTip(ui->modeLabel->toolTip());
+    ui->remoteHostLabel->setToolTip(ui->remoteHost->toolTip());
+    ui->remotePortLabel->setToolTip(ui->remotePort->toolTip());
+    ui->externalGuidePortLabel->setToolTip(ui->externalGuidePort->toolTip());
+    ui->INDIWebManagerPortLabel->setToolTip(ui->INDIWebManagerPort->toolTip());
+    ui->guideTypeCombo->setToolTip(ui->guidingTypeLabel->toolTip());
+    ui->externalGuideHostLabel->setToolTip(ui->externalGuideHost->toolTip());
 }
 
 void ProfileEditor::loadScopeEquipment()
@@ -564,6 +586,9 @@ void ProfileEditor::loadDrivers()
 {
     // We need to save this now since we have two models for the mounts
     QString selectedMount = ui->mountCombo->currentText();
+    QString selectedCamera = ui->ccdCombo->currentText();
+    QString selectedGuider = ui->guiderCombo->currentText();
+    QString selectedFocuser = ui->focuserCombo->currentText();
 
     QVector<QComboBox *> boxes;
     boxes.append(ui->mountCombo);
@@ -591,83 +616,29 @@ void ProfileEditor::loadDrivers()
 
     QIcon remoteIcon = QIcon::fromTheme("network-modem");
 
-    // Create the mount model
+    // Create the model
     delete (m_MountModel);
     m_MountModel = new QStandardItemModel(this);
+    delete (m_CameraModel);
+    m_CameraModel = new QStandardItemModel(this);
+    delete (m_GuiderModel);
+    m_GuiderModel = new QStandardItemModel(this);
+    delete (m_FocuserModel);
+    m_FocuserModel = new QStandardItemModel(this);
 
     if (ui->localMode->isChecked())
     {
-        QStandardItem *selectedMountItem = nullptr;
-        m_MountModel->appendRow(new QStandardItem("--"));
-        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
-        {
-            if (dv->getType() != KSTARS_TELESCOPE)
-                continue;
-
-            QString manufacturer = dv->manufacturer();
-            QList<QStandardItem*> manufacturers = m_MountModel->findItems(manufacturer);
-
-            QStandardItem *parentItem = nullptr;
-            if (m_MountModel->findItems(manufacturer).empty())
-            {
-                parentItem = new QStandardItem(manufacturer);
-                parentItem->setSelectable(false);
-                m_MountModel->appendRow(parentItem);
-            }
-            else
-            {
-                parentItem = manufacturers.first();
-            }
-
-            QStandardItem *mount = new QStandardItem(dv->getLabel());
-            mount->setData(getTooltip(dv), Qt::ToolTipRole);
-            parentItem->appendRow(mount);
-            if (selectedMount == dv->getLabel())
-                selectedMountItem = mount;
-        }
-        QTreeView *view = new QTreeView(this);
-        view->setModel(m_MountModel);
-        view->sortByColumn(0, Qt::AscendingOrder);
-        ui->mountCombo->setView(view);
-        ui->mountCombo->setModel(m_MountModel);
-        if (selectedMountItem)
-        {
-            // JM: Only way to make it the QTreeView sets the current index
-            // in the combo way
-
-            QModelIndex index = m_MountModel->indexFromItem(selectedMountItem);
-
-            // First set current index to the child
-            ui->mountCombo->setRootModelIndex(index.parent());
-            ui->mountCombo->setModelColumn(index.column());
-            ui->mountCombo->setCurrentIndex(index.row());
-
-            // Now reset
-            ui->mountCombo->setRootModelIndex(QModelIndex());
-            view->setCurrentIndex(index);
-        }
+        populateManufacturerCombo(m_MountModel, ui->mountCombo, selectedMount, true, KSTARS_TELESCOPE);
+        populateManufacturerCombo(m_CameraModel, ui->ccdCombo, selectedCamera, true, KSTARS_CCD);
+        populateManufacturerCombo(m_GuiderModel, ui->guiderCombo, selectedGuider, true, KSTARS_CCD);
+        populateManufacturerCombo(m_FocuserModel, ui->focuserCombo, selectedFocuser, true, KSTARS_FOCUSER);
     }
     else
     {
-        ui->mountCombo->setView(new QListView(this));
-        m_MountModel->appendRow(new QStandardItem("--"));
-        QIcon icon;
-        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
-        {
-            if (dv->getType() != KSTARS_TELESCOPE)
-                continue;
-
-            bool locallyAvailable = false;
-            if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-                locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
-            icon = locallyAvailable ? QIcon() : remoteIcon;
-
-            QStandardItem *mount = new QStandardItem(icon, dv->getLabel());
-            mount->setData(getTooltip(dv), Qt::ToolTipRole);
-            m_MountModel->appendRow(mount);
-        }
-        ui->mountCombo->setModel(m_MountModel);
-        ui->mountCombo->setCurrentText(selectedMount);
+        populateManufacturerCombo(m_MountModel, ui->mountCombo, selectedMount, false, KSTARS_TELESCOPE);
+        populateManufacturerCombo(m_CameraModel, ui->ccdCombo, selectedCamera, false, KSTARS_CCD);
+        populateManufacturerCombo(m_GuiderModel, ui->guiderCombo, selectedGuider, false, KSTARS_CCD);
+        populateManufacturerCombo(m_FocuserModel, ui->focuserCombo, selectedFocuser, false, KSTARS_FOCUSER);
     }
 
     for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
@@ -688,20 +659,13 @@ void ProfileEditor::loadDrivers()
 
         switch (dv->getType())
         {
-            //            case KSTARS_TELESCOPE:
-            //            {
-            //                ui->mountCombo->addItem(icon, dv->getLabel());
-            //                ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-            //            }
-            //            break;
-
             case KSTARS_CCD:
             {
-                ui->ccdCombo->addItem(icon, dv->getLabel());
-                ui->ccdCombo->setItemData(ui->ccdCombo->count() - 1, toolTipText, Qt::ToolTipRole);
+                //                ui->ccdCombo->addItem(icon, dv->getLabel());
+                //                ui->ccdCombo->setItemData(ui->ccdCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->guiderCombo->addItem(icon, dv->getLabel());
-                ui->guiderCombo->setItemData(ui->guiderCombo->count() - 1, toolTipText, Qt::ToolTipRole);
+                //                ui->guiderCombo->addItem(icon, dv->getLabel());
+                //                ui->guiderCombo->setItemData(ui->guiderCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
@@ -726,8 +690,8 @@ void ProfileEditor::loadDrivers()
 
             case KSTARS_FOCUSER:
             {
-                ui->focuserCombo->addItem(icon, dv->getLabel());
-                ui->focuserCombo->setItemData(ui->focuserCombo->count() - 1, toolTipText, Qt::ToolTipRole);
+                //                ui->focuserCombo->addItem(icon, dv->getLabel());
+                //                ui->focuserCombo->setItemData(ui->focuserCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
@@ -811,8 +775,8 @@ void ProfileEditor::loadDrivers()
         }
     }
 
-    // Skip mount since we handled it above
-    for (int i = 1; i < boxes.count(); i++)
+    // Skip mount/ccd/guider/focuser since we handled it above
+    for (int i = 4; i < boxes.count(); i++)
     {
         QComboBox *box           = boxes.at(i);
         QString selectedItemText = selectedItems.at(i);
@@ -1130,4 +1094,84 @@ void ProfileEditor::showINDIHub()
     hub.exec();
 
     m_INDIHub = indihub.modeButtonGroup->checkedId();
+}
+
+void ProfileEditor::populateManufacturerCombo(QStandardItemModel *model, QComboBox *combo, const QString &selectedDriver,
+        bool isLocal, int family)
+{
+    if (isLocal)
+    {
+        QStandardItem *selectedItem = nullptr;
+        model->appendRow(new QStandardItem("--"));
+        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+        {
+            if (dv->getType() != family)
+                continue;
+
+            QString manufacturer = dv->manufacturer();
+            QList<QStandardItem*> manufacturers = model->findItems(manufacturer);
+
+            QStandardItem *parentItem = nullptr;
+            if (model->findItems(manufacturer).empty())
+            {
+                parentItem = new QStandardItem(manufacturer);
+                parentItem->setSelectable(false);
+                model->appendRow(parentItem);
+            }
+            else
+            {
+                parentItem = manufacturers.first();
+            }
+
+            QStandardItem *item = new QStandardItem(dv->getLabel());
+            item->setData(getTooltip(dv), Qt::ToolTipRole);
+            parentItem->appendRow(item);
+            if (selectedDriver == dv->getLabel())
+                selectedItem = item;
+        }
+        QTreeView *view = new QTreeView(this);
+        view->setModel(model);
+        view->sortByColumn(0, Qt::AscendingOrder);
+        combo->setView(view);
+        combo->setModel(model);
+        if (selectedItem)
+        {
+            // JM: Only way to make it the QTreeView sets the current index
+            // in the combo way
+
+            QModelIndex index = model->indexFromItem(selectedItem);
+
+            // First set current index to the child
+            combo->setRootModelIndex(index.parent());
+            combo->setModelColumn(index.column());
+            combo->setCurrentIndex(index.row());
+
+            // Now reset
+            combo->setRootModelIndex(QModelIndex());
+            view->setCurrentIndex(index);
+        }
+    }
+    else
+    {
+        QIcon remoteIcon = QIcon::fromTheme("network-modem");
+        combo->setView(new QListView(this));
+        model->appendRow(new QStandardItem("--"));
+        QIcon icon;
+        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+        {
+            if (dv->getType() != family)
+                continue;
+
+            bool locallyAvailable = false;
+            if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+                locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+            icon = locallyAvailable ? QIcon() : remoteIcon;
+
+            QStandardItem *mount = new QStandardItem(icon, dv->getLabel());
+            mount->setData(getTooltip(dv), Qt::ToolTipRole);
+            model->appendRow(mount);
+        }
+        combo->setModel(model);
+        combo->setCurrentText(selectedDriver);
+    }
 }

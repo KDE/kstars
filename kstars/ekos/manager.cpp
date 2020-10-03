@@ -84,8 +84,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
                 SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
     }
 #else
-    //    if (Options::independentWindowEkos())
-    //        setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+    if (Options::independentWindowEkos())
+        //setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        setWindowFlags(Qt::Window);
 #endif
     setupUi(this);
 
@@ -706,15 +707,37 @@ void Manager::start()
         {
             for (auto remoteDriver : currentProfile->remotedrivers.split(","))
             {
-                QString name, label, host("localhost"), port("7624");
-                QStringList properties = remoteDriver.split(QRegExp("[@:]"));
-                if (properties.length() > 1)
-                {
-                    name = properties[0];
-                    host = properties[1];
+                QString name, label, host("localhost"), port("7624"), hostport(host + ':' + port);
 
-                    if (properties.length() > 2)
-                        port = properties[2];
+                // Possible configurations:
+                // - device
+                // - device@host
+                // - device@host:port
+                // - @host
+                // - @host:port
+
+                {
+                    QStringList device_location = remoteDriver.split('@');
+
+                    // device or device@host:port
+                    if (device_location.length() > 0)
+                        name = device_location[0];
+
+                    // device@host:port or @host:port
+                    if (device_location.length() > 1)
+                        hostport = device_location[1];
+                }
+
+                {
+                    QStringList location = hostport.split(':');
+
+                    // host or host:port
+                    if (location.length() > 0)
+                        host = location[0];
+
+                    // host:port
+                    if (location.length() > 1)
+                        port = location[1];
                 }
 
                 DriverInfo * dv = new DriverInfo(name);
@@ -731,7 +754,7 @@ void Manager::start()
         }
 
 
-        if (haveCCD == false && haveGuider == false)
+        if (haveCCD == false && haveGuider == false && currentProfile->remotedrivers.isEmpty())
         {
             KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
             managedDrivers.clear();
@@ -757,7 +780,7 @@ void Manager::start()
 
         Options::setGuiderType(currentProfile->guidertype);
 
-        if (haveCCD == false && haveGuider == false)
+        if (haveCCD == false && haveGuider == false && currentProfile->remotedrivers.isEmpty())
         {
             KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
             delete (remote_indi);
@@ -827,11 +850,14 @@ void Manager::start()
             m_ekosStatus = Ekos::Pending;
             emit ekosStatusChanged(m_ekosStatus);
 
-            if (currentProfile->autoConnect)
-                appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
-            else
-                appendLogText(
-                    i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
+            if (managedDrivers.size() > 0)
+            {
+                if (currentProfile->autoConnect)
+                    appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
+                else
+                    appendLogText(
+                        i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
+            }
 
             QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
         };
@@ -1181,6 +1207,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
     connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
+    connect(devInterface, &ISD::GDInterface::propertyDeleted, this, &Ekos::Manager::processDeleteProperty);
     connect(devInterface, &ISD::GDInterface::interfaceDefined, this, &Ekos::Manager::syncActiveDevices);
 
     connect(devInterface, &ISD::GDInterface::numberUpdated, this, &Ekos::Manager::processNewNumber);
@@ -1775,9 +1802,17 @@ void Manager::processNewNumber(INumberVectorProperty * nvp)
     */
 }
 
+void Manager::processDeleteProperty(const QString &name)
+{
+    ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
+    ekosLiveClient.get()->message()->processDeleteProperty(deviceInterface->getDeviceName(), name);
+}
+
 void Manager::processNewProperty(INDI::Property * prop)
 {
     ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
+
+    ekosLiveClient.get()->message()->processNewProperty(prop);
 
     if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
     {
@@ -1785,7 +1820,11 @@ void Manager::processNewProperty(INDI::Property * prop)
         const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
         // If we don't have port mapping, then we connect immediately.
         if (port.isEmpty())
+            QTimer::singleShot(50, this, [deviceInterface]()
+        {
             deviceInterface->Connect();
+        });
+
         return;
     }
 
@@ -3443,6 +3482,8 @@ void Manager::connectModules()
     if (focusProcess.get() && mountProcess.get())
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, focusProcess.get(), &Ekos::Focus::setMountStatus,
+                Qt::UniqueConnection);
+        connect(mountProcess.get(), &Ekos::Mount::newCoords, focusProcess.get(), &Ekos::Focus::setMountCoords,
                 Qt::UniqueConnection);
     }
 

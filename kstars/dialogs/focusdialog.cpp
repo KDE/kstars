@@ -155,6 +155,9 @@ void FocusDialog::validatePoint()
             Point->setDec(dec);
             //Point->deprecess(KStarsData::Instance()->updateNum());
             Point->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
+            // N.B. At this point (ra, dec) and (ra0, dec0) are both J2000.0 values
+            // Therefore, we precess again to get the JNow values in (ra, dec)
+            Point->apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->updateNum()->julianDay());
         }
         else
         {
@@ -169,10 +172,12 @@ void FocusDialog::validatePoint()
 
             Point->setRA0(ra);
             Point->setDec0(dec);
-            Point->apparentCoord(jd0, KStarsData::Instance()->ut().djd());
+            Point->apparentCoord(jd0, KStarsData::Instance()->updateNum()->julianDay());
         }
 
         Point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        // At this point, both (RA, Dec) and (Alt, Az) should correspond to current time
+        // (RA0, Dec0) may either be J2000.0 or some other epoch -- asimha
 
         QDialog::accept();
     }
@@ -195,7 +200,7 @@ void FocusDialog::validatePoint()
             }
 
             Point->setAz(az);
-            Point->setAlt(alt);
+            Point->setAltRefracted(alt);
             Point->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
             UsedAltAz = true;

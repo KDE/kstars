@@ -1074,10 +1074,30 @@ void Logging::SyncFilterRules()
   then most of these paths will be overwritten since it is preferred to use the internal versions.
 **/
 
-QString getDefaultPath(QString option)
+QString getDefaultPath(const QString &option)
 {
+    // We support running within Snaps, Flatpaks, and AppImage
+    // The path should accomodate the differences between the different
+    // packaging solutions
     QString snap = QProcessEnvironment::systemEnvironment().value("SNAP");
     QString flat = QProcessEnvironment::systemEnvironment().value("FLATPAK_DEST");
+    QString appimg = QProcessEnvironment::systemEnvironment().value("APPDIR");
+
+    // User prefix is the primary mounting point
+    QString userPrefix = "/usr";
+    // By default /usr is the prefix
+    QString prefix = userPrefix;
+    // Detect if we are within an App Image
+    if (QProcessEnvironment::systemEnvironment().value("APPIMAGE").isEmpty() == false &&
+            appimg.isEmpty() == false)
+        prefix = appimg + userPrefix;
+    else if (flat.isEmpty() == false)
+        // Detect if we are within a Flatpak
+        prefix = flat;
+    // Detect if we are within a snap
+    else if (snap.isEmpty() == false)
+        prefix = snap + userPrefix;
+
 
     if (option == "fitsDir")
     {
@@ -1088,30 +1108,21 @@ QString getDefaultPath(QString option)
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/indiserver";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/bin/indiserver";
-        else
-            return snap + "/usr/bin/indiserver";
+        return prefix + "/bin/indiserver";
     }
     else if (option == "INDIHubAgent")
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/indihub-agent";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/bin/indihub-agent";
-        else
-            return snap + "/usr/bin/indihub-agent";
+        return prefix + "/bin/indihub-agent";
     }
     else if (option == "indiDriversDir")
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/share/indi";
 #elif defined(Q_OS_LINUX)
-        if (flat.isEmpty() == false)
-            return flat + "/share/indi";
-        else
-            return snap + "/usr/share/indi";
+        return prefix + "/share/indi";
 #else
         return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
 #endif
@@ -1121,57 +1132,44 @@ QString getDefaultPath(QString option)
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/solve-field";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/bin/solve-field";
-        else
-            return snap + "/usr/bin/solve-field";
+        return prefix + "/bin/solve-field";
     }
     else if (option == "SextractorBinary")
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/sex";
 #endif
-        return "/usr/bin/sextractor";
+        return prefix + "/bin/sextractor";
     }
     else if (option == "AstrometryWCSInfo")
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/wcsinfo";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/bin/wcsinfo";
-        else
-            return snap + "/usr/bin/wcsinfo";
+        return prefix + "/bin/wcsinfo";
     }
     else if (option == "AstrometryConfFile")
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/etc/astrometry.cfg";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/etc/astrometry.cfg";
-        else
-            return snap + "/etc/astrometry.cfg";
+        // We move /usr
+        prefix.remove(userPrefix);
+        return prefix + "/etc/astrometry.cfg";
     }
     else if (option == "AstrometryIndexFileLocation")
     {
 #if defined(Q_OS_OSX)
         return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/usr/share/astrometry/";
-        else
-            return snap + "/usr/share/astrometry/";
+        return prefix + "/share/astrometry/";
     }
     else if (option == "XplanetPath")
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/xplanet";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/bin/xplanet";
-        else
-            return snap + "/usr/bin/xplanet";
+        return prefix + "/bin/xplanet";
     }
     else if (option == "ASTAP")
     {
@@ -1180,10 +1178,7 @@ QString getDefaultPath(QString option)
 #elif defined(Q_OS_WIN)
         return "C:/Program Files/astap/astap.exe";
 #endif
-        if (flat.isEmpty() == false)
-            return flat + "/bin/astap";
-        else
-            return snap + "/opt/astap/astap";
+        return "/opt/astap/astap";
     }
 
     return QString();
@@ -1197,7 +1192,8 @@ QStringList getDefaultIndexFolderPaths(){
 //Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
 void copyResourcesFolderFromAppBundle(QString folder)
 {
-    QString folderLocation = QStandardPaths::locate(QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
+    QString folderLocation = QStandardPaths::locate(QStandardPaths::GenericDataLocation, folder,
+                             QStandardPaths::LocateDirectory);
     QDir folderSourceDir;
     if(folder == "kstars")
         folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
@@ -1270,7 +1266,8 @@ bool configureAstrometry()
     if (QDir(defaultAstrometryDataDir).exists() == false)
     {
         if (KMessageBox::warningYesNo(
-                    nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?", defaultAstrometryDataDir),
+                    nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?",
+                                  defaultAstrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
         {
             if(QDir(defaultAstrometryDataDir).mkdir(defaultAstrometryDataDir))
@@ -1362,7 +1359,8 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 bool configureLocalAstrometryConfIfNecessary()
 {
 #if defined(Q_OS_LINUX)
-    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") + QLatin1String("/astrometry.cfg");
+    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
+                       QLatin1String("/astrometry.cfg");
     if (QFileInfo(confPath).exists() == false)
     {
         if(createLocalAstrometryConf() == false)
@@ -1387,7 +1385,8 @@ bool createLocalAstrometryConf()
 {
     bool rc = false;
 
-    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") + QLatin1String("/astrometry.cfg");
+    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
+                       QLatin1String("/astrometry.cfg");
     QString systemConfPath = "/etc/astrometry.cfg";
 
     // Check if directory already exists, if it doesn't create one
@@ -1447,7 +1446,8 @@ QString getAstrometryConfFilePath()
 {
 #if defined(Q_OS_LINUX)
     if (Options::astrometryConfFileIsInternal())
-        return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") + QLatin1String("/astrometry.cfg");
+        return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
+               QLatin1String("/astrometry.cfg");
 #elif defined(Q_OS_OSX)
     if (Options::astrometryConfFileIsInternal())
         return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";

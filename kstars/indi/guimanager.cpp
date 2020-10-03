@@ -191,8 +191,11 @@ void GUIManager::removeClient(ClientManager *cm)
 {
     clients.removeOne(cm);
 
-    foreach (INDI_D *gdv, guidevices)
+    QMutableListIterator<INDI_D*> it(guidevices);
+    while (it.hasNext())
     {
+        INDI_D *gdv = it.next();
+
         if (gdv->getClientManager() == cm)
         {
             for (int i = 0; i < mainTabWidget->count(); i++)
@@ -204,7 +207,7 @@ void GUIManager::removeClient(ClientManager *cm)
                 }
             }
 
-            guidevices.removeOne(gdv);
+            it.remove();
             gdv->deleteLater();
             //break;
         }
@@ -221,6 +224,8 @@ void GUIManager::removeDevice(const QString &name)
     if (dp == nullptr)
         return;
 
+    dp->disconnect();
+
     // Hack to give mainTabWidget sometime to remove its item as these calls are coming from a different thread
     // the clientmanager thread. Sometimes removeTab() requires sometime to be removed properly and hence the wait.
     if (mainTabWidget->count() != guidevices.count())
@@ -236,7 +241,7 @@ void GUIManager::removeDevice(const QString &name)
     }
 
     guidevices.removeOne(dp);
-    delete (dp);
+    dp->deleteLater();
 
     if (guidevices.isEmpty())
     {
@@ -247,25 +252,13 @@ void GUIManager::removeDevice(const QString &name)
 
 void GUIManager::buildDevice(DeviceInfo *di)
 {
-    //qDebug() << "In build Device for device with tree label " << di->getTreeLabel() << endl;
-    ClientManager *cm = di->getDriverInfo()->getClientManager();
-
-    if (cm == nullptr)
-    {
-        qCritical() << "ClientManager is null in build device!" << endl;
-        return;
-    }
+    ClientManager *cm = qobject_cast<ClientManager *>(sender());
+    Q_ASSERT_X(cm, __FUNCTION__, "Client manager is not valid.");
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
     connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
-    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::QueuedConnection);
-    //    connect(cm, &ClientManager::removeINDIProperty, [gdm](const QString & device, const QString & name)
-    //    {
-    //        if (device == gdm->name())
-    //            QMetaObject::invokeMethod(gdm, "removeProperty", Qt::QueuedConnection, Q_ARG(QString, name));
-    //    });
-
+    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
     connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
     connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);

@@ -170,4 +170,45 @@ void TestDMS::testDeltaAngle()
     QVERIFY(sub.Degrees() == -160.0);
 }
 
+void TestDMS::testUnitTransition()
+{
+    // check for rounding/truncating errors around unit transition
+    dms sp; 
+    sp.setD(10.0 - 1.0E-14);
+    QVERIFY(sp.degree() == 9);
+    QVERIFY(sp.arcmin() == 59);
+    QVERIFY(sp.arcsec() == 59);
+    QVERIFY(sp.marcsec() == 999);
+
+    sp.setH(10.0 - 1.0E-14);
+    QVERIFY(sp.hour() == 9);
+    QVERIFY(sp.minute() == 59);
+    QVERIFY(sp.second() == 59);
+    QVERIFY(sp.msecond() == 999);
+ 
+    sp.setD(10.0);
+    QVERIFY(sp.degree() == 10);
+    QVERIFY(sp.arcmin() == 0);
+    QVERIFY(sp.arcsec() == 0);
+    QVERIFY(sp.marcsec() == 0);
+
+    sp.setH(10.0);
+    QVERIFY(sp.hour() == 10);
+    QVERIFY(sp.minute() == 0);
+    QVERIFY(sp.second() == 0);
+    QVERIFY(sp.msecond() == 0);
+
+    sp.setD(10.0 + 1.0E-14);
+    QVERIFY(sp.degree() == 10);
+    QVERIFY(sp.arcmin() == 0);
+    QVERIFY(sp.arcsec() == 0);
+    QVERIFY(sp.marcsec() == 0);
+
+    sp.setH(10.0 + 1.0E-14);
+    QVERIFY(sp.hour() == 10);
+    QVERIFY(sp.minute() == 0);
+    QVERIFY(sp.second() == 0);
+    QVERIFY(sp.msecond() == 0);
+}
+
 QTEST_GUILESS_MAIN(TestDMS)

@@ -36,6 +36,10 @@ ADD_EXECUTABLE(test_ekos_focus ${KSTARS_UI_EKOS_SRC} test_ekos_focus.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_focus ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosFocus COMMAND test_ekos_focus)
 
+ADD_EXECUTABLE(test_ekos_capture ${KSTARS_UI_EKOS_SRC} test_ekos_capture.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_capture ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosCapture COMMAND test_ekos_capture)
+
 ADD_EXECUTABLE(test_ekos_guide ${KSTARS_UI_EKOS_SRC} test_ekos_guide.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_guide ${KSTARS_UI_EKOS_LIBS})
 ADD_CUSTOM_COMMAND( TARGET test_ekos_guide POST_BUILD

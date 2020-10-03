@@ -71,8 +71,8 @@ class Analyze : public QWidget, public Ui::Analyze
                 QString htmlString;
         };
         // Below are subclasses of Session used to represent all the different
-        // lines in the Timeline. Each of those hold differnt types of infomation
-        // abou the process it represents.
+        // lines in the Timeline. Each of those hold different types of information
+        // about the process it represents.
         class CaptureSession : public Session
         {
             public:
@@ -258,7 +258,7 @@ class Analyze : public QWidget, public Ui::Analyze
         QCPItemRect * addSession(double start, double end, double y,
                                  const QBrush &brush, const QBrush *stripeBrush = nullptr);
 
-        // Manage temporary sesions (only used for live data--file-reading doesn't
+        // Manage temporary sessions (only used for live data--file-reading doesn't
         // need temporary sessions). For example, when an image capture has started
         // but not yet completed, a temporary session is added to the timeline to
         // represent the not-yet-completed capture.
@@ -352,11 +352,10 @@ class Analyze : public QWidget, public Ui::Analyze
         QString logFilename { "" };
         QFile logFile;
         bool logInitialized { false };
-        bool logEnabled { true };
 
         // These define the view for the timeline and stats plots.
         // The plots start plotStart seconds from the start of the session, and
-        // are plotWidth seconds long. The end of the X-asis is maxXValue.
+        // are plotWidth seconds long. The end of the X-axis is maxXValue.
         double plotStart { 0.0 };
         double plotWidth { 10.0 };
         double maxXValue { 10.0 };
@@ -381,6 +380,8 @@ class Analyze : public QWidget, public Ui::Analyze
         QCPAxis *snrAxis;
         QCPAxis *numStarsAxis;
         QCPAxis *skyBgAxis;
+        // Used to keep track of the y-axis position when moving it with the mouse.
+        double yAxisInitialPos = { 0 };
 
         // Used to display clock-time on the X-axis.
         QSharedPointer<OffsetDateTimeTicker> dateTicker;

@@ -32,7 +32,6 @@
 #include <KMessageBox>
 #include <KProcess>
 #include <KActionCollection>
-#include <KIconLoader>
 
 #include <QRadioButton>
 #include <QFile>

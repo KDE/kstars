@@ -72,8 +72,8 @@ class FITSTab : public QWidget
 
         bool loadFITSFromData(FITSData *data, const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
                               FITSScale filter = FITS_NONE);
-  
-        int saveFITS(const QString &filename);
+
+        bool saveImage(const QString &filename);
 
         inline QUndoStack *getUndoStack()
         {
@@ -180,7 +180,7 @@ class FITSTab : public QWidget
 
         //QFuture<void> histogramFuture;
 
-signals:
+    signals:
         void debayerToggled(bool);
         void newStatus(const QString &msg, FITSBar id);
         void changeStatus(bool clean);

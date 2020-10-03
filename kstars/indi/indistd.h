@@ -95,7 +95,7 @@ class GDInterface : public QObject
         virtual INDI::Property *getProperty(const QString &propName) = 0;
         virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) = 0;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) = 0;
-        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) = 0;
+        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements) = 0;
 
         virtual ~GDInterface() = default;
 
@@ -106,7 +106,7 @@ class GDInterface : public QObject
         virtual bool setProperty(QObject *)                       = 0;
 
     protected:
-        DeviceFamily dType { KSTARS_CCD };
+        DeviceFamily dType { KSTARS_UNKNOWN };
         uint32_t driverInterface { 0 };
         QString driverVersion;
         QHash<QString, INDI::Property *> properties;
@@ -142,7 +142,7 @@ class GenericDevice : public GDInterface
         Q_OBJECT
 
     public:
-        explicit GenericDevice(DeviceInfo &idv);
+        explicit GenericDevice(DeviceInfo &idv, ClientManager *cm);
         virtual ~GenericDevice() override = default;
 
         virtual void registerProperty(INDI::Property *prop) override;
@@ -196,7 +196,7 @@ class GenericDevice : public GDInterface
         virtual INDI::Property *getProperty(const QString &propName) override;
         virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
-        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
+        virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements) override;
 
     public slots:
         virtual bool Connect() override;
@@ -266,7 +266,7 @@ class DeviceDecorator : public GDInterface
         INDI::Property *getProperty(const QString &propName) override;
         bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
-        bool setJSONProperty(const QString &propName, const QJsonArray &propValue) override;
+        bool setJSONProperty(const QString &propName, const QJsonArray &propElements) override;
 
     public slots:
         virtual bool Connect() override;
@@ -314,6 +314,7 @@ void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool co
 void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool compact = true);
 void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool compact = true);
 void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool compact = true);
+void propertyToJson(INDI::Property *prop, QJsonObject &propObject, bool compact = true);
 
 }
 

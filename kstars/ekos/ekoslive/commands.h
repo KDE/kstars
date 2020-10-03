@@ -73,6 +73,10 @@ enum COMMANDS
     CAPTURE_ADD_SEQUENCE,
     CAPTURE_REMOVE_SEQUENCE,
     CAPTURE_SET_SETTINGS,
+    CAPTURE_SET_LIMITS,
+    CAPTURE_GET_LIMITS,
+    CAPTURE_GET_CALIBRATION_SETTINGS,
+    CAPTURE_GET_FILE_SETTINGS,
     CAPTURE_LOOP,
 
     // Mount
@@ -156,6 +160,10 @@ enum COMMANDS
     // Dialogs
     DIALOG_GET_INFO,
     DIALOG_GET_RESPONSE,
+
+    // Filter Manager
+    FM_GET_DATA,
+    FM_SET_DATA,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -212,6 +220,10 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_ADD_SEQUENCE, "capture_add_sequence"},
     {CAPTURE_REMOVE_SEQUENCE, "capture_remove_sequence"},
     {CAPTURE_SET_SETTINGS, "capture_set_settings"},
+    {CAPTURE_SET_LIMITS, "capture_set_limits"},
+    {CAPTURE_GET_LIMITS, "capture_get_limits"},
+    {CAPTURE_GET_CALIBRATION_SETTINGS, "capture_get_calibration_settings"},
+    {CAPTURE_GET_FILE_SETTINGS, "capture_get_file_settings"},
     {CAPTURE_LOOP, "capture_loop"},
 
     {MOUNT_PARK, "mount_park"},
@@ -282,7 +294,10 @@ static QMap<COMMANDS, QString> const commands =
     {DEVICE_PROPERTY_UNSUBSCRIBE, "device_property_unsubscribe"},
 
     {DIALOG_GET_INFO, "dialog_get_info"},
-    {DIALOG_GET_RESPONSE, "dialog_get_response"}
+    {DIALOG_GET_RESPONSE, "dialog_get_response"},
+
+    {FM_GET_DATA, "fm_get_data"},
+    {FM_SET_DATA, "fm_set_data"}
 };
 
 }

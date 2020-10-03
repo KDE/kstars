@@ -22,6 +22,7 @@
 #include "skypainter.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
+#include "skycomponents/deepskycomponent.h"
 
 CatalogComponent::CatalogComponent(SkyComposite *parent, const QString &catname, bool showerrs, int index,
                                    bool callLoadData)
@@ -202,6 +203,14 @@ void CatalogComponent::draw(SkyPainter *skyp)
 
     //Draw Custom Catalog objects
     // FIXME: Improve using HTM!
+
+    // N.B. Calls to Options::foo() don't might not get optimized to
+    // inlining and so we should call them outside the loop for speed.
+    float maglim = float(DeepSkyComponent::determineDeepSkyMagnitudeLimit());
+    auto zoomFactor = Options::zoomFactor();
+    auto sizeRescaling = dms::PI * zoomFactor / 10800.0;
+    bool showUnknownMagObjects = Options::showUnknownMagObjects();
+
     foreach (SkyObject *obj, m_ObjectList)
     {
         if (obj->type() == 0)
@@ -221,7 +230,14 @@ void CatalogComponent::draw(SkyPainter *skyp)
             //
             // ^ Not sure if above is still valid -- asimha 2016/08/16
             DeepSkyObject *dso = static_cast<DeepSkyObject *>(obj);
-            skyp->drawDeepSkyObject(dso, true);
+
+            // N.B. Code duplicated from DeepSkyComponent::draw()
+            float mag = dso->mag();
+            float size = dso->a() * sizeRescaling;
+            bool sizeCriterion = (size > 1.0 || zoomFactor > 2000.);
+            bool magCriterion  = (mag < maglim) || (showUnknownMagObjects && (std::isnan(mag) || mag > 36.0));
+            if (sizeCriterion && magCriterion)
+                skyp->drawDeepSkyObject(dso, true);
         }
     }
 }

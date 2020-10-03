@@ -387,6 +387,12 @@ void Manager::setIconTheme(IconTheme theme)
     QString rccFile("breeze-icons.rcc");
     QString iconTheme("breeze");
 
+#if QT_VERSION < 0x051200
+    qCWarning(KSTARS) << "Current icon theme is" << QIcon::themeName();
+#else
+    qCWarning(KSTARS) << "Current icon theme is" << QIcon::themeName() << "(fallback" << QIcon::fallbackThemeName() << ")";
+#endif
+
     if (theme == BREEZE_DARK_THEME)
     {
         rccFile = "breeze-icons-dark.rcc";
@@ -403,7 +409,20 @@ void Manager::setIconTheme(IconTheme theme)
     QString resourcePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory) + QDir::separator() + iconTheme + QDir::separator() + rccFile;
     QResource::registerResource(resourcePath, "/icons/" + iconTheme);
     #else
-    //TODO On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
+    // On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
+    // The important point is that the current theme must be left as is to avoid empty icons
+    {
+        bool missing = true;
+        foreach (auto &path, themeSearchPaths)
+            if (QFile(path + '/' + iconTheme + "/index.theme").exists())
+                missing = false;
+
+        if (missing)
+        {
+            qCWarning(KSTARS) << "Warning: icon theme" << iconTheme << "not found, keeping original" << QIcon::themeName() << ".";
+            iconTheme = QIcon::themeName();
+        }
+    }
     #endif
 
     QIcon::setThemeSearchPaths(themeSearchPaths);

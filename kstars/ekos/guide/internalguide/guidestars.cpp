@@ -13,13 +13,14 @@
 #include "ekos_guide_debug.h"
 #include "stellarsolver.h"
 #include "../guideview.h"
+#include "Options.h"
 #include <QTime>
 
 // Keeps at most this many reference "neighbor" stars
 #define MAX_GUIDE_STARS 10
 
 // Then when looking for the guide star, gets this many candidates.
-#define STARS_TO_SEARCH 15
+#define STARS_TO_SEARCH 25
 
 // Don't use stars with SNR lower than this when computing multi-star drift.
 #define MIN_DRIFT_SNR  8
@@ -28,6 +29,10 @@
 // It will instead back-off to a reticle-based algorithm.
 #define MIN_STAR_CORRESPONDENCE_SIZE 5
 
+// We limit the HFR for guide stars. When searching for the guide star, we relax this by the
+// margin below (e.g. if a guide star was selected that was near the max guide-star hfr, the later
+// the hfr increased a little, we still want to be able to find it.
+constexpr double HFR_MARGIN = 0.25;
 /*
  Start with a set of reference (x,y) positions from stars, where one is designated a guide star.
  Given these and a set of new input stars, determine a mapping of new stars to the references.
@@ -79,7 +84,9 @@ QVector3D GuideStars::selectGuideStar(FITSData *imageData)
 
     QList<double> sepScores;
     QList<double> minDistances;
-    findTopStars(imageData, MAX_GUIDE_STARS, &detectedStars, nullptr, &sepScores, &minDistances);
+    const double maxHFR = Options::guideMaxHFR();
+    findTopStars(imageData, MAX_GUIDE_STARS, &detectedStars, maxHFR,
+                 nullptr, &sepScores, &minDistances);
 
     int maxX = imageData->width();
     int maxY = imageData->height();
@@ -254,9 +261,12 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
         return Vector(v.x(), v.y(), v.z());
     }
 
+    // Allow a little margin above the max hfr for guide stars when searching for the guide star.
+    const double maxHFR = Options::guideMaxHFR() + HFR_MARGIN;
     if (starCorrespondence.size() > 0)
     {
-        findTopStars(imageData, STARS_TO_SEARCH, &detectedStars);
+
+        findTopStars(imageData, STARS_TO_SEARCH, &detectedStars, maxHFR);
         if (detectedStars.empty())
             return Vector(-1, -1, -1);
 
@@ -297,7 +307,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
         return Vector(-1, -1, -1);
 
     // If we didn't find a star that way, then fall back
-    findTopStars(imageData, 1, &detectedStars, &trackingBox);
+    findTopStars(imageData, 1, &detectedStars, maxHFR, &trackingBox);
     if (detectedStars.size() > 0)
     {
         auto &star = detectedStars[0];
@@ -401,7 +411,8 @@ double GuideStars::findMinDistance(int index, const QList<Edge*> &stars)
 
 // Returns a list of 'num' stars, sorted according to evaluateSEPStars().
 // If the region-of-interest rectange is not null, it only returns scores in that area.
-void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, const QRect *roi,
+void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
+                              const double maxHFR, const QRect *roi,
                               QList<double> *outputScores, QList<double> *minDistances)
 {
     if (roi == nullptr)
@@ -425,7 +436,7 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, 
         return;
 
     QVector<double> scores;
-    evaluateSEPStars(sepStars, &scores, roi);
+    evaluateSEPStars(sepStars, &scores, roi, maxHFR);
     // Sort the sepStars by score, higher score to lower score.
     QVector<std::pair<int, double>> sc;
     for (int i = 0; i < scores.size(); ++i)
@@ -454,7 +465,8 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars, 
 }
 
 // Scores star detection relative to each other. Uses the star's SNR as the main measure.
-void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores, const QRect *roi) const
+void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores,
+                                  const QRect *roi, const double maxHFR) const
 {
     auto centers = starCenters;
     scores->clear();
@@ -463,7 +475,6 @@ void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<doub
 
     // Rough constants used by this weighting.
     // If the center pixel is above this, assume it's clipped and don't emphasize.
-    constexpr double maxHFR = 10.0;
     constexpr double snrWeight = 20;  // Measure weight if/when multiple measures are used.
     auto bg = skybackground();
 
@@ -477,13 +488,15 @@ void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<doub
     });
     for (int i = 0; i < centers.size(); ++i)
     {
-        // Don't emphasize stars that are too wide.
-        if (centers.at(i)->HFR > maxHFR) continue;
         for (int j = 0; j < starCenters.size(); ++j)
         {
             if (starCenters.at(j) == centers.at(i))
             {
-                (*scores)[j] += snrWeight * i;
+                // Don't emphasize stars that are too wide.
+                if (centers.at(i)->HFR > maxHFR)
+                    (*scores)[j] = -1;
+                else
+                    (*scores)[j] += snrWeight * i;
                 break;
             }
         }

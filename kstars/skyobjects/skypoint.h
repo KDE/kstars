@@ -410,8 +410,9 @@ class SkyPoint
         /**
          * Computes the J2000.0 catalogue coordinates for this SkyPoint using the epoch
          * removing aberration, nutation and precession
-         * Catalogue coordinates are in Ra0, Dec0
+         * Catalogue coordinates are in Ra0, Dec0 as well as Ra, Dec and lastPrecessJD is set to J2000.0
          *
+         * @FIXME We do not undo nutation and aberration
          * @brief catalogueCoord converts observed to J2000 using epoch jdf
          * @param jdf Julian Day which identifies the current epoch
          * @return SpyPoint containing J2000 coordinates

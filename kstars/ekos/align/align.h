@@ -954,6 +954,10 @@ class Align : public QWidget, public Ui::Align
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
 
+        // Controls
+        double GainSpinSpecialValue;
+        double TargetCustomGainValue {-1};
+
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
 
