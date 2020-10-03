@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>661</width>
-    <height>588</height>
+    <height>583</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -28,9 +28,6 @@
    </property>
    <item>
     <layout class="QVBoxLayout" name="LeftLayout">
-     <property name="spacing">
-      <number>3</number>
-     </property>
      <item>
       <widget class="QGroupBox" name="CCDFWGroup">
        <property name="enabled">
@@ -51,7 +48,7 @@
        <property name="title">
         <string>Camera &amp;&amp; Filter Wheel</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
+       <layout class="QGridLayout" name="gridLayout_3">
         <property name="leftMargin">
          <number>3</number>
         </property>
@@ -67,7 +64,7 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="0" column="0" colspan="5">
+        <item row="0" column="0" colspan="4">
          <layout class="QGridLayout" name="ccdGridLayout">
           <property name="spacing">
            <number>2</number>
@@ -448,7 +445,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="3" colspan="2">
+        <item row="2" column="3">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="spacing">
            <number>2</number>
@@ -595,7 +592,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="4" column="3" colspan="2">
+        <item row="4" column="3">
          <widget class="QComboBox" name="captureISOS">
           <property name="toolTip">
            <string>Camera ISO</string>
@@ -638,7 +635,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="5" column="3" colspan="2">
+        <item row="5" column="3">
          <widget class="QDoubleSpinBox" name="captureGainN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -739,7 +736,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="6" column="3" colspan="2">
+        <item row="6" column="3">
          <widget class="QDoubleSpinBox" name="captureOffsetN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -830,66 +827,125 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="7" column="2" colspan="2">
-         <widget class="QPushButton" name="resetFrameB">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item row="7" column="2" rowspan="3" colspan="2">
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="spacing">
+           <number>3</number>
           </property>
-          <property name="toolTip">
-           <string>Reset CCD frame &amp; size values to default values</string>
-          </property>
-          <property name="text">
-           <string>Reset</string>
-          </property>
-          <property name="icon">
-           <iconset theme="edit-reset">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="4">
-         <widget class="QPushButton" name="calibrationB">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Dark &amp; Flat frames automatic calibration options</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset theme="lighttable">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-         </widget>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="customValuesB">
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Properties</string>
+            </property>
+            <property name="icon">
+             <iconset theme="document-properties">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QPushButton" name="rotatorB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Rotator Control</string>
+            </property>
+            <property name="text">
+             <string>Rotate</string>
+            </property>
+            <property name="icon">
+             <iconset theme="screen-rotate-auto-on">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="resetFrameB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Reset CCD frame &amp; size values to default values</string>
+            </property>
+            <property name="text">
+             <string>Reset</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-reset">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QPushButton" name="calibrationB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Dark &amp; Flat frames automatic calibration options</string>
+            </property>
+            <property name="text">
+             <string>Calibrate</string>
+            </property>
+            <property name="icon">
+             <iconset theme="lighttable">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item row="8" column="0">
          <widget class="QLabel" name="textLabel1_9">
@@ -981,58 +1037,6 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="8" column="2" colspan="2">
-         <widget class="QPushButton" name="customValuesB">
-          <property name="minimumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Properties</string>
-          </property>
-          <property name="icon">
-           <iconset theme="document-properties">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="4">
-         <widget class="QPushButton" name="rotatorB">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Rotator Control</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset theme="screen-rotate-auto-on">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-         </widget>
-        </item>
         <item row="9" column="0" colspan="2">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <property name="spacing">
@@ -1060,7 +1064,7 @@ font-weight:bold;
           </item>
          </layout>
         </item>
-        <item row="10" column="0" colspan="5">
+        <item row="10" column="0" colspan="4">
          <layout class="QGridLayout" name="fileSettingsGridLayout">
           <property name="spacing">
            <number>2</number>
