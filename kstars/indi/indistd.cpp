@@ -29,12 +29,8 @@ namespace ISD
 
 GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement,
                            QVariant qValue, QObject *parent)
-    : QObject(parent)
+    : QObject(parent), propType(inPropertyType), indiProperty((inProperty)), indiElement(inElement), elementValue(qValue)
 {
-    propType     = inPropertyType;
-    indiProperty = inProperty;
-    indiElement  = inElement;
-    elementValue = qValue;
 }
 
 GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
@@ -42,8 +38,12 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
     deviceInfo    = &idv;
     driverInfo    = idv.getDriverInfo();
     baseDevice    = idv.getBaseDevice();
-    m_Name        = baseDevice->getDeviceName();
     clientManager = cm;
+
+    Q_ASSERT_X(baseDevice, __FUNCTION__, "Base device is invalid.");
+    Q_ASSERT_X(clientManager, __FUNCTION__, "Client manager is invalid.");
+
+    m_Name        = baseDevice->getDeviceName();
 
     dType = KSTARS_UNKNOWN;
 

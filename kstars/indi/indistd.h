@@ -323,4 +323,3 @@ Q_DECLARE_METATYPE(ISD::ParkStatus)
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::ParkStatus &dest);
 #endif
-
