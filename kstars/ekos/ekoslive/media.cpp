@@ -29,7 +29,8 @@ Media::Media(Ekos::Manager * manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Media::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Media::onError);
+    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
+            &Media::onError);
 
     connect(this, &Media::newMetadata, this, &Media::uploadMetadata);
     connect(this, &Media::newImage, this, &Media::uploadImage);
@@ -274,30 +275,17 @@ void Media::sendVideoFrame(std::shared_ptr<QImage> frame)
         return;
 
     int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2;
-
-    // TODO Scale should be configurable
-    QImage oneFrame;
-    if (frame.get()->width() > width)
-        oneFrame = frame.get()->scaledToWidth(width);
-
     QByteArray array;
     QBuffer buffer(&array);
     QImageWriter writer;
     writer.setDevice(&buffer);
-    writer.setFormat("JPEG");
+    writer.setFormat("JPG");
     writer.setCompression(7);
-    writer.write(oneFrame);
+    if (frame.get()->width() > width)
+        writer.write(frame.get()->scaledToWidth(width));
+    else
+        writer.write(*frame.get());
     m_WebSocket.sendBinaryMessage(array);
-    //    QTemporaryFile jpegFile;
-    //    jpegFile.open();
-    //    jpegFile.close();
-
-    //    // TODO Quality should be configurable
-    //    scaledImage.save(jpegFile.fileName(), "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY / 2);
-
-    //    jpegFile.open();
-
-    //m_WebSocket.sendBinaryMessage(jpegFile.readAll());
 }
 
 void Media::registerCameras()
