@@ -84,6 +84,12 @@ class Message : public QObject
         void setAlignSolution(const QVariantMap &solution);
         void sendAlignSettings(const QJsonObject &settings);
 
+        // Guide
+        void sendGuideSettings(const QJsonObject &settings);
+
+        // Focus
+        void sendFocusSettings(const QJsonObject &settings);
+
         // Polar
         void setPAHStage(Ekos::Align::PAHStage stage);
         void setPAHMessage(const QString &message);

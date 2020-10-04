@@ -4051,4 +4051,16 @@ void Focus::initView()
     focusView->setStarsHFREnabled(true);
 }
 
+// TODO
+QJsonObject Focus::getSettings() const
+{
+    return QJsonObject();
+}
+
+// TODO
+void Focus::setSettings(const QJsonObject &settings)
+{
+    Q_UNUSED(settings);
+}
+
 }

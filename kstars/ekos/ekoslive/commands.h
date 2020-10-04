@@ -109,11 +109,14 @@ enum COMMANDS
     FOCUS_IN,
     FOCUS_OUT,
     FOCUS_LOOP,
+    FOCUS_SET_SETTINGS,
 
     // Guide
     GUIDE_START,
     GUIDE_STOP,
     GUIDE_CLEAR,
+    GUIDE_REPORT,
+    GUIDE_SET_SETTINGS,
 
     // Align
     ALIGN_SOLVE,
@@ -252,10 +255,13 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_IN, "focus_in"},
     {FOCUS_OUT, "focus_out"},
     {FOCUS_LOOP, "focus_loop"},
+    {FOCUS_SET_SETTINGS, "focus_set_settings"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
+    {GUIDE_REPORT, "guide_report"},
+    {GUIDE_SET_SETTINGS, "guide_set_settings"},
 
     {ALIGN_SOLVE, "align_solve"},
     {ALIGN_STOP, "align_stop"},

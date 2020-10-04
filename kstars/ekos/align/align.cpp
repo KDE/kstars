@@ -3536,6 +3536,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {"de", SolverDecOut->text()},
         {"dRA", dRAText},
         {"dDE", dDEText},
+        {"targetDiff", targetDiff},
         {"pix", pixscale},
         {"rot", orientation},
         {"fov", FOVOut->text()},
@@ -6334,29 +6335,49 @@ QJsonObject Align::getSettings() const
 
 void Align::setSettings(const QJsonObject &settings)
 {
-    // Camera
-    const QString camera = settings["camera"].toString(CCDCaptureCombo->currentText());
-    if (camera != CCDCaptureCombo->currentText())
-        CCDCaptureCombo->setCurrentText(camera);
-
-    // Filter Wheel
-    const QString fw = settings["fw"].toString(FilterDevicesCombo->currentText());
-    if (fw != FilterDevicesCombo->currentText())
-        FilterDevicesCombo->setCurrentText(fw);
-
-    // Filter
-    const QString filter = settings["filter"].toString(FilterPosCombo->currentText());
-    if (filter != FilterPosCombo->currentText())
+    auto syncControl = [settings](const QString & key, QWidget * widget)
     {
-        FilterPosCombo->setCurrentText(filter);
-        Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
-    }
+        QSpinBox *pSB = nullptr;
+        QDoubleSpinBox *pDSB = nullptr;
+        QCheckBox *pCB = nullptr;
+        QComboBox *pComboBox = nullptr;
 
+        if ((pSB = qobject_cast<QSpinBox *>(widget)))
+        {
+            const int value = settings[key].toInt(pSB->value());
+            if (value != pSB->value())
+                pSB->setValue(value);
+        }
+        else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+        {
+            const double value = settings[key].toDouble(pDSB->value());
+            if (value != pDSB->value())
+                pDSB->setValue(value);
+        }
+        else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+        {
+            const bool value = settings[key].toBool(pCB->isChecked());
+            if (value != pCB->isChecked())
+                pCB->setChecked(value);
+        }
+        // ONLY FOR STRINGS, not INDEX
+        else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+        {
+            const QString value = settings[key].toString(pComboBox->currentText());
+            if (value != pComboBox->currentText())
+                pComboBox->setCurrentText(value);
+        }
+    };
+
+    // Camera
+    syncControl("camera", CCDCaptureCombo);
+    // Filter Wheel
+    syncControl("fw", FilterDevicesCombo);
+    // Filter
+    syncControl("filter", FilterPosCombo);
+    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
     // Exposure
-    const double exposure = settings["exp"].toDouble(exposureIN->value());
-    if (exposure != exposureIN->value())
-        exposureIN->setValue(exposure);
-
+    syncControl("exp", exposureIN);
     // Binning
     const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
     if (bin != binningCombo->currentIndex())
@@ -6380,12 +6401,7 @@ void Align::setSettings(const QJsonObject &settings)
 
     // Gain
     if (GainSpin->isEnabled())
-    {
-        const double gain = settings["gain"].toDouble(GainSpin->value());
-        if (gain != GainSpin->value())
-            GainSpin->setValue(gain);
-    }
-
+        syncControl("gain", GainSpin);
     // ISO
     if (ISOCombo->isEnabled())
     {
@@ -6393,21 +6409,12 @@ void Align::setSettings(const QJsonObject &settings)
         if (iso != ISOCombo->currentIndex())
             ISOCombo->setCurrentIndex(iso);
     }
-
     // Dark
-    const bool dark = settings["dark"].toBool(alignDarkFrameCheck->isChecked());
-    if (dark != alignDarkFrameCheck->isChecked())
-        alignDarkFrameCheck->setChecked(dark);
-
+    syncControl("dark", alignDarkFrameCheck);
     // Accuracy
-    const int accuracy = settings["accuracy"].toInt(accuracySpin->value());
-    if (accuracy != accuracySpin->value())
-        accuracySpin->setValue(accuracy);
-
+    syncControl("accuracy", accuracySpin);
     // Settle
-    const int settle = settings["settle"].toInt(delaySpin->value());
-    if (settle != delaySpin->value())
-        delaySpin->setValue(settle);
+    syncControl("settle", delaySpin);
 }
 
 void Align::syncSettings()

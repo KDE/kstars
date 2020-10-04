@@ -208,6 +208,9 @@ class Focus : public QWidget, public Ui::Focus
             return m_LogText.join("\n");
         }
 
+        QJsonObject getSettings() const;
+        void setSettings(const QJsonObject &settings);
+
     public slots:
 
         /** \addtogroup FocusDBusInterface

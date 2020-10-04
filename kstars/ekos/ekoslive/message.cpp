@@ -284,6 +284,12 @@ void Message::sendCameras()
 
     if (m_Manager->captureModule())
         sendCaptureSettings(m_Manager->captureModule()->getPresetSettings());
+    if (m_Manager->alignModule())
+        sendAlignSettings(m_Manager->alignModule()->getSettings());
+    if (m_Manager->focusModule())
+        sendFocusSettings(m_Manager->focusModule()->getSettings());
+    if (m_Manager->guideModule())
+        sendGuideSettings(m_Manager->guideModule()->getSettings());
 }
 
 void Message::sendMounts()
@@ -594,6 +600,16 @@ void Message::sendCaptureSettings(const QJsonObject &settings)
 void Message::sendAlignSettings(const QJsonObject &settings)
 {
     sendResponse(commands[ALIGN_SET_SETTINGS], settings);
+}
+
+void Message::sendGuideSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[GUIDE_SET_SETTINGS], settings);
+}
+
+void Message::sendFocusSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[FOCUS_SET_SETTINGS], settings);
 }
 
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)

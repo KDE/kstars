@@ -247,6 +247,9 @@ class Guide : public QWidget, public Ui::Guide
             return guider;
         }
 
+        QJsonObject getSettings() const;
+        void setSettings(const QJsonObject &settings);
+
     public slots:
 
         /** DBUS interface function.
