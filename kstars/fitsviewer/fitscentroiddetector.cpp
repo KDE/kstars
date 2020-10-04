@@ -61,7 +61,13 @@ bool FITSCentroidDetector::checkCollision(Edge * s1, Edge * s2) const
 /*** Find center of stars and calculate Half Flux Radius */
 int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
 {
-    switch (parent()->property("dataType").toInt())
+    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
+
+    if (image_data == nullptr)
+        return 0;
+
+    FITSImage::Statistic const &stats = image_data->getStatistics();
+    switch (stats.dataType)
     {
         case TBYTE:
             return findSources<uint8_t const>(starCenters, boundary);

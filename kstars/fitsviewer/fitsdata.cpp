@@ -501,7 +501,7 @@ bool FITSData::saveImage(const QString &newFilename)
         double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
         // Long way to do this since we do not want to use templated functions here
-        switch (property("dataType").toInt())
+        switch (stats.dataType)
         {
             case TBYTE:
                 convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
