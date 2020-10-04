@@ -24,6 +24,7 @@
 #include "fitsviewer/fitsview.h"
 #include "indi/indifilter.h"
 #include "ksnotification.h"
+#include "kconfigdialog.h"
 
 #include <basedevice.h>
 
@@ -92,6 +93,40 @@ Focus::Focus()
     m_FocusLogFileName = dir + "autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
     m_FocusLogFile.setFileName(m_FocusLogFileName);
 
+    editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
+    editFocusProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    connect(editFocusProfile,&QAbstractButton::clicked, this, [this](){
+        KConfigDialog *optionsEditor= new KConfigDialog(this, "OptionsProfileEditor", Options::self());
+        optionsProfileEditor = new OptionsProfileEditor(this, false, optionsEditor);
+        #ifdef Q_OS_OSX
+            optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+        #endif
+        KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Options Profile Editor"));
+        mainPage->setIcon(QIcon::fromTheme("configure"));
+        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadOptionsProfiles);
+        optionsProfileEditor->loadProfile(focusOptionsProfiles->currentIndex());
+        optionsEditor->show();
+    });
+
+    connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index){
+        Options::setFocusOptionsProfile(index);
+    });
+
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+    loadOptionsProfiles();
+
+}
+
+void Focus::loadOptionsProfiles()
+{
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+
+    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    focusOptionsProfiles->clear();
+    foreach(SSolver::Parameters param, optionsList)
+        focusOptionsProfiles->addItem(param.listName);
+    focusOptionsProfiles->setCurrentIndex(Options::focusOptionsProfile());
 }
 
 Focus::~Focus()

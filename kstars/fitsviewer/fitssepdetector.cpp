@@ -23,6 +23,8 @@
 #include "fits_debug.h"
 #include "fitssepdetector.h"
 #include "stellarsolver.h"
+#include "Options.h"
+#include "kspaths.h"
 
 
 FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
@@ -67,7 +69,13 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     //Note this is the part I added.  It is just an initial attempt to get it working
     constexpr int maxNumCenters = 50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
     StellarSolver *solver = new StellarSolver(image_data->getStatistics(),image_data->getImageBuffer(), parent());
-    solver->setParameterProfile(SSolver::Parameters::ALL_STARS); // This is a profile I used for now.  We can make one specific to focusing or guiding or whatever.  Or we can let the user select one to use for the purpose.
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+    QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    if(optionsList.count() > Options::focusOptionsProfile())
+        solver->setParameters(optionsList.at(Options::focusOptionsProfile()));
+    else
+        solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
+    qDebug()<<"Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
     if (!boundary.isNull())
         solver->setUseSubframe(boundary);
     solver->sextractWithHFR();  //For this test, I am using this method.  StellarSolver can also optinally use the external sextractor for this.  It might be faster in some cases, but I don't think it can be installed on windows.

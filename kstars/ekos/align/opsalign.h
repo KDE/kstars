@@ -29,10 +29,12 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
     explicit OpsAlign(Align *parent);
     virtual ~OpsAlign() override = default;
 
+public slots:
+    void reloadOptionsProfiles();
   protected:
   private slots:
     void slotApply();
-    void reload();
+
 
   signals:
     void settingsUpdated();

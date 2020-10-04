@@ -12,169 +12,23 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>Options For Focus</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_18">
-      <item row="0" column="1">
-       <widget class="QComboBox" name="kcfg_FocusSextractorType">
-        <item>
-         <property name="text">
-          <string>Internal Sextractor</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>External Sextractor</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="label_68">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>15</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Profile:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="kcfg_FocusOptionsProfile">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="editFocusProfile">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_5">
-     <property name="title">
-      <string>Options For Guiding</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_19">
-      <item row="0" column="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label_70">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>15</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Profile:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="kcfg_GuideOptionsProfile">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="editGuidingProfile">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="kcfg_GuideSextractorType">
-        <item>
-         <property name="text">
-          <string>Internal Sextractor</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>External Sextractor</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBox_6">
      <property name="title">
-      <string>Options for Solving</string>
+      <string>StellarSolver Settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_17">
-      <item row="2" column="2">
-       <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
-        <property name="toolTip">
-         <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
-        </property>
-        <property name="text">
-         <string>Overlay</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
-        <property name="toolTip">
-         <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
-        </property>
-        <property name="text">
-         <string>WCS</string>
-        </property>
-       </widget>
-      </item>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item row="0" column="1">
        <widget class="QLabel" name="label_73">
         <property name="sizePolicy">
@@ -190,17 +44,10 @@
          </size>
         </property>
         <property name="text">
-         <string>Sextract:</string>
+         <string>Star Extraction Method</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -262,7 +109,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Solve:</string>
+         <string>Solving Method</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -284,7 +131,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Profile:</string>
+         <string>Options Profile:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -315,42 +162,27 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="4">
-       <widget class="QCheckBox" name="kcfg_PAHAutoPark">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically park mount after completing Polar Alignment Assistant Tools. Beware that turning this option off might lead to inaccurate results.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Auto Park</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Rotator:</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Logging</string>
+      <string>Astrometry Logging (Note: Enable Alignment Logging First in Log Options)</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_34">
-        <property name="text">
-         <string>Log Level:</string>
-        </property>
-       </widget>
-      </item>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item row="0" column="1">
        <widget class="QComboBox" name="kcfg_LoggerLevel">
         <property name="currentIndex">
@@ -378,14 +210,92 @@
         </item>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_34">
+        <property name="text">
+         <string>Log Level:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometryLogToFile">
+        <property name="text">
+         <string>Astrometry Log to File</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="kcfg_AstrometryLogFilepath"/>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="reloadProfiles">
-     <property name="text">
-      <string>Reload Options Profiles</string>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Alignment Options</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
+        <property name="toolTip">
+         <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
+        </property>
+        <property name="text">
+         <string>Overlay</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
+        <property name="toolTip">
+         <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
+        </property>
+        <property name="text">
+         <string>WCS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="kcfg_PAHAutoPark">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically park mount after completing Polar Alignment Assistant Tools. Beware that turning this option off might lead to inaccurate results.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Auto Park</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Rotator:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

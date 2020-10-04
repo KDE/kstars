@@ -261,10 +261,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
     page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
 
-    optionsProfileEditor = new OptionsProfileEditor(this);
+    optionsProfileEditor = new OptionsProfileEditor(this, true, dialog);
     page = dialog->addPage(optionsProfileEditor, i18n("Options Profiles Editor"));
     connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, [this](){
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        opsAlign->reloadOptionsProfiles();
     });
     page->setIcon(QIcon::fromTheme("configure"));
 
@@ -3261,11 +3262,6 @@ void Align::startSolving()
     if(Options::astrometryUseImageScale() && !blindSolve)
     {
        SSolver::ScaleUnits units = (SSolver::ScaleUnits)Options::astrometryImageScaleUnits();
-       double fov = Options::astrometryImageScaleLow();
-       double fovH = Options::astrometryImageScaleHigh();
-       appendLogText("Low: " + QString::number( fov));
-       appendLogText("High: " + QString::number( fovH));
-       appendLogText("units: " + QString::number(Options::astrometryImageScaleUnits()));
        stellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
     }
     else
@@ -3276,7 +3272,15 @@ void Align::startSolving()
     else
         stellarSolver->setUsePostion(false);
 
-    stellarSolver->setLogLevel((SSolver::logging_level)Options::loggerLevel());
+    if(Options::alignmentLogging()){
+        stellarSolver->setLogLevel((SSolver::logging_level)Options::loggerLevel());
+        if(Options::astrometryLogToFile()){
+            stellarSolver->setLogToFile(true);
+            stellarSolver->logFileName = Options::astrometryLogFilepath();
+        }
+    } else{
+        stellarSolver->setLogLevel(SSolver::LOG_NONE);
+    }
 
     stellarSolver->startProcess();
 

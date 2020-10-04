@@ -29,7 +29,7 @@ class OptionsProfileEditor : public QWidget, public Ui::OptionsProfileEditor
 
   public:
 
-    explicit OptionsProfileEditor(Align *parent);
+    explicit OptionsProfileEditor(QWidget *parent, bool showSolveOptions, KConfigDialog *dialog);
     virtual ~OptionsProfileEditor() override = default;
 
     //These functions handle the settings for the Sextractors and Solvers
@@ -64,6 +64,5 @@ signals:
     QList<SSolver::Parameters> optionsList;
     bool optionsAreSaved = true;
     KConfigDialog *m_ConfigDialog { nullptr };
-    Align *alignModule { nullptr };
 };
 }

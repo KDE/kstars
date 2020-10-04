@@ -20,14 +20,12 @@
 
 namespace Ekos
 {
-OptionsProfileEditor::OptionsProfileEditor(Align *parent) : QWidget(KStars::Instance())
+OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, bool showSolveOptions, KConfigDialog *dialog) : QWidget(KStars::Instance())
 {
     setupUi(this);
 
-    alignModule = parent;
-
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists("alignsettings");
+    m_ConfigDialog = dialog;
 
     savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
     loadProfiles();
@@ -78,6 +76,8 @@ OptionsProfileEditor::OptionsProfileEditor(Align *parent) : QWidget(KStars::Inst
     foreach(QSpinBox *spin, spins)
         connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &OptionsProfileEditor::settingJustChanged);
 
+    if(!showSolveOptions)
+        astrometryOptions->setVisible(false);
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 }
@@ -97,6 +97,7 @@ void OptionsProfileEditor::disconnectOptionsProfileComboBox()
 void OptionsProfileEditor::settingJustChanged()
 {
     optionsAreSaved = false;
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
 void OptionsProfileEditor::loadProfile(int profile)
@@ -261,6 +262,7 @@ void OptionsProfileEditor::loadDefaultProfiles()
     foreach(SSolver::Parameters param, optionsList)
         optionsProfile->addItem(param.listName);
     connectOptionsProfileComboBox();
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
 void OptionsProfileEditor::saveBackupProfiles()
@@ -315,6 +317,7 @@ void OptionsProfileEditor::loadBackupProfiles()
         }
     }
     connectOptionsProfileComboBox();
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
 void OptionsProfileEditor::slotApply()

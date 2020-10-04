@@ -31,46 +31,26 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("alignsettings");
 
-    editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
-    editFocusProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(editFocusProfile,&QAbstractButton::clicked, this, [this]{
-        emit needToLoadProfile(kcfg_FocusOptionsProfile->currentIndex());
-    });
-    editGuidingProfile->setIcon(QIcon::fromTheme("document-edit"));
-    editGuidingProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(editFocusProfile,&QAbstractButton::clicked, this, [this]{
-        emit needToLoadProfile(kcfg_GuideOptionsProfile->currentIndex());
-    });
     editSolverProfile->setIcon(QIcon::fromTheme("document-edit"));
     editSolverProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(editSolverProfile,&QAbstractButton::clicked, this, [this]{
         emit needToLoadProfile(kcfg_SolveOptionsProfile->currentIndex());
     });
 
-    reload();
+    reloadOptionsProfiles();
 
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
-    connect(reloadProfiles, &QAbstractButton::clicked,this, &OpsAlign::reload);
-
 }
 
-void OpsAlign::reload()
+void OpsAlign::reloadOptionsProfiles()
 {
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
 
     optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    kcfg_FocusOptionsProfile->clear();
-    kcfg_GuideOptionsProfile->clear();
     kcfg_SolveOptionsProfile->clear();
     foreach(SSolver::Parameters param, optionsList)
-    {
-        kcfg_FocusOptionsProfile->addItem(param.listName);
-        kcfg_GuideOptionsProfile->addItem(param.listName);
         kcfg_SolveOptionsProfile->addItem(param.listName);
-    }
-    kcfg_FocusOptionsProfile->setCurrentIndex(Options::focusOptionsProfile());
-    kcfg_GuideOptionsProfile->setCurrentIndex(Options::guideOptionsProfile());
     kcfg_SolveOptionsProfile->setCurrentIndex(Options::solveOptionsProfile());
 }
 
