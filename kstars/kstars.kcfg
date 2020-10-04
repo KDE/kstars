@@ -1928,11 +1928,11 @@
          <label>Level of verbosity in the log.</label>
          <default>0</default>
       </entry>
-      <entry name="astrometryLogToFile" type="Bool">
+      <entry name="AstrometryLogToFile" type="Bool">
          <label>Whether to log to a file instead.</label>
          <default>false</default>
       </entry>
-      <entry name="astrometryLogFilepath" type="String">
+      <entry name="AstrometryLogFilepath" type="String">
          <label>Path of the log file to save astrometry logging to.</label>
          <default></default>
       </entry>

@@ -3275,7 +3275,7 @@ void Align::startSolving()
     if(Options::alignmentLogging()){
         stellarSolver->setLogLevel((SSolver::logging_level)Options::loggerLevel());
         if(Options::astrometryLogToFile()){
-            stellarSolver->setLogToFile(true);
+            stellarSolver->logToFile = true;
             stellarSolver->logFileName = Options::astrometryLogFilepath();
         }
     } else{
