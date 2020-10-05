@@ -4053,7 +4053,9 @@ void Focus::initView()
     focusView->setStarsHFREnabled(true);
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 QJsonObject Focus::getSettings() const
 {
     QJsonObject settings;
@@ -4065,59 +4067,23 @@ QJsonObject Focus::getSettings() const
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("gain", gainIN->value());
     settings.insert("iso", ISOCombo->currentIndex());
-    settings.insert("dark", darkFrameCheck->isChecked());
-    settings.insert("detection", focusDetectionCombo->currentText());
-    settings.insert("algorithm", focusAlgorithmCombo->currentText());
-
     return settings;
 }
 
-// TODO
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Focus::setSettings(const QJsonObject &settings)
 {
-    auto syncControl = [settings](const QString & key, QWidget * widget)
-    {
-        QSpinBox *pSB = nullptr;
-        QDoubleSpinBox *pDSB = nullptr;
-        QCheckBox *pCB = nullptr;
-        QComboBox *pComboBox = nullptr;
-
-        if ((pSB = qobject_cast<QSpinBox *>(widget)))
-        {
-            const int value = settings[key].toInt(pSB->value());
-            if (value != pSB->value())
-                pSB->setValue(value);
-        }
-        else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
-        {
-            const double value = settings[key].toDouble(pDSB->value());
-            if (value != pDSB->value())
-                pDSB->setValue(value);
-        }
-        else if ((pCB = qobject_cast<QCheckBox *>(widget)))
-        {
-            const bool value = settings[key].toBool(pCB->isChecked());
-            if (value != pCB->isChecked())
-                pCB->setChecked(value);
-        }
-        // ONLY FOR STRINGS, not INDEX
-        else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
-        {
-            const QString value = settings[key].toString(pComboBox->currentText());
-            if (value != pComboBox->currentText())
-                pComboBox->setCurrentText(value);
-        }
-    };
-
     // Camera
-    syncControl("camera", CCDCaptureCombo);
+    syncControl(settings, "camera", CCDCaptureCombo);
     // Filter Wheel
-    syncControl("fw", FilterDevicesCombo);
+    syncControl(settings, "fw", FilterDevicesCombo);
     // Filter
-    syncControl("filter", FilterPosCombo);
+    syncControl(settings, "filter", FilterPosCombo);
     Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
     // Exposure
-    syncControl("exp", exposureIN);
+    syncControl(settings, "exp", exposureIN);
     // Binning
     const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
     if (bin != binningCombo->currentIndex())
@@ -4125,7 +4091,7 @@ void Focus::setSettings(const QJsonObject &settings)
 
     // Gain
     if (gainIN->isEnabled())
-        syncControl("gain", gainIN);
+        syncControl(settings, "gain", gainIN);
     // ISO
     if (ISOCombo->isEnabled())
     {
@@ -4133,12 +4099,147 @@ void Focus::setSettings(const QJsonObject &settings)
         if (iso != ISOCombo->currentIndex())
             ISOCombo->setCurrentIndex(iso);
     }
-    // Dark
-    syncControl("dark", darkFrameCheck);
-    // Detection
-    syncControl("detection", focusDetectionCombo);
-    // Algorithm
-    syncControl("algorithm", focusAlgorithmCombo);
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getPrimarySettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("autostar", useAutoStar->isChecked());
+    settings.insert("dark", darkFrameCheck->isChecked());
+    settings.insert("subframe", useSubFrame->isChecked());
+    settings.insert("box", focusBoxSize->value());
+    settings.insert("fullfield", useFullField->isChecked());
+    settings.insert("inner", fullFieldInnerRing->value());
+    settings.insert("outer", fullFieldOuterRing->value());
+    settings.insert("suspend", suspendGuideCheck->isChecked());
+    settings.insert("guide_settle", FocusSettleTime->value());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setPrimarySettings(const QJsonObject &settings)
+{
+    syncControl(settings, "autostar", useAutoStar);
+    syncControl(settings, "dark", darkFrameCheck);
+    syncControl(settings, "subframe", useSubFrame);
+    syncControl(settings, "box", focusBoxSize);
+    syncControl(settings, "fullfield", useFullField);
+    syncControl(settings, "inner", fullFieldInnerRing);
+    syncControl(settings, "outer", fullFieldOuterRing);
+    syncControl(settings, "suspend", suspendGuideCheck);
+    syncControl(settings, "guide_settle", FocusSettleTime);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getProcessSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("detection", focusDetectionCombo->currentText());
+    settings.insert("algorithm", focusAlgorithmCombo->currentText());
+    settings.insert("sep", "NA");
+    settings.insert("threshold", thresholdSpin->value());
+    settings.insert("tolerance", toleranceIN->value());
+    settings.insert("average", focusFramesSpin->value());
+    settings.insert("rows", multiRowAverageSpin->value());
+    settings.insert("kernel", gaussianKernelSizeSpin->value());
+    settings.insert("sigma", gaussianSigmaSpin->value());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setProcessSettings(const QJsonObject &settings)
+{
+    syncControl(settings, "detection", focusDetectionCombo);
+    syncControl(settings, "algorithm", focusAlgorithmCombo);
+    //syncControl(settings, "sep", focusAlgorithmCombo);
+    syncControl(settings, "threshold", thresholdSpin);
+    syncControl(settings, "tolerance", toleranceIN);
+    syncControl(settings, "average", focusFramesSpin);
+    syncControl(settings, "rows", multiRowAverageSpin);
+    syncControl(settings, "kernel", gaussianKernelSizeSpin);
+    syncControl(settings, "sigma", gaussianSigmaSpin);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getMechanicsSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("step", stepIN->value());
+    settings.insert("travel", maxTravelIN->value());
+    settings.insert("maxstep", maxSingleStepIN->value());
+    settings.insert("backlash", focusBacklashSpin->value());
+    settings.insert("settle", FocusSettleTime->value());
+    settings.insert("out", initialFocusOutStepsIN->value());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setMechanicsSettings(const QJsonObject &settings)
+{
+    syncControl(settings, "step", stepIN);
+    syncControl(settings, "travel", maxTravelIN);
+    syncControl(settings, "maxstep", maxSingleStepIN);
+    syncControl(settings, "backlash", focusBacklashSpin);
+    syncControl(settings, "settle", FocusSettleTime);
+    syncControl(settings, "out", initialFocusOutStepsIN);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(pSB->value());
+        if (value != pSB->value())
+            pSB->setValue(value);
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(pDSB->value());
+        if (value != pDSB->value())
+            pDSB->setValue(value);
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool(pCB->isChecked());
+        if (value != pCB->isChecked())
+            pCB->setChecked(value);
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString(pComboBox->currentText());
+        if (value != pComboBox->currentText())
+            pComboBox->setCurrentText(value);
+    }
+};
 
 }

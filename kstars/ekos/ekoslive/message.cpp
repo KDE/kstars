@@ -287,7 +287,12 @@ void Message::sendCameras()
     if (m_Manager->alignModule())
         sendAlignSettings(m_Manager->alignModule()->getSettings());
     if (m_Manager->focusModule())
-        sendFocusSettings(m_Manager->focusModule()->getSettings());
+    {
+        sendResponse(commands[FOCUS_SET_SETTINGS], m_Manager->focusModule()->getSettings());
+        sendResponse(commands[FOCUS_SET_PRIMARY_SETTINGS], m_Manager->focusModule()->getPrimarySettings());
+        sendResponse(commands[FOCUS_SET_PROCESS_SETTINGS], m_Manager->focusModule()->getProcessSettings());
+        sendResponse(commands[FOCUS_SET_MECHANICS_SETTINGS], m_Manager->focusModule()->getMechanicsSettings());
+    }
     if (m_Manager->guideModule())
         sendGuideSettings(m_Manager->guideModule()->getSettings());
 }
@@ -648,6 +653,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->startFraming();
     else if (command == commands[FOCUS_SET_SETTINGS])
         focus->setSettings(payload);
+    else if (command == commands[FOCUS_SET_PRIMARY_SETTINGS])
+        focus->setPrimarySettings(payload);
+    else if (command == commands[FOCUS_SET_PROCESS_SETTINGS])
+        focus->setProcessSettings(payload);
+    else if (command == commands[FOCUS_SET_MECHANICS_SETTINGS])
+        focus->setMechanicsSettings(payload);
 }
 
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)

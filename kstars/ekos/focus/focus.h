@@ -208,8 +208,18 @@ class Focus : public QWidget, public Ui::Focus
             return m_LogText.join("\n");
         }
 
+        // Presets
         QJsonObject getSettings() const;
         void setSettings(const QJsonObject &settings);
+        // Primary Settings
+        QJsonObject getPrimarySettings() const;
+        void setPrimarySettings(const QJsonObject &settings);
+        // Process Settings
+        QJsonObject getProcessSettings() const;
+        void setProcessSettings(const QJsonObject &settings);
+        // Mechanics Settings
+        QJsonObject getMechanicsSettings() const;
+        void setMechanicsSettings(const QJsonObject &settings);
 
     public slots:
 
@@ -485,6 +495,8 @@ class Focus : public QWidget, public Ui::Focus
         void setLastFocusTemperature();
         void updateTemperature(TemperatureSource source, double newTemperature);
         void emitTemperatureEvents(TemperatureSource source, double newTemperature);
+
+        void syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
