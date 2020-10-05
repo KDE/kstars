@@ -625,6 +625,8 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
+    else if (command == commands[GUIDE_SET_SETTINGS])
+        guide->setSettings(payload);
 }
 
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
@@ -644,6 +646,8 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->focusOut(payload["steps"].toInt());
     else if (command == commands[FOCUS_LOOP])
         focus->startFraming();
+    else if (command == commands[FOCUS_SET_SETTINGS])
+        focus->setSettings(payload);
 }
 
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)
