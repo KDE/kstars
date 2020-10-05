@@ -504,7 +504,7 @@ class Guide : public QWidget, public Ui::Guide
                         double snr, double skyBg, int numStars);
 
         void guideChipUpdated(ISD::CCDChip *);
-
+        void settingsUpdated(const QJsonObject &settings);
         void driverTimedout(const QString &deviceName);
 
     private slots:

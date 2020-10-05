@@ -3604,6 +3604,8 @@ void Focus::syncSettings()
         else if (cbox == focusDetectionCombo)
             Options::setFocusDetection(cbox->currentIndex());
     }
+
+    emit settingsUpdated(getSettings());
 }
 
 void Focus::loadSettings()
@@ -4051,16 +4053,92 @@ void Focus::initView()
     focusView->setStarsHFREnabled(true);
 }
 
-// TODO
+
 QJsonObject Focus::getSettings() const
 {
-    return QJsonObject();
+    QJsonObject settings;
+
+    settings.insert("camera", CCDCaptureCombo->currentText());
+    settings.insert("fw", FilterDevicesCombo->currentText());
+    settings.insert("filter", FilterPosCombo->currentText());
+    settings.insert("exp", exposureIN->value());
+    settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
+    settings.insert("gain", gainIN->value());
+    settings.insert("iso", ISOCombo->currentIndex());
+    settings.insert("dark", darkFrameCheck->isChecked());
+    settings.insert("detection", focusDetectionCombo->currentText());
+    settings.insert("algorithm", focusAlgorithmCombo->currentText());
+
+    return settings;
 }
 
 // TODO
 void Focus::setSettings(const QJsonObject &settings)
 {
-    Q_UNUSED(settings);
+    auto syncControl = [settings](const QString & key, QWidget * widget)
+    {
+        QSpinBox *pSB = nullptr;
+        QDoubleSpinBox *pDSB = nullptr;
+        QCheckBox *pCB = nullptr;
+        QComboBox *pComboBox = nullptr;
+
+        if ((pSB = qobject_cast<QSpinBox *>(widget)))
+        {
+            const int value = settings[key].toInt(pSB->value());
+            if (value != pSB->value())
+                pSB->setValue(value);
+        }
+        else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+        {
+            const double value = settings[key].toDouble(pDSB->value());
+            if (value != pDSB->value())
+                pDSB->setValue(value);
+        }
+        else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+        {
+            const bool value = settings[key].toBool(pCB->isChecked());
+            if (value != pCB->isChecked())
+                pCB->setChecked(value);
+        }
+        // ONLY FOR STRINGS, not INDEX
+        else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+        {
+            const QString value = settings[key].toString(pComboBox->currentText());
+            if (value != pComboBox->currentText())
+                pComboBox->setCurrentText(value);
+        }
+    };
+
+    // Camera
+    syncControl("camera", CCDCaptureCombo);
+    // Filter Wheel
+    syncControl("fw", FilterDevicesCombo);
+    // Filter
+    syncControl("filter", FilterPosCombo);
+    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
+    // Exposure
+    syncControl("exp", exposureIN);
+    // Binning
+    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
+    if (bin != binningCombo->currentIndex())
+        binningCombo->setCurrentIndex(bin);
+
+    // Gain
+    if (gainIN->isEnabled())
+        syncControl("gain", gainIN);
+    // ISO
+    if (ISOCombo->isEnabled())
+    {
+        const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
+        if (iso != ISOCombo->currentIndex())
+            ISOCombo->setCurrentIndex(iso);
+    }
+    // Dark
+    syncControl("dark", darkFrameCheck);
+    // Detection
+    syncControl("detection", focusDetectionCombo);
+    // Algorithm
+    syncControl("algorithm", focusAlgorithmCombo);
 }
 
 }

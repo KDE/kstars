@@ -2487,6 +2487,8 @@ void Guide::syncSettings()
         if (pCB == autoStarCheck)
             Options::setGuideAutoStarEnabled(pCB->isChecked());
     }
+
+    emit settingsUpdated(getSettings());
 }
 
 void Guide::onControlDirectionChanged(bool enable)

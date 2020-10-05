@@ -3535,6 +3535,21 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(),
                 &EkosLive::Media::setCorrectionVector);
     }
+
+    // Focus <--> EkosLive Connections
+    if (focusProcess.get() && ekosLiveClient.get())
+    {
+        connect(focusProcess.get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendFocusSettings);
+    }
+
+    // Guide <--> EkosLive Connections
+    if (focusProcess.get() && ekosLiveClient.get())
+    {
+        connect(guideProcess.get(), &Ekos::Guide::settingsUpdated, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendGuideSettings);
+    }
+
     // Analyze connections.
     if (analyzeProcess.get())
     {

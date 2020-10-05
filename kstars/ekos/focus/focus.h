@@ -394,6 +394,7 @@ class Focus : public QWidget, public Ui::Focus
         void resumeGuiding();
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
+        void settingsUpdated(const QJsonObject &settings);
 
         // Signals for Analyze.
         void autofocusStarting(double temperature, const QString &filter);
