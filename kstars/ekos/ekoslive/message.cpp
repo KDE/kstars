@@ -1100,11 +1100,21 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     // When subscribed, the updates are immediately pushed as soon as they are received.
     else if (command == commands[DEVICE_PROPERTY_SUBSCRIBE])
     {
-        m_PropertySubscriptions.insert(payload["property"].toString());
+        const QString property = payload["property"].toString();
+        QSet<QString> props;
+        if (m_PropertySubscriptions.contains(device))
+            props = m_PropertySubscriptions[device];
+        props.insert(property);
+        m_PropertySubscriptions[device] = props;
     }
     else if (command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
     {
-        m_PropertySubscriptions.remove(payload["property"].toString());
+        const QString property = payload["property"].toString();
+        if (m_PropertySubscriptions.contains(device))
+        {
+            QSet<QString> props = m_PropertySubscriptions[device];
+            props.remove(property);
+        }
     }
 }
 
@@ -1292,45 +1302,61 @@ void Message::processDeleteProperty(const QString &device, const QString &name)
 
 void Message::processNewNumber(INumberVectorProperty *nvp)
 {
-    if (m_PropertySubscriptions.contains(nvp->name))
+    if (m_PropertySubscriptions.contains(nvp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(nvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[nvp->device];
+        if (subProps.contains(nvp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(nvp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 
 void Message::processNewText(ITextVectorProperty *tvp)
 {
-    if (m_PropertySubscriptions.contains(tvp->name))
+    if (m_PropertySubscriptions.contains(tvp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(tvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[tvp->device];
+        if (subProps.contains(tvp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(tvp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 
 void Message::processNewSwitch(ISwitchVectorProperty *svp)
 {
-    if (m_PropertySubscriptions.contains(svp->name))
+    if (m_PropertySubscriptions.contains(svp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(svp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[svp->device];
+        if (subProps.contains(svp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(svp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 
 void Message::processNewLight(ILightVectorProperty *lvp)
 {
-    if (m_PropertySubscriptions.contains(lvp->name))
+    if (m_PropertySubscriptions.contains(lvp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(lvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[lvp->device];
+        if (subProps.contains(lvp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(lvp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 

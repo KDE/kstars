@@ -186,7 +186,7 @@ class Message : public QObject
         bool m_sendBlobs { true};
 
         QMap<int, bool> m_Options;
-        QSet<QString> m_PropertySubscriptions;
+        QMap<QString, QSet<QString>> m_PropertySubscriptions;
         QLineF correctionVector;
         QRect boundingRect;
         QSize viewSize;
