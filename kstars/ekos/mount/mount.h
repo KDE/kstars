@@ -281,6 +281,14 @@ class Mount : public QWidget, public Ui::Mount
 
         Q_INVOKABLE void findTarget();
 
+	// target coord conversions for displaying
+	Q_INVOKABLE bool raDecToAzAlt(QString qsRA, QString qsDec);
+	Q_INVOKABLE bool raDecToHaDec(QString qsRA);
+	Q_INVOKABLE bool azAltToRaDec(QString qsAz, QString qsAlt);
+	Q_INVOKABLE bool azAltToHaDec(QString qsAz, QString qsAlt);
+	Q_INVOKABLE bool haDecToRaDec(QString qsHA);
+	Q_INVOKABLE bool haDecToAzAlt(QString qsHA, QString qsDec);
+
         // Center mount in Sky Map
         Q_INVOKABLE void centerMount();
 
@@ -427,7 +435,7 @@ class Mount : public QWidget, public Ui::Mount
     signals:
         void newLog(const QString &text);
         void newCoords(const QString &ra, const QString &dec, const QString &az,
-                       const QString &alt, int pierSide, const QString &ha);
+                      const QString &alt, int pierSide, const QString &ha);
         void newTarget(const QString &name);
         void newStatus(ISD::Telescope::Status status);
         void newParkStatus(ISD::ParkStatus status);
@@ -476,11 +484,15 @@ class Mount : public QWidget, public Ui::Mount
         QQuickItem *m_BaseObj  = nullptr;
         QQmlContext *m_Ctxt    = nullptr;
 
-        QQuickItem *m_SpeedSlider = nullptr, *m_SpeedLabel = nullptr, *m_raValue = nullptr, *m_deValue = nullptr,
-                    *m_azValue = nullptr, *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
-                     *m_targetText = nullptr, *m_targetRAText = nullptr, *m_targetDEText = nullptr, *m_Park = nullptr,
-                      *m_Unpark = nullptr, *m_statusText = nullptr, *m_J2000Check = nullptr, *m_JNowCheck = nullptr,
-                       *m_equatorialCheck = nullptr, *m_horizontalCheck = nullptr, *m_leftRightCheck = nullptr, *m_upDownCheck = nullptr;
+        QQuickItem *m_SpeedSlider = nullptr, *m_SpeedLabel = nullptr,
+	    *m_raValue = nullptr, *m_deValue = nullptr, *m_azValue = nullptr,
+	    *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
+	    *m_targetText = nullptr, *m_targetRAText = nullptr,
+	    *m_targetDEText = nullptr, *m_Park = nullptr, *m_Unpark = nullptr,
+	    *m_statusText = nullptr, *m_J2000Check = nullptr,
+	    *m_JNowCheck = nullptr, *m_equatorialCheck = nullptr,
+	    *m_horizontalCheck = nullptr, *m_haEquatorialCheck = nullptr,
+	    *m_leftRightCheck = nullptr, *m_upDownCheck = nullptr;
 };
 }
 

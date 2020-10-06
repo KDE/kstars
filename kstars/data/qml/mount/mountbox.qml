@@ -5,9 +5,9 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: rectangle
-    width: 240
-    height: 570
+    objectName: "mountControlObject"
     color: "#000000"
+    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
     property color buttonColor: "silver"
     property color coordsColor: "gold"
@@ -19,17 +19,13 @@ Rectangle {
 
         GridLayout {
             id: mountMotionLayout
-            width: 200
-            height: 150
             rowSpacing: 1
             columnSpacing: 1
-            anchors.horizontalCenter: parent.horizontalCenter
-            Layout.minimumHeight: 160
-            Layout.minimumWidth: 210
-            Layout.maximumHeight: 160
-            Layout.maximumWidth: 210
+            Layout.minimumHeight: 180
+            Layout.minimumWidth: 230
+            Layout.maximumHeight: 180
+            Layout.maximumWidth: 230
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillWidth: true
             rows: 3
             columns: 3
 
@@ -268,8 +264,8 @@ Rectangle {
 
         RowLayout {
             id: mountReverseLayout
-            anchors.horizontalCenter: parent.horizontalCenter
             Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
 
             Label
             {
@@ -308,6 +304,7 @@ Rectangle {
                 width: 30
                 objectName: "speedSliderObject"
                 Layout.fillWidth: true
+                Layout.maximumWidth: 150
                 stepSize: 1
                 minimumValue: 0
                 maximumValue: 4
@@ -348,11 +345,12 @@ Rectangle {
             Layout.fillWidth: true
             rows: 2
             columns: 4
+            Layout.row: 1
+            Layout.column:1
 
             Label {
                 id: raLabel
                 text: xi18n("RA:")
-                font.pointSize: 9
                 font.bold: true
                 color: "white"
                 fontSizeMode: Text.Fit
@@ -364,8 +362,7 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 Layout.fillWidth: true
-                font.pointSize: 9
-                fontSizeMode: Text.Fit
+                font.pointSize: 11
             }
 
             Label {
@@ -383,15 +380,13 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 Layout.fillWidth: true
-                font.pointSize: 9
-                fontSizeMode: Text.Fit
+                font.pointSize: 11
             }
 
             Label {
                 id: deLabel
                 color: "#ffffff"
                 text: xi18n("DE:")
-                font.pointSize: 10
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -402,15 +397,13 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 Layout.fillWidth: true
-                font.pointSize: 9
-                fontSizeMode: Text.Fit
+                font.pointSize: 11
             }
 
             Label {
                 id: altLabel
                 color: "#ffffff"
                 text: xi18n("AL:")
-                font.pointSize: 9
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -421,15 +414,13 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 Layout.fillWidth: true
-                font.pointSize: 9
-                fontSizeMode: Text.Fit
+                font.pointSize: 11
             }
 
             Label {
                 id: haLabel
                 color: "#ffffff"
                 text: xi18n("HA:")
-                font.pointSize: 9
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -440,8 +431,7 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 Layout.fillWidth: true
-                font.pointSize: 9
-                fontSizeMode: Text.Fit
+                font.pointSize: 11
             }
 
             Label {
@@ -458,14 +448,14 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 Layout.fillWidth: true
-                font.pointSize: 9
-                fontSizeMode: Text.Fit
+                font.pointSize: 11
             }
         }
 
+
         GridLayout {
             id: targetCoordsLayout
-            height: 100
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
             rows: 5
             columns: 3
@@ -479,59 +469,47 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: false
-                font.pointSize: 12
+                font.pointSize: 14
                 font.bold: true
             }
 
-            Label {
+            TextField {
                 id: targetText
                 Layout.row: 1
                 Layout.column: 2
+                Layout.columnSpan: 2
                 Layout.maximumHeight: 32
                 Layout.minimumHeight: 32
                 objectName: "targetTextObject"
-                color: "#ffffff"
+                placeholderText: "Click Find Icon"
+                readOnly: true
                 Rectangle
                 {
-                    anchors.fill: parent
+                    width: 200
                     color: "black"
+                    radius: 6
+                    anchors.fill: parent
+                    clip: true
                     opacity: 0.5
                     border.color : "#D4AF37"
                     border.width : 1
                 }
-
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                Layout.fillHeight: true
+                Layout.fillHeight: false
                 Layout.fillWidth: true
-                // Layout.minimumWidth: 75
-                font.pointSize: 12
+                Layout.minimumWidth: 180
+                font.pointSize: 14
                 font.bold: true
-            }
-
-            Button {
-                id: findButton
-                width: 32
-                height: 32
-                Layout.maximumHeight: 32
-                Layout.minimumHeight: 32
-                Layout.minimumWidth: 32
-                Layout.maximumWidth: 32
-                Layout.row: 1
-                Layout.column: 3
-                iconName: "view-history"
-
-                onClicked:
-                {
-                    mount.findTarget()
-                }
             }
 
             Label {
                 id: targetRALabel
+                objectName: "targetRALabelObject"
                 color: "#ffffff"
-                text: xi18n("RA/AZ:")
-                font.pointSize: 12
+                text: xi18n("RA:")
+                font.pointSize: 14
+                font.bold: true
                 Layout.row: 2
                 Layout.column: 1
             }
@@ -540,20 +518,44 @@ Rectangle {
                 id: targetRAText
                 objectName: "targetRATextObject"
                 placeholderText: "HH:MM:SS"
-                width: 150
+                font.pointSize: 14
+                horizontalAlignment: Text.AlignHCenter
+                Layout.minimumWidth: 140
+                Layout.maximumWidth: 140
+                clip: true
+                font.bold: true
                 Layout.minimumHeight: 30
                 Layout.maximumHeight: 30
-                Layout.fillWidth: true
+                Layout.fillWidth: false
                 Layout.row: 2
                 Layout.column: 2
             }
 
+            Button {
+                id: findButton
+                objectName: "findButtonObject"
+                Layout.fillWidth: false
+                Layout.row: 2
+                Layout.column: 3
+                iconName: "view-history"
+                Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                Layout.minimumHeight: 30
+                Layout.maximumHeight: 30
+                Layout.minimumWidth: 30
+                Layout.maximumWidth: 30
+                onClicked:
+                {
+                    mount.findTarget()
+                }
+            }
 
             Label {
                 id: targetDELabel
+                objectName: "targetDELabelObject"
                 color: "#ffffff"
-                text: xi18n("DE/AL:")
-                font.pointSize: 12
+                text: xi18n("DE:")
+                font.pointSize: 14
+                font.bold: true
                 Layout.row: 3
                 Layout.column: 1
             }
@@ -562,8 +564,13 @@ Rectangle {
                 id: targetDEText
                 objectName: "targetDETextObject"
                 placeholderText: "DD:MM:SS"
+                font.pointSize: 14
                 width: 150
-                height: 30
+                horizontalAlignment: Text.AlignHCenter
+                Layout.maximumWidth: 140
+                Layout.minimumWidth: 140
+                clip: true
+                font.bold: true
                 Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
                 Layout.fillWidth: true
@@ -582,22 +589,120 @@ Rectangle {
             {
                 Layout.row: 4
                 Layout.column: 2
-                ExclusiveGroup { id: coordGroup }
+                Layout.columnSpan: 2
+
+                ExclusiveGroup {
+                    id: coordGroup
+                    objectName: "coordGroupObject"
+                    property int lastChecked: 0
+                    property bool valid: false
+                }
+
                 RadioButton {
                     id: equatorialCheck
                     objectName: "equatorialCheckObject"
                     checked: true
                     text: xi18n("RA/DE")
                     exclusiveGroup: coordGroup
-
-                    onCheckedChanged: checked ? targetRAText.placeholderText = "HH:MM:SS" : targetRAText.placeholderText = "DDD:MM:SS"
+                    onCheckedChanged: {
+                        if (checked) {
+                            targetRALabel.text = xi18n("RA:")
+                            targetDELabel.text = xi18n("DE:")
+                            targetRAText.placeholderText = "HH:MM:SS"
+                            if (targetRAText.text == "" ||
+                                targetDEText.text == "") {
+                                targetRAText.text = ""
+                                targetDEText.text = ""
+                            }
+                            else {
+                                if (coordGroup.lastChecked == 1)
+                                    coordGroup.valid = mount.azAltToRaDec(
+                                        targetRAText.text, targetDEText.text)
+                                else
+                                    coordGroup.valid = mount.haDecToRaDec(
+                                        targetRAText.text)
+                                if (!coordGroup.valid) {
+                                    targetRAText.text = ""
+                                    targetDEText.text = ""
+                                }
+                            }
+                            targetRAText.focus = false
+                            targetDEText.focus = false
+                            coordGroup.lastChecked = 0
+                        }
+                    }
                 }
 
                 RadioButton {
                     id: horizontalCheck
+                    exclusiveGroup: coordGroup
                     objectName: "horizontalCheckObject"
                     text: xi18n("AZ/AL")
+                    checked: false
+                    onCheckedChanged: {
+                        if (checked) {
+                            targetText.text = ""
+                            targetRALabel.text = xi18n("AZ:")
+                            targetDELabel.text = xi18n("AL:")
+                            targetRAText.placeholderText = "DDD:MM:SS"
+                            if (targetRAText.text == "" ||
+                                targetDEText.text == "") {
+                                targetRAText.text = ""
+                                targetDEText.text = ""
+                            }
+                            else {
+                                if (coordGroup.lastChecked == 0)
+                                    coordGroup.valid = mount.raDecToAzAlt(
+                                        targetRAText.text, targetDEText.text)
+                                else
+                                    coordGroup.valid = mount.haDecToAzAlt(
+                                        targetRAText.text, targetDEText.text)
+                                if (!coordGroup.valid) {
+                                    targetRAText.text = ""
+                                    targetDEText.text = ""
+                                }
+                            }
+                            targetRAText.focus = false
+                            targetDEText.focus = false
+                            coordGroup.lastChecked = 1
+                        }
+                    }
+                }
+
+                RadioButton {
+                    id: haEquatorialCheck
+                    text: xi18n("HA/DE")
                     exclusiveGroup: coordGroup
+                    objectName: "haEquatorialCheckObject"
+                    checked: false
+                    onCheckedChanged: {
+                        if (checked) {
+                            targetText.text = ""
+                            targetRALabel.text = xi18n("HA:")
+                            targetDELabel.text = xi18n("DE:")
+                            targetRAText.placeholderText = "HH:MM:SS"
+                            if (targetRAText.text == "" ||
+                                targetDEText.text == "") {
+                                targetRAText.text = ""
+                                targetDEText.text = ""
+                            }
+                            else {
+                                if (coordGroup.lastChecked == 1)
+                                    coordGroup.valid = mount.azAltToHaDec(
+                                        targetRAText.text, targetDEText.text)
+                                else
+                                    coordGroup.valid = mount.raDecToHaDec(
+                                        targetRAText.text)
+                                if (!coordGroup.valid) {
+                                    targetRAText.text = ""
+                                    targetDEText.text = ""
+                                }
+                            }
+                            targetRAText.focus = false
+                            targetDEText.focus = false
+                            coordGroup.lastChecked = 2
+                        }
+                    }
                 }
             }
 
@@ -632,18 +737,15 @@ Rectangle {
 
         GridLayout {
             id: actionLayout
-            width: 200
-            height: 100
-            anchors.horizontalCenter: parent.horizontalCenter
-            Layout.maximumWidth: 250
-            Layout.minimumWidth: 200
             Layout.fillHeight: false
             Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
             rows: 2
             columns: 2
 
             Button {
                 id: gotoButton
+                objectName: "gotoButtonObject"
                 text: xi18n("GOTO")
                 Layout.fillWidth: true
 
@@ -655,6 +757,7 @@ Rectangle {
 
             Button {
                 id: syncButton
+                objectName: "syncButtonObject"
                 text: xi18n("SYNC")
                 Layout.fillWidth: true
 
@@ -691,9 +794,9 @@ Rectangle {
 
         RowLayout {
             id: statusLayout
-            width: 100
-            height: 100
+            Layout.fillHeight: false
             Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
 
             Label {
                 id: statusLabel
