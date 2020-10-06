@@ -4061,6 +4061,7 @@ QJsonObject Focus::getSettings() const
     QJsonObject settings;
 
     settings.insert("camera", CCDCaptureCombo->currentText());
+    settings.insert("focuser", focuserCombo->currentText());
     settings.insert("fw", FilterDevicesCombo->currentText());
     settings.insert("filter", FilterPosCombo->currentText());
     settings.insert("exp", exposureIN->value());
@@ -4077,6 +4078,8 @@ void Focus::setSettings(const QJsonObject &settings)
 {
     // Camera
     syncControl(settings, "camera", CCDCaptureCombo);
+    // Focuser
+    syncControl(settings, "focuser", focuserCombo);
     // Filter Wheel
     syncControl(settings, "fw", FilterDevicesCombo);
     // Filter
