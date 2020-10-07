@@ -659,6 +659,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->setProcessSettings(payload);
     else if (command == commands[FOCUS_SET_MECHANICS_SETTINGS])
         focus->setMechanicsSettings(payload);
+    else if (command == commands[FOCUS_GET_PRIMARY_SETTINGS])
+        sendResponse(commands[FOCUS_GET_PRIMARY_SETTINGS], focus->getPrimarySettings());
+    else if (command == commands[FOCUS_GET_PROCESS_SETTINGS])
+        sendResponse(commands[FOCUS_GET_PROCESS_SETTINGS], focus->getProcessSettings());
+    else if (command == commands[FOCUS_GET_MECHANICS_SETTINGS])
+        sendResponse(commands[FOCUS_GET_MECHANICS_SETTINGS], focus->getMechanicsSettings());
 }
 
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)

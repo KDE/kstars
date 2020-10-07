@@ -113,6 +113,9 @@ enum COMMANDS
     FOCUS_SET_PRIMARY_SETTINGS,
     FOCUS_SET_PROCESS_SETTINGS,
     FOCUS_SET_MECHANICS_SETTINGS,
+    FOCUS_GET_PRIMARY_SETTINGS,
+    FOCUS_GET_PROCESS_SETTINGS,
+    FOCUS_GET_MECHANICS_SETTINGS,
 
     // Guide
     GUIDE_START,
@@ -262,6 +265,9 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_SET_PRIMARY_SETTINGS, "focus_set_primary_settings"},
     {FOCUS_SET_PROCESS_SETTINGS, "focus_set_process_settings"},
     {FOCUS_SET_MECHANICS_SETTINGS, "focus_set_mechanics_settings"},
+    {FOCUS_GET_PRIMARY_SETTINGS, "focus_get_primary_settings"},
+    {FOCUS_GET_PROCESS_SETTINGS, "focus_get_process_settings"},
+    {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},
