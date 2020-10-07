@@ -429,7 +429,7 @@ class Guide : public QWidget, public Ui::Guide
         void setCorrectionGraphScale();
         void updateCorrectionsScaleVisibility();
 
-        void updateDirectionsFromPHD2(QString mode);
+        void updateDirectionsFromPHD2(const QString &mode);
 
         void guideAfterMeridianFlip();
 

@@ -80,11 +80,6 @@ Guide::Guide() : QWidget()
     // #6 Init Connections
     initConnections();
 
-
-
-
-
-
     // Image Filters
     for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -2520,7 +2515,7 @@ void Guide::updatePHD2Directions()
         phd2Guider -> requestSetDEGuideMode(checkBox_DirDEC->isChecked(), northControlCheck->isChecked(),
                                             southControlCheck->isChecked());
 }
-void Guide::updateDirectionsFromPHD2(QString mode)
+void Guide::updateDirectionsFromPHD2(const QString &mode)
 {
     //disable connections
     disconnect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
@@ -2675,10 +2670,8 @@ void Guide::setAxisDelta(double ra, double de)
     int currentNumPoints = driftGraph->graph(G_RA)->dataCount();
     guideSlider->setMaximum(currentNumPoints);
     if(graphOnLatestPt)
-        guideSlider->setValue(currentNumPoints);
-
-    if(graphOnLatestPt)
     {
+        guideSlider->setValue(currentNumPoints);
         driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
         driftGraph->graph(G_RA_HIGHLIGHT)->data()->clear(); //Clear highlighted RA point
         driftGraph->graph(G_DEC_HIGHLIGHT)->data()->clear(); //Clear highlighted DEC point
