@@ -180,7 +180,7 @@ class Align : public QWidget, public Ui::Align
              */
         Q_SCRIPTABLE Q_NOREPLY void startSolving();
 
-        StellarSolver *stellarSolver = nullptr;
+        std::unique_ptr<StellarSolver> m_StellarSolver;
         QList<SSolver::Parameters> optionsList;
         QString fileToSolve;
 
