@@ -1570,6 +1570,7 @@ void Focus::setCaptureComplete()
             starCenter.setX(selectedHFRStar->x);
             starCenter.setY(selectedHFRStar->y);
             starCenter.setZ(subBinX);
+            starSelected = true;
             syncTrackingBoxPosition();
 
             defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
