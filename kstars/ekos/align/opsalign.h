@@ -11,6 +11,7 @@
 #pragma once
 
 #include "ui_opsalign.h"
+#include "parameters.h"
 
 #include <QWidget>
 
@@ -27,24 +28,20 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
   public:
     explicit OpsAlign(Align *parent);
     virtual ~OpsAlign() override = default;
-    bool brewInstalled();
-    bool pythonInstalled();
-    bool astropyInstalled();
 
+public slots:
+    void reloadOptionsProfiles();
   protected:
   private slots:
-    void toggleSolverInternal();
-    void setupPython();
-    void toggleConfigInternal();
-    void toggleWCSInternal();
-    void toggleSextractorInternal();
     void slotApply();
-    void togglePythonDefault();
+
 
   signals:
     void settingsUpdated();
+    void needToLoadProfile(int profile);
 
   private:
+    QList<SSolver::Parameters> optionsList;
     KConfigDialog *m_ConfigDialog { nullptr };
     Align *alignModule { nullptr };
 

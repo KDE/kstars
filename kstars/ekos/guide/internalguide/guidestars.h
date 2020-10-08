@@ -21,6 +21,11 @@
 #include "../guideview.h"
 #include "calibration.h"
 
+namespace SSolver
+{
+    class Parameters;
+}
+
 /*
  * This class manages selecting a guide star, finding that star in a new image
  * and calculating the drift of the new star image.
@@ -97,6 +102,9 @@ class GuideStars
         void evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores,
                               const QRect *roi, const double maxHFR) const;
 
+        // Prepares parameters for evaluateSEPStars().
+        SSolver::Parameters getStarExtractionParameters(int num);
+
         // Returns the top num stars according to the evaluateSEPStars criteria.
         void findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
                           const double maxHFR,
@@ -104,7 +112,7 @@ class GuideStars
                           QList<double> *outputScores = nullptr,
                           QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algoritms.
-        int findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars);
+        int findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num);
 
         // Convert from input image coordinates to output RA and DEC coordinates.
         Vector point2arcsec(const Vector &p) const;
