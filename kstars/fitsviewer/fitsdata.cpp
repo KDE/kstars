@@ -1269,6 +1269,21 @@ double FITSData::getHFR(HFRType type)
         m_SelectedHFRStar = starCenters[maxIndex];
         return starCenters[maxIndex]->HFR;
     }
+    else if (type == HFR_HIGH)
+    {
+        // Reject all stars within 10% of border
+        int minX = width() / 10;
+        int minY = height() / 10;
+        int maxX = width() - minX;
+        int maxY = height() - minY;
+        starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(), [minX, minY, maxX, maxY](Edge * oneStar)
+        {
+            return (oneStar->x < minX || oneStar->x > maxX || oneStar->y < minY || oneStar->y > maxY);
+        }), starCenters.end());
+        // Top 5%
+        m_SelectedHFRStar = starCenters[static_cast<int>(starCenters.size() * 0.05)];
+        return m_SelectedHFRStar->HFR;
+    }
     else if (type == HFR_MEDIAN)
     {
         std::nth_element(starCenters.begin(), starCenters.begin() + starCenters.size() / 2, starCenters.end());

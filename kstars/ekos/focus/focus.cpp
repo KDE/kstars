@@ -1259,7 +1259,7 @@ double Focus::analyzeSources(FITSData *image_data)
             hfr = image_data->getHFR(starCenter.x(), starCenter.y());
         // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
         if (hfr < 0)
-            hfr = image_data->getHFR(focusDetection == ALGORITHM_SEP ? HFR_MEDIAN : HFR_MAX);
+            hfr = image_data->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
 
         return hfr;
 
