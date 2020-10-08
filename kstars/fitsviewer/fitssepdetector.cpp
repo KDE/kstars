@@ -17,15 +17,19 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#include <math.h>
-
-#include "sep/sep.h"
+#include "config-kstars.h"
 #include "fits_debug.h"
 #include "fitssepdetector.h"
 #include "Options.h"
 #include "kspaths.h"
 
+#include <math.h>
+
+#ifdef HAVE_STELLARSOLVER
 #include <stellarsolver.h>
+#else
+#include "sep/sep.h"
+#endif
 
 FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
 {
@@ -66,6 +70,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     if (image_data == nullptr)
         return 0;
 
+#ifdef HAVE_STELLARSOLVER
     //Note this is the part I added.  It is just an initial attempt to get it working
     constexpr int maxNumCenters =
         50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
@@ -100,11 +105,12 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         edges.append(center);
     }
 
+
     //There is more information that can be obtained by the Stellarsolver.
     //Background info, Star positions(if a plate solve was done before), etc
     //The information is available as long as the StellarSolver exists.
 
-    /**  I commented this out, but some of it might still be useful
+#else
 
     FITSImage::Statistic const &stats = image_data->getStatistics();
 
@@ -235,7 +241,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
             center->width = flux_fractions[1] * 2;
         edges.append(center);
     }
-    **/
+#endif
 
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
@@ -248,37 +254,38 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     }
 
     edges.clear();
-    /** I commented this out, but some of it might still be useful
-        qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
-                             .arg(QString::number(bkg->global, 'f', 2))
-                             .arg(QString::number(bkg->globalrms, 'f', 2))
-                             .arg(bkg->bh).arg(bkg->bw);
-        qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Width" << "sum" << "numpix" << "#HFR";
-        for (int i = 0; i < starCenters.count(); i++)
-            qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
-                                 << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
-                                 << starCenters[i]->numPixels << starCenters[i]->HFR;
+
+#ifndef HAVE_STELLARSOLVER
+    qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
+                         .arg(QString::number(bkg->global, 'f', 2))
+                         .arg(QString::number(bkg->globalrms, 'f', 2))
+                         .arg(bkg->bh).arg(bkg->bw);
+    qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Width" << "sum" << "numpix" << "#HFR";
+    for (int i = 0; i < starCenters.count(); i++)
+        qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
+                             << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
+                             << starCenters[i]->numPixels << starCenters[i]->HFR;
 
 
 
-    exit:
-        delete[] data;
-        sep_bkg_free(bkg);
-        sep_catalog_free(catalog);
-        free(imback);
-        free(flux);
-        free(fluxerr);
-        free(area);
-        free(flag);
+exit:
+    delete[] data;
+    sep_bkg_free(bkg);
+    sep_catalog_free(catalog);
+    free(imback);
+    free(flux);
+    free(fluxerr);
+    free(area);
+    free(flag);
 
-        if (status != 0)
-        {
-            char errorMessage[512];
-            sep_get_errmsg(status, errorMessage);
-            qCritical(KSTARS_FITS) << errorMessage;
-            return -1;
-        }
-    **/
+    if (status != 0)
+    {
+        char errorMessage[512];
+        sep_get_errmsg(status, errorMessage);
+        qCritical(KSTARS_FITS) << errorMessage;
+        return -1;
+    }
+#endif
     return starCenters.count();
 }
 
