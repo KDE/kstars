@@ -24,6 +24,7 @@
 #include "kspaths.h"
 
 #include <math.h>
+#include <QPointer>
 
 #ifdef HAVE_STELLARSOLVER
 #include <stellarsolver.h>
@@ -71,17 +72,19 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         return 0;
 
 #ifdef HAVE_STELLARSOLVER
+    Q_UNUSED(bg);
     //Note this is the part I added.  It is just an initial attempt to get it working
     constexpr int maxNumCenters =
         50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
-    StellarSolver *solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer(), parent());
+    QPointer<StellarSolver> solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer());
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                                    QString("SavedOptionsProfiles.ini");
     QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    if(optionsList.count() > Options::focusOptionsProfile())
+    if(optionsList.count() > static_cast<int>(Options::focusOptionsProfile()))
         solver->setParameters(optionsList.at(Options::focusOptionsProfile()));
     else
         solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
+
     qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
 
     QList<FITSImage::Star> stars;
@@ -115,8 +118,6 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         center->width = star.a;
         edges.append(center);
     }
-
-
     //There is more information that can be obtained by the Stellarsolver.
     //Background info, Star positions(if a plate solve was done before), etc
     //The information is available as long as the StellarSolver exists.
