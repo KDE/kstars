@@ -163,7 +163,7 @@ void KStars::initActions()
 
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
-            << i18n("Open FITS...") << QIcon::fromTheme("document-open")
+            << i18n("Open Image...") << QIcon::fromTheme("document-open")
             << QKeySequence(Qt::CTRL + Qt::Key_O);
 #endif
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))

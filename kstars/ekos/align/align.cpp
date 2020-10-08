@@ -15,11 +15,12 @@
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksuserdb.h"
 #include "offlineastrometryparser.h"
 #include "onlineastrometryparser.h"
 #include "astapastrometryparser.h"
 #include "opsalign.h"
+#include "opsprograms.h"
+#include "optionsprofileeditor.h"
 #include "opsastap.h"
 #include "opsastrometry.h"
 #include "opsastrometrycfg.h"
@@ -41,6 +42,7 @@
 #include "indi/indifilter.h"
 #include "profileinfo.h"
 #include "ksnotification.h"
+#include "kspaths.h"
 
 #include <KConfigDialog>
 #include <KActionCollection>
@@ -238,8 +240,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
-    editOptionsB->setIcon(QIcon::fromTheme("document-edit"));
-    editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     KConfigDialog *dialog = new KConfigDialog(this, "alignsettings", Options::self());
 
 #ifdef Q_OS_OSX
@@ -248,28 +248,39 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     opsAlign = new OpsAlign(this);
     connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
-    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("Astrometry.net"));
+    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
+    page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
+
+    opsPrograms = new OpsPrograms(this);
+    page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));
     page->setIcon(QIcon(":/icons/astrometry.svg"));
 
     opsAstrometry = new OpsAstrometry(this);
-    page = dialog->addPage(opsAstrometry, i18n("Solver Options"));
+    page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
+    page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
+
+    optionsProfileEditor = new OptionsProfileEditor(this, true, dialog);
+    page = dialog->addPage(optionsProfileEditor, i18n("Options Profiles Editor"));
+    connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, [this]()
+    {
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        opsAlign->reloadOptionsProfiles();
+    });
     page->setIcon(QIcon::fromTheme("configure"));
 
-#ifndef Q_OS_WIN
-    opsAstrometryCfg = new OpsAstrometryCfg(this);
-    page = dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
-    page->setIcon(QIcon::fromTheme("document-edit"));
+    connect(opsAlign, &OpsAlign::needToLoadProfile, this, [this, dialog, page](int profile)
+    {
+        optionsProfileEditor->loadProfile(profile);
+        dialog->setCurrentPage(page);
+    });
 
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
     page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
     page->setIcon(QIcon::fromTheme("map-flat"));
-#endif
 
-    opsASTAP = new OpsASTAP(this);
-    page = dialog->addPage(opsASTAP, i18n("ASTAP"));
-    page->setIcon(QIcon(":/icons/astap.ico"));
-
-    connect(editOptionsB, &QPushButton::clicked, dialog, &QDialog::show);
+    // opsASTAP = new OpsASTAP(this);
+    // page = dialog->addPage(opsASTAP, i18n("ASTAP"));
+    // page->setIcon(QIcon(":/icons/astap.ico"));
 
     appendLogText(i18n("Idle."));
 
@@ -290,31 +301,40 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     rememberAutoWCS   = Options::autoWCS();
     rememberMeridianFlip = Options::executeMeridianFlip();
 
-    solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
-    solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
+    solverTypeButtonGroup->setId(localSolverR, SOLVER_LOCAL);
+    solverTypeButtonGroup->setId(remoteSolverR, SOLVER_REMOTE);
+
+    localSolverR->setChecked(Options::solverType() == SOLVER_LOCAL);
+    remoteSolverR->setChecked(Options::solverType() == SOLVER_REMOTE);
+    connect(solverTypeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
+            &Align::setSolverType);
+    setSolverType(solverTypeButtonGroup->checkedId());
+    //        this, &Align::setSolverBackend);
+    // solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
+    //solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
 
     // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
     // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accommodate that.
-    if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
-    {
-        Options::setSolverBackend(SOLVER_ASTROMETRYNET);
-    }
+    //  if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
+    //  {
+    //      Options::setSolverBackend(SOLVER_ASTROMETRYNET);
+    //   }
+    //
+    // solverBackendGroup->button(Options::solverBackend())->setChecked(true);
+    // connect(solverBackendGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
+    //        this, &Align::setSolverBackend);
 
-    solverBackendGroup->button(Options::solverBackend())->setChecked(true);
-    connect(solverBackendGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-            this, &Align::setSolverBackend);
-
-    astrometryTypeCombo->addItem(i18n("Online"));
+    //astrometryTypeCombo->addItem(i18n("Online"));
 #ifndef Q_OS_WIN
-    astrometryTypeCombo->addItem(i18n("Offline"));
+    // astrometryTypeCombo->addItem(i18n("Offline"));
 #endif
-    astrometryTypeCombo->addItem(i18n("Remote"));
+    //astrometryTypeCombo->addItem(i18n("Remote"));
 
-    astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
-    connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-            &Ekos::Align::setAstrometrySolverType);
+    // astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
+    // connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+    //         &Ekos::Align::setAstrometrySolverType);
 
-    setSolverBackend(solverBackendGroup->checkedId());
+    //setSolverBackend(solverBackendGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
@@ -350,9 +370,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(PAHfirstDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
     connect(PAHsecondDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
 
-    if (solverOptions->text().contains("no-fits2fits"))
-        appendLogText(i18n(
-                          "Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
+    //if (solverOptions->text().contains("no-fits2fits"))
+    //     appendLogText(i18n(
+    //                      "Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
 
     hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
 
@@ -522,6 +542,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
 }
 
 Align::~Align()
@@ -1830,6 +1853,7 @@ void Align::finishAlignmentPoint(bool solverSucceeded)
 
 bool Align::isParserOK()
 {
+    return true; //For now
     Q_ASSERT_X(parser, __FUNCTION__, "Astrometry parser is not valid.");
 
     bool rc = parser->init();
@@ -1864,6 +1888,40 @@ void Align::checkAlignmentTimeout()
     // TODO must also account for loadAndSlew. Retain file name
 }
 
+void Align::setSolverType(int type)
+{
+    if (sender() == nullptr && type >= 0 && type <= 1)
+    {
+        solverTypeButtonGroup->button(type)->setChecked(true);
+    }
+
+    if (type == SOLVER_REMOTE)
+    {
+        if (remoteParser.get() != nullptr && remoteParserDevice != nullptr)
+        {
+            parser = remoteParser.get();
+            (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
+            return;
+        }
+
+        remoteParser.reset(new Ekos::RemoteAstrometryParser());
+        parser = remoteParser.get();
+        (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
+        if (currentCCD)
+            (dynamic_cast<RemoteAstrometryParser *>(parser))->setCCD(currentCCD->getDeviceName());
+
+        parser->setAlign(this);
+        if (parser->init())
+        {
+            connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+            connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
+        }
+        else
+            parser->disconnect();
+    }
+}
+
+/**
 void Align::setSolverBackend(int type)
 {
     if (sender() == nullptr && type >= 0 && type <= 1)
@@ -1918,7 +1976,9 @@ void Align::setSolverBackend(int type)
     generateArgs();
 
 }
+**/
 
+/**
 void Align::setAstrometrySolverType(int type)
 {
     if (sender() == nullptr && type >= 0 && type <= 2)
@@ -1990,7 +2050,7 @@ void Align::setAstrometrySolverType(int type)
     else
         parser->disconnect();
 }
-
+**/
 bool Align::setCamera(const QString &device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
@@ -2034,7 +2094,7 @@ void Align::checkCCD(int ccdNum)
     if (targetChip && targetChip->isCapturing())
         return;
 
-    if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
         (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
 
     syncCCDInfo();
@@ -2274,7 +2334,7 @@ bool Align::syncTelescopeInfo()
 
         calculateFOV();
 
-        generateArgs();
+        //generateArgs();
 
         return true;
     }
@@ -2376,7 +2436,7 @@ void Align::syncCCDInfo()
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         calculateFOV();
-        generateArgs();
+        //generateArgs();
     }
 }
 
@@ -2544,7 +2604,7 @@ void Align::calculateFOV()
     }
 }
 
-QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solverType)
+QStringList Align::generateRemoteOptions(const QVariantMap &optionsMap)
 {
     QStringList solver_args;
 
@@ -2559,96 +2619,55 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap, uint8_t solver
     // apog1.jpg name of target file to analyze
     //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg
 
-    if (solverType == SOLVER_ASTROMETRYNET)
-    {
-        // Start with always-used arguments
-        solver_args << "-O"
-                    << "--no-plots";
+    // Start with always-used arguments
+    solver_args << "-O"
+                << "--no-plots";
 
-        // Now go over boolean options
+    // Now go over boolean options
 
-        // noverify
-        if (optionsMap.contains("noverify"))
-            solver_args << "--no-verify";
+    // noverify
+    if (optionsMap.contains("noverify"))
+        solver_args << "--no-verify";
 
-        // noresort
-        if (optionsMap.contains("resort"))
-            solver_args << "--resort";
+    // noresort
+    if (optionsMap.contains("resort"))
+        solver_args << "--resort";
 
-        // fits2fits
-        if (optionsMap.contains("nofits2fits"))
-            solver_args << "--no-fits2fits";
+    // fits2fits
+    if (optionsMap.contains("nofits2fits"))
+        solver_args << "--no-fits2fits";
 
-        // downsample
-        if (optionsMap.contains("downsample"))
-            solver_args << "--downsample" << QString::number(optionsMap.value("downsample", 2).toInt());
+    // downsample
+    if (optionsMap.contains("downsample"))
+        solver_args << "--downsample" << QString::number(optionsMap.value("downsample", 2).toInt());
 
-        // JM 2020-05-23 This should ONLY apply to offline astrometry
+    // image scale low
+    if (optionsMap.contains("scaleL"))
+        solver_args << "-L" << QString::number(optionsMap.value("scaleL").toDouble());
 
-        if(Options::useSextractor() && Options::astrometrySolverType() == SOLVER_OFFLINE)
-        {
-            //Sextractor needs all these parameters in order to solve an xylist of stars
-            if (optionsMap.contains("image_width"))
-                solver_args << "--width" << QString::number(optionsMap.value("image_width").toInt());
-            if (optionsMap.contains("image_height"))
-                solver_args << "--height" << QString::number(optionsMap.value("image_height").toInt());
-            solver_args << "--x-column" << "X_IMAGE";
-            solver_args << "--y-column" << "Y_IMAGE";
-            solver_args << "--sort-column" << "MAG_AUTO";
-            solver_args << "--sort-ascending";
+    // image scale high
+    if (optionsMap.contains("scaleH"))
+        solver_args << "-H" << QString::number(optionsMap.value("scaleH").toDouble());
 
-            //Note This set of items is NOT NEEDED for Sextractor, it is needed to avoid python usage
-            //This may need to be changed later, but since the goal for using sextractor is to avoid python, this is placed here.
-            solver_args << "--no-remove-lines";
-            solver_args << "--uniformize" << "0";
-        }
+    // image scale units
+    if (optionsMap.contains("scaleUnits"))
+        solver_args << "-u" << optionsMap.value("scaleUnits").toString();
 
-        // image scale low
-        if (optionsMap.contains("scaleL"))
-            solver_args << "-L" << QString::number(optionsMap.value("scaleL").toDouble());
+    // RA
+    if (optionsMap.contains("ra"))
+        solver_args << "-3" << QString::number(optionsMap.value("ra").toDouble());
 
-        // image scale high
-        if (optionsMap.contains("scaleH"))
-            solver_args << "-H" << QString::number(optionsMap.value("scaleH").toDouble());
+    // DE
+    if (optionsMap.contains("de"))
+        solver_args << "-4" << QString::number(optionsMap.value("de").toDouble());
 
-        // image scale units
-        if (optionsMap.contains("scaleUnits"))
-            solver_args << "-u" << optionsMap.value("scaleUnits").toString();
+    // Radius
+    if (optionsMap.contains("radius"))
+        solver_args << "-5" << QString::number(optionsMap.value("radius").toDouble());
 
-        // RA
-        if (optionsMap.contains("ra"))
-            solver_args << "-3" << QString::number(optionsMap.value("ra").toDouble());
-
-        // DE
-        if (optionsMap.contains("de"))
-            solver_args << "-4" << QString::number(optionsMap.value("de").toDouble());
-
-        // Radius
-        if (optionsMap.contains("radius"))
-            solver_args << "-5" << QString::number(optionsMap.value("radius").toDouble());
-
-        // Custom
-        if (optionsMap.contains("custom"))
-            solver_args << optionsMap.value("custom").toString();
-    }
-    else
-    {
-        // Radius
-        if (optionsMap.contains("radius"))
-            solver_args << "-r" << QString::number(optionsMap.value("radius").toDouble());
-
-        // downsample
-        if (optionsMap.contains("downsample"))
-            solver_args << "-z" << QString::number(optionsMap.value("downsample", 0).toInt());
-
-        // Speed
-        if (optionsMap.contains("speed"))
-            solver_args << "-speed" << optionsMap.value("speed").toString();
-
-        if (optionsMap.contains("update"))
-            solver_args << "-update";
-
-    }
+    // Custom
+    if (optionsMap.contains("custom"))
+        solver_args << optionsMap.value("custom").toString();
 
     return solver_args;
 }
@@ -2674,116 +2693,96 @@ void Align::generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high,
     fov_high = QString::number(fov_upper);
 }
 
-void Align::generateArgs()
+
+QStringList Align::generateRemoteArgs()
 {
     QVariantMap optionsMap;
 
-    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET)
+    // -O overwrite
+    // -3 Expected RA
+    // -4 Expected DEC
+    // -5 Radius (deg)
+    // -L lower scale of image in arcminutes
+    // -H upper scale of image in arcminutes
+    // -u aw set scale to be in arcminutes
+    // -W solution.wcs name of solution file
+    // apog1.jpg name of target file to analyze
+    //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg
+
+    if (Options::astrometryUseNoVerify())
+        optionsMap["noverify"] = true;
+
+    if (Options::astrometryUseResort())
+        optionsMap["resort"] = true;
+
+    if (Options::astrometryUseNoFITS2FITS())
+        optionsMap["nofits2fits"] = true;
+
+    if (Options::astrometryUseDownsample())
     {
-        // -O overwrite
-        // -3 Expected RA
-        // -4 Expected DEC
-        // -5 Radius (deg)
-        // -L lower scale of image in arcminutes
-        // -H upper scale of image in arcminutes
-        // -u aw set scale to be in arcminutes
-        // -W solution.wcs name of solution file
-        // apog1.jpg name of target file to analyze
-        //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg
-
-        if (Options::astrometryUseNoVerify())
-            optionsMap["noverify"] = true;
-
-        if (Options::astrometryUseResort())
-            optionsMap["resort"] = true;
-
-        if (Options::astrometryUseNoFITS2FITS())
-            optionsMap["nofits2fits"] = true;
-
-        if (Options::astrometryUseDownsample())
+        if (Options::astrometryAutoDownsample() && ccd_width && ccd_height)
         {
-            if (Options::astrometryAutoDownsample() && ccd_width && ccd_height)
-            {
-                uint8_t bin = qMax(Options::solverBinningIndex() + 1, 1u);
-                uint16_t w = ccd_width / bin;
-                optionsMap["downsample"] = getSolverDownsample(w);
-            }
-            else
-                optionsMap["downsample"] = Options::astrometryDownsample();
+            uint8_t bin = qMax(Options::solverBinningIndex() + 1, 1u);
+            uint16_t w = ccd_width / bin;
+            optionsMap["downsample"] = getSolverDownsample(w);
         }
-
-        //Options needed for Sextractor
-        int bin = Options::solverBinningIndex() + 1;
-        optionsMap["image_width"] = ccd_width / bin;
-        optionsMap["image_height"] = ccd_height / bin;
-
-        if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
-        {
-            QString units = ImageScales[Options::astrometryImageScaleUnits()];
-            if (Options::astrometryAutoUpdateImageScale())
-            {
-                QString fov_low, fov_high;
-                double fov_w = fov_x;
-                double fov_h = fov_y;
-
-                if (units == "dw")
-                {
-                    fov_w /= 60;
-                    fov_h /= 60;
-                }
-                else if (units == "app")
-                {
-                    fov_w = fov_pixscale;
-                    fov_h = fov_pixscale;
-                }
-
-                // If effective FOV is pending, let's set a wider tolerance range
-                generateFOVBounds(fov_w, fov_low, fov_high, m_EffectiveFOVPending ? 0.3 : 0.05);
-
-                optionsMap["scaleL"]     = fov_low;
-                optionsMap["scaleH"]     = fov_high;
-                optionsMap["scaleUnits"] = units;
-            }
-            else
-            {
-                optionsMap["scaleL"]     = Options::astrometryImageScaleLow();
-                optionsMap["scaleH"]     = Options::astrometryImageScaleHigh();
-                optionsMap["scaleUnits"] = units;
-            }
-        }
-
-        if (Options::astrometryUsePosition() && currentTelescope != nullptr)
-        {
-            double ra = 0, dec = 0;
-            currentTelescope->getEqCoords(&ra, &dec);
-
-            optionsMap["ra"]     = ra * 15.0;
-            optionsMap["de"]     = dec;
-            optionsMap["radius"] = Options::astrometryRadius();
-        }
-
-        if (Options::astrometryCustomOptions().isEmpty() == false)
-            optionsMap["custom"] = Options::astrometryCustomOptions();
-    }
-    // ASTAP
-    else
-    {
-        if (Options::aSTAPSearchRadius())
-            optionsMap["radius"] = Options::aSTAPSearchRadiusValue();
-
-        if (Options::aSTAPDownSample() && Options::aSTAPDownSampleValue() > 0)
-            optionsMap["downsample"] = Options::aSTAPDownSampleValue();
-
-        optionsMap["speed"] = Options::aSTAPLargeSearchWindow() ? "slow" : "auto";
-
-        if (Options::aSTAPUpdateFITS())
-            optionsMap["update"] = true;
+        else
+            optionsMap["downsample"] = Options::astrometryDownsample();
     }
 
-    QStringList solverArgs = generateOptions(optionsMap, solverBackendGroup->checkedId());
-    QString options = solverArgs.join(" ");
-    solverOptions->setText(options);
-    solverOptions->setToolTip(options);
+    //Options needed for Sextractor
+    int bin = Options::solverBinningIndex() + 1;
+    optionsMap["image_width"] = ccd_width / bin;
+    optionsMap["image_height"] = ccd_height / bin;
+
+    if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
+    {
+        if (Options::astrometryAutoUpdateImageScale())
+        {
+            QString fov_low, fov_high;
+            double fov_w = fov_x;
+            double fov_h = fov_y;
+
+            if (Options::astrometryImageScaleUnits() == SSolver::DEG_WIDTH)
+            {
+                fov_w /= 60;
+                fov_h /= 60;
+            }
+            else if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
+            {
+                fov_w = fov_pixscale;
+                fov_h = fov_pixscale;
+            }
+
+            // If effective FOV is pending, let's set a wider tolerance range
+            generateFOVBounds(fov_w, fov_low, fov_high, m_EffectiveFOVPending ? 0.3 : 0.05);
+
+            optionsMap["scaleL"]     = fov_low;
+            optionsMap["scaleH"]     = fov_high;
+            //optionsMap["scaleUnits"] = units;
+        }
+        else
+        {
+            optionsMap["scaleL"]     = Options::astrometryImageScaleLow();
+            optionsMap["scaleH"]     = Options::astrometryImageScaleHigh();
+            //optionsMap["scaleUnits"] = units;
+        }
+    }
+
+    if (Options::astrometryUsePosition() && currentTelescope != nullptr)
+    {
+        double ra = 0, dec = 0;
+        currentTelescope->getEqCoords(&ra, &dec);
+
+        optionsMap["ra"]     = ra * 15.0;
+        optionsMap["de"]     = dec;
+        optionsMap["radius"] = Options::astrometryRadius();
+    }
+
+    if (Options::astrometryCustomOptions().isEmpty() == false)
+        optionsMap["custom"] = Options::astrometryCustomOptions();
+
+    return generateRemoteOptions(optionsMap);
 }
 
 bool Align::captureAndSolve()
@@ -2792,13 +2791,13 @@ bool Align::captureAndSolve()
     m_CaptureTimer.stop();
 
 #ifdef Q_OS_OSX
-    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
+    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY)
     {
         if(!Options::useSextractor())
         {
             if(Options::useDefaultPython())
             {
-                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
                 {
                     KSNotification::error(
                         i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
@@ -2835,8 +2834,8 @@ bool Align::captureAndSolve()
         currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(FOVScopeCombo->currentIndex()));
     }
 
-    if (parser->init() == false)
-        return false;
+    //if (parser->init() == false)
+    //    return false;
 
     if (focal_length == -1 || aperture == -1)
     {
@@ -2915,7 +2914,7 @@ bool Align::captureAndSolve()
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     // In case of remote solver, check if we need to update active CCD
-    if (solverBackendGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
         ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
@@ -2932,24 +2931,7 @@ bool Align::captureAndSolve()
 
         // Enable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
-
-        QString options        = solverOptions->text().simplified();
-        QStringList solverArgs = options.split(' ');
-
-        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(solverArgs);
-
-        // If mount model was reset, we do not update targetCoord
-        // since the RA/DE is now different immediately after the reset
-        // so we still try to lock for the coordinates before the reset.
-        //        if (solverIterations == 0 && mountModelReset == false)
-        //        {
-        //            double ra, dec;
-        //            currentTelescope->getEqCoords(&ra, &dec);
-        //            targetCoord.setRA(ra);
-        //            targetCoord.setDec(dec);
-        //        }
-        //        mountModelReset = false;
-
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs());
         solverTimer.start();
     }
 
@@ -3091,48 +3073,50 @@ void Align::newFITS(IBLOB *bp)
     }
 
     appendLogText(i18n("Image received."));
-
-    if (solverBackendGroup->checkedId() != SOLVER_REMOTE)
-    {
-        if (blobType == ISD::CCD::BLOB_FITS)
+    /**
+        if (solverBackendGroup->checkedId() != SOLVER_REMOTE)
         {
-            ISD::CCDChip *targetChip =
-                currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        **/
+    if (blobType == ISD::CCD::BLOB_FITS)
+    {
+        ISD::CCDChip *targetChip =
+            currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-            if (alignDarkFrameCheck->isChecked())
+        if (alignDarkFrameCheck->isChecked())
+        {
+            int x, y, w, h, binx = 1, biny = 1;
+            targetChip->getFrame(&x, &y, &w, &h);
+            targetChip->getBinning(&binx, &biny);
+
+            uint16_t offsetX = x / binx;
+            uint16_t offsetY = y / biny;
+            FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+
+            connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
             {
-                int x, y, w, h, binx = 1, biny = 1;
-                targetChip->getFrame(&x, &y, &w, &h);
-                targetChip->getBinning(&binx, &biny);
-
-                uint16_t offsetX = x / binx;
-                uint16_t offsetY = y / biny;
-                FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
-
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-                {
-                    DarkLibrary::Instance()->disconnect(this);
-                    alignDarkFrameCheck->setChecked(completed);
-                    if (completed)
-                        setCaptureComplete();
-                    else
-                        abort();
-                });
-                connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
-
-                if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
+                DarkLibrary::Instance()->disconnect(this);
+                alignDarkFrameCheck->setChecked(completed);
+                if (completed)
+                    setCaptureComplete();
                 else
-                {
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, alignView, exposureIN->value(), offsetX, offsetY);
-                }
+                    abort();
+            });
+            connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
 
-                return;
+            if (darkData)
+                DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
+            else
+            {
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, alignView, exposureIN->value(), offsetX, offsetY);
             }
-        }
 
-        setCaptureComplete();
+            return;
+        }
     }
+
+    setCaptureComplete();
+    //}
+
 }
 
 void Align::setCaptureComplete()
@@ -3148,8 +3132,7 @@ void Align::setCaptureComplete()
 
     emit newImage(alignView);
 
-    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET &&
-            astrometryTypeCombo->currentIndex() == SOLVER_ONLINE &&
+    if (Options::solverType() == SSolver::SOLVER_ONLINEASTROMETRY &&
             Options::astrometryUseJPEG())
     {
         ISD::CCDChip *targetChip =
@@ -3165,7 +3148,9 @@ void Align::setCaptureComplete()
 
     solverFOV->setImage(alignView->getDisplayImage());
 
-    startSolving(blobFileName);
+    fileToSolve = blobFileName;
+    blindSolve = false;
+    startSolving();
 }
 
 void Align::setSolverAction(int mode)
@@ -3174,8 +3159,95 @@ void Align::setSolverAction(int mode)
     currentGotoMode = static_cast<GotoMode>(mode);
 }
 
-void Align::startSolving(const QString &filename, bool isGenerated)
+void Align::startSolving()
 {
+    //This is needed because they might have directories stored in the config file.
+    QStringList indexFileDirs = Options::indexFolderList();
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
+    bool updated = false;
+    foreach(QString dataDir, astrometryDataDirs)
+    {
+        if(!indexFileDirs.contains(dataDir))
+        {
+            indexFileDirs.append(dataDir);
+            updated = true;
+        }
+    }
+    if(updated)
+        Options::setIndexFolderList(indexFileDirs);
+    ///
+
+    disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
+    FITSData *data = alignView->getImageData();
+    stellarSolver = new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer());
+    stellarSolver->setSextractorType((SSolver::SextractorType)Options::solveSextractorType());
+    stellarSolver->setSolverType((SSolver::SolverType)Options::solverType());
+    connect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
+    connect(stellarSolver, &StellarSolver::logOutput, this, &Align::appendLogText);
+    stellarSolver->setIndexFolderPaths(Options::indexFolderList());
+    stellarSolver->setParameters(optionsList.at(Options::solveOptionsProfile()));
+
+    if(stellarSolver->solverType == SSolver::SOLVER_LOCALASTROMETRY || stellarSolver->solverType == SSolver::SOLVER_ASTAP)
+    {
+        stellarSolver->fileToProcess = fileToSolve;
+
+        if(Options::sextractorIsInternal())
+            stellarSolver->sextractorBinaryPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/sex";
+        else
+            stellarSolver->sextractorBinaryPath = Options::sextractorBinary();
+
+        if (Options::astrometrySolverIsInternal())
+            stellarSolver->solverPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field";
+        else
+            stellarSolver->solverPath = Options::astrometrySolverBinary();
+
+        stellarSolver->astapBinaryPath = Options::aSTAPExecutable();
+        if (Options::astrometryWCSIsInternal())
+            stellarSolver->wcsPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/wcsinfo";
+        else
+            stellarSolver->wcsPath = Options::astrometryWCSInfo();
+        //stellarSolver->cleanupTemporaryFiles = ui->cleanupTemp->isChecked();
+
+        stellarSolver->autoGenerateAstroConfig = true; //No need for a conf file this way.
+    }
+
+    if(stellarSolver->solverType == SSolver::SOLVER_ONLINEASTROMETRY )
+    {
+        stellarSolver->astrometryAPIKey = Options::astrometryAPIKey();
+        stellarSolver->astrometryAPIURL = Options::astrometryAPIURL();
+    }
+
+    //Setting the initial search scale settings
+    if(Options::astrometryUseImageScale() && !blindSolve)
+    {
+        SSolver::ScaleUnits units = (SSolver::ScaleUnits)Options::astrometryImageScaleUnits();
+        stellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
+    }
+    else
+        stellarSolver->setUseScale(false);
+    //Setting the initial search location settings
+    if(Options::astrometryUsePosition()  && !blindSolve)
+        stellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
+    else
+        stellarSolver->setUsePostion(false);
+
+    if(Options::alignmentLogging())
+    {
+        stellarSolver->setLogLevel((SSolver::logging_level)Options::loggerLevel());
+        if(Options::astrometryLogToFile())
+        {
+            stellarSolver->logToFile = true;
+            stellarSolver->logFileName = Options::astrometryLogFilepath();
+        }
+    }
+    else
+    {
+        stellarSolver->setLogLevel(SSolver::LOG_NONE);
+    }
+
+    stellarSolver->startProcess();
+
+    /**
     QStringList solverArgs;
 
     QString options = solverOptions->text().simplified();
@@ -3277,6 +3349,25 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     emit newStatus(state);
 
     parser->startSovler(filename, solverArgs, isGenerated);
+    **/
+}
+
+//Note this is temporary, just trying to see if it works.
+void Align::solverComplete(int error)
+{
+    disconnect(stellarSolver, &StellarSolver::finished, this, &Align::solverComplete);
+    if(error == 0)
+    {
+        if(!stellarSolver->solvingDone() || stellarSolver->failed())
+            solverFailed();
+        else
+        {
+            FITSImage::Solution solution = stellarSolver->getSolution();
+            solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale);
+        }
+    }
+    else
+        solverFailed();
 }
 
 void Align::solverFinished(double orientation, double ra, double dec, double pixscale)
@@ -3297,10 +3388,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     m_AlignTimer.stop();
-
-    if (solverBackendGroup->checkedId() == SOLVER_ASTROMETRYNET &&
-            astrometryTypeCombo->currentIndex() == SOLVER_REMOTE &&
-            remoteParser.get() != nullptr)
+    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         // Disable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(false);
@@ -3672,7 +3760,8 @@ void Align::solverFailed()
 void Align::abort()
 {
     m_CaptureTimer.stop();
-    parser->stopSolver();
+    stellarSolver->abort();
+    //parser->stopSolver();
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
@@ -3845,7 +3934,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     Options::setAstrometryPositionRA(nvp->np[0].value * 15);
                     Options::setAstrometryPositionDE(nvp->np[1].value);
 
-                    generateArgs();
+                    //generateArgs();
                 }
 
                 // If dome is syncing, wait until it stops
@@ -4732,13 +4821,13 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
-    if(solverBackendGroup->checkedId() == SOLVER_OFFLINE)
+    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY)
     {
         if(!Options::useSextractor())
         {
             if(Options::useDefaultPython())
             {
-                if( !opsAlign->astropyInstalled() || !opsAlign->pythonInstalled() )
+                if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
                 {
                     KSNotification::error(
                         i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
@@ -4761,6 +4850,8 @@ bool Align::loadAndSlew(QString fileURL)
     QFile::copy(fileURL, newFileURL);
     QFileInfo newFileInfo(newFileURL);
 
+    if(!newFileInfo.exists())
+        return false;
 
     dirPath = fileInfo.absolutePath();
 
@@ -4777,7 +4868,10 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSolving(newFileURL, false);
+    alignView->loadFITS(newFileURL, false);
+    fileToSolve = newFileURL;
+    blindSolve = true;
+    connect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     return true;
 }
@@ -4801,23 +4895,23 @@ void Align::setBinningIndex(int binIndex)
     }
 
     // Need to calculate FOV and args for APP
-    if (Options::astrometryImageScaleUnits() == OpsAstrometry::SCALE_ARCSECPERPIX)
+    if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
     {
         calculateFOV();
-        generateArgs();
+        //generateArgs();
     }
 }
-
+/**
 void Align::setSolverArguments(const QString &value)
 {
-    solverOptions->setText(value);
+    //solverOptions->setText(value);
 }
 
 QString Align::solverArguments()
 {
-    return solverOptions->text();
+   // return solverOptions->text();
 }
-
+**/
 void Align::setFOVTelescopeType(int index)
 {
     FOVScopeCombo->setCurrentIndex(index);
@@ -4996,6 +5090,7 @@ void Align::setFocusStatus(Ekos::FocusState state)
     m_FocusState = state;
 }
 
+/**
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 {
     QVariantMap optionsMap;
@@ -5217,6 +5312,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
     return solver_args;
 }
+**/
 
 uint8_t Align::getSolverDownsample(uint16_t binnedW)
 {
@@ -6119,6 +6215,7 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
 {
     remoteParserDevice = newAstrometry;
 
+    remoteSolverR->setEnabled(true);
     if (remoteParser.get() != nullptr)
     {
         remoteParser->setAstrometryDevice(remoteParserDevice);
@@ -6258,23 +6355,9 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 
 }
 
-QStringList Align::getActiveSolvers() const
+int Align::getActiveSolver() const
 {
-    QStringList solvers;
-
-    solvers << "Online";
-#ifndef Q_OS_WIN
-    solvers << "Offline";
-#endif
-    if (remoteParserDevice != nullptr)
-        solvers << "Remote";
-
-    return solvers;
-}
-
-int Align::getActiveSolverIndex() const
-{
-    return solverBackendGroup->checkedId();
+    return Options::solverType();
 }
 
 QString Align::getPAHMessage() const
@@ -6323,8 +6406,7 @@ QJsonObject Align::getSettings() const
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
-    settings.insert("solverBackend", solverBackendGroup->checkedId());
-    settings.insert("solverType", astrometryTypeCombo->currentIndex());
+    //settings.insert("solverType", solverTypeButtonGroup->checkedId());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
     settings.insert("gain", GainSpin->value());
     settings.insert("iso", ISOCombo->currentIndex());
@@ -6378,25 +6460,7 @@ void Align::setSettings(const QJsonObject &settings)
     Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
     // Exposure
     syncControl("exp", exposureIN);
-    // Binning
-    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
-    if (bin != binningCombo->currentIndex())
-        binningCombo->setCurrentIndex(bin);
 
-    gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->click();
-    const int solverBackend = settings["solverBackend"].toInt(1);
-    const int solverType = settings["solverType"].toInt(1);
-
-    if (solverBackend == SOLVER_ASTROMETRYNET)
-    {
-        Options::setAstrometrySolverType(solverType);
-        astrometryTypeCombo->setCurrentIndex(solverType);
-        solverBackendGroup->button(SOLVER_ASTROMETRYNET)->animateClick();
-    }
-    else
-    {
-        solverBackendGroup->button(SOLVER_ASTAP)->animateClick();
-    }
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
     // Gain

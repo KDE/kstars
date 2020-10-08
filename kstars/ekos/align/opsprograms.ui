@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpsPrograms</class>
+ <widget class="QWidget" name="OpsPrograms">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>658</width>
+    <height>481</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Load Typical Default Paths</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QComboBox" name="defaultPathSelector">
+        <item>
+         <property name="text">
+          <string>Select to load one of the default sets</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Linux Default</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Linux KStars Internal </string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mac Homebrew</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mac KStars Internal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Windows ANSVR</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Windows Cygwin</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Local Sextractor Program</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_UseSextractor">
+        <property name="toolTip">
+         <string>This allows you to use sextractor to make xylists to avoid using python with astrometry.net</string>
+        </property>
+        <property name="text">
+         <string>Use Sextractor not python</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="kcfg_SextractorBinary">
+        <property name="toolTip">
+         <string>Path to Sextractor binary file</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_SextractorIsInternal">
+        <property name="toolTip">
+         <string>Sextractor binary file is internal to the application bundle</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>sextractor binary:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Local Astrometry.net or Local ANSVR</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="5">
+       <widget class="QLabel" name="pythonLabel">
+        <property name="text">
+         <string>python:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="kcfg_AstrometrySolverBinary">
+        <property name="toolTip">
+         <string>Astrometry.net solve-field binary</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="SetupPython">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Script to setup homebrew python3 and required packages for astrometry.net</string>
+          </property>
+          <property name="text">
+           <string>Setup</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="kcfg_PythonExecPath">
+          <property name="toolTip">
+           <string>Path to Python3 bin folder</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
+        <property name="toolTip">
+         <string>Astrometry.net configuration file</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>wcsinfo:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometrySolverIsInternal">
+        <property name="toolTip">
+         <string>Astrometry.net solver binary is internal to the application bundle</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
+        <property name="toolTip">
+         <string>Astrometry config file is internal to the application bundle</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QCheckBox" name="kcfg_UseDefaultPython">
+        <property name="toolTip">
+         <string>Use the Default python in homebrew</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QCheckBox" name="kcfg_AstrometryWCSIsInternal">
+        <property name="toolTip">
+         <string>WCS Info file is internal to the Application Bundle</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>config:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="QLineEdit" name="kcfg_AstrometryWCSInfo">
+        <property name="toolTip">
+         <string>Astrometry.net wcsinfo binary</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>solver binary:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>ASTAP</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>ASTAP binary:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="kcfg_ASTAPExecutable">
+        <property name="toolTip">
+         <string>Astrometry.net solve-field binary</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Online Astrometry.net or Remote ANSVR</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
+        <property name="toolTip">
+         <string>API URL</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>API URL:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Time out:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QSpinBox" name="kcfg_AstrometryTimeout">
+        <property name="toolTip">
+         <string>Timeout in seconds to wait for astrometry solver to complete</string>
+        </property>
+        <property name="minimum">
+         <number>30</number>
+        </property>
+        <property name="maximum">
+         <number>600</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
+        <property name="toolTip">
+         <string>API Key</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>API Key:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="kcfg_AstrometryUseJPEG">
+        <property name="toolTip">
+         <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
+        </property>
+        <property name="text">
+         <string>Upload JPG</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>3</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

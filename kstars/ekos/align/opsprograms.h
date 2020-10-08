@@ -10,8 +10,7 @@
 
 #pragma once
 
-#include "ui_opsastrometry.h"
-#include "parameters.h"
+#include "ui_opsprograms.h"
 
 #include <QWidget>
 
@@ -21,25 +20,35 @@ namespace Ekos
 {
 class Align;
 
-class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
+class OpsPrograms : public QWidget, public Ui::OpsPrograms
 {
     Q_OBJECT
 
   public:
-
-    explicit OpsAstrometry(Align *parent);
-    virtual ~OpsAstrometry() override = default;
+    explicit OpsPrograms(Align *parent);
+    virtual ~OpsPrograms() override = default;
+    bool brewInstalled();
+    bool pythonInstalled();
+    bool astropyInstalled();
 
   protected:
-    void showEvent(QShowEvent *) override;
-
   private slots:
-    void slotUpdatePosition();
-    void slotUpdateScale();
+    void loadDefaultPaths(int option);
+    void toggleSolverInternal();
+    void setupPython();
+    void toggleConfigInternal();
+    void toggleWCSInternal();
+    void toggleSextractorInternal();
     void slotApply();
+    void togglePythonDefault();
+
+  signals:
+    void settingsUpdated();
 
   private:
     KConfigDialog *m_ConfigDialog { nullptr };
     Align *alignModule { nullptr };
+
+
 };
 }

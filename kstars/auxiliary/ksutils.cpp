@@ -40,6 +40,8 @@
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
 
+#include "stellarsolver.h"
+
 namespace KSUtils
 {
 
@@ -1180,6 +1182,10 @@ QString getDefaultPath(const QString &option)
     }
 
     return QString();
+}
+
+QStringList getDefaultIndexFolderPaths(){
+    return StellarSolver::getDefaultIndexFolderPaths();
 }
 
 #if defined(Q_OS_OSX)

@@ -1243,7 +1243,6 @@ void Message::sendStates()
         QJsonObject alignState =
         {
             {"status", Ekos::alignStates[m_Manager->alignModule()->status()]},
-            {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())}
         };
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
