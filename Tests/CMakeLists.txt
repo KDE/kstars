@@ -6,6 +6,10 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/time
     )
 
+if(STELLARSOLVER_FOUND)
+include_directories(${STELLARSOLVER_INCLUDE_DIR})
+endif(STELLARSOLVER_FOUND)
+
 if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
 endif(WCSLIB_FOUND)

@@ -22,10 +22,10 @@
 #include "sep/sep.h"
 #include "fits_debug.h"
 #include "fitssepdetector.h"
-#include "stellarsolver.h"
 #include "Options.h"
 #include "kspaths.h"
 
+#include <stellarsolver.h>
 
 FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
 {

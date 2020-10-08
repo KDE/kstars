@@ -208,6 +208,11 @@ endif ()
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
+if (INDI_FOUND AND NOT ANDROID)
+    find_package(StellarSolver REQUIRED)
+    MACRO_BOOL_TO_01(STELLARSOLVER_FOUND HAVE_STELLARSOLVER)
+endif(INDI_FOUND AND NOT ANDROID)
+
 find_package(Nova)
 MACRO_BOOL_TO_01(NOVA_FOUND HAVE_LIBNOVA)
 if (NOVA_FOUND)
@@ -249,10 +254,6 @@ set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all t
 # Qt5 Data Visualization
 find_package(Qt5DataVisualization)
 MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
-
-##StellarSolver
-find_package(StellarSolver)
-set_package_properties(StellarSolver PROPERTIES DESCRIPTION "Internal Source Extraction and Plate Solving Library" URL "https://github.com/rlancaste/stellarsolver" TYPE RUNTIME PURPOSE "Support for plate solving and sextraction in KStars.")
 
 ## Astrometry.net
 #find_package(AstrometryNet)

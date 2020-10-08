@@ -21,11 +21,17 @@
 
 #include "config-kstars.h"
 
+// From StellarSolver
+#ifdef HAVE_STELLARSOLVER
+#include <structuredefinitions.h>
+#else
+#include "structuredefinitions.h"
+#endif
+
 #include "kstarsdatetime.h"
 #include "bayer.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
-#include "structuredefinitions.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio

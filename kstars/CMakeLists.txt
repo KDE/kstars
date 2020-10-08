@@ -1145,9 +1145,18 @@ if(INDI_FOUND)
     ## Linux + MacOS Lite: Requires INDI Qt5 Client
     ## Android: Requires INDI Qt5 Client built for Android
     if (NOT ANDROID)
+        # GSL
         find_package(GSL REQUIRED)
         include_directories(${GSL_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+        # StellarSolver
+        include_directories(${STELLARSOLVER_INCLUDE_DIR})
+        target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
+        ##why is this necessary??
+        if(WIN32)
+          find_package(Boost 1.45.0 COMPONENTS regex)
+          target_link_libraries(KStarsLib wsock32 ${Boost_LIBRARIES})
+        endif(WIN32)
     endif ()
 
     if(WIN32 OR ANDROID)
@@ -1166,16 +1175,6 @@ if(INDI_FOUND)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
-
-if(STELLARSOLVER_FOUND)
-    include_directories(${STELLARSOLVER_INCLUDE_DIR})
-    target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
-    ##why is this necessary??
-    if(WIN32)
-        find_package(Boost 1.45.0 COMPONENTS regex)
-        target_link_libraries(KStarsLib wsock32 ${Boost_LIBRARIES})
-    endif(WIN32)
-endif(STELLARSOLVER_FOUND)
 
 if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})

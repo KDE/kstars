@@ -16,6 +16,7 @@
 #include "indi/indistd.h"
 #include "indi/inditelescope.h"
 #include "indi/indidome.h"
+#include "ksuserdb.h"
 #include "ekos/auxiliary/filtermanager.h"
 
 #include <QTime>
@@ -28,10 +29,8 @@
 #include <QtDBus/qdbusmacros.h>
 #endif
 
+#include <stellarsolver.h>
 #include <memory>
-
-#include "ksuserdb.h"
-#include "stellarsolver.h"
 
 class QProgressIndicator;
 

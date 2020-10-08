@@ -9,11 +9,12 @@
 
 #include "guidestars.h"
 
-#include <math.h>
 #include "ekos_guide_debug.h"
-#include "stellarsolver.h"
 #include "../guideview.h"
 #include "Options.h"
+
+#include <math.h>
+#include <stellarsolver.h>
 #include <QTime>
 
 // Keeps at most this many reference "neighbor" stars
@@ -345,7 +346,7 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
     if (imageData == nullptr)
         return 0;
 
-    StellarSolver *solver = new StellarSolver(imageData->getStatistics(),imageData->getImageBuffer(), nullptr);
+    StellarSolver *solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
     solver->setParameters(getStarExtractionParameters(num));
     solver->sextractWithHFR();
     if(!solver->sextractionDone() || solver->failed())
@@ -382,13 +383,13 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
     edges.clear();
     qCDebug(KSTARS_EKOS_GUIDE) << QString("  #      X      Y    Flux    Width   HFR");
     for (int i = 0; i < sepStars->count(); i++)
-      qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6")
-        .arg(i, 3)
-        .arg(sepStars->at(i)->x, 6, 'f', 1)
-        .arg(sepStars->at(i)->y, 6, 'f', 1)
-        .arg(sepStars->at(i)->sum, 6, 'f', 1)
-        .arg(sepStars->at(i)->width, 5, 'f', 3)
-        .arg(sepStars->at(i)->HFR, 5, 'f', 3);
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6")
+                                   .arg(i, 3)
+                                   .arg(sepStars->at(i)->x, 6, 'f', 1)
+                                   .arg(sepStars->at(i)->y, 6, 'f', 1)
+                                   .arg(sepStars->at(i)->sum, 6, 'f', 1)
+                                   .arg(sepStars->at(i)->width, 5, 'f', 3)
+                                   .arg(sepStars->at(i)->HFR, 5, 'f', 3);
     return sepStars->count();
 }
 

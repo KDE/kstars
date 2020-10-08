@@ -15,8 +15,8 @@
 #include "kstars.h"
 #include "ksnotification.h"
 #include "Options.h"
-#include "stellarsolver.h"
 
+#include <stellarsolver.h>
 #include <KConfigDialog>
 #include <QProcess>
 
@@ -28,7 +28,8 @@ OpsPrograms::OpsPrograms(Align *parent) : QWidget(KStars::Instance())
 
     alignModule = parent;
 
-    connect(defaultPathSelector,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OpsPrograms::loadDefaultPaths);
+    connect(defaultPathSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &OpsPrograms::loadDefaultPaths);
 
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("alignsettings");
@@ -85,7 +86,8 @@ void OpsPrograms::setupPython()
         return;
     }
 
-    if (KMessageBox::questionYesNo(nullptr, i18n("This installer will install the following requirements for astrometry.net if they are not installed:\nHomebrew -an OS X Unix Program Package Manager\nPython3 -A Powerful Scripting Language \nAstropy -Python Modules for Astronomy \n Do you wish to continue?"),
+    if (KMessageBox::questionYesNo(nullptr,
+                                   i18n("This installer will install the following requirements for astrometry.net if they are not installed:\nHomebrew -an OS X Unix Program Package Manager\nPython3 -A Powerful Scripting Language \nAstropy -Python Modules for Astronomy \n Do you wish to continue?"),
                                    i18n("Install and Configure Python")) == KMessageBox::Yes)
     {
         QProcess* install = new QProcess(this);
@@ -96,7 +98,8 @@ void OpsPrograms::setupPython()
 
         if(!brewInstalled())
         {
-            KSNotification::info(i18n("Homebrew is not installed.  \nA Terminal window will pop up for you to install Homebrew.  \n When you are all done, then you can close the Terminal and click the setup button again."));
+            KSNotification::info(
+                i18n("Homebrew is not installed.  \nA Terminal window will pop up for you to install Homebrew.  \n When you are all done, then you can close the Terminal and click the setup button again."));
             QStringList installArgs;
             QString homebrewInstallScript =
                 "tell application \"Terminal\"\n"
@@ -118,7 +121,8 @@ void OpsPrograms::setupPython()
         }
         if(!pythonInstalled())
         {
-            KSNotification::info(i18n("Homebrew installed \nPython3 will install when you click Ok \nAstropy waiting . . . \n (Note: this might take a few minutes, please be patient.)"));
+            KSNotification::info(
+                i18n("Homebrew installed \nPython3 will install when you click Ok \nAstropy waiting . . . \n (Note: this might take a few minutes, please be patient.)"));
             install->start("/usr/local/bin/brew", QStringList() << "install" << "python3");
             install->waitForFinished();
             if(!pythonInstalled())
@@ -129,7 +133,8 @@ void OpsPrograms::setupPython()
         }
         if(!astropyInstalled())
         {
-            KSNotification::info(i18n("Homebrew installed \nPython3 installed \nAstropy will install when you click Ok \n (Note: this might take a few minutes, please be patient.)"));
+            KSNotification::info(
+                i18n("Homebrew installed \nPython3 installed \nAstropy will install when you click Ok \n (Note: this might take a few minutes, please be patient.)"));
             install->start("/usr/local/bin/pip3", QStringList() << "install" << "astropy");
             install->waitForFinished();
             if(!astropyInstalled())
