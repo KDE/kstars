@@ -255,8 +255,8 @@ find_package(StellarSolver)
 set_package_properties(StellarSolver PROPERTIES DESCRIPTION "Internal Source Extraction and Plate Solving Library" URL "https://github.com/rlancaste/stellarsolver" TYPE RUNTIME PURPOSE "Support for plate solving and sextraction in KStars.")
 
 ## Astrometry.net
-find_package(AstrometryNet)
-set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
+#find_package(AstrometryNet)
+#set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
 
 ## Key Chain
 find_package(Qt5Keychain)
