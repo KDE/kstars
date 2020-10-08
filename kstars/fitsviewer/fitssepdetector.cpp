@@ -83,13 +83,24 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     else
         solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
     qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
+
+    QList<FITSImage::Star> stars;
     if (!boundary.isNull())
+    {
         solver->sextractWithHFR(boundary);
-    else
+        if(!solver->sextractionDone() || solver->failed())
+            return 0;
+        stars = solver->getStarList();
+    }
+
+    if (starCenters.empty())
+    {
         solver->sextractWithHFR();
-    if(!solver->sextractionDone() || solver->failed())
-        return 0;
-    QList<FITSImage::Star> stars = solver->getStarList();
+        if(!solver->sextractionDone() || solver->failed())
+            return 0;
+        stars = solver->getStarList();
+    }
+
     QList<Edge *> edges;
 
     for (int index = 0; index < stars.count(); index++)
