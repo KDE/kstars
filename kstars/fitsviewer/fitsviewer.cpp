@@ -606,7 +606,7 @@ void FITSViewer::starProfileButtonOff()
 void FITSViewer::openFile()
 {
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), lastURL, "Image (*.fits *.fits.fz *.fit *.fts *.jpg *.jpeg *.png *.gif *.bmp)");
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS Image"), lastURL, "FITS (*.fits *.fits.fz *.fit *.fts)");
     if (fileURL.isEmpty())
         return;
 

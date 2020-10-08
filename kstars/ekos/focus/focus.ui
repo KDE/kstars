@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
-    <height>493</height>
+    <width>664</width>
+    <height>477</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -1056,47 +1056,18 @@
              <property name="spacing">
               <number>3</number>
              </property>
-             <item row="5" column="1">
-              <widget class="QDoubleSpinBox" name="gaussianSigmaSpin">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The gaussian blur sigma value. Used for blurring the image before for instance the Bahtinov edge detection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="minimum">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>10.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="value">
-                <double>1.500000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_5">
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_4">
                <property name="toolTip">
                 <string/>
                </property>
                <property name="text">
-                <string>Detection:</string>
+                <string>Tolerance:</string>
                </property>
               </widget>
              </item>
-             <item row="5" column="3">
-              <widget class="QLabel" name="label_23">
-               <property name="text">
-                <string>Num. of rows:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="thresholdSpin">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
+             <item row="1" column="3">
+              <widget class="QDoubleSpinBox" name="toleranceIN">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -1104,172 +1075,32 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>Decrease value to narrow optimal focus point solution radius. Increase to expand solution radius</string>
                </property>
                <property name="suffix">
                 <string> %</string>
                </property>
                <property name="minimum">
-                <double>90.000000000000000</double>
+                <double>0.010000000000000</double>
                </property>
                <property name="maximum">
-                <double>500.000000000000000</double>
+                <double>20.000000000000000</double>
                </property>
                <property name="singleStep">
-                <double>10.000000000000000</double>
+                <double>0.100000000000000</double>
                </property>
                <property name="value">
-                <double>150.000000000000000</double>
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="label_24">
-               <property name="text">
-                <string>Sigma:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QLabel" name="label_21">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="text">
-                <string>Algorithm:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="label_8">
                <property name="toolTip">
                 <string/>
                </property>
                <property name="text">
                 <string>Effect:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="4">
-              <widget class="QSpinBox" name="multiRowAverageSpin">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combine this number of rows in the Bahtinov max average calculation. Change this value might help to match the Bahtinov lines on the star pattern more accurate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>15</number>
-               </property>
-               <property name="singleStep">
-                <number>2</number>
-               </property>
-               <property name="value">
-                <number>3</number>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QComboBox" name="filterCombo">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Apply filter to image after capture to enhance it</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>--</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="4" column="3">
-              <widget class="QLabel" name="label_3">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="text">
-                <string>Average over:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_19">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="text">
-                <string>Threshold:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QSpinBox" name="gaussianKernelSizeSpin">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The gaussian blur kernel size. Used for blurring the image before for instance the Bahtinov edge detection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="minimum">
-                <number>3</number>
-               </property>
-               <property name="maximum">
-                <number>15</number>
-               </property>
-               <property name="singleStep">
-                <number>2</number>
-               </property>
-               <property name="value">
-                <number>5</number>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="4">
-              <widget class="QComboBox" name="focusAlgorithmCombo">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select focus process algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Iterative&lt;/span&gt;: Moves focuser by discreet steps initially decided by the step size. Once a curve slope is calculated, further step sizes are calculated to reach optimal solution. The algorithm stops when the measured HFR is within percentage tolerance of the minimum HFR recorded in the procedure.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Polynomial&lt;/span&gt;: Starts with iterative method. Upon crossing to the other side of the V-Curve, polynomial fitting coefficients along with possible minimum solution are calculated. This algorithm can be faster than purely iterative approach given a good data set.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: Samples focus inward in a regular fashion, using 2 passes. The algorithm can be slow, but it is more resilient to backlash. Start with the focuser positioned near good focus. Set Initial Step Size and Max Travel for the desired sampling interval and range around start focus position. Tolerance should be around 5%.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Iterative</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Polynomial</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Linear</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="4" column="4">
-              <widget class="QSpinBox" name="focusFramesSpin">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Number of frames to capture in order to average the HFR value at the current focuser position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="suffix">
-                <string> frames</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
                </property>
               </widget>
              </item>
@@ -1311,15 +1142,21 @@
                </item>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_20">
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_19">
+               <property name="toolTip">
+                <string/>
+               </property>
                <property name="text">
-                <string>Kernel size:</string>
+                <string>Threshold:</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="4">
-              <widget class="QDoubleSpinBox" name="toleranceIN">
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="thresholdSpin">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -1327,58 +1164,197 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Decrease value to narrow optimal focus point solution radius. Increase to expand solution radius</string>
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="suffix">
                 <string> %</string>
                </property>
                <property name="minimum">
-                <double>0.010000000000000</double>
+                <double>90.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>20.000000000000000</double>
+                <double>500.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>150.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QComboBox" name="focusAlgorithmCombo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select focus process algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Iterative&lt;/span&gt;: Moves focuser by discreet steps initially decided by the step size. Once a curve slope is calculated, further step sizes are calculated to reach optimal solution. The algorithm stops when the measured HFR is within percentage tolerance of the minimum HFR recorded in the procedure.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Polynomial&lt;/span&gt;: Starts with iterative method. Upon crossing to the other side of the V-Curve, polynomial fitting coefficients along with possible minimum solution are calculated. This algorithm can be faster than purely iterative approach given a good data set.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: Samples focus inward in a regular fashion, using 2 passes. The algorithm can be slow, but it is more resilient to backlash. Start with the focuser positioned near good focus. Set Initial Step Size and Max Travel for the desired sampling interval and range around start focus position. Tolerance should be around 5%.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Iterative</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Polynomial</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Linear</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_21">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="text">
+                <string>Algorithm:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="text">
+                <string>Detection:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QComboBox" name="filterCombo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Apply filter to image after capture to enhance it</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>--</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_3">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="text">
+                <string>Average over:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QSpinBox" name="focusFramesSpin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Number of frames to capture in order to average the HFR value at the current focuser position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="suffix">
+                <string> frames</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>Kernel size:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QSpinBox" name="gaussianKernelSizeSpin">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The gaussian blur kernel size. Used for blurring the image before for instance the Bahtinov edge detection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="minimum">
+                <number>3</number>
+               </property>
+               <property name="maximum">
+                <number>15</number>
+               </property>
+               <property name="singleStep">
+                <number>2</number>
+               </property>
+               <property name="value">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string>Num. of rows:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_24">
+               <property name="text">
+                <string>Sigma:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QSpinBox" name="multiRowAverageSpin">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combine this number of rows in the Bahtinov max average calculation. Change this value might help to match the Bahtinov lines on the star pattern more accurate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>15</number>
+               </property>
+               <property name="singleStep">
+                <number>2</number>
+               </property>
+               <property name="value">
+                <number>3</number>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QDoubleSpinBox" name="gaussianSigmaSpin">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The gaussian blur sigma value. Used for blurring the image before for instance the Bahtinov edge detection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="minimum">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>10.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.100000000000000</double>
                </property>
                <property name="value">
-                <double>1.000000000000000</double>
+                <double>1.500000000000000</double>
                </property>
               </widget>
-             </item>
-             <item row="3" column="3">
-              <widget class="QLabel" name="label_4">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="text">
-                <string>Tolerance:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="3">
-              <widget class="QLabel" name="label_25">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="text">
-                <string>SEP Profile:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4">
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item>
-                <widget class="QComboBox" name="focusOptionsProfiles"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="editFocusProfile">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </item>
             </layout>
            </item>
@@ -1570,6 +1546,7 @@
                </property>
               </widget>
              </item>
+
              <item row="2" column="2">
               <widget class="QLabel" name="label_12b">
                <property name="text">
@@ -1577,6 +1554,7 @@
                </property>
               </widget>
              </item>
+
              <item row="2" column="3">
               <widget class="QDoubleSpinBox" name="initialFocusOutStepsIN">
                <property name="sizePolicy">
@@ -1589,19 +1567,20 @@
                 <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;This number multiplied by initial-step-size is number of outward steps the Linear Focus algorithm moves away from the initial position at the start of focusing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="minimum">
-                <double>1.000000000000000</double>
+                <number>1</number>
                </property>
                <property name="maximum">
-                <double>10.000000000000000</double>
+                <number>10</number>
                </property>
                <property name="singleStep">
-                <double>1.000000000000000</double>
+                <number>1</number>
                </property>
                <property name="value">
-                <double>5.000000000000000</double>
+                <number>5</number>
                </property>
               </widget>
              </item>
+
             </layout>
            </item>
            <item>

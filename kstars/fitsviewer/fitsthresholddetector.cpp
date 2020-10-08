@@ -34,13 +34,7 @@ FITSStarDetector &FITSThresholdDetector::configure(const QString &setting, const
 
 int FITSThresholdDetector::findSources(QList<Edge*> &starCenters, QRect const &boundary)
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
-    FITSImage::Statistic const &stats = image_data->getStatistics();
-    switch (stats.dataType)
+    switch (parent()->property("dataType").toInt())
     {
         case TBYTE:
             return findOneStar<uint8_t>(starCenters, boundary);
@@ -81,7 +75,7 @@ int FITSThresholdDetector::findOneStar(QList<Edge*> &starCenters, const QRect &b
     if (image_data == nullptr)
         return 0;
 
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSData::Statistic const &stats = image_data->getStatistics();
 
     if (boundary.isEmpty())
         return -1;

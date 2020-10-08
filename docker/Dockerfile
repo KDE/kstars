@@ -39,8 +39,7 @@ RUN apt update && apt -y install --no-install-recommends \
       libgsl-dev \
       phonon4qt5-backend-vlc \
       qt5keychain-dev \
-      libsecret-1-dev \
-      libstellarsolver
+      libsecret-1-dev
 
 # Suitable for tests
 RUN apt update && add-apt-repository ppa:mutlaqja/ppa

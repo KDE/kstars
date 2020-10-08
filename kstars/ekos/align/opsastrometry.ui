@@ -7,87 +7,106 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>517</height>
+    <height>480</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Basic Options</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QCheckBox" name="kcfg_AstrometryUseNoFITS2FITS">
+          <property name="toolTip">
+           <string>&lt;p&gt;This option should &lt;b&gt;ONLY&lt;/b&gt; be checked if your astrometry.net version is 0.67 or earlier. Uncheck for any versions greater than 0.67&lt;/p&gt;</string>
+          </property>
+          <property name="text">
+           <string>--no-fits2fits</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_AstrometryUseResort">
+          <property name="toolTip">
+           <string>Check this option if your image does not have much nebulosity. If it does have strong nebulosity, uncheck it.</string>
+          </property>
+          <property name="text">
+           <string>--resort</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_AstrometryUseNoVerify">
+          <property name="toolTip">
+           <string>This will prevent the solver from looking at an already existing WCS Header before blindly trying to solve the image. It is recommended to keep it checked.</string>
+          </property>
+          <property name="text">
+           <string>--no-verify</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_AstrometryDetectParity">
+          <property name="toolTip">
+           <string>Detect parity and reuse it to speed up solver.</string>
+          </property>
+          <property name="text">
+           <string>parity</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Imaging Options</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="lineEdit_41">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.</string>
-        </property>
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="kcfg_AstrometryUseImageScale">
-        <property name="toolTip">
-         <string>Set image scale to speed up solver as it does not have to search index files of different image scales.</string>
-        </property>
-        <property name="text">
-         <string>Use Scale</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLineEdit" name="lineEdit_50">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_7">
         <property name="toolTip">
          <string>&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;dw: degree width&lt;/li&gt;
 &lt;li&gt;aw: arcminute width&lt;/li&gt;
+&lt;li&gt;app: arcsecs per pixel&lt;/li&gt;
 &lt;/ul&gt;</string>
         </property>
         <property name="text">
-         <string>u</string>
+         <string>units</string>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="lineEdit_42">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>The high end of the imager scale, calculated as a little bigger than the longer dimension of the image.</string>
-        </property>
-        <property name="text">
-         <string>H</string>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -110,6 +129,167 @@
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_42">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>The high end of the imager scale, calculated as a little bigger than the longer dimension of the image.</string>
+        </property>
+        <property name="text">
+         <string>H</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QComboBox" name="kcfg_AstrometryImageScaleUnits">
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dw: degree width&lt;/li&gt;
+&lt;li&gt;aw: arcminute width&lt;/li&gt;
+&lt;li&gt;app: arcsecs per pixel&lt;/li&gt;
+&lt;/ul&gt;</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>dw</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>aw</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>app</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QSpinBox" name="kcfg_AstrometryDownsample">
+        <property name="minimum">
+         <number>2</number>
+        </property>
+        <property name="maximum">
+         <number>16</number>
+        </property>
+        <property name="value">
+         <number>2</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometryUseDownsample">
+        <property name="toolTip">
+         <string>Downsample the image to shrink its size and speed up the solver.</string>
+        </property>
+        <property name="text">
+         <string>Down Sample</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometryUseImageScale">
+        <property name="toolTip">
+         <string>Set image scale to speed up solver as it does not have to search index files of different image scales.</string>
+        </property>
+        <property name="text">
+         <string>Use Scale</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="lineEdit_41">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.</string>
+        </property>
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QDoubleSpinBox" name="kcfg_AstrometryImageScaleLow">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>30.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLineEdit" name="lineEdit_55">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Downsample the image to shrink its size and speed up the solver.</string>
+        </property>
+        <property name="text">
+         <string>downsample</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="kcfg_AstrometryImageScaleHigh">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>40.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -180,37 +360,39 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="label_7">
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_50">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="toolTip">
          <string>&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;dw: degree width&lt;/li&gt;
 &lt;li&gt;aw: arcminute width&lt;/li&gt;
-&lt;li&gt;app: arcsecs per pixel&lt;/li&gt;
 &lt;/ul&gt;</string>
         </property>
         <property name="text">
-         <string>units</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <string>u</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryImageScaleLow">
-        <property name="decimals">
-         <number>3</number>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_12">
+        <property name="toolTip">
+         <string>The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.</string>
         </property>
-        <property name="minimum">
-         <double>0.000000000000000</double>
+        <property name="text">
+         <string>Low</string>
         </property>
-        <property name="maximum">
-         <double>999.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>30.000000000000000</double>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -227,69 +409,14 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_12">
+      <item row="3" column="4">
+       <widget class="QCheckBox" name="kcfg_AstrometryAutoDownsample">
         <property name="toolTip">
-         <string>The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.</string>
+         <string>Automatically determine downsample value based on image size</string>
         </property>
         <property name="text">
-         <string>Low</string>
+         <string>Auto</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryImageScaleHigh">
-        <property name="decimals">
-         <number>3</number>
-        </property>
-        <property name="minimum">
-         <double>0.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>999.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>40.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QComboBox" name="kcfg_AstrometryImageScaleUnits">
-        <property name="maximumSize">
-         <size>
-          <width>110</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;dw: degree width&lt;/li&gt;
-&lt;li&gt;aw: arcminute width&lt;/li&gt;
-&lt;li&gt;app: arcsecs per pixel&lt;/li&gt;
-&lt;/ul&gt;</string>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>dw</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>aw</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>app</string>
-         </property>
-        </item>
        </widget>
       </item>
      </layout>
@@ -550,6 +677,24 @@
     </widget>
    </item>
    <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Custom:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="kcfg_AstrometryCustomOptions">
+       <property name="toolTip">
+        <string>Additional optional astrometry.net options.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <spacer name="verticalSpacer_4">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -573,6 +718,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="../../data/kstars.qrc"/>
   <include location="../../data/kstars.qrc"/>
  </resources>
  <connections/>

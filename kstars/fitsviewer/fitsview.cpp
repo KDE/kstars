@@ -86,7 +86,7 @@ void FITSView::doStretch(FITSData *data, QImage *outputImage)
         return;
     Stretch stretch(static_cast<int>(data->width()),
                     static_cast<int>(data->height()),
-                    data->channels(), data->getStatistics().dataType);
+                    data->channels(), data->property("dataType").toInt());
 
     StretchParams tempParams;
     if (!stretchImage)
@@ -454,7 +454,7 @@ bool FITSView::saveImage(const QString &newFilename)
 
 bool FITSView::rescale(FITSZoom type)
 {
-    switch (imageData->getStatistics().dataType)
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
             return rescale<uint8_t>(type);
@@ -1108,7 +1108,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
 
     if (imageData->hasWCS())
     {
-        FITSImage::wcs_point * wcs_coord = imageData->getWCSCoord();
+        wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
         {
             const int size      = image_width * image_height;

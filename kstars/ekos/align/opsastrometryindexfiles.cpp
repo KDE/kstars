@@ -85,73 +85,19 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
             label->setVisible(false);
         }
     }
-
-    connect(addIndexFileDirectory, &QAbstractButton::clicked, this, [this](){
-        QString dir = QFileDialog::getExistingDirectory(this, "Load Index File Directory",
-                                                        QDir::homePath(),
-                                                        QFileDialog::ShowDirsOnly
-                                                        | QFileDialog::DontResolveSymlinks);
-        if (dir.isEmpty())
-            return;
-        addDirectoryToList(dir);
-    });
-    connect(removeIndexFileDirectory, &QAbstractButton::clicked, this, [this](){
-        if(indexLocations->currentIndex() != 0)
-            removeDirectoryFromList(indexLocations->currentText());
-    });
-
-
 }
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
 {
-    updateIndexDirectoryList();
-
-}
-
-void OpsAstrometryIndexFiles::updateIndexDirectoryList()
-{
-    QStringList indexFileDirs = Options::indexFolderList();
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    bool updated = false;
-    foreach(QString dataDir, astrometryDataDirs)
-    {
-        if(!indexFileDirs.contains(dataDir))
-        {
-            indexFileDirs.append(dataDir);
-            updated = true;
-        }
-    }
-    if (indexFileDirs.count() == 0)
+
+    if (astrometryDataDirs.count() == 0)
         return;
-    if(updated)
-        Options::setIndexFolderList(indexFileDirs);
     indexLocations->clear();
-    if(indexFileDirs.count() > 1)
+    if(astrometryDataDirs.count() > 1)
         indexLocations->addItem("All Sources");
-    indexLocations->addItems(indexFileDirs);
+    indexLocations->addItems(astrometryDataDirs);
     slotUpdate();
-}
-
-void OpsAstrometryIndexFiles::addDirectoryToList(QString directory)
-{
-    QStringList indexFileDirs = Options::indexFolderList();
-    if(indexFileDirs.contains(directory))
-        return;
-    indexFileDirs.append(directory);
-    Options::setIndexFolderList(indexFileDirs);
-    updateIndexDirectoryList();
-}
-
-void OpsAstrometryIndexFiles::removeDirectoryFromList(QString directory)
-{
-    QStringList indexFileDirs = Options::indexFolderList();
-    if(indexFileDirs.contains(directory))
-    {
-        indexFileDirs.removeOne(directory);
-        Options::setIndexFolderList(indexFileDirs);
-        updateIndexDirectoryList();
-    }
 }
 
 void OpsAstrometryIndexFiles::slotUpdate()
@@ -180,7 +126,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
     if (Options::astrometrySolverIsInternal())
         KSUtils::configureLocalAstrometryConfIfNecessary();
 
-    QStringList astrometryDataDirs = Options::indexFolderList();
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();;
 
     bool allDirsSelected = (indexLocations->currentIndex() == 0 && astrometryDataDirs.count() > 1);
     bool folderIsWriteable;

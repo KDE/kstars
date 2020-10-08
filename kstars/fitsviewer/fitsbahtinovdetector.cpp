@@ -55,13 +55,7 @@ FITSStarDetector &FITSBahtinovDetector::configure(const QString &setting, const 
 
 int FITSBahtinovDetector::findSources(QList<Edge*> &starCenters, QRect const &boundary)
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
-    FITSImage::Statistic const &stats = image_data->getStatistics();
-    switch (stats.dataType)
+    switch (parent()->property("dataType").toInt())
     {
         case TBYTE:
             return findBahtinovStar<uint8_t>(starCenters, boundary);
@@ -138,15 +132,15 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
     }
 
     // #3 Create new FITSData to hold it
-    FITSImage::Statistic stats;
+    FITSData::Statistic stats;
     stats.width = subW;
     stats.height = subH;
-    stats.dataType = image_data->getStatistics().dataType;
+    stats.bitpix = image_data->getStatistics().bitpix;
     stats.bytesPerPixel = BBP;
     stats.samples_per_channel = size;
     FITSData* boundedImage = new FITSData();
     boundedImage->restoreStatistics(stats);
-    boundedImage->setProperty("dataType", stats.dataType);
+    boundedImage->setProperty("dataType", image_data->property("dataType"));
 
     // #4 Set image buffer
     boundedImage->setImageBuffer(buffer);

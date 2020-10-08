@@ -62,7 +62,6 @@
         <file>icons/timedout.svg</file>
         <file>icons/indihub.svg</file>
         <file>icons/indihub_logo.svg</file>
-        <file>icons/StellarSolverIcon.png</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

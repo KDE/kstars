@@ -22,8 +22,6 @@
 
 #include <QtDBus/QtDBus>
 
-#include "ekos/align/optionsprofileeditor.h"
-#include "parameters.h"
 namespace Ekos
 {
 
@@ -364,8 +362,6 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
-        void loadOptionsProfiles();
-
     private slots:
         /**
              * @brief toggleSubframe Process enabling and disabling subfrag.
@@ -415,10 +411,6 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
     private:
-
-        QList<SSolver::Parameters> optionsList;
-        QString savedOptionsProfiles;
-        OptionsProfileEditor *optionsProfileEditor { nullptr };
 
         ////////////////////////////////////////////////////////////////////
         /// Connections

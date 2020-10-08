@@ -4158,8 +4158,6 @@ void Guide::setSettings(const QJsonObject &settings)
     syncControl("dark", darkFrameCheck);
     // Box
     syncControl("box", boxSizeCombo);
-    // Swap
-    syncControl("swap", swapCheck);
     // RA Control
     syncControl("ra_control", checkBox_DirRA);
     // DE Control

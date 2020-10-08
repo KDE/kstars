@@ -25,7 +25,6 @@
 #include "bayer.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
-#include "structuredefinitions.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio
@@ -52,6 +51,13 @@ class QProgressDialog;
 
 class SkyPoint;
 class FITSHistogram;
+
+typedef struct
+{
+    float ra;
+    float dec;
+} wcs_point;
+
 class Edge;
 
 class FITSData : public QObject
@@ -70,8 +76,10 @@ class FITSData : public QObject
         Q_PROPERTY(FITSMode mode MEMBER m_Mode)
         // 1 channel (grayscale) or 3 channels (RGB)
         Q_PROPERTY(quint8 channels READ channels)
+        // Data type (BYTE, SHORT, INT..etc)
+        Q_PROPERTY(quint32 dataType MEMBER m_DataType)
         // Bits per pixel
-        Q_PROPERTY(quint8 bpp READ bpp)
+        Q_PROPERTY(quint8 bpp READ bpp WRITE setBPP)
         // Does FITS have WSC header?
         Q_PROPERTY(bool hasWCS READ hasWCS)
         // Does FITS have bayer data?
@@ -89,6 +97,23 @@ class FITSData : public QObject
             QVariant value;   /** FITS Header Value */
             QString comment;  /** FITS Header Comment, if any */
         } Record;
+
+        /// Stats struct to hold statisical data about the FITS data
+        typedef struct
+        {
+            double min[3] = {0}, max[3] = {0};
+            double mean[3] = {0};
+            double stddev[3] = {0};
+            double median[3] = {0};
+            double SNR { 0 };
+            int bitpix { 8 };
+            int bytesPerPixel { 1 };
+            int ndim { 2 };
+            int64_t size { 0 };
+            uint32_t samples_per_channel { 0 };
+            uint16_t width { 0 };
+            uint16_t height { 0 };
+        } Statistic;
 
         /**
          * @brief loadFITS Loading FITS file asynchronously.
@@ -124,9 +149,9 @@ class FITSData : public QObject
         uint8_t *getWritableImageBuffer();
 
         // Statistics
-        void saveStatistics(FITSImage::Statistic &other);
-        void restoreStatistics(FITSImage::Statistic &other);
-        FITSImage::Statistic const &getStatistics() const
+        void saveStatistics(Statistic &other);
+        void restoreStatistics(Statistic &other);
+        Statistic const &getStatistics() const
         {
             return stats;
         };
@@ -198,29 +223,13 @@ class FITSData : public QObject
         {
             return stats.SNR;
         }
+        void setBPP(uint8_t value)
+        {
+            stats.bitpix = value;
+        }
         uint32_t bpp() const
         {
-            switch(stats.dataType)
-            {
-                case TBYTE:
-                    return 8;
-                    break;
-                case TSHORT:
-                case TUSHORT:
-                    return 16;
-                    break;
-                case TLONG:
-                case TULONG:
-                case TFLOAT:
-                    return 32;
-                    break;
-                case TLONGLONG:
-                case TDOUBLE:
-                    return 64;
-                    break;
-                default:
-                    return 8;
-            }
+            return stats.bitpix;
         }
         double getADU() const;
 
@@ -265,9 +274,9 @@ class FITSData : public QObject
         int filterStars(const float innerRadius, const float outerRadius);
 
         // Half Flux Radius
-        Edge *getSelectedHFRStar() const
+        Edge *getMaxHFRStar() const
         {
-            return m_SelectedHFRStar;
+            return maxHFRStar;
         }
         double getHFR(HFRType type = HFR_AVERAGE);
         double getHFR(int x, int y);
@@ -293,7 +302,7 @@ class FITSData : public QObject
             return WCSLoaded;
         }
 
-        FITSImage::wcs_point *getWCSCoord()
+        wcs_point *getWCSCoord()
         {
             return wcs_coord;
         }
@@ -409,7 +418,6 @@ class FITSData : public QObject
     private:
         void loadCommon(const QString &inFilename);
         bool privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent);
-        bool privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent);
         void rotWCSFITS(int angle, int mirror);
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();
@@ -457,6 +465,9 @@ class FITSData : public QObject
 #endif
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
+
+        /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
+        uint32_t m_DataType { 0 };
         /// Number of channels
         uint8_t m_Channels { 1 };
         /// Generic data image buffer
@@ -493,7 +504,7 @@ class FITSData : public QObject
         int flipVCounter { 0 };
 
         /// Pointer to WCS coordinate data, if any.
-        FITSImage::wcs_point *wcs_coord { nullptr };
+        wcs_point *wcs_coord { nullptr };
         /// WCS Struct
         struct wcsprm *m_wcs
         {
@@ -504,13 +515,13 @@ class FITSData : public QObject
         QList<Edge *> starCenters;
         QList<Edge *> localStarCenters;
         /// The biggest fattest star in the image.
-        Edge *m_SelectedHFRStar { nullptr };
+        Edge *maxHFRStar { nullptr };
 
         //uint8_t *m_BayerBuffer { nullptr };
         /// Bayer parameters
         BayerParams debayerParams;
 
-        FITSImage::Statistic stats;
+        Statistic stats;
 
         // A list of header records
         QList<Record*> records;

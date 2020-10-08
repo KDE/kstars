@@ -78,19 +78,19 @@ void OpsAstrometry::slotUpdateScale()
 
     switch (kcfg_AstrometryImageScaleUnits->currentIndex())
     {
-        case SSolver::DEG_WIDTH:
+        case SCALE_DEGREES:
             fov_w /= 60;
             fov_h /= 60;
             kcfg_AstrometryImageScaleLow->setValue(qMin(fov_w, fov_h));
             kcfg_AstrometryImageScaleHigh->setValue(qMax(fov_w, fov_h));
             break;
 
-        case SSolver::ARCMIN_WIDTH:
+        case SCALE_ARCMINUTES:
             kcfg_AstrometryImageScaleLow->setValue(qMin(fov_w, fov_h));
             kcfg_AstrometryImageScaleHigh->setValue(qMax(fov_w, fov_h));
             break;
 
-        case SSolver::ARCSEC_PER_PIX:
+        case SCALE_ARCSECPERPIX:
             // 10% range
             kcfg_AstrometryImageScaleLow->setValue(fov_pixscale * 0.9);
             kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale * 1.1);
@@ -110,8 +110,8 @@ void OpsAstrometry::slotUpdatePosition()
 
 void OpsAstrometry::slotApply()
 {
-    //if (Options::solverBackend() != 1)
-    //    return;
+    if (Options::solverBackend() != 1)
+        return;
 
     bool raOK = false, deOK = false;
     dms RA = estRA->createDms(false, &raOK);
@@ -123,6 +123,6 @@ void OpsAstrometry::slotApply()
         Options::setAstrometryPositionDE(DE.Degrees());
     }
 
-    //alignModule->generateArgs();
+    alignModule->generateArgs();
 }
 }

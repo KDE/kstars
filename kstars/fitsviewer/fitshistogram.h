@@ -119,7 +119,7 @@ class FITSHistogramCommand : public QUndoCommand
         bool calculateDelta(const uint8_t * buffer);
         bool reverseDelta();
 
-        FITSImage::Statistic stats;
+        FITSData::Statistic stats;
         FITSHistogram * histogram { nullptr };
         FITSScale type;
         QVector<double> min, max;

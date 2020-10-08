@@ -15,12 +15,25 @@
     <method name="abort">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setSolverBackend">
+      <arg name="type" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setAstrometrySolverType">
+      <arg name="type" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="captureAndSolve">
       <arg type="b" direction="out"/>
     </method>
     <method name="loadAndSlew">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
+    </method>
+    <method name="startSolving">
+      <arg name="filename" type="s" direction="in"/>
+      <arg name="isGenerated" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setSolverAction">
       <arg name="mode" type="i" direction="in"/>

@@ -116,13 +116,10 @@ if (INDI_FOUND)
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
-            ekos/align/opsprograms.ui
             ekos/align/opsalign.ui
             ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
-            ekos/align/optionsprofileeditor.ui
             ekos/align/mountmodel.ui
-            ekos/align/optionsprofileeditor.ui
             ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
@@ -195,10 +192,8 @@ if (INDI_FOUND)
             ekos/align/astrometryparser.cpp
             ekos/align/opsastrometry.cpp
             ekos/align/opsalign.cpp
-            ekos/align/opsprograms.cpp
             ekos/align/opsastrometrycfg.cpp
             ekos/align/opsastrometryindexfiles.cpp
-            ekos/align/optionsprofileeditor.cpp
             ekos/align/opsastap.cpp
             ekos/align/offlineastrometryparser.cpp
             ekos/align/onlineastrometryparser.cpp
@@ -1082,6 +1077,7 @@ IF (NOT ANDROID)
         target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
     endif(Qt5Keychain_FOUND)
 
+
     if (Qt5DataVisualization_FOUND)
         target_link_libraries(KStarsLib Qt5::DataVisualization)
     endif(Qt5DataVisualization_FOUND)
@@ -1166,16 +1162,6 @@ if(INDI_FOUND)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
-
-if(STELLARSOLVER_FOUND)
-    include_directories(${STELLARSOLVER_INCLUDE_DIR})
-    target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
-    ##why is this necessary??
-    if(WIN32)
-        find_package(Boost 1.45.0 COMPONENTS regex)
-        target_link_libraries(KStarsLib wsock32 ${Boost_LIBRARIES})
-    endif(WIN32)
-endif(STELLARSOLVER_FOUND)
 
 if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})

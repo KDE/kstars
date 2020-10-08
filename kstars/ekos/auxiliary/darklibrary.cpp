@@ -178,7 +178,7 @@ void DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     Q_ASSERT(darkData);
     Q_ASSERT(lightImage);
 
-    switch (darkData->getStatistics().dataType)
+    switch (darkData->property("dataType").toInt())
     {
         case TBYTE:
             subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);

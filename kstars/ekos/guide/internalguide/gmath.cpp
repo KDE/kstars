@@ -349,7 +349,7 @@ float *cgmath::createFloatImage(FITSData *target) const
         return nullptr;
     }
 
-    switch (imageData->getStatistics().dataType)
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
         {
@@ -552,7 +552,7 @@ Vector cgmath::findLocalStarPosition(void)
         return Vector(median_x, median_y, -1);
     }
 
-    switch (imageData->getStatistics().dataType)
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();
@@ -616,8 +616,8 @@ Vector cgmath::findLocalStarPosition(void) const
         int count = imageData->findStars(ALGORITHM_SEP, trackingBox);
         if (count > 0)
         {
-            imageData->getHFR(HFR_MEDIAN);
-            Edge *star = imageData->getSelectedHFRStar();
+            imageData->getHFR(HFR_MAX);
+            Edge *star = imageData->getMaxHFRStar();
             if (star)
                 ret = Vector(star->x, star->y, 0);
             else

@@ -33,9 +33,6 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     void slotUpdate();
     void slotOpenIndexFileDirectory();
     void downloadOrDeleteIndexFiles(bool checked);
-    void addDirectoryToList(QString directory);
-    void removeDirectoryFromList(QString directory);
-    void updateIndexDirectoryList();
 
   private:
     void downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox, int currentIndex,

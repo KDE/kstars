@@ -24,7 +24,6 @@
 #include "fitsviewer/fitsview.h"
 #include "indi/indifilter.h"
 #include "ksnotification.h"
-#include "kconfigdialog.h"
 
 #include <basedevice.h>
 
@@ -93,43 +92,6 @@ Focus::Focus()
     m_FocusLogFileName = dir + "autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
     m_FocusLogFile.setFileName(m_FocusLogFileName);
 
-    editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
-    editFocusProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    connect(editFocusProfile, &QAbstractButton::clicked, this, [this]()
-    {
-        KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
-        optionsProfileEditor = new OptionsProfileEditor(this, false, optionsEditor);
-#ifdef Q_OS_OSX
-        optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-#endif
-        KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Options Profile Editor"));
-        mainPage->setIcon(QIcon::fromTheme("configure"));
-        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadOptionsProfiles);
-        optionsProfileEditor->loadProfile(focusOptionsProfiles->currentIndex());
-        optionsEditor->show();
-    });
-
-    connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
-    {
-        Options::setFocusOptionsProfile(index);
-    });
-
-    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
-    loadOptionsProfiles();
-
-}
-
-void Focus::loadOptionsProfiles()
-{
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedOptionsProfiles.ini");
-
-    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    focusOptionsProfiles->clear();
-    foreach(SSolver::Parameters param, optionsList)
-        focusOptionsProfiles->addItem(param.listName);
-    focusOptionsProfiles->setCurrentIndex(Options::focusOptionsProfile());
 }
 
 Focus::~Focus()
@@ -1229,14 +1191,11 @@ double Focus::analyzeSources(FITSData *image_data)
     }
     else
     {
-        // JM 2020-10-08: Try to get first the same HFR star already selected before
-        // so that it doesn't keep jumping around
-        double hfr = -1;
-
         // If star is already selected then use whatever algorithm currently selected.
         if (starSelected)
         {
             focusView->findStars(focusDetection);
+            return image_data->getHFR(HFR_MAX);
         }
         else
         {
@@ -1253,16 +1212,10 @@ double Focus::analyzeSources(FITSData *image_data)
 
             // Reenable tracking box
             focusView->setTrackingBoxEnabled(true);
+
+            // Get maximum HFR in the frame
+            return image_data->getHFR(HFR_MAX);
         }
-
-        if (starCenter.isNull() == false)
-            hfr = image_data->getHFR(starCenter.x(), starCenter.y());
-        // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
-        if (hfr < 0)
-            hfr = image_data->getHFR(focusDetection == ALGORITHM_SEP ? HFR_MEDIAN : HFR_MAX);
-
-        return hfr;
-
     }
 }
 
@@ -1415,7 +1368,7 @@ void Focus::setCaptureComplete()
                 graphPolynomialFunction();
                 return;
             }
-            Edge *selectedHFRStarHFR = nullptr;
+            Edge *maxStarHFR = nullptr;
 
             // Center tracking box around selected star (if it valid) either in:
             // 1. Autofocus
@@ -1423,12 +1376,12 @@ void Focus::setCaptureComplete()
             // The starCenter _must_ already be defined, otherwise, we proceed until
             // the latter half of the function searches for a star and define it.
             if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
-                    (selectedHFRStarHFR = image_data->getSelectedHFRStar()) != nullptr)
+                    (maxStarHFR = image_data->getMaxHFRStar()) != nullptr)
             {
                 // Now we have star selected in the frame
                 starSelected = true;
-                starCenter.setX(qMax(0, static_cast<int>(selectedHFRStarHFR->x)));
-                starCenter.setY(qMax(0, static_cast<int>(selectedHFRStarHFR->y)));
+                starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
+                starCenter.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
 
                 syncTrackingBoxPosition();
 
@@ -1543,9 +1496,9 @@ void Focus::setCaptureComplete()
         if (useAutoStar->isChecked())
         {
             // Do we have a valid star detected?
-            Edge *selectedHFRStar = image_data->getSelectedHFRStar();
+            Edge *maxStar = image_data->getMaxHFRStar();
 
-            if (selectedHFRStar == nullptr)
+            if (maxStar == nullptr)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
@@ -1566,9 +1519,9 @@ void Focus::setCaptureComplete()
                 return;
             }
 
-            // set the tracking box on selectedHFRStar
-            starCenter.setX(selectedHFRStar->x);
-            starCenter.setY(selectedHFRStar->y);
+            // set the tracking box on maxStar
+            starCenter.setX(maxStar->x);
+            starCenter.setY(maxStar->y);
             starCenter.setZ(subBinX);
             syncTrackingBoxPosition();
 
@@ -1578,8 +1531,8 @@ void Focus::setCaptureComplete()
             if (subFramed == false && useSubFrame->isEnabled() && useSubFrame->isChecked())
             {
                 int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
-                int subX   = (selectedHFRStar->x - offset) * subBinX;
-                int subY   = (selectedHFRStar->y - offset) * subBinY;
+                int subX   = (maxStar->x - offset) * subBinX;
+                int subY   = (maxStar->y - offset) * subBinY;
                 int subW   = offset * 2 * subBinX;
                 int subH   = offset * 2 * subBinY;
 
@@ -1629,8 +1582,8 @@ void Focus::setCaptureComplete()
             // If we're subframed or don't need subframe, let's record the max star coordinates
             else
             {
-                starCenter.setX(selectedHFRStar->x);
-                starCenter.setY(selectedHFRStar->y);
+                starCenter.setX(maxStar->x);
+                starCenter.setY(maxStar->y);
                 starCenter.setZ(subBinX);
 
                 // Let's now capture again if we're autofocusing

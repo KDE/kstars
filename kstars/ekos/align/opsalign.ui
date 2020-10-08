@@ -6,297 +6,320 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>597</width>
-    <height>474</height>
+    <width>422</width>
+    <height>235</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_6">
-     <property name="title">
-      <string>StellarSolver Settings</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_17">
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_73">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Star Extraction Method</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="kcfg_SolveSextractorType">
-        <item>
-         <property name="text">
-          <string>Internal Sextractor</string>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="4">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Time out:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Rotator:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="SetupPython">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>External Sextractor</string>
+         <property name="toolTip">
+          <string>Script to setup homebrew python3 and required packages for astrometry.net</string>
          </property>
-        </item>
-        <item>
          <property name="text">
-          <string>BuiltIn Sextractor</string>
+          <string>Setup</string>
          </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QComboBox" name="kcfg_SolverType">
-        <item>
-         <property name="text">
-          <string>StellarSolver</string>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="kcfg_PythonExecPath">
+         <property name="toolTip">
+          <string>Path to Python3 bin folder</string>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Local Astrometry</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Local ASTAP</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Online Astrometry</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_72">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Solving Method</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_71">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Options Profile:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QComboBox" name="kcfg_SolveOptionsProfile">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="editSolverProfile">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometrySolverBinary">
+       <property name="toolTip">
+        <string>Astrometry.net solve-field binary</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_18">
+       <property name="text">
+        <string>API URL:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="pythonLabel">
+       <property name="text">
+        <string>python:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>config:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="5">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
+       <property name="toolTip">
+        <string>API Key</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLabel" name="label_16">
+       <property name="text">
+        <string>wcsinfo:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="5">
+      <widget class="QSpinBox" name="kcfg_AstrometryTimeout">
+       <property name="toolTip">
+        <string>Timeout in seconds to wait for astrometry solver to complete</string>
+       </property>
+       <property name="minimum">
+        <number>30</number>
+       </property>
+       <property name="maximum">
+        <number>600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
+       <property name="toolTip">
+        <string>API URL</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometrySolverIsInternal">
+       <property name="toolTip">
+        <string>Astrometry.net solver binary is internal to the application bundle</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>solver:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
+       <property name="toolTip">
+        <string>Astrometry config file is internal to the application bundle</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="kcfg_AstrometryWCSIsInternal">
+       <property name="toolTip">
+        <string>WCS Info file is internal to the Application Bundle</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QCheckBox" name="kcfg_UseDefaultPython">
+       <property name="toolTip">
+        <string>Use the Default python in homebrew</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="label_17">
+       <property name="text">
+        <string>API Key:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QLineEdit" name="kcfg_AstrometryWCSInfo">
+       <property name="toolTip">
+        <string>Astrometry.net wcsinfo binary</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="kcfg_SextractorBinary">
+       <property name="toolTip">
+        <string>Path to Sextractor binary file</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="label_19">
+       <property name="text">
+        <string>sextractor:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QCheckBox" name="kcfg_SextractorIsInternal">
+       <property name="toolTip">
+        <string>Sextractor binary file is internal to the application bundle</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
+       <property name="toolTip">
+        <string>Astrometry.net configuration file</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="3">
+      <widget class="QCheckBox" name="kcfg_UseSextractor">
+       <property name="toolTip">
+        <string>This allows you to use sextractor to make xylists to avoid using python with astrometry.net</string>
+       </property>
+       <property name="text">
+        <string>Use Sextractor not python</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Astrometry Logging (Note: Enable Alignment Logging First in Log Options)</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="kcfg_LoggerLevel">
-        <property name="currentIndex">
-         <number>1</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>LOG_NONE</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_MSG</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_VERB</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_ALL</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_34">
-        <property name="text">
-         <string>Log Level:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="kcfg_AstrometryLogToFile">
-        <property name="text">
-         <string>Astrometry Log to File</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="kcfg_AstrometryLogFilepath"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Alignment Options</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
-        <property name="toolTip">
-         <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
-        </property>
-        <property name="text">
-         <string>Overlay</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
-        <property name="toolTip">
-         <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
-        </property>
-        <property name="text">
-         <string>WCS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QCheckBox" name="kcfg_PAHAutoPark">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically park mount after completing Polar Alignment Assistant Tools. Beware that turning this option off might lead to inaccurate results.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Auto Park</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Rotator:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
+       <property name="toolTip">
+        <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
+       </property>
+       <property name="text">
+        <string>WCS</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
+       <property name="toolTip">
+        <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
+       </property>
+       <property name="text">
+        <string>Overlay</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="kcfg_AstrometryUseJPEG">
+       <property name="toolTip">
+        <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
+       </property>
+       <property name="text">
+        <string>Upload JPG</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="kcfg_PAHAutoPark">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically park mount after completing Polar Alignment Assistant Tools. Beware that turning this option off might lead to inaccurate results.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Auto Park</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer_6">

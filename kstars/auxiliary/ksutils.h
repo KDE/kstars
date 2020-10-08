@@ -251,7 +251,6 @@ class Logging
 };
 
 QString getDefaultPath(const QString &option);
-QStringList getDefaultIndexFolderPaths();
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
@@ -267,6 +266,7 @@ QString getAstrometryConfFilePath();
 QStringList getAstrometryDataDirs();
 bool addAstrometryDataDir(QString dataDir);
 bool removeAstrometryDataDir(QString dataDir);
+
 
 struct JPLFilter
 {
