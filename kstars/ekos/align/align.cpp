@@ -3760,7 +3760,8 @@ void Align::solverFailed()
 void Align::abort()
 {
     m_CaptureTimer.stop();
-    stellarSolver->abort();
+    if (stellarSolver)
+        stellarSolver->abort();
     //parser->stopSolver();
     pi->stopAnimation();
     stopB->setEnabled(false);
