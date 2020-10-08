@@ -77,10 +77,11 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         solver->setParameters(optionsList.at(Options::focusOptionsProfile()));
     else
         solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
-    qDebug() << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
+    qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
     if (!boundary.isNull())
-        solver->setUseSubframe(boundary);
-    solver->sextractWithHFR();  //For this test, I am using this method.  StellarSolver can also optinally use the external sextractor for this.  It might be faster in some cases, but I don't think it can be installed on windows.
+        solver->sextractWithHFR(boundary);
+    else
+        solver->sextractWithHFR();
     if(!solver->sextractionDone() || solver->failed())
         return 0;
     QList<FITSImage::Star> stars = solver->getStarList();
