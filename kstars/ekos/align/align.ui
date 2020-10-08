@@ -648,7 +648,7 @@
         <item>
          <widget class="QRadioButton" name="localSolverR">
           <property name="text">
-           <string>Local</string>
+           <string>StellarSolver</string>
           </property>
           <property name="checked">
            <bool>true</bool>
