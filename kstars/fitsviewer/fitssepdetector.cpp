@@ -64,6 +64,7 @@ QFuture<bool> FITSSEPDetector::findSources(QRect const &boundary)
 
 bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackground *bg)
 {
+    QList<Edge*> starCenters;
 #ifdef HAVE_STELLARSOLVER
     Q_UNUSED(bg);
     //Note this is the part I added.  It is just an initial attempt to get it working
@@ -192,7 +193,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
     double flux_fractions[2] = {0};
     double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge *> edges;
-    QList<Edge*> starCenters;
 
     // #0 Create SEP Image structure
     sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
