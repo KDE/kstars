@@ -52,14 +52,14 @@ void TestFitsData::testComputeHFR_data()
     // to FITS_FOCUS images, only to FITS_NORMAL images.
 
     // Normal HFR tests
-    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 11 << 3.89;
-    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.16;
-    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 100 << 1.23;
+    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 12 << 3.67;
+    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 22 << 1.91;
+    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 50 << 1.38;
 
     // Focus HFR tests
-    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 4 << 3.05;
-    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 6 << 1.83;
-    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 30 << 1.25;
+    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 4 << 2.99;
+    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 6 << 1.82;
+    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 40 << 1.17;
 #endif
 }
 
@@ -144,13 +144,13 @@ void TestFitsData::initGenericDataFixture()
 
     // Star count
     QTest::addColumn<int>("NSTARS_CENTROID");
-    QTest::addColumn<int>("NSTARS_SEP");
+    QTest::addColumn<int>("NSTARS_STELLARSOLVER");
 
     // HFRs using variouls methods
     QTest::addColumn<double>("HFR_CENTROID");
     QTest::addColumn<double>("HFR_GRADIENT");
     QTest::addColumn<double>("HFR_THRESHOLD");
-    QTest::addColumn<double>("HFR_SEP");
+    QTest::addColumn<double>("HFR_STELLARSOLVER");
 
     // Statistics
     QTest::addColumn<double>("ADU");
@@ -168,11 +168,11 @@ void TestFitsData::initGenericDataFixture()
             << "m47_sim_stars.fits"
             << FITS_NORMAL
             << 80       // Stars found with the Centroid detection
-            << 100      // Stars found with the SEP detection
+            << 50       // Stars found with the StellarSolver detection (Quick HFR)
             << 1.49     // HFR found with the Centroid detection
             << 1.80     // HFR found with the Gradient detection
             << 0.0      // HFR found with the Threshold detection - not used
-            << 2.09     // HFR found with the SEP detection
+            << 2.27     // HFR found with the StellarSolver detection
             << 41.08    // ADU
             << 41.08    // Mean
             << 360.18   // StdDev
@@ -180,7 +180,7 @@ void TestFitsData::initGenericDataFixture()
             << 57832L   // Max
             << 21L      // Min
             << 0.0      // Median
-            << QRect(591 - 16/2, 482 - 16/2, 16, 16);
+            << QRect(591 - 16 / 2, 482 - 16 / 2, 16, 16);
 #endif
 }
 
@@ -201,11 +201,12 @@ void TestFitsData::testLoadFits()
     QFETCH(QString, NAME);
     QFETCH(FITSMode, MODE);
     QFETCH(int, NSTARS_CENTROID);
-    QFETCH(int, NSTARS_SEP);
+    QFETCH(int, NSTARS_STELLARSOLVER);
     QFETCH(double, HFR_CENTROID);
     QFETCH(double, HFR_GRADIENT);
-    QFETCH(double, HFR_THRESHOLD); Q_UNUSED(HFR_THRESHOLD);
-    QFETCH(double, HFR_SEP);
+    QFETCH(double, HFR_THRESHOLD);
+    Q_UNUSED(HFR_THRESHOLD);
+    QFETCH(double, HFR_STELLARSOLVER);
     QFETCH(double, ADU);
     QFETCH(double, MEAN);
     QFETCH(double, STDDEV);
@@ -267,10 +268,10 @@ void TestFitsData::testLoadFits()
     //QCOMPARE(fd->getHFR(), -1.0);
 
     // With the SEP algorithm, 100 stars with MEAN HFR 2.09
-    QCOMPARE(fd->findStars(ALGORITHM_SEP), NSTARS_SEP);
-    QCOMPARE(fd->getDetectedStars(), NSTARS_SEP);
-    QCOMPARE(fd->getStarCenters().count(), NSTARS_SEP);
-    QVERIFY(abs(fd->getHFR() - HFR_SEP) < 0.01);
+    QCOMPARE(fd->findStars(ALGORITHM_SEP), NSTARS_STELLARSOLVER);
+    QCOMPARE(fd->getDetectedStars(), NSTARS_STELLARSOLVER);
+    QCOMPARE(fd->getStarCenters().count(), NSTARS_STELLARSOLVER);
+    QVERIFY(abs(fd->getHFR() - HFR_STELLARSOLVER) < 0.01);
 
     // Test the SEP algorithm with a tracking box, as used by the internal guider and subframe focus.
     QCOMPARE(fd->findStars(ALGORITHM_SEP, TRACKING_BOX), 1);
@@ -278,8 +279,8 @@ void TestFitsData::testLoadFits()
     QCOMPARE(centers.count(), 1);
     QWARN(QString("Center    %1,%2").arg(centers[0]->x).arg(centers[0]->y).toStdString().c_str());
     QWARN(QString("TB Center %1,%2").arg(TRACKING_BOX.center().x()).arg(TRACKING_BOX.center().y()).toStdString().c_str());
-    QVERIFY(abs(centers[0]->x - TRACKING_BOX.center().x()) <= 2);
-    QVERIFY(abs(centers[0]->y - TRACKING_BOX.center().y()) <= 2);
+    QVERIFY(abs(centers[0]->x - TRACKING_BOX.center().x()) <= 5);
+    QVERIFY(abs(centers[0]->y - TRACKING_BOX.center().y()) <= 5);
 #endif
 }
 
