@@ -613,8 +613,9 @@ Vector cgmath::findLocalStarPosition(void) const
 
     if (square_alg_idx == SEP_THRESHOLD)
     {
-        int count = imageData->findStars(ALGORITHM_SEP, trackingBox);
-        if (count > 0)
+        QFuture<bool> result = imageData->findStars(ALGORITHM_SEP, trackingBox);
+        result.waitForFinished();
+        if (result.result())
         {
             imageData->getHFR(HFR_MEDIAN);
             Edge *star = imageData->getSelectedHFRStar();

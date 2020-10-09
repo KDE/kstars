@@ -19,72 +19,55 @@
 
 #include <math.h>
 #include <cmath>
+#include <QtConcurrent>
 
 #include "fits_debug.h"
 #include "fitsgradientdetector.h"
 
-FITSStarDetector& FITSGradientDetector::configure(const QString &, const QVariant &)
+QFuture<bool> FITSGradientDetector::findSources(const QRect &boundary)
 {
-    return *this;
-}
-
-int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
-{
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
     FITSImage::Statistic const &stats = image_data->getStatistics();
     switch (stats.dataType)
     {
+
         case TBYTE:
-            return findSources<uint8_t>(starCenters, boundary);
+        default:
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<uint8_t>, boundary);
 
         case TSHORT:
-            return findSources<int16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<int16_t>, boundary);
 
         case TUSHORT:
-            return findSources<uint16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<uint16_t>, boundary);
 
         case TLONG:
-            return findSources<int32_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<int32_t>, boundary);
 
         case TULONG:
-            return findSources<uint16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<uint16_t>, boundary);
 
         case TFLOAT:
-            return findSources<float>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<float>, boundary);
 
         case TLONGLONG:
-            return findSources<int64_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<int64_t>, boundary);
 
         case TDOUBLE:
-            return findSources<double>(starCenters, boundary);
-
-        default:
-            break;
+            return QtConcurrent::run(this, &FITSGradientDetector::findSources<double>, boundary);
     }
-
-    return 0;
 }
 
 template <typename T>
-int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
+bool FITSGradientDetector::findSources(const QRect &boundary)
 {
-    FITSData const * const data = reinterpret_cast<FITSData const *>(parent());
-
-    if (data == nullptr)
-        return 0;
-
     int subX = qMax(0, boundary.isNull() ? 0 : boundary.x());
     int subY = qMax(0, boundary.isNull() ? 0 : boundary.y());
-    int subW = (boundary.isNull() ? data->width() : boundary.width());
-    int subH = (boundary.isNull() ? data->height() : boundary.height());
+    int subW = (boundary.isNull() ? image_data->width() : boundary.width());
+    int subH = (boundary.isNull() ? image_data->height() : boundary.height());
 
-    int BBP = data->getBytesPerPixel();
+    int BBP = image_data->getBytesPerPixel();
 
-    uint16_t dataWidth = data->width();
+    uint16_t dataWidth = image_data->width();
 
     // #1 Find offsets
     uint32_t size   = subW * subH;
@@ -94,11 +77,11 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     auto * buffer = new uint8_t[size * BBP];
     // If there is no offset, copy whole buffer in one go
     if (offset == 0)
-        memcpy(buffer, data->getImageBuffer(), size * BBP);
+        memcpy(buffer, image_data->getImageBuffer(), size * BBP);
     else
     {
         uint8_t * dataPtr = buffer;
-        uint8_t const * origDataPtr = data->getImageBuffer();
+        uint8_t const * origDataPtr = image_data->getImageBuffer();
         uint32_t lineOffset  = 0;
         // Copy data line by line
         for (int height = subY; height < (subY + subH); height++)
@@ -114,8 +97,8 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     FITSImage::Statistic stats;
     stats.width               = subW;
     stats.height              = subH;
-    stats.dataType              = data->getStatistics().dataType;
-    stats.bytesPerPixel       = data->getStatistics().bytesPerPixel;
+    stats.dataType            = image_data->getStatistics().dataType;
+    stats.bytesPerPixel       = image_data->getStatistics().bytesPerPixel;
     stats.samples_per_channel = size;
     stats.ndim                = 2;
     boundedImage->restoreStatistics(stats);
@@ -193,7 +176,7 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     // If image has many regions and there is no significant relative center of mass then it's just noise and no stars
     // are probably there above a useful threshold.
     if (maxID > 10 && totalMassRatio < 1.5)
-        return 0;
+        return false;
 
     auto * center  = new Edge;
     center->width = -1;
@@ -237,7 +220,7 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     if (center->width == -1)
     {
         delete center;
-        return 0;
+        return false;
     }
 
     // 30% fuzzy
@@ -254,7 +237,7 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     QVector<double> subPixels;
     subPixels.reserve(center->width / resolution);
 
-    const T * origBuffer = reinterpret_cast<T const *>(data->getImageBuffer()) + offset;
+    const T * origBuffer = reinterpret_cast<T const *>(image_data->getImageBuffer()) + offset;
 
     for (double x = leftEdge; x <= rightEdge; x += resolution)
     {
@@ -297,12 +280,13 @@ int FITSGradientDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     center->x += subX;
     center->y += subY;
 
-    //data->appendStar(center);
+    QList<Edge*> starCenters;
     starCenters.append(center);
+    image_data->setStarCenters(starCenters);
 
     qCDebug(KSTARS_FITS) << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
 
-    return 1;
+    return true;
 }
 
 /* CannyDetector, Implementation of Canny edge detector in Qt/C++.
@@ -429,7 +413,8 @@ int FITSGradientDetector::partition(int width, int height, QVector<float> &gradi
     return id;
 }
 
-void FITSGradientDetector::trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y) const
+void FITSGradientDetector::trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x,
+                                 int y) const
 {
     int yOffset      = y * width;
     float * cannyLine = image.data() + yOffset;

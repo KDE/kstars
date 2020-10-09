@@ -348,7 +348,11 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
 
     StellarSolver *solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
     solver->setParameters(getStarExtractionParameters(num));
-    solver->sextract(true);
+
+    QEventLoop event;
+    QObject::connect(solver, SIGNAL(ready()), &event, SLOT(quit()), Qt::QueuedConnection);
+    solver->extract(true);
+    event.exec();
     if(!solver->sextractionDone() || solver->failed())
         return 0;
     auto bg = solver->getBackground();

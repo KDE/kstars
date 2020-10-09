@@ -1156,13 +1156,12 @@ bool FITSData::getRecordValue(const QString &key, QVariant &value) const
     return false;
 }
 
-int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
+QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 {
-    int count = 0;
     starAlgorithm = algorithm;
-
     qDeleteAll(starCenters);
     starCenters.clear();
+    starsSearched = true;
 
     switch (algorithm)
     {
@@ -1174,52 +1173,57 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
                 const int w = getStatistics().width;
                 const int h = getStatistics().height;
                 QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                count = FITSSEPDetector(this)
-                        .configure("radiusIsBoundary", "false") // need this with QRect.
-                        .findSources(starCenters, middle);
+                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
+                // need this with QRect.
+                detector->configure("radiusIsBoundary", "false");
+                return detector->findSources(middle);
             }
             else
-                count = FITSSEPDetector(this)
-                        .findSources(starCenters, trackingBox);
-            break;
-        }
+            {
+                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
+                return detector->findSources(trackingBox);
+            }
 
-        case ALGORITHM_GRADIENT:
-            count = FITSGradientDetector(this)
-                    .findSources(starCenters, trackingBox);
-            break;
+            case ALGORITHM_GRADIENT:
+            default:
+            {
+                QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
+                return detector->findSources(trackingBox);
+            }
 
-        case ALGORITHM_CENTROID:
+            case ALGORITHM_CENTROID:
+            {
 #ifndef KSTARS_LITE
-            if (histogram)
-                if (!histogram->isConstructed())
-                    histogram->constructHistogram();
+                if (histogram)
+                    if (!histogram->isConstructed())
+                        histogram->constructHistogram();
 
-            count = FITSCentroidDetector(this)
-                    .configure("JMINDEX", histogram ? histogram->getJMIndex() : 100)
-                    .findSources(starCenters, trackingBox);
+                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+                detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
+                return detector->findSources(trackingBox);
+            }
 #else
-            count = FITSCentroidDetector(this)
-                    .findSources(starCenters, trackingBox);
+                {
+                    QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+                    return detector->findSources(starCenters, trackingBox);
+                }
 #endif
-            break;
 
-        case ALGORITHM_THRESHOLD:
-            count = FITSThresholdDetector(this)
-                    .configure("THRESHOLD_PERCENTAGE", Options::focusThreshold())
-                    .findSources(starCenters, trackingBox);
-            break;
+            case ALGORITHM_THRESHOLD:
+            {
+                QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
+                detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
+                detector->findSources(trackingBox);
+            }
 
-        case ALGORITHM_BAHTINOV:
-            count = FITSBahtinovDetector(this)
-                    .configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage())
-                    .findSources(starCenters, trackingBox);
-            break;
+            case ALGORITHM_BAHTINOV:
+            {
+                QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
+                detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
+                return detector->findSources(trackingBox);
+            }
+        }
     }
-
-    starsSearched = true;
-
-    return count;
 }
 
 int FITSData::filterStars(const float innerRadius, const float outerRadius)
@@ -1281,6 +1285,9 @@ double FITSData::getHFR(HFRType type)
             return (oneStar->x < minX || oneStar->x > maxX || oneStar->y < minY || oneStar->y > maxY);
         }), starCenters.end());
         // Top 5%
+        if (starCenters.empty())
+            return -1;
+
         m_SelectedHFRStar = starCenters[static_cast<int>(starCenters.size() * 0.05)];
         return m_SelectedHFRStar->HFR;
     }

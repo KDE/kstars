@@ -260,7 +260,11 @@ class FITSData : public QObject
         }
         QList<Edge *> getStarCentersInSubFrame(QRect subFrame) const;
 
-        int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
+        void setStarCenters(const QList<Edge*> &centers)
+        {
+            starCenters = centers;
+        }
+        QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
 
         // Use SEP (Sextractor Library) to find stars
         template <typename T>

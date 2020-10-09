@@ -395,6 +395,9 @@ class Focus : public QWidget, public Ui::Focus
 
         void graphPolynomialFunction();
 
+        void calculateHFR();
+        void setCurrentHFR(double value);
+
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::FocusState state);
@@ -459,6 +462,11 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        ////////////////////////////////////////////////////////////////////
+        /// HFR
+        ////////////////////////////////////////////////////////////////////
+        void setHFRComplete();
+
         // Sets the algorithm and enables/disables various UI inputs.
         void setFocusAlgorithm(FocusAlgorithm algorithm);
 
@@ -485,7 +493,7 @@ class Focus : public QWidget, public Ui::Focus
          * @param image_data is the FITS frame to work with.
          * @return the HFR of the star or field of stars in the frame, depending on the consolidation method, or -1 if it cannot be estimated.
          */
-        double analyzeSources(FITSData *image_data);
+        void analyzeSources();
 
         /** @internal Add a new HFR for the current focuser position.
          * @param newHFR is the new HFR to consider for the current focuser position.
@@ -615,6 +623,8 @@ class Focus : public QWidget, public Ui::Focus
         QVector<double> HFRFrames;
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
+        // Future Watch
+        QFutureWatcher<bool> m_StarFinderWatcher;
 
         /// Autofocus log file info.
         QStringList m_LogText;

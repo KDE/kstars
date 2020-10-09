@@ -468,7 +468,7 @@ class Align : public QWidget, public Ui::Align
              */
         void solverFinished(double orientation, double ra, double dec, double pixscale);
 
-        void solverComplete(int error);
+        void solverComplete();
 
         /**
              * @brief Process solver failure.

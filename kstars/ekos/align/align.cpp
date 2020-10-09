@@ -3165,7 +3165,7 @@ void Align::startSolving()
     QStringList indexFileDirs = Options::indexFolderList();
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
     bool updated = false;
-    foreach(QString dataDir, astrometryDataDirs)
+    for(auto &dataDir : astrometryDataDirs)
     {
         if(!indexFileDirs.contains(dataDir))
         {
@@ -3180,64 +3180,68 @@ void Align::startSolving()
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     FITSData *data = alignView->getImageData();
     m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer()));
-    m_StellarSolver->setSextractorType((SSolver::SextractorType)Options::solveSextractorType());
-    m_StellarSolver->setSolverType((SSolver::SolverType)Options::solverType());
-    connect(m_StellarSolver.get(), &StellarSolver::finished, this, &Align::solverComplete);
+    m_StellarSolver->setProperty("SextractorType", Options::solveSextractorType());
+    m_StellarSolver->setProperty("SolverType", Options::solverType());
+    connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
     m_StellarSolver->setIndexFolderPaths(Options::indexFolderList());
     m_StellarSolver->setParameters(optionsList.at(Options::solveOptionsProfile()));
 
-    if(m_StellarSolver->solverType == SSolver::SOLVER_LOCALASTROMETRY || m_StellarSolver->solverType == SSolver::SOLVER_ASTAP)
+    const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
+    if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
     {
-        m_StellarSolver->fileToProcess = fileToSolve;
+        m_StellarSolver->setProperty("FileToProcess", fileToSolve);
 
         if(Options::sextractorIsInternal())
-            m_StellarSolver->sextractorBinaryPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/sex";
+            m_StellarSolver->setProperty("SextractorBinaryPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
+                                         .arg("astrometry/bin/sex"));
         else
-            m_StellarSolver->sextractorBinaryPath = Options::sextractorBinary();
+            m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
 
         if (Options::astrometrySolverIsInternal())
-            m_StellarSolver->solverPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field";
+            m_StellarSolver->setProperty("SolverPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
+                                         .arg("astrometry/bin/solve-field"));
         else
-            m_StellarSolver->solverPath = Options::astrometrySolverBinary();
+            m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
 
-        m_StellarSolver->astapBinaryPath = Options::aSTAPExecutable();
+        m_StellarSolver->setProperty("ASTAPBinaryPath", Options::aSTAPExecutable());
         if (Options::astrometryWCSIsInternal())
-            m_StellarSolver->wcsPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/wcsinfo";
+            m_StellarSolver->setProperty("WCSPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
+                                         .arg("astrometry/bin/wcsinfo"));
         else
-            m_StellarSolver->wcsPath = Options::astrometryWCSInfo();
-        //m_StellarSolver->cleanupTemporaryFiles = ui->cleanupTemp->isChecked();
+            m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
 
-        m_StellarSolver->autoGenerateAstroConfig = true; //No need for a conf file this way.
+        //No need for a conf file this way.
+        m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);
     }
 
-    if(m_StellarSolver->solverType == SSolver::SOLVER_ONLINEASTROMETRY )
+    if(type == SSolver::SOLVER_ONLINEASTROMETRY )
     {
-        m_StellarSolver->astrometryAPIKey = Options::astrometryAPIKey();
-        m_StellarSolver->astrometryAPIURL = Options::astrometryAPIURL();
+        m_StellarSolver->setProperty("AstrometryAPIKey", Options::astrometryAPIKey());
+        m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
     }
 
     //Setting the initial search scale settings
     if(Options::astrometryUseImageScale() && !blindSolve)
     {
-        SSolver::ScaleUnits units = (SSolver::ScaleUnits)Options::astrometryImageScaleUnits();
+        SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
         m_StellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
     }
     else
-        m_StellarSolver->setUseScale(false);
+        m_StellarSolver->setProperty("UseScale", false);
     //Setting the initial search location settings
     if(Options::astrometryUsePosition()  && !blindSolve)
         m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
     else
-        m_StellarSolver->setUsePostion(false);
+        m_StellarSolver->setProperty("UsePostion", false);
 
     if(Options::alignmentLogging())
     {
-        m_StellarSolver->setLogLevel((SSolver::logging_level)Options::loggerLevel());
+        m_StellarSolver->setLogLevel(static_cast<SSolver::logging_level>(Options::loggerLevel()));
         if(Options::astrometryLogToFile())
         {
-            m_StellarSolver->logToFile = true;
-            m_StellarSolver->logFileName = Options::astrometryLogFilepath();
+            m_StellarSolver->setProperty("LogToFile", true);
+            m_StellarSolver->setProperty("LogFileName", Options::astrometryLogFilepath());
         }
     }
     else
@@ -3245,7 +3249,7 @@ void Align::startSolving()
         m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
     }
 
-    m_StellarSolver->startProcess();
+    m_StellarSolver->start();
 
     /**
     QStringList solverArgs;
@@ -3353,21 +3357,16 @@ void Align::startSolving()
 }
 
 //Note this is temporary, just trying to see if it works.
-void Align::solverComplete(int error)
+void Align::solverComplete()
 {
-    disconnect(m_StellarSolver.get(), &StellarSolver::finished, this, &Align::solverComplete);
-    if(error == 0)
-    {
-        if(!m_StellarSolver->solvingDone() || m_StellarSolver->failed())
-            solverFailed();
-        else
-        {
-            FITSImage::Solution solution = m_StellarSolver->getSolution();
-            solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale);
-        }
-    }
-    else
+    disconnect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
+    if(!m_StellarSolver->solvingDone() || m_StellarSolver->failed())
         solverFailed();
+    else
+    {
+        FITSImage::Solution solution = m_StellarSolver->getSolution();
+        solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale);
+    }
 }
 
 void Align::solverFinished(double orientation, double ra, double dec, double pixscale)

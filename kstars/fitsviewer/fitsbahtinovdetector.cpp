@@ -25,8 +25,9 @@
 #include "hough/houghline.h"
 
 #include <QElapsedTimer>
+#include <QtConcurrent>
 
-FITSStarDetector &FITSBahtinovDetector::configure(const QString &setting, const QVariant &value)
+void FITSBahtinovDetector::configure(const QString &setting, const QVariant &value)
 {
     if (!setting.compare("NUMBER_OF_AVERAGE_ROWS", Qt::CaseInsensitive))
     {
@@ -50,61 +51,48 @@ FITSStarDetector &FITSBahtinovDetector::configure(const QString &setting, const 
             }
         }
     }
-    return *this;
 }
 
-int FITSBahtinovDetector::findSources(QList<Edge*> &starCenters, QRect const &boundary)
+QFuture<bool> FITSBahtinovDetector::findSources(QRect const &boundary)
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
     FITSImage::Statistic const &stats = image_data->getStatistics();
     switch (stats.dataType)
     {
-        case TBYTE:
-            return findBahtinovStar<uint8_t>(starCenters, boundary);
-
         case TSHORT:
-            return findBahtinovStar<int16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<int16_t>, boundary);
 
         case TUSHORT:
-            return findBahtinovStar<uint16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<uint16_t>, boundary);
 
         case TLONG:
-            return findBahtinovStar<int32_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<int32_t>, boundary);
 
         case TULONG:
-            return findBahtinovStar<uint32_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<uint32_t>, boundary);
 
         case TFLOAT:
-            return findBahtinovStar<float>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<float>, boundary);
 
         case TLONGLONG:
-            return findBahtinovStar<int64_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<int64_t>, boundary);
 
         case TDOUBLE:
-            return findBahtinovStar<double>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<double>, boundary);
 
         default:
-            break;
-    }
+        case TBYTE:
+            return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<uint8_t>, boundary);
 
-    return 0;
+    }
 }
 
 template <typename T>
-int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRect &boundary)
+bool FITSBahtinovDetector::findBahtinovStar(const QRect &boundary)
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
     if (boundary.isEmpty())
-        return -1;
+        return false;
 
+    QList<Edge*> starCenters;
     int subX = qMax(0, boundary.isNull() ? 0 : boundary.x());
     int subY = qMax(0, boundary.isNull() ? 0 : boundary.y());
     int subW = (boundary.isNull() ? image_data->width() : boundary.width());
@@ -297,7 +285,9 @@ int FITSBahtinovDetector::findBahtinovStar(QList<Edge*> &starCenters, const QRec
 
     top3Lines.clear();
 
-    return 1;
+    image_data->setStarCenters(starCenters);
+
+    return true;
 }
 
 template <typename T>
