@@ -147,7 +147,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
 
     auto * data = new float[w * h];
 
-    switch (parent()->property("dataType").toInt())
+    switch (stats.dataType)
     {
         case TBYTE:
             getFloatBuffer<uint8_t>(data, x, y, w, h, image_data);
@@ -192,6 +192,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
     double flux_fractions[2] = {0};
     double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge *> edges;
+    QList<Edge*> starCenters;
 
     // #0 Create SEP Image structure
     sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
@@ -261,7 +262,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
 
     // Take only the first maxNumCenters stars
     {
-        QList<Edge*> starCenters;
         int starCount = qMin(maxNumCenters, edges.count());
         for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
@@ -281,8 +281,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
                              << starCenters[i]->numPixels << starCenters[i]->HFR;
-
-
+    image_data->setStarCenters(starCenters);
 
 exit:
     delete[] data;
@@ -299,7 +298,7 @@ exit:
         char errorMessage[512];
         sep_get_errmsg(status, errorMessage);
         qCritical(KSTARS_FITS) << errorMessage;
-        return -1;
+        return false;
     }
 #endif
     return true;
