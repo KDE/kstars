@@ -19,6 +19,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QComboBox" name="defaultPathSelector">
+        <property name="toolTip">
+         <string>Choose your current setup from the list to load the typical paths to those programs for your computer </string>
+        </property>
         <item>
          <property name="text">
           <string>Select to load one of the default sets</string>
@@ -66,26 +69,6 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QCheckBox" name="kcfg_UseSextractor">
-        <property name="toolTip">
-         <string>This allows you to use sextractor to make xylists to avoid using python with astrometry.net</string>
-        </property>
-        <property name="text">
-         <string>Use Sextractor not python</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="kcfg_SextractorBinary">
-        <property name="toolTip">
-         <string>Path to Sextractor binary file</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
        <widget class="QCheckBox" name="kcfg_SextractorIsInternal">
         <property name="toolTip">
          <string>Sextractor binary file is internal to the application bundle</string>
@@ -95,10 +78,20 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="0" column="1">
        <widget class="QLabel" name="label_19">
         <property name="text">
          <string>sextractor binary:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="kcfg_SextractorBinary">
+        <property name="toolTip">
+         <string>Path to Sextractor binary file</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>

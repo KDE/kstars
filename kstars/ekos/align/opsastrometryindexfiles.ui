@@ -239,6 +239,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
       <layout class="QHBoxLayout" name="horizontalLayout_16">
        <item>
         <widget class="QPushButton" name="addIndexFileDirectory">
+         <property name="toolTip">
+          <string>Add a folder where index files are stored</string>
+         </property>
          <property name="text">
           <string>+</string>
          </property>
@@ -246,6 +249,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
        </item>
        <item>
         <widget class="QPushButton" name="removeIndexFileDirectory">
+         <property name="toolTip">
+          <string>Remove an index files location</string>
+         </property>
          <property name="text">
           <string>-</string>
          </property>

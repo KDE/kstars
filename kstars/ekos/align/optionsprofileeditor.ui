@@ -27,6 +27,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>This lets you select which options profile you want to load and edit.</string>
+          </property>
           <property name="currentIndex">
            <number>-1</number>
           </property>
@@ -46,6 +49,9 @@
             <height>30</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>This allows you to add a new Options Profile and give it a name</string>
+          </property>
           <property name="text">
            <string>+</string>
           </property>
@@ -59,6 +65,9 @@
             <height>30</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>This allows you to remove the currently selected options profile</string>
+          </property>
           <property name="text">
            <string>-</string>
           </property>
@@ -70,6 +79,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="reloadProfiles">
+          <property name="toolTip">
+           <string>This reloads the options profiles from the saved file</string>
+          </property>
           <property name="text">
            <string>Reload</string>
           </property>
@@ -77,6 +89,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="loadBackups">
+          <property name="toolTip">
+           <string>This will load an alternate or backup file of profiles you saved somewhere else on your computer</string>
+          </property>
           <property name="text">
            <string>Load Backup</string>
           </property>
@@ -84,6 +99,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="saveBackups">
+          <property name="toolTip">
+           <string>This allows you to save your current set of profiles somewhere else on your computer</string>
+          </property>
           <property name="text">
            <string>Save Backup</string>
           </property>
@@ -91,6 +109,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="loadDefaults">
+          <property name="toolTip">
+           <string>This loads the default set of profiles from the StellarSolver, clearing any modifications or custom profiles</string>
+          </property>
           <property name="text">
            <string>Default Profiles</string>
           </property>
@@ -107,13 +128,6 @@
       <string>Sextractor Parameters</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>Thresh</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="2">
        <widget class="QLabel" name="label_18">
         <property name="text">
@@ -130,25 +144,11 @@
       </item>
       <item row="3" column="3">
        <widget class="QLineEdit" name="fwhm">
+        <property name="toolTip">
+         <string>A variable to store the fwhm in pixels used to generate the convolution filter for star detection.</string>
+        </property>
         <property name="text">
          <string>2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QCheckBox" name="cleanCheckBox">
-        <property name="text">
-         <string>Clean?</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="clean_param">
-        <property name="text">
-         <string>1</string>
         </property>
        </widget>
       </item>
@@ -161,6 +161,9 @@
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="subpix">
+        <property name="toolTip">
+         <string>The subpixel sampling factor for star extraction</string>
+        </property>
         <property name="text">
          <string>5</string>
         </property>
@@ -182,6 +185,9 @@
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="minarea">
+        <property name="toolTip">
+         <string>This is the minimum area in pixels for a star detection, smaller stars are ignored.</string>
+        </property>
         <property name="text">
          <string>5</string>
         </property>
@@ -210,13 +216,6 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="detect_thresh">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2" colspan="2">
        <widget class="QLabel" name="label_20">
         <property name="text">
@@ -229,6 +228,9 @@
       </item>
       <item row="1" column="3">
        <widget class="QLineEdit" name="deblend_thresh">
+        <property name="toolTip">
+         <string>The number of thresholds the intensity range is divided up into.</string>
+        </property>
         <property name="text">
          <string>32</string>
         </property>
@@ -236,6 +238,9 @@
       </item>
       <item row="2" column="3">
        <widget class="QLineEdit" name="deblend_contrast">
+        <property name="toolTip">
+         <string>The percentage of flux a separate peak must have to be considered a separate object.</string>
+        </property>
         <property name="text">
          <string>1</string>
         </property>
@@ -243,6 +248,9 @@
       </item>
       <item row="1" column="5">
        <widget class="QLineEdit" name="kron_fact">
+        <property name="toolTip">
+         <string>This sets the Kron Factor for use with the kron radius for flux calculations.</string>
+        </property>
         <property name="text">
          <string>3.5</string>
         </property>
@@ -273,6 +281,9 @@
       </item>
       <item row="2" column="5">
        <widget class="QComboBox" name="apertureShape">
+        <property name="toolTip">
+         <string>Whether to use the SEP_SUM_ELLIPSE method or the SEP_SUM_CIRCLE method or automatically choose.  NOTE: Circle is usually better at the moment</string>
+        </property>
         <property name="currentIndex">
          <number>1</number>
         </property>
@@ -302,6 +313,9 @@
       </item>
       <item row="3" column="5">
        <widget class="QLineEdit" name="r_min">
+        <property name="toolTip">
+         <string>The minimum radius for stars for flux calculations.</string>
+        </property>
         <property name="text">
          <string>3.5</string>
         </property>
@@ -316,8 +330,34 @@
       </item>
       <item row="4" column="5">
        <widget class="QLineEdit" name="magzero">
+        <property name="toolTip">
+         <string>This is the 'zero' magnitude used for setting the magnitude scale for the stars in the image during sextraction.</string>
+        </property>
         <property name="text">
          <string>20</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cleanCheckBox">
+        <property name="toolTip">
+         <string>Attempts to 'clean' the image to remove artifacts caused by bright objects</string>
+        </property>
+        <property name="text">
+         <string>Clean?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="clean_param">
+        <property name="toolTip">
+         <string> The cleaning parameter</string>
+        </property>
+        <property name="text">
+         <string>1</string>
         </property>
        </widget>
       </item>
@@ -360,6 +400,9 @@
       </item>
       <item row="3" column="2">
        <widget class="QLineEdit" name="minSize">
+        <property name="toolTip">
+         <string>The minimum size of stars to include in the final list in pixels based on semi-major and semi-minor axes</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -374,6 +417,9 @@
       </item>
       <item row="0" column="5">
        <widget class="QLineEdit" name="keepNum">
+        <property name="toolTip">
+         <string>The number of brightest stars to keep in the list</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -395,6 +441,9 @@
       </item>
       <item row="2" column="2">
        <widget class="QLineEdit" name="maxSize">
+        <property name="toolTip">
+         <string>The maximum size of stars to include in the final list in pixels based on semi-major and semi-minor axes</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -437,6 +486,9 @@
       </item>
       <item row="2" column="5">
        <widget class="QLineEdit" name="brightestPercent">
+        <property name="toolTip">
+         <string>The percentage of brightest stars to remove from the list</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -451,6 +503,9 @@
       </item>
       <item row="3" column="5">
        <widget class="QLineEdit" name="dimmestPercent">
+        <property name="toolTip">
+         <string>The percentage of dimmest stars to remove from the list</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -465,6 +520,9 @@
       </item>
       <item row="4" column="5">
        <widget class="QLineEdit" name="saturationLimit">
+        <property name="toolTip">
+         <string>Remove all stars above a certain threshhold percentage of saturation</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -472,6 +530,9 @@
       </item>
       <item row="4" column="2">
        <widget class="QLineEdit" name="maxEllipse">
+        <property name="toolTip">
+         <string>The maximum ratio between the semi-major and semi-minor axes for stars to include (a/b), this will allow you to exclude elliptical sources like galaxies or badly distorted stars.</string>
+        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -512,6 +573,9 @@
       </item>
       <item row="2" column="1">
        <widget class="QSpinBox" name="downsample">
+        <property name="toolTip">
+         <string>Factor to use for downsampling the image before SEP for plate solving.  Can speed it up.  Note: This should ONLY be used for SEP used for solving, not for Sextraction</string>
+        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -522,6 +586,9 @@
       </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="resort">
+        <property name="toolTip">
+         <string>Whether to resort the stars based on magnitude NOTE: This is REQUIRED to be true for the filters above</string>
+        </property>
         <property name="text">
          <string>Resort</string>
         </property>
@@ -536,6 +603,9 @@
       </item>
       <item row="1" column="1">
        <widget class="QComboBox" name="multiAlgo">
+        <property name="toolTip">
+         <string>Algorithm for running multiple threads on possibly multiple cores to solve faster</string>
+        </property>
         <property name="currentIndex">
          <number>0</number>
         </property>
@@ -570,6 +640,9 @@
       </item>
       <item row="3" column="1">
        <widget class="QLineEdit" name="solverTimeLimit">
+        <property name="toolTip">
+         <string>Give up solving after the specified number of seconds of CPU time</string>
+        </property>
         <property name="text">
          <string>600</string>
         </property>
@@ -577,6 +650,9 @@
       </item>
       <item row="1" column="3">
        <widget class="QLineEdit" name="minWidth">
+        <property name="toolTip">
+         <string>If no scale estimate is given, this is the limit on the minimum field width in degrees.</string>
+        </property>
         <property name="text">
          <string>0.1</string>
         </property>
@@ -591,6 +667,9 @@
       </item>
       <item row="2" column="3">
        <widget class="QLineEdit" name="maxWidth">
+        <property name="toolTip">
+         <string>If no scale estimate is given, this is the limit on the maximum field width in degrees.</string>
+        </property>
         <property name="text">
          <string>180</string>
         </property>
@@ -605,6 +684,9 @@
       </item>
       <item row="3" column="3">
        <widget class="QLineEdit" name="radius">
+        <property name="toolTip">
+         <string>Only search in indexes within 'radius' of the field center given by RA and DEC</string>
+        </property>
         <property name="text">
          <string>15</string>
         </property>
@@ -612,6 +694,9 @@
       </item>
       <item row="0" column="1" colspan="3">
        <widget class="QCheckBox" name="inParallel">
+        <property name="toolTip">
+         <string>Check the indices in parallel by loading them simultaneously into memory? if the indices you are using take less than 2 GB of space, and you have at least as much physical memory as indices, you want this enabled.</string>
+        </property>
         <property name="text">
          <string>Load all Indexes in Memory</string>
         </property>
