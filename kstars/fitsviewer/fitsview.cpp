@@ -1620,11 +1620,14 @@ void FITSView::searchStars()
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
-        int count = findStars(ALGORITHM_SEP);
+        QFuture<bool> result = findStars(ALGORITHM_SEP);
+        result.waitForFinished();
+        if (result.result() && isVisible())
+        {
 
-        if (count >= 0 && isVisible())
-            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", count,
+            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", imageData->getDetectedStars(),
                                  imageData->getHFR()), FITS_MESSAGE);
+        }
         QApplication::restoreOverrideCursor();
     }
 }
