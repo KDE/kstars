@@ -90,15 +90,15 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
     QList<FITSImage::Star> stars;
     if (!boundary.isNull())
     {
-        solver->sextractWithHFR(boundary);
+        solver->sextract(true, boundary);
         if(!solver->sextractionDone() || solver->failed())
             return 0;
         stars = solver->getStarList();
     }
 
-    if (starCenters.empty())
+    if (stars.empty())
     {
-        solver->sextractWithHFR();
+        solver->sextract(true);
         if(!solver->sextractionDone() || solver->failed())
             return 0;
         stars = solver->getStarList();
