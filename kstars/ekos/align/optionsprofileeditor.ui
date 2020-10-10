@@ -521,7 +521,7 @@
       <item row="4" column="5">
        <widget class="QLineEdit" name="saturationLimit">
         <property name="toolTip">
-         <string>Remove all stars above a certain threshhold percentage of saturation</string>
+         <string>Remove all stars above a certain threshold percentage of saturation</string>
         </property>
         <property name="text">
          <string>0</string>
@@ -587,7 +587,7 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="resort">
         <property name="toolTip">
-         <string>Whether to resort the stars based on magnitude NOTE: This is REQUIRED to be true for the filters above</string>
+         <string>Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be true for the filters above</string>
         </property>
         <property name="text">
          <string>Resort</string>
@@ -695,7 +695,7 @@
       <item row="0" column="1" colspan="3">
        <widget class="QCheckBox" name="inParallel">
         <property name="toolTip">
-         <string>Check the indices in parallel by loading them simultaneously into memory? if the indices you are using take less than 2 GB of space, and you have at least as much physical memory as indices, you want this enabled.</string>
+         <string>Check the indices in parallel by loading them simultaneously into memory? If the indices you are using take less than 2 GB of space, and you have at least as much physical memory as indices, you want this enabled.</string>
         </property>
         <property name="text">
          <string>Load all Indexes in Memory</string>
