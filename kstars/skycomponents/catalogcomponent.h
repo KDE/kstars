@@ -53,6 +53,8 @@ class CatalogComponent : public ListComponent
 
     void update(KSNumbers *num) override;
 
+    SkyObject *findByName(const QString &name) override;
+
     /** @return the name of the catalog */
     inline QString name() const { return m_catName; }
 
@@ -97,4 +99,10 @@ class CatalogComponent : public ListComponent
     bool m_Showerrs { false };
     int m_ccIndex { 0 };
     quint32 updateID { 0 };
+
+  private:
+    // FIXME: Keeping both the objectNames data structure and the
+    // nameHash seems overkill -- asimha
+    QHash<QString, SkyObject *> nameHash;
+
 };
