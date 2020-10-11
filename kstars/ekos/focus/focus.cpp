@@ -24,6 +24,7 @@
 #include "fitsviewer/fitsview.h"
 #include "indi/indifilter.h"
 #include "ksnotification.h"
+#include "kconfigdialog.h"
 
 #include <basedevice.h>
 
@@ -79,6 +80,8 @@ Focus::Focus()
     // #9 Init Setting Connection now
     initSettingsConnections();
 
+    connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::calculateHFR);
+
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
@@ -92,6 +95,42 @@ Focus::Focus()
     m_FocusLogFileName = dir + "autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
     m_FocusLogFile.setFileName(m_FocusLogFileName);
 
+    editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
+    editFocusProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    connect(editFocusProfile, &QAbstractButton::clicked, this, [this]()
+    {
+        KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
+        optionsProfileEditor = new OptionsProfileEditor(this, false, optionsEditor);
+#ifdef Q_OS_OSX
+        optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
+        KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Options Profile Editor"));
+        mainPage->setIcon(QIcon::fromTheme("configure"));
+        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadOptionsProfiles);
+        optionsProfileEditor->loadProfile(focusOptionsProfiles->currentIndex());
+        optionsEditor->show();
+    });
+
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+    loadOptionsProfiles();
+
+    connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
+    {
+        Options::setFocusOptionsProfile(index);
+    });
+}
+
+void Focus::loadOptionsProfiles()
+{
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                                   QString("SavedOptionsProfiles.ini");
+
+    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    focusOptionsProfiles->clear();
+    foreach(SSolver::Parameters param, optionsList)
+        focusOptionsProfiles->addItem(param.listName);
+    focusOptionsProfiles->setCurrentIndex(Options::focusOptionsProfile());
 }
 
 Focus::~Focus()
@@ -1168,7 +1207,45 @@ void Focus::newFITS(IBLOB *bp)
     resetButtons();
 }
 
-double Focus::analyzeSources(FITSData *image_data)
+void Focus::calculateHFR()
+{
+    if (m_StarFinderWatcher.result() == false)
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Failed to extract any stars.";
+        setCurrentHFR(-1);
+        return;
+    }
+
+    FITSData *image_data = focusView->getImageData();
+
+    if (Options::focusUseFullField())
+    {
+        focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                      static_cast <float> (fullFieldOuterRing->value() / 100.0));
+        focusView->filterStars();
+
+        // Get the average HFR of the whole frame
+        setCurrentHFR(image_data->getHFR(HFR_AVERAGE));
+    }
+    else
+    {
+        focusView->setTrackingBoxEnabled(true);
+
+        // JM 2020-10-08: Try to get first the same HFR star already selected before
+        // so that it doesn't keep jumping around
+        double hfr = -1;
+
+        if (starCenter.isNull() == false)
+            hfr = image_data->getHFR(starCenter.x(), starCenter.y());
+        // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
+        if (hfr < 0)
+            hfr = image_data->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+
+        setCurrentHFR(hfr);
+    }
+}
+
+void Focus::analyzeSources()
 {
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
     // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
@@ -1178,24 +1255,16 @@ double Focus::analyzeSources(FITSData *image_data)
         focusView->setTrackingBoxEnabled(false);
 
         if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-            focusView->findStars(ALGORITHM_CENTROID);
+            m_StarFinderWatcher.setFuture(focusView->findStars(ALGORITHM_CENTROID));
         else
-            focusView->findStars(focusDetection);
-
-        focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
-                                      static_cast <float> (fullFieldOuterRing->value() / 100.0));
-        focusView->filterStars();
-
-        // Get the average HFR of the whole frame
-        return image_data->getHFR(HFR_AVERAGE);
+            m_StarFinderWatcher.setFuture(focusView->findStars(focusDetection));
     }
     else
     {
         // If star is already selected then use whatever algorithm currently selected.
         if (starSelected)
         {
-            focusView->findStars(focusDetection);
-            return image_data->getHFR(HFR_MAX);
+            m_StarFinderWatcher.setFuture(focusView->findStars(focusDetection));
         }
         else
         {
@@ -1205,16 +1274,10 @@ double Focus::analyzeSources(FITSData *image_data)
             // If algorithm is set something other than Centeroid or SEP, then force Centroid
             // Since it is the most reliable detector when nothing was selected before.
             if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-                focusView->findStars(ALGORITHM_CENTROID);
+                m_StarFinderWatcher.setFuture(focusView->findStars(ALGORITHM_CENTROID));
             else
                 // Otherwise, continue to find use using the selected algorithm
-                focusView->findStars(focusDetection);
-
-            // Reenable tracking box
-            focusView->setTrackingBoxEnabled(true);
-
-            // Get maximum HFR in the frame
-            return image_data->getHFR(HFR_MAX);
+                m_StarFinderWatcher.setFuture(focusView->findStars(focusDetection));
         }
     }
 }
@@ -1288,6 +1351,147 @@ void Focus::emitComplete()
     emit autofocusComplete(filter(), str);
 }
 
+void Focus::setCurrentHFR(double value)
+{
+    currentHFR = value;
+
+    // Get handle to the image data
+    FITSData *image_data = focusView->getImageData();
+
+    // Let's now report the current HFR
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
+                               << (starSelected ? 1 : image_data->getDetectedStars());
+
+    // Take the new HFR into account, eventually continue to stack samples
+    if (appendHFR(currentHFR))
+    {
+        capture();
+        return;
+    }
+    else HFRFrames.clear();
+
+    // Let signal the current HFR now depending on whether the focuser is absolute or relative
+    if (canAbsMove)
+        emit newHFR(currentHFR, currentPosition);
+    else
+        emit newHFR(currentHFR, -1);
+
+    // Format the HFR value into a string
+    QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
+    HFROut->setText(HFRText);
+    starsOut->setText(QString("%1").arg(image_data->getDetectedStars()));
+
+    // Display message in case _last_ HFR was negative
+    if (lastHFR == -1)
+        appendLogText(i18n("FITS received. No stars detected."));
+
+    // If we have a valid HFR value
+    if (currentHFR > 0)
+    {
+        // Check if we're done from polynomial fitting algorithm
+        if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
+        {
+            polySolutionFound = 0;
+            emitComplete();
+            appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
+            stop();
+            setAutoFocusResult(true);
+            graphPolynomialFunction();
+            return;
+        }
+        Edge *selectedHFRStarHFR = nullptr;
+
+        // Center tracking box around selected star (if it valid) either in:
+        // 1. Autofocus
+        // 2. CheckFocus (minimumHFRCheck)
+        // The starCenter _must_ already be defined, otherwise, we proceed until
+        // the latter half of the function searches for a star and define it.
+        if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
+                (selectedHFRStarHFR = image_data->getSelectedHFRStar()) != nullptr)
+        {
+            // Now we have star selected in the frame
+            starSelected = true;
+            starCenter.setX(qMax(0, static_cast<int>(selectedHFRStarHFR->x)));
+            starCenter.setY(qMax(0, static_cast<int>(selectedHFRStarHFR->y)));
+
+            syncTrackingBoxPosition();
+
+            // Record the star information (X, Y, currentHFR)
+            QVector3D oneStar = starCenter;
+            oneStar.setZ(currentHFR);
+            starsHFR.append(oneStar);
+        }
+        else
+        {
+            // Record the star information (X, Y, currentHFR)
+            QVector3D oneStar(starCenter.x(), starCenter.y(), currentHFR);
+            starsHFR.append(oneStar);
+        }
+
+        if (currentHFR > maxHFR)
+            maxHFR = currentHFR;
+
+        // Append point to the #Iterations vs #HFR chart in case of looping or in case in autofocus with a focus
+        // that does not support position feedback.
+
+        // If inAutoFocus is true without canAbsMove and without canRelMove, canTimerMove must be true.
+        // We'd only want to execute this if the focus linear algorithm is not being used, as that
+        // algorithm simulates a position-based system even for timer-based focusers.
+        if (inFocusLoop || (inAutoFocus && canAbsMove == false && canRelMove == false &&
+                            focusAlgorithm != FOCUS_LINEAR))
+        {
+            if (hfr_position.empty())
+                hfr_position.append(1);
+            else
+                hfr_position.append(hfr_position.last() + 1);
+            hfr_value.append(currentHFR);
+
+            drawHFRPlot();
+        }
+    }
+    else
+    {
+        // Let's record an invalid star result
+        QVector3D oneStar(starCenter.x(), starCenter.y(), -1);
+        starsHFR.append(oneStar);
+    }
+
+    // First check that we haven't already search for stars
+    // Since star-searching algorithm are time-consuming, we should only search when necessary
+    focusView->updateFrame();
+
+    // Try to average values and find if we have bogus results
+    if (inAutoFocus && starsHFR.count() > 3)
+    {
+        float mean = 0, sum = 0, stddev = 0, noHFR = 0;
+
+        for (int i = 0; i < starsHFR.count(); i++)
+        {
+            sum += starsHFR[i].x();
+            if (starsHFR[i].z() == -1)
+                noHFR++;
+        }
+
+        mean = sum / starsHFR.count();
+
+        // Calculate standard deviation
+        for (int i = 0; i < starsHFR.count(); i++)
+            stddev += pow(starsHFR[i].x() - mean, 2);
+
+        stddev = sqrt(stddev / starsHFR.count());
+
+        if (currentHFR == -1 && (stddev > focusBoxSize->value() / 10.0 || noHFR / starsHFR.count() > 0.75))
+        {
+            appendLogText(i18n("No reliable star is detected. Aborting..."));
+            abort();
+            setAutoFocusResult(false);
+            return;
+        }
+    }
+
+    setHFRComplete();
+}
+
 void Focus::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
@@ -1319,141 +1523,19 @@ void Focus::setCaptureComplete()
     // THEN let's find stars in the image and get current HFR
     if (inFocusLoop == false || (inFocusLoop && (focusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
     {
-        // First check that we haven't already search for stars
-        // Since star-searching algorithm are time-consuming, we should only search when necessary
         if (image_data->areStarsSearched() == false)
         {
-            currentHFR = analyzeSources(image_data);
-            focusView->updateFrame();
-        }
-
-        // Let's now report the current HFR
-        qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
-                                   << (starSelected ? 1 : image_data->getDetectedStars());
-
-        // Take the new HFR into account, eventually continue to stack samples
-        if (appendHFR(currentHFR))
-        {
-            capture();
-            return;
-        }
-        else HFRFrames.clear();
-
-        // Let signal the current HFR now depending on whether the focuser is absolute or relative
-        if (canAbsMove)
-            emit newHFR(currentHFR, currentPosition);
-        else
-            emit newHFR(currentHFR, -1);
-
-        // Format the HFR value into a string
-        QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
-        HFROut->setText(HFRText);
-        starsOut->setText(QString("%1").arg(image_data->getDetectedStars()));
-
-        // Display message in case _last_ HFR was negative
-        if (lastHFR == -1)
-            appendLogText(i18n("FITS received. No stars detected."));
-
-        // If we have a valid HFR value
-        if (currentHFR > 0)
-        {
-            // Check if we're done from polynomial fitting algorithm
-            if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
-            {
-                polySolutionFound = 0;
-                emitComplete();
-                appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
-                stop();
-                setAutoFocusResult(true);
-                graphPolynomialFunction();
-                return;
-            }
-            Edge *maxStarHFR = nullptr;
-
-            // Center tracking box around selected star (if it valid) either in:
-            // 1. Autofocus
-            // 2. CheckFocus (minimumHFRCheck)
-            // The starCenter _must_ already be defined, otherwise, we proceed until
-            // the latter half of the function searches for a star and define it.
-            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
-                    (maxStarHFR = image_data->getMaxHFRStar()) != nullptr)
-            {
-                // Now we have star selected in the frame
-                starSelected = true;
-                starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
-                starCenter.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
-
-                syncTrackingBoxPosition();
-
-                // Record the star information (X, Y, currentHFR)
-                QVector3D oneStar = starCenter;
-                oneStar.setZ(currentHFR);
-                starsHFR.append(oneStar);
-            }
-            else
-            {
-                // Record the star information (X, Y, currentHFR)
-                QVector3D oneStar(starCenter.x(), starCenter.y(), currentHFR);
-                starsHFR.append(oneStar);
-            }
-
-            if (currentHFR > maxHFR)
-                maxHFR = currentHFR;
-
-            // Append point to the #Iterations vs #HFR chart in case of looping or in case in autofocus with a focus
-            // that does not support position feedback.
-
-            // If inAutoFocus is true without canAbsMove and without canRelMove, canTimerMove must be true.
-            // We'd only want to execute this if the focus linear algorithm is not being used, as that
-            // algorithm simulates a position-based system even for timer-based focusers.
-            if (inFocusLoop || (inAutoFocus && canAbsMove == false && canRelMove == false &&
-                                focusAlgorithm != FOCUS_LINEAR))
-            {
-                if (hfr_position.empty())
-                    hfr_position.append(1);
-                else
-                    hfr_position.append(hfr_position.last() + 1);
-                hfr_value.append(currentHFR);
-
-                drawHFRPlot();
-            }
-        }
-        else
-        {
-            // Let's record an invalid star result
-            QVector3D oneStar(starCenter.x(), starCenter.y(), -1);
-            starsHFR.append(oneStar);
-        }
-
-        // Try to average values and find if we have bogus results
-        if (inAutoFocus && starsHFR.count() > 3)
-        {
-            float mean = 0, sum = 0, stddev = 0, noHFR = 0;
-
-            for (int i = 0; i < starsHFR.count(); i++)
-            {
-                sum += starsHFR[i].x();
-                if (starsHFR[i].z() == -1)
-                    noHFR++;
-            }
-
-            mean = sum / starsHFR.count();
-
-            // Calculate standard deviation
-            for (int i = 0; i < starsHFR.count(); i++)
-                stddev += pow(starsHFR[i].x() - mean, 2);
-
-            stddev = sqrt(stddev / starsHFR.count());
-
-            if (currentHFR == -1 && (stddev > focusBoxSize->value() / 10.0 || noHFR / starsHFR.count() > 0.75))
-            {
-                appendLogText(i18n("No reliable star is detected. Aborting..."));
-                abort();
-                setAutoFocusResult(false);
-                return;
-            }
+            analyzeSources();
         }
     }
+    else
+        setHFRComplete();
+}
+
+void Focus::setHFRComplete()
+{
+    // Get handle to the image data
+    FITSData *image_data = focusView->getImageData();
 
     // If we are just framing, let's capture again
     if (inFocusLoop)
@@ -1496,9 +1578,9 @@ void Focus::setCaptureComplete()
         if (useAutoStar->isChecked())
         {
             // Do we have a valid star detected?
-            Edge *maxStar = image_data->getMaxHFRStar();
+            Edge *selectedHFRStar = image_data->getSelectedHFRStar();
 
-            if (maxStar == nullptr)
+            if (selectedHFRStar == nullptr)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
@@ -1519,10 +1601,11 @@ void Focus::setCaptureComplete()
                 return;
             }
 
-            // set the tracking box on maxStar
-            starCenter.setX(maxStar->x);
-            starCenter.setY(maxStar->y);
+            // set the tracking box on selectedHFRStar
+            starCenter.setX(selectedHFRStar->x);
+            starCenter.setY(selectedHFRStar->y);
             starCenter.setZ(subBinX);
+            starSelected = true;
             syncTrackingBoxPosition();
 
             defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
@@ -1531,8 +1614,8 @@ void Focus::setCaptureComplete()
             if (subFramed == false && useSubFrame->isEnabled() && useSubFrame->isChecked())
             {
                 int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
-                int subX   = (maxStar->x - offset) * subBinX;
-                int subY   = (maxStar->y - offset) * subBinY;
+                int subX   = (selectedHFRStar->x - offset) * subBinX;
+                int subY   = (selectedHFRStar->y - offset) * subBinY;
                 int subW   = offset * 2 * subBinX;
                 int subH   = offset * 2 * subBinY;
 
@@ -1582,8 +1665,8 @@ void Focus::setCaptureComplete()
             // If we're subframed or don't need subframe, let's record the max star coordinates
             else
             {
-                starCenter.setX(maxStar->x);
-                starCenter.setY(maxStar->y);
+                starCenter.setX(selectedHFRStar->x);
+                starCenter.setY(selectedHFRStar->y);
                 starCenter.setZ(subBinX);
 
                 // Let's now capture again if we're autofocusing
@@ -3604,6 +3687,8 @@ void Focus::syncSettings()
         else if (cbox == focusDetectionCombo)
             Options::setFocusDetection(cbox->currentIndex());
     }
+
+    emit settingsUpdated(getSettings());
 }
 
 void Focus::loadSettings()
@@ -4050,5 +4135,197 @@ void Focus::initView()
     focusView->setStarsEnabled(true);
     focusView->setStarsHFREnabled(true);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("camera", CCDCaptureCombo->currentText());
+    settings.insert("focuser", focuserCombo->currentText());
+    settings.insert("fw", FilterDevicesCombo->currentText());
+    settings.insert("filter", FilterPosCombo->currentText());
+    settings.insert("exp", exposureIN->value());
+    settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
+    settings.insert("gain", gainIN->value());
+    settings.insert("iso", ISOCombo->currentIndex());
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setSettings(const QJsonObject &settings)
+{
+    // Camera
+    syncControl(settings, "camera", CCDCaptureCombo);
+    // Focuser
+    syncControl(settings, "focuser", focuserCombo);
+    // Filter Wheel
+    syncControl(settings, "fw", FilterDevicesCombo);
+    // Filter
+    syncControl(settings, "filter", FilterPosCombo);
+    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
+    // Exposure
+    syncControl(settings, "exp", exposureIN);
+    // Binning
+    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
+    if (bin != binningCombo->currentIndex())
+        binningCombo->setCurrentIndex(bin);
+
+    // Gain
+    if (gainIN->isEnabled())
+        syncControl(settings, "gain", gainIN);
+    // ISO
+    if (ISOCombo->isEnabled())
+    {
+        const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
+        if (iso != ISOCombo->currentIndex())
+            ISOCombo->setCurrentIndex(iso);
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getPrimarySettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("autostar", useAutoStar->isChecked());
+    settings.insert("dark", darkFrameCheck->isChecked());
+    settings.insert("subframe", useSubFrame->isChecked());
+    settings.insert("box", focusBoxSize->value());
+    settings.insert("fullfield", useFullField->isChecked());
+    settings.insert("inner", fullFieldInnerRing->value());
+    settings.insert("outer", fullFieldOuterRing->value());
+    settings.insert("suspend", suspendGuideCheck->isChecked());
+    settings.insert("guide_settle", FocusSettleTime->value());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setPrimarySettings(const QJsonObject &settings)
+{
+    syncControl(settings, "autostar", useAutoStar);
+    syncControl(settings, "dark", darkFrameCheck);
+    syncControl(settings, "subframe", useSubFrame);
+    syncControl(settings, "box", focusBoxSize);
+    syncControl(settings, "fullfield", useFullField);
+    syncControl(settings, "inner", fullFieldInnerRing);
+    syncControl(settings, "outer", fullFieldOuterRing);
+    syncControl(settings, "suspend", suspendGuideCheck);
+    syncControl(settings, "guide_settle", FocusSettleTime);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getProcessSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("detection", focusDetectionCombo->currentText());
+    settings.insert("algorithm", focusAlgorithmCombo->currentText());
+    settings.insert("sep", "NA");
+    settings.insert("threshold", thresholdSpin->value());
+    settings.insert("tolerance", toleranceIN->value());
+    settings.insert("average", focusFramesSpin->value());
+    settings.insert("rows", multiRowAverageSpin->value());
+    settings.insert("kernel", gaussianKernelSizeSpin->value());
+    settings.insert("sigma", gaussianSigmaSpin->value());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setProcessSettings(const QJsonObject &settings)
+{
+    syncControl(settings, "detection", focusDetectionCombo);
+    syncControl(settings, "algorithm", focusAlgorithmCombo);
+    //syncControl(settings, "sep", focusAlgorithmCombo);
+    syncControl(settings, "threshold", thresholdSpin);
+    syncControl(settings, "tolerance", toleranceIN);
+    syncControl(settings, "average", focusFramesSpin);
+    syncControl(settings, "rows", multiRowAverageSpin);
+    syncControl(settings, "kernel", gaussianKernelSizeSpin);
+    syncControl(settings, "sigma", gaussianSigmaSpin);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getMechanicsSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("step", stepIN->value());
+    settings.insert("travel", maxTravelIN->value());
+    settings.insert("maxstep", maxSingleStepIN->value());
+    settings.insert("backlash", focusBacklashSpin->value());
+    settings.insert("settle", FocusSettleTime->value());
+    settings.insert("out", initialFocusOutStepsIN->value());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setMechanicsSettings(const QJsonObject &settings)
+{
+    syncControl(settings, "step", stepIN);
+    syncControl(settings, "travel", maxTravelIN);
+    syncControl(settings, "maxstep", maxSingleStepIN);
+    syncControl(settings, "backlash", focusBacklashSpin);
+    syncControl(settings, "settle", FocusSettleTime);
+    syncControl(settings, "out", initialFocusOutStepsIN);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(pSB->value());
+        if (value != pSB->value())
+            pSB->setValue(value);
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(pDSB->value());
+        if (value != pDSB->value())
+            pDSB->setValue(value);
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool(pCB->isChecked());
+        if (value != pCB->isChecked())
+            pCB->setChecked(value);
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString(pComboBox->currentText());
+        if (value != pComboBox->currentText())
+            pComboBox->setCurrentText(value);
+    }
+};
 
 }

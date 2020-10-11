@@ -88,6 +88,13 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
 
 void ClientManager::newProperty(INDI::Property *prop)
 {
+    // Do not emit the signal if the server is disconnected or disconnecting (deadlock between signals)
+    if (!isServerConnected())
+    {
+        IDLog("Received new property %s for disconnected device %s, discarding\n", prop->getName(), prop->getDeviceName());
+        return;
+    }
+
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
     emit newINDIProperty(prop);
 
@@ -96,7 +103,7 @@ void ClientManager::newProperty(INDI::Property *prop)
     {
         QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop->getBaseDevice()->getDeviceName(), prop->getName());
         connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
-        connect(bm.data(), &BlobManager::connected, [prop, this]()
+        connect(bm.data(), &BlobManager::connected, this, [prop, this]()
         {
             if (prop && prop->getRegistered())
                 emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
@@ -120,7 +127,7 @@ void ClientManager::removeProperty(INDI::Property *prop)
             {
                 blobManagers.removeOne(bm);
                 bm.data()->disconnectServer();
-                delete (bm);
+                bm->deleteLater();
                 break;
             }
         }
@@ -138,12 +145,14 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
     QString deviceName = dp->getDeviceName();
 
-    for (auto &oneManager : blobManagers)
+    QMutableListIterator<QPointer<BlobManager>> it(blobManagers);
+    while (it.hasNext())
     {
+        QPointer<BlobManager> &oneManager = it.next();
         if (oneManager->property("device").toString() == deviceName)
         {
             oneManager->disconnect();
-            blobManagers.removeOne(oneManager);
+            it.remove();
         }
     }
 
@@ -163,7 +172,7 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
                 {
                     managedDrivers.removeOne(driverInfo);
                     if (driverInfo->getDriverSource() == GENERATED_SOURCE)
-                        delete (driverInfo);
+                        driverInfo->deleteLater();
                 }
 
                 return;
@@ -240,7 +249,7 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     }
 
     if (dv->getDriverSource() == GENERATED_SOURCE)
-        delete (dv);
+        dv->deleteLater();
 }
 
 void ClientManager::serverConnected()

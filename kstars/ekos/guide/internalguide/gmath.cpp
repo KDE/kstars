@@ -349,7 +349,7 @@ float *cgmath::createFloatImage(FITSData *target) const
         return nullptr;
     }
 
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
         {
@@ -552,7 +552,7 @@ Vector cgmath::findLocalStarPosition(void)
         return Vector(median_x, median_y, -1);
     }
 
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();
@@ -613,11 +613,12 @@ Vector cgmath::findLocalStarPosition(void) const
 
     if (square_alg_idx == SEP_THRESHOLD)
     {
-        int count = imageData->findStars(ALGORITHM_SEP, trackingBox);
-        if (count > 0)
+        QFuture<bool> result = imageData->findStars(ALGORITHM_SEP, trackingBox);
+        result.waitForFinished();
+        if (result.result())
         {
-            imageData->getHFR(HFR_MAX);
-            Edge *star = imageData->getMaxHFRStar();
+            imageData->getHFR(HFR_MEDIAN);
+            Edge *star = imageData->getSelectedHFRStar();
             if (star)
                 ret = Vector(star->x, star->y, 0);
             else

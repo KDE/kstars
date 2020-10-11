@@ -6,6 +6,10 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/time
     )
 
+if(STELLARSOLVER_FOUND)
+include_directories(${STELLARSOLVER_INCLUDE_DIR})
+endif(STELLARSOLVER_FOUND)
+
 if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
 endif(WCSLIB_FOUND)
@@ -50,6 +54,10 @@ add_subdirectory(internalguide)
 endif(NOT WIN32)
 ENDIF(INDI_FOUND)
 ENDIF(CFITSIO_FOUND)
+
+if(STELLARSOLVER_FOUND)
+    include_directories(${STELLARSOLVER_INCLUDE_DIR})
+endif(STELLARSOLVER_FOUND)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)

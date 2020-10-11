@@ -35,7 +35,8 @@ Build-Depends: cmake,
                libgsl-dev,
                phonon4qt5-backend-vlc,
                qt5keychain-dev,
-               libsecret-1-dev
+               libsecret-1-dev,
+               libstellarsolver-dev
 Standards-Version: 3.9.3
 Homepage: http://edu.kde.org/
 
@@ -44,7 +45,7 @@ Architecture: any
 Section: science
 conflicts: kstars
 replaces: kstars
-recommends: xplanet, xplanet-images, astrometry.net
+recommends: xplanet, xplanet-images
 Depends: ${shlibs:Depends}, ${misc:Depends}, kstars-bleeding-data (>= ${source:Version}), kstars-bleeding-dbg (= ${binary:Version}), kded5, kinit, libindi1, indi-bin, breeze-icon-theme, libqt5sql5-sqlite, qml-module-qtquick-controls
 Description: desktop planetarium for KDE
  KStars is a desktop planetarium for KDE, depicting an accurate graphical

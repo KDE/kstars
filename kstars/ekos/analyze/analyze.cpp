@@ -326,6 +326,7 @@ Analyze::Analyze()
 
     setupKeyboardShortcuts(timelinePlot);
 
+    reset();
     replot();
 }
 

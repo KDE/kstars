@@ -81,7 +81,6 @@ FITSData::FITSData(const FITSData * other)
     debayerParams.offsetX = debayerParams.offsetY = 0;
 
     this->m_Mode = other->m_Mode;
-    this->m_DataType = other->m_DataType;
     this->m_Channels = other->m_Channels;
     memcpy(&stats, &(other->stats), sizeof(stats));
     m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
@@ -219,7 +218,11 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
         if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
+        {
+            if(privateLoadOtherFormat(fits_buffer, fits_buffer_size, silent))
+                return true;
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
+        }
         else
             stats.size = QFile(m_Filename).size();
     }
@@ -238,7 +241,8 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
-    if (fits_get_img_param(fptr, 3, &(stats.bitpix), &(stats.ndim), naxes, &status))
+    int fitsBitPix = 0;
+    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(stats.ndim), naxes, &status))
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
     if (stats.ndim < 2)
@@ -250,44 +254,44 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         return false;
     }
 
-    switch (stats.bitpix)
+    switch (fitsBitPix)
     {
         case BYTE_IMG:
-            m_DataType           = TBYTE;
+            stats.dataType      = TBYTE;
             stats.bytesPerPixel = sizeof(uint8_t);
             break;
         case SHORT_IMG:
             // Read SHORT image as USHORT
-            m_DataType           = TUSHORT;
+            stats.dataType      = TUSHORT;
             stats.bytesPerPixel = sizeof(int16_t);
             break;
         case USHORT_IMG:
-            m_DataType           = TUSHORT;
+            stats.dataType      = TUSHORT;
             stats.bytesPerPixel = sizeof(uint16_t);
             break;
         case LONG_IMG:
             // Read LONG image as ULONG
-            m_DataType           = TULONG;
+            stats.dataType      = TULONG;
             stats.bytesPerPixel = sizeof(int32_t);
             break;
         case ULONG_IMG:
-            m_DataType           = TULONG;
+            stats.dataType      = TULONG;
             stats.bytesPerPixel = sizeof(uint32_t);
             break;
         case FLOAT_IMG:
-            m_DataType           = TFLOAT;
+            stats.dataType      = TFLOAT;
             stats.bytesPerPixel = sizeof(float);
             break;
         case LONGLONG_IMG:
-            m_DataType           = TLONGLONG;
+            stats.dataType      = TLONGLONG;
             stats.bytesPerPixel = sizeof(int64_t);
             break;
         case DOUBLE_IMG:
-            m_DataType           = TDOUBLE;
+            stats.dataType      = TDOUBLE;
             stats.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
+            errMessage = i18n("Bit depth %1 is not supported.", fitsBitPix);
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
             qCCritical(KSTARS_FITS) << errMessage;
@@ -334,7 +338,7 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     flipVCounter   = 0;
     long nelements = stats.samples_per_channel * m_Channels;
 
-    if (fits_read_img(fptr, m_DataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
+    if (fits_read_img(fptr, stats.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
         return fitsOpenError(status, i18n("Error reading image."), silent);
 
     parseHeader();
@@ -359,6 +363,107 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         checkForWCS();
 
     starsSearched = false;
+
+    return true;
+}
+
+bool FITSData::privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent)
+{
+    QImageReader fileReader(m_Filename.toLatin1());
+
+    if (QImageReader::supportedImageFormats().contains(fileReader.format()) == false)
+    {
+        qCCritical(KSTARS_FITS) << "Failed to convert" << m_Filename << "to FITS since format, " << fileReader.format() <<
+                                ", is not supported in Qt";
+        return false;
+    }
+
+    QString errMessage;
+    QImage imageFromFile;
+    if(!imageFromFile.load(m_Filename.toLatin1()))
+    {
+        qCCritical(KSTARS_FITS) << "Failed to open image.";
+        return false;
+    }
+
+    imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
+
+    int fitsBitPix =
+        8; //Note: This will need to be changed.  I think QT only loads 8 bpp images.  Also the depth method gives the total bits per pixel in the image not just the bits per pixel in each channel.
+    switch (fitsBitPix)
+    {
+        case BYTE_IMG:
+            stats.dataType      = TBYTE;
+            stats.bytesPerPixel = sizeof(uint8_t);
+            break;
+        case SHORT_IMG:
+            // Read SHORT image as USHORT
+            stats.dataType      = TUSHORT;
+            stats.bytesPerPixel = sizeof(int16_t);
+            break;
+        case USHORT_IMG:
+            stats.dataType      = TUSHORT;
+            stats.bytesPerPixel = sizeof(uint16_t);
+            break;
+        case LONG_IMG:
+            // Read LONG image as ULONG
+            stats.dataType      = TULONG;
+            stats.bytesPerPixel = sizeof(int32_t);
+            break;
+        case ULONG_IMG:
+            stats.dataType      = TULONG;
+            stats.bytesPerPixel = sizeof(uint32_t);
+            break;
+        case FLOAT_IMG:
+            stats.dataType      = TFLOAT;
+            stats.bytesPerPixel = sizeof(float);
+            break;
+        case LONGLONG_IMG:
+            stats.dataType      = TLONGLONG;
+            stats.bytesPerPixel = sizeof(int64_t);
+            break;
+        case DOUBLE_IMG:
+            stats.dataType      = TDOUBLE;
+            stats.bytesPerPixel = sizeof(double);
+            break;
+        default:
+            errMessage = QString("Bit depth %1 is not supported.").arg(fitsBitPix);
+            QMessageBox::critical(nullptr, "Message", errMessage);
+            qCCritical(KSTARS_FITS) << errMessage;
+            return false;
+    }
+
+    stats.width = static_cast<uint16_t>(imageFromFile.width());
+    stats.height = static_cast<uint16_t>(imageFromFile.height());
+    m_Channels = 3;
+    stats.samples_per_channel = stats.width * stats.height;
+    clearImageBuffers();
+    m_ImageBufferSize = stats.samples_per_channel * m_Channels * static_cast<uint16_t>(stats.bytesPerPixel);
+    m_ImageBuffer = new uint8_t[m_ImageBufferSize];
+    if (m_ImageBuffer == nullptr)
+    {
+        qCCritical(KSTARS_FITS) << QString("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ").arg(
+                                    m_ImageBufferSize);
+        clearImageBuffers();
+        return false;
+    }
+
+    auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+    auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
+
+    // Data in RGB32, with bytes in the order of B,G,R,A, we need to copy them into 3 layers for FITS
+
+    uint8_t * rBuff = debayered_buffer;
+    uint8_t * gBuff = debayered_buffer + (stats.width * stats.height);
+    uint8_t * bBuff = debayered_buffer + (stats.width * stats.height * 2);
+
+    int imax = stats.samples_per_channel * 4 - 4;
+    for (int i = 0; i <= imax; i += 4)
+    {
+        *rBuff++ = original_bayered_buffer[i + 2];
+        *gBuff++ = original_bayered_buffer[i + 1];
+        *bBuff++ = original_bayered_buffer[i + 0];
+    }
 
     return true;
 }
@@ -400,7 +505,7 @@ bool FITSData::saveImage(const QString &newFilename)
         double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
         // Long way to do this since we do not want to use templated functions here
-        switch (property("dataType").toInt())
+        switch (stats.dataType)
         {
             case TBYTE:
                 convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -536,7 +641,7 @@ bool FITSData::saveImage(const QString &newFilename)
     }
 
     /* Write Data */
-    if (fits_write_img(fptr, m_DataType, 1, nelements, m_ImageBuffer, &status))
+    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
         return false;
@@ -631,7 +736,7 @@ void FITSData::calculateStats(bool refresh)
     calculateMinMax(refresh);
 
     // Get standard deviation and mean in one run
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
             runningAverageStdDev<uint8_t>();
@@ -701,7 +806,7 @@ int FITSData::calculateMinMax(bool refresh)
     stats.min[2] = 1.0E30;
     stats.max[2] = -1.0E30;
 
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
             calculateMinMax<uint8_t>();
@@ -1051,13 +1156,12 @@ bool FITSData::getRecordValue(const QString &key, QVariant &value) const
     return false;
 }
 
-int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
+QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 {
-    int count = 0;
     starAlgorithm = algorithm;
-
     qDeleteAll(starCenters);
     starCenters.clear();
+    starsSearched = true;
 
     switch (algorithm)
     {
@@ -1069,52 +1173,57 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
                 const int w = getStatistics().width;
                 const int h = getStatistics().height;
                 QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                count = FITSSEPDetector(this)
-                        .configure("radiusIsBoundary", "false") // need this with QRect.
-                        .findSources(starCenters, middle);
+                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
+                // need this with QRect.
+                detector->configure("radiusIsBoundary", "false");
+                return detector->findSources(middle);
             }
             else
-                count = FITSSEPDetector(this)
-                        .findSources(starCenters, trackingBox);
-            break;
-        }
+            {
+                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
+                return detector->findSources(trackingBox);
+            }
 
-        case ALGORITHM_GRADIENT:
-            count = FITSGradientDetector(this)
-                    .findSources(starCenters, trackingBox);
-            break;
+            case ALGORITHM_GRADIENT:
+            default:
+            {
+                QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
+                return detector->findSources(trackingBox);
+            }
 
-        case ALGORITHM_CENTROID:
+            case ALGORITHM_CENTROID:
+            {
 #ifndef KSTARS_LITE
-            if (histogram)
-                if (!histogram->isConstructed())
-                    histogram->constructHistogram();
+                if (histogram)
+                    if (!histogram->isConstructed())
+                        histogram->constructHistogram();
 
-            count = FITSCentroidDetector(this)
-                    .configure("JMINDEX", histogram ? histogram->getJMIndex() : 100)
-                    .findSources(starCenters, trackingBox);
+                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+                detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
+                return detector->findSources(trackingBox);
+            }
 #else
-            count = FITSCentroidDetector(this)
-                    .findSources(starCenters, trackingBox);
+                {
+                    QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+                    return detector->findSources(starCenters, trackingBox);
+                }
 #endif
-            break;
 
-        case ALGORITHM_THRESHOLD:
-            count = FITSThresholdDetector(this)
-                    .configure("THRESHOLD_PERCENTAGE", Options::focusThreshold())
-                    .findSources(starCenters, trackingBox);
-            break;
+            case ALGORITHM_THRESHOLD:
+            {
+                QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
+                detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
+                detector->findSources(trackingBox);
+            }
 
-        case ALGORITHM_BAHTINOV:
-            count = FITSBahtinovDetector(this)
-                    .configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage())
-                    .findSources(starCenters, trackingBox);
-            break;
+            case ALGORITHM_BAHTINOV:
+            {
+                QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
+                detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
+                return detector->findSources(trackingBox);
+            }
+        }
     }
-
-    starsSearched = true;
-
-    return count;
 }
 
 int FITSData::filterStars(const float innerRadius, const float outerRadius)
@@ -1145,9 +1254,11 @@ double FITSData::getHFR(HFRType type)
     if (starCenters.empty())
         return -1;
 
+    m_SelectedHFRStar = nullptr;
+
     if (type == HFR_MAX)
     {
-        maxHFRStar   = nullptr;
+
         int maxVal   = 0;
         int maxIndex = 0;
         for (int i = 0; i < starCenters.count(); i++)
@@ -1159,15 +1270,39 @@ double FITSData::getHFR(HFRType type)
             }
         }
 
-        maxHFRStar = starCenters[maxIndex];
-        return static_cast<double>(starCenters[maxIndex]->HFR);
+        m_SelectedHFRStar = starCenters[maxIndex];
+        return starCenters[maxIndex]->HFR;
+    }
+    else if (type == HFR_HIGH)
+    {
+        // Reject all stars within 10% of border
+        int minX = width() / 10;
+        int minY = height() / 10;
+        int maxX = width() - minX;
+        int maxY = height() - minY;
+        starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(), [minX, minY, maxX, maxY](Edge * oneStar)
+        {
+            return (oneStar->x < minX || oneStar->x > maxX || oneStar->y < minY || oneStar->y > maxY);
+        }), starCenters.end());
+        // Top 5%
+        if (starCenters.empty())
+            return -1;
+
+        m_SelectedHFRStar = starCenters[static_cast<int>(starCenters.size() * 0.05)];
+        return m_SelectedHFRStar->HFR;
+    }
+    else if (type == HFR_MEDIAN)
+    {
+        std::nth_element(starCenters.begin(), starCenters.begin() + starCenters.size() / 2, starCenters.end());
+        m_SelectedHFRStar = starCenters[starCenters.size() / 2];
+        return m_SelectedHFRStar->HFR;
     }
 
     // We may remove saturated stars from the HFR calculation, if we have enough stars.
     // No real way to tell the scale, so only remove saturated stars with range 0 -> 2**16
     // for non-byte types. Unsigned types and floating types, or really any pixels whose
     // range isn't 0-64 (or 0-255 for bytes) won't have their saturated stars removed.
-    const int saturationValue = m_DataType == TBYTE ? 250 : 50000;
+    const int saturationValue = stats.dataType == TBYTE ? 250 : 50000;
     int numSaturated = 0;
     for (auto center : starCenters)
         if (center->val > saturationValue)
@@ -1225,6 +1360,7 @@ double FITSData::getHFR(int x, int y)
         if (std::fabs(starCenters[i]->x - x) <= starCenters[i]->width / 2 &&
                 std::fabs(starCenters[i]->y - y) <= starCenters[i]->width / 2)
         {
+            m_SelectedHFRStar = starCenters[i];
             return starCenters[i]->HFR;
         }
     }
@@ -1280,7 +1416,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
             break;
     }
 
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
         {
@@ -1798,7 +1934,7 @@ bool FITSData::loadWCS()
 
     delete[] wcs_coord;
 
-    wcs_coord = new wcs_point[w * h];
+    wcs_coord = new FITSImage::wcs_point[w * h];
 
     if (wcs_coord == nullptr)
     {
@@ -1808,7 +1944,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    wcs_point * p = wcs_coord;
+    FITSImage::wcs_point * p = wcs_coord;
 
     for (int i = 0; i < h; i++)
     {
@@ -1943,7 +2079,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
 
     SkyMapComposite * map = KStarsData::Instance()->skyComposite();
 
-    wcs_point * wcs_coord = getWCSCoord();
+    FITSImage::wcs_point * wcs_coord = getWCSCoord();
     if (wcs_coord != nullptr)
     {
         int size = w * h;
@@ -2595,9 +2731,7 @@ bool FITSData::checkDebayer()
     if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
 
-    fits_read_keyword(fptr, "ROWORDER", roworder, nullptr, &status);
-
-    if (stats.bitpix != 16 && stats.bitpix != 8)
+    if (stats.dataType != TUSHORT && stats.dataType != TBYTE)
     {
         KSNotification::error(i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
         return false;
@@ -2697,7 +2831,7 @@ bool FITSData::debayer()
 
     //        //m_BayerBuffer = m_ImageBuffer;
 
-    //        if (fits_read_img(fptr, m_DataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
+    //        if (fits_read_img(fptr, stats.dataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
     //        {
     //            char errmsg[512];
     //            fits_get_errstatus(status, errmsg);
@@ -2706,7 +2840,7 @@ bool FITSData::debayer()
     //        }
     //    }
 
-    switch (m_DataType)
+    switch (stats.dataType)
     {
         case TBYTE:
             return debayer_8bit();
@@ -2984,7 +3118,7 @@ QImage FITSData::FITSToImage(const QString &filename)
     double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
     // Long way to do this since we do not want to use templated functions here
-    switch (data.property("dataType").toInt())
+    switch (data.stats.dataType)
     {
         case TBYTE:
             data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -3214,7 +3348,7 @@ bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double r
     }
 
     /* Write Data */
-    if (fits_write_img(fptr, m_DataType, 1, nelements, m_ImageBuffer, &status))
+    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);
@@ -3396,12 +3530,12 @@ bool FITSData::contains(const QPointF &point) const
     return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
 }
 
-void FITSData::saveStatistics(Statistic &other)
+void FITSData::saveStatistics(FITSImage::Statistic &other)
 {
     other = stats;
 }
 
-void FITSData::restoreStatistics(Statistic &other)
+void FITSData::restoreStatistics(FITSImage::Statistic &other)
 {
     stats = other;
 }

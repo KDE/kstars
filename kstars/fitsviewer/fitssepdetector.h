@@ -67,19 +67,18 @@ class FITSSEPDetector : public FITSStarDetector
         /** @brief Find sources in the parent FITS data file.
          * @see FITSStarDetector::findSources().
          */
-        int findSources(QList<Edge*> &starCenters, QRect const &boundary = QRect()) override;
+        QFuture<bool> findSources(QRect const &boundary = QRect()) override;
 
         /** @brief Find sources in the parent FITS data file as well as background sky information.
          */
-        int findSourcesAndBackground(QList<Edge*> &starCenters, QRect const &boundary = QRect(),
-                                     SkyBackground *bg = nullptr);
+        bool findSourcesAndBackground(QRect const &boundary = QRect(), SkyBackground *bg = nullptr);
 
         /** @brief Configure the detection method.
          * @see FITSStarDetector::configure().
          * @note No parameters are currently available for configuration.
          * @todo Provide parameters for detection configuration.
          */
-        FITSSEPDetector &configure(const QString &setting, const QVariant &value) override;
+        void configure(const QString &setting, const QVariant &value) override;
 
     protected:
         /** @internal Consolidate a float data buffer from FITS data.

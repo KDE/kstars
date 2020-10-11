@@ -154,7 +154,7 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     QStringList astrometryDataDirs;
     bool indexesOK = true;
 
-    astrometryDataDirs = KSUtils::getAstrometryDataDirs();
+    astrometryDataDirs = Options::astrometryIndexFolderList();
 
     QStringList nameFilter("*.fits");
     QStringList indexList;

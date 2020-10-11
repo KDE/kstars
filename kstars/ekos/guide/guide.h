@@ -247,6 +247,9 @@ class Guide : public QWidget, public Ui::Guide
             return guider;
         }
 
+        QJsonObject getSettings() const;
+        void setSettings(const QJsonObject &settings);
+
     public slots:
 
         /** DBUS interface function.
@@ -426,7 +429,7 @@ class Guide : public QWidget, public Ui::Guide
         void setCorrectionGraphScale();
         void updateCorrectionsScaleVisibility();
 
-        void updateDirectionsFromPHD2(QString mode);
+        void updateDirectionsFromPHD2(const QString &mode);
 
         void guideAfterMeridianFlip();
 
@@ -501,7 +504,7 @@ class Guide : public QWidget, public Ui::Guide
                         double snr, double skyBg, int numStars);
 
         void guideChipUpdated(ISD::CCDChip *);
-
+        void settingsUpdated(const QJsonObject &settings);
         void driverTimedout(const QString &deviceName);
 
     private slots:

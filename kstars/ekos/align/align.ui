@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>647</width>
-    <height>531</height>
+    <width>614</width>
+    <height>562</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -29,6 +29,9 @@
    <item>
     <layout class="QVBoxLayout" name="leftLayout">
      <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <item>
@@ -296,20 +299,13 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_17">
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_8">
           <property name="toolTip">
-           <string>Image scale in arcsecs/pixel</string>
+           <string>Effective field of view size in arcminutes.</string>
           </property>
           <property name="text">
-           <string>Pix:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>DE:</string>
+           <string>FOV:</string>
           </property>
          </widget>
         </item>
@@ -330,16 +326,6 @@
           </item>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="pixScaleOut">
-          <property name="toolTip">
-           <string>Image scale in arcsecs/pixel</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
          <widget class="QLineEdit" name="SolverRAOut">
           <property name="readOnly">
@@ -347,23 +333,20 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
-         <widget class="QLineEdit" name="RotOut">
-          <property name="toolTip">
-           <string>Image rotation angle, East of North</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>DE:</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_10">
+        <item row="1" column="0">
+         <widget class="QLabel" name="err">
           <property name="toolTip">
-           <string>Image rotation angle, East of North</string>
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
           </property>
           <property name="text">
-           <string>Rot:</string>
+           <string>Err:</string>
           </property>
          </widget>
         </item>
@@ -380,26 +363,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="err">
-          <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
-          </property>
-          <property name="text">
-           <string>Err:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="toolTip">
-           <string>Effective field of view size in arcminutes.</string>
-          </property>
-          <property name="text">
-           <string>FOV:</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
@@ -407,8 +370,38 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="text">
+           <string>Pix:</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="3">
          <widget class="QLineEdit" name="SolverDecOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_10">
+          <property name="toolTip">
+           <string>Image rotation angle, East of North</string>
+          </property>
+          <property name="text">
+           <string>Rot:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLineEdit" name="RotOut">
+          <property name="toolTip">
+           <string>Image rotation angle, East of North</string>
+          </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -427,13 +420,57 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="pixScaleOut">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>FL:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="FocalLengthOut">
+          <property name="toolTip">
+           <string>Effective Focal Length in millimeters based on Astrometric measurements.</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>F/:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QLineEdit" name="FocalRatioOut">
+          <property name="toolTip">
+           <string>Effective Focal Ratio based on astrometric measurements.</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="plateSolverOptionsGroup">
        <property name="title">
-        <string>Solver Options</string>
+        <string>Plate Solve Capture Options</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <property name="leftMargin">
@@ -451,20 +488,42 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_11">
+        <item row="0" column="1" colspan="2">
+         <widget class="QComboBox" name="CCDCaptureCombo"/>
+        </item>
+        <item row="0" column="4">
+         <widget class="QPushButton" name="showFITSViewerB">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Show in FITS Viewer</string>
+          </property>
           <property name="text">
-           <string>ISO:</string>
+           <string/>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QComboBox" name="FilterDevicesCombo"/>
-        </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_5">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>Gain:</string>
+           <string>Exp:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="FilterCaptureLabel">
+          <property name="text">
+           <string>FW:</string>
           </property>
          </widget>
         </item>
@@ -497,52 +556,13 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="4">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::MinimumExpanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>1</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QDoubleSpinBox" name="exposureIN">
+        <item row="3" column="3" colspan="2">
+         <widget class="QCheckBox" name="alignDarkFrameCheck">
           <property name="toolTip">
-           <string>Exposure duration in seconds</string>
+           <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
           </property>
-          <property name="minimum">
-           <double>0.100000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>60.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.500000000000000</double>
-          </property>
-          <property name="value">
-           <double>3.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="FilterCaptureLabel">
           <property name="text">
-           <string>FW:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Exp:</string>
+           <string>Dark</string>
           </property>
          </widget>
         </item>
@@ -552,147 +572,6 @@
            <string>Camera ISO</string>
           </property>
          </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Bin:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" colspan="2">
-         <widget class="QComboBox" name="CCDCaptureCombo"/>
-        </item>
-        <item row="5" column="3" colspan="2">
-         <widget class="QComboBox" name="FilterPosCombo"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="textLabel1_6">
-          <property name="text">
-           <string>CCD:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="2">
-         <widget class="QLabel" name="FilterPosLabel">
-          <property name="text">
-           <string>Filter:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0" colspan="5">
-         <layout class="QHBoxLayout" name="horizontalLayout_12">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_21">
-            <property name="text">
-             <string>Solver:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="astapSolverR">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use ASTAP external solver. ASTAP must be installed and configured.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>ASTAP</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">solverBackendGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="astrometrySolverR">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry.net solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Astro.net</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">solverBackendGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="astrometryTypeCombo"/>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="4">
-         <widget class="QPushButton" name="showFITSViewerB">
-          <property name="minimumSize">
-           <size>
-            <width>22</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>22</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Show in FITS Viewer</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" colspan="4">
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>Options:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="solverOptions">
-            <property name="statusTip">
-             <string>Additional options to be the solver</string>
-            </property>
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="editOptionsB">
-            <property name="minimumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Edit solver options</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
         <item row="1" column="4">
          <widget class="QPushButton" name="toggleFullScreenB">
@@ -716,18 +595,147 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="3" colspan="2">
-         <widget class="QCheckBox" name="alignDarkFrameCheck">
-          <property name="toolTip">
-           <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
-          </property>
+        <item row="5" column="2">
+         <widget class="QLabel" name="FilterPosLabel">
           <property name="text">
-           <string>Dark</string>
+           <string>Filter:</string>
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Bin:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="textLabel1_6">
+          <property name="text">
+           <string>CCD:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QDoubleSpinBox" name="exposureIN">
+          <property name="toolTip">
+           <string>Exposure duration in seconds</string>
+          </property>
+          <property name="minimum">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>60.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.500000000000000</double>
+          </property>
+          <property name="value">
+           <double>3.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>ISO:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Gain:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3" colspan="2">
+         <widget class="QComboBox" name="FilterPosCombo"/>
+        </item>
+        <item row="5" column="1">
+         <widget class="QComboBox" name="FilterDevicesCombo"/>
+        </item>
        </layout>
       </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="stellarSolverOptionsGroup">
+       <property name="title">
+        <string>Solver Type</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="localSolverR">
+          <property name="text">
+           <string>StellarSolver</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solverTypeButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="remoteSolverR">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Remote</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solverTypeButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
@@ -1790,10 +1798,6 @@
   <tabstop>exposureIN</tabstop>
   <tabstop>binningCombo</tabstop>
   <tabstop>FilterDevicesCombo</tabstop>
-  <tabstop>solverOptions</tabstop>
-  <tabstop>editOptionsB</tabstop>
-  <tabstop>astapSolverR</tabstop>
-  <tabstop>astrometrySolverR</tabstop>
   <tabstop>solutionTable</tabstop>
   <tabstop>clearAllSolutionsB</tabstop>
   <tabstop>removeSolutionB</tabstop>
@@ -1848,6 +1852,6 @@
  </connections>
  <buttongroups>
   <buttongroup name="gotoModeButtonGroup"/>
-  <buttongroup name="solverBackendGroup"/>
+  <buttongroup name="solverTypeButtonGroup"/>
  </buttongroups>
 </ui>

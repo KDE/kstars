@@ -29,4 +29,5 @@ class TestDMS : public QObject
     void testSubstraction();
     void testDeltaAngle();
     void testUnitTransition();
+    void testPrecisionTransition();
 };

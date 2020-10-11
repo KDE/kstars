@@ -9,10 +9,12 @@
 
 #include "guidestars.h"
 
-#include <math.h>
 #include "ekos_guide_debug.h"
 #include "../guideview.h"
 #include "Options.h"
+
+#include <math.h>
+#include <stellarsolver.h>
 #include <QTime>
 
 // Keeps at most this many reference "neighbor" stars
@@ -319,19 +321,80 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
     return Vector(-1, -1, -1);
 }
 
+SSolver::Parameters GuideStars::getStarExtractionParameters(int num)
+{
+    SSolver::Parameters params;
+    params.listName = "Guider";
+    params.apertureShape = SSolver::SHAPE_CIRCLE;
+    params.minarea = 10; // changed from 5 --> 10
+    params.deblend_thresh = 32;
+    params.deblend_contrast = 0.005;
+    params.initialKeep = num * 2;
+    params.keepNum = num;
+    params.removeBrightest = 0;
+    params.removeDimmest = 0;
+    params.saturationLimit = 0;
+    return params;
+}
+
 // This is the interface to star detection.
-int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars)
+int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num)
 {
     qDeleteAll(*sepStars);
     sepStars->clear();
 
-    QRect nullBox;
-    int count = FITSSEPDetector(imageData)
-                .configure("numStars", 100)
-                .configure("fractionRemoved", 0.0)
-                .configure("deblendMincont", 0.005)
-                .findSourcesAndBackground(*sepStars, nullBox, &skyBackground);
-    return count;
+    if (imageData == nullptr)
+        return 0;
+
+    StellarSolver *solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
+    solver->setParameters(getStarExtractionParameters(num));
+
+    QEventLoop event;
+    QObject::connect(solver, SIGNAL(ready()), &event, SLOT(quit()), Qt::QueuedConnection);
+    solver->extract(true);
+    event.exec();
+    if(!solver->sextractionDone() || solver->failed())
+        return 0;
+    auto bg = solver->getBackground();
+    skyBackground.mean = bg.global;
+    skyBackground.sigma = bg.globalrms;
+    skyBackground.numPixelsInSkyEstimate = bg.bw * bg.bh;
+
+    QList<FITSImage::Star> stars = solver->getStarList();
+    QList<Edge *> edges;
+
+    for (int index = 0; index < stars.count(); index++)
+    {
+        FITSImage::Star star = stars.at(index);
+        auto * center = new Edge();
+        center->x = star.x;
+        center->y = star.y;
+        center->val = star.peak;
+        center->sum = star.flux;
+        center->HFR = star.HFR;
+        edges.append(center);
+    }
+    // Let's sort edges, starting with widest
+    std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
+
+    // Take only the first maxNumCenters stars
+    {
+        int starCount = qMin(num, edges.count());
+        for (int i = 0; i < starCount; i++)
+            sepStars->append(edges[i]);
+    }
+
+    edges.clear();
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("  #      X      Y    Flux    Width   HFR");
+    for (int i = 0; i < sepStars->count(); i++)
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6")
+                                   .arg(i, 3)
+                                   .arg(sepStars->at(i)->x, 6, 'f', 1)
+                                   .arg(sepStars->at(i)->y, 6, 'f', 1)
+                                   .arg(sepStars->at(i)->sum, 6, 'f', 1)
+                                   .arg(sepStars->at(i)->width, 5, 'f', 3)
+                                   .arg(sepStars->at(i)->HFR, 5, 'f', 3);
+    return sepStars->count();
 }
 
 double GuideStars::findMinDistance(int index, const QList<Edge*> &stars)
@@ -370,7 +433,7 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
     QTime timer;
     timer.restart();
     QList<Edge*> sepStars;
-    int count = findAllSEPStars(imageData, &sepStars);
+    int count = findAllSEPStars(imageData, &sepStars, num * 2);
     if (count == 0)
         return;
 

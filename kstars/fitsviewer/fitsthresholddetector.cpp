@@ -19,66 +19,55 @@
 
 #include <math.h>
 #include <cmath>
+#include <QtConcurrent>
 
 #include "fits_debug.h"
 #include "fitsthresholddetector.h"
 
-FITSStarDetector &FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
+void FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
 {
     if (!setting.compare("THRESHOLD_PERCENTAGE", Qt::CaseInsensitive))
         if (value.canConvert<int>())
             THRESHOLD_PERCENTAGE = value.value<int>();
-
-    return *this;
 }
 
-int FITSThresholdDetector::findSources(QList<Edge*> &starCenters, QRect const &boundary)
+QFuture<bool> FITSThresholdDetector::findSources(QRect const &boundary)
 {
-    switch (parent()->property("dataType").toInt())
+    FITSImage::Statistic const &stats = image_data->getStatistics();
+    switch (stats.dataType)
     {
-        case TBYTE:
-            return findOneStar<uint8_t>(starCenters, boundary);
-
         case TSHORT:
-            return findOneStar<int16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<int16_t>, boundary);
 
         case TUSHORT:
-            return findOneStar<uint16_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<uint16_t>, boundary);
 
         case TLONG:
-            return findOneStar<int32_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<int32_t>, boundary);
 
         case TULONG:
-            return findOneStar<uint32_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<uint32_t>, boundary);
 
         case TFLOAT:
-            return findOneStar<float>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<float>, boundary);
 
         case TLONGLONG:
-            return findOneStar<int64_t>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<int64_t>, boundary);
 
         case TDOUBLE:
-            return findOneStar<double>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<double>, boundary);
 
+        case TBYTE:
         default:
-            break;
+            return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<uint8_t>, boundary);
     }
 
-    return 0;
 }
 
 template <typename T>
-int FITSThresholdDetector::findOneStar(QList<Edge*> &starCenters, const QRect &boundary) const
+bool FITSThresholdDetector::findOneStar(const QRect &boundary) const
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
-    FITSData::Statistic const &stats = image_data->getStatistics();
-
-    if (boundary.isEmpty())
-        return -1;
+    FITSImage::Statistic const &stats = image_data->getStatistics();
 
     int subX = boundary.x();
     int subY = boundary.y();
@@ -160,7 +149,7 @@ int FITSThresholdDetector::findOneStar(QList<Edge*> &starCenters, const QRect &b
     if (center->width == -1)
     {
         delete center;
-        return 0;
+        return false;
     }
 
     // 30% fuzzy
@@ -217,7 +206,9 @@ int FITSThresholdDetector::findOneStar(QList<Edge*> &starCenters, const QRect &b
         lastTF = TF;
     }
 
+    QList<Edge*> starCenters;
     starCenters.append(center);
+    image_data->setStarCenters(starCenters);
 
-    return 1;
+    return true;
 }

@@ -24,36 +24,36 @@
 
 class FITSThresholdDetector: public FITSStarDetector
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit FITSThresholdDetector(FITSData *parent): FITSStarDetector(parent) {};
+    public:
+        explicit FITSThresholdDetector(FITSData *parent): FITSStarDetector(parent) {};
 
-public:
-    /** @brief Find sources in the parent FITS data file.
-     * @see FITSStarDetector::findSources().
-     */
-    int findSources(QList<Edge*> &starCenters, QRect const &boundary = QRect()) override;
+    public:
+        /** @brief Find sources in the parent FITS data file.
+         * @see FITSStarDetector::findSources().
+         */
+        QFuture<bool> findSources(QRect const &boundary = QRect()) override;
 
-    /** @brief Configure the detection method.
-     * @see FITSStarDetector::configure().
-     * @note Parameter "threshold" defaults to THRESHOLD_PERCENTAGE of the mean pixel value of the frame.
-     * @todo Provide parameters for detection configuration.
-     */
-    FITSStarDetector & configure(const QString &setting, const QVariant &value) override;
+        /** @brief Configure the detection method.
+         * @see FITSStarDetector::configure().
+         * @note Parameter "threshold" defaults to THRESHOLD_PERCENTAGE of the mean pixel value of the frame.
+         * @todo Provide parameters for detection configuration.
+         */
+        void configure(const QString &setting, const QVariant &value) override;
 
-public:
-    /** @group Detection parameters.
-     * @{ */
-    int THRESHOLD_PERCENTAGE { 120 };
-    /** @} */
+    public:
+        /** @group Detection parameters.
+         * @{ */
+        int THRESHOLD_PERCENTAGE { 120 };
+        /** @} */
 
-protected:
-    /** @internal Find sources in the parent FITS data file, dependent of the pixel depth.
-     * @see FITSGradientDetector::findSources.
-     */
-    template <typename T>
-    int findOneStar(QList<Edge*> &starCenters, const QRect &boundary) const;
+    protected:
+        /** @internal Find sources in the parent FITS data file, dependent of the pixel depth.
+         * @see FITSGradientDetector::findSources.
+         */
+        template <typename T>
+        bool findOneStar(const QRect &boundary) const;
 };
 
 #endif // FITSTHRESHOLDDETECTOR_H

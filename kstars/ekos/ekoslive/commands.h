@@ -109,11 +109,20 @@ enum COMMANDS
     FOCUS_IN,
     FOCUS_OUT,
     FOCUS_LOOP,
+    FOCUS_SET_SETTINGS,
+    FOCUS_SET_PRIMARY_SETTINGS,
+    FOCUS_SET_PROCESS_SETTINGS,
+    FOCUS_SET_MECHANICS_SETTINGS,
+    FOCUS_GET_PRIMARY_SETTINGS,
+    FOCUS_GET_PROCESS_SETTINGS,
+    FOCUS_GET_MECHANICS_SETTINGS,
 
     // Guide
     GUIDE_START,
     GUIDE_STOP,
     GUIDE_CLEAR,
+    GUIDE_REPORT,
+    GUIDE_SET_SETTINGS,
 
     // Align
     ALIGN_SOLVE,
@@ -252,10 +261,19 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_IN, "focus_in"},
     {FOCUS_OUT, "focus_out"},
     {FOCUS_LOOP, "focus_loop"},
+    {FOCUS_SET_SETTINGS, "focus_set_settings"},
+    {FOCUS_SET_PRIMARY_SETTINGS, "focus_set_primary_settings"},
+    {FOCUS_SET_PROCESS_SETTINGS, "focus_set_process_settings"},
+    {FOCUS_SET_MECHANICS_SETTINGS, "focus_set_mechanics_settings"},
+    {FOCUS_GET_PRIMARY_SETTINGS, "focus_get_primary_settings"},
+    {FOCUS_GET_PROCESS_SETTINGS, "focus_get_process_settings"},
+    {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
+    {GUIDE_REPORT, "guide_report"},
+    {GUIDE_SET_SETTINGS, "guide_set_settings"},
 
     {ALIGN_SOLVE, "align_solve"},
     {ALIGN_STOP, "align_stop"},

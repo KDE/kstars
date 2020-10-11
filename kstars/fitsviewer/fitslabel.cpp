@@ -111,7 +111,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     int index = y * width + x;
     QString stringValue;
 
-    switch (view_data->property("dataType").toInt())
+    switch (view_data->getStatistics().dataType)
     {
         case TBYTE:
             stringValue = QLocale().toString(buffer[index]);
@@ -156,7 +156,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     {
         int index = x + y * width;
 
-        wcs_point *wcs_coord = view_data->getWCSCoord();
+        FITSImage::wcs_point *wcs_coord = view_data->getWCSCoord();
 
         if (wcs_coord)
         {
@@ -218,7 +218,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         FITSData *view_data = view->getImageData();
         if (view_data->hasWCS())
         {
-            wcs_point *wcs_coord = view_data->getWCSCoord();
+            FITSImage::wcs_point *wcs_coord = view_data->getWCSCoord();
             if (wcs_coord)
             {
                 double x, y;

@@ -284,6 +284,17 @@ void Message::sendCameras()
 
     if (m_Manager->captureModule())
         sendCaptureSettings(m_Manager->captureModule()->getPresetSettings());
+    if (m_Manager->alignModule())
+        sendAlignSettings(m_Manager->alignModule()->getSettings());
+    if (m_Manager->focusModule())
+    {
+        sendResponse(commands[FOCUS_SET_SETTINGS], m_Manager->focusModule()->getSettings());
+        sendResponse(commands[FOCUS_SET_PRIMARY_SETTINGS], m_Manager->focusModule()->getPrimarySettings());
+        sendResponse(commands[FOCUS_SET_PROCESS_SETTINGS], m_Manager->focusModule()->getProcessSettings());
+        sendResponse(commands[FOCUS_SET_MECHANICS_SETTINGS], m_Manager->focusModule()->getMechanicsSettings());
+    }
+    if (m_Manager->guideModule())
+        sendGuideSettings(m_Manager->guideModule()->getSettings());
 }
 
 void Message::sendMounts()
@@ -596,6 +607,16 @@ void Message::sendAlignSettings(const QJsonObject &settings)
     sendResponse(commands[ALIGN_SET_SETTINGS], settings);
 }
 
+void Message::sendGuideSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[GUIDE_SET_SETTINGS], settings);
+}
+
+void Message::sendFocusSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[FOCUS_SET_SETTINGS], settings);
+}
+
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
@@ -609,6 +630,8 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
+    else if (command == commands[GUIDE_SET_SETTINGS])
+        guide->setSettings(payload);
 }
 
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
@@ -628,6 +651,20 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->focusOut(payload["steps"].toInt());
     else if (command == commands[FOCUS_LOOP])
         focus->startFraming();
+    else if (command == commands[FOCUS_SET_SETTINGS])
+        focus->setSettings(payload);
+    else if (command == commands[FOCUS_SET_PRIMARY_SETTINGS])
+        focus->setPrimarySettings(payload);
+    else if (command == commands[FOCUS_SET_PROCESS_SETTINGS])
+        focus->setProcessSettings(payload);
+    else if (command == commands[FOCUS_SET_MECHANICS_SETTINGS])
+        focus->setMechanicsSettings(payload);
+    else if (command == commands[FOCUS_GET_PRIMARY_SETTINGS])
+        sendResponse(commands[FOCUS_GET_PRIMARY_SETTINGS], focus->getPrimarySettings());
+    else if (command == commands[FOCUS_GET_PROCESS_SETTINGS])
+        sendResponse(commands[FOCUS_GET_PROCESS_SETTINGS], focus->getProcessSettings());
+    else if (command == commands[FOCUS_GET_MECHANICS_SETTINGS])
+        sendResponse(commands[FOCUS_GET_MECHANICS_SETTINGS], focus->getMechanicsSettings());
 }
 
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)
@@ -1069,11 +1106,21 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     // When subscribed, the updates are immediately pushed as soon as they are received.
     else if (command == commands[DEVICE_PROPERTY_SUBSCRIBE])
     {
-        m_PropertySubscriptions.insert(payload["property"].toString());
+        const QString property = payload["property"].toString();
+        QSet<QString> props;
+        if (m_PropertySubscriptions.contains(device))
+            props = m_PropertySubscriptions[device];
+        props.insert(property);
+        m_PropertySubscriptions[device] = props;
     }
     else if (command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
     {
-        m_PropertySubscriptions.remove(payload["property"].toString());
+        const QString property = payload["property"].toString();
+        if (m_PropertySubscriptions.contains(device))
+        {
+            QSet<QString> props = m_PropertySubscriptions[device];
+            props.remove(property);
+        }
     }
 }
 
@@ -1196,7 +1243,6 @@ void Message::sendStates()
         QJsonObject alignState =
         {
             {"status", Ekos::alignStates[m_Manager->alignModule()->status()]},
-            {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())}
         };
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
@@ -1261,45 +1307,61 @@ void Message::processDeleteProperty(const QString &device, const QString &name)
 
 void Message::processNewNumber(INumberVectorProperty *nvp)
 {
-    if (m_PropertySubscriptions.contains(nvp->name))
+    if (m_PropertySubscriptions.contains(nvp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(nvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[nvp->device];
+        if (subProps.contains(nvp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(nvp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 
 void Message::processNewText(ITextVectorProperty *tvp)
 {
-    if (m_PropertySubscriptions.contains(tvp->name))
+    if (m_PropertySubscriptions.contains(tvp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(tvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[tvp->device];
+        if (subProps.contains(tvp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(tvp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 
 void Message::processNewSwitch(ISwitchVectorProperty *svp)
 {
-    if (m_PropertySubscriptions.contains(svp->name))
+    if (m_PropertySubscriptions.contains(svp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(svp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[svp->device];
+        if (subProps.contains(svp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(svp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 
 void Message::processNewLight(ILightVectorProperty *lvp)
 {
-    if (m_PropertySubscriptions.contains(lvp->name))
+    if (m_PropertySubscriptions.contains(lvp->device))
     {
-        QJsonObject propObject;
-        ISD::propertyToJson(lvp, propObject);
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+        QSet<QString> subProps = m_PropertySubscriptions[lvp->device];
+        if (subProps.contains(lvp->name))
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(lvp, propObject);
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+                QJsonDocument::Compact));
+        }
     }
 }
 

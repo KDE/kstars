@@ -22,7 +22,8 @@
 // This class writes a guide log that is compatible with the phdlogview program.
 // See https://openphdguiding.org/phd2-log-viewer/ for details on that program.
 
-namespace {
+namespace
+{
 
 // These conversion aren't correct. I believe the KStars way of doing it, with RA_INC etc
 // is better, however, it is consistent and will work with phdlogview.
@@ -30,11 +31,16 @@ QString directionString(GuideDirection direction)
 {
     switch(direction)
     {
-    case DEC_INC_DIR: return "N";
-    case DEC_DEC_DIR: return "S";
-    case RA_DEC_DIR:  return "E";
-    case RA_INC_DIR:  return "W";
-    case NO_DIR:      return "";
+        case DEC_INC_DIR:
+            return "N";
+        case DEC_DEC_DIR:
+            return "S";
+        case RA_DEC_DIR:
+            return "E";
+        case RA_INC_DIR:
+            return "W";
+        case NO_DIR:
+            return "";
     }
     return "";
 }
@@ -43,11 +49,16 @@ QString directionStringLong(GuideDirection direction)
 {
     switch(direction)
     {
-    case DEC_INC_DIR: return "North";
-    case DEC_DEC_DIR: return "South";
-    case RA_DEC_DIR:  return "East";
-    case RA_INC_DIR:  return "West";
-    case NO_DIR:      return "";
+        case DEC_INC_DIR:
+            return "North";
+        case DEC_DEC_DIR:
+            return "South";
+        case RA_DEC_DIR:
+            return "East";
+        case RA_INC_DIR:
+            return "West";
+        case NO_DIR:
+            return "";
     }
     return "";
 }
@@ -56,9 +67,12 @@ QString pierSideString(ISD::Telescope::PierSide side)
 {
     switch(side)
     {
-    case ISD::Telescope::PierSide::PIER_WEST: return QString("West");
-    case ISD::Telescope::PierSide::PIER_EAST: return QString("East");
-    case ISD::Telescope::PierSide::PIER_UNKNOWN: return QString("Unknown");
+        case ISD::Telescope::PierSide::PIER_WEST:
+            return QString("West");
+        case ISD::Telescope::PierSide::PIER_EAST:
+            return QString("East");
+        case ISD::Telescope::PierSide::PIER_UNKNOWN:
+            return QString("Unknown");
     }
     return QString("");
 }
@@ -285,6 +299,8 @@ void GuideLog::ditherInfo(double dx, double dy, double x, double y)
                 .arg(QString::number(dy, 'f', 3))
                 .arg(QString::number(x, 'f', 3))
                 .arg(QString::number(y, 'f', 3)));
+    // Below moved to ditherInfo from settleStartedInfo() to match phdlogview.
+    appendToLog("INFO: SETTLING STATE CHANGE, Settling started\n");
 }
 
 void GuideLog::pauseInfo()
@@ -299,7 +315,8 @@ void GuideLog::resumeInfo()
 
 void GuideLog::settleStartedInfo()
 {
-    appendToLog("INFO: SETTLING STATE CHANGE, Settling started\n");
+    // This was moved to ditherInfo() to match phdlogview
+    // appendToLog("INFO: SETTLING STATE CHANGE, Settling started\n");
 }
 
 void GuideLog::settleCompletedInfo()

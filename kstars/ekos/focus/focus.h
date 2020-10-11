@@ -22,6 +22,8 @@
 
 #include <QtDBus/QtDBus>
 
+#include "ekos/align/optionsprofileeditor.h"
+#include "parameters.h"
 namespace Ekos
 {
 
@@ -208,6 +210,19 @@ class Focus : public QWidget, public Ui::Focus
             return m_LogText.join("\n");
         }
 
+        // Presets
+        QJsonObject getSettings() const;
+        void setSettings(const QJsonObject &settings);
+        // Primary Settings
+        QJsonObject getPrimarySettings() const;
+        void setPrimarySettings(const QJsonObject &settings);
+        // Process Settings
+        QJsonObject getProcessSettings() const;
+        void setProcessSettings(const QJsonObject &settings);
+        // Mechanics Settings
+        QJsonObject getMechanicsSettings() const;
+        void setMechanicsSettings(const QJsonObject &settings);
+
     public slots:
 
         /** \addtogroup FocusDBusInterface
@@ -349,6 +364,8 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
+        void loadOptionsProfiles();
+
     private slots:
         /**
              * @brief toggleSubframe Process enabling and disabling subfrag.
@@ -378,6 +395,9 @@ class Focus : public QWidget, public Ui::Focus
 
         void graphPolynomialFunction();
 
+        void calculateHFR();
+        void setCurrentHFR(double value);
+
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::FocusState state);
@@ -391,12 +411,17 @@ class Focus : public QWidget, public Ui::Focus
         void resumeGuiding();
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
+        void settingsUpdated(const QJsonObject &settings);
 
         // Signals for Analyze.
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
     private:
+
+        QList<SSolver::Parameters> optionsList;
+        QString savedOptionsProfiles;
+        OptionsProfileEditor *optionsProfileEditor { nullptr };
 
         ////////////////////////////////////////////////////////////////////
         /// Connections
@@ -437,6 +462,11 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        ////////////////////////////////////////////////////////////////////
+        /// HFR
+        ////////////////////////////////////////////////////////////////////
+        void setHFRComplete();
+
         // Sets the algorithm and enables/disables various UI inputs.
         void setFocusAlgorithm(FocusAlgorithm algorithm);
 
@@ -463,7 +493,7 @@ class Focus : public QWidget, public Ui::Focus
          * @param image_data is the FITS frame to work with.
          * @return the HFR of the star or field of stars in the frame, depending on the consolidation method, or -1 if it cannot be estimated.
          */
-        double analyzeSources(FITSData *image_data);
+        void analyzeSources();
 
         /** @internal Add a new HFR for the current focuser position.
          * @param newHFR is the new HFR to consider for the current focuser position.
@@ -481,6 +511,8 @@ class Focus : public QWidget, public Ui::Focus
         void setLastFocusTemperature();
         void updateTemperature(TemperatureSource source, double newTemperature);
         void emitTemperatureEvents(TemperatureSource source, double newTemperature);
+
+        void syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
@@ -591,6 +623,8 @@ class Focus : public QWidget, public Ui::Focus
         QVector<double> HFRFrames;
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
+        // Future Watch
+        QFutureWatcher<bool> m_StarFinderWatcher;
 
         /// Autofocus log file info.
         QStringList m_LogText;

@@ -17,13 +17,23 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#include <math.h>
-
-#include "sep/sep.h"
+#include "config-kstars.h"
 #include "fits_debug.h"
 #include "fitssepdetector.h"
+#include "Options.h"
+#include "kspaths.h"
 
-FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant &value)
+#include <math.h>
+#include <QPointer>
+#include <QtConcurrent>
+
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#else
+#include "sep/sep.h"
+#endif
+
+void FITSSEPDetector::configure(const QString &param, const QVariant &value)
 {
     if (param == "numStars")
         numStars = value.toInt();
@@ -37,7 +47,6 @@ FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant
         radiusIsBoundary = value.toBool();
     else
         qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
-    return *this;
 }
 
 // TODO: (hy 4/11/2020)
@@ -48,21 +57,81 @@ FITSSEPDetector &FITSSEPDetector::configure(const QString &param, const QVariant
 // (e.g. unfiltered number of stars detected,background sky level). Waiting on rlancaste's
 // investigations into SEP before doing this.
 
-int FITSSEPDetector::findSources(QList<Edge*> &starCenters, QRect const &boundary)
+QFuture<bool> FITSSEPDetector::findSources(QRect const &boundary)
 {
-    return findSourcesAndBackground(starCenters, boundary, nullptr);
+    return QtConcurrent::run(this, &FITSSEPDetector::findSourcesAndBackground, boundary, nullptr);
 }
 
-int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect const &boundary,
-        SkyBackground *bg)
+bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackground *bg)
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-    starCenters.clear();
+    QList<Edge*> starCenters;
+#ifdef HAVE_STELLARSOLVER
+    Q_UNUSED(bg);
+    //Note this is the part I added.  It is just an initial attempt to get it working
+    constexpr int maxNumCenters =
+        50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
+    QPointer<StellarSolver> solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer());
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                                   QString("SavedOptionsProfiles.ini");
+    QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    if(optionsList.count() > static_cast<int>(Options::focusOptionsProfile()))
+        solver->setParameters(optionsList.at(Options::focusOptionsProfile()));
+    else
+        solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
 
-    if (image_data == nullptr)
-        return 0;
+    qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
+    //connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
+    if(Options::focusLogging())
+        solver->setSSLogLevel(SSolver::LOG_NORMAL);
+    else
+        solver->setSSLogLevel(SSolver::LOG_OFF);
 
-    FITSData::Statistic const &stats = image_data->getStatistics();
+    // Wait synchronously
+
+    QList<FITSImage::Star> stars;
+    if (!boundary.isNull())
+    {
+        solver->extract(true, boundary);
+        while (solver->isRunning())
+        {
+            QThread::msleep(100);
+        }
+        stars = solver->getStarList();
+    }
+
+    if (stars.empty())
+    {
+        solver->extract(true);
+        while (solver->isRunning())
+        {
+            QThread::msleep(100);
+        }
+        stars = solver->getStarList();
+    }
+
+    if (stars.empty())
+        return false;
+
+    QList<Edge *> edges;
+
+    for (auto &star : stars)
+    {
+        auto * center = new Edge();
+        center->x = star.x;
+        center->y = star.y;
+        center->val = star.peak;
+        center->sum = star.flux;
+        center->HFR = star.HFR;
+        center->width = star.a;
+        edges.append(center);
+    }
+    //There is more information that can be obtained by the Stellarsolver.
+    //Background info, Star positions(if a plate solve was done before), etc
+    //The information is available as long as the StellarSolver exists.
+
+#else
+
+    FITSImage::Statistic const &stats = image_data->getStatistics();
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
     std::vector<std::pair<int, double>> ovals;
@@ -84,7 +153,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
 
     auto * data = new float[w * h];
 
-    switch (parent()->property("dataType").toInt())
+    switch (stats.dataType)
     {
         case TBYTE:
             getFloatBuffer<uint8_t>(data, x, y, w, h, image_data);
@@ -191,6 +260,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
             center->width = flux_fractions[1] * 2;
         edges.append(center);
     }
+#endif
 
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
@@ -200,10 +270,13 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         int starCount = qMin(maxNumCenters, edges.count());
         for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
+
+        image_data->setStarCenters(starCenters);
     }
 
     edges.clear();
 
+#ifndef HAVE_STELLARSOLVER
     qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
                          .arg(QString::number(bkg->global, 'f', 2))
                          .arg(QString::number(bkg->globalrms, 'f', 2))
@@ -213,6 +286,7 @@ int FITSSEPDetector::findSourcesAndBackground(QList<Edge*> &starCenters, QRect c
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
                              << starCenters[i]->numPixels << starCenters[i]->HFR;
+    image_data->setStarCenters(starCenters);
 
 exit:
     delete[] data;
@@ -229,10 +303,10 @@ exit:
         char errorMessage[512];
         sep_get_errmsg(status, errorMessage);
         qCritical(KSTARS_FITS) << errorMessage;
-        return -1;
+        return false;
     }
-
-    return starCenters.count();
+#endif
+    return true;
 }
 
 template <typename T>
@@ -248,7 +322,7 @@ void FITSSEPDetector::getFloatBuffer(float * buffer, int x, int y, int w, int h,
     int x2 = x + w;
     int y2 = y + h;
 
-    FITSData::Statistic const &stats = data->getStatistics();
+    FITSImage::Statistic const &stats = data->getStatistics();
 
     for (int y1 = y; y1 < y2; y1++)
     {

@@ -86,7 +86,7 @@ void FITSView::doStretch(FITSData *data, QImage *outputImage)
         return;
     Stretch stretch(static_cast<int>(data->width()),
                     static_cast<int>(data->height()),
-                    data->channels(), data->property("dataType").toInt());
+                    data->channels(), data->getStatistics().dataType);
 
     StretchParams tempParams;
     if (!stretchImage)
@@ -454,7 +454,7 @@ bool FITSView::saveImage(const QString &newFilename)
 
 bool FITSView::rescale(FITSZoom type)
 {
-    switch (imageData->property("dataType").toInt())
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             return rescale<uint8_t>(type);
@@ -1108,7 +1108,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
 
     if (imageData->hasWCS())
     {
-        wcs_point * wcs_coord = imageData->getWCSCoord();
+        FITSImage::wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
         {
             const int size      = image_width * image_height;
@@ -1593,16 +1593,12 @@ void FITSView::togglePixelGrid()
     updateFrame();
 }
 
-int FITSView::findStars(StarAlgorithm algorithm, const QRect &searchBox)
+QFuture<bool> FITSView::findStars(StarAlgorithm algorithm, const QRect &searchBox)
 {
-    int count = 0;
-
     if(trackingBoxEnabled)
-        count = imageData->findStars(algorithm, trackingBox);
+        return imageData->findStars(algorithm, trackingBox);
     else
-        count = imageData->findStars(algorithm, searchBox);
-
-    return count;
+        return imageData->findStars(algorithm, searchBox);
 }
 
 void FITSView::toggleStars(bool enable)
@@ -1624,11 +1620,14 @@ void FITSView::searchStars()
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
-        int count = findStars(ALGORITHM_SEP);
+        QFuture<bool> result = findStars(ALGORITHM_SEP);
+        result.waitForFinished();
+        if (result.result() && isVisible())
+        {
 
-        if (count >= 0 && isVisible())
-            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", count,
+            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", imageData->getDetectedStars(),
                                  imageData->getHFR()), FITS_MESSAGE);
+        }
         QApplication::restoreOverrideCursor();
     }
 }

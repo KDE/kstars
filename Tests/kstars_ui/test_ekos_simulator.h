@@ -43,8 +43,9 @@
 #define KTRY_EKOS_START_SIMULATORS() do { \
     KTRY_EKOS_SELECT_PROFILE("Simulators"); \
     KTRY_EKOS_CLICK(processINDIB); \
-    QWARN("HACK HACK HACK adding delay here for devices to connect"); \
-    QTest::qWait(10000); } while(false)
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 1000); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule() != nullptr, 1000); } while(false)
 
 #define KTRY_EKOS_STOP_SIMULATORS() do { \
     KTRY_EKOS_CLICK(disconnectB); \

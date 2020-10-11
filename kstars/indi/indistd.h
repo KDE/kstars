@@ -106,7 +106,7 @@ class GDInterface : public QObject
         virtual bool setProperty(QObject *)                       = 0;
 
     protected:
-        DeviceFamily dType { KSTARS_CCD };
+        DeviceFamily dType { KSTARS_UNKNOWN };
         uint32_t driverInterface { 0 };
         QString driverVersion;
         QHash<QString, INDI::Property *> properties;
@@ -142,7 +142,7 @@ class GenericDevice : public GDInterface
         Q_OBJECT
 
     public:
-        explicit GenericDevice(DeviceInfo &idv);
+        explicit GenericDevice(DeviceInfo &idv, ClientManager *cm);
         virtual ~GenericDevice() override = default;
 
         virtual void registerProperty(INDI::Property *prop) override;
@@ -323,4 +323,3 @@ Q_DECLARE_METATYPE(ISD::ParkStatus)
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::ParkStatus &dest);
 #endif
-

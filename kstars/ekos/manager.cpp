@@ -452,7 +452,7 @@ void Manager::loadProfiles()
 
 void Manager::loadDrivers()
 {
-    foreach (DriverInfo * dv, DriverManager::Instance()->getDrivers())
+    for (auto &dv : DriverManager::Instance()->getDrivers())
     {
         if (dv->getDriverSource() != HOST_SOURCE)
             driversList[dv->getLabel()] = dv;
@@ -1007,7 +1007,7 @@ void Manager::checkINDITimeout()
     if (m_LocalMode)
     {
         QStringList remainingDevices;
-        foreach (DriverInfo * drv, managedDrivers)
+        for (auto &drv : managedDrivers)
         {
             if (drv->getDevices().count() == 0)
                 remainingDevices << QString("+ %1").arg(
@@ -1281,7 +1281,7 @@ void Manager::deviceConnected()
 
     int nConnectedDevices = 0;
 
-    foreach (ISD::GDInterface * device, genericDevices)
+    for (auto &device : genericDevices)
     {
         if (device->isConnected())
             nConnectedDevices++;
@@ -1339,7 +1339,7 @@ void Manager::deviceConnected()
 
     INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
 
-    foreach (ISD::GDInterface * device, genericDevices)
+    for (auto &device : genericDevices)
     {
         if (device == dev)
         {
@@ -1469,7 +1469,7 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
     // otherwise rely on saved options
     if (currentProfile->ccd() != currentProfile->guider())
     {
-        foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
+        for (auto &device : findDevices(KSTARS_CCD))
         {
             if (QString(device->getDeviceName()).startsWith(currentProfile->ccd(), Qt::CaseInsensitive))
                 primaryCCD = QString(device->getDeviceName());
@@ -1820,7 +1820,11 @@ void Manager::processNewProperty(INDI::Property * prop)
         const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
         // If we don't have port mapping, then we connect immediately.
         if (port.isEmpty())
+            QTimer::singleShot(50, this, [deviceInterface]()
+        {
             deviceInterface->Connect();
+        });
+
         return;
     }
 
@@ -1950,7 +1954,7 @@ void Manager::processNewProperty(INDI::Property * prop)
 
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
-        foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
+        for (auto &device : findDevices(KSTARS_CCD))
         {
             if (device->getDeviceName() == prop->getDeviceName())
             {
@@ -1976,7 +1980,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     {
         if (captureProcess.get() != nullptr)
         {
-            foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
+            for (auto &device : findDevices(KSTARS_CCD))
             {
                 if (device->getDeviceName() == prop->getDeviceName())
                 {
@@ -2027,7 +2031,7 @@ void Manager::processNewProperty(INDI::Property * prop)
 
     if (!strcmp(prop->getName(), "ASTROMETRY_SOLVER"))
     {
-        foreach (ISD::GDInterface * device, genericDevices)
+        for (auto &device : genericDevices)
         {
             if (device->getDeviceName() == prop->getDeviceName())
             {
@@ -2111,7 +2115,7 @@ void Manager::processTabChange()
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
                 //#ifdef Q_OS_WIN
-                else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
+               /** else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
                 {
                     // If current setting is remote astrometry and profile doesn't contain
                     // remote astrometry, then we switch to online solver. Otherwise, the whole align
@@ -2123,10 +2127,11 @@ void Manager::processTabChange()
                     {
 
                         Options::setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
-                        alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
+                        //alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
                         alignProcess->setEnabled(true);
                     }
                 }
+                **/
                 //#endif
             }
         }
@@ -2262,7 +2267,7 @@ void Manager::initCapture()
         captureStatusLayout->insertWidget(0, capturePI);
     }
 
-    foreach (ISD::GDInterface * device, findDevices(KSTARS_AUXILIARY))
+    for (auto &device : findDevices(KSTARS_AUXILIARY))
     {
         if (device->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
             captureProcess->setDustCap(device);
@@ -2425,7 +2430,7 @@ void Manager::initMount()
     }
            );
 
-    foreach (ISD::GDInterface * device, findDevices(KSTARS_AUXILIARY))
+    for (auto &device : findDevices(KSTARS_AUXILIARY))
     {
         if (device->getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
             mountProcess->setGPS(device);
@@ -3531,6 +3536,21 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(),
                 &EkosLive::Media::setCorrectionVector);
     }
+
+    // Focus <--> EkosLive Connections
+    if (focusProcess.get() && ekosLiveClient.get())
+    {
+        connect(focusProcess.get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendFocusSettings);
+    }
+
+    // Guide <--> EkosLive Connections
+    if (focusProcess.get() && ekosLiveClient.get())
+    {
+        connect(guideProcess.get(), &Ekos::Guide::settingsUpdated, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendGuideSettings);
+    }
+
     // Analyze connections.
     if (analyzeProcess.get())
     {

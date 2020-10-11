@@ -48,6 +48,10 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_guide POST_BUILD
             ${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2)
 ADD_TEST(NAME TestEkosGuide COMMAND test_ekos_guide)
 
+ADD_EXECUTABLE(test_ekos_mount ${KSTARS_UI_EKOS_SRC} test_ekos_mount.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_mount ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosMount COMMAND test_ekos_mount)
+
 ELSE ()
 
 ADD_EXECUTABLE(test_kstars_ui ${KSTARS_UI_TESTS_SRC})

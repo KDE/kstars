@@ -29,37 +29,39 @@ namespace ISD
 
 GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement,
                            QVariant qValue, QObject *parent)
-    : QObject(parent)
+    : QObject(parent), propType(inPropertyType), indiProperty((inProperty)), indiElement(inElement), elementValue(qValue)
 {
-    propType     = inPropertyType;
-    indiProperty = inProperty;
-    indiElement  = inElement;
-    elementValue = qValue;
 }
 
-GenericDevice::GenericDevice(DeviceInfo &idv)
+GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
 {
     deviceInfo    = &idv;
     driverInfo    = idv.getDriverInfo();
     baseDevice    = idv.getBaseDevice();
+    clientManager = cm;
+
+    Q_ASSERT_X(baseDevice, __FUNCTION__, "Base device is invalid.");
+    Q_ASSERT_X(clientManager, __FUNCTION__, "Client manager is invalid.");
+
     m_Name        = baseDevice->getDeviceName();
-    clientManager = driverInfo->getClientManager();
 
     dType = KSTARS_UNKNOWN;
 
     registerDBusType();
 
     // JM 2020-09-05: In case KStars time change, update driver time if applicable.
-    connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, [this]()
+    connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, this, [this]()
     {
-        if (baseDevice && baseDevice->isConnected() && Options::useTimeUpdate() && Options::useKStarsSource())
+        if (Options::useTimeUpdate() && Options::useKStarsSource())
         {
-            ITextVectorProperty *tvp = baseDevice->getText("TIME_UTC");
-            if (tvp && tvp->p != IP_RO)
-                updateTime();
+            if (dType != KSTARS_UNKNOWN && baseDevice != nullptr && baseDevice->isConnected())
+            {
+                ITextVectorProperty *tvp = baseDevice->getText("TIME_UTC");
+                if (tvp && tvp->p != IP_RO)
+                    updateTime();
+            }
         }
     });
-
 }
 
 void GenericDevice::registerDBusType()

@@ -84,6 +84,12 @@ class Message : public QObject
         void setAlignSolution(const QVariantMap &solution);
         void sendAlignSettings(const QJsonObject &settings);
 
+        // Guide
+        void sendGuideSettings(const QJsonObject &settings);
+
+        // Focus
+        void sendFocusSettings(const QJsonObject &settings);
+
         // Polar
         void setPAHStage(Ekos::Align::PAHStage stage);
         void setPAHMessage(const QString &message);
@@ -180,7 +186,7 @@ class Message : public QObject
         bool m_sendBlobs { true};
 
         QMap<int, bool> m_Options;
-        QSet<QString> m_PropertySubscriptions;
+        QMap<QString, QSet<QString>> m_PropertySubscriptions;
         QLineF correctionVector;
         QRect boundingRect;
         QSize viewSize;

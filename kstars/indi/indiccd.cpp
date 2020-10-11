@@ -917,6 +917,7 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 
 CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
+    dType = KSTARS_CCD;
     primaryChip.reset(new CCDChip(this, CCDChip::PRIMARY_CCD));
 
     readyTimer.reset(new QTimer());

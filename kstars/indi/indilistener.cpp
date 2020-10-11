@@ -131,10 +131,10 @@ void INDIListener::addClient(ClientManager *cm)
     clients.append(cm);
 
     connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
-    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::QueuedConnection);
+    connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
     connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
@@ -186,9 +186,12 @@ void INDIListener::removeClient(ClientManager *cm)
 
 void INDIListener::processDevice(DeviceInfo *dv)
 {
+    ClientManager *cm = qobject_cast<ClientManager *>(sender());
+    Q_ASSERT_X(cm, __FUNCTION__, "Client manager is not valid.");
+
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getBaseDevice()->getDeviceName();
 
-    ISD::GDInterface *gd = new ISD::GenericDevice(*dv);
+    ISD::GDInterface *gd = new ISD::GenericDevice(*dv, cm);
 
     devices.append(gd);
 
@@ -221,7 +224,7 @@ void INDIListener::removeDevice(const QString &deviceName)
         {
             emit deviceRemoved(oneDevice);
             devices.removeOne(oneDevice);
-            delete (oneDevice);
+            oneDevice->deleteLater();
             break;
         }
     }

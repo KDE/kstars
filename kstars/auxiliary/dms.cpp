@@ -289,9 +289,26 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable,
     QString dummy;
     char pm(' ');
     QChar zero('0');
-    int dd = abs(degree());
-    int dm = abs(arcmin());
-    int ds = abs(arcsec());    
+    int dd, dm, ds;
+
+    if (machineReadable || !highPrecision)
+    // minimize the mean angle representation error of DMS format
+    // set LSD transition in the middle of +- half precision range
+    {
+        double half_precision = 1.0 / 7200.0;
+	if (Degrees() < 0.0)
+            half_precision = -half_precision;
+	dms angle(Degrees() + half_precision);
+        dd = abs(angle.degree());
+        dm = abs(angle.arcmin());
+        ds = abs(angle.arcsec());
+    }
+    else
+    {
+        dd = abs(degree());
+        dm = abs(arcmin());
+        ds = abs(arcsec());
+    }
 
     if (Degrees() < 0.0)
         pm = '-';
@@ -361,10 +378,24 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable,
 const QString dms::toHMSString(const bool machineReadable, const bool highPrecision) const
 {
     QChar zero('0');
+    dms angle;
+    int hh, hm, hs;
+
+    if (machineReadable || !highPrecision)
+    // minimize the mean angle representation error of HMS format
+    // set LSD transition in the middle of +- half precision range
+    {
+        double half_precision = 15.0 / 7200.0;
+	angle.setD(Degrees() + half_precision);
+        hh = angle.hour();
+        hm = angle.minute();
+        hs = angle.second();
+    }
+
     if (machineReadable)
-        return QString("%1:%2:%3").arg(hour(), 2, 10, zero)
-                                  .arg(minute(), 2, 10, zero)
-                                  .arg(second(), 2, 10, zero);
+        return QString("%1:%2:%3").arg(hh, 2, 10, zero)
+                                  .arg(hm, 2, 10, zero)
+                                  .arg(hs, 2, 10, zero);
 
     if (highPrecision)
     {
@@ -374,9 +405,9 @@ const QString dms::toHMSString(const bool machineReadable, const bool highPrecis
                                      .arg(sec, 2, 'f', 2, zero);
     }
 
-    return QString("%1h %2m %3s").arg(hour(), 2, 10, zero)
-                                 .arg(minute(), 2, 10, zero)
-                                 .arg(second(), 2, 10, zero);
+    return QString("%1h %2m %3s").arg(hh, 2, 10, zero)
+                                 .arg(hm, 2, 10, zero)
+                                 .arg(hs, 2, 10, zero);
 
 #if 0
     QString dummy;
@@ -388,10 +419,10 @@ const QString dms::toHMSString(const bool machineReadable, const bool highPrecis
             return dummy.sprintf("%02dh %02dm %05.2f", hour(), minute(), sec);
         }
         else
-            return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
+            return dummy.sprintf("%02dh %02dm %02ds", hh, hm, hs);
     }
     else
-        return dummy.sprintf("%02d:%02d:%02d", hour(), minute(), second());
+        return dummy.sprintf("%02d:%02d:%02d", hh, hm, hs);
 #endif
 }
 

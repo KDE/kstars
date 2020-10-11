@@ -25,29 +25,29 @@ void TestEkosSimulator::initTestCase()
 {
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
-    KTRY_EKOS_START_SIMULATORS();
-
-    // HACK: Reset clock to initial conditions
-    KHACK_RESET_EKOS_TIME();
 }
 
 void TestEkosSimulator::cleanupTestCase()
 {
-    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
-        if (d->isVisible())
-            d->hide();
-
-    KTRY_EKOS_STOP_SIMULATORS();
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
 
 void TestEkosSimulator::init()
 {
+    KTRY_EKOS_START_SIMULATORS();
+
+    // HACK: Reset clock to initial conditions
+    KHACK_RESET_EKOS_TIME();
 }
 
 void TestEkosSimulator::cleanup()
 {
+    foreach (QDialog * d, KStars::Instance()->findChildren<QDialog*>())
+        if (d->isVisible())
+            d->hide();
+
+    KTRY_EKOS_STOP_SIMULATORS();
 }
 
 

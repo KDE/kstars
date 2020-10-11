@@ -19,11 +19,12 @@
 
 #include <math.h>
 #include <cmath>
+#include <QtConcurrent>
 
 #include "fitscentroiddetector.h"
 #include "fits_debug.h"
 
-FITSStarDetector &FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
+void FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
 {
     if (!setting.compare("MINIMUM_STDVAR", Qt::CaseInsensitive))
         if (value.canConvert <int> ())
@@ -36,8 +37,6 @@ FITSStarDetector &FITSCentroidDetector::configure(const QString &setting, const 
     if (!setting.compare("JMINDEX", Qt::CaseInsensitive))
         if (value.canConvert <double> ())
             JMINDEX = value.value <double> ();
-
-    return *this;
 }
 
 bool FITSCentroidDetector::checkCollision(Edge * s1, Edge * s2) const
@@ -59,49 +58,44 @@ bool FITSCentroidDetector::checkCollision(Edge * s1, Edge * s2) const
 }
 
 /*** Find center of stars and calculate Half Flux Radius */
-int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
+QFuture<bool> FITSCentroidDetector::findSources(const QRect &boundary)
 {
-    switch (parent()->property("dataType").toInt())
+    FITSImage::Statistic const &stats = image_data->getStatistics();
+    switch (stats.dataType)
     {
         case TBYTE:
-            return findSources<uint8_t const>(starCenters, boundary);
+        default:
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<uint8_t const>, boundary);
 
         case TSHORT:
-            return findSources<int16_t const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<int16_t const>, boundary);
 
         case TUSHORT:
-            return findSources<uint16_t const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<uint16_t const>, boundary);
 
         case TLONG:
-            return findSources<int32_t const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<int32_t const>, boundary);
 
         case TULONG:
-            return findSources<uint32_t const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<uint32_t const>, boundary);
 
         case TFLOAT:
-            return findSources<float const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<float const>, boundary);
 
         case TLONGLONG:
-            return findSources<int64_t const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<int64_t const>, boundary);
 
         case TDOUBLE:
-            return findSources<double const>(starCenters, boundary);
+            return QtConcurrent::run(this, &FITSCentroidDetector::findSources<double const>, boundary);
 
-        default:
-            return -1;
     }
 }
 
 template <typename T>
-int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &boundary)
+bool FITSCentroidDetector::findSources(const QRect &boundary)
 {
-    FITSData const * const image_data = reinterpret_cast<FITSData const *>(parent());
-
-    if (image_data == nullptr)
-        return 0;
-
-    FITSData::Statistic const &stats = image_data->getStatistics();
-    FITSMode const m_Mode = static_cast <FITSMode> (parent()->property("mode").toInt());
+    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSMode const m_Mode = static_cast<FITSMode>(image_data->property("mode").toInt());
 
     int initStdDev = MINIMUM_STDVAR;
     int minEdgeWidth = MINIMUM_PIXEL_RANGE;
@@ -297,6 +291,7 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
     };
     std::sort(edges.begin(), edges.end(), greaterThan);
 
+    QList<Edge*> starCenters;
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i = 0; i < edges.count(); i++)
     {
@@ -454,10 +449,11 @@ int FITSCentroidDetector::findSources(QList<Edge*> &starCenters, const QRect &bo
         //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
     }
 
+    image_data->setStarCenters(starCenters);
     // Release memory
     qDeleteAll(edges);
 
-    return starCenters.count();
+    return true;
 }
 
 

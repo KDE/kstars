@@ -80,11 +80,6 @@ Guide::Guide() : QWidget()
     // #6 Init Connections
     initConnections();
 
-
-
-
-
-
     // Image Filters
     for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -2487,6 +2482,8 @@ void Guide::syncSettings()
         if (pCB == autoStarCheck)
             Options::setGuideAutoStarEnabled(pCB->isChecked());
     }
+
+    emit settingsUpdated(getSettings());
 }
 
 void Guide::onControlDirectionChanged(bool enable)
@@ -2518,7 +2515,7 @@ void Guide::updatePHD2Directions()
         phd2Guider -> requestSetDEGuideMode(checkBox_DirDEC->isChecked(), northControlCheck->isChecked(),
                                             southControlCheck->isChecked());
 }
-void Guide::updateDirectionsFromPHD2(QString mode)
+void Guide::updateDirectionsFromPHD2(const QString &mode)
 {
     //disable connections
     disconnect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
@@ -2673,10 +2670,8 @@ void Guide::setAxisDelta(double ra, double de)
     int currentNumPoints = driftGraph->graph(G_RA)->dataCount();
     guideSlider->setMaximum(currentNumPoints);
     if(graphOnLatestPt)
-        guideSlider->setValue(currentNumPoints);
-
-    if(graphOnLatestPt)
     {
+        guideSlider->setValue(currentNumPoints);
         driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
         driftGraph->graph(G_RA_HIGHLIGHT)->data()->clear(); //Clear highlighted RA point
         driftGraph->graph(G_DEC_HIGHLIGHT)->data()->clear(); //Clear highlighted DEC point
@@ -4085,5 +4080,112 @@ void Guide::removeDevice(ISD::GDInterface *device)
 
 }
 
+QJsonObject Guide::getSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("camera", guiderCombo->currentText());
+    settings.insert("via", ST4Combo->currentText());
+    settings.insert("exp", exposureIN->value());
+    settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
+    settings.insert("dark", darkFrameCheck->isChecked());
+    settings.insert("box", boxSizeCombo->currentText());
+    settings.insert("ra_control", checkBox_DirRA->isChecked());
+    settings.insert("de_control", checkBox_DirDEC->isChecked());
+    settings.insert("east", eastControlCheck->isChecked());
+    settings.insert("west", westControlCheck->isChecked());
+    settings.insert("north", northControlCheck->isChecked());
+    settings.insert("south", southControlCheck->isChecked());
+    settings.insert("scope", FOVScopeCombo->currentIndex());
+    settings.insert("swap", swapCheck->isChecked());
+    settings.insert("ra_gain", spinBox_PropGainRA->value());
+    settings.insert("de_gain", spinBox_PropGainDEC->value());
+    settings.insert("dither_enabled", Options::ditherEnabled());
+    settings.insert("dither_pixels", Options::ditherPixels());
+    settings.insert("dither_frequency", static_cast<int>(Options::ditherFrames()));
+    settings.insert("gpg", Options::gPGEnabled());
+
+    return settings;
+}
+
+void Guide::setSettings(const QJsonObject &settings)
+{
+    auto syncControl = [settings](const QString & key, QWidget * widget)
+    {
+        QSpinBox *pSB = nullptr;
+        QDoubleSpinBox *pDSB = nullptr;
+        QCheckBox *pCB = nullptr;
+        QComboBox *pComboBox = nullptr;
+
+        if ((pSB = qobject_cast<QSpinBox *>(widget)))
+        {
+            const int value = settings[key].toInt(pSB->value());
+            if (value != pSB->value())
+                pSB->setValue(value);
+        }
+        else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+        {
+            const double value = settings[key].toDouble(pDSB->value());
+            if (value != pDSB->value())
+                pDSB->setValue(value);
+        }
+        else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+        {
+            const bool value = settings[key].toBool(pCB->isChecked());
+            if (value != pCB->isChecked())
+                pCB->setChecked(value);
+        }
+        // ONLY FOR STRINGS, not INDEX
+        else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+        {
+            const QString value = settings[key].toString(pComboBox->currentText());
+            if (value != pComboBox->currentText())
+                pComboBox->setCurrentText(value);
+        }
+    };
+
+    // Camera
+    syncControl("camera", guiderCombo);
+    // Via
+    syncControl("via", ST4Combo);
+    // Exposure
+    syncControl("exp", exposureIN);
+    // Binning
+    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
+    if (bin != binningCombo->currentIndex())
+        binningCombo->setCurrentIndex(bin);
+    // Dark
+    syncControl("dark", darkFrameCheck);
+    // Box
+    syncControl("box", boxSizeCombo);
+    // Swap
+    syncControl("swap", swapCheck);
+    // RA Control
+    syncControl("ra_control", checkBox_DirRA);
+    // DE Control
+    syncControl("de_control", checkBox_DirDEC);
+    // NSWE controls
+    syncControl("east", eastControlCheck);
+    syncControl("west", westControlCheck);
+    syncControl("north", northControlCheck);
+    syncControl("south", southControlCheck);
+    // Scope
+    const int scope = settings["scope"].toInt(FOVScopeCombo->currentIndex() + 1) - 1;
+    if (scope != FOVScopeCombo->currentIndex())
+        FOVScopeCombo->setCurrentIndex(scope);
+    // RA Gain
+    syncControl("ra_gain", spinBox_PropGainRA);
+    // DE Gain
+    syncControl("de_gain", spinBox_PropGainDEC);
+    // Options
+    const bool ditherEnabled = settings["dither_enabled"].toBool(Options::ditherEnabled());
+    Options::setDitherEnabled(ditherEnabled);
+    const double ditherPixels = settings["dither_pixels"].toDouble(Options::ditherPixels());
+    Options::setDitherPixels(ditherPixels);
+    const int ditherFrequency = settings["dither_frequency"].toInt(Options::ditherFrames());
+    Options::setDitherFrames(ditherFrequency);
+    const bool gpg = settings["gpg"].toBool(Options::gPGEnabled());
+    Options::setGPGEnabled(gpg);
+}
 
 }

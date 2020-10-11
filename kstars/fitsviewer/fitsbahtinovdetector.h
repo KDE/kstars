@@ -36,42 +36,42 @@ class BahtinovLineAverage
 
 class FITSBahtinovDetector: public FITSStarDetector
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit FITSBahtinovDetector(FITSData *parent): FITSStarDetector(parent) {};
+    public:
+        explicit FITSBahtinovDetector(FITSData *parent): FITSStarDetector(parent) {};
 
-public:
-    /** @brief Find sources in the parent FITS data file.
-     * @see FITSStarDetector::findSources().
-     */
-    int findSources(QList<Edge*> &starCenters, QRect const &boundary = QRect()) override;
+    public:
+        /** @brief Find sources in the parent FITS data file.
+         * @see FITSStarDetector::findSources().
+         */
+        QFuture<bool> findSources(QRect const &boundary = QRect()) override;
 
-    /** @brief Configure the detection method.
-     * @see FITSStarDetector::configure().
-     * @note Parameter "numaveragerows" defaults to NUMBER_OF_AVERAGE_ROWS of the mean pixel value of the frame.
-     * @todo Provide parameters for detection configuration.
-     */
-    FITSStarDetector & configure(const QString &setting, const QVariant &value) override;
+        /** @brief Configure the detection method.
+         * @see FITSStarDetector::configure().
+         * @note Parameter "numaveragerows" defaults to NUMBER_OF_AVERAGE_ROWS of the mean pixel value of the frame.
+         * @todo Provide parameters for detection configuration.
+         */
+        void configure(const QString &setting, const QVariant &value) override;
 
-public:
-    /** @group Detection parameters.
-     * @{ */
-    int NUMBER_OF_AVERAGE_ROWS { 1 };
-    /** @} */
+    public:
+        /** @group Detection parameters.
+         * @{ */
+        int NUMBER_OF_AVERAGE_ROWS { 1 };
+        /** @} */
 
-protected:
-    /** @internal Find sources in the parent FITS data file, dependent of the pixel depth.
-     * @see FITSGradientDetector::findSources.
-     */
-    template <typename T>
-    int findBahtinovStar(QList<Edge*> &starCenters, const QRect &boundary);
+    protected:
+        /** @internal Find sources in the parent FITS data file, dependent of the pixel depth.
+         * @see FITSGradientDetector::findSources.
+         */
+        template <typename T>
+        bool findBahtinovStar(const QRect &boundary);
 
-private:
-    template <typename T>
-    BahtinovLineAverage calculateMaxAverage(const FITSData *data, int angle);
-    template <typename T>
-    bool rotateImage(const FITSData *data, int angle, T * rotimage);
+    private:
+        template <typename T>
+        BahtinovLineAverage calculateMaxAverage(const FITSData *data, int angle);
+        template <typename T>
+        bool rotateImage(const FITSData *data, int angle, T * rotimage);
 };
 
 #endif // FITSBAHTINOVDETECTOR_H
