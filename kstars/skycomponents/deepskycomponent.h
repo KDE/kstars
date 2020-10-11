@@ -171,6 +171,8 @@ class DeepSkyComponent : public SkyComponent
 
     void appendIndex(DeepSkyObject *o, DeepSkyIndex *dsIndex, Trixel trixel);
 
+    // FIXME: Keeping both the objectNames data structure and the
+    // nameHash seems overkill -- asimha
     QHash<QString, DeepSkyObject *> nameHash;
 
     /** @short adds a label to the lists of labels to be drawn prioritized by magnitude. */

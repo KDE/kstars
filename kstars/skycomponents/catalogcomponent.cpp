@@ -128,11 +128,13 @@ void CatalogComponent::_loadData(bool includeCatalogDesignation)
             if (!dupName)
             {
                 objectLists(obj->type()).append(QPair<QString, const SkyObject *>(name, obj));
+                nameHash[name.toLower()] = obj;
             }
 
             if (!longname.isEmpty() && !dupLongname && name != longname)
             {
                 objectLists(obj->type()).append(QPair<QString, const SkyObject *>(longname, obj));
+                nameHash[longname.toLower()] = obj;
             }
         }
     }
@@ -254,4 +256,11 @@ bool CatalogComponent::selected()
         return true;
 
     return false;
+}
+
+SkyObject *CatalogComponent::findByName(const QString &name)
+{
+    if (nameHash.contains(name.toLower()))
+        return nameHash[name.toLower()];
+    return nullptr;
 }
