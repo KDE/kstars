@@ -22,6 +22,8 @@
 #include "fitssepdetector.h"
 #include "Options.h"
 #include "kspaths.h"
+#include "ekos/focus/focus.h"
+#include "ekos/manager.h"
 
 #include <math.h>
 #include <QPointer>
@@ -80,6 +82,12 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
         solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
 
     qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
+
+    connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
+    if(Options::focusLogging())
+        solver->setSSLogLevel(SSolver::LOG_NORMAL);
+    else
+        solver->setSSLogLevel(SSolver::LOG_OFF);
 
     // Wait synchronously
 

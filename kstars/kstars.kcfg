@@ -2,6 +2,7 @@
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
    <include>ksutils.h</include>
+   <include>qdir.h</include>
    <kcfgfile name="kstarsrc" />
 
    <group name="GUI">
@@ -1930,11 +1931,11 @@
       </entry>
       <entry name="AstrometryLogToFile" type="Bool">
          <label>Whether to log to a file instead.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="AstrometryLogFilepath" type="String">
          <label>Path of the log file to save astrometry logging to.</label>
-         <default></default>
+         <default code="true">QDir::tempPath() + "/astrometryLog.txt"</default>
       </entry>
       <entry name="IndexFolderList" type="StringList">
          <label>List of index folder paths.</label>

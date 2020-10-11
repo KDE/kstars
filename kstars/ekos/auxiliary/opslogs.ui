@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>400</height>
+    <width>592</width>
+    <height>430</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -430,11 +430,16 @@
          <string>The Logging Level for StellarSolver and Astrometry.net</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <item>
          <property name="text">
           <string>LOG_NONE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>LOG_ERROR</string>
          </property>
         </item>
         <item>
@@ -576,7 +581,6 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="driversGroup">
    <property name="exclusive">
     <bool>false</bool>
@@ -587,5 +591,6 @@
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="verbosityButtonGroup"/>
  </buttongroups>
 </ui>

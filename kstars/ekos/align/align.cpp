@@ -3238,6 +3238,7 @@ void Align::startSolving()
     if(Options::alignmentLogging())
     {
         m_StellarSolver->setLogLevel(static_cast<SSolver::logging_level>(Options::loggerLevel()));
+        m_StellarSolver->setSSLogLevel(SSolver::LOG_NORMAL);
         if(Options::astrometryLogToFile())
         {
             m_StellarSolver->setProperty("LogToFile", true);
@@ -3247,6 +3248,7 @@ void Align::startSolving()
     else
     {
         m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
+        m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
     }
 
     m_StellarSolver->start();
@@ -3725,6 +3727,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
+    appendLogText(i18n("Solver Failed"));
+
     KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed with errors"),
                           KSNotification::EVENT_ALERT);
 

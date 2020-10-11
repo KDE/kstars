@@ -112,14 +112,13 @@ Focus::Focus()
         optionsEditor->show();
     });
 
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
+    loadOptionsProfiles();
+
     connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
     {
         Options::setFocusOptionsProfile(index);
     });
-
-    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
-    loadOptionsProfiles();
-
 }
 
 void Focus::loadOptionsProfiles()
