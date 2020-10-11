@@ -247,6 +247,17 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         }
     });
 
+    // Settle timer
+    // Debounce until property stream settles down for a second.
+    settleTimer.setInterval(1000);
+    connect(&settleTimer, &QTimer::timeout, [&]()
+    {
+        if (m_settleStatus != Ekos::Success)
+        {
+            m_settleStatus = Ekos::Success;
+            emit settleStatusChanged(m_settleStatus);
+        }
+    });
 
     // Ekos Wizard
     connect(wizardProfileB, &QPushButton::clicked, this, &Ekos::Manager::wizardProfile);
@@ -494,7 +505,14 @@ void Manager::reset()
 
     DarkLibrary::Instance()->reset();
 
-    Ekos::CommunicationStatus previousStatus = m_ekosStatus;
+    Ekos::CommunicationStatus previousStatus;
+
+    previousStatus = m_settleStatus;
+    m_settleStatus = Ekos::Idle;
+    if (previousStatus != m_settleStatus)
+        emit settleStatusChanged(m_settleStatus);
+
+    previousStatus = m_ekosStatus;
     m_ekosStatus   = Ekos::Idle;
     if (previousStatus != m_ekosStatus)
         emit ekosStatusChanged(m_ekosStatus);
@@ -1812,6 +1830,8 @@ void Manager::processNewProperty(INDI::Property * prop)
 {
     ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 
+    settleTimer.start();
+
     ekosLiveClient.get()->message()->processNewProperty(prop);
 
     if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
@@ -2115,23 +2135,23 @@ void Manager::processTabChange()
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
                 //#ifdef Q_OS_WIN
-               /** else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
-                {
-                    // If current setting is remote astrometry and profile doesn't contain
-                    // remote astrometry, then we switch to online solver. Otherwise, the whole align
-                    // module remains disabled and the user cannot change re-enable it since he cannot select online solver
-                    ProfileInfo * pi = getCurrentProfile();
-                    if (Options::astrometrySolverType() == Ekos::Align::SOLVER_REMOTE && pi->aux1() != "Astrometry"
-                            && pi->aux2() != "Astrometry"
-                            && pi->aux3() != "Astrometry" && pi->aux4() != "Astrometry")
-                    {
+                /** else if (Options::solverBackend() == Ekos::Align::SOLVER_ASTROMETRYNET)
+                 {
+                     // If current setting is remote astrometry and profile doesn't contain
+                     // remote astrometry, then we switch to online solver. Otherwise, the whole align
+                     // module remains disabled and the user cannot change re-enable it since he cannot select online solver
+                     ProfileInfo * pi = getCurrentProfile();
+                     if (Options::astrometrySolverType() == Ekos::Align::SOLVER_REMOTE && pi->aux1() != "Astrometry"
+                             && pi->aux2() != "Astrometry"
+                             && pi->aux3() != "Astrometry" && pi->aux4() != "Astrometry")
+                     {
 
-                        Options::setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
-                        //alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
-                        alignProcess->setEnabled(true);
-                    }
-                }
-                **/
+                         Options::setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
+                         //alignModule()->setAstrometrySolverType(Ekos::Align::SOLVER_ONLINE);
+                         alignProcess->setEnabled(true);
+                     }
+                 }
+                 **/
                 //#endif
             }
         }
