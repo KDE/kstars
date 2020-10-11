@@ -2496,6 +2496,9 @@ void Align::calculateFOV()
     fov_x = 206264.8062470963552 * ccd_width * ccd_hor_pixel / 1000.0 / focal_length;
     fov_y = 206264.8062470963552 * ccd_height * ccd_ver_pixel / 1000.0 / focal_length;
 
+    double calculated_focal_length = ((ccd_width * ccd_hor_pixel / 1000.0) * 206264.8062470963552) / fov_x;
+    double calculated_focal_ratio  = calculated_focal_length / aperture;
+
     // Pix Scale
     fov_pixscale = (fov_x * (Options::solverBinningIndex() + 1)) / ccd_width;
 
@@ -2515,6 +2518,9 @@ void Align::calculateFOV()
     double calculated_fov_y = fov_y;
 
     QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
+    FocalLengthOut->setText(QString("%1").arg(calculated_focal_length, 0, 'f', 1));
+    FocalRatioOut->setText(QString("%1").arg(calculated_focal_ratio, 0, 'f', 1));
+
     // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
     // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
     // per profile/pixel_size/focal_length combinations. It defaults to 0' x 0' and gets updated after the first successful solver is complete.

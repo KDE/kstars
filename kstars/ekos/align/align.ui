@@ -299,16 +299,6 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="2" column="3">
-         <widget class="QLineEdit" name="RotOut">
-          <property name="toolTip">
-           <string>Image rotation angle, East of North</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="label_8">
           <property name="toolTip">
@@ -316,100 +306,6 @@
           </property>
           <property name="text">
            <string>FOV:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="err">
-          <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
-          </property>
-          <property name="text">
-           <string>Err:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="FOVOut">
-          <property name="toolTip">
-           <string>Effective field of view size in arcminutes.</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QLineEdit" name="SolverDecOut">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="3">
-         <widget class="QLineEdit" name="errOut">
-          <property name="toolTip">
-           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>DE:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_17">
-          <property name="toolTip">
-           <string>Image scale in arcsecs/pixel</string>
-          </property>
-          <property name="text">
-           <string>Pix:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="SolverRAOut">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_10">
-          <property name="toolTip">
-           <string>Image rotation angle, East of North</string>
-          </property>
-          <property name="text">
-           <string>Rot:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="pixScaleOut">
-          <property name="toolTip">
-           <string>Image scale in arcsecs/pixel</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>RA:</string>
           </property>
          </widget>
         </item>
@@ -428,6 +324,144 @@
             <string>Guide Scope</string>
            </property>
           </item>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="SolverRAOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>DE:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="err">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
+          </property>
+          <property name="text">
+           <string>Err:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="3">
+         <widget class="QLineEdit" name="errOut">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in arcsec</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>RA:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="text">
+           <string>Pix:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="SolverDecOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_10">
+          <property name="toolTip">
+           <string>Image rotation angle, East of North</string>
+          </property>
+          <property name="text">
+           <string>Rot:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLineEdit" name="RotOut">
+          <property name="toolTip">
+           <string>Image rotation angle, East of North</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="FOVOut">
+          <property name="toolTip">
+           <string>Effective field of view size in arcminutes.</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="readOnly">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="pixScaleOut">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>FL:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="FocalLengthOut">
+          <property name="toolTip">
+           <string>Effective Focal Length in millimeters based on Astrometric measurements.</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>F/:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QLineEdit" name="FocalRatioOut">
+          <property name="toolTip">
+           <string>Effective Focal Ratio based on astrometric measurements.</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
