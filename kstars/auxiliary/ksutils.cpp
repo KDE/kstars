@@ -1165,6 +1165,10 @@ QString getDefaultPath(const QString &option)
 #endif
         return prefix + "/share/astrometry/";
     }
+    else if (option == "AstrometryLogFilepath")
+    {
+        return QDir::tempPath() + "/astrometryLog.txt";
+    }
     else if (option == "XplanetPath")
     {
 #if defined(Q_OS_OSX)
@@ -1185,7 +1189,7 @@ QString getDefaultPath(const QString &option)
     return QString();
 }
 
-QStringList getDefaultIndexFolderPaths()
+QStringList getAstrometryDefaultIndexFolderPaths()
 {
 #ifdef HAVE_STELLARSOLVER
     return StellarSolver::getDefaultIndexFolderPaths();

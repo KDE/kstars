@@ -3168,7 +3168,7 @@ void Align::setSolverAction(int mode)
 void Align::startSolving()
 {
     //This is needed because they might have directories stored in the config file.
-    QStringList indexFileDirs = Options::indexFolderList();
+    QStringList indexFileDirs = Options::astrometryIndexFolderList();
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
     bool updated = false;
     for(auto &dataDir : astrometryDataDirs)
@@ -3180,7 +3180,7 @@ void Align::startSolving()
         }
     }
     if(updated)
-        Options::setIndexFolderList(indexFileDirs);
+        Options::setAstrometryIndexFolderList(indexFileDirs);
     ///
 
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
@@ -3190,7 +3190,7 @@ void Align::startSolving()
     m_StellarSolver->setProperty("SolverType", Options::solverType());
     connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
-    m_StellarSolver->setIndexFolderPaths(Options::indexFolderList());
+    m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
     m_StellarSolver->setParameters(optionsList.at(Options::solveOptionsProfile()));
 
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());

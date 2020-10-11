@@ -1935,12 +1935,12 @@
       </entry>
       <entry name="AstrometryLogFilepath" type="String">
          <label>Path of the log file to save astrometry logging to.</label>
-         <default code="true">QDir::tempPath() + "/astrometryLog.txt"</default>
+         <default code="true">KSUtils::getDefaultPath("AstrometryLogFilepath")</default>
       </entry>
-      <entry name="IndexFolderList" type="StringList">
+      <entry name="AstrometryIndexFolderList" type="StringList">
          <label>List of index folder paths.</label>
          <whatsthis>List of folders in which astrometry Index Files can be found.</whatsthis>
-         <default code="true">KSUtils::getDefaultIndexFolderPaths()</default>
+         <default code="true">KSUtils::getAstrometryDefaultIndexFolderPaths()</default>
       </entry>
    </group>
    <group name="Align">

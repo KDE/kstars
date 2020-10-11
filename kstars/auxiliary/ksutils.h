@@ -251,7 +251,7 @@ class Logging
 };
 
 QString getDefaultPath(const QString &option);
-QStringList getDefaultIndexFolderPaths();
+QStringList getAstrometryDefaultIndexFolderPaths();
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
