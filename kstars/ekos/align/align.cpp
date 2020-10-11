@@ -2488,6 +2488,20 @@ void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scal
     fov_h /= 60.0;
 }
 
+void Align::calculateEffectiveFocalLength(double newFOVW)
+{
+    if (newFOVW < 0 || newFOVW == fov_x)
+        return;
+
+    double new_focal_length = ((ccd_width * ccd_hor_pixel / 1000.0) * 206264.8062470963552) / (newFOVW * 60.0);
+
+    if (std::fabs(new_focal_length - focal_length) > 1)
+    {
+        focal_length = new_focal_length;
+        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", focal_length));
+    }
+}
+
 void Align::calculateFOV()
 {
     // Calculate FOV
@@ -2495,9 +2509,6 @@ void Align::calculateFOV()
     // FOV in arcsecs
     fov_x = 206264.8062470963552 * ccd_width * ccd_hor_pixel / 1000.0 / focal_length;
     fov_y = 206264.8062470963552 * ccd_height * ccd_ver_pixel / 1000.0 / focal_length;
-
-    double calculated_focal_length = ((ccd_width * ccd_hor_pixel / 1000.0) * 206264.8062470963552) / fov_x;
-    double calculated_focal_ratio  = calculated_focal_length / aperture;
 
     // Pix Scale
     fov_pixscale = (fov_x * (Options::solverBinningIndex() + 1)) / ccd_width;
@@ -2518,8 +2529,8 @@ void Align::calculateFOV()
     double calculated_fov_y = fov_y;
 
     QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
-    FocalLengthOut->setText(QString("%1").arg(calculated_focal_length, 0, 'f', 1));
-    FocalRatioOut->setText(QString("%1").arg(calculated_focal_ratio, 0, 'f', 1));
+    FocalLengthOut->setText(QString("%1").arg(focal_length, 0, 'f', 1));
+    FocalRatioOut->setText(QString("%1").arg(focal_length / aperture, 0, 'f', 1));
 
     // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
     // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
@@ -3410,11 +3421,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                            QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
                            QString::number(pixscale, 'f', 5)));
 
-    if ( (fov_x == 0 || m_EffectiveFOVPending) && pixscale > 0)
+    if ( (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.05) && pixscale > 0)
     {
         double newFOVW = ccd_width * pixscale / binx / 60.0;
         double newFOVH = ccd_height * pixscale / biny / 60.0;
 
+        calculateEffectiveFocalLength(newFOVW);
         saveNewEffectiveFOV(newFOVW, newFOVH);
 
         m_EffectiveFOVPending = false;
