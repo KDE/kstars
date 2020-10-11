@@ -600,7 +600,9 @@ void DeepSkyComponent::drawLabels()
 
 SkyObject *DeepSkyComponent::findByName(const QString &name)
 {
-    return nameHash[name.toLower()];
+    if (nameHash.contains(name.toLower()))
+        return nameHash[name.toLower()];
+    return nullptr;
 }
 
 void DeepSkyComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &region)
