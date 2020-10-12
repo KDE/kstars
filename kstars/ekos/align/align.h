@@ -638,6 +638,11 @@ class Align : public QWidget, public Ui::Align
         void calculateFOV();
 
         /**
+         * @brief calculateEffectiveFocalLength Calculate Focal Length purely form astrometric data.
+         */
+        void calculateEffectiveFocalLength(double newFOVW);
+
+        /**
              * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
              */
         void executePolarAlign();

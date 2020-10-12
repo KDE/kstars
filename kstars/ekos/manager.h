@@ -85,6 +85,7 @@ class Manager : public QDialog, public Ui::Manager
 
         Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus settleStatus READ settleStatus NOTIFY settleStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveStatus READ ekosLiveStatus NOTIFY ekosLiveStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
@@ -249,6 +250,15 @@ class Manager : public QDialog, public Ui::Manager
         }
 
         /**
+         * DBUS interface function.
+         * @return Settle status (0 Idle, 1 Pending, 2 Started, 3 Error)
+         */
+        Q_SCRIPTABLE CommunicationStatus settleStatus()
+        {
+            return m_settleStatus;
+        }
+
+        /**
          * DBUS interface function. Toggle Ekos logging.
          * @param name Name of logging to toggle. Available options are:
          * ** VERBOSE
@@ -311,6 +321,7 @@ class Manager : public QDialog, public Ui::Manager
         // Have to use full Ekos::CommunicationStatus for DBus signal to work
         void ekosStatusChanged(Ekos::CommunicationStatus status);
         void indiStatusChanged(Ekos::CommunicationStatus status);
+        void settleStatusChanged(Ekos::CommunicationStatus status);
         void ekosLiveStatusChanged(bool status);
 
         void newLog(const QString &text);
@@ -516,6 +527,9 @@ class Manager : public QDialog, public Ui::Manager
 
         CommunicationStatus m_ekosStatus { Ekos::Idle };
         CommunicationStatus m_indiStatus { Ekos::Idle };
+        // Settle is used to know once all properties from all devices have been defined
+        // There is no way to know this for sure so we use a debounace mechanism.
+        CommunicationStatus m_settleStatus { Ekos::Idle };
 
         std::unique_ptr<QStandardItemModel> profileModel;
         QList<std::shared_ptr<ProfileInfo>> profiles;
@@ -533,6 +547,7 @@ class Manager : public QDialog, public Ui::Manager
         QTime overallCountDown;
         QTime sequenceCountDown;
         QTimer countdownTimer;
+        QTimer settleTimer;
         QProgressIndicator *capturePI { nullptr };
         // Preview Frame
         std::unique_ptr<FITSView> summaryPreview;

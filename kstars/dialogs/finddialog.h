@@ -28,6 +28,7 @@ class QStringListModel;
 class QSortFilterProxyModel;
 class SkyObjectListModel;
 class SkyObject;
+class DeepSkyObject;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog
 {
@@ -60,6 +61,21 @@ class FindDialog : public QDialog
      * @note Avoid using selectedObject()
      */
     inline SkyObject *targetObject() { return m_targetObject; }
+
+    // Backend methods
+    /**
+     * @short Do some post processing on the search text to interpret what the user meant
+     * This could include replacing text like "m93" with "m 93"
+     */
+    static QString processSearchText(QString searchText);
+
+    // FIXME: Move this method to a better place, maybe into the NameResolver
+    /**
+     * @short Resolves an object using the internet and adds it to the database
+     * @note Can only be called when KStars is fully initialized
+     * @return a pointer to the DeepSkyObject (instance managed by internetResolvedComponent) if successful, nullptr otherwise
+     */
+    static DeepSkyObject *resolveAndAdd(const QString &query);
 
   public slots:
     /**
@@ -115,11 +131,11 @@ class FindDialog : public QDialog
     explicit FindDialog(QWidget *parent = nullptr);
 
     static FindDialog *m_Instance;
+
     /**
-     * @short Do some post processing on the search text to interpret what the user meant
-     * This could include replacing text like "m93" with "m 93"
+     * @short processSearchText(QString) called on the text entered in the find dialog
      */
-    QString processSearchText();
+    inline QString processSearchText() { return processSearchText(ui->SearchBox->text()); }
 
     /** @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve() */
     void finishProcessing(SkyObject *selObj = nullptr, bool resolve = true);

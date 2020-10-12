@@ -1287,6 +1287,12 @@ void Message::processDialogResponse(const QJsonObject &payload)
 
 void Message::processNewProperty(INDI::Property *prop)
 {
+    // Do not send new properties until all properties settle down
+    // then send any properties that appears afterwards since the initial bunch
+    // would cause a heavy message congestion.
+    if (m_Manager->settleStatus() != Ekos::CommunicationStatus::Success)
+        return;
+
     QJsonObject propObject;
     ISD::propertyToJson(prop, propObject, false);
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_ADD]}, {"payload", propObject}}).toJson(

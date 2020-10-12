@@ -357,30 +357,32 @@ void FindDialog::enqueueSearch()
 }
 
 // Process the search box text to replace equivalent names like "m93" with "m 93"
-QString FindDialog::processSearchText()
+QString FindDialog::processSearchText(QString searchText)
 {
     QRegExp re;
-    QString searchtext = ui->SearchBox->text();
-
     re.setCaseSensitivity(Qt::CaseInsensitive);
+
+    // Remove multiple spaces and replace them by a single space
+    re.setPattern("  +");
+    searchText.replace(re, " ");
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
-    if (searchtext.contains(re))
+    if (searchText.contains(re))
     {
         re.setPattern("\\s*(\\d+)");
-        searchtext.replace(re, " \\1");
+        searchText.replace(re, " \\1");
         re.setPattern("\\s*$");
-        searchtext.remove(re);
+        searchText.remove(re);
         re.setPattern("^\\s*");
-        searchtext.remove(re);
+        searchText.remove(re);
     }
 
     // TODO after KDE 4.1 release:
     // If it is a IAU standard three letter abbreviation for a constellation, then go to that constellation
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
 
-    return searchtext;
+    return searchText;
 }
 
 void FindDialog::slotOk()
@@ -400,20 +402,25 @@ void FindDialog::slotResolve()
     finishProcessing(nullptr, true);
 }
 
+DeepSkyObject *FindDialog::resolveAndAdd(const QString &query)
+{
+    CatalogEntryData cedata = NameResolver::resolveName(query);
+    DeepSkyObject *dso = nullptr;
+
+    if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
+    {
+        dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject(cedata);
+        if (dso)
+            qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
+    }
+    return dso;
+}
+
 void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 {
     if (!selObj && resolve)
     {
-        CatalogEntryData cedata = NameResolver::resolveName(processSearchText());
-        DeepSkyObject *dso = nullptr;
-
-        if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
-        {
-            dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject(cedata);
-            if (dso)
-                qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
-            selObj = dso;
-        }
+        selObj = resolveAndAdd(processSearchText());
     }
     m_targetObject = selObj;
     if (selObj == nullptr)

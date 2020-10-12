@@ -3,6 +3,7 @@
   <interface name="org.kde.kstars.Ekos">
     <property name="indiStatus" type="u" access="read"/>
     <property name="ekosStatus" type="u" access="read"/>
+    <property name="settleStatus" type="u" access="read"/>
     <property name="ekosLiveStatus" type="b" access="read"/>
     <property name="logText" type="as" access="read"/>
     <method name="connectDevices">
@@ -46,6 +47,11 @@
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
     </signal>
     <signal name="ekosStatusChanged">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
+    <signal name="settleStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
