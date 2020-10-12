@@ -372,34 +372,32 @@ void FindDialog::enqueueSearch()
 }
 
 // Process the search box text to replace equivalent names like "m93" with "m 93"
-QString FindDialog::processSearchText()
+QString FindDialog::processSearchText(QString searchText)
 {
     QRegExp re;
-    QString searchtext = ui->SearchBox->text();
-
     re.setCaseSensitivity(Qt::CaseInsensitive);
 
     // Remove multiple spaces and replace them by a single space
     re.setPattern("  +");
-    searchtext.replace(re, " ");
+    searchText.replace(re, " ");
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
-    if (searchtext.contains(re))
+    if (searchText.contains(re))
     {
         re.setPattern("\\s*(\\d+)");
-        searchtext.replace(re, " \\1");
+        searchText.replace(re, " \\1");
         re.setPattern("\\s*$");
-        searchtext.remove(re);
+        searchText.remove(re);
         re.setPattern("^\\s*");
-        searchtext.remove(re);
+        searchText.remove(re);
     }
 
     // TODO after KDE 4.1 release:
     // If it is a IAU standard three letter abbreviation for a constellation, then go to that constellation
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
 
-    return searchtext;
+    return searchText;
 }
 
 void FindDialog::slotOk()
@@ -419,28 +417,33 @@ void FindDialog::slotResolve()
     finishProcessing(nullptr, true);
 }
 
+CatalogObject *FindDialog::resolveAndAdd(CatalogsDB::DBManager &db_manager, const QString &query)
+{
+    CatalogObject *dso = nullptr;
+    const auto &cedata = NameResolver::resolveName(query);
+
+    if (cedata.first)
+    {
+        db_manager.add_object(CatalogsDB::user_catalog_id, cedata.second);
+        const auto &added_object =
+            db_manager.get_object(cedata.second.getId(), CatalogsDB::user_catalog_id);
+
+        if (added_object.first)
+        {
+            dso = &KStarsData::Instance()
+                  ->skyComposite()
+                  ->catalogsComponent()
+                  ->insertStaticObject(added_object.second);
+        }
+    }
+    return dso;
+}
+
 void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 {
     if (!selObj && resolve)
     {
-        const auto &cedata = NameResolver::resolveName(processSearchText());
-
-        if (cedata.first)
-        {
-            m_manager.add_object(CatalogsDB::user_catalog_id, cedata.second);
-            const auto &added_object =
-                m_manager.get_object(cedata.second.getId(), CatalogsDB::user_catalog_id);
-
-            if (added_object.first)
-            {
-                CatalogObject *dso = &KStarsData::Instance()
-                                          ->skyComposite()
-                                          ->catalogsComponent()
-                                          ->insertStaticObject(added_object.second);
-
-                selObj = dso;
-            }
-        }
+        selObj = resolveAndAdd(m_manager, processSearchText());
     }
     m_targetObject = selObj;
     if (selObj == nullptr)
