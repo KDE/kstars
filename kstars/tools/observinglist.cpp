@@ -861,7 +861,7 @@ void ObservingList::slotOpenList()
             return;
         }
         saveCurrentList(); //See if the current list needs to be saved before opening the new one
-        ui->tabWidget->setCurrentIndex(1);
+        ui->tabWidget->setCurrentIndex(1); // FIXME: This is not robust -- asimha
         slotChangeTab(1);
 
         sessionList().clear();
@@ -878,8 +878,18 @@ void ObservingList::slotOpenList()
         logObject.readBegin(input);
         //Set the New TimeHash
         TimeHash = logObject.timeHash();
-        geo      = logObject.geoLocation();
-        dt       = logObject.dateTime();
+        GeoLocation *geo_new = logObject.geoLocation();
+        if (!geo_new)
+        {
+            // FIXME: This is a very hackish solution -- if we
+            // encounter an invalid XML file, we know we won't read a
+            // GeoLocation successfully. It does not detect partially
+            // corrupt files. -- asimha
+            KSNotification::sorry(i18n("The specified file is invalid. We expect an XML file based on the OpenAstronomyLog schema."));
+            f.close();
+            return;
+        }
+        dt = logObject.dateTime();
         //foreach (SkyObject *o, *(logObject.targetList()))
         for (auto &o : logObject.targetList())
             slotAddObject(o.data(), true);
