@@ -239,6 +239,9 @@ class ObservingList : public QDialog
             */
     void slotFind();
 
+    /** @short Batch add from a list of objects */
+    void slotBatchAdd();
+
     /** @short Tasks needed when changing the selected object
             *Save the user log of the previous selected object,
             *find the new selected object in the obsList, and

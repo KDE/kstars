@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>605</height>
+    <width>777</width>
+    <height>641</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0">
@@ -31,7 +31,7 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="topLayout">
        <property name="spacing">
         <number>3</number>
@@ -350,6 +350,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="batchAddButton">
+           <property name="text">
+            <string>Batch add</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_5">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -524,7 +531,7 @@
            </layout>
           </widget>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="objectInfoLayout">
            <property name="spacing">
             <number>3</number>
