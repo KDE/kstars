@@ -781,10 +781,10 @@ void ObservingList::slotBatchAdd()
 {
     bool accepted = false;
     QString items = QInputDialog::getMultiLineText(this,
-                                   sessionView ? i18n("Batch add to observing session") : i18n("Batch add to observing wishlist"),
-                                   i18n("Specify a list of objects with one object on each line to add. The names must be understood to KStars, or if the internet resolver is enabled in settings, to the CDS Sesame resolver. Objects that are internet resolved will be added to the database."),
-                                   QString(),
-                                   &accepted);
+                    sessionView ? i18n("Batch add to observing session") : i18n("Batch add to observing wishlist"),
+                    i18n("Specify a list of objects with one object on each line to add. The names must be understood to KStars, or if the internet resolver is enabled in settings, to the CDS Sesame resolver. Objects that are internet resolved will be added to the database."),
+                    QString(),
+                    &accepted);
     bool resolve = Options::resolveNamesOnline();
 
     if (accepted && !items.isEmpty())
@@ -794,20 +794,27 @@ void ObservingList::slotBatchAdd()
         for (QString objectName : objectNames)
         {
             objectName = FindDialog::processSearchText(objectName);
+            if (objectName.isEmpty())
+                continue;
             SkyObject *object = KStarsData::Instance()->objectNamed(objectName);
             if (!object && resolve)
             {
                 object = FindDialog::resolveAndAdd(objectName);
             }
-            if (!object) {
+            if (!object)
+            {
                 failedObjects.append(objectName);
-            } else {
+            }
+            else
+            {
                 slotAddObject(object, sessionView);
             }
         }
 
-        if (!failedObjects.isEmpty()) {
-            QMessageBox msgBox = {
+        if (!failedObjects.isEmpty())
+        {
+            QMessageBox msgBox =
+            {
                 QMessageBox::Icon::Warning,
                 i18np("Batch add: %1 object not found", "Batch add: %1 objects not found", failedObjects.size()),
                 i18np("%1 object could not be found in the database or resolved, and hence could not be added. See the details for more.",
@@ -1088,7 +1095,10 @@ void ObservingList::slotLoadWishList()
 
     while (!istream.atEnd())
     {
-        line = istream.readLine();
+        line = FindDialog::processSearchText(istream.readLine());
+        if (line.isEmpty())
+            continue;
+
         //If the object is named "star", add it by coordinates
         SkyObject *o;
         /*if ( line.startsWith( QLatin1String( "star" ) ) ) {
