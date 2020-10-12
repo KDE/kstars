@@ -781,10 +781,10 @@ void ObservingList::slotBatchAdd()
 {
     bool accepted = false;
     QString items = QInputDialog::getMultiLineText(this,
-                                   sessionView ? i18n("Batch add to observing session") : i18n("Batch add to observing wishlist"),
-                                   i18n("Specify a list of objects with one object on each line to add. The names must be understood to KStars, or if the internet resolver is enabled in settings, to the CDS Sesame resolver. Objects that are internet resolved will be added to the database."),
-                                   QString(),
-                                   &accepted);
+                    sessionView ? i18n("Batch add to observing session") : i18n("Batch add to observing wishlist"),
+                    i18n("Specify a list of objects with one object on each line to add. The names must be understood to KStars, or if the internet resolver is enabled in settings, to the CDS Sesame resolver. Objects that are internet resolved will be added to the database."),
+                    QString(),
+                    &accepted);
     bool resolve = Options::resolveNamesOnline();
 
     if (accepted && !items.isEmpty())
@@ -801,15 +801,20 @@ void ObservingList::slotBatchAdd()
             {
                 object = FindDialog::resolveAndAdd(objectName);
             }
-            if (!object) {
+            if (!object)
+            {
                 failedObjects.append(objectName);
-            } else {
+            }
+            else
+            {
                 slotAddObject(object, sessionView);
             }
         }
 
-        if (!failedObjects.isEmpty()) {
-            QMessageBox msgBox = {
+        if (!failedObjects.isEmpty())
+        {
+            QMessageBox msgBox =
+            {
                 QMessageBox::Icon::Warning,
                 i18np("Batch add: %1 object not found", "Batch add: %1 objects not found", failedObjects.size()),
                 i18np("%1 object could not be found in the database or resolved, and hence could not be added. See the details for more.",
@@ -1057,7 +1062,9 @@ void ObservingList::slotSaveList()
     if (!f.open(QIODevice::WriteOnly))
     {
         qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
-        KMessageBox::error(this, i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.", f.fileName()), i18n("Could not save observing wishlist"));
+        KMessageBox::error(this,
+                           i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.",
+                                f.fileName()), i18n("Could not save observing wishlist"));
         return;
     }
     QTextStream writeemall(&f);
