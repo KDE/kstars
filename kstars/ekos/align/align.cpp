@@ -3276,7 +3276,13 @@ void Align::startSolving()
         m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
     }
 
+    // Kick off timer
+    solverTimer.start();
+    // Start solving process
     m_StellarSolver->start();
+
+    state = ALIGN_PROGRESS;
+    emit newStatus(state);
 
     /**
     QStringList solverArgs;
@@ -3429,7 +3435,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                            QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
                            QString::number(pixscale, 'f', 5)));
 
-    if ( (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.05) && pixscale > 0)
+    // When solving (without Load&Slew), update effective FOV and focal length accordingly.
+    if (loadSlewState == IPS_IDLE &&
+            (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.05) &&
+            pixscale > 0)
     {
         double newFOVW = ccd_width * pixscale / binx / 60.0;
         double newFOVH = ccd_height * pixscale / biny / 60.0;
