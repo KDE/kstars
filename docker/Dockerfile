@@ -92,5 +92,9 @@ RUN apt install -y --no-install-recommends \
       libsaxon-java \
       openjdk-11-jre-headless
 
+# StellarSolver
+RUN apt install -y --no-install-recommends \
+      libstellarsolver-dev
+
 CMD /bin/bash
 
