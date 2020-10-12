@@ -794,6 +794,8 @@ void ObservingList::slotBatchAdd()
         for (QString objectName : objectNames)
         {
             objectName = FindDialog::processSearchText(objectName);
+            if (objectName.isEmpty())
+                continue;
             SkyObject *object = KStarsData::Instance()->objectNamed(objectName);
             if (!object && resolve)
             {
@@ -1086,7 +1088,10 @@ void ObservingList::slotLoadWishList()
 
     while (!istream.atEnd())
     {
-        line = istream.readLine();
+        line = FindDialog::processSearchText(istream.readLine());
+        if (line.isEmpty())
+            continue;
+
         //If the object is named "star", add it by coordinates
         SkyObject *o;
         /*if ( line.startsWith( QLatin1String( "star" ) ) ) {
