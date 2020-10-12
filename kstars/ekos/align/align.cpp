@@ -2936,7 +2936,7 @@ bool Align::captureAndSolve()
         if (remoteParserDevice == nullptr)
         {
             appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
-            stellarSolverOptionsGroup->setChecked(SOLVER_STELLARSOLVER);
+            solverTypeButtonGroup->button(SOLVER_STELLARSOLVER)->setChecked(true);
         }
         else
         {
@@ -3414,7 +3414,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     m_AlignTimer.stop();
-    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice && remoteParser.get())
     {
         // Disable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(false);
@@ -5582,7 +5582,8 @@ void Align::rotatePAH()
 
     //currentTelescope->Slew(&targetPAH);
     // Set Selected Speed
-    currentTelescope->setSlewRate(PAHSlewRateCombo->currentIndex());
+    if (PAHSlewRateCombo->currentIndex() >= 0)
+        currentTelescope->setSlewRate(PAHSlewRateCombo->currentIndex());
     // Go to direction
     currentTelescope->MoveWE(westMeridian ? ISD::Telescope::MOTION_WEST : ISD::Telescope::MOTION_EAST,
                              ISD::Telescope::MOTION_START);
