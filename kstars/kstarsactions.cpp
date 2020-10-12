@@ -402,9 +402,9 @@ void KStars::slotWizard()
     if (wizard->exec() == QDialog::Accepted)
     {
         Options::setRunStartupWizard(false); //don't run on startup next time
-        updateLocationFromWizard(*(wizard->geo()));
+        if (wizard->geo())
+            updateLocationFromWizard(*(wizard->geo()));
     }
-    delete wizard;
 }
 
 void KStars::updateLocationFromWizard(const GeoLocation &geo)
@@ -595,7 +595,8 @@ void KStars::slotSolarSystem()
     m_PlanetViewer->show();
 }
 
-void KStars::slotJMoonTool() {
+void KStars::slotJMoonTool()
+{
     if (!m_JMoonTool)
         m_JMoonTool = new JMoonTool(this);
     m_JMoonTool->show();
@@ -1189,7 +1190,8 @@ void KStars::slotOpenFITS()
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path, "Image (*.fits *.fits.fz *.fit *.fts *.jpg *.jpeg *.png *.gif *.bmp)");
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
+                                    "Image (*.fits *.fits.fz *.fit *.fts *.jpg *.jpeg *.png *.gif *.bmp)");
 
     if (fileURL.isEmpty())
         return;

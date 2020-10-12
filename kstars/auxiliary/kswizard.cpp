@@ -83,14 +83,17 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(wizardStack);
     setLayout(mainLayout);
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
+    buttonBox = new QDialogButtonBox(Qt::Horizontal);
     nextB     = new QPushButton(i18n("&Next >"));
     nextB->setDefault(true);
     backB = new QPushButton(i18n("< &Back"));
     backB->setEnabled(false);
+    completeB = new QPushButton(i18n("Done"));
 
     buttonBox->addButton(backB, QDialogButtonBox::ActionRole);
     buttonBox->addButton(nextB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(completeB, QDialogButtonBox::AcceptRole);
+    completeB->setVisible(false);
 
     mainLayout->addWidget(buttonBox);
 
@@ -175,6 +178,7 @@ void KSWizard::setButtonsEnabled()
 {
     nextB->setEnabled(wizardStack->currentIndex() < wizardStack->count() - 1);
     backB->setEnabled(wizardStack->currentIndex() > 0);
+    completeB->setVisible(wizardStack->currentIndex() == wizardStack->count() - 1);
 
 #ifdef Q_OS_OSX
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(dataDirExists());
