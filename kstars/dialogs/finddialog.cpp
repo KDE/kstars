@@ -364,6 +364,10 @@ QString FindDialog::processSearchText()
 
     re.setCaseSensitivity(Qt::CaseInsensitive);
 
+    // Remove multiple spaces and replace them by a single space
+    re.setPattern("  +");
+    searchText.replace(re, " ");
+
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
     if (searchtext.contains(re))
