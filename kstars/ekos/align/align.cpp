@@ -2933,23 +2933,31 @@ bool Align::captureAndSolve()
     // In case of remote solver, check if we need to update active CCD
     if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
-        // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
-        ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
-        if (activeDevices)
+        if (remoteParserDevice == nullptr)
         {
-            IText *activeCCD = IUFindText(activeDevices, "ACTIVE_CCD");
-            if (QString(activeCCD->text) != CCDCaptureCombo->currentText())
-            {
-                IUSaveText(activeCCD, CCDCaptureCombo->currentText().toLatin1().data());
-
-                remoteParserDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
-            }
+            appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
+            stellarSolverOptionsGroup->setChecked(SOLVER_STELLARSOLVER);
         }
+        else
+        {
+            // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
+            ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+            if (activeDevices)
+            {
+                IText *activeCCD = IUFindText(activeDevices, "ACTIVE_CCD");
+                if (QString(activeCCD->text) != CCDCaptureCombo->currentText())
+                {
+                    IUSaveText(activeCCD, CCDCaptureCombo->currentText().toLatin1().data());
 
-        // Enable remote parse
-        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
-        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs());
-        solverTimer.start();
+                    remoteParserDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                }
+            }
+
+            // Enable remote parse
+            dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
+            dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs());
+            solverTimer.start();
+        }
     }
 
     if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
