@@ -20,6 +20,7 @@
 #include "ksalmanac.h"
 #include "kstarsdatetime.h"
 #include "ui_observinglist.h"
+#include "catalogsdb.h"
 
 #include <QAbstractTableModel>
 #include <QDialog>
@@ -239,6 +240,9 @@ class ObservingList : public QDialog
             */
     void slotFind();
 
+    /** @short Batch add from a list of objects */
+    void slotBatchAdd();
+
     /** @short Tasks needed when changing the selected object
             *Save the user log of the previous selected object,
             *find the new selected object in the obsList, and
@@ -420,4 +424,5 @@ class ObservingList : public QDialog
     QTimer *m_altitudeUpdater { nullptr };
     std::function<QStandardItem *(const SkyPoint &)> m_altCostHelper;
     bool m_initialWishlistLoad { false };
+    CatalogsDB::DBManager m_manager;
 };
