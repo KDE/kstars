@@ -2,7 +2,7 @@
                           observinglist.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 29 Nov 2004
-    copyright            : (C) 2004-2014 by Jeff Woods, Jason Harris,
+    copyright            : (C) 2004-2020 by Jeff Woods, Jason Harris,
                            Prakash Mohan, Akarsh Simha
     email                : jcwoods@bellsouth.net, jharris@30doradus.org,
                            prakash.mohan@kdemail.net, akarsh@kde.org
@@ -42,6 +42,7 @@
 #include "dialogs/locationdialog.h"
 #include "oal/execute.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "tools/altvstime.h"
 #include "tools/eyepiecefield.h"
@@ -74,7 +75,8 @@ ObservingListUI::ObservingListUI(QWidget *p) : QFrame(p)
 // ObservingList
 // ---------------------------------
 ObservingList::ObservingList()
-    : QDialog((QWidget *)KStars::Instance()), LogObject(nullptr), m_CurrentObject(nullptr), isModified(false), m_dl(nullptr)
+    : QDialog((QWidget *)KStars::Instance()), LogObject(nullptr), m_CurrentObject(nullptr), isModified(false), m_dl(nullptr),
+      m_manager{ CatalogsDB::dso_db_path() }
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -149,6 +151,7 @@ ObservingList::ObservingList()
     connect(ui->SaveButton, SIGNAL(clicked()), this, SLOT(slotSaveSession()));
     connect(ui->SaveAsButton, SIGNAL(clicked()), this, SLOT(slotSaveSessionAs()));
     connect(ui->WizardButton, SIGNAL(clicked()), this, SLOT(slotWizard()));
+    connect(ui->batchAddButton, SIGNAL(clicked()), this, SLOT(slotBatchAdd()));
     connect(ui->SetLocation, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(ui->Update, SIGNAL(clicked()), this, SLOT(slotUpdate()));
     connect(ui->DeleteImage, SIGNAL(clicked()), this, SLOT(slotDeleteCurrentImage()));
@@ -776,6 +779,57 @@ void ObservingList::slotFind()
             slotAddObject(o, sessionView);
         }
     }
+}
+
+void ObservingList::slotBatchAdd()
+{
+    bool accepted = false;
+    QString items = QInputDialog::getMultiLineText(this,
+                    sessionView ? i18n("Batch add to observing session") : i18n("Batch add to observing wishlist"),
+                    i18n("Specify a list of objects with one object on each line to add. The names must be understood to KStars, or if the internet resolver is enabled in settings, to the CDS Sesame resolver. Objects that are internet resolved will be added to the database."),
+                    QString(),
+                    &accepted);
+    bool resolve = Options::resolveNamesOnline();
+
+    if (accepted && !items.isEmpty())
+    {
+        QStringList failedObjects;
+        QStringList objectNames = items.split("\n");
+        for (QString objectName : objectNames)
+        {
+            objectName = FindDialog::processSearchText(objectName);
+            SkyObject *object = KStarsData::Instance()->objectNamed(objectName);
+            if (!object && resolve)
+            {
+                object = FindDialog::resolveAndAdd(m_manager, objectName);
+            }
+            if (!object)
+            {
+                failedObjects.append(objectName);
+            }
+            else
+            {
+                slotAddObject(object, sessionView);
+            }
+        }
+
+        if (!failedObjects.isEmpty())
+        {
+            QMessageBox msgBox =
+            {
+                QMessageBox::Icon::Warning,
+                i18np("Batch add: %1 object not found", "Batch add: %1 objects not found", failedObjects.size()),
+                i18np("%1 object could not be found in the database or resolved, and hence could not be added. See the details for more.",
+                      "%1 objects could not be found in the database or resolved, and hence could not be added. See the details for more.",
+                      failedObjects.size()),
+                QMessageBox::Ok,
+                this
+            };
+            msgBox.setDetailedText(failedObjects.join("\n"));
+            msgBox.exec();
+        }
+    }
+    Q_ASSERT(false); // Not implemented
 }
 
 void ObservingList::slotEyepieceView()
