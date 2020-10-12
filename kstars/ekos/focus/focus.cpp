@@ -1514,7 +1514,9 @@ void Focus::setCaptureComplete()
     // Get handle to the image data
     FITSData *image_data = focusView->getImageData();
 
-    // Emit the tracking (bounding) box view
+    // Emit the whole image
+    emit newImage(focusView);
+    // Emit the tracking (bounding) box view. Used in Summary View
     emit newStarPixmap(focusView->getTrackingBoxPixmap(10));
 
     // If we are not looping; OR

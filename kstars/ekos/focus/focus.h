@@ -409,6 +409,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void suspendGuiding();
         void resumeGuiding();
+        void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
         void settingsUpdated(const QJsonObject &settings);

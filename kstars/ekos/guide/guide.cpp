@@ -1519,6 +1519,7 @@ void Guide::setCaptureComplete()
             break;
     }
 
+    emit newImage(guideView);
     emit newStarPixmap(guideView->getTrackingBoxPixmap(10));
 }
 

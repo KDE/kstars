@@ -3544,7 +3544,7 @@ void Manager::connectModules()
 
         connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView * view)
         {
-            ekosLiveClient.get()->media()->sendPreviewImage(view, QString());
+            ekosLiveClient.get()->media()->sendPreviewImage(view, "+A");
         });
         connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
 
@@ -3562,6 +3562,11 @@ void Manager::connectModules()
     {
         connect(focusProcess.get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendFocusSettings);
+
+        connect(focusProcess.get(), &Ekos::Focus::newImage, [&](FITSView * view)
+        {
+            ekosLiveClient.get()->media()->sendPreviewImage(view, "+F");
+        });
     }
 
     // Guide <--> EkosLive Connections
@@ -3569,6 +3574,11 @@ void Manager::connectModules()
     {
         connect(guideProcess.get(), &Ekos::Guide::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendGuideSettings);
+
+        connect(guideProcess.get(), &Ekos::Guide::newImage, [&](FITSView * view)
+        {
+            ekosLiveClient.get()->media()->sendPreviewImage(view, "+G");
+        });
     }
 
     // Analyze connections.

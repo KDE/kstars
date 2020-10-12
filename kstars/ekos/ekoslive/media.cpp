@@ -193,11 +193,24 @@ void Media::sendImage()
 
 void Media::upload(FITSView * view)
 {
+    QString ext;
+    bool useHighQuality;
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage().scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2);
-    scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
+    if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
+    {
+        useHighQuality = false;
+        ext = "jpg";
+    }
+    else
+    {
+        useHighQuality = true;
+        ext = "png";
+    }
+
+    QImage scaledImage = view->getDisplayImage().scaledToWidth(useHighQuality ? HB_WIDTH : HB_WIDTH / 2);
+    scaledImage.save(&buffer, ext.toLatin1().constData(), useHighQuality ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
     buffer.close();
 
     const FITSData * imageData = view->getImageData();
@@ -209,11 +222,11 @@ void Media::upload(FITSView * view)
     QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
     QString bitDepth = QString::number(imageData->bpp());
 
-    QString uuid;
-    // Only send UUID for non-temporary compressed file or non-tempeorary files
-    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
-            (imageData->isTempFile() == false))
-        uuid = m_UUID;
+    //    QString uuid;
+    //    // Only send UUID for non-temporary compressed file or non-tempeorary files
+    //    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
+    //            (imageData->isTempFile() == false))
+    //        uuid = m_UUID;
 
     QJsonObject metadata =
     {
@@ -221,7 +234,8 @@ void Media::upload(FITSView * view)
         {"size", sizeBytes},
         {"bin", binning},
         {"bpp", bitDepth},
-        {"uuid", uuid},
+        {"uuid", m_UUID},
+        {"ext", ext}
     };
 
     emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));

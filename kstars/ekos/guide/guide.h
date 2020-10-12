@@ -492,6 +492,7 @@ class Guide : public QWidget, public Ui::Guide
         void newLog(const QString &text);
         void newStatus(Ekos::GuideState status);
 
+        void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
 
