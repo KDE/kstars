@@ -193,7 +193,7 @@ void Media::sendImage()
 
 void Media::upload(FITSView * view)
 {
-    QString ext;
+    QString ext = "jpg";
     bool useHighQuality;
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
@@ -201,16 +201,21 @@ void Media::upload(FITSView * view)
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
         useHighQuality = false;
-        ext = "jpg";
+        //ext = "jpg";
     }
     else
     {
         useHighQuality = true;
-        ext = "png";
+        //ext = "png";
     }
 
-    QImage scaledImage = view->getDisplayImage().scaledToWidth(useHighQuality ? HB_WIDTH : HB_WIDTH / 2);
+    QImage scaledImage = view->getDisplayImage().scaledToWidth(useHighQuality ? HB_WIDTH : HB_WIDTH / 2,
+                         useHighQuality ? Qt::SmoothTransformation : Qt::FastTransformation);
     scaledImage.save(&buffer, ext.toLatin1().constData(), useHighQuality ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
+
+    //    QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(useHighQuality ? HB_WIDTH : HB_WIDTH / 2,
+    //                          useHighQuality ? Qt::SmoothTransformation : Qt::FastTransformation);
+    //    scaledImage.save(&buffer, ext.toLatin1().constData(), useHighQuality ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
     buffer.close();
 
     const FITSData * imageData = view->getImageData();
