@@ -1163,20 +1163,23 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
     bool raOK = false, deOK = false, coordOK = false, scaleOK = false;
     QVariant value;
 
+    // Reset all
+    solution.fieldWidth = solution.fieldHeight = solution.pixscale = solution.ra = solution.dec = -1;
+
     // RA
-    if (getRecordValue("OBJECTRA", value))
+    if (getRecordValue("OBJCTRA", value))
     {
         angleValue = dms::fromString(value.toString(), false);
-        solution.ra = angleValue.Hours();
+        solution.ra = angleValue.Degrees();
         raOK = true;
     }
     else if (getRecordValue("RA", value))
     {
-        solution.ra = value.toDouble(&raOK) / 15.0;
+        solution.ra = value.toDouble(&raOK);
     }
 
     // DE
-    if (getRecordValue("OBJECTDEC", value))
+    if (getRecordValue("OBJCTDEC", value))
     {
         angleValue = dms::fromString(value.toString(), true);
         solution.dec = angleValue.Degrees();
@@ -1231,14 +1234,21 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
         // If we have scale, then that's it
         if (scale > 0)
         {
-            solution.fieldWidth = stats.width * scale;
-            solution.fieldHeight = stats.height * scale * pixsize2 / pixsize1;
+            // Arcsecs per pixel
+            solution.pixscale = scale;
+            // Arcmins
+            solution.fieldWidth = (stats.width * scale) / 60.0;
+            // Arcmins, and account for pixel ratio if non-squared.
+            solution.fieldHeight = (stats.height * scale * (pixsize2 / pixsize1)) / 60.0;
         }
         else if (focal_length > 0)
         {
-            solution.fieldWidth = 206264.8062470963552 * stats.width * pixsize1 / 1000.0 / focal_length * binx;
-            solution.fieldHeight = 206264.8062470963552 * stats.height * pixsize2 / 1000.0 / focal_length * biny;
-            solution.pixscale = stats.width / solution.fieldWidth;
+            // Arcmins
+            solution.fieldWidth = ((206264.8062470963552 * stats.width * (pixsize1 / 1000.0)) / (focal_length * binx)) / 60.0;
+            // Arsmins
+            solution.fieldHeight = ((206264.8062470963552 * stats.height * (pixsize2 / 1000.0)) / (focal_length * biny)) / 60.0;
+            // Arcsecs per pixel
+            solution.pixscale = (206264.8062470963552 * (pixsize1 / 1000.0)) / (focal_length * binx);
         }
 
         scaleOK = true;
