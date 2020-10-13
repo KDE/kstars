@@ -5529,17 +5529,15 @@ void Align::rotatePAH()
     // if Manual slewing is selected, don't move the mount
     if (PAHManual->isChecked())
     {
-        appendLogText(i18n("Please rotate your mount about %1deg in RA", m_TargetDiffRA ));
+        appendLogText(i18n("Please rotate your mount about %1 deg in RA", m_TargetDiffRA ));
         return;
     }
-
 
     // m_TargetDiffRA is in degrees
     dms newTelescopeRA = (telescopeCoord.ra() + dms(m_TargetDiffRA)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());
-
 
     //currentTelescope->Slew(&targetPAH);
     // Set Selected Speed
