@@ -253,7 +253,7 @@ QHBoxLayout* FITSTab::setupStretchBar()
     highlightsLabel.reset(new QLabel());
     highlightsVal.reset(new QLabel());
     highlightsSlider.reset(new QSlider(Qt::Horizontal, this));
-    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Hightlights",
+    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Highlights",
                        stretchBarLayout);
 
     // Separator
