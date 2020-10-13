@@ -112,8 +112,15 @@ class FITSData : public QObject
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return bool indicating success or failure.
          */
-        bool loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
-                                size_t fits_buffer_size, bool silent);
+        bool loadFITSFromMemory(const QString &inFilename, void *fits_buffer, size_t fits_buffer_size, bool silent);
+
+        /**
+         * @brief parseSolution Parse the WCS solution information from the header into the given struct.
+         * @param solution Solution structure to fill out.
+         * @return True if parsing successful, false otherwise.
+         */
+        bool parseSolution(FITSImage::Solution &solution) const;
+
         /* Save FITS or JPG/PNG*/
         bool saveImage(const QString &newFilename);
         /* Rescale image lineary from image_buffer, fit to window if desired */

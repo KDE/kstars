@@ -1144,16 +1144,107 @@ bool FITSData::parseHeader()
 
 bool FITSData::getRecordValue(const QString &key, QVariant &value) const
 {
-    for (Record * oneRecord : records)
+    auto result = std::find_if(records.begin(), records.end(), [&key](const Record * oneRecord)
     {
-        if (oneRecord->key == key)
-        {
-            value = oneRecord->value;
-            return true;
-        }
+        return (oneRecord->key == key && oneRecord->value.isValid());
+    });
+
+    if (result != records.end())
+    {
+        value = (*result)->value;
+        return true;
+    }
+    return false;
+}
+
+bool FITSData::parseSolution(FITSImage::Solution &solution) const
+{
+    dms angleValue;
+    bool raOK = false, deOK = false, coordOK = false, scaleOK = false;
+    QVariant value;
+
+    // RA
+    if (getRecordValue("OBJECTRA", value))
+    {
+        angleValue = dms::fromString(value.toString(), false);
+        solution.ra = angleValue.Hours();
+        raOK = true;
+    }
+    else if (getRecordValue("RA", value))
+    {
+        solution.ra = value.toDouble(&raOK) / 15.0;
     }
 
-    return false;
+    // DE
+    if (getRecordValue("OBJECTDEC", value))
+    {
+        angleValue = dms::fromString(value.toString(), true);
+        solution.dec = angleValue.Degrees();
+        deOK = true;
+    }
+    else if (getRecordValue("DEC", value))
+    {
+        solution.dec = value.toDouble(&deOK);
+    }
+
+    coordOK = raOK && deOK;
+
+    // PixScale
+    double scale = -1;
+    if (getRecordValue("SCALE", value))
+    {
+        scale = value.toDouble();
+    }
+
+    double focal_length = -1;
+    if (getRecordValue("FOCALLEN", value))
+    {
+        focal_length = value.toDouble();
+    }
+
+    double pixsize1 = -1, pixsize2 = -1;
+    // Pixel Size 1
+    if (getRecordValue("PIXSIZE1", value))
+    {
+        pixsize1 = value.toDouble();
+    }
+    // Pixel Size 2
+    if (getRecordValue("PIXSIZE2", value))
+    {
+        pixsize2 = value.toDouble();
+    }
+
+    int binx = 1, biny = 1;
+    // Binning X
+    if (getRecordValue("XBINNING", value))
+    {
+        binx = value.toDouble();
+    }
+    // Binning Y
+    if (getRecordValue("YBINNING", value))
+    {
+        biny = value.toDouble();
+    }
+
+    if (pixsize1 > 0 && pixsize2 > 0)
+    {
+        // If we have scale, then that's it
+        if (scale > 0)
+        {
+            solution.fieldWidth = stats.width * scale;
+            solution.fieldHeight = stats.height * scale * pixsize2 / pixsize1;
+        }
+        else if (focal_length > 0)
+        {
+            solution.fieldWidth = 206264.8062470963552 * stats.width * pixsize1 / 1000.0 / focal_length * binx;
+            solution.fieldHeight = 206264.8062470963552 * stats.height * pixsize2 / 1000.0 / focal_length * biny;
+            solution.pixscale = stats.width / solution.fieldWidth;
+        }
+
+        scaleOK = true;
+    }
+
+    return (coordOK || scaleOK);
 }
 
 QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
