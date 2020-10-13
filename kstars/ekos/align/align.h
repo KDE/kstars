@@ -182,7 +182,7 @@ class Align : public QWidget, public Ui::Align
 
         std::unique_ptr<StellarSolver> m_StellarSolver;
         QList<SSolver::Parameters> optionsList;
-        QString fileToSolve;
+        QString m_FileToSolve;
 
 
         /** DBUS interface function.
@@ -630,7 +630,7 @@ class Align : public QWidget, public Ui::Align
         void settingsUpdated(const QJsonObject &settings);
 
     private:
-        bool blindSolve = false;
+        bool m_SolveBlindly = false;
         QString savedOptionsProfiles;
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
@@ -641,6 +641,12 @@ class Align : public QWidget, public Ui::Align
          * @brief calculateEffectiveFocalLength Calculate Focal Length purely form astrometric data.
          */
         void calculateEffectiveFocalLength(double newFOVW);
+
+        /**
+         * @brief calculateAlignTargetDiff Find the difference between aligned vs. target coordinates and update
+         * the GUI accordingly.
+         */
+        void calculateAlignTargetDiff();
 
         /**
              * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
@@ -801,7 +807,9 @@ class Align : public QWidget, public Ui::Align
         /// Coord from Load & Slew
         SkyPoint loadSlewCoord;
         /// Difference between solution and target coordinate
-        double targetDiff { 1e6 };
+        double m_TargetDiffTotal { 1e6 };
+        double m_TargetDiffRA { 1e6 };
+        double m_TargetDiffDE { 1e6 };
 
         /// Progress icon if the solver is running
         std::unique_ptr<QProgressIndicator> pi;

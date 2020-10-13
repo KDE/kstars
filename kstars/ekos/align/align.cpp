@@ -2808,19 +2808,14 @@ bool Align::captureAndSolve()
     m_CaptureTimer.stop();
 
 #ifdef Q_OS_OSX
-    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY)
+    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
+            && Options::solveSextractorType() == SSolver::SEXTRACTOR_BUILTIN)
     {
-        if(!Options::useSextractor())
+        if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
         {
-            if(Options::useDefaultPython())
-            {
-                if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
-                {
-                    KSNotification::error(
-                        i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
-                    return false;
-                }
-            }
+            KSNotification::error(
+                i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline when using the built in Sextractor. These were not detected on your system.  Please install Python and the Astropy package or select a different Sextractor for solving."));
+            return false;
         }
     }
 #endif
@@ -3173,8 +3168,7 @@ void Align::setCaptureComplete()
 
     solverFOV->setImage(alignView->getDisplayImage());
 
-    fileToSolve = blobFileName;
-    blindSolve = false;
+    m_FileToSolve = blobFileName;
     startSolving();
 }
 
@@ -3186,6 +3180,13 @@ void Align::setSolverAction(int mode)
 
 void Align::startSolving()
 {
+    if (m_StellarSolver && m_StellarSolver->isRunning())
+    {
+        if (Options::alignmentLogging())
+            appendLogText(i18n("Solver is in progress, please stand by..."));
+        return;
+    }
+
     //This is needed because they might have directories stored in the config file.
     QStringList indexFileDirs = Options::astrometryIndexFolderList();
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
@@ -3215,7 +3216,7 @@ void Align::startSolving()
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
     if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
     {
-        m_StellarSolver->setProperty("FileToProcess", fileToSolve);
+        m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
 
         if(Options::sextractorIsInternal())
             m_StellarSolver->setProperty("SextractorBinaryPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
@@ -3246,19 +3247,38 @@ void Align::startSolving()
         m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
     }
 
-    //Setting the initial search scale settings
-    if(Options::astrometryUseImageScale() && !blindSolve)
+
+    if (loadSlewState == IPS_BUSY)
     {
-        SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
-        m_StellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
+        FITSImage::Solution solution;
+        data->parseSolution(solution);
+
+        if (solution.pixscale > 0)
+            m_StellarSolver->setSearchScale(solution.pixscale * 0.9, solution.pixscale * 1.1, SSolver::ARCSEC_PER_PIX);
+        else
+            m_StellarSolver->setProperty("UseScale", false);
+
+        if (solution.ra > 0)
+            m_StellarSolver->setSearchPositionInDegrees(solution.ra, solution.dec);
+        else
+            m_StellarSolver->setProperty("UsePostion", false);
     }
     else
-        m_StellarSolver->setProperty("UseScale", false);
-    //Setting the initial search location settings
-    if(Options::astrometryUsePosition()  && !blindSolve)
-        m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
-    else
-        m_StellarSolver->setProperty("UsePostion", false);
+    {
+        //Setting the initial search scale settings
+        if(Options::astrometryUseImageScale())
+        {
+            SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
+            m_StellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
+        }
+        else
+            m_StellarSolver->setProperty("UseScale", false);
+        //Setting the initial search location settings
+        if(Options::astrometryUsePosition())
+            m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
+        else
+            m_StellarSolver->setProperty("UsePostion", false);
+    }
 
     if(Options::alignmentLogging())
     {
@@ -3275,6 +3295,10 @@ void Align::startSolving()
         m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
         m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
     }
+
+    //Unless we decide to load the WCS Coord, let's turn it off.
+    //Be sure to set this to true instead if we want WCS from the solve.
+    m_StellarSolver->setLoadWCS(false);
 
     // Kick off timer
     solverTimer.start();
@@ -3458,27 +3482,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Get horizontal coords
     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    double raDiff = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
-    double deDiff = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
-
-    dms RADiff(fabs(raDiff) / 3600.0), DEDiff(deDiff / 3600.0);
-    QString dRAText = QString("%1%2").arg((raDiff > 0 ? "+" : "-"), RADiff.toHMSString());
-    QString dDEText = DEDiff.toDMSString(true);
-
-    pixScaleOut->setText(QString::number(pixscale, 'f', 2));
-
-    targetDiff = sqrt(raDiff * raDiff + deDiff * deDiff);
-
-    errOut->setText(QString("%1 arcsec. RA:%2 DE:%3").arg(
-                        QString::number(targetDiff, 'f', 0),
-                        QString::number(raDiff, 'f', 0),
-                        QString::number(deDiff, 'f', 0)));
-    if (targetDiff <= static_cast<double>(accuracySpin->value()))
-        errOut->setStyleSheet("color:green");
-    else if (targetDiff < 1.5 * accuracySpin->value())
-        errOut->setStyleSheet("color:yellow");
-    else
-        errOut->setStyleSheet("color:red");
+    // Do not update diff if we are performing load & slew.
+    if (loadSlewState == IPS_IDLE)
+    {
+        pixScaleOut->setText(QString::number(pixscale, 'f', 2));
+        calculateAlignTargetDiff();
+    }
 
     double solverPA = orientation;
     // TODO 2019-11-06 JM: KStars needs to support "upside-down" displays since this is a hack.
@@ -3502,56 +3511,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     SolverRAOut->setText(ra_dms);
     SolverDecOut->setText(dec_dms);
 
-    //This block of code will write the result into the solution table and plot it on the graph.
-    int currentRow = solutionTable->rowCount() - 1;
-    if (loadSlewState == IPS_IDLE)
-    {
-        QTableWidgetItem *dRAReport = new QTableWidgetItem();
-        if (dRAReport)
-        {
-            dRAReport->setText(QString::number(raDiff, 'f', 3) + "\"");
-            dRAReport->setTextAlignment(Qt::AlignHCenter);
-            dRAReport->setFlags(Qt::ItemIsSelectable);
-            solutionTable->setItem(currentRow, 4, dRAReport);
-        }
-
-        QTableWidgetItem *dDECReport = new QTableWidgetItem();
-        if (dDECReport)
-        {
-            dDECReport->setText(QString::number(deDiff, 'f', 3) + "\"");
-            dDECReport->setTextAlignment(Qt::AlignHCenter);
-            dDECReport->setFlags(Qt::ItemIsSelectable);
-            solutionTable->setItem(currentRow, 5, dDECReport);
-        }
-
-        double raPlot  = raDiff;
-        double decPlot = deDiff;
-        alignPlot->graph(0)->addData(raPlot, decPlot);
-
-        QCPItemText *textLabel = new QCPItemText(alignPlot);
-        textLabel->setPositionAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-
-        textLabel->position->setType(QCPItemPosition::ptPlotCoords);
-        textLabel->position->setCoords(raPlot, decPlot);
-        textLabel->setColor(Qt::red);
-        textLabel->setPadding(QMargins(0, 0, 0, 0));
-        textLabel->setBrush(Qt::white);
-        textLabel->setPen(Qt::NoPen);
-        textLabel->setText(' ' + QString::number(solutionTable->rowCount()) + ' ');
-        textLabel->setFont(QFont(font().family(), 8));
-
-        if (!alignPlot->xAxis->range().contains(raDiff))
-        {
-            alignPlot->graph(0)->rescaleKeyAxis(true);
-            alignPlot->yAxis->setScaleRatio(alignPlot->xAxis, 1.0);
-        }
-        if (!alignPlot->yAxis->range().contains(deDiff))
-        {
-            alignPlot->graph(0)->rescaleValueAxis(true);
-            alignPlot->xAxis->setScaleRatio(alignPlot->yAxis, 1.0);
-        }
-        alignPlot->replot();
-    }
 
     if (Options::astrometrySolverWCS())
     {
@@ -3591,7 +3550,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                        telescopeCoord.dec().toDMSString()));
     if (loadSlewState == IPS_IDLE && currentGotoMode == GOTO_SLEW)
     {
-        dms diffDeg(targetDiff / 3600.0);
+        dms diffDeg(m_TargetDiffTotal / 3600.0);
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
     }
 
@@ -3603,11 +3562,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
     std::unique_ptr<QTableWidgetItem> statusReport(new QTableWidgetItem());
-
+    int currentRow = solutionTable->rowCount() - 1;
     if (loadSlewState == IPS_IDLE)
     {
         solutionTable->setCellWidget(currentRow, 3, new QWidget());
-
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
 
@@ -3658,9 +3616,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     {
         {"ra", SolverRAOut->text()},
         {"de", SolverDecOut->text()},
-        {"dRA", dRAText},
-        {"dDE", dDEText},
-        {"targetDiff", targetDiff},
+        {"dRA", m_TargetDiffRA},
+        {"dDE", m_TargetDiffDE},
+        {"targetDiff", m_TargetDiffTotal},
         {"pix", pixscale},
         {"rot", orientation},
         {"fov", FOVOut->text()},
@@ -3681,7 +3639,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             return;
 
         case GOTO_SLEW:
-            if (loadSlewState == IPS_BUSY || targetDiff > static_cast<double>(accuracySpin->value()))
+            if (loadSlewState == IPS_BUSY || m_TargetDiffTotal > static_cast<double>(accuracySpin->value()))
             {
                 if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
                 {
@@ -4375,11 +4333,11 @@ void Align::SlewToTarget()
         // Do we perform a regular sync or use differential slewing?
         if (Options::astrometryDifferentialSlewing())
         {
-            dms raDiff = alignCoord.ra().deltaAngle(targetCoord.ra());
-            dms deDiff = alignCoord.dec().deltaAngle(targetCoord.dec());
+            dms m_TargetDiffRA = alignCoord.ra().deltaAngle(targetCoord.ra());
+            dms m_TargetDiffDE = alignCoord.dec().deltaAngle(targetCoord.dec());
 
-            targetCoord.setRA(targetCoord.ra() - raDiff);
-            targetCoord.setDec(targetCoord.dec() - deDiff);
+            targetCoord.setRA(targetCoord.ra() - m_TargetDiffRA);
+            targetCoord.setDec(targetCoord.dec() - m_TargetDiffDE);
 
             differentialSlewingActivated = true;
 
@@ -4860,19 +4818,14 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
-    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY)
+    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
+            && Options::solveSextractorType() == SSolver::SEXTRACTOR_BUILTIN)
     {
-        if(!Options::useSextractor())
+        if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
         {
-            if(Options::useDefaultPython())
-            {
-                if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
-                {
-                    KSNotification::error(
-                        i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline. These were not detected on your system.  Please go into the Align Options and either click the setup button to install them or uncheck the default button and enter the path to python3 on your system and manually install astropy."));
-                    return false;
-                }
-            }
+            KSNotification::error(
+                i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline when using the built in Sextractor. These were not detected on your system.  Please install Python and the Astropy package or select a different Sextractor for solving."));
+            return false;
         }
     }
 #endif
@@ -4908,8 +4861,7 @@ bool Align::loadAndSlew(QString fileURL)
     pi->startAnimation();
 
     alignView->loadFITS(newFileURL, false);
-    fileToSolve = newFileURL;
-    blindSolve = true;
+    m_FileToSolve = newFileURL;
     connect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     return true;
@@ -5562,28 +5514,28 @@ void Align::stopPAHProcess()
 
 void Align::rotatePAH()
 {
-    double raDiff = PAHRotationSpin->value();
+    double m_TargetDiffRA = PAHRotationSpin->value();
     bool westMeridian = PAHDirectionCombo->currentIndex() == 0;
 
     // West
     if (westMeridian)
-        raDiff *= -1;
+        m_TargetDiffRA *= -1;
     // East
     else
-        raDiff *= 1;
+        m_TargetDiffRA *= 1;
 
     // JM 2018-05-03: Hemispheres shouldn't affect rotation direction in RA
 
     // if Manual slewing is selected, don't move the mount
     if (PAHManual->isChecked())
     {
-        appendLogText(i18n("Please rotate your mount about %1deg in RA", raDiff ));
+        appendLogText(i18n("Please rotate your mount about %1deg in RA", m_TargetDiffRA ));
         return;
     }
 
 
-    // raDiff is in degrees
-    dms newTelescopeRA = (telescopeCoord.ra() + dms(raDiff)).reduce();
+    // m_TargetDiffRA is in degrees
+    dms newTelescopeRA = (telescopeCoord.ra() + dms(m_TargetDiffRA)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());
@@ -6594,5 +6546,76 @@ void Align::setTargetCoords(double ra, double de)
 
     qCDebug(KSTARS_EKOS_ALIGN) << "Target Coordinates updated to RA:" << targetCoord.ra().toHMSString()
                                << "DE:" << targetCoord.dec().toDMSString();
+}
+
+void Align::calculateAlignTargetDiff()
+{
+    double m_TargetDiffRA = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
+    double m_TargetDiffDE = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
+
+    dms RADiff(fabs(m_TargetDiffRA) / 3600.0), DEDiff(m_TargetDiffDE / 3600.0);
+    QString dRAText = QString("%1%2").arg((m_TargetDiffRA > 0 ? "+" : "-"), RADiff.toHMSString());
+    QString dDEText = DEDiff.toDMSString(true);
+
+    m_TargetDiffTotal = sqrt(m_TargetDiffRA * m_TargetDiffRA + m_TargetDiffDE * m_TargetDiffDE);
+
+    errOut->setText(QString("%1 arcsec. RA:%2 DE:%3").arg(
+                        QString::number(m_TargetDiffTotal, 'f', 0),
+                        QString::number(m_TargetDiffRA, 'f', 0),
+                        QString::number(m_TargetDiffDE, 'f', 0)));
+    if (m_TargetDiffTotal <= static_cast<double>(accuracySpin->value()))
+        errOut->setStyleSheet("color:green");
+    else if (m_TargetDiffTotal < 1.5 * accuracySpin->value())
+        errOut->setStyleSheet("color:yellow");
+    else
+        errOut->setStyleSheet("color:red");
+
+    //This block of code will write the result into the solution table and plot it on the graph.
+    int currentRow = solutionTable->rowCount() - 1;
+    QTableWidgetItem *dRAReport = new QTableWidgetItem();
+    if (dRAReport)
+    {
+        dRAReport->setText(QString::number(m_TargetDiffRA, 'f', 3) + "\"");
+        dRAReport->setTextAlignment(Qt::AlignHCenter);
+        dRAReport->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, 4, dRAReport);
+    }
+
+    QTableWidgetItem *dDECReport = new QTableWidgetItem();
+    if (dDECReport)
+    {
+        dDECReport->setText(QString::number(m_TargetDiffDE, 'f', 3) + "\"");
+        dDECReport->setTextAlignment(Qt::AlignHCenter);
+        dDECReport->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, 5, dDECReport);
+    }
+
+    double raPlot  = m_TargetDiffRA;
+    double decPlot = m_TargetDiffDE;
+    alignPlot->graph(0)->addData(raPlot, decPlot);
+
+    QCPItemText *textLabel = new QCPItemText(alignPlot);
+    textLabel->setPositionAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+
+    textLabel->position->setType(QCPItemPosition::ptPlotCoords);
+    textLabel->position->setCoords(raPlot, decPlot);
+    textLabel->setColor(Qt::red);
+    textLabel->setPadding(QMargins(0, 0, 0, 0));
+    textLabel->setBrush(Qt::white);
+    textLabel->setPen(Qt::NoPen);
+    textLabel->setText(' ' + QString::number(solutionTable->rowCount()) + ' ');
+    textLabel->setFont(QFont(font().family(), 8));
+
+    if (!alignPlot->xAxis->range().contains(m_TargetDiffRA))
+    {
+        alignPlot->graph(0)->rescaleKeyAxis(true);
+        alignPlot->yAxis->setScaleRatio(alignPlot->xAxis, 1.0);
+    }
+    if (!alignPlot->yAxis->range().contains(m_TargetDiffDE))
+    {
+        alignPlot->graph(0)->rescaleValueAxis(true);
+        alignPlot->xAxis->setScaleRatio(alignPlot->yAxis, 1.0);
+    }
+    alignPlot->replot();
 }
 }
