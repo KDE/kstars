@@ -649,7 +649,25 @@ void Capture::start()
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
     if (limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
-    prepareJob(first_job);
+
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+        currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_PRIMARY);
+        prepareJob(first_job);
+    });
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+        prepareJob(first_job);
+    });
+
+    if (currentCCD->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
+        KSMessageBox::Instance()->questionYesNo(i18n("Are you imaging with %1 using your primary telescope?",
+                                                currentCCD->getDeviceName()),
+                                                i18n("Telescope Type"), 10, true);
+    else
+        prepareJob(first_job);
 }
 
 /**
@@ -1926,7 +1944,7 @@ IPState Capture::resumeSequence()
         {
             //check delta also when starting a new job!
             isTemperatureDeltaCheckActive = (m_AutoFocusReady && limitFocusDeltaTS->isChecked());
-            
+
             prepareJob(next_job);
 
             //Resume guiding if it was suspended before
