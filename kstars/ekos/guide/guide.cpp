@@ -4076,7 +4076,7 @@ QJsonObject Guide::getSettings() const
     settings.insert("west", westControlCheck->isChecked());
     settings.insert("north", northControlCheck->isChecked());
     settings.insert("south", southControlCheck->isChecked());
-    settings.insert("scope", FOVScopeCombo->currentIndex());
+    settings.insert("scope", qMax(0, FOVScopeCombo->currentIndex()));
     settings.insert("swap", swapCheck->isChecked());
     settings.insert("ra_gain", spinBox_PropGainRA->value());
     settings.insert("de_gain", spinBox_PropGainDEC->value());
@@ -4150,8 +4150,8 @@ void Guide::setSettings(const QJsonObject &settings)
     syncControl("north", northControlCheck);
     syncControl("south", southControlCheck);
     // Scope
-    const int scope = settings["scope"].toInt(FOVScopeCombo->currentIndex() + 1) - 1;
-    if (scope != FOVScopeCombo->currentIndex())
+    const int scope = settings["scope"].toInt(FOVScopeCombo->currentIndex());
+    if (scope >= 0 && scope != FOVScopeCombo->currentIndex())
         FOVScopeCombo->setCurrentIndex(scope);
     // RA Gain
     syncControl("ra_gain", spinBox_PropGainRA);
