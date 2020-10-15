@@ -194,28 +194,23 @@ void Media::sendImage()
 void Media::upload(FITSView * view)
 {
     QString ext = "jpg";
-    bool useHighQuality;
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
+    // For low bandwidth images
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
-        useHighQuality = false;
+        QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
         //ext = "jpg";
     }
+    // For high bandwidth images
     else
     {
-        useHighQuality = true;
+        QImage scaledImage = view->getDisplayImage().scaledToWidth(HB_WIDTH, Qt::SmoothTransformation);
+        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
         //ext = "png";
     }
-
-    QImage scaledImage = view->getDisplayImage().scaledToWidth(useHighQuality ? HB_WIDTH : HB_WIDTH / 2,
-                         useHighQuality ? Qt::SmoothTransformation : Qt::FastTransformation);
-    scaledImage.save(&buffer, ext.toLatin1().constData(), useHighQuality ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
-
-    //    QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(useHighQuality ? HB_WIDTH : HB_WIDTH / 2,
-    //                          useHighQuality ? Qt::SmoothTransformation : Qt::FastTransformation);
-    //    scaledImage.save(&buffer, ext.toLatin1().constData(), useHighQuality ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
     buffer.close();
 
     const FITSData * imageData = view->getImageData();
