@@ -54,8 +54,9 @@ ADD_TEST(NAME TestEkosMount COMMAND test_ekos_mount)
 
 ELSE ()
 
-ADD_EXECUTABLE(test_kstars_ui ${KSTARS_UI_TESTS_SRC})
-TARGET_LINK_LIBRARIES(test_kstars_ui ${TEST_LIBRARIES})
-ADD_TEST(NAME TestKstarsUI COMMAND test_kstars_ui)
+# JM 2010-10-15: Disable this test due to issues in CI
+#ADD_EXECUTABLE(test_kstars_ui ${KSTARS_UI_TESTS_SRC})
+#TARGET_LINK_LIBRARIES(test_kstars_ui ${TEST_LIBRARIES})
+#ADD_TEST(NAME TestKstarsUI COMMAND test_kstars_ui)
 
 ENDIF ()
