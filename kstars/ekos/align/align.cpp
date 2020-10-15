@@ -2494,10 +2494,14 @@ void Align::calculateEffectiveFocalLength(double newFOVW)
         return;
 
     double new_focal_length = ((ccd_width * ccd_hor_pixel / 1000.0) * 206264.8062470963552) / (newFOVW * 60.0);
+    double focal_diff = std::fabs(new_focal_length - focal_length);
 
-    if (std::fabs(new_focal_length - focal_length) > 1)
+    if (focal_diff > 1)
     {
-        focal_length = new_focal_length;
+        if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_PRIMARY)
+            primaryEffectiveFL = new_focal_length;
+        else
+            guideEffectiveFL = new_focal_length;
         appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", focal_length));
     }
 }
@@ -2529,8 +2533,25 @@ void Align::calculateFOV()
     double calculated_fov_y = fov_y;
 
     QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
-    FocalLengthOut->setText(QString("%1").arg(focal_length, 0, 'f', 1));
-    FocalRatioOut->setText(QString("%1").arg(focal_length / aperture, 0, 'f', 1));
+
+    double effectiveFocalLength = FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_PRIMARY ? primaryEffectiveFL :
+                                  guideEffectiveFL;
+
+    FocalLengthOut->setText(QString("%1 (%2)").arg(focal_length, 0, 'f', 1).
+                            arg(effectiveFocalLength > 0 ? effectiveFocalLength : focal_length, 0, 'f', 1));
+    FocalRatioOut->setText(QString("%1 (%2)").arg(focal_length / aperture, 0, 'f', 1).
+                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / aperture : focal_length / aperture, 0, 'f', 1));
+
+    if (effectiveFocalLength > 0)
+    {
+        double focal_diff = std::fabs(effectiveFocalLength  - focal_length);
+        if (focal_diff < 5)
+            FocalLengthOut->setStyleSheet("color:green");
+        else if (focal_diff < 15)
+            FocalLengthOut->setStyleSheet("color:yellow");
+        else
+            FocalLengthOut->setStyleSheet("color:red");
+    }
 
     // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
     // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
@@ -6005,6 +6026,9 @@ void Align::updateTelescopeType(int index)
 {
     if (currentCCD == nullptr)
         return;
+
+    // Reset style sheet.
+    FocalLengthOut->setStyleSheet(QString());
 
     syncSettings();
 

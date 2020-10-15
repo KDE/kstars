@@ -965,6 +965,7 @@ class Align : public QWidget, public Ui::Align
         ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
+        double primaryEffectiveFL = -1, guideEffectiveFL = -1;
         bool m_isRateSynced = false;
         bool domeReady = true;
 
