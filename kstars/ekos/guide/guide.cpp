@@ -3861,29 +3861,8 @@ void Guide::initConnections()
             capture();
     });
 
-    connect(loopB, &QPushButton::clicked, this, [this]()
-    {
-        state = GUIDE_LOOPING;
-        emit newStatus(state);
-
-        if(guiderType == GUIDE_PHD2)
-        {
-            configurePHD2Camera();
-            if(phd2Guider->isCurrentCameraNotInEkos())
-                appendLogText(
-                    i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
-            else if(Options::guideSubframeEnabled())
-            {
-                appendLogText(
-                    i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
-                subFrameCheck->setChecked(false);
-            }
-            phd2Guider->loop();
-            stopB->setEnabled(true);
-        }
-        else
-            capture();
-    });
+    // Framing
+    connect(loopB, &QPushButton::clicked, this, &Guide::loop);
 
     // Stop
     connect(stopB, &QPushButton::clicked, this, &Ekos::Guide::abort);
@@ -4189,4 +4168,27 @@ void Guide::setSettings(const QJsonObject &settings)
     Options::setGPGEnabled(gpg);
 }
 
+void Guide::loop()
+{
+    state = GUIDE_LOOPING;
+    emit newStatus(state);
+
+    if(guiderType == GUIDE_PHD2)
+    {
+        configurePHD2Camera();
+        if(phd2Guider->isCurrentCameraNotInEkos())
+            appendLogText(
+                i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
+        else if(Options::guideSubframeEnabled())
+        {
+            appendLogText(
+                i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
+            subFrameCheck->setChecked(false);
+        }
+        phd2Guider->loop();
+        stopB->setEnabled(true);
+    }
+    else
+        capture();
+}
 }

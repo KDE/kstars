@@ -300,6 +300,11 @@ class Guide : public QWidget, public Ui::Guide
         Q_SCRIPTABLE bool capture();
 
         /** DBUS interface function.
+             * Loop frames specified by the exposure control continuously until stopped.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void loop();
+
+        /** DBUS interface function.
              * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
              * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
              */
