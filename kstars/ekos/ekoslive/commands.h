@@ -121,6 +121,7 @@ enum COMMANDS
     // Guide
     GUIDE_START,
     GUIDE_CAPTURE,
+    GUIDE_LOOP,
     GUIDE_STOP,
     GUIDE_CLEAR,
     GUIDE_REPORT,
@@ -274,6 +275,7 @@ static QMap<COMMANDS, QString> const commands =
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},
+    {GUIDE_LOOP, "guide_loop"},
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
     {GUIDE_REPORT, "guide_report"},

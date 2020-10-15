@@ -628,6 +628,8 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[GUIDE_CAPTURE])
         guide->capture();
+    else if (command == commands[GUIDE_LOOP])
+        guide->loop();
     else if (command == commands[GUIDE_STOP])
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
