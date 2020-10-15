@@ -6480,6 +6480,10 @@ void Align::setSettings(const QJsonObject &settings)
     // Exposure
     syncControl("exp", exposureIN);
 
+    int solverAction = settings["solverAction"].toInt(gotoModeButtonGroup->checkedId());
+    if (solverAction != gotoModeButtonGroup->checkedId())
+        gotoModeButtonGroup->button(solverAction)->setChecked(true);
+
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
     // Gain
