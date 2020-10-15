@@ -3254,7 +3254,9 @@ void Align::startSolving()
         data->parseSolution(solution);
 
         if (solution.pixscale > 0)
-            m_StellarSolver->setSearchScale(solution.pixscale * 0.9, solution.pixscale * 1.1, SSolver::ARCSEC_PER_PIX);
+            m_StellarSolver->setSearchScale(solution.pixscale * 0.8,
+                                            solution.pixscale * 1.2,
+                                            SSolver::ARCSEC_PER_PIX);
         else
             m_StellarSolver->setProperty("UseScale", false);
 
@@ -3269,7 +3271,10 @@ void Align::startSolving()
         if(Options::astrometryUseImageScale())
         {
             SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
-            m_StellarSolver->setSearchScale(Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
+            // Extend search scale from 80% to 120%
+            m_StellarSolver->setSearchScale(Options::astrometryImageScaleLow() * 0.8,
+                                            Options::astrometryImageScaleHigh() * 1.2,
+                                            units);
         }
         else
             m_StellarSolver->setProperty("UseScale", false);
