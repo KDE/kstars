@@ -6425,10 +6425,11 @@ QJsonObject Align::getSettings() const
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
-    //settings.insert("solverType", solverTypeButtonGroup->checkedId());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
     settings.insert("gain", GainSpin->value());
     settings.insert("iso", ISOCombo->currentIndex());
+    settings.insert("accuracy", accuracySpin->value());
+    settings.insert("settle", delaySpin->value());
     settings.insert("dark", alignDarkFrameCheck->isChecked());
 
     return settings;
