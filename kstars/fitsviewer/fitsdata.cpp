@@ -148,7 +148,7 @@ bool FITSData::loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
 {
     loadCommon(inFilename);
     qCDebug(KSTARS_FITS) << "Reading FITS file buffer (" << KFormat().formatByteSize(fits_buffer_size) << ")";
-    return privateLoad(fits_buffer, fits_buffer_size, silent);
+    return privateLoadFITS(fits_buffer, fits_buffer_size, silent);
 }
 
 QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
@@ -156,7 +156,7 @@ QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
     loadCommon(inFilename);
     qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
     QFuture<bool> result = QtConcurrent::run(
-                               this, &FITSData::privateLoad, nullptr, 0, silent);
+                               this, &FITSData::privateLoadFITS, nullptr, 0, silent);
 
     return result;
 }
@@ -178,7 +178,7 @@ bool fitsOpenError(int status, const QString &message, bool silent)
 }
 }
 
-bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent)
+bool FITSData::privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool silent)
 {
     int status = 0, anynull = 0;
     long naxes[3];
@@ -219,7 +219,7 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         // files with [ ] or ( ) in their names.
         if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
         {
-            if(privateLoadOtherFormat(fits_buffer, fits_buffer_size, silent))
+            if(privateLoadImage())
                 return true;
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
@@ -367,7 +367,7 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     return true;
 }
 
-bool FITSData::privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent)
+bool FITSData::privateLoadImage()
 {
     QImageReader fileReader(m_Filename.toLatin1());
 
@@ -388,8 +388,10 @@ bool FITSData::privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size
 
     imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
 
-    int fitsBitPix =
-        8; //Note: This will need to be changed.  I think QT only loads 8 bpp images.  Also the depth method gives the total bits per pixel in the image not just the bits per pixel in each channel.
+    // Note: This will need to be changed.  I think QT only loads 8 bpp images.
+    // Also the depth method gives the total bits per pixel in the image not just the bits per
+    // pixel in each channel.
+    const uint8_t fitsBitPix = 8;
     switch (fitsBitPix)
     {
         case BYTE_IMG:

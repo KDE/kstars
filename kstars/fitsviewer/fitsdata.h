@@ -425,8 +425,20 @@ class FITSData : public QObject
 
     private:
         void loadCommon(const QString &inFilename);
-        bool privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent);
-        bool privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent);
+        /**
+         * @brief privateLoadFITS Load a FITS Image buffer onto memory.
+         * @param fits_buffer pointer to FITS buffer
+         * @param fits_buffer_size size of FITS buffer
+         * @param silent If true, suppress any messages.
+         * @return true if successfully loaded, false otherwise.
+         */
+        bool privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool silent);
+
+        /**
+         * @brief privateLoadImage Load any image format supported by Qt
+         * @return  true if successfully loaded, false otherwise.
+         */
+        bool privateLoadImage();
         void rotWCSFITS(int angle, int mirror);
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();
