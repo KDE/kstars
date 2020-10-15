@@ -626,6 +626,8 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     {
         guide->guide();
     }
+    else if (command == commands[GUIDE_CAPTURE])
+        guide->capture();
     else if (command == commands[GUIDE_STOP])
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
@@ -641,6 +643,8 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
 
     if (command == commands[FOCUS_START])
         focus->start();
+    else if (command == commands[FOCUS_CAPTURE])
+        focus->capture();
     else if (command == commands[FOCUS_STOP])
         focus->abort();
     else if (command == commands[FOCUS_RESET])

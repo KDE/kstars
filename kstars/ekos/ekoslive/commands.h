@@ -104,6 +104,7 @@ enum COMMANDS
 
     // Focus
     FOCUS_START,
+    FOCUS_CAPTURE,
     FOCUS_STOP,
     FOCUS_RESET,
     FOCUS_IN,
@@ -119,6 +120,7 @@ enum COMMANDS
 
     // Guide
     GUIDE_START,
+    GUIDE_CAPTURE,
     GUIDE_STOP,
     GUIDE_CLEAR,
     GUIDE_REPORT,
@@ -256,6 +258,7 @@ static QMap<COMMANDS, QString> const commands =
     {CAP_SET_LIGHT, "cap_set_light"},
 
     {FOCUS_START, "focus_start"},
+    {FOCUS_CAPTURE, "focus_capture"},
     {FOCUS_STOP, "focus_stop"},
     {FOCUS_RESET, "focus_reset"},
     {FOCUS_IN, "focus_in"},
@@ -270,6 +273,7 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
 
     {GUIDE_START, "guide_start"},
+    {GUIDE_CAPTURE, "guide_capture"},
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
     {GUIDE_REPORT, "guide_report"},
