@@ -123,7 +123,15 @@ void RotatorSettings::syncPA(double PA)
                     Options::setShowSensorFOV(true);
                     oneFOV->setProperty("visible", true);
                 }
-                oneFOV->setPA(PA);
+
+                // JM 2020-10-15
+                // While we have the correct Position Angle
+                // Because Ekos reads frame TOP-BOTTOM instead of the BOTTOM-TOP approach
+                // used by astrometry, the PA is always 180 degree off. To avoid confusion to the user
+                // the PA is drawn REVERSED to show the *expected* frame. However, the final PA is
+                // the "correct" PA as expected by astrometry.
+                double drawnPA = PA >= 0 ? (PA - 180) : (PA + 180);
+                oneFOV->setPA(drawnPA);
                 break;
             }
         }

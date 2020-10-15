@@ -280,7 +280,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Rotator Angle</string>
+         <string>Raw Rotator Angle</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -352,7 +352,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Rotator Angle</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position Angle (PA) is defined as degrees E of N. Zero degrees indicate frame &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; points directly toward the celestial pole. 90 degrees indicate frame &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; points 90 degrees counter-clockwise with respect to the celestial pole.&lt;/p&gt;&lt;p&gt;PA is calculated from raw rotator angle plus modifiers to match the rotation angle as measured by astrometry. Enter the modifiers manually or solve an image in the Align Module to generate them automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -369,7 +369,7 @@
       <item row="1" column="1" colspan="2">
        <widget class="QDoubleSpinBox" name="PASpin">
         <property name="toolTip">
-         <string>Position Angle</string>
+         <string>Target Position Angle</string>
         </property>
         <property name="decimals">
          <number>3</number>
