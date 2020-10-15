@@ -4236,7 +4236,7 @@ QJsonObject Focus::getProcessSettings() const
 
     settings.insert("detection", focusDetectionCombo->currentText());
     settings.insert("algorithm", focusAlgorithmCombo->currentText());
-    settings.insert("sep", "NA");
+    settings.insert("sep", focusOptionsProfiles->currentText());
     settings.insert("threshold", thresholdSpin->value());
     settings.insert("tolerance", toleranceIN->value());
     settings.insert("average", focusFramesSpin->value());
@@ -4254,7 +4254,7 @@ void Focus::setProcessSettings(const QJsonObject &settings)
 {
     syncControl(settings, "detection", focusDetectionCombo);
     syncControl(settings, "algorithm", focusAlgorithmCombo);
-    //syncControl(settings, "sep", focusAlgorithmCombo);
+    syncControl(settings, "sep", focusOptionsProfiles);
     syncControl(settings, "threshold", thresholdSpin);
     syncControl(settings, "tolerance", toleranceIN);
     syncControl(settings, "average", focusFramesSpin);
