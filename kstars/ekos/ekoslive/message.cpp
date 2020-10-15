@@ -761,7 +761,10 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     Ekos::Align *align = m_Manager->alignModule();
 
     if (command == commands[ALIGN_SOLVE])
+    {
+        align->syncTargetToMount();
         align->captureAndSolve();
+    }
     else if (command == commands[ALIGN_SET_SETTINGS])
         align->setSettings(payload);
     else if (command == commands[ALIGN_STOP])

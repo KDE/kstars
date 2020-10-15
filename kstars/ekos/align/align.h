@@ -471,6 +471,11 @@ class Align : public QWidget, public Ui::Align
         void solverComplete();
 
         /**
+         * @brief syncTargetToScope set Target Coordinates as the current mount coordinates.
+         */
+        void syncTargetToMount();
+
+        /**
              * @brief Process solver failure.
              */
         void solverFailed();

@@ -137,14 +137,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     connect(solveB, &QPushButton::clicked, [this]()
     {
-        double ra, dec;
-        currentTelescope->getEqCoords(&ra, &dec);
-        targetCoord.setRA(ra);
-        targetCoord.setDec(dec);
-        // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
-        // Function to do that in case of any changes in the future in that function.
-        SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
-        setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+        syncTargetToMount();
         captureAndSolve();
     });
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
@@ -6650,4 +6643,17 @@ void Align::calculateAlignTargetDiff()
     }
     alignPlot->replot();
 }
+
+void Align::syncTargetToMount()
+{
+    double ra, dec;
+    currentTelescope->getEqCoords(&ra, &dec);
+    targetCoord.setRA(ra);
+    targetCoord.setDec(dec);
+    // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
+    // Function to do that in case of any changes in the future in that function.
+    SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
+    setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+}
+
 }
