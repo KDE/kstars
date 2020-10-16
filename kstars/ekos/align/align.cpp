@@ -3194,12 +3194,12 @@ void Align::setSolverAction(int mode)
 
 void Align::startSolving()
 {
-    if (m_StellarSolver && m_StellarSolver->isRunning())
-    {
-        if (Options::alignmentLogging())
-            appendLogText(i18n("Solver is in progress, please stand by..."));
-        return;
-    }
+    //    if (m_StellarSolver && m_StellarSolver->isRunning())
+    //    {
+    //        if (Options::alignmentLogging())
+    //            appendLogText(i18n("Solver is in progress, please stand by..."));
+    //        return;
+    //    }
 
     //This is needed because they might have directories stored in the config file.
     QStringList indexFileDirs = Options::astrometryIndexFolderList();
@@ -3219,6 +3219,18 @@ void Align::startSolving()
 
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     FITSData *data = alignView->getImageData();
+    if (m_StellarSolver)
+    {
+        auto *solver = m_StellarSolver.release();
+        solver->disconnect(this);
+        if (solver->isRunning())
+        {
+            connect(solver, &StellarSolver::finished, solver, &StellarSolver::deleteLater);
+            solver->abort();
+        }
+        else
+            solver->deleteLater();
+    }
     m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer()));
     m_StellarSolver->setProperty("SextractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
