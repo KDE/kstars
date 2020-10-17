@@ -3194,28 +3194,9 @@ void Align::setSolverAction(int mode)
 
 void Align::startSolving()
 {
-    //    if (m_StellarSolver && m_StellarSolver->isRunning())
-    //    {
-    //        if (Options::alignmentLogging())
-    //            appendLogText(i18n("Solver is in progress, please stand by..."));
-    //        return;
-    //    }
-
-    //This is needed because they might have directories stored in the config file.
-    QStringList indexFileDirs = Options::astrometryIndexFolderList();
+    // This is needed because they might have directories stored in the config file.
+    // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    bool updated = false;
-    for(auto &dataDir : astrometryDataDirs)
-    {
-        if(!indexFileDirs.contains(dataDir))
-        {
-            indexFileDirs.append(dataDir);
-            updated = true;
-        }
-    }
-    if(updated)
-        Options::setAstrometryIndexFolderList(indexFileDirs);
-    ///
 
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     FITSData *data = alignView->getImageData();

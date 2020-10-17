@@ -1468,49 +1468,81 @@ QString getAstrometryConfFilePath()
 
 QStringList getAstrometryDataDirs()
 {
-    QStringList dataDirs;
-    QString confPath = KSUtils::getAstrometryConfFilePath();
+    QStringList optionsDataDirs = Options::astrometryIndexFolderList();
 
-    QFile confFile(confPath);
+    bool updated = false;
 
-    if (confFile.open(QIODevice::ReadOnly) == false)
+    // Cleaning up the list of directories in options.
+    for(int dir = 0; dir < optionsDataDirs.count(); dir++)
     {
-        bool confFileExists = false;
-        if(Options::astrometryConfFileIsInternal())
+        QString optionsDataDirName = optionsDataDirs.at(dir);
+        QDir optionsDataDir(optionsDataDirName);
+        if(optionsDataDir.exists())
         {
-            if(KSUtils::configureLocalAstrometryConfIfNecessary())
+            //This will replace directory names that aren't the absolute path
+            if(optionsDataDir.absolutePath() != optionsDataDirName)
             {
-                if (confFile.open(QIODevice::ReadOnly))
-                    confFileExists = true;
+                optionsDataDirs.replace(dir, optionsDataDir.absolutePath());
+                updated = true;
             }
         }
-        if(!confFileExists)
+        else
         {
-            KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                       "configuration file full path in INDI options.",
-                                       confPath));
-            return dataDirs;
+            //This removes directories that do not exist.
+            optionsDataDir.remove(optionsDataDirs.at(dir));
+            dir--;
+            updated = true;
         }
     }
 
-    QTextStream in(&confFile);
-    QString line;
-    while (!in.atEnd())
+    //This will load the conf file if it exists
+    QFile confFile(KSUtils::getAstrometryConfFilePath());
+    if (confFile.open(QIODevice::ReadOnly))
     {
-        line = in.readLine();
-        if (line.isEmpty() || line.startsWith('#'))
-            continue;
+        QStringList confDataDirs;
+        QTextStream in(&confFile);
+        QString line;
 
-        line = line.trimmed();
-        if (line.startsWith(QLatin1String("add_path")))
+        //This will find the index file paths in the conf file
+        while (!in.atEnd())
         {
-            dataDirs << line.mid(9).trimmed();
+            line = in.readLine();
+            if (line.isEmpty() || line.startsWith('#'))
+                continue;
+
+            line = line.trimmed();
+            if (line.startsWith(QLatin1String("add_path")))
+            {
+                confDataDirs << line.mid(9).trimmed();
+            }
+        }
+
+        //This will search through the paths and compare them to the index folder list
+        //It will add them if they aren't in there.
+        for(QString astrometryDataDirName : confDataDirs)
+        {
+            QDir astrometryDataDir(astrometryDataDirName);
+            //This rejects any that do not exist
+            if(!astrometryDataDir.exists())
+                continue;
+            QString astrometryDataDirPath = astrometryDataDir.absolutePath();
+            if( !optionsDataDirs.contains(astrometryDataDirPath ))
+            {
+                optionsDataDirs.append(astrometryDataDirPath);
+                updated = true;
+            }
         }
     }
-    // if(dataDirs.size()==0)
-    //    KSNotification::error(i18n("Unable to find data dir in astrometry configuration file."));
 
-    return dataDirs;
+    //This will remove any duplicate entries.
+    if(optionsDataDirs.removeDuplicates() != 0)
+        updated = true;
+
+    //This updates the list in Options if it changed.
+    if(updated)
+        Options::setAstrometryIndexFolderList(optionsDataDirs);
+
+    return optionsDataDirs;
 }
 
 bool addAstrometryDataDir(QString dataDir)
