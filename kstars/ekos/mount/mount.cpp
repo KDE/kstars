@@ -1240,16 +1240,6 @@ bool Mount::checkMeridianFlip(dms lst)
 
             if (hrsToFlip <= 0)
             {
-                // If Capture's meridian flip status is not FLIP_NONE, then it will ignore the
-                // FLIP_PLANNED message, so best to wait until Capture's ready and in FLIP_NONE state.
-                if (m_CaptureMFStatus != FLIP_NONE && captureInterface != nullptr)
-                {
-                    meridianFlipStatusText->setText("Waiting for Capture");
-                    qCDebug(KSTARS_EKOS_MOUNT) << "Delaying flip until capture is ready. It's current status: "
-                                               << meridianFlipStatusString(m_MFStatus);
-                    break;
-                }
-
                 // signal that a flip can be done
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
                                            lst.toHMSString() <<
@@ -1399,8 +1389,10 @@ bool Mount::executeMeridianFlip()
 void Mount::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
 {
     qCDebug(KSTARS_EKOS_MOUNT) << "Received capture meridianFlipStatusChange " << meridianFlipStatusString(status);
-    m_CaptureMFStatus = status;
-    if (status != FLIP_NONE)
+
+    // only the states FLIP_WAITING and FLIP_ACCEPTED are relevant as answers
+    // to FLIP_PLANNED, all other states are set only internally
+    if (status == FLIP_WAITING || status == FLIP_ACCEPTED)
         meridianFlipStatusChangedInternal(status);
 }
 

@@ -1955,6 +1955,8 @@ IPState Capture::resumeSequence()
                 emit resumeGuiding();
             }
 
+            prepareJob(next_job);
+
             return IPS_OK;
         }
         else
@@ -3604,9 +3606,9 @@ void Capture::setMeridianFlipStage(MFStage stage)
                     meridianFlipStage = stage;
                     emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
                 }
-                else if (!checkMeridianFlipRunning())
+                else if (!(checkMeridianFlipRunning() || meridianFlipStage == MF_COMPLETED))
                 {
-                    // if beither a MF has been requested (checked above) or is in a post
+                    // if neither a MF has been requested (checked above) or is in a post
                     // MF calibration phase, no MF needs to take place.
                     // Hence we set to the stage to NONE
                     meridianFlipStage = MF_NONE;
@@ -3671,23 +3673,21 @@ void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
         case Mount::FLIP_PLANNED:
             if (meridianFlipStage > MF_NONE)
             {
-                // it seems like the meridian flip had been postponed
-                resumeSequence();
-                return;
+                // This should never happen, since a meridian flip seems to be ongoing
+                qCritical(KSTARS_EKOS_CAPTURE) << "Accepting meridian flip request while being in stage " << meridianFlipStage;
+            }
+
+            // If we are autoguiding, we should resume autoguiding after flip
+            resumeGuidingAfterFlip = isGuidingOn();
+
+            if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
+            {
+                setMeridianFlipStage(MF_INITIATED);
+                emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
             }
             else
-            {
-                // If we are autoguiding, we should resume autoguiding after flip
-                resumeGuidingAfterFlip = isGuidingOn();
+                setMeridianFlipStage(MF_REQUESTED);
 
-                if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
-                {
-                    setMeridianFlipStage(MF_INITIATED);
-                    emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
-                }
-                else
-                    setMeridianFlipStage(MF_REQUESTED);
-            }
             break;
 
         case Mount::FLIP_RUNNING:
@@ -4857,7 +4857,7 @@ void Capture::processFlipCompleted()
                           KSNotification::EVENT_INFO);
 
 
-    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
+    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE)
     {
         // reset the meridian flip stage and jump directly MF_NONE, since no
         // restart of guiding etc. necessary
@@ -4873,7 +4873,10 @@ bool Capture::checkGuidingAfterFlip()
         return false;
     // If we're not autoguiding then we're done
     if (resumeGuidingAfterFlip == false)
+    {
+        setMeridianFlipStage(MF_NONE);
         return false;
+    }
 
     // if we are waiting for a calibration, start it
     if (m_State < CAPTURE_CALIBRATING)
@@ -4937,6 +4940,7 @@ bool Capture::checkPausing()
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
         m_State = CAPTURE_PAUSED;
+        emit newStatus(m_State);
         // handle a requested meridian flip
         if (meridianFlipStage != MF_NONE)
             setMeridianFlipStage(MF_READY);

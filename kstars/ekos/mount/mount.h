@@ -447,7 +447,6 @@ class Mount : public QWidget, public Ui::Mount
     private:
         void syncGPS();
         MeridianFlipStatus m_MFStatus = FLIP_NONE;
-        MeridianFlipStatus m_CaptureMFStatus = FLIP_NONE;
         void setMeridianFlipStatus(MeridianFlipStatus status);
         void meridianFlipStatusChangedInternal(MeridianFlipStatus status);
         QString pierSideStateString();
