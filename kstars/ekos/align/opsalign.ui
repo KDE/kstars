@@ -44,7 +44,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Star Extraction Method</string>
+         <string>Source Extraction Method</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -63,12 +63,12 @@
         </item>
         <item>
          <property name="text">
-          <string>External Sextractor</string>
+          <string>External SExtractor</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>BuiltIn Star Extraction</string>
+          <string>BuiltIn method for solver</string>
          </property>
         </item>
        </widget>
@@ -80,7 +80,7 @@
         </property>
         <item>
          <property name="text">
-          <string>StellarSolver</string>
+          <string>Internal Solver</string>
          </property>
         </item>
         <item>

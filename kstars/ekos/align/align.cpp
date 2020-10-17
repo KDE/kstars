@@ -3269,6 +3269,7 @@ void Align::startSolving()
 
     if(type == SSolver::SOLVER_ONLINEASTROMETRY )
     {
+        m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
         m_StellarSolver->setProperty("AstrometryAPIKey", Options::astrometryAPIKey());
         m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
     }
