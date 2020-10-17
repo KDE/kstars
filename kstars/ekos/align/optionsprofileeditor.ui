@@ -557,24 +557,17 @@
       <string>Astrometry Parameters</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="3" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_29">
         <property name="text">
          <string>Maximum time</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_27">
-        <property name="text">
-         <string>Min Degree Width</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+      <item row="4" column="2">
        <widget class="QSpinBox" name="downsample">
         <property name="toolTip">
-         <string>Factor to use for downsampling the image before SEP for plate solving.  Can speed it up.  Note: This should ONLY be used for SEP used for solving, not for Sextraction</string>
+         <string>Factor to use for downsampling the image before SEP for plate solving.  Can speed it up.</string>
         </property>
         <property name="minimum">
          <number>1</number>
@@ -584,24 +577,21 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="resort">
-        <property name="toolTip">
-         <string>Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be true for the filters above</string>
-        </property>
+      <item row="5" column="3">
+       <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Resort</string>
+         <string>Search Radius</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_16">
         <property name="text">
          <string>DownSample</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="2">
        <widget class="QComboBox" name="multiAlgo">
         <property name="toolTip">
          <string>Algorithm for running multiple threads on possibly multiple cores to solve faster</string>
@@ -631,41 +621,7 @@
         </item>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_33">
-        <property name="text">
-         <string>Parallel Algorithm</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="solverTimeLimit">
-        <property name="toolTip">
-         <string>Give up solving after the specified number of seconds of CPU time</string>
-        </property>
-        <property name="text">
-         <string>600</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="minWidth">
-        <property name="toolTip">
-         <string>If no scale estimate is given, this is the limit on the minimum field width in degrees.</string>
-        </property>
-        <property name="text">
-         <string>0.1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_28">
-        <property name="text">
-         <string>Max Degree Width</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
+      <item row="4" column="4">
        <widget class="QLineEdit" name="maxWidth">
         <property name="toolTip">
          <string>If no scale estimate is given, this is the limit on the maximum field width in degrees.</string>
@@ -675,14 +631,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Search Radius</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
+      <item row="5" column="4">
        <widget class="QLineEdit" name="radius">
         <property name="toolTip">
          <string>Only search in indexes within 'radius' of the field center given by RA and DEC</string>
@@ -692,7 +641,71 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1" colspan="3">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="resort">
+        <property name="toolTip">
+         <string>Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be true for the filters above</string>
+        </property>
+        <property name="text">
+         <string>Resort</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QLineEdit" name="minWidth">
+        <property name="toolTip">
+         <string>If no scale estimate is given, this is the limit on the minimum field width in degrees.</string>
+        </property>
+        <property name="text">
+         <string>0.1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>Min Degree Width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_33">
+        <property name="text">
+         <string>Parallel Algorithm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLabel" name="label_28">
+        <property name="text">
+         <string>Max Degree Width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLineEdit" name="solverTimeLimit">
+        <property name="toolTip">
+         <string>Give up solving after the specified number of seconds of CPU time</string>
+        </property>
+        <property name="text">
+         <string>600</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="autoDownsample">
+        <property name="toolTip">
+         <string>Automatically Downsamples the image based on the image size</string>
+        </property>
+        <property name="text">
+         <string>Auto DownSample</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" colspan="2">
        <widget class="QCheckBox" name="inParallel">
         <property name="toolTip">
          <string>Check the indices in parallel by loading them simultaneously into memory? If the indices you are using take less than 2 GB of space, and you have at least as much physical memory as indices, you want this enabled.</string>

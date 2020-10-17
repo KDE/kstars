@@ -169,6 +169,7 @@ SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
     params.solverTimeLimit = solverTimeLimit->text().toInt();
 
     params.resort = resort->isChecked();
+    params.autoDownsample = autoDownsample->isChecked();
     params.downsample = downsample->value();
     params.search_radius = radius->text().toDouble();
 
@@ -204,6 +205,7 @@ void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
 
     //Astrometry Settings
 
+        autoDownsample->setChecked(a.autoDownsample);
         downsample->setValue(a.downsample);
         inParallel->setChecked(a.inParallel);
         multiAlgo->setCurrentIndex(a.multiAlgorithm);
