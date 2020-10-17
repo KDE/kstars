@@ -76,26 +76,39 @@ static const QStringList captureStates = {
     I18N_NOOP("Meridian Flip"), I18N_NOOP("Complete")
 };
 
+/**
+  * @brief Capture states
+  *
+  * They can be divided into several stages:
+  * - No capturing is running (@see CAPTURE_IDLE, @see CAPTURE_COMPLETE or @see CAPTURE_ABORTED)
+  * - A capture sequence job is in preparation (@see CAPTURE_PROGRESS as state and @see CAPTURE_SETTING_TEMPERATURE,
+  *   @see CAPTURE_SETTING_ROTATOR and @see CAPTURE_CHANGING_FILTER as state events signaled to
+  *   @see Capture::updatePrepareState(Ekos::CaptureState))
+  * - Calibration activities to initialize the execution of a sequence job (@see CAPTURE_DITHERING, @see CAPTURE_FOCUSING,
+  *   @see CAPTURE_ALIGNING and @see CAPTURE_CALIBRATING)
+  * - Waiting for start of capturing (@see CAPTURE_PAUSE_PLANNED, @see CAPTURE_PAUSED, @see CAPTURE_SUSPENDED and @see CAPTURE_WAITING)
+  * - Capturing (@see CAPTURE_CAPTURING and @see CAPTURE_IMAGE_RECEIVED)
+  */
 typedef enum {
-    CAPTURE_IDLE,
-    CAPTURE_PROGRESS,
-    CAPTURE_CAPTURING,
-    CAPTURE_PAUSE_PLANNED,
-    CAPTURE_PAUSED,
-    CAPTURE_SUSPENDED,
-    CAPTURE_ABORTED,
-    CAPTURE_WAITING,
-    CAPTURE_IMAGE_RECEIVED,
-    CAPTURE_DITHERING,
-    CAPTURE_FOCUSING,
-    CAPTURE_FILTER_FOCUS,
-    CAPTURE_CHANGING_FILTER,
-    CAPTURE_SETTING_TEMPERATURE,
-    CAPTURE_SETTING_ROTATOR,
-    CAPTURE_ALIGNING,
-    CAPTURE_CALIBRATING,
-    CAPTURE_MERIDIAN_FLIP,
-    CAPTURE_COMPLETE
+    CAPTURE_IDLE,                /*!< no capture job active */
+    CAPTURE_PROGRESS,            /*!< capture job sequence in preparation (temperature, filter, rotator) */
+    CAPTURE_CAPTURING,           /*!< CCD capture running */
+    CAPTURE_PAUSE_PLANNED,       /*!< user has requested to pause the capture sequence */
+    CAPTURE_PAUSED,              /*!< paused capture sequence due to a user request */
+    CAPTURE_SUSPENDED,           /*!< capture stopped since some limits are not met, but may be continued if all limits are met again */
+    CAPTURE_ABORTED,             /*!< capture stopped by the user or aborted due to guiding problems etc. */
+    CAPTURE_WAITING,             /*!< waiting for settling of the mount before start of capturing */
+    CAPTURE_IMAGE_RECEIVED,      /*!< image received from the CDD device */
+    CAPTURE_DITHERING,           /*!< dithering before starting to capture */
+    CAPTURE_FOCUSING,            /*!< focusing before starting to capture */
+    CAPTURE_FILTER_FOCUS,        /*!< not used */
+    CAPTURE_CHANGING_FILTER,     /*!< preparation event changing the filter */
+    CAPTURE_SETTING_TEMPERATURE, /*!< preparation event setting the camera temperature */
+    CAPTURE_SETTING_ROTATOR,     /*!< preparation event setting the camera rotator */
+    CAPTURE_ALIGNING,            /*!< aligning before starting to capture */
+    CAPTURE_CALIBRATING,         /*!< startup of guiding running before starting to capture */
+    CAPTURE_MERIDIAN_FLIP,       /*!< only used as signal that a meridian flip is ongoing */
+    CAPTURE_COMPLETE             /*!< capture job sequence completed successfully */
 } CaptureState;
 
 const QString &getCaptureStatusString(CaptureState state);
