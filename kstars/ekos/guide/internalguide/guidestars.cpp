@@ -346,7 +346,7 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
     if (imageData == nullptr)
         return 0;
 
-    StellarSolver *solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
+    QPointer<StellarSolver> solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
     solver->setParameters(getStarExtractionParameters(num));
 
     //    QEventLoop event;
