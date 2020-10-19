@@ -1027,6 +1027,26 @@ bool Mount::altitudeLimitsEnabled()
     return enableLimitsCheck->isChecked();
 }
 
+double Mount::hourAngleLimit()
+{
+    return maxHaLimit->value();
+}
+
+void Mount::setHourAngleLimit(double limit)
+{
+    maxHaLimit->setValue(limit);
+}
+
+void Mount::setHourAngleLimitEnabled(bool enable)
+{
+    enableHaLimitCheck->setChecked(enable);
+}
+
+bool Mount::hourAngleLimitEnabled()
+{
+    return enableHaLimitCheck->isChecked();
+}
+
 void Mount::setJ2000Enabled(bool enabled)
 {
     m_J2000Check->setProperty("checked", enabled);
@@ -1683,7 +1703,7 @@ void Mount::findTarget()
             SkyObject *o = object->clone();
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 
-	    m_equatorialCheck->setProperty("checked", true);
+            m_equatorialCheck->setProperty("checked", true);
 
             m_targetText->setProperty("text", o->name());
 
@@ -1713,7 +1733,7 @@ bool Mount::raDecToAzAlt(QString qsRA, QString qsDec)
     SkyPoint targetCoord(RA, Dec);
 
     targetCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(),
-	KStarsData::Instance()->geo()->lat());
+                                       KStarsData::Instance()->geo()->lat());
 
     m_targetRAText->setProperty("text", targetCoord.az().toDMSString());
     m_targetDEText->setProperty("text", targetCoord.alt().toDMSString());
@@ -1740,7 +1760,7 @@ bool  Mount::raDecToHaDec(QString qsRA)
     }
 
     m_targetRAText->setProperty("text", QString("%1%2").arg(sgn).arg(HA.toHMSString()));
-    
+
     return true;
 }
 
@@ -1756,7 +1776,7 @@ bool  Mount::azAltToRaDec(QString qsAz, QString qsAlt)
     targetCoord.setAlt(Alt);
 
     targetCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
-	KStars::Instance()->data()->geo()->lat());
+                                       KStars::Instance()->data()->geo()->lat());
 
     m_targetRAText->setProperty("text", targetCoord.ra().toHMSString());
     m_targetDEText->setProperty("text", targetCoord.dec().toDMSString());
@@ -1778,7 +1798,7 @@ bool  Mount::azAltToHaDec(QString qsAz, QString qsAlt)
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
 
     targetCoord.HorizontalToEquatorial(&lst, KStars::Instance()->data()->geo()->lat());
-	
+
     dms HA = (lst - targetCoord.ra() + dms(360.0)).reduce();
 
     QChar sgn('+');
@@ -1791,7 +1811,7 @@ bool  Mount::azAltToHaDec(QString qsAz, QString qsAlt)
     m_targetRAText->setProperty("text", QString("%1%2").arg(sgn).arg(HA.toHMSString()));
     m_targetDEText->setProperty("text", targetCoord.dec().toDMSString());
 
-    
+
     return true;
 }
 
@@ -1976,6 +1996,34 @@ int Mount::slewRate()
 
 //    return scopes;
 //}
+
+bool Mount::autoParkEnabled()
+{
+    return autoParkTimer.isActive();
+}
+
+void Mount::setAutoParkEnabled(bool enable)
+{
+    if (enable)
+        startParkTimer();
+    else
+        stopParkTimer();
+}
+
+void Mount::setAutoParkStartup(QTime startup)
+{
+    startupTimeEdit->setTime(startup);
+}
+
+bool Mount::meridianFlipEnabled()
+{
+    return meridianFlipCheckBox->isChecked();
+}
+
+double Mount::meridianFlipValue()
+{
+    return meridianFlipTimeBox->value();
+}
 
 void Mount::startParkTimer()
 {

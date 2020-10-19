@@ -27,7 +27,7 @@ namespace Ekos
  *@class Mount
  *@short Supports controlling INDI telescope devices including setting/retrieving mount properties, slewing, motion and speed controls, in addition to enforcing altitude limits and parking/unparking.
  *@author Jasem Mutlaq
- *@version 1.3
+ *@version 1.4
  */
 
 class Mount : public QWidget, public Ui::Mount
@@ -39,6 +39,9 @@ class Mount : public QWidget, public Ui::Mount
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
         Q_PROPERTY(QList<double> altitudeLimits READ altitudeLimits WRITE setAltitudeLimits)
         Q_PROPERTY(bool altitudeLimitsEnabled READ altitudeLimitsEnabled WRITE setAltitudeLimitsEnabled)
+        Q_PROPERTY(double hourAngleLimit READ hourAngleLimit WRITE setHourAngleLimit)
+        Q_PROPERTY(bool hourAngleLimitEnabled READ hourAngleLimitEnabled WRITE setHourAngleLimitEnabled)
+        Q_PROPERTY(bool autoParkEnabled READ autoParkEnabled WRITE setAutoParkEnabled)
         Q_PROPERTY(QList<double> equatorialCoords READ equatorialCoords)
         Q_PROPERTY(QList<double> horizontalCoords READ horizontalCoords)
         Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
@@ -135,6 +138,51 @@ class Mount : public QWidget, public Ui::Mount
              * @return True if enabled, false otherwise.
              */
         Q_SCRIPTABLE bool altitudeLimitsEnabled();
+
+        /** DBUS interface function.
+             * Returns the mount hour angle limit.
+             * @return Returns hour angle limit in hours.
+             */
+        Q_SCRIPTABLE double hourAngleLimit();
+
+        /** DBUS interface function.
+             * Sets the mount altitude limits, and whether they are enabled or disabled.
+             * @param limits is a list of double values. 2 values are expected: minAltitude & maxAltitude
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setHourAngleLimit(double limit);
+
+        /** DBUS interface function.
+             * Enable or disable mount hour angle limit. Mount cannot slew and/or track past this
+             * hour angle distance.
+             */
+        Q_SCRIPTABLE void setHourAngleLimitEnabled(bool enable);
+
+        /** DBUS interface function.
+             * Returns whether the mount limits are enabled or disabled.
+             * @return True if enabled, false otherwise.
+             */
+        Q_SCRIPTABLE bool hourAngleLimitEnabled();
+
+        /**
+         * @brief autoParkEnabled Check if auto-park is enabled.
+         * @return True if enabled.
+         */
+        Q_SCRIPTABLE bool autoParkEnabled();
+
+        /**
+         * @brief setAutoParkEnabled Toggle Auto Park
+         * @param enable True to start, false to stop
+         */
+        Q_SCRIPTABLE void setAutoParkEnabled(bool enable);
+
+        /**
+         * @brief setAutoParkStartup Set time when automatic parking is activated.
+         * @param startup Startup time. should not be more than 12 hours away.
+         */
+        Q_SCRIPTABLE void setAutoParkStartup(QTime startup);
+
+        Q_SCRIPTABLE bool meridianFlipEnabled();
+        Q_SCRIPTABLE double meridianFlipValue();
 
         /** DBUS interface function.
              * Slew the mount to the RA/DEC (JNow).
@@ -281,13 +329,13 @@ class Mount : public QWidget, public Ui::Mount
 
         Q_INVOKABLE void findTarget();
 
-	// target coord conversions for displaying
-	Q_INVOKABLE bool raDecToAzAlt(QString qsRA, QString qsDec);
-	Q_INVOKABLE bool raDecToHaDec(QString qsRA);
-	Q_INVOKABLE bool azAltToRaDec(QString qsAz, QString qsAlt);
-	Q_INVOKABLE bool azAltToHaDec(QString qsAz, QString qsAlt);
-	Q_INVOKABLE bool haDecToRaDec(QString qsHA);
-	Q_INVOKABLE bool haDecToAzAlt(QString qsHA, QString qsDec);
+        // target coord conversions for displaying
+        Q_INVOKABLE bool raDecToAzAlt(QString qsRA, QString qsDec);
+        Q_INVOKABLE bool raDecToHaDec(QString qsRA);
+        Q_INVOKABLE bool azAltToRaDec(QString qsAz, QString qsAlt);
+        Q_INVOKABLE bool azAltToHaDec(QString qsAz, QString qsAlt);
+        Q_INVOKABLE bool haDecToRaDec(QString qsHA);
+        Q_INVOKABLE bool haDecToAzAlt(QString qsHA, QString qsDec);
 
         // Center mount in Sky Map
         Q_INVOKABLE void centerMount();
@@ -310,6 +358,11 @@ class Mount : public QWidget, public Ui::Mount
 
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
+
+        QString meridianFlipStatusDescription()
+        {
+            return meridianFlipStatusText->text();
+        }
 
         ///
         /// \brief meridianFlipStatusString
@@ -435,7 +488,7 @@ class Mount : public QWidget, public Ui::Mount
     signals:
         void newLog(const QString &text);
         void newCoords(const QString &ra, const QString &dec, const QString &az,
-                      const QString &alt, int pierSide, const QString &ha);
+                       const QString &alt, int pierSide, const QString &ha);
         void newTarget(const QString &name);
         void newStatus(ISD::Telescope::Status status);
         void newParkStatus(ISD::ParkStatus status);
@@ -484,14 +537,14 @@ class Mount : public QWidget, public Ui::Mount
         QQmlContext *m_Ctxt    = nullptr;
 
         QQuickItem *m_SpeedSlider = nullptr, *m_SpeedLabel = nullptr,
-	    *m_raValue = nullptr, *m_deValue = nullptr, *m_azValue = nullptr,
-	    *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
-	    *m_targetText = nullptr, *m_targetRAText = nullptr,
-	    *m_targetDEText = nullptr, *m_Park = nullptr, *m_Unpark = nullptr,
-	    *m_statusText = nullptr, *m_J2000Check = nullptr,
-	    *m_JNowCheck = nullptr, *m_equatorialCheck = nullptr,
-	    *m_horizontalCheck = nullptr, *m_haEquatorialCheck = nullptr,
-	    *m_leftRightCheck = nullptr, *m_upDownCheck = nullptr;
+                    *m_raValue = nullptr, *m_deValue = nullptr, *m_azValue = nullptr,
+                     *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
+                      *m_targetText = nullptr, *m_targetRAText = nullptr,
+                       *m_targetDEText = nullptr, *m_Park = nullptr, *m_Unpark = nullptr,
+                        *m_statusText = nullptr, *m_J2000Check = nullptr,
+                         *m_JNowCheck = nullptr, *m_equatorialCheck = nullptr,
+                          *m_horizontalCheck = nullptr, *m_haEquatorialCheck = nullptr,
+                           *m_leftRightCheck = nullptr, *m_upDownCheck = nullptr;
 };
 }
 

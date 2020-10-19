@@ -331,10 +331,29 @@ void Message::sendMounts()
         QJsonObject slewRate =
         {
             {"name", oneTelescope->getDeviceName() },
-            {"slewRate", oneTelescope->getSlewRate() }
+            {"slewRate", oneTelescope->getSlewRate() },
+            {"pierSide", oneTelescope->pierSide() },
         };
 
         sendResponse(commands[NEW_MOUNT_STATE], slewRate);
+    }
+
+    if (m_Manager->mountModule())
+    {
+        // Mount module states
+        QJsonObject mountModuleSettings =
+        {
+            {"altitudeLimitsEnabled", m_Manager->mountModule()->altitudeLimitsEnabled()},
+            {"altitudeLimitsMin", m_Manager->mountModule()->altitudeLimits()[0]},
+            {"altitudeLimitsMax", m_Manager->mountModule()->altitudeLimits()[1]},
+            {"haLimitEnabled", m_Manager->mountModule()->hourAngleLimitEnabled()},
+            {"haLimitValue", m_Manager->mountModule()->hourAngleLimit()},
+            {"meridianFlipEnabled", m_Manager->mountModule()->meridianFlipEnabled()},
+            {"meridianFlipValue", m_Manager->mountModule()->meridianFlipValue()},
+            {"autoParkEnabled", m_Manager->mountModule()->autoParkEnabled()},
+        };
+
+        sendResponse(commands[MOUNT_GET_SETTINGS], mountModuleSettings);
     }
 }
 
@@ -723,6 +742,33 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             mount->motionCommand(action, -1, ISD::Telescope::MOTION_EAST);
         else if (direction == "W")
             mount->motionCommand(action, -1, ISD::Telescope::MOTION_WEST);
+    }
+    else if (command == commands[MOUNT_SET_ALTITUDE_LIMITS])
+    {
+        QList<double> limits;
+        limits.append(payload["min"].toDouble(0));
+        limits.append(payload["max"].toDouble(90));
+        mount->setAltitudeLimits(limits);
+        mount->setAltitudeLimitsEnabled(payload["enabled"].toBool());
+    }
+    else if (command == commands[MOUNT_SET_HA_LIMIT])
+    {
+        mount->setHourAngleLimit(payload["value"].toDouble());
+        mount->setHourAngleLimitEnabled(payload["enabled"].toBool());
+    }
+    else if (command == commands[MOUNT_SET_MERIDIAN_FLIP])
+    {
+        // Meridian flip value is in degress. Need to convert to hours.
+        mount->setMeridianFlipValues(payload["enabled"].toBool(),
+                                     payload["value"].toDouble() / 15.0);
+    }
+    else if (command == commands[MOUNT_SET_AUTO_PARK])
+    {
+        const bool enabled = payload["enabled"].toBool();
+        // Only set startup time when enabled.
+        if (enabled)
+            mount->setAutoParkStartup(QTime::fromString(payload["value"].toString()));
+        mount->setAutoParkEnabled(enabled);
     }
 }
 
@@ -1234,7 +1280,8 @@ void Message::sendStates()
         {
             {"status", m_Manager->mountStatus->text()},
             {"target", m_Manager->mountTarget->text()},
-            {"slewRate", m_Manager->mountModule()->slewRate()}
+            {"slewRate", m_Manager->mountModule()->slewRate()},
+            {"pierSide", m_Manager->mountModule()->pierSide()}
         };
 
         sendResponse(commands[NEW_MOUNT_STATE], mountState);
@@ -1294,7 +1341,7 @@ void Message::processDialogResponse(const QJsonObject &payload)
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 
-void Message::processNewProperty(INDI::Property *prop)
+void Message::processNewProperty(INDI::Property * prop)
 {
     // Do not send new properties until all properties settle down
     // then send any properties that appears afterwards since the initial bunch
@@ -1320,7 +1367,7 @@ void Message::processDeleteProperty(const QString &device, const QString &name)
         QJsonDocument::Compact));
 }
 
-void Message::processNewNumber(INumberVectorProperty *nvp)
+void Message::processNewNumber(INumberVectorProperty * nvp)
 {
     if (m_PropertySubscriptions.contains(nvp->device))
     {
@@ -1335,7 +1382,7 @@ void Message::processNewNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Message::processNewText(ITextVectorProperty *tvp)
+void Message::processNewText(ITextVectorProperty * tvp)
 {
     if (m_PropertySubscriptions.contains(tvp->device))
     {
@@ -1350,7 +1397,7 @@ void Message::processNewText(ITextVectorProperty *tvp)
     }
 }
 
-void Message::processNewSwitch(ISwitchVectorProperty *svp)
+void Message::processNewSwitch(ISwitchVectorProperty * svp)
 {
     if (m_PropertySubscriptions.contains(svp->device))
     {
@@ -1365,7 +1412,7 @@ void Message::processNewSwitch(ISwitchVectorProperty *svp)
     }
 }
 
-void Message::processNewLight(ILightVectorProperty *lvp)
+void Message::processNewLight(ILightVectorProperty * lvp)
 {
     if (m_PropertySubscriptions.contains(lvp->device))
     {

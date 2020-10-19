@@ -2443,12 +2443,23 @@ void Manager::initMount()
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
+    connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, [&](ISD::Telescope::PierSide side)
+    {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
+    });
+    connect(mountProcess.get(), &Ekos::Mount::meridianFlipStatusChanged, [&](Mount::MeridianFlipStatus status)
+    {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
+        {
+            {"meridianFlipStatus", status},
+            {"meridianFlipText", mountProcess.get()->meridianFlipStatusDescription()},
+        }));
+    });
     connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate)
     {
         QJsonObject status = { { "slewRate", slewRate} };
         ekosLiveClient.get()->message()->updateMountStatus(status);
-    }
-           );
+    });
 
     for (auto &device : findDevices(KSTARS_AUXILIARY))
     {

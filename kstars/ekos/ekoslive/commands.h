@@ -90,6 +90,12 @@ enum COMMANDS
     MOUNT_SET_MOTION,
     MOUNT_SET_TRACKING,
     MOUNT_SET_SLEW_RATE,
+    MOUNT_SET_ALTITUDE_LIMITS,
+    MOUNT_SET_HA_LIMIT,
+    MOUNT_SET_MERIDIAN_FLIP,
+    MOUNT_SET_AUTO_PARK,
+    MOUNT_CLEAR,
+    MOUNT_GET_SETTINGS,
 
     // Dome
     DOME_PARK,
@@ -248,6 +254,12 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_MOTION, "mount_set_motion"},
     {MOUNT_SET_TRACKING, "mount_set_tracking"},
     {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"},
+    {MOUNT_SET_ALTITUDE_LIMITS, "mount_set_altitude_limits"},
+    {MOUNT_SET_HA_LIMIT, "mount_set_ha_limit"},
+    {MOUNT_SET_MERIDIAN_FLIP, "mount_set_meridian_flip"},
+    {MOUNT_SET_AUTO_PARK, "mount_set_auto_park"},
+    {MOUNT_CLEAR, "mount_clear"},
+    {MOUNT_GET_SETTINGS, "mount_get_settings"},
 
     {DOME_PARK, "dome_park"},
     {DOME_UNPARK, "dome_unpark"},
