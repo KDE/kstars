@@ -650,22 +650,24 @@ void Capture::start()
     if (limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
 
-    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
-    {
-        KSMessageBox::Instance()->disconnect(this);
-        currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_PRIMARY);
-        prepareJob(first_job);
-    });
-    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
-    {
-        KSMessageBox::Instance()->disconnect(this);
-        prepareJob(first_job);
-    });
-
     if (currentCCD->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
+    {
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_PRIMARY);
+            prepareJob(first_job);
+        });
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            prepareJob(first_job);
+        });
+
         KSMessageBox::Instance()->questionYesNo(i18n("Are you imaging with %1 using your primary telescope?",
                                                 currentCCD->getDeviceName()),
                                                 i18n("Telescope Type"), 10, true);
+    }
     else
         prepareJob(first_job);
 }
@@ -5542,16 +5544,6 @@ IPState Capture::checkLightFrameScopeCoverOpen()
             // we need to manually uncover them.
             if (m_TelescopeCoveredDarkExposure || m_TelescopeCoveredFlatExposure)
             {
-                // Uncover telescope
-                // N.B. This operation cannot be autonomous
-                //        if (KMessageBox::warningContinueCancel(
-                //                    nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Telescope Covered"),
-                //                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                //                    "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-                //        {
-                //            return IPS_ALERT;
-                //        }
-
                 // If we already asked for confirmation and waiting for it
                 // let us see if the confirmation is fulfilled
                 // otherwise we return.
@@ -5564,7 +5556,6 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                 // Continue
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredDarkExposure = false;
                     m_TelescopeCoveredFlatExposure = false;
@@ -5572,7 +5563,7 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                 });
 
                 // Cancel
-                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
                     KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
@@ -5658,24 +5649,8 @@ IPState Capture::checkDarkFramePendingTasks()
         if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
             return IPS_BUSY;
 
-        //        // This action cannot be autonomous
-        //        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
-        //                                       i18n("Dark Exposure")) == KMessageBox::Yes)
-        //        {
-        //            hasNoShutter = false;
-        //            shutterfulCCDs.append(deviceName);
-        //            Options::setShutterfulCCDs(shutterfulCCDs);
-        //        }
-        //        else
-        //        {
-        //            hasNoShutter = true;
-        //            shutterlessCCDs.append(deviceName);
-        //            Options::setShutterlessCCDs(shutterlessCCDs);
-        //        }
-
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
         {
-            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
             KSMessageBox::Instance()->disconnect(this);
             QStringList shutterfulCCDs  = Options::shutterfulCCDs();
             QString deviceName = currentCCD->getDeviceName();
@@ -5683,9 +5658,8 @@ IPState Capture::checkDarkFramePendingTasks()
             Options::setShutterfulCCDs(shutterfulCCDs);
             calibrationCheckType = CAL_CHECK_TASK;
         });
-        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
         {
-            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
             KSMessageBox::Instance()->disconnect(this);
             QStringList shutterlessCCDs = Options::shutterlessCCDs();
             QString deviceName = currentCCD->getDeviceName();
@@ -5715,9 +5689,8 @@ IPState Capture::checkDarkFramePendingTasks()
                     return IPS_BUSY;
 
                 // Continue
-                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredDarkExposure = true;
                     m_TelescopeCoveredFlatExposure = false;
@@ -5725,22 +5698,12 @@ IPState Capture::checkDarkFramePendingTasks()
                 });
 
                 // Cancel
-                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
                     abort();
                 });
-
-                //            if (KMessageBox::warningContinueCancel(
-                //                        nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
-                //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                //                        "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-                //            {
-                //                abort();
-                //                return IPS_ALERT;
-                //            }
 
                 calibrationCheckType = CAL_CHECK_CONFIRMATION;
 
@@ -5856,22 +5819,12 @@ IPState Capture::checkFlatFramePendingTasks()
             {
                 if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
                     return IPS_BUSY;
-                // This action cannot be autonomous
-                //            if (KMessageBox::warningContinueCancel(
-                //                        nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
-                //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                //                        "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-                //            {
-                //                abort();
-                //                return IPS_ALERT;
-                //            }
-                //            m_TelescopeCoveredFlatExposure = true;
-                //            m_TelescopeCoveredDarkExposure = false;
+
+                calibrationCheckType = CAL_CHECK_CONFIRMATION;
 
                 // Continue
-                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredFlatExposure = true;
                     m_TelescopeCoveredDarkExposure = false;
@@ -5879,17 +5832,14 @@ IPState Capture::checkFlatFramePendingTasks()
                 });
 
                 // Cancel
-                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
                     abort();
                 });
 
-                calibrationCheckType = CAL_CHECK_CONFIRMATION;
-
-                KSMessageBox::Instance()->warningContinueCancel(i18n("Cover telescope with evenly illuminated light source."),
+                KSMessageBox::Instance()->warningContinueCancel(i18n("Cover telescope with an evenly illuminated light source."),
                         i18n("Flat Frame"),
                         Options::manualCoverTimeout());
 
