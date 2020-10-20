@@ -27,31 +27,31 @@
 #include <QElapsedTimer>
 #include <QtConcurrent>
 
-void FITSBahtinovDetector::configure(const QString &setting, const QVariant &value)
-{
-    if (!setting.compare("NUMBER_OF_AVERAGE_ROWS", Qt::CaseInsensitive))
-    {
-        if (value.canConvert <int> ())
-        {
-            NUMBER_OF_AVERAGE_ROWS = value.value <int> ();
+//void FITSBahtinovDetector::configure(const QString &setting, const QVariant &value)
+//{
+//    if (!setting.compare("NUMBER_OF_AVERAGE_ROWS", Qt::CaseInsensitive))
+//    {
+//        if (value.canConvert <int> ())
+//        {
+//            NUMBER_OF_AVERAGE_ROWS = value.value <int> ();
 
-            // Validate number of average rows value
-            if (NUMBER_OF_AVERAGE_ROWS % 2 == 0)
-            {
-                NUMBER_OF_AVERAGE_ROWS--;
-                qCInfo(KSTARS_FITS) << "Warning, number of rows must be an odd number, correcting number of rows to "
-                                    << NUMBER_OF_AVERAGE_ROWS;
-            }
-            // Rows must be a positive number!
-            if (NUMBER_OF_AVERAGE_ROWS < 1)
-            {
-                NUMBER_OF_AVERAGE_ROWS = 1;
-                qCInfo(KSTARS_FITS) << "Warning, number of rows must be positive correcting number of rows to "
-                                    << NUMBER_OF_AVERAGE_ROWS;
-            }
-        }
-    }
-}
+//            // Validate number of average rows value
+//            if (NUMBER_OF_AVERAGE_ROWS % 2 == 0)
+//            {
+//                NUMBER_OF_AVERAGE_ROWS--;
+//                qCInfo(KSTARS_FITS) << "Warning, number of rows must be an odd number, correcting number of rows to "
+//                                    << NUMBER_OF_AVERAGE_ROWS;
+//            }
+//            // Rows must be a positive number!
+//            if (NUMBER_OF_AVERAGE_ROWS < 1)
+//            {
+//                NUMBER_OF_AVERAGE_ROWS = 1;
+//                qCInfo(KSTARS_FITS) << "Warning, number of rows must be positive correcting number of rows to "
+//                                    << NUMBER_OF_AVERAGE_ROWS;
+//            }
+//        }
+//    }
+//}
 
 QFuture<bool> FITSBahtinovDetector::findSources(QRect const &boundary)
 {
@@ -308,6 +308,21 @@ BahtinovLineAverage FITSBahtinovDetector::calculateMaxAverage(const FITSData *da
     auto * rotBuffer = reinterpret_cast<T *>(rotimage);
 
     //    printf("Angle;%d;Width;%d;Height;%d;Rows;%d;;RowSum;", angle, width, height, NUMBER_OF_AVERAGE_ROWS);
+
+    int NUMBER_OF_AVERAGE_ROWS = getValue("NUMBER_OF_AVERAGE_ROWS", 1).toInt();
+    if (NUMBER_OF_AVERAGE_ROWS % 2 == 0)
+    {
+        NUMBER_OF_AVERAGE_ROWS--;
+        qCWarning(KSTARS_FITS) << "Warning, number of rows must be an odd number, correcting number of rows to "
+                               << NUMBER_OF_AVERAGE_ROWS;
+    }
+    // Rows must be a positive number!
+    if (NUMBER_OF_AVERAGE_ROWS < 1)
+    {
+        NUMBER_OF_AVERAGE_ROWS = 1;
+        qCWarning(KSTARS_FITS) << "Warning, number of rows must be positive correcting number of rows to "
+                               << NUMBER_OF_AVERAGE_ROWS;
+    }
 
     for (int y = 0; y < height; y++)
     {

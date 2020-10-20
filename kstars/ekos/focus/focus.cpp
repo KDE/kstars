@@ -1247,6 +1247,10 @@ void Focus::calculateHFR()
 
 void Focus::analyzeSources()
 {
+    QVariantMap extractionSettings;
+    extractionSettings["maxStarsCount"] = 50;
+    extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
+    focusView->getImageData()->setSourceExtractorSettings(extractionSettings);
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
     // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
     // a bounding box for them to be effective in near real-time application.

@@ -24,20 +24,20 @@
 #include "fitscentroiddetector.h"
 #include "fits_debug.h"
 
-void FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
-{
-    if (!setting.compare("MINIMUM_STDVAR", Qt::CaseInsensitive))
-        if (value.canConvert <int> ())
-            MINIMUM_STDVAR = value.value <int> ();
+//void FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
+//{
+//    if (!setting.compare("MINIMUM_STDVAR", Qt::CaseInsensitive))
+//        if (value.canConvert <int> ())
+//            MINIMUM_STDVAR = value.value <int> ();
 
-    if (!setting.compare("MINIMUM_PIXEL_RANGE", Qt::CaseInsensitive))
-        if (value.canConvert <int> ())
-            MINIMUM_PIXEL_RANGE = value.value <int> ();
+//    if (!setting.compare("MINIMUM_PIXEL_RANGE", Qt::CaseInsensitive))
+//        if (value.canConvert <int> ())
+//            MINIMUM_PIXEL_RANGE = value.value <int> ();
 
-    if (!setting.compare("JMINDEX", Qt::CaseInsensitive))
-        if (value.canConvert <double> ())
-            JMINDEX = value.value <double> ();
-}
+//    if (!setting.compare("JMINDEX", Qt::CaseInsensitive))
+//        if (value.canConvert <double> ())
+//            JMINDEX = value.value <double> ();
+//}
 
 bool FITSCentroidDetector::checkCollision(Edge * s1, Edge * s2) const
 {
@@ -97,8 +97,9 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
     FITSImage::Statistic const &stats = image_data->getStatistics();
     FITSMode const m_Mode = static_cast<FITSMode>(image_data->property("mode").toInt());
 
-    int initStdDev = MINIMUM_STDVAR;
-    int minEdgeWidth = MINIMUM_PIXEL_RANGE;
+    int MINIMUM_STDVAR, initStdDev = getValue("MINIMUM_STDVAR", 5).toInt();
+    int minEdgeWidth = getValue("MINIMUM_PIXEL_RANGE", 5).toInt();
+    double JMIndex = getValue("JMINDEX", 100.0).toDouble();
 
     double threshold = 0, sum = 0, avg = 0, min = 0;
     int starDiameter     = 0;
@@ -106,8 +107,6 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
     auto * buffer = reinterpret_cast<T const *>(image_data->getImageBuffer());
-
-    double JMIndex = JMINDEX;
 
     float dispersion_ratio = 1.5;
 

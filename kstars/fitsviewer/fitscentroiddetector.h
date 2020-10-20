@@ -40,17 +40,17 @@ class FITSCentroidDetector: public FITSStarDetector
          * @see FITSStarDetector::configure().
          * @see Detection parameters.
          */
-        void configure(const QString &setting, const QVariant &value) override;
+        //void configure(const QString &setting, const QVariant &value) override;
 
     protected:
         /** @group Detection parameters. Use the names as strings for FITSStarDetector::configure().
          * @{ */
         /** @brief Initial variation, decreasing as search progresses. Configurable. */
-        int MINIMUM_STDVAR { 5 };
+        //int MINIMUM_STDVAR { 5 };
         /** @brief Initial source width, decreasing as search progresses. Configurable. */
-        int MINIMUM_PIXEL_RANGE { 5 };
+        //int MINIMUM_PIXEL_RANGE { 5 };
         /** @brief Custom image contrast index from the frame histogram. Configurable. */
-        double JMINDEX { 100 };
+        //double JMINDEX { 100 };
         /** @brief Initial source count over which search stops. */
         int MINIMUM_EDGE_LIMIT { 2 };
         /** @brief Maximum source count over which search aborts. */

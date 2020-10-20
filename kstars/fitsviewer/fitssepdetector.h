@@ -38,13 +38,6 @@ class FITSSEPDetector : public FITSStarDetector
          */
         bool findSourcesAndBackground(QRect const &boundary = QRect());
 
-        /** @brief Configure the detection method.
-         * @see FITSStarDetector::configure().
-         * @note No parameters are currently available for configuration.
-         * @todo Provide parameters for detection configuration.
-         */
-        void configure(const QString &setting, const QVariant &value) override;
-
     protected:
         /** @internal Consolidate a float data buffer from FITS data.
          * @param buffer is the destination float block.
@@ -58,10 +51,10 @@ class FITSSEPDetector : public FITSStarDetector
 
         void clearSolver();
 
-        int numStars = 100;
-        double fractionRemoved = 0.2;
-        int deblendNThresh = 32;
-        double deblendMincont = 0.005;
-        bool radiusIsBoundary = true;
+        //        int numStars = 100;
+        //        double fractionRemoved = 0.2;
+        //        int deblendNThresh = 32;
+        //        double deblendMincont = 0.005;
+        //        bool radiusIsBoundary = true;
 };
 

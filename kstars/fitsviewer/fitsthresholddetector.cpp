@@ -24,12 +24,12 @@
 #include "fits_debug.h"
 #include "fitsthresholddetector.h"
 
-void FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
-{
-    if (!setting.compare("THRESHOLD_PERCENTAGE", Qt::CaseInsensitive))
-        if (value.canConvert<int>())
-            THRESHOLD_PERCENTAGE = value.value<int>();
-}
+//void FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
+//{
+//    if (!setting.compare("THRESHOLD_PERCENTAGE", Qt::CaseInsensitive))
+//        if (value.canConvert<int>())
+//            THRESHOLD_PERCENTAGE = value.value<int>();
+//}
 
 QFuture<bool> FITSThresholdDetector::findSources(QRect const &boundary)
 {
@@ -78,6 +78,7 @@ bool FITSThresholdDetector::findOneStar(const QRect &boundary) const
 
     auto * buffer = reinterpret_cast<T const *>(image_data->getImageBuffer());
 
+    double THRESHOLD_PERCENTAGE = getValue("THRESHOLD_PERCENTAGE", 120.0).toDouble();
     // TODO replace magic number with something more useful to understand
     double threshold = stats.mean[0] * THRESHOLD_PERCENTAGE / 100.0;
 

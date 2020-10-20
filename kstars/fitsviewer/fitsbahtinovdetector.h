@@ -52,12 +52,12 @@ class FITSBahtinovDetector: public FITSStarDetector
          * @note Parameter "numaveragerows" defaults to NUMBER_OF_AVERAGE_ROWS of the mean pixel value of the frame.
          * @todo Provide parameters for detection configuration.
          */
-        void configure(const QString &setting, const QVariant &value) override;
+        //void configure(const QString &setting, const QVariant &value) override;
 
     public:
         /** @group Detection parameters.
          * @{ */
-        int NUMBER_OF_AVERAGE_ROWS { 1 };
+        //int NUMBER_OF_AVERAGE_ROWS { 1 };
         /** @} */
 
     protected:

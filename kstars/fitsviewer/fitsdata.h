@@ -282,6 +282,14 @@ class FITSData : public QObject
         {
             return m_SkyBackground;
         }
+        const QVariantMap &getSourceExtractorSettings() const
+        {
+            return m_SourceExtractorSettings;
+        }
+        void setSourceExtractorSettings(const QVariantMap &settings)
+        {
+            m_SourceExtractorSettings = settings;
+        }
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
@@ -555,6 +563,9 @@ class FITSData : public QObject
 
         // Sky Background
         SkyBackground m_SkyBackground;
+
+        // Detector Settings
+        QVariantMap m_SourceExtractorSettings;
 
         /// Remove temporary files after closing
         bool autoRemoveTemporaryFITS { true };

@@ -34,21 +34,21 @@
 #include <QPointer>
 #include <QtConcurrent>
 
-void FITSSEPDetector::configure(const QString &param, const QVariant &value)
-{
-    if (param == "numStars")
-        numStars = value.toInt();
-    else if (param == "fractionRemoved")
-        fractionRemoved = value.toDouble();
-    else if (param == "deblendNThresh")
-        deblendNThresh = value.toInt();
-    else if (param == "deblendMincont")
-        deblendMincont = value.toDouble();
-    else if (param == "radiusIsBoundary")
-        radiusIsBoundary = value.toBool();
-    else
-        qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
-}
+//void FITSSEPDetector::configure(const QString &param, const QVariant &value)
+//{
+//    if (param == "numStars")
+//        numStars = value.toInt();
+//    else if (param == "fractionRemoved")
+//        fractionRemoved = value.toDouble();
+//    else if (param == "deblendNThresh")
+//        deblendNThresh = value.toInt();
+//    else if (param == "deblendMincont")
+//        deblendMincont = value.toDouble();
+//    else if (param == "radiusIsBoundary")
+//        radiusIsBoundary = value.toBool();
+//    else
+//        qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
+//}
 
 // TODO: (hy 4/11/2020)
 // The api into these star detection methods should be generalized so that various parameters
@@ -70,22 +70,26 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 #ifdef HAVE_STELLARSOLVER
     //Note this is the part I added.  It is just an initial attempt to get it working
     //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
-    constexpr int maxNumCenters = 50;
+    //constexpr int maxNumCenters = 50;
     QPointer<StellarSolver> solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer());
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                                    QString("SavedOptionsProfiles.ini");
     QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    if(optionsList.count() > static_cast<int>(Options::focusOptionsProfile()))
-        solver->setParameters(optionsList.at(Options::focusOptionsProfile()));
+
+    int maxStarsCount = getValue("maxStarsCount", 1000).toInt();
+    int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
+    if (optionsProfileIndex >= 0)
+    {
+        solver->setParameters(optionsList[optionsProfileIndex]);
+        qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList[optionsProfileIndex].listName;
+    }
     else
         solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
-
-    qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
     //connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
-    if(Options::focusLogging())
-        solver->setSSLogLevel(SSolver::LOG_NORMAL);
-    else
-        solver->setSSLogLevel(SSolver::LOG_OFF);
+    //    if(Options::focusLogging())
+    //        solver->setSSLogLevel(SSolver::LOG_NORMAL);
+    //    else
+    //        solver->setSSLogLevel(SSolver::LOG_OFF);
 
     // Wait synchronously
 
@@ -140,7 +144,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
     std::vector<std::pair<int, double>> ovals;
-    const int maxNumCenters = numStars;
+    int maxNumCenters = getValue("maxStars", 50).toInt();
 
     // We may skip 20% of the stars (those with the largest 20% HFRs) as those are suspect
     // to be non-stars) if we have plenty of detections.
@@ -152,7 +156,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         y = boundary.y();
         w = boundary.width();
         h = boundary.height();
-        if (radiusIsBoundary)
+        if (getValue("radiusIsBoundary", true).toBool())
             maxRadius = w;
     }
 
@@ -224,11 +228,14 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     // #4 Source Extraction
     status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV,
-                         deblendNThresh, deblendMincont, 1, 1.0, &catalog);
+                         getValue("deblendNThresh", 32).toInt(),
+                         getValue("deblendMincont", 0.005).toDouble(),
+                         1, 1.0, &catalog);
     if (status != 0) goto exit;
     qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
     skyBG.setStarsDetected(catalog->nobj);
 
+    double fractionRemoved = getValue("fractionRemoved", 0.2).toDouble();
     // Skip the 20% largest stars if we have plenty.
     if (catalog->nobj * (1 - fractionRemoved) > maxNumCenters)
         startIndex = catalog->nobj * fractionRemoved;
@@ -270,7 +277,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     // Take only the first maxNumCenters stars
     {
-        int starCount = qMin(maxNumCenters, edges.count());
+        int starCount = qMin(maxStarsCount, edges.count());
         for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
 

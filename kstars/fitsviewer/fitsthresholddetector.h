@@ -40,12 +40,12 @@ class FITSThresholdDetector: public FITSStarDetector
          * @note Parameter "threshold" defaults to THRESHOLD_PERCENTAGE of the mean pixel value of the frame.
          * @todo Provide parameters for detection configuration.
          */
-        void configure(const QString &setting, const QVariant &value) override;
+        //void configure(const QString &setting, const QVariant &value) override;
 
     public:
         /** @group Detection parameters.
          * @{ */
-        int THRESHOLD_PERCENTAGE { 120 };
+        //int THRESHOLD_PERCENTAGE { 120 };
         /** @} */
 
     protected:
