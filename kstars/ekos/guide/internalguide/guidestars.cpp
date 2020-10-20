@@ -338,42 +338,22 @@ SSolver::Parameters GuideStars::getStarExtractionParameters(int num)
 }
 
 // This is the interface to star detection.
-int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num)
+int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> &sepStars, int num)
 {
-    qDeleteAll(*sepStars);
-    sepStars->clear();
+    qDeleteAll(sepStars);
+    sepStars.clear();
 
     if (imageData == nullptr)
         return 0;
 
-    QPointer<StellarSolver> solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
-    solver->setParameters(getStarExtractionParameters(num));
+    imageData->findStars(ALGORITHM_SEP).waitForFinished();
 
-    //    QEventLoop event;
-    //    QObject::connect(solver, SIGNAL(ready()), &event, SLOT(quit()), Qt::QueuedConnection);
-    solver->extract(true);
-    //event.exec();
-    if(!solver->sextractionDone() || solver->failed())
-        return 0;
-    auto bg = solver->getBackground();
-    skyBackground.mean = bg.global;
-    skyBackground.sigma = bg.globalrms;
-    skyBackground.numPixelsInSkyEstimate = bg.bw * bg.bh;
+    //    auto bg = solver->getBackground();
+    //    skyBackground.mean = bg.global;
+    //    skyBackground.sigma = bg.globalrms;
+    //    skyBackground.numPixelsInSkyEstimate = bg.bw * bg.bh;
 
-    QList<FITSImage::Star> stars = solver->getStarList();
-    QList<Edge *> edges;
-
-    for (int index = 0; index < stars.count(); index++)
-    {
-        FITSImage::Star star = stars.at(index);
-        auto * center = new Edge();
-        center->x = star.x;
-        center->y = star.y;
-        center->val = star.peak;
-        center->sum = star.flux;
-        center->HFR = star.HFR;
-        edges.append(center);
-    }
+    QList<Edge *> edges = imageData->getStarCenters();
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
 
@@ -381,20 +361,20 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
     {
         int starCount = qMin(num, edges.count());
         for (int i = 0; i < starCount; i++)
-            sepStars->append(edges[i]);
+            sepStars.append(edges[i]);
     }
 
     edges.clear();
     qCDebug(KSTARS_EKOS_GUIDE) << QString("  #      X      Y    Flux    Width   HFR");
-    for (int i = 0; i < sepStars->count(); i++)
+    for (int i = 0; i < sepStars.count(); i++)
         qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6")
                                    .arg(i, 3)
-                                   .arg(sepStars->at(i)->x, 6, 'f', 1)
-                                   .arg(sepStars->at(i)->y, 6, 'f', 1)
-                                   .arg(sepStars->at(i)->sum, 6, 'f', 1)
-                                   .arg(sepStars->at(i)->width, 5, 'f', 3)
-                                   .arg(sepStars->at(i)->HFR, 5, 'f', 3);
-    return sepStars->count();
+                                   .arg(sepStars.at(i)->x, 6, 'f', 1)
+                                   .arg(sepStars.at(i)->y, 6, 'f', 1)
+                                   .arg(sepStars.at(i)->sum, 6, 'f', 1)
+                                   .arg(sepStars.at(i)->width, 5, 'f', 3)
+                                   .arg(sepStars.at(i)->HFR, 5, 'f', 3);
+    return sepStars.count();
 }
 
 double GuideStars::findMinDistance(int index, const QList<Edge*> &stars)
@@ -433,7 +413,7 @@ void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
     QTime timer;
     timer.restart();
     QList<Edge*> sepStars;
-    int count = findAllSEPStars(imageData, &sepStars, num * 2);
+    int count = findAllSEPStars(imageData, sepStars, num * 2);
     if (count == 0)
         return;
 

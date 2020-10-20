@@ -1446,9 +1446,9 @@ bool InternalGuider::selectAutoStar()
     if (starCenters.empty())
     {
         if (Options::guideAlgorithm() == SEP_THRESHOLD)
-            imageData->findStars(ALGORITHM_SEP);
+            imageData->findStars(ALGORITHM_SEP).waitForFinished();
         else
-            imageData->findStars();
+            imageData->findStars().waitForFinished();
 
         starCenters = imageData->getStarCenters();
         if (starCenters.empty())

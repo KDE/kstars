@@ -240,7 +240,7 @@ template <typename T> void FITSHistogram::constructHistogram()
                     id = 0;
                 frequency[n][id] += sampleBy;
             }
-         }));
+        }));
     }
 
     for (QFuture<void> future : futures)
@@ -700,7 +700,7 @@ void FITSHistogramCommand::redo()
         histogram->constructHistogram();
 
         if (tab->getViewer()->isStarsMarked())
-            imageData->findStars();
+            imageData->findStars().waitForFinished();
     }
 
     image->pushFilter(type);
@@ -752,7 +752,7 @@ void FITSHistogramCommand::undo()
         histogram->constructHistogram();
 
         if (tab->getViewer()->isStarsMarked())
-            imageData->findStars();
+            imageData->findStars().waitForFinished();
     }
 
     image->popFilter();

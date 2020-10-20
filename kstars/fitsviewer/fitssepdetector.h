@@ -17,10 +17,7 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSSEPDETECTOR_H
-#define FITSSEPDETECTOR_H
-
-#include <QObject>
+#pragma once
 
 #include "fitsstardetector.h"
 
@@ -63,7 +60,6 @@ class FITSSEPDetector : public FITSStarDetector
     public:
         explicit FITSSEPDetector(FITSData *parent): FITSStarDetector(parent) {};
 
-    public:
         /** @brief Find sources in the parent FITS data file.
          * @see FITSStarDetector::findSources().
          */
@@ -89,6 +85,10 @@ class FITSSEPDetector : public FITSStarDetector
         template <typename T>
         void getFloatBuffer(float * buffer, int x, int y, int w, int h, FITSData const * image_data) const;
 
+    private:
+
+        void clearSolver();
+
         int numStars = 100;
         double fractionRemoved = 0.2;
         int deblendNThresh = 32;
@@ -96,4 +96,3 @@ class FITSSEPDetector : public FITSStarDetector
         bool radiusIsBoundary = true;
 };
 
-#endif // FITSSEPDETECTOR_H

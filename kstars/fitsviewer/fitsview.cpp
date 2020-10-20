@@ -1572,7 +1572,7 @@ void FITSView::viewStarProfile()
         // FIXME, the following does not work anymore.
         //imageData->findStars(&trackingBox, true);
         // FIXME replacing it with this
-        imageData->findStars(ALGORITHM_CENTROID, trackingBox);
+        imageData->findStars(ALGORITHM_CENTROID, trackingBox).waitForFinished();
         starCenters = imageData->getStarCentersInSubFrame(trackingBox);
     }
 

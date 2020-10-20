@@ -276,7 +276,7 @@ class FITSData : public QObject
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
-        int findSEPStars(QList<Edge*> &, const QRect &boundary = QRect()) const;
+        //int findSEPStars(QList<Edge*> &, const QRect &boundary = QRect()) const;
 
         // Apply ring filter to searched stars
         int filterStars(const float innerRadius, const float outerRadius);

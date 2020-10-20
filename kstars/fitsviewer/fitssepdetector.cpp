@@ -18,6 +18,13 @@
  ***************************************************************************/
 
 #include "config-kstars.h"
+
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#else
+#include "sep/sep.h"
+#endif
+
 #include "fits_debug.h"
 #include "fitssepdetector.h"
 #include "Options.h"
@@ -26,12 +33,6 @@
 #include <math.h>
 #include <QPointer>
 #include <QtConcurrent>
-
-#ifdef HAVE_STELLARSOLVER
-#include <stellarsolver.h>
-#else
-#include "sep/sep.h"
-#endif
 
 void FITSSEPDetector::configure(const QString &param, const QVariant &value)
 {
@@ -68,8 +69,8 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
 #ifdef HAVE_STELLARSOLVER
     Q_UNUSED(bg);
     //Note this is the part I added.  It is just an initial attempt to get it working
-    constexpr int maxNumCenters =
-        50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
+    //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
+    constexpr int maxNumCenters = 50;
     QPointer<StellarSolver> solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer());
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                                    QString("SavedOptionsProfiles.ini");
@@ -88,24 +89,21 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
 
     // Wait synchronously
 
+    QEventLoop loop;
+    connect(solver, &StellarSolver::finished, &loop, &QEventLoop::quit);
     QList<FITSImage::Star> stars;
     if (!boundary.isNull())
     {
+
         solver->extract(true, boundary);
-        while (solver->isRunning())
-        {
-            QThread::msleep(100);
-        }
+        loop.exec();
         stars = solver->getStarList();
     }
 
     if (stars.empty())
     {
         solver->extract(true);
-        while (solver->isRunning())
-        {
-            QThread::msleep(100);
-        }
+        loop.exec();
         stars = solver->getStarList();
     }
 
