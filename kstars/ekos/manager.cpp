@@ -2527,6 +2527,11 @@ void Manager::initGuide()
         connect(guideProcess.get(), &Ekos::Guide::newStarPixmap, this, &Ekos::Manager::updateGuideStarPixmap);
         connect(guideProcess.get(), &Ekos::Guide::newProfilePixmap, this, &Ekos::Manager::updateGuideProfilePixmap);
         connect(guideProcess.get(), &Ekos::Guide::newAxisSigma, this, &Ekos::Manager::updateSigmas);
+        connect(guideProcess.get(), &Ekos::Guide::newAxisDelta, [&](double ra, double de)
+        {
+            QJsonObject status = { { "drift_ra", ra}, {"drift_de", de} };
+            ekosLiveClient.get()->message()->updateGuideStatus(status);
+        });
 
         if (Options::ekosLeftIcons())
         {
