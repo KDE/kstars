@@ -1270,8 +1270,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     {
         case ALGORITHM_SEP:
         {
-            //if (m_Mode == FITS_NORMAL && trackingBox.isNull() && Options::quickHFR())
-            if (false)
+            if (m_Mode == FITS_NORMAL && trackingBox.isNull() && Options::quickHFR())
             {
                 // Just finds stars in the center 25% of the image.
                 const int w = getStatistics().width;

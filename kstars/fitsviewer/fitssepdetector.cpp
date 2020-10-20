@@ -60,14 +60,14 @@ void FITSSEPDetector::configure(const QString &param, const QVariant &value)
 
 QFuture<bool> FITSSEPDetector::findSources(QRect const &boundary)
 {
-    return QtConcurrent::run(this, &FITSSEPDetector::findSourcesAndBackground, boundary, nullptr);
+    return QtConcurrent::run(this, &FITSSEPDetector::findSourcesAndBackground, boundary);
 }
 
-bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackground *bg)
+bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 {
     QList<Edge*> starCenters;
+    SkyBackground skyBG;
 #ifdef HAVE_STELLARSOLVER
-    Q_UNUSED(bg);
     //Note this is the part I added.  It is just an initial attempt to get it working
     //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
     constexpr int maxNumCenters = 50;
@@ -109,6 +109,13 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
 
     if (stars.empty())
         return false;
+
+    auto bg = solver->getBackground();
+
+    skyBG.mean = bg.global;
+    skyBG.sigma = bg.globalrms;
+    skyBG.numPixelsInSkyEstimate = bg.bw * bg.bh;
+    image_data->setSkyBackground(skyBG);
 
     QList<Edge *> edges;
 
@@ -209,8 +216,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
     if (status != 0) goto exit;
 
-    if (bg != nullptr)
-        bg->initialize(bkg->global, bkg->globalrms, bkg->bh * bkg->bw);
+    skyBG.initialize(bkg->global, bkg->globalrms, bkg->bh * bkg->bw);
 
     // #3 Background subtraction
     status = sep_bkg_subarray(bkg, im.data, im.dtype);
@@ -221,8 +227,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
                          deblendNThresh, deblendMincont, 1, 1.0, &catalog);
     if (status != 0) goto exit;
     qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
-    if (bg != nullptr)
-        bg->setStarsDetected(catalog->nobj);
+    skyBG.setStarsDetected(catalog->nobj);
 
     // Skip the 20% largest stars if we have plenty.
     if (catalog->nobj * (1 - fractionRemoved) > maxNumCenters)
@@ -285,6 +290,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
                              << starCenters[i]->numPixels << starCenters[i]->HFR;
     image_data->setStarCenters(starCenters);
+    image_data->setSkyBackground(skyBG);
 
 exit:
     delete[] data;

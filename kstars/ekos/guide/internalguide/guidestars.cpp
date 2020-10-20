@@ -347,11 +347,7 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> &sepStars, in
         return 0;
 
     imageData->findStars(ALGORITHM_SEP).waitForFinished();
-
-    //    auto bg = solver->getBackground();
-    //    skyBackground.mean = bg.global;
-    //    skyBackground.sigma = bg.globalrms;
-    //    skyBackground.numPixelsInSkyEstimate = bg.bw * bg.bh;
+    skyBackground = imageData->getSkyBackground();
 
     QList<Edge *> edges = imageData->getStarCenters();
     // Let's sort edges, starting with widest

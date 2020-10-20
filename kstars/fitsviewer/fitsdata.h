@@ -30,6 +30,7 @@
 
 #include "kstarsdatetime.h"
 #include "bayer.h"
+#include "skybackground.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
 
@@ -273,6 +274,14 @@ class FITSData : public QObject
         }
         QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
 
+        void setSkyBackground(const SkyBackground &bg)
+        {
+            m_SkyBackground = bg;
+        }
+        const SkyBackground &getSkyBackground() const
+        {
+            return m_SkyBackground;
+        }
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
@@ -543,6 +552,9 @@ class FITSData : public QObject
 
         // A list of header records
         QList<Record*> records;
+
+        // Sky Background
+        SkyBackground m_SkyBackground;
 
         /// Remove temporary files after closing
         bool autoRemoveTemporaryFITS { true };
