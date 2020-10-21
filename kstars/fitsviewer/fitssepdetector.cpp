@@ -22,6 +22,7 @@
 #ifdef HAVE_STELLARSOLVER
 #include <stellarsolver.h>
 #else
+#include <cstring>
 #include "sep/sep.h"
 #endif
 
@@ -30,7 +31,6 @@
 #include "Options.h"
 #include "kspaths.h"
 
-#include <cstring>
 #include <math.h>
 #include <QPointer>
 #include <QtConcurrent>
@@ -68,6 +68,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 {
     QList<Edge*> starCenters;
     SkyBackground skyBG;
+    int maxStarsCount = getValue("maxStarsCount", 100).toInt();
 #ifdef HAVE_STELLARSOLVER
     //Note this is the part I added.  It is just an initial attempt to get it working
     //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
@@ -76,8 +77,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                                    QString("SavedOptionsProfiles.ini");
     QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-
-    int maxStarsCount = getValue("maxStarsCount", 1000).toInt();
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
     if (optionsProfileIndex >= 0)
     {
@@ -209,30 +208,65 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge *> edges;
 
+    auto cleanup = [ = ]()
+    {
+        delete[] data;
+        sep_bkg_free(bkg);
+        sep_catalog_free(catalog);
+        free(imback);
+        free(flux);
+        free(fluxerr);
+        free(area);
+        free(flag);
+
+        if (status != 0)
+        {
+            char errorMessage[512];
+            sep_get_errmsg(status, errorMessage);
+            qCritical(KSTARS_FITS) << errorMessage;
+        }
+    };
+
     // #0 Create SEP Image structure
     sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
 
     // #1 Background estimate
     status = sep_background(&im, 64, 64, 3, 3, 0.0, &bkg);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
 
     // #2 Background evaluation
     imback = (float *)malloc((w * h) * sizeof(float));
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
 
     skyBG.initialize(bkg->global, bkg->globalrms, bkg->bh * bkg->bw);
 
     // #3 Background subtraction
     status = sep_bkg_subarray(bkg, im.data, im.dtype);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
 
     // #4 Source Extraction
     status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV,
                          getValue("deblendNThresh", 32).toInt(),
                          getValue("deblendMincont", 0.005).toDouble(),
                          1, 1.0, &catalog);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
     qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
     skyBG.setStarsDetected(catalog->nobj);
 
@@ -300,23 +334,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     image_data->setStarCenters(starCenters);
     image_data->setSkyBackground(skyBG);
 
-exit:
-    delete[] data;
-    sep_bkg_free(bkg);
-    sep_catalog_free(catalog);
-    free(imback);
-    free(flux);
-    free(fluxerr);
-    free(area);
-    free(flag);
-
-    if (status != 0)
-    {
-        char errorMessage[512];
-        sep_get_errmsg(status, errorMessage);
-        qCritical(KSTARS_FITS) << errorMessage;
-        return false;
-    }
+    cleanup();
 #endif
     return true;
 }
