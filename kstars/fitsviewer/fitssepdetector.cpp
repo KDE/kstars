@@ -30,6 +30,7 @@
 #include "Options.h"
 #include "kspaths.h"
 
+#include <cstring>
 #include <math.h>
 #include <QPointer>
 #include <QtConcurrent>
