@@ -1283,7 +1283,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
                     const int w = getStatistics().width;
                     const int h = getStatistics().height;
                     QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                    return detector->findSources();
+                    return detector->findSources(middle);
                 }
             }
             return detector->findSources(trackingBox);
