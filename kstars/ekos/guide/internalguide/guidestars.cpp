@@ -346,6 +346,9 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> &sepStars, in
     if (imageData == nullptr)
         return 0;
 
+    QVariantMap settings;
+    settings["maxStarsCount"] = 50;
+    imageData->setSourceExtractorSettings(settings);
     imageData->findStars(ALGORITHM_SEP).waitForFinished();
     skyBackground = imageData->getSkyBackground();
 

@@ -1270,69 +1270,66 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     {
         case ALGORITHM_SEP:
         {
-            //if (m_Mode == FITS_NORMAL && trackingBox.isNull() && Options::quickHFR())
+            QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
             if (m_Mode == FITS_NORMAL && trackingBox.isNull())
             {
-                // Just finds stars in the center 25% of the image.
-                //                const int w = getStatistics().width;
-                //                const int h = getStatistics().height;
-                //                QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                //                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
-                //                // need this with QRect.
-                //                detector->configure("radiusIsBoundary", false);
-                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
-                detector->setSettings(m_SourceExtractorSettings);
-                return detector->findSources();
-            }
-            else
-            {
-                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
-                detector->setSettings(m_SourceExtractorSettings);
-                return detector->findSources(trackingBox);
-            }
-
-            case ALGORITHM_GRADIENT:
-            default:
-            {
-                QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
-                detector->setSettings(m_SourceExtractorSettings);
-                return detector->findSources(trackingBox);
-            }
-
-            case ALGORITHM_CENTROID:
-            {
-#ifndef KSTARS_LITE
-                if (histogram)
-                    if (!histogram->isConstructed())
-                        histogram->constructHistogram();
-
-                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
-                detector->setSettings(m_SourceExtractorSettings);
-                detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
-                return detector->findSources(trackingBox);
-            }
-#else
+                if (Options::quickHFR())
                 {
-                    QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
-                    return detector->findSources(starCenters, trackingBox);
+                    // need this with QRect.
+                    detector->configure("radiusIsBoundary", false);
+                    detector->configure("maxStarsCount", 50);
+                    //Just finds stars in the center 25% of the image.
+                    const int w = getStatistics().width;
+                    const int h = getStatistics().height;
+                    QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
+                    return detector->findSources();
                 }
+            }
+            return detector->findSources(trackingBox);
+        }
+
+        case ALGORITHM_GRADIENT:
+        default:
+        {
+            QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            return detector->findSources(trackingBox);
+        }
+
+        case ALGORITHM_CENTROID:
+        {
+#ifndef KSTARS_LITE
+            if (histogram)
+                if (!histogram->isConstructed())
+                    histogram->constructHistogram();
+
+            QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
+            return detector->findSources(trackingBox);
+        }
+#else
+            {
+                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+                return detector->findSources(starCenters, trackingBox);
+            }
 #endif
 
-            case ALGORITHM_THRESHOLD:
-            {
-                QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
-                detector->setSettings(m_SourceExtractorSettings);
-                detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
-                detector->findSources(trackingBox);
-            }
+        case ALGORITHM_THRESHOLD:
+        {
+            QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
+            return detector->findSources(trackingBox);
+        }
 
-            case ALGORITHM_BAHTINOV:
-            {
-                QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
-                detector->setSettings(m_SourceExtractorSettings);
-                detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
-                return detector->findSources(trackingBox);
-            }
+        case ALGORITHM_BAHTINOV:
+        {
+            QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
+            return detector->findSources(trackingBox);
         }
     }
 }
