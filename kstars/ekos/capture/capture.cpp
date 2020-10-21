@@ -1957,8 +1957,6 @@ IPState Capture::resumeSequence()
                 emit resumeGuiding();
             }
 
-            prepareJob(next_job);
-
             return IPS_OK;
         }
         else
