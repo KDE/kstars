@@ -19,13 +19,6 @@
 
 #include "config-kstars.h"
 
-#ifdef HAVE_STELLARSOLVER
-#include <stellarsolver.h>
-#else
-#include <cstring>
-#include "sep/sep.h"
-#endif
-
 #include "fits_debug.h"
 #include "fitssepdetector.h"
 #include "Options.h"
@@ -34,6 +27,13 @@
 #include <math.h>
 #include <QPointer>
 #include <QtConcurrent>
+
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#else
+#include <cstring>
+#include "sep/sep.h"
+#endif
 
 //void FITSSEPDetector::configure(const QString &param, const QVariant &value)
 //{
