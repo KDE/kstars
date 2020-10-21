@@ -6654,9 +6654,9 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
 void Capture::setPresetSettings(const QJsonObject &settings)
 {
     // FIXME: QComboBox signal "activated" does not trigger when setting text programmatically.
-    const QString targetCamera = settings["camera"].toString();
-    const QString targetFW = settings["fw"].toString();
-    const QString targetFilter = settings["filter"].toString();
+    const QString targetCamera = settings["camera"].toString(cameraS->currentText());
+    const QString targetFW = settings["fw"].toString(filterWheelS->currentText());
+    const QString targetFilter = settings["filter"].toString(captureFilterS->currentText());
 
     if (cameraS->currentText() != targetCamera)
     {
