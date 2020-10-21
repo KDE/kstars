@@ -2823,6 +2823,9 @@ void Capture::removeJob(int index)
     m_SequenceArray.removeAt(index);
     emit sequenceChanged(m_SequenceArray);
 
+    if (jobs.empty())
+        return;
+
     SequenceJob * job = jobs.at(index);
     jobs.removeOne(job);
     if (job == activeJob)
