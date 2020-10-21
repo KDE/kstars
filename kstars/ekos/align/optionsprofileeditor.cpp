@@ -80,6 +80,8 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, bool showSolveOption
         astrometryOptions->setVisible(false);
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+
+    loadOptionsProfile();
 }
 
 void OptionsProfileEditor::connectOptionsProfileComboBox()
@@ -136,6 +138,7 @@ SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
 {
     SSolver::Parameters params;
     params.listName = "Custom";
+    params.description = description->toPlainText();
     //These are to pass the parameters to the internal sextractor
     params.apertureShape = (SSolver::Shape) apertureShape->currentIndex();
     params.kron_fact = kron_fact->text().toDouble();
@@ -178,6 +181,8 @@ SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
 
 void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
 {
+
+        description->setText(a.description);
     //Sextractor Settings
 
         apertureShape->setCurrentIndex(a.apertureShape);
@@ -327,7 +332,7 @@ void OptionsProfileEditor::slotApply()
     int index = optionsProfile->currentIndex();
     SSolver::Parameters currentParams = getSettingsFromUI();
     SSolver::Parameters savedParams = optionsList.at(index);
-    if(!(currentParams == savedParams))
+    if(!(currentParams == savedParams) || currentParams.description != savedParams.description)
     {
         currentParams.listName = savedParams.listName;
         optionsList.replace(index, currentParams);

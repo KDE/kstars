@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>589</width>
-    <height>684</height>
+    <height>733</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -118,6 +118,19 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="description">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Description of the selected profile</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

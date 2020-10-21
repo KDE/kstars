@@ -2823,7 +2823,7 @@ bool Align::captureAndSolve()
 
 #ifdef Q_OS_OSX
     if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
-            && Options::solveSextractorType() == SSolver::SEXTRACTOR_BUILTIN)
+            && Options::solveSextractorType() == SSolver::EXTRACTOR_BUILTIN)
     {
         if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
         {
@@ -4832,7 +4832,7 @@ bool Align::loadAndSlew(QString fileURL)
 {
 #ifdef Q_OS_OSX
     if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
-            && Options::solveSextractorType() == SSolver::SEXTRACTOR_BUILTIN)
+            && Options::solveSextractorType() == SSolver::EXTRACTOR_BUILTIN)
     {
         if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
         {

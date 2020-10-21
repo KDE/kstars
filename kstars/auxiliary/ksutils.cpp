@@ -1488,8 +1488,8 @@ QStringList getAstrometryDataDirs()
         }
         else
         {
-            //This removes directories that do not exist.
-            optionsDataDir.remove(optionsDataDirs.at(dir));
+            //This removes directories that do not exist from the list.
+            optionsDataDirs.removeAt(dir);
             dir--;
             updated = true;
         }
