@@ -336,4 +336,16 @@ void Media::processNewBLOB(IBLOB *bp)
     Q_UNUSED(bp)
 }
 
+void Media::sendModuleFrame(FITSView * view)
+{
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+        return;
+
+    if (qobject_cast<Ekos::Align*>(sender()) == m_Manager->alignModule())
+        sendPreviewImage(view, "+A");
+    else if (qobject_cast<Ekos::Focus*>(sender()) == m_Manager->focusModule())
+        sendPreviewImage(view, "+F");
+    else if (qobject_cast<Ekos::Guide*>(sender()) == m_Manager->guideModule())
+        sendPreviewImage(view, "+G");
+}
 }
