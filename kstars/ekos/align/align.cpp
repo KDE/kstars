@@ -3449,6 +3449,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sRA          = ra;
     sDEC         = dec;
 
+    double elapsed = solverTimer.elapsed() / 1000.0;
+    appendLogText(i18n("Solver completed after %1 seconds.", QString::number(elapsed, 'f', 2)));
+
     // Reset Telescope Type to remembered value
     if (rememberTelescopeType != ISD::CCD::TELESCOPE_UNKNOWN)
     {
@@ -3822,8 +3825,8 @@ void Align::abort()
         }
         else
         {
-            int elapsed = static_cast<int>(round(solverTimer.elapsed() / 1000.0));
-            appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
+            double elapsed = solverTimer.elapsed() / 1000.0;
+            appendLogText(i18n("Solver aborted after %1 seconds.", QString::number(elapsed, 'f', 2)));
         }
     }
 
@@ -4851,12 +4854,6 @@ bool Align::loadAndSlew(QString fileURL)
         return false;
 
     QFileInfo fileInfo(fileURL);
-    QString newFileURL = QDir::tempPath() + "/" + fileInfo.fileName().remove(" ");
-    QFile::copy(fileURL, newFileURL);
-    QFileInfo newFileInfo(newFileURL);
-
-    if(!newFileInfo.exists())
-        return false;
 
     dirPath = fileInfo.absolutePath();
 
@@ -4873,8 +4870,8 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    alignView->loadFITS(newFileURL, false);
-    m_FileToSolve = newFileURL;
+    alignView->loadFITS(fileURL, false);
+    m_FileToSolve = fileURL;
     connect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     return true;
