@@ -121,22 +121,28 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     skyBG.numPixelsInSkyEstimate = bg.bw * bg.bh;
     image_data->setSkyBackground(skyBG);
 
-    QList<Edge *> edges;
-
-    for (auto &star : stars)
-    {
-        auto * center = new Edge();
-        center->x = star.x;
-        center->y = star.y;
-        center->val = star.peak;
-        center->sum = star.flux;
-        center->HFR = star.HFR;
-        center->width = star.a;
-        edges.append(center);
-    }
     //There is more information that can be obtained by the Stellarsolver.
     //Background info, Star positions(if a plate solve was done before), etc
     //The information is available as long as the StellarSolver exists.
+
+    // Let's sort edges, starting with widest
+    std::sort(stars.begin(), stars.end(), [](const FITSImage::Star & star1, const FITSImage::Star & star2) -> bool { return star1.HFR > star2.HFR;});
+
+    // Take only the first maxNumCenters stars
+    int starCount = qMin(maxStarsCount, stars.count());
+    starCenters.reserve(starCount);
+    for (int i = 0; i < starCount; i++)
+    {
+        Edge *oneEdge = new Edge();
+        oneEdge->x = stars[i].x;
+        oneEdge->y = stars[i].y;
+        oneEdge->val = stars[i].peak;
+        oneEdge->sum = stars[i].flux;
+        oneEdge->HFR = stars[i].HFR;
+        oneEdge->width = stars[i].a;
+        starCenters.append(oneEdge);
+    }
+    image_data->setStarCenters(starCenters);
 
 #else
 
@@ -208,7 +214,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge *> edges;
 
-    auto cleanup = [ = ]()
+    auto cleanup = [ & ]()
     {
         delete[] data;
         sep_bkg_free(bkg);
@@ -305,7 +311,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
             center->width = flux_fractions[1] * 2;
         edges.append(center);
     }
-#endif
 
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
@@ -321,7 +326,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     edges.clear();
 
-#ifndef HAVE_STELLARSOLVER
     qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
                          .arg(QString::number(bkg->global, 'f', 2))
                          .arg(QString::number(bkg->globalrms, 'f', 2))
