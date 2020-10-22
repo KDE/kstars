@@ -97,10 +97,11 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
     FITSImage::Statistic const &stats = image_data->getStatistics();
     FITSMode const m_Mode = static_cast<FITSMode>(image_data->property("mode").toInt());
 
-    int MINIMUM_STDVAR, initStdDev = getValue("MINIMUM_STDVAR", 5).toInt();
+    int MINIMUM_STDVAR = getValue("MINIMUM_STDVAR", 5).toInt();
     int minEdgeWidth = getValue("MINIMUM_PIXEL_RANGE", 5).toInt();
     double JMIndex = getValue("JMINDEX", 100.0).toDouble();
 
+    int initStdDev = MINIMUM_STDVAR;
     double threshold = 0, sum = 0, avg = 0, min = 0;
     int starDiameter     = 0;
     int pixVal           = 0;
