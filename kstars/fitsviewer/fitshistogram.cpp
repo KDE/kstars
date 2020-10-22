@@ -344,7 +344,8 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     // Custom index to indicate the overall contrast of the image
     if (cumulativeFrequency[RED_CHANNEL][binCount / 4] > 0)
-        JMIndex = cumulativeFrequency[RED_CHANNEL][binCount / 8] / cumulativeFrequency[RED_CHANNEL][binCount / 4];
+        JMIndex = cumulativeFrequency[RED_CHANNEL][binCount / 8] / static_cast<double>(cumulativeFrequency[RED_CHANNEL][binCount /
+                  4]);
     else
         JMIndex = 1;
     qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
