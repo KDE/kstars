@@ -513,7 +513,7 @@ class Focus : public QWidget, public Ui::Focus
         void updateTemperature(TemperatureSource source, double newTemperature);
         void emitTemperatureEvents(TemperatureSource source, double newTemperature);
 
-        void syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
+        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };

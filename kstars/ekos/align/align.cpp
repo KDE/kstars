@@ -6434,33 +6434,49 @@ void Align::setSettings(const QJsonObject &settings)
         {
             const int value = settings[key].toInt(pSB->value());
             if (value != pSB->value())
+            {
                 pSB->setValue(value);
+                return true;
+            }
         }
         else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
         {
             const double value = settings[key].toDouble(pDSB->value());
             if (value != pDSB->value())
+            {
                 pDSB->setValue(value);
+                return true;
+            }
         }
         else if ((pCB = qobject_cast<QCheckBox *>(widget)))
         {
             const bool value = settings[key].toBool(pCB->isChecked());
             if (value != pCB->isChecked())
+            {
                 pCB->setChecked(value);
+                return true;
+            }
         }
         // ONLY FOR STRINGS, not INDEX
         else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
         {
             const QString value = settings[key].toString(pComboBox->currentText());
             if (value != pComboBox->currentText())
+            {
                 pComboBox->setCurrentText(value);
+                return true;
+            }
         }
+
+        return false;
     };
 
-    // Camera
-    syncControl("camera", CCDCaptureCombo);
+    // Camera. If camera changed, check CCD.
+    if (syncControl("camera", CCDCaptureCombo))
+        checkCCD();
     // Filter Wheel
-    syncControl("fw", FilterDevicesCombo);
+    if (syncControl("fw", FilterDevicesCombo))
+        checkFilter();
     // Filter
     syncControl("filter", FilterPosCombo);
     Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
@@ -6475,7 +6491,9 @@ void Align::setSettings(const QJsonObject &settings)
 
     // Gain
     if (GainSpin->isEnabled())
+    {
         syncControl("gain", GainSpin);
+    }
     // ISO
     if (ISOCombo->isEnabled())
     {
