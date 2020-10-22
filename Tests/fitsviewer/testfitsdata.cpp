@@ -52,14 +52,14 @@ void TestFitsData::testComputeHFR_data()
     // to FITS_FOCUS images, only to FITS_NORMAL images.
 
     // Normal HFR tests
-    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 11 << 3.88;
-    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.16;
-    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 100 << 1.23;
+    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 9 << 4.06;
+    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.23;
+    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 100 << 1.30;
 
     // Focus HFR tests
-    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 4 << 3.04;
-    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 6 << 1.82;
-    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 30 << 1.24;
+    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 9 << 4.09;
+    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 17 << 2.23;
+    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 100 << 1.30;
 #endif
 }
 
@@ -89,6 +89,7 @@ void TestFitsData::testComputeHFR()
 
     QCOMPARE(d->getDetectedStars(), NSTARS);
     QCOMPARE(d->getStarCenters().count(), NSTARS);
+    qDebug() << "Expected HFR:" << HFR << "Calculated:" << d->getHFR();
     QVERIFY(abs(d->getHFR() - HFR) <= 0.1);
 #endif
 }
