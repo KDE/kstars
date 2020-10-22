@@ -4947,6 +4947,8 @@ void Align::addFilter(ISD::GDInterface *newFilter)
 
     checkFilter(filterWheelIndex);
     FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
+
+    emit settingsUpdated(getSettings());
 }
 
 bool Align::setFilterWheel(const QString &device)
