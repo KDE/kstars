@@ -32,7 +32,7 @@ cache:
   - mkdir -p kstars-build
   - cd kstars-build
   - cmake -GNinja -DCMAKE_BUILD_TYPE=Release .. -DCCACHE_SUPPORT=ON -DBUILD_TESTING=${BUILD_TESTING:-OFF} -DBUILD_DOC=${BUILD_DOC:-OFF}
-  - ninja all install
+  - ninja -j8 all install
 
 build:
   stage: build
