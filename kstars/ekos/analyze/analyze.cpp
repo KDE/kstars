@@ -1751,18 +1751,11 @@ void Analyze::displayFITS(const QString &filename)
 
     if (fitsViewer.isNull())
     {
-        if (Options::singleWindowCapturedFITS())
-            fitsViewer = KStars::Instance()->genericFITSViewer();
-        else
-        {
-            fitsViewer.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
-            KStars::Instance()->addFITSViewer(fitsViewer);
-        }
-
+        fitsViewer = KStars::Instance()->createFITSViewer();
         fitsViewer->loadFile(url);
-        FITSView *currentView = fitsViewer->getCurrentView();
-        if (currentView)
-            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+        //        FITSView *currentView = fitsViewer->getCurrentView();
+        //        if (currentView)
+        //            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
     }
     else
         fitsViewer->updateFile(url, 0);

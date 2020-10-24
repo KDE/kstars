@@ -1510,16 +1510,9 @@ void CCD::setupFITSViewerWindows()
 {
     normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
-    if (Options::singleWindowCapturedFITS())
-        m_FITSViewerWindows = KStars::Instance()->genericFITSViewer();
-    else
-    {
-        m_FITSViewerWindows.reset(new FITSViewer(Options::independentWindowFITS() ?
-                                  nullptr : KStars::Instance()));
-        KStars::Instance()->addFITSViewer(m_FITSViewerWindows);
-    }
+    m_FITSViewerWindow = KStars::Instance()->createFITSViewer();
 
-    connect(m_FITSViewerWindows.get(), &FITSViewer::closed, [&](int tabIndex)
+    connect(m_FITSViewerWindow, &FITSViewer::closed, [&](int tabIndex)
     {
         if (tabIndex == normalTabID)
             normalTabID = -1;
@@ -1753,7 +1746,7 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
     // this should be fixed in the future and should only use FITSData
     if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
     {
-        if (m_FITSViewerWindows.isNull() && (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
+        if (m_FITSViewerWindow.isNull() && (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
             setupFITSViewerWindows();
     }
 
@@ -1793,10 +1786,10 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                             previewTitle = i18n("Preview");
                     }
 
-                    success = m_FITSViewerWindows->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
+                    success = m_FITSViewerWindow->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
                 }
                 else
-                    success = m_FITSViewerWindows->updateData(data, fileURL, *tabID, &tabIndex, captureFilter);
+                    success = m_FITSViewerWindow->updateData(data, fileURL, *tabID, &tabIndex, captureFilter);
 
                 if (!success)
                 {
@@ -1807,9 +1800,9 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                     return;
                 }
                 *tabID = tabIndex;
-                targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
+                targetChip->setImageView(m_FITSViewerWindow->getView(tabIndex), captureMode);
                 if (Options::focusFITSOnNewImage())
-                    m_FITSViewerWindows->raise();
+                    m_FITSViewerWindow->raise();
             }
 
             emit BLOBUpdated(bp);
@@ -1847,7 +1840,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, const QSharedPoin
         // NORMAL is used for raw INDI drivers without Ekos.
         if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) &&
                 (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
-            m_FITSViewerWindows->show();
+            m_FITSViewerWindow->show();
 
         emit BLOBUpdated(bp);
         emit newImage(data);
@@ -1864,11 +1857,10 @@ void CCD::setTargetTransferFormat(const TransferFormat &value)
     targetTransferFormat = value;
 }
 
-void CCD::FITSViewerDestroyed()
-{
-    m_FITSViewerWindows          = nullptr;
-    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
-}
+//void CCD::FITSViewerDestroyed()
+//{
+//    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
+//}
 
 void CCD::StreamWindowHidden()
 {

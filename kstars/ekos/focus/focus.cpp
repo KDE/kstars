@@ -3263,21 +3263,14 @@ void Focus::showFITSViewer()
     static int lastFVTabID = -1;
     if (m_ImageData)
     {
+        QUrl url = QUrl::fromLocalFile("focus.fits");
         if (fv.isNull())
         {
-            if (Options::singleWindowCapturedFITS())
-                fv = KStars::Instance()->genericFITSViewer();
-            else
-            {
-                fv.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
-                KStars::Instance()->addFITSViewer(fv);
-            }
-
-
-            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
+            fv = KStars::Instance()->createFITSViewer();
+            fv->loadData(m_ImageData, url, &lastFVTabID);
         }
-        else if (fv->updateData(m_ImageData, QUrl(), lastFVTabID, &lastFVTabID) == false)
-            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
+        else if (fv->updateData(m_ImageData, url, lastFVTabID, &lastFVTabID) == false)
+            fv->loadData(m_ImageData, url, &lastFVTabID);
 
         fv->show();
     }

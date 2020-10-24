@@ -1199,14 +1199,14 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    QSharedPointer<FITSViewer> fv;
-    fv.reset(new FITSViewer((Options::independentWindowFITS()) ? nullptr : this));
+    QPointer<FITSViewer> fv = createFITSViewer();
+    //fv.reset(new FITSViewer((Options::independentWindowFITS()) ? nullptr : this));
 
-    connect(fv.get(), &FITSViewer::loaded, [ &, fv]()
-    {
-        addFITSViewer(fv);
-        fv->show();
-    });
+    //    connect(fv.get(), &FITSViewer::loaded, [ &, fv]()
+    //    {
+    //        addFITSViewer(fv);
+    //        fv->show();
+    //    });
 
     fv->loadFile(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 #endif

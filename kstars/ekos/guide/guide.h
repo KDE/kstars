@@ -669,7 +669,7 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<InternalGuider> internalGuider;
         QPointer<PHD2> phd2Guider;
         QPointer<LinGuider> linGuider;
-        QSharedPointer<FITSViewer> fv;
+        QPointer<FITSViewer> fv;
         QSharedPointer<FITSData> m_ImageData;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
