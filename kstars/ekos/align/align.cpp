@@ -3218,7 +3218,7 @@ void Align::startSolving()
             solver->deleteLater();
     }
     m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer()));
-    m_StellarSolver->setProperty("SextractorType", Options::solveSextractorType());
+    m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
     connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
@@ -4855,7 +4855,9 @@ bool Align::loadAndSlew(QString fileURL)
 
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath,
-                                               "Images (*.fits *.fit *.jpg *.jpeg)");
+                                               "FITS (*.fits *.fits.fz *.fit *.fts);;"
+                                               "Images (*.jpg *.jpeg *.png *.gif *.bmp);;"
+                                               "RAW (*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
 
     if (fileURL.isEmpty())
         return false;
@@ -5397,7 +5399,7 @@ void Align::showFITSViewer()
                 fv = KStars::Instance()->genericFITSViewer();
             else
             {
-                fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
+                fv.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
                 KStars::Instance()->addFITSViewer(fv);
             }
 
