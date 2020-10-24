@@ -14,7 +14,8 @@
 #include <QVector>
 #include "math.h"
 
-namespace FITSImage {
+namespace FITSImage
+{
 
 /// Stats struct to hold statisical data about the FITS data
 /// This is defined in both KStars and StellarSolver
@@ -33,6 +34,8 @@ typedef struct
     uint32_t samples_per_channel { 0 };
     uint16_t width { 0 };
     uint16_t height { 0 };
+    /// Number of channels
+    uint8_t channels { 1 };
 } Statistic;
 
 // This structure holds data about sources that are found within

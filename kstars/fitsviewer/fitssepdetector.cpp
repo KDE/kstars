@@ -73,7 +73,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     //Note this is the part I added.  It is just an initial attempt to get it working
     //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
     //constexpr int maxNumCenters = 50;
-    QPointer<StellarSolver> solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer());
+    QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                                    QString("SavedOptionsProfiles.ini");
     QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
@@ -119,7 +119,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     skyBG.mean = bg.global;
     skyBG.sigma = bg.globalrms;
     skyBG.numPixelsInSkyEstimate = bg.bw * bg.bh;
-    image_data->setSkyBackground(skyBG);
+    m_ImageData->setSkyBackground(skyBG);
 
     //There is more information that can be obtained by the Stellarsolver.
     //Background info, Star positions(if a plate solve was done before), etc
@@ -142,11 +142,11 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         oneEdge->width = stars[i].a;
         starCenters.append(oneEdge);
     }
-    image_data->setStarCenters(starCenters);
+    m_ImageData->setStarCenters(starCenters);
 
 #else
 
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
     std::vector<std::pair<int, double>> ovals;
@@ -171,31 +171,31 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     switch (stats.dataType)
     {
         case TBYTE:
-            getFloatBuffer<uint8_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<uint8_t>(data, x, y, w, h, m_ImageData);
             break;
         case TSHORT:
-            getFloatBuffer<int16_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<int16_t>(data, x, y, w, h, m_ImageData);
             break;
         case TUSHORT:
-            getFloatBuffer<uint16_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<uint16_t>(data, x, y, w, h, m_ImageData);
             break;
         case TLONG:
-            getFloatBuffer<int32_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<int32_t>(data, x, y, w, h, m_ImageData);
             break;
         case TULONG:
-            getFloatBuffer<uint32_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<uint32_t>(data, x, y, w, h, m_ImageData);
             break;
         case TFLOAT:
             if (boundary.isNull())
-                memcpy(data, image_data->getImageBuffer(), sizeof(float)*w * h);
+                memcpy(data, m_ImageData->getImageBuffer(), sizeof(float)*w * h);
             else
-                getFloatBuffer<float>(data, x, y, w, h, image_data);
+                getFloatBuffer<float>(data, x, y, w, h, m_ImageData);
             break;
         case TLONGLONG:
-            getFloatBuffer<int64_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<int64_t>(data, x, y, w, h, m_ImageData);
             break;
         case TDOUBLE:
-            getFloatBuffer<double>(data, x, y, w, h, image_data);
+            getFloatBuffer<double>(data, x, y, w, h, m_ImageData);
             break;
         default:
             delete [] data;
@@ -321,7 +321,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
 
-        image_data->setStarCenters(starCenters);
+        m_ImageData->setStarCenters(starCenters);
     }
 
     edges.clear();
@@ -335,8 +335,8 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
                              << starCenters[i]->numPixels << starCenters[i]->HFR;
-    image_data->setStarCenters(starCenters);
-    image_data->setSkyBackground(skyBG);
+    m_ImageData->setStarCenters(starCenters);
+    m_ImageData->setSkyBackground(skyBG);
 
     cleanup();
 #endif

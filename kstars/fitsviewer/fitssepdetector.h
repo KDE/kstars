@@ -27,7 +27,7 @@ class FITSSEPDetector : public FITSStarDetector
         Q_OBJECT
 
     public:
-        explicit FITSSEPDetector(FITSData *parent): FITSStarDetector(parent) {};
+        explicit FITSSEPDetector(FITSData * data): FITSStarDetector(data) {};
 
         /** @brief Find sources in the parent FITS data file.
          * @see FITSStarDetector::findSources().

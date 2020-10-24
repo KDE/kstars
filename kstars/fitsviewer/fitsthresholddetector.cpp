@@ -33,7 +33,7 @@
 
 QFuture<bool> FITSThresholdDetector::findSources(QRect const &boundary)
 {
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
         case TSHORT:
@@ -67,7 +67,7 @@ QFuture<bool> FITSThresholdDetector::findSources(QRect const &boundary)
 template <typename T>
 bool FITSThresholdDetector::findOneStar(const QRect &boundary) const
 {
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
 
     int subX = boundary.x();
     int subY = boundary.y();
@@ -76,7 +76,7 @@ bool FITSThresholdDetector::findOneStar(const QRect &boundary) const
 
     float massX = 0, massY = 0, totalMass = 0;
 
-    auto * buffer = reinterpret_cast<T const *>(image_data->getImageBuffer());
+    auto * buffer = reinterpret_cast<T const *>(m_ImageData->getImageBuffer());
 
     double THRESHOLD_PERCENTAGE = getValue("THRESHOLD_PERCENTAGE", 120.0).toDouble();
     // TODO replace magic number with something more useful to understand
@@ -209,7 +209,7 @@ bool FITSThresholdDetector::findOneStar(const QRect &boundary) const
 
     QList<Edge*> starCenters;
     starCenters.append(center);
-    image_data->setStarCenters(starCenters);
+    m_ImageData->setStarCenters(starCenters);
 
     return true;
 }

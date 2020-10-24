@@ -28,7 +28,7 @@ class FITSCentroidDetector: public FITSStarDetector
         Q_OBJECT
 
     public:
-        explicit FITSCentroidDetector(FITSData *parent): FITSStarDetector(parent) {};
+        explicit FITSCentroidDetector(FITSData * data): FITSStarDetector(data) {};
 
     public:
         /** @brief Find sources in the parent FITS data file.

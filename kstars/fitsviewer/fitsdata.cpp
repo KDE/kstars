@@ -85,15 +85,18 @@ FITSData::FITSData(const FITSData * other)
     debayerParams.offsetX = debayerParams.offsetY = 0;
 
     this->m_Mode = other->m_Mode;
-    this->m_Channels = other->m_Channels;
-    memcpy(&stats, &(other->stats), sizeof(stats));
-    m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
-    memcpy(m_ImageBuffer, other->m_ImageBuffer, stats.samples_per_channel * m_Channels * stats.bytesPerPixel);
+    this->m_Statistics.channels = other->m_Statistics.channels;
+    memcpy(&m_Statistics, &(other->m_Statistics), sizeof(m_Statistics));
+    m_ImageBuffer = new uint8_t[m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel];
+    memcpy(m_ImageBuffer, other->m_ImageBuffer,
+           m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel);
 }
 
 FITSData::~FITSData()
 {
     int status = 0;
+
+    m_StarFindFuture.waitForFinished();
 
     clearImageBuffers();
 
@@ -238,7 +241,7 @@ bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
         else
-            stats.size = QFile(m_Filename).size();
+            m_Statistics.size = QFile(m_Filename).size();
     }
     else
     {
@@ -249,17 +252,17 @@ bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension
                               &temp_buffer, &temp_size, 0, nullptr, &status))
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
         else
-            stats.size = size;
+            m_Statistics.size = size;
     }
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
     int fitsBitPix = 0;
-    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(stats.ndim), naxes, &status))
+    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(m_Statistics.ndim), naxes, &status))
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
-    if (stats.ndim < 2)
+    if (m_Statistics.ndim < 2)
     {
         errMessage = i18n("1D FITS images are not supported in KStars.");
         if (!silent)
@@ -271,38 +274,38 @@ bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension
     switch (fitsBitPix)
     {
         case BYTE_IMG:
-            stats.dataType      = TBYTE;
-            stats.bytesPerPixel = sizeof(uint8_t);
+            m_Statistics.dataType      = TBYTE;
+            m_Statistics.bytesPerPixel = sizeof(uint8_t);
             break;
         case SHORT_IMG:
             // Read SHORT image as USHORT
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(int16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(int16_t);
             break;
         case USHORT_IMG:
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(uint16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(uint16_t);
             break;
         case LONG_IMG:
             // Read LONG image as ULONG
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(int32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(int32_t);
             break;
         case ULONG_IMG:
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(uint32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(uint32_t);
             break;
         case FLOAT_IMG:
-            stats.dataType      = TFLOAT;
-            stats.bytesPerPixel = sizeof(float);
+            m_Statistics.dataType      = TFLOAT;
+            m_Statistics.bytesPerPixel = sizeof(float);
             break;
         case LONGLONG_IMG:
-            stats.dataType      = TLONGLONG;
-            stats.bytesPerPixel = sizeof(int64_t);
+            m_Statistics.dataType      = TLONGLONG;
+            m_Statistics.bytesPerPixel = sizeof(int64_t);
             break;
         case DOUBLE_IMG:
-            stats.dataType      = TDOUBLE;
-            stats.bytesPerPixel = sizeof(double);
+            m_Statistics.dataType      = TDOUBLE;
+            m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
             errMessage = i18n("Bit depth %1 is not supported.", fitsBitPix);
@@ -312,7 +315,7 @@ bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension
             return false;
     }
 
-    if (stats.ndim < 3)
+    if (m_Statistics.ndim < 3)
         naxes[2] = 1;
 
     if (naxes[0] == 0 || naxes[1] == 0)
@@ -324,20 +327,20 @@ bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension
         return false;
     }
 
-    stats.width               = naxes[0];
-    stats.height              = naxes[1];
-    stats.samples_per_channel = stats.width * stats.height;
+    m_Statistics.width               = naxes[0];
+    m_Statistics.height              = naxes[1];
+    m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
 
     clearImageBuffers();
 
-    m_Channels = naxes[2];
+    m_Statistics.channels = naxes[2];
 
     // Channels always set to #1 if we are not required to process 3D Cubes
     // Or if mode is not FITS_NORMAL (guide, focus..etc)
     if (m_Mode != FITS_NORMAL || !Options::auto3DCube())
-        m_Channels = 1;
+        m_Statistics.channels = 1;
 
-    m_ImageBufferSize = stats.samples_per_channel * m_Channels * stats.bytesPerPixel;
+    m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
@@ -350,9 +353,9 @@ bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension
     rotCounter     = 0;
     flipHCounter   = 0;
     flipVCounter   = 0;
-    long nelements = stats.samples_per_channel * m_Channels;
+    long nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
 
-    if (fits_read_img(fptr, stats.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
+    if (fits_read_img(fptr, m_Statistics.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
         return fitsOpenError(status, i18n("Error reading image."), silent);
 
     parseHeader();
@@ -410,38 +413,38 @@ bool FITSData::loadCanonicalImage(void *buffer, size_t size, const QString &exte
     switch (fitsBitPix)
     {
         case BYTE_IMG:
-            stats.dataType      = TBYTE;
-            stats.bytesPerPixel = sizeof(uint8_t);
+            m_Statistics.dataType      = TBYTE;
+            m_Statistics.bytesPerPixel = sizeof(uint8_t);
             break;
         case SHORT_IMG:
             // Read SHORT image as USHORT
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(int16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(int16_t);
             break;
         case USHORT_IMG:
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(uint16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(uint16_t);
             break;
         case LONG_IMG:
             // Read LONG image as ULONG
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(int32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(int32_t);
             break;
         case ULONG_IMG:
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(uint32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(uint32_t);
             break;
         case FLOAT_IMG:
-            stats.dataType      = TFLOAT;
-            stats.bytesPerPixel = sizeof(float);
+            m_Statistics.dataType      = TFLOAT;
+            m_Statistics.bytesPerPixel = sizeof(float);
             break;
         case LONGLONG_IMG:
-            stats.dataType      = TLONGLONG;
-            stats.bytesPerPixel = sizeof(int64_t);
+            m_Statistics.dataType      = TLONGLONG;
+            m_Statistics.bytesPerPixel = sizeof(int64_t);
             break;
         case DOUBLE_IMG:
-            stats.dataType      = TDOUBLE;
-            stats.bytesPerPixel = sizeof(double);
+            m_Statistics.dataType      = TDOUBLE;
+            m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
             errMessage = QString("Bit depth %1 is not supported.").arg(fitsBitPix);
@@ -450,12 +453,14 @@ bool FITSData::loadCanonicalImage(void *buffer, size_t size, const QString &exte
             return false;
     }
 
-    stats.width = static_cast<uint16_t>(imageFromFile.width());
-    stats.height = static_cast<uint16_t>(imageFromFile.height());
-    m_Channels = 3;
-    stats.samples_per_channel = stats.width * stats.height;
+    m_Statistics.width = static_cast<uint16_t>(imageFromFile.width());
+    m_Statistics.height = static_cast<uint16_t>(imageFromFile.height());
+    m_Statistics.size = size;
+    m_Statistics.channels = 3;
+    m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
     clearImageBuffers();
-    m_ImageBufferSize = stats.samples_per_channel * m_Channels * static_cast<uint16_t>(stats.bytesPerPixel);
+    m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * static_cast<uint16_t>
+                        (m_Statistics.bytesPerPixel);
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
@@ -471,10 +476,10 @@ bool FITSData::loadCanonicalImage(void *buffer, size_t size, const QString &exte
     // Data in RGB32, with bytes in the order of B,G,R,A, we need to copy them into 3 layers for FITS
 
     uint8_t * rBuff = debayered_buffer;
-    uint8_t * gBuff = debayered_buffer + (stats.width * stats.height);
-    uint8_t * bBuff = debayered_buffer + (stats.width * stats.height * 2);
+    uint8_t * gBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height);
+    uint8_t * bBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-    int imax = stats.samples_per_channel * 4 - 4;
+    int imax = m_Statistics.samples_per_channel * 4 - 4;
     for (int i = 0; i <= imax; i += 4)
     {
         *rBuff++ = original_bayered_buffer[i + 2];
@@ -482,6 +487,7 @@ bool FITSData::loadCanonicalImage(void *buffer, size_t size, const QString &exte
         *bBuff++ = original_bayered_buffer[i + 0];
     }
 
+    calculateStats();
     return true;
 }
 
@@ -489,6 +495,7 @@ bool FITSData::loadRAWImage(void *buffer, size_t size, const QString &extension,
 {
     // TODO need to add error popups as well later on
     Q_UNUSED(silent);
+    Q_UNUSED(extension);
 
 #if !defined(KSTARS_LITE) && !defined(HAVE_LIBRAW)
     lastError = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
@@ -543,18 +550,19 @@ bool FITSData::loadRAWImage(void *buffer, size_t size, const QString &extension,
 
     RawProcessor.recycle();
 
-    stats.bytesPerPixel = image->bits / 8;
+    m_Statistics.bytesPerPixel = image->bits / 8;
     // We only support two types now
-    if (stats.bytesPerPixel == 1)
-        stats.dataType = TBYTE;
+    if (m_Statistics.bytesPerPixel == 1)
+        m_Statistics.dataType = TBYTE;
     else
-        stats.dataType = TUSHORT;
-    stats.width = image->width;
-    stats.height = image->height;
-    m_Channels = image->colors;
-    stats.samples_per_channel = stats.width * stats.height;
+        m_Statistics.dataType = TUSHORT;
+    m_Statistics.width = image->width;
+    m_Statistics.height = image->height;
+    m_Statistics.size = size;
+    m_Statistics.channels = image->colors;
+    m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
     clearImageBuffers();
-    m_ImageBufferSize = stats.samples_per_channel * m_Channels * stats.bytesPerPixel;
+    m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
@@ -577,10 +585,10 @@ bool FITSData::loadRAWImage(void *buffer, size_t size, const QString &extension,
     {
         // Data in RGB24, with bytes in the order of R,G,B. We copy them copy them into 3 layers for FITS
         uint8_t * rBuff = destination_buffer;
-        uint8_t * gBuff = destination_buffer + (stats.width * stats.height);
-        uint8_t * bBuff = destination_buffer + (stats.width * stats.height * 2);
+        uint8_t * gBuff = destination_buffer + (m_Statistics.width * m_Statistics.height);
+        uint8_t * bBuff = destination_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-        int imax = stats.samples_per_channel * 3 - 3;
+        int imax = m_Statistics.samples_per_channel * 3 - 3;
         for (int i = 0; i <= imax; i += 3)
         {
             *rBuff++ = source_buffer[i + 0];
@@ -589,6 +597,8 @@ bool FITSData::loadRAWImage(void *buffer, size_t size, const QString &extension,
         }
     }
     libraw_dcraw_clear_mem(image);
+
+    calculateStats();
     return true;
 #endif
 }
@@ -623,14 +633,14 @@ bool FITSData::saveImage(const QString &newFilename)
             fitsImage = QImage(width(), height(), QImage::Format_RGB32);
         }
 
-        double dataMin = stats.mean[0] - stats.stddev[0];
-        double dataMax = stats.mean[0] + stats.stddev[0] * 3;
+        double dataMin = m_Statistics.mean[0] - m_Statistics.stddev[0];
+        double dataMax = m_Statistics.mean[0] + m_Statistics.stddev[0] * 3;
 
         double bscale = 255. / (dataMax - dataMin);
         double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
         // Long way to do this since we do not want to use templated functions here
-        switch (stats.dataType)
+        switch (m_Statistics.dataType)
         {
             case TBYTE:
                 convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -726,7 +736,7 @@ bool FITSData::saveImage(const QString &newFilename)
         return true;
     }
 
-    nelements = stats.samples_per_channel * m_Channels;
+    nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, newFilename.toLatin1(), &status))
@@ -766,7 +776,7 @@ bool FITSData::saveImage(const QString &newFilename)
     }
 
     /* Write Data */
-    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
+    if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
         return false;
@@ -775,28 +785,28 @@ bool FITSData::saveImage(const QString &newFilename)
     /* Write keywords */
 
     // Minimum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
+    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(m_Statistics.min), "Minimum value", &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
     // Maximum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
+    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(m_Statistics.max), "Maximum value", &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
     // NAXIS1
-    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
+    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(m_Statistics.width), "length of data axis 1", &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
     // NAXIS2
-    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
+    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(m_Statistics.height), "length of data axis 2", &status))
     {
         fits_report_error(stderr, status);
         return false;
@@ -861,7 +871,7 @@ void FITSData::calculateStats(bool refresh)
     calculateMinMax(refresh);
 
     // Get standard deviation and mean in one run
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
             runningAverageStdDev<uint8_t>();
@@ -900,7 +910,7 @@ void FITSData::calculateStats(bool refresh)
     }
 
     // FIXME That's not really SNR, must implement a proper solution for this value
-    stats.SNR = stats.mean[0] / stats.stddev[0];
+    m_Statistics.SNR = m_Statistics.mean[0] / m_Statistics.stddev[0];
 }
 
 int FITSData::calculateMinMax(bool refresh)
@@ -911,27 +921,27 @@ int FITSData::calculateMinMax(bool refresh)
 
     if ((fptr != nullptr) && !refresh)
     {
-        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), nullptr, &status) == 0)
+        if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
             nfound++;
 
-        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max[0]), nullptr, &status) == 0)
+        if (fits_read_key_dbl(fptr, "DATAMAX", &(m_Statistics.max[0]), nullptr, &status) == 0)
             nfound++;
 
         // If we found both keywords, no need to calculate them, unless they are both zeros
-        if (nfound == 2 && !(stats.min[0] == 0 && stats.max[0] == 0))
+        if (nfound == 2 && !(m_Statistics.min[0] == 0 && m_Statistics.max[0] == 0))
             return 0;
     }
 
-    stats.min[0] = 1.0E30;
-    stats.max[0] = -1.0E30;
+    m_Statistics.min[0] = 1.0E30;
+    m_Statistics.max[0] = -1.0E30;
 
-    stats.min[1] = 1.0E30;
-    stats.max[1] = -1.0E30;
+    m_Statistics.min[1] = 1.0E30;
+    m_Statistics.max[1] = -1.0E30;
 
-    stats.min[2] = 1.0E30;
-    stats.max[2] = -1.0E30;
+    m_Statistics.min[2] = 1.0E30;
+    m_Statistics.max[2] = -1.0E30;
 
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
             calculateMinMax<uint8_t>();
@@ -1002,15 +1012,15 @@ void FITSData::calculateMinMax()
     // Create N threads
     const uint8_t nThreads = 16;
 
-    for (int n = 0; n < m_Channels; n++)
+    for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * stats.samples_per_channel;
+        uint32_t cStart = n * m_Statistics.samples_per_channel;
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = stats.samples_per_channel / nThreads;
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
         // Start location for inspecting elements
         uint32_t tStart = cStart;
@@ -1035,8 +1045,8 @@ void FITSData::calculateMinMax()
                 max = result.second;
         }
 
-        stats.min[n] = min;
-        stats.max[n] = max;
+        m_Statistics.min[n] = min;
+        m_Statistics.max[n] = max;
     }
 }
 
@@ -1068,15 +1078,15 @@ void FITSData::runningAverageStdDev()
     // Create N threads
     const uint8_t nThreads = 16;
 
-    for (int n = 0; n < m_Channels; n++)
+    for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * stats.samples_per_channel;
+        uint32_t cStart = n * m_Statistics.samples_per_channel;
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = stats.samples_per_channel / nThreads;
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
         // Start location for inspecting elements
         uint32_t tStart = cStart;
@@ -1102,10 +1112,10 @@ void FITSData::runningAverageStdDev()
             squared_sum += result.second;
         }
 
-        double variance = squared_sum / stats.samples_per_channel;
+        double variance = squared_sum / m_Statistics.samples_per_channel;
 
-        stats.mean[n]   = mean / nThreads;
-        stats.stddev[n] = sqrt(variance);
+        m_Statistics.mean[n]   = mean / nThreads;
+        m_Statistics.stddev[n] = sqrt(variance);
     }
 }
 
@@ -1152,25 +1162,25 @@ void FITSData::convolutionFilter(const QVector<double> &kernel, int kernelSize)
 
     // Start with the pixel that is offset fOff from top and fOff from the left side
     // this is so entire kernel is on your image
-    for (int offsetY = 0; offsetY < stats.height; offsetY++)
+    for (int offsetY = 0; offsetY < m_Statistics.height; offsetY++)
     {
-        for (int offsetX = 0; offsetX < stats.width; offsetX++)
+        for (int offsetX = 0; offsetX < m_Statistics.width; offsetX++)
         {
             // reset gray value to 0
             gt = 0;
             // position of the kernel center pixel
-            int byteOffset = offsetY * stats.width + offsetX;
+            int byteOffset = offsetY * m_Statistics.width + offsetX;
 
             // kernel calculations
             for (int filterY = -fOff; filterY <= fOff; filterY++)
             {
                 for (int filterX = -fOff; filterX <= fOff; filterX++)
                 {
-                    if ((offsetY + filterY) >= 0 && (offsetY + filterY) < stats.height
-                            && ((offsetX + filterX) >= 0 && (offsetX + filterX) < stats.width ))
+                    if ((offsetY + filterY) >= 0 && (offsetY + filterY) < m_Statistics.height
+                            && ((offsetX + filterX) >= 0 && (offsetX + filterX) < m_Statistics.width ))
                     {
 
-                        int calcOffset = byteOffset + filterX + filterY * stats.width;
+                        int calcOffset = byteOffset + filterX + filterY * m_Statistics.width;
                         int index = (filterY + fOff) * kernelSize + (filterX + fOff);
                         double kernelValue = kernel.at(index);
                         gt += (imagePtr[calcOffset]) * kernelValue;
@@ -1205,8 +1215,8 @@ void FITSData::gaussianBlur(int kernelSize, double sigma)
 
 void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
 {
-    stats.min[channel] = newMin;
-    stats.max[channel] = newMax;
+    m_Statistics.min[channel] = newMin;
+    m_Statistics.max[channel] = newMax;
 }
 
 bool FITSData::parseHeader()
@@ -1362,16 +1372,16 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
             // Arcsecs per pixel
             solution.pixscale = scale;
             // Arcmins
-            solution.fieldWidth = (stats.width * scale) / 60.0;
+            solution.fieldWidth = (m_Statistics.width * scale) / 60.0;
             // Arcmins, and account for pixel ratio if non-squared.
-            solution.fieldHeight = (stats.height * scale * (pixsize2 / pixsize1)) / 60.0;
+            solution.fieldHeight = (m_Statistics.height * scale * (pixsize2 / pixsize1)) / 60.0;
         }
         else if (focal_length > 0)
         {
             // Arcmins
-            solution.fieldWidth = ((206264.8062470963552 * stats.width * (pixsize1 / 1000.0)) / (focal_length * binx)) / 60.0;
+            solution.fieldWidth = ((206264.8062470963552 * m_Statistics.width * (pixsize1 / 1000.0)) / (focal_length * binx)) / 60.0;
             // Arsmins
-            solution.fieldHeight = ((206264.8062470963552 * stats.height * (pixsize2 / 1000.0)) / (focal_length * biny)) / 60.0;
+            solution.fieldHeight = ((206264.8062470963552 * m_Statistics.height * (pixsize2 / 1000.0)) / (focal_length * biny)) / 60.0;
             // Arcsecs per pixel
             solution.pixscale = (206264.8062470963552 * (pixsize1 / 1000.0)) / (focal_length * binx);
         }
@@ -1533,7 +1543,7 @@ double FITSData::getHFR(HFRType type)
     // No real way to tell the scale, so only remove saturated stars with range 0 -> 2**16
     // for non-byte types. Unsigned types and floating types, or really any pixels whose
     // range isn't 0-64 (or 0-255 for bytes) won't have their saturated stars removed.
-    const int saturationValue = stats.dataType == TBYTE ? 250 : 50000;
+    const int saturationValue = m_Statistics.dataType == TBYTE ? 250 : 50000;
     int numSaturated = 0;
     for (auto center : starCenters)
         if (center->val > saturationValue)
@@ -1618,8 +1628,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
         {
             for (int i = 0; i < 3; i++)
             {
-                dataMin[i] = stats.mean[i] - stats.stddev[i];
-                dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
+                dataMin[i] = m_Statistics.mean[i] - m_Statistics.stddev[i];
+                dataMax[i] = m_Statistics.mean[i] + m_Statistics.stddev[i] * 3;
             }
         }
         break;
@@ -1628,8 +1638,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
         {
             for (int i = 0; i < 3; i++)
             {
-                dataMin[i] = stats.mean[i] + stats.stddev[i];
-                dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
+                dataMin[i] = m_Statistics.mean[i] + m_Statistics.stddev[i];
+                dataMax[i] = m_Statistics.mean[i] + m_Statistics.stddev[i] * 3;
             }
         }
         break;
@@ -1638,7 +1648,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
         {
             for (int i = 0; i < 3; i++)
             {
-                dataMin[i] = stats.mean[i];
+                dataMin[i] = m_Statistics.mean[i];
             }
         }
         break;
@@ -1647,7 +1657,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
             break;
     }
 
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
         {
@@ -1775,8 +1785,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
     // Create N threads
     const uint8_t nThreads = 16;
 
-    uint32_t width  = stats.width;
-    uint32_t height = stats.height;
+    uint32_t width  = m_Statistics.width;
+    uint32_t height = m_Statistics.height;
 
     //QTime timer;
     //timer.start();
@@ -1805,18 +1815,18 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     coeff[i] = max[i] / sqrt(max[i]);
             }
 
-            for (int n = 0; n < m_Channels; n++)
+            for (int n = 0; n < m_Statistics.channels; n++)
             {
                 if (type == FITS_HIGH_PASS)
-                    min[n] = stats.mean[n];
+                    min[n] = m_Statistics.mean[n];
 
-                uint32_t cStart = n * stats.samples_per_channel;
+                uint32_t cStart = n * m_Statistics.samples_per_channel;
 
                 // Calculate how many elements we process per thread
-                uint32_t tStride = stats.samples_per_channel / nThreads;
+                uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
 
                 // Calculate the final stride since we can have some left over due to division above
-                uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+                uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
                 T * runningBuffer = image + cStart;
 
@@ -1863,15 +1873,15 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                 }
             }
 
-            for (int i = 0; i < nThreads * m_Channels; i++)
+            for (int i = 0; i < nThreads * m_Statistics.channels; i++)
                 futures[i].waitForFinished();
 
             if (calcStats)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    stats.min[i] = min[i];
-                    stats.max[i] = max[i];
+                    m_Statistics.min[i] = min[i];
+                    m_Statistics.max[i] = max[i];
                 }
                 //if (type != FITS_AUTO && type != FITS_LINEAR)
                 runningAverageStdDev<T>();
@@ -1896,9 +1906,9 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
             uint32_t row = 0;
             uint32_t index = 0;
 
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                uint32_t offset = i * stats.samples_per_channel;
+                uint32_t offset = i * m_Statistics.samples_per_channel;
                 for (uint32_t j = 0; j < height; j++)
                 {
                     row = offset + j * width;
@@ -1923,15 +1933,15 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
         // Based on http://www.librow.com/articles/article-1
         case FITS_MEDIAN:
         {
-            uint8_t BBP      = stats.bytesPerPixel;
+            uint8_t BBP      = m_Statistics.bytesPerPixel;
             auto * extension = new T[(width + 2) * (height + 2)];
             //   Check memory allocation
             if (!extension)
                 return;
             //   Create image extension
-            for (uint32_t ch = 0; ch < m_Channels; ch++)
+            for (uint32_t ch = 0; ch < m_Statistics.channels; ch++)
             {
-                uint32_t offset = ch * stats.samples_per_channel;
+                uint32_t offset = ch * m_Statistics.samples_per_channel;
                 uint32_t N = width, M = height;
 
                 for (uint32_t i = 0; i < M; ++i)
@@ -2419,13 +2429,13 @@ bool FITSData::rotFITS(int rotate, int mirror)
     else if (rotate < 0)
         rotate = rotate + 360;
 
-    nx = stats.width;
-    ny = stats.height;
+    nx = m_Statistics.width;
+    ny = m_Statistics.height;
 
-    int BBP = stats.bytesPerPixel;
+    int BBP = m_Statistics.bytesPerPixel;
 
     /* Allocate buffer for rotated image */
-    rotimage = new uint8_t[stats.samples_per_channel * m_Channels * BBP];
+    rotimage = new uint8_t[m_Statistics.samples_per_channel * m_Statistics.channels * BBP];
 
     if (rotimage == nullptr)
     {
@@ -2441,9 +2451,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
@@ -2454,9 +2464,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -2467,9 +2477,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -2484,9 +2494,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = ny - y1 - 1;
@@ -2500,9 +2510,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -2512,9 +2522,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = ny - y1 - 1;
@@ -2527,8 +2537,8 @@ bool FITSData::rotFITS(int rotate, int mirror)
             }
         }
 
-        stats.width  = ny;
-        stats.height = nx;
+        m_Statistics.width  = ny;
+        m_Statistics.height = nx;
     }
 
     /* Rotate by 180 degrees */
@@ -2536,9 +2546,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -2549,9 +2559,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
@@ -2562,9 +2572,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -2583,9 +2593,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -2595,9 +2605,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = ny - y1 - 1;
@@ -2611,9 +2621,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = y1;
@@ -2626,16 +2636,16 @@ bool FITSData::rotFITS(int rotate, int mirror)
             }
         }
 
-        stats.width  = ny;
-        stats.height = nx;
+        m_Statistics.width  = ny;
+        m_Statistics.height = nx;
     }
 
     /* If rotating by more than 315 degrees, assume top-bottom reflection */
     else if (rotate >= 315 && mirror)
     {
-        for (int i = 0; i < m_Channels; i++)
+        for (int i = 0; i < m_Statistics.channels; i++)
         {
-            offset = stats.samples_per_channel * i;
+            offset = m_Statistics.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
@@ -2661,8 +2671,8 @@ void FITSData::rotWCSFITS(int angle, int mirror)
     double ctemp1, ctemp2, ctemp3, ctemp4, naxis1, naxis2;
     int WCS_DECIMALS = 6;
 
-    naxis1 = stats.width;
-    naxis2 = stats.height;
+    naxis1 = m_Statistics.width;
+    naxis2 = m_Statistics.height;
 
     if (fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status))
     {
@@ -2962,7 +2972,7 @@ bool FITSData::checkDebayer()
     if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
 
-    if (stats.dataType != TUSHORT && stats.dataType != TBYTE)
+    if (m_Statistics.dataType != TUSHORT && m_Statistics.dataType != TBYTE)
     {
         KSNotification::error(i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
         return false;
@@ -2973,7 +2983,7 @@ bool FITSData::checkDebayer()
     QString order(roworder);
     order = order.remove('\'').trimmed();
 
-    if (order == "BOTTOM-UP" && !(stats.height % 2))
+    if (order == "BOTTOM-UP" && !(m_Statistics.height % 2))
     {
         if (pattern == "RGGB")
             pattern = "GBRG";
@@ -3071,7 +3081,7 @@ bool FITSData::debayer()
     //        }
     //    }
 
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
             return debayer_8bit();
@@ -3088,7 +3098,7 @@ bool FITSData::debayer_8bit()
 {
     dc1394error_t error_code;
 
-    uint32_t rgb_size = stats.samples_per_channel * 3 * stats.bytesPerPixel;
+    uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
     auto * destinationBuffer = new uint8_t[rgb_size];
 
     auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
@@ -3100,24 +3110,24 @@ bool FITSData::debayer_8bit()
         return false;
     }
 
-    int ds1394_height = stats.height;
+    int ds1394_height = m_Statistics.height;
     auto dc1394_source = bayer_source_buffer;
 
     if (debayerParams.offsetY == 1)
     {
-        dc1394_source += stats.width;
+        dc1394_source += m_Statistics.width;
         ds1394_height--;
     }
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
-    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height,
+    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, m_Statistics.width, ds1394_height,
                                             debayerParams.filter,
                                             debayerParams.method);
 
     if (error_code != DC1394_SUCCESS)
     {
         KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
-        m_Channels = 1;
+        m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
     }
@@ -3142,10 +3152,10 @@ bool FITSData::debayer_8bit()
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
     uint8_t * rBuff = bayered_buffer;
-    uint8_t * gBuff = bayered_buffer + (stats.width * stats.height);
-    uint8_t * bBuff = bayered_buffer + (stats.width * stats.height * 2);
+    uint8_t * gBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height);
+    uint8_t * bBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-    int imax = stats.samples_per_channel * 3 - 3;
+    int imax = m_Statistics.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
     {
         *rBuff++ = bayer_destination_buffer[i];
@@ -3153,7 +3163,7 @@ bool FITSData::debayer_8bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
     delete[] destinationBuffer;
     return true;
 }
@@ -3162,7 +3172,7 @@ bool FITSData::debayer_16bit()
 {
     dc1394error_t error_code;
 
-    uint32_t rgb_size = stats.samples_per_channel * 3 * stats.bytesPerPixel;
+    uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
     auto * destinationBuffer = new uint8_t[rgb_size];
 
     auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
@@ -3174,24 +3184,24 @@ bool FITSData::debayer_16bit()
         return false;
     }
 
-    int ds1394_height = stats.height;
+    int ds1394_height = m_Statistics.height;
     auto dc1394_source = bayer_source_buffer;
 
     if (debayerParams.offsetY == 1)
     {
-        dc1394_source += stats.width;
+        dc1394_source += m_Statistics.width;
         ds1394_height--;
     }
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
-    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height,
+    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, m_Statistics.width, ds1394_height,
                  debayerParams.filter,
                  debayerParams.method, 16);
 
     if (error_code != DC1394_SUCCESS)
     {
         KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
-        m_Channels = 1;
+        m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
     }
@@ -3216,10 +3226,10 @@ bool FITSData::debayer_16bit()
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
     uint16_t * rBuff = bayered_buffer;
-    uint16_t * gBuff = bayered_buffer + (stats.width * stats.height);
-    uint16_t * bBuff = bayered_buffer + (stats.width * stats.height * 2);
+    uint16_t * gBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height);
+    uint16_t * bBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-    int imax = stats.samples_per_channel * 3 - 3;
+    int imax = m_Statistics.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
     {
         *rBuff++ = bayer_destination_buffer[i];
@@ -3227,7 +3237,7 @@ bool FITSData::debayer_16bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
     delete[] destinationBuffer;
     return true;
 }
@@ -3235,10 +3245,10 @@ bool FITSData::debayer_16bit()
 double FITSData::getADU() const
 {
     double adu = 0;
-    for (int i = 0; i < m_Channels; i++)
-        adu += stats.mean[i];
+    for (int i = 0; i < m_Statistics.channels; i++)
+        adu += m_Statistics.mean[i];
 
-    return (adu / static_cast<double>(m_Channels));
+    return (adu / static_cast<double>(m_Statistics.channels));
 }
 
 QString FITSData::getLastError() const
@@ -3342,14 +3352,14 @@ QImage FITSData::FITSToImage(const QString &filename)
         fitsImage = QImage(data.width(), data.height(), QImage::Format_RGB32);
     }
 
-    double dataMin = data.stats.mean[0] - data.stats.stddev[0];
-    double dataMax = data.stats.mean[0] + data.stats.stddev[0] * 3;
+    double dataMin = data.m_Statistics.mean[0] - data.m_Statistics.stddev[0];
+    double dataMax = data.m_Statistics.mean[0] + data.m_Statistics.stddev[0] * 3;
 
     double bscale = 255. / (dataMax - dataMin);
     double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
     // Long way to do this since we do not want to use templated functions here
-    switch (data.stats.dataType)
+    switch (data.m_Statistics.dataType)
     {
         case TBYTE:
             data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -3520,7 +3530,7 @@ bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double r
     qCInfo(KSTARS_FITS) << "Creating new WCS file:" << newWCSFile << "with parameters Orientation:" << orientation
                         << "RA:" << ra << "DE:" << dec << "Pixel Scale:" << pixscale;
 
-    nelements = stats.samples_per_channel * m_Channels;
+    nelements = stats.samples_per_channel * stats.channels;
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, QString('!' + newWCSFile).toLatin1(), &status))
@@ -3758,15 +3768,15 @@ bool FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
 
 bool FITSData::contains(const QPointF &point) const
 {
-    return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
+    return (point.x() >= 0 && point.y() >= 0 && point.x() <= m_Statistics.width && point.y() <= m_Statistics.height);
 }
 
 void FITSData::saveStatistics(FITSImage::Statistic &other)
 {
-    other = stats;
+    other = m_Statistics;
 }
 
 void FITSData::restoreStatistics(FITSImage::Statistic &other)
 {
-    stats = other;
+    m_Statistics = other;
 }

@@ -27,7 +27,7 @@ class FITSGradientDetector: public FITSStarDetector
         Q_OBJECT
 
     public:
-        explicit FITSGradientDetector(FITSData *data): FITSStarDetector(data) {};
+        explicit FITSGradientDetector(FITSData * data): FITSStarDetector(data) {};
 
     public:
         /** @brief Find sources in the parent FITS data file.
