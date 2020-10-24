@@ -164,6 +164,17 @@ void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
     emit newImage(jpegData);
 }
 
+void Media::sendPreviewImage(const QSharedPointer<FITSData> &data, const QString &uuid)
+{
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+        return;
+
+    m_UUID = uuid;
+
+    previewImage->loadData(data);
+    sendImage();
+}
+
 void Media::sendPreviewImage(const QString &filename, const QString &uuid)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
