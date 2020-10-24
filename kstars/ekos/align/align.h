@@ -905,7 +905,7 @@ class Align : public QWidget, public Ui::Align
         AlignView *alignView { nullptr };
 
         // FITS Viewer in case user want to display in it instead of internal view
-        QSharedPointer<FITSViewer> fv;
+        QPointer<FITSViewer> fv;
 
         // Polar Alignment Helper
         PAHStage pahStage { PAH_IDLE };

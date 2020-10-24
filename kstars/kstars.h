@@ -165,8 +165,9 @@ class KStars : public KXmlGuiWindow
         }
 
 #ifdef HAVE_CFITSIO
-        const QSharedPointer<FITSViewer> &genericFITSViewer();
-        void addFITSViewer(const QSharedPointer<FITSViewer> &fv);
+        //        void addFITSViewer(const QSharedPointer<FITSViewer> &fv);
+        const QPointer<FITSViewer> &genericFITSViewer();
+        const QPointer<FITSViewer> &createFITSViewer();
         void clearAllViewers();
 #endif
 
@@ -867,8 +868,8 @@ class KStars : public KXmlGuiWindow
         HorizonManager *m_HorizonManager { nullptr };
         EyepieceField *m_EyepieceView { nullptr };
 #ifdef HAVE_CFITSIO
-        QSharedPointer<FITSViewer> m_GenericFITSViewer;
-        QList<QSharedPointer<FITSViewer>> m_FITSViewers;
+        QPointer<FITSViewer> m_GenericFITSViewer;
+        QList<QPointer<FITSViewer>> m_FITSViewers;
 #endif
 
 #ifdef HAVE_INDI

@@ -296,6 +296,8 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
             a->setChecked(false);
         }
     }
+
+    //emit terminated();
 }
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)

@@ -337,7 +337,7 @@ class CCD : public DeviceDecorator
         }
 
     public slots:
-        void FITSViewerDestroyed();
+        //void FITSViewerDestroyed();
         void StreamWindowHidden();
         // Blob manager
         void setBLOBManager(const char *device, INDI::Property * prop);
@@ -411,7 +411,7 @@ class CCD : public DeviceDecorator
         INumber *offsetN { nullptr };
         IPerm offsetPerm { IP_RO };
 
-        QSharedPointer<FITSViewer> m_FITSViewerWindows;
+        QPointer<FITSViewer> m_FITSViewerWindow;
         QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;
