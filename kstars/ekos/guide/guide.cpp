@@ -1223,7 +1223,7 @@ bool Guide::captureOneFrame()
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS, Qt::UniqueConnection);
+    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Guide::processData, Qt::UniqueConnection);
     qCDebug(KSTARS_EKOS_GUIDE) << "Capturing frame...";
 
     double finalExposure = seqExpose;
@@ -1401,22 +1401,34 @@ void Guide::reconnectDriver(const QString &camera, const QString &via)
     });
 }
 
-void Guide::newFITS(IBLOB *bp)
+void Guide::processData(const QSharedPointer<FITSData> &data)
 {
-    INDI_UNUSED(bp);
-
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     if (targetChip->getCaptureMode() != FITS_GUIDE)
     {
-        qCWarning(KSTARS_EKOS_GUIDE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" <<
-                                     targetChip->getCaptureMode();
+        if (data)
+        {
+            QString blobInfo = QString("{Device: %1 Property: %2 Element: %3 Chip: %4}").arg(data->property("device").toString())
+                               .arg(data->property("blobVector").toString())
+                               .arg(data->property("blobElement").toString())
+                               .arg(data->property("chip").toInt());
+
+            qCWarning(KSTARS_EKOS_GUIDE) << blobInfo << "Ignoring Received FITS as it has the wrong capture mode" <<
+                                         targetChip->getCaptureMode();
+        }
+
         return;
     }
+
+    if (data)
+        m_ImageData = data;
+    else
+        m_ImageData.reset();
 
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
 
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Guide::processData);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
 
@@ -3243,11 +3255,9 @@ void Guide::processGuideOptions()
 
 void Guide::showFITSViewer()
 {
-    FITSData *data = guideView->getImageData();
-    if (data)
+    static int lastFVTabID = -1;
+    if (m_ImageData)
     {
-        QUrl url = QUrl::fromLocalFile(data->filename());
-
         if (fv.isNull())
         {
             if (Options::singleWindowCapturedFITS())
@@ -3258,13 +3268,11 @@ void Guide::showFITSViewer()
                 KStars::Instance()->addFITSViewer(fv);
             }
 
-            fv->addFITS(url);
-            FITSView *currentView = fv->getCurrentView();
-            if (currentView)
-                currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+
+            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
         }
-        else
-            fv->updateFITS(url, 0);
+        else if (fv->updateData(m_ImageData, QUrl(), lastFVTabID, &lastFVTabID) == false)
+            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
 
         fv->show();
     }

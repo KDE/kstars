@@ -547,7 +547,7 @@ class Capture : public QWidget, public Ui::Capture
              * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
              * @param bp pointer to blob containing FITS data
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief checkCCD Refreshes the CCD information in the capture module.
@@ -660,7 +660,7 @@ class Capture : public QWidget, public Ui::Capture
         void setMountStatus(ISD::Telescope::Status newState);
 
         void setGuideChip(ISD::CCDChip *chip);
-        void setGeneratedPreviewFITS(const QString &previewFITS);
+        //void setGeneratedPreviewFITS(const QString &previewFITS);
 
         // Clear Camera Configuration
         void clearCameraConfiguration();
@@ -743,7 +743,7 @@ class Capture : public QWidget, public Ui::Capture
         IPState checkDarkFramePendingTasks();
 
         // Send image info
-        void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
+        //void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
 
         // Capture
         IPState setCaptureComplete();
@@ -780,7 +780,7 @@ class Capture : public QWidget, public Ui::Capture
         void resetFocus();
         void suspendGuiding();
         void resumeGuiding();
-        void newImage(Ekos::SequenceJob *job);
+        void newImage(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data);
         void newExposureProgress(Ekos::SequenceJob *job);
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
@@ -922,8 +922,8 @@ class Capture : public QWidget, public Ui::Capture
         ISD::CCDChip *targetChip { nullptr };
         ISD::CCDChip *guideChip { nullptr };
         ISD::CCDChip *blobChip { nullptr };
-        QString blobFilename;
-        QString m_GeneratedPreviewFITS;
+        //QString blobFilename;
+        //QString m_GeneratedPreviewFITS;
 
         // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
         QList<ISD::GDInterface *> Filters;
@@ -938,7 +938,9 @@ class Capture : public QWidget, public Ui::Capture
         ISD::LightBox *currentLightBox { nullptr };
         ISD::Dome *currentDome { nullptr };
 
-        QPointer<QDBusInterface> mountInterface { nullptr };
+        QPointer<QDBusInterface> mountInterface;
+
+        QSharedPointer<FITSData> m_ImageData;
 
         QStringList m_LogText;
         QUrl m_SequenceURL;

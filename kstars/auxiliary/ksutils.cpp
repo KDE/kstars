@@ -1714,9 +1714,7 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
             return false;
         }
     }
-
     return true;
-
 #endif
 }
 

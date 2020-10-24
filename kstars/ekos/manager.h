@@ -414,7 +414,7 @@ class Manager : public QDialog, public Ui::Manager
 
         // Capture Summary
         void updateCaptureStatus(CaptureState status);
-        void updateCaptureProgress(SequenceJob *job);
+        void updateCaptureProgress(SequenceJob *job, const QSharedPointer<FITSData> &data);
         void updateDownloadProgress(double timeLeft);
         void updateExposureProgress(SequenceJob *job);
         void updateCaptureCountDown();

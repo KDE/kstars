@@ -346,7 +346,7 @@ class Guide : public QWidget, public Ui::Guide
         /**
              * @brief newFITS is called by the INDI framework whenever there is a new BLOB arriving
              */
-        void newFITS(IBLOB *);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief setST4 Sets a new ST4 device from the combobox index
@@ -670,6 +670,7 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<PHD2> phd2Guider;
         QPointer<LinGuider> linGuider;
         QPointer<FITSViewer> fv;
+        QSharedPointer<FITSData> m_ImageData;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };

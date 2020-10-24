@@ -235,7 +235,7 @@ void Message::sendCameras()
     {
         ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
         connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
-        connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
+        //connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
         ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
         double temperature = Ekos::INVALID_VALUE;

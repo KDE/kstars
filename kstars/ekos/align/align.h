@@ -182,7 +182,7 @@ class Align : public QWidget, public Ui::Align
 
         std::unique_ptr<StellarSolver> m_StellarSolver;
         QList<SSolver::Parameters> optionsList;
-        QString m_FileToSolve;
+        //QString m_FileToSolve;
 
 
         /** DBUS interface function.
@@ -398,7 +398,7 @@ class Align : public QWidget, public Ui::Align
              * @brief Process new FITS received from CCD.
              * @param bp pointer to blob property
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /** \addtogroup AlignDBusInterface
              *  @{
@@ -898,8 +898,8 @@ class Align : public QWidget, public Ui::Align
         QTimer m_AlignTimer;
 
         // BLOB Type
-        ISD::CCD::BlobType blobType;
-        QString blobFileName;
+        //        ISD::CCD::BlobType blobType;
+        //        QString blobFileName;
 
         // Align Frame
         AlignView *alignView { nullptr };
@@ -983,6 +983,9 @@ class Align : public QWidget, public Ui::Align
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
+
+        // Data
+        QSharedPointer<FITSData> m_ImageData;
 
         // Active Profile
         ProfileInfo *m_ActiveProfile { nullptr };

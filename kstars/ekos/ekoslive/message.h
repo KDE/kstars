@@ -65,7 +65,7 @@ class Message : public QObject
         void expired();
         void optionsChanged(QMap<int, bool> options);
         // This is forward signal from INDI::CCD
-        void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
+        //void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
 
         void resetPolarView();
 

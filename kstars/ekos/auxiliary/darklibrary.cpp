@@ -119,7 +119,7 @@ bool DarkLibrary::loadDarkFile(const QString &filename)
 {
     FITSData *darkData = new FITSData();
 
-    bool rc = darkData->loadFITS(filename);
+    bool rc = darkData->loadFromFile(filename);
 
     if (rc)
         darkFiles[filename] = darkData;
@@ -501,7 +501,7 @@ void DarkLibrary::newFITS(IBLOB * bp)
     FITSData *calibrationData = new FITSData();
 
     // Deep copy of the data
-    if (calibrationData->loadFITS(calibrationView->getImageData()->filename()))
+    if (calibrationData->loadFromFile(calibrationView->getImageData()->filename()))
     {
         saveDarkFile(calibrationData);
         subtract(calibrationData, subtractParams.targetImage, subtractParams.targetChip->getCaptureFilter(),

@@ -1189,10 +1189,10 @@ void KStars::slotOpenFITS()
 #ifdef HAVE_CFITSIO
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
-    QUrl fileURL =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
-                                    "Image (*.fits *.fits.fz *.fit *.fts *.jpg *.jpeg *.png *.gif *.bmp)");
-
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
+                   "FITS (*.fits *.fits.fz *.fit *.fts);;"
+                   "Images (*.jpg *.jpeg *.png *.gif *.bmp);;"
+                   "RAW (*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
     if (fileURL.isEmpty())
         return;
 
@@ -1207,7 +1207,7 @@ void KStars::slotOpenFITS()
         fv->show();
     });
 
-    fv->addFITS(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
+    fv->loadFile(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 #endif
 }
 

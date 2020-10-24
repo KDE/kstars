@@ -79,7 +79,7 @@ void TestFitsData::testComputeHFR()
     std::unique_ptr<FITSData> d(new FITSData(MODE));
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 60000);
     QVERIFY(worker.result());
 
@@ -124,7 +124,7 @@ void TestFitsData::testBahtinovFocusHFR()
     std::unique_ptr<FITSData> d(new FITSData(MODE));
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -226,7 +226,7 @@ void TestFitsData::testLoadFits()
     std::unique_ptr<FITSData> fd(new FITSData(MODE));
     QVERIFY(fd != nullptr);
 
-    QFuture<bool> worker = fd->loadFITS(NAME);
+    QFuture<bool> worker = fd->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -310,7 +310,7 @@ void TestFitsData::testCentroidAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -340,7 +340,7 @@ void TestFitsData::testGradientAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -372,7 +372,7 @@ void TestFitsData::testThresholdAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -402,7 +402,7 @@ void TestFitsData::testSEPAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 

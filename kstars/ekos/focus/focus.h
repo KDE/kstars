@@ -312,7 +312,7 @@ class Focus : public QWidget, public Ui::Focus
              * @brief newFITS A new FITS blob is received by the CCD driver.
              * @param bp pointer to blob data
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief processFocusNumber Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
@@ -709,6 +709,9 @@ class Focus : public QWidget, public Ui::Focus
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
+
+        // Data
+        QSharedPointer<FITSData> m_ImageData;
 
         // Linear focuser.
         std::unique_ptr<FocusAlgorithmInterface> linearFocuser;
