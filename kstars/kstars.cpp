@@ -313,7 +313,7 @@ void KStars::releaseResources()
 #endif
 
 #ifdef HAVE_CFITSIO
-    qDeleteAll(m_FITSViewers);
+    //qDeleteAll(m_FITSViewers);
 #endif
 
     QSqlDatabase::removeDatabase("userdb");
@@ -619,11 +619,11 @@ void KStars::updateTime(const bool automaticDSTchange)
 }
 
 #ifdef HAVE_CFITSIO
-QPointer<FITSViewer> KStars::genericFITSViewer()
+const QSharedPointer<FITSViewer> &KStars::genericFITSViewer()
 {
     if (m_GenericFITSViewer.isNull())
     {
-        m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : this);
+        m_GenericFITSViewer.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : this));
         m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
 
         m_FITSViewers.append(m_GenericFITSViewer);
@@ -632,7 +632,7 @@ QPointer<FITSViewer> KStars::genericFITSViewer()
     return m_GenericFITSViewer;
 }
 
-void KStars::addFITSViewer(QPointer<FITSViewer> fv)
+void KStars::addFITSViewer(const QSharedPointer<FITSViewer> &fv)
 {
     m_FITSViewers.append(fv);
     connect(fv.data(), &FITSViewer::destroyed, [ &, fv]()
@@ -643,7 +643,7 @@ void KStars::addFITSViewer(QPointer<FITSViewer> fv)
 
 void KStars::clearAllViewers()
 {
-    for (QPointer<FITSViewer> fv : m_FITSViewers)
+    for (auto &fv : m_FITSViewers)
         fv->close();
 
     m_FITSViewers.clear();

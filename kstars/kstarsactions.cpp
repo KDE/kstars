@@ -328,7 +328,7 @@ void KStars::slotINDIToolBar()
 
         if (a->isChecked())
         {
-            for (QPointer<FITSViewer> view : m_FITSViewers)
+            for (auto &view : m_FITSViewers)
             {
                 if (view->getTabs().empty() == false)
                 {
@@ -340,7 +340,7 @@ void KStars::slotINDIToolBar()
         }
         else
         {
-            for (QPointer<FITSViewer> view : m_FITSViewers)
+            for (auto &view : m_FITSViewers)
             {
                 view->hide();
             }
@@ -1199,9 +1199,10 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    QPointer<FITSViewer> fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
+    QSharedPointer<FITSViewer> fv;
+    fv.reset(new FITSViewer((Options::independentWindowFITS()) ? nullptr : this));
 
-    connect(fv, &FITSViewer::loaded, [ &, fv]()
+    connect(fv.get(), &FITSViewer::loaded, [ &, fv]()
     {
         addFITSViewer(fv);
         fv->show();
