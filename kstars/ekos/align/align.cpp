@@ -3203,8 +3203,8 @@ void Align::startSolving()
     // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
 
-    disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     FITSData *data = alignView->getImageData();
+    disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
     if (m_StellarSolver)
     {
         auto *solver = m_StellarSolver.release();
@@ -3228,8 +3228,10 @@ void Align::startSolving()
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
     if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
     {
-        // TODO send FITSData buffer or convert to jpeg then set the filename
-        //m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
+        QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
+                               QRegularExpression("[-{}]")));
+        alignView->saveImage(filename);
+        m_StellarSolver->setProperty("FileToProcess", filename);
 
         if(Options::sextractorIsInternal())
             m_StellarSolver->setProperty("SextractorBinaryPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
@@ -3256,12 +3258,14 @@ void Align::startSolving()
 
     if(type == SSolver::SOLVER_ONLINEASTROMETRY )
     {
-        // TODO send FITSData buffer or convert to jpeg then set the filename
-        //m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
+        QString filename = QDir::tempPath() + QString("/solver%1.jpg").arg(QUuid::createUuid().toString().remove(
+                               QRegularExpression("[-{}]")));
+        alignView->saveImage(filename);
+
+        m_StellarSolver->setProperty("FileToProcess", filename);
         m_StellarSolver->setProperty("AstrometryAPIKey", Options::astrometryAPIKey());
         m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
     }
-
 
     if (loadSlewState == IPS_BUSY)
     {
