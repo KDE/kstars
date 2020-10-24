@@ -60,7 +60,7 @@ bool FITSCentroidDetector::checkCollision(Edge * s1, Edge * s2) const
 /*** Find center of stars and calculate Half Flux Radius */
 QFuture<bool> FITSCentroidDetector::findSources(const QRect &boundary)
 {
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
         case TBYTE:
@@ -94,8 +94,8 @@ QFuture<bool> FITSCentroidDetector::findSources(const QRect &boundary)
 template <typename T>
 bool FITSCentroidDetector::findSources(const QRect &boundary)
 {
-    FITSImage::Statistic const &stats = image_data->getStatistics();
-    FITSMode const m_Mode = static_cast<FITSMode>(image_data->property("mode").toInt());
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
+    FITSMode const m_Mode = static_cast<FITSMode>(m_ImageData->property("mode").toInt());
 
     int MINIMUM_STDVAR = getValue("MINIMUM_STDVAR", 5).toInt();
     int minEdgeWidth = getValue("MINIMUM_PIXEL_RANGE", 5).toInt();
@@ -107,7 +107,7 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
     int pixVal           = 0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    auto * buffer = reinterpret_cast<T const *>(image_data->getImageBuffer());
+    auto * buffer = reinterpret_cast<T const *>(m_ImageData->getImageBuffer());
 
     float dispersion_ratio = 1.5;
 
@@ -449,7 +449,7 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
         //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
     }
 
-    image_data->setStarCenters(starCenters);
+    m_ImageData->setStarCenters(starCenters);
     // Release memory
     qDeleteAll(edges);
 

@@ -57,7 +57,7 @@ class FITSStarDetector : public QObject
     public:
         /** @brief Instantiate a detector for a FITS data file.
          */
-        explicit FITSStarDetector(FITSData *data): QObject(), image_data(data) {};
+        explicit FITSStarDetector(FITSData *data): QObject(), m_ImageData(data) {};
 
         /** @brief Find sources in the parent FITS data file.
          * @param starCenters is the list of sources to append to.
@@ -87,7 +87,7 @@ class FITSStarDetector : public QObject
         //void configure(QStandardItemModel const &settings);
 
     protected:
-        FITSData *image_data {nullptr};
+        FITSData *m_ImageData {nullptr};
         QVariantMap m_Settings;
 };
 

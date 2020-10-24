@@ -26,7 +26,7 @@
 
 QFuture<bool> FITSGradientDetector::findSources(const QRect &boundary)
 {
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
 
@@ -62,12 +62,12 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
 {
     int subX = qMax(0, boundary.isNull() ? 0 : boundary.x());
     int subY = qMax(0, boundary.isNull() ? 0 : boundary.y());
-    int subW = (boundary.isNull() ? image_data->width() : boundary.width());
-    int subH = (boundary.isNull() ? image_data->height() : boundary.height());
+    int subW = (boundary.isNull() ? m_ImageData->width() : boundary.width());
+    int subH = (boundary.isNull() ? m_ImageData->height() : boundary.height());
 
-    int BBP = image_data->getBytesPerPixel();
+    int BBP = m_ImageData->getBytesPerPixel();
 
-    uint16_t dataWidth = image_data->width();
+    uint16_t dataWidth = m_ImageData->width();
 
     // #1 Find offsets
     uint32_t size   = subW * subH;
@@ -77,11 +77,11 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
     auto * buffer = new uint8_t[size * BBP];
     // If there is no offset, copy whole buffer in one go
     if (offset == 0)
-        memcpy(buffer, image_data->getImageBuffer(), size * BBP);
+        memcpy(buffer, m_ImageData->getImageBuffer(), size * BBP);
     else
     {
         uint8_t * dataPtr = buffer;
-        uint8_t const * origDataPtr = image_data->getImageBuffer();
+        uint8_t const * origDataPtr = m_ImageData->getImageBuffer();
         uint32_t lineOffset  = 0;
         // Copy data line by line
         for (int height = subY; height < (subY + subH); height++)
@@ -97,8 +97,8 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
     FITSImage::Statistic stats;
     stats.width               = subW;
     stats.height              = subH;
-    stats.dataType            = image_data->getStatistics().dataType;
-    stats.bytesPerPixel       = image_data->getStatistics().bytesPerPixel;
+    stats.dataType            = m_ImageData->getStatistics().dataType;
+    stats.bytesPerPixel       = m_ImageData->getStatistics().bytesPerPixel;
     stats.samples_per_channel = size;
     stats.ndim                = 2;
     boundedImage->restoreStatistics(stats);
@@ -237,7 +237,7 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
     QVector<double> subPixels;
     subPixels.reserve(center->width / resolution);
 
-    const T * origBuffer = reinterpret_cast<T const *>(image_data->getImageBuffer()) + offset;
+    const T * origBuffer = reinterpret_cast<T const *>(m_ImageData->getImageBuffer()) + offset;
 
     for (double x = leftEdge; x <= rightEdge; x += resolution)
     {
@@ -282,7 +282,7 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
 
     QList<Edge*> starCenters;
     starCenters.append(center);
-    image_data->setStarCenters(starCenters);
+    m_ImageData->setStarCenters(starCenters);
 
     qCDebug(KSTARS_FITS) << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
 

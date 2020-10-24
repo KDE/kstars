@@ -27,7 +27,7 @@ class FITSThresholdDetector: public FITSStarDetector
         Q_OBJECT
 
     public:
-        explicit FITSThresholdDetector(FITSData *parent): FITSStarDetector(parent) {};
+        explicit FITSThresholdDetector(FITSData * data): FITSStarDetector(data) {};
 
     public:
         /** @brief Find sources in the parent FITS data file.

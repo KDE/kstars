@@ -142,79 +142,79 @@ class FITSData : public QObject
         void restoreStatistics(FITSImage::Statistic &other);
         FITSImage::Statistic const &getStatistics() const
         {
-            return stats;
+            return m_Statistics;
         };
 
         uint16_t width() const
         {
-            return stats.width;
+            return m_Statistics.width;
         }
         uint16_t height() const
         {
-            return stats.height;
+            return m_Statistics.height;
         }
         int64_t size() const
         {
-            return stats.size;
+            return m_Statistics.size;
         }
         int channels() const
         {
-            return m_Channels;
+            return m_Statistics.channels;
         }
         double getMin(uint8_t channel = 0) const
         {
-            return stats.min[channel];
+            return m_Statistics.min[channel];
         }
         double getMax(uint8_t channel = 0) const
         {
-            return stats.max[channel];
+            return m_Statistics.max[channel];
         }
         void setMinMax(double newMin, double newMax, uint8_t channel = 0);
         void getMinMax(double *min, double *max, uint8_t channel = 0) const
         {
-            *min = stats.min[channel];
-            *max = stats.max[channel];
+            *min = m_Statistics.min[channel];
+            *max = m_Statistics.max[channel];
         }
         void setStdDev(double value, uint8_t channel = 0)
         {
-            stats.stddev[channel] = value;
+            m_Statistics.stddev[channel] = value;
         }
         double getStdDev(uint8_t channel = 0) const
         {
-            return stats.stddev[channel];
+            return m_Statistics.stddev[channel];
         }
         void setMean(double value, uint8_t channel = 0)
         {
-            stats.mean[channel] = value;
+            m_Statistics.mean[channel] = value;
         }
         double getMean(uint8_t channel = 0) const
         {
-            return stats.mean[channel];
+            return m_Statistics.mean[channel];
         }
         void setMedian(double val, uint8_t channel = 0)
         {
-            stats.median[channel] = val;
+            m_Statistics.median[channel] = val;
         }
         double getMedian(uint8_t channel = 0) const
         {
-            return stats.median[channel];
+            return m_Statistics.median[channel];
         }
 
         int getBytesPerPixel() const
         {
-            return stats.bytesPerPixel;
+            return m_Statistics.bytesPerPixel;
         }
         void setSNR(double val)
         {
-            stats.SNR = val;
+            m_Statistics.SNR = val;
         }
         double getSNR() const
         {
-            return stats.SNR;
+            return m_Statistics.SNR;
         }
         uint32_t bpp() const
         {
-            switch(stats.dataType)
+            switch(m_Statistics.dataType)
             {
                 case TBYTE:
                     return 8;
@@ -505,8 +505,6 @@ class FITSData : public QObject
 #endif
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
-        /// Number of channels
-        uint8_t m_Channels { 1 };
         /// Generic data image buffer
         uint8_t *m_ImageBuffer { nullptr };
         /// Above buffer size in bytes
@@ -558,7 +556,7 @@ class FITSData : public QObject
         /// Bayer parameters
         BayerParams debayerParams;
 
-        FITSImage::Statistic stats;
+        FITSImage::Statistic m_Statistics;
 
         // A list of header records
         QList<Record*> records;
@@ -571,6 +569,8 @@ class FITSData : public QObject
 
         /// Remove temporary files after closing
         bool autoRemoveTemporaryFITS { true };
+
+        QFuture<bool> m_StarFindFuture;
 
         QString lastError;
 

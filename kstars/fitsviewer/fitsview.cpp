@@ -1613,7 +1613,7 @@ void FITSView::toggleStars(bool enable)
 void FITSView::searchStars()
 {
     QVariant frameType;
-    if (!imageData || !imageData->getRecordValue("FRAME", frameType) || frameType.toString() != "Light")
+    if (!imageData || (imageData->getRecordValue("FRAME", frameType) && frameType.toString() != "Light"))
         return;
 
     if (!imageData->areStarsSearched())
