@@ -1514,12 +1514,12 @@ void CCD::setupFITSViewerWindows()
         m_FITSViewerWindows = KStars::Instance()->genericFITSViewer();
     else
     {
-        m_FITSViewerWindows = new FITSViewer(Options::independentWindowFITS() ?
-                                             nullptr : KStars::Instance());
+        m_FITSViewerWindows.reset(new FITSViewer(Options::independentWindowFITS() ?
+                                  nullptr : KStars::Instance()));
         KStars::Instance()->addFITSViewer(m_FITSViewerWindows);
     }
 
-    connect(m_FITSViewerWindows, &FITSViewer::closed, [&](int tabIndex)
+    connect(m_FITSViewerWindows.get(), &FITSViewer::closed, [&](int tabIndex)
     {
         if (tabIndex == normalTabID)
             normalTabID = -1;

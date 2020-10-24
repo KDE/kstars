@@ -411,7 +411,7 @@ class CCD : public DeviceDecorator
         INumber *offsetN { nullptr };
         IPerm offsetPerm { IP_RO };
 
-        QPointer<FITSViewer> m_FITSViewerWindows;
+        QSharedPointer<FITSViewer> m_FITSViewerWindows;
         QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;
