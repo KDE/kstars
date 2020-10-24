@@ -391,7 +391,7 @@ class Analyze : public QWidget, public Ui::Analyze
         QCPItemRect *selectionHighlight { nullptr };
 
         // FITS Viewer to display FITS images.
-        QPointer<FITSViewer> fitsViewer;
+        QSharedPointer<FITSViewer> fitsViewer;
         // When trying to load a FITS file, if the original file path doesn't
         // work, Analyze tries to find the file under the alternate folder.
         QString alternateFolder;

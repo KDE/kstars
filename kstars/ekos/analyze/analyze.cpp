@@ -1755,7 +1755,7 @@ void Analyze::displayFITS(const QString &filename)
             fitsViewer = KStars::Instance()->genericFITSViewer();
         else
         {
-            fitsViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
+            fitsViewer.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
             KStars::Instance()->addFITSViewer(fitsViewer);
         }
 
