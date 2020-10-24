@@ -45,7 +45,8 @@ class Cloud : public QObject
         void registerCameras();
 
         // Ekos Cloud Message to User
-        void sendPreviewImage(const QString &filename, const QString &uuid);
+        void upload(const QString &filename, const QString &uuid);
+        void upload(const QSharedPointer<FITSData> &data, const QString &uuid);
 
     signals:
         void connected();
@@ -85,7 +86,7 @@ class Cloud : public QObject
         QUrl m_URL;
         QString m_UUID;
 
-        std::unique_ptr<FITSData> imageData;
+        QSharedPointer<FITSData> m_ImageData;
         QFutureWatcher<bool> watcher;
 
         QString extension;

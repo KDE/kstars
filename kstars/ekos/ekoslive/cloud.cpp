@@ -132,16 +132,26 @@ void Cloud::onTextReceived(const QString &message)
         disconnectServer();
 }
 
-void Cloud::sendPreviewImage(const QString &filename, const QString &uuid)
+void Cloud::upload(const QSharedPointer<FITSData> &data, const QString &uuid)
+{
+    if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false  || m_sendBlobs == false)
+        return;
+
+    m_UUID = uuid;
+    m_ImageData = data;
+    sendImage();
+}
+
+void Cloud::upload(const QString &filename, const QString &uuid)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false  || m_sendBlobs == false)
         return;
 
     watcher.waitForFinished();
     m_UUID = uuid;
-    imageData.reset(new FITSData());
-    imageData->setAutoRemoveTemporaryFITS(false);
-    QFuture<bool> result = imageData->loadFromFile(filename);
+    m_ImageData.reset(new FITSData());
+    m_ImageData->setAutoRemoveTemporaryFITS(false);
+    QFuture<bool> result = m_ImageData->loadFromFile(filename);
     watcher.setFuture(result);
 }
 
@@ -156,7 +166,7 @@ void Cloud::asyncUpload()
     // Add file name and size
     QJsonObject metadata;
     // Skip empty or useless metadata
-    for (FITSData::Record * oneRecord : imageData->getRecords())
+    for (FITSData::Record * oneRecord : m_ImageData->getRecords())
     {
         if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
                 oneRecord->key.isEmpty() || oneRecord->value.toString().isEmpty())
@@ -165,15 +175,15 @@ void Cloud::asyncUpload()
     }
 
     // Filename only without path
-    QString filepath = imageData->isCompressed() ? imageData->compressedFilename() : imageData->filename();
+    QString filepath = m_ImageData->isCompressed() ? m_ImageData->compressedFilename() : m_ImageData->filename();
     QString filenameOnly = QFileInfo(filepath).fileName();
 
     // Add filename and size as wells
     metadata.insert("uuid", m_UUID);
     metadata.insert("filename", filenameOnly);
-    metadata.insert("filesize", static_cast<int>(imageData->size()));
+    metadata.insert("filesize", static_cast<int>(m_ImageData->size()));
     // Must set Content-Disposition so
-    if (imageData->isCompressed())
+    if (m_ImageData->isCompressed())
         metadata.insert("Content-Disposition", QString("attachment;filename=%1").arg(filenameOnly));
     else
         metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
@@ -185,7 +195,7 @@ void Cloud::asyncUpload()
 
     QString compressedFile = filepath;
     // Use cfitsio pack to compress the file first
-    if (imageData->isCompressed() == false)
+    if (m_ImageData->isCompressed() == false)
     {
         compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
 
@@ -215,7 +225,7 @@ void Cloud::asyncUpload()
     if (compressedFile != filepath && compressedFile.startsWith(QDir::tempPath()))
         QFile::remove(compressedFile);
 
-    imageData.reset();
+    m_ImageData.reset();
 }
 
 void Cloud::uploadMetadata(const QByteArray &metadata)
