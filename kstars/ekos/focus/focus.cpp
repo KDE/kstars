@@ -3269,7 +3269,7 @@ void Focus::showFITSViewer()
                 fv = KStars::Instance()->genericFITSViewer();
             else
             {
-                fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
+                fv.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
                 KStars::Instance()->addFITSViewer(fv);
             }
 
