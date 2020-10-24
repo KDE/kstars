@@ -98,7 +98,7 @@ void FITSTab::setPreviewText(const QString &value)
 
 void FITSTab::selectRecentFITS(int i)
 {
-    loadFITS(QUrl::fromLocalFile(recentImages->item(i)->text()));
+    loadFile(QUrl::fromLocalFile(recentImages->item(i)->text()));
 }
 
 void FITSTab::clearRecentFITS()
@@ -423,7 +423,7 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
     return false;
 }
 
-void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
+void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
     if (setupView(mode, filter))
     {
@@ -440,7 +440,7 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
 
     view->setFilter(filter);
 
-    view->loadFITS(imageURL.toLocalFile(), silent);
+    view->loadFile(imageURL.toLocalFile(), silent);
 }
 
 bool FITSTab::shouldComputeHFR() const
@@ -498,16 +498,16 @@ void FITSTab::processData()
     view->updateFrame();
 }
 
-bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL, FITSMode mode, FITSScale filter)
+bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITSScale filter)
 {
     setupView(mode, filter);
 
-    currentURL = imageURL;
+    // Empty URL
+    currentURL = QUrl();
 
     view->setFilter(filter);
 
-    //if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
-    if (!view->loadFITSFromData(data))
+    if (!view->loadData(data))
     {
         // On Failure to load
         // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);

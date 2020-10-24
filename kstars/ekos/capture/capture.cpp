@@ -770,9 +770,9 @@ void Capture::stop(CaptureState targetState)
 
     if (meridianFlipStage == MF_NONE || meridianFlipStage >= MF_COMPLETED)
         secondsLabel->clear();
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
-    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
+    //    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
     currentCCD->setFITSDir(QString());
@@ -809,20 +809,20 @@ void Capture::stop(CaptureState targetState)
     setMeridianFlipStage(MF_READY);
 }
 
-void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
-{
-    if (activeJob && (myChip == nullptr || myChip == targetChip))
-    {
-        activeJob->setProperty("filename", filename);
-        emit newImage(activeJob);
-        // We only emit this for client/both images since remote images already send this automatically
-        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
-        {
-            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
-            m_GeneratedPreviewFITS.clear();
-        }
-    }
-}
+//void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
+//{
+//    if (activeJob && (myChip == nullptr || myChip == targetChip))
+//    {
+//        activeJob->setProperty("filename", filename);
+//        emit newImage(activeJob);
+//        // We only emit this for client/both images since remote images already send this automatically
+//        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
+//        {
+//            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
+//            m_GeneratedPreviewFITS.clear();
+//        }
+//    }
+//}
 
 bool Capture::setCamera(const QString &device)
 {
@@ -1570,26 +1570,41 @@ void Capture::checkNextExposure()
 }
 
 
-void Capture::newFITS(IBLOB * bp)
+void Capture::processData(const QSharedPointer<FITSData> &data)
 {
     ISD::CCDChip * tChip = nullptr;
+
+    QString blobInfo;
+    if (data)
+    {
+        m_ImageData = data;
+        blobInfo = QString("{Device: %1 Property: %2 Element: %3 Chip: %4}").arg(data->property("device").toString())
+                   .arg(data->property("blobVector").toString())
+                   .arg(data->property("blobElement").toString())
+                   .arg(data->property("chip").toInt());
+    }
+    else
+        m_ImageData.reset();
 
     // If there is no active job, ignore
     if (activeJob == nullptr)
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring received FITS" << bp->name << "as active job is null.";
+        if (data)
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring received FITS as active job is null.";
         return;
     }
 
     if (meridianFlipStage >= MF_ALIGNING)
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as meridian flip stage is" << meridianFlipStage;
+        if (data)
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as meridian flip stage is" << meridianFlipStage;
         return;
     }
 
+    // If image is client or both, let's process it.
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        if (bp == nullptr)
+        if (data.isNull())
         {
             appendLogText(i18n("Failed to save file to %1", activeJob->getSignature()));
             abort();
@@ -1598,37 +1613,33 @@ void Capture::newFITS(IBLOB * bp)
 
         if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as current capture state is not active" <<
-                                           m_State;
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as current capture state is not active" << m_State;
             return;
         }
 
-        if (!strcmp(bp->name, "CCD2"))
-            tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-        else
-            tChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
+        //if (!strcmp(data->name, "CCD2"))
+        tChip = currentCCD->getChip(static_cast<ISD::CCDChip::ChipType>(data->property("chip").toInt()));
         if (tChip != targetChip)
         {
             if (guideState == GUIDE_IDLE)
-                qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" <<
-                                               targetChip->getType();
+                qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as it does not correspond to the target chip"
+                                               << targetChip->getType();
             return;
         }
 
         if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" <<
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as it has the wrong capture mode" <<
                                            targetChip->getCaptureMode();
             return;
         }
 
         // If the FITS is not for our device, simply ignore
         //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
-        if (QString(bp->bvp->device) != currentCCD->getDeviceName())
+        if (data->property("device").toString() != currentCCD->getDeviceName())
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as the blob device name" << bp->bvp->device
-                                           << "does not equal active camera" << currentCCD->getDeviceName();
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as the blob device name does not equal active camera"
+                                           << currentCCD->getDeviceName();
             return;
         }
 
@@ -1641,7 +1652,7 @@ void Capture::newFITS(IBLOB * bp)
         // currentCCD->isLooping driver side looping (without any delays, next capture starts after driver reads data)
         if (m_isLooping == false && currentCCD->isLooping() == false)
         {
-            disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
+            disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
 
             if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
             {
@@ -1671,8 +1682,8 @@ void Capture::newFITS(IBLOB * bp)
         }
     }
 
-    blobChip    = bp ? static_cast<ISD::CCDChip *>(bp->aux0) : nullptr;
-    blobFilename = bp ? static_cast<const char *>(bp->aux2) : QString();
+    //    blobChip    = bp ? static_cast<ISD::CCDChip *>(bp->aux0) : nullptr;
+    //    blobFilename = bp ? static_cast<const char *>(bp->aux2) : QString();
 
     setCaptureComplete();
 }
@@ -1701,8 +1712,9 @@ IPState Capture::setCaptureComplete()
     // In case we're framing, let's start
     if (m_isLooping)
     {
-        sendNewImage(blobFilename, blobChip);
+        //sendNewImage(blobFilename, blobChip);
         secondsLabel->setText(i18n("Framing..."));
+        emit newImage(activeJob, m_ImageData);
         activeJob->capture(darkSubCheck->isChecked() ? true : false);
         return IPS_OK;
     }
@@ -1736,11 +1748,13 @@ IPState Capture::setCaptureComplete()
     // If it was initially set as pure preview job and NOT as preview for calibration
     if (activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
     {
-        sendNewImage(blobFilename, blobChip);
+        //sendNewImage(blobFilename, blobChip);
+        emit newImage(activeJob, m_ImageData);
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
         currentCCD->setUploadMode(rememberUploadMode);
-        delete (activeJob);
+        //delete (activeJob);
+        activeJob->deleteLater();
         // Reset active job pointer
         activeJob = nullptr;
         abort();
@@ -1771,11 +1785,11 @@ IPState Capture::setCaptureComplete()
     ditherCounter--;
 
     // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-        emit newImage(activeJob);
+    //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    emit newImage(activeJob, m_ImageData);
     // For Client/Both images, send file name.
-    else
-        sendNewImage(blobFilename, blobChip);
+    //else
+    //    sendNewImage(blobFilename, blobChip);
 
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
@@ -1799,6 +1813,9 @@ IPState Capture::setCaptureComplete()
 
     FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
     double hfr = currentImage ? currentImage->getImageData()->getHFR(HFR_AVERAGE) : 0;
+    QString blobFilename;
+    if (m_ImageData)
+        blobFilename = m_ImageData->property("filename").toString();
     emit captureComplete(blobFilename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
 
     m_State = CAPTURE_IMAGE_RECEIVED;
@@ -2195,8 +2212,8 @@ void Capture::captureImage()
             currentCCD->setExposureLoopCount(static_cast<uint>(remaining));
     }
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);
-    connect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
+    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData, Qt::UniqueConnection);
+    //connect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
@@ -2448,7 +2465,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         {
             if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
             {
-                newFITS(nullptr);
+                processData(nullptr);
                 return;
             }
         }
@@ -3139,7 +3156,7 @@ void Capture::prepareJob(SequenceJob * job)
 void Capture::prepareActiveJob()
 {
     // Just notification of active job stating up
-    emit newImage(activeJob);
+    emit newImage(activeJob, m_ImageData);
 
     //connect(job, SIGNAL(checkFocus()), this, &Ekos::Capture::startPostFilterAutoFocus()));
 
@@ -6945,10 +6962,10 @@ void Capture::processCaptureTimeout()
     else restartExposure();
 }
 
-void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
-{
-    m_GeneratedPreviewFITS = previewFITS;
-}
+//void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
+//{
+//    m_GeneratedPreviewFITS = previewFITS;
+//}
 
 void Capture::createDSLRDialog()
 {

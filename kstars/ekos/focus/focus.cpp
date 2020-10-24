@@ -918,7 +918,7 @@ void Focus::stop(bool aborted)
     HFRFrames.clear();
     //maxHFR=1;
 
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
     disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
     if (rememberUploadMode != currentCCD->getUploadMode())
@@ -1051,7 +1051,7 @@ void Focus::capture(double settleTime)
     if (gainIN->isEnabled())
         currentCCD->setGain(gainIN->value());
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
+    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
     connect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
     targetChip->setFrameType(FRAME_LIGHT);
@@ -1155,23 +1155,29 @@ bool Focus::changeFocus(int amount)
     return true;
 }
 
-void Focus::newFITS(IBLOB *bp)
+void Focus::processData(const QSharedPointer<FITSData> &data)
 {
-    if (bp == nullptr)
-    {
-        capture();
-        return;
-    }
+    //    if (data == nullptr)
+    //    {
+    //        capture();
+    //        return;
+    //    }
+
 
     // Ignore guide head if there is any.
-    if (!strcmp(bp->name, "CCD2"))
+    if (data->property("chip").toInt() == ISD::CCDChip::GUIDE_CCD)
         return;
+
+    if (data)
+        m_ImageData = data;
+    else
+        m_ImageData.reset();
 
     captureTimeout.stop();
     captureTimeoutCounter = 0;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
     disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
     if (darkFrameCheck->isChecked())
@@ -1218,7 +1224,7 @@ void Focus::calculateHFR()
         return;
     }
 
-    FITSData *image_data = focusView->getImageData();
+    //FITSData *image_data = focusView->getImageData();
 
     if (Options::focusUseFullField())
     {
@@ -1227,7 +1233,7 @@ void Focus::calculateHFR()
         focusView->filterStars();
 
         // Get the average HFR of the whole frame
-        setCurrentHFR(image_data->getHFR(HFR_AVERAGE));
+        setCurrentHFR(m_ImageData->getHFR(HFR_AVERAGE));
     }
     else
     {
@@ -1238,10 +1244,10 @@ void Focus::calculateHFR()
         double hfr = -1;
 
         if (starCenter.isNull() == false)
-            hfr = image_data->getHFR(starCenter.x(), starCenter.y());
+            hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
         // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
         if (hfr < 0)
-            hfr = image_data->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+            hfr = m_ImageData->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
 
         setCurrentHFR(hfr);
     }
@@ -1362,11 +1368,11 @@ void Focus::setCurrentHFR(double value)
     currentHFR = value;
 
     // Get handle to the image data
-    FITSData *image_data = focusView->getImageData();
+    //FITSData *image_data = focusView->getImageData();
 
     // Let's now report the current HFR
     qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
-                               << (starSelected ? 1 : image_data->getDetectedStars());
+                               << (starSelected ? 1 : m_ImageData->getDetectedStars());
 
     // Take the new HFR into account, eventually continue to stack samples
     if (appendHFR(currentHFR))
@@ -1385,7 +1391,7 @@ void Focus::setCurrentHFR(double value)
     // Format the HFR value into a string
     QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
     HFROut->setText(HFRText);
-    starsOut->setText(QString("%1").arg(image_data->getDetectedStars()));
+    starsOut->setText(QString("%1").arg(m_ImageData->getDetectedStars()));
 
     // Display message in case _last_ HFR was negative
     if (lastHFR == -1)
@@ -1413,7 +1419,7 @@ void Focus::setCurrentHFR(double value)
         // The starCenter _must_ already be defined, otherwise, we proceed until
         // the latter half of the function searches for a star and define it.
         if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
-                (selectedHFRStarHFR = image_data->getSelectedHFRStar()) != nullptr)
+                (selectedHFRStarHFR = m_ImageData->getSelectedHFRStar()) != nullptr)
         {
             // Now we have star selected in the frame
             starSelected = true;
@@ -1518,7 +1524,7 @@ void Focus::setCaptureComplete()
     captureInProgress = false;
 
     // Get handle to the image data
-    FITSData *image_data = focusView->getImageData();
+    //FITSData *image_data = focusView->getImageData();
 
     // Emit the whole image
     emit newImage(focusView);
@@ -1531,7 +1537,7 @@ void Focus::setCaptureComplete()
     // THEN let's find stars in the image and get current HFR
     if (inFocusLoop == false || (inFocusLoop && (focusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
     {
-        if (image_data->areStarsSearched() == false)
+        if (m_ImageData->areStarsSearched() == false)
         {
             analyzeSources();
         }
@@ -1543,7 +1549,7 @@ void Focus::setCaptureComplete()
 void Focus::setHFRComplete()
 {
     // Get handle to the image data
-    FITSData *image_data = focusView->getImageData();
+    //FITSData *image_data = focusView->getImageData();
 
     // If we are just framing, let's capture again
     if (inFocusLoop)
@@ -1586,7 +1592,7 @@ void Focus::setHFRComplete()
         if (useAutoStar->isChecked())
         {
             // Do we have a valid star detected?
-            Edge *selectedHFRStar = image_data->getSelectedHFRStar();
+            Edge *selectedHFRStar = m_ImageData->getSelectedHFRStar();
 
             if (selectedHFRStar == nullptr)
             {
@@ -3254,11 +3260,9 @@ void Focus::syncTrackingBoxPosition()
 
 void Focus::showFITSViewer()
 {
-    FITSData *data = focusView->getImageData();
-    if (data)
+    static int lastFVTabID = -1;
+    if (m_ImageData)
     {
-        QUrl url = QUrl::fromLocalFile(data->filename());
-
         if (fv.isNull())
         {
             if (Options::singleWindowCapturedFITS())
@@ -3269,13 +3273,11 @@ void Focus::showFITSViewer()
                 KStars::Instance()->addFITSViewer(fv);
             }
 
-            fv->addFITS(url);
-            FITSView *currentView = fv->getCurrentView();
-            if (currentView)
-                currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+
+            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
         }
-        else
-            fv->updateFITS(url, 0);
+        else if (fv->updateData(m_ImageData, QUrl(), lastFVTabID, &lastFVTabID) == false)
+            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
 
         fv->show();
     }

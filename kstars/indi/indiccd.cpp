@@ -1582,6 +1582,8 @@ void CCD::processBLOB(IBLOB *bp)
     // 1. file is preview or batch mode is not enabled
     // 2. file type is not FITS_NORMAL (focus, guide..etc)
     QString filename;
+#if 0
+
     if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
     {
         if (!writeTempImageFile(format, static_cast<char *>(bp->blob), bp->size, &filename))
@@ -1593,9 +1595,12 @@ void CCD::processBLOB(IBLOB *bp)
             addFITSKeywords(filename, filter);
 
     }
-    // Create file name for others
-    else
+#endif
+    // Create file name for sequences.
+    if (targetChip->isBatchMode())
     {
+        // If either generating file name or writing the image file fails
+        // then return
         if (!generateFilename(format, targetChip->isBatchMode(), &filename) ||
                 !writeImageFile(filename, bp, BType == BLOB_FITS))
         {
@@ -1603,12 +1608,14 @@ void CCD::processBLOB(IBLOB *bp)
             return;
         }
     }
+    else
+        filename = "image" + format;
 
     // store file name
-    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
-    bp->aux0 = targetChip;
-    bp->aux1 = &BType;
-    bp->aux2 = BLOBFilename;
+    //    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    //    bp->aux0 = targetChip;
+    //    bp->aux1 = &BType;
+    //    bp->aux2 = BLOBFilename;
 
     if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
     {
@@ -1624,6 +1631,7 @@ void CCD::processBLOB(IBLOB *bp)
     }
 
     // Check if we need to process RAW or regular image. Anything but FITS.
+#if 0
     if (BType == BLOB_IMAGE || BType == BLOB_RAW)
     {
         bool useFITSViewer = Options::autoImageToFITS() &&
@@ -1674,7 +1682,7 @@ void CCD::processBLOB(IBLOB *bp)
 
             FITSData *blob_fits_data = new FITSData(targetChip->getCaptureMode());
 
-            QFuture<bool> fitsloader = blob_fits_data->loadFITS(filename, false);
+            QFuture<bool> fitsloader = blob_fits_data->loadFromFile(filename, false);
             fitsloader.waitForFinished();
             if (!fitsloader.result())
             {
@@ -1698,38 +1706,45 @@ void CCD::processBLOB(IBLOB *bp)
             emit previewJPEGGenerated(filename, m_ImageViewerWindow->metadata());
         }
     }
+#endif
 
     // Load FITS if either:
     // #1 FITS Viewer is set to enabled.
     // #2 This is a preview, so we MUST open FITS Viewer even if disabled.
-    if (BType == BLOB_FITS)
+    //    if (BType == BLOB_FITS)
+    //    {
+    // Don't display image if the following conditions are met:
+    // 1. Mode is NORMAL or CALIBRATE; and
+    // 2. FITS Viewer is disabled; and
+    // 3. Batch mode is enabled.
+    // 4. Summary view is false.
+    if ((targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE) &&
+            Options::useFITSViewer() == false &&
+            Options::useSummaryPreview() == false &&
+            targetChip->isBatchMode())
     {
-        // Don't display if (NORMAL or CALIBRATE) and ((not using fitsviewer) and (no in batch mode))
-        if ((targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE) &&
-                (!Options::useFITSViewer() && targetChip->isBatchMode()))
-        {
-            emit BLOBUpdated(bp);
-            return;
-        }
-        FITSData *blob_fits_data = new FITSData(targetChip->getCaptureMode());
-
-        if (!blob_fits_data->loadFITSFromMemory(filename, bp->blob, bp->size, false))
-        {
-            // If reading the blob fails, we treat it the same as exposure failure
-            // and recapture again if possible
-            delete (blob_fits_data);
-            qCCritical(KSTARS_INDI) << "failed reading FITS memory buffer";
-            emit newExposureValue(targetChip, 0, IPS_ALERT);
-            return;
-        }
-
-        displayFits(targetChip, filename, bp, blob_fits_data);
-    }
-    else
         emit BLOBUpdated(bp);
+        emit newImage(nullptr);
+        return;
+    }
+
+    QSharedPointer<FITSData> blob_data;
+    blob_data.reset(new FITSData(targetChip->getCaptureMode()));
+    if (!blob_data->loadFromBuffer(bp->blob, bp->size, shortFormat, false))
+    {
+        // If reading the blob fails, we treat it the same as exposure failure
+        // and recapture again if possible
+        qCCritical(KSTARS_INDI) << "failed reading FITS memory buffer";
+        emit newExposureValue(targetChip, 0, IPS_ALERT);
+        return;
+    }
+
+    handleImage(targetChip, filename, bp, blob_data);
+    //    else
+    //        emit BLOBUpdated(bp);
 }
 
-void CCD::displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, FITSData *blob_fits_data)
+void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)
 {
     FITSMode captureMode = targetChip->getCaptureMode();
 
@@ -1738,72 +1753,79 @@ void CCD::displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, F
     // this should be fixed in the future and should only use FITSData
     if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
     {
-        if (m_FITSViewerWindows.isNull() &&
-                (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
+        if (m_FITSViewerWindows.isNull() && (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
             setupFITSViewerWindows();
     }
+
+    // Add metadata
+    data->setProperty("device", getDeviceName());
+    data->setProperty("blobVector", bp->bvp->name);
+    data->setProperty("blobElement", bp->name);
+    data->setProperty("chip", targetChip->getType());
+    data->setProperty("filename", filename);
 
     switch (captureMode)
     {
         case FITS_NORMAL:
         case FITS_CALIBRATE:
         {
-            bool success;
-            int tabIndex;
-            int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
-            QUrl fileURL = QUrl::fromLocalFile(filename);
-            FITSScale captureFilter = targetChip->getCaptureFilter();
-            if (*tabID == -1 || Options::singlePreviewFITS() == false)
+            if (Options::useFITSViewer())
             {
-                // If image is preview and we should display all captured images in a
-                // single tab called "Preview", then set the title to "Preview",
-                // Otherwise, the title will be the captured image name
-                QString previewTitle;
-                if (targetChip->isBatchMode() == false && Options::singlePreviewFITS())
+                bool success = false;
+                int tabIndex = -1;
+                int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
+                QUrl fileURL = QUrl::fromLocalFile(filename);
+                FITSScale captureFilter = targetChip->getCaptureFilter();
+                if (*tabID == -1 || Options::singlePreviewFITS() == false)
                 {
-                    // If we are displaying all images from all cameras in a single FITS
-                    // Viewer window, then we prefix the camera name to the "Preview" string
-                    if (Options::singleWindowCapturedFITS())
-                        previewTitle = i18n("%1 Preview", getDeviceName());
-                    else
-                        // Otherwise, just use "Preview"
-                        previewTitle = i18n("Preview");
+                    // If image is preview and we should display all captured images in a
+                    // single tab called "Preview", then set the title to "Preview",
+                    // Otherwise, the title will be the captured image name
+                    QString previewTitle;
+                    if (targetChip->isBatchMode() == false && Options::singlePreviewFITS())
+                    {
+                        // If we are displaying all images from all cameras in a single FITS
+                        // Viewer window, then we prefix the camera name to the "Preview" string
+                        if (Options::singleWindowCapturedFITS())
+                            previewTitle = i18n("%1 Preview", getDeviceName());
+                        else
+                            // Otherwise, just use "Preview"
+                            previewTitle = i18n("Preview");
+                    }
+
+                    success = m_FITSViewerWindows->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
                 }
+                else
+                    success = m_FITSViewerWindows->updateData(data, fileURL, *tabID, &tabIndex, captureFilter);
 
-                success = m_FITSViewerWindows->addFITSFromData(
-                              blob_fits_data, fileURL, &tabIndex, captureMode, captureFilter,
-                              previewTitle);
+                if (!success)
+                {
+                    // If opening file fails, we treat it the same as exposure failure
+                    // and recapture again if possible
+                    qCCritical(KSTARS_INDI) << "error adding/updating FITS";
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
+                *tabID = tabIndex;
+                targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
+                if (Options::focusFITSOnNewImage())
+                    m_FITSViewerWindows->raise();
             }
-            else
-                success = m_FITSViewerWindows->updateFITSFromData(
-                              blob_fits_data, fileURL, *tabID, &tabIndex, captureFilter);
-
-            if (!success)
-            {
-                // If opening file fails, we treat it the same as exposure failure
-                // and recapture again if possible
-                qCCritical(KSTARS_INDI) << "error adding/updating FITS";
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                return;
-            }
-            *tabID = tabIndex;
-            targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
-            if (Options::focusFITSOnNewImage())
-                m_FITSViewerWindows->raise();
 
             emit BLOBUpdated(bp);
+            emit newImage(data);
         }
         break;
 
         case FITS_FOCUS:
         case FITS_GUIDE:
         case FITS_ALIGN:
-            loadImageInView(bp, targetChip, blob_fits_data);
+            loadImageInView(bp, targetChip, data);
             break;
     }
 }
 
-void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data)
+void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data)
 {
     FITSMode mode = targetChip->getCaptureMode();
     FITSView *view = targetChip->getImageView(mode);
@@ -1813,7 +1835,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data)
     {
         view->setFilter(targetChip->getCaptureFilter());
         //if (!view->loadFITSFromData(data, filename))
-        if (!view->loadFITSFromData(data))
+        if (!view->loadData(data))
         {
             emit newExposureValue(targetChip, 0, IPS_ALERT);
             return;
@@ -1828,6 +1850,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data)
             m_FITSViewerWindows->show();
 
         emit BLOBUpdated(bp);
+        emit newImage(data);
     }
 }
 

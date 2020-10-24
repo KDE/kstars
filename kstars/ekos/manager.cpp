@@ -165,8 +165,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(),
             &EkosLive::Media::resetPolarView);
-    connect(ekosLiveClient.get()->message(), &EkosLive::Message::previewJPEGGenerated, ekosLiveClient.get()->media(),
-            &EkosLive::Media::sendPreviewJPEG);
+    //    connect(ekosLiveClient.get()->message(), &EkosLive::Message::previewJPEGGenerated, ekosLiveClient.get()->media(),
+    //            &EkosLive::Media::sendPreviewJPEG);
     connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendDialog);
 
@@ -2259,19 +2259,19 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureProcess.get(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
-    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename, const QString & previewFITS)
-    {
-        if (Options::useSummaryPreview() && QFile::exists(filename))
-        {
-            if (Options::autoImageToFITS())
-            {
-                if (previewFITS.isEmpty() == false)
-                    summaryPreview->loadFITS(previewFITS);
-            }
-            else
-                summaryPreview->loadFITS(filename);
-        }
-    });
+    //    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename, const QString & previewFITS)
+    //    {
+    //        if (Options::useSummaryPreview() && QFile::exists(filename))
+    //        {
+    //            if (Options::autoImageToFITS())
+    //            {
+    //                if (previewFITS.isEmpty() == false)
+    //                    summaryPreview->loadFile(previewFITS);
+    //            }
+    //            else
+    //                summaryPreview->loadFile(filename);
+    //        }
+    //    });
     connect(captureProcess.get(), &Ekos::Capture::newDownloadProgress, this, &Ekos::Manager::updateDownloadProgress);
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     captureGroup->setEnabled(true);
@@ -3028,7 +3028,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
-void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
+void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data)
 {
     // Image is set to nullptr only on initial capture start up
     int completed = job->getCompleted();
@@ -3058,14 +3058,21 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
 
     const QString filename = job->property("filename").toString();
-    if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
+    //if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
+    if (job->getStatus() == SequenceJob::JOB_BUSY)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
+
+
+        // FIXME
+        // Need to set data only, no need to send filename
         ekosLiveClient.get()->media()->sendPreviewImage(filename, uuid);
         if (job->isPreview() == false)
             ekosLiveClient.get()->cloud()->sendPreviewImage(filename, uuid);
 
+        if (Options::useSummaryPreview())
+            summaryPreview->loadData(data);
     }
 }
 

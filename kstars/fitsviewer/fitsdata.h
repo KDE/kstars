@@ -103,17 +103,17 @@ class FITSData : public QObject
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return A QFuture that can be watched until the async operation is complete.
          */
-        QFuture<bool> loadFITS(const QString &inFilename, bool silent = true);
+        QFuture<bool> loadFromFile(const QString &inFilename, bool silent = true);
 
         /**
          * @brief loadFITSFromMemory Loading FITS from memory buffer.
-         * @param inFilename Potential future path to FITS file (or compressed fits.gz), stored in a fitsdata class variable
          * @param fits_buffer The memory buffer containing the fits data.
          * @param fits_buffer_size The size in bytes of the buffer.
+         * @param extension file extension (e.g. "jpg", "fits", "cr2"...etc)
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return bool indicating success or failure.
          */
-        bool loadFITSFromMemory(const QString &inFilename, void *fits_buffer, size_t fits_buffer_size, bool silent);
+        bool loadFromBuffer(void *buffer, size_t size, const QString &extension, bool silent);
 
         /**
          * @brief parseSolution Parse the WCS solution information from the header into the given struct.
@@ -443,19 +443,21 @@ class FITSData : public QObject
     private:
         void loadCommon(const QString &inFilename);
         /**
-         * @brief privateLoadFITS Load a FITS Image buffer onto memory.
-         * @param fits_buffer pointer to FITS buffer
-         * @param fits_buffer_size size of FITS buffer
+         * @brief privateLoad Load an image (FITS, RAW, or images supported by Qt like jpeg, png).
+         * @param Buffer pointer to image data. If buffer is nullptr, read from disk (m_Filename).
+         * @param size size of image data in bytes.
          * @param silent If true, suppress any messages.
          * @return true if successfully loaded, false otherwise.
          */
-        bool privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool silent);
+        bool privateLoad(void *buffer, size_t size, const QString &extension, bool silent);
 
-        /**
-         * @brief privateLoadImage Load any image format supported by Qt
-         * @return  true if successfully loaded, false otherwise.
-         */
-        bool privateLoadImage();
+        // Load Qt-supported images.
+        bool loadCanonicalImage(void *buffer, size_t size, const QString &extension, bool silent);
+        // Load FITS images.
+        bool loadFITSImage(void *buffer, size_t size, const QString &extension, bool silent);
+        // Load RAW images.
+        bool loadRAWImage(void *buffer, size_t size, const QString &extension, bool silent);
+
         void rotWCSFITS(int angle, int mirror);
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();

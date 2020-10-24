@@ -67,11 +67,8 @@ class FITSTab : public QWidget
 
         void clearRecentFITS();
         void selectRecentFITS(int i);
-        void loadFITS(const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
-                      FITSScale filter = FITS_NONE, bool silent = true);
-
-        bool loadFITSFromData(FITSData *data, const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
-                              FITSScale filter = FITS_NONE);
+        void loadFile(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
+        bool loadData(const QSharedPointer<FITSData> &data, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
         bool saveImage(const QString &filename);
 

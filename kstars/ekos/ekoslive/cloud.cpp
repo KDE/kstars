@@ -31,7 +31,8 @@ Cloud::Cloud(Ekos::Manager * manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Cloud::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Cloud::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Cloud::onError);
+    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
+            &Cloud::onError);
 
     connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage, Qt::UniqueConnection);
 
@@ -140,7 +141,7 @@ void Cloud::sendPreviewImage(const QString &filename, const QString &uuid)
     m_UUID = uuid;
     imageData.reset(new FITSData());
     imageData->setAutoRemoveTemporaryFITS(false);
-    QFuture<bool> result = imageData->loadFITS(filename);
+    QFuture<bool> result = imageData->loadFromFile(filename);
     watcher.setFuture(result);
 }
 

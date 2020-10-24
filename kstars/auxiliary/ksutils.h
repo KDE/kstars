@@ -293,5 +293,4 @@ QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataField
  * @return True if conversion is successful, false otherwise.
  */
 bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMessage);
-
 }

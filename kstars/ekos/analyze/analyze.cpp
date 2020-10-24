@@ -1759,13 +1759,13 @@ void Analyze::displayFITS(const QString &filename)
             KStars::Instance()->addFITSViewer(fitsViewer);
         }
 
-        fitsViewer->addFITS(url);
+        fitsViewer->loadFile(url);
         FITSView *currentView = fitsViewer->getCurrentView();
         if (currentView)
             currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
     }
     else
-        fitsViewer->updateFITS(url, 0);
+        fitsViewer->updateFile(url, 0);
 
     fitsViewer->show();
 }

@@ -48,6 +48,10 @@
 #include "fitshistogram.h"
 #endif
 
+#if !defined(KSTARS_LITE) && defined(HAVE_LIBRAW)
+#include <libraw/libraw.h>
+#endif
+
 #include <cfloat>
 #include <cmath>
 
@@ -60,7 +64,7 @@
 #define ZOOM_HIGH_INCR 50
 
 const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-
+const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw" };
 
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
@@ -143,20 +147,20 @@ void FITSData::loadCommon(const QString &inFilename)
     m_Filename = inFilename;
 }
 
-bool FITSData::loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
-                                  size_t fits_buffer_size, bool silent)
+bool FITSData::loadFromBuffer(void *buffer, size_t size, const QString &extension, bool silent)
 {
-    loadCommon(inFilename);
-    qCDebug(KSTARS_FITS) << "Reading FITS file buffer (" << KFormat().formatByteSize(fits_buffer_size) << ")";
-    return privateLoadFITS(fits_buffer, fits_buffer_size, silent);
+    loadCommon(QString());
+    qCDebug(KSTARS_FITS) << "Reading file buffer (" << KFormat().formatByteSize(size) << ")";
+    return privateLoad(buffer, size, extension, silent);
 }
 
-QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
+QFuture<bool> FITSData::loadFromFile(const QString &inFilename, bool silent)
 {
     loadCommon(inFilename);
-    qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
-    QFuture<bool> result = QtConcurrent::run(
-                               this, &FITSData::privateLoadFITS, nullptr, 0, silent);
+    QFileInfo info(m_Filename);
+    QString extension = info.completeSuffix().toLower();
+    qCInfo(KSTARS_FITS) << "Loading file " << m_Filename;
+    QFuture<bool> result = QtConcurrent::run(this, &FITSData::privateLoad, nullptr, 0, extension, silent);
 
     return result;
 }
@@ -178,15 +182,27 @@ bool fitsOpenError(int status, const QString &message, bool silent)
 }
 }
 
-bool FITSData::privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool silent)
+bool FITSData::privateLoad(void *buffer, size_t size, const QString &extension, bool silent)
+{
+    m_isTemporary = m_Filename.startsWith(m_TemporaryPath);
+
+    if (extension.contains("fit"))
+        return loadFITSImage(buffer, size, extension, silent);
+    if (QImageReader::supportedImageFormats().contains(extension.toLatin1()))
+        return loadCanonicalImage(buffer, size, extension, silent);
+    else if (RAWFormats.contains(extension))
+        return loadRAWImage(buffer, size, extension, silent);
+
+    return false;
+}
+
+bool FITSData::loadFITSImage(void *buffer, size_t size, const QString &extension, bool silent)
 {
     int status = 0, anynull = 0;
     long naxes[3];
     QString errMessage;
 
-    m_isTemporary = m_Filename.startsWith(m_TemporaryPath);
-
-    if (fits_buffer == nullptr && m_Filename.endsWith(".fz"))
+    if (buffer == nullptr && extension.contains(".fz"))
     {
         // Store so we don't lose.
         m_compressedFilename = m_Filename;
@@ -213,14 +229,12 @@ bool FITSData::privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool 
         m_isCompressed = true;
     }
 
-    if (fits_buffer == nullptr)
+    if (buffer == nullptr)
     {
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
         if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
         {
-            if(privateLoadImage())
-                return true;
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
         else
@@ -229,13 +243,13 @@ bool FITSData::privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool 
     else
     {
         // Read the FITS file from a memory buffer.
-        void *temp_buffer = fits_buffer;
-        size_t temp_size = fits_buffer_size;
+        void *temp_buffer = buffer;
+        size_t temp_size = size;
         if (fits_open_memfile(&fptr, m_Filename.toLatin1().data(), READONLY,
                               &temp_buffer, &temp_size, 0, nullptr, &status))
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
         else
-            stats.size = fits_buffer_size;
+            stats.size = size;
     }
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
@@ -367,20 +381,21 @@ bool FITSData::privateLoadFITS(void *fits_buffer, size_t fits_buffer_size, bool 
     return true;
 }
 
-bool FITSData::privateLoadImage()
+bool FITSData::loadCanonicalImage(void *buffer, size_t size, const QString &extension, bool silent)
 {
-    QImageReader fileReader(m_Filename.toLatin1());
-
-    if (QImageReader::supportedImageFormats().contains(fileReader.format()) == false)
-    {
-        qCCritical(KSTARS_FITS) << "Failed to convert" << m_Filename << "to FITS since format, " << fileReader.format() <<
-                                ", is not supported in Qt";
-        return false;
-    }
-
+    // TODO need to add error popups as well later on
+    Q_UNUSED(silent);
     QString errMessage;
     QImage imageFromFile;
-    if(!imageFromFile.load(m_Filename.toLatin1()))
+    if (buffer != nullptr)
+    {
+        if(!imageFromFile.loadFromData(reinterpret_cast<uint8_t*>(buffer), size, extension.toLatin1().constData()))
+        {
+            qCCritical(KSTARS_FITS) << "Failed to open image.";
+            return false;
+        }
+    }
+    else if(!imageFromFile.load(m_Filename.toLatin1()))
     {
         qCCritical(KSTARS_FITS) << "Failed to open image.";
         return false;
@@ -468,6 +483,114 @@ bool FITSData::privateLoadImage()
     }
 
     return true;
+}
+
+bool FITSData::loadRAWImage(void *buffer, size_t size, const QString &extension, bool silent)
+{
+    // TODO need to add error popups as well later on
+    Q_UNUSED(silent);
+
+#if !defined(KSTARS_LITE) && !defined(HAVE_LIBRAW)
+    lastError = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
+    return false;
+#else
+
+    int ret = 0;
+    // Creation of image processing object
+    LibRaw RawProcessor;
+
+    // Let us open the file/buffer
+    if (buffer == nullptr)
+    {
+        // Open file
+        if ((ret = RawProcessor.open_file(m_Filename.toLatin1().constData())) != LIBRAW_SUCCESS)
+        {
+            lastError = i18n("Cannot open file %1: %2", m_Filename, libraw_strerror(ret));
+            RawProcessor.recycle();
+            return false;
+        }
+    }
+    // Open Buffer
+    else if ((ret = RawProcessor.open_buffer(buffer, size)) != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot open buffer: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    // Let us unpack the thumbnail
+    if ((ret = RawProcessor.unpack()) != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot unpack_thumb: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    if ((ret = RawProcessor.dcraw_process()) != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot dcraw_process: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    libraw_processed_image_t *image = RawProcessor.dcraw_make_mem_image(&ret);
+    if (ret != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot load to memory: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    RawProcessor.recycle();
+
+    stats.bytesPerPixel = image->bits / 8;
+    // We only support two types now
+    if (stats.bytesPerPixel == 1)
+        stats.dataType = TBYTE;
+    else
+        stats.dataType = TUSHORT;
+    stats.width = image->width;
+    stats.height = image->height;
+    m_Channels = image->colors;
+    stats.samples_per_channel = stats.width * stats.height;
+    clearImageBuffers();
+    m_ImageBufferSize = stats.samples_per_channel * m_Channels * stats.bytesPerPixel;
+    m_ImageBuffer = new uint8_t[m_ImageBufferSize];
+    if (m_ImageBuffer == nullptr)
+    {
+        qCCritical(KSTARS_FITS) << QString("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ").arg(
+                                    m_ImageBufferSize);
+        libraw_dcraw_clear_mem(image);
+        clearImageBuffers();
+        return false;
+    }
+
+    auto destination_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+    auto source_buffer = reinterpret_cast<uint8_t *>(image->data);
+
+    // For mono, we memcpy directly
+    if (image->colors == 1)
+    {
+        memcpy(destination_buffer, source_buffer, m_ImageBufferSize);
+    }
+    else
+    {
+        // Data in RGB24, with bytes in the order of R,G,B. We copy them copy them into 3 layers for FITS
+        uint8_t * rBuff = destination_buffer;
+        uint8_t * gBuff = destination_buffer + (stats.width * stats.height);
+        uint8_t * bBuff = destination_buffer + (stats.width * stats.height * 2);
+
+        int imax = stats.samples_per_channel * 3 - 3;
+        for (int i = 0; i <= imax; i += 3)
+        {
+            *rBuff++ = source_buffer[i + 0];
+            *gBuff++ = source_buffer[i + 1];
+            *bBuff++ = source_buffer[i + 2];
+        }
+    }
+    libraw_dcraw_clear_mem(image);
+    return true;
+#endif
 }
 
 bool FITSData::saveImage(const QString &newFilename)
@@ -3191,7 +3314,7 @@ QImage FITSData::FITSToImage(const QString &filename)
 
     FITSData data;
 
-    QFuture<bool> future = data.loadFITS(filename);
+    QFuture<bool> future = data.loadFromFile(filename);
 
     // Wait synchronously
     future.waitForFinished();

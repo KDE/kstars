@@ -2936,7 +2936,7 @@ bool Align::captureAndSolve()
 
     alignView->setBaseSize(alignWidget->size());
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
+    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     // In case of remote solver, check if we need to update active CCD
@@ -3087,17 +3087,20 @@ bool Align::captureAndSolve()
     return true;
 }
 
-void Align::newFITS(IBLOB *bp)
+void Align::processData(const QSharedPointer<FITSData> &data)
 {
-    // Ignore guide head if there is any.
-    if (!strcmp(bp->name, "CCD2"))
+    if (data->property("chip").toInt() == ISD::CCDChip::GUIDE_CCD)
         return;
 
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
-    blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
-    blobFileName = QString(static_cast<char *>(bp->aux2));
+    if (data)
+        m_ImageData = data;
+    else
+        m_ImageData.reset();
+    //    blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
+    //    blobFileName = QString(static_cast<char *>(bp->aux2));
 
     // If it's Refresh, we're done
     if (pahStage == PAH_REFRESH)
@@ -3111,42 +3114,42 @@ void Align::newFITS(IBLOB *bp)
         if (solverBackendGroup->checkedId() != SOLVER_REMOTE)
         {
         **/
-    if (blobType == ISD::CCD::BLOB_FITS)
+    //    if (blobType == ISD::CCD::BLOB_FITS)
+    //    {
+    ISD::CCDChip *targetChip =
+        currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    if (alignDarkFrameCheck->isChecked())
     {
-        ISD::CCDChip *targetChip =
-            currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        int x, y, w, h, binx = 1, biny = 1;
+        targetChip->getFrame(&x, &y, &w, &h);
+        targetChip->getBinning(&binx, &biny);
 
-        if (alignDarkFrameCheck->isChecked())
+        uint16_t offsetX = x / binx;
+        uint16_t offsetY = y / biny;
+        FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+
+        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
         {
-            int x, y, w, h, binx = 1, biny = 1;
-            targetChip->getFrame(&x, &y, &w, &h);
-            targetChip->getBinning(&binx, &biny);
-
-            uint16_t offsetX = x / binx;
-            uint16_t offsetY = y / biny;
-            FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
-
-            connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-            {
-                DarkLibrary::Instance()->disconnect(this);
-                alignDarkFrameCheck->setChecked(completed);
-                if (completed)
-                    setCaptureComplete();
-                else
-                    abort();
-            });
-            connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
-
-            if (darkData)
-                DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
+            DarkLibrary::Instance()->disconnect(this);
+            alignDarkFrameCheck->setChecked(completed);
+            if (completed)
+                setCaptureComplete();
             else
-            {
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, alignView, exposureIN->value(), offsetX, offsetY);
-            }
+                abort();
+        });
+        connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
 
-            return;
+        if (darkData)
+            DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
+        else
+        {
+            DarkLibrary::Instance()->captureAndSubtract(targetChip, alignView, exposureIN->value(), offsetX, offsetY);
         }
+
+        return;
     }
+    //}
 
     setCaptureComplete();
     //}
@@ -3166,6 +3169,7 @@ void Align::setCaptureComplete()
 
     emit newImage(alignView);
 
+#if 0
     if (Options::solverType() == SSolver::SOLVER_ONLINEASTROMETRY &&
             Options::astrometryUseJPEG())
     {
@@ -3179,10 +3183,11 @@ void Align::setCaptureComplete()
                 blobFileName = jpegFile;
         }
     }
+#endif
 
     solverFOV->setImage(alignView->getDisplayImage());
 
-    m_FileToSolve = blobFileName;
+    //m_FileToSolve = blobFileName;
     startSolving();
 }
 
@@ -3223,7 +3228,8 @@ void Align::startSolving()
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
     if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
     {
-        m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
+        // TODO send FITSData buffer or convert to jpeg then set the filename
+        //m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
 
         if(Options::sextractorIsInternal())
             m_StellarSolver->setProperty("SextractorBinaryPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
@@ -3250,7 +3256,8 @@ void Align::startSolving()
 
     if(type == SSolver::SOLVER_ONLINEASTROMETRY )
     {
-        m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
+        // TODO send FITSData buffer or convert to jpeg then set the filename
+        //m_StellarSolver->setProperty("FileToProcess", m_FileToSolve);
         m_StellarSolver->setProperty("AstrometryAPIKey", Options::astrometryAPIKey());
         m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
     }
@@ -3797,7 +3804,7 @@ void Align::abort()
     m_SlewErrorCounter = 0;
     m_AlignTimer.stop();
 
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     if (rememberUploadMode != currentCCD->getUploadMode())
@@ -4870,8 +4877,8 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    alignView->loadFITS(fileURL, false);
-    m_FileToSolve = fileURL;
+    alignView->loadFile(fileURL, false);
+    //m_FileToSolve = fileURL;
     connect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     return true;
@@ -5381,12 +5388,9 @@ void Align::setCaptureStatus(CaptureState newState)
 
 void Align::showFITSViewer()
 {
-    FITSData *data = alignView->getImageData();
-
-    if (data)
+    static int lastFVTabID = -1;
+    if (m_ImageData)
     {
-        QUrl url = QUrl::fromLocalFile(data->filename());
-
         if (fv.isNull())
         {
             if (Options::singleWindowCapturedFITS())
@@ -5397,13 +5401,11 @@ void Align::showFITSViewer()
                 KStars::Instance()->addFITSViewer(fv);
             }
 
-            fv->addFITS(url);
-            FITSView *currentView = fv->getCurrentView();
-            if (currentView)
-                currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+
+            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
         }
-        else
-            fv->updateFITS(url, 0);
+        else if (fv->updateData(m_ImageData, QUrl(), lastFVTabID, &lastFVTabID) == false)
+            fv->loadData(m_ImageData, QUrl(), &lastFVTabID);
 
         fv->show();
     }

@@ -1055,6 +1055,6 @@ void KStars::openFITS(const QUrl &imageURL)
         QObject::disconnect(*m_Failed);
     });
 
-    fv->addFITS(imageURL);
+    fv->loadFile(imageURL);
 #endif
 }

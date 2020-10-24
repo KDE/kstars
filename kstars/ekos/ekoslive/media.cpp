@@ -173,7 +173,7 @@ void Media::sendPreviewImage(const QString &filename, const QString &uuid)
 
     previewImage.reset(new FITSView());
     connect(previewImage.get(), &FITSView::loaded, this, &Media::sendImage);
-    previewImage->loadFITS(filename);
+    previewImage->loadFile(filename);
 }
 
 void Media::sendPreviewImage(FITSView * view, const QString &uuid)
