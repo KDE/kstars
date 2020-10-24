@@ -3057,22 +3057,24 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
 
-    const QString filename = job->property("filename").toString();
+    //const QString filename = ;
     //if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
     if (job->getStatus() == SequenceJob::JOB_BUSY)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
 
-
-        // FIXME
-        // Need to set data only, no need to send filename
-        ekosLiveClient.get()->media()->sendPreviewImage(filename, uuid);
-        if (job->isPreview() == false)
-            ekosLiveClient.get()->cloud()->sendPreviewImage(filename, uuid);
-
         if (Options::useSummaryPreview())
+        {
             summaryPreview->loadData(data);
+            ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
+        }
+        else
+            ekosLiveClient.get()->media()->sendPreviewImage(data, uuid);
+
+        if (job->isPreview() == false)
+            ekosLiveClient.get()->cloud()->upload(data, uuid);
+
     }
 }
 
