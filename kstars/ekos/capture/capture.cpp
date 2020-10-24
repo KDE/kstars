@@ -1604,12 +1604,12 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
     // If image is client or both, let's process it.
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        if (data.isNull())
-        {
-            appendLogText(i18n("Failed to save file to %1", activeJob->getSignature()));
-            abort();
-            return;
-        }
+        //        if (data.isNull())
+        //        {
+        //            appendLogText(i18n("Failed to save file to %1", activeJob->getSignature()));
+        //            abort();
+        //            return;
+        //        }
 
         if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
         {
@@ -1618,13 +1618,16 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         }
 
         //if (!strcmp(data->name, "CCD2"))
-        tChip = currentCCD->getChip(static_cast<ISD::CCDChip::ChipType>(data->property("chip").toInt()));
-        if (tChip != targetChip)
+        if (data)
         {
-            if (guideState == GUIDE_IDLE)
-                qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as it does not correspond to the target chip"
-                                               << targetChip->getType();
-            return;
+            tChip = currentCCD->getChip(static_cast<ISD::CCDChip::ChipType>(data->property("chip").toInt()));
+            if (tChip != targetChip)
+            {
+                if (guideState == GUIDE_IDLE)
+                    qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as it does not correspond to the target chip"
+                                                   << targetChip->getType();
+                return;
+            }
         }
 
         if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
@@ -1635,8 +1638,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         }
 
         // If the FITS is not for our device, simply ignore
-        //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
-        if (data->property("device").toString() != currentCCD->getDeviceName())
+
+        if (data && data->property("device").toString() != currentCCD->getDeviceName())
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as the blob device name does not equal active camera"
                                            << currentCCD->getDeviceName();
@@ -1811,12 +1814,14 @@ IPState Capture::setCaptureComplete()
 
     appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
 
-    FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
-    double hfr = currentImage ? currentImage->getImageData()->getHFR(HFR_AVERAGE) : 0;
-    QString blobFilename;
+    double hfr = -1;
+    QString filename;
     if (m_ImageData)
-        blobFilename = m_ImageData->property("filename").toString();
-    emit captureComplete(blobFilename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
+    {
+        hfr = m_ImageData->getHFR(HFR_AVERAGE);
+        m_ImageData->property("filename").toString();
+    }
+    emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
 
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -2726,7 +2731,8 @@ bool Capture::addJob(bool preview)
         iso->setText(captureISOS->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (captureGainN->value() >= 0 && std::fabs(captureGainN->value() - GainSpinSpecialValue) > 0)
+    //else if (captureGainN->value() >= 0 && std::fabs(captureGainN->value() - GainSpinSpecialValue) > 0)
+    else if (captureGainN->value() >= 0)
     {
         iso->setText(captureGainN->cleanText());
         jsonJob.insert("ISO/Gain", iso->text());
