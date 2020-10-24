@@ -1430,10 +1430,6 @@
       <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
       <default>!KSUtils::isHardwareLimited()</default>
    </entry>
-   <entry name="AutoImageToFITS" type="Bool">
-      <label>Convert received non-FITS images to FITS for display purposes.</label>
-      <default>false</default>
-   </entry>
    <entry name="Auto3DCube" type="Bool">
       <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
       <default>!KSUtils::isHardwareLimited()</default>
