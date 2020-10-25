@@ -994,10 +994,12 @@ QPair<T, T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
 
     for (uint32_t i = start; i < end; i++)
     {
-        if (buffer[i] < min)
-            min = buffer[i];
-        else if (buffer[i] > max)
-            max = buffer[i];
+        min = qMin(buffer[i], min);
+        max = qMax(buffer[i], max);
+        //        if (buffer[i] < min)
+        //            min = buffer[i];
+        //        else if (buffer[i] > max)
+        //            max = buffer[i];
     }
 
     return qMakePair(min, max);
@@ -1039,10 +1041,8 @@ void FITSData::calculateMinMax()
         for (int i = 0; i < nThreads; i++)
         {
             QPair<T, T> result = futures[i].result();
-            if (result.first < min)
-                min = result.first;
-            if (result.second > max)
-                max = result.second;
+            min = qMin(result.first, min);
+            max = qMax(result.second, max);
         }
 
         m_Statistics.min[n] = min;
