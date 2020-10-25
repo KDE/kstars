@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>589</width>
+    <width>771</width>
     <height>733</height>
    </rect>
   </property>
@@ -19,6 +19,125 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QComboBox" name="optionsProfileGroup">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Selects the profile group that the editor is working with</string>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>Alignment Profiles</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Focus SEP Profiles</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Guide SEP Profiles</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="reloadProfiles">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Reloads the options profiles from the saved file</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="loadBackups">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Loads an alternate or backup file of profiles you saved somewhere else on your computer into and replaces all profiles in this group</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveBackups">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Saves your current set of profiles in this group somewhere else on your computer</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="loadDefaults">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Loads the default set of profiles, clearing any modifications or custom profiles. </string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QComboBox" name="optionsProfile">
           <property name="sizePolicy">
@@ -73,47 +192,69 @@
           </property>
          </widget>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="reloadProfiles">
+         <widget class="QPushButton" name="saveProfile">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
           <property name="toolTip">
-           <string>This reloads the options profiles from the saved file</string>
+           <string>Saves this single profile to a separate file on your computer so that you can back it up or sent it to someone else.</string>
           </property>
           <property name="text">
-           <string>Reload</string>
+           <string/>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="loadBackups">
+         <widget class="QPushButton" name="openProfile">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
           <property name="toolTip">
-           <string>This will load an alternate or backup file of profiles you saved somewhere else on your computer</string>
+           <string>Opens a profile from a file on your computer and loads it into this profile group</string>
           </property>
           <property name="text">
-           <string>Load Backup</string>
+           <string/>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="saveBackups">
+         <widget class="QPushButton" name="copyProfile">
+          <property name="minimumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
           <property name="toolTip">
-           <string>This allows you to save your current set of profiles somewhere else on your computer</string>
+           <string>Copies the current options profile so that you can either make a duplicate in this profile group or copy it into another profile group</string>
           </property>
           <property name="text">
-           <string>Save Backup</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="loadDefaults">
-          <property name="toolTip">
-           <string>This loads the default set of profiles from the StellarSolver, clearing any modifications or custom profiles</string>
-          </property>
-          <property name="text">
-           <string>Default Profiles</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -141,68 +282,13 @@
       <string>Sextractor Parameters</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_18">
-        <property name="text">
-         <string>Thresh</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_24">
-        <property name="text">
-         <string>Sub Pix</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLineEdit" name="fwhm">
+      <item row="3" column="6">
+       <widget class="QLineEdit" name="r_min">
         <property name="toolTip">
-         <string>A variable to store the fwhm in pixels used to generate the convolution filter for star detection.</string>
+         <string>The minimum radius for stars for flux calculations.</string>
         </property>
         <property name="text">
-         <string>2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>Min Cont.</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="subpix">
-        <property name="toolTip">
-         <string>The subpixel sampling factor for star extraction</string>
-        </property>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLabel" name="label_23">
-        <property name="text">
-         <string>Conv FWHM</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_21">
-        <property name="text">
-         <string>Min Area</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="minarea">
-        <property name="toolTip">
-         <string>This is the minimum area in pixels for a star detection, smaller stars are ignored.</string>
-        </property>
-        <property name="text">
-         <string>5</string>
+         <string>3.5</string>
         </property>
        </widget>
       </item>
@@ -222,13 +308,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
-       <widget class="QLabel" name="label_25">
-        <property name="text">
-         <string>Kron Factor</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2" colspan="2">
        <widget class="QLabel" name="label_20">
         <property name="text">
@@ -239,27 +318,17 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="deblend_thresh">
+      <item row="4" column="6">
+       <widget class="QLineEdit" name="magzero">
         <property name="toolTip">
-         <string>The number of thresholds the intensity range is divided up into.</string>
+         <string>This is the 'zero' magnitude used for setting the magnitude scale for the stars in the image during sextraction.</string>
         </property>
         <property name="text">
-         <string>32</string>
+         <string>20</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="deblend_contrast">
-        <property name="toolTip">
-         <string>The percentage of flux a separate peak must have to be considered a separate object.</string>
-        </property>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="5">
+      <item row="1" column="6">
        <widget class="QLineEdit" name="kron_fact">
         <property name="toolTip">
          <string>This sets the Kron Factor for use with the kron radius for flux calculations.</string>
@@ -269,7 +338,54 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="4" colspan="2">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Min Area</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cleanCheckBox">
+        <property name="toolTip">
+         <string>Attempts to 'clean' the image to remove artifacts caused by bright objects</string>
+        </property>
+        <property name="text">
+         <string>Clean?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="minarea">
+        <property name="toolTip">
+         <string>This is the minimum area in pixels for a star detection, smaller stars are ignored.</string>
+        </property>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="subpix">
+        <property name="toolTip">
+         <string>The subpixel sampling factor for star extraction</string>
+        </property>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>Thresh</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5" colspan="2">
        <widget class="QLabel" name="label_14">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -285,14 +401,48 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="4">
-       <widget class="QLabel" name="label_12">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_24">
         <property name="text">
-         <string>Shape</string>
+         <string>Sub Pix</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="5">
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="deblend_thresh">
+        <property name="toolTip">
+         <string>The number of thresholds the intensity range is divided up into.</string>
+        </property>
+        <property name="text">
+         <string>32</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>Kron Factor</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="5">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>magzero</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="clean_param">
+        <property name="toolTip">
+         <string> The cleaning parameter</string>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="6">
        <widget class="QComboBox" name="apertureShape">
         <property name="toolTip">
          <string>Whether to use the SEP_SUM_ELLIPSE method or the SEP_SUM_CIRCLE method or automatically choose.  NOTE: Circle is usually better at the moment</string>
@@ -317,60 +467,54 @@
         </item>
        </widget>
       </item>
-      <item row="3" column="4">
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>Conv FWHM</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Min Cont.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
        <widget class="QLabel" name="label_13">
         <property name="text">
          <string>r_min</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="5">
-       <widget class="QLineEdit" name="r_min">
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="deblend_contrast">
         <property name="toolTip">
-         <string>The minimum radius for stars for flux calculations.</string>
-        </property>
-        <property name="text">
-         <string>3.5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="4">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>magzero</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="5">
-       <widget class="QLineEdit" name="magzero">
-        <property name="toolTip">
-         <string>This is the 'zero' magnitude used for setting the magnitude scale for the stars in the image during sextraction.</string>
-        </property>
-        <property name="text">
-         <string>20</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QCheckBox" name="cleanCheckBox">
-        <property name="toolTip">
-         <string>Attempts to 'clean' the image to remove artifacts caused by bright objects</string>
-        </property>
-        <property name="text">
-         <string>Clean?</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="clean_param">
-        <property name="toolTip">
-         <string> The cleaning parameter</string>
+         <string>The percentage of flux a separate peak must have to be considered a separate object.</string>
         </property>
         <property name="text">
          <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Shape</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QSpinBox" name="fwhm">
+        <property name="toolTip">
+         <string>A variable to store the fwhm in pixels used to generate the convolution filter for star detection.</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10</number>
         </property>
        </widget>
       </item>

@@ -1899,7 +1899,7 @@
       </entry>
       <entry name="FocusOptionsProfile" type="UInt">
          <label>Options Profile for Sextraction when Focusing.</label>
-         <default>4</default>
+         <default>0</default>
       </entry>
       <entry name="GuideSextractorType" type="UInt">
          <label>Internal or External Sextractor for Guiding.</label>
@@ -1907,7 +1907,7 @@
       </entry>
       <entry name="GuideOptionsProfile" type="UInt">
          <label>Options Profile for Sextraction when Guiding.</label>
-         <default>4</default>
+         <default>0</default>
       </entry>
       <entry name="SolveSextractorType" type="UInt">
          <label>Internal, External, or BuiltIn Sextractor for Solving.</label>

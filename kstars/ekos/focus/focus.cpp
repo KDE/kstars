@@ -101,18 +101,17 @@ Focus::Focus()
     connect(editFocusProfile, &QAbstractButton::clicked, this, [this]()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
-        optionsProfileEditor = new OptionsProfileEditor(this, false, optionsEditor);
+        optionsProfileEditor = new OptionsProfileEditor(this, Ekos::OptionsProfileEditor::FocusProfiles, optionsEditor);
 #ifdef Q_OS_OSX
         optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-        KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Options Profile Editor"));
+        KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Focus Options Profile Editor"));
         mainPage->setIcon(QIcon::fromTheme("configure"));
         connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadOptionsProfiles);
         optionsProfileEditor->loadProfile(focusOptionsProfiles->currentIndex());
         optionsEditor->show();
     });
 
-    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
     loadOptionsProfiles();
 
     connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
@@ -124,9 +123,11 @@ Focus::Focus()
 void Focus::loadOptionsProfiles()
 {
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedOptionsProfiles.ini");
-
-    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+                                   QString("SavedFocusProfiles.ini");
+    if(QFile(savedOptionsProfiles).exists())
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    else
+        optionsList = KSUtils::getDefaultFocusOptionsProfiles();
     focusOptionsProfiles->clear();
     foreach(SSolver::Parameters param, optionsList)
         focusOptionsProfiles->addItem(param.listName);
@@ -1254,6 +1255,7 @@ void Focus::analyzeSources()
     QVariantMap extractionSettings;
     extractionSettings["maxStarsCount"] = 50;
     extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
+    extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::OptionsProfileEditor::FocusProfiles);
     focusView->getImageData()->setSourceExtractorSettings(extractionSettings);
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
     // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require

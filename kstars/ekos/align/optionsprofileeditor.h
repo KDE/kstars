@@ -29,7 +29,14 @@ class OptionsProfileEditor : public QWidget, public Ui::OptionsProfileEditor
 
   public:
 
-    explicit OptionsProfileEditor(QWidget *parent, bool showSolveOptions, KConfigDialog *dialog);
+    typedef enum{
+        AlignProfiles,
+        FocusProfiles,
+        GuideProfiles
+    }ProfileGroup;
+    void setProfileGroup(ProfileGroup group);
+
+    explicit OptionsProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog);
     virtual ~OptionsProfileEditor() override = default;
 
     //These functions handle the settings for the Sextractors and Solvers
@@ -37,11 +44,16 @@ class OptionsProfileEditor : public QWidget, public Ui::OptionsProfileEditor
     void sendSettingsToUI(SSolver::Parameters a);
 
     //These functions save and load the settings of the program.
+    void openSingleProfile();
+    void saveSingleProfile();
+    void copySingleProfile();
     void loadProfiles();
     void saveProfiles();
     void loadOptionsProfile();
+    void loadOptionsProfileIgnoreOldSettings(int index);
     void saveBackupProfiles();
-    void loadBackupProfiles();
+    void openBackupProfiles();
+    QList<SSolver::Parameters> getDefaultProfiles();
     void loadDefaultProfiles();
 
     void connectOptionsProfileComboBox();
@@ -59,10 +71,13 @@ signals:
 
   private:
     QString savedOptionsProfiles;
+    int openOptionsProfileNum = 0;
     void settingJustChanged();
     QString dirPath = QDir::homePath();
     QList<SSolver::Parameters> optionsList;
     bool optionsAreSaved = true;
     KConfigDialog *m_ConfigDialog { nullptr };
+
+    ProfileGroup selectedProfileGroup = AlignProfiles;
 };
 }

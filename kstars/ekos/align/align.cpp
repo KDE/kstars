@@ -252,11 +252,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
     page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
 
-    optionsProfileEditor = new OptionsProfileEditor(this, true, dialog);
-    page = dialog->addPage(optionsProfileEditor, i18n("Options Profiles Editor"));
+    optionsProfileEditor = new OptionsProfileEditor(this, Ekos::OptionsProfileEditor::AlignProfiles, dialog);
+    page = dialog->addPage(optionsProfileEditor, i18n("Align Options Profiles Editor"));
     connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, [this]()
     {
-        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        if(QFile(savedOptionsProfiles).exists())
+            optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        else
+            optionsList = KSUtils::getDefaultAlignOptionsProfiles();
         opsAlign->reloadOptionsProfiles();
     });
     page->setIcon(QIcon::fromTheme("configure"));
@@ -536,8 +539,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     for (auto &button : qButtons)
         button->setAutoDefault(false);
 
-    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
-    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedAlignProfiles.ini");
+    if(QFile(savedOptionsProfiles).exists())
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    else
+        optionsList = KSUtils::getDefaultAlignOptionsProfiles();
 }
 
 Align::~Align()

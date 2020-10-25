@@ -29,6 +29,7 @@
 #include <QtConcurrent>
 
 #ifdef HAVE_STELLARSOLVER
+#include "ekos/align/optionsprofileeditor.h"
 #include <stellarsolver.h>
 #else
 #include <cstring>
@@ -70,21 +71,50 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     SkyBackground skyBG;
     int maxStarsCount = getValue("maxStarsCount", 100).toInt();
 #ifdef HAVE_STELLARSOLVER
-    //Note this is the part I added.  It is just an initial attempt to get it working
-    //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
-    //constexpr int maxNumCenters = 50;
-    QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedOptionsProfiles.ini");
-    QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
-    if (optionsProfileIndex >= 0)
+    Ekos::OptionsProfileEditor::ProfileGroup group = (Ekos::OptionsProfileEditor::ProfileGroup) getValue("optionsProfileGroup", 1).toInt();
+
+    QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
+    QString filename = "";
+    switch(group)
+    {
+        case Ekos::OptionsProfileEditor::AlignProfiles:
+            //So it should not be here if it is Align.
+        break;
+        case Ekos::OptionsProfileEditor::GuideProfiles:
+            filename = "SavedGuideProfiles.ini";
+        break;
+        case Ekos::OptionsProfileEditor::FocusProfiles:
+            filename = "SavedFocusProfiles.ini";
+        break;
+    }
+
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
+    QList<SSolver::Parameters> optionsList;
+    if(QFile(savedOptionsProfiles).exists())
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    else
+    {
+        switch(group)
+        {
+            case Ekos::OptionsProfileEditor::AlignProfiles:
+                //So it should not be here if it is Align.
+            break;
+            case Ekos::OptionsProfileEditor::GuideProfiles:
+                optionsList = KSUtils::getDefaultGuideOptionsProfiles();
+            break;
+            case Ekos::OptionsProfileEditor::FocusProfiles:
+                optionsList = KSUtils::getDefaultFocusOptionsProfiles();
+            break;
+        }
+    }
+    if (optionsProfileIndex >= 0 && optionsList.count() > optionsProfileIndex)
     {
         solver->setParameters(optionsList[optionsProfileIndex]);
         qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList[optionsProfileIndex].listName;
     }
     else
-        solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
+        solver->setParameters(SSolver::Parameters()); // This is default
     //connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
     //    if(Options::focusLogging())
     //        solver->setSSLogLevel(SSolver::LOG_NORMAL);

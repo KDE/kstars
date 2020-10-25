@@ -17,18 +17,62 @@
 #include "ksutils.h"
 
 #include <KConfigDialog>
+#include <ui_optionsprofileeditor.h>
 
 namespace Ekos
 {
-OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, bool showSolveOptions, KConfigDialog *dialog) : QWidget(KStars::Instance())
+OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog) : QWidget(KStars::Instance())
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = dialog;
 
-    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedOptionsProfiles.ini");
-    loadProfiles();
+    setProfileGroup(group);
+    optionsProfileGroup->setEnabled(false);
+
+    /* // we may want to do this eventually
+    connect(optionsProfileGroup, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index){
+        setProfileGroup((ProfileGroup)index);
+    });
+    */
+
+    openProfile->setIcon(
+        QIcon::fromTheme("document-open"));
+    openProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(openProfile, &QPushButton::clicked, this, &OptionsProfileEditor::openSingleProfile);
+
+    saveProfile->setIcon(
+        QIcon::fromTheme("document-save"));
+    saveProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(saveProfile, &QPushButton::clicked, this, &OptionsProfileEditor::saveSingleProfile);
+
+    /*  This is not implemented yet.
+    copyProfile->setIcon(
+        QIcon::fromTheme("edit-copy"));
+    copyProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    */
+    copyProfile->setVisible(false);  //until we enable it.
+
+    saveBackups->setIcon(
+        QIcon::fromTheme("document-save"));
+    saveBackups->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(saveBackups, &QPushButton::clicked, this, &OptionsProfileEditor::saveBackupProfiles);
+
+    loadBackups->setIcon(
+        QIcon::fromTheme("document-open"));
+    loadBackups->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(loadBackups, &QPushButton::clicked, this, &OptionsProfileEditor::openBackupProfiles);
+
+    reloadProfiles->setIcon(
+                QIcon::fromTheme("system-reboot"));
+    reloadProfiles->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(reloadProfiles, &QPushButton::clicked, this, &OptionsProfileEditor::loadProfiles);
+
+    loadDefaults->setIcon(
+                QIcon::fromTheme("go-down"));
+    loadDefaults->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(loadDefaults, &QPushButton::clicked, this, &OptionsProfileEditor::loadDefaultProfiles);
 
     connect(addOptionProfile,&QAbstractButton::clicked, this, [this](){
         bool ok;
@@ -37,58 +81,88 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, bool showSolveOption
                               "", &ok);
         if (ok && !name.isEmpty())
         {
+            disconnectOptionsProfileComboBox();
             SSolver::Parameters params = getSettingsFromUI();
             params.listName = name;
             optionsList.append(params);
             optionsProfile->addItem(name);
             optionsProfile->setCurrentText(name);
+            openOptionsProfileNum = optionsProfile->count() - 1;
+            settingJustChanged();
+            connectOptionsProfileComboBox();
         }
     });
 
     connect(removeOptionProfile,&QAbstractButton::clicked, this, [this](){
+        if(optionsList.count() == 0)
+            return;
         int item = optionsProfile->currentIndex();
+        disconnectOptionsProfileComboBox();
         optionsProfile->removeItem(item);
         optionsList.removeAt(item);
-
+        if(optionsProfile->count() > 0)
+        {
+            if(item > optionsList.count() - 1) //So that it doesn't try to set the new list to a nonexistant one
+                item--;
+            openOptionsProfileNum = item;
+            loadOptionsProfileIgnoreOldSettings(item); //Because the old one no longer exists
+        }
+        settingJustChanged();
+        connectOptionsProfileComboBox();
     });
 
-    connect(loadBackups, &QPushButton::clicked, this, &OptionsProfileEditor::loadBackupProfiles);
-    connect(loadDefaults, &QPushButton::clicked, this, &OptionsProfileEditor::loadDefaultProfiles);
-    connect(reloadProfiles, &QPushButton::clicked, this, &OptionsProfileEditor::loadProfiles);
-    connect(saveBackups, &QPushButton::clicked, this, &OptionsProfileEditor::saveBackupProfiles);
+    connect(description, &QTextEdit::textChanged, this, &OptionsProfileEditor::settingJustChanged);
 
     QList<QLineEdit *> lines = this->findChildren<QLineEdit *>();
-    foreach(QLineEdit *line, lines)
+    for(QLineEdit *line: lines)
         connect(line, &QLineEdit::textEdited, this, &OptionsProfileEditor::settingJustChanged);
 
     QList<QCheckBox *> checks = this->findChildren<QCheckBox *>();
-    foreach(QCheckBox *check, checks)
+    for(QCheckBox *check: checks)
         connect(check, &QCheckBox::stateChanged, this, &OptionsProfileEditor::settingJustChanged);
 
     QList<QComboBox *> combos = this->findChildren<QComboBox *>();
-    foreach(QComboBox *combo, combos)
+    for(QComboBox *combo: combos)
     {
         if(combo != optionsProfile)
             connect(combo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OptionsProfileEditor::settingJustChanged);
     }
 
     QList<QSpinBox *> spins = this->findChildren<QSpinBox *>();
-    foreach(QSpinBox *spin, spins)
+    for(QSpinBox *spin: spins)
         connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &OptionsProfileEditor::settingJustChanged);
 
-    if(!showSolveOptions)
+    if(selectedProfileGroup != AlignProfiles)
         astrometryOptions->setVisible(false);
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+}
 
-    loadOptionsProfile();
+void OptionsProfileEditor::setProfileGroup(ProfileGroup group)
+{
+    selectedProfileGroup = group;
+    optionsProfileGroup->setCurrentIndex((int)group);
+    QString profileGroupFileName;
+    switch(selectedProfileGroup)
+    {
+    case AlignProfiles:
+        profileGroupFileName = "SavedAlignProfiles.ini";
+        break;
+    case FocusProfiles:
+        profileGroupFileName = "SavedFocusProfiles.ini";
+        break;
+    case GuideProfiles:
+        profileGroupFileName = "SavedGuideProfiles.ini";
+        break;
+    }
+
+    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + profileGroupFileName;
+    loadProfiles();
 }
 
 void OptionsProfileEditor::connectOptionsProfileComboBox()
 {
     connect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OptionsProfileEditor::loadOptionsProfile);
-    if(optionsProfile->count()>0)
-        optionsProfile->setCurrentIndex(0);
 }
 
 void OptionsProfileEditor::disconnectOptionsProfileComboBox()
@@ -109,25 +183,40 @@ void OptionsProfileEditor::loadProfile(int profile)
 
 void OptionsProfileEditor::loadOptionsProfile()
 {
-
-    SSolver::Parameters oldOptions = getSettingsFromUI();
-
-    if( !optionsAreSaved )
+    if(optionsProfile->count() == 0)
+        return;
+    if(openOptionsProfileNum < optionsList.count() && openOptionsProfileNum > 0)
     {
-        if(QMessageBox::question(this, "Abort?", "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
+        SSolver::Parameters editorOptions = getSettingsFromUI();
+        SSolver::Parameters currentProfile = optionsList.at(openOptionsProfileNum);
+        if(!(editorOptions == currentProfile) || editorOptions.description != currentProfile.description)
         {
-            return;
+            editorOptions.listName = currentProfile.listName;
+            optionsList.replace(openOptionsProfileNum, editorOptions);
         }
-        optionsAreSaved = true; //They just got overwritten
     }
-
-    SSolver::Parameters newOptions;
-    newOptions = optionsList.at(optionsProfile->currentIndex());
+    SSolver::Parameters newProfile = optionsList.at(optionsProfile->currentIndex());
     QList<QWidget *> controls = this->findChildren<QWidget *>();
-    foreach(QWidget *control, controls)
+    for(QWidget *control: controls)
         control->blockSignals(true);
-    sendSettingsToUI(newOptions);
-    foreach(QWidget *control, controls)
+    sendSettingsToUI(newProfile);
+    for(QWidget *control: controls)
+        control->blockSignals(false);
+    openOptionsProfileNum = optionsProfile->currentIndex();
+}
+
+void OptionsProfileEditor::loadOptionsProfileIgnoreOldSettings(int index)
+{
+    if(index >= optionsProfile->count())
+        return;
+    SSolver::Parameters newProfile = optionsList.at(index);
+    QList<QWidget *> controls = this->findChildren<QWidget *>();
+    for(QWidget *control: controls)
+        control->blockSignals(true);
+    sendSettingsToUI(newProfile);
+    optionsProfile->setCurrentIndex(index);
+    openOptionsProfileNum = optionsProfile->currentIndex();
+    for(QWidget *control: controls)
         control->blockSignals(false);
 }
 
@@ -137,7 +226,6 @@ void OptionsProfileEditor::loadOptionsProfile()
 SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
 {
     SSolver::Parameters params;
-    params.listName = "Custom";
     params.description = description->toPlainText();
     //These are to pass the parameters to the internal sextractor
     params.apertureShape = (SSolver::Shape) apertureShape->currentIndex();
@@ -151,7 +239,7 @@ SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
     params.deblend_contrast = deblend_contrast->text().toFloat();
     params.clean = (cleanCheckBox->isChecked()) ? 1 : 0;
     params.clean_param = clean_param->text().toDouble();
-    StellarSolver::createConvFilterFromFWHM(&params, fwhm->text().toDouble());
+    StellarSolver::createConvFilterFromFWHM(&params, fwhm->value());
 
     //Star Filter Settings
     params.resort = resort->isChecked();
@@ -196,7 +284,7 @@ void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
         deblend_contrast->setText(QString::number(a.deblend_contrast));
         cleanCheckBox->setChecked(a.clean == 1);
         clean_param->setText(QString::number(a.clean_param));
-        fwhm->setText(QString::number(a.fwhm));
+        fwhm->setValue(a.fwhm);
 
     //Star Filter Settings
 
@@ -221,14 +309,84 @@ void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
         resort->setChecked(a.resort);
 }
 
+void OptionsProfileEditor::copySingleProfile()
+{
+
+}
+
+void OptionsProfileEditor::openSingleProfile()
+{
+    QString fileURL = QFileDialog::getOpenFileName(nullptr, "Load Options Profiles File", dirPath,
+                                               "INI files(*.ini)");
+    if (fileURL.isEmpty())
+        return;
+    if(!QFileInfo(fileURL).exists())
+    {
+        QMessageBox::warning(this, "Message", "The file doesn't exist");
+        return;
+    }
+    QSettings settings(fileURL, QSettings::IniFormat);
+    QStringList groups = settings.childGroups();
+    for(QString group: groups)
+    {
+        settings.beginGroup(group);
+        QStringList keys = settings.childKeys();
+        QMap<QString, QVariant> map;
+        for(QString key: keys)
+            map.insert(key, settings.value(key));
+        SSolver::Parameters newParams = SSolver::Parameters::convertFromMap(map);
+        optionsList.append(newParams);
+        optionsProfile->addItem(group);
+    }
+    if(optionsProfile->count() > 0)
+        loadProfile(optionsProfile->count() - 1);
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
+}
+
 void OptionsProfileEditor::loadProfiles()
 {
+    if( !optionsAreSaved )
+    {
+        if(QMessageBox::question(this, "Abort?", "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
+        {
+            return;
+        }
+        optionsAreSaved = true; //They just got overwritten
+    }
     disconnectOptionsProfileComboBox();
     optionsProfile->clear();
-    optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    foreach(SSolver::Parameters params, optionsList)
+    if(QFile(savedOptionsProfiles).exists())
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    else
+        optionsList = getDefaultProfiles();
+    for(SSolver::Parameters params: optionsList)
         optionsProfile->addItem(params.listName);
+    if(optionsList.count() > 0)
+    {
+        sendSettingsToUI(optionsList.at(0));
+        openOptionsProfileNum = 0;
+    }
     connectOptionsProfileComboBox();
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
+}
+
+void OptionsProfileEditor::saveSingleProfile()
+{
+    QString fileURL = QFileDialog::getSaveFileName(nullptr, "Save Options Profiles", dirPath,
+                                               "INI files(*.ini)");
+    if (fileURL.isEmpty())
+        return;
+    QSettings settings(fileURL, QSettings::IniFormat);
+    SSolver::Parameters params = optionsList.at(optionsProfile->currentIndex());
+    settings.beginGroup(params.listName);
+    QMap<QString, QVariant> map = SSolver::Parameters::convertToMap(params);
+    QMapIterator<QString, QVariant> it(map);
+    while(it.hasNext())
+    {
+        it.next();
+        settings.setValue(it.key(), it.value());
+    }
+    settings.endGroup();
 }
 
 void OptionsProfileEditor::saveProfiles()
@@ -248,10 +406,10 @@ void OptionsProfileEditor::saveProfiles()
         settings.endGroup();
     }
     QStringList groups = settings.childGroups();
-    foreach(QString group, groups)
+    for(QString group: groups)
     {
         bool groupInList = false;
-        foreach(SSolver::Parameters params, optionsList)
+        for(SSolver::Parameters params: optionsList)
         {
            if(params.listName == group)
                groupInList = true;
@@ -261,14 +419,40 @@ void OptionsProfileEditor::saveProfiles()
     }
 }
 
+QList<SSolver::Parameters> OptionsProfileEditor::getDefaultProfiles()
+{
+    switch(selectedProfileGroup)
+    {
+        case AlignProfiles:
+            return KSUtils::getDefaultAlignOptionsProfiles();
+            break;
+        case FocusProfiles:
+            return KSUtils::getDefaultFocusOptionsProfiles();
+            break;
+        case GuideProfiles:
+            return  KSUtils::getDefaultGuideOptionsProfiles();
+            break;
+    }
+}
+
 void OptionsProfileEditor::loadDefaultProfiles()
 {
+    if( !optionsAreSaved )
+    {
+        if(QMessageBox::question(this, "Abort?", "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
+        {
+            return;
+        }
+        optionsAreSaved = true; //They just got overwritten
+    }
     disconnectOptionsProfileComboBox();
-    optionsList = StellarSolver::getBuiltInProfiles();
+    optionsList = getDefaultProfiles();
     optionsProfile->clear();
-    foreach(SSolver::Parameters param, optionsList)
+    for(SSolver::Parameters param: optionsList)
         optionsProfile->addItem(param.listName);
     connectOptionsProfileComboBox();
+    if(optionsProfile->count() > 0)
+        loadOptionsProfileIgnoreOldSettings(0);
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
@@ -294,7 +478,7 @@ void OptionsProfileEditor::saveBackupProfiles()
     }
 }
 
-void OptionsProfileEditor::loadBackupProfiles()
+void OptionsProfileEditor::openBackupProfiles()
 {
     QString fileURL = QFileDialog::getOpenFileName(nullptr, "Load Options Profiles File", dirPath,
                                                "INI files(*.ini)");
@@ -309,20 +493,19 @@ void OptionsProfileEditor::loadBackupProfiles()
     optionsList.clear();
     QSettings settings(fileURL, QSettings::IniFormat);
     QStringList groups = settings.childGroups();
-    foreach(QString group, groups)
+    for(QString group: groups)
     {
         settings.beginGroup(group);
         QStringList keys = settings.childKeys();
         QMap<QString, QVariant> map;
-        foreach(QString key, keys)
+        for(QString key: keys)
             map.insert(key, settings.value(key));
         SSolver::Parameters newParams = SSolver::Parameters::convertFromMap(map);
-        foreach(SSolver::Parameters params, optionsList)
-        {
-            optionsList.append(newParams);
-            optionsProfile->addItem(group);
-        }
+        optionsList.append(newParams);
+        optionsProfile->addItem(group);
     }
+    if(optionsProfile->count() > 0)
+        loadOptionsProfileIgnoreOldSettings(0);
     connectOptionsProfileComboBox();
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }

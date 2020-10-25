@@ -30,6 +30,11 @@
 
 #include <QPointF>
 #include <QSharedPointer>
+#include "config-kstars.h"
+
+#ifdef HAVE_STELLARSOLVER
+#include <parameters.h>
+#endif
 
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
@@ -267,7 +272,9 @@ QString getAstrometryConfFilePath();
 QStringList getAstrometryDataDirs();
 bool addAstrometryDataDir(QString dataDir);
 bool removeAstrometryDataDir(QString dataDir);
-
+QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
+QList<SSolver::Parameters> getDefaultGuideOptionsProfiles();
+QList<SSolver::Parameters> getDefaultAlignOptionsProfiles();
 struct JPLFilter
 {
     QByteArray item;

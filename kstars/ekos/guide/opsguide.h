@@ -11,6 +11,10 @@
 
 #include "ui_opsguide.h"
 #include "guide.h"
+#include "stellarsolver.h"
+#include "ksutils.h"
+#include "kspaths.h"
+#include "ekos/align/optionsprofileeditor.h"
 
 class KConfigDialog;
 
@@ -30,11 +34,14 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
   public:
     explicit OpsGuide();
     virtual ~OpsGuide() override = default;
+    void loadOptionsProfiles();
 
   signals:
     void settingsUpdated();
 
   private:
     KConfigDialog *m_ConfigDialog { nullptr };
+    QList<SSolver::Parameters> optionsList;
+    OptionsProfileEditor *optionsProfileEditor { nullptr };
 };
 }

@@ -18,6 +18,7 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "ksnotification.h"
+#include "ekos/align/optionsprofileeditor.h"
 
 #include <KMessageBox>
 
@@ -1445,7 +1446,13 @@ bool InternalGuider::selectAutoStar()
 
     if (starCenters.empty())
     {
-        if (Options::guideAlgorithm() == SEP_THRESHOLD)
+        QVariantMap settings;
+        settings["maxStarsCount"] = 50;
+        settings["optionsProfileIndex"] = Options::guideOptionsProfile();
+        settings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::GuideProfiles);
+        imageData->setSourceExtractorSettings(settings);
+
+        if (Options::guideAlgorithm() == SEP_THRESHOLD)           
             imageData->findStars(ALGORITHM_SEP).waitForFinished();
         else
             imageData->findStars().waitForFinished();

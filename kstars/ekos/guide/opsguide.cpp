@@ -40,6 +40,45 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
         }
     });
 
+    editGuideProfile->setIcon(QIcon::fromTheme("document-edit"));
+    editGuideProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    connect(editGuideProfile, &QAbstractButton::clicked, this, [this]()
+    {
+        KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
+        optionsProfileEditor = new OptionsProfileEditor(this, Ekos::OptionsProfileEditor::GuideProfiles, optionsEditor);
+#ifdef Q_OS_OSX
+        optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
+        KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Guide Options Profile Editor"));
+        mainPage->setIcon(QIcon::fromTheme("configure"));
+        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &OpsGuide::loadOptionsProfiles);
+        optionsProfileEditor->loadProfile(kcfg_GuideOptionsProfile->currentIndex());
+        optionsEditor->show();
+    });
+
+    loadOptionsProfiles();
+
+    connect(kcfg_GuideOptionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
+    {
+        Options::setGuideOptionsProfile(index);
+    });
+
     connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
+
+}
+
+void OpsGuide::loadOptionsProfiles()
+{
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                                   QString("SavedGuideProfiles.ini");
+    if(QFile(savedOptionsProfiles).exists())
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+    else
+        optionsList = KSUtils::getDefaultGuideOptionsProfiles();
+    kcfg_GuideOptionsProfile->clear();
+    for(SSolver::Parameters param: optionsList)
+        kcfg_GuideOptionsProfile->addItem(param.listName);
+    kcfg_GuideOptionsProfile->setCurrentIndex(Options::focusOptionsProfile());
 }
 }

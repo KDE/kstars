@@ -15,6 +15,7 @@
 
 #include <math.h>
 #include <stellarsolver.h>
+#include "ekos/align/optionsprofileeditor.h"
 #include <QTime>
 
 // Keeps at most this many reference "neighbor" stars
@@ -348,6 +349,8 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> &sepStars, in
 
     QVariantMap settings;
     settings["maxStarsCount"] = 50;
+    settings["optionsProfileIndex"] = Options::guideOptionsProfile();
+    settings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::GuideProfiles);
     imageData->setSourceExtractorSettings(settings);
     imageData->findStars(ALGORITHM_SEP).waitForFinished();
     skyBackground = imageData->getSkyBackground();
