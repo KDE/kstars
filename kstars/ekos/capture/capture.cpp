@@ -6718,14 +6718,14 @@ void Capture::setPresetSettings(const QJsonObject &settings)
         setTargetTemperature(temperature);
     }
 
-    double gain = settings["gain"].toDouble(-1);
-    if (gain >= 0 && currentCCD && currentCCD->hasGain())
+    double gain = settings["gain"].toDouble(GainSpinSpecialValue);
+    if (currentCCD && currentCCD->hasGain())
     {
         setGain(gain);
     }
 
-    double offset = settings["offset"].toDouble(-1);
-    if (offset >= 0 && currentCCD && currentCCD->hasOffset())
+    double offset = settings["offset"].toDouble(OffsetSpinSpecialValue);
+    if (currentCCD && currentCCD->hasOffset())
     {
         setOffset(offset);
     }
