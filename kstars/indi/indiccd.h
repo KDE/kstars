@@ -346,7 +346,6 @@ class CCD : public DeviceDecorator
         void setWSBLOB(const QByteArray &message, const QString &extension);
 
     signals:
-        //void FITSViewerClosed();
         void newTemperatureValue(double value);
         void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
         void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
@@ -355,10 +354,8 @@ class CCD : public DeviceDecorator
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);
         void newFPS(double instantFPS, double averageFPS);
-        void newVideoFrame(std::shared_ptr<QImage> frame);
+        void newVideoFrame(const QSharedPointer<QImage> &frame);
         void coolerToggled(bool enabled);
-        //void previewFITSGenerated(const QString &previewFITS);
-        //void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
         void ready();
         void captureFailed();
         void newImage(const QSharedPointer<FITSData> &data);

@@ -65,7 +65,7 @@ class Media : public QObject
         void disconnectServer();
 
         // Capture
-        void sendVideoFrame(std::shared_ptr<QImage> frame);
+        void sendVideoFrame(const QSharedPointer<QImage> &frame);
 
         // Options
         void setOptions(QMap<int, bool> options)
