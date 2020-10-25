@@ -1613,6 +1613,7 @@ bool addAstrometryDataDir(const QString &dataDir)
     return true;
 }
 
+#ifdef HAVE_STELLARSOLVER
 QList<Parameters> getDefaultFocusOptionsProfiles()
 {
     QList<Parameters> profileList;
@@ -1670,7 +1671,6 @@ QList<Parameters> getDefaultFocusOptionsProfiles()
     return profileList;
 }
 
-#ifdef HAVE_STELLARSOLVER
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles()
 {
     QList<SSolver::Parameters> profileList;
