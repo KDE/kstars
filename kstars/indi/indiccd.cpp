@@ -1602,7 +1602,7 @@ void CCD::processBLOB(IBLOB *bp)
         }
     }
     else
-        filename = "image" + format;
+        filename = QDir::tempPath() + QDir::separator() + "image" + format;
 
     // store file name
     //    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
@@ -1762,7 +1762,7 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
         case FITS_NORMAL:
         case FITS_CALIBRATE:
         {
-            if (Options::useFITSViewer())
+            if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
             {
                 bool success = false;
                 int tabIndex = -1;
