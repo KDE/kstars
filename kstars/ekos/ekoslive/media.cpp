@@ -294,7 +294,7 @@ void Media::sendUpdatedFrame(FITSView * view)
     m_WebSocket.sendBinaryMessage(jpegData);
 }
 
-void Media::sendVideoFrame(std::shared_ptr<QImage> frame)
+void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
         return;
