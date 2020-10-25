@@ -3127,26 +3127,23 @@ void Align::processData(const QSharedPointer<FITSData> &data)
 
         uint16_t offsetX = x / binx;
         uint16_t offsetY = y / biny;
-        FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
         connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
         {
             DarkLibrary::Instance()->disconnect(this);
             alignDarkFrameCheck->setChecked(completed);
             if (completed)
+            {
+                alignView->rescale(ZOOM_KEEP_LEVEL);
+                alignView->updateFrame();
                 setCaptureComplete();
+            }
             else
                 abort();
         });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
-
-        if (darkData)
-            DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
-        else
-        {
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, alignView, exposureIN->value(), offsetX, offsetY);
-        }
-
+        DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
+                offsetX, offsetY);
         return;
     }
     //}

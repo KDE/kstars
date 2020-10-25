@@ -31,11 +31,12 @@ class DarkLibrary : public QObject
     public:
         static DarkLibrary *Instance();
 
-        FITSData *getDarkFrame(ISD::CCDChip *targetChip, double duration);
-        void subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY);
+        bool getDarkFrame(ISD::CCDChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
+        void subtract(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
+                      uint16_t offsetX, uint16_t offsetY);
         // Return false if canceled. True if dark capture proceeds
-        void captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetImage, double duration, uint16_t offsetX,
-                                uint16_t offsetY);
+        void captureAndSubtract(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
+                                FITSScale filter, uint16_t offsetX, uint16_t offsetY);
         void refreshFromDB();
 
         void setRemoteCap(ISD::GDInterface *remoteCap);
@@ -48,11 +49,7 @@ class DarkLibrary : public QObject
         void newLog(const QString &message);
 
     public slots:
-        /**
-         * @brief newFITS A new FITS blob is received by the CCD driver.
-         * @param bp pointer to blob data
-         */
-        void newFITS(IBLOB *bp);
+        void processImage(const QSharedPointer<FITSData> &calibrationData);
 
     private:
         explicit DarkLibrary(QObject *parent);
@@ -61,13 +58,14 @@ class DarkLibrary : public QObject
         static DarkLibrary *_DarkLibrary;
 
         bool loadDarkFile(const QString &filename);
-        bool saveDarkFile(FITSData *darkData);
+        bool saveDarkFile(const QSharedPointer<FITSData> data);
 
         template <typename T>
-        void subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY);
+        void subtract(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
+                      uint16_t offsetX, uint16_t offsetY);
 
         QList<QVariantMap> darkFrames;
-        QHash<QString, FITSData *> darkFiles;
+        QHash<QString, QSharedPointer<FITSData>> darkFiles;
 
         struct
         {
@@ -75,7 +73,7 @@ class DarkLibrary : public QObject
             double duration { 0 };
             uint16_t offsetX { 0 };
             uint16_t offsetY { 0 };
-            FITSView *targetImage { nullptr };
+            QSharedPointer<FITSData> targetData;
             FITSScale filter;
         } subtractParams;
 
