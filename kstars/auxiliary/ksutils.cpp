@@ -1545,7 +1545,7 @@ QStringList getAstrometryDataDirs()
     return optionsDataDirs;
 }
 
-bool addAstrometryDataDir(QString dataDir)
+bool addAstrometryDataDir(const QString &dataDir)
 {
     //This will need to be fixed!
     //if(Options::astrometryIndexFileLocation() != dataDir)
@@ -1670,6 +1670,7 @@ QList<Parameters> getDefaultFocusOptionsProfiles()
     return profileList;
 }
 
+#ifdef HAVE_STELLARSOLVER
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles()
 {
     QList<SSolver::Parameters> profileList;
@@ -1772,8 +1773,9 @@ QList<SSolver::Parameters> getDefaultAlignOptionsProfiles()
 
     return profileList;
 }
+#endif
 
-bool removeAstrometryDataDir(QString dataDir)
+bool removeAstrometryDataDir(const QString &dataDir)
 {
     QString confPath = KSUtils::getAstrometryConfFilePath();
     QStringList astrometryDataDirs = getAstrometryDataDirs();

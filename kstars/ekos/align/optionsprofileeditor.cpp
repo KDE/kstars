@@ -21,7 +21,8 @@
 
 namespace Ekos
 {
-OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog) : QWidget(KStars::Instance())
+OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group,
+        KConfigDialog *dialog) : QWidget(KStars::Instance())
 {
     setupUi(this);
 
@@ -65,20 +66,21 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group, 
     connect(loadBackups, &QPushButton::clicked, this, &OptionsProfileEditor::openBackupProfiles);
 
     reloadProfiles->setIcon(
-                QIcon::fromTheme("system-reboot"));
+        QIcon::fromTheme("system-reboot"));
     reloadProfiles->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(reloadProfiles, &QPushButton::clicked, this, &OptionsProfileEditor::loadProfiles);
 
     loadDefaults->setIcon(
-                QIcon::fromTheme("go-down"));
+        QIcon::fromTheme("go-down"));
     loadDefaults->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(loadDefaults, &QPushButton::clicked, this, &OptionsProfileEditor::loadDefaultProfiles);
 
-    connect(addOptionProfile,&QAbstractButton::clicked, this, [this](){
+    connect(addOptionProfile, &QAbstractButton::clicked, this, [this]()
+    {
         bool ok;
         QString name = QInputDialog::getText(this, tr("New Options Profile"),
-                              tr("What would you like your profile to be called?"), QLineEdit::Normal,
-                              "", &ok);
+                                             tr("What would you like your profile to be called?"), QLineEdit::Normal,
+                                             "", &ok);
         if (ok && !name.isEmpty())
         {
             disconnectOptionsProfileComboBox();
@@ -93,7 +95,8 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group, 
         }
     });
 
-    connect(removeOptionProfile,&QAbstractButton::clicked, this, [this](){
+    connect(removeOptionProfile, &QAbstractButton::clicked, this, [this]()
+    {
         if(optionsList.count() == 0)
             return;
         int item = optionsProfile->currentIndex();
@@ -114,22 +117,22 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group, 
     connect(description, &QTextEdit::textChanged, this, &OptionsProfileEditor::settingJustChanged);
 
     QList<QLineEdit *> lines = this->findChildren<QLineEdit *>();
-    for(QLineEdit *line: lines)
+    for(QLineEdit *line : lines)
         connect(line, &QLineEdit::textEdited, this, &OptionsProfileEditor::settingJustChanged);
 
     QList<QCheckBox *> checks = this->findChildren<QCheckBox *>();
-    for(QCheckBox *check: checks)
+    for(QCheckBox *check : checks)
         connect(check, &QCheckBox::stateChanged, this, &OptionsProfileEditor::settingJustChanged);
 
     QList<QComboBox *> combos = this->findChildren<QComboBox *>();
-    for(QComboBox *combo: combos)
+    for(QComboBox *combo : combos)
     {
         if(combo != optionsProfile)
             connect(combo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OptionsProfileEditor::settingJustChanged);
     }
 
     QList<QSpinBox *> spins = this->findChildren<QSpinBox *>();
-    for(QSpinBox *spin: spins)
+    for(QSpinBox *spin : spins)
         connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &OptionsProfileEditor::settingJustChanged);
 
     if(selectedProfileGroup != AlignProfiles)
@@ -145,15 +148,15 @@ void OptionsProfileEditor::setProfileGroup(ProfileGroup group)
     QString profileGroupFileName;
     switch(selectedProfileGroup)
     {
-    case AlignProfiles:
-        profileGroupFileName = "SavedAlignProfiles.ini";
-        break;
-    case FocusProfiles:
-        profileGroupFileName = "SavedFocusProfiles.ini";
-        break;
-    case GuideProfiles:
-        profileGroupFileName = "SavedGuideProfiles.ini";
-        break;
+        case AlignProfiles:
+            profileGroupFileName = "SavedAlignProfiles.ini";
+            break;
+        case FocusProfiles:
+            profileGroupFileName = "SavedFocusProfiles.ini";
+            break;
+        case GuideProfiles:
+            profileGroupFileName = "SavedGuideProfiles.ini";
+            break;
     }
 
     savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + profileGroupFileName;
@@ -162,12 +165,14 @@ void OptionsProfileEditor::setProfileGroup(ProfileGroup group)
 
 void OptionsProfileEditor::connectOptionsProfileComboBox()
 {
-    connect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OptionsProfileEditor::loadOptionsProfile);
+    connect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            &OptionsProfileEditor::loadOptionsProfile);
 }
 
 void OptionsProfileEditor::disconnectOptionsProfileComboBox()
 {
-    disconnect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OptionsProfileEditor::loadOptionsProfile);
+    disconnect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+               &OptionsProfileEditor::loadOptionsProfile);
 }
 
 void OptionsProfileEditor::settingJustChanged()
@@ -197,10 +202,10 @@ void OptionsProfileEditor::loadOptionsProfile()
     }
     SSolver::Parameters newProfile = optionsList.at(optionsProfile->currentIndex());
     QList<QWidget *> controls = this->findChildren<QWidget *>();
-    for(QWidget *control: controls)
+    for(QWidget *control : controls)
         control->blockSignals(true);
     sendSettingsToUI(newProfile);
-    for(QWidget *control: controls)
+    for(QWidget *control : controls)
         control->blockSignals(false);
     openOptionsProfileNum = optionsProfile->currentIndex();
 }
@@ -211,12 +216,12 @@ void OptionsProfileEditor::loadOptionsProfileIgnoreOldSettings(int index)
         return;
     SSolver::Parameters newProfile = optionsList.at(index);
     QList<QWidget *> controls = this->findChildren<QWidget *>();
-    for(QWidget *control: controls)
+    for(QWidget *control : controls)
         control->blockSignals(true);
     sendSettingsToUI(newProfile);
     optionsProfile->setCurrentIndex(index);
     openOptionsProfileNum = optionsProfile->currentIndex();
-    for(QWidget *control: controls)
+    for(QWidget *control : controls)
         control->blockSignals(false);
 }
 
@@ -270,43 +275,43 @@ SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
 void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
 {
 
-        description->setText(a.description);
+    description->setText(a.description);
     //Sextractor Settings
 
-        apertureShape->setCurrentIndex(a.apertureShape);
-        kron_fact->setText(QString::number(a.kron_fact));
-        subpix->setText(QString::number(a.subpix));
-        r_min->setText(QString::number(a.r_min));
+    apertureShape->setCurrentIndex(a.apertureShape);
+    kron_fact->setText(QString::number(a.kron_fact));
+    subpix->setText(QString::number(a.subpix));
+    r_min->setText(QString::number(a.r_min));
 
-        magzero->setText(QString::number(a.magzero));
-        minarea->setText(QString::number(a.minarea));
-        deblend_thresh->setText(QString::number(a.deblend_thresh));
-        deblend_contrast->setText(QString::number(a.deblend_contrast));
-        cleanCheckBox->setChecked(a.clean == 1);
-        clean_param->setText(QString::number(a.clean_param));
-        fwhm->setValue(a.fwhm);
+    magzero->setText(QString::number(a.magzero));
+    minarea->setText(QString::number(a.minarea));
+    deblend_thresh->setText(QString::number(a.deblend_thresh));
+    deblend_contrast->setText(QString::number(a.deblend_contrast));
+    cleanCheckBox->setChecked(a.clean == 1);
+    clean_param->setText(QString::number(a.clean_param));
+    fwhm->setValue(a.fwhm);
 
     //Star Filter Settings
 
-        maxSize->setText(QString::number(a.maxSize));
-        minSize->setText(QString::number(a.minSize));
-        maxEllipse->setText(QString::number(a.maxEllipse));
-        keepNum->setText(QString::number(a.keepNum));
-        brightestPercent->setText(QString::number(a.removeBrightest));
-        dimmestPercent->setText(QString::number(a.removeDimmest));
-        saturationLimit->setText(QString::number(a.saturationLimit));
+    maxSize->setText(QString::number(a.maxSize));
+    minSize->setText(QString::number(a.minSize));
+    maxEllipse->setText(QString::number(a.maxEllipse));
+    keepNum->setText(QString::number(a.keepNum));
+    brightestPercent->setText(QString::number(a.removeBrightest));
+    dimmestPercent->setText(QString::number(a.removeDimmest));
+    saturationLimit->setText(QString::number(a.saturationLimit));
 
     //Astrometry Settings
 
-        autoDownsample->setChecked(a.autoDownsample);
-        downsample->setValue(a.downsample);
-        inParallel->setChecked(a.inParallel);
-        multiAlgo->setCurrentIndex(a.multiAlgorithm);
-        solverTimeLimit->setText(QString::number(a.solverTimeLimit));
-        minWidth->setText(QString::number(a.minwidth));
-        maxWidth->setText(QString::number(a.maxwidth));
-        radius->setText(QString::number(a.search_radius));
-        resort->setChecked(a.resort);
+    autoDownsample->setChecked(a.autoDownsample);
+    downsample->setValue(a.downsample);
+    inParallel->setChecked(a.inParallel);
+    multiAlgo->setCurrentIndex(a.multiAlgorithm);
+    solverTimeLimit->setText(QString::number(a.solverTimeLimit));
+    minWidth->setText(QString::number(a.minwidth));
+    maxWidth->setText(QString::number(a.maxwidth));
+    radius->setText(QString::number(a.search_radius));
+    resort->setChecked(a.resort);
 }
 
 void OptionsProfileEditor::copySingleProfile()
@@ -317,7 +322,7 @@ void OptionsProfileEditor::copySingleProfile()
 void OptionsProfileEditor::openSingleProfile()
 {
     QString fileURL = QFileDialog::getOpenFileName(nullptr, "Load Options Profiles File", dirPath,
-                                               "INI files(*.ini)");
+                      "INI files(*.ini)");
     if (fileURL.isEmpty())
         return;
     if(!QFileInfo(fileURL).exists())
@@ -327,12 +332,12 @@ void OptionsProfileEditor::openSingleProfile()
     }
     QSettings settings(fileURL, QSettings::IniFormat);
     QStringList groups = settings.childGroups();
-    for(QString group: groups)
+    for(QString group : groups)
     {
         settings.beginGroup(group);
         QStringList keys = settings.childKeys();
         QMap<QString, QVariant> map;
-        for(QString key: keys)
+        for(QString key : keys)
             map.insert(key, settings.value(key));
         SSolver::Parameters newParams = SSolver::Parameters::convertFromMap(map);
         optionsList.append(newParams);
@@ -347,7 +352,8 @@ void OptionsProfileEditor::loadProfiles()
 {
     if( !optionsAreSaved )
     {
-        if(QMessageBox::question(this, "Abort?", "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
+        if(QMessageBox::question(this, "Abort?",
+                                 "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
         {
             return;
         }
@@ -359,7 +365,7 @@ void OptionsProfileEditor::loadProfiles()
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
         optionsList = getDefaultProfiles();
-    for(SSolver::Parameters params: optionsList)
+    for(SSolver::Parameters params : optionsList)
         optionsProfile->addItem(params.listName);
     if(optionsList.count() > 0)
     {
@@ -373,7 +379,7 @@ void OptionsProfileEditor::loadProfiles()
 void OptionsProfileEditor::saveSingleProfile()
 {
     QString fileURL = QFileDialog::getSaveFileName(nullptr, "Save Options Profiles", dirPath,
-                                               "INI files(*.ini)");
+                      "INI files(*.ini)");
     if (fileURL.isEmpty())
         return;
     QSettings settings(fileURL, QSettings::IniFormat);
@@ -406,13 +412,13 @@ void OptionsProfileEditor::saveProfiles()
         settings.endGroup();
     }
     QStringList groups = settings.childGroups();
-    for(QString group: groups)
+    for(QString group : groups)
     {
         bool groupInList = false;
-        for(SSolver::Parameters params: optionsList)
+        for(SSolver::Parameters params : optionsList)
         {
-           if(params.listName == group)
-               groupInList = true;
+            if(params.listName == group)
+                groupInList = true;
         }
         if( ! groupInList)
             settings.remove(group);
@@ -423,15 +429,13 @@ QList<SSolver::Parameters> OptionsProfileEditor::getDefaultProfiles()
 {
     switch(selectedProfileGroup)
     {
-        case AlignProfiles:
-            return KSUtils::getDefaultAlignOptionsProfiles();
-            break;
         case FocusProfiles:
             return KSUtils::getDefaultFocusOptionsProfiles();
-            break;
         case GuideProfiles:
             return  KSUtils::getDefaultGuideOptionsProfiles();
-            break;
+        default:
+        case AlignProfiles:
+            return KSUtils::getDefaultAlignOptionsProfiles();
     }
 }
 
@@ -439,7 +443,8 @@ void OptionsProfileEditor::loadDefaultProfiles()
 {
     if( !optionsAreSaved )
     {
-        if(QMessageBox::question(this, "Abort?", "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
+        if(QMessageBox::question(this, "Abort?",
+                                 "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
         {
             return;
         }
@@ -448,7 +453,7 @@ void OptionsProfileEditor::loadDefaultProfiles()
     disconnectOptionsProfileComboBox();
     optionsList = getDefaultProfiles();
     optionsProfile->clear();
-    for(SSolver::Parameters param: optionsList)
+    for(SSolver::Parameters param : optionsList)
         optionsProfile->addItem(param.listName);
     connectOptionsProfileComboBox();
     if(optionsProfile->count() > 0)
@@ -459,7 +464,7 @@ void OptionsProfileEditor::loadDefaultProfiles()
 void OptionsProfileEditor::saveBackupProfiles()
 {
     QString fileURL = QFileDialog::getSaveFileName(nullptr, "Save Options Profiles", dirPath,
-                                               "INI files(*.ini)");
+                      "INI files(*.ini)");
     if (fileURL.isEmpty())
         return;
     QSettings settings(fileURL, QSettings::IniFormat);
@@ -481,7 +486,7 @@ void OptionsProfileEditor::saveBackupProfiles()
 void OptionsProfileEditor::openBackupProfiles()
 {
     QString fileURL = QFileDialog::getOpenFileName(nullptr, "Load Options Profiles File", dirPath,
-                                               "INI files(*.ini)");
+                      "INI files(*.ini)");
     if (fileURL.isEmpty())
         return;
     if(!QFileInfo(fileURL).exists())
@@ -493,12 +498,12 @@ void OptionsProfileEditor::openBackupProfiles()
     optionsList.clear();
     QSettings settings(fileURL, QSettings::IniFormat);
     QStringList groups = settings.childGroups();
-    for(QString group: groups)
+    for(QString group : groups)
     {
         settings.beginGroup(group);
         QStringList keys = settings.childKeys();
         QMap<QString, QVariant> map;
-        for(QString key: keys)
+        for(QString key : keys)
             map.insert(key, settings.value(key));
         SSolver::Parameters newParams = SSolver::Parameters::convertFromMap(map);
         optionsList.append(newParams);

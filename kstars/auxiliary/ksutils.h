@@ -256,7 +256,6 @@ class Logging
 };
 
 QString getDefaultPath(const QString &option);
-QStringList getAstrometryDefaultIndexFolderPaths();
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
@@ -266,15 +265,21 @@ bool replaceIndexFileNotYetSet();
 bool copyRecursively(QString sourceFolder, QString destFolder);
 #endif
 
+// Astrometry Related functions
+QStringList getAstrometryDefaultIndexFolderPaths();
 bool configureLocalAstrometryConfIfNecessary();
 bool createLocalAstrometryConf();
 QString getAstrometryConfFilePath();
 QStringList getAstrometryDataDirs();
-bool addAstrometryDataDir(QString dataDir);
-bool removeAstrometryDataDir(QString dataDir);
+bool addAstrometryDataDir(const QString &dataDir);
+bool removeAstrometryDataDir(const QString &dataDir);
+
+#ifdef HAVE_STELLARSOLVER
 QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles();
 QList<SSolver::Parameters> getDefaultAlignOptionsProfiles();
+#endif
+
 struct JPLFilter
 {
     QByteArray item;
