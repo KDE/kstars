@@ -208,6 +208,39 @@ void Media::upload(FITSView * view)
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
+
+    //    QString uuid;
+    //    // Only send UUID for non-temporary compressed file or non-tempeorary files
+    //    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
+    //            (imageData->isTempFile() == false))
+    //        uuid = m_UUID;
+
+    const FITSData * imageData = view->getImageData();
+    QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
+    QString sizeBytes = KFormat().formatByteSize(imageData->size());
+    QVariant xbin(1), ybin(1);
+    imageData->getRecordValue("XBINNING", xbin);
+    imageData->getRecordValue("YBINNING", ybin);
+    QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
+    QString bitDepth = QString::number(imageData->bpp());
+
+    QJsonObject metadata =
+    {
+        {"resolution", resolution},
+        {"size", sizeBytes},
+        {"bin", binning},
+        {"bpp", bitDepth},
+        {"uuid", m_UUID},
+        {"ext", ext}
+    };
+
+    // First 128 bytes of the binary data is always allocated
+    // to the metadata
+    // the rest to the image data.
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+    meta = meta.leftJustified(128, 0);
+    buffer.write(meta);
+
     // For low bandwidth images
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
@@ -224,32 +257,6 @@ void Media::upload(FITSView * view)
     }
     buffer.close();
 
-    const FITSData * imageData = view->getImageData();
-    QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
-    QString sizeBytes = KFormat().formatByteSize(imageData->size());
-    QVariant xbin(1), ybin(1);
-    imageData->getRecordValue("XBINNING", xbin);
-    imageData->getRecordValue("YBINNING", ybin);
-    QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
-    QString bitDepth = QString::number(imageData->bpp());
-
-    //    QString uuid;
-    //    // Only send UUID for non-temporary compressed file or non-tempeorary files
-    //    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
-    //            (imageData->isTempFile() == false))
-    //        uuid = m_UUID;
-
-    QJsonObject metadata =
-    {
-        {"resolution", resolution},
-        {"size", sizeBytes},
-        {"bin", binning},
-        {"bpp", bitDepth},
-        {"uuid", m_UUID},
-        {"ext", ext}
-    };
-
-    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
     emit newImage(jpegData);
 
     //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
@@ -259,40 +266,40 @@ void Media::upload(FITSView * view)
         previewImage.reset();
 }
 
-void Media::sendUpdatedFrame(FITSView * view)
-{
-    if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
-        return;
+//void Media::sendUpdatedFrame(FITSView * view)
+//{
+//    if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
+//        return;
 
-    QByteArray jpegData;
-    QBuffer buffer(&jpegData);
-    buffer.open(QIODevice::WriteOnly);
-    QPixmap displayPixmap = view->getDisplayPixmap();
-    if (correctionVector.isNull() == false)
-    {
-        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
-        double length = correctionVector.length();
-        if (length < 100)
-            length = 100;
-        QRect boundingRectable;
-        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
+//    QByteArray jpegData;
+//    QBuffer buffer(&jpegData);
+//    buffer.open(QIODevice::WriteOnly);
+//    QPixmap displayPixmap = view->getDisplayPixmap();
+//    if (correctionVector.isNull() == false)
+//    {
+//        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
+//        double length = correctionVector.length();
+//        if (length < 100)
+//            length = 100;
+//        QRect boundingRectable;
+//        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
 
-        QPoint topLeft = (center - QPointF(length, length)).toPoint();
-        boundingRectable.moveTo(topLeft);
+//        QPoint topLeft = (center - QPointF(length, length)).toPoint();
+//        boundingRectable.moveTo(topLeft);
 
-        boundingRectable = boundingRectable.intersected(displayPixmap.rect());
+//        boundingRectable = boundingRectable.intersected(displayPixmap.rect());
 
-        emit newBoundingRect(boundingRectable, displayPixmap.size());
+//        emit newBoundingRect(boundingRectable, displayPixmap.size());
 
-        displayPixmap = displayPixmap.copy(boundingRectable);
-    }
-    else
-        emit newBoundingRect(QRect(), QSize());
-    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY / 2);
-    buffer.close();
+//        displayPixmap = displayPixmap.copy(boundingRectable);
+//    }
+//    else
+//        emit newBoundingRect(QRect(), QSize());
+//    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY / 2);
+//    buffer.close();
 
-    m_WebSocket.sendBinaryMessage(jpegData);
-}
+//    m_WebSocket.sendBinaryMessage(jpegData);
+//}
 
 void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
@@ -300,17 +307,26 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
         return;
 
     int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2;
-    QByteArray array;
-    QBuffer buffer(&array);
+    QByteArray image;
+    QBuffer buffer(&image);
+
+    // First 128 bytes of the binary data is always allocated
+    // to the metadata
+    // the rest to the image data.
+    QByteArray meta = "{}";
+    meta = meta.leftJustified(128, 0);
+    buffer.write(meta);
+
     QImageWriter writer;
     writer.setDevice(&buffer);
     writer.setFormat("JPG");
-    writer.setCompression(7);
+    writer.setCompression(6);
     if (frame.get()->width() > width)
         writer.write(frame.get()->scaledToWidth(width));
     else
         writer.write(*frame.get());
-    m_WebSocket.sendBinaryMessage(array);
+
+    m_WebSocket.sendBinaryMessage(image);
 }
 
 void Media::registerCameras()
