@@ -69,10 +69,11 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 {
     QList<Edge*> starCenters;
     SkyBackground skyBG;
-    int maxStarsCount = getValue("maxStarsCount", 100).toInt();
+    int maxStarsCount = getValue("maxStarsCount", 100000).toInt();
 #ifdef HAVE_STELLARSOLVER
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
-    Ekos::OptionsProfileEditor::ProfileGroup group = (Ekos::OptionsProfileEditor::ProfileGroup) getValue("optionsProfileGroup", 1).toInt();
+    Ekos::OptionsProfileEditor::ProfileGroup group = (Ekos::OptionsProfileEditor::ProfileGroup) getValue("optionsProfileGroup",
+            1).toInt();
 
     QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     QString filename = "";
@@ -80,13 +81,13 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     {
         case Ekos::OptionsProfileEditor::AlignProfiles:
             //So it should not be here if it is Align.
-        break;
+            break;
         case Ekos::OptionsProfileEditor::GuideProfiles:
             filename = "SavedGuideProfiles.ini";
-        break;
+            break;
         case Ekos::OptionsProfileEditor::FocusProfiles:
             filename = "SavedFocusProfiles.ini";
-        break;
+            break;
     }
 
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
@@ -99,13 +100,13 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         {
             case Ekos::OptionsProfileEditor::AlignProfiles:
                 //So it should not be here if it is Align.
-            break;
+                break;
             case Ekos::OptionsProfileEditor::GuideProfiles:
                 optionsList = KSUtils::getDefaultGuideOptionsProfiles();
-            break;
+                break;
             case Ekos::OptionsProfileEditor::FocusProfiles:
                 optionsList = KSUtils::getDefaultFocusOptionsProfiles();
-            break;
+                break;
         }
     }
     if (optionsProfileIndex >= 0 && optionsList.count() > optionsProfileIndex)

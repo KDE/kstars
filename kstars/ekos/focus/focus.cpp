@@ -1253,7 +1253,6 @@ void Focus::calculateHFR()
 void Focus::analyzeSources()
 {
     QVariantMap extractionSettings;
-    extractionSettings["maxStarsCount"] = 50;
     extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
     extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::OptionsProfileEditor::FocusProfiles);
     focusView->getImageData()->setSourceExtractorSettings(extractionSettings);

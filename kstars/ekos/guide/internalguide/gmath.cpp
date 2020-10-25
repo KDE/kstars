@@ -615,7 +615,6 @@ Vector cgmath::findLocalStarPosition(void) const
     if (square_alg_idx == SEP_THRESHOLD)
     {
         QVariantMap settings;
-        settings["maxStarsCount"] = 50;
         settings["optionsProfileIndex"] = Options::guideOptionsProfile();
         settings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::GuideProfiles);
         imageData->setSourceExtractorSettings(settings);

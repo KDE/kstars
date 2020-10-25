@@ -348,7 +348,6 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> &sepStars, in
         return 0;
 
     QVariantMap settings;
-    settings["maxStarsCount"] = 50;
     settings["optionsProfileIndex"] = Options::guideOptionsProfile();
     settings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::GuideProfiles);
     imageData->setSourceExtractorSettings(settings);
