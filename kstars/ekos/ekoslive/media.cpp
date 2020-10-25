@@ -309,6 +309,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2;
     QByteArray image;
     QBuffer buffer(&image);
+    buffer.open(QIODevice::WriteOnly);
 
     // First 128 bytes of the binary data is always allocated
     // to the metadata
