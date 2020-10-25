@@ -314,7 +314,11 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     // First 128 bytes of the binary data is always allocated
     // to the metadata
     // the rest to the image data.
-    QByteArray meta = "{}";
+    QJsonObject metadata =
+    {
+        {"ext", "jpg"}
+    };
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);;
     meta = meta.leftJustified(128, 0);
     buffer.write(meta);
 
