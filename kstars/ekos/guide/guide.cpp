@@ -3170,13 +3170,11 @@ bool Guide::executeOneOperation(GuideState operation)
         case GUIDE_DARK:
         {
             // Do we need to take a dark frame?
-            if (Options::guideDarkFrameEnabled())
+            if (m_ImageData && Options::guideDarkFrameEnabled())
             {
                 QVariantMap settings = frameSettings[targetChip];
                 uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
                 uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
-
-                FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
                 connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {
@@ -3184,23 +3182,19 @@ bool Guide::executeOneOperation(GuideState operation)
                     if (completed != darkFrameCheck->isChecked())
                         setDarkFrameEnabled(completed);
                     if (completed)
+                    {
+                        guideView->rescale(ZOOM_KEEP_LEVEL);
+                        guideView->updateFrame();
                         setCaptureComplete();
+                    }
                     else
                         abort();
                 });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Guide::appendLogText);
-
                 actionRequired = true;
-
                 targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
-
-                if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX,
-                                                      offsetY);
-                else
-                {
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
-                }
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
+                        offsetX, offsetY);
             }
         }
         break;

@@ -1180,9 +1180,8 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
     disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
     disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
-    if (darkFrameCheck->isChecked())
+    if (m_ImageData && darkFrameCheck->isChecked())
     {
-        FITSData *darkData   = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
         QVariantMap settings = frameSettings[targetChip];
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
@@ -1192,22 +1191,19 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
             DarkLibrary::Instance()->disconnect(this);
             darkFrameCheck->setChecked(completed);
             if (completed)
+            {
+                focusView->rescale(ZOOM_KEEP_LEVEL);
+                focusView->updateFrame();
                 setCaptureComplete();
+            }
             else
                 abort();
             resetButtons();
         });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 
-        targetChip->setCaptureFilter(defaultScale);
-
-        if (darkData)
-            DarkLibrary::Instance()->subtract(darkData, focusView, defaultScale, offsetX, offsetY);
-        else
-        {
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX, offsetY);
-        }
-
+        //targetChip->setCaptureFilter(defaultScale);
+        DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), defaultScale, offsetX, offsetY);
         return;
     }
 

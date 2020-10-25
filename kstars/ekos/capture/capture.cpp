@@ -1653,14 +1653,12 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
 
         // m_isLooping client-side looping (next capture starts after image is downloaded to client)
         // currentCCD->isLooping driver side looping (without any delays, next capture starts after driver reads data)
-        if (m_isLooping == false && currentCCD->isLooping() == false)
+        if (data && m_isLooping == false && currentCCD->isLooping() == false)
         {
             disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
 
             if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
             {
-                FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
-                FITSData * darkData     = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
                 uint16_t offsetX       = static_cast<uint16_t>(activeJob->getSubX() / activeJob->getXBin());
                 uint16_t offsetY       = static_cast<uint16_t>(activeJob->getSubY() / activeJob->getYBin());
 
@@ -1669,17 +1667,22 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
                     if (currentCCD->isLooping() == false)
                         DarkLibrary::Instance()->disconnect(this);
                     if (completed)
+                    {
+                        FITSView *view = targetChip->getImageView(FITS_NORMAL);
+                        if (view)
+                        {
+                            view->rescale(ZOOM_KEEP_LEVEL);
+                            view->updateFrame();
+                        }
                         setCaptureComplete();
+                    }
                     else
                         abort();
                 });
+
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
-
-                if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX, offsetY);
-                else
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX, offsetY);
-
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, activeJob->getExposure(),
+                        targetChip->getCaptureFilter(), offsetX, offsetY);
                 return;
             }
         }
