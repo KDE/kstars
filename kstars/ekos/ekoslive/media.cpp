@@ -311,11 +311,16 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     QBuffer buffer(&image);
     buffer.open(QIODevice::WriteOnly);
 
+    QImage videoImage = (frame->width() > width) ? frame->scaledToWidth(width) : *frame;
+
+    QString resolution = QString("%1x%2").arg(videoImage.width()).arg(videoImage.height());
+
     // First 128 bytes of the binary data is always allocated
     // to the metadata
     // the rest to the image data.
     QJsonObject metadata =
     {
+        {"resolution", resolution},
         {"ext", "jpg"}
     };
     QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);;
@@ -326,10 +331,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     writer.setDevice(&buffer);
     writer.setFormat("JPG");
     writer.setCompression(6);
-    if (frame.get()->width() > width)
-        writer.write(frame.get()->scaledToWidth(width));
-    else
-        writer.write(*frame.get());
+    writer.write(videoImage);
 
     m_WebSocket.sendBinaryMessage(image);
 }
