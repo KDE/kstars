@@ -3752,7 +3752,7 @@ void Align::solverFailed()
 {
     appendLogText(i18n("Solver Failed"));
 
-    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed with errors"),
+    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
                           KSNotification::EVENT_ALERT);
 
     pi->stopAnimation();
@@ -4354,12 +4354,14 @@ void Align::SlewToTarget()
     if (canSync && loadSlewState == IPS_IDLE)
     {
         // 2018-01-24 JM: This is ugly. Maybe use DBus? Signal/Slots? Ekos Manager usage like this should be avoided
+#if 0
         if (Ekos::Manager::Instance()->getCurrentJobName().isEmpty())
         {
             KSNotification::event(QLatin1String("EkosSchedulerTelescopeSynced"),
                                   i18n("Ekos job (%1) - Telescope synced",
                                        Ekos::Manager::Instance()->getCurrentJobName()));
         }
+#endif
 
         // Do we perform a regular sync or use differential slewing?
         if (Options::astrometryDifferentialSlewing())

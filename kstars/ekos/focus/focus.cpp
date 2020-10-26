@@ -3141,7 +3141,7 @@ void Focus::setAutoFocusResult(bool status)
         }
         else
         {
-            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"),
+            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
                                   KSNotification::EVENT_ALERT);
             state = Ekos::FOCUS_FAILED;
         }

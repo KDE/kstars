@@ -677,7 +677,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
                 emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: Drift too short."));
-                KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"),
+                KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed"),
                                       KSNotification::EVENT_ALERT);
                 guideLog.endCalibration(0, 0);
 
@@ -785,7 +785,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                                   "backlash problems...",
                                   m_CalibrationParams.ra_iterations));
 
-                KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"),
+                KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed"),
                                       KSNotification::EVENT_ALERT);
                 reset();
                 break;
@@ -1452,7 +1452,7 @@ bool InternalGuider::selectAutoStar()
         settings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::GuideProfiles);
         imageData->setSourceExtractorSettings(settings);
 
-        if (Options::guideAlgorithm() == SEP_THRESHOLD)           
+        if (Options::guideAlgorithm() == SEP_THRESHOLD)
             imageData->findStars(ALGORITHM_SEP).waitForFinished();
         else
             imageData->findStars().waitForFinished();
