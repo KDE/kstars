@@ -332,6 +332,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     writer.setFormat("JPG");
     writer.setCompression(6);
     writer.write(videoImage);
+    buffer.close();
 
     m_WebSocket.sendBinaryMessage(image);
 }
