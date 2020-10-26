@@ -826,9 +826,9 @@ bool FITSData::saveImage(const QString &newFilename)
             case QVariant::String:
             default:
             {
-                void *str = value.toString().toLatin1().data();
-                fits_write_key(fptr, TSTRING, key.toLatin1().constData(), const_cast<void *>(reinterpret_cast<const void *>(str)), comment,
-                               &status);
+                char valueBuffer[256] = {0};
+                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256);
+                fits_write_key(fptr, TSTRING, key.toLatin1().constData(), valueBuffer, comment, &status);
             }
         }
     }
