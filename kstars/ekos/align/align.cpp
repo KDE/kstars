@@ -4862,9 +4862,9 @@ bool Align::loadAndSlew(QString fileURL)
 
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath,
-                                               "FITS (*.fits *.fits.fz *.fit *.fts);;"
-                                               "Images (*.jpg *.jpeg *.png *.gif *.bmp);;"
-                                               "RAW (*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
+                                               "Images (*.fits *.fits.fz *.fit *.fts "
+                                               "*.jpg *.jpeg *.png *.gif *.bmp "
+                                               "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
 
     if (fileURL.isEmpty())
         return false;

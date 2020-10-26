@@ -1190,9 +1190,9 @@ void KStars::slotOpenFITS()
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
-                   "FITS (*.fits *.fits.fz *.fit *.fts);;"
-                   "Images (*.jpg *.jpeg *.png *.gif *.bmp);;"
-                   "RAW (*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
+                   "Images (*.fits *.fits.fz *.fit *.fts "
+                   "*.jpg *.jpeg *.png *.gif *.bmp "
+                   "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
     if (fileURL.isEmpty())
         return;
 
