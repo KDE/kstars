@@ -665,7 +665,10 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
     if (command == commands[FOCUS_START])
         focus->start();
     else if (command == commands[FOCUS_CAPTURE])
+    {
+        focus->resetFrame();
         focus->capture();
+    }
     else if (command == commands[FOCUS_STOP])
         focus->abort();
     else if (command == commands[FOCUS_RESET])
