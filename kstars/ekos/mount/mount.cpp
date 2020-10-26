@@ -43,7 +43,7 @@
 
 extern const char *libindi_strings_context;
 
-#define UPDATE_DELAY         1000
+#define UPDATE_DELAY 1000
 #define ABORT_DISPATCH_LIMIT 3
 
 namespace Ekos
@@ -72,13 +72,13 @@ Mount::Mount()
     maxAltLimit->setValue(Options::maximumAltLimit());
     maxHaLimit->setValue(Options::maximumHaLimit());
 
-    connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
-    connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
-    connect(maxHaLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
+    connect(minAltLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
+    connect(maxAltLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
+    connect(maxHaLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
 
-    connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(toggleMountToolBox()));
+    connect(mountToolBoxB, &QPushButton::clicked, this, &Mount::toggleMountToolBox);
 
-    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
+    connect(saveB, &QPushButton::clicked, this, &Mount::save);
 
     connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
     {
@@ -108,10 +108,10 @@ Mount::Mount()
         }
     });
 
-    connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
+    connect(enableLimitsCheck, &QCheckBox::toggled, this, &Mount::enableAltitudeLimits);
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
-    connect(enableHaLimitCheck, SIGNAL(toggled(bool)), this, SLOT(enableHourAngleLimits(bool)));
+    connect(enableHaLimitCheck, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
     enableHaLimitCheck->setChecked(Options::enableHaLimit());
     //haLimitEnabled = enableHaLimitCheck->isChecked();
 
@@ -143,7 +143,7 @@ Mount::Mount()
     });
 
     updateTimer.setInterval(UPDATE_DELAY);
-    connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
+    connect(&updateTimer, &QTimer::timeout, this, &Mount::updateTelescopeCoords);
 
     everyDayCheck->setChecked(Options::parkEveryDay());
     connect(everyDayCheck, &QCheckBox::toggled, this, [](bool toggled)
@@ -380,8 +380,8 @@ void Mount::syncTelescopeInfo()
     {
         parkB->setEnabled(!currentTelescope->isParked());
         unparkB->setEnabled(currentTelescope->isParked());
-        connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()), Qt::UniqueConnection);
-        connect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()), Qt::UniqueConnection);
+        connect(parkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::Park, Qt::UniqueConnection);
+        connect(unparkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::UnPark, Qt::UniqueConnection);
 
         // QtQuick
         m_Park->setEnabled(!currentTelescope->isParked());
@@ -391,8 +391,8 @@ void Mount::syncTelescopeInfo()
     {
         parkB->setEnabled(false);
         unparkB->setEnabled(false);
-        disconnect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
-        disconnect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()));
+        disconnect(parkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::Park);
+        disconnect(unparkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::UnPark);
 
         // QtQuick
         m_Park->setEnabled(false);
@@ -409,7 +409,7 @@ void Mount::syncTelescopeInfo()
             scopeConfigCombo->addItem(svp->sp[i].label);
 
         scopeConfigCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
-        connect(scopeConfigCombo, SIGNAL(activated(int)), this, SLOT(setScopeConfig(int)));
+        connect(scopeConfigCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Mount::setScopeConfig);
     }
 
     // Tracking State
