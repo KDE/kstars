@@ -52,14 +52,14 @@ void TestFitsData::testComputeHFR_data()
     // to FITS_FOCUS images, only to FITS_NORMAL images.
 
     // Normal HFR tests
-    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 9 << 4.06;
-    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.23;
-    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 100 << 1.30;
+    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 11 << 3.89;
+    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.13;
+    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 124 << 1.30;
 
     // Focus HFR tests
-    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 9 << 4.09;
-    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 17 << 2.23;
-    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 100 << 1.30;
+    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 11 << 3.89;
+    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 17 << 2.13;
+    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 124 << 1.30;
 #endif
 }
 
@@ -172,7 +172,7 @@ void TestFitsData::initGenericDataFixture()
             << "m47_sim_stars.fits"
             << FITS_NORMAL
             << 80       // Stars found with the Centroid detection
-            << 100      // Stars found with the StellarSolver detection (Quick HFR)
+            << 252      // Stars found with the StellarSolver detection
             << 1.49     // HFR found with the Centroid detection
             << 1.80     // HFR found with the Gradient detection
             << 0.0      // HFR found with the Threshold detection - not used
