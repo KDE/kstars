@@ -5530,15 +5530,15 @@ void Align::stopPAHProcess()
 
 void Align::rotatePAH()
 {
-    double m_TargetDiffRA = PAHRotationSpin->value();
+    double TargetDiffRA = PAHRotationSpin->value();
     bool westMeridian = PAHDirectionCombo->currentIndex() == 0;
 
     // West
     if (westMeridian)
-        m_TargetDiffRA *= -1;
+        TargetDiffRA *= -1;
     // East
     else
-        m_TargetDiffRA *= 1;
+        TargetDiffRA *= 1;
 
     // JM 2018-05-03: Hemispheres shouldn't affect rotation direction in RA
 
@@ -5549,8 +5549,8 @@ void Align::rotatePAH()
         return;
     }
 
-    // m_TargetDiffRA is in degrees
-    dms newTelescopeRA = (telescopeCoord.ra() + dms(m_TargetDiffRA)).reduce();
+    // TargetDiffRA is in degrees
+    dms newTelescopeRA = (telescopeCoord.ra() + dms(TargetDiffRA)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());
@@ -6590,8 +6590,8 @@ void Align::setTargetCoords(double ra, double de)
 
 void Align::calculateAlignTargetDiff()
 {
-    double m_TargetDiffRA = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
-    double m_TargetDiffDE = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
+    m_TargetDiffRA = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
+    m_TargetDiffDE = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
 
     dms RADiff(fabs(m_TargetDiffRA) / 3600.0), DEDiff(m_TargetDiffDE / 3600.0);
     QString dRAText = QString("%1%2").arg((m_TargetDiffRA > 0 ? "+" : "-"), RADiff.toHMSString());
