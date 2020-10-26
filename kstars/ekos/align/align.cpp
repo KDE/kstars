@@ -3758,6 +3758,7 @@ void Align::solverFailed()
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
+    loadSlewB->setEnabled(true);
 
     m_AlignTimer.stop();
 
