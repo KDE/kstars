@@ -4893,6 +4893,38 @@ bool Align::loadAndSlew(QString fileURL)
     return true;
 }
 
+bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
+{
+#ifdef Q_OS_OSX
+    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
+            && Options::solveSextractorType() == SSolver::EXTRACTOR_BUILTIN)
+    {
+        if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
+        {
+            KSNotification::error(
+                i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline when using the built in Sextractor. These were not detected on your system.  Please install Python and the Astropy package or select a different Sextractor for solving."));
+            return false;
+        }
+    }
+#endif
+
+    differentialSlewingActivated = false;
+    loadSlewState = IPS_BUSY;
+    stopPAHProcess();
+    slewR->setChecked(true);
+    currentGotoMode = GOTO_SLEW;
+    solveB->setEnabled(false);
+    stopB->setEnabled(true);
+    pi->startAnimation();
+
+    QSharedPointer<FITSData> data;
+    data.reset(new FITSData());
+    //data->loadFromBuffer(reinterpret_cast<void *>(image.data()), image.size(), extension, true);
+    alignView->loadData(data);
+    startSolving();
+    return true;
+}
+
 void Align::setExposure(double value)
 {
     exposureIN->setValue(value);

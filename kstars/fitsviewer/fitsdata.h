@@ -107,13 +107,12 @@ class FITSData : public QObject
 
         /**
          * @brief loadFITSFromMemory Loading FITS from memory buffer.
-         * @param fits_buffer The memory buffer containing the fits data.
-         * @param fits_buffer_size The size in bytes of the buffer.
+         * @param buffer The memory buffer containing the fits data.
          * @param extension file extension (e.g. "jpg", "fits", "cr2"...etc)
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return bool indicating success or failure.
          */
-        bool loadFromBuffer(void *buffer, size_t size, const QString &extension, bool silent);
+        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, bool silent);
 
         /**
          * @brief parseSolution Parse the WCS solution information from the header into the given struct.
@@ -444,19 +443,18 @@ class FITSData : public QObject
         void loadCommon(const QString &inFilename);
         /**
          * @brief privateLoad Load an image (FITS, RAW, or images supported by Qt like jpeg, png).
-         * @param Buffer pointer to image data. If buffer is nullptr, read from disk (m_Filename).
-         * @param size size of image data in bytes.
+         * @param Buffer pointer to image data. If buffer is emtpy, read from disk (m_Filename).
          * @param silent If true, suppress any messages.
          * @return true if successfully loaded, false otherwise.
          */
-        bool privateLoad(void *buffer, size_t size, const QString &extension, bool silent);
+        bool privateLoad(const QByteArray &buffer, const QString &extension, bool silent);
 
         // Load Qt-supported images.
-        bool loadCanonicalImage(void *buffer, size_t size, const QString &extension, bool silent);
+        bool loadCanonicalImage(const QByteArray &buffer, const QString &extension, bool silent);
         // Load FITS images.
-        bool loadFITSImage(void *buffer, size_t size, const QString &extension, bool silent);
+        bool loadFITSImage(const QByteArray &buffer, const QString &extension, bool silent);
         // Load RAW images.
-        bool loadRAWImage(void *buffer, size_t size, const QString &extension, bool silent);
+        bool loadRAWImage(const QByteArray &buffer, const QString &extension, bool silent);
 
         void rotWCSFITS(int angle, int mirror);
         int calculateMinMax(bool refresh = false);

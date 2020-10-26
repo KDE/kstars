@@ -817,7 +817,9 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
         align->abort();
     else if (command == commands[ALIGN_LOAD_AND_SLEW])
     {
-        QTemporaryFile file(QString("loadslewXXXXX.%1").arg(payload["ext"].toString("fits")));
+        QString filename = QDir::tempPath() + QDir::separator() +
+                           QString("XXXXXXloadslew.%1").arg(payload["ext"].toString("fits"));
+        QTemporaryFile file(filename);
         file.setAutoRemove(false);
         file.open();
         file.write(QByteArray::fromBase64(payload["data"].toString().toLatin1()));

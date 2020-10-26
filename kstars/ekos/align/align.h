@@ -400,6 +400,14 @@ class Align : public QWidget, public Ui::Align
              */
         void processData(const QSharedPointer<FITSData> &data);
 
+        /** DBUS interface function.
+             * Loads an image (FITS, RAW, or JPG/PNG) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+             * the telescope is pointing to the same coordinates of the image.
+             * @param image buffer to image data.
+             * @param extension image extension (e.g. cr2, jpg, fits,..etc).
+             */
+        bool loadAndSlew(const QByteArray &image, const QString &extension);
+
         /** \addtogroup AlignDBusInterface
              *  @{
              */
@@ -434,7 +442,7 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE bool captureAndSolve();
 
         /** DBUS interface function.
-             * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+             * Loads an image (FITS, RAW, or JPG/PNG) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
              * the telescope is pointing to the same coordinates of the image.
              * @param fileURL URL to the image to solve
              */
