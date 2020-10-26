@@ -45,7 +45,7 @@ class Media : public QObject
         void registerCameras();
 
         // Ekos Media Message to User
-        void sendPreviewJPEG(const QString &filename, QJsonObject metadata);
+        //void sendPreviewJPEG(const QString &filename, QJsonObject metadata);
         void sendPreviewImage(const QString &filename, const QString &uuid);
         void sendPreviewImage(const QSharedPointer<FITSData> &data, const QString &uuid);
         void sendPreviewImage(FITSView * view, const QString &uuid);

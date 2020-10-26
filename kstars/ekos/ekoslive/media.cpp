@@ -147,22 +147,22 @@ void Media::onBinaryReceived(const QByteArray &message)
     align->loadAndSlew(filename);
 }
 
-void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
-{
-    QString uuid = QUuid::createUuid().toString();
-    uuid = uuid.remove(QRegularExpression("[-{}]"));
+//void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
+//{
+//    QString uuid = QUuid::createUuid().toString();
+//    uuid = uuid.remove(QRegularExpression("[-{}]"));
 
-    metadata.insert("uuid", uuid);
+//    metadata.insert("uuid", uuid);
 
-    QFile jpegFile(filename);
-    if (!jpegFile.open(QFile::ReadOnly))
-        return;
+//    QFile jpegFile(filename);
+//    if (!jpegFile.open(QFile::ReadOnly))
+//        return;
 
-    QByteArray jpegData = jpegFile.readAll();
+//    QByteArray jpegData = jpegFile.readAll();
 
-    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
-    emit newImage(jpegData);
-}
+//    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+//    emit newImage(jpegData);
+//}
 
 void Media::sendPreviewImage(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
@@ -171,6 +171,7 @@ void Media::sendPreviewImage(const QSharedPointer<FITSData> &data, const QString
 
     m_UUID = uuid;
 
+    previewImage.reset(new FITSView());
     previewImage->loadData(data);
     sendImage();
 }
