@@ -239,9 +239,9 @@ class FITSData : public QObject
 
         // FITS Record
         bool getRecordValue(const QString &key, QVariant &value) const;
-        const QList<Record*> &getRecords() const
+        const QList<Record> &getRecords() const
         {
-            return records;
+            return m_HeaderRecords;
         }
 
         // Star Detection - Native KStars implementation
@@ -557,7 +557,7 @@ class FITSData : public QObject
         FITSImage::Statistic m_Statistics;
 
         // A list of header records
-        QList<Record*> records;
+        QList<Record> m_HeaderRecords;
 
         // Sky Background
         SkyBackground m_SkyBackground;

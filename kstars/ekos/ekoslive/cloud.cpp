@@ -166,12 +166,11 @@ void Cloud::asyncUpload()
     // Add file name and size
     QJsonObject metadata;
     // Skip empty or useless metadata
-    for (FITSData::Record * oneRecord : m_ImageData->getRecords())
+    for (const auto &oneRecord : m_ImageData->getRecords())
     {
-        if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
-                oneRecord->key.isEmpty() || oneRecord->value.toString().isEmpty())
+        if (oneRecord.key.isEmpty() || oneRecord.value.toString().isEmpty())
             continue;
-        metadata.insert(oneRecord->key.toLower(), QJsonValue::fromVariant(oneRecord->value));
+        metadata.insert(oneRecord.key.toLower(), QJsonValue::fromVariant(oneRecord.value));
     }
 
     // Filename only without path

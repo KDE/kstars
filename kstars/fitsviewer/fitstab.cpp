@@ -621,15 +621,15 @@ void FITSTab::loadFITSHeader()
     int nkeys = image_data->getRecords().size();
     int counter = 0;
     header.tableWidget->setRowCount(nkeys);
-    for (FITSData::Record *oneRecord : image_data->getRecords())
+    for (const auto &oneRecord : image_data->getRecords())
     {
-        QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord->key);
+        QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord.key);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 0, tempItem);
-        tempItem = new QTableWidgetItem(oneRecord->value.toString());
+        tempItem = new QTableWidgetItem(oneRecord.value.toString());
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 1, tempItem);
-        tempItem = new QTableWidgetItem(oneRecord->comment);
+        tempItem = new QTableWidgetItem(oneRecord.comment);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 2, tempItem);
         counter++;
@@ -683,8 +683,8 @@ bool FITSTab::saveFile()
     if (currentURL.isValid())
     {
         QString localFile = currentURL.toLocalFile();
-        if (localFile.contains(".fit"))
-            localFile = "!" + localFile;
+        //        if (localFile.contains(".fit"))
+        //            localFile = "!" + localFile;
 
         if (!saveImage(localFile))
         {

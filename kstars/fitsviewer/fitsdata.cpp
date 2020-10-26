@@ -122,8 +122,6 @@ FITSData::~FITSData()
         if (m_isTemporary && autoRemoveTemporaryFITS)
             QFile::remove(m_Filename);
     }
-
-    qDeleteAll(records);
 }
 
 void FITSData::loadCommon(const QString &inFilename)
@@ -365,7 +363,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     if (getRecordValue("DATE-OBS", value) && value.isValid())
         m_DateTime = KStarsDateTime(value.toDateTime());
 
-    if (Options::autoDebayer() && checkDebayer())
+    if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
         //m_BayerBuffer = m_ImageBuffer;
         if (debayer())
@@ -705,11 +703,11 @@ bool FITSData::saveImage(const QString &newFilename)
         return false;
     }
 
-    int status = 0, exttype = 0;
+    int status = 0;
     long nelements;
     fitsfile * new_fptr;
 
-    if (HasDebayer)
+    if (HasDebayer && m_Filename.isEmpty() == false)
     {
         fits_flush_file(fptr, &status);
         /* close current file */
@@ -752,26 +750,6 @@ bool FITSData::saveImage(const QString &newFilename)
 
     nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
 
-    /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, newFilename.toLatin1(), &status))
-    {
-        fits_report_error(stderr, status);
-        return status;
-    }
-
-    //    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    //    {
-    //        fits_report_error(stderr, status);
-    //        return status;
-    //    }
-
-    if (fits_copy_header(fptr, new_fptr, &status))
-    {
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_flush_file(fptr, &status);
     /* close current file */
     if (fits_close_file(fptr, &status))
     {
@@ -779,11 +757,21 @@ bool FITSData::saveImage(const QString &newFilename)
         return false;
     }
 
+    /* Create a new File, overwriting existing*/
+    if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLatin1(), &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }
+
     status = 0;
 
     fptr = new_fptr;
 
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
+    // Create image
+    long naxis = m_Statistics.channels == 1 ? 2 : 3;
+    long naxes[3] = {m_Statistics.width, m_Statistics.height, naxis};
+    if (fits_create_img(fptr, m_Statistics.dataType, naxis, naxes, &status))
     {
         fits_report_error(stderr, status);
         return false;
@@ -812,18 +800,37 @@ bool FITSData::saveImage(const QString &newFilename)
         return false;
     }
 
-    // NAXIS1
-    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(m_Statistics.width), "length of data axis 1", &status))
+    // Skip first 10 standard records and copy the rest.
+    for (int i = 10; i < m_HeaderRecords.count(); i++)
     {
-        fits_report_error(stderr, status);
-        return false;
-    }
+        QString key = m_HeaderRecords[i].key;
+        const char *comment = m_HeaderRecords[i].comment.toLatin1().constBegin();
+        QVariant value = m_HeaderRecords[i].value;
 
-    // NAXIS2
-    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(m_Statistics.height), "length of data axis 2", &status))
-    {
-        fits_report_error(stderr, status);
-        return false;
+        switch (value.type())
+        {
+            case QVariant::Int:
+            {
+                int number = value.toInt();
+                fits_write_key(fptr, TINT, key.toLatin1().constData(), &number, comment, &status);
+            }
+            break;
+
+            case QVariant::Double:
+            {
+                double number = value.toDouble();
+                fits_write_key(fptr, TDOUBLE, key.toLatin1().constData(), &number, comment, &status);
+            }
+            break;
+
+            case QVariant::String:
+            default:
+            {
+                void *str = value.toString().toLatin1().data();
+                fits_write_key(fptr, TSTRING, key.toLatin1().constData(), const_cast<void *>(reinterpret_cast<const void *>(str)), comment,
+                               &status);
+            }
+        }
     }
 
     // ISO Date
@@ -857,7 +864,7 @@ bool FITSData::saveImage(const QString &newFilename)
 
     rotCounter = flipHCounter = flipVCounter = 0;
 
-    if (m_isTemporary && autoRemoveTemporaryFITS)
+    if (m_Filename.isEmpty() == false && m_isTemporary && autoRemoveTemporaryFITS)
     {
         QFile::remove(m_Filename);
         m_isTemporary = false;
@@ -1245,45 +1252,46 @@ bool FITSData::parseHeader()
         return false;
     }
 
+    m_HeaderRecords.clear();
     QString recordList = QString(header);
 
     for (int i = 0; i < nkeys; i++)
     {
-        Record * oneRecord = new Record;
+        Record oneRecord;
         // Quotes cause issues for simplified below so we're removing them.
         QString record = recordList.mid(i * 80, 80).remove("'");
         QStringList properties = record.split(QRegExp("[=/]"));
         // If it is only a comment
         if (properties.size() == 1)
         {
-            oneRecord->key = properties[0].mid(0, 7);
-            oneRecord->comment = properties[0].mid(8).simplified();
+            oneRecord.key = properties[0].mid(0, 7);
+            oneRecord.comment = properties[0].mid(8).simplified();
         }
         else
         {
-            oneRecord->key = properties[0].simplified();
-            oneRecord->value = properties[1].simplified();
+            oneRecord.key = properties[0].simplified();
+            oneRecord.value = properties[1].simplified();
             if (properties.size() > 2)
-                oneRecord->comment = properties[2].simplified();
+                oneRecord.comment = properties[2].simplified();
 
             // Try to guess the value.
             // Test for integer & double. If neither, then leave it as "string".
             bool ok = false;
 
             // Is it Integer?
-            oneRecord->value.toInt(&ok);
+            oneRecord.value.toInt(&ok);
             if (ok)
-                oneRecord->value.convert(QMetaType::Int);
+                oneRecord.value.convert(QMetaType::Int);
             else
             {
                 // Is it double?
-                oneRecord->value.toDouble(&ok);
+                oneRecord.value.toDouble(&ok);
                 if (ok)
-                    oneRecord->value.convert(QMetaType::Double);
+                    oneRecord.value.convert(QMetaType::Double);
             }
         }
 
-        records.append(oneRecord);
+        m_HeaderRecords.append(oneRecord);
     }
 
     free(header);
@@ -1293,14 +1301,14 @@ bool FITSData::parseHeader()
 
 bool FITSData::getRecordValue(const QString &key, QVariant &value) const
 {
-    auto result = std::find_if(records.begin(), records.end(), [&key](const Record * oneRecord)
+    auto result = std::find_if(m_HeaderRecords.begin(), m_HeaderRecords.end(), [&key](const Record & oneRecord)
     {
-        return (oneRecord->key == key && oneRecord->value.isValid());
+        return (oneRecord.key == key && oneRecord.value.isValid());
     });
 
-    if (result != records.end())
+    if (result != m_HeaderRecords.end())
     {
-        value = (*result)->value;
+        value = (*result).value;
         return true;
     }
     return false;
@@ -3178,6 +3186,7 @@ bool FITSData::debayer_8bit()
     }
 
     m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.dataType = TBYTE;
     delete[] destinationBuffer;
     return true;
 }
@@ -3252,6 +3261,7 @@ bool FITSData::debayer_16bit()
     }
 
     m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.dataType = TUSHORT;
     delete[] destinationBuffer;
     return true;
 }
