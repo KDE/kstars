@@ -1150,8 +1150,7 @@ if(INDI_FOUND)
         include_directories(${GSL_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
         # StellarSolver
-        include_directories(${STELLARSOLVER_INCLUDE_DIR})
-        target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
+        target_link_libraries(KStarsLib StellarSolver::stellarsolver)
         ##why is this necessary??
         if(WIN32)
           find_package(Boost 1.45.0 COMPONENTS regex)
