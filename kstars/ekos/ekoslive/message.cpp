@@ -194,6 +194,8 @@ void Message::onTextReceived(const QString &message)
         sendDomes();
     else if (command == commands[GET_CAPS])
         sendCaps();
+    else if (command == commands[GET_STELLARSOLVER_PROFILES])
+        sendStellarSolverProfiles();
     else if (command == commands[GET_DEVICES])
         sendDevices();
     else if (command == commands[DIALOG_GET_RESPONSE])
@@ -438,6 +440,25 @@ void Message::sendCaps()
             updateCapStatus(status);
         }
     }
+}
+
+void Message::sendStellarSolverProfiles()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonObject profiles;
+
+    if (m_Manager->focusModule())
+        profiles.insert("focus", QJsonArray::fromStringList(m_Manager->focusModule()->getStellarSolverProfiles()));
+    // TODO
+    //    if (m_Manager->guideModule())
+    //        profiles.insert("guide", QJsonArray::fromStringList(m_Manager->guideModule()->getStellarSolverProfiles()));
+    if (m_Manager->alignModule())
+        profiles.insert("align", QJsonArray::fromStringList(m_Manager->alignModule()->getStellarSolverProfiles()));
+
+
+    sendResponse(commands[GET_STELLARSOLVER_PROFILES], profiles);
 }
 
 void Message::sendDrivers()

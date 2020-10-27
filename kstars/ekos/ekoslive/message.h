@@ -116,6 +116,9 @@ class Message : public QObject
         void processNewProperty(INDI::Property *prop);
         void processDeleteProperty(const QString &device, const QString &name);
 
+        // StellarSolver
+        void sendStellarSolverProfiles();
+
     private slots:
 
         // Connection
