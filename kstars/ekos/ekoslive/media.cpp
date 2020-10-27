@@ -131,20 +131,18 @@ void Media::onTextReceived(const QString &message)
 
 void Media::onBinaryReceived(const QByteArray &message)
 {
-    // For now, we are only receiving binary image (jpg or FITS) for load and slew
-    QTemporaryFile file(QString("/tmp/XXXXXX.%1").arg(extension));
-    file.setAutoRemove(false);
-    file.open();
-    file.write(message);
-    file.close();
+    // Get Metadata
+    //    char metadata[128]={0};
+    //    strncpy(metadata, message.data(), 128);
+
+    QString metadataString = message.left(128);
+    QJsonDocument metadataDocument = QJsonDocument::fromJson(metadataString.toLatin1());
+    QJsonObject metadataJSON = metadataDocument.object();
+    QString extension = metadataJSON.value("ext").toString();
 
     Ekos::Align * align = m_Manager->alignModule();
 
-    const QString filename = file.fileName();
-
-    temporaryFiles << filename;
-
-    align->loadAndSlew(filename);
+    align->loadAndSlew(message.mid(128), extension);
 }
 
 //void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
