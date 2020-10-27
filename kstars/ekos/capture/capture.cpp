@@ -4505,14 +4505,14 @@ QJsonObject Capture::getPresetSettings()
     double gain = -1;
     if (captureGainN->value() > GainSpinSpecialValue)
         gain = captureGainN->value();
-    //    else if (currentCCD && currentCCD->hasGain())
-    //        currentCCD->getGain(&gain);
+    else if (currentCCD && currentCCD->hasGain())
+        currentCCD->getGain(&gain);
 
     double offset = -1;
     if (captureOffsetN->value() > OffsetSpinSpecialValue)
         offset = captureOffsetN->value();
-    //    else if (currentCCD && currentCCD->hasOffset())
-    //        currentCCD->getOffset(&offset);
+    else if (currentCCD && currentCCD->hasOffset())
+        currentCCD->getOffset(&offset);
 
     int iso = -1;
     if (captureISOS)
