@@ -1054,8 +1054,8 @@ class Capture : public QWidget, public Ui::Capture
         void processFlipCompleted();
 
         // Controls
-        double GainSpinSpecialValue;
-        double OffsetSpinSpecialValue;
+        double GainSpinSpecialValue { -1 };
+        double OffsetSpinSpecialValue { -1 };
 
         QList<double> downloadTimes;
         QElapsedTimer downloadTimer;

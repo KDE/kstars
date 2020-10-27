@@ -991,7 +991,7 @@ class Align : public QWidget, public Ui::Align
         bool rememberCCDExposureLooping = { false };
 
         // Controls
-        double GainSpinSpecialValue;
+        double GainSpinSpecialValue {-1};
         double TargetCustomGainValue {-1};
 
         // Filter Manager

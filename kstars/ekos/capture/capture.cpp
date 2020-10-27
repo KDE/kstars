@@ -4503,13 +4503,13 @@ QJsonObject Capture::getPresetSettings()
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (captureGainN->value() != GainSpinSpecialValue)
+    if (captureGainN->value() > GainSpinSpecialValue)
         gain = captureGainN->value();
     //    else if (currentCCD && currentCCD->hasGain())
     //        currentCCD->getGain(&gain);
 
     double offset = -1;
-    if (captureOffsetN->value() != OffsetSpinSpecialValue)
+    if (captureOffsetN->value() > OffsetSpinSpecialValue)
         offset = captureOffsetN->value();
     //    else if (currentCCD && currentCCD->hasOffset())
     //        currentCCD->getOffset(&offset);
@@ -6716,13 +6716,19 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     double gain = settings["gain"].toDouble(GainSpinSpecialValue);
     if (currentCCD && currentCCD->hasGain())
     {
-        setGain(gain);
+        if (gain == GainSpinSpecialValue)
+            captureGainN->setValue(GainSpinSpecialValue);
+        else
+            setGain(gain);
     }
 
     double offset = settings["offset"].toDouble(OffsetSpinSpecialValue);
     if (currentCCD && currentCCD->hasOffset())
     {
-        setOffset(offset);
+        if (offset == OffsetSpinSpecialValue)
+            captureOffsetN->setValue(OffsetSpinSpecialValue);
+        else
+            setOffset(offset);
     }
 
     int format = settings["format"].toInt(-1);

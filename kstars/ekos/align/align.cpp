@@ -2137,7 +2137,7 @@ void Align::checkCCD(int ccdNum)
 
         connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
         {
-            if (GainSpin->value() != GainSpinSpecialValue)
+            if (GainSpin->value() > GainSpinSpecialValue)
                 TargetCustomGainValue = GainSpin->value();
         });
     }
@@ -3004,7 +3004,7 @@ bool Align::captureAndSolve()
     targetChip->setBinning(bin, bin);
 
     // Set gain if applicable
-    if (currentCCD->hasGain() && GainSpin->value() != GainSpinSpecialValue)
+    if (currentCCD->hasGain() && GainSpin->value() > GainSpinSpecialValue)
         currentCCD->setGain(GainSpin->value());
     // Set ISO if applicable
     if (ISOCombo->currentIndex() >= 0)
