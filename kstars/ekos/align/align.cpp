@@ -6444,6 +6444,12 @@ QJsonObject Align::getSettings() const
 {
     QJsonObject settings;
 
+    double gain = -1;
+    if (GainSpinSpecialValue > INVALID_VALUE && GainSpin->value() > GainSpinSpecialValue)
+        gain = GainSpin->value();
+    else if (currentCCD && currentCCD->hasGain())
+        currentCCD->getGain(&gain);
+
     settings.insert("camera", CCDCaptureCombo->currentText());
     settings.insert("fw", FilterDevicesCombo->currentText());
     settings.insert("filter", FilterPosCombo->currentText());
@@ -6451,7 +6457,7 @@ QJsonObject Align::getSettings() const
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
     settings.insert("scopeType", FOVScopeCombo->currentIndex());
-    settings.insert("gain", GainSpin->value());
+    settings.insert("gain", gain);
     settings.insert("iso", ISOCombo->currentIndex());
     settings.insert("accuracy", accuracySpin->value());
     settings.insert("settle", delaySpin->value());

@@ -4503,13 +4503,13 @@ QJsonObject Capture::getPresetSettings()
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (captureGainN->value() > GainSpinSpecialValue)
+    if (GainSpinSpecialValue > INVALID_VALUE && captureGainN->value() > GainSpinSpecialValue)
         gain = captureGainN->value();
     else if (currentCCD && currentCCD->hasGain())
         currentCCD->getGain(&gain);
 
     double offset = -1;
-    if (captureOffsetN->value() > OffsetSpinSpecialValue)
+    if (OffsetSpinSpecialValue > INVALID_VALUE && captureOffsetN->value() > OffsetSpinSpecialValue)
         offset = captureOffsetN->value();
     else if (currentCCD && currentCCD->hasOffset())
         currentCCD->getOffset(&offset);
