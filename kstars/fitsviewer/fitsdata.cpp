@@ -410,7 +410,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
         m_Statistics.size = QFileInfo(m_Filename).size();
     }
 
-    imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
+    imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB888);
 
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
@@ -478,18 +478,18 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
     auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
 
-    // Data in RGB32, with bytes in the order of B,G,R,A, we need to copy them into 3 layers for FITS
+    // Data in RGB24, with bytes in the order of R,G,B we need to copy them into 3 layers for FITS
 
     uint8_t * rBuff = debayered_buffer;
     uint8_t * gBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height);
     uint8_t * bBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-    int imax = m_Statistics.samples_per_channel * 4 - 4;
-    for (int i = 0; i <= imax; i += 4)
+    int imax = m_Statistics.samples_per_channel * 3 - 3;
+    for (int i = 0; i <= imax; i += 3)
     {
-        *rBuff++ = original_bayered_buffer[i + 2];
+        *rBuff++ = original_bayered_buffer[i + 0];
         *gBuff++ = original_bayered_buffer[i + 1];
-        *bBuff++ = original_bayered_buffer[i + 0];
+        *bBuff++ = original_bayered_buffer[i + 2];
     }
 
     calculateStats();
