@@ -213,7 +213,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
                                        QRegularExpression("[-{}]")));
         fpstate fpvar;
         fp_init (&fpvar);
-        if (fp_unpack(m_Filename.toLatin1().data(), uncompressedFile.toLatin1().data(), fpvar) < 0)
+        if (fp_unpack(m_Filename.toLocal8Bit().data(), uncompressedFile.toLocal8Bit().data(), fpvar) < 0)
         {
             errMessage = i18n("Failed to unpack compressed fits");
             if (!silent)
@@ -235,7 +235,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     {
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
-        if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
+        if (fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status))
         {
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
@@ -247,7 +247,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         // Read the FITS file from a memory buffer.
         void *temp_buffer = const_cast<void *>(reinterpret_cast<const void *>(buffer.data()));
         size_t temp_size = buffer.size();
-        if (fits_open_memfile(&fptr, m_Filename.toLatin1().data(), READONLY,
+        if (fits_open_memfile(&fptr, m_Filename.toLocal8Bit().data(), READONLY,
                               &temp_buffer, &temp_size, 0, nullptr, &status))
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
 
@@ -402,7 +402,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     }
     else
     {
-        if(!imageFromFile.load(m_Filename.toLatin1()))
+        if(!imageFromFile.load(m_Filename.toLocal8Bit()))
         {
             qCCritical(KSTARS_FITS) << "Failed to open image.";
             return false;
@@ -523,7 +523,7 @@ bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension, 
     if (buffer.isEmpty())
     {
         // Open file
-        if ((ret = RawProcessor.open_file(m_Filename.toLatin1().constData())) != LIBRAW_SUCCESS)
+        if ((ret = RawProcessor.open_file(m_Filename.toLocal8Bit().constData())) != LIBRAW_SUCCESS)
         {
             lastError = i18n("Cannot open file %1: %2", m_Filename, libraw_strerror(ret));
             RawProcessor.recycle();
@@ -750,7 +750,7 @@ bool FITSData::saveImage(const QString &newFilename)
 
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
-        fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status);
+        fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status);
         fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status);
 
         return true;
@@ -766,7 +766,7 @@ bool FITSData::saveImage(const QString &newFilename)
     }
 
     /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLatin1(), &status))
+    if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -3462,7 +3462,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     long naxes[3] = { input.width(), input.height(), naxis == 3 ? 3 : 1 };
     char error_status[512] = {0};
 
-    if (fits_create_file(&fptr, QString('!' + output).toLatin1().data(), &status))
+    if (fits_create_file(&fptr, QString('!' + output).toLocal8Bit().data(), &status))
     {
         fits_get_errstatus(status, error_status);
         qCCritical(KSTARS_FITS) << "Failed to create FITS file. Error:" << error_status;
