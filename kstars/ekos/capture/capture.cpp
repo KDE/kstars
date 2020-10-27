@@ -2566,11 +2566,7 @@ bool Capture::addJob(bool preview)
         job->setFilterManager(filterManager);
     }
 
-    if (job == nullptr)
-    {
-        qWarning() << "Job is nullptr!" << endl;
-        return false;
-    }
+    Q_ASSERT_X(job, __FUNCTION__, "Capture Job is invalid.");
 
     if (captureISOS)
         job->setISOIndex(captureISOS->currentIndex());
@@ -2734,10 +2730,9 @@ bool Capture::addJob(bool preview)
         iso->setText(captureISOS->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    //else if (captureGainN->value() >= 0 && std::fabs(captureGainN->value() - GainSpinSpecialValue) > 0)
-    else if (captureGainN->value() >= 0)
+    else if (job->getGain() >= 0)
     {
-        iso->setText(captureGainN->cleanText());
+        iso->setText(QString::number(job->getGain(), 'f', 1));
         jsonJob.insert("ISO/Gain", iso->text());
     }
     else
@@ -2749,9 +2744,9 @@ bool Capture::addJob(bool preview)
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
-    if (captureOffsetN->value() >= 0 && std::fabs(captureOffsetN->value() - OffsetSpinSpecialValue) > 0)
+    if (job->getOffset() >= 0)
     {
-        offset->setText(captureOffsetN->cleanText());
+        offset->setText(QString::number(job->getOffset(), 'f', 1));
         jsonJob.insert("Offset", offset->text());
     }
     else
@@ -4510,14 +4505,14 @@ QJsonObject Capture::getPresetSettings()
     double gain = -1;
     if (captureGainN->value() != GainSpinSpecialValue)
         gain = captureGainN->value();
-    else if (currentCCD && currentCCD->hasGain())
-        currentCCD->getGain(&gain);
+    //    else if (currentCCD && currentCCD->hasGain())
+    //        currentCCD->getGain(&gain);
 
     double offset = -1;
     if (captureOffsetN->value() != OffsetSpinSpecialValue)
         offset = captureOffsetN->value();
-    else if (currentCCD && currentCCD->hasOffset())
-        currentCCD->getOffset(&offset);
+    //    else if (currentCCD && currentCCD->hasOffset())
+    //        currentCCD->getOffset(&offset);
 
     int iso = -1;
     if (captureISOS)
