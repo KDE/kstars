@@ -566,7 +566,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_STOP])
         capture->stop();
     else if (command == commands[CAPTURE_LOOP])
+    {
+        setCapturePresetSettings(payload);
         capture->startFraming();
+    }
     else if (command == commands[CAPTURE_GET_SEQUENCES])
     {
         sendCaptureSequence(capture->getSequence());
