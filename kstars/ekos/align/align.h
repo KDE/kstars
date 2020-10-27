@@ -180,11 +180,6 @@ class Align : public QWidget, public Ui::Align
              */
         Q_SCRIPTABLE Q_NOREPLY void startSolving();
 
-        std::unique_ptr<StellarSolver> m_StellarSolver;
-        QList<SSolver::Parameters> optionsList;
-        //QString m_FileToSolve;
-
-
         /** DBUS interface function.
              * Select Solver Action after successfully solving an image.
              * @param mode 0 for Sync, 1 for Slew To Target, 2 for Nothing (just display solution results)
@@ -351,6 +346,12 @@ class Align : public QWidget, public Ui::Align
 
         // Ekos Live Client helper functions
         int getActiveSolver() const;
+
+        /**
+         * @brief getStellarSolverProfiles
+         * @return list of StellarSolver profile names
+         */
+        QStringList getStellarSolverProfiles();
 
         /**
              * @brief generateOptions Generate astrometry.net option given the supplied map
@@ -838,6 +839,10 @@ class Align : public QWidget, public Ui::Align
         double decDeviation { 0 };
         static const double RAMotion;
         static const double SIDRATE;
+
+        // StellarSolver Profiles
+        std::unique_ptr<StellarSolver> m_StellarSolver;
+        QList<SSolver::Parameters> m_StellarSolverProfiles;
 
         /// Have we slewed?
         bool m_wasSlewStarted { false };

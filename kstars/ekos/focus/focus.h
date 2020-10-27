@@ -364,7 +364,18 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
-        void loadOptionsProfiles();
+        /**
+         * @brief loadOptionsProfiles Load StellarSolver Profile
+         */
+        void loadStellarSolverProfiles();
+
+        /**
+         * @brief getStellarSolverProfiles
+         * @return list of StellarSolver profile names
+         */
+        QStringList getStellarSolverProfiles();
+
+
 
     private slots:
         /**
@@ -420,7 +431,7 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusAborted(const QString &filter, const QString &points);
     private:
 
-        QList<SSolver::Parameters> optionsList;
+        QList<SSolver::Parameters> m_StellarSolverProfiles;
         QString savedOptionsProfiles;
         OptionsProfileEditor *optionsProfileEditor { nullptr };
 

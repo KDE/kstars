@@ -257,9 +257,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, [this]()
     {
         if(QFile(savedOptionsProfiles).exists())
-            optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+            m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
         else
-            optionsList = KSUtils::getDefaultAlignOptionsProfiles();
+            m_StellarSolverProfiles = KSUtils::getDefaultAlignOptionsProfiles();
         opsAlign->reloadOptionsProfiles();
     });
     page->setIcon(QIcon::fromTheme("configure"));
@@ -541,9 +541,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedAlignProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
-        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        optionsList = KSUtils::getDefaultAlignOptionsProfiles();
+        m_StellarSolverProfiles = KSUtils::getDefaultAlignOptionsProfiles();
 }
 
 Align::~Align()
@@ -3226,7 +3226,7 @@ void Align::startSolving()
     connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
     m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
-    m_StellarSolver->setParameters(optionsList.at(Options::solveOptionsProfile()));
+    m_StellarSolver->setParameters(m_StellarSolverProfiles.at(Options::solveOptionsProfile()));
 
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
     if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
@@ -6705,5 +6705,15 @@ void Align::syncTargetToMount()
     SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
     setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
 }
+
+QStringList Align::getStellarSolverProfiles()
+{
+    QStringList profiles;
+    for (auto param : m_StellarSolverProfiles)
+        profiles << param.listName;
+
+    return profiles;
+}
+
 
 }

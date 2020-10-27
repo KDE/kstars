@@ -107,12 +107,12 @@ Focus::Focus()
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Focus Options Profile Editor"));
         mainPage->setIcon(QIcon::fromTheme("configure"));
-        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadOptionsProfiles);
+        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadStellarSolverProfiles);
         optionsProfileEditor->loadProfile(focusOptionsProfiles->currentIndex());
         optionsEditor->show();
     });
 
-    loadOptionsProfiles();
+    loadStellarSolverProfiles();
 
     connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
     {
@@ -120,19 +120,29 @@ Focus::Focus()
     });
 }
 
-void Focus::loadOptionsProfiles()
+void Focus::loadStellarSolverProfiles()
 {
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                                    QString("SavedFocusProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
-        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        optionsList = KSUtils::getDefaultFocusOptionsProfiles();
+        m_StellarSolverProfiles = KSUtils::getDefaultFocusOptionsProfiles();
     focusOptionsProfiles->clear();
-    foreach(SSolver::Parameters param, optionsList)
+    for(auto param : m_StellarSolverProfiles)
         focusOptionsProfiles->addItem(param.listName);
     focusOptionsProfiles->setCurrentIndex(Options::focusOptionsProfile());
 }
+
+QStringList Focus::getStellarSolverProfiles()
+{
+    QStringList profiles;
+    for (auto param : m_StellarSolverProfiles)
+        profiles << param.listName;
+
+    return profiles;
+}
+
 
 Focus::~Focus()
 {
