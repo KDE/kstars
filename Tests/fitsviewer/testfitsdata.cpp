@@ -65,6 +65,9 @@ void TestFitsData::testComputeHFR_data()
 
 void TestFitsData::testComputeHFR()
 {
+#ifndef HAVE_STELLARSOLVER
+    QSKIP("Skipping StellarSolver tests since it is not installed.");
+#else
 #if QT_VERSION < 0x050900
     QSKIP("Skipping fixture-based test on old QT version.");
 #else
@@ -91,6 +94,7 @@ void TestFitsData::testComputeHFR()
     QCOMPARE(d->getStarCenters().count(), NSTARS);
     qDebug() << "Expected HFR:" << HFR << "Calculated:" << d->getHFR();
     QVERIFY(abs(d->getHFR() - HFR) <= 0.1);
+#endif
 #endif
 }
 
