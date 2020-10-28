@@ -1621,6 +1621,9 @@ QList<Parameters> getDefaultFocusOptionsProfiles()
     Parameters defaultProfile;
     defaultProfile.listName = "1-Default";
     defaultProfile.description = i18n("Default profile. Generic and not optimized for any specific purpose.");
+    defaultProfile.initialKeep = 500;
+    defaultProfile.keepNum = 30;
+    defaultProfile.minarea = 20;
     profileList.append(defaultProfile);
 
     Parameters stars;
