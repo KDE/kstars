@@ -6527,6 +6527,16 @@ void Align::setSettings(const QJsonObject &settings)
     Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
     // Exposure
     syncControl("exp", exposureIN);
+    // Binning
+    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
+    if (bin != binningCombo->currentIndex())
+        binningCombo->setCurrentIndex(bin);
+    // Profiles
+    const QString profileName = settings["sep"].toString();
+    QStringList profiles = getStellarSolverProfiles();
+    int profileIndex = getStellarSolverProfiles().indexOf(profileName);
+    if (profileIndex >= 0 && profileIndex != static_cast<int>(Options::solveOptionsProfile()))
+        Options::setSolveOptionsProfile(profileIndex);
 
     int solverAction = settings["solverAction"].toInt(gotoModeButtonGroup->checkedId());
     if (solverAction != gotoModeButtonGroup->checkedId())
