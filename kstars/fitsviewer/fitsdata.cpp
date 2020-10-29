@@ -1441,7 +1441,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
                     return detector->findSources(middle);
                 }
             }
-            return detector->findSources(trackingBox);
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
         }
 
         case ALGORITHM_GRADIENT:
@@ -1449,7 +1450,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
         {
             QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
             detector->setSettings(m_SourceExtractorSettings);
-            return detector->findSources(trackingBox);
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
         }
 
         case ALGORITHM_CENTROID:
@@ -1462,7 +1464,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
             QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
             detector->setSettings(m_SourceExtractorSettings);
             detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
-            return detector->findSources(trackingBox);
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
         }
 #else
             {
@@ -1476,7 +1479,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
             QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
             detector->setSettings(m_SourceExtractorSettings);
             detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
-            return detector->findSources(trackingBox);
+            m_StarFindFuture =  detector->findSources(trackingBox);
+            return m_StarFindFuture;
         }
 
         case ALGORITHM_BAHTINOV:
@@ -1484,7 +1488,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
             QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
             detector->setSettings(m_SourceExtractorSettings);
             detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
-            return detector->findSources(trackingBox);
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
         }
     }
 }
