@@ -131,18 +131,15 @@ void Media::onTextReceived(const QString &message)
 
 void Media::onBinaryReceived(const QByteArray &message)
 {
-    // Get Metadata
-    //    char metadata[128]={0};
-    //    strncpy(metadata, message.data(), 128);
-
-    QString metadataString = message.left(128);
-    QJsonDocument metadataDocument = QJsonDocument::fromJson(metadataString.toLatin1());
-    QJsonObject metadataJSON = metadataDocument.object();
-    QString extension = metadataJSON.value("ext").toString();
-
     Ekos::Align * align = m_Manager->alignModule();
-
-    align->loadAndSlew(message.mid(128), extension);
+    if (align)
+    {
+        QString metadataString = message.left(METADATA_PACKET);
+        QJsonDocument metadataDocument = QJsonDocument::fromJson(metadataString.toLatin1());
+        QJsonObject metadataJSON = metadataDocument.object();
+        QString extension = metadataJSON.value("ext").toString();
+        align->loadAndSlew(message.mid(METADATA_PACKET), extension);
+    }
 }
 
 //void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
@@ -217,27 +214,36 @@ void Media::upload(FITSView * view)
     const FITSData * imageData = view->getImageData();
     QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
-    QVariant xbin(1), ybin(1);
+    QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
     imageData->getRecordValue("XBINNING", xbin);
     imageData->getRecordValue("YBINNING", ybin);
-    QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
-    QString bitDepth = QString::number(imageData->bpp());
+    imageData->getRecordValue("EXPTIME", exposure);
+    imageData->getRecordValue("GAIN", gain);
+    imageData->getRecordValue("PIXSIZE1", pixel_size);
+    imageData->getRecordValue("FOCALLEN", focal_length);
+    imageData->getRecordValue("APTDIA", aperture);
 
+    // Send everything as strings
     QJsonObject metadata =
     {
         {"resolution", resolution},
         {"size", sizeBytes},
-        {"bin", binning},
-        {"bpp", bitDepth},
+        {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
+        {"bpp", QString::number(imageData->bpp())},
         {"uuid", m_UUID},
+        {"exposure", exposure.toString()},
+        {"focal_length", focal_length.toString()},
+        {"aperture", aperture.toString()},
+        {"gain", gain.toString()},
+        {"pixel_size", pixel_size.toString()},
         {"ext", ext}
     };
 
-    // First 128 bytes of the binary data is always allocated
+    // First METADATA_PACKET bytes of the binary data is always allocated
     // to the metadata
     // the rest to the image data.
     QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
-    meta = meta.leftJustified(128, 0);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
     // For low bandwidth images
@@ -314,7 +320,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 
     QString resolution = QString("%1x%2").arg(videoImage.width()).arg(videoImage.height());
 
-    // First 128 bytes of the binary data is always allocated
+    // First METADATA_PACKET bytes of the binary data is always allocated
     // to the metadata
     // the rest to the image data.
     QJsonObject metadata =
@@ -323,7 +329,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
         {"ext", "jpg"}
     };
     QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);;
-    meta = meta.leftJustified(128, 0);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
     QImageWriter writer;

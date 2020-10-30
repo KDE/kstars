@@ -136,5 +136,8 @@ class Media : public QObject
         static const uint16_t RECONNECT_INTERVAL = 5000;
         // Retry for 1 hour before giving up
         static const uint16_t RECONNECT_MAX_TRIES = 720;
+
+        // Binary Metadata Size
+        static const uint16_t METADATA_PACKET = 256;
 };
 }
