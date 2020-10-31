@@ -1132,6 +1132,8 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/solve-field";
+#elif defined(Q_OS_WIN)
+        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/solve-field.exe";
 #endif
         return prefix + "/bin/solve-field";
     }
@@ -1146,6 +1148,8 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/wcsinfo";
+#elif defined(Q_OS_WIN)
+        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/wcsinfo.exe";
 #endif
         return prefix + "/bin/wcsinfo";
     }
@@ -1153,6 +1157,8 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/etc/astrometry.cfg";
+#elif defined(Q_OS_WIN)
+        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/etc/astrometry/backend.cfg";
 #endif
         // We move /usr
         prefix.remove(userPrefix);
