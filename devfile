@@ -1,0 +1,52 @@
+# This is an Eclipse Che devfile setting up a workspace suitable
+# for KStars/Ekos development
+---
+apiVersion: 1.0.0
+metadata:
+  generateName: cpp-
+projects:
+  -
+    name: cpp-hello-world
+    source:
+      type: git
+      location: 'https://github.com/che-samples/cpp-hello-world'
+components:
+  - type: chePlugin
+    id: eclipse-cdt/cdt-vscode/latest
+    alias: cpp-plugin
+  - type: dockerimage
+    alias: cpp-dev
+    image: quay.io/eclipse/che-cpp-rhel7:nightly
+    memoryLimit: 512Mi
+    mountSources: true
+commands:
+  -
+    name: build
+    actions:
+      - type: exec
+        component: cpp-dev
+        command: g++ -g hello.cpp -o hello.out && echo "Build complete"
+        workdir: ${CHE_PROJECTS_ROOT}/cpp-hello-world
+  -
+    name: run
+    actions:
+      - type: exec
+        component: cpp-dev
+        command: ./hello.out
+        workdir: ${CHE_PROJECTS_ROOT}/cpp-hello-world
+  -
+    name: debug
+    actions:
+      - type: vscode-launch
+        referenceContent: >
+          {
+            "version": "0.2.0",
+            "configurations": [
+                {
+                    "type": "gdb",
+                    "name": "Debug c++ application",
+                    "request": "launch",
+                    "program": "/projects/cpp-hello-world/hello.out"
+                }
+            ]
+          }
