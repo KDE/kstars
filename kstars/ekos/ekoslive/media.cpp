@@ -223,6 +223,8 @@ void Media::upload(FITSView * view)
     imageData->getRecordValue("FOCALLEN", focal_length);
     imageData->getRecordValue("APTDIA", aperture);
 
+    // Account for binning
+    const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
     // Send everything as strings
     QJsonObject metadata =
     {
@@ -235,7 +237,7 @@ void Media::upload(FITSView * view)
         {"focal_length", focal_length.toString()},
         {"aperture", aperture.toString()},
         {"gain", gain.toString()},
-        {"pixel_size", pixel_size.toString()},
+        {"pixel_size", QString::number(binned_pixel, 'f', 4)},
         {"ext", ext}
     };
 
