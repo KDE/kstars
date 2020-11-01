@@ -102,7 +102,10 @@ class Mount : public QWidget, public Ui::Mount
         }
         ISD::Telescope::PierSide pierSide()
         {
-            return currentTelescope->pierSide();
+            if (currentTelescope)
+                return currentTelescope->pierSide();
+            else
+                return ISD::Telescope::PIER_UNKNOWN;
         }
         ISD::ParkStatus parkStatus()
         {
