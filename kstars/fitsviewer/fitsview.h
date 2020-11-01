@@ -311,7 +311,6 @@ class FITSView : public QScrollArea
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
 
-
         QLabel *noImageLabel { nullptr };
         QPixmap noImage;
 

@@ -96,7 +96,8 @@ FITSData::~FITSData()
 {
     int status = 0;
 
-    m_StarFindFuture.waitForFinished();
+    if (m_StarFindFuture.isRunning())
+        m_StarFindFuture.waitForFinished();
 
     clearImageBuffers();
 

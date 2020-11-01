@@ -122,7 +122,7 @@ bool DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration, QShare
 bool DarkLibrary::loadDarkFile(const QString &filename)
 {
     QSharedPointer<FITSData> darkData;
-    darkData.reset(new FITSData());
+    darkData.reset(new FITSData(), &QObject::deleteLater);
 
     bool rc = darkData->loadFromFile(filename);
 

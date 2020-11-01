@@ -319,7 +319,7 @@ void FITSView::loadFile(const QString &inFilename, bool silent)
     if (filter != FITS_NONE)
         filterStack.push(filter);
 
-    imageData.reset(new FITSData(mode));
+    imageData.reset(new FITSData(mode), &QObject::deleteLater);
 
     if (setBayerParams)
         imageData->setBayerParams(&param);
