@@ -563,6 +563,12 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 {
     Ekos::Capture *capture = m_Manager->captureModule();
 
+    if (capture == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as capture module is not available";
+        return;
+    }
+
     if (command == commands[CAPTURE_PREVIEW])
     {
         setCapturePresetSettings(payload);
@@ -663,7 +669,12 @@ void Message::sendFocusSettings(const QJsonObject &settings)
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
-    Q_UNUSED(payload)
+
+    if (guide == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as guide module is not available";
+        return;
+    }
 
     if (command == commands[GUIDE_START])
     {
@@ -684,7 +695,12 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Focus *focus = m_Manager->focusModule();
-    Q_UNUSED(payload)
+
+    if (focus == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as focus module is not available";
+        return;
+    }
 
     if (command == commands[FOCUS_START])
         focus->start();
@@ -722,6 +738,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Mount *mount = m_Manager->mountModule();
+
+    if (mount == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as mount module is not available";
+        return;
+    }
 
     if (command == commands[MOUNT_ABORT])
         mount->abort();
@@ -803,7 +825,11 @@ void Message::processDomeCommands(const QString &command, const QJsonObject &pay
 {
     Ekos::Dome *dome = m_Manager->domeModule();
 
-    Q_ASSERT_X(dome != nullptr, __FUNCTION__, "Dome module is not valid");
+    if (dome == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as dome module is not available";
+        return;
+    }
 
     if (command == commands[DOME_PARK])
         dome->park();
@@ -819,7 +845,11 @@ void Message::processCapCommands(const QString &command, const QJsonObject &payl
 {
     Ekos::DustCap *cap = m_Manager->capModule();
 
-    Q_ASSERT_X(cap != nullptr, __FUNCTION__, "Dust cap module is not valid");
+    if (cap == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as cap module is not available";
+        return;
+    }
 
     if (command == commands[CAP_PARK])
         cap->park();
@@ -832,6 +862,12 @@ void Message::processCapCommands(const QString &command, const QJsonObject &payl
 void Message::processAlignCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Align *align = m_Manager->alignModule();
+
+    if (align == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as align module is not available";
+        return;
+    }
 
     if (command == commands[ALIGN_SOLVE])
     {
