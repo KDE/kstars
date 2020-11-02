@@ -1424,6 +1424,9 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
 
 QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 {
+    if (m_StarFindFuture.isRunning())
+        m_StarFindFuture.waitForFinished();
+
     starAlgorithm = algorithm;
     qDeleteAll(starCenters);
     starCenters.clear();
