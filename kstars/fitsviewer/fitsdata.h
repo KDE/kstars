@@ -261,11 +261,11 @@ class FITSData : public QObject
         {
             starCenters.append(newCenter);
         }
-        QList<Edge *> getStarCenters() const
+        const QList<Edge *> &getStarCenters() const
         {
             return starCenters;
         }
-        QList<Edge *> getStarCentersInSubFrame(QRect subFrame) const;
+        //QList<Edge *> getStarCentersInSubFrame(QRect subFrame) const;
 
         void setStarCenters(const QList<Edge*> &centers)
         {

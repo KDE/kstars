@@ -416,7 +416,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
     // pixel in each channel.
-    const uint8_t fitsBitPix = 8;
+    const int fitsBitPix = 8;
     switch (fitsBitPix)
     {
         case BYTE_IMG:
@@ -2063,20 +2063,20 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
     }
 }
 
-QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
-{
-    QList<Edge *> starCentersInSubFrame;
-    for (int i = 0; i < starCenters.count(); i++)
-    {
-        int x = static_cast<int>(starCenters[i]->x);
-        int y = static_cast<int>(starCenters[i]->y);
-        if(subFrame.contains(x, y))
-        {
-            starCentersInSubFrame.append(starCenters[i]);
-        }
-    }
-    return starCentersInSubFrame;
-}
+//QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
+//{
+//    QList<Edge *> starCentersInSubFrame;
+//    for (int i = 0; i < starCenters.count(); i++)
+//    {
+//        int x = static_cast<int>(starCenters[i]->x);
+//        int y = static_cast<int>(starCenters[i]->y);
+//        if(subFrame.contains(x, y))
+//        {
+//            starCentersInSubFrame.append(starCenters[i]);
+//        }
+//    }
+//    return starCentersInSubFrame;
+//}
 
 bool FITSData::checkForWCS()
 {
