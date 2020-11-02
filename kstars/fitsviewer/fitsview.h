@@ -78,7 +78,7 @@ class FITSView : public QScrollArea
         // Access functions
         FITSData *getImageData() const
         {
-            return imageData.get();
+            return imageData.data();
         }
         double getCurrentZoom() const
         {

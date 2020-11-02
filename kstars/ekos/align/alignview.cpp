@@ -29,6 +29,7 @@ AlignView::AlignView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSVie
 
 void AlignView::drawOverlay(QPainter *painter, double scale)
 {
+    Q_UNUSED(scale);
     painter->setOpacity(0.5);
     FITSView::drawOverlay(painter, getScale());
     painter->setOpacity(1);
@@ -54,7 +55,7 @@ bool AlignView::injectWCS(double orientation, double ra, double dec, double pixs
     if (wcsWatcher.isRunning() == false)
     {
         // Load WCS async
-        QFuture<bool> future = QtConcurrent::run(imageData.get(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
     }
 
@@ -63,7 +64,7 @@ bool AlignView::injectWCS(double orientation, double ra, double dec, double pixs
 
 void AlignView::setCorrectionParams(QLineF &line)
 {
-    if (imageData == nullptr)
+    if (imageData.isNull())
         return;
 
     bool RAAxisInside  = imageData->contains(line.p1());
