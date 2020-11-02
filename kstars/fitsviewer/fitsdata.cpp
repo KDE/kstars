@@ -411,7 +411,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
         m_Statistics.size = QFileInfo(m_Filename).size();
     }
 
-    imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB888);
+    //imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
 
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
@@ -462,7 +462,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
 
     m_Statistics.width = static_cast<uint16_t>(imageFromFile.width());
     m_Statistics.height = static_cast<uint16_t>(imageFromFile.height());
-    m_Statistics.channels = 3;
+    m_Statistics.channels = imageFromFile.isGrayscale() ? 1 : 3;
     m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
     clearImageBuffers();
     m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * static_cast<uint16_t>
@@ -476,21 +476,28 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
         return false;
     }
 
-    auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
-    auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
-
-    // Data in RGB24, with bytes in the order of R,G,B we need to copy them into 3 layers for FITS
-
-    uint8_t * rBuff = debayered_buffer;
-    uint8_t * gBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height);
-    uint8_t * bBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
-
-    int imax = m_Statistics.samples_per_channel * 3 - 3;
-    for (int i = 0; i <= imax; i += 3)
+    if (m_Statistics.channels == 1)
     {
-        *rBuff++ = original_bayered_buffer[i + 0];
-        *gBuff++ = original_bayered_buffer[i + 1];
-        *bBuff++ = original_bayered_buffer[i + 2];
+        memcpy(m_ImageBuffer, imageFromFile.bits(), m_ImageBufferSize);
+    }
+    else
+    {
+
+        auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+        auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
+
+        // Data in RGBA, with bytes in the order of B,G,R we need to copy them into 3 layers for FITS
+        uint8_t * rBuff = debayered_buffer;
+        uint8_t * gBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height);
+        uint8_t * bBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
+
+        int imax = m_Statistics.samples_per_channel * 4 - 4;
+        for (int i = 0; i <= imax; i += 4)
+        {
+            *rBuff++ = original_bayered_buffer[i + 2];
+            *gBuff++ = original_bayered_buffer[i + 1];
+            *bBuff++ = original_bayered_buffer[i + 0];
+        }
     }
 
     calculateStats();
