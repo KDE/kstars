@@ -341,8 +341,8 @@ SSolver::Parameters GuideStars::getStarExtractionParameters(int num)
 // This is the interface to star detection.
 int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> &sepStars, int num)
 {
-    qDeleteAll(sepStars);
-    sepStars.clear();
+    //    qDeleteAll(sepStars);
+    //    sepStars.clear();
 
     if (imageData == nullptr)
         return 0;
