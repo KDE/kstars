@@ -271,7 +271,7 @@ void FITSView::setCursorMode(CursorMode mode)
     {
         if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
         {
-            QFuture<bool> future = QtConcurrent::run(imageData.get(), &FITSData::loadWCS);
+            QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
         }
     }
@@ -400,7 +400,7 @@ bool FITSView::processData()
     // Load WCS data now if selected and image contains valid WCS header
     if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN) && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.get(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
     }
     else
@@ -1443,7 +1443,7 @@ void FITSView::toggleEQGrid()
 
     if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.get(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
         return;
     }
@@ -1458,7 +1458,7 @@ void FITSView::toggleObjects()
 
     if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.get(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
         return;
     }
