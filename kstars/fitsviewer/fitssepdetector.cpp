@@ -127,20 +127,20 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     QEventLoop loop;
     connect(solver, &StellarSolver::finished, &loop, &QEventLoop::quit);
     QList<FITSImage::Star> stars;
-    if (!boundary.isNull())
-    {
+    //    if (!boundary.isNull())
+    //    {
 
-        solver->extract(true, boundary);
-        loop.exec();
-        stars = solver->getStarList();
-    }
+    solver->extract(true, boundary);
+    loop.exec();
+    stars = solver->getStarList();
+    //    }
 
-    if (stars.empty())
-    {
-        solver->extract(true);
-        loop.exec();
-        stars = solver->getStarList();
-    }
+    //    if (stars.empty())
+    //    {
+    //        solver->extract(true);
+    //        loop.exec();
+    //        stars = solver->getStarList();
+    //    }
 
     if (stars.empty())
         return false;
