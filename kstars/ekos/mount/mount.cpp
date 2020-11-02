@@ -1057,7 +1057,10 @@ bool Mount::gotoTarget(const QString &target)
     SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
 
     if (object != nullptr)
+    {
+        object->updateCoordsNow(KStarsData::Instance()->updateNum());
         return slew(object->ra().Hours(), object->dec().Degrees());
+    }
 
     return false;
 }
@@ -1067,7 +1070,10 @@ bool Mount::syncTarget(const QString &target)
     SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
 
     if (object != nullptr)
+    {
+        object->updateCoordsNow(KStarsData::Instance()->updateNum());
         return sync(object->ra().Hours(), object->dec().Degrees());
+    }
 
     return false;
 }
@@ -1140,21 +1146,7 @@ bool Mount::slew(double RA, double DEC)
     }
 
     delete currentTargetPosition;
-
-    // JM 2020-11-01: We must create an object who has valid J2000 RA/DE
-    // AND valid JNow RA/DE, or at least the former. The reason is the ISD::Telescope
-    // use EquatorialToHorizontal which process J2000 cooords to JNow, so if J2000 coords
-    // are NOT really J2000 or invalid, we get bad results.
-
-    // Create object with J2000 and JNow as the same from J2000 RA/DE
-    SkyPoint target(RA, DEC);
-    // Now, get J2000 from the above supplied JNow coords
-    target = target.catalogueCoord(KStarsData::Instance()->lt().djd());
-    // Now set back the JNow coords
-    target.setRA(RA);
-    target.setDec(DEC);
-    // Finally, set as target position
-    currentTargetPosition = new SkyPoint(target);
+    currentTargetPosition = new SkyPoint(RA, DEC);
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                currentTargetPosition->ra().toHMSString() <<
