@@ -1203,6 +1203,7 @@ bool Guide::captureOneFrame()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+    targetChip->setBatchMode(false);
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(FRAME_LIGHT);
 

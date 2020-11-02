@@ -1044,7 +1044,7 @@ void Focus::capture(double settleTime)
         currentCCD->setExposureLoopingEnabled(false);
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
-
+    targetChip->setBatchMode(false);
     targetChip->setBinning(activeBin, activeBin);
 
     targetChip->setCaptureMode(FITS_FOCUS);
