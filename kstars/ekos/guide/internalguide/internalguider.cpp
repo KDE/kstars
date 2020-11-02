@@ -1411,7 +1411,6 @@ QList<Edge *> InternalGuider::getGuideStars()
 
 bool InternalGuider::selectAutoStarSEPMultistar()
 {
-    guideFrame->setStarsEnabled(true);
     guideFrame->updateFrame();
     QVector3D newStarCenter = pmath->selectGuideStar();
     if (newStarCenter.x() >= 0)
