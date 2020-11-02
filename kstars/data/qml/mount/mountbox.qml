@@ -7,7 +7,6 @@ Rectangle {
     id: rectangle
     objectName: "mountControlObject"
     color: "#000000"
-    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
     property color buttonColor: "silver"
     property color coordsColor: "gold"
@@ -462,8 +461,6 @@ Rectangle {
 
             Label {
                 id: targetLabel
-                Layout.row: 1
-                Layout.column: 1
                 color: "#ffffff"
                 text: xi18n("Target:")
                 verticalAlignment: Text.AlignVCenter
@@ -475,8 +472,6 @@ Rectangle {
 
             TextField {
                 id: targetText
-                Layout.row: 1
-                Layout.column: 2
                 Layout.columnSpan: 2
                 Layout.maximumHeight: 32
                 Layout.minimumHeight: 32
@@ -510,8 +505,6 @@ Rectangle {
                 text: xi18n("RA:")
                 font.pointSize: 14
                 font.bold: true
-                Layout.row: 2
-                Layout.column: 1
             }
 
             TextField {
@@ -527,18 +520,14 @@ Rectangle {
                 Layout.minimumHeight: 30
                 Layout.maximumHeight: 30
                 Layout.fillWidth: false
-                Layout.row: 2
-                Layout.column: 2
             }
 
             Button {
                 id: findButton
                 objectName: "findButtonObject"
                 Layout.fillWidth: false
-                Layout.row: 2
-                Layout.column: 3
                 iconName: "view-history"
-                Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                Layout.alignment: Qt.AlignRight
                 Layout.minimumHeight: 30
                 Layout.maximumHeight: 30
                 Layout.minimumWidth: 30
@@ -556,8 +545,6 @@ Rectangle {
                 text: xi18n("DE:")
                 font.pointSize: 14
                 font.bold: true
-                Layout.row: 3
-                Layout.column: 1
             }
 
             TextField {
@@ -574,21 +561,21 @@ Rectangle {
                 Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
                 Layout.fillWidth: true
-                Layout.row: 3
-                Layout.column: 2
+            }
+
+            Item {
+                Layout.fillWidth: true
             }
 
             Label {
                 id: coordLabel
                 text: xi18n("Type:")
-                Layout.row: 4
-                Layout.column: 1
             }
 
             RowLayout
             {
-                Layout.row: 4
-                Layout.column: 2
+                Layout.row: 3
+                Layout.column: 1
                 Layout.columnSpan: 2
 
                 ExclusiveGroup {
@@ -709,15 +696,12 @@ Rectangle {
             Label {
                 id: epochLabel
                 text: xi18n("Epoch:")
-                Layout.row: 5
-                Layout.column: 1
             }
 
             RowLayout
             {
-                Layout.row: 5
-                Layout.column: 2
                 ExclusiveGroup { id: epochGroup }
+
                 RadioButton {
                     id: jnowCheck
                     objectName: "jnowCheckObject"
