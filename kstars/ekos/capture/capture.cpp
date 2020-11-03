@@ -665,7 +665,7 @@ void Capture::start()
         });
 
         KSMessageBox::Instance()->questionYesNo(i18n("Are you imaging with %1 using your primary telescope?",
-                                                currentCCD->getDeviceName()),
+                                                     currentCCD->getDeviceName()),
                                                 i18n("Telescope Type"), 10, true);
     }
     else

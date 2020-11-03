@@ -42,7 +42,11 @@ ADD_EXECUTABLE(test_ekos_capture ${KSTARS_UI_EKOS_SRC} test_ekos_capture.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_capture ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosCapture COMMAND test_ekos_capture)
 
-ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
+ADD_EXECUTABLE(test_ekos_capture_count ${KSTARS_UI_EKOS_SRC} test_ekos_capture_helper.cpp test_ekos_capture_count.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_capture_count ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosCaptureCount COMMAND test_ekos_capture_count)
+
+ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure
 # ADD_TEST(NAME TestEkosMeridianFlip COMMAND test_ekos_meridianflip)
@@ -51,7 +55,7 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_meridianflip POST_BUILD
             ${CMAKE_CURRENT_SOURCE_DIR}/phd2_Simulators_mf.PHDGuidingV2
             ${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2_mf)
 
-ADD_EXECUTABLE(test_ekos_meridianflip_specials ${KSTARS_UI_EKOS_SRC} test_ekos_meridianflip_base.cpp test_ekos_meridianflip_specials.cpp)
+ADD_EXECUTABLE(test_ekos_meridianflip_specials ${KSTARS_UI_EKOS_SRC} test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip_specials.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip_specials ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure
 # ADD_TEST(NAME TestEkosMeridianFlipSpecials COMMAND test_ekos_meridianflip_specials)

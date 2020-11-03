@@ -176,6 +176,12 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
 
         /** DBUS interface function.
+             * Saves the Sequence Queue to the Ekos Sequence Queue file.
+             * @param fileURL full URL of the filename
+             */
+        Q_SCRIPTABLE bool saveSequenceQueue(const QString &path);
+
+        /** DBUS interface function.
              * Enables or disables the maximum guiding deviation and sets its value.
              * @param enable If true, enable the guiding deviation check, otherwise, disable it.
              * @param value if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
@@ -814,7 +820,6 @@ class Capture : public QWidget, public Ui::Capture
         void syncGUIToJob(SequenceJob *job);
         bool processJobInfo(XMLEle *root);
         void processJobCompletion();
-        bool saveSequenceQueue(const QString &path);
         void constructPrefix(QString &imagePrefix);
         double setCurrentADU(double value);
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);

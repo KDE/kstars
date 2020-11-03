@@ -1,0 +1,184 @@
+/*
+    KStars UI tests for verifying correct counting of the capture module
+
+    Copyright (C) 2020
+    Wolfgang Reissenberger <sterne-jaeger@openfuture.de>
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
+
+#pragma once
+
+#include <QObject>
+#include <QQueue>
+
+#include "config-kstars.h"
+#include "test_ekos_debug.h"
+
+#if defined(HAVE_INDI)
+#include "ekos/ekos.h"
+#include "ekos/capture/sequencejob.h"
+#include "test_ekos_capture_helper.h"
+
+class TestEkosCaptureCount : public QObject
+{
+    Q_OBJECT
+public:
+    explicit TestEkosCaptureCount(QObject *parent = nullptr);
+
+protected:
+
+    // destination where images will be located
+    QTemporaryDir *destination;
+    QDir *imageLocation = nullptr;
+
+    /**
+     * @brief Start a test EKOS profile.
+     */
+    bool startEkosProfile();
+
+    /**
+     * @brief Shutdown the current test EKOS profile.
+     */
+    bool shutdownEkosProfile();
+
+    /**
+     * @brief Setup capturing
+     * @return true iff preparation was successful
+     */
+    bool prepareCapture();
+
+    /**
+     * @brief Setup capturing for tests with the scheduler
+     * @return true iff preparation was successful
+     */
+    bool prepareScheduledCapture();
+
+    /**
+     * @brief Stop and clean up scheduler
+     */
+    void cleanupScheduler();
+
+    /**
+     * @brief Execute capturing
+     * @return true iff exactly the expected frames have been taken
+     */
+    bool executeCapturing();
+
+    /**
+     * @brief Helper function translating simple QString input into QTest test data rows
+     * @param exptime exposure time of the sequence
+     * @param sequence filter and count as QString("<filter>:<count"), ... list
+     * @param capturedFramesMap mapping from filter to existing frames per filter as QString("<filter>:<count"), ... list
+     * @param expectedFrames expected number of frames per filter as QString("<filter>:<count"), ... list
+     * @param iterations number of iterations the capture sequence should be repeated
+     */
+    void prepareTestData(double exptime, QString sequence, QString capturedFramesMap, QString expectedFrames, int iterations = 1);
+
+    // mapping between image signature and number of images expected to be captured for this signature
+    QMap<QString, int> m_expectedImages;
+    /**
+     * @brief Register that a new image has been captured
+     */
+    void captureComplete(const QString &filename, double exposureSeconds, const QString &filter, double hfr);
+
+    // sequence of scheduler states that are expected
+    QQueue<Ekos::SchedulerState> expectedSchedulerStates;
+    /**
+     * @brief Slot to receive a new scheduler state
+     * @param status new capture status
+     */
+    void schedulerStateChanged(Ekos::SchedulerState status);
+
+    // current scheduler status
+    Ekos::SchedulerState m_SchedulerStatus;
+
+    /**
+     * @brief Retrieve the current capture status.
+     */
+    inline Ekos::SchedulerState getSchedulerStatus() {return m_SchedulerStatus;}
+
+
+protected slots:
+    void initTestCase();
+    void cleanupTestCase();
+
+    void init();
+    void cleanup();
+
+private:
+    // current capture status
+    Ekos::CaptureState m_CaptureStatus;
+
+    // helper class
+    TestEkosCaptureHelper *m_CaptureHelper = nullptr;
+
+    QString target = "test";
+
+    /**
+     * @brief Fill the capture sequences in the Capture GUI
+     * @param expectedFrames comma separated list of <filter>:<count>
+     * @param exptime exposure time
+     * @param fitsDirectory directory where the captures will be placed
+     * @return true if everything was successful
+     */
+    bool fillCaptureSequences(QString sequence, double exptime, QString fitsDirectory);
+
+    /**
+     * @brief Fill the map of frames that have already been captured
+     * @param expectedFrames comma separated list of <filter>:<count>
+     * @return true if everything was successful
+     */
+    bool fillCapturedFramesMap(QString capturedFramesMap);
+
+    /**
+     * @brief Determine the total count from a comma separated sequence of <filter>:<count>
+     * @return sum of <count>
+     */
+    int totalCount(QString sequence);
+
+    /**
+     * @brief Fill the map of frames that are expected to be captured
+     * @param expectedFrames comma separated list of <filter>:<count>
+     * @return true if everything was successful
+     */
+    bool setExpectedFrames(QString expectedFrames);
+
+
+    /**
+     * @brief Check if the expected number of frames are captured
+     * @return true if yes
+     */
+    bool checkCapturedFrames();
+
+    /**
+     * @brief calculateSignature Calculate the signature of a given filter
+     * @param filter filter name
+     * @return signature
+     */
+    QString calculateSignature(QString filter);
+
+    QDir *getImageLocation();
+
+private slots:
+    /**
+     * @brief Test whether the capture module produces exactly the diff between the capture frames map and the defined frame counts.
+     */
+    void testCaptureWithCaptureFramesMap();
+
+    /** @brief Test data for @see testCaptureWithCaptureFramesMap() */
+    void testCaptureWithCaptureFramesMap_data();
+
+    /**
+     * @brief Test of appropriate captures controlled by the scheduler
+     */
+    void testSchedulerCapture();
+
+    /** @brief Test data for @see testSchedulerCapture() */
+    void testSchedulerCapture_data();
+};
+
+#endif // HAVE_INDI

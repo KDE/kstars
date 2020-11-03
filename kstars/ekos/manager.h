@@ -103,6 +103,10 @@ class Manager : public QDialog, public Ui::Manager
         }
         void addObjectToScheduler(SkyObject *object);
 
+        Scheduler *schedulerModule()
+        {
+            return schedulerProcess.get();
+        }
         Guide *guideModule()
         {
             return guideProcess.get();
