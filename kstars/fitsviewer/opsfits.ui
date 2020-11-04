@@ -219,6 +219,36 @@
           </property>
          </widget>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutHFR">
+          <item>
+           <widget class="QLabel" name="hfrSepLabel">
+            <property name="toolTip">
+             <string>Set the StellarSolver SEP profile for Capture-image HFR calculations.</string>
+            </property>
+            <property name="text">
+             <string>HFR SEP Profile:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="HfrOptionsProfiles"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="editHfrProfile">
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </item>

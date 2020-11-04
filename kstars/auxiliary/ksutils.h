@@ -278,6 +278,7 @@ bool removeAstrometryDataDir(const QString &dataDir);
 QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles();
 QList<SSolver::Parameters> getDefaultAlignOptionsProfiles();
+QList<SSolver::Parameters> getDefaultHFROptionsProfiles();
 #endif
 
 struct JPLFilter

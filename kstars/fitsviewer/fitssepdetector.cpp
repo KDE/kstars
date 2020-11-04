@@ -88,6 +88,9 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         case Ekos::OptionsProfileEditor::FocusProfiles:
             filename = "SavedFocusProfiles.ini";
             break;
+        case Ekos::OptionsProfileEditor::HFRProfiles:
+            filename = "SavedHFRProfiles.ini";
+            break;
     }
 
     QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
@@ -106,6 +109,9 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
                 break;
             case Ekos::OptionsProfileEditor::FocusProfiles:
                 optionsList = KSUtils::getDefaultFocusOptionsProfiles();
+                break;
+            case Ekos::OptionsProfileEditor::HFRProfiles:
+                optionsList = KSUtils::getDefaultHFROptionsProfiles();
                 break;
         }
     }
@@ -150,6 +156,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     skyBG.mean = bg.global;
     skyBG.sigma = bg.globalrms;
     skyBG.numPixelsInSkyEstimate = bg.bw * bg.bh;
+    skyBG.setStarsDetected(bg.num_stars_detected);
     m_ImageData->setSkyBackground(skyBG);
 
     //There is more information that can be obtained by the Stellarsolver.

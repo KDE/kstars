@@ -17,6 +17,16 @@
 
 #include <kconfigdialog.h>
 
+#include "config-kstars.h"
+#ifdef HAVE_STELLARSOLVER
+#include "ekos/align/optionsprofileeditor.h"
+
+namespace SSolver
+{
+class Parameters;
+}
+#endif
+
 class KStars;
 
 /** @class OpsFITS
@@ -26,10 +36,22 @@ class KStars;
  */
 class OpsFITS : public QFrame, public Ui::OpsFITS
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsFITS();
+    public:
+        explicit OpsFITS();
+
+    private:
+#ifdef HAVE_STELLARSOLVER
+        // Initializes the HFR options menu.
+        void setupHFROptions();
+        void loadStellarSolverProfiles();
+
+        QList<SSolver::Parameters> m_StellarSolverProfiles;
+        QString savedOptionsProfiles;
+        Ekos::OptionsProfileEditor *optionsProfileEditor { nullptr };
+#endif
+
 };
 
 #endif

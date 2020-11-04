@@ -1782,6 +1782,68 @@ QList<SSolver::Parameters> getDefaultAlignOptionsProfiles()
 
     return profileList;
 }
+
+QList<Parameters> getDefaultHFROptionsProfiles()
+{
+    QList<Parameters> profileList;
+
+    Parameters hfrDefault;
+    hfrDefault.listName = "1-HFR-Default";
+    hfrDefault.description = i18n("Default. Set for typical HFR estimation.");
+    hfrDefault.initialKeep = 250;
+    hfrDefault.keepNum = 100;
+
+    hfrDefault.minarea = 20;
+    hfrDefault.maxEllipse = 1.5;
+    StellarSolver::createConvFilterFromFWHM(&hfrDefault, 2);
+    hfrDefault.r_min = 5;
+    hfrDefault.maxSize = 10;
+
+    hfrDefault.removeBrightest = 10;
+    hfrDefault.removeDimmest = 20;
+    hfrDefault.saturationLimit = 90;
+
+    profileList.append(hfrDefault);
+
+
+    Parameters big;
+    big.listName = "2-BigSizedStars";
+    big.description = i18n("Set for typical HFR estimation on big stars.");
+    big.initialKeep = 250;
+    big.keepNum = 100;
+
+    big.minarea = 40;
+    big.maxEllipse = 1.5;
+    StellarSolver::createConvFilterFromFWHM(&big, 8);
+    big.r_min = 20;
+    big.maxSize = 0;
+
+    big.removeBrightest = 0;
+    big.removeDimmest = 50;
+    big.saturationLimit = 99;
+
+    profileList.append(big);
+
+    Parameters most;
+    most.listName = "3-MostStars";
+    most.description = i18n("Set for HFR estimation on most stars.");
+    most.initialKeep = 1000;
+    most.keepNum = 1000;
+
+    most.minarea = 10;
+    most.maxEllipse = 0;
+    StellarSolver::createConvFilterFromFWHM(&most, 1);
+    most.r_min = 3.5;
+    most.minSize = 0;
+    most.maxSize = 0;
+
+    most.removeBrightest = 0;
+    most.removeDimmest = 0;
+    most.saturationLimit = 0;
+    profileList.append(most);
+
+    return profileList;
+}
 #endif
 
 bool removeAstrometryDataDir(const QString &dataDir)

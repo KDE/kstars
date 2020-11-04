@@ -1901,6 +1901,14 @@
          <label>Options Profile for Sextraction when Focusing.</label>
          <default>0</default>
       </entry>
+      <entry name="HFRSextractorType" type="UInt">
+         <label>Internal or External Sextractor to compute subs HFR.</label>
+         <default>0</default>
+      </entry>
+      <entry name="HFROptionsProfile" type="UInt">
+         <label>Options Profile for Sextraction to compute subs HFR</label>
+         <default>0</default>
+      </entry>
       <entry name="GuideSextractorType" type="UInt">
          <label>Internal or External Sextractor for Guiding.</label>
          <default>0</default>

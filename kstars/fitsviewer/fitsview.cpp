@@ -21,6 +21,10 @@
 #include "fits_debug.h"
 #include "stretch.h"
 
+#ifdef HAVE_STELLARSOLVER
+#include "ekos/align/optionsprofileeditor.h"
+#endif
+
 #ifdef HAVE_INDI
 #include "basedevice.h"
 #include "indi/indilistener.h"
@@ -1621,6 +1625,14 @@ void FITSView::searchStars()
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
+
+#ifdef HAVE_STELLARSOLVER
+        QVariantMap extractionSettings;
+        extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
+        extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::HFRProfiles);
+        getImageData()->setSourceExtractorSettings(extractionSettings);
+#endif
+
         QFuture<bool> result = findStars(ALGORITHM_SEP);
         result.waitForFinished();
         if (result.result() && isVisible())

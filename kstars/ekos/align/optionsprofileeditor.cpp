@@ -157,6 +157,9 @@ void OptionsProfileEditor::setProfileGroup(ProfileGroup group)
         case GuideProfiles:
             profileGroupFileName = "SavedGuideProfiles.ini";
             break;
+        case HFRProfiles:
+            profileGroupFileName = "SavedHFRProfiles.ini";
+            break;
     }
 
     savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + profileGroupFileName;
@@ -431,6 +434,8 @@ QList<SSolver::Parameters> OptionsProfileEditor::getDefaultProfiles()
     {
         case FocusProfiles:
             return KSUtils::getDefaultFocusOptionsProfiles();
+        case HFRProfiles:
+            return KSUtils::getDefaultHFROptionsProfiles();
         case GuideProfiles:
             return  KSUtils::getDefaultGuideOptionsProfiles();
         default:

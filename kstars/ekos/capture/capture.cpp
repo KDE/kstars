@@ -402,7 +402,6 @@ Capture::Capture()
     //It fires every 100 ms while images are downloading.
     downloadProgressTimer.setInterval(100);
     connect(&downloadProgressTimer, &QTimer::timeout, this, &Ekos::Capture::setDownloadProgress);
-
 }
 
 Capture::~Capture()
@@ -665,7 +664,7 @@ void Capture::start()
         });
 
         KSMessageBox::Instance()->questionYesNo(i18n("Are you imaging with %1 using your primary telescope?",
-                                                     currentCCD->getDeviceName()),
+                                                currentCCD->getDeviceName()),
                                                 i18n("Telescope Type"), 10, true);
     }
     else

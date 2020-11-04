@@ -211,7 +211,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
         QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
                                        QRegularExpression("[-{}]")));
-        fpstate	fpvar;
+        fpstate fpvar;
         fp_init (&fpvar);
         if (fp_unpack(m_Filename.toLatin1().data(), uncompressedFile.toLatin1().data(), fpvar) < 0)
         {
@@ -1442,9 +1442,6 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
             {
                 if (Options::quickHFR())
                 {
-                    // need this with QRect.
-                    detector->configure("radiusIsBoundary", false);
-                    detector->configure("maxStarsCount", 50);
                     //Just finds stars in the center 25% of the image.
                     const int w = getStatistics().width;
                     const int h = getStatistics().height;
