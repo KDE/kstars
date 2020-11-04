@@ -172,7 +172,7 @@ void TestFitsData::initGenericDataFixture()
             << "m47_sim_stars.fits"
             << FITS_NORMAL
             << 80       // Stars found with the Centroid detection
-            << 252      // Stars found with the StellarSolver detection
+            << 50 //252 // Stars found with the StellarSolver detection - default profile limits count
             << 1.49     // HFR found with the Centroid detection
             << 1.80     // HFR found with the Gradient detection
             << 0.0      // HFR found with the Threshold detection - not used
