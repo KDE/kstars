@@ -22,7 +22,7 @@
 #include "stretch.h"
 
 #ifdef HAVE_STELLARSOLVER
-#include "ekos/align/optionsprofileeditor.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #endif
 
 #ifdef HAVE_INDI
@@ -1629,7 +1629,7 @@ void FITSView::searchStars()
 #ifdef HAVE_STELLARSOLVER
         QVariantMap extractionSettings;
         extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
-        extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::HFRProfiles);
+        extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
         getImageData()->setSourceExtractorSettings(extractionSettings);
 #endif
 

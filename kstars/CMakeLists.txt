@@ -120,9 +120,7 @@ if (INDI_FOUND)
             ekos/align/opsalign.ui
             ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
-            ekos/align/optionsprofileeditor.ui
             ekos/align/mountmodel.ui
-            ekos/align/optionsprofileeditor.ui
             ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
@@ -142,6 +140,7 @@ if (INDI_FOUND)
             ekos/auxiliary/filtersettings.ui
             ekos/auxiliary/opslogs.ui
             ekos/auxiliary/serialportassistant.ui
+            ekos/auxiliary/stellarsolverprofileeditor.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
             # INDI Hub
@@ -164,6 +163,8 @@ if (INDI_FOUND)
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/filterdelegate.cpp
             ekos/auxiliary/opslogs.cpp
+            ekos/auxiliary/stellarsolverprofileeditor.cpp
+            ekos/auxiliary/stellarsolverprofile.cpp
             ekos/auxiliary/serialportassistant.cpp
 
             # Capture
@@ -198,7 +199,6 @@ if (INDI_FOUND)
             ekos/align/opsprograms.cpp
             ekos/align/opsastrometrycfg.cpp
             ekos/align/opsastrometryindexfiles.cpp
-            ekos/align/optionsprofileeditor.cpp
             ekos/align/opsastap.cpp
             ekos/align/offlineastrometryparser.cpp
             ekos/align/onlineastrometryparser.cpp

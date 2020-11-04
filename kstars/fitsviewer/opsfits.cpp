@@ -16,6 +16,7 @@
 
 #ifdef HAVE_STELLARSOLVER
 #include "kspaths.h"
+#include "ekos/auxiliary/stellarsolverprofile.h"
 #include <stellarsolver.h>
 #endif
 
@@ -64,7 +65,7 @@ void OpsFITS::loadStellarSolverProfiles()
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        m_StellarSolverProfiles = KSUtils::getDefaultHFROptionsProfiles();
+        m_StellarSolverProfiles = Ekos::getDefaultHFROptionsProfiles();
     HfrOptionsProfiles->clear();
     for(auto param : m_StellarSolverProfiles)
         HfrOptionsProfiles->addItem(param.listName);
@@ -82,13 +83,13 @@ void OpsFITS::setupHFROptions()
     connect(editHfrProfile, &QAbstractButton::clicked, this, [this]()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
-        optionsProfileEditor = new Ekos::OptionsProfileEditor(this, Ekos::OptionsProfileEditor::HFRProfiles, optionsEditor);
+        optionsProfileEditor = new Ekos::StellarSolverProfileEditor(this, Ekos::HFRProfiles, optionsEditor);
 #ifdef Q_OS_OSX
         pp        optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("HFR Options Profile Editor"));
         mainPage->setIcon(QIcon::fromTheme("configure"));
-        connect(optionsProfileEditor, &Ekos::OptionsProfileEditor::optionsProfilesUpdated, this,
+        connect(optionsProfileEditor, &Ekos::StellarSolverProfileEditor::optionsProfilesUpdated, this,
                 &OpsFITS::loadStellarSolverProfiles);
         optionsProfileEditor->loadProfile(HfrOptionsProfiles->currentIndex());
         optionsEditor->show();

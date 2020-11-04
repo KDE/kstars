@@ -16,6 +16,7 @@
 #include "ksnotification.h"
 #include "Options.h"
 #include "kspaths.h"
+#include "ekos/auxiliary/stellarsolverprofile.h"
 
 #include <KConfigDialog>
 #include <QProcess>
@@ -33,7 +34,8 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
     editSolverProfile->setIcon(QIcon::fromTheme("document-edit"));
     editSolverProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(editSolverProfile,&QAbstractButton::clicked, this, [this]{
+    connect(editSolverProfile, &QAbstractButton::clicked, this, [this]
+    {
         emit needToLoadProfile(kcfg_SolveOptionsProfile->currentIndex());
     });
 
@@ -45,12 +47,13 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
 void OpsAlign::reloadOptionsProfiles()
 {
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("SavedAlignProfiles.ini");
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                                   QString("SavedAlignProfiles.ini");
 
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        optionsList = KSUtils::getDefaultAlignOptionsProfiles();
+        optionsList = getDefaultAlignOptionsProfiles();
     kcfg_SolveOptionsProfile->clear();
     foreach(SSolver::Parameters param, optionsList)
         kcfg_SolveOptionsProfile->addItem(param.listName);

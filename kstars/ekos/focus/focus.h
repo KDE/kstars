@@ -12,6 +12,7 @@
 #include "ui_focus.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indiccd.h"
@@ -21,9 +22,8 @@
 #include "indi/inditelescope.h"
 
 #include <QtDBus/QtDBus>
+#include <parameters.h>
 
-#include "ekos/align/optionsprofileeditor.h"
-#include "parameters.h"
 namespace Ekos
 {
 
@@ -433,7 +433,7 @@ class Focus : public QWidget, public Ui::Focus
 
         QList<SSolver::Parameters> m_StellarSolverProfiles;
         QString savedOptionsProfiles;
-        OptionsProfileEditor *optionsProfileEditor { nullptr };
+        StellarSolverProfileEditor *optionsProfileEditor { nullptr };
 
         ////////////////////////////////////////////////////////////////////
         /// Connections

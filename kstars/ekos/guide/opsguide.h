@@ -14,7 +14,7 @@
 #include "stellarsolver.h"
 #include "ksutils.h"
 #include "kspaths.h"
-#include "ekos/align/optionsprofileeditor.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 class KConfigDialog;
 
@@ -29,19 +29,19 @@ namespace Ekos
  */
 class OpsGuide : public QFrame, public Ui::OpsGuide
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsGuide();
-    virtual ~OpsGuide() override = default;
-    void loadOptionsProfiles();
+    public:
+        explicit OpsGuide();
+        virtual ~OpsGuide() override = default;
+        void loadOptionsProfiles();
 
-  signals:
-    void settingsUpdated();
+    signals:
+        void settingsUpdated();
 
-  private:
-    KConfigDialog *m_ConfigDialog { nullptr };
-    QList<SSolver::Parameters> optionsList;
-    OptionsProfileEditor *optionsProfileEditor { nullptr };
+    private:
+        KConfigDialog *m_ConfigDialog { nullptr };
+        QList<SSolver::Parameters> optionsList;
+        StellarSolverProfileEditor *optionsProfileEditor { nullptr };
 };
 }

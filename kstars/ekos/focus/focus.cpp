@@ -101,13 +101,13 @@ Focus::Focus()
     connect(editFocusProfile, &QAbstractButton::clicked, this, [this]()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
-        optionsProfileEditor = new OptionsProfileEditor(this, Ekos::OptionsProfileEditor::FocusProfiles, optionsEditor);
+        optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::FocusProfiles, optionsEditor);
 #ifdef Q_OS_OSX
         optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Focus Options Profile Editor"));
         mainPage->setIcon(QIcon::fromTheme("configure"));
-        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &Focus::loadStellarSolverProfiles);
+        connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, &Focus::loadStellarSolverProfiles);
         optionsProfileEditor->loadProfile(focusOptionsProfiles->currentIndex());
         optionsEditor->show();
     });
@@ -127,7 +127,7 @@ void Focus::loadStellarSolverProfiles()
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        m_StellarSolverProfiles = KSUtils::getDefaultFocusOptionsProfiles();
+        m_StellarSolverProfiles = getDefaultFocusOptionsProfiles();
     focusOptionsProfiles->clear();
     for(auto param : m_StellarSolverProfiles)
         focusOptionsProfiles->addItem(param.listName);
@@ -1264,7 +1264,7 @@ void Focus::analyzeSources()
 {
     QVariantMap extractionSettings;
     extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
-    extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::OptionsProfileEditor::FocusProfiles);
+    extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::FocusProfiles);
     focusView->getImageData()->setSourceExtractorSettings(extractionSettings);
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
     // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require

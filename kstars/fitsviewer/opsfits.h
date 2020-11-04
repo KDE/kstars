@@ -8,18 +8,16 @@
 
 */
 
-#ifndef OPSFITS_H_
-#define OPSFITS_H_
+#pragma once
 
 #include "ui_opsfits.h"
+#include "config-kstars.h"
 
 #include <QStandardItemModel>
+#include <KConfigDialog>
 
-#include <kconfigdialog.h>
-
-#include "config-kstars.h"
 #ifdef HAVE_STELLARSOLVER
-#include "ekos/align/optionsprofileeditor.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 namespace SSolver
 {
@@ -49,9 +47,8 @@ class OpsFITS : public QFrame, public Ui::OpsFITS
 
         QList<SSolver::Parameters> m_StellarSolverProfiles;
         QString savedOptionsProfiles;
-        Ekos::OptionsProfileEditor *optionsProfileEditor { nullptr };
+        Ekos::StellarSolverProfileEditor *optionsProfileEditor { nullptr };
 #endif
 
 };
 
-#endif

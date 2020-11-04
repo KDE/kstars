@@ -8,20 +8,23 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include "optionsprofileeditor.h"
+#include "stellarsolverprofileeditor.h"
 
-#include "align.h"
 #include "kstars.h"
 #include "Options.h"
 #include "kspaths.h"
-#include "ksutils.h"
+#include "ksmessagebox.h"
+#include "stellarsolverprofile.h"
 
 #include <KConfigDialog>
-#include <ui_optionsprofileeditor.h>
+#include <QInputDialog>
+#include <QFileDialog>
+#include <QSettings>
+#include <stellarsolver.h>
 
 namespace Ekos
 {
-OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group,
+StellarSolverProfileEditor::StellarSolverProfileEditor(QWidget *parent, ProfileGroup group,
         KConfigDialog *dialog) : QWidget(KStars::Instance())
 {
     setupUi(this);
@@ -41,12 +44,12 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group,
     openProfile->setIcon(
         QIcon::fromTheme("document-open"));
     openProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(openProfile, &QPushButton::clicked, this, &OptionsProfileEditor::openSingleProfile);
+    connect(openProfile, &QPushButton::clicked, this, &StellarSolverProfileEditor::openSingleProfile);
 
     saveProfile->setIcon(
         QIcon::fromTheme("document-save"));
     saveProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(saveProfile, &QPushButton::clicked, this, &OptionsProfileEditor::saveSingleProfile);
+    connect(saveProfile, &QPushButton::clicked, this, &StellarSolverProfileEditor::saveSingleProfile);
 
     /*  This is not implemented yet.
     copyProfile->setIcon(
@@ -58,22 +61,22 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group,
     saveBackups->setIcon(
         QIcon::fromTheme("document-save"));
     saveBackups->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(saveBackups, &QPushButton::clicked, this, &OptionsProfileEditor::saveBackupProfiles);
+    connect(saveBackups, &QPushButton::clicked, this, &StellarSolverProfileEditor::saveBackupProfiles);
 
     loadBackups->setIcon(
         QIcon::fromTheme("document-open"));
     loadBackups->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(loadBackups, &QPushButton::clicked, this, &OptionsProfileEditor::openBackupProfiles);
+    connect(loadBackups, &QPushButton::clicked, this, &StellarSolverProfileEditor::openBackupProfiles);
 
     reloadProfiles->setIcon(
         QIcon::fromTheme("system-reboot"));
     reloadProfiles->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(reloadProfiles, &QPushButton::clicked, this, &OptionsProfileEditor::loadProfiles);
+    connect(reloadProfiles, &QPushButton::clicked, this, &StellarSolverProfileEditor::loadProfiles);
 
     loadDefaults->setIcon(
         QIcon::fromTheme("go-down"));
     loadDefaults->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(loadDefaults, &QPushButton::clicked, this, &OptionsProfileEditor::loadDefaultProfiles);
+    connect(loadDefaults, &QPushButton::clicked, this, &StellarSolverProfileEditor::loadDefaultProfiles);
 
     connect(addOptionProfile, &QAbstractButton::clicked, this, [this]()
     {
@@ -114,26 +117,26 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group,
         connectOptionsProfileComboBox();
     });
 
-    connect(description, &QTextEdit::textChanged, this, &OptionsProfileEditor::settingJustChanged);
+    connect(description, &QTextEdit::textChanged, this, &StellarSolverProfileEditor::settingJustChanged);
 
     QList<QLineEdit *> lines = this->findChildren<QLineEdit *>();
     for(QLineEdit *line : lines)
-        connect(line, &QLineEdit::textEdited, this, &OptionsProfileEditor::settingJustChanged);
+        connect(line, &QLineEdit::textEdited, this, &StellarSolverProfileEditor::settingJustChanged);
 
     QList<QCheckBox *> checks = this->findChildren<QCheckBox *>();
     for(QCheckBox *check : checks)
-        connect(check, &QCheckBox::stateChanged, this, &OptionsProfileEditor::settingJustChanged);
+        connect(check, &QCheckBox::stateChanged, this, &StellarSolverProfileEditor::settingJustChanged);
 
     QList<QComboBox *> combos = this->findChildren<QComboBox *>();
     for(QComboBox *combo : combos)
     {
         if(combo != optionsProfile)
-            connect(combo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OptionsProfileEditor::settingJustChanged);
+            connect(combo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &StellarSolverProfileEditor::settingJustChanged);
     }
 
     QList<QSpinBox *> spins = this->findChildren<QSpinBox *>();
     for(QSpinBox *spin : spins)
-        connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &OptionsProfileEditor::settingJustChanged);
+        connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &StellarSolverProfileEditor::settingJustChanged);
 
     if(selectedProfileGroup != AlignProfiles)
         astrometryOptions->setVisible(false);
@@ -141,7 +144,7 @@ OptionsProfileEditor::OptionsProfileEditor(QWidget *parent, ProfileGroup group,
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 }
 
-void OptionsProfileEditor::setProfileGroup(ProfileGroup group)
+void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
 {
     selectedProfileGroup = group;
     optionsProfileGroup->setCurrentIndex((int)group);
@@ -166,30 +169,30 @@ void OptionsProfileEditor::setProfileGroup(ProfileGroup group)
     loadProfiles();
 }
 
-void OptionsProfileEditor::connectOptionsProfileComboBox()
+void StellarSolverProfileEditor::connectOptionsProfileComboBox()
 {
     connect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            &OptionsProfileEditor::loadOptionsProfile);
+            &StellarSolverProfileEditor::loadOptionsProfile);
 }
 
-void OptionsProfileEditor::disconnectOptionsProfileComboBox()
+void StellarSolverProfileEditor::disconnectOptionsProfileComboBox()
 {
     disconnect(optionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-               &OptionsProfileEditor::loadOptionsProfile);
+               &StellarSolverProfileEditor::loadOptionsProfile);
 }
 
-void OptionsProfileEditor::settingJustChanged()
+void StellarSolverProfileEditor::settingJustChanged()
 {
     optionsAreSaved = false;
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
-void OptionsProfileEditor::loadProfile(int profile)
+void StellarSolverProfileEditor::loadProfile(int profile)
 {
     optionsProfile->setCurrentIndex(profile);
 }
 
-void OptionsProfileEditor::loadOptionsProfile()
+void StellarSolverProfileEditor::loadOptionsProfile()
 {
     if(optionsProfile->count() == 0)
         return;
@@ -213,7 +216,7 @@ void OptionsProfileEditor::loadOptionsProfile()
     openOptionsProfileNum = optionsProfile->currentIndex();
 }
 
-void OptionsProfileEditor::loadOptionsProfileIgnoreOldSettings(int index)
+void StellarSolverProfileEditor::loadOptionsProfileIgnoreOldSettings(int index)
 {
     if(index >= optionsProfile->count())
         return;
@@ -231,7 +234,7 @@ void OptionsProfileEditor::loadOptionsProfileIgnoreOldSettings(int index)
 //This sets all the settings for either the internal or external sextractor
 //based on the requested settings in the mainwindow interface.
 //If you are implementing the StellarSolver Library in your progra, you may choose to change some or all of these settings or use the defaults.
-SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
+SSolver::Parameters StellarSolverProfileEditor::getSettingsFromUI()
 {
     SSolver::Parameters params;
     params.description = description->toPlainText();
@@ -275,7 +278,7 @@ SSolver::Parameters OptionsProfileEditor::getSettingsFromUI()
     return params;
 }
 
-void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
+void StellarSolverProfileEditor::sendSettingsToUI(SSolver::Parameters a)
 {
 
     description->setText(a.description);
@@ -317,12 +320,12 @@ void OptionsProfileEditor::sendSettingsToUI(SSolver::Parameters a)
     resort->setChecked(a.resort);
 }
 
-void OptionsProfileEditor::copySingleProfile()
+void StellarSolverProfileEditor::copySingleProfile()
 {
 
 }
 
-void OptionsProfileEditor::openSingleProfile()
+void StellarSolverProfileEditor::openSingleProfile()
 {
     QString fileURL = QFileDialog::getOpenFileName(nullptr, "Load Options Profiles File", dirPath,
                       "INI files(*.ini)");
@@ -330,7 +333,7 @@ void OptionsProfileEditor::openSingleProfile()
         return;
     if(!QFileInfo(fileURL).exists())
     {
-        QMessageBox::warning(this, "Message", "The file doesn't exist");
+        KSMessageBox::warning(this, "Message", "The file doesn't exist");
         return;
     }
     QSettings settings(fileURL, QSettings::IniFormat);
@@ -351,7 +354,7 @@ void OptionsProfileEditor::openSingleProfile()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
-void OptionsProfileEditor::loadProfiles()
+void StellarSolverProfileEditor::loadProfiles()
 {
     if( !optionsAreSaved )
     {
@@ -379,7 +382,7 @@ void OptionsProfileEditor::loadProfiles()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
-void OptionsProfileEditor::saveSingleProfile()
+void StellarSolverProfileEditor::saveSingleProfile()
 {
     QString fileURL = QFileDialog::getSaveFileName(nullptr, "Save Options Profiles", dirPath,
                       "INI files(*.ini)");
@@ -398,7 +401,7 @@ void OptionsProfileEditor::saveSingleProfile()
     settings.endGroup();
 }
 
-void OptionsProfileEditor::saveProfiles()
+void StellarSolverProfileEditor::saveProfiles()
 {
     QSettings settings(savedOptionsProfiles, QSettings::IniFormat);
     for(int i = 0 ; i < optionsList.count(); i++)
@@ -428,23 +431,23 @@ void OptionsProfileEditor::saveProfiles()
     }
 }
 
-QList<SSolver::Parameters> OptionsProfileEditor::getDefaultProfiles()
+QList<SSolver::Parameters> StellarSolverProfileEditor::getDefaultProfiles()
 {
     switch(selectedProfileGroup)
     {
         case FocusProfiles:
-            return KSUtils::getDefaultFocusOptionsProfiles();
+            return getDefaultFocusOptionsProfiles();
         case HFRProfiles:
-            return KSUtils::getDefaultHFROptionsProfiles();
+            return getDefaultHFROptionsProfiles();
         case GuideProfiles:
-            return  KSUtils::getDefaultGuideOptionsProfiles();
+            return getDefaultGuideOptionsProfiles();
         default:
         case AlignProfiles:
-            return KSUtils::getDefaultAlignOptionsProfiles();
+            return getDefaultAlignOptionsProfiles();
     }
 }
 
-void OptionsProfileEditor::loadDefaultProfiles()
+void StellarSolverProfileEditor::loadDefaultProfiles()
 {
     if( !optionsAreSaved )
     {
@@ -466,7 +469,7 @@ void OptionsProfileEditor::loadDefaultProfiles()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
-void OptionsProfileEditor::saveBackupProfiles()
+void StellarSolverProfileEditor::saveBackupProfiles()
 {
     QString fileURL = QFileDialog::getSaveFileName(nullptr, "Save Options Profiles", dirPath,
                       "INI files(*.ini)");
@@ -488,7 +491,7 @@ void OptionsProfileEditor::saveBackupProfiles()
     }
 }
 
-void OptionsProfileEditor::openBackupProfiles()
+void StellarSolverProfileEditor::openBackupProfiles()
 {
     QString fileURL = QFileDialog::getOpenFileName(nullptr, "Load Options Profiles File", dirPath,
                       "INI files(*.ini)");
@@ -520,7 +523,7 @@ void OptionsProfileEditor::openBackupProfiles()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
-void OptionsProfileEditor::slotApply()
+void StellarSolverProfileEditor::slotApply()
 {
     int index = optionsProfile->currentIndex();
     SSolver::Parameters currentParams = getSettingsFromUI();

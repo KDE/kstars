@@ -18,7 +18,7 @@
 #include "auxiliary/kspaths.h"
 #include "../guideview.h"
 #include "ekos_guide_debug.h"
-#include "ekos/align/optionsprofileeditor.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 #include <QVector3D>
 #include <cmath>
@@ -616,7 +616,7 @@ Vector cgmath::findLocalStarPosition(void) const
     {
         QVariantMap settings;
         settings["optionsProfileIndex"] = Options::guideOptionsProfile();
-        settings["optionsProfileGroup"] = static_cast<int>(Ekos::OptionsProfileEditor::GuideProfiles);
+        settings["optionsProfileGroup"] = static_cast<int>(Ekos::GuideProfiles);
         imageData->setSourceExtractorSettings(settings);
         QFuture<bool> result = imageData->findStars(ALGORITHM_SEP, trackingBox);
         result.waitForFinished();

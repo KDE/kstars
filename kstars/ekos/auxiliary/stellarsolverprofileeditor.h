@@ -10,8 +10,9 @@
 
 #pragma once
 
-#include "ui_optionsprofileeditor.h"
+#include "ui_stellarsolverprofileeditor.h"
 #include "parameters.h"
+#include "stellarsolverprofile.h"
 
 
 #include <QWidget>
@@ -23,23 +24,15 @@ namespace Ekos
 {
 class Align;
 
-class OptionsProfileEditor : public QWidget, public Ui::OptionsProfileEditor
+class StellarSolverProfileEditor : public QWidget, public Ui::StellarSolverProfileEditor
 {
         Q_OBJECT
 
     public:
-
-        typedef enum
-        {
-            AlignProfiles,
-            FocusProfiles,
-            GuideProfiles,
-            HFRProfiles
-        } ProfileGroup;
         void setProfileGroup(ProfileGroup group);
 
-        explicit OptionsProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog);
-        virtual ~OptionsProfileEditor() override = default;
+        explicit StellarSolverProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog);
+        virtual ~StellarSolverProfileEditor() override = default;
 
         //These functions handle the settings for the Sextractors and Solvers
         SSolver::Parameters getSettingsFromUI();

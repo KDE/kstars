@@ -274,13 +274,6 @@ QStringList getAstrometryDataDirs();
 bool addAstrometryDataDir(const QString &dataDir);
 bool removeAstrometryDataDir(const QString &dataDir);
 
-#ifdef HAVE_STELLARSOLVER
-QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
-QList<SSolver::Parameters> getDefaultGuideOptionsProfiles();
-QList<SSolver::Parameters> getDefaultAlignOptionsProfiles();
-QList<SSolver::Parameters> getDefaultHFROptionsProfiles();
-#endif
-
 struct JPLFilter
 {
     QByteArray item;

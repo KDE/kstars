@@ -20,7 +20,6 @@
 #include "astapastrometryparser.h"
 #include "opsalign.h"
 #include "opsprograms.h"
-#include "optionsprofileeditor.h"
 #include "opsastap.h"
 #include "opsastrometry.h"
 #include "opsastrometrycfg.h"
@@ -35,6 +34,7 @@
 #include "dialogs/finddialog.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
 #include "indi/clientmanager.h"
@@ -252,14 +252,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
     page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
 
-    optionsProfileEditor = new OptionsProfileEditor(this, Ekos::OptionsProfileEditor::AlignProfiles, dialog);
+    optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::AlignProfiles, dialog);
     page = dialog->addPage(optionsProfileEditor, i18n("Align Options Profiles Editor"));
-    connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, [this]()
+    connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, [this]()
     {
         if(QFile(savedOptionsProfiles).exists())
             m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
         else
-            m_StellarSolverProfiles = KSUtils::getDefaultAlignOptionsProfiles();
+            m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
         opsAlign->reloadOptionsProfiles();
     });
     page->setIcon(QIcon::fromTheme("configure"));
@@ -543,7 +543,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        m_StellarSolverProfiles = KSUtils::getDefaultAlignOptionsProfiles();
+        m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
 }
 
 Align::~Align()

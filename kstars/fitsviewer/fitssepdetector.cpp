@@ -29,7 +29,7 @@
 #include <QtConcurrent>
 
 #ifdef HAVE_STELLARSOLVER
-#include "ekos/align/optionsprofileeditor.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <stellarsolver.h>
 #else
 #include <cstring>
@@ -72,23 +72,22 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     int maxStarsCount = getValue("maxStarsCount", 100000).toInt();
 #ifdef HAVE_STELLARSOLVER
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
-    Ekos::OptionsProfileEditor::ProfileGroup group = (Ekos::OptionsProfileEditor::ProfileGroup) getValue("optionsProfileGroup",
-            1).toInt();
+    Ekos::ProfileGroup group = static_cast<Ekos::ProfileGroup>(getValue("optionsProfileGroup", 1).toInt());
 
     QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     QString filename = "";
     switch(group)
     {
-        case Ekos::OptionsProfileEditor::AlignProfiles:
+        case Ekos::AlignProfiles:
             //So it should not be here if it is Align.
             break;
-        case Ekos::OptionsProfileEditor::GuideProfiles:
+        case Ekos::GuideProfiles:
             filename = "SavedGuideProfiles.ini";
             break;
-        case Ekos::OptionsProfileEditor::FocusProfiles:
+        case Ekos::FocusProfiles:
             filename = "SavedFocusProfiles.ini";
             break;
-        case Ekos::OptionsProfileEditor::HFRProfiles:
+        case Ekos::HFRProfiles:
             filename = "SavedHFRProfiles.ini";
             break;
     }
@@ -101,17 +100,17 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     {
         switch(group)
         {
-            case Ekos::OptionsProfileEditor::AlignProfiles:
+            case Ekos::AlignProfiles:
                 //So it should not be here if it is Align.
                 break;
-            case Ekos::OptionsProfileEditor::GuideProfiles:
-                optionsList = KSUtils::getDefaultGuideOptionsProfiles();
+            case Ekos::GuideProfiles:
+                optionsList = Ekos::getDefaultGuideOptionsProfiles();
                 break;
-            case Ekos::OptionsProfileEditor::FocusProfiles:
-                optionsList = KSUtils::getDefaultFocusOptionsProfiles();
+            case Ekos::FocusProfiles:
+                optionsList = Ekos::getDefaultFocusOptionsProfiles();
                 break;
-            case Ekos::OptionsProfileEditor::HFRProfiles:
-                optionsList = KSUtils::getDefaultHFROptionsProfiles();
+            case Ekos::HFRProfiles:
+                optionsList = Ekos::getDefaultHFROptionsProfiles();
                 break;
         }
     }

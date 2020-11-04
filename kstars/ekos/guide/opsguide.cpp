@@ -32,7 +32,8 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("guidesettings");
 
-    connect(kcfg_DitherNoGuiding, &QCheckBox::toggled, this, [&](bool checked) {
+    connect(kcfg_DitherNoGuiding, &QCheckBox::toggled, this, [&](bool checked)
+    {
         if (checked && kcfg_DitherEnabled->isChecked())
         {
             KSNotification::error("Guided dithering cannot be used along with non-guided dithering.");
@@ -46,13 +47,13 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     connect(editGuideProfile, &QAbstractButton::clicked, this, [this]()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
-        optionsProfileEditor = new OptionsProfileEditor(this, Ekos::OptionsProfileEditor::GuideProfiles, optionsEditor);
+        optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::GuideProfiles, optionsEditor);
 #ifdef Q_OS_OSX
         optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Guide Options Profile Editor"));
         mainPage->setIcon(QIcon::fromTheme("configure"));
-        connect(optionsProfileEditor, &OptionsProfileEditor::optionsProfilesUpdated, this, &OpsGuide::loadOptionsProfiles);
+        connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, &OpsGuide::loadOptionsProfiles);
         optionsProfileEditor->loadProfile(kcfg_GuideOptionsProfile->currentIndex());
         optionsEditor->show();
     });
@@ -75,9 +76,9 @@ void OpsGuide::loadOptionsProfiles()
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        optionsList = KSUtils::getDefaultGuideOptionsProfiles();
+        optionsList = getDefaultGuideOptionsProfiles();
     kcfg_GuideOptionsProfile->clear();
-    for(SSolver::Parameters param: optionsList)
+    for(SSolver::Parameters param : optionsList)
         kcfg_GuideOptionsProfile->addItem(param.listName);
     kcfg_GuideOptionsProfile->setCurrentIndex(Options::focusOptionsProfile());
 }

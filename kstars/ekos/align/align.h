@@ -48,7 +48,7 @@ class RemoteAstrometryParser;
 class ASTAPAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;
-class OptionsProfileEditor;
+class StellarSolverProfileEditor;
 class OpsPrograms;
 class OpsASTAP;
 class OpsAstrometryCfg;
@@ -964,7 +964,7 @@ class Align : public QWidget, public Ui::Align
         OpsAstrometryCfg *opsAstrometryCfg { nullptr };
         OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
         OpsASTAP *opsASTAP { nullptr };
-        OptionsProfileEditor *optionsProfileEditor { nullptr };
+        StellarSolverProfileEditor *optionsProfileEditor { nullptr };
         QCPCurve *centralTarget { nullptr };
         QCPCurve *yellowTarget { nullptr };
         QCPCurve *redTarget { nullptr };
