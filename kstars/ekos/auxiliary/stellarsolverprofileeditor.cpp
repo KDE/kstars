@@ -147,7 +147,7 @@ StellarSolverProfileEditor::StellarSolverProfileEditor(QWidget *parent, ProfileG
 void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
 {
     selectedProfileGroup = group;
-    optionsProfileGroup->setCurrentIndex((int)group);
+    optionsProfileGroup->setCurrentIndex(static_cast<int>(group));
     QString profileGroupFileName;
     switch(selectedProfileGroup)
     {

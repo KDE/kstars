@@ -81,6 +81,11 @@
             <string>Guide SEP Profiles</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>HFR SEP Profiles</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
