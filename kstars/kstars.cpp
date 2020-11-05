@@ -313,8 +313,8 @@ void KStars::releaseResources()
 #endif
 
 #ifdef HAVE_CFITSIO
-    if (Options::independentWindowFITS())
-        qDeleteAll(m_FITSViewers);
+    //if (Options::independentWindowFITS())
+    qDeleteAll(m_FITSViewers);
 #endif
 
     QSqlDatabase::removeDatabase("userdb");
