@@ -177,6 +177,13 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         oneEdge->sum = stars[i].flux;
         oneEdge->HFR = stars[i].HFR;
         oneEdge->width = stars[i].a;
+        if (stars[i].a > 0)
+            // See page 63 to find the ellipticity equation for SEP.
+            // http://astroa.physics.metu.edu.tr/MANUALS/sextractor/Guide2source_extractor.pdf
+            oneEdge->ellipticity = 1 - stars[i].b / stars[i].a;
+        else
+            oneEdge->ellipticity = 0;
+
         starCenters.append(oneEdge);
     }
     m_ImageData->setStarCenters(starCenters);

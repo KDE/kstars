@@ -304,6 +304,10 @@ class FITSData : public QObject
         {
             return m_SelectedHFRStar;
         }
+
+        // Calculates the median star eccentricity.
+        double getEccentricity();
+
         double getHFR(HFRType type = HFR_AVERAGE);
         double getHFR(int x, int y);
 

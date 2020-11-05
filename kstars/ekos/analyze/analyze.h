@@ -146,8 +146,8 @@ class Analyze : public QWidget, public Ui::Analyze
         // used to gather data about those processes.
 
         // From Capture
-        void captureComplete(const QString &filename, double exposureSeconds,
-                             const QString &filter, double hfr);
+        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                             double hfr, int numStars, int median, double eccentricity);
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -160,6 +160,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
+        void newTemperature(double temperatureDelta, double temperature);
 
         // From Align
         void alignState(Ekos::AlignState state);
@@ -181,12 +182,13 @@ class Analyze : public QWidget, public Ui::Analyze
         // BatchMode is true in the file reading path. It means don't call replot() as there may be
         // many more messages to come. The rest of the args are specific to the message type.
         void processCaptureStarting(double time, double exposureSeconds, const QString &filter, bool batchMode = false);
-        void processCaptureComplete(double time, const QString &filename,
-                                    double exposureSeconds, const QString &filter, double hfr, bool batchMode = false);
+        void processCaptureComplete(double time, const QString &filename, double exposureSeconds, const QString &filter,
+                                    double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
         void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
         void processAutofocusStarting(double time, double temperature, const QString &filter, bool batchMode = false);
         void processAutofocusComplete(double time, const QString &filter, const QString &points, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode = false);
+        void processTemperature(double time, double temperature, bool batchMode = false);
         void processGuideState(double time, const QString &state, bool batchMode = false);
         void processGuideStats(double time, double raError, double decError, int raPulse,
                                int decPulse, double snr, double skyBg, int numStars, bool batchMode = false);
@@ -277,7 +279,9 @@ class Analyze : public QWidget, public Ui::Analyze
                                    double skyBackground, double drift, double rms, double time);
         void addMountCoords(double ra, double dec, double az, double alt, int pierSide,
                             double ha, double time);
-        void addHFR(double hfr, const double time, double startTime);
+        void addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
+                    const double time, double startTime);
+        void addTemperature(double temperature, const double time);
 
         // AddGuideStats uses rmsFilter() to compute RMS values of the squared
         // RA and DEC errors, thus calculating the RMS error.
@@ -331,6 +335,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void resetMountState();
         void resetMountCoords();
         void resetMountFlipState();
+        void resetTemperature();
 
         // Read and display an input .analyze file.
         double readDataFromFile(const QString &filename);
@@ -380,6 +385,9 @@ class Analyze : public QWidget, public Ui::Analyze
         QCPAxis *snrAxis;
         QCPAxis *numStarsAxis;
         QCPAxis *skyBgAxis;
+        QCPAxis *medianAxis;
+        QCPAxis *numCaptureStarsAxis;
+        QCPAxis *temperatureAxis;
         // Used to keep track of the y-axis position when moving it with the mouse.
         double yAxisInitialPos = { 0 };
 
@@ -434,6 +442,9 @@ class Analyze : public QWidget, public Ui::Analyze
         int numStarsMax { 0 };
         double snrMax { 0 };
         double skyBgMax { 0 };
+        int medianMax { 0 };
+        int numCaptureStarsMax { 0 };
+        double lastTemperature { -1000 };
 
         // AlignState state-machine variables.
         AlignState lastAlignStateReceived { ALIGN_IDLE };

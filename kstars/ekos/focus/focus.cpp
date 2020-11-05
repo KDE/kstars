@@ -670,7 +670,7 @@ void Focus::setLastFocusTemperature()
         lastFocusTemperatureSource = NO_TEMPERATURE;
     }
 
-    emit newFocusTemperatureDelta(0);
+    emit newFocusTemperatureDelta(0, -1e6);
 }
 
 void Focus::updateTemperature(TemperatureSource source, double newTemperature)
@@ -696,11 +696,11 @@ void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperatur
 
     if (lastFocusTemperature != INVALID_VALUE && newTemperature != INVALID_VALUE)
     {
-        emit newFocusTemperatureDelta(abs(newTemperature - lastFocusTemperature));
+        emit newFocusTemperatureDelta(abs(newTemperature - lastFocusTemperature), newTemperature);
     }
     else
     {
-        emit newFocusTemperatureDelta(0);
+        emit newFocusTemperatureDelta(0, newTemperature);
     }
 }
 

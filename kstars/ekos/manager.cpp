@@ -3644,6 +3644,8 @@ void Manager::connectModules()
                 analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusAborted, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta,
+                analyzeProcess.get(), &Ekos::Analyze::newTemperature, Qt::UniqueConnection);
     }
     if (alignProcess.get())
     {

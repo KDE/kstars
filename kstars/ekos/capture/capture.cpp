@@ -1816,14 +1816,19 @@ IPState Capture::setCaptureComplete()
 
     appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
 
-    double hfr = -1;
+    double hfr = -1, eccentricity = -1;
+    int numStars = -1, median = -1;
     QString filename;
     if (m_ImageData)
     {
         hfr = m_ImageData->getHFR(HFR_AVERAGE);
+        numStars = m_ImageData->getSkyBackground().starsDetected;
+        median = m_ImageData->getMedian();
+        eccentricity = m_ImageData->getEccentricity();
         filename = m_ImageData->filename();
     }
-    emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
+    emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr,
+                         numStars, median, eccentricity);
 
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -3338,8 +3343,9 @@ void Capture::updatePreCaptureCalibrationStatus()
     captureImage();
 }
 
-void Capture::setFocusTemperatureDelta(double focusTemperatureDelta)
+void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperture)
 {
+    Q_UNUSED(absTemperture);
     // This produces too much log spam
     // Maybe add a threshold to report later?
     //qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;

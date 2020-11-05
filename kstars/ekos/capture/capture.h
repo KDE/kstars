@@ -652,7 +652,7 @@ class Capture : public QWidget, public Ui::Capture
         {
             focusHFR = newHFR;
         }
-        void setFocusTemperatureDelta(double focusTemperatureDelta);
+        void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
         // Return TRUE if we need to run focus/autofocus. Otherwise false if not necessary
         bool startFocusIfRequired();
 
@@ -797,8 +797,8 @@ class Capture : public QWidget, public Ui::Capture
         void driverTimedout(const QString &deviceName);
 
         // Signals for the Analyze tab.
-        void captureComplete(const QString &filename, double exposureSeconds,
-                             const QString &filter, double hfr);
+        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                             double hfr, int numStars, int median, double eccentricity);
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 

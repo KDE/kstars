@@ -1644,6 +1644,25 @@ double FITSData::getHFR(int x, int y)
     return -1;
 }
 
+double FITSData::getEccentricity()
+{
+    if (starCenters.empty())
+        return -1;
+    std::vector<float> eccs;
+    for (const auto &s : starCenters)
+        eccs.push_back(s->ellipticity);
+    int middle = eccs.size() / 2;
+    std::nth_element(eccs.begin(), eccs.begin() + middle, eccs.end());
+    float medianEllipticity = eccs[middle];
+
+    // SEP gives us the ellipticity (flattening) directly.
+    // To get the eccentricity, use this formula:
+    // e = sqrt(ellipticity * (2 - ellipticity))
+    // https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
+    const float eccentricity = sqrt(medianEllipticity * (2 - medianEllipticity));
+    return eccentricity;
+}
+
 void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * min, QVector<double> * max)
 {
     if (type == FITS_NONE)
