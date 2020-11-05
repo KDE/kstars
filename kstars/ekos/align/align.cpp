@@ -2994,7 +2994,7 @@ bool Align::captureAndSolve()
         if (remoteParserDevice == nullptr)
         {
             appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
-            solverTypeButtonGroup->button(SOLVER_STELLARSOLVER)->setChecked(true);
+            setSolverType(SOLVER_LOCAL);
         }
         else
         {
@@ -4937,6 +4937,12 @@ bool Align::loadAndSlew(QString fileURL)
     solveB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
+
+    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice == nullptr)
+    {
+        appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
+        setSolverType(SOLVER_LOCAL);
+    }
 
     alignView->loadFile(fileURL, false);
     //m_FileToSolve = fileURL;
