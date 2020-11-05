@@ -31,7 +31,8 @@ bool RemoteAstrometryParser::init()
 {
     if (remoteAstrometry == nullptr)
     {
-        align->appendLogText(i18n("Cannot set solver to remote. The Ekos equipment profile must include the astrometry Auxiliary driver."));
+        align->appendLogText(
+            i18n("Cannot set solver to remote. The Ekos equipment profile must include the astrometry Auxiliary driver."));
         return false;
     }
 
@@ -204,6 +205,9 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
 
 bool RemoteAstrometryParser::stopSolver()
 {
+    if (solverRunning == false)
+        return true;
+
     // Disable solver
     ISwitchVectorProperty *svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     if (!svp)

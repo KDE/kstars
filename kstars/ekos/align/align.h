@@ -305,7 +305,7 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief Generate arguments we pass to the remote solver.
              */
-        QStringList generateRemoteArgs();
+        QStringList generateRemoteArgs(FITSData *data = nullptr);
 
         /**
              * @brief Does our parser exist in the system?
