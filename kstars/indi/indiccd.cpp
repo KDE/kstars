@@ -1724,7 +1724,7 @@ void CCD::processBLOB(IBLOB *bp)
     QSharedPointer<FITSData> blob_data;
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
     blob_data.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
-    if (!blob_data->loadFromBuffer(buffer, shortFormat, false))
+    if (!blob_data->loadFromBuffer(buffer, shortFormat, filename, false))
     {
         // If reading the blob fails, we treat it the same as exposure failure
         // and recapture again if possible
@@ -1756,7 +1756,6 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
     data->setProperty("blobVector", bp->bvp->name);
     data->setProperty("blobElement", bp->name);
     data->setProperty("chip", targetChip->getType());
-    data->setProperty("filename", filename);
 
     switch (captureMode)
     {

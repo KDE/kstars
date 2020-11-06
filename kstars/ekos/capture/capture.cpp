@@ -1821,7 +1821,7 @@ IPState Capture::setCaptureComplete()
     if (m_ImageData)
     {
         hfr = m_ImageData->getHFR(HFR_AVERAGE);
-        m_ImageData->property("filename").toString();
+        filename = m_ImageData->filename();
     }
     emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
 

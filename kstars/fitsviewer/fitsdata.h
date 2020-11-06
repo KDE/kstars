@@ -109,10 +109,12 @@ class FITSData : public QObject
          * @brief loadFITSFromMemory Loading FITS from memory buffer.
          * @param buffer The memory buffer containing the fits data.
          * @param extension file extension (e.g. "jpg", "fits", "cr2"...etc)
+         * @param inFilename Set filename metadata, does not load from file.
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return bool indicating success or failure.
          */
-        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, bool silent);
+        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename = QString(),
+                            bool silent = true);
 
         /**
          * @brief parseSolution Parse the WCS solution information from the header into the given struct.

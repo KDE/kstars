@@ -4977,7 +4977,7 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 
     QSharedPointer<FITSData> data;
     data.reset(new FITSData(), &QObject::deleteLater);
-    data->loadFromBuffer(image, extension, true);
+    data->loadFromBuffer(image, extension);
     alignView->loadData(data);
     startSolving();
     return true;
