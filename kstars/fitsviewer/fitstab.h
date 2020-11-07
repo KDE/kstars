@@ -120,7 +120,7 @@ class FITSTab : public QWidget
         bool shouldComputeHFR() const;
 
     public slots:
-        void modifyFITSState(bool clean = true);
+        void modifyFITSState(bool clean = true, const QUrl &imageURL = QUrl());
         void ZoomIn();
         void ZoomOut();
         void ZoomDefault();
@@ -180,7 +180,7 @@ class FITSTab : public QWidget
     signals:
         void debayerToggled(bool);
         void newStatus(const QString &msg, FITSBar id);
-        void changeStatus(bool clean);
+        void changeStatus(bool clean, const QUrl &imageUrl);
         void loaded();
         void failed();
 };

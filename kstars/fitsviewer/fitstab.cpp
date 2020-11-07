@@ -425,6 +425,10 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
 void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
+    // check if the address points to an appropriate address
+    if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo(imageURL.toLocalFile()).exists())
+        return;
+
     if (setupView(mode, filter))
     {
 
@@ -435,6 +439,9 @@ void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
             emit loaded();
         });
     }
+    else
+        // update tab text
+        modifyFITSState(true, imageURL);
 
     currentURL = imageURL;
 
@@ -518,7 +525,7 @@ bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITS
     return true;
 }
 
-void FITSTab::modifyFITSState(bool clean)
+void FITSTab::modifyFITSState(bool clean, const QUrl &imageURL)
 {
     if (clean)
     {
@@ -530,7 +537,7 @@ void FITSTab::modifyFITSState(bool clean)
     else
         mDirty = true;
 
-    emit changeStatus(clean);
+    emit changeStatus(clean, imageURL);
 }
 
 bool FITSTab::saveImage(const QString &filename)

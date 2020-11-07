@@ -794,7 +794,7 @@ void FITSViewer::updateAction(const QString &name, bool enable)
         toolAction->setEnabled(enable);
 }
 
-void FITSViewer::updateTabStatus(bool clean)
+void FITSViewer::updateTabStatus(bool clean, const QUrl &imageURL)
 {
     if (fitsTabs.empty() || (fitsTabWidget->currentIndex() >= fitsTabs.size()))
         return;
@@ -804,7 +804,7 @@ void FITSViewer::updateTabStatus(bool clean)
 
     //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
-    QString tabText = fitsTabWidget->tabText(fitsTabWidget->currentIndex());
+    QString tabText = imageURL.isEmpty() ? fitsTabWidget->tabText(fitsTabWidget->currentIndex()) : imageURL.fileName();
 
     fitsTabWidget->setTabText(fitsTabWidget->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
 }

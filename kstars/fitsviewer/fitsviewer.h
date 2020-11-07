@@ -115,7 +115,7 @@ class FITSViewer : public KXmlGuiWindow
         void ZoomDefault();
         void ZoomToFit();
         void updateAction(const QString &name, bool enable);
-        void updateTabStatus(bool clean);
+        void updateTabStatus(bool clean, const QUrl &imageURL);
         void closeTab(int index);
         void toggleStars();
         void toggleCrossHair();
