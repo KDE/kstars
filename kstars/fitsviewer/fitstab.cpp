@@ -488,7 +488,7 @@ void FITSTab::processData()
         {
             disconnect(recentImages, &QListWidget::currentRowChanged, this,
                        &FITSTab::selectRecentFITS);
-            recentImages->addItem(currentURL.toLocalFile());
+            recentImages->addItem(image_data->filename());
             recentImages->setCurrentRow(recentImages->count() - 1);
             connect(recentImages, &QListWidget::currentRowChanged,  this,
                     &FITSTab::selectRecentFITS);
