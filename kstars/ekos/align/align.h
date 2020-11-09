@@ -928,7 +928,7 @@ class Align : public QWidget, public Ui::Align
         // keep track of autoWSC
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };
-        bool rememberMeridianFlip { false };
+        //bool rememberMeridianFlip { false };
 
         // Sky centers
         typedef struct
