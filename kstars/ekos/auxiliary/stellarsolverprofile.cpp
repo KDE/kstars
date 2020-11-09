@@ -20,13 +20,20 @@ QList<Parameters> getDefaultFocusOptionsProfiles()
 {
     QList<Parameters> profileList;
 
-    Parameters defaultProfile;
-    defaultProfile.listName = "1-Default";
-    defaultProfile.description = i18n("Default profile. Generic and not optimized for any specific purpose.");
-    defaultProfile.initialKeep = 500;
-    defaultProfile.keepNum = 30;
-    defaultProfile.minarea = 20;
-    profileList.append(defaultProfile);
+    Parameters focusDefault;
+    focusDefault.listName = "1-Focus-Default";
+    focusDefault.description = i18n("Default focus star-extraction.");
+    focusDefault.initialKeep = 250;
+    focusDefault.keepNum = 100;
+    focusDefault.minarea = 20;
+    focusDefault.maxEllipse = 1.5;
+    StellarSolver::createConvFilterFromFWHM(&focusDefault, 2);
+    focusDefault.r_min = 5;
+    focusDefault.maxSize = 10;
+    focusDefault.removeBrightest = 10;
+    focusDefault.removeDimmest = 20;
+    focusDefault.saturationLimit = 90;
+    profileList.append(focusDefault);
 
     Parameters stars;
     stars.listName = "2-AllStars";
@@ -80,10 +87,17 @@ QList<SSolver::Parameters> getDefaultGuideOptionsProfiles()
 {
     QList<SSolver::Parameters> profileList;
 
-    SSolver::Parameters defaultProfile;
-    defaultProfile.listName = "1-Default";
-    defaultProfile.description = i18n("Default profile. Generic and not optimized for any specific purpose.");
-    profileList.append(defaultProfile);
+    Parameters guideDefault;
+    guideDefault.listName = "1-Guide-Default";
+    guideDefault.description = i18n("Default guider star-extraction.");
+    guideDefault.initialKeep = 250;
+    guideDefault.keepNum = 100;
+    guideDefault.minarea = 10;
+    guideDefault.maxSize = 8;
+    guideDefault.saturationLimit = 98;
+    guideDefault.removeBrightest = 0;
+    guideDefault.removeDimmest = 0;
+    profileList.append(guideDefault);
 
     SSolver::Parameters stars;
     stars.listName = "2-AllStars";
