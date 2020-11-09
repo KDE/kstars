@@ -96,6 +96,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     //fitsValue.setFixedWidth(100);
     fitsWCS.setVisible(false);
 
+    statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsHFR);
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
     statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
@@ -327,6 +328,25 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
     }
 }
 
+
+namespace
+{
+QString HFRStatusString(FITSData *data)
+{
+    if (data->getSkyBackground().starsDetected > 0)
+        return
+            i18np("HFR=%2 Ecc=%3 %1 star.", "HFR=%2 Ecc=%3 %1 stars.",
+                  data->getSkyBackground().starsDetected,
+                  QString::number(data->getHFR(), 'f', 2),
+                  QString::number(data->getEccentricity(), 'f', 2));
+    else
+        return
+            i18np("HFR=%2, %1 star.", "HFR=%2, %1 stars.",
+                  data->getDetectedStars(),
+                  QString::number(data->getHFR(), 'f', 2));
+}
+}  // namespace
+
 bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
                                FITSMode mode, const QString &previewText)
 {
@@ -392,11 +412,10 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
     led.setColor(Qt::green);
 
     if (tab->shouldComputeHFR())
-        updateStatusBar(i18np("%1 star detected. HFR=%2", "%1 stars detected. HFR=%2",
-                              tab->getView()->getImageData()->getDetectedStars(), tab->getView()->getImageData()->getHFR()),
-                        FITS_MESSAGE);
+        updateStatusBar(HFRStatusString(tab->getView()->getImageData()), FITS_HFR);
     else
-        updateStatusBar(i18n("Ready."), FITS_MESSAGE);
+        updateStatusBar("", FITS_HFR);
+    updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 
     tab->getView()->setCursorMode(FITSView::dragCursor);
 
@@ -573,11 +592,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         view->updateFrame();
 
     if (fitsTabs[currentIndex]->shouldComputeHFR())
-        updateStatusBar(i18np("%1 star detected. HFR=%2", "%1 stars detected. HFR=%2",
-                              view->getImageData()->getDetectedStars(), view->getImageData()->getHFR()),
-                        FITS_MESSAGE);
+        updateStatusBar(HFRStatusString(view->getImageData()), FITS_HFR);
     else
-        updateStatusBar("", FITS_MESSAGE);
+        updateStatusBar("", FITS_HFR);
 
     if (view->getImageData()->hasDebayer())
     {
@@ -744,6 +761,9 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
             break;
         case FITS_VALUE:
             fitsValue.setText(msg);
+            break;
+        case FITS_HFR:
+            fitsHFR.setText(msg);
             break;
         case FITS_MESSAGE:
             statusBar()->showMessage(msg);

@@ -145,7 +145,7 @@ class FITSViewer : public KXmlGuiWindow
         QUndoGroup *undoGroup { nullptr };
         FITSDebayer *debayerDialog { nullptr };
         KLed led;
-        QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS;
+        QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsHFR;
         QAction *saveFileAction { nullptr };
         QAction *saveFileAsAction { nullptr };
         QList<FITSTab *> fitsTabs;
