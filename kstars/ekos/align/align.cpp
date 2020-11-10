@@ -5580,6 +5580,10 @@ void Align::stopPAHProcess()
             "restart_PAA_process_dialog") == KMessageBox::No)
         return;
 
+    Options::setAstrometrySolverWCS(rememberSolverWCS);
+    Options::setAutoWCS(rememberAutoWCS);
+    //Options::setExecuteMeridianFlip(rememberMeridianFlip);
+
     stopB->click();
     if (currentTelescope && currentTelescope->isInMotion())
         currentTelescope->Abort();
