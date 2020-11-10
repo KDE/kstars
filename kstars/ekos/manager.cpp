@@ -2456,11 +2456,14 @@ void Manager::initMount()
     });
     connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipText, [&](const QString & text)
     {
+        // Throttle this down
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
         {
             {"meridianFlipText", text},
-        }));
+        }), mountProcess->meridianFlipStatus() == Mount::FLIP_NONE);
     });
+
+
     connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate)
     {
         QJsonObject status = { { "slewRate", slewRate} };

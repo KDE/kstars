@@ -33,6 +33,7 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager)
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
             &Message::onError);
 
+    m_ThrottleTS = QDateTime::currentDateTime();
 }
 
 void Message::connectServer()
@@ -1267,12 +1268,22 @@ void Message::sendResponse(const QString &command, const QJsonArray &payload)
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
 }
 
-void Message::updateMountStatus(const QJsonObject &status)
+void Message::updateMountStatus(const QJsonObject &status, bool throttle)
 {
     if (m_isConnected == false)
         return;
 
-    sendResponse(commands[NEW_MOUNT_STATE], status);
+    if (throttle)
+    {
+        QDateTime now = QDateTime::currentDateTime();
+        if (m_ThrottleTS.msecsTo(now) >= THROTTLE_INTERVAL)
+        {
+            m_ThrottleTS = now;
+            sendResponse(commands[NEW_MOUNT_STATE], status);
+        }
+    }
+    else
+        sendResponse(commands[NEW_MOUNT_STATE], status);
 }
 
 void Message::updateCaptureStatus(const QJsonObject &status)
