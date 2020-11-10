@@ -499,6 +499,7 @@ class Mount : public QWidget, public Ui::Mount
         void slewRateChanged(int index);
         void ready();
         void newMeridianFlipStatus(MeridianFlipStatus status);
+        void newMeridianFlipText(const QString &text);
 
     private:
         void syncGPS();

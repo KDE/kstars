@@ -1177,6 +1177,7 @@ bool Mount::checkMeridianFlip(dms lst)
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
     {
         meridianFlipStatusText->setText("Status: inactive (no scope connected)");
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         setMeridianFlipStatus(FLIP_NONE);
         return false;
     }
@@ -1184,18 +1185,21 @@ bool Mount::checkMeridianFlip(dms lst)
     if (meridianFlipCheckBox->isChecked() == false)
     {
         meridianFlipStatusText->setText("Status: inactive (flip not requested)");
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         return false;
     }
 
     if (currentTelescope->isParked())
     {
         meridianFlipStatusText->setText("Status: inactive (parked)");
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         return false;
     }
 
     if (currentTargetPosition == nullptr)
     {
         meridianFlipStatusText->setText("Status: inactive (no Target set)");
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         return false;
     }
 
@@ -1239,6 +1243,7 @@ bool Mount::checkMeridianFlip(dms lst)
             if (initialHA() >= 0)
             {
                 meridianFlipStatusText->setText("Status: inactive (slew after meridian)");
+                emit newMeridianFlipText(meridianFlipStatusText->text());
                 if (m_MFStatus == FLIP_NONE)
                     return false;
             }
@@ -1264,6 +1269,7 @@ bool Mount::checkMeridianFlip(dms lst)
     {
         case FLIP_NONE:
             meridianFlipStatusText->setText(message);
+            emit newMeridianFlipText(meridianFlipStatusText->text());
 
             if (hrsToFlip <= 0)
             {
@@ -1433,14 +1439,17 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
     {
         case FLIP_NONE:
             meridianFlipStatusText->setText("Status: inactive");
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             break;
 
         case FLIP_PLANNED:
             meridianFlipStatusText->setText("Meridian flip planned...");
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             break;
 
         case FLIP_WAITING:
             meridianFlipStatusText->setText("Meridian flip waiting...");
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             appendLogText(i18n("Meridian flip waiting."));
             break;
 
@@ -1453,11 +1462,13 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
 
         case FLIP_RUNNING:
             meridianFlipStatusText->setText("Meridian flip running...");
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             appendLogText(i18n("Meridian flip started."));
             break;
 
         case FLIP_COMPLETED:
             meridianFlipStatusText->setText("Meridian flip completed.");
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             appendLogText(i18n("Meridian flip completed."));
             break;
 

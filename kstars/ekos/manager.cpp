@@ -2447,12 +2447,18 @@ void Manager::initMount()
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
-    connect(mountProcess.get(), &Ekos::Mount::meridianFlipStatusChanged, [&](Mount::MeridianFlipStatus status)
+    connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus, [&](Mount::MeridianFlipStatus status)
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
         {
             {"meridianFlipStatus", status},
-            {"meridianFlipText", mountProcess.get()->meridianFlipStatusDescription()},
+        }));
+    });
+    connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipText, [&](const QString & text)
+    {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
+        {
+            {"meridianFlipText", text},
         }));
     });
     connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate)
