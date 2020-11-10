@@ -419,11 +419,13 @@ class FITSData : public QObject
 
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
-        void findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+        void findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
 #endif
 #endif
-        QList<FITSSkyObject *> getSkyObjects();
-        QList<FITSSkyObject *> objList; //Does this need to be public??
+        const QList<FITSSkyObject *> &getSkyObjects() const
+        {
+            return m_SkyObjects;
+        }
 
         // Create autostretch image from FITS File
         static QImage FITSToImage(const QString &filename);
@@ -575,6 +577,8 @@ class FITSData : public QObject
         bool autoRemoveTemporaryFITS { true };
 
         QFuture<bool> m_StarFindFuture;
+
+        QList<FITSSkyObject *> m_SkyObjects; //Does this need to be public??
 
         QString lastError;
 

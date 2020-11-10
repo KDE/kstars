@@ -111,8 +111,8 @@ FITSData::~FITSData()
 
     delete[] wcs_coord;
 
-    if (objList.count() > 0)
-        qDeleteAll(objList);
+    if (m_SkyObjects.count() > 0)
+        qDeleteAll(m_SkyObjects);
 
     if (fptr != nullptr)
     {
@@ -1039,6 +1039,7 @@ void FITSData::calculateMinMax()
 {
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
+
 
     // Create N threads
     const uint8_t nThreads = 16;
@@ -2180,8 +2181,7 @@ bool FITSData::loadWCS()
 
     int status = 0;
     char * header;
-    int nkeyrec, nreject, nwcs, stat[2];
-    double imgcrd[2], phi = 0, pixcrd[2], theta = 0, world[2];
+    int nkeyrec, nreject, nwcs;
     int w  = width();
     int h = height();
 
@@ -2239,30 +2239,66 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    FITSImage::wcs_point * p = wcs_coord;
+    const int nThreads = QThread::idealThreadCount();
+    QList<QFuture<void>> futures;
+    // Calculate how many elements we process per thread
+    uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
+    // Calculate the final stride since we can have some left over due to division above
+    uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
-    for (int i = 0; i < h; i++)
+    for (int i = 0; i < nThreads; i++)
     {
-        for (int j = 0; j < w; j++)
+        uint32_t cStart = i * tStride;
+        uint32_t cEnd = cStart + ((i == (nThreads - 1)) ? fStride : tStride);
+        // Run threads
+        futures.append(QtConcurrent::run([ = ]()
         {
-            pixcrd[0] = j;
-            pixcrd[1] = i;
-
-            if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+            double phi = 0, theta = 0, world[2], pixcrd[2], imgcrd[2];
+            int stat[2];
+            FITSImage::wcs_point *wcsPointer = wcs_coord + cStart;
+            for (uint32_t i = cStart; i < cEnd; i++)
             {
-                lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+                uint32_t x = i % w;
+                uint32_t y = i / w;
+                pixcrd[0] = x;
+                pixcrd[1] = y;
+                if (wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0]) == 0)
+                {
+                    wcsPointer->ra  = world[0];
+                    wcsPointer->dec = world[1];
+                }
+                wcsPointer++;
             }
-            else
-            {
-                p->ra  = world[0];
-                p->dec = world[1];
-
-                p++;
-            }
-        }
+        }));
     }
 
-    findObjectsInImage(&world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
+    for (auto &oneFuture : futures)
+        oneFuture.waitForFinished();
+
+    //    for (int i = 0; i < h; i++)
+    //    {
+    //        for (int j = 0; j < w; j++)
+    //        {
+    //            pixcrd[0] = j;
+    //            pixcrd[1] = i;
+
+    //            if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+    //            {
+    //                lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+    //            }
+    //            else
+    //            {
+    //                p->ra  = world[0];
+    //                p->dec = world[1];
+
+    //                p++;
+    //            }
+    //        }
+    //    }
+
+    SkyPoint startPoint(wcs_coord->ra / 15.0, wcs_coord->dec);
+    SkyPoint endPoint( (wcs_coord + w * h - 1)->ra / 15.0, (wcs_coord + w * h - 1)->dec);
+    findObjectsInImage(startPoint, endPoint);
 
     WCSLoaded = true;
     HasWCS = true;
@@ -2348,18 +2384,16 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 }
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-void FITSData::findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[],
-                                  int stat[])
+void FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
 {
     int w = width();
     int h = height();
-    int status = 0;
-    char date[64];
+    QVariant date;
     KSNumbers * num = nullptr;
 
-    if (fits_read_keyword(fptr, "DATE-OBS", date, nullptr, &status) == 0)
+    if (getRecordValue("DATE-OBS", date))
     {
-        QString tsString(date);
+        QString tsString(date.toString());
         tsString = tsString.remove('\'').trimmed();
         // Add Zulu time to indicate UTC
         tsString += "Z";
@@ -2369,67 +2403,45 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
         if (ts.isValid())
             num = new KSNumbers(KStarsDateTime(ts).djd());
     }
+
+    //Set to current time if the above does not work.
     if (num == nullptr)
-        num = new KSNumbers(KStarsData::Instance()->ut().djd()); //Set to current time if the above does not work.
+        num = new KSNumbers(KStarsData::Instance()->ut().djd());
 
-    SkyMapComposite * map = KStarsData::Instance()->skyComposite();
+    startPoint.updateCoordsNow(num);
+    endPoint.updateCoordsNow(num);
 
-    FITSImage::wcs_point * wcs_coord = getWCSCoord();
-    if (wcs_coord != nullptr)
+    m_SkyObjects.clear();
+
+    QList<SkyObject *> list = KStarsData::Instance()->skyComposite()->findObjectsInArea(startPoint, endPoint);
+    list.erase(std::remove_if(list.begin(), list.end(), [](SkyObject * oneObject)
     {
-        int size = w * h;
+        int type = oneObject->type();
+        return (type == SkyObject::STAR || type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
+                type == SkyObject::COMET || type == SkyObject::SUPERNOVA || type == SkyObject::MOON ||
+                type == SkyObject::SATELLITE);
+    }), list.end());
 
-        objList.clear();
+    double world[2], phi, theta, imgcrd[2], pixcrd[2];
+    int stat[2];
+    for (auto &object : list)
+    {
+        world[0] = object->ra0().Degrees();
+        world[1] = object->dec0().Degrees();
 
-        SkyPoint p1;
-        p1.setRA0(dms(wcs_coord[0].ra));
-        p1.setDec0(dms(wcs_coord[0].dec));
-        p1.updateCoordsNow(num);
-        SkyPoint p2;
-        p2.setRA0(dms(wcs_coord[size - 1].ra));
-        p2.setDec0(dms(wcs_coord[size - 1].dec));
-        p2.updateCoordsNow(num);
-        QList<SkyObject *> list = map->findObjectsInArea(p1, p2);
-
-        foreach (SkyObject * object, list)
+        if (wcss2p(m_wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0]) == 0)
         {
-            int type = object->type();
-            if (object->name() == "star" || type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
-                    type == SkyObject::COMET || type == SkyObject::SUPERNOVA || type == SkyObject::MOON ||
-                    type == SkyObject::SATELLITE)
-            {
-                //DO NOT DISPLAY, at least for now, because these things move and change.
-            }
-
-            int x = -100;
-            int y = -100;
-
-            world[0] = object->ra0().Degrees();
-            world[1] = object->dec0().Degrees();
-
-            if ((status = wcss2p(m_wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
-            {
-                fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status, wcs_errmsg[status]);
-            }
-            else
-            {
-                x = pixcrd[0]; //The X and Y are set to the found position if it does work.
-                y = pixcrd[1];
-            }
-
+            //The X and Y are set to the found position if it does work.
+            int x = pixcrd[0];
+            int y = pixcrd[1];
             if (x > 0 && y > 0 && x < w && y < h)
-                objList.append(new FITSSkyObject(object, x, y));
+                m_SkyObjects.append(new FITSSkyObject(object, x, y));
         }
     }
 
     delete (num);
 }
 #endif
-
-QList<FITSSkyObject *> FITSData::getSkyObjects()
-{
-    return objList;
-}
 
 int FITSData::getFlipVCounter() const
 {
