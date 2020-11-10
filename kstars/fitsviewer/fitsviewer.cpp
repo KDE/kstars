@@ -333,17 +333,19 @@ namespace
 {
 QString HFRStatusString(FITSData *data)
 {
+    const double hfrValue = data->getHFR();
+    if (hfrValue <= 0.0) return QString("");
     if (data->getSkyBackground().starsDetected > 0)
         return
             i18np("HFR=%2 Ecc=%3 %1 star.", "HFR=%2 Ecc=%3 %1 stars.",
                   data->getSkyBackground().starsDetected,
-                  QString::number(data->getHFR(), 'f', 2),
+                  QString::number(hfrValue, 'f', 2),
                   QString::number(data->getEccentricity(), 'f', 2));
     else
         return
             i18np("HFR=%2, %1 star.", "HFR=%2, %1 stars.",
                   data->getDetectedStars(),
-                  QString::number(data->getHFR(), 'f', 2));
+                  QString::number(hfrValue, 'f', 2));
 }
 }  // namespace
 
