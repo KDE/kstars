@@ -91,27 +91,31 @@ class Mount : public QWidget, public Ui::Mount
         {
             return m_LogText;
         }
-        QString getLogText()
+        QString getLogText() const
         {
             return m_LogText.join("\n");
         }
 
-        ISD::Telescope::Status status()
+        ISD::Telescope::Status status() const
         {
             return m_Status;
         }
-        ISD::Telescope::PierSide pierSide()
+        ISD::Telescope::PierSide pierSide() const
         {
             if (currentTelescope)
                 return currentTelescope->pierSide();
             else
                 return ISD::Telescope::PIER_UNKNOWN;
         }
-        ISD::ParkStatus parkStatus()
+        ISD::ParkStatus parkStatus() const
         {
             return m_ParkStatus;
         }
 
+        MeridianFlipStatus meridianFlipStatus() const
+        {
+            return m_MFStatus;
+        }
 
         /** @defgroup MountDBusInterface Ekos Mount DBus Interface
              * Mount interface provides advanced scripting capabilities to control INDI mounts.
