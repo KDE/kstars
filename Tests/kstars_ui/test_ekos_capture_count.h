@@ -53,9 +53,33 @@ protected:
 
     /**
      * @brief Setup capturing for tests with the scheduler
+     * @param completionCondition completion condition for the scheduler
      * @return true iff preparation was successful
      */
-    bool prepareScheduledCapture();
+    bool prepareScheduledCapture(SchedulerJob::CompletionCondition completionCondition);
+
+    /**
+     * @brief Prepare the scheduler for the test.
+     * @param sequenceFile File name of the capture sequence file
+     * @param sequence filter and count as QString("<filter>:<count"), ... list
+     * @param capturedFramesMap mapping from filter to existing frames per filter as QString("<filter>:<count"), ... list
+     * @param completionCondition completion condition for the scheduler
+     * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
+     * @param rememberJobProgress should the scheduler use the option "Remember job progress"
+     * @return true iff preparation was successful
+     */
+    bool setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition, int iterations, bool rememberJobProgress);
+
+    /**
+     * @brief Verify the counts that the scheduler displays in the job table
+     * @param sequence filter and count as QString("<filter>:<count"), ... list
+     * @param capturedFramesMap mapping from filter to existing frames per filter as QString("<filter>:<count"), ... list
+     * @param completionCondition completion condition for the scheduler
+     * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
+     * @param rememberJobProgress should the scheduler use the option "Remember job progress"
+     * @return true iff the displayed counts match the specification
+     */
+    bool verifySchedulerCounting(QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition, int iterations, bool rememberJobProgress);
 
     /**
      * @brief Stop and clean up scheduler
@@ -141,6 +165,13 @@ private:
     int totalCount(QString sequence);
 
     /**
+     * @brief Determine the map filter --> counts from a comma separated sequence of <filter>:<count>
+     * @param sequence
+     * @return
+     */
+    QMap<QString, uint16_t> framesMap(QString sequence);
+
+    /**
      * @brief Fill the map of frames that are expected to be captured
      * @param expectedFrames comma separated list of <filter>:<count>
      * @return true if everything was successful
@@ -173,12 +204,22 @@ private slots:
     void testCaptureWithCaptureFramesMap_data();
 
     /**
-     * @brief Test of appropriate captures controlled by the scheduler
+     * @brief Test of appropriate captures controlled by the scheduler for fixed
+     *        number of iterations.
      */
     void testSchedulerCapture();
 
     /** @brief Test data for @see testSchedulerCapture() */
     void testSchedulerCapture_data();
+
+    /**
+     * @brief Test of appropriate capturing for the scheduler using the
+     *        "Repeat until terminated" option.
+     */
+    void testSchedulerCaptureInfiteLooping();
+
+    /** @brief Test data for @see testSchedulerCaptureInfiteLooping() */
+    void testSchedulerCaptureInfiteLooping_data();
 };
 
 #endif // HAVE_INDI

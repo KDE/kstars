@@ -4984,7 +4984,10 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             capture_map[key] = 0;
 
         // collect all captured frames counts
-        totalCompletedCount += capturedFramesCount[key];
+        if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+            totalCompletedCount += capturedFramesCount[key];
+        else
+            totalCompletedCount += std::min(capturedFramesCount[key], static_cast<uint16_t>(expected[key] * schedJob->getRepeatsRequired()));
     }
 
     // Loop through sequence jobs to calculate the number of required frames and estimate duration.
@@ -5006,7 +5009,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         // Note that looping jobs will have zero repeats required.
         QString const signature      = seqJob->getSignature();
         QString const signature_path = QFileInfo(signature).path();
-        int captures_required        = seqJob->getCount();
+        int captures_required        = seqJob->getCount() * schedJob->getRepeatsRequired();
         int captures_completed       = capturedFramesCount[signature];
 
         if (rememberJobProgress && schedJob->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
@@ -5052,18 +5055,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                 if (seqJob == prevSeqJob)
                     break;
 
-                // If the previous sequence signature matches the current, reduce completion count to take duplicates into account
+                // If the previous sequence signature matches the current, skip counting to take duplicates into account
                 if (!signature.compare(prevSeqJob->getSignature()))
-                {
-                    // Note that looping jobs will have zero repeats required.
-                    int const previous_captures_required = prevSeqJob->getCount();
-                    qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has a previous duplicate sequence job requiring %2 captures.").arg(
-                                                      seqName).arg(previous_captures_required);
-                    captures_required -= previous_captures_required;
-                }
-
-                // Now required count can be needlessly negative for this job, so clamp to zero
-                if (captures_required < 0)
                     captures_required = 0;
 
                 // And break if no captures remain, this job does not need to be executed
@@ -5071,8 +5064,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                     break;
             }
 
-            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(
-                                              seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
+            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(
+                                                  seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
 
         }
         // Else rely on the captures done during this session
@@ -5085,7 +5078,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         // OR if the completion condition is set to LOOP so it is never complete due to looping.
         // Note that looping jobs will have zero repeats required.
         // FIXME: As it is implemented now, FINISH_LOOP may loop over a capture-complete, therefore inoperant, scheduler job.
-        bool const areJobCapturesComplete = !(captures_completed < captures_required || 0 == captures_required);
+        bool const areJobCapturesComplete = (0 == captures_required || captures_completed >= captures_required);
         if (seqJob->getFrameType() == FRAME_LIGHT)
         {
             if(areJobCapturesComplete)
@@ -5102,8 +5095,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         /* If captures are not complete, we have imaging time left */
         if (!areJobCapturesComplete)
         {
-            /* if looping, consider we always have one capture left */
-            unsigned int const captures_to_go = 0 < captures_required ? captures_required - captures_completed : 1;
+            unsigned int const captures_to_go = captures_required - captures_completed;
             totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * captures_to_go);
 
             /* If we have light frames to process, add focus/dithering delay */

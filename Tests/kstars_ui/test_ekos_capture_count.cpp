@@ -18,6 +18,25 @@
 
 #include "test_ekos_capture_helper.h"
 
+/* *****************************************************************************
+ * Determining the correct number of frames being already captured and need to be
+ * captured in future is surprisingly complex - which comes from the variety of
+ * options how capturing can be configured and is being processed.
+ *
+ * The simplest way is when the Capture module is used standalone. The only thing
+ * that needs to be considered is the option setting a captured frames map before
+ * starting. This map needs to be considered and the Capture module should capture
+ * only the difference between the numbers defined by the capture sequence and
+ * these already existing frames.
+ *
+ * In combination with the Scheduler module, things get complicated, since the
+ * Scheduler module
+ * - has several options how a capture sequence will be repeated
+ *   (single run, fixed number of iterations, infinite looping, termination by date)
+ * - has the option "Remember job progress", where if selected existing frames
+ *   need to be considered and counted.
+ * ***************************************************************************** */
+
 TestEkosCaptureCount::TestEkosCaptureCount(QObject *parent) : QObject(parent) {
     m_CaptureHelper = new TestEkosCaptureHelper();
 }
@@ -48,7 +67,7 @@ void TestEkosCaptureCount::cleanupScheduler()
 void TestEkosCaptureCount::testSchedulerCapture()
 {
     // prepare captured frames
-    QVERIFY(prepareScheduledCapture());
+    QVERIFY(prepareScheduledCapture(SchedulerJob::FINISH_REPEAT));
 
     // start scheduler job
     KTRY_CLICK(Ekos::Manager::Instance()->schedulerModule(), startB);
@@ -66,6 +85,12 @@ void TestEkosCaptureCount::testSchedulerCapture()
     QVERIFY2(checkCapturedFrames(), "Capturing did not produce the expected amount of frames.");
 }
 
+void TestEkosCaptureCount::testSchedulerCaptureInfiteLooping()
+{
+    // prepare captured frames
+    QVERIFY(prepareScheduledCapture(SchedulerJob::FINISH_LOOP));
+}
+
 /* *********************************************************************************
  *
  * Test data
@@ -75,20 +100,29 @@ void TestEkosCaptureCount::testSchedulerCapture()
 void TestEkosCaptureCount::testSchedulerCapture_data()
 {
     prepareTestData(1.0, "Red:2,Green:2,Blue:2", "Red:2,Green:1,Blue:2", "Green:1");
+    prepareTestData(1.0, "Red:2,Green:2,Blue:2", "Red:3,Green:1,Blue:2", "Green:1");
     prepareTestData(1.0, "Red:1,Red:1,Green:1,Green:1,Blue:1,Blue:1", "Red:2,Green:1,Blue:2", "Green:1");
     prepareTestData(1.0, "Red:1,Green:1,Blue:1,Red:1,Green:1,Blue:1", "Red:2,Green:1,Blue:2", "Green:1");
     prepareTestData(1.0, "Red:1,Green:1,Blue:1", "Red:3,Green:1,Blue:3", "Green:2", 3);
-    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:5,Green:1,Blue:1", "Red:1");
+    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:4,Green:1,Blue:1", "Luminance:1,Red:1");
     prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "", "Luminance:10,Red:2,Green:2,Blue:2", 2);
     prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:15,Red:1,Green:2,Blue:2", "Red:1", 2);
     prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:15,Red:2,Green:3,Blue:3", "Red:1", 3);
     prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:15,Red:3,Green:3,Blue:2", "Blue:1", 3);
+    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:5,Red:1,Green:1,Blue:1", "Luminance:10,Red:2,Green:2,Blue:2", 3);
+    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:2,Red:1,Green:1,Blue:1", "Luminance:13,Red:2,Green:2,Blue:2", 3);
 }
 
 void TestEkosCaptureCount::testCaptureWithCaptureFramesMap_data()
 {
     // use the same test set
     testSchedulerCapture_data();
+}
+
+void TestEkosCaptureCount::testSchedulerCaptureInfiteLooping_data()
+{
+    prepareTestData(1.0, "Luminance:2", "Luminance:2", "");
+    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:5,Green:1,Blue:1", "");
 }
 
 /* *********************************************************************************
@@ -258,13 +292,14 @@ bool TestEkosCaptureCount::prepareCapture()
     return true;
 }
 
-bool TestEkosCaptureCount::prepareScheduledCapture()
+bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondition completionCondition)
 {
     QFETCH(double, exptime);
     QFETCH(QString, sequence);
     QFETCH(QString, capturedFramesMap);
     QFETCH(QString, expectedFrames);
     QFETCH(int, iterations);
+    QFETCH(bool, rememberJobProgress);
 
     // switch to capture module
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
@@ -287,10 +322,14 @@ bool TestEkosCaptureCount::prepareScheduledCapture()
         capture->clearSequenceQueue();
     }
 
-    // step 2: create the frames due to the captured frames map
+    // step 2: create the sequence for the test
     KVERIFY_SUB(fillCaptureSequences(sequence, exptime, getImageLocation()->path()));
     KVERIFY_SUB(fillCapturedFramesMap(""));
-    KVERIFY_SUB(setExpectedFrames(expectedFrames));
+    if (rememberJobProgress)
+        KVERIFY_SUB(setExpectedFrames(expectedFrames));
+    else
+        for (int i = 0; i < iterations; i++)
+            KVERIFY_SUB(setExpectedFrames(sequence));
 
     // save current capture sequence to Ekos sequence file
     QString sequenceFile = destination->filePath("test.esq");
@@ -298,6 +337,14 @@ bool TestEkosCaptureCount::prepareScheduledCapture()
     KVERIFY_SUB(Ekos::Manager::Instance()->captureModule()->saveSequenceQueue(sequenceFile));
 
     // setup scheduler
+    setupScheduler(sequenceFile, sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress);
+
+    // everything successfully completed
+    return true;
+}
+
+bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition, int iterations, bool rememberJobProgress)
+{
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
     // set sequence file
@@ -314,33 +361,81 @@ bool TestEkosCaptureCount::prepareScheduledCapture()
     // ignore twilight
     KTRY_SET_CHECKBOX_SUB(scheduler, twilightCheck, false);
     // set remember job progress
-    Options::setRememberJobProgress(true);
+    Options::setRememberJobProgress(rememberJobProgress);
     // disable INDI stopping after scheduler finished
     Options::setStopEkosAfterShutdown(false);
-    // repeat the job for a fixed amount
-    KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
-    KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
+
+    // set the completion condition
+    switch (completionCondition) {
+    case SchedulerJob::FINISH_REPEAT:
+        // repeat the job for a fixed amount
+        KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
+        KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
+        break;
+    case SchedulerJob::FINISH_LOOP:
+        KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
+        break;
+    default:
+        QWARN(QString("Unsupported completion condition %1!").arg(completionCondition).toStdString().c_str());
+        return false;
+        break;
+    }
     // add scheduler job
     KTRY_CLICK_SUB(scheduler, addToQueueB);
+
+    // verify the displayed capture counts
+    KVERIFY_SUB(verifySchedulerCounting(sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress));
+
+    // everything worked as expected
+    return true;
+}
+
+bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition, int iterations, bool rememberJobProgress)
+{
+    Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     KTRY_GADGET_SUB(scheduler, QTableWidget, queueTable);
     KVERIFY_SUB(queueTable->rowCount() == 1);
     KVERIFY_SUB(queueTable->columnCount() > 3);
-
-    // verify the displayed capture counts
     QString displayedCounts = queueTable->item(0, 2)->text();
     KVERIFY2_SUB(displayedCounts.indexOf("/") > 0, "Scheduler job table does not display in style captured/total.");
+
+    int total = -1, captured = -1, total_expected;
+
+    // check display of expected frames
+    if (completionCondition == SchedulerJob::FINISH_REPEAT)
+    {
+        total = displayedCounts.right(displayedCounts.length() - displayedCounts.indexOf("/") - 1).toInt();
+        total_expected = totalCount(sequence) * iterations;
+        KVERIFY2_SUB(total == total_expected,
+                     QString("Scheduler job table shows %1 expected frames instead of %2.").arg(total).arg(total_expected).toStdString().c_str());
+    }
+
     // check display of already captured
-    int captured          = displayedCounts.left(displayedCounts.indexOf("/")).toInt();
-    int captured_expected = totalCount(capturedFramesMap);
+    captured = displayedCounts.left(displayedCounts.indexOf("/")).toInt();
+    // determine expected captures
+    int captured_expected = 0;
+    // the captured frames map is only relevant if the "Remember job progress" option is selected
+    if (rememberJobProgress)
+    {
+        QMap<QString, uint16_t> capturedMap = framesMap(capturedFramesMap);
+        QMap<QString, uint16_t> sequenceMap = framesMap(sequence);
+        // for each filter, the displayed total is limited by the capture sequence multiplied by the number of iterations
+        for (QString key : sequenceMap.keys())
+            captured_expected += std::min(capturedMap[key], static_cast<uint16_t>(sequenceMap[key] * iterations));
+    }
+    // execute the check
     KVERIFY2_SUB(captured == captured_expected,
                  QString("Scheduler job table shows %1 captured frames instead of %2.").arg(captured).arg(captured_expected).toStdString().c_str());
-    // check display of expected frames
-    int total          = displayedCounts.right(displayedCounts.length() - displayedCounts.indexOf("/") - 1).toInt();
-    int total_expected = totalCount(sequence) * iterations;
-    KVERIFY2_SUB(total == total_expected,
-                 QString("Scheduler job table shows %1 expected frames instead of %2.").arg(total).arg(total_expected).toStdString().c_str());
 
-    // everything successfully completed
+    // check estimated duration time (only relevant for repeats
+    if (completionCondition == SchedulerJob::FINISH_REPEAT)
+    {
+        QTime estimatedDuration = QTime::fromString(queueTable->item(0, 7)->text(), "HH:mm:ss");
+        int duration = estimatedDuration.second() + 60*estimatedDuration.hour();
+        KVERIFY2_SUB(duration == total_expected - captured_expected,
+                     QString("Scheduler job table shows %1 seconds expected instead of %2.").arg(duration).arg(total_expected - captured_expected).toStdString().c_str());
+    }
+    // everything worked as expected
     return true;
 }
 
@@ -351,10 +446,12 @@ void TestEkosCaptureCount::prepareTestData(double exptime, QString sequence, QSt
     QTest::addColumn<QString>("sequence");           /*!< list of filters */
     QTest::addColumn<QString>("capturedFramesMap");  /*!< list of frame counts */
     QTest::addColumn<QString>("expectedFrames");     /*!< list of frames per filter that are expected */
-    QTest::addColumn<int>("iterations");                 /*!< how often should the sequence be repeated */
+    QTest::addColumn<int>("iterations");             /*!< how often should the sequence be repeated */
+    QTest::addColumn<bool>("rememberJobProgress");   /*!< "Remember job progress" option selected */
 
-    QTest::newRow(QString("seq=%1x, ex=%2, it=%3").arg(sequence).arg(capturedFramesMap).arg(iterations).toStdString().c_str())
-            << exptime << sequence << capturedFramesMap << expectedFrames << iterations;
+    for (bool remember : {false, true})
+        QTest::newRow(QString("seq=%1, captured=%2, it=%3, remember=%4").arg(sequence).arg(capturedFramesMap).arg(iterations).arg(remember ? "true":"false").toStdString().c_str())
+                << exptime << sequence << capturedFramesMap << expectedFrames << iterations << remember;
  }
 
 QDir *TestEkosCaptureCount::getImageLocation()
@@ -419,7 +516,10 @@ bool TestEkosCaptureCount::setExpectedFrames(QString expectedFrames)
             KVERIFY_SUB(value.indexOf(":") > -1);
             QString filter = value.left(value.indexOf(":"));
             int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
-            m_expectedImages.insert(filter, count);
+            if (m_expectedImages.contains(filter))
+                m_expectedImages[filter] += count;
+            else
+                m_expectedImages.insert(filter, count);
         }
     }
     else
@@ -438,6 +538,27 @@ int TestEkosCaptureCount::totalCount(QString sequence)
         total += value.right(value.length()-value.indexOf(":")-1).toInt();
 
     return total;
+}
+
+
+QMap<QString, uint16_t> TestEkosCaptureCount::framesMap(QString sequence)
+{
+    QMap<QString, uint16_t> result;
+
+    if (sequence == "")
+        return result;
+
+    for (QString value : sequence.split(","))
+    {
+        QString filter = value.left(value.indexOf(":"));
+        int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
+        if (result.contains(filter))
+            result[filter] += count;
+        else
+            result[filter] = count;
+    }
+
+    return result;
 }
 /* *********************************************************************************
  *
