@@ -1259,10 +1259,7 @@ bool Mount::checkMeridianFlip(dms lst)
     int hh = static_cast<int> (hrsToFlip);
     int mm = static_cast<int> ((hrsToFlip - hh) * 60);
     int ss = static_cast<int> ((hrsToFlip - hh - mm / 60.0) * 3600);
-    QString message = i18n("Meridian flip in %1h:%2m:%3s")
-                      .arg(hh, 2, 10, QChar('0'))
-                      .arg(mm, 2, 10, QChar('0'))
-                      .arg(ss, 2, 10, QChar('0'));
+    QString message = i18n("Meridian flip in %1", QTime(hh, mm, ss).toString(Qt::TextDate));
 
     // handle the meridian flip state machine
     switch (m_MFStatus)
