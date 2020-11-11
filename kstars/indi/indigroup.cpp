@@ -36,73 +36,72 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
     dp   = idv;
     name = (inName.isEmpty()) ? i18n("Unknown") : inName;
 
-    propertyContainer = new QFrame(idv);
-    propertyLayout    = new QVBoxLayout(propertyContainer);
-    propertyLayout->setContentsMargins(20, 20, 20, 20);
-    VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    m_PropertiesContainer = new QFrame(idv);
+    m_PropertiesLayout    = new QVBoxLayout(m_PropertiesContainer);
+    m_PropertiesLayout->setContentsMargins(20, 20, 20, 20);
+    m_VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-    propertyLayout->addItem(VerticalSpacer);
-    propertyLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    m_PropertiesLayout->addItem(m_VerticalSpacer);
+    m_PropertiesLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
-    scrollArea = new QScrollArea;
-    scrollArea->setWidget(propertyContainer);
-    scrollArea->setMinimumSize(idv->size());
+    m_ScrollArea = new QScrollArea;
+    m_ScrollArea->setWidget(m_PropertiesContainer);
+    m_ScrollArea->setMinimumSize(idv->size());
 }
 
 INDI_G::~INDI_G()
 {
-    while (!propList.isEmpty())
-        delete propList.takeFirst();
+    while (!m_PropertiesList.isEmpty())
+        delete m_PropertiesList.takeFirst();
 
-    delete (propertyContainer);
+    delete (m_PropertiesContainer);
 
-    delete (scrollArea);
+    delete (m_ScrollArea);
 }
 
-bool INDI_G::addProperty(INDI::Property *prop)
+bool INDI_G::addProperty(INDI::Property *newProperty)
 {
-    if (!prop->getRegistered())
+    if (!newProperty->getRegistered())
         return false;
 
-    QString propName(prop->getName());
+    QString name(newProperty->getName());
 
-    INDI_P *pp = getProperty(propName);
-
-    if (pp)
+    // No duplicates
+    if (getProperty(name))
         return false;
 
-    pp = new INDI_P(this, prop);
-    propList.append(pp);
+    INDI_P *property = new INDI_P(this, newProperty);
+    m_PropertiesList.append(property);
 
-    propertyLayout->removeItem(VerticalSpacer);
-    propertyLayout->addLayout(pp->getContainer());
-    propertyLayout->addItem(VerticalSpacer);
+    m_PropertiesLayout->removeItem(m_VerticalSpacer);
+    m_PropertiesLayout->addLayout(property->getContainer());
+    m_PropertiesLayout->addItem(m_VerticalSpacer);
+    m_PropertiesLayout->invalidate();
 
     return true;
 }
 
-bool INDI_G::removeProperty(const QString &probName)
+bool INDI_G::removeProperty(const QString &name)
 {
-    foreach (INDI_P *pp, propList)
+    INDI_P *oneProp = getProperty(name);
+    if (oneProp)
     {
-        if (pp->getName() == probName)
-        {
-            propList.removeOne(pp);
-            propertyLayout->removeItem(pp->getContainer());
-            //qDebug() << "Removing GUI property " << probName << " from gorup " << name << " with size " << propList.size() << " and count " << propList.count() << endl;
-            delete (pp);
-            return true;
-        }
+        m_PropertiesList.removeOne(oneProp);
+        delete (oneProp);
+        return true;
     }
+
     return false;
 }
 
-INDI_P *INDI_G::getProperty(const QString &propName)
+INDI_P *INDI_G::getProperty(const QString &name) const
 {
-    foreach (INDI_P *pp, propList)
+    auto pos = std::find_if(m_PropertiesList.begin(), m_PropertiesList.end(), [name](INDI_P * oneProperty)
     {
-        if (pp->getName() == propName)
-            return pp;
-    }
-    return nullptr;
+        return oneProperty->getName() == name;
+    });
+    if (pos != m_PropertiesList.end())
+        return *pos;
+    else
+        return nullptr;
 }
