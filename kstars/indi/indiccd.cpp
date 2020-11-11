@@ -101,33 +101,6 @@ bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t 
         addFITSKeywords(filename, filter);
     return true;
 }
-
-// Internal function to write a temporary file image blob to disk.
-bool writeTempImageFile(const QString &format, char * buffer, size_t size, QString *filename)
-{
-    QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX" + format);
-    tmpFile.setAutoRemove(false);
-
-    if (!tmpFile.open())
-    {
-        qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open tempfile: " <<
-                                tmpFile.fileName();
-        return false;
-    }
-
-    QDataStream out(&tmpFile);
-    size_t n = 0;
-    for (size_t nr = 0; nr < size; nr += n)
-        n = out.writeRawData(buffer + nr, size - nr);
-    tmpFile.flush();
-    tmpFile.close();
-    tmpFile.setPermissions(QFileDevice::ReadUser |
-                           QFileDevice::WriteUser |
-                           QFileDevice::ReadGroup |
-                           QFileDevice::ReadOther);
-    *filename = tmpFile.fileName();
-    return true;
-}
 }
 
 namespace ISD

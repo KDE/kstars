@@ -77,7 +77,7 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
 {
     if (!strcmp(svp->name, "CAP_PARK"))
     {
-        ISD::ParkStatus newStatus;
+        ISD::ParkStatus newStatus = ISD::PARK_UNKNOWN;
 
         switch (svp->s)
         {
