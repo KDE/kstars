@@ -28,7 +28,7 @@ cache:
 
 .build_recipe: &build_recipe
   - apt update
-  - apt -y --no-install-recommends install libindi1 indi-bin xplanet gsc phd2 libstellarsolver-dev
+  - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev
   - mkdir -p kstars-build
   - cd kstars-build
   - cmake -GNinja -DCMAKE_BUILD_TYPE=Release .. -DCCACHE_SUPPORT=ON -DBUILD_TESTING=${BUILD_TESTING:-OFF} -DBUILD_DOC=${BUILD_DOC:-OFF}
