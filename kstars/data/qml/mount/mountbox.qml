@@ -25,7 +25,6 @@ Rectangle {
             Layout.maximumHeight: 180
             Layout.maximumWidth: 230
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            rows: 3
             columns: 3
 
 
@@ -338,14 +337,10 @@ Rectangle {
 
         GridLayout {
             id: mountCoordsLayout
-            x: 0
+            anchors.horizontalCenter: parent.Center
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillHeight: false
             Layout.fillWidth: true
-            rows: 2
             columns: 4
-            Layout.row: 1
-            Layout.column:1
 
             Label {
                 id: raLabel
@@ -449,15 +444,14 @@ Rectangle {
                 Layout.fillWidth: true
                 font.pointSize: 11
             }
+
         }
 
-
-        GridLayout {
-            id: targetCoordsLayout
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        RowLayout
+        {
+            id: targetFindLayout
             Layout.fillWidth: true
-            rows: 5
-            columns: 3
+            Layout.alignment: Qt.AlignHCenter
 
             Label {
                 id: targetLabel
@@ -472,17 +466,13 @@ Rectangle {
 
             TextField {
                 id: targetText
-                Layout.columnSpan: 2
-                Layout.maximumHeight: 32
-                Layout.minimumHeight: 32
                 objectName: "targetTextObject"
                 placeholderText: "Click Find Icon"
                 readOnly: true
                 Rectangle
                 {
-                    width: 200
                     color: "black"
-                    radius: 6
+                    radius: 5
                     anchors.fill: parent
                     clip: true
                     opacity: 0.5
@@ -493,33 +483,8 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillHeight: false
                 Layout.fillWidth: true
-                Layout.minimumWidth: 180
                 font.pointSize: 14
                 font.bold: true
-            }
-
-            Label {
-                id: targetRALabel
-                objectName: "targetRALabelObject"
-                color: "#ffffff"
-                text: xi18n("RA:")
-                font.pointSize: 14
-                font.bold: true
-            }
-
-            TextField {
-                id: targetRAText
-                objectName: "targetRATextObject"
-                placeholderText: "HH:MM:SS"
-                font.pointSize: 14
-                horizontalAlignment: Text.AlignHCenter
-                Layout.minimumWidth: 140
-                Layout.maximumWidth: 140
-                clip: true
-                font.bold: true
-                Layout.minimumHeight: 30
-                Layout.maximumHeight: 30
-                Layout.fillWidth: false
             }
 
             Button {
@@ -538,6 +503,37 @@ Rectangle {
                 }
             }
 
+        }
+
+
+        GridLayout {
+            id: targetCoordsLayout
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: true
+            columns: 2
+
+            Label {
+                id: targetRALabel
+                objectName: "targetRALabelObject"
+                color: "#ffffff"
+                text: xi18n("RA:")
+                font.pointSize: 14
+                font.bold: true
+            }
+
+            TextField {
+                id: targetRAText
+                objectName: "targetRATextObject"
+                placeholderText: "HH:MM:SS"
+                font.pointSize: 14
+                horizontalAlignment: Text.AlignHCenter
+                Layout.minimumWidth: 140
+                clip: true
+                font.bold: true
+                Layout.minimumHeight: 30
+                Layout.fillWidth: true
+            }
+
             Label {
                 id: targetDELabel
                 objectName: "targetDELabelObject"
@@ -554,16 +550,11 @@ Rectangle {
                 font.pointSize: 14
                 width: 150
                 horizontalAlignment: Text.AlignHCenter
-                Layout.maximumWidth: 140
+                Layout.fillHeight: false
                 Layout.minimumWidth: 140
                 clip: true
                 font.bold: true
-                Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
-                Layout.fillWidth: true
-            }
-
-            Item {
                 Layout.fillWidth: true
             }
 
@@ -574,10 +565,6 @@ Rectangle {
 
             RowLayout
             {
-                Layout.row: 3
-                Layout.column: 1
-                Layout.columnSpan: 2
-
                 ExclusiveGroup {
                     id: coordGroup
                     objectName: "coordGroupObject"
@@ -724,7 +711,6 @@ Rectangle {
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            rows: 2
             columns: 2
 
             Button {
@@ -817,3 +803,9 @@ Rectangle {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
