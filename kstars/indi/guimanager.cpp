@@ -224,6 +224,8 @@ void GUIManager::removeDevice(const QString &name)
     if (dp == nullptr)
         return;
 
+    if (dp->getClientManager())
+        dp->getClientManager()->disconnect(dp);
     dp->disconnect();
 
     // Hack to give mainTabWidget sometime to remove its item as these calls are coming from a different thread
