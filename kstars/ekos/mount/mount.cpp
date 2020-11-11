@@ -1158,6 +1158,7 @@ bool Mount::slew(double RA, double DEC)
     if (currentTelescope->Slew(currentTargetPosition))
     {
         m_Status = ISD::Telescope::Status::MOUNT_SLEWING;
+        m_statusText->setProperty("text", currentTelescope->getStatusString(m_Status));
         emit newStatus(m_Status);
         return true;
     }
