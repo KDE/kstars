@@ -60,7 +60,7 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 
     loadOptionsProfiles();
 
-    connect(kcfg_GuideOptionsProfile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
+    connect(kcfg_GuideOptionsProfile, QOverload<int>::of(&QComboBox::activated), this, [](int index)
     {
         Options::setGuideOptionsProfile(index);
     });
@@ -80,6 +80,6 @@ void OpsGuide::loadOptionsProfiles()
     kcfg_GuideOptionsProfile->clear();
     for(SSolver::Parameters param : optionsList)
         kcfg_GuideOptionsProfile->addItem(param.listName);
-    kcfg_GuideOptionsProfile->setCurrentIndex(Options::focusOptionsProfile());
+    kcfg_GuideOptionsProfile->setCurrentIndex(Options::guideOptionsProfile());
 }
 }

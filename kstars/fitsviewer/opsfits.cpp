@@ -97,7 +97,7 @@ void OpsFITS::setupHFROptions()
 
     loadStellarSolverProfiles();
 
-    connect(HfrOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
+    connect(HfrOptionsProfiles, QOverload<int>::of(&QComboBox::activated), this, [](int index)
     {
         Options::setHFROptionsProfile(index);
     });

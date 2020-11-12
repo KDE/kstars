@@ -114,7 +114,7 @@ Focus::Focus()
 
     loadStellarSolverProfiles();
 
-    connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [](int index)
+    connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::activated), this, [](int index)
     {
         Options::setFocusOptionsProfile(index);
     });
