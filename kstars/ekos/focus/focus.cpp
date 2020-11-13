@@ -884,7 +884,11 @@ void Focus::checkStopFocus()
         appendLogText(i18n("Capture aborted."));
     }
 
-    abort();
+    if (hfrInProgress)
+    {
+        appendLogText(i18n("Detection in progress, please wait."));
+    }
+    else abort();
 }
 
 void Focus::abort()
@@ -1092,15 +1096,9 @@ void Focus::capture(double settleTime)
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
-    {
         appendLogText(i18n("Capturing image..."));
 
-        if (inAutoFocus == false)
-        {
-            captureB->setEnabled(false);
-            stopFocusB->setEnabled(true);
-        }
-    }
+    resetButtons();
 }
 
 bool Focus::focusIn(int ms)
@@ -1228,6 +1226,8 @@ void Focus::calculateHFR()
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Failed to extract any stars.";
         setCurrentHFR(-1);
+        hfrInProgress = false;
+        resetButtons();
         return;
     }
 
@@ -1258,10 +1258,17 @@ void Focus::calculateHFR()
 
         setCurrentHFR(hfr);
     }
+
+    hfrInProgress = false;
+    appendLogText(i18n("Detection complete."));
+    resetButtons();
 }
 
 void Focus::analyzeSources()
 {
+    appendLogText(i18n("Detecting sources..."));
+    hfrInProgress = true;
+
     QVariantMap extractionSettings;
     extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
     extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::FocusProfiles);
@@ -1769,6 +1776,7 @@ void Focus::setHFRComplete()
         // We reset minimum required HFR and call it a day.
         minimumRequiredHFR = -1;
 
+        resetButtons();
         return;
     }
 
@@ -1801,6 +1809,8 @@ void Focus::setHFRComplete()
             qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
             emit newStatus(state);
         }
+
+        resetButtons();
         return;
     }
 
@@ -2833,12 +2843,19 @@ void Focus::resetButtons()
         return;
     }
 
+    bool const enableCaptureButtons = captureInProgress == false && hfrInProgress == false;
+
+    captureB->setEnabled(enableCaptureButtons);
+    resetFrameB->setEnabled(enableCaptureButtons);
+    startLoopB->setEnabled(enableCaptureButtons);
+
     if (currentFocuser)
     {
         focusOutB->setEnabled(true);
         focusInB->setEnabled(true);
 
         startFocusB->setEnabled(focusType == FOCUS_AUTO);
+        stopFocusB->setEnabled(!enableCaptureButtons);
         startGotoB->setEnabled(canAbsMove);
         stopGotoB->setEnabled(true);
     }
@@ -2848,17 +2865,9 @@ void Focus::resetButtons()
         focusInB->setEnabled(false);
 
         startFocusB->setEnabled(false);
+        stopFocusB->setEnabled(false);
         startGotoB->setEnabled(false);
         stopGotoB->setEnabled(false);
-    }
-
-    stopFocusB->setEnabled(false);
-    startLoopB->setEnabled(true);
-
-    if (captureInProgress == false)
-    {
-        captureB->setEnabled(true);
-        resetFrameB->setEnabled(true);
     }
 }
 
