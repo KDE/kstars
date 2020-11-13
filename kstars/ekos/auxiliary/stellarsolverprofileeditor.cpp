@@ -257,7 +257,8 @@ SSolver::Parameters StellarSolverProfileEditor::getSettingsFromUI()
     params.maxSize = maxSize->text().toDouble();
     params.minSize = minSize->text().toDouble();
     params.maxEllipse = maxEllipse->text().toDouble();
-    params.keepNum = keepNum->text().toDouble();
+    params.initialKeep = initialKeep->text().toInt();
+    params.keepNum = keepNum->text().toInt();
     params.removeBrightest = brightestPercent->text().toDouble();
     params.removeDimmest = dimmestPercent->text().toDouble();
     params.saturationLimit = saturationLimit->text().toDouble();
@@ -302,6 +303,7 @@ void StellarSolverProfileEditor::sendSettingsToUI(SSolver::Parameters a)
     maxSize->setText(QString::number(a.maxSize));
     minSize->setText(QString::number(a.minSize));
     maxEllipse->setText(QString::number(a.maxEllipse));
+    initialKeep->setText(QString::number(a.initialKeep));
     keepNum->setText(QString::number(a.keepNum));
     brightestPercent->setText(QString::number(a.removeBrightest));
     dimmestPercent->setText(QString::number(a.removeDimmest));
