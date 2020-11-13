@@ -1637,9 +1637,7 @@ void FITSView::searchStars()
         result.waitForFinished();
         if (result.result() && isVisible())
         {
-
-            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", imageData->getDetectedStars(),
-                                 imageData->getHFR()), FITS_MESSAGE);
+            emit newStatus("", FITS_MESSAGE);
         }
         QApplication::restoreOverrideCursor();
     }

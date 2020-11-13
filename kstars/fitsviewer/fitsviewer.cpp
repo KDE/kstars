@@ -90,10 +90,10 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     led.setColor(Qt::green);
 
     fitsPosition.setAlignment(Qt::AlignCenter);
+    fitsPosition.setMinimumWidth(100);
     fitsValue.setAlignment(Qt::AlignCenter);
+    fitsValue.setMinimumWidth(40);
 
-    //fitsPosition.setFixedWidth(100);
-    //fitsValue.setFixedWidth(100);
     fitsWCS.setVisible(false);
 
     statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsHFR);
