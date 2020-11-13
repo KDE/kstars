@@ -204,9 +204,7 @@ Mount::Mount()
 
     m_Ctxt->setContextProperty("mount", this);
 
-    m_BaseView->setMinimumSize(QSize(270, 600));
-    m_BaseView->setMaximumSize(QSize(270, 600));
-    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
+    m_BaseView->setResizeMode(QQuickView::SizeViewToRootObject);
 
     m_SpeedSlider  = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
     m_SpeedLabel   = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");
