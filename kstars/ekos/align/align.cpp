@@ -22,7 +22,7 @@
 #include "opsprograms.h"
 #include "opsastap.h"
 #include "opsastrometry.h"
-#include "opsastrometrycfg.h"
+//#include "opsastrometrycfg.h"
 #include "opsastrometryindexfiles.h"
 #include "Options.h"
 #include "remoteastrometryparser.h"
