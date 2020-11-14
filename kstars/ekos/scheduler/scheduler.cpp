@@ -419,7 +419,7 @@ void Scheduler::applyConfig()
 
 void Scheduler::selectObject()
 {
-    if (FindDialog::Instance()->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->execWithParent(Ekos::Manager::Instance()) == QDialog::Accepted)
     {
         SkyObject *object = FindDialog::Instance()->targetObject();
         addObject(object);
@@ -453,7 +453,7 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(this, i18n("Select FITS Image"), dirPath, "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select FITS Image"), dirPath, "FITS (*.fits *.fit)");
     if (fitsURL.isEmpty())
         return;
 
@@ -575,14 +575,14 @@ void Scheduler::setSequence(const QString &sequenceFileURL)
 
 void Scheduler::selectSequence()
 {
-    QString file = QFileDialog::getOpenFileName(this, i18n("Select Sequence Queue"), dirPath.toLocalFile(), i18n("Ekos Sequence Queue (*.esq)"));
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Select Sequence Queue"), dirPath.toLocalFile(), i18n("Ekos Sequence Queue (*.esq)"));
 
     setSequence(file);
 }
 
 void Scheduler::selectStartupScript()
 {
-    startupScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Startup Script"), dirPath, i18n("Script (*)"));
+    startupScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Startup Script"), dirPath, i18n("Script (*)"));
     if (startupScriptURL.isEmpty())
         return;
 
@@ -594,7 +594,7 @@ void Scheduler::selectStartupScript()
 
 void Scheduler::selectShutdownScript()
 {
-    shutdownScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Shutdown Script"), dirPath, i18n("Script (*)"));
+    shutdownScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Shutdown Script"), dirPath, i18n("Script (*)"));
     if (shutdownScriptURL.isEmpty())
         return;
 
@@ -3708,7 +3708,7 @@ bool Scheduler::manageConnectionLoss()
 void Scheduler::load()
 {
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(this, i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+        QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
     if (fileURL.isEmpty())
         return;
 
@@ -4030,7 +4030,7 @@ void Scheduler::save()
     if (schedulerURL.isEmpty())
     {
         schedulerURL =
-            QFileDialog::getSaveFileUrl(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+            QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
         // if user presses cancel
         if (schedulerURL.isEmpty())
         {

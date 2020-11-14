@@ -3818,7 +3818,7 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
+        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -3828,7 +3828,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Sequence Queue"), dirPath,
                    "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
@@ -4187,7 +4187,7 @@ void Capture::saveSequenceQueue()
 
     if (m_SequenceURL.isEmpty())
     {
-        m_SequenceURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
+        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
                         "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (m_SequenceURL.isEmpty())

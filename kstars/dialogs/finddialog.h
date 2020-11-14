@@ -61,6 +61,13 @@ class FindDialog : public QDialog
      */
     inline SkyObject *targetObject() { return m_targetObject; }
 
+    /**
+     * @brief exec overrides base's QDialog::exec() to provide a parent widget.
+     * @param parent is the widget to position the FindDialog instance againt.
+     * @return QDialog::exec() result.
+     */
+    int execWithParent(QWidget* parent = nullptr);
+
   public slots:
     /**
      * When Text is entered in the QLineEdit, filter the List of objects

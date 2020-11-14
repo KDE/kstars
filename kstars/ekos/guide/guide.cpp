@@ -19,6 +19,7 @@
 #include "opsgpg.h"
 #include "Options.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "externalguide/linguider.h"
 #include "externalguide/phd2.h"
@@ -640,7 +641,7 @@ void Guide::exportGuideData()
     if (numPoints == 0)
         return;
 
-    QUrl exportFile = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Guide Data"), guideURLPath,
+    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Export Guide Data"), guideURLPath,
                       "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;
