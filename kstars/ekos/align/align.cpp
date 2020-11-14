@@ -181,8 +181,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         Options::setPAHMountSpeedIndex(index);
     });
 
-    KSUtils::configureLocalAstrometryConfIfNecessary();
-
     PAHFlipVectorC->setChecked(Options::pAHFlipCorrectionVector());
     PAHFlipVectorC2->setChecked(Options::pAHFlipCorrectionVector());
     connect(PAHFlipVectorC2, &QCheckBox::toggled, [&] { PAHFlipVectorC->setChecked(PAHFlipVectorC2->isChecked());});

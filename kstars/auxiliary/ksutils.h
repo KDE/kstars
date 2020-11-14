@@ -267,8 +267,10 @@ bool copyRecursively(QString sourceFolder, QString destFolder);
 
 // Astrometry Related functions
 QStringList getAstrometryDefaultIndexFolderPaths();
+#if 0
 bool configureLocalAstrometryConfIfNecessary();
 bool createLocalAstrometryConf();
+#endif
 QString getAstrometryConfFilePath();
 QStringList getAstrometryDataDirs();
 bool addAstrometryDataDir(const QString &dataDir);

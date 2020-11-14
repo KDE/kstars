@@ -118,7 +118,7 @@ if (INDI_FOUND)
             ekos/align/opsastrometry.ui
             ekos/align/opsprograms.ui
             ekos/align/opsalign.ui
-            ekos/align/opsastrometrycfg.ui
+            #ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
             ekos/align/mountmodel.ui
             ekos/align/opsastap.ui
@@ -197,7 +197,7 @@ if (INDI_FOUND)
             ekos/align/opsastrometry.cpp
             ekos/align/opsalign.cpp
             ekos/align/opsprograms.cpp
-            ekos/align/opsastrometrycfg.cpp
+            #ekos/align/opsastrometrycfg.cpp
             ekos/align/opsastrometryindexfiles.cpp
             ekos/align/opsastap.cpp
             #ekos/align/offlineastrometryparser.cpp

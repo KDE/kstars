@@ -51,7 +51,7 @@ class OpsAlign;
 class StellarSolverProfileEditor;
 class OpsPrograms;
 class OpsASTAP;
-class OpsAstrometryCfg;
+//class OpsAstrometryCfg;
 class OpsAstrometryIndexFiles;
 
 /**
@@ -961,7 +961,7 @@ class Align : public QWidget, public Ui::Align
         OpsAstrometry *opsAstrometry { nullptr };
         OpsAlign *opsAlign { nullptr };
         OpsPrograms *opsPrograms { nullptr };
-        OpsAstrometryCfg *opsAstrometryCfg { nullptr };
+        //OpsAstrometryCfg *opsAstrometryCfg { nullptr };
         OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
         OpsASTAP *opsASTAP { nullptr };
         StellarSolverProfileEditor *optionsProfileEditor { nullptr };
