@@ -510,3 +510,24 @@ void FindDialog::slotDetails()
         delete dd;
     }
 }
+
+int FindDialog::execWithParent(QWidget* parent)
+{
+    QWidget * const oldParent = parentWidget();
+
+    if (nullptr != parent)
+    {
+        setParent(parent);
+        setWindowFlag(Qt::Dialog, true);
+    }
+
+    int const result = QDialog::exec();
+
+    if (nullptr != parent)
+    {
+        setParent(oldParent);
+        setWindowFlag(Qt::Dialog, true);
+    }
+
+    return result;
+}

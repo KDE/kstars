@@ -204,9 +204,7 @@ Mount::Mount()
 
     m_Ctxt->setContextProperty("mount", this);
 
-    m_BaseView->setMinimumSize(QSize(270, 600));
-    m_BaseView->setMaximumSize(QSize(270, 600));
-    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
+    m_BaseView->setResizeMode(QQuickView::SizeViewToRootObject);
 
     m_SpeedSlider  = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
     m_SpeedLabel   = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");
@@ -1710,12 +1708,13 @@ void Mount::toggleMountToolBox()
 
 void Mount::findTarget()
 {
-    KStarsData *data        = KStarsData::Instance();
-    if (FindDialog::Instance()->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->execWithParent(Ekos::Manager::Instance()) == QDialog::Accepted)
     {
         SkyObject *object = FindDialog::Instance()->targetObject();
         if (object != nullptr)
         {
+            KStarsData * const data = KStarsData::Instance();
+
             SkyObject *o = object->clone();
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 

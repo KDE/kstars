@@ -15,14 +15,14 @@
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "offlineastrometryparser.h"
-#include "onlineastrometryparser.h"
-#include "astapastrometryparser.h"
+//#include "offlineastrometryparser.h"
+//#include "onlineastrometryparser.h"
+//#include "astapastrometryparser.h"
 #include "opsalign.h"
 #include "opsprograms.h"
-#include "opsastap.h"
+//#include "opsastap.h"
 #include "opsastrometry.h"
-#include "opsastrometrycfg.h"
+//#include "opsastrometrycfg.h"
 #include "opsastrometryindexfiles.h"
 #include "Options.h"
 #include "remoteastrometryparser.h"
@@ -1470,7 +1470,7 @@ void Align::exportSolutionPoints()
     if (solutionTable->rowCount() == 0)
         return;
 
-    QUrl exportFile = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Solution Points"), alignURLPath,
+    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Export Solution Points"), alignURLPath,
                       "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;
@@ -1664,12 +1664,13 @@ void Align::slotAddAlignPoint()
 
 void Align::slotFindAlignObject()
 {
-    KStarsData *data        = KStarsData::Instance();
-    if (FindDialog::Instance()->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->execWithParent(&mountModelDialog) == QDialog::Accepted)
     {
         SkyObject *object = FindDialog::Instance()->targetObject();
         if (object != nullptr)
         {
+            KStarsData * const data = KStarsData::Instance();
+
             SkyObject *o = object->clone();
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
             int currentRow = mountModel.alignTable->rowCount();
@@ -4913,7 +4914,7 @@ bool Align::loadAndSlew(QString fileURL)
 #endif
 
     if (fileURL.isEmpty())
-        fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath,
+        fileURL = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Load Image"), dirPath,
                                                "Images (*.fits *.fits.fz *.fit *.fts "
                                                "*.jpg *.jpeg *.png *.gif *.bmp "
                                                "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");

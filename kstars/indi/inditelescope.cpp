@@ -784,8 +784,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 sendToClient();
             };
 
-            // Sun Warning
-            if (currentObject->name() == i18n("Sun"))
+            // Sun Warning, but don't ask if tracking is already solar.
+            if (currentObject->name() == i18n("Sun") && currentTrackMode != TRACK_SOLAR)
             {
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
                 {

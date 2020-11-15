@@ -37,6 +37,9 @@ cache:
 build:
   stage: build
   interruptible: true
+  only:
+    - master
+    - merge_requests
   before_script:
     - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
   script:
@@ -51,6 +54,8 @@ build:
 build-and-test:
   stage: test
   interruptible: true
+  only:
+    - merge_requests
   variables:
     BUILD_TESTING: "ON"
   before_script:
@@ -69,6 +74,8 @@ build-and-test:
 build-appimage:
   stage: test
   interruptible: true
+  only:
+    - merge_requests
   before_script:
     - python3 -m pip install appimage-builder
     - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
