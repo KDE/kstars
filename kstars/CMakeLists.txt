@@ -1234,12 +1234,22 @@ else ()
     target_link_libraries(kstars KStarsLib)
 endif ()
 
+if(APPLE)
+    file(COPY
+        ${CMAKE_CURRENT_SOURCE_DIR}/data
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/)
+    file(RENAME
+        ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/data
+        ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
+endif(APPLE)
+
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+
 if(INDI_FOUND)
 #install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
 #install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml

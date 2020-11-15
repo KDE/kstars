@@ -116,23 +116,23 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     QPixmap im;
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzstars.png")))
         welcome->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzstars.png"))
         welcome->Banner->setPixmap(im);
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzgeo.png")))
         location->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() + "/wzgeo.png"))
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() + "/wzgeo.png"))
         location->Banner->setPixmap(im);
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")))
         download->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzdownload.png"))
         download->Banner->setPixmap(im);
 
 #ifdef Q_OS_OSX
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")))
         data->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzdownload.png"))
         data->Banner->setPixmap(im);
 
@@ -297,7 +297,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty())
     {
-        QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
+        QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath();
         if (! dataSourceDir.exists()) //If there is no default data directory in the app bundle
         {
             KSNotification::sorry(i18n("There was no default data directory found in the app bundle."));
