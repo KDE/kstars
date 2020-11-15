@@ -78,7 +78,7 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
 #if 0
     QString WI_Location;
 #if defined(Q_OS_OSX)
-    WI_Location = QCoreApplication::applicationDirPath() + "/../Resources/data/tools/whatsinteresting/qml/wiview.qml";
+    WI_Location = QCoreApplication::applicationDirPath() + "/../Resources/kstars/tools/whatsinteresting/qml/wiview.qml";
     if (!QFileInfo(WI_Location).exists())
         WI_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "tools/whatsinteresting/qml/wiview.qml");
 #elif defined(Q_OS_WIN)

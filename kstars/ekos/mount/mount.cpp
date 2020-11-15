@@ -172,7 +172,7 @@ Mount::Mount()
 #if 0
     QString MountBox_Location;
 #if defined(Q_OS_OSX)
-    MountBox_Location = QCoreApplication::applicationDirPath() + "/../Resources/data/ekos/mount/qml/mountbox.qml";
+    MountBox_Location = QCoreApplication::applicationDirPath() + "/../Resources/kstars/ekos/mount/qml/mountbox.qml";
     if (!QFileInfo(MountBox_Location).exists())
         MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
 #elif defined(Q_OS_WIN)

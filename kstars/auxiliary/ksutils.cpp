@@ -1226,7 +1226,7 @@ void copyResourcesFolderFromAppBundle(QString folder)
                              QStandardPaths::LocateDirectory);
     QDir folderSourceDir;
     if(folder == "kstars")
-        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
+        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath();
     else
         folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder).absolutePath();
     if (folderSourceDir.exists())
