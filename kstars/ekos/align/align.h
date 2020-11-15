@@ -42,16 +42,12 @@ class ProfileInfo;
 namespace Ekos
 {
 class AstrometryParser;
-class OnlineAstrometryParser;
-class OfflineAstrometryParser;
 class RemoteAstrometryParser;
-class ASTAPAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;
 class StellarSolverProfileEditor;
 class OpsPrograms;
 class OpsASTAP;
-//class OpsAstrometryCfg;
 class OpsAstrometryIndexFiles;
 
 /**
@@ -855,13 +851,8 @@ class Align : public QWidget, public Ui::Align
 
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
-        std::unique_ptr<OnlineAstrometryParser> onlineParser;
-        std::unique_ptr<OfflineAstrometryParser> offlineParser;
-
         std::unique_ptr<RemoteAstrometryParser> remoteParser;
         ISD::GDInterface *remoteParserDevice { nullptr };
-
-        std::unique_ptr<ASTAPAstrometryParser> astapParser;
 
         // Pointers to our devices
         ISD::Telescope *currentTelescope { nullptr };
