@@ -52,7 +52,7 @@ bool AlignView::injectWCS(double orientation, double ra, double dec, double pixs
         return false;
     }
 
-    if (wcsWatcher.isRunning() == false)
+    if (wcsWatcher.isRunning() == false && imageData->getWCSState() == FITSData::Idle)
     {
         // Load WCS async
         QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
