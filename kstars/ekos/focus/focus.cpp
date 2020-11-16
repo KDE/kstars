@@ -834,6 +834,8 @@ void Focus::start()
             MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
             focuserTemperature != INVALID_VALUE ? focuserTemperature : observatoryTemperature,
             Options::initialFocusOutSteps());
+        if (canAbsMove)
+            initialFocuserAbsPosition = position;
         linearFocuser.reset(MakeLinearFocuser(params));
         linearRequestedPosition = linearFocuser->initialPosition();
         const int newPosition = adjustLinearPosition(position, linearRequestedPosition);

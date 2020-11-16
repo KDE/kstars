@@ -97,6 +97,14 @@ class FITSData : public QObject
             QString comment;  /** FITS Header Comment, if any */
         } Record;
 
+        typedef enum
+        {
+            Idle,
+            Busy,
+            Success,
+            Failure
+        } WCSState;
+
         /**
          * @brief loadFITS Loading FITS file asynchronously.
          * @param inFilename Path to FITS file (or compressed fits.gz)
@@ -326,15 +334,15 @@ class FITSData : public QObject
         }
         // Load WCS data
         bool loadWCS();
-        // Is WCS Image loaded?
-        bool isWCSLoaded()
+        // Get WCS State
+        WCSState getWCSState() const
         {
-            return WCSLoaded;
+            return m_WCSState;
         }
-
-        FITSImage::wcs_point *getWCSCoord()
+        // Get WCS Coordinates
+        FITSImage::wcs_point *getWCSCoord() const
         {
-            return wcs_coord;
+            return m_WCSCoordinates;
         }
 
         /**
@@ -344,7 +352,7 @@ class FITSData : public QObject
              * @param wcsImagePoint Return XY Image coordinates
              * @return True if conversion is successful, false otherwise.
              */
-        bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
+        bool wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
 
         /**
              * @brief pixelToWCS Convert Pixel coordinates to J2000 world coordinates
@@ -527,8 +535,6 @@ class FITSData : public QObject
         bool HasWCS { false };
         /// Is the image debayarable?
         bool HasDebayer { false };
-        /// Is WCS data loaded?
-        bool WCSLoaded { false };
 
         /// Our very own file name
         QString m_Filename, m_compressedFilename;
@@ -545,13 +551,14 @@ class FITSData : public QObject
         int flipVCounter { 0 };
 
         /// Pointer to WCS coordinate data, if any.
-        FITSImage::wcs_point *wcs_coord { nullptr };
+        FITSImage::wcs_point *m_WCSCoordinates { nullptr };
         /// WCS Struct
-        struct wcsprm *m_wcs
+        struct wcsprm *m_WCSHandle
         {
             nullptr
         };
         int m_nwcs = 0;
+        WCSState m_WCSState { Idle };
         /// All the stars we detected, if any.
         QList<Edge *> starCenters;
         QList<Edge *> localStarCenters;

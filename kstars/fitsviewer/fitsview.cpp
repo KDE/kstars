@@ -273,7 +273,7 @@ void FITSView::setCursorMode(CursorMode mode)
 
     if (mode == scopeCursor && imageHasWCS())
     {
-        if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
+        if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
         {
             QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
@@ -402,7 +402,10 @@ bool FITSView::processData()
     setAlignment(Qt::AlignCenter);
 
     // Load WCS data now if selected and image contains valid WCS header
-    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN) && !wcsWatcher.isRunning())
+    if ((mode == FITS_NORMAL || mode == FITS_ALIGN) &&
+            imageData->hasWCS() && imageData->getWCSState() == FITSData::Idle &&
+            Options::autoWCS() &&
+            !wcsWatcher.isRunning())
     {
         QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
@@ -1445,7 +1448,7 @@ void FITSView::toggleEQGrid()
 {
     showEQGrid = !showEQGrid;
 
-    if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
+    if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
         QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
@@ -1460,7 +1463,7 @@ void FITSView::toggleObjects()
 {
     showObjects = !showObjects;
 
-    if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
+    if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
         QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
@@ -1815,7 +1818,7 @@ void FITSView::pinchTriggered(QPinchGesture * gesture)
 void FITSView::syncWCSState()
 {
     bool hasWCS    = imageData->hasWCS();
-    bool wcsLoaded = imageData->isWCSLoaded();
+    bool wcsLoaded = imageData->getWCSState() == FITSData::Success;
 
     if (hasWCS && wcsLoaded)
         this->updateFrame();
