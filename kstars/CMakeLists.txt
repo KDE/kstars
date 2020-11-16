@@ -1236,11 +1236,8 @@ endif ()
 
 if(APPLE)
     file(COPY
-        ${CMAKE_CURRENT_SOURCE_DIR}/data
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/)
-    file(RENAME
-        ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/data
-        ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
+        ${CMAKE_CURRENT_SOURCE_DIR}/data/
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
 endif(APPLE)
 
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
