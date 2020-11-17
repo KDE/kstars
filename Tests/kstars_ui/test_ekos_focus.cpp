@@ -49,6 +49,38 @@ void TestEkosFocus::cleanup()
 
 }
 
+void TestEkosFocus::testDuplicateFocusRequest()
+{
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
+    QCOMPARE(Ekos::Manager::Instance()->focusModule()->status(), Ekos::FOCUS_IDLE);
+
+    KTRY_FOCUS_DETECT(2, 1);
+
+    // Prepare to detect the beginning of the autofocus_procedure
+    volatile bool autofocus_started = false;
+    connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusStarting, this, [&]() { autofocus_started = true; });
+
+    // If we click the autofocus button, we receive a signal that the procedure starts, the state change and the button is disabled
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 500);
+    QVERIFY(Ekos::Manager::Instance()->focusModule()->status() != Ekos::FOCUS_IDLE);
+    QVERIFY(!startFocusB->isEnabled());
+    QVERIFY(stopFocusB->isEnabled());
+
+    // If we issue an autofocus command at that point (bypassing d-bus), no procedure should start
+    autofocus_started = false;
+    Ekos::Manager::Instance()->focusModule()->start();
+    QTest::qWait(500);
+    QVERIFY(!autofocus_started);
+
+    // Stop the running autofocus
+    KTRY_FOCUS_CLICK(stopFocusB);
+    QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule()->status(), Ekos::FOCUS_ABORTED, 5000);
+}
+
 void TestEkosFocus::testStarDetection_data()
 {
 #if QT_VERSION < 0x050900
