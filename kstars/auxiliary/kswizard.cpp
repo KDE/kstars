@@ -181,7 +181,6 @@ void KSWizard::setButtonsEnabled()
     completeB->setVisible(wizardStack->currentIndex() == wizardStack->count() - 1);
 
 #ifdef Q_OS_OSX
-    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(dataDirExists());
     if ((wizardStack->currentWidget() == data) && (!dataDirExists()))
     {
         nextB->setEnabled(false);
