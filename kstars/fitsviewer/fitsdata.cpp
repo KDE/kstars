@@ -713,7 +713,7 @@ bool FITSData::saveImage(const QString &newFilename)
     long nelements;
     fitsfile * new_fptr;
 
-    if (HasDebayer && m_Filename.isEmpty() == false)
+    if (m_isTemporary == false && HasDebayer && m_Filename.isEmpty() == false)
     {
         fits_flush_file(fptr, &status);
         /* close current file */
@@ -738,11 +738,11 @@ bool FITSData::saveImage(const QString &newFilename)
             return false;
         }
 
-        if (m_isTemporary && autoRemoveTemporaryFITS)
-        {
-            QFile::remove(m_Filename);
-            m_isTemporary = false;
-        }
+        //        if (m_isTemporary && autoRemoveTemporaryFITS)
+        //        {
+        //            QFile::remove(m_Filename);
+        //            m_isTemporary = false;
+        //        }
 
         m_Filename = finalFileName;
 

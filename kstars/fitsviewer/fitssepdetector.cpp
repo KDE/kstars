@@ -136,7 +136,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     //    {
 
     solver->extract(true, boundary);
-    loop.exec();
+    loop.exec(QEventLoop::ExcludeUserInputEvents);
     stars = solver->getStarList();
     //    }
 

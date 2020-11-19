@@ -712,6 +712,20 @@ void Focus::start()
         return;
     }
 
+    if (!canAbsMove && !canRelMove && stepIN->value() <= MINIMUM_PULSE_TIMER)
+    {
+        appendLogText(i18n("Starting pulse step is too low. Increase the step size to %1 or higher...",
+                           MINIMUM_PULSE_TIMER * 5));
+        return;
+    }
+
+    if (inAutoFocus)
+    {
+        appendLogText(i18n("Autofocus is already running, discarding start request."));
+        return;
+    }
+    else inAutoFocus = true;
+
     lastFocusDirection = FOCUS_NONE;
 
     polySolutionFound = 0;
@@ -742,21 +756,12 @@ void Focus::start()
     }
     else
     {
-        pulseDuration = stepIN->value();
-
+        pulseDuration   = stepIN->value();
         absIterations   = 0;
         absMotionMax    = 100000;
         absMotionMin    = 0;
-
-        if (pulseDuration <= MINIMUM_PULSE_TIMER)
-        {
-            appendLogText(i18n("Starting pulse step is too low. Increase the step size to %1 or higher...",
-                               MINIMUM_PULSE_TIMER * 5));
-            return;
-        }
     }
 
-    inAutoFocus = true;
     focuserAdditionalMovement = 0;
     HFRFrames.clear();
 

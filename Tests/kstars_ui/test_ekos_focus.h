@@ -112,6 +112,8 @@ private slots:
     void init();
     void cleanup();
 
+    void testDuplicateFocusRequest();
+
     void testStarDetection_data();
     void testStarDetection();
 };
