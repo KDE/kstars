@@ -259,7 +259,7 @@ QString getDefaultPath(const QString &option);
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
-bool copyDataFolderFromAppBundleIfNeeded(); //The boolean returns true if the data folders are good to go.
+bool setupMacKStarsIfNeeded(); //The boolean returns true if the data folders are good to go.
 bool configureAstrometry();
 bool replaceIndexFileNotYetSet();
 bool copyRecursively(QString sourceFolder, QString destFolder);

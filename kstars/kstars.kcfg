@@ -1325,6 +1325,11 @@
       </entry>
    </group>
    <group name="General">
+       <entry name="KStarsFirstRun" type="Bool">
+          <label>Is this the first time running KStars?</label>
+          <whatsthis>This allows KStars to perform several operations if it has never been installed before.</whatsthis>
+          <default>true</default>
+       </entry>
       <entry name="AlwaysRecomputeCoordinates" type="Bool">
          <label>Always recompute coordinates</label>
          <whatsthis>Checking this option causes recomputation of current equatorial coordinates from catalog coordinates (i.e. application of precession, nutation and aberration corrections) for every redraw of the map. This makes processing slower when there are many stars to handle, but is more likely to be bug free. There are known bugs in the rendering of stars when this recomputation is avoided.</whatsthis>
