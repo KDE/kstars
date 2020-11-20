@@ -1238,26 +1238,18 @@ void copyResourcesFolderFromAppBundle(QString folder)
     }
 }
 
-bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data directory is good to go.
+bool setupMacKStarsIfNeeded() // This method will return false if the KStars data directory doesn't exist when it's done
 {
     //This will copy the locale folder, the notifications folder, and the sounds folder and any missing files in them to Application Support if needed.
     copyResourcesFolderFromAppBundle("locale");
     copyResourcesFolderFromAppBundle("knotifications5");
     copyResourcesFolderFromAppBundle("sounds");
 
-    //This will check for the data directory and if its not present, it will run the wizard.
-    QString dataLocation =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    if (dataLocation.isEmpty()) //If there is no kstars user data directory
+    //This will copy the KStars data directory
+    copyResourcesFolderFromAppBundle("kstars");
+
+    if(Options::kStarsFirstRun())
     {
-        QPointer<KSWizard> wizard = new KSWizard(new QFrame());
-        wizard->exec(); //This will pause the startup until the user installs the data directory from the Wizard.
-
-        dataLocation =
-            QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-        if (dataLocation.isEmpty())
-            return false;
-
         //This sets some important OS X options.
         Options::setIndiServerIsInternal(true);
         Options::setIndiServer("*Internal INDI Server*");
@@ -1271,16 +1263,16 @@ bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data
         Options::setSextractorBinary("*Internal Sextractor*");
         Options::setAstrometryWCSIsInternal(true);
         Options::setAstrometryWCSInfo("*Internal wcsinfo*");
-        Options::setAstrometryUseNoFITS2FITS(false);
         Options::setXplanetIsInternal(true);
         Options::setXplanetPath("*Internal XPlanet*");
-        Options::setRunStartupWizard(false); //don't run on startup because we are doing it now.
-
-        return true; //This means the data directory is good to go now that we created it from the default.
     }
-    //This will copy any of the critical KStars files from the app bundle to application support if they are missing.
-    copyResourcesFolderFromAppBundle("kstars");
-    return true; //This means the data directory was good to go from the start and the wizard did not run.
+
+    QString dataLocation =
+        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+    if (dataLocation.isEmpty()) //If there is no kstars user data directory
+        return false;
+
+    return true;
 }
 
 
