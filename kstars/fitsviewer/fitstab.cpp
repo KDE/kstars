@@ -98,7 +98,7 @@ void FITSTab::setPreviewText(const QString &value)
 
 void FITSTab::selectRecentFITS(int i)
 {
-    loadFITS(QUrl::fromLocalFile(recentImages->item(i)->text()));
+    loadFile(QUrl::fromLocalFile(recentImages->item(i)->text()));
 }
 
 void FITSTab::clearRecentFITS()
@@ -253,7 +253,7 @@ QHBoxLayout* FITSTab::setupStretchBar()
     highlightsLabel.reset(new QLabel());
     highlightsVal.reset(new QLabel());
     highlightsSlider.reset(new QSlider(Qt::Horizontal, this));
-    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Hightlights",
+    setupStretchSlider(highlightsSlider.get(), highlightsLabel.get(), highlightsVal.get(), fontSize, "Highlights",
                        stretchBarLayout);
 
     // Separator
@@ -423,8 +423,12 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
     return false;
 }
 
-void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
+void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
+    // check if the address points to an appropriate address
+    if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo(imageURL.toLocalFile()).exists())
+        return;
+
     if (setupView(mode, filter))
     {
 
@@ -435,12 +439,15 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
             emit loaded();
         });
     }
+    else
+        // update tab text
+        modifyFITSState(true, imageURL);
 
     currentURL = imageURL;
 
     view->setFilter(filter);
 
-    view->loadFITS(imageURL.toLocalFile(), silent);
+    view->loadFile(imageURL.toLocalFile(), silent);
 }
 
 bool FITSTab::shouldComputeHFR() const
@@ -488,7 +495,7 @@ void FITSTab::processData()
         {
             disconnect(recentImages, &QListWidget::currentRowChanged, this,
                        &FITSTab::selectRecentFITS);
-            recentImages->addItem(currentURL.toLocalFile());
+            recentImages->addItem(image_data->filename());
             recentImages->setCurrentRow(recentImages->count() - 1);
             connect(recentImages, &QListWidget::currentRowChanged,  this,
                     &FITSTab::selectRecentFITS);
@@ -498,16 +505,16 @@ void FITSTab::processData()
     view->updateFrame();
 }
 
-bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL, FITSMode mode, FITSScale filter)
+bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITSScale filter)
 {
     setupView(mode, filter);
 
-    currentURL = imageURL;
+    // Empty URL
+    currentURL = QUrl();
 
     view->setFilter(filter);
 
-    //if (!view->loadFITSFromData(data, imageURL.toLocalFile()))
-    if (!view->loadFITSFromData(data))
+    if (!view->loadData(data))
     {
         // On Failure to load
         // connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
@@ -518,7 +525,7 @@ bool FITSTab::loadFITSFromData(FITSData* data, const QUrl &imageURL, FITSMode mo
     return true;
 }
 
-void FITSTab::modifyFITSState(bool clean)
+void FITSTab::modifyFITSState(bool clean, const QUrl &imageURL)
 {
     if (clean)
     {
@@ -530,7 +537,7 @@ void FITSTab::modifyFITSState(bool clean)
     else
         mDirty = true;
 
-    emit changeStatus(clean);
+    emit changeStatus(clean, imageURL);
 }
 
 bool FITSTab::saveImage(const QString &filename)
@@ -621,15 +628,15 @@ void FITSTab::loadFITSHeader()
     int nkeys = image_data->getRecords().size();
     int counter = 0;
     header.tableWidget->setRowCount(nkeys);
-    for (FITSData::Record *oneRecord : image_data->getRecords())
+    for (const auto &oneRecord : image_data->getRecords())
     {
-        QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord->key);
+        QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord.key);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 0, tempItem);
-        tempItem = new QTableWidgetItem(oneRecord->value.toString());
+        tempItem = new QTableWidgetItem(oneRecord.value.toString());
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 1, tempItem);
-        tempItem = new QTableWidgetItem(oneRecord->comment);
+        tempItem = new QTableWidgetItem(oneRecord.comment);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 2, tempItem);
         counter++;
@@ -683,8 +690,8 @@ bool FITSTab::saveFile()
     if (currentURL.isValid())
     {
         QString localFile = currentURL.toLocalFile();
-        if (localFile.contains(".fit"))
-            localFile = "!" + localFile;
+        //        if (localFile.contains(".fit"))
+        //            localFile = "!" + localFile;
 
         if (!saveImage(localFile))
         {

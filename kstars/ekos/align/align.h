@@ -42,16 +42,12 @@ class ProfileInfo;
 namespace Ekos
 {
 class AstrometryParser;
-class OnlineAstrometryParser;
-class OfflineAstrometryParser;
 class RemoteAstrometryParser;
-class ASTAPAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;
-class OptionsProfileEditor;
+class StellarSolverProfileEditor;
 class OpsPrograms;
 class OpsASTAP;
-class OpsAstrometryCfg;
 class OpsAstrometryIndexFiles;
 
 /**
@@ -180,11 +176,6 @@ class Align : public QWidget, public Ui::Align
              */
         Q_SCRIPTABLE Q_NOREPLY void startSolving();
 
-        std::unique_ptr<StellarSolver> m_StellarSolver;
-        QList<SSolver::Parameters> optionsList;
-        QString fileToSolve;
-
-
         /** DBUS interface function.
              * Select Solver Action after successfully solving an image.
              * @param mode 0 for Sync, 1 for Slew To Target, 2 for Nothing (just display solution results)
@@ -310,7 +301,7 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief Generate arguments we pass to the remote solver.
              */
-        QStringList generateRemoteArgs();
+        QStringList generateRemoteArgs(FITSData *data = nullptr);
 
         /**
              * @brief Does our parser exist in the system?
@@ -351,6 +342,12 @@ class Align : public QWidget, public Ui::Align
 
         // Ekos Live Client helper functions
         int getActiveSolver() const;
+
+        /**
+         * @brief getStellarSolverProfiles
+         * @return list of StellarSolver profile names
+         */
+        QStringList getStellarSolverProfiles();
 
         /**
              * @brief generateOptions Generate astrometry.net option given the supplied map
@@ -398,7 +395,15 @@ class Align : public QWidget, public Ui::Align
              * @brief Process new FITS received from CCD.
              * @param bp pointer to blob property
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
+
+        /** DBUS interface function.
+             * Loads an image (FITS, RAW, or JPG/PNG) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+             * the telescope is pointing to the same coordinates of the image.
+             * @param image buffer to image data.
+             * @param extension image extension (e.g. cr2, jpg, fits,..etc).
+             */
+        bool loadAndSlew(const QByteArray &image, const QString &extension);
 
         /** \addtogroup AlignDBusInterface
              *  @{
@@ -434,7 +439,7 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE bool captureAndSolve();
 
         /** DBUS interface function.
-             * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+             * Loads an image (FITS, RAW, or JPG/PNG) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
              * the telescope is pointing to the same coordinates of the image.
              * @param fileURL URL to the image to solve
              */
@@ -469,6 +474,11 @@ class Align : public QWidget, public Ui::Align
         void solverFinished(double orientation, double ra, double dec, double pixscale);
 
         void solverComplete();
+
+        /**
+         * @brief syncTargetToScope set Target Coordinates as the current mount coordinates.
+         */
+        void syncTargetToMount();
 
         /**
              * @brief Process solver failure.
@@ -630,7 +640,7 @@ class Align : public QWidget, public Ui::Align
         void settingsUpdated(const QJsonObject &settings);
 
     private:
-        bool blindSolve = false;
+        bool m_SolveBlindly = false;
         QString savedOptionsProfiles;
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
@@ -641,6 +651,12 @@ class Align : public QWidget, public Ui::Align
          * @brief calculateEffectiveFocalLength Calculate Focal Length purely form astrometric data.
          */
         void calculateEffectiveFocalLength(double newFOVW);
+
+        /**
+         * @brief calculateAlignTargetDiff Find the difference between aligned vs. target coordinates and update
+         * the GUI accordingly.
+         */
+        void calculateAlignTargetDiff();
 
         /**
              * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
@@ -801,7 +817,9 @@ class Align : public QWidget, public Ui::Align
         /// Coord from Load & Slew
         SkyPoint loadSlewCoord;
         /// Difference between solution and target coordinate
-        double targetDiff { 1e6 };
+        double m_TargetDiffTotal { 1e6 };
+        double m_TargetDiffRA { 1e6 };
+        double m_TargetDiffDE { 1e6 };
 
         /// Progress icon if the solver is running
         std::unique_ptr<QProgressIndicator> pi;
@@ -818,6 +836,10 @@ class Align : public QWidget, public Ui::Align
         static const double RAMotion;
         static const double SIDRATE;
 
+        // StellarSolver Profiles
+        std::unique_ptr<StellarSolver> m_StellarSolver;
+        QList<SSolver::Parameters> m_StellarSolverProfiles;
+
         /// Have we slewed?
         bool m_wasSlewStarted { false };
         // Above flag only stays false for 10s after slew start.
@@ -829,13 +851,8 @@ class Align : public QWidget, public Ui::Align
 
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
-        std::unique_ptr<OnlineAstrometryParser> onlineParser;
-        std::unique_ptr<OfflineAstrometryParser> offlineParser;
-
         std::unique_ptr<RemoteAstrometryParser> remoteParser;
         ISD::GDInterface *remoteParserDevice { nullptr };
-
-        std::unique_ptr<ASTAPAstrometryParser> astapParser;
 
         // Pointers to our devices
         ISD::Telescope *currentTelescope { nullptr };
@@ -885,8 +902,8 @@ class Align : public QWidget, public Ui::Align
         QTimer m_AlignTimer;
 
         // BLOB Type
-        ISD::CCD::BlobType blobType;
-        QString blobFileName;
+        //        ISD::CCD::BlobType blobType;
+        //        QString blobFileName;
 
         // Align Frame
         AlignView *alignView { nullptr };
@@ -902,7 +919,7 @@ class Align : public QWidget, public Ui::Align
         // keep track of autoWSC
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };
-        bool rememberMeridianFlip { false };
+        //bool rememberMeridianFlip { false };
 
         // Sky centers
         typedef struct
@@ -935,10 +952,10 @@ class Align : public QWidget, public Ui::Align
         OpsAstrometry *opsAstrometry { nullptr };
         OpsAlign *opsAlign { nullptr };
         OpsPrograms *opsPrograms { nullptr };
-        OpsAstrometryCfg *opsAstrometryCfg { nullptr };
+        //OpsAstrometryCfg *opsAstrometryCfg { nullptr };
         OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
         OpsASTAP *opsASTAP { nullptr };
-        OptionsProfileEditor *optionsProfileEditor { nullptr };
+        StellarSolverProfileEditor *optionsProfileEditor { nullptr };
         QCPCurve *centralTarget { nullptr };
         QCPCurve *yellowTarget { nullptr };
         QCPCurve *redTarget { nullptr };
@@ -957,6 +974,7 @@ class Align : public QWidget, public Ui::Align
         ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
+        double primaryEffectiveFL = -1, guideEffectiveFL = -1;
         bool m_isRateSynced = false;
         bool domeReady = true;
 
@@ -964,11 +982,14 @@ class Align : public QWidget, public Ui::Align
         bool rememberCCDExposureLooping = { false };
 
         // Controls
-        double GainSpinSpecialValue;
+        double GainSpinSpecialValue {INVALID_VALUE};
         double TargetCustomGainValue {-1};
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
+
+        // Data
+        QSharedPointer<FITSData> m_ImageData;
 
         // Active Profile
         ProfileInfo *m_ActiveProfile { nullptr };

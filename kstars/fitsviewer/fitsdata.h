@@ -30,6 +30,7 @@
 
 #include "kstarsdatetime.h"
 #include "bayer.h"
+#include "skybackground.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
 
@@ -96,24 +97,40 @@ class FITSData : public QObject
             QString comment;  /** FITS Header Comment, if any */
         } Record;
 
+        typedef enum
+        {
+            Idle,
+            Busy,
+            Success,
+            Failure
+        } WCSState;
+
         /**
          * @brief loadFITS Loading FITS file asynchronously.
          * @param inFilename Path to FITS file (or compressed fits.gz)
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return A QFuture that can be watched until the async operation is complete.
          */
-        QFuture<bool> loadFITS(const QString &inFilename, bool silent = true);
+        QFuture<bool> loadFromFile(const QString &inFilename, bool silent = true);
 
         /**
          * @brief loadFITSFromMemory Loading FITS from memory buffer.
-         * @param inFilename Potential future path to FITS file (or compressed fits.gz), stored in a fitsdata class variable
-         * @param fits_buffer The memory buffer containing the fits data.
-         * @param fits_buffer_size The size in bytes of the buffer.
+         * @param buffer The memory buffer containing the fits data.
+         * @param extension file extension (e.g. "jpg", "fits", "cr2"...etc)
+         * @param inFilename Set filename metadata, does not load from file.
          * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return bool indicating success or failure.
          */
-        bool loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
-                                size_t fits_buffer_size, bool silent);
+        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename = QString(),
+                            bool silent = true);
+
+        /**
+         * @brief parseSolution Parse the WCS solution information from the header into the given struct.
+         * @param solution Solution structure to fill out.
+         * @return True if parsing successful, false otherwise.
+         */
+        bool parseSolution(FITSImage::Solution &solution) const;
+
         /* Save FITS or JPG/PNG*/
         bool saveImage(const QString &newFilename);
         /* Rescale image lineary from image_buffer, fit to window if desired */
@@ -134,79 +151,79 @@ class FITSData : public QObject
         void restoreStatistics(FITSImage::Statistic &other);
         FITSImage::Statistic const &getStatistics() const
         {
-            return stats;
+            return m_Statistics;
         };
 
         uint16_t width() const
         {
-            return stats.width;
+            return m_Statistics.width;
         }
         uint16_t height() const
         {
-            return stats.height;
+            return m_Statistics.height;
         }
         int64_t size() const
         {
-            return stats.size;
+            return m_Statistics.size;
         }
         int channels() const
         {
-            return m_Channels;
+            return m_Statistics.channels;
         }
         double getMin(uint8_t channel = 0) const
         {
-            return stats.min[channel];
+            return m_Statistics.min[channel];
         }
         double getMax(uint8_t channel = 0) const
         {
-            return stats.max[channel];
+            return m_Statistics.max[channel];
         }
         void setMinMax(double newMin, double newMax, uint8_t channel = 0);
         void getMinMax(double *min, double *max, uint8_t channel = 0) const
         {
-            *min = stats.min[channel];
-            *max = stats.max[channel];
+            *min = m_Statistics.min[channel];
+            *max = m_Statistics.max[channel];
         }
         void setStdDev(double value, uint8_t channel = 0)
         {
-            stats.stddev[channel] = value;
+            m_Statistics.stddev[channel] = value;
         }
         double getStdDev(uint8_t channel = 0) const
         {
-            return stats.stddev[channel];
+            return m_Statistics.stddev[channel];
         }
         void setMean(double value, uint8_t channel = 0)
         {
-            stats.mean[channel] = value;
+            m_Statistics.mean[channel] = value;
         }
         double getMean(uint8_t channel = 0) const
         {
-            return stats.mean[channel];
+            return m_Statistics.mean[channel];
         }
         void setMedian(double val, uint8_t channel = 0)
         {
-            stats.median[channel] = val;
+            m_Statistics.median[channel] = val;
         }
         double getMedian(uint8_t channel = 0) const
         {
-            return stats.median[channel];
+            return m_Statistics.median[channel];
         }
 
         int getBytesPerPixel() const
         {
-            return stats.bytesPerPixel;
+            return m_Statistics.bytesPerPixel;
         }
         void setSNR(double val)
         {
-            stats.SNR = val;
+            m_Statistics.SNR = val;
         }
         double getSNR() const
         {
-            return stats.SNR;
+            return m_Statistics.SNR;
         }
         uint32_t bpp() const
         {
-            switch(stats.dataType)
+            switch(m_Statistics.dataType)
             {
                 case TBYTE:
                     return 8;
@@ -232,9 +249,9 @@ class FITSData : public QObject
 
         // FITS Record
         bool getRecordValue(const QString &key, QVariant &value) const;
-        const QList<Record*> &getRecords() const
+        const QList<Record> &getRecords() const
         {
-            return records;
+            return m_HeaderRecords;
         }
 
         // Star Detection - Native KStars implementation
@@ -254,7 +271,7 @@ class FITSData : public QObject
         {
             starCenters.append(newCenter);
         }
-        QList<Edge *> getStarCenters() const
+        const QList<Edge *> &getStarCenters() const
         {
             return starCenters;
         }
@@ -266,10 +283,26 @@ class FITSData : public QObject
         }
         QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
 
+        void setSkyBackground(const SkyBackground &bg)
+        {
+            m_SkyBackground = bg;
+        }
+        const SkyBackground &getSkyBackground() const
+        {
+            return m_SkyBackground;
+        }
+        const QVariantMap &getSourceExtractorSettings() const
+        {
+            return m_SourceExtractorSettings;
+        }
+        void setSourceExtractorSettings(const QVariantMap &settings)
+        {
+            m_SourceExtractorSettings = settings;
+        }
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
-        int findSEPStars(QList<Edge*> &, const QRect &boundary = QRect()) const;
+        //int findSEPStars(QList<Edge*> &, const QRect &boundary = QRect()) const;
 
         // Apply ring filter to searched stars
         int filterStars(const float innerRadius, const float outerRadius);
@@ -279,6 +312,10 @@ class FITSData : public QObject
         {
             return m_SelectedHFRStar;
         }
+
+        // Calculates the median star eccentricity.
+        double getEccentricity();
+
         double getHFR(HFRType type = HFR_AVERAGE);
         double getHFR(int x, int y);
 
@@ -297,15 +334,15 @@ class FITSData : public QObject
         }
         // Load WCS data
         bool loadWCS();
-        // Is WCS Image loaded?
-        bool isWCSLoaded()
+        // Get WCS State
+        WCSState getWCSState() const
         {
-            return WCSLoaded;
+            return m_WCSState;
         }
-
-        FITSImage::wcs_point *getWCSCoord()
+        // Get WCS Coordinates
+        FITSImage::wcs_point *getWCSCoord() const
         {
-            return wcs_coord;
+            return m_WCSCoordinates;
         }
 
         /**
@@ -315,7 +352,7 @@ class FITSData : public QObject
              * @param wcsImagePoint Return XY Image coordinates
              * @return True if conversion is successful, false otherwise.
              */
-        bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
+        bool wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
 
         /**
              * @brief pixelToWCS Convert Pixel coordinates to J2000 world coordinates
@@ -390,11 +427,13 @@ class FITSData : public QObject
 
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
-        void findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+        void findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
 #endif
 #endif
-        QList<FITSSkyObject *> getSkyObjects();
-        QList<FITSSkyObject *> objList; //Does this need to be public??
+        const QList<FITSSkyObject *> &getSkyObjects() const
+        {
+            return m_SkyObjects;
+        }
 
         // Create autostretch image from FITS File
         static QImage FITSToImage(const QString &filename);
@@ -418,8 +457,21 @@ class FITSData : public QObject
 
     private:
         void loadCommon(const QString &inFilename);
-        bool privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent);
-        bool privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent);
+        /**
+         * @brief privateLoad Load an image (FITS, RAW, or images supported by Qt like jpeg, png).
+         * @param Buffer pointer to image data. If buffer is emtpy, read from disk (m_Filename).
+         * @param silent If true, suppress any messages.
+         * @return true if successfully loaded, false otherwise.
+         */
+        bool privateLoad(const QByteArray &buffer, const QString &extension, bool silent);
+
+        // Load Qt-supported images.
+        bool loadCanonicalImage(const QByteArray &buffer, const QString &extension, bool silent);
+        // Load FITS images.
+        bool loadFITSImage(const QByteArray &buffer, const QString &extension, bool silent);
+        // Load RAW images.
+        bool loadRAWImage(const QByteArray &buffer, const QString &extension, bool silent);
+
         void rotWCSFITS(int angle, int mirror);
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();
@@ -467,8 +519,6 @@ class FITSData : public QObject
 #endif
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
-        /// Number of channels
-        uint8_t m_Channels { 1 };
         /// Generic data image buffer
         uint8_t *m_ImageBuffer { nullptr };
         /// Above buffer size in bytes
@@ -485,8 +535,6 @@ class FITSData : public QObject
         bool HasWCS { false };
         /// Is the image debayarable?
         bool HasDebayer { false };
-        /// Is WCS data loaded?
-        bool WCSLoaded { false };
 
         /// Our very own file name
         QString m_Filename, m_compressedFilename;
@@ -503,13 +551,14 @@ class FITSData : public QObject
         int flipVCounter { 0 };
 
         /// Pointer to WCS coordinate data, if any.
-        FITSImage::wcs_point *wcs_coord { nullptr };
+        FITSImage::wcs_point *m_WCSCoordinates { nullptr };
         /// WCS Struct
-        struct wcsprm *m_wcs
+        struct wcsprm *m_WCSHandle
         {
             nullptr
         };
         int m_nwcs = 0;
+        WCSState m_WCSState { Idle };
         /// All the stars we detected, if any.
         QList<Edge *> starCenters;
         QList<Edge *> localStarCenters;
@@ -520,13 +569,23 @@ class FITSData : public QObject
         /// Bayer parameters
         BayerParams debayerParams;
 
-        FITSImage::Statistic stats;
+        FITSImage::Statistic m_Statistics;
 
         // A list of header records
-        QList<Record*> records;
+        QList<Record> m_HeaderRecords;
+
+        // Sky Background
+        SkyBackground m_SkyBackground;
+
+        // Detector Settings
+        QVariantMap m_SourceExtractorSettings;
 
         /// Remove temporary files after closing
         bool autoRemoveTemporaryFITS { true };
+
+        QFuture<bool> m_StarFindFuture;
+
+        QList<FITSSkyObject *> m_SkyObjects; //Does this need to be public??
 
         QString lastError;
 

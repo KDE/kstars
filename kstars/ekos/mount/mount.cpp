@@ -43,7 +43,7 @@
 
 extern const char *libindi_strings_context;
 
-#define UPDATE_DELAY         1000
+#define UPDATE_DELAY 1000
 #define ABORT_DISPATCH_LIMIT 3
 
 namespace Ekos
@@ -72,13 +72,13 @@ Mount::Mount()
     maxAltLimit->setValue(Options::maximumAltLimit());
     maxHaLimit->setValue(Options::maximumHaLimit());
 
-    connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
-    connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
-    connect(maxHaLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
+    connect(minAltLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
+    connect(maxAltLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
+    connect(maxHaLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
 
-    connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(toggleMountToolBox()));
+    connect(mountToolBoxB, &QPushButton::clicked, this, &Mount::toggleMountToolBox);
 
-    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
+    connect(saveB, &QPushButton::clicked, this, &Mount::save);
 
     connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
     {
@@ -108,10 +108,10 @@ Mount::Mount()
         }
     });
 
-    connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
+    connect(enableLimitsCheck, &QCheckBox::toggled, this, &Mount::enableAltitudeLimits);
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
-    connect(enableHaLimitCheck, SIGNAL(toggled(bool)), this, SLOT(enableHourAngleLimits(bool)));
+    connect(enableHaLimitCheck, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
     enableHaLimitCheck->setChecked(Options::enableHaLimit());
     //haLimitEnabled = enableHaLimitCheck->isChecked();
 
@@ -143,7 +143,7 @@ Mount::Mount()
     });
 
     updateTimer.setInterval(UPDATE_DELAY);
-    connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
+    connect(&updateTimer, &QTimer::timeout, this, &Mount::updateTelescopeCoords);
 
     everyDayCheck->setChecked(Options::parkEveryDay());
     connect(everyDayCheck, &QCheckBox::toggled, this, [](bool toggled)
@@ -172,7 +172,7 @@ Mount::Mount()
 #if 0
     QString MountBox_Location;
 #if defined(Q_OS_OSX)
-    MountBox_Location = QCoreApplication::applicationDirPath() + "/../Resources/data/ekos/mount/qml/mountbox.qml";
+    MountBox_Location = QCoreApplication::applicationDirPath() + "/../Resources/kstars/ekos/mount/qml/mountbox.qml";
     if (!QFileInfo(MountBox_Location).exists())
         MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
 #elif defined(Q_OS_WIN)
@@ -204,9 +204,7 @@ Mount::Mount()
 
     m_Ctxt->setContextProperty("mount", this);
 
-    m_BaseView->setMinimumSize(QSize(270, 600));
-    m_BaseView->setMaximumSize(QSize(270, 600));
-    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
+    m_BaseView->setResizeMode(QQuickView::SizeViewToRootObject);
 
     m_SpeedSlider  = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
     m_SpeedLabel   = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");
@@ -380,8 +378,8 @@ void Mount::syncTelescopeInfo()
     {
         parkB->setEnabled(!currentTelescope->isParked());
         unparkB->setEnabled(currentTelescope->isParked());
-        connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()), Qt::UniqueConnection);
-        connect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()), Qt::UniqueConnection);
+        connect(parkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::Park, Qt::UniqueConnection);
+        connect(unparkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::UnPark, Qt::UniqueConnection);
 
         // QtQuick
         m_Park->setEnabled(!currentTelescope->isParked());
@@ -391,8 +389,8 @@ void Mount::syncTelescopeInfo()
     {
         parkB->setEnabled(false);
         unparkB->setEnabled(false);
-        disconnect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
-        disconnect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()));
+        disconnect(parkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::Park);
+        disconnect(unparkB, &QPushButton::clicked, currentTelescope, &ISD::Telescope::UnPark);
 
         // QtQuick
         m_Park->setEnabled(false);
@@ -409,7 +407,7 @@ void Mount::syncTelescopeInfo()
             scopeConfigCombo->addItem(svp->sp[i].label);
 
         scopeConfigCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
-        connect(scopeConfigCombo, SIGNAL(activated(int)), this, SLOT(setScopeConfig(int)));
+        connect(scopeConfigCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Mount::setScopeConfig);
     }
 
     // Tracking State
@@ -1027,6 +1025,26 @@ bool Mount::altitudeLimitsEnabled()
     return enableLimitsCheck->isChecked();
 }
 
+double Mount::hourAngleLimit()
+{
+    return maxHaLimit->value();
+}
+
+void Mount::setHourAngleLimit(double limit)
+{
+    maxHaLimit->setValue(limit);
+}
+
+void Mount::setHourAngleLimitEnabled(bool enable)
+{
+    enableHaLimitCheck->setChecked(enable);
+}
+
+bool Mount::hourAngleLimitEnabled()
+{
+    return enableHaLimitCheck->isChecked();
+}
+
 void Mount::setJ2000Enabled(bool enabled)
 {
     m_J2000Check->setProperty("checked", enabled);
@@ -1037,7 +1055,10 @@ bool Mount::gotoTarget(const QString &target)
     SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
 
     if (object != nullptr)
+    {
+        object->updateCoordsNow(KStarsData::Instance()->updateNum());
         return slew(object->ra().Hours(), object->dec().Degrees());
+    }
 
     return false;
 }
@@ -1047,7 +1068,10 @@ bool Mount::syncTarget(const QString &target)
     SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
 
     if (object != nullptr)
+    {
+        object->updateCoordsNow(KStarsData::Instance()->updateNum());
         return sync(object->ra().Hours(), object->dec().Degrees());
+    }
 
     return false;
 }
@@ -1132,6 +1156,8 @@ bool Mount::slew(double RA, double DEC)
     if (currentTelescope->Slew(currentTargetPosition))
     {
         m_Status = ISD::Telescope::Status::MOUNT_SLEWING;
+        m_statusText->setProperty("text", currentTelescope->getStatusString(m_Status));
+        emit newStatus(m_Status);
         return true;
     }
 
@@ -1149,26 +1175,30 @@ bool Mount::checkMeridianFlip(dms lst)
     // checks if a flip is possible
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
     {
-        meridianFlipStatusText->setText("Status: inactive (no scope connected)");
+        meridianFlipStatusText->setText(i18n("Status: inactive (no scope connected)"));
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         setMeridianFlipStatus(FLIP_NONE);
         return false;
     }
 
     if (meridianFlipCheckBox->isChecked() == false)
     {
-        meridianFlipStatusText->setText("Status: inactive (flip not requested)");
+        meridianFlipStatusText->setText(i18n("Status: inactive (flip not requested)"));
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         return false;
     }
 
     if (currentTelescope->isParked())
     {
-        meridianFlipStatusText->setText("Status: inactive (parked)");
+        meridianFlipStatusText->setText(i18n("Status: inactive (parked)"));
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         return false;
     }
 
     if (currentTargetPosition == nullptr)
     {
-        meridianFlipStatusText->setText("Status: inactive (no Target set)");
+        meridianFlipStatusText->setText(i18n("Status: inactive (no Target set)"));
+        emit newMeridianFlipText(meridianFlipStatusText->text());
         return false;
     }
 
@@ -1211,7 +1241,8 @@ bool Mount::checkMeridianFlip(dms lst)
             // we can only attempt a flip if the mount started before the meridian, assumed in the unflipped state
             if (initialHA() >= 0)
             {
-                meridianFlipStatusText->setText("Status: inactive (slew after meridian)");
+                meridianFlipStatusText->setText(i18n("Status: inactive (slew after meridian)"));
+                emit newMeridianFlipText(meridianFlipStatusText->text());
                 if (m_MFStatus == FLIP_NONE)
                     return false;
             }
@@ -1227,29 +1258,17 @@ bool Mount::checkMeridianFlip(dms lst)
     int hh = static_cast<int> (hrsToFlip);
     int mm = static_cast<int> ((hrsToFlip - hh) * 60);
     int ss = static_cast<int> ((hrsToFlip - hh - mm / 60.0) * 3600);
-    QString message = QString("Meridian flip in %1h:%2m:%3s")
-                      .arg(hh, 2, 10, QChar('0'))
-                      .arg(mm, 2, 10, QChar('0'))
-                      .arg(ss, 2, 10, QChar('0'));
+    QString message = i18n("Meridian flip in %1", QTime(hh, mm, ss).toString(Qt::TextDate));
 
     // handle the meridian flip state machine
     switch (m_MFStatus)
     {
         case FLIP_NONE:
             meridianFlipStatusText->setText(message);
+            emit newMeridianFlipText(meridianFlipStatusText->text());
 
             if (hrsToFlip <= 0)
             {
-                // If Capture's meridian flip status is not FLIP_NONE, then it will ignore the
-                // FLIP_PLANNED message, so best to wait until Capture's ready and in FLIP_NONE state.
-                if (m_CaptureMFStatus != FLIP_NONE && captureInterface != nullptr)
-                {
-                    meridianFlipStatusText->setText("Waiting for Capture");
-                    qCDebug(KSTARS_EKOS_MOUNT) << "Delaying flip until capture is ready. It's current status: "
-                                               << meridianFlipStatusString(m_MFStatus);
-                    break;
-                }
-
                 // signal that a flip can be done
                 qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
                                            lst.toHMSString() <<
@@ -1399,8 +1418,10 @@ bool Mount::executeMeridianFlip()
 void Mount::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
 {
     qCDebug(KSTARS_EKOS_MOUNT) << "Received capture meridianFlipStatusChange " << meridianFlipStatusString(status);
-    m_CaptureMFStatus = status;
-    if (status != FLIP_NONE)
+
+    // only the states FLIP_WAITING and FLIP_ACCEPTED are relevant as answers
+    // to FLIP_PLANNED, all other states are set only internally
+    if (status == FLIP_WAITING || status == FLIP_ACCEPTED)
         meridianFlipStatusChangedInternal(status);
 }
 
@@ -1413,15 +1434,18 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
     switch (status)
     {
         case FLIP_NONE:
-            meridianFlipStatusText->setText("Status: inactive");
+            meridianFlipStatusText->setText(i18n("Status: inactive"));
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             break;
 
         case FLIP_PLANNED:
-            meridianFlipStatusText->setText("Meridian flip planned...");
+            meridianFlipStatusText->setText(i18n("Meridian flip planned..."));
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             break;
 
         case FLIP_WAITING:
-            meridianFlipStatusText->setText("Meridian flip waiting...");
+            meridianFlipStatusText->setText(i18n("Meridian flip waiting..."));
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             appendLogText(i18n("Meridian flip waiting."));
             break;
 
@@ -1433,12 +1457,14 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
             break;
 
         case FLIP_RUNNING:
-            meridianFlipStatusText->setText("Meridian flip running...");
+            meridianFlipStatusText->setText(i18n("Meridian flip running..."));
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             appendLogText(i18n("Meridian flip started."));
             break;
 
         case FLIP_COMPLETED:
-            meridianFlipStatusText->setText("Meridian flip completed.");
+            meridianFlipStatusText->setText(i18n("Meridian flip completed."));
+            emit newMeridianFlipText(meridianFlipStatusText->text());
             appendLogText(i18n("Meridian flip completed."));
             break;
 
@@ -1682,16 +1708,17 @@ void Mount::toggleMountToolBox()
 
 void Mount::findTarget()
 {
-    KStarsData *data        = KStarsData::Instance();
-    if (FindDialog::Instance()->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->execWithParent(Ekos::Manager::Instance()) == QDialog::Accepted)
     {
         SkyObject *object = FindDialog::Instance()->targetObject();
         if (object != nullptr)
         {
+            KStarsData * const data = KStarsData::Instance();
+
             SkyObject *o = object->clone();
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 
-	    m_equatorialCheck->setProperty("checked", true);
+            m_equatorialCheck->setProperty("checked", true);
 
             m_targetText->setProperty("text", o->name());
 
@@ -1721,7 +1748,7 @@ bool Mount::raDecToAzAlt(QString qsRA, QString qsDec)
     SkyPoint targetCoord(RA, Dec);
 
     targetCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(),
-	KStarsData::Instance()->geo()->lat());
+                                       KStarsData::Instance()->geo()->lat());
 
     m_targetRAText->setProperty("text", targetCoord.az().toDMSString());
     m_targetDEText->setProperty("text", targetCoord.alt().toDMSString());
@@ -1748,7 +1775,7 @@ bool  Mount::raDecToHaDec(QString qsRA)
     }
 
     m_targetRAText->setProperty("text", QString("%1%2").arg(sgn).arg(HA.toHMSString()));
-    
+
     return true;
 }
 
@@ -1764,7 +1791,7 @@ bool  Mount::azAltToRaDec(QString qsAz, QString qsAlt)
     targetCoord.setAlt(Alt);
 
     targetCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
-	KStars::Instance()->data()->geo()->lat());
+                                       KStars::Instance()->data()->geo()->lat());
 
     m_targetRAText->setProperty("text", targetCoord.ra().toHMSString());
     m_targetDEText->setProperty("text", targetCoord.dec().toDMSString());
@@ -1786,7 +1813,7 @@ bool  Mount::azAltToHaDec(QString qsAz, QString qsAlt)
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
 
     targetCoord.HorizontalToEquatorial(&lst, KStars::Instance()->data()->geo()->lat());
-	
+
     dms HA = (lst - targetCoord.ra() + dms(360.0)).reduce();
 
     QChar sgn('+');
@@ -1799,7 +1826,7 @@ bool  Mount::azAltToHaDec(QString qsAz, QString qsAlt)
     m_targetRAText->setProperty("text", QString("%1%2").arg(sgn).arg(HA.toHMSString()));
     m_targetDEText->setProperty("text", targetCoord.dec().toDMSString());
 
-    
+
     return true;
 }
 
@@ -1984,6 +2011,34 @@ int Mount::slewRate()
 
 //    return scopes;
 //}
+
+bool Mount::autoParkEnabled()
+{
+    return autoParkTimer.isActive();
+}
+
+void Mount::setAutoParkEnabled(bool enable)
+{
+    if (enable)
+        startParkTimer();
+    else
+        stopParkTimer();
+}
+
+void Mount::setAutoParkStartup(QTime startup)
+{
+    startupTimeEdit->setTime(startup);
+}
+
+bool Mount::meridianFlipEnabled()
+{
+    return meridianFlipCheckBox->isChecked();
+}
+
+double Mount::meridianFlipValue()
+{
+    return meridianFlipTimeBox->value();
+}
 
 void Mount::startParkTimer()
 {

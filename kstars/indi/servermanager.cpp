@@ -100,7 +100,7 @@ bool ServerManager::start()
 
     if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
     {
-        qCCritical(KSTARS_INDI) << "Unable to create INDI FIFO file: " << fifoFile << endl;
+        qCCritical(KSTARS_INDI) << "Unable to create INDI FIFO file: " << fifoFile;
         return false;
     }
 
@@ -189,7 +189,12 @@ bool ServerManager::startDriver(DriverInfo *dv)
     {
         QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
         qCDebug(KSTARS_INDI) << "Starting Remote INDI Driver" << driverString;
-        out << "start " << driverString << endl;
+        out << "start " << driverString;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+        out << Qt::endl;
+#else
+        out << endl;
+#endif
         out.flush();
     }
     else
@@ -216,7 +221,11 @@ bool ServerManager::startDriver(DriverInfo *dv)
             out << " -n \"" << dv->getUniqueLabel() << "\"";
         if (dv->getSkeletonFile().isEmpty() == false)
             out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+        out << Qt::endl;
+#else
         out << endl;
+#endif
 
         out.flush();
 
@@ -237,9 +246,15 @@ void ServerManager::stopDriver(DriverInfo *dv)
     qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << dv->getExecutable();
 
     if (dv->getUniqueLabel().isEmpty() == false)
-        out << "stop " << dv->getExecutable() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
+        out << "stop " << dv->getExecutable() << " -n \"" << dv->getUniqueLabel() << "\"";
     else
-        out << "stop " << dv->getExecutable() << endl;
+        out << "stop " << dv->getExecutable();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    out << Qt::endl;
+#else
+    out << endl;
+#endif
 
     out.flush();
     dv->setServerState(false);
@@ -283,7 +298,12 @@ bool ServerManager::restartDriver(DriverInfo *dv)
         {
             QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
             qCDebug(KSTARS_INDI) << "Restarting Remote INDI Driver" << driverString;
-            out << "start " << driverString << endl;
+            out << "start " << driverString;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+            out << Qt::endl;
+#else
+            out << endl;
+#endif
             out.flush();
         }
         else
@@ -299,7 +319,11 @@ bool ServerManager::restartDriver(DriverInfo *dv)
                 out << " -n \"" << dv->getUniqueLabel() << "\"";
             if (dv->getSkeletonFile().isEmpty() == false)
                 out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+            out << Qt::endl;
+#else
             out << endl;
+#endif
 
             out.flush();
 
@@ -316,7 +340,7 @@ void ServerManager::stop()
     if (serverProcess.get() == nullptr)
         return;
 
-    foreach (DriverInfo *device, managedDrivers)
+    for (auto device : managedDrivers)
     {
         device->reset();
     }
@@ -333,6 +357,9 @@ void ServerManager::stop()
 
     serverProcess.reset();
 
+    indiFIFO.close();
+    QFile::remove(indiFIFO.fileName());
+
 }
 
 void ServerManager::terminate()
@@ -347,10 +374,10 @@ void ServerManager::terminate()
 
 void ServerManager::connectionSuccess()
 {
-    foreach (DriverInfo *device, managedDrivers)
+    for (auto device : managedDrivers)
         device->setServerState(true);
 
-    connect(serverProcess.get(), SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
+    connect(serverProcess.get(), &QProcess::readyReadStandardError, this, &ServerManager::processStandardError);
 
     emit started();
 }

@@ -53,7 +53,7 @@ public:
     void setBlackToYellowGradient();
     void setGreenToRedGradient();
 
-    void loadData(FITSData *imageData, QRect sub, QList<Edge *> starCenters);
+    void loadData(QSharedPointer<FITSData> imageData, QRect sub, QList<Edge *> starCenters);
     template <typename T> void loadDataPrivate();
     float getImageDataValue(int x, int y);
     void toggleSlice();
@@ -107,7 +107,7 @@ private:
     QLabel *minValue { nullptr };
     QLabel *cutoffValue { nullptr };
     QPushButton *sliceB { nullptr };
-    FITSData * imageData { nullptr };
+    QSharedPointer<FITSData> imageData { nullptr };
     QRect subFrame;
 
     QSlider *blackPointSlider { nullptr };

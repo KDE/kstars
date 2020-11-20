@@ -67,11 +67,8 @@ class FITSTab : public QWidget
 
         void clearRecentFITS();
         void selectRecentFITS(int i);
-        void loadFITS(const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
-                      FITSScale filter = FITS_NONE, bool silent = true);
-
-        bool loadFITSFromData(FITSData *data, const QUrl &imageURL, FITSMode mode = FITS_NORMAL,
-                              FITSScale filter = FITS_NONE);
+        void loadFile(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
+        bool loadData(const QSharedPointer<FITSData> &data, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
         bool saveImage(const QString &filename);
 
@@ -123,7 +120,7 @@ class FITSTab : public QWidget
         bool shouldComputeHFR() const;
 
     public slots:
-        void modifyFITSState(bool clean = true);
+        void modifyFITSState(bool clean = true, const QUrl &imageURL = QUrl());
         void ZoomIn();
         void ZoomOut();
         void ZoomDefault();
@@ -183,7 +180,7 @@ class FITSTab : public QWidget
     signals:
         void debayerToggled(bool);
         void newStatus(const QString &msg, FITSBar id);
-        void changeStatus(bool clean);
+        void changeStatus(bool clean, const QUrl &imageUrl);
         void loaded();
         void failed();
 };

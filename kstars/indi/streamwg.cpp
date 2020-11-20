@@ -381,7 +381,8 @@ void StreamWG::toggleRecord()
 
 void StreamWG::newFrame(IBLOB *bp)
 {
-    bool rc = (m_DebayerActive) ? videoFrame->newBayerFrame(bp, m_DebayerParams) : videoFrame->newFrame(bp);
+    bool rc = (m_DebayerActive
+               && !strcmp(bp->format, ".stream")) ? videoFrame->newBayerFrame(bp, m_DebayerParams) : videoFrame->newFrame(bp);
 
     if (rc == false)
         qCWarning(KSTARS) << "Failed to load video frame.";

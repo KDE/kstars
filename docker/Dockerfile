@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 # Suitable for builds
 RUN apt update && apt -y install --no-install-recommends software-properties-common
-RUN apt update && add-apt-repository ppa:mutlaqja/ppa
+RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
 RUN apt update && apt -y install --no-install-recommends \
       gcc-multilib \
       g++-multilib \
@@ -43,7 +43,7 @@ RUN apt update && apt -y install --no-install-recommends \
       libstellarsolver
 
 # Suitable for tests
-RUN apt update && add-apt-repository ppa:mutlaqja/ppa
+RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
 RUN apt update && add-apt-repository ppa:pch/phd2
 RUN apt update && apt -y --no-install-recommends install \
       make \
@@ -91,6 +91,10 @@ RUN apt update && apt -y --no-install-recommends install \
 RUN apt install -y --no-install-recommends \
       libsaxon-java \
       openjdk-11-jre-headless
+
+# StellarSolver
+RUN apt install -y --no-install-recommends \
+      libstellarsolver-dev
 
 CMD /bin/bash
 

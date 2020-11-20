@@ -6,14 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>768</width>
-    <height>894</height>
+    <width>642</width>
+    <height>703</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QLabel" name="label_30">
      <property name="styleSheet">
@@ -35,6 +50,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
       <widget class="QLabel" name="required_legend">
        <property name="enabled">
@@ -188,6 +206,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item row="0" column="1">
       <widget class="QComboBox" name="indexLocations"/>
      </item>
@@ -237,6 +258,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
      </item>
      <item row="0" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <property name="spacing">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QPushButton" name="addIndexFileDirectory">
          <property name="toolTip">
@@ -282,6 +306,21 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
         <string>Index Files</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item row="17" column="3">
          <widget class="QCheckBox" name="index_4210">
           <property name="text">
@@ -3839,6 +3878,14 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
   </layout>
  </widget>
  <resources>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
   <include location="../../data/kstars.qrc"/>
  </resources>
  <connections/>

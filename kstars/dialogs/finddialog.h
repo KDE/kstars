@@ -77,6 +77,13 @@ class FindDialog : public QDialog
      */
     static DeepSkyObject *resolveAndAdd(const QString &query);
 
+    /**
+     * @brief exec overrides base's QDialog::exec() to provide a parent widget.
+     * @param parent is the widget to position the FindDialog instance againt.
+     * @return QDialog::exec() result.
+     */
+    int execWithParent(QWidget* parent = nullptr);
+
   public slots:
     /**
      * When Text is entered in the QLineEdit, filter the List of objects

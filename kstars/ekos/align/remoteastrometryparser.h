@@ -10,6 +10,7 @@
 #pragma once
 
 #include "astrometryparser.h"
+#include "fitsviewer/fitsdata.h"
 #include "indi/indiccd.h"
 
 namespace Ekos

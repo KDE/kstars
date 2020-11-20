@@ -313,6 +313,7 @@ void KStars::releaseResources()
 #endif
 
 #ifdef HAVE_CFITSIO
+    //if (Options::independentWindowFITS())
     qDeleteAll(m_FITSViewers);
 #endif
 
@@ -619,31 +620,48 @@ void KStars::updateTime(const bool automaticDSTchange)
 }
 
 #ifdef HAVE_CFITSIO
-QPointer<FITSViewer> KStars::genericFITSViewer()
+const QPointer<FITSViewer> &KStars::createFITSViewer()
+{
+    if (Options::singleWindowCapturedFITS())
+        return KStars::Instance()->genericFITSViewer();
+    else
+    {
+        QPointer<FITSViewer> newFITSViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
+
+        connect(newFITSViewer.data(), &FITSViewer::destroyed, [ = ]()
+        {
+            m_FITSViewers.removeOne(newFITSViewer);
+        });
+
+        m_FITSViewers.append(newFITSViewer);
+        return m_FITSViewers.constLast();
+    }
+}
+
+const QPointer<FITSViewer> &KStars::genericFITSViewer()
 {
     if (m_GenericFITSViewer.isNull())
     {
         m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : this);
-        m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
-
+        //m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
         m_FITSViewers.append(m_GenericFITSViewer);
     }
 
     return m_GenericFITSViewer;
 }
 
-void KStars::addFITSViewer(QPointer<FITSViewer> fv)
-{
-    m_FITSViewers.append(fv);
-    connect(fv.data(), &FITSViewer::destroyed, [ &, fv]()
-    {
-        m_FITSViewers.removeOne(fv);
-    });
-}
+//void KStars::addFITSViewer(const QSharedPointer<FITSViewer> &fv)
+//{
+//    m_FITSViewers.append(fv);
+//    connect(fv.data(), &FITSViewer::terminated, [ = ]()
+//    {
+//        m_FITSViewers.removeOne(fv);
+//    });
+//}
 
 void KStars::clearAllViewers()
 {
-    for (QPointer<FITSViewer> fv : m_FITSViewers)
+    for (auto &fv : m_FITSViewers)
         fv->close();
 
     m_FITSViewers.clear();

@@ -32,6 +32,9 @@
     <method name="capture">
       <arg type="b" direction="out"/>
     </method>
+    <method name="loop">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="dither">
       <arg type="b" direction="out"/>
     </method>
@@ -40,13 +43,13 @@
     </method>
     <method name="resume">
       <arg type="b" direction="out"/>
-    </method>    
+    </method>
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>   
+    </method>
     <method name="getST4Devices">
       <arg type="as" direction="out"/>
-    </method>        
+    </method>
     <method name="setImageFilter">
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

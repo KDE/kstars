@@ -36,13 +36,14 @@
 #include <libraw/libraw.h>
 #endif
 
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#endif
+
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
 
-#ifdef HAVE_STELLARSOLVER
-#include <stellarsolver.h>
-#endif
 namespace KSUtils
 {
 
@@ -1132,6 +1133,8 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/solve-field";
+#elif defined(Q_OS_WIN)
+        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/solve-field.exe";
 #endif
         return prefix + "/bin/solve-field";
     }
@@ -1146,6 +1149,8 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/bin/wcsinfo";
+#elif defined(Q_OS_WIN)
+        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/wcsinfo.exe";
 #endif
         return prefix + "/bin/wcsinfo";
     }
@@ -1153,6 +1158,8 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(Q_OS_OSX)
         return "/usr/local/etc/astrometry.cfg";
+#elif defined(Q_OS_WIN)
+        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/etc/astrometry/backend.cfg";
 #endif
         // We move /usr
         prefix.remove(userPrefix);
@@ -1191,11 +1198,24 @@ QString getDefaultPath(const QString &option)
 
 QStringList getAstrometryDefaultIndexFolderPaths()
 {
+    QStringList folderPaths;
+    const QString confDir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry");
+    folderPaths << confDir;
+    // Check if directory already exists, if it doesn't create one
+    QDir writableDir(confDir);
+    if (writableDir.exists() == false)
+    {
+        if (writableDir.mkdir(confDir) == false)
+        {
+            qCCritical(KSTARS) << "Failed to create local astrometry directory";
+            folderPaths.clear();
+        }
+    }
+
 #ifdef HAVE_STELLARSOLVER
-    return StellarSolver::getDefaultIndexFolderPaths();
-#else
-    return QStringList();
+    folderPaths.append(StellarSolver::getDefaultIndexFolderPaths());
 #endif
+    return folderPaths;
 }
 
 #if defined(Q_OS_OSX)
@@ -1206,7 +1226,7 @@ void copyResourcesFolderFromAppBundle(QString folder)
                              QStandardPaths::LocateDirectory);
     QDir folderSourceDir;
     if(folder == "kstars")
-        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
+        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath();
     else
         folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder).absolutePath();
     if (folderSourceDir.exists())
@@ -1218,26 +1238,18 @@ void copyResourcesFolderFromAppBundle(QString folder)
     }
 }
 
-bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data directory is good to go.
+bool setupMacKStarsIfNeeded() // This method will return false if the KStars data directory doesn't exist when it's done
 {
     //This will copy the locale folder, the notifications folder, and the sounds folder and any missing files in them to Application Support if needed.
     copyResourcesFolderFromAppBundle("locale");
     copyResourcesFolderFromAppBundle("knotifications5");
     copyResourcesFolderFromAppBundle("sounds");
 
-    //This will check for the data directory and if its not present, it will run the wizard.
-    QString dataLocation =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    if (dataLocation.isEmpty()) //If there is no kstars user data directory
+    //This will copy the KStars data directory
+    copyResourcesFolderFromAppBundle("kstars");
+
+    if(Options::kStarsFirstRun())
     {
-        QPointer<KSWizard> wizard = new KSWizard(new QFrame());
-        wizard->exec(); //This will pause the startup until the user installs the data directory from the Wizard.
-
-        dataLocation =
-            QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-        if (dataLocation.isEmpty())
-            return false;
-
         //This sets some important OS X options.
         Options::setIndiServerIsInternal(true);
         Options::setIndiServer("*Internal INDI Server*");
@@ -1251,16 +1263,16 @@ bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data
         Options::setSextractorBinary("*Internal Sextractor*");
         Options::setAstrometryWCSIsInternal(true);
         Options::setAstrometryWCSInfo("*Internal wcsinfo*");
-        Options::setAstrometryUseNoFITS2FITS(false);
         Options::setXplanetIsInternal(true);
         Options::setXplanetPath("*Internal XPlanet*");
-        Options::setRunStartupWizard(false); //don't run on startup because we are doing it now.
-
-        return true; //This means the data directory is good to go now that we created it from the default.
     }
-    //This will copy any of the critical KStars files from the app bundle to application support if they are missing.
-    copyResourcesFolderFromAppBundle("kstars");
-    return true; //This means the data directory was good to go from the start and the wizard did not run.
+
+    QString dataLocation =
+        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+    if (dataLocation.isEmpty()) //If there is no kstars user data directory
+        return false;
+
+    return true;
 }
 
 
@@ -1363,12 +1375,13 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 }
 #endif
 
+#if 0
 //Note maybe the Mac and Linux versions of creating the local astrometry conf file and index file folder can be merged.
 //I moved both of them here and this method references each one separately.
 //One is createLocalAstrometryConf and the other is configureAstrometry
 bool configureLocalAstrometryConfIfNecessary()
 {
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX) || defined (Q_OS_WIN32)
     QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
                        QLatin1String("/astrometry.cfg");
     if (QFileInfo(confPath).exists() == false)
@@ -1393,36 +1406,29 @@ bool configureLocalAstrometryConfIfNecessary()
 //Can this and the mac method be merged somehow?  See KSUtils::configureAstrometry.
 bool createLocalAstrometryConf()
 {
-    bool rc = false;
-
-    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
-                       QLatin1String("/astrometry.cfg");
-    QString systemConfPath = "/etc/astrometry.cfg";
+    const QString confDir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry");
+    QString confPath = confDir + QDir::separator() + QLatin1String("astrometry.cfg");
 
     // Check if directory already exists, if it doesn't create one
-    QDir writableDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry"));
+    QDir writableDir(confPath);
     if (writableDir.exists() == false)
     {
-        rc = writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry"));
-
-        if (rc == false)
+        if (writableDir.mkdir(confPath) == false)
         {
             qCCritical(KSTARS) << "Failed to create local astrometry directory";
             return false;
         }
     }
 
+#if defined(Q_OS_LINUX)
     // Now copy system astrometry.cfg to local directory
-    rc = QFile(systemConfPath).copy(confPath);
-
-    if (rc == false)
+    const QString systemConfPath = "/etc/astrometry.cfg";
+    if (QFile(systemConfPath).copy(confPath) == false)
     {
         qCCritical(KSTARS) << "Failed to copy" << systemConfPath << "to" << confPath;
         return false;
     }
-
     QFile localConf(confPath);
-
     // Open file and add our own path to it
     if (localConf.open(QFile::ReadWrite))
     {
@@ -1432,7 +1438,7 @@ bool createLocalAstrometryConf()
         {
             if (lines[i].startsWith("add_path"))
             {
-                lines.insert(i + 1, QString("add_path %1astrometry").arg(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
+                lines.insert(i + 1, QString("add_path %1").arg(confDir));
                 break;
             }
         }
@@ -1447,10 +1453,23 @@ bool createLocalAstrometryConf()
         localConf.close();
         return true;
     }
+#elif defined(Q_OS_WIN32)
+    QFile localConf(confPath);
+    QTextStream out(&localConf);
+    if (localConf.open(QFile::WriteOnly))
+    {
+        out << "inparallel" << endl;
+        out << "cpulimit 300" << endl;
+        out << QString("add_path %1astrometry").arg(confDir) << endl;
+        out << "autoindex" << endl;
+        localConf.close();
+    }
+#endif
 
     qCCritical(KSTARS) << "Failed to open local astrometry config" << confPath;
     return false;
 }
+#endif
 
 QString getAstrometryConfFilePath()
 {
@@ -1468,52 +1487,84 @@ QString getAstrometryConfFilePath()
 
 QStringList getAstrometryDataDirs()
 {
-    QStringList dataDirs;
-    QString confPath = KSUtils::getAstrometryConfFilePath();
+    QStringList optionsDataDirs = Options::astrometryIndexFolderList();
 
-    QFile confFile(confPath);
+    bool updated = false;
 
-    if (confFile.open(QIODevice::ReadOnly) == false)
+    // Cleaning up the list of directories in options.
+    for(int dir = 0; dir < optionsDataDirs.count(); dir++)
     {
-        bool confFileExists = false;
-        if(Options::astrometryConfFileIsInternal())
+        QString optionsDataDirName = optionsDataDirs.at(dir);
+        QDir optionsDataDir(optionsDataDirName);
+        if(optionsDataDir.exists())
         {
-            if(KSUtils::configureLocalAstrometryConfIfNecessary())
+            //This will replace directory names that aren't the absolute path
+            if(optionsDataDir.absolutePath() != optionsDataDirName)
             {
-                if (confFile.open(QIODevice::ReadOnly))
-                    confFileExists = true;
+                optionsDataDirs.replace(dir, optionsDataDir.absolutePath());
+                updated = true;
             }
         }
-        if(!confFileExists)
+        else
         {
-            KSNotification::error(i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
-                                       "configuration file full path in INDI options.",
-                                       confPath));
-            return dataDirs;
+            //This removes directories that do not exist from the list.
+            optionsDataDirs.removeAt(dir);
+            dir--;
+            updated = true;
         }
     }
 
-    QTextStream in(&confFile);
-    QString line;
-    while (!in.atEnd())
+    //This will load the conf file if it exists
+    QFile confFile(KSUtils::getAstrometryConfFilePath());
+    if (confFile.open(QIODevice::ReadOnly))
     {
-        line = in.readLine();
-        if (line.isEmpty() || line.startsWith('#'))
-            continue;
+        QStringList confDataDirs;
+        QTextStream in(&confFile);
+        QString line;
 
-        line = line.trimmed();
-        if (line.startsWith(QLatin1String("add_path")))
+        //This will find the index file paths in the conf file
+        while (!in.atEnd())
         {
-            dataDirs << line.mid(9).trimmed();
+            line = in.readLine();
+            if (line.isEmpty() || line.startsWith('#'))
+                continue;
+
+            line = line.trimmed();
+            if (line.startsWith(QLatin1String("add_path")))
+            {
+                confDataDirs << line.mid(9).trimmed();
+            }
+        }
+
+        //This will search through the paths and compare them to the index folder list
+        //It will add them if they aren't in there.
+        for(QString astrometryDataDirName : confDataDirs)
+        {
+            QDir astrometryDataDir(astrometryDataDirName);
+            //This rejects any that do not exist
+            if(!astrometryDataDir.exists())
+                continue;
+            QString astrometryDataDirPath = astrometryDataDir.absolutePath();
+            if( !optionsDataDirs.contains(astrometryDataDirPath ))
+            {
+                optionsDataDirs.append(astrometryDataDirPath);
+                updated = true;
+            }
         }
     }
-    // if(dataDirs.size()==0)
-    //    KSNotification::error(i18n("Unable to find data dir in astrometry configuration file."));
 
-    return dataDirs;
+    //This will remove any duplicate entries.
+    if(optionsDataDirs.removeDuplicates() != 0)
+        updated = true;
+
+    //This updates the list in Options if it changed.
+    if(updated)
+        Options::setAstrometryIndexFolderList(optionsDataDirs);
+
+    return optionsDataDirs;
 }
 
-bool addAstrometryDataDir(QString dataDir)
+bool addAstrometryDataDir(const QString &dataDir)
 {
     //This will need to be fixed!
     //if(Options::astrometryIndexFileLocation() != dataDir)
@@ -1581,7 +1632,7 @@ bool addAstrometryDataDir(QString dataDir)
     return true;
 }
 
-bool removeAstrometryDataDir(QString dataDir)
+bool removeAstrometryDataDir(const QString &dataDir)
 {
     QString confPath = KSUtils::getAstrometryConfFilePath();
     QStringList astrometryDataDirs = getAstrometryDataDirs();
@@ -1682,9 +1733,7 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
             return false;
         }
     }
-
     return true;
-
 #endif
 }
 

@@ -1,85 +1,87 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
-  <interface name="org.kde.kstars.Ekos.Mount">
-  <property name="logText" type="as" access="read"/>
-  <property name="canPark" type="b" access="read"/>
-  <property name="slewStatus" type="i" access="read"/>
-  <property name="altitudeLimits" type="(i)" access="readwrite">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
-  </property>
-  <property name="altitudeLimitsEnabled" type="b" access="readwrite"/>
-  <property name="equatorialCoords" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
-  </property>
-  <property name="horizontalCoords" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
-  </property>
-  <property name="slewRate" type="i" access="readwrite"/>
-  <property name="telescopeInfo" type="(i)" access="readwrite">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
-  </property>
-  <property name="hourAngle" type="d" access="read"/>
-  <property name="status" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
-  </property>
-  <property name="parkStatus" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
-  </property>
-  <property name="pierSide" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::PierSide"/>
-  </property>
-    <method name="slew">
-      <arg type="b" direction="out"/>
-      <arg name="RA" type="d" direction="in"/>
-      <arg name="DEC" type="d" direction="in"/>
-    </method>
-    <method name="gotoTarget">
-      <arg type="b" direction="out"/>
-      <arg name="target" type="s" direction="in"/>
-    </method>
-    <method name="syncTarget">
-      <arg type="b" direction="out"/>
-      <arg name="target" type="s" direction="in"/>
-    </method>
-    <method name="abort">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="park">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="unpark">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="resetModel">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="executeMeridianFlip">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="setMeridianFlipValues">
-      <arg name="activate" type="b" direction="in"/>
-      <arg name="hours" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <signal name="newStatus">
-        <arg name="status" type="(i)" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Telescope::Status"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::Status"/>
-    </signal>
-    <signal name="newParkStatus">
-        <arg name="status" type="(i)" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::ParkStatus"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
-    </signal>
-    <signal name="pierSideChanged">
-        <arg name="side" type="(i)" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Telescope::PierSide"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::PierSide"/>
-    </signal>
-    <signal name="newMeridianFlipSetup">
-        <arg name="activate" type="b" direction="in"/>
-        <arg name="hours" type="d" direction="in"/>
-    </signal>
-    <signal name="ready"/>
-  </interface>
+    <interface name="org.kde.kstars.Ekos.Mount">
+        <property name="logText" type="as" access="read"/>
+        <property name="canPark" type="b" access="read"/>
+        <property name="slewStatus" type="i" access="read"/>
+        <property name="altitudeLimits" type="(i)" access="readwrite">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+        </property>
+        <property name="altitudeLimitsEnabled" type="b" access="readwrite"/>
+        <property name="hourAngleLimit" type="d" access="readwrite"/>
+        <property name="hourAngleLimitEnabled" type="b" access="readwrite"/>
+        <property name="equatorialCoords" type="(i)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+        </property>
+        <property name="horizontalCoords" type="(i)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+        </property>
+        <property name="slewRate" type="i" access="readwrite"/>
+        <property name="telescopeInfo" type="(i)" access="readwrite">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+        </property>
+        <property name="hourAngle" type="d" access="read"/>
+        <property name="status" type="(i)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
+        </property>
+        <property name="parkStatus" type="(i)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
+        </property>
+        <property name="pierSide" type="(i)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::PierSide"/>
+        </property>
+        <method name="slew">
+            <arg type="b" direction="out"/>
+            <arg name="RA" type="d" direction="in"/>
+            <arg name="DEC" type="d" direction="in"/>
+        </method>
+        <method name="gotoTarget">
+            <arg type="b" direction="out"/>
+            <arg name="target" type="s" direction="in"/>
+        </method>
+        <method name="syncTarget">
+            <arg type="b" direction="out"/>
+            <arg name="target" type="s" direction="in"/>
+        </method>
+        <method name="abort">
+            <arg type="b" direction="out"/>
+        </method>
+        <method name="park">
+            <arg type="b" direction="out"/>
+        </method>
+        <method name="unpark">
+            <arg type="b" direction="out"/>
+        </method>
+        <method name="resetModel">
+            <arg type="b" direction="out"/>
+        </method>
+        <method name="executeMeridianFlip">
+            <arg type="b" direction="out"/>
+        </method>
+        <method name="setMeridianFlipValues">
+            <arg name="activate" type="b" direction="in"/>
+            <arg name="hours" type="d" direction="in"/>
+            <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+        </method>
+        <signal name="newStatus">
+            <arg name="status" type="(i)" direction="out"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Telescope::Status"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::Status"/>
+        </signal>
+        <signal name="newParkStatus">
+            <arg name="status" type="(i)" direction="out"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::ParkStatus"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
+        </signal>
+        <signal name="pierSideChanged">
+            <arg name="side" type="(i)" direction="out"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Telescope::PierSide"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::PierSide"/>
+        </signal>
+        <signal name="newMeridianFlipSetup">
+            <arg name="activate" type="b" direction="in"/>
+            <arg name="hours" type="d" direction="in"/>
+        </signal>
+        <signal name="ready"/>
+    </interface>
 </node>

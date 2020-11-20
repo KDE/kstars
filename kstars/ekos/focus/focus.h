@@ -12,6 +12,7 @@
 #include "ui_focus.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indiccd.h"
@@ -21,9 +22,8 @@
 #include "indi/inditelescope.h"
 
 #include <QtDBus/QtDBus>
+#include <parameters.h>
 
-#include "ekos/align/optionsprofileeditor.h"
-#include "parameters.h"
 namespace Ekos
 {
 
@@ -312,7 +312,7 @@ class Focus : public QWidget, public Ui::Focus
              * @brief newFITS A new FITS blob is received by the CCD driver.
              * @param bp pointer to blob data
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief processFocusNumber Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
@@ -364,7 +364,18 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
-        void loadOptionsProfiles();
+        /**
+         * @brief loadOptionsProfiles Load StellarSolver Profile
+         */
+        void loadStellarSolverProfiles();
+
+        /**
+         * @brief getStellarSolverProfiles
+         * @return list of StellarSolver profile names
+         */
+        QStringList getStellarSolverProfiles();
+
+
 
     private slots:
         /**
@@ -402,13 +413,14 @@ class Focus : public QWidget, public Ui::Focus
         void newLog(const QString &text);
         void newStatus(Ekos::FocusState state);
         void newHFR(double hfr, int position);
-        void newFocusTemperatureDelta(double delta);
+        void newFocusTemperatureDelta(double delta, double absTemperature);
 
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
 
         void suspendGuiding();
         void resumeGuiding();
+        void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
         void settingsUpdated(const QJsonObject &settings);
@@ -419,9 +431,9 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusAborted(const QString &filter, const QString &points);
     private:
 
-        QList<SSolver::Parameters> optionsList;
+        QList<SSolver::Parameters> m_StellarSolverProfiles;
         QString savedOptionsProfiles;
-        OptionsProfileEditor *optionsProfileEditor { nullptr };
+        StellarSolverProfileEditor *optionsProfileEditor { nullptr };
 
         ////////////////////////////////////////////////////////////////////
         /// Connections
@@ -512,7 +524,7 @@ class Focus : public QWidget, public Ui::Focus
         void updateTemperature(TemperatureSource source, double newTemperature);
         void emitTemperatureEvents(TemperatureSource source, double newTemperature);
 
-        void syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
+        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
@@ -591,6 +603,8 @@ class Focus : public QWidget, public Ui::Focus
 
         /// Are we in the process of capturing an image?
         bool captureInProgress { false };
+        /// Are we in the process of calculating HFR?
+        bool hfrInProgress { false };
         // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
         //bool frameModified;
         /// Was the modified frame subFramed?
@@ -708,6 +722,9 @@ class Focus : public QWidget, public Ui::Focus
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
+
+        // Data
+        QSharedPointer<FITSData> m_ImageData;
 
         // Linear focuser.
         std::unique_ptr<FocusAlgorithmInterface> linearFocuser;

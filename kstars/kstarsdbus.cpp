@@ -69,7 +69,8 @@ void KStars::setRaDecJ2000(double ra0, double dec0)
 void KStars::setAltAz(double alt, double az, bool altIsRefracted)
 {
     SkyPoint p;
-    if (altIsRefracted) {
+    if (altIsRefracted)
+    {
         alt = SkyPoint::unrefract(alt);
     }
     p.setAlt(alt);
@@ -1030,31 +1031,21 @@ void KStars::openFITS(const QUrl &imageURL)
 #ifndef HAVE_CFITSIO
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
 #else
-    QPointer<FITSViewer> fv;
-    if (Options::singleWindowOpenedFITS())
-        fv = genericFITSViewer();
-    else
-    {
-        fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
-        KStars::Instance()->addFITSViewer(fv);
-    }
+    QPointer<FITSViewer> fv = createFITSViewer();
+    //    auto m_Loaded = std::make_shared<QMetaObject::Connection>();
+    //    *m_Loaded = connect(fv.get(), &FITSViewer::loaded, [fv, m_Loaded]()
+    //    {
+    //        fv->show();
 
-    auto m_Loaded = std::make_shared<QMetaObject::Connection>();
-    *m_Loaded = connect(fv, &FITSViewer::loaded, [fv, m_Loaded]()
-    {
-        fv->show();
+    //        QObject::disconnect(*m_Loaded);
+    //    });
 
-        QObject::disconnect(*m_Loaded);
-    });
+    //    auto m_Failed = std::make_shared<QMetaObject::Connection>();
+    //    *m_Failed = connect(fv.get(), &FITSViewer::failed, [fv, m_Failed]()
+    //    {
+    //        QObject::disconnect(*m_Failed);
+    //    });
 
-    auto m_Failed = std::make_shared<QMetaObject::Connection>();
-    *m_Failed = connect(fv, &FITSViewer::failed, [fv, m_Failed]()
-    {
-        delete (fv);
-
-        QObject::disconnect(*m_Failed);
-    });
-
-    fv->addFITS(imageURL);
+    fv->loadFile(imageURL);
 #endif
 }

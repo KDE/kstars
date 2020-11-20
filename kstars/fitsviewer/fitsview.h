@@ -62,13 +62,13 @@ class FITSView : public QScrollArea
          * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
          * Obtain error by calling lastError()
          */
-        void loadFITS(const QString &inFilename, bool silent = true);
+        void loadFile(const QString &inFilename, bool silent = true);
 
         /**
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
          * @param data pointer to FITSData objects
          */
-        bool loadFITSFromData(FITSData *data);
+        bool loadData(const QSharedPointer<FITSData> &data);
 
         // Save FITS
         bool saveImage(const QString &newFilename);
@@ -78,7 +78,7 @@ class FITSView : public QScrollArea
         // Access functions
         FITSData *getImageData() const
         {
-            return imageData;
+            return imageData.data();
         }
         double getCurrentZoom() const
         {
@@ -295,7 +295,7 @@ class FITSView : public QScrollArea
         /// Cross hair
         QPointF markerCrosshair;
         /// Pointer to FITSData object
-        FITSData *imageData { nullptr };
+        QSharedPointer<FITSData> imageData;
         /// Current zoom level
         double currentZoom { 0 };
         // The maximum percent zoom. The value is recalculated in the constructor
@@ -304,13 +304,12 @@ class FITSView : public QScrollArea
 
     private:
         bool processData();
-        void doStretch(FITSData *data, QImage *outputImage);
+        void doStretch(QImage *outputImage);
         double scaleSize(double size);
         bool isLargeImage();
         void updateFrameLargeImage();
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
-
 
         QLabel *noImageLabel { nullptr };
         QPixmap noImage;

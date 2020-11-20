@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>614</width>
-    <height>562</height>
+    <height>587</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -440,7 +440,7 @@
         <item row="4" column="1">
          <widget class="QLineEdit" name="FocalLengthOut">
           <property name="toolTip">
-           <string>Effective Focal Length in millimeters based on Astrometric measurements.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active telescope supplied (effective) focal length in millimeters. Update telescope focal length to match the effective focal length to speed up plate solving.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -457,7 +457,7 @@
         <item row="4" column="3">
          <widget class="QLineEdit" name="FocalRatioOut">
           <property name="toolTip">
-           <string>Effective Focal Ratio based on astrometric measurements.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active telescope calculated (effective) focal ratio. The effective focal ratio is measured from astrometry.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -727,12 +727,12 @@
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::MinimumExpanding</enum>
+        <enum>QSizePolicy::Minimum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>5</height>
         </size>
        </property>
       </spacer>

@@ -52,14 +52,14 @@ void TestFitsData::testComputeHFR_data()
     // to FITS_FOCUS images, only to FITS_NORMAL images.
 
     // Normal HFR tests
-    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 11 << 3.88;
-    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.16;
-    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 100 << 1.23;
+    QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 11 << 3.92;
+    QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.13;
+    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 125 << 1.30;
 
     // Focus HFR tests
-    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 4 << 3.04;
-    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 6 << 1.82;
-    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 30 << 1.24;
+    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 3 << 3.02;
+    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 4 << 2.02;
+    QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 30 << 1.22;
 #endif
 }
 
@@ -79,7 +79,7 @@ void TestFitsData::testComputeHFR()
     std::unique_ptr<FITSData> d(new FITSData(MODE));
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 60000);
     QVERIFY(worker.result());
 
@@ -89,6 +89,7 @@ void TestFitsData::testComputeHFR()
 
     QCOMPARE(d->getDetectedStars(), NSTARS);
     QCOMPARE(d->getStarCenters().count(), NSTARS);
+    qDebug() << "Expected HFR:" << HFR << "Calculated:" << d->getHFR();
     QVERIFY(abs(d->getHFR() - HFR) <= 0.1);
 #endif
 }
@@ -123,7 +124,7 @@ void TestFitsData::testBahtinovFocusHFR()
     std::unique_ptr<FITSData> d(new FITSData(MODE));
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -171,7 +172,7 @@ void TestFitsData::initGenericDataFixture()
             << "m47_sim_stars.fits"
             << FITS_NORMAL
             << 80       // Stars found with the Centroid detection
-            << 100      // Stars found with the StellarSolver detection (Quick HFR)
+            << 94       // Stars found with the StellarSolver detection - default profile limits count
             << 1.49     // HFR found with the Centroid detection
             << 1.80     // HFR found with the Gradient detection
             << 0.0      // HFR found with the Threshold detection - not used
@@ -225,7 +226,7 @@ void TestFitsData::testLoadFits()
     std::unique_ptr<FITSData> fd(new FITSData(MODE));
     QVERIFY(fd != nullptr);
 
-    QFuture<bool> worker = fd->loadFITS(NAME);
+    QFuture<bool> worker = fd->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -309,7 +310,7 @@ void TestFitsData::testCentroidAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -339,7 +340,7 @@ void TestFitsData::testGradientAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -371,7 +372,7 @@ void TestFitsData::testThresholdAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 
@@ -401,7 +402,7 @@ void TestFitsData::testSEPAlgorithmBenchmark()
     std::unique_ptr<FITSData> d(new FITSData());
     QVERIFY(d != nullptr);
 
-    QFuture<bool> worker = d->loadFITS(NAME);
+    QFuture<bool> worker = d->loadFromFile(NAME);
     QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 10000);
     QVERIFY(worker.result());
 

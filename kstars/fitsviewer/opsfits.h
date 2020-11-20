@@ -8,14 +8,22 @@
 
 */
 
-#ifndef OPSFITS_H_
-#define OPSFITS_H_
+#pragma once
 
 #include "ui_opsfits.h"
+#include "config-kstars.h"
 
 #include <QStandardItemModel>
+#include <KConfigDialog>
 
-#include <kconfigdialog.h>
+#ifdef HAVE_STELLARSOLVER
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
+
+namespace SSolver
+{
+class Parameters;
+}
+#endif
 
 class KStars;
 
@@ -26,10 +34,21 @@ class KStars;
  */
 class OpsFITS : public QFrame, public Ui::OpsFITS
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsFITS();
+    public:
+        explicit OpsFITS();
+
+    private:
+#ifdef HAVE_STELLARSOLVER
+        // Initializes the HFR options menu.
+        void setupHFROptions();
+        void loadStellarSolverProfiles();
+
+        QList<SSolver::Parameters> m_StellarSolverProfiles;
+        QString savedOptionsProfiles;
+        Ekos::StellarSolverProfileEditor *optionsProfileEditor { nullptr };
+#endif
+
 };
 
-#endif

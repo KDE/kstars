@@ -118,12 +118,10 @@ if (INDI_FOUND)
             ekos/align/opsastrometry.ui
             ekos/align/opsprograms.ui
             ekos/align/opsalign.ui
-            ekos/align/opsastrometrycfg.ui
+            #ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
-            ekos/align/optionsprofileeditor.ui
             ekos/align/mountmodel.ui
-            ekos/align/optionsprofileeditor.ui
-            ekos/align/opsastap.ui
+            #ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
             # Mount
@@ -142,6 +140,7 @@ if (INDI_FOUND)
             ekos/auxiliary/filtersettings.ui
             ekos/auxiliary/opslogs.ui
             ekos/auxiliary/serialportassistant.ui
+            ekos/auxiliary/stellarsolverprofileeditor.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
             # INDI Hub
@@ -164,6 +163,8 @@ if (INDI_FOUND)
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/filterdelegate.cpp
             ekos/auxiliary/opslogs.cpp
+            ekos/auxiliary/stellarsolverprofileeditor.cpp
+            ekos/auxiliary/stellarsolverprofile.cpp
             ekos/auxiliary/serialportassistant.cpp
 
             # Capture
@@ -196,14 +197,13 @@ if (INDI_FOUND)
             ekos/align/opsastrometry.cpp
             ekos/align/opsalign.cpp
             ekos/align/opsprograms.cpp
-            ekos/align/opsastrometrycfg.cpp
+            #ekos/align/opsastrometrycfg.cpp
             ekos/align/opsastrometryindexfiles.cpp
-            ekos/align/optionsprofileeditor.cpp
-            ekos/align/opsastap.cpp
-            ekos/align/offlineastrometryparser.cpp
-            ekos/align/onlineastrometryparser.cpp
+            #ekos/align/opsastap.cpp
+            #ekos/align/offlineastrometryparser.cpp
+            #ekos/align/onlineastrometryparser.cpp
             ekos/align/remoteastrometryparser.cpp
-            ekos/align/astapastrometryparser.cpp
+            #ekos/align/astapastrometryparser.cpp
             ekos/align/polaralign.cpp
 
             # Guide
@@ -1150,8 +1150,7 @@ if(INDI_FOUND)
         include_directories(${GSL_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
         # StellarSolver
-        include_directories(${STELLARSOLVER_INCLUDE_DIR})
-        target_link_libraries(KStarsLib ${STELLARSOLVER_LIBRARIES})
+        target_link_libraries(KStarsLib StellarSolver::stellarsolver)
         ##why is this necessary??
         if(WIN32)
           find_package(Boost 1.45.0 COMPONENTS regex)
@@ -1235,12 +1234,19 @@ else ()
     target_link_libraries(kstars KStarsLib)
 endif ()
 
+if(APPLE)
+    file(COPY
+        ${CMAKE_CURRENT_SOURCE_DIR}/data/
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
+endif(APPLE)
+
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+
 if(INDI_FOUND)
 #install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
 #install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml

@@ -176,6 +176,12 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
 
         /** DBUS interface function.
+             * Saves the Sequence Queue to the Ekos Sequence Queue file.
+             * @param fileURL full URL of the filename
+             */
+        Q_SCRIPTABLE bool saveSequenceQueue(const QString &path);
+
+        /** DBUS interface function.
              * Enables or disables the maximum guiding deviation and sets its value.
              * @param enable If true, enable the guiding deviation check, otherwise, disable it.
              * @param value if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
@@ -547,7 +553,7 @@ class Capture : public QWidget, public Ui::Capture
              * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
              * @param bp pointer to blob containing FITS data
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief checkCCD Refreshes the CCD information in the capture module.
@@ -646,7 +652,7 @@ class Capture : public QWidget, public Ui::Capture
         {
             focusHFR = newHFR;
         }
-        void setFocusTemperatureDelta(double focusTemperatureDelta);
+        void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
         // Return TRUE if we need to run focus/autofocus. Otherwise false if not necessary
         bool startFocusIfRequired();
 
@@ -660,7 +666,7 @@ class Capture : public QWidget, public Ui::Capture
         void setMountStatus(ISD::Telescope::Status newState);
 
         void setGuideChip(ISD::CCDChip *chip);
-        void setGeneratedPreviewFITS(const QString &previewFITS);
+        //void setGeneratedPreviewFITS(const QString &previewFITS);
 
         // Clear Camera Configuration
         void clearCameraConfiguration();
@@ -743,7 +749,7 @@ class Capture : public QWidget, public Ui::Capture
         IPState checkDarkFramePendingTasks();
 
         // Send image info
-        void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
+        //void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
 
         // Capture
         IPState setCaptureComplete();
@@ -780,7 +786,7 @@ class Capture : public QWidget, public Ui::Capture
         void resetFocus();
         void suspendGuiding();
         void resumeGuiding();
-        void newImage(Ekos::SequenceJob *job);
+        void newImage(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data);
         void newExposureProgress(Ekos::SequenceJob *job);
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
@@ -791,8 +797,8 @@ class Capture : public QWidget, public Ui::Capture
         void driverTimedout(const QString &deviceName);
 
         // Signals for the Analyze tab.
-        void captureComplete(const QString &filename, double exposureSeconds,
-                             const QString &filter, double hfr);
+        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                             double hfr, int numStars, int median, double eccentricity);
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -814,7 +820,6 @@ class Capture : public QWidget, public Ui::Capture
         void syncGUIToJob(SequenceJob *job);
         bool processJobInfo(XMLEle *root);
         void processJobCompletion();
-        bool saveSequenceQueue(const QString &path);
         void constructPrefix(QString &imagePrefix);
         double setCurrentADU(double value);
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
@@ -922,8 +927,8 @@ class Capture : public QWidget, public Ui::Capture
         ISD::CCDChip *targetChip { nullptr };
         ISD::CCDChip *guideChip { nullptr };
         ISD::CCDChip *blobChip { nullptr };
-        QString blobFilename;
-        QString m_GeneratedPreviewFITS;
+        //QString blobFilename;
+        //QString m_GeneratedPreviewFITS;
 
         // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
         QList<ISD::GDInterface *> Filters;
@@ -938,7 +943,9 @@ class Capture : public QWidget, public Ui::Capture
         ISD::LightBox *currentLightBox { nullptr };
         ISD::Dome *currentDome { nullptr };
 
-        QPointer<QDBusInterface> mountInterface { nullptr };
+        QPointer<QDBusInterface> mountInterface;
+
+        QSharedPointer<FITSData> m_ImageData;
 
         QStringList m_LogText;
         QUrl m_SequenceURL;
@@ -1052,8 +1059,8 @@ class Capture : public QWidget, public Ui::Capture
         void processFlipCompleted();
 
         // Controls
-        double GainSpinSpecialValue;
-        double OffsetSpinSpecialValue;
+        double GainSpinSpecialValue { INVALID_VALUE };
+        double OffsetSpinSpecialValue { INVALID_VALUE };
 
         QList<double> downloadTimes;
         QElapsedTimer downloadTimer;

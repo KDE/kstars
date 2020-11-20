@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>597</width>
-    <height>474</height>
+    <width>399</width>
+    <height>171</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="groupBox_6">
      <property name="title">
@@ -44,7 +59,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Star Extraction Method</string>
+         <string>Source Extraction Method</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -63,12 +78,12 @@
         </item>
         <item>
          <property name="text">
-          <string>External Sextractor</string>
+          <string>External SExtractor</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>BuiltIn Star Extraction</string>
+          <string>BuiltIn method for solver</string>
          </property>
         </item>
        </widget>
@@ -80,7 +95,7 @@
         </property>
         <item>
          <property name="text">
-          <string>StellarSolver</string>
+          <string>Internal Solver</string>
          </property>
         </item>
         <item>
@@ -146,6 +161,9 @@
       </item>
       <item row="1" column="4">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item>
          <widget class="QComboBox" name="kcfg_SolveOptionsProfile">
           <property name="sizePolicy">

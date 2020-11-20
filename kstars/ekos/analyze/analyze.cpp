@@ -64,6 +64,10 @@ constexpr double halfTimelineHeight = 0.35;
 // These are initialized in initStatsPlot when the graphs are added.
 // They index the graphs in statsPlot, e.g. statsPlot->graph(HFR_GRAPH)->addData(...)
 int HFR_GRAPH = -1;
+int TEMPERATURE_GRAPH = -1;
+int NUM_CAPTURE_STARS_GRAPH = -1;
+int MEDIAN_GRAPH = -1;
+int ECCENTRICITY_GRAPH = -1;
 int NUMSTARS_GRAPH = -1;
 int SKYBG_GRAPH = -1;
 int SNR_GRAPH = -1;
@@ -567,6 +571,8 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
         numStarsMax = std::max(numStars, static_cast<double>(numStarsMax));
 
     snrAxis->setRange(-1.05 * snrMax, std::max(10.0, 1.05 * snrMax));
+    medianAxis->setRange(-1.35 * medianMax, std::max(10.0, 1.35 * medianMax));
+    numCaptureStarsAxis->setRange(-1.45 * numCaptureStarsMax, std::max(10.0, 1.45 * numCaptureStarsMax));
     skyBgAxis->setRange(0, std::max(10.0, 1.15 * skyBgMax));
     numStarsAxis->setRange(0, std::max(10.0, 1.25 * numStarsMax));
 
@@ -575,14 +581,39 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
     statsPlot->graph(SKYBG_GRAPH)->addData(time, skyBackground);
 }
 
+void Analyze::addTemperature(double temperature, double time)
+{
+    // The HFR corresponds to the last capture
+    statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
+}
+
 // Add the HFR values to the Stats graph, as a constant value between startTime and time.
-void Analyze::addHFR(double hfr, double time, double startTime)
+void Analyze::addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
+                     double time, double startTime)
 {
     // The HFR corresponds to the last capture
     statsPlot->graph(HFR_GRAPH)->addData(startTime - .0001, qQNaN());
     statsPlot->graph(HFR_GRAPH)->addData(startTime, hfr);
     statsPlot->graph(HFR_GRAPH)->addData(time, hfr);
     statsPlot->graph(HFR_GRAPH)->addData(time + .0001, qQNaN());
+
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(startTime, numCaptureStars);
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(time, numCaptureStars);
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(time + .0001, qQNaN());
+
+    statsPlot->graph(MEDIAN_GRAPH)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(MEDIAN_GRAPH)->addData(startTime, median);
+    statsPlot->graph(MEDIAN_GRAPH)->addData(time, median);
+    statsPlot->graph(MEDIAN_GRAPH)->addData(time + .0001, qQNaN());
+
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(startTime, eccentricity);
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(time, eccentricity);
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(time + .0001, qQNaN());
+
+    medianMax = std::max(median, medianMax);
+    numCaptureStarsMax = std::max(numCaptureStars, numCaptureStarsMax);
 }
 
 // Add the Mount Coordinates values to the Stats graph.
@@ -657,7 +688,7 @@ double Analyze::processInputLine(const QString &line)
         const QString filter = list[3];
         processCaptureStarting(time, exposureSeconds, filter, true);
     }
-    else if ((list[0] == "CaptureComplete") && (list.size() == 6))
+    else if ((list[0] == "CaptureComplete") && (list.size() >= 6) && (list.size() <= 9))
     {
         const double exposureSeconds = QString(list[2]).toDouble(&ok);
         if (!ok)
@@ -667,7 +698,16 @@ double Analyze::processInputLine(const QString &line)
         if (!ok)
             return 0;
         const QString filename = list[5];
-        processCaptureComplete(time, filename, exposureSeconds, filter, hfr, true);
+        const int numStars = (list.size() > 6) ? QString(list[6]).toInt(&ok) : 0;
+        if (!ok)
+            return 0;
+        const int median = (list.size() > 7) ? QString(list[7]).toInt(&ok) : 0;
+        if (!ok)
+            return 0;
+        const double eccentricity = (list.size() > 8) ? QString(list[8]).toDouble(&ok) : 0;
+        if (!ok)
+            return 0;
+        processCaptureComplete(time, filename, exposureSeconds, filter, hfr, numStars, median, eccentricity, true);
     }
     else if ((list[0] == "CaptureAborted") && (list.size() == 3))
     {
@@ -724,6 +764,13 @@ double Analyze::processInputLine(const QString &line)
         if (!ok)
             return 0;
         processGuideStats(time, ra, dec, raPulse, decPulse, snr, skyBg, numStars, true);
+    }
+    else if ((list[0] == "Temperature") && list.size() == 3)
+    {
+        const double temperature = QString(list[2]).toDouble(&ok);
+        if (!ok)
+            return 0;
+        processTemperature(time, temperature, true);
     }
     else if ((list[0] == "MountState") && list.size() == 3)
     {
@@ -1322,9 +1369,10 @@ void Analyze::updateStatsValues()
     const double time = statsCursorTime < 0 ? maxXValue : statsCursorTime;
 
     auto d2Fcn = [](double d) -> QString { return QString::number(d, 'f', 2); };
-    // HFR is the only one to use the last real value, that is, it
-    // keeps the hfr from the last exposure.
+    // HFR, numCaptureStars, median & eccentricity are the only ones to use the last real value,
+    // that is, it keeps those values from the last exposure.
     updateStat(time, hfrOut, statsPlot->graph(HFR_GRAPH), d2Fcn, true);
+    updateStat(time, eccentricityOut, statsPlot->graph(ECCENTRICITY_GRAPH), d2Fcn, true);
     updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d2Fcn);
     updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d2Fcn);
     updateStat(time, raOut, statsPlot->graph(RA_GRAPH), d2Fcn);
@@ -1333,8 +1381,15 @@ void Analyze::updateStatsValues()
     updateStat(time, rmsOut, statsPlot->graph(RMS_GRAPH), d2Fcn);
     updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d2Fcn);
     updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn);
+    updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
 
-    auto hmsFcn = [](double d) -> QString { dms ra; ra.setD(d); return ra.toHMSString(); };
+    auto hmsFcn = [](double d) -> QString
+    {
+        dms ra;
+        ra.setD(d);
+        return QString("%1:%2:%3").arg(ra.hour()).arg(ra.minute()).arg(ra.second());
+        //return ra.toHMSString();
+    };
     updateStat(time, mountRaOut, statsPlot->graph(MOUNT_RA_GRAPH), hmsFcn);
     auto dmsFcn = [](double d) -> QString { dms dec; dec.setD(d); return dec.toDMSString(); };
     updateStat(time, mountDecOut, statsPlot->graph(MOUNT_DEC_GRAPH), dmsFcn);
@@ -1349,7 +1404,7 @@ void Analyze::updateStatsValues()
             ha.setH(24.0 - ha.Hours());
             sgn = '-';
         }
-        return QString("%1%2h %3m").arg(sgn).arg(ha.hour(), 2, 10, z)
+        return QString("%1%2:%3").arg(sgn).arg(ha.hour(), 2, 10, z)
         .arg(ha.minute(), 2, 10, z);
     };
     updateStat(time, mountHaOut, statsPlot->graph(MOUNT_HA_GRAPH), haFcn);
@@ -1358,10 +1413,13 @@ void Analyze::updateStatsValues()
     updateStat(time, numStarsOut, statsPlot->graph(NUMSTARS_GRAPH), intFcn);
     updateStat(time, raPulseOut, statsPlot->graph(RA_PULSE_GRAPH), intFcn);
     updateStat(time, decPulseOut, statsPlot->graph(DEC_PULSE_GRAPH), intFcn);
+    updateStat(time, numCaptureStarsOut, statsPlot->graph(NUM_CAPTURE_STARS_GRAPH), intFcn, true);
+    updateStat(time, medianOut, statsPlot->graph(MEDIAN_GRAPH), intFcn, true);
+
 
     auto pierFcn = [](double d) -> QString
     {
-        return d == 0.0 ? "W (ptg E)" : d == 1.0 ? "E (ptg W)" : "?";
+        return d == 0.0 ? "W->E" : d == 1.0 ? "E->W" : "?";
     };
     updateStat(time, pierSideOut, statsPlot->graph(PIER_SIDE_GRAPH), pierFcn);
 }
@@ -1369,9 +1427,13 @@ void Analyze::updateStatsValues()
 void Analyze::initStatsCheckboxes()
 {
     hfrCB->setChecked(Options::analyzeHFR());
+    numCaptureStarsCB->setChecked(Options::analyzeNumCaptureStars());
+    medianCB->setChecked(Options::analyzeMedian());
+    eccentricityCB->setChecked(Options::analyzeEccentricity());
     numStarsCB->setChecked(Options::analyzeNumStars());
     skyBgCB->setChecked(Options::analyzeSkyBg());
     snrCB->setChecked(Options::analyzeSNR());
+    temperatureCB->setChecked(Options::analyzeTemperature());
     raCB->setChecked(Options::analyzeRA());
     decCB->setChecked(Options::analyzeDEC());
     raPulseCB->setChecked(Options::analyzeRAp());
@@ -1537,6 +1599,31 @@ void Analyze::initStatsPlot()
                      "will have their HFRs computed."));
     });
 
+    numCaptureStarsAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    numCaptureStarsAxis->setVisible(false);
+    numCaptureStarsAxis->setRange(0, 1000);  // this will be reset.
+    NUM_CAPTURE_STARS_GRAPH = initGraphAndCB(statsPlot, numCaptureStarsAxis, QCPGraph::lsStepRight, Qt::darkGreen, "#SubStars",
+                              numCaptureStarsCB, Options::setAnalyzeNumCaptureStars);
+    connect(numCaptureStarsCB, &QCheckBox::clicked,
+            [ = ](bool show)
+    {
+        if (show && !Options::autoHFR())
+            KSNotification::info(
+                i18n("The \"Auto Compute HFR\" option in the KStars "
+                     "FITS options menu is not set. You won't get # stars in capture image values "
+                     "without it. Once you set it, newly captured images "
+                     "will have their stars detected."));
+    });
+
+    medianAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    medianAxis->setVisible(false);
+    medianAxis->setRange(0, 1000);  // this will be reset.
+    MEDIAN_GRAPH = initGraphAndCB(statsPlot, medianAxis, QCPGraph::lsStepRight, Qt::darkGray, "median",
+                                  medianCB, Options::setAnalyzeMedian);
+
+    ECCENTRICITY_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsStepRight, Qt::darkMagenta, "ecc",
+                                        eccentricityCB, Options::setAnalyzeEccentricity);
+
     numStarsAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     numStarsAxis->setVisible(false);
     numStarsAxis->setRange(0, 15000);
@@ -1548,6 +1635,13 @@ void Analyze::initStatsPlot()
     skyBgAxis->setRange(0, 1000);
     SKYBG_GRAPH = initGraphAndCB(statsPlot, skyBgAxis, QCPGraph::lsStepRight, Qt::darkYellow, "SkyBG", skyBgCB,
                                  Options::setAnalyzeSkyBg);
+
+
+    temperatureAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    temperatureAxis->setVisible(false);
+    temperatureAxis->setRange(-40, 40);
+    TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "temp", temperatureCB,
+                                       Options::setAnalyzeTemperature);
 
     snrAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     snrAxis->setVisible(false);
@@ -1660,6 +1754,11 @@ void Analyze::reset()
     numStarsOut->setText("");
     skyBgOut->setText("");
     snrOut->setText("");
+    temperatureOut->setText("");
+    eccentricityOut->setText("");
+    medianOut->setText("");
+    numCaptureStarsOut->setText("");
+
     raOut->setText("");
     decOut->setText("");
     driftOut->setText("");
@@ -1751,21 +1850,14 @@ void Analyze::displayFITS(const QString &filename)
 
     if (fitsViewer.isNull())
     {
-        if (Options::singleWindowCapturedFITS())
-            fitsViewer = KStars::Instance()->genericFITSViewer();
-        else
-        {
-            fitsViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-            KStars::Instance()->addFITSViewer(fitsViewer);
-        }
-
-        fitsViewer->addFITS(url);
-        FITSView *currentView = fitsViewer->getCurrentView();
-        if (currentView)
-            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+        fitsViewer = KStars::Instance()->createFITSViewer();
+        fitsViewer->loadFile(url);
+        //        FITSView *currentView = fitsViewer->getCurrentView();
+        //        if (currentView)
+        //            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
     }
     else
-        fitsViewer->updateFITS(url, 0);
+        fitsViewer->updateFile(url, 0);
 
     fitsViewer->show();
 }
@@ -1946,22 +2038,26 @@ void Analyze::processCaptureStarting(double time, double exposureSeconds, const 
 }
 
 // Called when the captureComplete slot receives a signal.
-void Analyze::captureComplete(const QString &filename, double exposureSeconds,
-                              const QString &filter, double hfr)
+void Analyze::captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                              double hfr, int numStars, int median, double eccentricity)
 {
     saveMessage("CaptureComplete",
-                QString("%1,%2,%3,%4")
+                QString("%1,%2,%3,%4,%5,%6,%7")
                 .arg(QString::number(exposureSeconds, 'f', 3))
                 .arg(filter)
                 .arg(QString::number(hfr, 'f', 3))
-                .arg(filename));
+                .arg(filename)
+                .arg(numStars)
+                .arg(median)
+                .arg(QString::number(eccentricity, 'f', 3)));
     if (runtimeDisplay && captureStartedTime >= 0)
-        processCaptureComplete(logTime(), filename, exposureSeconds, filter, hfr);
+        processCaptureComplete(logTime(), filename, exposureSeconds, filter, hfr,
+                               numStars, median, eccentricity);
 }
 
 void Analyze::processCaptureComplete(double time, const QString &filename,
-                                     double exposureSeconds, const QString &filter,
-                                     double hfr, bool batchMode)
+                                     double exposureSeconds, const QString &filter, double hfr,
+                                     int numStars, int median, double eccentricity, bool batchMode)
 {
     removeTemporarySession(&temporaryCaptureSession);
     QBrush stripe;
@@ -1971,7 +2067,7 @@ void Analyze::processCaptureComplete(double time, const QString &filename,
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, nullptr);
     captureSessions.add(CaptureSession(captureStartedTime, time, nullptr, false,
                                        filename, exposureSeconds, filter));
-    addHFR(hfr, time, captureStartedTime);
+    addHFR(hfr, numStars, median, eccentricity, time, captureStartedTime);
     updateMaxX(time);
     if (!batchMode)
         replot();
@@ -2010,6 +2106,8 @@ void Analyze::resetCaptureState()
 {
     captureStartedTime = -1;
     captureStartedFilter = "";
+    medianMax = 1;
+    numCaptureStarsMax = 1;
 }
 
 void Analyze::autofocusStarting(double temperature, const QString &filter)
@@ -2026,6 +2124,7 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
     autofocusStartedTime = time;
     autofocusStartedFilter = filter;
     autofocusStartedTemperature = temperature;
+    addTemperature(temperature, time);
     updateMaxX(time);
     if (!batchMode)
     {
@@ -2243,6 +2342,32 @@ void Analyze::resetGuideState()
     lastGuideStateStarted = G_IDLE;
     guideStateStartedTime = -1;
 }
+
+void Analyze::newTemperature(double temperatureDelta, double temperature)
+{
+    Q_UNUSED(temperatureDelta);
+    if (temperature > -200 && temperature != lastTemperature)
+    {
+        saveMessage("Temperature", QString("%1").arg(QString::number(temperature, 'f', 3)));
+        lastTemperature = temperature;
+        if (runtimeDisplay)
+            processTemperature(logTime(), temperature);
+    }
+}
+
+void Analyze::processTemperature(double time, double temperature, bool batchMode)
+{
+    addTemperature(temperature, time);
+    updateMaxX(time);
+    if (!batchMode)
+        replot();
+}
+
+void Analyze::resetTemperature()
+{
+    lastTemperature = -1000;;
+}
+
 
 void Analyze::guideStats(double raError, double decError, int raPulse, int decPulse,
                          double snr, double skyBg, int numStars)

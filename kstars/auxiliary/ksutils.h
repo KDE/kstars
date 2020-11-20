@@ -30,6 +30,11 @@
 
 #include <QPointF>
 #include <QSharedPointer>
+#include "config-kstars.h"
+
+#ifdef HAVE_STELLARSOLVER
+#include <parameters.h>
+#endif
 
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
@@ -251,22 +256,25 @@ class Logging
 };
 
 QString getDefaultPath(const QString &option);
-QStringList getAstrometryDefaultIndexFolderPaths();
 
 #ifdef Q_OS_OSX
 void copyResourcesFolderFromAppBundle(QString folder);
-bool copyDataFolderFromAppBundleIfNeeded(); //The boolean returns true if the data folders are good to go.
+bool setupMacKStarsIfNeeded(); //The boolean returns true if the data folders are good to go.
 bool configureAstrometry();
 bool replaceIndexFileNotYetSet();
 bool copyRecursively(QString sourceFolder, QString destFolder);
 #endif
 
+// Astrometry Related functions
+QStringList getAstrometryDefaultIndexFolderPaths();
+#if 0
 bool configureLocalAstrometryConfIfNecessary();
 bool createLocalAstrometryConf();
+#endif
 QString getAstrometryConfFilePath();
 QStringList getAstrometryDataDirs();
-bool addAstrometryDataDir(QString dataDir);
-bool removeAstrometryDataDir(QString dataDir);
+bool addAstrometryDataDir(const QString &dataDir);
+bool removeAstrometryDataDir(const QString &dataDir);
 
 struct JPLFilter
 {
@@ -293,5 +301,4 @@ QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataField
  * @return True if conversion is successful, false otherwise.
  */
 bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMessage);
-
 }

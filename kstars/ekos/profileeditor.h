@@ -43,7 +43,7 @@ class ProfileEditor : public QDialog
         /** @short Destructor */
         virtual ~ProfileEditor() override = default;
 
-        void setPi(ProfileInfo *value);
+        void setPi(ProfileInfo *newProfile);
 
         void loadDrivers();
         void loadScopeEquipment();

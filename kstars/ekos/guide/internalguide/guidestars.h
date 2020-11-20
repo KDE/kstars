@@ -23,7 +23,7 @@
 
 namespace SSolver
 {
-    class Parameters;
+class Parameters;
 }
 
 /*
@@ -112,7 +112,7 @@ class GuideStars
                           QList<double> *outputScores = nullptr,
                           QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algoritms.
-        int findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num);
+        int findAllSEPStars(FITSData *imageData, QList<Edge*> &sepStars, int num);
 
         // Convert from input image coordinates to output RA and DEC coordinates.
         Vector point2arcsec(const Vector &p) const;

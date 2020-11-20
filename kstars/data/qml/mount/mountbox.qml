@@ -6,35 +6,44 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
     id: rectangle
     objectName: "mountControlObject"
+
     color: "#000000"
-    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
     property color buttonColor: "silver"
     property color coordsColor: "gold"
 
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
+        font.bold: false
+        font.italic: false
+        font.underline:false
+        font.pointSize: 12
+    }
+
+    width: fontMetrics.height * 13.5
+    height: fontMetrics.height * 29.5
+
     ColumnLayout {
         id: mainVerticalLayout
         anchors.fill: parent
-        anchors.margins: 5
+        anchors.margins: fontMetrics.height * 0.25
 
         GridLayout {
             id: mountMotionLayout
-            rowSpacing: 1
-            columnSpacing: 1
-            Layout.minimumHeight: 180
-            Layout.minimumWidth: 230
-            Layout.maximumHeight: 180
-            Layout.maximumWidth: 230
+            rowSpacing: fontMetrics.height * 0.05
+            columnSpacing: fontMetrics.height * 0.05
+            Layout.minimumHeight: fontMetrics.height * 8
+            Layout.maximumHeight: fontMetrics.height * 8
+            Layout.minimumWidth: fontMetrics.height * 10
+            Layout.maximumWidth: fontMetrics.height * 10
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            rows: 3
             columns: 3
 
 
             Button
             {
                 id: northWest
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -50,7 +59,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-northwest.png"
                 }
@@ -58,8 +66,6 @@ Rectangle {
 
             Button {
                 id: north
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -75,7 +81,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-north.png"
                 }
@@ -83,8 +88,6 @@ Rectangle {
 
             Button {
                 id: northEast
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -101,7 +104,6 @@ Rectangle {
 
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-northeast.png"
                 }
@@ -109,8 +111,6 @@ Rectangle {
 
          Button {
                 id: west
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -127,7 +127,6 @@ Rectangle {
 
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-west.png"
                 }
@@ -135,8 +134,6 @@ Rectangle {
 
             Button {
                 id: stop
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -147,7 +144,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "stop.png"
                 }
@@ -162,8 +158,6 @@ Rectangle {
 
             Button {
                 id: east
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -179,7 +173,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-east.png"
                 }
@@ -187,8 +180,6 @@ Rectangle {
 
             Button {
                 id: southWest
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -204,7 +195,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-southwest.png"
                 }
@@ -212,8 +202,6 @@ Rectangle {
 
             Button {
                 id: south
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -229,7 +217,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-south.png"
                 }
@@ -237,8 +224,6 @@ Rectangle {
 
             Button {
                 id: southEast
-                width: 52
-                height: 54
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
@@ -254,7 +239,6 @@ Rectangle {
                 }
 
                 Image {
-                    width: 50
                     anchors.fill: parent
                     source: "go-southeast.png"
                 }
@@ -299,12 +283,12 @@ Rectangle {
 
             Slider {
                 id: speedSlider
-                x: 5
+                x: fontMetrics.height * 0.1
                 y: 0
-                width: 30
+                width: fontMetrics.height * 1.5
                 objectName: "speedSliderObject"
                 Layout.fillWidth: true
-                Layout.maximumWidth: 150
+                Layout.maximumWidth: fontMetrics.height * 7.5
                 stepSize: 1
                 minimumValue: 0
                 maximumValue: 4
@@ -318,13 +302,13 @@ Rectangle {
 
             Label {
                 id: speedLabel
-                width: 75
+                width: fontMetrics.height * 3.75
                 objectName: "speedLabelObject"
                 text: xi18n("1x")
                 horizontalAlignment: Text.AlignHCenter
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                Layout.maximumWidth: 75
-                Layout.minimumWidth: 75
+                Layout.maximumWidth: fontMetrics.height * 3.75
+                Layout.minimumWidth: fontMetrics.height * 3.75
                 font.weight: Font.Bold
                 font.bold: true
                 font.pointSize: 12
@@ -339,14 +323,10 @@ Rectangle {
 
         GridLayout {
             id: mountCoordsLayout
-            x: 0
+            anchors.horizontalCenter: parent.Center
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillHeight: false
             Layout.fillWidth: true
-            rows: 2
             columns: 4
-            Layout.row: 1
-            Layout.column:1
 
             Label {
                 id: raLabel
@@ -450,20 +430,17 @@ Rectangle {
                 Layout.fillWidth: true
                 font.pointSize: 11
             }
+
         }
 
-
-        GridLayout {
-            id: targetCoordsLayout
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        RowLayout
+        {
+            id: targetFindLayout
             Layout.fillWidth: true
-            rows: 5
-            columns: 3
+            Layout.alignment: Qt.AlignHCenter
 
             Label {
                 id: targetLabel
-                Layout.row: 1
-                Layout.column: 1
                 color: "#ffffff"
                 text: xi18n("Target:")
                 verticalAlignment: Text.AlignVCenter
@@ -475,33 +452,51 @@ Rectangle {
 
             TextField {
                 id: targetText
-                Layout.row: 1
-                Layout.column: 2
-                Layout.columnSpan: 2
-                Layout.maximumHeight: 32
-                Layout.minimumHeight: 32
                 objectName: "targetTextObject"
                 placeholderText: "Click Find Icon"
                 readOnly: true
                 Rectangle
                 {
-                    width: 200
                     color: "black"
-                    radius: 6
+                    radius: fontMetrics.height * 0.25
                     anchors.fill: parent
                     clip: true
                     opacity: 0.5
-                    border.color : "#D4AF37"
-                    border.width : 1
+                    border.color: "#D4AF37"
+                    border.width: fontMetrics.height * 0.05
                 }
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillHeight: false
                 Layout.fillWidth: true
-                Layout.minimumWidth: 180
                 font.pointSize: 14
                 font.bold: true
             }
+
+            Button {
+                id: findButton
+                objectName: "findButtonObject"
+                Layout.fillWidth: false
+                iconName: "view-history"
+                Layout.alignment: Qt.AlignRight
+                Layout.minimumHeight: fontMetrics.height * 1.4
+                Layout.maximumHeight: fontMetrics.height * 1.4
+                Layout.minimumWidth: fontMetrics.height * 1.5
+                Layout.maximumWidth: fontMetrics.height * 1.5
+                onClicked:
+                {
+                    mount.findTarget()
+                }
+            }
+
+        }
+
+
+        GridLayout {
+            id: targetCoordsLayout
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: true
+            columns: 2
 
             Label {
                 id: targetRALabel
@@ -510,8 +505,6 @@ Rectangle {
                 text: xi18n("RA:")
                 font.pointSize: 14
                 font.bold: true
-                Layout.row: 2
-                Layout.column: 1
             }
 
             TextField {
@@ -520,33 +513,11 @@ Rectangle {
                 placeholderText: "HH:MM:SS"
                 font.pointSize: 14
                 horizontalAlignment: Text.AlignHCenter
-                Layout.minimumWidth: 140
-                Layout.maximumWidth: 140
+                Layout.minimumWidth: fontMetrics.height * 7
                 clip: true
                 font.bold: true
-                Layout.minimumHeight: 30
-                Layout.maximumHeight: 30
-                Layout.fillWidth: false
-                Layout.row: 2
-                Layout.column: 2
-            }
-
-            Button {
-                id: findButton
-                objectName: "findButtonObject"
-                Layout.fillWidth: false
-                Layout.row: 2
-                Layout.column: 3
-                iconName: "view-history"
-                Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                Layout.minimumHeight: 30
-                Layout.maximumHeight: 30
-                Layout.minimumWidth: 30
-                Layout.maximumWidth: 30
-                onClicked:
-                {
-                    mount.findTarget()
-                }
+                Layout.minimumHeight: fontMetrics.height * 1.4
+                Layout.fillWidth: true
             }
 
             Label {
@@ -556,8 +527,6 @@ Rectangle {
                 text: xi18n("DE:")
                 font.pointSize: 14
                 font.bold: true
-                Layout.row: 3
-                Layout.column: 1
             }
 
             TextField {
@@ -565,32 +534,23 @@ Rectangle {
                 objectName: "targetDETextObject"
                 placeholderText: "DD:MM:SS"
                 font.pointSize: 14
-                width: 150
+                width: fontMetrics.height * 7.5
                 horizontalAlignment: Text.AlignHCenter
-                Layout.maximumWidth: 140
-                Layout.minimumWidth: 140
+                Layout.fillHeight: false
+                Layout.minimumWidth: fontMetrics.height * 7
                 clip: true
                 font.bold: true
-                Layout.maximumHeight: 30
-                Layout.minimumHeight: 30
+                Layout.minimumHeight: fontMetrics.height * 1.4
                 Layout.fillWidth: true
-                Layout.row: 3
-                Layout.column: 2
             }
 
             Label {
                 id: coordLabel
                 text: xi18n("Type:")
-                Layout.row: 4
-                Layout.column: 1
             }
 
             RowLayout
             {
-                Layout.row: 4
-                Layout.column: 2
-                Layout.columnSpan: 2
-
                 ExclusiveGroup {
                     id: coordGroup
                     objectName: "coordGroupObject"
@@ -709,15 +669,12 @@ Rectangle {
             Label {
                 id: epochLabel
                 text: xi18n("Epoch:")
-                Layout.row: 5
-                Layout.column: 1
             }
 
             RowLayout
             {
-                Layout.row: 5
-                Layout.column: 2
                 ExclusiveGroup { id: epochGroup }
+
                 RadioButton {
                     id: jnowCheck
                     objectName: "jnowCheckObject"
@@ -740,7 +697,6 @@ Rectangle {
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            rows: 2
             columns: 2
 
             Button {
@@ -812,17 +768,15 @@ Rectangle {
                 color: "#ffffff"
                 text: xi18n("Idle")
                 Layout.fillWidth: true
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: fontMetrics.height * 5
                 font.pointSize: 12
                 font.bold: true
             }
 
             Button {
                 id: centerMount
-                Layout.maximumHeight: 32
-                Layout.maximumWidth: 32
-                Layout.minimumHeight: 32
-                Layout.minimumWidth: 32
+                Layout.minimumWidth: fontMetrics.height * 1.4
+                Layout.minimumHeight: fontMetrics.height * 1.4
                 iconName: "crosshairs"
 
                 onClicked:
@@ -833,3 +787,9 @@ Rectangle {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

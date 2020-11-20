@@ -131,37 +131,44 @@ void Media::onTextReceived(const QString &message)
 
 void Media::onBinaryReceived(const QByteArray &message)
 {
-    // For now, we are only receiving binary image (jpg or FITS) for load and slew
-    QTemporaryFile file(QString("/tmp/XXXXXX.%1").arg(extension));
-    file.setAutoRemove(false);
-    file.open();
-    file.write(message);
-    file.close();
-
     Ekos::Align * align = m_Manager->alignModule();
-
-    const QString filename = file.fileName();
-
-    temporaryFiles << filename;
-
-    align->loadAndSlew(filename);
+    if (align)
+    {
+        QString metadataString = message.left(METADATA_PACKET);
+        QJsonDocument metadataDocument = QJsonDocument::fromJson(metadataString.toLatin1());
+        QJsonObject metadataJSON = metadataDocument.object();
+        QString extension = metadataJSON.value("ext").toString();
+        align->loadAndSlew(message.mid(METADATA_PACKET), extension);
+    }
 }
 
-void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
+//void Media::sendPreviewJPEG(const QString &filename, QJsonObject metadata)
+//{
+//    QString uuid = QUuid::createUuid().toString();
+//    uuid = uuid.remove(QRegularExpression("[-{}]"));
+
+//    metadata.insert("uuid", uuid);
+
+//    QFile jpegFile(filename);
+//    if (!jpegFile.open(QFile::ReadOnly))
+//        return;
+
+//    QByteArray jpegData = jpegFile.readAll();
+
+//    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+//    emit newImage(jpegData);
+//}
+
+void Media::sendPreviewImage(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
-    QString uuid = QUuid::createUuid().toString();
-    uuid = uuid.remove(QRegularExpression("[-{}]"));
-
-    metadata.insert("uuid", uuid);
-
-    QFile jpegFile(filename);
-    if (!jpegFile.open(QFile::ReadOnly))
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
         return;
 
-    QByteArray jpegData = jpegFile.readAll();
+    m_UUID = uuid;
 
-    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
-    emit newImage(jpegData);
+    previewImage.reset(new FITSView());
+    previewImage->loadData(data);
+    sendImage();
 }
 
 void Media::sendPreviewImage(const QString &filename, const QString &uuid)
@@ -173,7 +180,7 @@ void Media::sendPreviewImage(const QString &filename, const QString &uuid)
 
     previewImage.reset(new FITSView());
     connect(previewImage.get(), &FITSView::loaded, this, &Media::sendImage);
-    previewImage->loadFITS(filename);
+    previewImage->loadFile(filename);
 }
 
 void Media::sendPreviewImage(FITSView * view, const QString &uuid)
@@ -193,38 +200,70 @@ void Media::sendImage()
 
 void Media::upload(FITSView * view)
 {
+    QString ext = "jpg";
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage().scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2);
-    scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY / 2);
-    buffer.close();
+
+    //    QString uuid;
+    //    // Only send UUID for non-temporary compressed file or non-tempeorary files
+    //    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
+    //            (imageData->isTempFile() == false))
+    //        uuid = m_UUID;
 
     const FITSData * imageData = view->getImageData();
     QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
-    QVariant xbin(1), ybin(1);
+    QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
     imageData->getRecordValue("XBINNING", xbin);
     imageData->getRecordValue("YBINNING", ybin);
-    QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
-    QString bitDepth = QString::number(imageData->bpp());
+    imageData->getRecordValue("EXPTIME", exposure);
+    imageData->getRecordValue("GAIN", gain);
+    imageData->getRecordValue("PIXSIZE1", pixel_size);
+    imageData->getRecordValue("FOCALLEN", focal_length);
+    imageData->getRecordValue("APTDIA", aperture);
 
-    QString uuid;
-    // Only send UUID for non-temporary compressed file or non-tempeorary files
-    if  ( (imageData->isCompressed() && imageData->compressedFilename().startsWith(QDir::tempPath()) == false) ||
-            (imageData->isTempFile() == false))
-        uuid = m_UUID;
-
+    // Account for binning
+    const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
+    // Send everything as strings
     QJsonObject metadata =
     {
         {"resolution", resolution},
         {"size", sizeBytes},
-        {"bin", binning},
-        {"bpp", bitDepth},
-        {"uuid", uuid},
+        {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
+        {"bpp", QString::number(imageData->bpp())},
+        {"uuid", m_UUID},
+        {"exposure", exposure.toString()},
+        {"focal_length", focal_length.toString()},
+        {"aperture", aperture.toString()},
+        {"gain", gain.toString()},
+        {"pixel_size", QString::number(binned_pixel, 'f', 4)},
+        {"ext", ext}
     };
 
-    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
+    // First METADATA_PACKET bytes of the binary data is always allocated
+    // to the metadata
+    // the rest to the image data.
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
+    buffer.write(meta);
+
+    // For low bandwidth images
+    if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
+    {
+        QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
+        //ext = "jpg";
+    }
+    // For high bandwidth images
+    else
+    {
+        QImage scaledImage = view->getDisplayImage().scaledToWidth(HB_WIDTH, Qt::SmoothTransformation);
+        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
+        //ext = "png";
+    }
+    buffer.close();
+
     emit newImage(jpegData);
 
     //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
@@ -234,58 +273,75 @@ void Media::upload(FITSView * view)
         previewImage.reset();
 }
 
-void Media::sendUpdatedFrame(FITSView * view)
-{
-    if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
-        return;
+//void Media::sendUpdatedFrame(FITSView * view)
+//{
+//    if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
+//        return;
 
-    QByteArray jpegData;
-    QBuffer buffer(&jpegData);
-    buffer.open(QIODevice::WriteOnly);
-    QPixmap displayPixmap = view->getDisplayPixmap();
-    if (correctionVector.isNull() == false)
-    {
-        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
-        double length = correctionVector.length();
-        if (length < 100)
-            length = 100;
-        QRect boundingRectable;
-        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
+//    QByteArray jpegData;
+//    QBuffer buffer(&jpegData);
+//    buffer.open(QIODevice::WriteOnly);
+//    QPixmap displayPixmap = view->getDisplayPixmap();
+//    if (correctionVector.isNull() == false)
+//    {
+//        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
+//        double length = correctionVector.length();
+//        if (length < 100)
+//            length = 100;
+//        QRect boundingRectable;
+//        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
 
-        QPoint topLeft = (center - QPointF(length, length)).toPoint();
-        boundingRectable.moveTo(topLeft);
+//        QPoint topLeft = (center - QPointF(length, length)).toPoint();
+//        boundingRectable.moveTo(topLeft);
 
-        boundingRectable = boundingRectable.intersected(displayPixmap.rect());
+//        boundingRectable = boundingRectable.intersected(displayPixmap.rect());
 
-        emit newBoundingRect(boundingRectable, displayPixmap.size());
+//        emit newBoundingRect(boundingRectable, displayPixmap.size());
 
-        displayPixmap = displayPixmap.copy(boundingRectable);
-    }
-    else
-        emit newBoundingRect(QRect(), QSize());
-    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY / 2);
-    buffer.close();
+//        displayPixmap = displayPixmap.copy(boundingRectable);
+//    }
+//    else
+//        emit newBoundingRect(QRect(), QSize());
+//    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY / 2);
+//    buffer.close();
 
-    m_WebSocket.sendBinaryMessage(jpegData);
-}
+//    m_WebSocket.sendBinaryMessage(jpegData);
+//}
 
-void Media::sendVideoFrame(std::shared_ptr<QImage> frame)
+void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
         return;
 
     int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2;
-    QByteArray array;
-    QBuffer buffer(&array);
+    QByteArray image;
+    QBuffer buffer(&image);
+    buffer.open(QIODevice::WriteOnly);
+
+    QImage videoImage = (frame->width() > width) ? frame->scaledToWidth(width) : *frame;
+
+    QString resolution = QString("%1x%2").arg(videoImage.width()).arg(videoImage.height());
+
+    // First METADATA_PACKET bytes of the binary data is always allocated
+    // to the metadata
+    // the rest to the image data.
+    QJsonObject metadata =
+    {
+        {"resolution", resolution},
+        {"ext", "jpg"}
+    };
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);;
+    meta = meta.leftJustified(METADATA_PACKET, 0);
+    buffer.write(meta);
+
     QImageWriter writer;
     writer.setDevice(&buffer);
     writer.setFormat("JPG");
-    writer.setCompression(7);
-    if (frame.get()->width() > width)
-        writer.write(frame.get()->scaledToWidth(width));
-    else
-        writer.write(*frame.get());
-    m_WebSocket.sendBinaryMessage(array);
+    writer.setCompression(6);
+    writer.write(videoImage);
+    buffer.close();
+
+    m_WebSocket.sendBinaryMessage(image);
 }
 
 void Media::registerCameras()
@@ -322,4 +378,16 @@ void Media::processNewBLOB(IBLOB *bp)
     Q_UNUSED(bp)
 }
 
+void Media::sendModuleFrame(FITSView * view)
+{
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+        return;
+
+    if (qobject_cast<Ekos::Align*>(sender()) == m_Manager->alignModule())
+        sendPreviewImage(view, "+A");
+    else if (qobject_cast<Ekos::Focus*>(sender()) == m_Manager->focusModule())
+        sendPreviewImage(view, "+F");
+    else if (qobject_cast<Ekos::Guide*>(sender()) == m_Manager->guideModule())
+        sendPreviewImage(view, "+G");
+}
 }

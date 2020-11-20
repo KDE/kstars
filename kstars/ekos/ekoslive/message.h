@@ -41,7 +41,7 @@ class Message : public QObject
         }
 
         // Module Status Updates
-        void updateMountStatus(const QJsonObject &status);
+        void updateMountStatus(const QJsonObject &status, bool throttle = false);
         void updateCaptureStatus(const QJsonObject &status);
         void updateFocusStatus(const QJsonObject &status);
         void updateGuideStatus(const QJsonObject &status);
@@ -65,7 +65,7 @@ class Message : public QObject
         void expired();
         void optionsChanged(QMap<int, bool> options);
         // This is forward signal from INDI::CCD
-        void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
+        //void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
 
         void resetPolarView();
 
@@ -115,6 +115,9 @@ class Message : public QObject
         void processNewLight(ILightVectorProperty *lvp);
         void processNewProperty(INDI::Property *prop);
         void processDeleteProperty(const QString &device, const QString &name);
+
+        // StellarSolver
+        void sendStellarSolverProfiles();
 
     private slots:
 
@@ -191,9 +194,13 @@ class Message : public QObject
         QRect boundingRect;
         QSize viewSize;
 
+        QDateTime m_ThrottleTS;
+
         // Retry every 5 seconds in case remote server is down
         static const uint16_t RECONNECT_INTERVAL = 5000;
         // Retry for 1 hour before giving up
         static const uint16_t RECONNECT_MAX_TRIES = 720;
+        // Throttle interval
+        static const uint16_t THROTTLE_INTERVAL = 5000;
 };
 }

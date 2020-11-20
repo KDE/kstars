@@ -337,7 +337,7 @@ class CCD : public DeviceDecorator
         }
 
     public slots:
-        void FITSViewerDestroyed();
+        //void FITSViewerDestroyed();
         void StreamWindowHidden();
         // Blob manager
         void setBLOBManager(const char *device, INDI::Property * prop);
@@ -346,7 +346,6 @@ class CCD : public DeviceDecorator
         void setWSBLOB(const QByteArray &message, const QString &extension);
 
     signals:
-        //void FITSViewerClosed();
         void newTemperatureValue(double value);
         void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
         void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
@@ -355,22 +354,21 @@ class CCD : public DeviceDecorator
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);
         void newFPS(double instantFPS, double averageFPS);
-        void newVideoFrame(std::shared_ptr<QImage> frame);
+        void newVideoFrame(const QSharedPointer<QImage> &frame);
         void coolerToggled(bool enabled);
-        void previewFITSGenerated(const QString &previewFITS);
-        void previewJPEGGenerated(const QString &previewJPEG, QJsonObject metadata);
         void ready();
         void captureFailed();
+        void newImage(const QSharedPointer<FITSData> &data);
 
     private:
         void processStream(IBLOB *bp);
-        void loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, FITSData *data);
+        void loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data);
         bool generateFilename(const QString &format, bool batch_mode, QString *filename);
         // Saves an image to disk on a separate thread.
         bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
         // Creates or finds the FITSViewer.
         void setupFITSViewerWindows();
-        void displayFits(CCDChip *targetChip, const QString &filename, IBLOB *bp, FITSData *blob_fits_data);
+        void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
 
         QString filter;
         bool ISOMode { true };
@@ -392,7 +390,7 @@ class CCD : public DeviceDecorator
         int guideTabID { -1 };
         int alignTabID { -1 };
 
-        char BLOBFilename[MAXINDIFILENAME + 1];
+        //char BLOBFilename[MAXINDIFILENAME + 1];
         IBLOB *primaryCCDBLOB { nullptr };
 
         std::unique_ptr<QTimer> readyTimer;
@@ -410,7 +408,7 @@ class CCD : public DeviceDecorator
         INumber *offsetN { nullptr };
         IPerm offsetPerm { IP_RO };
 
-        QPointer<FITSViewer> m_FITSViewerWindows;
+        QPointer<FITSViewer> m_FITSViewerWindow;
         QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;

@@ -328,7 +328,7 @@ void KStars::slotINDIToolBar()
 
         if (a->isChecked())
         {
-            for (QPointer<FITSViewer> view : m_FITSViewers)
+            for (auto &view : m_FITSViewers)
             {
                 if (view->getTabs().empty() == false)
                 {
@@ -340,7 +340,7 @@ void KStars::slotINDIToolBar()
         }
         else
         {
-            for (QPointer<FITSViewer> view : m_FITSViewers)
+            for (auto &view : m_FITSViewers)
             {
                 view->hide();
             }
@@ -402,9 +402,9 @@ void KStars::slotWizard()
     if (wizard->exec() == QDialog::Accepted)
     {
         Options::setRunStartupWizard(false); //don't run on startup next time
-        updateLocationFromWizard(*(wizard->geo()));
+        if (wizard->geo())
+            updateLocationFromWizard(*(wizard->geo()));
     }
-    delete wizard;
 }
 
 void KStars::updateLocationFromWizard(const GeoLocation &geo)
@@ -595,7 +595,8 @@ void KStars::slotSolarSystem()
     m_PlanetViewer->show();
 }
 
-void KStars::slotJMoonTool() {
+void KStars::slotJMoonTool()
+{
     if (!m_JMoonTool)
         m_JMoonTool = new JMoonTool(this);
     m_JMoonTool->show();
@@ -1188,24 +1189,26 @@ void KStars::slotOpenFITS()
 #ifdef HAVE_CFITSIO
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
-    QUrl fileURL =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path, "Image (*.fits *.fits.fz *.fit *.fts *.jpg *.jpeg *.png *.gif *.bmp)");
-
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
+                   "Images (*.fits *.fits.fz *.fit *.fts "
+                   "*.jpg *.jpeg *.png *.gif *.bmp "
+                   "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
     if (fileURL.isEmpty())
         return;
 
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    QPointer<FITSViewer> fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
+    QPointer<FITSViewer> fv = createFITSViewer();
+    //fv.reset(new FITSViewer((Options::independentWindowFITS()) ? nullptr : this));
 
-    connect(fv, &FITSViewer::loaded, [ &, fv]()
-    {
-        addFITSViewer(fv);
-        fv->show();
-    });
+    //    connect(fv.get(), &FITSViewer::loaded, [ &, fv]()
+    //    {
+    //        addFITSViewer(fv);
+    //        fv->show();
+    //    });
 
-    fv->addFITS(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
+    fv->loadFile(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 #endif
 }
 

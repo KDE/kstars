@@ -351,7 +351,7 @@ StarProfileViewer::~StarProfileViewer()
     delete m_graph;
 }
 
-void StarProfileViewer::loadData(FITSData * data, QRect sub, QList<Edge *> centers)
+void StarProfileViewer::loadData(QSharedPointer<FITSData> data, QRect sub, QList<Edge *> centers)
 {
     if(data)
     {

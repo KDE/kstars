@@ -414,13 +414,13 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                                             (WECurrentMotion == IPS_BUSY && WEPreviousState != IPS_BUSY)))
             {
                 inManualMotion = true;
-                KSNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
+                //KSNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
             }
             else if (inManualMotion && ((NSCurrentMotion != IPS_BUSY && NSPreviousState == IPS_BUSY) ||
                                         (WECurrentMotion != IPS_BUSY && WEPreviousState == IPS_BUSY)))
             {
                 inManualMotion = false;
-                KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount motion stopped"));
+                //KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount motion stopped"));
             }
 
             NSPreviousState = NSCurrentMotion;
@@ -784,8 +784,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 sendToClient();
             };
 
-            // Sun Warning
-            if (currentObject->name() == i18n("Sun"))
+            // Sun Warning, but don't ask if tracking is already solar.
+            if (currentObject->name() == i18n("Sun") && currentTrackMode != TRACK_SOLAR)
             {
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
                 {

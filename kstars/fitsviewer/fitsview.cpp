@@ -21,6 +21,10 @@
 #include "fits_debug.h"
 #include "stretch.h"
 
+#ifdef HAVE_STELLARSOLVER
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#endif
+
 #ifdef HAVE_INDI
 #include "basedevice.h"
 #include "indi/indilistener.h"
@@ -80,13 +84,13 @@ void ComputeGBStretchParams(const StretchParams &newParams, StretchParams* param
 // We call stretch even if we're not stretching, as the stretch code still
 // converts the image to the uint8 output image which will be displayed.
 // In that case, it will use an identity stretch.
-void FITSView::doStretch(FITSData *data, QImage *outputImage)
+void FITSView::doStretch(QImage *outputImage)
 {
-    if (outputImage->isNull())
+    if (outputImage->isNull() || imageData.isNull())
         return;
-    Stretch stretch(static_cast<int>(data->width()),
-                    static_cast<int>(data->height()),
-                    data->channels(), data->getStatistics().dataType);
+    Stretch stretch(static_cast<int>(imageData->width()),
+                    static_cast<int>(imageData->height()),
+                    imageData->channels(), imageData->getStatistics().dataType);
 
     StretchParams tempParams;
     if (!stretchImage)
@@ -94,7 +98,7 @@ void FITSView::doStretch(FITSData *data, QImage *outputImage)
     else if (autoStretch)
     {
         // Compute new auto-stretch params.
-        stretchParams = stretch.computeParams(data->getImageBuffer());
+        stretchParams = stretch.computeParams(imageData->getImageBuffer());
         tempParams = stretchParams;
     }
     else
@@ -102,7 +106,7 @@ void FITSView::doStretch(FITSData *data, QImage *outputImage)
         tempParams = stretchParams;
 
     stretch.setParams(tempParams);
-    stretch.run(data->getImageBuffer(), outputImage, sampling);
+    stretch.run(imageData->getImageBuffer(), outputImage, sampling);
 }
 
 // Store stretch parameters, and turn on stretching if it isn't already on.
@@ -220,7 +224,6 @@ FITSView::~FITSView()
 {
     fitsWatcher.waitForFinished();
     wcsWatcher.waitForFinished();
-    delete (imageData);
 }
 
 /**
@@ -270,9 +273,9 @@ void FITSView::setCursorMode(CursorMode mode)
 
     if (mode == scopeCursor && imageHasWCS())
     {
-        if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
+        if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
         {
-            QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+            QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
         }
     }
@@ -291,7 +294,7 @@ void FITSView::resizeEvent(QResizeEvent * event)
 }
 
 
-void FITSView::loadFITS(const QString &inFilename, bool silent)
+void FITSView::loadFile(const QString &inFilename, bool silent)
 {
     if (floatingToolBar != nullptr)
     {
@@ -312,23 +315,23 @@ void FITSView::loadFITS(const QString &inFilename, bool silent)
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
 
-    delete imageData;
-    imageData = nullptr;
+    //    delete imageData;
+    //    imageData = nullptr;
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
     if (filter != FITS_NONE)
         filterStack.push(filter);
 
-    imageData = new FITSData(mode);
+    imageData.reset(new FITSData(mode), &QObject::deleteLater);
 
     if (setBayerParams)
         imageData->setBayerParams(&param);
 
-    fitsWatcher.setFuture(imageData->loadFITS(inFilename, silent));
+    fitsWatcher.setFuture(imageData->loadFromFile(inFilename, silent));
 }
 
-bool FITSView::loadFITSFromData(FITSData *data)
+bool FITSView::loadData(const QSharedPointer<FITSData> &data)
 {
     if (floatingToolBar != nullptr)
     {
@@ -338,11 +341,11 @@ bool FITSView::loadFITSFromData(FITSData *data)
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
 
-    if (imageData != nullptr)
-    {
-        delete imageData;
-        imageData = nullptr;
-    }
+    //    if (imageData != nullptr)
+    //    {
+    //        delete imageData;
+    //        imageData = nullptr;
+    //    }
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
@@ -358,7 +361,8 @@ bool FITSView::loadFITSFromData(FITSData *data)
 bool FITSView::processData()
 {
     // Set current width and height
-    if (!imageData) return false;
+    if (!imageData)
+        return false;
     currentWidth = imageData->width();
     currentHeight = imageData->height();
 
@@ -398,9 +402,12 @@ bool FITSView::processData()
     setAlignment(Qt::AlignCenter);
 
     // Load WCS data now if selected and image contains valid WCS header
-    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN) && !wcsWatcher.isRunning())
+    if ((mode == FITS_NORMAL || mode == FITS_ALIGN) &&
+            imageData->hasWCS() && imageData->getWCSState() == FITSData::Idle &&
+            Options::autoWCS() &&
+            !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
     }
     else
@@ -533,7 +540,8 @@ bool FITSView::rescale(FITSZoom type)
     //    if (rawImage.isNull())
     //        return false;
 
-    if (!imageData) return false;
+    if (!imageData)
+        return false;
     int image_width  = imageData->width();
     int image_height = imageData->height();
     currentWidth  = image_width;
@@ -590,7 +598,7 @@ bool FITSView::rescale(FITSZoom type)
 
     initDisplayImage();
     image_frame->setScaledContents(true);
-    doStretch(imageData, &rawImage);
+    doStretch(&rawImage);
     setWidget(image_frame.get());
 
     // This is needed by fitstab, even if the zoom doesn't change, to change the stretch UI.
@@ -1440,9 +1448,9 @@ void FITSView::toggleEQGrid()
 {
     showEQGrid = !showEQGrid;
 
-    if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
+    if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
         return;
     }
@@ -1455,9 +1463,9 @@ void FITSView::toggleObjects()
 {
     showObjects = !showObjects;
 
-    if (!imageData->isWCSLoaded() && !wcsWatcher.isRunning())
+    if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
         return;
     }
@@ -1572,7 +1580,7 @@ void FITSView::viewStarProfile()
         // FIXME, the following does not work anymore.
         //imageData->findStars(&trackingBox, true);
         // FIXME replacing it with this
-        imageData->findStars(ALGORITHM_CENTROID, trackingBox);
+        imageData->findStars(ALGORITHM_CENTROID, trackingBox).waitForFinished();
         starCenters = imageData->getStarCentersInSubFrame(trackingBox);
     }
 
@@ -1612,7 +1620,7 @@ void FITSView::toggleStars(bool enable)
 void FITSView::searchStars()
 {
     QVariant frameType;
-    if (!imageData || !imageData->getRecordValue("FRAME", frameType) || frameType.toString() != "Light")
+    if (!imageData || (imageData->getRecordValue("FRAME", frameType) && frameType.toString() != "Light"))
         return;
 
     if (!imageData->areStarsSearched())
@@ -1620,13 +1628,19 @@ void FITSView::searchStars()
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
+
+#ifdef HAVE_STELLARSOLVER
+        QVariantMap extractionSettings;
+        extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
+        extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
+        getImageData()->setSourceExtractorSettings(extractionSettings);
+#endif
+
         QFuture<bool> result = findStars(ALGORITHM_SEP);
         result.waitForFinished();
         if (result.result() && isVisible())
         {
-
-            emit newStatus(i18np("1 star detected. HFR=%2", "%1 stars detected. HFR=%2", imageData->getDetectedStars(),
-                                 imageData->getHFR()), FITS_MESSAGE);
+            emit newStatus("", FITS_MESSAGE);
         }
         QApplication::restoreOverrideCursor();
     }
@@ -1804,7 +1818,7 @@ void FITSView::pinchTriggered(QPinchGesture * gesture)
 void FITSView::syncWCSState()
 {
     bool hasWCS    = imageData->hasWCS();
-    bool wcsLoaded = imageData->isWCSLoaded();
+    bool wcsLoaded = imageData->getWCSState() == FITSData::Success;
 
     if (hasWCS && wcsLoaded)
         this->updateFrame();

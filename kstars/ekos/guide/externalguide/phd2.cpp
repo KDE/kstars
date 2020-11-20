@@ -1044,10 +1044,12 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 
     //This loads the FITS file in the Guide FITSView
     //Then it updates the Summary Screen
-    FITSData* fdata = new FITSData();
-    fdata->loadFITSFromMemory("guideframe.fits", fits_buffer, fits_buffer_size, true);
+    QSharedPointer<FITSData> fdata;
+    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(fits_buffer), fits_buffer_size);
+    fdata.reset(new FITSData(), &QObject::deleteLater);
+    fdata->loadFromBuffer(buffer, "fits");
     free(fits_buffer);
-    guideFrame->loadFITSFromData(fdata);
+    guideFrame->loadData(fdata);
 
     guideFrame->updateFrame();
     guideFrame->setTrackingBox(QRect(0, 0, width, height));
