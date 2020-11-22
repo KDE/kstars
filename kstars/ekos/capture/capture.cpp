@@ -6682,19 +6682,21 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
 
 void Capture::setPresetSettings(const QJsonObject &settings)
 {
+    static bool init = false;
+
     // FIXME: QComboBox signal "activated" does not trigger when setting text programmatically.
     const QString targetCamera = settings["camera"].toString(cameraS->currentText());
     const QString targetFW = settings["fw"].toString(filterWheelS->currentText());
     const QString targetFilter = settings["filter"].toString(captureFilterS->currentText());
 
-    if (cameraS->currentText() != targetCamera)
+    if (cameraS->currentText() != targetCamera || init == false)
     {
         const int index = cameraS->findText(targetCamera);
         cameraS->setCurrentIndex(index);
         checkCCD(index);
     }
 
-    if (!targetFW.isEmpty() && filterWheelS->currentText() != targetFW)
+    if ((!targetFW.isEmpty() && filterWheelS->currentText() != targetFW) || init == false)
     {
         const int index = filterWheelS->findText(targetFW);
         filterWheelS->setCurrentIndex(index);
@@ -6748,6 +6750,8 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     int isoIndex = settings["iso"].toInt(-1);
     if (isoIndex >= 0)
         setISO(isoIndex);
+
+    init = true;
 }
 
 void Capture::setFileSettings(const QJsonObject &settings)

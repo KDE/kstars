@@ -4185,14 +4185,16 @@ QJsonObject Focus::getSettings() const
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Focus::setSettings(const QJsonObject &settings)
 {
+    static bool init = false;
+
     // Camera
-    if (syncControl(settings, "camera", CCDCaptureCombo))
+    if (syncControl(settings, "camera", CCDCaptureCombo) || init == false)
         checkCCD();
     // Focuser
-    if (syncControl(settings, "focuser", focuserCombo))
+    if (syncControl(settings, "focuser", focuserCombo) || init == false)
         checkFocuser();
     // Filter Wheel
-    if (syncControl(settings, "fw", FilterDevicesCombo))
+    if (syncControl(settings, "fw", FilterDevicesCombo) || init == false)
         checkFilter();
     // Filter
     syncControl(settings, "filter", FilterPosCombo);
@@ -4214,6 +4216,8 @@ void Focus::setSettings(const QJsonObject &settings)
         if (iso != ISOCombo->currentIndex())
             ISOCombo->setCurrentIndex(iso);
     }
+
+    init = true;
 }
 
 
