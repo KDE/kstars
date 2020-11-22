@@ -4207,10 +4207,10 @@ void Focus::setSettings(const QJsonObject &settings)
         binningCombo->setCurrentIndex(bin);
 
     // Gain
-    if (gainIN->isEnabled())
+    if (currentCCD->hasGain())
         syncControl(settings, "gain", gainIN);
     // ISO
-    if (ISOCombo->isEnabled())
+    if (ISOCombo->count() > 1)
     {
         const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
         if (iso != ISOCombo->currentIndex())

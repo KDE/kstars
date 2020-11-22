@@ -6607,12 +6607,12 @@ void Align::setSettings(const QJsonObject &settings)
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
     // Gain
-    if (GainSpin->isEnabled())
+    if (currentCCD->hasGain())
     {
         syncControl("gain", GainSpin);
     }
     // ISO
-    if (ISOCombo->isEnabled())
+    if (ISOCombo->count() > 1)
     {
         const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
         if (iso != ISOCombo->currentIndex())
