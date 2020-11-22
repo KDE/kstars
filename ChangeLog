@@ -4,6 +4,411 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.0 (StellarSolver):
+
+3384e057f 2020-11-20 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
+9e376958f 2020-11-19 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
+56dc564a8 2020-11-18 Jasem Mutlaq         Only save debayered local file using copy method and not temporary ones
+6f7352178 2020-11-18 Jasem Mutlaq         Update dependency
+255dcd32d 2020-11-17 Jasem Mutlaq         Exclue User Input events to fix an issue on MacOS
+8b1eacdae 2020-11-17 Eric Dejouhanet      Prevent duplicate focus execution.
+69f97fd6d 2020-11-16 Jasem Mutlaq         Fix crash when multiple views access the same FITSData and where loading WCS is still in progress. Add a variable to keep watch on WCS processing st..
+b3422835d 2020-11-15 Hy Murveit           Linear focuser fix bug where it hadn't been returning to initial position on error.
+5b275fb3d 2020-11-16 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
+1bb129f85 2020-11-15 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
+d1e1352d4 2020-11-15 Jasem Mutlaq         Remove unused headers
+0dd339c95 2020-11-15 Eric Dejouhanet      Build on master and MRs, test and app-image on MRs only.
+2109eb393 2020-11-15 Jasem Mutlaq         Do not warn about Sun if you are already tracking it
+9b5156e22 2020-11-15 Jasem Mutlaq         Remove more unused old astrometry code
+8dd932036 2020-11-14 Jasem Mutlaq         Comment disabled file
+c7c03bfd8 2020-11-14 Jasem Mutlaq         Disable unused code. Create and add local astrometry folder to the list of astrometry paths
+5c1c1b76e 2020-11-14 Jasem Mutlaq         Call configure local astrometry to create the local astrometry download folder
+56dd014b8 2020-11-14 Jasem Mutlaq         Comment unused sources
+39b6d8ab0 2020-11-14 Jasem Mutlaq         Reduce sizes
+b70807bb2 2020-11-14 Eric Dejouhanet      Reset Ekos pop-ups parents
+8ef5acddc 2020-11-13 Fabrizio Pollastri   Mount Control layout with font metrics
+57c44d05c 2020-11-13 Eric Dejouhanet      Rework Focus UI button update.
+69b159be6 2020-11-13 Hy Murveit           Give the fitsValue and fitsPosition status widgets a minimum width.
+911f29311 2020-11-12 Robert Lancaster     Updating the profile editor to manage the initial keep parameter
+83ed4971a 2020-11-12 Hy Murveit           Fix profile combobox bug
+7ab6c95a6 2020-11-12 Jasem Mutlaq         Fix test fits data. Hopefully this is the last bit with default profiles
+4886d9b31 2020-11-11 Hy Murveit           Fix annoying compiler warnings.
+f8b9ca3de 2020-11-11 Eric Dejouhanet      Explicitly add libstellarsolver as dependency
+25d417e5c 2020-11-11 Jasem Mutlaq         Update mount control status when slewing
+bc6b3d43c 2020-11-11 Jasem Mutlaq         Fix several layout issues. Apparently less is more
+dcce7dd4d 2020-11-11 Jasem Mutlaq         Disconnect client manager to this specific device when removing to prevent possible crash
+8d542046b 2020-11-11 Jasem Mutlaq         Fixed LONG standing GUI bug affecting connection tab when some properties are removed and then later added. Now calling invalidate to refresh the la..
+be7515a43 2020-11-11 Jasem Mutlaq         Use QtConcurrent to speed up WCS calculations
+bb940ddcf 2020-11-10 Hy Murveit           Remember to reset the meridian flip (and other) settings on exit.
+370ede8ca 2020-11-10 Jasem Mutlaq         Use QTime to produce the text
+00e570b94 2020-11-10 Jasem Mutlaq         Throttle mount update status
+0ce1926c4 2020-11-10 Jasem Mutlaq         const correctness and add meridian flip status accessor
+88c82ce89 2020-11-10 Jasem Mutlaq         Add i18n to meridian flip status description
+5cfdb5870 2020-11-10 Wolfgang Reissenberger Capture counting test cases added
+15f72c16c 2020-11-10 Jasem Mutlaq         Send meridianFlipText separately
+0c8d0f085 2020-11-09 Hy Murveit           Don't print HFR for flats in fitsviewer status line.
+fba99848a 2020-11-10 Jasem Mutlaq         Should not disable meridian flip in polar alignment since it is not achieving the required result. An explicit call to mount module is required and ..
+c15d8028a 2020-11-09 Hy Murveit           Modified default StellarSolver profiles for Guide and Focus
+166f3d91a 2020-11-09 Hy Murveit           Fix bug where HFR status disappears from fitsviewer.
+8f1d90fdf 2020-11-08 Jasem Mutlaq         INDI Drivers sync
+70a5076bb 2020-11-07 Wolfgang Reissenberger Change fitsview tab title for image changes
+e8af04cf4 2020-11-07 Jasem Mutlaq         Use image_data filename instead of currentURL which can be empty
+25b789c2b 2020-11-04 Hy Murveit           Reorganize Analyze UI, add capture features.
+d0f7c923b 2020-11-06 Jasem Mutlaq         Include filename even when loading data buffer to set the metadata necessary
+59551491a 2020-11-05 Jasem Mutlaq         Delete all FITS viewers on exist
+08d9aa954 2020-11-05 Jasem Mutlaq         Switch local stellarsolver if remote astrometry device is not detected
+02922db06 2020-11-05 Jasem Mutlaq         Release all fits viewer if the option was indepdent windows since they will not be otherwise destroyed when KStars is
+a5f1a5e74 2020-11-05 Jasem Mutlaq         Remote solver should be working again
+8bd227f0c 2020-11-05 Jasem Mutlaq         Fix adding profile for cameras, guiders, and focusers
+3dfb01546 2020-11-04 Eric Dejouhanet      Fix star count being limited by StellarSolver's default profile.
+e9c606fd3 2020-11-04 Eric Dejouhanet      Work around the delay to add a sequence job item, consider invalid exposure and count.
+d3be92d28 2020-10-27 Dušan Poizl          Fix opening FITS files where path contain non Latin1 characters
+b90fe2201 2020-11-04 Jasem Mutlaq         Add HFR SEP Profiles
+0b22df4b0 2020-11-04 Jasem Mutlaq         Remove pp added by mistake
+f952564f4 2020-11-04 Jasem Mutlaq         Refactor to StellarSolverProfileEditor from generic OptionsProfilesEditor
+a2cef5e53 2020-11-04 Hy Murveit           HFR StellarSolver Extraction profiles.
+0be60f8a6 2020-11-03 Wolfgang Reissenberger Test cases for capture counting harmonized - tests with and without the scheduler use the same test data sets - new test data added showing bugs usi..
+edb060431 2020-11-02 Jasem Mutlaq         Fix by Fabrizio Pollastri to Qt 5.15 Mount QML layout
+1d0df82e7 2020-11-02 Jasem Mutlaq         Ensure the prior future if any completed processing before starting a new one
+940a05d8f 2020-11-02 Jasem Mutlaq         Fixed the root cause leading the erronous GOTO when using the DBus GotoTarget function
+60e223063 2020-11-02 Jasem Mutlaq         Restore function used in data visualization
+fe85aa9a9 2020-11-02 Jasem Mutlaq         More .get to .data fixes for pre Qt 5.11
+aaa132013 2020-11-02 Jasem Mutlaq         Fix warning
+c4dfdc612 2020-11-02 Jasem Mutlaq         No need to clear a stacked declared variable
+cd8eaa998 2020-11-02 Jasem Mutlaq         Set batch mode explicitly off to prevent any batch files written as a consequence
+d1cdcb1f4 2020-11-02 Jasem Mutlaq         Fix jpg and png loading. Support monochrome natively
+acfa86185 2020-11-02 Jasem Mutlaq         Do not fall back to searching full frame if there are no stars in the subframe. Let the calling function make that decision
+e4c82583f 2020-11-02 Jasem Mutlaq         Use .data since .get is not available until Qt 5.11
+46d67d9f3 2020-11-01 Hy Murveit           Remove red circles from SEPMultistar guideview
+e8b32a694 2020-11-01 Jasem Mutlaq         Fix mount module slew to wrong coordinates
+af7540d97 2020-11-01 Jasem Mutlaq         Handle cases where the corredponding module is not yet initialized
+c653962c5 2020-11-01 Jasem Mutlaq         Add a check for the current Telescope pointer
+976dc3067 2020-11-01 Jasem Mutlaq         Use delete later for FITSData and check if the future is running before waiting for it to finish
+8492eab3f 2020-10-31 Robert Lancaster     Setting correct windows default paths for astrometry solving.
+c27a4cd4c 2020-10-31 Jasem Mutlaq         Account for binned pixel
+db771febd 2020-10-30 Jasem Mutlaq         Add more metadata and increase METADATA_PACKET size
+5d8e55863 2020-10-29 Jasem Mutlaq         In case star detector is still running, wait for it to finish before destroying the object
+dfe6ee466 2020-10-29 Jasem Mutlaq         Set binning and sep profile in align
+8ee91df8f 2020-10-28 Jasem Mutlaq         Limit testfitsdata to StellarSolver
+b3d670d52 2020-10-28 Jasem Mutlaq         Do not run tests if StellarSolver is not installed
+1416dd6ee 2020-10-28 Jasem Mutlaq         Use more sane defaults for focus. Can be better optimized
+dfb2552f2 2020-10-27 Jasem Mutlaq         Check if special value is not invalid
+aa97bb16d 2020-10-27 Jasem Mutlaq         Use INVALID_VALUE to learn whether the value has been initialized
+87ec60260 2020-10-27 Jasem Mutlaq         Init offset and gain special values
+da0f07418 2020-10-27 Jasem Mutlaq         Fix gain and offset add job settings
+67f727db7 2020-10-27 Jasem Mutlaq         load from image QByteArray
+100f0e0c2 2020-10-27 Jasem Mutlaq         Use RGB888 to save on memory when loading from buffer
+22a3ac419 2020-10-27 Jasem Mutlaq         Media load and slew support
+758a122dd 2020-10-27 Jasem Mutlaq         Add a new command to send stellarsolver profiles
+c3c17b910 2020-10-27 Jasem Mutlaq         Handle capture preset in loop
+b1cbcace2 2020-10-27 Jasem Mutlaq         Rename StellarSolver profiles to more appropiate name. Add function to return a list of profile labels
+985347101 2020-10-27 Jasem Mutlaq         Update build to use modern stellarsolver config targets
+bd7b76b3a 2020-10-27 Jasem Mutlaq         Not required as stellarsolver would use config targets
+5ae4a9eac 2020-10-27 Jasem Mutlaq         Fix header corruption when copying values
+6d04886fe 2020-10-27 Jasem Mutlaq         Disable unnecessary function and reset FITSView
+d51afaa14 2020-10-27 Jasem Mutlaq         Make event notification less spammy
+bdb7d5784 2020-10-27 Jasem Mutlaq         Reset frame before focus capture
+4dba074d5 2020-10-26 Jasem Mutlaq         Do not forget to announce state change for mount
+b827b1d93 2020-10-26 Jasem Mutlaq         Re-enable loadandslew after solver failure
+8cc9ab4cc 2020-10-26 Jasem Mutlaq         When saving to a new FITS file, create it from a new image since we could have debayered the buffer and lost the original bayered buffer since it is..
+fbf04c95d 2020-10-26 Jasem Mutlaq         Use QByteArray instead of passing raw buffers
+8fc67230a 2020-10-26 Jasem Mutlaq         WHen loading images use all formats at once to avoid confusion
+f9638b9c2 2020-10-26 Jasem Mutlaq         Fix target diff refactor
+7bd28c2a3 2020-10-26 Jasem Mutlaq         Migrate old-style signals/slots to the new style
+276a12d96 2020-10-26 Jasem Mutlaq         Fix warnings and close and remove indi fifo file when server is stopped
+b45531d18 2020-10-26 Jasem Mutlaq         Remove temporary file check since it is no longer valid
+558448493 2020-10-26 Jasem Mutlaq         Fix FITS tests
+0077370a9 2020-10-26 Jasem Mutlaq         Close buffer are use
+07c8b0679 2020-10-25 Jasem Mutlaq         No need to set maxStarCount since it is set in the profiles
+995e1a343 2020-10-25 Jasem Mutlaq         Send resolution along with video frame
+bc2eb0e84 2020-10-25 Jasem Mutlaq         send extension in metadata
+af1a79810 2020-10-25 Jasem Mutlaq         Open buffer before use
+182db227a 2020-10-25 Jasem Mutlaq         For gain and offset, use their special value
+4a1b51091 2020-10-25 Jasem Mutlaq         Fix StelalrSolver ifdef enclosure
+1c2ed998c 2020-10-25 Jasem Mutlaq         Embed metadata with image
+f19c96c15 2020-10-25 Jasem Mutlaq         Fix StellarSolver warnings
+7e0056620 2020-10-25 Robert Lancaster     Updating the Astrometry Config File and Index File Directory options so that they don't create duplicate entries, they remove nonexistant directorie..
+f921dad0d 2020-10-25 Jasem Mutlaq         Use QSharedPointer for video frame
+10b5d026a 2020-10-25 Jasem Mutlaq         Rework dark library handling with the FITSData
+d1fd2c93e 2020-10-25 Jasem Mutlaq         Use temporary fake path name to ensure the file is recognized as preview
+b749c9b9d 2020-10-25 Jasem Mutlaq         Fix min/max in special cases
+b309d8ab7 2020-10-24 Jasem Mutlaq         Use files for online and offline solvers
+0a77a9376 2020-10-24 Jasem Mutlaq         Move all FITSViewer window creation to KStars instance so that it can manage them fully while other objects only request from the pool of available ..
+0a62e4648 2020-10-24 Jasem Mutlaq         Use QSharedPointer for FITSViewer
+f33714a06 2020-10-24 Jasem Mutlaq         Migrate channels to be part of the image statistics. Minor fixes
+fada31090 2020-10-24 Jasem Mutlaq         Use QSharedPointer for FITSViewer
+0a67e2ff2 2020-10-24 Jasem Mutlaq         Use summary view if possible to send preview images, if not then from FITSData
+546f368dd 2020-10-24 Jasem Mutlaq         Update capture module to work with FITSData directly. Fix gain setting
+f85812fa9 2020-10-24 Jasem Mutlaq         Use QSharedPointer for FITSViewer
+626300316 2020-10-24 Jasem Mutlaq         Add new method to load data directly from FITSData and not disk files
+a84c5fc08 2020-10-24 Jasem Mutlaq         Use QSharedPointer for FITSViewer
+5ffaf7808 2020-10-24 Jasem Mutlaq         Use QSharedPointer for FITSViewer
+c8881b868 2020-10-24 Jasem Mutlaq         Add support to load RAW images
+0a5d6709e 2020-10-24 Jasem Mutlaq         Remove auto convert FITS since that is no longer necesary
+c056458f9 2020-10-24 Jasem Mutlaq         Use FITSViewer shared pointer
+e12899511 2020-10-24 Jasem Mutlaq         Major refactoring for FITSViewer and how FITS and other data is handled: 1. Eliminate any unncessary "temporary" files. If we have a buffer, use it ..
+83568b231 2020-10-23 Felix Yan            Correct a typo in darkmatter.docbook
+696d5a022 2020-10-23 Nicolas Alvarez      GitLab CI: reduce parallel jobs in ninja
+3ca7488ac 2020-10-22 Jasem Mutlaq         Improve setSetting so that it updates object information if toggled
+aca1aa042 2020-10-22 Jasem Mutlaq         Fix tests. Need to re-check again after default profiles are embedded in KStars
+e65a48404 2020-10-22 Jasem Mutlaq         Correct syntax leading to odd results
+d22f267b8 2020-10-22 Jasem Mutlaq         Cast to double since JMIndex can be zero otherwise
+f703c7ba8 2020-10-22 Jasem Mutlaq         Do not remote load and slew temporary file, it will be detected later
+840a2d659 2020-10-22 Jasem Mutlaq         Restore align completion time. Do not copy solved file as it is not required with stellarsolver
+393783486 2020-10-22 Jasem Mutlaq         Update settings upon adding filter wheel
+a1c7b5a28 2020-10-22 Jasem Mutlaq         Use stars returned from StellarSolver to create edges directly
+1e88074a6 2020-10-22 Jasem Mutlaq         Move block down so that it compiles on Windows due to weird conflict with stellarsolver astrometry
+2a873898e 2020-10-21 Robert Lancaster     Updating the Astrometry Config File and Index File Directory options so that they don't create duplicate entries, they remove nonexistant directorie..
+c42bc42fa 2020-10-21 Jasem Mutlaq         Add check for jobs empty
+43aca337f 2020-10-21 Jasem Mutlaq         Use Unique Connections for all module connections
+8fd68915f 2020-10-21 Jasem Mutlaq         Get target params default settings before setting them
+e386646d0 2020-10-21 Jasem Mutlaq         Forgot to include middle rect
+d9d1167f8 2020-10-21 Jasem Mutlaq         Restore QuickHFR settings
+000e8a9ac 2020-10-21 Jasem Mutlaq         Use cleanup
+59faf2eab 2020-10-21 Jasem Mutlaq         Remove duplicate prepareJob
+7023bc311 2020-10-21 Jasem Mutlaq         Add missing header
+2f42d402b 2020-10-21 Jasem Mutlaq         Better handling for source extractor settings in FITSData
+759c64c27 2020-10-20 Jasem Mutlaq         Add extraction background as a separate entity to the FITS data that can be retrieved after source extraction
+9a89171a9 2020-10-20 Jasem Mutlaq         Enclose connect clause for dialog type confirmation in the corresponding if block
+2767cd178 2020-10-20 Jasem Mutlaq         Send axis delta to ekoslive
+b049d7abe 2020-10-20 Jasem Mutlaq         Fix missing closing slash in XML element
+a1755653e 2020-10-20 Jasem Mutlaq         Update to extractor parallel computation
+58aabb619 2020-10-19 Jasem Mutlaq         Standardize mount module interface
+d9ef1810f 2020-10-18 Jasem Mutlaq         wrap solver in QPointer to prevent leak
+f8c287bf1 2020-10-18 Jasem Mutlaq         Disable eventloop since extraction is sync operation now
+ad6b33668 2020-10-17 Wolfgang Reissenberger Ekos states documentation for capture states
+9208ba63a 2020-10-17 Robert Lancaster     Updating the Astrometry Config File and Index File Directory options so that they don't create duplicate entries, they remove nonexistant directorie..
+652039e03 2020-10-17 Wolfgang Reissenberger Bugfix correcting meridian flip states for double meridian flips
+5d7ff49ed 2020-10-17 Robert Lancaster     Adding the AutoDownsample function
+15ba3c90a 2020-10-16 Robert Lancaster     Fixing online file path.  Renaming some combo box items
+b3903b791 2020-10-16 Jasem Mutlaq         Make use of all available space
+5c8fb5e02 2020-10-16 Jasem Mutlaq         Use updated signal to ensure proper shutdown of the solver. Requires updated stellarsolver
+84d87a0e8 2020-10-16 Yuri Chornoivan      Add missing period
+8863df103 2020-10-15 Jasem Mutlaq         Improve how FOV Position Angle is displayed with match with expectations in Ekos
+bccebb707 2020-10-15 Jasem Mutlaq         Add sync target to mount function separately
+544cf5a8a 2020-10-15 Jasem Mutlaq         Add accuracy and settle to settings
+85b9f6a4e 2020-10-15 Jasem Mutlaq         Add focus option profiles to settings
+40ed6072a 2020-10-15 Christian Dersch     Update OpenNGC to latest release (v20201004)
+eef33ac6d 2020-10-15 Jasem Mutlaq         Fix non-FITS private load warnings
+42e295f7e 2020-10-15 Jasem Mutlaq         Fix scope reporting
+e24b0b211 2020-10-15 Jasem Mutlaq         process solverAction setting
+be9ccdbb7 2020-10-15 Jasem Mutlaq         Add guide loop support
+69b606eb7 2020-10-15 Jasem Mutlaq         Use pixmap for low bandwidth images
+7d23ea305 2020-10-15 Jasem Mutlaq         Add loop function to guide
+33d1abcd4 2020-10-15 Jasem Mutlaq         Add commands for focus and guide captures
+43e2c29f1 2020-10-15 Jasem Mutlaq         Improve supplied vs effective focal lengths
+8fdde98d4 2020-10-15 Jasem Mutlaq         Extend solver scale range from 80% to 120% of calculated values to allow for more room for variations
+23f9127f6 2020-10-15 Jasem Mutlaq         Disable problematic test until further notice
+9869bcfb5 2020-10-15 Jasem Mutlaq         Add additional check to ensure we are using the correct telescope when imaging a sequence
+36eb16a1c 2020-10-14 Jasem Mutlaq         Increase overall streaming quality
+a099f2361 2020-10-14 Jasem Mutlaq         Add space
+3f4acf6fa 2020-10-13 Jasem Mutlaq         Fix typo and correct format
+be009c503 2020-10-13 Jasem Mutlaq         Only debyaer .stream formats only
+961409672 2020-10-13 Eric Dejouhanet      Switch deps to nightly
+478382b13 2020-10-13 Jasem Mutlaq         Find existing header information to speed up load and slew like before using StellarSolver
+5ea51643f 2020-10-13 Jasem Mutlaq         Fix scale and field units
+0c31810ff 2020-10-13 Jasem Mutlaq         Add a function to parse solution header
+9a27b51f0 2020-10-13 Jasem Mutlaq         Make startup wizard buttons more concrete and less confusing.
+745b6d909 2020-10-12 Jasem Mutlaq         Restore the timer start when solving. Do not update effective FOV and focal length when in load and slew
+1069cd896 2020-10-12 Jasem Mutlaq         Fix crash when remote solver is selected but not available due to missing driver
+278bc3c15 2020-10-12 Jasem Mutlaq         Add focus, guide, and align to media websocket preview send
+9e941a735 2020-10-12 Eric Dejouhanet      Add StellarSolver library to CI.
+f597ae8bd 2020-10-12 Jasem Mutlaq         Make sure remote parse device exist. If not switch back to StellarSolver
+6014b37a2 2020-10-12 Jasem Mutlaq         Fix typo
+d6d3a27ff 2020-10-11 Akarsh Simha         In the find dialog, replace multiple spaces by single space.
+8aebf4626 2020-10-11 Akarsh Simha         astyle fixes
+4c1d71034 2020-10-11 Akarsh Simha         Hackish way to fix crash when a random text file is loaded as a session plan into the observing list tool
+698fb43f8 2020-10-11 Jasem Mutlaq         Add a settle status to Ekos manager whereas any 3rd party clients can now know when it is safer to communicate given that all properties are defined..
+ddb52173a 2020-10-11 Jasem Mutlaq         Fix calculation for effective focal length
+a8b786e88 2020-10-11 Akarsh Simha         Minor improvement: Avoid inserting nullptr objects into the nameHash
+d87b7b880 2020-10-11 Jasem Mutlaq         Remove ekos reference in FITS Sep detector
+0491c0286 2020-10-11 Jasem Mutlaq         Use KSUtil when possible to return any default paths
+d1e4e2115 2020-10-11 Jasem Mutlaq         Add effective focal length and ratio in align module
+25660a7e3 2020-10-11 Robert Lancaster     Separating StellarSolver logging from Astrometry logging.  Improving message for failed solves when alignment logging is off.  Improving Focus loggi..
+bce9e3dc8 2020-10-10 Yuri Chornoivan      Fix minor typos
+f7fe2ba7d 2020-10-10 Jasem Mutlaq         Declare starCenters for both stellarsolver and regular SEP
+51fbd126b 2020-10-09 Robert Lancaster     Master
+12ab6230f 2020-10-09 Jasem Mutlaq         Fix testfitsdata after latest changes
+10bb63b6e 2020-10-09 Jasem Mutlaq         Fix findStars usage
+fa6d0f0f2 2020-10-09 Jasem Mutlaq         Fix build when stellarsolver is not installed
+f7e82270e 2020-10-09 Jasem Mutlaq         Update code to use asynchronous mode for star detection
+d5d00312b 2020-10-09 Jasem Mutlaq         Use the updated StellarSolver consolidated syntax
+f95230b88 2020-10-09 Jasem Mutlaq         Fix the fits test with stellarsolver
+ebc1f4a7a 2020-10-08 Jasem Mutlaq         Use more accurate description for solver type
+e5878278c 2020-10-08 Jasem Mutlaq         Add libstellarsolver-dev to the dependencies
+976208fd7 2020-10-08 Jasem Mutlaq         Fix crash when using raw pointer
+82ccb1e90 2020-10-08 Jasem Mutlaq         Add new HFR_HIGH type which gets a star in the top 5% of detected stars to avoid overly saturated stars while still getting a bright star good enoug..
+8e8ea898c 2020-10-08 Jasem Mutlaq         If bounded search fails, fall back to full frame
+4c3b4151d 2020-10-08 Jasem Mutlaq         Fix memory allocation issue
+77fb1287b 2020-10-08 Jasem Mutlaq         Revert to gradient as it is now more reliable than SEP
+a44d6b9d3 2020-10-08 Jasem Mutlaq         Stop crash if stellarsolver object is not init
+63f320e23 2020-10-08 Jasem Mutlaq         Fix build when StellarSolver is not available even though it is now a hard dependency if INDI is detected
+b2a99b8fb 2020-10-08 Jasem Mutlaq         Fix stellarsolver includes
+20943987e 2020-10-08 Jasem Mutlaq         No need for astrometry.net
+4f67d3282 2020-10-08 Jasem Mutlaq         Star should be select after setting star center
+9a2189911 2020-10-08 Jasem Mutlaq         Fix using boundary in stellarsolver
+3e02202c8 2020-10-08 Jasem Mutlaq         Add stellarsolver dependency
+e78154841 2020-10-08 Robert Lancaster     This is a pretty big change.  It is the start of the integration of the StellarSolver Library that I created this spring.   Here are some of the cha..
+0ed5f9338 2020-10-08 Jasem Mutlaq         Revert "This is a pretty big change.  It is the start of the integration of the StellarSolver Library that I created this spring.   Here are some of..
+1dd9baf71 2020-10-08 Jasem Mutlaq         This is a pretty big change.  It is the start of the integration of the StellarSolver Library that I created this spring.   Here are some of the cha..
+7120f95a1 2020-10-07 Jasem Mutlaq         Add _GET for focus settings
+489300e12 2020-10-07 Jasem Mutlaq         Fix warnings
+5dd94370a 2020-10-06 Jasem Mutlaq         Fix property subscription
+afe2e28d8 2020-10-06 Jasem Mutlaq         Add focuser name to the settings get/set
+c643cb792 2020-10-06 Jasem Mutlaq         Fix absolute path and style
+681f72a62 2020-10-05 Hy Murveit           Fix issue with Analyze Info Box's background color.
+e690ee5c7 2020-10-06 Fabrizio Pollastri   Minimize the mean angle representation error of DMS/HMS formats
+936d1e33e 2020-10-05 Jasem Mutlaq         Add separate setters for primary, process, and mechanics options in focus module
+902789ba1 2020-10-05 Jasem Mutlaq         Add corresponding commands for setting settings
+de226522c 2020-10-05 Jasem Mutlaq         Add focus json Settings
+9e74446c7 2020-10-04 Robert Lancaster     Misspelled Options
+106e9968d 2020-10-04 Jasem Mutlaq         Add focus and guide get/set settings. Improve sycning settings
+896673f64 2020-10-04 Robert Lancaster     Fixing star detection problem in other algorithms
+4b671724c 2020-10-03 Robert Lancaster     Enabling Options Editing with apply and OK button, Allowing chaning of options profile for focusing, deleting unused options, improving logging opti..
+1ef9dcc5f 2020-10-03 Jasem Mutlaq         Fix sending video frames over websocket
+c8cfc1b17 2020-10-03 Jasem Mutlaq         Add an assert to check for potentially invalid base device and client manager pointers
+f2161238a 2020-10-03 Jasem Mutlaq         foreach --> for
+b23157726 2020-10-03 Jasem Mutlaq         Add labels to calibrate and rotate buttons to make them easier to figure out
+7062c36b0 2020-10-01 Philip Mair          Fix for temperature delta check When using single exposure jobs (SHOSHO...)
+ec404ec3c 2020-10-03 Robert Lancaster     Merging with upstream master
+2c3b8c64c 2020-10-03 Jasem Mutlaq         Add missing KSTARS_CCD dType to INDI::CCD
+432b0d356 2020-10-02 Jasem Mutlaq         Further improve handling disconnecting clients. Add 50ms delay to connecting devices
+6fccf3e9e 2020-10-02 Eric Dejouhanet      Fix some deadlocks and sigsegvs
+f5e4e9836 2020-10-01 Hy Murveit           Move settle started log statement to the start of dithering to match phdlogview
+d604b2835 2020-09-27 Hy Murveit           Skip GPG with large drift. Reset GPG if too many skips.
+ff7fff6d8 2020-09-30 Robert Lancaster     Loading index folder paths both default and from config file
+ae8f095f5 2020-09-30 Robert Lancaster     loading saved options list, deleting unused downsample option
+8ad873931 2020-09-30 Jasem Mutlaq         Fix wrong static cast to int for double value
+5af15c4cf 2020-09-29 Robert Lancaster     Creating a way for useScale and usePosition to be temporarily disabled for the loadAndSlew method.
+0f3c1f7d7 2020-09-29 Jasem Mutlaq         Add accuracy and settle to setSettings in Align
+b74f372e8 2020-09-29 Jasem Mutlaq         Support saving to QImage supported format
+861caff77 2020-09-29 Jasem Mutlaq         Separate PNG and JPG save
+23b8fe2c7 2020-09-29 Robert Lancaster     Enabling external program editor boxes
+1103d4958 2020-09-29 Robert Lancaster     making index folder list editable
+04642de74 2020-09-28 Robert Lancaster     trying again to fix find module on windows
+b542fff01 2020-09-28 Robert Lancaster     trying to fix findstellarsolver.cmake
+aa74bcdeb 2020-09-28 Robert Lancaster     Fixing problem with includes placement
+972088205 2020-09-28 Robert Lancaster     Trying to fix the cmake module
+85fa90625 2020-09-21 Hy Murveit           Add option to set max HFR for the guide star selected by SEP MultiStar.
+480e2db4f 2020-09-28 Jeremy Burton        Fix sequence tag name
+8b2b1e305 2020-09-28 Robert Lancaster     Correcting a forgotten disconnect that caused a crash
+362239934 2020-09-28 Robert Lancaster     Adding the ability to load any image in load and slew and Open image
+4b6c0dbb5 2020-09-27 Eric Dejouhanet      Fix gadget name in Capture Tests.
+d576fd1dc 2020-09-27 Jasem Mutlaq         Add gain, iso, and dark to align JSON get/set presets
+571da3b7b 2020-09-27 Jasem Mutlaq         Fix refactored save image error
+7a18e0a58 2020-09-27 Jasem Mutlaq         Revert "Fix deprecated warning. endl --> Qt::endl"
+3789e42f7 2020-09-27 Jasem Mutlaq         Fix deprecated warning. endl --> Qt::endl
+4ce14076f 2020-09-27 Jasem Mutlaq         Fix sequence XML tags messed up due to mass replace before
+2ca083c36 2020-09-27 Jasem Mutlaq         Set colorScheme as read-write property
+156415dea 2020-09-27 Robert Lancaster     Enabling options profile editor buttons
+c9cc6bfca 2020-09-25 Eric Dejouhanet      Color scheme update through d-bus
+183ad39bc 2020-09-25 Jasem Mutlaq         INDI drivers sync
+7402cc2be 2020-09-24 Jasem Mutlaq         Associate filter manager data with device
+5d6c8880f 2020-09-24 Jasem Mutlaq         Add get and set data for filter manager
+9272e360e 2020-09-24 Jasem Mutlaq         propElements is a better description for the variable
+7a9aa6254 2020-09-23 Jasem Mutlaq         Implement EkosLive add and remove properties
+5971ffdb5 2020-09-22 Jasem Mutlaq         Fix crash in guide module in case main camera is restarted
+e57d3b8ec 2020-09-22 Eric Dejouhanet      Create ccache folder when gitlab runner lacks its cache.
+c0f28925e 2020-09-22 Jasem Mutlaq         Fix compile error
+8d84f21bb 2020-09-22 Jasem Mutlaq         Do not use filename when it is not necessary
+91d0dcc94 2020-09-22 Eric Dejouhanet      Use ninja as build system instead of make, use ccache and fail fast on build.
+396ab2c72 2020-09-22 Yuri Chornoivan      Use plurals, fix argument
+28011870d 2020-09-21 Hy Murveit           Fix Analyze bug where bad timestamps can be used and written to analyze log
+8e83bce18 2020-09-21 Jasem Mutlaq         Fix data type typo
+7499206e7 2020-09-21 Akarsh Simha         Minor optimization: Move Options:: calls and floating point multiplication outside of drawing loop
+d768c4aa8 2020-09-21 Akarsh Simha         Apply the deep-sky limiting magnitude to custom catalogs as well.
+6bf859ac0 2020-09-21 Akarsh Simha         Refactor out the calculation for the deep-sky magnitude limit that we draw up to.
+1a8aec58c 2020-09-20 Akarsh Simha         Inform the user when a wishlist object was not available in KStars instead of truncating the wishlist silently
+aa1396bb0 2020-07-06 Akarsh Simha         Fix behavior of focus dialog when entering RA/Dec in JNow mode
+7b3f37d6a 2020-09-20 Jasem Mutlaq         Add support to saving png/jpg in FITS Viewer
+8bf143316 2020-09-20 Eric Dejouhanet      Reword ProfileEditor tooltips, especially remote INDI chaining.
+19cae02e0 2020-09-19 Nicolas Fella        Remove unused include
+528c3e74c 2020-09-17 Jasem Mutlaq         Add get calibration and file settings
+3ad907342 2020-09-16 Jasem Mutlaq         Fix typo
+f069f1358 2020-09-16 Jasem Mutlaq         Refactor capture module controls and add calibration, file, and limit settings to messages
+c55eb81a5 2020-09-16 Jasem Mutlaq         Fix possible crash condition is currentFilterPosition <= 0
+b207fc4be 2020-09-15 Kukuh Syafaat        add content rating
+af9f6a642 2020-09-14 Jasem Mutlaq         Add ISO and Gain controls in Align module. This is a temporary solution as we should move to using presets with preset editor so that different came..
+a52e61860 2020-09-14 Eric Dejouhanet      Condition use of horizontalAdvance to Qt 5.11+
+b9b00ffe1 2020-09-12 Fabrizio Pollastri   Fix SkyPoint::EquatorialToHorizontal giving Az=360.0
+a23eb10e4 2020-09-14 Eric Dejouhanet      Fix remote indi connection configuration and sigsegv on failure.
+34b0c07aa 2020-09-13 Jasem Mutlaq         Fix warning and only search stars for LIGHT frames
+f58c3b704 2020-09-13 Jasem Mutlaq         Fix INDI property to JSON translation
+9fc522af6 2020-09-12 Eric Dejouhanet      Add Capture Module tests.
+7fdf29242 2020-09-11 Jasem Mutlaq         Dynamically adjust font size based on how long the FOV name is
+d15324a77 2020-09-10 Jasem Mutlaq         Refactor to be more consistent with code style
+9831b5d1a 2020-09-10 Jasem Mutlaq         INDI drivers sync
+b5cf8f524 2020-09-10 Jasem Mutlaq         Fix cpp-check warnings and Windows build error
+72a7c8f16 2020-09-09 Cyril Richard        This fix the orientation issue: row order reversing will work differently for odd and even row count.
+c55c2c3a8 2020-09-07 Jasem Mutlaq         Add device attribute to EkosLive device messages as it is required
+9d7b3b17b 2020-09-06 Robert Lancaster     Updating defaults and fixing a crash
+ddf5bcabd 2020-09-05 Fabrizio Pollastri   Fix class Dms double to float rounding
+905746def 2020-09-05 Jasem Mutlaq         Update device time if KStars time is updated when applicable
+9498c39a3 2020-09-04 Hy Murveit           Update the git tips section of README.md
+f65d7f014 2020-09-02 Eric Dejouhanet      Relax RA/DEC match when slewing.
+05fe66e98 2020-09-01 Doug Summers         Add alt to autofocus log lines (kstars log and autofocus log) in support of temperature and elevation focus compensation analysis
+e17401310 2020-09-02 Hy Murveit           Fix testfitsdata.
+affb11733 2020-08-31 Alexis Lopez Zubieta Include indiserver
+fe07c8158 2020-08-28 Alexis Lopez Zubieta add appimage-builder recipe
+c06150531 2020-09-01 Jasem Mutlaq         Add support to APPDIR for App image builds
+3e26bbc6e 2020-09-01 Jasem Mutlaq         Add support to connecting to remote INDI hosts directly without device names
+1d6565d72 2020-09-01 Jasem Mutlaq         Add manufacturer selection support to camera and focuser dropdowns to make it more accessible
+f65347af8 2020-09-01 Jasem Mutlaq         INDI drivers sync
+38c6dfafc 2020-09-01 Jasem Mutlaq         We can safe call startAstrometry now since it sets the target coordinate in the align module
+05add3677 2020-08-31 Robert Lancaster     Making the OptionsProfiles work for KStars
+1b72f18dc 2020-08-29 Hy Murveit           Improve Analyze zoom-in.
+1314b03ee 2020-08-30 Robert Lancaster     Rotator and default paths combo box
+b05ea1c11 2020-08-30 Yuri Chornoivan      Use i18n() instead of tr()
+8bc1b3f6a 2020-08-30 Yuri Chornoivan      Allow flexible layout for labels on the Analyze tab
+0a46e2dbe 2020-08-30 Yuri Chornoivan      Fix minor typos
+3e6a13d62 2020-08-29 Yuri Chornoivan      Fix i18n() and typos
+df9c28a67 2020-08-28 Robert Lancaster     Integrating Options
+4e891aac0 2020-08-29 Jasem Mutlaq         Fix multithreaded race condition that could lead to crash between client and main GUI threads
+bbc46886b 2020-08-29 Jasem Mutlaq         If Ekos option for Independent Window is selected, set Qt::Window flag accordingly.
+01c6b2d8c 2020-08-28 Robert Lancaster     Updating docker test
+a808199da 2020-08-28 Robert Lancaster     Some forgotten files in the commits
+c99b53002 2020-08-28 Robert Lancaster     commenting out an issue
+b57497179 2020-08-28 Robert Lancaster     Fixing conflicts
+cffc7f79f 2020-08-28 Eric Dejouhanet      Using gitlab-runner to run tests.
+d6d6dbc3c 2020-08-28 Eric Dejouhanet      Revert "Revert "Debugging test initialization.""
+844f99123 2020-08-28 Eric Dejouhanet      Revert "Debugging test initialization."
+11a445154 2020-08-28 Robert Lancaster     updating to new include directory name for stellarsolver
+a2149a13a 2020-08-27 Hy Murveit           Change SEP MultiStar guiding from Experimental to Recommended.
+77bb12748 2020-08-28 Yuri Chornoivan      Use entity
+b620eb490 2020-08-28 Yuri Chornoivan      Add some formatting
+e082d271b 2020-08-28 Yuri Chornoivan      Fix minor typo
+9681ee46b 2020-08-25 Fabrizio Pollastri   Add sync with az/alt coordinates
+7b45612a9 2020-08-27 Hy Murveit           Changed the help popup so that it scrolls. Added a way to input an alternate directory for FITS files.
+9278ec8f1 2020-08-24 Yuri Chornoivan      Fix minor typo
+f5af981af 2020-08-23 Eric Dejouhanet      Stabilize tests
+f4a8a74c6 2020-08-23 Jasem Mutlaq         Make sure current telescope is initilized
+0910ae8a2 2020-08-23 Jasem Mutlaq         Add support for forcing re-alignment before each job
+3d9157ee3 2020-08-22 Robert Lancaster     Attempt at integrating the solver
+d260ea008 2020-08-22 Jasem Mutlaq         Fix issue with dbus call missing arguments
+f13b95b07 2020-08-22 Jasem Mutlaq         INDI Drivers sync
+57b7e9f8f 2020-08-20 Eric Dejouhanet      Revert "Option added for re-aligning if guiding failed"
+698b19a14 2020-08-20 Jasem Mutlaq         Add facility in Align module to set a custom target module. It used to be always based on current mount target, but under few circumstances, the cur..
+7beff6309 2020-08-19 Wolfgang Reissenberger Checking dithering before focus check to avoid overlapping of both actions during pre-capture checks
+6444cbc54 2020-08-19 Wolfgang Reissenberger Option added for re-aligning if guiding failed
+c9bc7452d 2020-08-19 Pino Toscano         TestFitsData: increment loading timeouts to 10s
+a9f07c324 2020-08-19 Jasem Mutlaq         Add extra check that property is registered
+3d3c7e3d3 2020-08-17 Valentin Boettcher   correct small typo in the doxygen main page
+43595faa3 2020-08-12 Nicolas Fella        Remove unneeded includes
+45db55d66 2020-08-10 Jasem Mutlaq         Disconnect all blob managers when remotely disconnecting a server as well
+e6a69db89 2020-08-05 Wolfgang Reissenberger Bug fix for continuing capturing after meridian flip if no guiding is running
+0c7482e02 2020-08-03 Hy Murveit           Add BUILD_RELEASE to main kstars version display.
+26f1cd330 2020-08-03 Jasem Mutlaq         Add pre-release warning to About page so that users can differentiate between beta and stable builds
+027d1df28 2020-08-02 Jasem Mutlaq         Add concept of Proxy Devices which are devices that implmenet a different interface of a concrete device decorator.
+3332d51f5 2020-08-01 Florian Signoret     Autofocus on observatory temperature change
+b13ec7ea4 2020-07-28 Jasem Mutlaq         Fix compile errors
+653a4a80f 2020-07-28 Hy Murveit           Adjust SEP MultiStar graphics so lines don't obscure guidestar.
+f3f1165ea 2020-07-26 Jasem Mutlaq         Correctly handle "other" button.
+328cd5477 2020-07-26 Hy Murveit           skip non-guide blobs in guider::newFITS, improve reaction to lost stars in dither, remove getLastStarPosition.
+597ec9f0e 2020-07-25 Hy Murveit           Added MR description section to README.md. Changed Pull Request -> Merge Request.
+4042555e6 2020-07-25 Jasem Mutlaq         Starting v3.5.0 development cycle
+3d97cda93 2020-07-18 Hy Murveit           Fixed dither issue where when star is not found, large drift is wrongly calculated.
+f0bfcdf13 2020-07-20 Pino Toscano         tests: do not pass a literal string as format string
+
 3.4.3 (Neowise):
 
 7b2c3a010 2020-07-18 Jasem Mutlaq         INDI driver sync
