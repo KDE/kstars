@@ -6528,6 +6528,8 @@ QJsonObject Align::getSettings() const
 
 void Align::setSettings(const QJsonObject &settings)
 {
+    static bool init = false;
+
     auto syncControl = [settings](const QString & key, QWidget * widget)
     {
         QSpinBox *pSB = nullptr;
@@ -6577,10 +6579,10 @@ void Align::setSettings(const QJsonObject &settings)
     };
 
     // Camera. If camera changed, check CCD.
-    if (syncControl("camera", CCDCaptureCombo))
+    if (syncControl("camera", CCDCaptureCombo) || init == false)
         checkCCD();
     // Filter Wheel
-    if (syncControl("fw", FilterDevicesCombo))
+    if (syncControl("fw", FilterDevicesCombo) || init == false)
         checkFilter();
     // Filter
     syncControl("filter", FilterPosCombo);
@@ -6605,12 +6607,12 @@ void Align::setSettings(const QJsonObject &settings)
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
     // Gain
-    if (GainSpin->isEnabled())
+    if (currentCCD->hasGain())
     {
         syncControl("gain", GainSpin);
     }
     // ISO
-    if (ISOCombo->isEnabled())
+    if (ISOCombo->count() > 1)
     {
         const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
         if (iso != ISOCombo->currentIndex())
@@ -6622,6 +6624,8 @@ void Align::setSettings(const QJsonObject &settings)
     syncControl("accuracy", accuracySpin);
     // Settle
     syncControl("settle", delaySpin);
+
+    init = true;
 }
 
 void Align::syncSettings()
