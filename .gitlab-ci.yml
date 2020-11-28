@@ -74,6 +74,7 @@ build-and-test:
 build-appimage:
   stage: test
   interruptible: true
+  allow_failure: true
   only:
     - merge_requests
   before_script:
