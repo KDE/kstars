@@ -515,9 +515,9 @@ class Focus : public QWidget, public Ui::Focus
 
 
         /**
-         * @brief emitComplete emits the message needed for Analyze when focus completes.
+         * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
-        void emitComplete();
+        void completeFocusProcedure(bool success);
 
         void initializeFocuserTemperature();
         void setLastFocusTemperature();
