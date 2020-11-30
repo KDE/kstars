@@ -43,7 +43,6 @@
 #include <KTipDialog>
 #include <KToggleAction>
 #include <KToolBar>
-#include <KNewStuff3/kns3/knewstuffaction.h>
 
 #include <QMenu>
 #include <QStatusBar>
@@ -154,12 +153,13 @@ void KStars::initActions()
     QAction *ka;
 
     // ==== File menu ================
-    ka = KNS3::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
-         << QKeySequence(Qt::CTRL + Qt::Key_N);
-    ka->setIcon(QIcon::fromTheme("favorites"));
+    ka = new QAction(QIcon::fromTheme("favorites"), i18n("Download New Data..."), this);
+    connect(ka, &QAction::triggered, this, &KStars::slotDownload);
+    ka->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
+    actionCollection()->addAction(QStringLiteral("get_data"), ka);
 
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
