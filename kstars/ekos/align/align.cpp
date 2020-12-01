@@ -44,7 +44,7 @@
 #include "ksnotification.h"
 #include "kspaths.h"
 
-#include <KConfigDialog>
+
 #include <KActionCollection>
 
 #include <basedevice.h>
@@ -271,8 +271,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     });
 
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
-    page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
-    page->setIcon(QIcon::fromTheme("map-flat"));
+    indexFilesPage = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
+    indexFilesPage->setIcon(QIcon::fromTheme("map-flat"));
 
     // opsASTAP = new OpsASTAP(this);
     // page = dialog->addPage(opsASTAP, i18n("ASTAP"));
@@ -3248,6 +3248,31 @@ void Align::startSolving()
 
     if (solverTypeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
+        if(Options::solverType() != SSolver::SOLVER_ASTAP) //You don't need astrometry index files to use ASTAP
+        {
+            bool foundAnIndex = false;
+            for(QString dataDir: astrometryDataDirs)
+            {
+                QDir dir = QDir(dataDir);
+                if(dir.exists())
+                {
+                    dir.setNameFilters(QStringList()<<"*.fits");
+                    QStringList indexList = dir.entryList();
+                    if(indexList.count() > 0)
+                        foundAnIndex = true;
+                }
+            }
+            if(!foundAnIndex)
+            {
+                appendLogText(i18n("No index files were found on your system in the specified index file directories.  Please download some index files or add the correct directory to the list."));
+                KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
+                if(alignSettings && indexFilesPage)
+                {
+                    alignSettings->setCurrentPage(indexFilesPage);
+                    alignSettings->show();
+                }
+            }
+        }
         if (m_StellarSolver)
         {
             auto *solver = m_StellarSolver.release();
@@ -3798,7 +3823,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
-    appendLogText(i18n("Solver Failed"));
+    appendLogText(i18n("Solver Failed."));
+    if(!Options::alignmentLogging())
+        appendLogText(i18n("To get more information about why the solver may have failed, please enable Alignment Logging in the Ekos Logging Options."));
 
     KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
                           KSNotification::EVENT_ALERT);
