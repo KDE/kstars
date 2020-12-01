@@ -22,6 +22,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <KConfigDialog>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 #include <QtDBus/qtdbusglobal.h>
@@ -641,6 +642,7 @@ class Align : public QWidget, public Ui::Align
 
     private:
         bool m_SolveBlindly = false;
+        KPageWidgetItem *indexFilesPage;
         QString savedOptionsProfiles;
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
