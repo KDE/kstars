@@ -886,6 +886,9 @@ class Capture : public QWidget, public Ui::Capture
         // short cut for all guiding states that indicate guiding is on
         bool isGuidingOn();
 
+        // short cut for all guiding states that indicate guiding in state GUIDING
+        bool isActivelyGuiding();
+
         /* Capture */
 
         /**

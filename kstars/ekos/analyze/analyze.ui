@@ -1200,6 +1200,53 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="11">
+      <widget class="QCheckBox" name="rmsCCB">
+       <property name="minimumSize">
+        <size>
+         <width>40</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the root-mean-squared (RMS) value of the combined RA and DEC drift in arc-seconds, averaged on approximately the past 40 samples, but only in during capture.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt</string>
+       </property>
+       <property name="text">
+        <string>rms</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="12">
+      <widget class="QLineEdit" name="rmsCOut">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The root-mean-squared (RMS) value of the combined RA and DEC drift in arc-seconds, averaged on approximately the past 40 samples, but only in during capture.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

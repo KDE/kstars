@@ -428,7 +428,7 @@ void SkyBackground::initialize(double mean_, double sigma_,
 }
 
 // Taken from: http://www1.phys.vt.edu/~jhs/phys3154/snr20040108.pdf
-double SkyBackground::SNR(double flux, double numPixels, double gain)
+double SkyBackground::SNR(double flux, double numPixels, double gain) const
 {
     if (numPixelsInSkyEstimate <= 0 || gain <= 0)
         return 0;

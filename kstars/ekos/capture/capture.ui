@@ -1281,6 +1281,42 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item row="0" column="0">
+         <widget class="QCheckBox" name="startGuiderDriftS">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Only Start if Guide Deviation &lt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDoubleSpinBox" name="startGuiderDriftN">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="decimals">
+           <number>2</number>
+          </property>
+          <property name="maximum">
+           <double>30.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.500000000000000</double>
+          </property>
+          <property name="value">
+           <double>2.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="startGuiderDriftLabel">
+          <property name="text">
+           <string>arcsec</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
          <widget class="QCheckBox" name="limitGuideDeviationS">
           <property name="enabled">
            <bool>true</bool>
@@ -1289,14 +1325,14 @@ font-weight:bold;
            <string>Abort sequence if guiding deviation exceed this value</string>
           </property>
           <property name="text">
-           <string>Guiding Deviation &lt;</string>
+           <string>Abort if Guiding Deviation &gt;</string>
           </property>
           <property name="checked">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="limitGuideDeviationN">
           <property name="enabled">
            <bool>true</bool>
@@ -1312,7 +1348,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
+        <item row="1" column="2">
          <widget class="QLabel" name="textLabel1_2_4">
           <property name="toolTip">
            <string>Number of images to capture</string>
@@ -1325,7 +1361,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QCheckBox" name="limitFocusHFRS">
           <property name="enabled">
            <bool>true</bool>
@@ -1338,7 +1374,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="2" column="1">
          <widget class="QDoubleSpinBox" name="limitFocusHFRN">
           <property name="enabled">
            <bool>true</bool>
@@ -1360,7 +1396,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="2" column="2">
          <widget class="QLabel" name="textLabel1_2_5">
           <property name="toolTip">
            <string>Number of images to capture</string>
@@ -1373,7 +1409,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QCheckBox" name="limitFocusDeltaTS">
           <property name="enabled">
            <bool>true</bool>
@@ -1386,7 +1422,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="limitFocusDeltaTN">
           <property name="enabled">
            <bool>true</bool>
@@ -1408,14 +1444,14 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="3" column="2">
          <widget class="QLabel" name="label_9">
           <property name="text">
            <string>°C</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QCheckBox" name="limitRefocusS">
           <property name="enabled">
            <bool>true</bool>
@@ -1425,7 +1461,7 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QSpinBox" name="limitRefocusN">
           <property name="enabled">
            <bool>true</bool>
@@ -1441,14 +1477,14 @@ font-weight:bold;
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="4" column="2">
          <widget class="QLabel" name="textLabel_1_2_7">
           <property name="text">
            <string>minutes</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="5" column="1">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -2219,7 +2255,7 @@ font-weight:bold;
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>85</width>
+                  <width>120</width>
                   <height>16777215</height>
                  </size>
                 </property>

@@ -217,7 +217,14 @@ Capture::Capture()
     ////////////////////////////////////////////////////////////////////////
     /// Settings
     ////////////////////////////////////////////////////////////////////////
-    // #1 Guide Deviation Check
+    // #0 Start Guide Deviation Check
+    startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
+    connect(startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setEnforceStartGuiderDrift(checked);
+    });
+
+    // #1 Abort Guide Deviation Check
     limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
     connect(limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
     {
@@ -2324,6 +2331,13 @@ void Capture::captureImage()
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
 
+        case SequenceJob::CAPTURE_GUIDER_DRIFT_WAIT:
+            // Try again in 1 second if filter is busy
+            secondsLabel->setText(i18n("Guider settling..."));
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the guider to settle.";
+            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            break;
+
         case SequenceJob::CAPTURE_FOCUS_ERROR:
             appendLogText(i18n("Cannot capture while focus module is busy."));
             abort();
@@ -2623,6 +2637,10 @@ bool Capture::addJob(bool preview)
                            fileTimestampS->isChecked());
     job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
     job->setFullPrefix(imagePrefix);
+
+    job->setEnforceStartGuiderDrift(job->getFrameType() == FRAME_LIGHT &&
+                                    startGuiderDriftS->isChecked());
+    job->setTargetStartGuiderDrift(startGuiderDriftN->value());
 
     //if (filterSlot != nullptr && currentFilter != nullptr)
     if (captureFilterS->currentIndex() != -1 && currentFilter != nullptr)
@@ -3220,6 +3238,8 @@ void Capture::preparePreCaptureActions()
         activeJob->setCurrentTemperature(temperature);
     }
 
+    activeJob->resetCurrentGuiderDrift();
+
     // update rotator angle
     if (currentRotator != nullptr && activeJob->getTargetRotation() != Ekos::INVALID_VALUE)
         activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
@@ -3253,6 +3273,10 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
         case CAPTURE_SETTING_TEMPERATURE:
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
+            break;
+        case CAPTURE_GUIDER_DRIFT:
+            appendLogText(i18n("Waiting for guide drift below %1 a-s...", activeJob->getTargetStartGuiderDrift()));
+            secondsLabel->setText(i18n("Wait for Guider < %1 a-s...", activeJob->getTargetStartGuiderDrift()));
             break;
 
         case CAPTURE_SETTING_ROTATOR:
@@ -3383,6 +3407,10 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     //        if (activeJob == nullptr)
     //            return;
     //    }
+    const double deviation_rms = std::hypot(delta_ra, delta_dec);
+    if (activeJob)
+        activeJob->setCurrentGuiderDrift(deviation_rms);
+
     // if guiding deviations occur and no job is active, check if a meridian flip is ready to be executed
     if (activeJob == nullptr && checkMeridianFlipReady())
         return;
@@ -3391,7 +3419,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     // if the guide deviations are within our limits, we resume the sequence
     if (meridianFlipStage == MF_GUIDING)
     {
-        double deviation_rms = std::hypot(delta_ra, delta_dec);
         // If the user didn't select any guiding deviation, we fall through
         // otherwise we can for deviation RMS
         if (limitGuideDeviationS->isChecked() == false || deviation_rms < limitGuideDeviationN->value())
@@ -3407,8 +3434,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (limitGuideDeviationS->isChecked() == false || (activeJob && (activeJob->isPreview()
             || activeJob->getExposeLeft() == 0.0)))
         return;
-
-    double deviation_rms = sqrt( (delta_ra * delta_ra + delta_dec * delta_dec) / 2.0);
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
 
@@ -3893,6 +3918,11 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
+                else if (!strcmp(tagXMLEle(ep), "GuideStartDeviation"))
+                {
+                    startGuiderDriftS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    startGuiderDriftN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                }
                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
                 {
                     limitFocusHFRS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
@@ -4268,6 +4298,8 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << endl;
     outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << endl;
+    outstream << "<GuideStartDeviation enabled='" << (startGuiderDriftS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(startGuiderDriftN->value()) << "</GuideStartDeviation>" << endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
     if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
@@ -4459,6 +4491,11 @@ void Capture::syncGUIToJob(SequenceJob * job)
     cameraTemperatureS->setChecked(job->getEnforceTemperature());
     if (job->getEnforceTemperature())
         cameraTemperatureN->setValue(job->getTargetTemperature());
+
+    // Start guider drift options
+    startGuiderDriftS->setChecked(job->getEnforceStartGuiderDrift());
+    if (job->getEnforceStartGuiderDrift())
+        startGuiderDriftN->setValue(job->getTargetStartGuiderDrift());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -5151,6 +5188,12 @@ void Capture::setGuideStatus(GuideState state)
     }
 
     guideState = state;
+
+    if (activeJob)
+    {
+        activeJob->setGuiderActive(isActivelyGuiding());
+        activeJob->resetCurrentGuiderDrift();
+    }
 }
 
 
@@ -7211,6 +7254,11 @@ bool Capture::isGuidingOn()
             guideState == GUIDE_DITHERING_SETTLE ||
             guideState == GUIDE_SUSPENDED
            );
+}
+
+bool Capture::isActivelyGuiding()
+{
+    return isGuidingOn() && (guideState == GUIDE_GUIDING);
 }
 
 QString Capture::MFStageString(MFStage stage)

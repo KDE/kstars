@@ -39,13 +39,15 @@ class SequenceJob : public QObject
             CAPTURE_FRAME_ERROR,
             CAPTURE_BIN_ERROR,
             CAPTURE_FILTER_BUSY,
-            CAPTURE_FOCUS_ERROR
+            CAPTURE_FOCUS_ERROR,
+            CAPTURE_GUIDER_DRIFT_WAIT
         } CAPTUREResult;
         typedef enum
         {
             ACTION_FILTER,
             ACTION_TEMPERATURE,
-            ACTION_ROTATOR
+            ACTION_ROTATOR,
+            ACTION_GUIDER_DRIFT
         } PrepareActions;
 
         static QString const &ISOMarker;
@@ -262,6 +264,13 @@ class SequenceJob : public QObject
         double getTargetTemperature() const;
         void setTargetTemperature(double value);
 
+        double getCurrentGuiderDrift() const;
+        void setCurrentGuiderDrift(double value);
+        void resetCurrentGuiderDrift();
+
+        double getTargetStartGuiderDrift() const;
+        void setTargetStartGuiderDrift(double value);
+
         double getTargetADU() const;
         void setTargetADU(double value);
 
@@ -288,6 +297,13 @@ class SequenceJob : public QObject
 
         bool getEnforceTemperature() const;
         void setEnforceTemperature(bool value);
+
+        bool getEnforceStartGuiderDrift() const;
+        void setEnforceStartGuiderDrift(bool value);
+        void setGuiderActive(bool value)
+        {
+            guiderActive = value;
+        }
 
         QString getPostCaptureScript() const;
         void setPostCaptureScript(const QString &value);
@@ -330,6 +346,7 @@ class SequenceJob : public QObject
         bool areActionsReady();
         void setAllActionsReady();
         void setStatus(JOBStatus const);
+        bool guiderDriftOK() const;
 
         QStringList statusStrings;
         ISD::CCDChip * activeChip { nullptr };
@@ -355,6 +372,8 @@ class SequenceJob : public QObject
         bool preview { false };
         bool prepareReady { true };
         bool enforceTemperature { false };
+        bool enforceStartGuiderDrift { false };
+        bool guiderActive { false };
         bool m_JobProgressIgnored { false };
         int isoIndex { -1 };
         int captureRetires { 0 };
@@ -362,6 +381,8 @@ class SequenceJob : public QObject
         double exposeLeft { 0 };
         double currentTemperature { 0 };
         double targetTemperature { 0 };
+        double currentGuiderDrift { 1e8 };
+        double targetStartGuiderDrift { 0 };
         double gain { -1 };
         double offset { -1 };
         // Rotation in absolute ticks, NOT angle
