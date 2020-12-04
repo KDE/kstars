@@ -7,7 +7,7 @@ stages:
   - build
   - test
 
-image: tallfurryman/kstars-ci:latest
+image: tallfurryman/kstars-ci:0.7
 
 variables:
   CCACHE_BASEDIR: "$CI_PROJECT_DIR"
