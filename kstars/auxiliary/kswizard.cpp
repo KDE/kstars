@@ -70,10 +70,6 @@ WizDataUI::WizDataUI(QWidget *parent) : QFrame(parent)
 
 KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
-    setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
-#endif
-
     wizardStack = new QStackedWidget(this);
     adjustSize();
 
@@ -143,7 +139,6 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
 
     connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(slotOpenOrCopyKStarsDataDirectory()));
     connect(data->installGSC, SIGNAL(clicked()), this, SLOT(slotInstallGSC()));
-    connect(this, SIGNAL(accepted()), this, SLOT(slotFinishWizard()));
 
     gscMonitor = new QProgressIndicator(data);
     data->GSCLayout->addWidget(gscMonitor);
@@ -184,16 +179,6 @@ void KSWizard::setButtonsEnabled()
     if ((wizardStack->currentWidget() == data) && (!dataDirExists()))
     {
         nextB->setEnabled(false);
-    }
-    if (wizardStack->currentWidget() == location)
-    {
-        if (KStars::Instance())
-        {
-            if (location->LongBox->isReadOnly() == false)
-            {
-                initGeoPage();
-            }
-        }
     }
 #endif
 }
@@ -281,14 +266,6 @@ void KSWizard::slotDownload()
     dlg.exec();
 }
 
-void KSWizard::slotFinishWizard()
-{
-    Options::setRunStartupWizard(false);
-    if (KStars::Instance() && geo())
-        KStars::Instance()->updateLocationFromWizard(*(geo()));
-    delete this;
-}
-
 void KSWizard::slotOpenOrCopyKStarsDataDirectory()
 {
 #ifdef Q_OS_OSX
@@ -314,12 +291,6 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         KSUtils::copyRecursively(dataSourceDir.absolutePath(), dataLocation);
         //This will update the next, ok, and copy kstars dir buttons.
         slotUpdateDataButtons();
-
-        //This will let the program load after the data folder is copied
-        hide();
-        setModal(false);
-        setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
-        show();
     }
     else
     {
