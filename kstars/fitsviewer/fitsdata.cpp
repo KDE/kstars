@@ -2144,7 +2144,8 @@ bool FITSData::checkForWCS()
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
-
+    
+    cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
@@ -2220,7 +2221,8 @@ bool FITSData::loadWCS()
         m_WCSState = Failure;
         return false;
     }
-
+    
+    cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
@@ -2320,9 +2322,8 @@ bool FITSData::loadWCS()
 bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-    int status = 0;
-    int stat[2];
-    double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
+    int status, stat[NWCSFIX];
+    double imgcrd[NWCSFIX], phi, pixcrd[NWCSFIX], theta, worldcrd[NWCSFIX];
 
     if (m_WCSHandle == nullptr)
     {
@@ -2333,7 +2334,7 @@ bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPoi
     worldcrd[0] = wcsCoord.ra0().Degrees();
     worldcrd[1] = wcsCoord.dec0().Degrees();
 
-    if ((status = wcss2p(m_WCSHandle, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
+    if ((status = wcss2p(m_WCSHandle, 1, 2, worldcrd, &phi, &theta, imgcrd, pixcrd, stat)) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2357,9 +2358,8 @@ bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPoi
 bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-    int status = 0;
-    int stat[2];
-    double imgcrd[2], phi, pixcrd[2], theta, world[2];
+    int status, stat[NWCSFIX];
+    double imgcrd[NWCSFIX], phi, pixcrd[NWCSFIX], theta, world[NWCSFIX];
 
     if (m_WCSHandle == nullptr)
     {
@@ -2370,7 +2370,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     pixcrd[0] = wcsPixelPoint.x();
     pixcrd[1] = wcsPixelPoint.y();
 
-    if ((status = wcsp2s(m_WCSHandle, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+    if ((status = wcsp2s(m_WCSHandle, 1, 2, pixcrd, imgcrd, &phi, &theta, world, stat)) != 0)
     {
         lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;

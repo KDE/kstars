@@ -119,6 +119,7 @@ class FITSViewer : public KXmlGuiWindow
         void closeTab(int index);
         void toggleStars();
         void toggleCrossHair();
+        void toggleClipping();
         void toggleEQGrid();
         void toggleObjects();
         void togglePixelGrid();

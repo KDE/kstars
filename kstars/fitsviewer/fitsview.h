@@ -118,6 +118,7 @@ class FITSView : public QScrollArea
         // Overlay objects
         void drawStarFilter(QPainter *, double scale);
         void drawStarCentroid(QPainter *, double scale);
+        void drawClipping(QPainter *);
         void drawTrackingBox(QPainter *, double scale);
         void drawMarker(QPainter *, double scale);
         void drawCrosshair(QPainter *, double scale);
@@ -127,6 +128,7 @@ class FITSView : public QScrollArea
 
         bool isImageStretched();
         bool isCrosshairShown();
+        bool isClippingShown();
         bool areObjectsShown();
         bool isEQGridShown();
         bool isPixelGridShown();
@@ -256,6 +258,7 @@ class FITSView : public QScrollArea
         void centerTelescope();
 
         void toggleStretch();
+        void toggleClipping();
 
         virtual void processPointSelection(int x, int y);
         virtual void processMarkerSelection(int x, int y);
@@ -338,6 +341,7 @@ class FITSView : public QScrollArea
         bool showEQGrid { false };
         bool showPixelGrid { false };
         bool showStarsHFR { false };
+        bool showClipping { false };
 
         // Should the image be displayed in linear (false) or stretched (true).
         // Initial value controlled by Options::autoStretch.

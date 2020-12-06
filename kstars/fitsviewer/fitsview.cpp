@@ -785,6 +785,108 @@ void FITSView::drawStarFilter(QPainter *painter, double scale)
     painter->restore();
 }
 
+namespace
+{
+
+template <typename T>
+void drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
+{
+    painter->save();
+    painter->setPen(QPen(Qt::red, scale, Qt::SolidLine));
+    const T clipping = clipVal;
+    for (int y = 0; y < height; y++)
+    {
+        const auto inputLine  = inputBuffer + y * width;
+        for (int x = 0; x < width; x++)
+        {
+            if (inputLine[x] > clipping)
+                painter->drawPoint(x, y);
+        }
+    }
+    painter->restore();
+}
+
+template <typename T>
+void drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
+{
+    painter->save();
+    painter->setPen(QPen(Qt::red, scale, Qt::SolidLine));
+    const int size = width * height;
+    const T clipping = clipVal;
+    for (int y = 0; y < height; y++)
+    {
+        // R, G, B input images are stored one after another.
+        const T * inputLineR  = inputBuffer + y * width;
+        const T * inputLineG  = inputLineR + size;
+        const T * inputLineB  = inputLineG + size;
+
+        for (int x = 0; x < width; x++)
+        {
+            const T inputR = inputLineR[x];
+            const T inputG = inputLineG[x];
+            const T inputB = inputLineB[x];
+            if (inputR > clipping || inputG > clipping || inputB > clipping)
+                painter->drawPoint(x, y);
+        }
+    }
+    painter->restore();
+}
+
+template <typename T>
+void drawClip(T *input_buffer, int num_channels, QPainter *painter, int width, int height, double clipVal, double scale)
+{
+    if (num_channels == 1)
+        drawClippingOneChannel(input_buffer, painter, width, height, clipVal, scale);
+    else if (num_channels == 3)
+        drawClippingThreeChannels(input_buffer, painter, width, height, clipVal, scale);
+}
+
+}  // namespace
+
+void FITSView::drawClipping(QPainter *painter)
+{
+    auto input = imageData->getImageBuffer();
+    const int height = imageData->height();
+    const int width = imageData->width();
+    constexpr double FLOAT_CLIP = 60000;
+    constexpr double SHORT_CLIP = 30000;
+    constexpr double USHORT_CLIP = 60000;
+    constexpr double BYTE_CLIP = 250;
+    switch (imageData->getStatistics().dataType)
+    {
+        case TBYTE:
+            drawClip(reinterpret_cast<uint8_t const*>(input), imageData->channels(), painter, width, height, BYTE_CLIP,
+                     scaleSize(1));
+            break;
+        case TSHORT:
+            drawClip(reinterpret_cast<short const*>(input), imageData->channels(), painter, width, height, SHORT_CLIP,
+                     scaleSize(1));
+            break;
+        case TUSHORT:
+            drawClip(reinterpret_cast<unsigned short const*>(input), imageData->channels(), painter, width, height, USHORT_CLIP,
+                     scaleSize(1));
+            break;
+        case TLONG:
+            drawClip(reinterpret_cast<long const*>(input), imageData->channels(), painter, width, height, USHORT_CLIP,
+                     scaleSize(1));
+            break;
+        case TFLOAT:
+            drawClip(reinterpret_cast<float const*>(input), imageData->channels(), painter, width, height, FLOAT_CLIP,
+                     scaleSize(1));
+            break;
+        case TLONGLONG:
+            drawClip(reinterpret_cast<long long const*>(input), imageData->channels(), painter, width, height, USHORT_CLIP,
+                     scaleSize(1));
+            break;
+        case TDOUBLE:
+            drawClip(reinterpret_cast<double const*>(input), imageData->channels(), painter, width, height, FLOAT_CLIP,
+                     scaleSize(1));
+            break;
+        default:
+            break;
+    }
+}
+
 void FITSView::ZoomDefault()
 {
     if (image_frame != nullptr)
@@ -828,6 +930,9 @@ void FITSView::drawOverlay(QPainter * painter, double scale)
 
     if (markStars)
         drawStarCentroid(painter, scale);
+
+    if (showClipping)
+        drawClipping(painter);
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -1418,6 +1523,11 @@ bool FITSView::isImageStretched()
     return stretchImage;
 }
 
+bool FITSView::isClippingShown()
+{
+    return showClipping;
+}
+
 bool FITSView::isCrosshairShown()
 {
     return showCrosshair;
@@ -1441,6 +1551,12 @@ bool FITSView::isPixelGridShown()
 void FITSView::toggleCrosshair()
 {
     showCrosshair = !showCrosshair;
+    updateFrame();
+}
+
+void FITSView::toggleClipping()
+{
+    showClipping = !showClipping;
     updateFrame();
 }
 
