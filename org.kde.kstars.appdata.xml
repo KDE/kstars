@@ -218,6 +218,7 @@
     <p xml:lang="tr">Astronomik Kataloglar:</p>
     <p xml:lang="uk">Каталоги астрономічних даних:</p>
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
+    <p xml:lang="zh-CN">天文数据库</p>
     <p xml:lang="zh-TW">天文類別：</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
@@ -247,6 +248,7 @@
       <li xml:lang="tr">8 büyüklüğündeki yıldızlara kadar içeren varsayılan katalog</li>
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
       <li xml:lang="x-test">xxDefault catalog consisting of stars to magnitude 8xx</li>
+      <li xml:lang="zh-CN">包含最暗到8等星的星表</li>
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="ar">فهارس أخرى فيها ما يقارب ١٠٠ مليون نجم حتّى القدْر ١٦</li>
@@ -386,6 +388,7 @@
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
       <caption xml:lang="uk">Головне вікно KStars</caption>
       <caption xml:lang="x-test">xxKStars main windowxx</caption>
+      <caption xml:lang="zh-CN">KStars 主窗口</caption>
       <caption xml:lang="zh-TW">KStars 主視窗</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_main.png</image>
     </screenshot>
@@ -434,6 +437,7 @@
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
       <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
       <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
+      <caption xml:lang="zh-CN">KStars 的 Ekos 工具</caption>
       <caption xml:lang="zh-TW">Ekos 工具在 Kstars 中</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_ekos.png</image>
     </screenshot>
@@ -458,6 +462,7 @@
       <caption xml:lang="sv">Observationsplanering i Kstars</caption>
       <caption xml:lang="uk">Планування спостережень у KStars</caption>
       <caption xml:lang="x-test">xxObservation Planner of KStarsxx</caption>
+      <caption xml:lang="zh-CN">KStars中的规划器</caption>
       <caption xml:lang="zh-TW">KStars 的觀測計劃器</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_planner.png</image>
     </screenshot>
