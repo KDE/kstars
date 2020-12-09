@@ -1385,9 +1385,9 @@ void Focus::completeFocusProcedure(bool success)
     for (int i = 0; i < size; ++i)
     {
         analysis_results.append(QString("%1%2|%3")
-                   .arg(i == 0 ? "" : "|" )
-                   .arg(QString::number(hfr_position[i], 'f', 0))
-                   .arg(QString::number(hfr_value[i], 'f', 3)));
+                                .arg(i == 0 ? "" : "|" )
+                                .arg(QString::number(hfr_position[i], 'f', 0))
+                                .arg(QString::number(hfr_value[i], 'f', 3)));
     }
 
     bool const _inAutoFocus = inAutoFocus;
@@ -1405,7 +1405,7 @@ void Focus::completeFocusProcedure(bool success)
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
 
-    QTimer::singleShot(settleTime * 1000, this, [&, settleTime, success, _inAutoFocus, analysis_results]()
+    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, success, _inAutoFocus, analysis_results]()
     {
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
@@ -1836,6 +1836,7 @@ void Focus::setHFRComplete()
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
             setAutoFocusResult(true);
+            emit newStatus(state);
             drawProfilePlot();
         }
 

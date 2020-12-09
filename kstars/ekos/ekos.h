@@ -169,6 +169,15 @@ typedef enum
     FILTER_AUTOFOCUS
 } FilterState;
 
+typedef enum
+{
+    SCRIPT_PRE_JOB,     /**< Script to run before a sequence job is started */
+    SCRIPT_PRE_CAPTURE, /**< Script to run before a sequence capture is started */
+    SCRIPT_POST_CAPTURE,/**< Script to run after a sequence capture is completed */
+    SCRIPT_POST_JOB,    /**< Script to run after a sequence job is completed */
+    SCRIPT_N
+} ScriptTypes;
+
 const QString &getFilterStatusString(FilterState state);
 
 // Scheduler states

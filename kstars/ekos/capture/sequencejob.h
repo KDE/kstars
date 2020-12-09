@@ -55,7 +55,7 @@ class SequenceJob : public QObject
         SequenceJob();
         ~SequenceJob() = default;
 
-        CAPTUREResult capture(bool noCaptureFilter);
+        CAPTUREResult capture(bool noCaptureFilter, bool autofocusReady);
         void reset();
         void abort();
         void done();
@@ -298,15 +298,28 @@ class SequenceJob : public QObject
         bool getEnforceTemperature() const;
         void setEnforceTemperature(bool value);
 
+        const QMap<ScriptTypes, QString> &getScripts() const
+        {
+            return m_Scripts;
+        }
+        void setScripts(const QMap<ScriptTypes, QString> &scripts)
+        {
+            m_Scripts = scripts;
+        }
+        QString getScript(ScriptTypes type) const
+        {
+            return m_Scripts[type];
+        }
+        void setScript(ScriptTypes type, const QString &value)
+        {
+            m_Scripts[type] = value;
+        }
         bool getEnforceStartGuiderDrift() const;
         void setEnforceStartGuiderDrift(bool value);
         void setGuiderActive(bool value)
         {
             guiderActive = value;
         }
-
-        QString getPostCaptureScript() const;
-        void setPostCaptureScript(const QString &value);
 
         ISD::CCD::UploadMode getUploadMode() const;
         void setUploadMode(const ISD::CCD::UploadMode &value);
@@ -391,7 +404,7 @@ class SequenceJob : public QObject
         FITSScale captureFilter { FITS_NONE };
         QTableWidgetItem * statusCell { nullptr };
         QTableWidgetItem * countCell { nullptr };
-        QString postCaptureScript;
+        QMap<ScriptTypes, QString> m_Scripts;
 
         ISD::CCD::UploadMode uploadMode { ISD::CCD::UPLOAD_CLIENT };
 

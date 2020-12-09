@@ -212,7 +212,7 @@ bool SequenceJob::areActionsReady()
     return true;
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autofocusReady)
 {
     activeChip->setBatchMode(!preview);
 
@@ -273,8 +273,8 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
             emit prepareState(CAPTURE_CHANGING_FILTER);
 
             FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
-            // Don't perform autofocus on preview or calibration frames.
-            if (isPreview() || frameType != FRAME_LIGHT)
+            // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
+            if (isPreview() || frameType != FRAME_LIGHT || autofocusReady == false)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
             filterManager->setFilterPosition(targetFilter, policy);
@@ -507,16 +507,6 @@ bool SequenceJob::getEnforceStartGuiderDrift() const
 void SequenceJob::setEnforceStartGuiderDrift(bool value)
 {
     enforceStartGuiderDrift = value;
-}
-
-QString SequenceJob::getPostCaptureScript() const
-{
-    return postCaptureScript;
-}
-
-void SequenceJob::setPostCaptureScript(const QString &value)
-{
-    postCaptureScript = value;
 }
 
 ISD::CCD::UploadMode SequenceJob::getUploadMode() const

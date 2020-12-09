@@ -21,6 +21,7 @@
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "scriptsmanager.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "indi/driverinfo.h"
@@ -41,7 +42,7 @@
 #define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.0
+#define SQ_FORMAT_VERSION 2.1
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
@@ -180,6 +181,8 @@ Capture::Capture()
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Capture::resetFrame);
     connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
     connect(rotatorB, &QPushButton::clicked, rotatorSettings.get(), &Ekos::Capture::show);
+
+    connect(scriptManagerB, &QPushButton::clicked, this, &Ekos::Capture::handleScriptsManager);
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -337,8 +340,25 @@ Capture::Capture()
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Capture::processCaptureTimeout);
 
     // Post capture script
-    connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
-            this, &Ekos::Capture::postScriptFinished);
+    connect(&m_CaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+            this, &Ekos::Capture::scriptFinished);
+    connect(&m_CaptureScript, &QProcess::errorOccurred,
+            [this](QProcess::ProcessError error)
+    {
+        Q_UNUSED(error);
+        appendLogText(m_CaptureScript.errorString());
+        scriptFinished(-1, QProcess::NormalExit);
+    });
+    connect(&m_CaptureScript, &QProcess::readyReadStandardError,
+            [this]()
+    {
+        appendLogText(m_CaptureScript.readAllStandardError());
+    });
+    connect(&m_CaptureScript, &QProcess::readyReadStandardOutput,
+            [this]()
+    {
+        appendLogText(m_CaptureScript.readAllStandardOutput());
+    });
 
     // Remote directory
     connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
@@ -575,7 +595,7 @@ void Capture::start()
 
     SequenceJob * first_job = nullptr;
 
-    foreach (SequenceJob * job, jobs)
+    for (auto &job : jobs)
     {
         if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
         {
@@ -589,7 +609,7 @@ void Capture::start()
     if (first_job == nullptr)
     {
         // If we have at least one job that are in error, bail out, even if ignoring job progress
-        foreach (SequenceJob * job, jobs)
+        for (auto &job : jobs)
         {
             if (job->getStatus() != SequenceJob::JOB_DONE)
             {
@@ -608,7 +628,7 @@ void Capture::start()
                 return;
 
         // If the end-user accepted to reset, reset all jobs and restart
-        foreach (SequenceJob * job, jobs)
+        for (auto &job : jobs)
             job->resetStatus();
 
         first_job = jobs.first();
@@ -618,7 +638,7 @@ void Capture::start()
     else if (ignoreJobProgress)
     {
         appendLogText(i18n("Warning: option \"Always Reset Sequence When Starting\" is enabled and resets the sequence counts."));
-        foreach (SequenceJob * job, jobs)
+        for (auto &job : jobs)
             job->resetStatus();
     }
 
@@ -1727,7 +1747,7 @@ IPState Capture::setCaptureComplete()
         //sendNewImage(blobFilename, blobChip);
         secondsLabel->setText(i18n("Framing..."));
         emit newImage(activeJob, m_ImageData);
-        activeJob->capture(darkSubCheck->isChecked() ? true : false);
+        activeJob->capture(darkSubCheck->isChecked() ? true : false, m_AutoFocusReady);
         return IPS_OK;
     }
 
@@ -1843,28 +1863,46 @@ IPState Capture::setCaptureComplete()
     currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
     // Check if we need to execute post capture script first
-    if (activeJob->getPostCaptureScript().isEmpty() == false)
+    const QString postCaptureScript = activeJob->getScript(SCRIPT_POST_CAPTURE);
+    if (postCaptureScript.isEmpty() == false)
     {
-        postCaptureScript.start(activeJob->getPostCaptureScript());
-        appendLogText(i18n("Executing post capture script %1", activeJob->getPostCaptureScript()));
+        m_CaptureScriptType = SCRIPT_POST_CAPTURE;
+        m_CaptureScript.start(postCaptureScript, generateScriptArguments());
+        appendLogText(i18n("Executing post capture script %1", postCaptureScript));
         return IPS_OK;
     }
 
     // if we're done
     if (activeJob->getCount() <= activeJob->getCompleted())
     {
-        processJobCompletion();
+        processJobCompletionStage1();
         return IPS_OK;
     }
 
     return resumeSequence();
 }
 
+
+void Capture::processJobCompletionStage1()
+{
+    // JM 2020-12-06: Check if we need to execute post-job script first.
+    const QString postJobScript = activeJob->getScript(SCRIPT_POST_JOB);
+    if (!postJobScript.isEmpty())
+    {
+        m_CaptureScriptType = SCRIPT_POST_JOB;
+        m_CaptureScript.start(postJobScript, generateScriptArguments());
+        appendLogText(i18n("Executing post job script %1", postJobScript));
+        return;
+    }
+    else
+        processJobCompletionStage2();
+}
+
 /**
  * @brief Stop execution of the current sequence and check whether there exists a next sequence
  *        and start it, if there is a next one to be started (@see resumeSequence()).
  */
-void Capture::processJobCompletion()
+void Capture::processJobCompletionStage2()
 {
     activeJob->done();
 
@@ -2290,7 +2328,7 @@ void Capture::captureImage()
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
-    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
+    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false, m_AutoFocusReady);
 
     if (rc != SequenceJob::CAPTURE_OK)
     {
@@ -2611,7 +2649,7 @@ bool Capture::addJob(bool preview)
     job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
     job->setUploadMode(static_cast<ISD::CCD::UploadMode>(fileUploadModeS->currentIndex()));
-    job->setPostCaptureScript(fileScriptT->text());
+    job->setScripts(m_Scripts);
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
     job->setPreMountPark(preMountPark);
@@ -3072,7 +3110,7 @@ void Capture::prepareJob(SequenceJob * job)
             int count = capturedFramesMap[signature];
 
             // Count how many captures this job has to process, given that previous jobs may have done some work already
-            foreach (SequenceJob * a_job, jobs)
+            for (auto &a_job : jobs)
                 if (a_job == activeJob)
                     break;
                 else if (a_job->getSignature() == activeJob->getSignature())
@@ -3118,7 +3156,7 @@ void Capture::prepareJob(SequenceJob * job)
             appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
                                QString("%L1").arg(job->getExposure(), 0, 'f', 3), job->getFilterName(),
                                activeJob->getCompleted(), activeJob->getCount()));
-            processJobCompletion();
+            processJobCompletionStage2();
 
             /* FIXME: find a clearer way to exit here */
             return;
@@ -3154,7 +3192,7 @@ void Capture::prepareJob(SequenceJob * job)
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
                 currentCCD->setBLOBEnabled(true);
-                prepareActiveJob();
+                prepareActiveJobStage1();
 
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
@@ -3172,14 +3210,30 @@ void Capture::prepareJob(SequenceJob * job)
         }
     }
 
-    prepareActiveJob();
+    prepareActiveJobStage1();
 
 }
 
+void Capture::prepareActiveJobStage1()
+{
+    // JM 2020-12-06: Check if we need to execute pre-job script first.
+    const QString preJobScript = activeJob->getScript(SCRIPT_PRE_JOB);
+    // Only run pre-job script for the first time and not after some images were captured but then stopped due to abort.
+    if (!preJobScript.isEmpty() && activeJob->getCompleted() == 0)
+    {
+        m_CaptureScriptType = SCRIPT_PRE_JOB;
+        m_CaptureScript.start(preJobScript, generateScriptArguments());
+        appendLogText(i18n("Executing pre job script %1", preJobScript));
+        return;
+    }
+    else
+        prepareActiveJobStage2();
+
+}
 /**
  * @brief Reset #calibrationStage and continue with preparePreCaptureActions().
  */
-void Capture::prepareActiveJob()
+void Capture::prepareActiveJobStage2()
 {
     // Just notification of active job stating up
     emit newImage(activeJob, m_ImageData);
@@ -3205,7 +3259,17 @@ void Capture::prepareActiveJob()
      * procedure is important to avoid any surprise that could make the whole schedule ineffective.
      */
 
-    preparePreCaptureActions();
+    // JM 2020-12-06: Check if we need to execute pre-capture script first.
+    const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+    if (!preCaptureScript.isEmpty())
+    {
+        m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+        m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+        appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
+        return;
+    }
+    else
+        preparePreCaptureActions();
 }
 
 /**
@@ -3995,6 +4059,7 @@ bool Capture::processJobInfo(XMLEle * root)
     XMLEle * subEP;
     rotatorSettings->setRotationEnforced(false);
 
+    m_Scripts.clear();
     QLocale cLocale = QLocale::c();
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
@@ -4070,7 +4135,19 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
         {
-            fileScriptT->setText(pcdataXMLEle(ep));
+            m_Scripts[SCRIPT_POST_CAPTURE] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PreCaptureScript"))
+        {
+            m_Scripts[SCRIPT_PRE_CAPTURE] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PostJobScript"))
+        {
+            m_Scripts[SCRIPT_POST_JOB] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PreJobScript"))
+        {
+            m_Scripts[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
@@ -4311,7 +4388,7 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
     outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
-    foreach (SequenceJob * job, jobs)
+    for (auto &job : jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
@@ -4345,8 +4422,14 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Count>" << cLocale.toString(job->getCount()) << "</Count>" << endl;
         // ms to seconds
         outstream << "<Delay>" << cLocale.toString(job->getDelay() / 1000.0) << "</Delay>" << endl;
-        if (job->getPostCaptureScript().isEmpty() == false)
-            outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
+        if (job->getScript(SCRIPT_PRE_CAPTURE).isEmpty() == false)
+            outstream << "<PreCaptureScript>" << job->getScript(SCRIPT_PRE_CAPTURE) << "</PreCaptureScript>" << endl;
+        if (job->getScript(SCRIPT_POST_CAPTURE).isEmpty() == false)
+            outstream << "<PostCaptureScript>" << job->getScript(SCRIPT_POST_CAPTURE) << "</PostCaptureScript>" << endl;
+        if (job->getScript(SCRIPT_PRE_JOB).isEmpty() == false)
+            outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << endl;
+        if (job->getScript(SCRIPT_POST_JOB).isEmpty() == false)
+            outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << endl;
         outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
         if (job->getRemoteDir().isEmpty() == false)
@@ -4481,7 +4564,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileTimestampS->setChecked(tsEnabled);
     captureCountN->setValue(job->getCount());
     captureDelayN->setValue(job->getDelay() / 1000);
-    fileScriptT->setText(job->getPostCaptureScript());
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
     fileRemoteDirT->setText(job->getRemoteDir());
@@ -4506,6 +4588,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
     wallCoord          = job->getWallCoord();
     preMountPark       = job->isPreMountPark();
     preDomePark        = job->isPreDomePark();
+
+    // Script options
+    m_Scripts          = job->getScripts();
 
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
@@ -6373,27 +6458,47 @@ void Capture::startPostFilterAutoFocus()
 }
 */
 
-void Capture::postScriptFinished(int exitCode, QProcess::ExitStatus status)
+void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
 {
     Q_UNUSED(status)
 
-    appendLogText(i18n("Post capture script finished with code %1.", exitCode));
+    switch (m_CaptureScriptType)
+    {
+        case SCRIPT_PRE_CAPTURE:
+            appendLogText(i18n("Pre capture script finished with code %1.", exitCode));
+            preparePreCaptureActions();
+            break;
 
-    // If we're done, proceed to completion.
-    if (activeJob->getCount() <= activeJob->getCompleted())
-    {
-        processJobCompletion();
-    }
-    // Else check if meridian condition is met.
-    else if (checkMeridianFlipReady())
-    {
-        appendLogText(i18n("Processing meridian flip..."));
-    }
-    // Then if nothing else, just resume sequence.
-    else
-    {
-        appendLogText(i18n("Resuming sequence..."));
-        resumeSequence();
+        case SCRIPT_POST_CAPTURE:
+            appendLogText(i18n("Post capture script finished with code %1.", exitCode));
+
+            // If we're done, proceed to completion.
+            if (activeJob->getCount() <= activeJob->getCompleted())
+            {
+                processJobCompletionStage1();
+            }
+            // Else check if meridian condition is met.
+            else if (checkMeridianFlipReady())
+            {
+                appendLogText(i18n("Processing meridian flip..."));
+            }
+            // Then if nothing else, just resume sequence.
+            else
+            {
+                appendLogText(i18n("Resuming sequence..."));
+                resumeSequence();
+            }
+            break;
+
+        case SCRIPT_PRE_JOB:
+            appendLogText(i18n("Pre job script finished with code %1.", exitCode));
+            prepareActiveJobStage2();
+            break;
+
+        case SCRIPT_POST_JOB:
+            appendLogText(i18n("Post job script finished with code %1.", exitCode));
+            processJobCompletionStage2();
+            break;
     }
 }
 
@@ -6800,7 +6905,7 @@ void Capture::setPresetSettings(const QJsonObject &settings)
 void Capture::setFileSettings(const QJsonObject &settings)
 {
     const QString prefix = settings["prefix"].toString(filePrefixT->text());
-    const QString script = settings["script"].toString(fileScriptT->text());
+    //const QString script = settings["script"].toString(fileScriptT->text());
     const QString directory = settings["directory"].toString(fileDirectoryT->text());
     const bool filter = settings["filter"].toBool(fileFilterS->isChecked());
     const bool duration = settings["duration"].toBool(fileDurationS->isChecked());
@@ -6809,7 +6914,7 @@ void Capture::setFileSettings(const QJsonObject &settings)
     const QString remote = settings["remote"].toString(fileRemoteDirT->text());
 
     filePrefixT->setText(prefix);
-    fileScriptT->setText(script);
+    //    fileScriptT->setText(script);
     fileDirectoryT->setText(directory);
     fileFilterS->setChecked(filter);
     fileDurationS->setChecked(duration);
@@ -6823,7 +6928,7 @@ QJsonObject Capture::getFileSettings()
     QJsonObject settings =
     {
         {"prefix", filePrefixT->text()},
-        {"script", fileScriptT->text()},
+        //        {"script", fileScriptT->text()},
         {"directory", fileDirectoryT->text()},
         {"filter", fileFilterS->isChecked()},
         {"duration", fileDurationS->isChecked()},
@@ -7357,4 +7462,23 @@ void Capture::restartCamera(const QString &name)
     KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to restart %1 camera driver?", name),
                                             i18n("Driver Restart"), 5);
 }
+
+void Capture::handleScriptsManager()
+{
+    QPointer<ScriptsManager> manager = new ScriptsManager(this);
+
+    manager->setScripts(m_Scripts);
+
+    if (manager->exec() == QDialog::Accepted)
+    {
+        m_Scripts = manager->getScripts();
+    }
+}
+
+QStringList Capture::generateScriptArguments() const
+{
+    // TODO based on user feedback on what paramters are most useful to pass
+    return QStringList();
+}
+
 }
