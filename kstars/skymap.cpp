@@ -46,6 +46,7 @@
 #include "skycomponents/flagcomponent.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
+#include "skyobjects/satellite.h"
 #include "tools/flagmanager.h"
 #include "widgets/infoboxwidget.h"
 #include "projections/azimuthalequidistantprojector.h"
@@ -517,6 +518,25 @@ void SkyMap::slotCopyCoordinates()
                                        J2000DE.toDMSString(),
                                        Az.toDMSString(),
                                        Alt.toDMSString()));
+}
+
+
+void SkyMap::slotCopyTLE()
+{
+    
+    QString tle = "";
+    if (clickedObject()->type() == SkyObject::SATELLITE)
+    {
+        Satellite *sat = (Satellite *) clickedObject();
+        tle = sat->tle();
+    }
+    else
+    {
+        tle = "NO TLE FOR OBJECT";
+    }
+    
+
+    QApplication::clipboard()->setText(tle);
 }
 
 void SkyMap::slotSDSS()
