@@ -71,9 +71,6 @@ class Satellite : public SkyObject
     /** @return Satellite international designator */
     QString id();
 
-    /** @return Satellite TLE */
-    QString tle();
-
     /**
      * @brief sgp4ErrorString Get error string associated with sgp4 calculation failure
      * @param code error code as returned from sgp4() function
@@ -111,8 +108,6 @@ class Satellite : public SkyObject
     QChar m_class;
     /// International Designator
     QString m_id;
-    /// Complete TLE
-    QString m_tle;
     /// Epoch Year
     double m_epoch_year { 0 };
     /// Epoch (Day of the year and fractional portion of the day)

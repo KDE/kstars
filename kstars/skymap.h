@@ -432,11 +432,6 @@ class SkyMap : public QGraphicsView
          */
         void slotCopyCoordinates();
 
-        /**
-         * @brief slotCopyTLE Copy satellite TLE to clipboard.
-         */
-        void slotCopyTLE();
-
         /** @short Popup menu function: Show webpage about ClickedObject
              * (only available for some objects).
              */

@@ -280,7 +280,6 @@ void KSPopupMenu::createSatelliteMenu(Satellite *satellite)
     //FIXME: add key shortcut to menu items properly!
     addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), ks->map(), SLOT(slotBeginAngularDistance()));
     addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), ks->map(), SLOT(slotBeginStarHop()));
-    addAction(QIcon::fromTheme("edit-copy"), i18n("Copy TLE to Clipboard"), ks->map(), SLOT(slotCopyTLE()));
 
     //Insert "Add/Remove Label" item
     if (ks->map()->isObjectLabeled(satellite))

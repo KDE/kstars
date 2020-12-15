@@ -76,7 +76,6 @@ Satellite::Satellite(const QString &name, const QString &line1, const QString &l
     m_mean_anomaly  = line2.midRef(43, 8).toDouble() * DEG2RAD;
     m_mean_motion   = line2.midRef(52, 11).toDouble() * TWOPI / MINPD;
     m_nb_revolution = line2.midRef(63, 5).toInt();
-    m_tle           = name + "\n" + line1 + "\n" + line2;
 
     setName(name);
     setName2(name);
@@ -1344,9 +1343,4 @@ double Satellite::range()
 QString Satellite::id()
 {
     return m_id;
-}
-
-QString Satellite::tle()
-{
-    return m_tle;
 }
