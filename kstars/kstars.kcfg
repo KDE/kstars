@@ -1934,8 +1934,12 @@
          <label>Internal, External, or BuiltIn Sextractor for Solving.</label>
          <default>0</default>
       </entry>
-      <entry name="SolverType" type="UInt">
+      <entry name="SolverMode" type="UInt">
          <label>Local (0) or Remote (1) solver.</label>
+         <default>0</default>
+      </entry>
+      <entry name="SolverType" type="UInt">
+         <label>Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for Local ASTAP. 3 for Online Astrometry.</label>
          <default>0</default>
       </entry>
       <entry name="SolveOptionsProfile" type="UInt">
