@@ -91,7 +91,7 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     // select the Luminance filter
     KTRY_SET_COMBO_SUB(ekos->alignModule(), FilterPosCombo, "Luminance");
     // select local solver
-    ekos->alignModule()->setSolverType(Ekos::Align::SOLVER_LOCAL);
+    ekos->alignModule()->setSolverMode(Ekos::Align::SOLVER_LOCAL);
     // select internal SEP method
     Options::setSolveSextractorType(SSolver::EXTRACTOR_BUILTIN);
     // select StellarSolver

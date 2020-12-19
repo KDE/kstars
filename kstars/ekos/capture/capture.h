@@ -63,7 +63,7 @@ class RotatorSettings;
  * interface to enable unattended scripting.
  *
  * @author Jasem Mutlaq
- * @version 1.8
+ * @version 1.9
  */
 namespace Ekos
 {
@@ -629,9 +629,13 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
+         */
+        void prepareActiveJobStage1();
+        /**
          * @brief prepareActiveJob Reset calibration state machine and prepare capture job actions.
          */
-        void prepareActiveJob();
+        void prepareActiveJobStage2();
 
         /**
              * @brief preparePreCaptureActions Check if we need to update filter position or CCD temperature before starting capture process
@@ -730,6 +734,9 @@ class Capture : public QWidget, public Ui::Capture
         bool processPostCaptureCalibrationStage();
         void updatePreCaptureCalibrationStatus();
 
+        // Script Manager
+        void handleScriptsManager();
+
         /* Frame Type calibration checks */
 
         /**
@@ -754,8 +761,8 @@ class Capture : public QWidget, public Ui::Capture
         // Capture
         IPState setCaptureComplete();
 
-        // post capture script
-        void postScriptFinished(int exitCode, QProcess::ExitStatus status);
+        // capture scripts
+        void scriptFinished(int exitCode, QProcess::ExitStatus status);
 
         void setVideoStreamEnabled(bool enabled);
 
@@ -819,7 +826,18 @@ class Capture : public QWidget, public Ui::Capture
         void prepareJob(SequenceJob *job);
         void syncGUIToJob(SequenceJob *job);
         bool processJobInfo(XMLEle *root);
-        void processJobCompletion();
+
+        /**
+         * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
+         * if yes, we run it and wait until it is done before we move to stage2
+         */
+        void processJobCompletionStage1();
+
+        /**
+         * @brief processJobCompletionStage2 Set job as complete and look for next job in the sequence, if any.
+         */
+        void processJobCompletionStage2();
+
         void constructPrefix(QString &imagePrefix);
         double setCurrentADU(double value);
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
@@ -885,7 +903,21 @@ class Capture : public QWidget, public Ui::Capture
 
         // short cut for all guiding states that indicate guiding is on
         bool isGuidingOn();
+        // short cut for all guiding states that indicate guiding in state GUIDING
+        bool isActivelyGuiding();
 
+        /**
+         * @brief generateScriptArguments Generate argument list to pass to capture script
+         * @return generates argument list consisting of one argument -metadata followed by JSON-formatted key:value pair:
+         * -ts UNIX timestamp
+         * -image full path to captured image (if any)
+         * -size size of file in bytes (if any)
+         * -job {name, index}
+         * -capture {name, index}
+         * -filter
+         * TODO depending on user feedback.
+         */
+        QStringList generateScriptArguments() const;
         /* Capture */
 
         /**
@@ -1009,6 +1041,7 @@ class Capture : public QWidget, public Ui::Capture
         bool m_TelescopeCoveredDarkExposure { false };
         bool m_TelescopeCoveredFlatExposure { false };
         ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
+        QMap<ScriptTypes, QString> m_Scripts;
 
         QUrl dirPath;
 
@@ -1031,7 +1064,8 @@ class Capture : public QWidget, public Ui::Capture
         QMap<ISD::CCDChip *, QVariantMap> frameSettings;
 
         // Post capture script
-        QProcess postCaptureScript;
+        QProcess m_CaptureScript;
+        uint8_t m_CaptureScriptType {0};
 
         // Rotator Settings
         std::unique_ptr<RotatorSettings> rotatorSettings;

@@ -1692,6 +1692,14 @@
          <label>Maximum acceptable difference between requested and measured temperature set point.</label>
          <default>0.1</default>
       </entry>
+      <entry name="MaxStartGuiderDrift" type="Double">
+         <label>Maximum acceptable guider drift allowed before starting capture.</label>
+         <default>2</default>
+      </entry>
+      <entry name="EnforceStartGuiderDrift" type="Bool">
+         <label>Enforce maximum acceptable guider drift allowed before starting capture.</label>
+         <default>false</default>
+      </entry>
       <entry name="GuidingSettle" type="Double">
          <label>Wait this many seconds after guiding is resumed before starting capture.</label>
          <default>0</default>
@@ -1926,8 +1934,12 @@
          <label>Internal, External, or BuiltIn Sextractor for Solving.</label>
          <default>0</default>
       </entry>
-      <entry name="SolverType" type="UInt">
+      <entry name="SolverMode" type="UInt">
          <label>Local (0) or Remote (1) solver.</label>
+         <default>0</default>
+      </entry>
+      <entry name="SolverType" type="UInt">
+         <label>Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for Local ASTAP. 3 for Online Astrometry.</label>
          <default>0</default>
       </entry>
       <entry name="SolveOptionsProfile" type="UInt">
@@ -2617,6 +2629,10 @@
     <entry name="AnalyzeRMS" type="Bool">
       <whatsthis>Display RMS Error on the Analyze Statistics Plot.</whatsthis>
       <default>true</default>
+    </entry>
+    <entry name="AnalyzeRMSC" type="Bool">
+      <whatsthis>Display RMS Error (during capture) on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
     </entry>
     <entry name="AnalyzeMountRA" type="Bool">
       <whatsthis>Display Mount RA on the Analyze Statistics Plot.</whatsthis>

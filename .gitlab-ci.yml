@@ -7,7 +7,7 @@ stages:
   - build
   - test
 
-image: tallfurryman/kstars-ci:latest
+image: tallfurryman/kstars-ci:0.7
 
 variables:
   CCACHE_BASEDIR: "$CI_PROJECT_DIR"
@@ -74,6 +74,7 @@ build-and-test:
 build-appimage:
   stage: test
   interruptible: true
+  allow_failure: true
   only:
     - merge_requests
   before_script:

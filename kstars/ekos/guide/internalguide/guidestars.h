@@ -112,7 +112,7 @@ class GuideStars
                           QList<double> *outputScores = nullptr,
                           QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algoritms.
-        int findAllSEPStars(FITSData *imageData, QList<Edge*> &sepStars, int num);
+        int findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num);
 
         // Convert from input image coordinates to output RA and DEC coordinates.
         Vector point2arcsec(const Vector &p) const;
@@ -132,9 +132,6 @@ class GuideStars
 
         // Plot the positions of the neighbor stars on the guideView display.
         void plotStars(GuideView *guideView, const QRect &trackingBox);
-
-        // Adds the detected stars to the log when findGuideStar() fails.
-        void logDetectedStars();
 
         // These three methods are useful for testing.
         void setDetectedStars(const QList<Edge> &stars)

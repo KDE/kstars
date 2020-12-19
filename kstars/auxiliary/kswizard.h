@@ -116,8 +116,6 @@ class KSWizard : public QDialog
 
         void slotDownload();
 
-        void slotFinishWizard();
-
         void slotInstallGSC();
 
         void slotExtractGSC();

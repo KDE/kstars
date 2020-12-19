@@ -22,6 +22,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <KConfigDialog>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 #include <QtDBus/qtdbusglobal.h>
@@ -104,7 +105,7 @@ class Align : public QWidget, public Ui::Align
         typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
         //typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE } AstrometrySolverType;
         //typedef enum { SOLVER_ASTAP, SOLVER_ASTROMETRYNET } SolverBackend;
-        typedef enum { SOLVER_LOCAL, SOLVER_REMOTE } SolverType;
+        typedef enum { SOLVER_LOCAL, SOLVER_REMOTE } SolverMode;
         typedef enum
         {
             PAH_IDLE,
@@ -341,7 +342,7 @@ class Align : public QWidget, public Ui::Align
         void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
         // Ekos Live Client helper functions
-        int getActiveSolver() const;
+        //int getActiveSolver() const;
 
         /**
          * @brief getStellarSolverProfiles
@@ -415,10 +416,10 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE Q_NOREPLY void abort();
 
         /** DBUS interface function.
-             * Select the solver type
+             * Select the solver mode
              * @param type Set solver type. 0 LOCAL, 1 REMOTE (requires remote astrometry driver to be activated)
              */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverType(int type);
+        Q_SCRIPTABLE Q_NOREPLY void setSolverMode(int mode);
 
         /** DBUS interface function.
              * Select the solver type
@@ -641,6 +642,7 @@ class Align : public QWidget, public Ui::Align
 
     private:
         bool m_SolveBlindly = false;
+        KPageWidgetItem *indexFilesPage;
         QString savedOptionsProfiles;
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.

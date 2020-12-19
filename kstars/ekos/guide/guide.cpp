@@ -4087,6 +4087,8 @@ QJsonObject Guide::getSettings() const
 
 void Guide::setSettings(const QJsonObject &settings)
 {
+    static bool init = false;
+
     auto syncControl = [settings](const QString & key, QWidget * widget)
     {
         QSpinBox *pSB = nullptr;
@@ -4136,7 +4138,7 @@ void Guide::setSettings(const QJsonObject &settings)
     };
 
     // Camera
-    if (syncControl("camera", guiderCombo))
+    if (syncControl("camera", guiderCombo) || init == false)
         checkCCD();
     // Via
     syncControl("via", ST4Combo);
@@ -4178,6 +4180,8 @@ void Guide::setSettings(const QJsonObject &settings)
     Options::setDitherFrames(ditherFrequency);
     const bool gpg = settings["gpg"].toBool(Options::gPGEnabled());
     Options::setGPGEnabled(gpg);
+
+    init = true;
 }
 
 void Guide::loop()

@@ -273,7 +273,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "FILTER_NAME"))
             {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN &&
+                        !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
                 {
                     devices.removeOne(oneDevice);
                     oneDevice = new ISD::Filter(oneDevice);
@@ -284,7 +285,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
             {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN &&
+                        !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
                 {
                     devices.removeOne(oneDevice);
                     oneDevice = new ISD::Focuser(oneDevice);

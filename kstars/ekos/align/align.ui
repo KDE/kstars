@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>587</height>
+    <width>724</width>
+    <height>627</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -661,7 +661,7 @@
      <item>
       <widget class="QGroupBox" name="stellarSolverOptionsGroup">
        <property name="title">
-        <string>Solver Type</string>
+        <string>Solver Mode</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
         <property name="spacing">
@@ -688,7 +688,7 @@
            <bool>true</bool>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">solverTypeButtonGroup</string>
+           <string notr="true">solverModeButtonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -701,7 +701,7 @@
            <string>Remote</string>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">solverTypeButtonGroup</string>
+           <string notr="true">solverModeButtonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -1852,6 +1852,6 @@
  </connections>
  <buttongroups>
   <buttongroup name="gotoModeButtonGroup"/>
-  <buttongroup name="solverTypeButtonGroup"/>
+  <buttongroup name="solverModeButtonGroup"/>
  </buttongroups>
 </ui>

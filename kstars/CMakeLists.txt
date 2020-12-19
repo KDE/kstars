@@ -113,6 +113,7 @@ if (INDI_FOUND)
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
+            ekos/capture/scriptsmanager.ui
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
@@ -173,6 +174,7 @@ if (INDI_FOUND)
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
+            ekos/capture/scriptsmanager.cpp
 
             # Analyze
             ekos/analyze/analyze.cpp

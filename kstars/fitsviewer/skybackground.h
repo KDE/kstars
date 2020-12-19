@@ -40,7 +40,7 @@ class SkyBackground
 
         // Given a source with flux spread over numPixels, and a CCD with gain = ADU/#electron)
         // returns an SNR estimate.
-        double SNR(double flux, double numPixels, double gain = 0.5);
+        double SNR(double flux, double numPixels, double gain = 0.5) const;
         void initialize(double mean_, double sigma_, double numPixelsInSkyEstimate_, int numStars_ = 0);
         void setStarsDetected(int numStars)
         {

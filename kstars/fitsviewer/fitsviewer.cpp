@@ -186,6 +186,13 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setCheckable(true);
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleCrossHair()));
 
+    action = actionCollection()->addAction("view_clipping");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_L));
+    action->setIcon(QIcon::fromTheme("media-record"));
+    action->setText(i18n("Show Clipping"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleClipping()));
+
     action = actionCollection()->addAction("view_pixel_grid");
     action->setIcon(QIcon::fromTheme("map-flat"));
     action->setText(i18n("Show Pixel Gridlines"));
@@ -616,6 +623,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     connect(view, &FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
     updateButtonStatus("toggle_3D_graph", i18n("View 3D Graph"), getCurrentView()->isStarProfileShown());
     updateButtonStatus("view_crosshair", i18n("Cross Hairs"), getCurrentView()->isCrosshairShown());
+    updateButtonStatus("view_clipping", i18n("Clipping"), getCurrentView()->isClippingShown());
     updateButtonStatus("view_eq_grid", i18n("Equatorial Gridines"), getCurrentView()->isEQGridShown());
     updateButtonStatus("view_objects", i18n("Objects in Image"), getCurrentView()->areObjectsShown());
     updateButtonStatus("view_pixel_grid", i18n("Pixel Gridlines"), getCurrentView()->isPixelGridShown());
@@ -954,6 +962,15 @@ void FITSViewer::toggleCrossHair()
     getCurrentView()->toggleCrosshair();
     updateButtonStatus("view_crosshair", i18n("Cross Hairs"), getCurrentView()->isCrosshairShown());
 }
+
+void FITSViewer::toggleClipping()
+{
+    if (fitsTabs.empty())
+        return;
+    getCurrentView()->toggleClipping();
+    updateButtonStatus("view_clipping", i18n("Clipping"), getCurrentView()->isClippingShown());
+}
+
 void FITSViewer::toggleEQGrid()
 {
     if (fitsTabs.empty())

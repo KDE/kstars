@@ -32,15 +32,12 @@ RUN apt update && apt -y install --no-install-recommends \
       zlib1g-dev \
       libcfitsio-dev \
       libnova-dev \
-      libindi-dev \
-      indi-bin \
       wcslib-dev \
       libraw-dev \
       libgsl-dev \
       phonon4qt5-backend-vlc \
       qt5keychain-dev \
-      libsecret-1-dev \
-      libstellarsolver
+      libsecret-1-dev
 
 # Suitable for tests
 RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
@@ -54,8 +51,6 @@ RUN apt update && apt -y --no-install-recommends install \
       astrometry.net \
       kded5 \
       kinit \
-      libindi1 \
-      indi-bin \
       breeze-icon-theme \
       libqt5sql5-sqlite \
       qml-module-qtquick-controls \
@@ -91,10 +86,6 @@ RUN apt update && apt -y --no-install-recommends install \
 RUN apt install -y --no-install-recommends \
       libsaxon-java \
       openjdk-11-jre-headless
-
-# StellarSolver
-RUN apt install -y --no-install-recommends \
-      libstellarsolver-dev
 
 CMD /bin/bash
 
