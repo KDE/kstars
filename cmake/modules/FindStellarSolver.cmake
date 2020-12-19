@@ -50,14 +50,20 @@ else (STELLARSOLVER_INCLUDE_DIR AND STELLARSOLVER_LIBRARIES)
             ${_obIncDir}
             ${GNUWIN32_DIR}/include/libstellarsolver/
             /usr/include/libstellarsolver
+            /usr/local/include/libstellarsolver
             /Users/rlancaste/AstroRoot/craft-root/include/libstellarsolver/
-
         )
 
   find_library(STELLARSOLVER_LIBRARIES NAMES stellarsolver libstellarsolver.a
     PATHS
         ${_obIncDir}
         ${GNUWIN32_DIR}/lib
+	/usr/lib64
+	/usr/lib
+	/usr/lib32
+	/usr/local/lib64
+	/usr/local/lib
+	/usr/local/lib32
         /Users/rlancaste/AstroRoot/craft-root/lib
   )
 
