@@ -1932,6 +1932,16 @@ font-weight:bold;
             </column>
             <column>
              <property name="text">
+              <string>Count</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Exp</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
               <string>Type</string>
              </property>
             </column>
@@ -1942,22 +1952,12 @@ font-weight:bold;
             </column>
             <column>
              <property name="text">
-              <string>Exp</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
               <string>ISO/Gain</string>
              </property>
             </column>
             <column>
              <property name="text">
               <string>Offset</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Count</string>
              </property>
             </column>
            </widget>

@@ -2766,25 +2766,29 @@ bool Capture::addJob(bool preview)
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
-    type->setText(captureTypeS->currentText());
-    type->setTextAlignment(Qt::AlignHCenter);
-    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Type", type->text());
+    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    job->setCountCell(count);
+    jsonJob.insert("Count", count->text());
 
-    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
-    bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
-    bin->setTextAlignment(Qt::AlignHCenter);
-    bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Bin", bin->text());
-
-    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     exp->setText(QString("%L1").arg(captureExposureN->value(), 0, 'f', captureExposureN->decimals()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Exp", exp->text());
 
-    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    type->setText(captureTypeS->currentText());
+    type->setTextAlignment(Qt::AlignHCenter);
+    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Type", type->text());
+
+    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
+    bin->setTextAlignment(Qt::AlignHCenter);
+    bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Bin", bin->text());
+
+    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
     if (captureISOS && captureISOS->currentIndex() != -1)
     {
         iso->setText(captureISOS->currentText());
@@ -2803,7 +2807,7 @@ bool Capture::addJob(bool preview)
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
     if (job->getOffset() >= 0)
     {
         offset->setText(QString::number(job->getOffset(), 'f', 1));
@@ -2817,20 +2821,16 @@ bool Capture::addJob(bool preview)
     offset->setTextAlignment(Qt::AlignHCenter);
     offset->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
-    job->setCountCell(count);
-    jsonJob.insert("Count", count->text());
-
     if (m_JobUnderEdit == false)
     {
         queueTable->setItem(currentRow, 0, status);
         queueTable->setItem(currentRow, 1, filter);
-        queueTable->setItem(currentRow, 2, type);
-        queueTable->setItem(currentRow, 3, bin);
-        queueTable->setItem(currentRow, 4, exp);
-        queueTable->setItem(currentRow, 5, iso);
-        queueTable->setItem(currentRow, 6, offset);
-        queueTable->setItem(currentRow, 7, count);
+        queueTable->setItem(currentRow, 2, count);
+        queueTable->setItem(currentRow, 3, exp);
+        queueTable->setItem(currentRow, 4, type);
+        queueTable->setItem(currentRow, 5, bin);
+        queueTable->setItem(currentRow, 6, iso);
+        queueTable->setItem(currentRow, 7, offset);
 
         m_SequenceArray.append(jsonJob);
         emit sequenceChanged(m_SequenceArray);

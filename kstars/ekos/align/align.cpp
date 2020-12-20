@@ -297,40 +297,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     rememberAutoWCS   = Options::autoWCS();
     //rememberMeridianFlip = Options::executeMeridianFlip();
 
-    solverTypeButtonGroup->setId(localSolverR, SOLVER_LOCAL);
-    solverTypeButtonGroup->setId(remoteSolverR, SOLVER_REMOTE);
+    solverModeButtonGroup->setId(localSolverR, SOLVER_LOCAL);
+    solverModeButtonGroup->setId(remoteSolverR, SOLVER_REMOTE);
 
-    localSolverR->setChecked(Options::solverType() == SOLVER_LOCAL);
-    remoteSolverR->setChecked(Options::solverType() == SOLVER_REMOTE);
-    connect(solverTypeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
-            &Align::setSolverType);
-    setSolverType(solverTypeButtonGroup->checkedId());
-    //        this, &Align::setSolverBackend);
-    // solverBackendGroup->setId(astapSolverR, SOLVER_ASTAP);
-    //solverBackendGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
-
-    // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
-    // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accommodate that.
-    //  if (Options::solverBackend() > SOLVER_ASTROMETRYNET)
-    //  {
-    //      Options::setSolverBackend(SOLVER_ASTROMETRYNET);
-    //   }
-    //
-    // solverBackendGroup->button(Options::solverBackend())->setChecked(true);
-    // connect(solverBackendGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-    //        this, &Align::setSolverBackend);
-
-    //astrometryTypeCombo->addItem(i18n("Online"));
-#ifndef Q_OS_WIN
-    // astrometryTypeCombo->addItem(i18n("Offline"));
-#endif
-    //astrometryTypeCombo->addItem(i18n("Remote"));
-
-    // astrometryTypeCombo->setCurrentIndex(Options::astrometrySolverType());
-    // connect(astrometryTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-    //         &Ekos::Align::setAstrometrySolverType);
-
-    //setSolverBackend(solverBackendGroup->checkedId());
+    localSolverR->setChecked(Options::solverMode() == SOLVER_LOCAL);
+    remoteSolverR->setChecked(Options::solverMode() == SOLVER_REMOTE);
+    connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
+            &Align::setSolverMode);
+    setSolverMode(solverModeButtonGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
@@ -1888,16 +1862,16 @@ void Align::checkAlignmentTimeout()
     // TODO must also account for loadAndSlew. Retain file name
 }
 
-void Align::setSolverType(int type)
+void Align::setSolverMode(int mode)
 {
-    if (sender() == nullptr && type >= 0 && type <= 1)
+    if (sender() == nullptr && mode >= 0 && mode <= 1)
     {
-        solverTypeButtonGroup->button(type)->setChecked(true);
+        solverModeButtonGroup->button(mode)->setChecked(true);
     }
 
-    Options::setSolverType(type);
+    Options::setSolverMode(mode);
 
-    if (type == SOLVER_REMOTE)
+    if (mode == SOLVER_REMOTE)
     {
         if (remoteParser.get() != nullptr && remoteParserDevice != nullptr)
         {
@@ -2096,7 +2070,7 @@ void Align::checkCCD(int ccdNum)
     if (targetChip && targetChip->isCapturing())
         return;
 
-    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
         (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
 
     syncCCDInfo();
@@ -2990,12 +2964,12 @@ bool Align::captureAndSolve()
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     // In case of remote solver, check if we need to update active CCD
-    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         if (remoteParserDevice == nullptr)
         {
             appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
-            setSolverType(SOLVER_LOCAL);
+            setSolverMode(SOLVER_LOCAL);
         }
         else
         {
@@ -3161,7 +3135,7 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     appendLogText(i18n("Image received."));
 
     // If Local solver, then set capture complete or perform calibration first.
-    if (solverTypeButtonGroup->checkedId() == SOLVER_LOCAL)
+    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
         // Only perform dark image subtraction on local images.
         if (alignDarkFrameCheck->isChecked())
@@ -3246,17 +3220,17 @@ void Align::startSolving()
     FITSData *data = alignView->getImageData();
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
-    if (solverTypeButtonGroup->checkedId() == SOLVER_LOCAL)
+    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
         if(Options::solverType() != SSolver::SOLVER_ASTAP) //You don't need astrometry index files to use ASTAP
         {
             bool foundAnIndex = false;
-            for(QString dataDir: astrometryDataDirs)
+            for(QString dataDir : astrometryDataDirs)
             {
                 QDir dir = QDir(dataDir);
                 if(dir.exists())
                 {
-                    dir.setNameFilters(QStringList()<<"*.fits");
+                    dir.setNameFilters(QStringList() << "*.fits");
                     QStringList indexList = dir.entryList();
                     if(indexList.count() > 0)
                         foundAnIndex = true;
@@ -3264,7 +3238,8 @@ void Align::startSolving()
             }
             if(!foundAnIndex)
             {
-                appendLogText(i18n("No index files were found on your system in the specified index file directories.  Please download some index files or add the correct directory to the list."));
+                appendLogText(
+                    i18n("No index files were found on your system in the specified index file directories.  Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && indexFilesPage)
                 {
@@ -3547,7 +3522,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     m_AlignTimer.stop();
-    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice && remoteParser.get())
+    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice && remoteParser.get())
     {
         // Disable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(false);
@@ -3825,7 +3800,8 @@ void Align::solverFailed()
 {
     appendLogText(i18n("Solver Failed."));
     if(!Options::alignmentLogging())
-        appendLogText(i18n("To get more information about why the solver may have failed, please enable Alignment Logging in the Ekos Logging Options."));
+        appendLogText(
+            i18n("To get more information about why the solver may have failed, please enable Alignment Logging in the Ekos Logging Options."));
 
     KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
                           KSNotification::EVENT_ALERT);
@@ -3862,9 +3838,9 @@ void Align::solverFailed()
 void Align::abort()
 {
     m_CaptureTimer.stop();
-    if (solverTypeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
+    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
         m_StellarSolver->abort();
-    else if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser)
+    else if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser)
         remoteParser->stopSolver();
     //parser->stopSolver();
     pi->stopAnimation();
@@ -4966,10 +4942,10 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    if (solverTypeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice == nullptr)
+    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice == nullptr)
     {
         appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
-        setSolverType(SOLVER_LOCAL);
+        setSolverMode(SOLVER_LOCAL);
     }
 
     alignView->loadFile(fileURL, false);
@@ -6486,10 +6462,10 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 
 }
 
-int Align::getActiveSolver() const
-{
-    return Options::solverType();
-}
+//int Align::getActiveSolver() const
+//{
+//    return Options::solverMode();
+//}
 
 QString Align::getPAHMessage() const
 {
