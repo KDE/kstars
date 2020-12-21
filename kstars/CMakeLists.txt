@@ -207,6 +207,7 @@ if (INDI_FOUND)
             #ekos/align/onlineastrometryparser.cpp
             ekos/align/remoteastrometryparser.cpp
             #ekos/align/astapastrometryparser.cpp
+            ekos/align/poleaxis.cpp
             ekos/align/polaralign.cpp
 
             # Guide

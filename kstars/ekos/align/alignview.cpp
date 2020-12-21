@@ -41,7 +41,7 @@ void AlignView::drawOverlay(QPainter *painter, double scale)
         drawLine(painter);
 }
 
-bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale)
+bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool extras)
 {
     bool rc = imageData->injectWCS(orientation, ra, dec, pixscale);
     // If file fails to load, then no WCS data
@@ -55,14 +55,14 @@ bool AlignView::injectWCS(double orientation, double ra, double dec, double pixs
     if (wcsWatcher.isRunning() == false && imageData->getWCSState() == FITSData::Idle)
     {
         // Load WCS async
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, extras);
         wcsWatcher.setFuture(future);
     }
 
     return true;
 }
 
-void AlignView::setCorrectionParams(QLineF &line)
+void AlignView::setCorrectionParams(QLineF &line, QLineF *altOnlyLine)
 {
     if (imageData.isNull())
         return;
@@ -79,6 +79,11 @@ void AlignView::setCorrectionParams(QLineF &line)
     }
 
     correctionLine     = line;
+    if (altOnlyLine == nullptr)
+        altLine = QLineF();
+    else
+        altLine = *altOnlyLine;
+
     celestialPolePoint = line.p1();
     markerCrosshair    = line.p2();
 
@@ -135,6 +140,34 @@ void AlignView::drawLine(QPainter *painter)
     double y2 = zoomedLine.p2().y() * scale;
 
     painter->drawLine(x1, y1, x2, y2);
+
+    // If there is an alt line, then draw a separate path, first the altLine,
+    // Then from the 2nd point in the altLine to the point in correctionLine
+    // that differs from altLine's first point.
+    if (correctionOffset.isNull() && !altLine.isNull())
+    {
+        painter->setPen(QPen(Qt::yellow, 3));
+        painter->setBrush(Qt::NoBrush);
+        double x1 = altLine.p1().x() * scale;
+        double y1 = altLine.p1().y() * scale;
+        const double x2 = altLine.p2().x() * scale;
+        const double y2 = altLine.p2().y() * scale;
+        painter->drawLine(x1, y1, x2, y2);
+
+        painter->setPen(QPen(Qt::green, 3));
+        if ((altLine.p1().x() != correctionLine.p2().x()) ||
+                (altLine.p1().y() != correctionLine.p2().y()))
+        {
+            x1 = correctionLine.p2().x() * scale;
+            y1 = correctionLine.p2().y() * scale;
+        }
+        else
+        {
+            x1 = correctionLine.p1().x() * scale;
+            y1 = correctionLine.p1().y() * scale;
+        }
+        painter->drawLine(x2, y2, x1, y1);
+    }
 
     // In limited memory mode, WCS data is not loaded so no Equatorial Gridlines are drawn
     // so we have to at least draw the NCP/SCP locations

@@ -275,7 +275,7 @@ void FITSView::setCursorMode(CursorMode mode)
     {
         if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
         {
-            QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+            QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
             wcsWatcher.setFuture(future);
         }
     }
@@ -407,7 +407,7 @@ bool FITSView::processData()
             Options::autoWCS() &&
             !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
         wcsWatcher.setFuture(future);
     }
     else
@@ -1219,7 +1219,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
     const int image_width = imageData->width();
     const int image_height = imageData->height();
 
-    if (imageData->hasWCS())
+    if (imageData->hasWCS() && imageData->fullWCS())
     {
         FITSImage::wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
@@ -1566,7 +1566,7 @@ void FITSView::toggleEQGrid()
 
     if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
         wcsWatcher.setFuture(future);
         return;
     }
@@ -1581,7 +1581,7 @@ void FITSView::toggleObjects()
 
     if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
         wcsWatcher.setFuture(future);
         return;
     }

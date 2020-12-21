@@ -2163,7 +2163,7 @@ bool FITSData::checkForWCS()
     return HasWCS;
 }
 
-bool FITSData::loadWCS()
+bool FITSData::loadWCS(bool extras)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 
@@ -2250,68 +2250,50 @@ bool FITSData::loadWCS()
 
     m_WCSState = Busy;
 
-    const int nThreads = QThread::idealThreadCount();
-    QList<QFuture<void>> futures;
-    // Calculate how many elements we process per thread
-    uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
-    // Calculate the final stride since we can have some left over due to division above
-    uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
-
-    for (int i = 0; i < nThreads; i++)
+    if (extras)
     {
-        uint32_t cStart = i * tStride;
-        uint32_t cEnd = cStart + ((i == (nThreads - 1)) ? fStride : tStride);
-        // Run threads
-        futures.append(QtConcurrent::run([ = ]()
+        const int nThreads = QThread::idealThreadCount();
+        QList<QFuture<void>> futures;
+        // Calculate how many elements we process per thread
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
+        // Calculate the final stride since we can have some left over due to division above
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
+
+        for (int i = 0; i < nThreads; i++)
         {
-            double phi = 0, theta = 0, world[2], pixcrd[2], imgcrd[2];
-            int stat[2];
-            FITSImage::wcs_point *wcsPointer = m_WCSCoordinates + cStart;
-            for (uint32_t i = cStart; i < cEnd; i++)
+            uint32_t cStart = i * tStride;
+            uint32_t cEnd = cStart + ((i == (nThreads - 1)) ? fStride : tStride);
+            // Run threads
+            futures.append(QtConcurrent::run([ = ]()
             {
-                uint32_t x = i % w;
-                uint32_t y = i / w;
-                pixcrd[0] = x;
-                pixcrd[1] = y;
-                if (wcsp2s(m_WCSHandle, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0]) == 0)
+                double phi = 0, theta = 0, world[2], pixcrd[2], imgcrd[2];
+                int stat[2];
+                FITSImage::wcs_point *wcsPointer = m_WCSCoordinates + cStart;
+                for (uint32_t i = cStart; i < cEnd; i++)
                 {
-                    wcsPointer->ra  = world[0];
-                    wcsPointer->dec = world[1];
+                    uint32_t x = i % w;
+                    uint32_t y = i / w;
+                    pixcrd[0] = x;
+                    pixcrd[1] = y;
+                    if (wcsp2s(m_WCSHandle, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0]) == 0)
+                    {
+                        wcsPointer->ra  = world[0];
+                        wcsPointer->dec = world[1];
+                    }
+                    wcsPointer++;
                 }
-                wcsPointer++;
-            }
-        }));
+            }));
+        }
+
+        for (auto &oneFuture : futures)
+            oneFuture.waitForFinished();
+
+        SkyPoint startPoint(m_WCSCoordinates->ra / 15.0, m_WCSCoordinates->dec);
+        SkyPoint endPoint( (m_WCSCoordinates + w * h - 1)->ra / 15.0, (m_WCSCoordinates + w * h - 1)->dec);
+        findObjectsInImage(startPoint, endPoint);
     }
-
-    for (auto &oneFuture : futures)
-        oneFuture.waitForFinished();
-
-    //    for (int i = 0; i < h; i++)
-    //    {
-    //        for (int j = 0; j < w; j++)
-    //        {
-    //            pixcrd[0] = j;
-    //            pixcrd[1] = i;
-
-    //            if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
-    //            {
-    //                lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
-    //            }
-    //            else
-    //            {
-    //                p->ra  = world[0];
-    //                p->dec = world[1];
-
-    //                p++;
-    //            }
-    //        }
-    //    }
-
-    SkyPoint startPoint(m_WCSCoordinates->ra / 15.0, m_WCSCoordinates->dec);
-    SkyPoint endPoint( (m_WCSCoordinates + w * h - 1)->ra / 15.0, (m_WCSCoordinates + w * h - 1)->dec);
-    findObjectsInImage(startPoint, endPoint);
-
     m_WCSState = Success;
+    FullWCS = extras;
     HasWCS = true;
 
     qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";
@@ -2340,6 +2322,10 @@ bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPoi
     if ((status = wcss2p(m_WCSHandle, 1, 2, worldcrd, &phi, &theta, imgcrd, pixcrd, stat)) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+
+        fprintf(stderr, "******************* wcss2p(%f,%f) error: %s\n", worldcrd[0], worldcrd[1], lastError.toLatin1().data());//////////////////////////
+        qCDebug(KSTARS_FITS) << "wcss2p failed with:" << worldcrd[0] << worldcrd[1];///////////////////////
+        
         return false;
     }
 
@@ -2395,6 +2381,9 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 void FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
 {
+    if (KStarsData::Instance() == nullptr)
+        return;
+
     int w = width();
     int h = height();
     QVariant date;
@@ -3618,197 +3607,6 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
 
     return true;
 }
-
-#if 0
-bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
-{
-    int status = 0, exttype = 0;
-    long nelements;
-    fitsfile * new_fptr;
-    char errMsg[512];
-
-    qCInfo(KSTARS_FITS) << "Creating new WCS file:" << newWCSFile << "with parameters Orientation:" << orientation
-                        << "RA:" << ra << "DE:" << dec << "Pixel Scale:" << pixscale;
-
-    nelements = stats.samples_per_channel * stats.channels;
-
-    /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, QString('!' + newWCSFile).toLatin1(), &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* close current file */
-    if (fits_close_file(fptr, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    status = 0;
-
-    if (m_isTemporary && autoRemoveTemporaryFITS)
-    {
-        QFile::remove(m_Filename);
-        m_isTemporary = false;
-        qCDebug(KSTARS_FITS) << "Removing FITS File: " << m_Filename;
-    }
-
-    m_Filename = newWCSFile;
-    m_isTemporary = true;
-
-    fptr = new_fptr;
-
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* Write Data */
-    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* Write keywords */
-
-    // Minimum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // Maximum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // NAXIS1
-    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // NAXIS2
-    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
-    fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
-
-    int epoch = 2000;
-
-    fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
-
-    fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
-
-    char radecsys[8] = "FK5";
-    char ctype1[16]  = "RA---TAN";
-    char ctype2[16]  = "DEC--TAN";
-
-    fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
-
-    double crpix1 = width() / 2.0;
-    double crpix2 = height() / 2.0;
-
-    fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
-
-    // Arcsecs per Pixel
-    double secpix1 = pixscale;
-    double secpix2 = pixscale;
-
-    fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
-
-    double degpix1 = secpix1 / 3600.0;
-    double degpix2 = secpix2 / 3600.0;
-
-    fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
-    fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
-
-    // Rotation is CW, we need to convert it to CCW per CROTA1 definition
-    double rotation = 360 - orientation;
-    if (rotation > 360)
-        rotation -= 360;
-
-    fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
-    fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
-
-    // ISO Date
-    if (fits_write_date(fptr, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    QString history =
-        QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
-    // History
-    if (fits_write_history(fptr, history.toLatin1(), &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_flush_file(fptr, &status);
-
-    WCSLoaded = false;
-
-    qCDebug(KSTARS_FITS) << "Finished creating WCS file: " << newWCSFile;
-
-    return true;
-}
-#endif
 
 bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale)
 {

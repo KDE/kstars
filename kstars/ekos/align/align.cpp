@@ -6,7 +6,6 @@
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
  */
-
 #include "align.h"
 
 #include "alignadaptor.h"
@@ -15,14 +14,9 @@
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-//#include "offlineastrometryparser.h"
-//#include "onlineastrometryparser.h"
-//#include "astapastrometryparser.h"
 #include "opsalign.h"
 #include "opsprograms.h"
-//#include "opsastap.h"
 #include "opsastrometry.h"
-//#include "opsastrometrycfg.h"
 #include "opsastrometryindexfiles.h"
 #include "Options.h"
 #include "remoteastrometryparser.h"
@@ -40,6 +34,7 @@
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
+#include "polaralign.h"
 #include "profileinfo.h"
 #include "ksnotification.h"
 #include "kspaths.h"
@@ -1903,136 +1898,7 @@ void Align::setSolverMode(int mode)
     }
 }
 
-/**
-void Align::setSolverBackend(int type)
-{
-    if (sender() == nullptr && type >= 0 && type <= 1)
-    {
-        solverBackendGroup->button(type)->setChecked(true);
-    }
 
-    // Astrometry solver
-    if (type == SOLVER_ASTROMETRYNET)
-    {
-        astrometryTypeCombo->setEnabled(true);
-        setAstrometrySolverType(Options::astrometrySolverType());
-    }
-    // ASTAP solver
-    else
-    {
-        if (!QFile::exists(Options::aSTAPExecutable()))
-        {
-            // Set to Astrometry for now.
-            type = SOLVER_ASTROMETRYNET;
-            astrometryTypeCombo->setEnabled(true);
-            setAstrometrySolverType(Options::astrometrySolverType());
-
-            KSMessageBox::Instance()->error(
-                i18n("No valid ASTAP installation found. Install ASTAP and select the path to ASTAP executable in options."));
-        }
-        else
-        {
-            if (astapParser.get() != nullptr)
-                parser = astapParser.get();
-            else
-            {
-                astapParser.reset(new Ekos::ASTAPAstrometryParser());
-                parser = astapParser.get();
-            }
-
-            parser->setAlign(this);
-            if (parser->init())
-            {
-                connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
-                connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
-            }
-            else
-                parser->disconnect();
-
-            astrometryTypeCombo->setEnabled(false);
-        }
-    }
-
-    Options::setSolverBackend(type);
-
-    generateArgs();
-
-}
-**/
-
-/**
-void Align::setAstrometrySolverType(int type)
-{
-    if (sender() == nullptr && type >= 0 && type <= 2)
-    {
-        astrometryTypeCombo->setCurrentIndex(type);
-    }
-
-    // For Windows, we only have two items in the combo box (Online & Remote)
-    // When Remote is clicked, type = 1 is sent which is SOLVER_OFFLINE
-    // We need to change that to SOLVER_REMOTE.
-#ifdef Q_OS_WIN
-    if (type == SOLVER_OFFLINE)
-        type = SOLVER_REMOTE;
-#endif
-
-    syncSettings();
-
-    Options::setAstrometrySolverType(type);
-
-    switch (type)
-    {
-        case SOLVER_ONLINE:
-            loadSlewB->setEnabled(true);
-            if (onlineParser.get() != nullptr)
-            {
-                parser = onlineParser.get();
-                return;
-            }
-
-            onlineParser.reset(new Ekos::OnlineAstrometryParser());
-            parser = onlineParser.get();
-            break;
-
-        case SOLVER_OFFLINE:
-            loadSlewB->setEnabled(true);
-            if (offlineParser.get() != nullptr)
-            {
-                parser = offlineParser.get();
-                return;
-            }
-
-            offlineParser.reset(new Ekos::OfflineAstrometryParser());
-            parser = offlineParser.get();
-            break;
-
-        case SOLVER_REMOTE:
-            loadSlewB->setEnabled(true);
-            if (remoteParser.get() != nullptr && remoteParserDevice != nullptr)
-            {
-                parser = remoteParser.get();
-                (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
-                return;
-            }
-
-            remoteParser.reset(new Ekos::RemoteAstrometryParser());
-            parser = remoteParser.get();
-            (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
-            if (currentCCD)
-                (dynamic_cast<RemoteAstrometryParser *>(parser))->setCCD(currentCCD->getDeviceName());
-            break;
-    }
-
-    parser->setAlign(this);
-    if (parser->init())
-    {
-        connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
-        connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
-    }
-    else
-        parser->disconnect();
-}
-**/
 bool Align::setCamera(const QString &device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
@@ -5258,230 +5124,6 @@ void Align::setFocusStatus(Ekos::FocusState state)
     m_FocusState = state;
 }
 
-/**
-QStringList Align::getSolverOptionsFromFITS(const QString &filename)
-{
-    QVariantMap optionsMap;
-
-    // For ASTAP, we just default settings
-    if (solverBackendGroup->checkedId() == SOLVER_ASTAP)
-    {
-        if (Options::aSTAPSearchRadius())
-            optionsMap["radius"] = Options::aSTAPSearchRadiusValue();
-
-        if (Options::aSTAPDownSample() && Options::aSTAPDownSampleValue() > 0)
-            optionsMap["downsample"] = Options::aSTAPDownSampleValue();
-
-        optionsMap["speed"] = Options::aSTAPLargeSearchWindow() ? "slow" : "auto";
-
-        if (Options::aSTAPUpdateFITS())
-            optionsMap["update"] = true;
-
-        return generateOptions(optionsMap, solverBackendGroup->checkedId());
-
-    }
-
-    int status = 0, fits_ccd_width, fits_ccd_height, fits_binx = 1, fits_biny = 1;
-    char comment[128], error_status[512];
-    fitsfile *fptr = nullptr;
-    double ra = 0, dec = 0, fits_fov_x, fits_fov_y, fov_lower, fov_upper, fits_ccd_hor_pixel = -1,
-           fits_ccd_ver_pixel = -1, fits_focal_length = -1;
-    QString fov_low, fov_high;
-    QStringList solver_args;
-
-    if (Options::astrometryUseNoVerify())
-        optionsMap["noverify"] = true;
-
-    if (Options::astrometryUseResort())
-        optionsMap["resort"] = true;
-
-    if (Options::astrometryUseNoFITS2FITS())
-        optionsMap["nofits2fits"] = true;
-
-    if (Options::astrometryUseDownsample())
-        optionsMap["downsample"] = Options::astrometryDownsample();
-
-    if (Options::astrometryCustomOptions().isEmpty() == false)
-        optionsMap["custom"] = Options::astrometryCustomOptions();
-
-    solver_args = generateOptions(optionsMap, solverBackendGroup->checkedId());
-
-    status = 0;
-
-    // Use open diskfile as it does not use extended file names which has problems opening
-    // files with [ ] or ( ) in their names.
-    if (fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        qCCritical(KSTARS_EKOS_ALIGN) << QString::fromUtf8(error_status);
-        return solver_args;
-    }
-
-    status = 0;
-    if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        qCCritical(KSTARS_EKOS_ALIGN) << QString::fromUtf8(error_status);
-        return solver_args;
-    }
-
-    status = 0;
-    if (fits_read_key(fptr, TINT, "NAXIS1", &fits_ccd_width, comment, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: cannot find NAXIS1."));
-        return solver_args;
-    }
-
-    status = 0;
-    if (fits_read_key(fptr, TINT, "NAXIS2", &fits_ccd_height, comment, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: cannot find NAXIS2."));
-        return solver_args;
-    }
-
-    // If we need to auto downsample, let us figure out the scale and regenerate options
-    if (Options::astrometryAutoDownsample())
-    {
-        optionsMap["downsample"] = getSolverDownsample(fits_ccd_width);
-        solver_args = generateOptions(optionsMap, SOLVER_ASTROMETRYNET);
-    }
-
-    //Needed for Sextractor, let us figure out the image size and regenerate options
-    if(Options::useSextractor())
-    {
-        optionsMap["image_width"] = fits_ccd_width;
-        optionsMap["image_height"] = fits_ccd_height;
-        solver_args = generateOptions(optionsMap, SOLVER_ASTROMETRYNET);
-    }
-
-    bool coord_ok = true;
-
-    status = 0;
-    char objectra_str[32];
-    if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
-    {
-        if (fits_read_key(fptr, TDOUBLE, "RA", &ra, comment, &status))
-        {
-            fits_report_error(stderr, status);
-            fits_get_errstatus(status, error_status);
-            coord_ok = false;
-            appendLogText(i18n("FITS header: cannot find OBJCTRA (%1).", QString(error_status)));
-        }
-        else
-            // Degrees to hours
-            ra /= 15;
-    }
-    else
-    {
-        dms raDMS = dms::fromString(objectra_str, false);
-        ra        = raDMS.Hours();
-    }
-
-    status = 0;
-    char objectde_str[32];
-    if (coord_ok && fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
-    {
-        if (fits_read_key(fptr, TDOUBLE, "DEC", &dec, comment, &status))
-        {
-            fits_report_error(stderr, status);
-            fits_get_errstatus(status, error_status);
-            coord_ok = false;
-            appendLogText(i18n("FITS header: cannot find OBJCTDEC (%1).", QString(error_status)));
-        }
-    }
-    else
-    {
-        dms deDMS = dms::fromString(objectde_str, true);
-        dec       = deDMS.Degrees();
-    }
-
-    if (coord_ok && Options::astrometryUsePosition())
-        solver_args << "-3" << QString::number(ra * 15.0) << "-4" << QString::number(dec) << "-5" << "15";
-
-    status = 0;
-    double pixelScale = 0;
-    // If we have pixel scale in arcsecs per pixel then lets use that directly
-    // instead of calculating it from FOCAL length and other information
-    if (fits_read_key(fptr, TDOUBLE, "SCALE", &pixelScale, comment, &status) == 0)
-    {
-        fov_low  = QString::number(0.9 * pixelScale);
-        fov_high = QString::number(1.1 * pixelScale);
-
-        if (Options::astrometryUseImageScale())
-            solver_args << "-L" << fov_low << "-H" << fov_high << "-u"
-                        << "app";
-
-        return solver_args;
-    }
-
-    if (fits_read_key(fptr, TDOUBLE, "FOCALLEN", &fits_focal_length, comment, &status))
-    {
-        int integer_focal_length = -1;
-        if (fits_read_key(fptr, TINT, "FOCALLEN", &integer_focal_length, comment, &status))
-        {
-            fits_report_error(stderr, status);
-            fits_get_errstatus(status, error_status);
-            appendLogText(i18n("FITS header: cannot find FOCALLEN (%1).", QString(error_status)));
-            return solver_args;
-        }
-        else
-            fits_focal_length = integer_focal_length;
-    }
-
-    status = 0;
-    if (fits_read_key(fptr, TDOUBLE, "PIXSIZE1", &fits_ccd_hor_pixel, comment, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: cannot find PIXSIZE1 (%1).", QString(error_status)));
-        return solver_args;
-    }
-
-    status = 0;
-    if (fits_read_key(fptr, TDOUBLE, "PIXSIZE2", &fits_ccd_ver_pixel, comment, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: cannot find PIXSIZE2 (%1).", QString(error_status)));
-        return solver_args;
-    }
-
-    status = 0;
-    fits_read_key(fptr, TINT, "XBINNING", &fits_binx, comment, &status);
-    status = 0;
-    fits_read_key(fptr, TINT, "YBINNING", &fits_biny, comment, &status);
-
-    // Calculate FOV
-    fits_fov_x = 206264.8062470963552 * fits_ccd_width * fits_ccd_hor_pixel / 1000.0 / fits_focal_length * fits_binx;
-    fits_fov_y = 206264.8062470963552 * fits_ccd_height * fits_ccd_ver_pixel / 1000.0 / fits_focal_length * fits_biny;
-
-    fits_fov_x /= 60.0;
-    fits_fov_y /= 60.0;
-
-    // let's stretch the boundaries by 10%
-    fov_lower = qMin(fits_fov_x, fits_fov_y);
-    fov_upper = qMax(fits_fov_x, fits_fov_y);
-
-    fov_lower *= 0.90;
-    fov_upper *= 1.10;
-
-    fov_low  = QString::number(fov_lower);
-    fov_high = QString::number(fov_upper);
-
-    if (Options::astrometryUseImageScale())
-        solver_args << "-L" << fov_low << "-H" << fov_high << "-u"
-                    << "aw";
-
-    return solver_args;
-}
-**/
-
 uint8_t Align::getSolverDownsample(uint16_t binnedW)
 {
     uint8_t downsample = Options::astrometryDownsample();
@@ -5580,9 +5222,54 @@ void Align::toggleAlignWidgetFullScreen()
     }
 }
 
+bool Align::checkPAHForMeridianCrossing()
+{
+    // Make sure using -180 to 180 for hourAngle and DEC. (Yes dec should be between -90 and 90).
+    double hourAngle = mountHa.Degrees();
+    while (hourAngle < -180)
+        hourAngle += 360;
+    while (hourAngle > 180)
+        hourAngle -= 360;
+    double dec = mountDec.Degrees();
+    while (dec < -180)
+        dec += 360;
+    while (dec > 180)
+        dec -= 360;
+
+    // Don't do this check within 2 degrees of the poles.
+    bool nearThePole = fabs(dec) > 88;
+    if (nearThePole)
+        return true;
+
+    double degreesPerSlew = PAHRotationSpin->value();
+    bool closeToMeridian = fabs(hourAngle) < 2.0 * degreesPerSlew;
+    bool goingWest = PAHDirectionCombo->currentIndex() == 0;
+
+    // If the pier is on the east side (pointing west) and will slew west and is within 2 slews of the HA=0,
+    // or on the west side (pointing east) and will slew east, and is within 2 slews of HA=0
+    // then warn and give the user a chance to cancel.
+    bool wouldCrossMeridian =
+        ((mountPierSide == ISD::Telescope::PIER_EAST && !goingWest && closeToMeridian) ||
+         (mountPierSide == ISD::Telescope::PIER_WEST && goingWest && closeToMeridian) ||
+         (mountPierSide == ISD::Telescope::PIER_UNKNOWN && closeToMeridian));
+
+    if (!wouldCrossMeridian)
+        return true;
+
+    int r = KMessageBox::warningContinueCancel(nullptr,
+            i18n("Warning, This could cause the telescope to cross the meridian. Check your direction."));
+
+    return (r != KMessageBox::Cancel);
+}
+
 void Align::startPAHProcess()
 {
     qCInfo(KSTARS_EKOS_ALIGN) << "Starting Polar Alignment Assistant process...";
+
+    // Right off the bat, check if this alignment might cause a pier crash.
+    // If we're crossing the meridian, warn unless within 5-degrees from the pole.
+    if (!checkPAHForMeridianCrossing())
+        return;
 
     pahStage = PAH_FIRST_CAPTURE;
     emit newPAHStage(pahStage);
@@ -5656,13 +5343,10 @@ void Align::stopPAHProcess()
     PAHWidgets->setCurrentWidget(PAHIntroPage);
     emit newPAHMessage(introText->text());
 
-    qDeleteAll(pahImageInfos);
-    pahImageInfos.clear();
-
     correctionVector = QLineF();
-    correctionOffset = QPointF();
-
     alignView->setCorrectionParams(correctionVector);
+
+    QPointF correctionOffset;
     alignView->setCorrectionOffset(correctionOffset);
     alignView->setRACircle(QVector3D());
     alignView->setRefreshEnabled(false);
@@ -5720,81 +5404,75 @@ void Align::rotatePAH()
                        targetPAH.dec().toDMSString()));
 }
 
+void Align::setupCorrectionGraphics(const QPointF &pixel, QLineF *correctionVector)
+{
+    FITSData *imageData = alignView->getImageData();
+
+    // Just the altitude correction
+    if (!polarAlign.findCorrectedPixel(imageData, pixel, &correctionAltTo, true))
+    {
+        qCInfo(KSTARS_EKOS_ALIGN) << QString(i18n("PAA: Failed to findCorrectedPixel."));
+        return;
+    }
+    // The whole correction.
+    if (!polarAlign.findCorrectedPixel(imageData, pixel, &correctionTo))
+    {
+        qCInfo(KSTARS_EKOS_ALIGN) << QString(i18n("PAA: Failed to findCorrectedPixel."));
+        return;
+    }
+    QString debugString = QString("PAA: Correction: %1,%2 --> %3,%4 (alt only %5,%6")
+                          .arg(pixel.x(), 4, 'f', 0).arg(pixel.y(), 4, 'f', 0)
+                          .arg(correctionTo.x(), 4, 'f', 0).arg(correctionTo.y(), 4, 'f', 0)
+                          .arg(correctionAltTo.x(), 4, 'f', 0).arg(correctionAltTo.y(), 4, 'f', 0);
+    qCDebug(KSTARS_EKOS_ALIGN) << debugString;
+    correctionFrom = pixel;
+    correctionVector->setP1(Options::pAHFlipCorrectionVector() ? correctionTo : correctionFrom);
+    correctionVector->setP2(Options::pAHFlipCorrectionVector() ? correctionFrom : correctionTo);
+    QLineF altLine(correctionFrom, correctionAltTo);
+    alignView->setCorrectionParams(*correctionVector, &altLine);
+    return;
+}
+
 void Align::calculatePAHError()
 {
-    QVector3D RACircle;
-
-    bool rc = findRACircle(RACircle);
-
-    if (rc == false)
+    FITSData *imageData = alignView->getImageData();
+    if (!polarAlign.findAxis())
     {
-        appendLogText(i18n("Failed to find a solution. Try again."));
+        appendLogText(i18n("PAA: Failed to find RA Axis center."));
         stopPAHProcess();
         return;
     }
 
-    if (alignView->isEQGridShown() == false)
+    double azimuthError, altitudeError;
+    polarAlign.calculateAzAltError(&azimuthError, &altitudeError);
+    dms polarError(hypot(altitudeError, azimuthError));
+
+    if (alignView->isEQGridShown() == false && !Options::limitedResourcesMode())
         alignView->toggleEQGrid();
-    alignView->setRACircle(RACircle);
 
-    FITSData *imageData = alignView->getImageData();
+    QString msg = QString("%1. Azimuth: %2  Altitude: %3")
+                  .arg(polarError.toDMSString()).arg(dms(azimuthError).toDMSString())
+                  .arg(dms(altitudeError).toDMSString());
+    appendLogText(msg);
+    PAHErrorLabel->setText(msg);
 
-    RACenterPoint.setX(RACircle.x());
-    RACenterPoint.setY(RACircle.y());
-
-    SkyPoint RACenter;
-    rc = imageData->pixelToWCS(RACenterPoint, RACenter);
-
-    if (rc == false)
-    {
-        appendLogText(i18n("Failed to find RA Axis center: %1.", imageData->getLastError()));
-        return;
-    }
-
-    SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
-    RACenter.setRA(RACenter.ra0());
-    RACenter.setDec(RACenter.dec0());
-    double PA = 0;
-    dms polarError = RACenter.angularDistanceTo(&CP, &PA);
-
-    if (Options::alignmentLogging())
-    {
-        qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Circle X: " << RACircle.x() << " Y: " << RACircle.y()
-                                   << " Radius: " << RACircle.z();
-        qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Location RA: " << RACenter.ra0().toHMSString()
-                                   << "DE: " << RACenter.dec0().toDMSString();
-        qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Offset: " << polarError.toDMSString() << "PA:" << PA;
-        qCDebug(KSTARS_EKOS_ALIGN) << "CP Axis Location X:" << celestialPolePoint.x() << "Y:" << celestialPolePoint.y();
-    }
-
-    RACenter.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-    QString azDirection = RACenter.az().Degrees() < 30 ? "Right" : "Left";
-    QString atDirection = RACenter.alt().Degrees() < KStarsData::Instance()->geo()->lat()->Degrees() ? "Bottom" : "Top";
-    // FIXME should this be reversed for southern hemisphere?
-    appendLogText(i18n("Mount axis is to the %1 %2 of the celestial pole", atDirection, azDirection));
-
-    PAHErrorLabel->setText(polarError.toDMSString());
-
-    correctionVector.setP1(Options::pAHFlipCorrectionVector() ? RACenterPoint : celestialPolePoint);
-    correctionVector.setP2(Options::pAHFlipCorrectionVector() ? celestialPolePoint : RACenterPoint);
+    setupCorrectionGraphics(QPointF(imageData->width() / 2, imageData->height() / 2), &correctionVector);
 
     connect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
     emit polarResultUpdated(correctionVector, polarError.toDMSString());
 
     connect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector, Qt::UniqueConnection);
     emit newCorrectionVector(correctionVector);
-    alignView->setCorrectionParams(correctionVector);
-
     emit newFrame(alignView);
 }
 
 void Align::syncCorrectionVector()
 {
-    correctionVector.setP1(Options::pAHFlipCorrectionVector() ? RACenterPoint : celestialPolePoint);
-    correctionVector.setP2(Options::pAHFlipCorrectionVector() ? celestialPolePoint : RACenterPoint);
+    correctionVector.setP1(Options::pAHFlipCorrectionVector() ? correctionTo : correctionFrom);
+    correctionVector.setP2(Options::pAHFlipCorrectionVector() ? correctionFrom : correctionTo);
     emit newCorrectionVector(correctionVector);
-    alignView->setCorrectionParams(correctionVector);
+    QLineF altLine(correctionFrom, correctionAltTo);
+    alignView->setCorrectionParams(correctionVector, &altLine);
 }
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
@@ -5808,11 +5486,7 @@ void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 
 void Align::setPAHCorrectionOffset(int x, int y)
 {
-    correctionOffset.setX(x);
-    correctionOffset.setY(y);
-
-    alignView->setCorrectionOffset(correctionOffset);
-
+    setupCorrectionGraphics(QPointF(x, y), &correctionVector);
     emit newFrame(alignView);
 }
 
@@ -5894,9 +5568,6 @@ void Align::setPAHRefreshComplete()
 
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
-    //QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
-    FITSData *imageData = alignView->getImageData();
-
     if (pahStage == PAH_FIND_CP)
     {
         setSolverAction(GOTO_NOTHING);
@@ -5907,88 +5578,13 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         return;
     }
 
-    if (pahStage == PAH_FIRST_CAPTURE)
+    if (pahStage == PAH_FIRST_CAPTURE || pahStage == PAH_SECOND_CAPTURE || pahStage == PAH_THIRD_CAPTURE)
     {
-        // Set First PAH Center
-        PAHImageInfo *solution = new PAHImageInfo();
-        solution->skyCenter.setRA0(alignCoord.ra0());
-        solution->skyCenter.setDec0(alignCoord.dec0());
-        // J2000 to JNow
-        solution->skyCenter.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
-        //solution->ts = KStarsData::Instance()->ut();
-        solution->ts = imageData->getDateTime();
-        solution->orientation = orientation;
-        solution->pixelScale  = pixscale;
-
-        pahImageInfos.append(solution);
-
-        // Only invoke this if limited resource mode is false since we want to use CPU heavy WCS
-        if (Options::limitedResourcesMode() == false)
-        {
+        bool doWcs = (pahStage == PAH_THIRD_CAPTURE) || !Options::limitedResourcesMode();
+        if (doWcs)
             appendLogText(i18n("Please wait while WCS data is processed..."));
-            connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-            alignView->injectWCS(orientation, ra, dec, pixscale);
-            return;
-        }
-
-        pahStage = PAH_FIRST_ROTATE;
-        emit newPAHStage(pahStage);
-
-        PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
-        emit newPAHMessage(firstRotateText->text());
-
-        rotatePAH();
-    }
-    else if (pahStage == PAH_SECOND_CAPTURE)
-    {
-        // Set 2nd PAH Center
-        PAHImageInfo *solution = new PAHImageInfo();
-        solution->skyCenter.setRA0(alignCoord.ra0());
-        solution->skyCenter.setDec0(alignCoord.dec0());
-        // J2000 to JNow
-        solution->skyCenter.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
-        //solution->ts = KStarsData::Instance()->ut();
-        solution->ts = imageData->getDateTime();
-        solution->orientation = orientation;
-        solution->pixelScale  = pixscale;
-
-        pahImageInfos.append(solution);
-
-        // Only invoke this if limited resource mode is false since we want to use CPU heavy WCS
-        if (Options::limitedResourcesMode() == false)
-        {
-            appendLogText(i18n("Please wait while WCS data is processed..."));
-            connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-            alignView->injectWCS(orientation, ra, dec, pixscale);
-            return;
-        }
-
-        pahStage = PAH_SECOND_ROTATE;
-        emit newPAHStage(pahStage);
-
-        PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
-        emit newPAHMessage(secondRotateText->text());
-
-        rotatePAH();
-    }
-    else if (pahStage == PAH_THIRD_CAPTURE)
-    {
-        // Set Third PAH Center
-        PAHImageInfo *solution = new PAHImageInfo();
-        solution->skyCenter.setRA0(alignCoord.ra0());
-        solution->skyCenter.setDec0(alignCoord.dec0());
-        // J2000 to JNow
-        solution->skyCenter.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
-        //solution->ts = KStarsData::Instance()->ut();
-        solution->ts = imageData->getDateTime();
-        solution->orientation = orientation;
-        solution->pixelScale  = pixscale;
-
-        pahImageInfos.append(solution);
-
-        appendLogText(i18n("Please wait while WCS data is processed..."));
         connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-        alignView->injectWCS(orientation, ra, dec, pixscale);
+        alignView->injectWCS(orientation, ra, dec, pixscale, doWcs);
         return;
     }
 }
@@ -6006,58 +5602,12 @@ void Align::setWCSToggled(bool result)
         if (result == false && m_wcsSynced == true)
         {
             appendLogText(i18n("WCS info is now valid. Capturing next frame..."));
-            pahImageInfos.clear();
             captureAndSolve();
             return;
         }
 
-        // Find Celestial pole location
-        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
-        FITSData *imageData = alignView->getImageData();
-        QPointF pixelPoint, imagePoint;
-
-        bool rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
-
-        pahImageInfos[0]->celestialPole = pixelPoint;
-
-        // TODO check if pixelPoint is located TOO far from the current position as well
-        // i.e. if X > Width * 2..etc
-        if (rc == false)
-        {
-            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
-            return;
-        }
-
-        // If celestial pole out of range, ask the user if they want to move to it
-        if (pixelPoint.x() < (-1 * imageData->width()) || pixelPoint.x() > (imageData->width() * 2) ||
-                pixelPoint.y() < (-1 * imageData->height()) || pixelPoint.y() > (imageData->height() * 2))
-        {
-            // JM 2019-11-15: This creates more problems at times, better leave it off
-#if 0
-            if (currentTelescope->canSync() &&
-                    KMessageBox::questionYesNo(
-                        nullptr, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
-                                      "the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to "
-                                      "end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
-            {
-                pahStage = PAH_FIND_CP;
-                emit newPAHStage(pahStage);
-                targetCoord.setRA(KStarsData::Instance()->lst()->Hours());
-                targetCoord.setDec(CP.dec().Degrees() > 0 ? 89.5 : -89.5);
-
-                qDeleteAll(pahImageInfos);
-                pahImageInfos.clear();
-
-                setSolverAction(GOTO_SLEW);
-                Sync();
-                return;
-            }
-            else
-#endif
-                appendLogText(
-                    i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
-        }
+        polarAlign.reset();
+        polarAlign.addPoint(alignView->getImageData());
 
         pahStage = PAH_FIRST_ROTATE;
         emit newPAHStage(pahStage);
@@ -6069,19 +5619,13 @@ void Align::setWCSToggled(bool result)
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
-        // Find Celestial pole location
-        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
-        FITSData *imageData = alignView->getImageData();
-        QPointF pixelPoint, imagePoint;
-        imageData->wcsToPixel(CP, pixelPoint, imagePoint);
-        pahImageInfos[1]->celestialPole = pixelPoint;
-
         pahStage = PAH_SECOND_ROTATE;
         emit newPAHStage(pahStage);
 
         PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
         emit newPAHMessage(secondRotateText->text());
+
+        polarAlign.addPoint(alignView->getImageData());
 
         rotatePAH();
     }
@@ -6096,62 +5640,7 @@ void Align::setWCSToggled(bool result)
             return;
         }
 
-        // Find Celestial pole location
-        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
-        QPointF imagePoint;
-
-        imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
-
-        pahImageInfos[2]->celestialPole = celestialPolePoint;
-
-        // Because we are measuing the coordinates in the THIRD frame
-        // The JNow RA/DE coordinates of the first two frames _already_ rotated by some amount since time passed.
-        // So if we try to measure their cartesian coordinates now in the 3rd frame, they would be the coordinates
-        // of the ROTATED coordinates, and not the original coordinates. Therefore, we subtract the time from RA
-        // to compensate for this which is equivelent to de-rotating the points.
-        double hoursSinceFirstFrame = (pahImageInfos[2]->ts.secsTo(pahImageInfos[0]->ts)) / 3600.0;
-        pahImageInfos[0]->skyCenter.setRA(pahImageInfos[0]->skyCenter.ra().Hours() + hoursSinceFirstFrame);
-        double hoursSinceSecondFrame = (pahImageInfos[2]->ts.secsTo(pahImageInfos[1]->ts)) / 3600.0;
-        pahImageInfos[1]->skyCenter.setRA(pahImageInfos[1]->skyCenter.ra().Hours() + hoursSinceSecondFrame);
-
-        // Now reset ra0,de0 to JNow before calling wcsToPixel since that function checks ra0,dec0
-        for (int i = 0; i < 3; i++)
-        {
-            pahImageInfos[i]->skyCenter.setRA0(pahImageInfos[i]->skyCenter.ra());
-            pahImageInfos[i]->skyCenter.setDec0(pahImageInfos[i]->skyCenter.dec());
-        }
-
-        // Now find pixel locations for all recorded center coordinates in the 3rd frame reference
-        if (!imageData->wcsToPixel(pahImageInfos[0]->skyCenter, pahImageInfos[0]->pixelCenter, imagePoint) ||
-                !imageData->wcsToPixel(pahImageInfos[1]->skyCenter, pahImageInfos[1]->pixelCenter, imagePoint) ||
-                !imageData->wcsToPixel(pahImageInfos[2]->skyCenter, pahImageInfos[2]->pixelCenter, imagePoint))
-        {
-            appendLogText(i18n("WCS transformation failed: %1", imageData->getLastError()));
-            stopPAHProcess();
-            return;
-        }
-
-        qCDebug(KSTARS_EKOS_ALIGN) << "P1 RA: " << pahImageInfos[0]->skyCenter.ra0().toHMSString()
-                                   << "DE: " << pahImageInfos[0]->skyCenter.dec0().toDMSString();
-        qCDebug(KSTARS_EKOS_ALIGN) << "P2 RA: " << pahImageInfos[1]->skyCenter.ra0().toHMSString()
-                                   << "DE: " << pahImageInfos[1]->skyCenter.dec0().toDMSString();
-        qCDebug(KSTARS_EKOS_ALIGN) << "P3 RA: " << pahImageInfos[2]->skyCenter.ra0().toHMSString()
-                                   << "DE: " << pahImageInfos[2]->skyCenter.dec0().toDMSString();
-
-        qCDebug(KSTARS_EKOS_ALIGN) << "P1 X: " << pahImageInfos[0]->pixelCenter.x()
-                                   << "Y: " << pahImageInfos[0]->pixelCenter.y();
-        qCDebug(KSTARS_EKOS_ALIGN) << "P2 X: " << pahImageInfos[1]->pixelCenter.x()
-                                   << "Y: " << pahImageInfos[1]->pixelCenter.y();
-        qCDebug(KSTARS_EKOS_ALIGN) << "P3 X: " << pahImageInfos[2]->pixelCenter.x()
-                                   << "Y: " << pahImageInfos[2]->pixelCenter.y();
-
-        qCDebug(KSTARS_EKOS_ALIGN) << "P1 CP X: " << pahImageInfos[0]->celestialPole.x()
-                                   << "CP Y: " << pahImageInfos[0]->celestialPole.y();
-        qCDebug(KSTARS_EKOS_ALIGN) << "P2 CP X: " << pahImageInfos[1]->celestialPole.x()
-                                   << "CP Y: " << pahImageInfos[1]->celestialPole.y();
-        qCDebug(KSTARS_EKOS_ALIGN) << "P3 CP X: " << pahImageInfos[2]->celestialPole.x()
-                                   << "CP Y: " << pahImageInfos[2]->celestialPole.y();
+        polarAlign.addPoint(imageData);
 
         // We have 3 points which uniquely defines a circle with its center representing the RA Axis
         // We have celestial pole location. So correction vector is just the vector between these two points
@@ -6183,168 +5672,17 @@ void Align::updateTelescopeType(int index)
     syncTelescopeInfo();
 }
 
-// Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points
-Align::CircleSolution Align::findCircleSolutions(const QPointF &p1, const QPointF p2, double angle,
-        QPair<QPointF, QPointF> &circleSolutions)
+
+
+void Align::setMountCoords(const QString &raStr, const QString &decStr, const QString &azStr,
+                           const QString &altStr, int pierSide, const QString &haStr)
 {
-    QPointF solutionOne(1, 1), solutionTwo(1, 1);
-
-    double radius = distance(p1, p2) / (dms::DegToRad * angle);
-
-    if (p1 == p2)
-    {
-        if (angle == 0)
-        {
-            circleSolutions = qMakePair(p1, p2);
-            appendLogText(i18n("Only one solution is found."));
-            return ONE_CIRCLE_SOLUTION;
-        }
-        else
-        {
-            circleSolutions = qMakePair(solutionOne, solutionTwo);
-            appendLogText(i18n("Infinite number of solutions found."));
-            return INFINITE_CIRCLE_SOLUTION;
-        }
-    }
-
-    QPointF center(p1.x() / 2 + p2.x() / 2, p1.y() / 2 + p2.y() / 2);
-
-    double halfDistance = distance(center, p1);
-
-    if (halfDistance > radius)
-    {
-        circleSolutions = qMakePair(solutionOne, solutionTwo);
-        appendLogText(i18n("No solution is found. Points are too far away"));
-        return NO_CIRCLE_SOLUTION;
-    }
-
-    if (halfDistance - radius == 0)
-    {
-        circleSolutions = qMakePair(center, solutionTwo);
-        appendLogText(i18n("Only one solution is found."));
-        return ONE_CIRCLE_SOLUTION;
-    }
-
-    double root = std::hypotf(radius, halfDistance) / distance(p1, p2);
-
-    solutionOne.setX(center.x() + root * (p1.y() - p2.y()));
-    solutionOne.setY(center.y() + root * (p2.x() - p1.x()));
-
-    solutionTwo.setX(center.x() - root * (p1.y() - p2.y()));
-    solutionTwo.setY(center.y() - root * (p2.x() - p1.x()));
-
-    circleSolutions = qMakePair(solutionOne, solutionTwo);
-
-    return TWO_CIRCLE_SOLUTION;
-}
-
-double Align::distance(const QPointF &p1, const QPointF &p2)
-{
-    return std::hypotf(p2.x() - p1.x(), p2.y() - p1.y());
-}
-
-bool Align::findRACircle(QVector3D &RACircle)
-{
-    bool rc = false;
-
-    QPointF p1 = pahImageInfos[0]->pixelCenter;
-    QPointF p2 = pahImageInfos[1]->pixelCenter;
-    QPointF p3 = pahImageInfos[2]->pixelCenter;
-
-    if (!isPerpendicular(p1, p2, p3))
-        rc = calcCircle(p1, p2, p3, RACircle);
-    else if (!isPerpendicular(p1, p3, p2))
-        rc = calcCircle(p1, p3, p2, RACircle);
-    else if (!isPerpendicular(p2, p1, p3))
-        rc = calcCircle(p2, p1, p3, RACircle);
-    else if (!isPerpendicular(p2, p3, p1))
-        rc = calcCircle(p2, p3, p1, RACircle);
-    else if (!isPerpendicular(p3, p2, p1))
-        rc = calcCircle(p3, p2, p1, RACircle);
-    else if (!isPerpendicular(p3, p1, p2))
-        rc = calcCircle(p3, p1, p2, RACircle);
-    else
-    {
-        //TRACE("\nThe three pts are perpendicular to axis\n");
-        return false;
-    }
-
-    return rc;
-}
-
-bool Align::isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3)
-// Check the given point are perpendicular to x or y axis
-{
-    double yDelta_a = p2.y() - p1.y();
-    double xDelta_a = p2.x() - p1.x();
-    double yDelta_b = p3.y() - p2.y();
-    double xDelta_b = p3.x() - p2.x();
-
-    // checking whether the line of the two pts are vertical
-    if (fabs(xDelta_a) <= 0.000000001 && fabs(yDelta_b) <= 0.000000001)
-    {
-        //TRACE("The points are perpendicular and parallel to x-y axis\n");
-        return false;
-    }
-
-    if (fabs(yDelta_a) <= 0.0000001)
-    {
-        //TRACE(" A line of two point are perpendicular to x-axis 1\n");
-        return true;
-    }
-    else if (fabs(yDelta_b) <= 0.0000001)
-    {
-        //TRACE(" A line of two point are perpendicular to x-axis 2\n");
-        return true;
-    }
-    else if (fabs(xDelta_a) <= 0.000000001)
-    {
-        //TRACE(" A line of two point are perpendicular to y-axis 1\n");
-        return true;
-    }
-    else if (fabs(xDelta_b) <= 0.000000001)
-    {
-        //TRACE(" A line of two point are perpendicular to y-axis 2\n");
-        return true;
-    }
-    else
-        return false;
-}
-
-bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle)
-{
-    double yDelta_a = p2.y() - p1.y();
-    double xDelta_a = p2.x() - p1.x();
-    double yDelta_b = p3.y() - p2.y();
-    double xDelta_b = p3.x() - p2.x();
-
-    if (fabs(xDelta_a) <= 0.000000001 && fabs(yDelta_b) <= 0.000000001)
-    {
-        RACircle.setX(0.5 * (p2.x() + p3.x()));
-        RACircle.setY(0.5 * (p1.y() + p2.y()));
-        QPointF center(RACircle.x(), RACircle.y());
-        RACircle.setZ(distance(center, p1));
-        return true;
-    }
-
-    // IsPerpendicular() assure that xDelta(s) are not zero
-    double aSlope = yDelta_a / xDelta_a; //
-    double bSlope = yDelta_b / xDelta_b;
-    if (fabs(aSlope - bSlope) <= 0.000000001)
-    {
-        // checking whether the given points are colinear.
-        //TRACE("The three ps are colinear\n");
-        return false;
-    }
-
-    // calc center
-    RACircle.setX((aSlope * bSlope * (p1.y() - p3.y()) + bSlope * (p1.x() + p2.x()) - aSlope * (p2.x() + p3.x())) /
-                  (2 * (bSlope - aSlope)));
-    RACircle.setY(-1 * (RACircle.x() - (p1.x() + p2.x()) / 2) / aSlope + (p1.y() + p2.y()) / 2);
-    QPointF center(RACircle.x(), RACircle.y());
-
-    RACircle.setZ(distance(center, p1));
-    return true;
+    mountRa = dms(raStr, false);
+    mountDec = dms(decStr, true);
+    mountHa = dms(haStr, false);
+    mountAz = dms(azStr, true);
+    mountAlt = dms(altStr, true);
+    mountPierSide = static_cast<ISD::Telescope::PierSide>(pierSide);
 }
 
 void Align::setMountStatus(ISD::Telescope::Status newState)
@@ -6763,6 +6101,8 @@ void Align::setTargetCoords(double ra, double de)
 
 void Align::calculateAlignTargetDiff()
 {
+    if (pahStage == PAH_FIRST_CAPTURE || pahStage == PAH_SECOND_CAPTURE || pahStage == PAH_THIRD_CAPTURE)
+        return;
     m_TargetDiffRA = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
     m_TargetDiffDE = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
 
