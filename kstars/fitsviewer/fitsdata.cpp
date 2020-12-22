@@ -2144,7 +2144,7 @@ bool FITSData::checkForWCS()
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
-    
+
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -2221,7 +2221,7 @@ bool FITSData::loadWCS()
         m_WCSState = Failure;
         return false;
     }
-    
+
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -3171,7 +3171,17 @@ bool FITSData::debayer_8bit()
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint8_t * destinationBuffer = nullptr;
+
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint8_t *>(destinationBuffer);
@@ -3207,12 +3217,14 @@ bool FITSData::debayer_8bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
@@ -3246,7 +3258,16 @@ bool FITSData::debayer_16bit()
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint8_t *destinationBuffer = nullptr;
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint16_t *>(destinationBuffer);
@@ -3282,12 +3303,14 @@ bool FITSData::debayer_16bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
