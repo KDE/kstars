@@ -2021,6 +2021,11 @@ void Mount::setAutoParkEnabled(bool enable)
         stopParkTimer();
 }
 
+void Mount::setAutoParkDailyEnabled(bool enabled)
+{
+    everyDayCheck->setChecked(enabled);
+}
+
 void Mount::setAutoParkStartup(QTime startup)
 {
     startupTimeEdit->setTime(startup);

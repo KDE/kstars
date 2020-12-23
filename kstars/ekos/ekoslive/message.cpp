@@ -812,6 +812,11 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         mount->setMeridianFlipValues(payload["enabled"].toBool(),
                                      payload["value"].toDouble() / 15.0);
     }
+    else if (command == commands[MOUNT_SET_EVERYDAY_AUTO_PARK])
+    {
+        const bool enabled = payload["enabled"].toBool();
+        mount->setAutoParkDailyEnabled(enabled);
+    }
     else if (command == commands[MOUNT_SET_AUTO_PARK])
     {
         const bool enabled = payload["enabled"].toBool();
@@ -820,6 +825,7 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             mount->setAutoParkStartup(QTime::fromString(payload["value"].toString()));
         mount->setAutoParkEnabled(enabled);
     }
+
 }
 
 void Message::processDomeCommands(const QString &command, const QJsonObject &payload)
