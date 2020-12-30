@@ -361,7 +361,10 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     // Get UTC date time
     QVariant value;
     if (getRecordValue("DATE-OBS", value) && value.isValid())
-        m_DateTime = KStarsDateTime(value.toDateTime());
+    {
+        QDateTime ts = value.toDateTime();
+        m_DateTime = KStarsDateTime(ts.date(), ts.time());
+    }
 
     if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
