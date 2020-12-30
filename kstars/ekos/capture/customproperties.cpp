@@ -42,19 +42,20 @@ void CustomProperties::syncProperties()
     availablePropertiesList->clear();
     QStringList props;
 
+    const QStringList skipProperties = QStringList() << "CCD_TEMPERATURE" << "CCD_FRAME" << "CCD_EXPOSURE"
+                                       << "CCD_BINNING" << "GUIDER_FRAME" << "GUIDER_BINNING"
+                                       << "GUIDER_EXPOSURE" << "FILTER_SLOT" << "TELESCOPE_TIMED_GUIDE_NS"
+                                       << "TELESCOPE_TIMED_GUIDE_WE";
+
     for (auto &property : currentCCD->getProperties())
     {
-        if (property->getType() == INDI_NUMBER && property->getPermission() != IP_RO)
-        {
-            if (!strcmp(property->getName(), "CCD_TEMPERATURE") || !strcmp(property->getName(), "CCD_FRAME") ||
-                !strcmp(property->getName(), "CCD_EXPOSURE") || !strcmp(property->getName(), "CCD_BINNING") ||
-                !strcmp(property->getName(), "GUIDER_FRAME") || !strcmp(property->getName(), "GUIDER_BINNING") ||
-                !strcmp(property->getName(), "GUIDER_EXPOSURE") || !strcmp(property->getName(), "FILTER_SLOT") ||
-                !strcmp(property->getName(), "TELESCOPE_TIMED_GUIDE_NS") || !strcmp(property->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
-                continue;
+        const QString name = property->getName();
+        // Skip empty properties
+        if (name.isEmpty())
+            continue;
 
+        if (property->getType() == INDI_NUMBER && property->getPermission() != IP_RO && skipProperties.contains(name) == false)
             props << property->getLabel();
-        }
     }
 
 
@@ -104,7 +105,7 @@ void CustomProperties::slotApply()
     // Reset job custom properties first
     QMap<QString, QMap<QString, double> > newMap;
 
-    for (int i=0; i < jobPropertiesList->count(); i++)
+    for (int i = 0; i < jobPropertiesList->count(); i++)
     {
         QString numberLabel = jobPropertiesList->item(i)->text();
 
@@ -117,14 +118,14 @@ void CustomProperties::slotApply()
                 QMap<QString, double> numberProperty;
 
                 INumberVectorProperty *np = indiProp->getNumber();
-                for (int i=0; i < np->nnp; i++)
+                for (int i = 0; i < np->nnp; i++)
                     numberProperty[np->np[i].name] = np->np[i].value;
 
                 newMap[np->name] = numberProperty;
 
                 break;
             }
-       }
+        }
     }
 
     customProperties = newMap;
