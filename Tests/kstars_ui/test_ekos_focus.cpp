@@ -409,6 +409,66 @@ void TestEkosFocus::testGuidingSuspend()
     disconnect(resume_handler);
 }
 
+void TestEkosFocus::testFocusWhenGuidingResumes()
+{
+    // Wait for Focus to come up, switch to Focus tab
+    KTRY_FOCUS_SHOW();
+
+    // Sync high on meridian to avoid issues with CCD Simulator
+    KTRY_FOCUS_SYNC(60.0);
+
+    // Configure a successful pre-focus capture
+    KTRY_FOCUS_MOVETO(50000);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 20);
+    KTRY_FOCUS_EXPOSURE(3, 1);
+
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
+
+    // Prepare to detect the beginning of the autofocus_procedure
+    volatile bool autofocus_started = false;
+    auto startup_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusStarting, this, [&]() {
+        autofocus_started = true;
+    });
+    QVERIFY(startup_handler);
+
+    // Prepare to detect the end of the autofocus_procedure
+    volatile bool autofocus_completed = false;
+    auto completion_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, this, [&]() {
+        autofocus_completed = true;
+        autofocus_started = false;
+    });
+    QVERIFY(completion_handler);
+
+    // Prepare to detect the failure of the autofocus procedure
+    volatile bool autofocus_aborted = false;
+    auto abort_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]() {
+        autofocus_aborted = true;
+        autofocus_started = false;
+    });
+    QVERIFY(abort_handler);
+
+    // Run a standard autofocus
+    QVERIFY(!autofocus_started);
+    QVERIFY(!autofocus_aborted);
+    QVERIFY(!autofocus_completed);
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+
+    // Wait a little, then run a capture check with an unachievable HFR
+    QTest::qWait(5000);
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure is now broken and cannot succeed
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_completed, 30000);
+
+    // Disconnect signals
+    disconnect(startup_handler);
+    disconnect(completion_handler);
+    disconnect(abort_handler);
+}
 void TestEkosFocus::testFocusFailure()
 {
     // Wait for Focus to come up, switch to Focus tab
@@ -458,7 +518,7 @@ void TestEkosFocus::testFocusFailure()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 500);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus_aborted, 30000);
 
-    // No other autofocus started after that
+    // No other autofocus started after that, we are not running a sequence focus
     QVERIFY(!autofocus_started);
 
     // Disconnect signals

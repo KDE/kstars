@@ -157,6 +157,7 @@ private slots:
     void testFocusAbort();
     void testGuidingSuspend();
     void testFocusFailure();
+    void testFocusWhenGuidingResumes();
 
     void testStarDetection_data();
     void testStarDetection();

@@ -811,7 +811,7 @@ void Focus::start()
 
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
-    else
+    else if (!inAutoFocus)
         appendLogText(i18n("Please wait until image capture is complete..."));
 
     if (suspendGuideCheck->isChecked())
@@ -1233,46 +1233,44 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
 
 void Focus::calculateHFR()
 {
+    appendLogText(i18n("Detection complete."));
+
+    double hfr = -1;
+
     if (m_StarFinderWatcher.result() == false)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Failed to extract any stars.";
-        setCurrentHFR(-1);
-        hfrInProgress = false;
-        resetButtons();
-        return;
-    }
-
-    //FITSData *image_data = focusView->getImageData();
-
-    if (Options::focusUseFullField())
-    {
-        focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
-                                      static_cast <float> (fullFieldOuterRing->value() / 100.0));
-        focusView->filterStars();
-
-        // Get the average HFR of the whole frame
-        setCurrentHFR(m_ImageData->getHFR(HFR_AVERAGE));
     }
     else
     {
-        focusView->setTrackingBoxEnabled(true);
+        if (Options::focusUseFullField())
+        {
+            focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                          static_cast <float> (fullFieldOuterRing->value() / 100.0));
+            focusView->filterStars();
 
-        // JM 2020-10-08: Try to get first the same HFR star already selected before
-        // so that it doesn't keep jumping around
-        double hfr = -1;
+            // Get the average HFR of the whole frame
+            hfr = m_ImageData->getHFR(HFR_AVERAGE);
+        }
+        else
+        {
+            focusView->setTrackingBoxEnabled(true);
 
-        if (starCenter.isNull() == false)
-            hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
-        // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
-        if (hfr < 0)
-            hfr = m_ImageData->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+            // JM 2020-10-08: Try to get first the same HFR star already selected before
+            // so that it doesn't keep jumping around
 
-        setCurrentHFR(hfr);
+            if (starCenter.isNull() == false)
+                hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
+
+            // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
+            if (hfr < 0)
+                hfr = m_ImageData->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+        }
     }
 
     hfrInProgress = false;
-    appendLogText(i18n("Detection complete."));
     resetButtons();
+    setCurrentHFR(hfr);
 }
 
 void Focus::analyzeSources()
@@ -1807,7 +1805,7 @@ void Focus::setHFRComplete()
         {
             if (noStarCount++ < MAX_RECAPTURE_RETRIES)
             {
-                appendLogText(i18n("No stars detected, capturing again..."));
+                appendLogText(i18n("No stars detected while testing HFR, capturing again..."));
                 // On Last Attempt reset focus frame to capture full frame and recapture star if possible
                 if (noStarCount == MAX_RECAPTURE_RETRIES)
                     resetFrame();
@@ -3053,10 +3051,18 @@ void Focus::focusStarSelected(int x, int y)
 
 void Focus::checkFocus(double requiredHFR)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus requested with minimum required HFR" << requiredHFR;
-    minimumRequiredHFR = requiredHFR;
+    if (inAutoFocus || inSequenceFocus || inFocusLoop)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus rejected, focus procedure is already running.";
+    }
+    else
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus requested with minimum required HFR" << requiredHFR;
+        minimumRequiredHFR = requiredHFR;
 
-    capture();
+        appendLogText("Capturing to check HFR...");
+        capture();
+    }
 }
 
 void Focus::toggleSubframe(bool enable)
