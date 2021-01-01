@@ -16,6 +16,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "Options.h"
 
 TestEkosFocus::TestEkosFocus(QObject *parent) : QObject(parent)
 {
@@ -469,6 +470,7 @@ void TestEkosFocus::testFocusWhenGuidingResumes()
     disconnect(completion_handler);
     disconnect(abort_handler);
 }
+
 void TestEkosFocus::testFocusFailure()
 {
     // Wait for Focus to come up, switch to Focus tab
@@ -525,6 +527,69 @@ void TestEkosFocus::testFocusFailure()
     disconnect(startup_handler);
     disconnect(completion_handler);
     disconnect(abort_handler);
+}
+
+void TestEkosFocus::testFocusOptions()
+{
+    // Wait for Focus to come up, switch to Focus tab
+    KTRY_FOCUS_SHOW();
+
+    // Sync high on meridian to avoid issues with CCD Simulator
+    KTRY_FOCUS_SYNC(60.0);
+
+    // Configure a proper autofocus
+    KTRY_FOCUS_MOVETO(40000);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3);
+    KTRY_FOCUS_EXPOSURE(3, 99);
+
+    // Prepare to detect a new HFR
+    volatile double hfr = -2;
+    auto hfr_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newHFR, this, [&](double _hfr) {
+        hfr = _hfr;
+    });
+    QVERIFY(hfr_handler);
+
+    KTRY_FOCUS_GADGET(QPushButton, captureB);
+
+    // Filter to apply to frame after capture
+    // This option is tricky: it follows the FITSViewer::filterTypes filter list, but
+    // is used as a list of filter that may be applied in the FITS view.
+    // In the Focus view, it also requires the "--" item as no-op filter, present in the
+    // combobox stating which filter to apply to frames before analysing them.
+    {
+        // Validate the default Ekos option is recognised as a filter
+        int const fe = Options::focusEffect();
+        QVERIFY(0 <= fe && fe < FITSViewer::filterTypes.count() + 1);
+        QWARN(qPrintable(QString("Default filtering option is %1/%2").arg(fe).arg(FITSViewer::filterTypes.value(fe - 1, "(none)"))));
+
+        // Validate the UI changes the Ekos option
+        for (int i = 0; i < FITSViewer::filterTypes.count(); i++)
+        {
+            QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000);
+
+            QString const & filterType = FITSViewer::filterTypes.value(i, "???");
+            QWARN(qPrintable(QString("Testing filtering option %1/%2").arg(i + 1).arg(filterType)));
+
+            // Set filter to apply in the UI, verify impact on Ekos option
+            Options::setFocusEffect(fe);
+            KTRY_FOCUS_COMBO_SET(filterCombo, filterType);
+            QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) i + 1, 1000);
+
+            // Set filter to apply with the d-bus entry point, verify impact on Ekos option
+            Options::setFocusEffect(fe);
+            Ekos::Manager::Instance()->focusModule()->setImageFilter(filterType);
+            QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) i + 1, 1000);
+
+            // Run a capture with detection for coverage
+            hfr = -2;
+            KTRY_FOCUS_CLICK(captureB);
+            QTRY_VERIFY_WITH_TIMEOUT(-1 <= hfr, 5000);
+        }
+
+        // Restore the original Ekos option
+        KTRY_FOCUS_COMBO_SET(filterCombo, FITSViewer::filterTypes[fe - 1]);
+        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) fe, 1000);
+    }
 }
 
 void TestEkosFocus::testStarDetection_data()

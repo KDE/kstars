@@ -67,12 +67,15 @@ Focus::Focus()
     // #6 Reset all buttons to default states
     resetButtons();
 
-    // #7 Image Effects
-    for (auto &filter : FITSViewer::filterTypes)
-        filterCombo->addItem(filter);
-    filterCombo->setCurrentIndex(Options::focusEffect());
+    // #7 Image Effects - note there is already a no-op "--" in the gadget
+    filterCombo->addItems(FITSViewer::filterTypes);
+    connect(filterCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
+
+    // Check that the filter denominated by the Ekos option exists before setting it (count the no-op filter)
+    if (Options::focusEffect() < (uint) FITSViewer::filterTypes.count() + 1)
+        filterCombo->setCurrentIndex(Options::focusEffect());
+    filterChangeWarning(filterCombo->currentIndex());
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
-    connect(filterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
 
     // #8 Load All settings
     loadSettings();
@@ -3079,13 +3082,25 @@ void Focus::toggleSubframe(bool enable)
 
 void Focus::filterChangeWarning(int index)
 {
-    // index = 4 is MEDIAN filter which helps reduce noise
-    if (index != 0 && index != FITS_MEDIAN)
-        appendLogText(i18n("Warning: Only use filters for preview as they may interface with autofocus operation."));
-
     Options::setFocusEffect(index);
-
     defaultScale = static_cast<FITSScale>(index);
+
+    // Median filter helps reduce noise, rotation/flip have no dire effect on focus, others degrade procedure
+    switch (defaultScale)
+    {
+        case FITS_NONE:
+        case FITS_MEDIAN:
+        case FITS_ROTATE_CW:
+        case FITS_ROTATE_CCW:
+        case FITS_FLIP_H:
+        case FITS_FLIP_V:
+            break;
+
+        default:
+            // Warn the end-user, count the no-op filter
+            appendLogText(i18n("Warning: Only use filter '%1' for preview as it may interfer with autofocus operation.",
+                               FITSViewer::filterTypes.value(index-1,"???")));
+    }
 }
 
 void Focus::setExposure(double value)
@@ -3105,6 +3120,7 @@ void Focus::setImageFilter(const QString &value)
         if (filterCombo->itemText(i) == value)
         {
             filterCombo->setCurrentIndex(i);
+            filterCombo->activated(i);
             break;
         }
 }
