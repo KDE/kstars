@@ -924,9 +924,10 @@ void Focus::stop(bool aborted)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-    inAutoFocus        = false;
+    inAutoFocus     = false;
     focuserAdditionalMovement = 0;
-    inFocusLoop        = false;
+    inFocusLoop     = false;
+    inSequenceFocus = false;
     // Why starSelected is set to false below? We should retain star selection status under:
     // 1. Autostar is off, or
     // 2. Toggle subframe, or
@@ -1837,6 +1838,7 @@ void Focus::setHFRComplete()
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
             setAutoFocusResult(true);
+            state = Ekos::FOCUS_COMPLETE;
             emit newStatus(state);
             drawProfilePlot();
         }
@@ -3099,7 +3101,7 @@ void Focus::filterChangeWarning(int index)
         default:
             // Warn the end-user, count the no-op filter
             appendLogText(i18n("Warning: Only use filter '%1' for preview as it may interfer with autofocus operation.",
-                               FITSViewer::filterTypes.value(index-1,"???")));
+                               FITSViewer::filterTypes.value(index - 1, "???")));
     }
 }
 
