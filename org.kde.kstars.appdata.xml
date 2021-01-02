@@ -93,6 +93,7 @@
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
     <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
+    <p xml:lang="zh-CN">KStars 是由 KDE 免费许可，开放源码，跨平台的天文软件。</p>
     <p xml:lang="zh-TW">KStars 是由 KDE 提供的自由授權、開放原始碼、跨平臺的天文學軟體。</p>
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي ١٠٠ مليون نجم، و١٣٬٠٠٠ جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
@@ -117,6 +118,7 @@
     <p xml:lang="tr">Herhangi bir tarih ve saatte, Dünya üzerindeki herhangi bir yerden gece gökyüzünün grafik simülasyonunu sağlar. Ekran, 100 milyona kadar yıldız, 13.000 derin gökyüzü objesi, 8 gezegen, Güneş ve Ay, binlerce kuyruklu yıldız, asteroit, süpernova ve uyduları kapsamaktadır.</p>
     <p xml:lang="uk">Програма точно відтворює вигляд нічного неба з будь-якого місця на Землі у будь-який день та час. Програмі відомі розташування понад 100 мільйонів зірок, 13.000 віддалених об’єктів, 8 планет, Сонця і Місяця, а також тисяч комет, астероїдів, наднових та супутників.</p>
     <p xml:lang="x-test">xxIt provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.xx</p>
+    <p xml:lang="zh-CN">它可以准确模拟地球上任何地点、时间的夜空图像。 可以显示多达1亿颗星星、13 000个深空天体、所有的 8 大行星、太阳和月球，以及数千个彗星、小行星、超新星和卫星。</p>
     <p xml:lang="zh-TW">它提供了準確的夜空圖形化模擬，從地球上的任何地方，在任何日期與時間。顯示了包含一億個星體、一萬三千個深空物體、以及八個系內行星、還有太陽與月亮，以及數千個慧星、小行星、超新星與衛星。</p>
     <p>For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="ar">إن كنت طالبًا أو أستاذًا، فستجد أنّ البرمجيّة تدعم ضبط سرعة المحاكاة الذي يتيح عرض الظّواهر التي تحدث على فترات زمنيّة طويلة، وتدعم الكثير من الحسابات الفلكيّة المعروفة، وتوفّر حاسبة فلكيّة لتوقّع الاقترانات.</p>
@@ -140,6 +142,7 @@
     <p xml:lang="tr">Öğrenciler ve öğretmenler için, uzun zaman çizelgeleri üzerinde meydana gelen olguları, bağlantı elemanlarını tahmin etmek için KStars Astrocalculator'ı ve birçok ortak astronomik hesaplamaları görmek için ayarlanabilir simülasyon hızlarını desteklemektedir.</p>
     <p xml:lang="uk">Для учнів і вчителів, у програмі передбачено підтримку налаштовуваної швидкості імітації з метою перегляду явищ, які тривають дуже довго, астрономічний калькулятор KStars для розрахунку сполучень та багатьох інших астрономічних обчислень.</p>
     <p xml:lang="x-test">xxFor students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.xx</p>
+    <p xml:lang="zh-CN">对于学生和教师，它有可变的模拟速度和KStars 天体计算器。前者用于观看长时间尺度的现象，后者用于预测合的发生和许多常见的天文学计算。</p>
     <p xml:lang="zh-TW">對於學生與教師來說，它支援了可調整的模擬速度以檢視在極長的時間尺度下發生的現象，KStars Astrocalculator 可用來預測天體會合，也可以用來計算許多常見的天文學數據。</p>
     <p>For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!</p>
     <p xml:lang="ar">توفّر البرمجيّة لهواة الفلك مخطِّطًا للرّؤية، وأداة لتقويم الطّقس، ومحرّرًا لمجال الرّؤية لحساب مجال رؤية العتاد وعرضها. اطّلع على أجرام شيّقة في أداة ”السّماء هذه الليلة“، وارسم رسومًا بيانيّة لخطّ ارتفاع أيّ جرم مقابل وقته، واطبع رسومًا بيانيّة للسّماء بجودة عالية، واقرأ الكثير من المعلومات والموارد لتساعدك في اكتشاف العالم!</p>
@@ -358,6 +361,7 @@
       <li xml:lang="tr">Çevrimiçi veritabanlarından veri alımı için araçlar</li>
       <li xml:lang="uk">інструменти для отримання даних з баз даних у інтернеті.</li>
       <li xml:lang="x-test">xxTools for retrieval of data from online databasesxx</li>
+      <li xml:lang="zh-CN">用于检索在线数据库数据的工具</li>
       <li xml:lang="zh-TW">顯示線上資料庫的工具</li>
     </ul>
   </description>
@@ -413,6 +417,7 @@
       <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
       <caption xml:lang="uk">Інструмент «Цікаві об'єкти» у KStars</caption>
       <caption xml:lang="x-test">xx"What's interesting" tool in KStarsxx</caption>
+      <caption xml:lang="zh-CN">KStars中的“有趣的东西”工具</caption>
       <caption xml:lang="zh-TW">「有哪些有趣的東西」工具在 KStars 中</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_interesting.png</image>
     </screenshot>
