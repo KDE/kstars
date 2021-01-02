@@ -575,7 +575,7 @@ void TestEkosFocus::testFocusOptions()
     // Configure a proper autofocus
     KTRY_FOCUS_MOVETO(40000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3);
-    KTRY_FOCUS_EXPOSURE(3, 99);
+    KTRY_FOCUS_EXPOSURE(1, 99);
 
     // Prepare to detect a new HFR
     volatile double hfr = -2;
@@ -595,14 +595,14 @@ void TestEkosFocus::testFocusOptions()
         // Validate the default Ekos option is recognised as a filter
         int const fe = Options::focusEffect();
         QVERIFY(0 <= fe && fe < FITSViewer::filterTypes.count() + 1);
-        QWARN(qPrintable(QString("Default filtering option is %1/%2").arg(fe).arg(FITSViewer::filterTypes.value(fe - 1, "(none)"))));
+        QWARN(qPrintable(QString("Default filtering option is %1/%2").arg(fe).arg(FITSViewer::filterTypes.value(fe - 1, "--"))));
 
         // Validate the UI changes the Ekos option
         for (int i = 0; i < FITSViewer::filterTypes.count(); i++)
         {
             QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000);
 
-            QString const & filterType = FITSViewer::filterTypes.value(i, "???");
+            QString const & filterType = FITSViewer::filterTypes.value(i, "Unknown image filter");
             QWARN(qPrintable(QString("Testing filtering option %1/%2").arg(i + 1).arg(filterType)));
 
             // Set filter to apply in the UI, verify impact on Ekos option
@@ -621,8 +621,18 @@ void TestEkosFocus::testFocusOptions()
             QTRY_VERIFY_WITH_TIMEOUT(-1 <= hfr, 5000);
         }
 
+        // Set no-op filter to apply in the UI, verify impact on Ekos option
+        Options::setFocusEffect(0);
+        KTRY_FOCUS_COMBO_SET(filterCombo, "--");
+        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) 0, 1000);
+
+        // Set no-op filter to apply with the d-bus entry point, verify impact on Ekos option
+        Options::setFocusEffect(0);
+        Ekos::Manager::Instance()->focusModule()->setImageFilter("--");
+        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) 0, 1000);
+
         // Restore the original Ekos option
-        KTRY_FOCUS_COMBO_SET(filterCombo, FITSViewer::filterTypes[fe - 1]);
+        KTRY_FOCUS_COMBO_SET(filterCombo, FITSViewer::filterTypes.value(fe - 1, "--"));
         QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) fe, 1000);
     }
 }
