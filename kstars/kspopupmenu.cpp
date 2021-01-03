@@ -287,6 +287,10 @@ void KSPopupMenu::createSatelliteMenu(Satellite *satellite)
         addAction(QIcon::fromTheme("list-remove"), i18n("Remove Label"), ks->map(), SLOT(slotRemoveObjectLabel()));
     else
         addAction(QIcon::fromTheme("label"), i18n("Attach Label"), ks->map(), SLOT(slotAddObjectLabel()));
+
+    addSeparator();
+    addINDI();
+
 }
 
 void KSPopupMenu::createSupernovaMenu(Supernova *supernova)
@@ -683,6 +687,20 @@ void KSPopupMenu::addINDI()
 
             mountMenu->addSeparator();
         }
+
+        if ((KStars::Instance()->map()->clickedObject()->type() == SkyObject::SATELLITE && (mount->canTrackSatellite())))
+        {
+            Satellite *sat = dynamic_cast<Satellite *>(KStars::Instance()->map()->clickedObject()) ;
+            const KStarsDateTime currentTime = KStarsData::Instance()->ut();
+            const KStarsDateTime currentTimePlusOne = currentTime.addSecs(60);
+            QAction *a = mountMenu->addAction(QIcon::fromTheme("arrow"),
+                                              i18n("Track satellite"));
+            a->setEnabled(!mount->isParked());
+            connect(a, &QAction::triggered, [mount, sat, currentTime, currentTimePlusOne] 
+                {mount->setSatelliteTLEandTrack(sat->tle(), currentTime, currentTimePlusOne);});
+            mountMenu->addSeparator();
+        }
+
 
         if (mount->canCustomPark())
         {
