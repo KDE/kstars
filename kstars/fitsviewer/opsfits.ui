@@ -138,6 +138,36 @@
          </widget>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutStretch">
+          <item>
+           <widget class="QLabel" name="stretchPreviewSamplingLabel">
+            <property name="toolTip">
+             <string>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</string>
+            </property>
+            <property name="text">
+             <string>Stretch Preview</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+            <widget class="QSpinBox" name="kcfg_StretchPreviewSampling">
+             <property name="toolTip">
+              <string>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>5</number>
+             </property>
+             <property name="value">
+              <number>4</number>
+             </property>
+            </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QCheckBox" name="kcfg_LimitedResourcesMode">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable limited resource mode to turn off any resource-intensive operations:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Auto Debayer&lt;/span&gt;: Bayered images will not be debayered. Only grayscale images are shown.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Auto WCS&lt;/span&gt;: World Coordinate System data will not be processed. WCS maps sky coordinates to image coordinates. Equatorial grid lines, object identification, and telescope slew within an image are disabled.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;3D Cube&lt;/span&gt;: RGB images will not be processed. Only grayscale images are shown.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
