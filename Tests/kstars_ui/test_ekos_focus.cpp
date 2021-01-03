@@ -420,8 +420,8 @@ void TestEkosFocus::testFocusWhenGuidingResumes()
 
     // Configure a successful pre-focus capture
     KTRY_FOCUS_MOVETO(50000);
-    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 20);
-    KTRY_FOCUS_EXPOSURE(3, 1);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
+    KTRY_FOCUS_EXPOSURE(2, 1);
 
     KTRY_FOCUS_GADGET(QPushButton, startFocusB);
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
@@ -459,11 +459,46 @@ void TestEkosFocus::testFocusWhenGuidingResumes()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
 
     // Wait a little, then run a capture check with an unachievable HFR
-    QTest::qWait(5000);
+    QTest::qWait(3000);
+    QWARN("Requesting a first in-sequence HFR check, letting it complete...");
     Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
 
-    // Procedure is now broken and cannot succeed
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus_completed, 30000);
+    // Procedure succeeds
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_completed, 60000);
+
+    // Run again a capture check
+    autofocus_completed = false;
+    QWARN("Requesting a second in-sequence HFR check, aborting it...");
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure starts properly
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+
+    // Abort the procedure manually, and run again a capture check that will fail
+    KTRY_FOCUS_CLICK(stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_aborted, 10000);
+    QWARN("Requesting a third in-sequence HFR check, making it fail during autofocus...");
+    autofocus_aborted = autofocus_completed = false;
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure starts properly, after acknowledging there is an autofocus to run
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+
+    // Change settings so that the procedure fails now
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.1, 0.1);
+    KTRY_FOCUS_EXPOSURE(0.1, 1);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_aborted, 60000);
+
+    // Run again a capture check
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 20);
+    KTRY_FOCUS_EXPOSURE(2, 1);
+    autofocus_aborted = autofocus_completed = false;
+    QWARN("Requesting a fourth in-sequence HFR check, making it succeed...");
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure succeeds
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_completed, 60000);
 
     // Disconnect signals
     disconnect(startup_handler);

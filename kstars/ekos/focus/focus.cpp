@@ -1400,6 +1400,7 @@ void Focus::completeFocusProcedure(bool success)
     // Refresh display if needed
     if (focusAlgorithm == FOCUS_POLYNOMIAL)
         graphPolynomialFunction();
+    drawProfilePlot();
 
     // Enforce settling duration
     int const settleTime = m_GuidingSuspended ? GuideSettleTime->value() : 0;
@@ -1446,6 +1447,8 @@ void Focus::completeFocusProcedure(bool success)
                                              static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
         }
         else emit newStatus(state);
+
+        resetButtons();
     });
 }
 
@@ -1820,7 +1823,7 @@ void Focus::setHFRComplete()
             else
             {
                 noStarCount = 0;
-                setAutoFocusResult(false);
+                completeFocusProcedure(false);
             }
         }
         // If the detect current HFR is more than the minimum required HFR
@@ -1830,6 +1833,7 @@ void Focus::setHFRComplete()
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR <<
                                        ". Starting AutoFocus...";
             inSequenceFocus = true;
+            minimumRequiredHFR = -1;
             start();
         }
         // Otherwise, the current HFR is fine and lower than the required minimum HFR so we announce success.
@@ -1837,16 +1841,10 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
-            setAutoFocusResult(true);
-            state = Ekos::FOCUS_COMPLETE;
-            emit newStatus(state);
-            drawProfilePlot();
+            completeFocusProcedure(true);
         }
 
-        // We reset minimum required HFR and call it a day.
-        minimumRequiredHFR = -1;
-
-        resetButtons();
+        // Nothing more for now
         return;
     }
 
