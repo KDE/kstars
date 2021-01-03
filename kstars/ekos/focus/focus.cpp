@@ -3100,7 +3100,7 @@ void Focus::filterChangeWarning(int index)
 
         default:
             // Warn the end-user, count the no-op filter
-            appendLogText(i18n("Warning: Only use filter '%1' for preview as it may interfer with autofocus operation.",
+            appendLogText(i18n("Warning: Only use filter '%1' for preview as it may interfere with autofocus operation.",
                                FITSViewer::filterTypes.value(index - 1, "???")));
     }
 }
