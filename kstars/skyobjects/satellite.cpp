@@ -1326,27 +1326,27 @@ void Satellite::initPopupMenu(KSPopupMenu *pmenu)
 #endif
 }
 
-double Satellite::velocity()
+double Satellite::velocity() const
 {
     return m_velocity;
 }
 
-double Satellite::altitude()
+double Satellite::altitude() const
 {
     return m_altitude;
 }
 
-double Satellite::range()
+double Satellite::range() const
 {
     return m_range;
 }
 
-QString Satellite::id()
+QString Satellite::id() const
 {
     return m_id;
 }
 
-QString Satellite::tle()
+QString Satellite::tle() const
 {
     return m_tle;
 }
