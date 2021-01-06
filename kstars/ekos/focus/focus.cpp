@@ -1392,7 +1392,7 @@ void Focus::completeFocusProcedure(bool success)
                                 .arg(QString::number(hfr_value[i], 'f', 3)));
     }
 
-    bool const _inAutoFocus = inAutoFocus;
+    bool const autoFocusUsed = inAutoFocus || inSequenceFocus;
 
     // Reset the autofocus flags
     stop(!success);
@@ -1408,12 +1408,12 @@ void Focus::completeFocusProcedure(bool success)
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
 
-    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, success, _inAutoFocus, analysis_results]()
+    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, success, autoFocusUsed, analysis_results]()
     {
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
 
-        if (_inAutoFocus)
+        if (autoFocusUsed)
         {
             if (success)
             {
@@ -1436,7 +1436,8 @@ void Focus::completeFocusProcedure(bool success)
             else
                 emit autofocusAborted(filter(), analysis_results);
         }
-        else state = Ekos::FOCUS_IDLE;
+        else
+            state = Ekos::FOCUS_IDLE;
 
         qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state);
 
@@ -1446,7 +1447,8 @@ void Focus::completeFocusProcedure(bool success)
             filterManager->setFilterPosition(fallbackFilterPosition,
                                              static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
         }
-        else emit newStatus(state);
+        else
+            emit newStatus(state);
 
         resetButtons();
     });
