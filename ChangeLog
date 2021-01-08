@@ -4,6 +4,64 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.1 (Centauri):
+
+0b214549f 2021-01-07 Jasem Mutlaq         Mark 3.5.1 stable release                                                                                                                             
+6fd6ba608 2021-01-06 Jasem Mutlaq         Yet another fix to in sequence focus not getting reported to capture module after completion                                                          
+d204d7237 2021-01-05 Jasem Mutlaq         Fix crash when no object was clicked in recent satellite MR                                                                                           
+542911112 2021-01-02 Eric Dejouhanet      Fix focusEffect option test.                                                                                                                          
+287f375ac 2021-01-03 Pedro Rodriguez Perez Fix xi18n argument: it can't be split over multiple lines                                                                                             
+803b6f499 2021-01-03 Eric Dejouhanet      Additional fix for focus state changes                                                                                                                
+a6fa048db 2021-01-02 Hy Murveit           Add option to control downsampling on stretch slider preview.                                                                                         
+3b53c5446 2021-01-03 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+dd96446b6 2021-01-02 Jasem Mutlaq         Set subtract parameters when existing frame is found as well                                                                                          
+298566a67 2021-01-02 Jasem Mutlaq         Set inSequenceFocus to false once stopped and set state to Ekos::FOCUS_COMPLETE once there is no need to perform autofocus after checkFocus in invoked
+2a6f959d2 2021-01-02 l10n daemon script   GIT_SILENT made messages (after extraction)                                                                                                           
+7de4a03d5 2021-01-01 Eric Dejouhanet      Fix and validate management of image filter in Focus.                                                                                                 
+a9b3a6d8e 2020-12-30 Eric Dejouhanet      Fix HFR check breaking running autofocus                                                                                                              
+8f5ee7e4f 2020-12-30 Jasem Mutlaq         Fix timespec for observation time                                                                                                                     
+cc23d8170 2020-12-30 Jasem Mutlaq         Gracefully handle remove probs. All tests ran OK with this change                                                                                     
+a39da7171 2020-12-30 Jasem Mutlaq         INDI drivers sync                                                                                                                                     
+c6c189b19 2020-12-28 Jasem Mutlaq         FITS saving failed because we used datatype while it was expecting imagetype                                                                          
+1f2790158 2020-12-26 Jasem Mutlaq         Double check that guider chip is valid, if not fallback to primary                                                                                    
+f08f7f74e 2020-12-25 Eric Dejouhanet      Skip mount control test until QML/GL mixed window issue is resolved.                                                                                  
+4ad709d23 2020-12-25 Eric Dejouhanet      Relax capture timeout, add warning.                                                                                                                   
+4c790b7f0 2020-12-25 Jasem Mutlaq         Guide limits should be first                                                                                                                          
+d111331dd 2020-12-23 Jasem Mutlaq         Revert "Improve HiPS rendering on HiDPI screens as well by relaxing levels"                                                                           
+081b064a9 2020-12-22 Fabrizio Pollastri   Mount Control: click on displayed coords to set them as input.                                                                                        
+5ff349164 2020-12-23 Aziz Bouland         Adds Park everyday for ekoslive                                                                                                                       
+d055ca42a 2020-12-22 Jasem Mutlaq         Fix potential crash when new operator fails. It should fail gracefully when memory allocation fails                                                   
+38c862083 2020-12-22 Jasem Mutlaq         Revert "[Needs Review] Add missing CMake module for StellarSolver"                                                                                    
+3d52e6981 2020-12-19 Akarsh Simha         Find StellarSolver in the usual UNIX locations                                                                                                        
+3a1b62620 2020-12-19 Akarsh Simha         Update FindStellarSolver.cmake from current master of StellarSolver                                                                                   
+a60cf3af2 2020-12-19 Akarsh Simha         [Needs Review] Add missing CMake module for StellarSolver                                                                                             
+78b2374d4 2020-12-18 Hy Murveit           Changed the order of the Capture Tab columns.                                                                                                         
+214386d8f 2020-12-17 Jasem Mutlaq         solver MODE would be used now to designate mode of operation local (stellarsolver) or remote solver. While solver TYPE would be used to differentiat..
+ce952999d 2020-12-16 Jasem Mutlaq         Improve HiPS rendering on HiDPI screens as well by relaxing levels                                                                                    
+e7e6ce298 2020-12-14 Pedro Rodriguez Perez Add satellite context menu copy TLE to clipboard                                                                                                      
+f4505dcac 2020-12-15 Luigi Toscano        Revert "Fix xi18n argument: it can't be split over multiple lines"                                                                                    
+dd0d33f0b 2020-12-14 Pedro Rodriguez Perez Fix xi18n argument: it can't be split over multiple lines                                                                                             
+4f41d99bd 2020-12-13 Hy Murveit           Add handook doc to README.md                                                                                                                          
+dd4559989 2020-12-14 Luigi Toscano        Fix xi18n argument: it can't be split over multiple lines                                                                                             
+ea17d50eb 2020-12-11 Jasem Mutlaq         Make sure cameras that have focus and filter interface are not inadvertenly identified as pure focus or filter wheel device. Check for CCD bit mask ..
+05bb5e469 2020-12-10 Hy Murveit           Make Linear focus restart a little gentler. Add test.                                                                                                 
+1c9cf1c98 2020-12-10 Jasem Mutlaq         Check for device name before deleting properties.                                                                                                     
+2b859c1b7 2020-12-09 Jasem Mutlaq         Scripts manager                                                                                                                                       
+79ff9655d 2020-12-02 Hy Murveit           Capture option to wait for low drift. Also guider keeps better track of guide star. Analyze can plot this better rms.                                 
+d15e198bd 2020-12-07 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours                                                                                        
+496411fed 2020-12-07 l10n daemon script   GIT_SILENT made messages (after extraction)                                                                                                           
+480a65cd7 2020-12-06 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
+247eb3d2e 2020-12-04 Eric Dejouhanet      Remove some Ekos dependencies from builder                                                                                                            
+451ac590c 2020-12-01 Cyril Richard        Fixes wcs structure and code when singular matrix is detected. Should fix #47                                                                         
+e8da99b5d 2020-12-03 Hy Murveit           Fitsviewer option to overlay saturated pixels in red.                                                                                                 
+2da33d40e 2020-12-01 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
+f7fa10536 2020-11-29 Eric Dejouhanet      Fix the focus state notification                                                                                                                      
+fafbf12e0 2020-11-27 Alexander Lohnau     Port KNS method                                                                                                                                       
+757b6d9f9 2020-11-28 Eric Dejouhanet      Make the app-image build failure a warning only.                                                                                                      
+3507693c8 2020-11-24 Jasem Mutlaq         Start KStars v3.5.1 development cycle                                                                                                                 
+f8ac2f798 2020-11-22 Jasem Mutlaq         Apparently checking isEnabled is not reliable indicator since it depends on parent status as well                                                     
+343f484ed 2020-11-22 Jasem Mutlaq         Call checkCCD..etc al when set setting is called for the first time to ensure all parameters are set up properly                                      
+
 3.5.0 (StellarSolver):
 
 3384e057f 2020-11-20 Robert Lancaster     Updating CMakeLists to copy Data directory into the app bundle on Mac builds so that it doesn't have to be done in the build script.  Also changing ..
