@@ -3,6 +3,7 @@ IconName=kstars
 DesktopEntry=org.kde.kstars
 Comment=KStars
 Comment[ar]=نجوم‌ك
+Comment[bg]=KStars
 Comment[ca]=KStars
 Comment[ca@valencia]=KStars
 Comment[cs]=KStars
@@ -297,6 +298,7 @@ Action=Sound
 [Event/CalibrationSuccessful]
 Name=Calibration Success
 Name[ar]=نجحت المعايرة
+Name[bg]=Калибрирането е успешно
 Name[ca]=El calibratge ha estat correcte
 Name[ca@valencia]=El calibratge ha estat correcte
 Name[cs]=Úspěšná kalibrace
@@ -352,6 +354,7 @@ Action=Sound
 [Event/CalibrationFailed]
 Name=Calibration Failure
 Name[ar]=فشلت المعايرة
+Name[bg]=Грешка при калибриране
 Name[ca]=Ha fallat el calibratge
 Name[ca@valencia]=Ha fallat el calibratge
 Name[de]=Kalibrierungsfehler
