@@ -11,6 +11,7 @@
 
 #include "ui_align.h"
 #include "ui_mountmodel.h"
+#include "ui_manualrotator.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
@@ -969,6 +970,8 @@ class Align : public QWidget, public Ui::Align
         bool mountModelReset { false };
         bool targetAccuracyNotMet { false };
         bool previewShowing { false };
+        QDialog manualRotatorDialog;
+        Ui_manualRotator manualRotator;
         QUrl alignURL;
         QUrl alignURLPath;
         QVector<const StarObject *> alignStars;

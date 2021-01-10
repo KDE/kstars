@@ -121,6 +121,7 @@ if (INDI_FOUND)
             ekos/align/opsalign.ui
             #ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
+            ekos/align/manualrotator.ui
             ekos/align/mountmodel.ui
             #ekos/align/opsastap.ui
             # Focus

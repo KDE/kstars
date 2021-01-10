@@ -418,6 +418,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     autoScaleGraphB->setIcon(QIcon::fromTheme("zoom-fit-best"));
     autoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    manualRotator.setupUi(&manualRotatorDialog);
+    manualRotatorDialog.setWindowTitle("Manual Rotator");
+    manualRotatorDialog.setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+
     mountModel.setupUi(&mountModelDialog);
     mountModelDialog.setWindowTitle("Mount Model Tool");
     mountModelDialog.setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -506,6 +510,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(mountModel.previewB, &QPushButton::clicked, this, &Ekos::Align::togglePreviewAlignPoints);
     connect(mountModel.stopAlignB, &QPushButton::clicked, this, &Ekos::Align::resetAlignmentProcedure);
     connect(mountModel.startAlignB, &QPushButton::clicked, this, &Ekos::Align::startStopAlignmentProcedure);
+    connect(manualRotator.takeImageB, &QPushButton::clicked, this, &Ekos::Align::executeGOTO);
+    connect(manualRotator.cancelB, &QPushButton::clicked, this, &Ekos::Align::solverFailed);
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -3506,6 +3512,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
+    manualRotatorDialog.hide();
 
     sOrientation = orientation;
     sRA          = ra;
@@ -3647,33 +3654,33 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
 
-    // Update Rotator offsets
-    if (currentRotator != nullptr)
+    if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
     {
-        // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
-        if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
-        {
-            loadSlewTargetPA = solverPA;
-            qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
+        loadSlewTargetPA = solverPA;
+        qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
+    }
+    else
+    {
+        currentRotatorPA = solverPA;
 
-        }
-        else
+        // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
+        if (currentRotator != nullptr)
         {
+            // Update Rotator offsets
             INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
             if (absAngle)
             {
                 // PA = RawAngle * Multiplier + Offset
-                currentRotatorPA = solverPA;
                 double rawAngle = absAngle->np[0].value;
-                double offset = range360(solverPA - (rawAngle * Options::pAMultiplier()));
+                double offset   = range360(solverPA - (rawAngle * Options::pAMultiplier()));
 
-                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA << "Rotator Offset:" <<
-                                           offset;
+                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
+                                           << "Rotator Offset:" << offset;
                 Options::setPAOffset(offset);
             }
 
             if (absAngle && std::isnan(loadSlewTargetPA) == false
-                    && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
+                && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
                 double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
                 //                if (rawAngle < 0)
@@ -3684,6 +3691,53 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
                 appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
+                return;
+            }
+        }
+        else if (std::isnan(loadSlewTargetPA) == false)
+        {
+            double current = range360(currentRotatorPA);
+            double target = range360(loadSlewTargetPA);
+            double targetFlipped = range360(loadSlewTargetPA + 180);
+
+            double diff = current - target;
+            if (fabs(current + 360.0 - target) < fabs(diff))
+            {
+                diff = current + 360.0 - target;
+            }
+
+            if (fabs(current - targetFlipped) < fabs(diff))
+            {
+                diff = current - targetFlipped;
+                target = targetFlipped;
+            }
+
+            if (fabs(current + 360.0 - targetFlipped) < fabs(diff))
+            {
+                diff = current + 360.0 - targetFlipped;
+                target = targetFlipped;
+            }
+
+            double threshold = Options::astrometryRotatorThreshold();
+
+            appendLogText(i18n("Current Rotation is %1; Target Rotation is %2; diff: %3", current, target, diff));
+
+            if (fabs(diff) > threshold)
+            {
+                QString icon = "object-rotate-right";
+                if (diff > 0.0)
+                {
+                    icon = "object-rotate-left";
+                }
+
+                manualRotator.icon->setPixmap(QIcon::fromTheme(icon).pixmap(350, 350));
+                manualRotator.diff->setText(i18n("%1°", int(round(fabs(diff)))));
+
+                manualRotator.targetRotation->setText(i18n("%1°", int(round(target))));
+                manualRotator.currentRotation->setText(i18n("%1°", int(round(current))));
+
+                targetAccuracyNotMet = true;
+                manualRotatorDialog.show();
                 return;
             }
         }
@@ -3810,6 +3864,7 @@ void Align::solverFailed()
     stopB->setEnabled(false);
     solveB->setEnabled(true);
     loadSlewB->setEnabled(true);
+    manualRotatorDialog.hide();
 
     m_AlignTimer.stop();
 
