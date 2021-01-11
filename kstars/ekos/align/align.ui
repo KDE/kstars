@@ -1516,7 +1516,7 @@
                <item>
                 <widget class="QLabel" name="refreshText">
                  <property name="text">
-                  <string>&lt;p&gt;Adjust mount's Altitude knob moving star along yellow line, then adjust Azimuth knobs moving along purple line until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
+                  <string>&lt;p&gt;Adjust mount's Altitude knob moving star along yellow line, then adjust Azimuth knobs moving along green line until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
