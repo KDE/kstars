@@ -1690,7 +1690,7 @@
       </entry>
       <entry name="MaxTemperatureDiff" type="Double">
          <label>Maximum acceptable difference between requested and measured temperature set point.</label>
-         <default>0.1</default>
+         <default>1</default>
       </entry>
       <entry name="MaxStartGuiderDrift" type="Double">
          <label>Maximum acceptable guider drift allowed before starting capture.</label>
