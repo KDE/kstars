@@ -83,18 +83,10 @@ bool PolarAlign::prepareAzAlt(FITSData *image, const QPointF &pixel, SkyPoint *p
 
 bool PolarAlign::addPoint(FITSData *image)
 {
-    // Use the HA and DEC from the top-left of the image. Any point far from the center
-    // of the image will do. The reason we don't use the center is as follows:
-    // The goal is to measure 3 points with the mount rotated in 3 different anlges, and from
-    // that deduce the mount's axis. If we use the center of the image, and the telescope is
-    // very well aligned with the mount's axis, then all three measurements would be about
-    // the same RA and DEC. This would make it difficult to estimate the mount's axis.
-    // If, however, we offset the measurement from the center of the image,
-    // then the measurements will differ in the 3 different rotations.
     SkyPoint coords;
     auto time = image->getDateTime();
-    // 0,0 is the upper left corner of the image.
-    if (!prepareAzAlt(image, QPointF(0, 0), &coords))
+    // Use the HA and DEC from the center of the image.
+    if (!prepareAzAlt(image, QPointF(image->width() / 2, image->height() / 2), &coords))
         return false;
 
     QString debugString = QString("PAA: addPoint ra0 %1 dec0 %2 ra %3 dec %4 az %5 alt %6")
@@ -307,14 +299,14 @@ void PolarAlign::rotate(const QPointF &azAltPoint, const QPointF &azAltRotation,
     const double phi2 = acos(z2);
 
     // Deal with degenerate values for the atan along the meridian (y == 0).
-    if (y == 0.0 && x == 0.0)
+    if (y2 == 0.0 && x2 == 0.0)
     {
         // Straight overhead
         azAltResult->setX(0.0);
         azAltResult->setY(90.0);
         return;
     }
-    else if (y == 0)
+    else if (y2 == 0)
         theta2 = 0.0;
     else
         theta2 = atan2(y2, x2);
