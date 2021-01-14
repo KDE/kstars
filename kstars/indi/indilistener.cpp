@@ -469,8 +469,7 @@ void INDIListener::processUniversalMessage(const QString &message)
 
     if (Options::messageNotificationINDI())
     {
-        KNotification::event(QLatin1String("IndiServerMessage"),
-                             displayMessage + " (INDI)");
+        KSNotification::event(QLatin1String("IndiServerMessage"), displayMessage, KSNotification::EVENT_WARN);
     }
     else
     {
