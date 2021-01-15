@@ -1057,6 +1057,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
 {
     if (command == commands[START_PROFILE])
     {
+        if (m_Manager->getEkosStartingStatus() != Ekos::Idle)
+            m_Manager->stop();
+
         m_Manager->setProfile(payload["name"].toString());
         m_Manager->start();
     }
