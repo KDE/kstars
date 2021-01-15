@@ -88,12 +88,8 @@ void TestPolarAlign::compare(const QPointF &point, double x, double y, double to
 
 namespace
 {
-void runPAA(const PaaData &data)
+void runPAA(const GeoLocation &geo, const PaaData &data)
 {
-    // Silicon Valley
-    GeoLocation geo(dms(-122, 10), dms(37, 26, 30));
-
-    // true --> northern hemisphere.
     PolarAlign polarAlign(&geo);
 
     std::unique_ptr<FITSData> image;
@@ -136,9 +132,13 @@ void runPAA(const PaaData &data)
 
 void TestPolarAlign::testRunPAA()
 {
+    const GeoLocation siliconValley(dms(-122, 10), dms(37, 26, 30));
+    const GeoLocation dallas(dms(-96, 49), dms(32, 46, 45));
+    const GeoLocation kuwait(dms(47, 59), dms(29, 22, 43));
+
     // from log on 12/29 log_19-14-48.txt
     // First 14m az error, low alt error
-    runPAA(
+    runPAA(siliconValley,
     {
         // ra0        dec0   orientation pixscale  date-time in UTC
         { 21.74338, 89.83996,  78.36826, 1.32548, 2020, 12, 30, 03, 16, 8},
@@ -149,7 +149,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Corrected the above, now very low error (0 0' 11")
-    runPAA(
+    runPAA(siliconValley,
     {
         { 74.23824, 89.75702, 127.82348, 1.32612, 2020, 12, 30, 3, 28, 50},
         { 66.19830, 89.77333, 148.11177, 1.32484, 2020, 12, 30, 3, 29, 22},
@@ -158,7 +158,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Manually increased the alt error, now 0 23' 50'
-    runPAA(
+    runPAA(siliconValley,
     {
         { 46.61670, 89.41158,  98.86135, 1.32586,  2020, 12, 30, 3, 34, 02},
         { 43.13352, 89.41121, 123.87848, 1.32566, 2020, 12, 30, 3, 34, 39},
@@ -167,7 +167,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Fixed it again.
-    runPAA(
+    runPAA(siliconValley,
     {
         { 75.31905, 89.76408, 126.18540, 1.32508, 2020, 12, 30, 3, 39, 33},
         { 67.12354, 89.77885, 145.52730, 1.32492, 2020, 12, 30, 3, 40, 04},
@@ -180,7 +180,7 @@ void TestPolarAlign::testRunPAA()
     // Commented solution is the float solution.
 
     // double: 10'28" float: 11'45" orig: 9'42"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 63.69466, 89.77876, 124.27465, 1.32519, 2020, 12, 31, 18, 52, 42},
         { 54.75964, 89.79547, 143.06160, 1.32367, 2020, 12, 31, 18, 53, 15},
@@ -189,7 +189,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 0'40", float: 0'00", orig: 0'41"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 21.22696, 89.82033, 79.74928, 1.32493, 2020, 12, 31, 19, 00, 52},
         { 10.14439, 89.80891, 97.13185, 1.32523, 2020, 12, 31, 19, 01, 25},
@@ -198,7 +198,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 11'59", float: 11'01", orig: 11'08"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 266.87080, 89.98377, -35.40868, 1.33053, 2020, 12, 31, 19, 06, 46},
         { 293.43530, 89.94730, 19.32200, 1.32335, 2020, 12, 31, 19, 07, 24},
@@ -207,7 +207,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 1'14", float: 0'00", orig: 0'57"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 22.74402, 89.82040, 78.32075, 1.32462, 2020, 12, 31, 19, 12, 34},
         { 11.69887, 89.80704, 95.88488, 1.32375, 2020, 12, 31, 19, 13, 11},
@@ -216,7 +216,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 32'28", float: 38'37", orig: 30'19"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 317.02018, 89.44380, 10.85411, 1.32380, 2020, 12, 31, 19, 18, 00},
         { 316.55330, 89.40583, 38.75090, 1.32350, 2020, 12, 31, 19, 18, 33},
@@ -225,7 +225,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 1'34", float: 1'30", orig: 1'26"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 27.96856, 89.82500, 80.98310, 1.32435, 2020, 12, 31, 19, 22, 48},
         { 16.47574, 89.81367, 97.74878, 1.32394, 2020, 12, 31, 19, 23, 25},
@@ -234,7 +234,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 0'25", float: 0'00", orig: 0'25"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 22.29262, 89.82396, 73.68740, 1.32484, 2020, 12, 31, 19, 29, 17},
         { 11.20186, 89.80799, 91.89482, 1.32477, 2020, 12, 31, 19, 29, 55},
@@ -243,7 +243,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 17'35", float: 16'46", orig: 16'21"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 45.20803, 89.58706, 95.79552, 1.32496, 2020, 12, 31, 19, 32, 40},
         { 39.89580, 89.58748, 119.13221, 1.32328, 2020, 12, 31, 19, 33, 13},
@@ -252,7 +252,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // double: 0'15", float: 0'00", orig: 0'04"
-    runPAA(
+    runPAA(siliconValley,
     {
         { 22.79496, 89.83001, 71.18473, 1.32378, 2020, 12, 31, 19, 41, 16},
         { 11.65388, 89.81182, 89.34180, 1.32420, 2020, 12, 31, 19, 41, 54},
@@ -261,7 +261,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Log from 1/5/20201
-    runPAA(
+    runPAA(siliconValley,
     {
         { 33.77699, 89.85172, 55.15250, 1.32489, 2021, 01, 06, 05,  9, 23 },
         { 23.30335, 89.82440, 74.05880, 1.32592, 2021, 01, 06, 05,  9, 50 },
@@ -270,7 +270,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Note, far off pole
-    runPAA(
+    runPAA(siliconValley,
     {
         { 50.76609, 49.91458, -8.37603, 1.32461, 2021, 01, 06, 05, 13, 32 },
         { 23.24014, 49.88528, -8.28620, 1.32496, 2021, 01, 06, 05, 13, 57 },
@@ -279,7 +279,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Note, far off pole
-    runPAA(
+    runPAA(siliconValley,
     {
         { 50.73028, 49.49321, -8.27081, 1.32448, 2021, 01, 06, 05, 18, 31 },
         { 21.45768, 49.52983, -8.00221, 1.32467, 2021, 01, 06, 05, 18, 58 },
@@ -287,7 +287,7 @@ void TestPolarAlign::testRunPAA()
         3007, 1256, 3519, 946
     });
 
-    runPAA(
+    runPAA(siliconValley,
     {
         { 33.93431, 89.84705, 51.18593, 1.32465, 2021, 01, 06, 05, 25, 48 },
         { 25.03596, 89.82113, 69.85483, 1.32561, 2021, 01, 06, 05, 26, 13 },
@@ -296,7 +296,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Note, far off pole
-    runPAA(
+    runPAA(siliconValley,
     {
         { 50.38595, 49.53670, -8.15094, 1.32484, 2021, 01, 06, 05, 30, 55 },
         { 22.40326, 49.57133, -8.12608, 1.32515, 2021, 01, 06, 05, 31, 21 },
@@ -304,7 +304,7 @@ void TestPolarAlign::testRunPAA()
         2446, 2088, 2392, 2522
     });
 
-    runPAA(
+    runPAA(siliconValley,
     {
         { 80.96890, 11.74259, 171.42773, 1.32514, 2021, 01, 06, 05, 45, 05 },
         { 110.26384, 11.81600, 171.56395, 1.32316, 2021, 01, 06, 05, 45, 31 },
@@ -312,7 +312,7 @@ void TestPolarAlign::testRunPAA()
         1087, 861, 458, 139
     });
 
-    runPAA(
+    runPAA(siliconValley,
     {
         { 38.40316, 89.32378, 49.26512, 1.32596, 2021, 01, 06, 05, 50, 17 },
         { 36.29482, 89.29488, 75.01016, 1.32645, 2021, 01, 06, 05, 50, 42 },
@@ -321,7 +321,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Note, far off pole
-    runPAA(
+    runPAA(siliconValley,
     {
         { 51.11166, 48.88918, -8.54258, 1.32508, 2021, 01, 06, 05, 52, 43 },
         { 23.14732, 48.86777, -8.06648, 1.32514, 2021, 01, 06, 05, 53, 9 },
@@ -330,7 +330,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Note, far off pole
-    runPAA(
+    runPAA(siliconValley,
     {
         { 53.79635, 49.62699, -8.35495, 1.32678, 2021, 01, 06, 06, 03, 39 },
         { 25.42441, 49.58901, -8.32128, 1.32477, 2021, 01, 06, 06, 04, 05 },
@@ -339,32 +339,32 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jasem3
-    runPAA(
+    runPAA(kuwait,
     {
         { 102.65020, 39.69621, 138.49586, 1.09119, 2021, 01, 11, 17, 25, 10 },
         { 86.97538, 39.64818, 138.52258, 1.09179, 2021, 01, 11, 17, 25, 29 },
         { 74.74086, 39.61638, 138.54977, 1.09189, 2021, 01, 11, 17, 25, 47 },
-        2328, 1760, 2621, 1996
+        2328, 1760, 2613, 2003
     });
     // Jasem2
-    runPAA(
+    runPAA(kuwait,
     {
         { 75.36752, 67.31292, 138.39209, 1.09149, 2021, 01, 11, 17, 21, 12 },
         { 88.67953, 67.34817, 138.41916, 1.09133, 2021, 01, 11, 17, 21, 30 },
         { 101.85324, 67.38325, 138.31124, 1.09222, 2021, 01, 11, 17, 21, 48 },
-        2328, 1760, 2407, 1655
+        2328, 1760, 2369, 1689
     });
     // Jasem1
-    runPAA(
+    runPAA(kuwait,
     {
         { 103.47913, 67.38804, 138.36922, 1.09212, 2021, 01, 11, 17, 19, 57 },
         { 89.15202, 67.34897, 138.37273, 1.09211, 2021, 01, 11, 17, 20, 18 },
         { 75.36751, 67.31304, 138.37937, 1.09212, 2021, 01, 11, 17, 20, 36 },
-        2328, 1760, 2478, 1774
+        2328, 1760, 2453, 1796
     });
 
     // Jo-nightly-1
-    runPAA(
+    runPAA(dallas,
     {
         { 12.81781, 89.07239, -8.65391, 9.49554, 2021, 01, 12, 0, 27, 23 },
         { 348.85538, 89.03890, -3.73479, 9.49479, 2021, 01, 12, 0, 27, 43 },
@@ -373,7 +373,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo-nightly-2
-    runPAA(
+    runPAA(dallas,
     {
         { 18.65836, 89.05113, -4.20730, 9.49647, 2021, 01, 12, 0, 33, 19 },
         { 40.85876, 89.08147, -10.33458, 9.49571, 2021, 01, 12, 0, 33, 40 },
@@ -382,7 +382,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo-nightly-3
-    runPAA(
+    runPAA(dallas,
     {
         { 19.27912, 89.05092, -4.02575, 9.49570, 2021, 01, 12, 0, 34, 57 },
         { 356.21018, 89.04905, 0.67433, 9.49619, 2021, 01, 12, 0, 35, 16 },
@@ -391,7 +391,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo-nightly-4
-    runPAA(
+    runPAA(dallas,
     {
         { 21.31811, 89.09443, -2.94373, 9.49555, 2021, 01, 12, 0, 38, 59 },
         { 45.33237, 89.11518, -8.11396, 9.49733, 2021, 01, 12, 0, 39, 25 },
@@ -400,7 +400,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo-nightly-5
-    runPAA(
+    runPAA(dallas,
     {
         { 21.89789, 89.09423, -2.73671, 9.49587, 2021, 01, 12, 0, 40, 24 },
         { 357.18691, 89.09645, 0.78761, 9.49571, 2021, 01, 12, 0, 40, 46 },
@@ -409,7 +409,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo-nightly-6
-    runPAA(
+    runPAA(dallas,
     {
         { 21.90875, 89.09512, -3.01211, 9.49640, 2021, 01, 12, 0, 41, 38 },
         { 46.14103, 89.11651, -8.15365, 9.49657, 2021, 01, 12, 0, 41, 58 },
@@ -418,7 +418,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo orig-1
-    runPAA(
+    runPAA(dallas,
     {
         { 22.67449, 89.09498, -2.83722, 9.49689, 2021, 01, 12, 0, 43, 54 },
         { 358.94560, 89.09623, 0.54390, 9.49583, 2021, 01, 12, 0, 44, 13 },
@@ -427,7 +427,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // reversed
-    runPAA(
+    runPAA(dallas,
     {
         { 331.80520, 89.12571, 4.01328, 9.49679, 2021, 01, 12, 0, 44, 34 },
         { 358.94560, 89.09623, 0.54390, 9.49583, 2021, 01, 12, 0, 44, 13 },
@@ -436,7 +436,7 @@ void TestPolarAlign::testRunPAA()
     });
 
     // Jo orig-2
-    runPAA(
+    runPAA(dallas,
     {
         { 23.51969, 89.09648, -3.24191, 9.49659, 2021, 01, 12, 0, 49, 15 },
         { 48.00993, 89.11943, -8.37887, 9.49623, 2021, 01, 12, 0, 49, 37 },
@@ -445,14 +445,13 @@ void TestPolarAlign::testRunPAA()
     });
 
     // reversed
-    runPAA(
+    runPAA(dallas,
     {
         { 75.23851, 89.16742, -10.84337, 9.49660, 2021, 01, 12, 0, 49, 59 },
         { 48.00993, 89.11943, -8.37887, 9.49623, 2021, 01, 12, 0, 49, 37 },
         { 23.51969, 89.09648, -3.24191, 9.49659, 2021, 01, 12, 0, 49, 15 },
         2328, 1760, 2337, 1756
     });
-
 }
 
 void TestPolarAlign::getAzAlt(const KStarsDateTime &time, const GeoLocation &geo,

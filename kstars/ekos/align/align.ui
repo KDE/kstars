@@ -1112,7 +1112,7 @@
                   <bool>true</bool>
                  </property>
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Park&lt;/span&gt; your mount to home position where it &lt;span style=&quot; font-weight:600;&quot;&gt;points&lt;/span&gt; toward the celestial pole with the counter weight down. Select mount direction and speed and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Park&lt;/span&gt; your mount to home position where it &lt;span style=&quot; font-weight:600;&quot;&gt;points&lt;/span&gt; toward the celestial pole with the counter weight down. Select mount direction and speed and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process. If you do not have a view of the pole, use the SkyMap or Ekos mount control to point anywhere, preferably near the meridian, choose East or West according your side, lower the rotation angle if necessary, and click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1516,7 +1516,7 @@
                <item>
                 <widget class="QLabel" name="refreshText">
                  <property name="text">
-                  <string>&lt;p&gt;Adjust mount's Altitude knob moving star along yellow line, then adjust Azimuth knobs moving along green line until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
+                  <string>&lt;p&gt;Adjust mount's Altitude knob moving star along &lt;span style=&quot; font-weight:600; color:#ffff50;&quot;&gt;yellow&lt;/span&gt; line, then adjust Azimuth knobs moving along &lt;span style=&quot; font-weight:600; color:#00ff00;&quot;&gt;green&lt;/span&gt; line until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
