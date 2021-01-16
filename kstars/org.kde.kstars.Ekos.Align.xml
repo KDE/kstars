@@ -61,6 +61,10 @@
       <arg name="de" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setTargetRotation">
+      <arg name="rotation" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::AlignState"/>

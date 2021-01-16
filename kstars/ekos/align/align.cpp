@@ -3523,7 +3523,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         loadSlewTargetPA = solverPA;
         qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
     }
-    else
+    else if (Options::astrometryUseRotator())
     {
         currentRotatorPA = solverPA;
 
@@ -6103,6 +6103,13 @@ void Align::setTargetCoords(double ra, double de)
 
     qCDebug(KSTARS_EKOS_ALIGN) << "Target Coordinates updated to RA:" << targetCoord.ra().toHMSString()
                                << "DE:" << targetCoord.dec().toDMSString();
+}
+
+void Align::setTargetRotation(double rotation)
+{
+    loadSlewTargetPA = rotation;
+
+    qCDebug(KSTARS_EKOS_ALIGN) << "Target Rotation updated to: " << loadSlewTargetPA;
 }
 
 void Align::calculateAlignTargetDiff()

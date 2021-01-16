@@ -460,6 +460,8 @@ class Align : public QWidget, public Ui::Align
              */
         Q_SCRIPTABLE Q_NOREPLY void setTargetCoords(double ra, double de);
 
+        Q_SCRIPTABLE Q_NOREPLY void setTargetRotation(double rotation);
+
         /** DBUS interface function.
              * Sets the binning of the selected CCD device.
              * @param binIndex Index of binning value. Default values range from 0 (binning 1x1) to 3 (binning 4x4)

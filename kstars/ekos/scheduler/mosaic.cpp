@@ -115,7 +115,7 @@ void MosaicTile::updateTiles()
     double x = initX, y = initY;
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile FovW" << fovW << "FovH" << fovH << "initX" << x << "initY" << y <<
-                                   "Offset X " << xOffset << " Y " << yOffset;
+                                   "Offset X " << xOffset << " Y " << yOffset << " rotation " << getPA();
 
     for (int row = 0; row < h; row++)
     {
@@ -129,6 +129,19 @@ void MosaicTile::updateTiles()
 
             tile->center.setX(tile->pos.x() + (fovW / 2.0));
             tile->center.setY(tile->pos.y() + (fovH / 2.0));
+
+            double pa = getPA();
+            if (pa < 0.0)
+            {
+                pa += 360.0;
+            }
+
+            if (pa > 360.0)
+            {
+                pa -= 360.0;
+            }
+
+            tile->rotation = pa;
 
             tiles.append(tile);
 
@@ -505,6 +518,7 @@ void Mosaic::createJobs()
             tile->skyCenter.setRA0( (center.ra0().Degrees() + (diffFromSkyMapCenter.x() / (pixelsPerArcminRA * cos(
                                          center.dec0().radians()) * 60.0))) / 15.0);
             tile->skyCenter.setDec0( center.dec0().Degrees() + (diffFromSkyMapCenter.y() / (pixelsPerArcminDE * 60.0)));
+            tile->rotation = -mosaicTileItem->getPA();
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile RA0:" << tile->skyCenter.ra0().toHMSString() << "DE0:" <<
                                            tile->skyCenter.dec0().toDMSString();
