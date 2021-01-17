@@ -1843,6 +1843,7 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
+            inSequenceFocus = true;
             completeFocusProcedure(true);
         }
 
