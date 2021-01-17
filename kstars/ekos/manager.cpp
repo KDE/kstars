@@ -3477,6 +3477,10 @@ void Manager::connectModules()
         // New Focus temperature delta
         connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.get(),
                 &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
+
+        // Meridian Flip
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::abort,
+                Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections

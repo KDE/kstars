@@ -617,7 +617,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Keep track of what we're doing right now
         bool inAutoFocus { false };
         bool inFocusLoop { false };
-        bool inSequenceFocus { false };
+        //bool inSequenceFocus { false };
         bool resetFocus { false };
         /// Did we reverse direction?
         bool reverseDir { false };
