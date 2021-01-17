@@ -2167,22 +2167,15 @@ bool Capture::startFocusIfRequired()
 
 void Capture::captureOne()
 {
-
-    //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    /*if (fileUploadModeS->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
+    if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local or both. Please change "
-                           "upload mode to client and try again."));
-        return;
-    }*/
-
-    if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+        appendLogText(i18n("Cannot capture while focus module is busy."));
+    }
+    else if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     {
         appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
-        return;
     }
-
-    if (addJob(true))
+    else if (addJob(true))
     {
         m_State = CAPTURE_PROGRESS;
         prepareJob(jobs.last());
@@ -2191,9 +2184,16 @@ void Capture::captureOne()
 
 void Capture::startFraming()
 {
-    m_isLooping = true;
-    appendLogText(i18n("Starting framing..."));
-    captureOne();
+    if (focusState >= FOCUS_PROGRESS)
+    {
+        appendLogText(i18n("Cannot start framing while focus module is busy."));
+    }
+    else if (!m_isLooping)
+    {
+        m_isLooping = true;
+        appendLogText(i18n("Starting framing..."));
+        captureOne();
+    }
 }
 
 void Capture::captureImage()
@@ -2201,17 +2201,6 @@ void Capture::captureImage()
     if (activeJob == nullptr)
         return;
 
-    captureTimeout.stop();
-
-    seqTimer->stop();
-    SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
-
-    if (currentCCD->isConnected() == false)
-    {
-        appendLogText(i18n("Error: Lost connection to CCD."));
-        abort();
-        return;
-    }
     // This test must be placed before the FOCUS_PROGRESS test,
     // as sometimes the FilterManager can cause an auto-focus.
     // If the filterManager is not IDLE, then try again in 1 second.
@@ -2236,12 +2225,27 @@ void Capture::captureImage()
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             return;
     }
+
+    // Do not start nor abort if Focus is busy
     if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy."));
+        appendLogText(i18n("Delaying capture while focus module is busy."));
+        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+        return;
+    }
+
+    // Bail out if we have no CCD anymore
+    if (currentCCD->isConnected() == false)
+    {
+        appendLogText(i18n("Error: Lost connection to CCD."));
         abort();
         return;
     }
+
+    captureTimeout.stop();
+    seqTimer->stop();
+
+    SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
 
     /*
     if (filterSlot != nullptr)
@@ -5285,8 +5289,12 @@ void Capture::setGuideStatus(GuideState state)
 
 void Capture::processGuidingFailed()
 {
+    if (focusState > FOCUS_PROGRESS)
+    {
+        appendLogText(i18n("Autoguiding stopped. Waiting for autofocus to finish..."));
+    }
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-    if (isGuidingOn() && meridianFlipStage == MF_NONE &&
+    else if (isGuidingOn() && meridianFlipStage == MF_NONE &&
             ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
              this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
     {
