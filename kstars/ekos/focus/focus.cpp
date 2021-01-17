@@ -1384,20 +1384,57 @@ bool Focus::appendHFR(double newHFR)
 void Focus::completeFocusProcedure(bool success)
 {
     QString analysis_results = "";
-    if (inAutoFocus && success)
+    if (inAutoFocus)
     {
-        appendLogText(i18np("Focus procedure completed after %1 iteration.",
-                            "Focus procedure completed after %1 iterations.", hfr_position.count()));
-
-        // Prepare the message for Analyze
-        const int size = hfr_position.size();
-        for (int i = 0; i < size; ++i)
+        if (success)
         {
-            analysis_results.append(QString("%1%2|%3")
-                                    .arg(i == 0 ? "" : "|" )
-                                    .arg(QString::number(hfr_position[i], 'f', 0))
-                                    .arg(QString::number(hfr_value[i], 'f', 3)));
+            appendLogText(i18np("Focus procedure completed after %1 iteration.",
+                                "Focus procedure completed after %1 iterations.", hfr_position.count()));
+
+            // Prepare the message for Analyze
+            const int size = hfr_position.size();
+            for (int i = 0; i < size; ++i)
+            {
+                analysis_results.append(QString("%1%2|%3")
+                                        .arg(i == 0 ? "" : "|" )
+                                        .arg(QString::number(hfr_position[i], 'f', 0))
+                                        .arg(QString::number(hfr_value[i], 'f', 3)));
+            }
+
+            setLastFocusTemperature();
+
+            // CR add auto focus position, temperature and filter to log in CSV format
+            // this will help with setting up focus offsets and temperature compensation
+            qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position," << currentPosition << ", temperature,"
+                                      << lastFocusTemperature << ", filter," << filter()
+                                      << ", HFR," << currentHFR << ", altitude," << mountAlt;
+
+            appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
+                               .arg(QString::number(currentPosition))
+                               .arg(QString::number(lastFocusTemperature, 'f', 1))
+                               .arg(filter())
+                               .arg(QString::number(currentHFR, 'f', 3))
+                               .arg(QString::number(mountAlt, 'f', 1)));
         }
+        // In case of failure, go back to last position if the focuser is absolute
+        else if (canAbsMove && currentFocuser && currentFocuser->isConnected() && initialFocuserAbsPosition >= 0)
+        {
+            currentFocuser->moveAbs(initialFocuserAbsPosition);
+            appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+
+            // If we're doing in sequence focusing using an absolute focuser, let's retry focusing starting from last known good position before we give up
+            if (inAutoFocus && resetFocusIteration++ < MAXIMUM_RESET_ITERATIONS && resetFocus == false)
+            {
+                resetFocus = true;
+                // Reset focus frame in case the star in subframe was lost
+                resetFrame();
+                // start again
+                start();
+                return;
+            }
+        }
+
+        resetFocusIteration = 0;
     }
 
     const bool autoFocusUsed = inAutoFocus;
@@ -1439,8 +1476,6 @@ void Focus::completeFocusProcedure(bool success)
         // Set the procedure result
         if (autoFocusUsed)
         {
-            setAutoFocusResult(success);
-
             // Send the completion message to other modules
             if (success)
                 emit autofocusComplete(filter(), analysis_results);
@@ -2658,6 +2693,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (resetFocus && nvp->s == IPS_OK)
         {
             resetFocus = false;
+            inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
         }
@@ -2695,6 +2731,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (resetFocus && nvp->s == IPS_OK)
         {
             resetFocus = false;
+            inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
         }
@@ -2733,6 +2770,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (resetFocus && nvp->s == IPS_OK)
         {
             resetFocus = false;
+            inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
         }
@@ -2755,6 +2793,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (resetFocus && nvp->s == IPS_OK)
         {
             resetFocus = false;
+            inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
         }
@@ -3153,45 +3192,6 @@ void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, dou
     stepIN->setValue(stepSize);
     maxTravelIN->setValue(maxTravel);
     toleranceIN->setValue(tolerance);
-}
-
-void Focus::setAutoFocusResult(bool status)
-{
-    qCDebug(KSTARS_EKOS_FOCUS) << "AutoFocus result:" << status;
-
-    if (status)
-    {
-        setLastFocusTemperature();
-
-        // CR add auto focus position, temperature and filter to log in CSV format
-        // this will help with setting up focus offsets and temperature compensation
-        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position," << currentPosition << ", temperature,"
-                                  << lastFocusTemperature << ", filter," << filter()
-                                  << ", HFR," << currentHFR << ", altitude," << mountAlt;
-
-        appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
-                           .arg(QString::number(currentPosition))
-                           .arg(QString::number(lastFocusTemperature, 'f', 1))
-                           .arg(filter())
-                           .arg(QString::number(currentHFR, 'f', 3))
-                           .arg(QString::number(mountAlt, 'f', 1)));
-    }
-    // In case of failure, go back to last position if the focuser is absolute
-    else if (canAbsMove && currentFocuser && currentFocuser->isConnected() && initialFocuserAbsPosition >= 0)
-    {
-        currentFocuser->moveAbs(initialFocuserAbsPosition);
-        appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
-
-        // If we're doing in sequence focusing using an absolute focuser, let's retry focusing starting from last known good position before we give up
-        if (inAutoFocus && resetFocusIteration++ < MAXIMUM_RESET_ITERATIONS && resetFocus == false)
-        {
-            resetFocus = true;
-            // Reset focus frame in case the star in subframe was lost
-            resetFrame();
-        }
-    }
-
-    resetFocusIteration = 0;
 }
 
 void Focus::checkAutoStarTimeout()
