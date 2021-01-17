@@ -375,7 +375,7 @@ class KSUserDB
         inline QSqlError LastError();
 
         /** Linked to the user database _once_. **/
-        QSqlDatabase userdb_;
+        QSqlDatabase m_UserDB;
         /** XML reader for importing old formats **/
         QXmlStreamReader *reader_ { nullptr };
 
