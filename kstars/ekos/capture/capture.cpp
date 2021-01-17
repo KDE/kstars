@@ -3578,7 +3578,8 @@ void Capture::setFocusStatus(FocusState state)
     qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusStatus: " << state;
     focusState = state;
 
-    if (focusState > FOCUS_ABORTED)
+    // Do not process above aborted or when meridian flip in progress
+    if (focusState > FOCUS_ABORTED || meridianFlipStage == MF_FLIPPING ||  meridianFlipStage == MF_SLEWING)
         return;
 
     if (focusState == FOCUS_COMPLETE)
@@ -5295,8 +5296,8 @@ void Capture::processGuidingFailed()
     }
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
     else if (isGuidingOn() && meridianFlipStage == MF_NONE &&
-            ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
-             this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
+             ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
+              this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
         abort();
