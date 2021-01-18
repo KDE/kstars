@@ -95,6 +95,7 @@ enum COMMANDS
     MOUNT_SET_HA_LIMIT,
     MOUNT_SET_MERIDIAN_FLIP,
     MOUNT_SET_AUTO_PARK,
+    MOUNT_SET_EVERYDAY_AUTO_PARK,
     MOUNT_CLEAR,
     MOUNT_GET_SETTINGS,
 
@@ -260,6 +261,7 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_HA_LIMIT, "mount_set_ha_limit"},
     {MOUNT_SET_MERIDIAN_FLIP, "mount_set_meridian_flip"},
     {MOUNT_SET_AUTO_PARK, "mount_set_auto_park"},
+    {MOUNT_SET_EVERYDAY_AUTO_PARK, "mount_set_everyday_auto_park"},
     {MOUNT_CLEAR, "mount_clear"},
     {MOUNT_GET_SETTINGS, "mount_get_settings"},
 

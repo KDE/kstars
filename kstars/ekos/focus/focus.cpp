@@ -67,12 +67,15 @@ Focus::Focus()
     // #6 Reset all buttons to default states
     resetButtons();
 
-    // #7 Image Effects
-    for (auto &filter : FITSViewer::filterTypes)
-        filterCombo->addItem(filter);
-    filterCombo->setCurrentIndex(Options::focusEffect());
+    // #7 Image Effects - note there is already a no-op "--" in the gadget
+    filterCombo->addItems(FITSViewer::filterTypes);
+    connect(filterCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
+
+    // Check that the filter denominated by the Ekos option exists before setting it (count the no-op filter)
+    if (Options::focusEffect() < (uint) FITSViewer::filterTypes.count() + 1)
+        filterCombo->setCurrentIndex(Options::focusEffect());
+    filterChangeWarning(filterCombo->currentIndex());
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
-    connect(filterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
 
     // #8 Load All settings
     loadSettings();
@@ -811,7 +814,7 @@ void Focus::start()
 
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
-    else
+    else if (!inAutoFocus)
         appendLogText(i18n("Please wait until image capture is complete..."));
 
     if (suspendGuideCheck->isChecked())
@@ -921,9 +924,10 @@ void Focus::stop(bool aborted)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-    inAutoFocus        = false;
+    inAutoFocus     = false;
     focuserAdditionalMovement = 0;
-    inFocusLoop        = false;
+    inFocusLoop     = false;
+    inSequenceFocus = false;
     // Why starSelected is set to false below? We should retain star selection status under:
     // 1. Autostar is off, or
     // 2. Toggle subframe, or
@@ -1233,46 +1237,44 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
 
 void Focus::calculateHFR()
 {
+    appendLogText(i18n("Detection complete."));
+
+    double hfr = -1;
+
     if (m_StarFinderWatcher.result() == false)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Failed to extract any stars.";
-        setCurrentHFR(-1);
-        hfrInProgress = false;
-        resetButtons();
-        return;
-    }
-
-    //FITSData *image_data = focusView->getImageData();
-
-    if (Options::focusUseFullField())
-    {
-        focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
-                                      static_cast <float> (fullFieldOuterRing->value() / 100.0));
-        focusView->filterStars();
-
-        // Get the average HFR of the whole frame
-        setCurrentHFR(m_ImageData->getHFR(HFR_AVERAGE));
     }
     else
     {
-        focusView->setTrackingBoxEnabled(true);
+        if (Options::focusUseFullField())
+        {
+            focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                          static_cast <float> (fullFieldOuterRing->value() / 100.0));
+            focusView->filterStars();
 
-        // JM 2020-10-08: Try to get first the same HFR star already selected before
-        // so that it doesn't keep jumping around
-        double hfr = -1;
+            // Get the average HFR of the whole frame
+            hfr = m_ImageData->getHFR(HFR_AVERAGE);
+        }
+        else
+        {
+            focusView->setTrackingBoxEnabled(true);
 
-        if (starCenter.isNull() == false)
-            hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
-        // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
-        if (hfr < 0)
-            hfr = m_ImageData->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+            // JM 2020-10-08: Try to get first the same HFR star already selected before
+            // so that it doesn't keep jumping around
 
-        setCurrentHFR(hfr);
+            if (starCenter.isNull() == false)
+                hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
+
+            // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
+            if (hfr < 0)
+                hfr = m_ImageData->getHFR(focusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+        }
     }
 
     hfrInProgress = false;
-    appendLogText(i18n("Detection complete."));
     resetButtons();
+    setCurrentHFR(hfr);
 }
 
 void Focus::analyzeSources()
@@ -1390,7 +1392,7 @@ void Focus::completeFocusProcedure(bool success)
                                 .arg(QString::number(hfr_value[i], 'f', 3)));
     }
 
-    bool const _inAutoFocus = inAutoFocus;
+    bool const autoFocusUsed = inAutoFocus || inSequenceFocus;
 
     // Reset the autofocus flags
     stop(!success);
@@ -1398,6 +1400,7 @@ void Focus::completeFocusProcedure(bool success)
     // Refresh display if needed
     if (focusAlgorithm == FOCUS_POLYNOMIAL)
         graphPolynomialFunction();
+    drawProfilePlot();
 
     // Enforce settling duration
     int const settleTime = m_GuidingSuspended ? GuideSettleTime->value() : 0;
@@ -1405,12 +1408,12 @@ void Focus::completeFocusProcedure(bool success)
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
 
-    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, success, _inAutoFocus, analysis_results]()
+    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, success, autoFocusUsed, analysis_results]()
     {
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
 
-        if (_inAutoFocus)
+        if (autoFocusUsed)
         {
             if (success)
             {
@@ -1433,7 +1436,8 @@ void Focus::completeFocusProcedure(bool success)
             else
                 emit autofocusAborted(filter(), analysis_results);
         }
-        else state = Ekos::FOCUS_IDLE;
+        else
+            state = Ekos::FOCUS_IDLE;
 
         qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state);
 
@@ -1443,7 +1447,10 @@ void Focus::completeFocusProcedure(bool success)
             filterManager->setFilterPosition(fallbackFilterPosition,
                                              static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
         }
-        else emit newStatus(state);
+        else
+            emit newStatus(state);
+
+        resetButtons();
     });
 }
 
@@ -1807,7 +1814,7 @@ void Focus::setHFRComplete()
         {
             if (noStarCount++ < MAX_RECAPTURE_RETRIES)
             {
-                appendLogText(i18n("No stars detected, capturing again..."));
+                appendLogText(i18n("No stars detected while testing HFR, capturing again..."));
                 // On Last Attempt reset focus frame to capture full frame and recapture star if possible
                 if (noStarCount == MAX_RECAPTURE_RETRIES)
                     resetFrame();
@@ -1818,7 +1825,7 @@ void Focus::setHFRComplete()
             else
             {
                 noStarCount = 0;
-                setAutoFocusResult(false);
+                completeFocusProcedure(false);
             }
         }
         // If the detect current HFR is more than the minimum required HFR
@@ -1828,6 +1835,7 @@ void Focus::setHFRComplete()
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR <<
                                        ". Starting AutoFocus...";
             inSequenceFocus = true;
+            minimumRequiredHFR = -1;
             start();
         }
         // Otherwise, the current HFR is fine and lower than the required minimum HFR so we announce success.
@@ -1835,15 +1843,10 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
-            setAutoFocusResult(true);
-            emit newStatus(state);
-            drawProfilePlot();
+            completeFocusProcedure(true);
         }
 
-        // We reset minimum required HFR and call it a day.
-        minimumRequiredHFR = -1;
-
-        resetButtons();
+        // Nothing more for now
         return;
     }
 
@@ -3053,10 +3056,18 @@ void Focus::focusStarSelected(int x, int y)
 
 void Focus::checkFocus(double requiredHFR)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus requested with minimum required HFR" << requiredHFR;
-    minimumRequiredHFR = requiredHFR;
+    if (inAutoFocus || inSequenceFocus || inFocusLoop)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus rejected, focus procedure is already running.";
+    }
+    else
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus requested with minimum required HFR" << requiredHFR;
+        minimumRequiredHFR = requiredHFR;
 
-    capture();
+        appendLogText("Capturing to check HFR...");
+        capture();
+    }
 }
 
 void Focus::toggleSubframe(bool enable)
@@ -3073,13 +3084,25 @@ void Focus::toggleSubframe(bool enable)
 
 void Focus::filterChangeWarning(int index)
 {
-    // index = 4 is MEDIAN filter which helps reduce noise
-    if (index != 0 && index != FITS_MEDIAN)
-        appendLogText(i18n("Warning: Only use filters for preview as they may interface with autofocus operation."));
-
     Options::setFocusEffect(index);
-
     defaultScale = static_cast<FITSScale>(index);
+
+    // Median filter helps reduce noise, rotation/flip have no dire effect on focus, others degrade procedure
+    switch (defaultScale)
+    {
+        case FITS_NONE:
+        case FITS_MEDIAN:
+        case FITS_ROTATE_CW:
+        case FITS_ROTATE_CCW:
+        case FITS_FLIP_H:
+        case FITS_FLIP_V:
+            break;
+
+        default:
+            // Warn the end-user, count the no-op filter
+            appendLogText(i18n("Warning: Only use filter '%1' for preview as it may interfere with autofocus operation.",
+                               FITSViewer::filterTypes.value(index - 1, "???")));
+    }
 }
 
 void Focus::setExposure(double value)
@@ -3099,6 +3122,7 @@ void Focus::setImageFilter(const QString &value)
         if (filterCombo->itemText(i) == value)
         {
             filterCombo->setCurrentIndex(i);
+            filterCombo->activated(i);
             break;
         }
 }

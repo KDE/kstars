@@ -1736,6 +1736,10 @@
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
          <default>true</default>
       </entry>
+      <entry name="StretchPreviewSampling" type="UInt">
+         <label>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</label>
+         <default>4</default>
+      </entry>
       <entry name="useSummaryPreview" type="Bool">
          <label>Display every image captured sequence image in the Ekos summary screen preview window.</label>
          <default>!KSUtils::isHardwareLimited()</default>

@@ -257,8 +257,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
-    int fitsBitPix = 0;
-    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(m_Statistics.ndim), naxes, &status))
+    if (fits_get_img_param(fptr, 3, &m_FITSBITPIX, &(m_Statistics.ndim), naxes, &status))
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
     if (m_Statistics.ndim < 2)
@@ -270,7 +269,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         return false;
     }
 
-    switch (fitsBitPix)
+    switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
             m_Statistics.dataType      = TBYTE;
@@ -307,7 +306,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = i18n("Bit depth %1 is not supported.", fitsBitPix);
+            errMessage = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
             qCCritical(KSTARS_FITS) << errMessage;
@@ -362,7 +361,10 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     // Get UTC date time
     QVariant value;
     if (getRecordValue("DATE-OBS", value) && value.isValid())
-        m_DateTime = KStarsDateTime(value.toDateTime());
+    {
+        QDateTime ts = value.toDateTime();
+        m_DateTime = KStarsDateTime(ts.date(), ts.time());
+    }
 
     if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
@@ -414,8 +416,8 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
     // pixel in each channel.
-    const int fitsBitPix = 8;
-    switch (fitsBitPix)
+    const int m_FITSBITPIX = 8;
+    switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
             m_Statistics.dataType      = TBYTE;
@@ -452,7 +454,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
             m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = QString("Bit depth %1 is not supported.").arg(fitsBitPix);
+            errMessage = QString("Bit depth %1 is not supported.").arg(m_FITSBITPIX);
             QMessageBox::critical(nullptr, "Message", errMessage);
             qCCritical(KSTARS_FITS) << errMessage;
             return false;
@@ -777,13 +779,14 @@ bool FITSData::saveImage(const QString &newFilename)
     // Create image
     long naxis = m_Statistics.channels == 1 ? 2 : 3;
     long naxes[3] = {m_Statistics.width, m_Statistics.height, naxis};
-    if (fits_create_img(fptr, m_Statistics.dataType, naxis, naxes, &status))
+    // JM 2020-12-28: Here we to use bitpix values
+    if (fits_create_img(fptr, m_FITSBITPIX, naxis, naxes, &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
-    /* Write Data */
+    // Here we need to use the actual data type
     if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
@@ -2144,7 +2147,7 @@ bool FITSData::checkForWCS()
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
-    
+
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -2221,7 +2224,7 @@ bool FITSData::loadWCS()
         m_WCSState = Failure;
         return false;
     }
-    
+
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -3171,7 +3174,17 @@ bool FITSData::debayer_8bit()
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint8_t * destinationBuffer = nullptr;
+
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint8_t *>(destinationBuffer);
@@ -3207,12 +3220,14 @@ bool FITSData::debayer_8bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
@@ -3246,7 +3261,16 @@ bool FITSData::debayer_16bit()
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint8_t *destinationBuffer = nullptr;
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint16_t *>(destinationBuffer);
@@ -3282,12 +3306,14 @@ bool FITSData::debayer_16bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 

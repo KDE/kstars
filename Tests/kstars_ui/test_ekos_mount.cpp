@@ -29,6 +29,9 @@ TestEkosMount::TestEkosMount(QObject *parent) : QObject(parent)
 
 void TestEkosMount::initTestCase()
 {
+    if (!qgetenv("CI").isEmpty())
+        QSKIP("Skipping mount control test until QML/GL mixed window issue is resolved under EGLFS.");
+
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();

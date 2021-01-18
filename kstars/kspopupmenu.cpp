@@ -278,8 +278,10 @@ void KSPopupMenu::createSatelliteMenu(Satellite *satellite)
     addAction(QIcon::fromTheme("snap-nodes-center"), i18n("Center && Track"), ks->map(), SLOT(slotCenter()));
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), ks->map(), SLOT(slotBeginAngularDistance()));
-    addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), ks->map(), SLOT(slotBeginStarHop()));
+    addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), ks->map(),
+              SLOT(slotBeginAngularDistance()));
+    addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), ks->map(),
+              SLOT(slotBeginStarHop()));
     addAction(QIcon::fromTheme("edit-copy"), i18n("Copy TLE to Clipboard"), ks->map(), SLOT(slotCopyTLE()));
 
     //Insert "Add/Remove Label" item
@@ -287,6 +289,10 @@ void KSPopupMenu::createSatelliteMenu(Satellite *satellite)
         addAction(QIcon::fromTheme("list-remove"), i18n("Remove Label"), ks->map(), SLOT(slotRemoveObjectLabel()));
     else
         addAction(QIcon::fromTheme("label"), i18n("Attach Label"), ks->map(), SLOT(slotAddObjectLabel()));
+
+    addSeparator();
+    addINDI();
+
 }
 
 void KSPopupMenu::createSupernovaMenu(Supernova *supernova)
@@ -351,12 +357,15 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
 
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), map, SLOT(slotBeginAngularDistance()));
-    addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), map, SLOT(slotBeginStarHop()));
+    addAction(QIcon::fromTheme("kruler-east"), i18n("Angular Distance To...            ["), map,
+              SLOT(slotBeginAngularDistance()));
+    addAction(QIcon::fromTheme("show-path-outline"), i18n("Starhop from here to...            "), map,
+              SLOT(slotBeginStarHop()));
 
     //Insert item for Showing details dialog
     if (showDetails)
-        addAction(QIcon::fromTheme("view-list-details"), i18nc("Show Detailed Information Dialog", "Details"), map, SLOT(slotDetail()));
+        addAction(QIcon::fromTheme("view-list-details"), i18nc("Show Detailed Information Dialog", "Details"), map,
+                  SLOT(slotDetail()));
 
     addAction(QIcon::fromTheme("edit-copy"), i18n("Copy Coordinates"), map, SLOT(slotCopyCoordinates()));
 
@@ -376,7 +385,8 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     if (showObsList)
     {
         if (data->observingList()->contains(obj))
-            addAction(QIcon::fromTheme("list-remove"), i18n("Remove From Observing WishList"), data->observingList(), SLOT(slotRemoveObject()));
+            addAction(QIcon::fromTheme("list-remove"), i18n("Remove From Observing WishList"), data->observingList(),
+                      SLOT(slotRemoveObject()));
         else
             addAction(QIcon::fromTheme("bookmarks"), i18n("Add to Observing WishList"), data->observingList(), SLOT(slotAddObject()));
     }
@@ -683,6 +693,21 @@ void KSPopupMenu::addINDI()
 
             mountMenu->addSeparator();
         }
+
+        const SkyObject *clickedObject = KStars::Instance()->map()->clickedObject();
+        if (clickedObject && clickedObject->type() == SkyObject::SATELLITE && (mount->canTrackSatellite()))
+        {
+            const Satellite *sat = dynamic_cast<const Satellite *>(clickedObject) ;
+            const KStarsDateTime currentTime = KStarsData::Instance()->ut();
+            const KStarsDateTime currentTimePlusOne = currentTime.addSecs(60);
+            QAction *a = mountMenu->addAction(QIcon::fromTheme("arrow"),
+                                              i18n("Track satellite"));
+            a->setEnabled(!mount->isParked());
+            connect(a, &QAction::triggered, [mount, sat, currentTime, currentTimePlusOne]
+            {mount->setSatelliteTLEandTrack(sat->tle(), currentTime, currentTimePlusOne);});
+            mountMenu->addSeparator();
+        }
+
 
         if (mount->canCustomPark())
         {

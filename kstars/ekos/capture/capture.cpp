@@ -886,16 +886,17 @@ void Capture::checkCCD(int ccdNum)
         // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
 
+        targetChip = nullptr;
         if (cameraS->itemText(ccdNum).right(6) == QString("Guider"))
         {
             useGuideHead = true;
             targetChip   = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         }
-        else
+
+        if (targetChip == nullptr)
         {
-            currentCCD   = CCDs.at(ccdNum);
-            targetChip   = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
             useGuideHead = false;
+            targetChip   = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         }
 
         // Make sure we have a valid chip and valid base device.

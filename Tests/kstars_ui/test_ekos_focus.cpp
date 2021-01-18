@@ -16,6 +16,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "Options.h"
 
 TestEkosFocus::TestEkosFocus(QObject *parent) : QObject(parent)
 {
@@ -409,6 +410,102 @@ void TestEkosFocus::testGuidingSuspend()
     disconnect(resume_handler);
 }
 
+void TestEkosFocus::testFocusWhenGuidingResumes()
+{
+    // Wait for Focus to come up, switch to Focus tab
+    KTRY_FOCUS_SHOW();
+
+    // Sync high on meridian to avoid issues with CCD Simulator
+    KTRY_FOCUS_SYNC(60.0);
+
+    // Configure a successful pre-focus capture
+    KTRY_FOCUS_MOVETO(50000);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
+    KTRY_FOCUS_EXPOSURE(2, 1);
+
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
+
+    // Prepare to detect the beginning of the autofocus_procedure
+    volatile bool autofocus_started = false;
+    auto startup_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusStarting, this, [&]() {
+        autofocus_started = true;
+    });
+    QVERIFY(startup_handler);
+
+    // Prepare to detect the end of the autofocus_procedure
+    volatile bool autofocus_completed = false;
+    auto completion_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, this, [&]() {
+        autofocus_completed = true;
+        autofocus_started = false;
+    });
+    QVERIFY(completion_handler);
+
+    // Prepare to detect the failure of the autofocus procedure
+    volatile bool autofocus_aborted = false;
+    auto abort_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]() {
+        autofocus_aborted = true;
+        autofocus_started = false;
+    });
+    QVERIFY(abort_handler);
+
+    // Run a standard autofocus
+    QVERIFY(!autofocus_started);
+    QVERIFY(!autofocus_aborted);
+    QVERIFY(!autofocus_completed);
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+
+    // Wait a little, then run a capture check with an unachievable HFR
+    QTest::qWait(3000);
+    QWARN("Requesting a first in-sequence HFR check, letting it complete...");
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure succeeds
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_completed, 60000);
+
+    // Run again a capture check
+    autofocus_completed = false;
+    QWARN("Requesting a second in-sequence HFR check, aborting it...");
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure starts properly
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+
+    // Abort the procedure manually, and run again a capture check that will fail
+    KTRY_FOCUS_CLICK(stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_aborted, 10000);
+    QWARN("Requesting a third in-sequence HFR check, making it fail during autofocus...");
+    autofocus_aborted = autofocus_completed = false;
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure starts properly, after acknowledging there is an autofocus to run
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+
+    // Change settings so that the procedure fails now
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.1, 0.1);
+    KTRY_FOCUS_EXPOSURE(0.1, 1);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_aborted, 60000);
+
+    // Run again a capture check
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 20);
+    KTRY_FOCUS_EXPOSURE(2, 1);
+    autofocus_aborted = autofocus_completed = false;
+    QWARN("Requesting a fourth in-sequence HFR check, making it succeed...");
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+
+    // Procedure succeeds
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus_completed, 60000);
+
+    // Disconnect signals
+    disconnect(startup_handler);
+    disconnect(completion_handler);
+    disconnect(abort_handler);
+}
+
 void TestEkosFocus::testFocusFailure()
 {
     // Wait for Focus to come up, switch to Focus tab
@@ -458,13 +555,86 @@ void TestEkosFocus::testFocusFailure()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus_started, 500);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus_aborted, 30000);
 
-    // No other autofocus started after that
+    // No other autofocus started after that, we are not running a sequence focus
     QVERIFY(!autofocus_started);
 
     // Disconnect signals
     disconnect(startup_handler);
     disconnect(completion_handler);
     disconnect(abort_handler);
+}
+
+void TestEkosFocus::testFocusOptions()
+{
+    // Wait for Focus to come up, switch to Focus tab
+    KTRY_FOCUS_SHOW();
+
+    // Sync high on meridian to avoid issues with CCD Simulator
+    KTRY_FOCUS_SYNC(60.0);
+
+    // Configure a proper autofocus
+    KTRY_FOCUS_MOVETO(40000);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3);
+    KTRY_FOCUS_EXPOSURE(1, 99);
+
+    // Prepare to detect a new HFR
+    volatile double hfr = -2;
+    auto hfr_handler = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newHFR, this, [&](double _hfr) {
+        hfr = _hfr;
+    });
+    QVERIFY(hfr_handler);
+
+    KTRY_FOCUS_GADGET(QPushButton, captureB);
+
+    // Filter to apply to frame after capture
+    // This option is tricky: it follows the FITSViewer::filterTypes filter list, but
+    // is used as a list of filter that may be applied in the FITS view.
+    // In the Focus view, it also requires the "--" item as no-op filter, present in the
+    // combobox stating which filter to apply to frames before analysing them.
+    {
+        // Validate the default Ekos option is recognised as a filter
+        int const fe = Options::focusEffect();
+        QVERIFY(0 <= fe && fe < FITSViewer::filterTypes.count() + 1);
+        QWARN(qPrintable(QString("Default filtering option is %1/%2").arg(fe).arg(FITSViewer::filterTypes.value(fe - 1, "--"))));
+
+        // Validate the UI changes the Ekos option
+        for (int i = 0; i < FITSViewer::filterTypes.count(); i++)
+        {
+            QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000);
+
+            QString const & filterType = FITSViewer::filterTypes.value(i, "Unknown image filter");
+            QWARN(qPrintable(QString("Testing filtering option %1/%2").arg(i + 1).arg(filterType)));
+
+            // Set filter to apply in the UI, verify impact on Ekos option
+            Options::setFocusEffect(fe);
+            KTRY_FOCUS_COMBO_SET(filterCombo, filterType);
+            QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) i + 1, 1000);
+
+            // Set filter to apply with the d-bus entry point, verify impact on Ekos option
+            Options::setFocusEffect(fe);
+            Ekos::Manager::Instance()->focusModule()->setImageFilter(filterType);
+            QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) i + 1, 1000);
+
+            // Run a capture with detection for coverage
+            hfr = -2;
+            KTRY_FOCUS_CLICK(captureB);
+            QTRY_VERIFY_WITH_TIMEOUT(-1 <= hfr, 5000);
+        }
+
+        // Set no-op filter to apply in the UI, verify impact on Ekos option
+        Options::setFocusEffect(0);
+        KTRY_FOCUS_COMBO_SET(filterCombo, "--");
+        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) 0, 1000);
+
+        // Set no-op filter to apply with the d-bus entry point, verify impact on Ekos option
+        Options::setFocusEffect(0);
+        Ekos::Manager::Instance()->focusModule()->setImageFilter("--");
+        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) 0, 1000);
+
+        // Restore the original Ekos option
+        KTRY_FOCUS_COMBO_SET(filterCombo, FITSViewer::filterTypes.value(fe - 1, "--"));
+        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) fe, 1000);
+    }
 }
 
 void TestEkosFocus::testStarDetection_data()

@@ -3175,8 +3175,14 @@ bool Guide::executeOneOperation(GuideState operation)
             if (m_ImageData && Options::guideDarkFrameEnabled())
             {
                 QVariantMap settings = frameSettings[targetChip];
-                uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
-                uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
+                uint16_t offsetX = 0;
+                uint16_t offsetY = 0;
+
+                if (settings["x"].isValid() && settings["y"].isValid())
+                {
+                    offsetX = settings["x"].toInt() / settings["binx"].toInt();
+                    offsetY = settings["y"].toInt() / settings["biny"].toInt();
+                }
 
                 connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {

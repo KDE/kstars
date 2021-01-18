@@ -569,6 +569,7 @@ class FITSData : public QObject
         /// Bayer parameters
         BayerParams debayerParams;
 
+        int m_FITSBITPIX {USHORT_IMG};
         FITSImage::Statistic m_Statistics;
 
         // A list of header records

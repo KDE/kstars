@@ -320,13 +320,38 @@ Rectangle {
             }
         }
 
-
         GridLayout {
             id: mountCoordsLayout
             anchors.horizontalCenter: parent.Center
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
             columns: 4
+
+            MouseArea {
+                anchors.fill: parent
+                property bool toggle: false
+                onClicked: {
+                    if (toggle) {
+                        targetRAText.text = ""
+                        targetDEText.text = ""
+                    }
+                    else {
+                        if (coordGroup.lastChecked == 0) {
+                            targetRAText.text = raValue.text
+                            targetDEText.text = deValue.text
+                        }
+                        if (coordGroup.lastChecked == 1) {
+                            targetRAText.text = azValue.text
+                            targetDEText.text = altValue.text
+                        }
+                        if (coordGroup.lastChecked == 2) {
+                            targetRAText.text = haValue.text
+                            targetDEText.text = deValue.text
+                        }
+                    }
+                    toggle = !toggle
+                }
+            }
 
             Label {
                 id: raLabel
@@ -430,7 +455,6 @@ Rectangle {
                 Layout.fillWidth: true
                 font.pointSize: 11
             }
-
         }
 
         RowLayout

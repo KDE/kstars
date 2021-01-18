@@ -170,9 +170,9 @@ void TestEkosCapture::testCaptureToTemporary()
     QCOMPARE(startB->icon().name(), QString("media-playback-start"));
     KTRY_CAPTURE_CLICK(startB);
     QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-stop"), 500);
-    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), 5000 * 2);
+    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), 30000);
 
-    // No longer valid since we don't create temporary files any more.
+    QWARN("Test capturing to temporary is no longer valid since we don't create temporary files any more.");
     //    QWARN("When storing to a recognized system temporary folder, only one FITS file is created.");
     //    QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 1, 1000);
     //    QCOMPARE(searchFITS(QDir(destination.path()))[0], QString("Light_005.fits"));

@@ -276,7 +276,7 @@ QHBoxLayout* FITSTab::setupStretchBar()
     {
         StretchParams params = view->getStretchParams();
         params.grey_red.shadows = this->maxShadows * value / 10000.0f;
-        view->setSampling(4);
+        view->setSampling(Options::stretchPreviewSampling());
         view->setStretchParams(params);
         view->setSampling(1);
     });
@@ -284,7 +284,7 @@ QHBoxLayout* FITSTab::setupStretchBar()
     {
         StretchParams params = view->getStretchParams();
         params.grey_red.midtones = this->maxMidtones * value / 10000.0f;
-        view->setSampling(4);
+        view->setSampling(Options::stretchPreviewSampling());
         view->setStretchParams(params);
         view->setSampling(1);
     });
@@ -292,7 +292,7 @@ QHBoxLayout* FITSTab::setupStretchBar()
     {
         StretchParams params = view->getStretchParams();
         params.grey_red.highlights = this->maxHighlights * value / 10000.0f;
-        view->setSampling(4);
+        view->setSampling(Options::stretchPreviewSampling());
         view->setStretchParams(params);
         view->setSampling(1);
     });
