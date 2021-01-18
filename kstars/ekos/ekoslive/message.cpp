@@ -989,7 +989,7 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
 
     QJsonObject polarState =
     {
-        {"stage", align->getPAHStage()}
+        {"stage", align->getPAHStageString()}
     };
 
 
@@ -1396,7 +1396,7 @@ void Message::sendStates()
         doc.setHtml(m_Manager->alignModule()->getPAHMessage());
         QJsonObject polarState =
         {
-            {"stage", m_Manager->alignModule()->getPAHStage()},
+            {"stage", m_Manager->alignModule()->getPAHStageString()},
             {"enabled", m_Manager->alignModule()->isPAHEnabled()},
             {"message", doc.toPlainText()},
         };

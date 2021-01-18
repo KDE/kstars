@@ -510,9 +510,13 @@ class Align : public QWidget, public Ui::Align
                             const QString &alt, int pierSide, const QString &ha);
 
         // PAH Ekos Live
-        QString getPAHStage() const
+        QString getPAHStageString() const
         {
-            return PAHStages[pahStage];
+            return PAHStages[m_PAHStage];
+        }
+        PAHStage getPAHStage() const
+        {
+            return m_PAHStage;
         }
         bool isPAHEnabled() const
         {
@@ -918,7 +922,7 @@ class Align : public QWidget, public Ui::Align
         QPointer<FITSViewer> fv;
 
         // Polar Alignment Helper
-        PAHStage pahStage { PAH_IDLE };
+        PAHStage m_PAHStage { PAH_IDLE };
         SkyPoint targetPAH;
         bool isPAHReady { false };
 

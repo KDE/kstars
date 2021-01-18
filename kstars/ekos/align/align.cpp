@@ -2900,7 +2900,7 @@ bool Align::captureAndSolve()
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
     // In case we're in refresh phase of the polar alignment helper then we use capture value from there
-    if (pahStage == PAH_REFRESH)
+    if (m_PAHStage == PAH_REFRESH)
         targetChip->capture(PAHExposure->value());
     else
         targetChip->capture(seqExpose);
@@ -2918,7 +2918,7 @@ bool Align::captureAndSolve()
     solverFOV->setProperty("visible", true);
 
     // If we're just refreshing, then we're done
-    if (pahStage == PAH_REFRESH)
+    if (m_PAHStage == PAH_REFRESH)
         return true;
 
     appendLogText(i18n("Capturing image..."));
@@ -2998,7 +2998,7 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     //    blobFileName = QString(static_cast<char *>(bp->aux2));
 
     // If it's Refresh, we're done
-    if (pahStage == PAH_REFRESH)
+    if (m_PAHStage == PAH_REFRESH)
     {
         setCaptureComplete();
         return;
@@ -3047,9 +3047,9 @@ void Align::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
 
-    if (pahStage == PAH_REFRESH)
+    if (m_PAHStage == PAH_REFRESH)
     {
-        newFrame(alignView);
+        emit newFrame(alignView);
         captureAndSolve();
         return;
     }
@@ -3264,7 +3264,7 @@ void Align::startSolving()
     {
         solverArgs = options.split(' ');
         // Replace RA and DE with LST & 90/-90 pole
-        if (pahStage == PAH_FIRST_CAPTURE)
+        if (m_PAHStage == PAH_FIRST_CAPTURE)
         {
             for (int i = 0; i < solverArgs.count(); i++)
             {
@@ -3546,7 +3546,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             }
 
             if (absAngle && std::isnan(loadSlewTargetPA) == false
-                && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
+                    && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
                 double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
                 //                if (rawAngle < 0)
@@ -3705,7 +3705,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     solverFOV->setProperty("visible", true);
 
-    if (pahStage != PAH_IDLE)
+    if (m_PAHStage != PAH_IDLE)
         processPAHStage(orientation, ra, dec, pixscale);
     else if (azStage > AZ_INIT || altStage > ALT_INIT)
         executePolarAlign();
@@ -3798,7 +3798,7 @@ void Align::abort()
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
-    if (pahStage == PAH_REFRESH)
+    if (m_PAHStage == PAH_REFRESH)
     {
         if (targetChip->isCapturing())
             targetChip->abortExposure();
@@ -3947,14 +3947,14 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 }
 
                 // If we are looking for celestial pole
-                if (m_wasSlewStarted && pahStage == PAH_FIND_CP)
+                if (m_wasSlewStarted && m_PAHStage == PAH_FIND_CP)
                 {
                     //qCDebug(KSTARS_EKOS_ALIGN) << "## PAH_FIND_CP--> setting slewStarted to FALSE";
                     m_wasSlewStarted = false;
                     appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
                     setSolverAction(GOTO_NOTHING);
-                    pahStage = PAH_FIRST_CAPTURE;
-                    emit newPAHStage(pahStage);
+                    m_PAHStage = PAH_FIRST_CAPTURE;
+                    emit newPAHStage(m_PAHStage);
                     return;
                 }
 
@@ -4093,7 +4093,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             }
         }
 
-        if (pahStage == PAH_FIRST_ROTATE)
+        if (m_PAHStage == PAH_FIRST_ROTATE)
         {
             // only wait for telescope to slew to new position if manual slewing is switched off
             if(!PAHManual->isChecked())
@@ -4105,8 +4105,8 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     currentTelescope->StopWE();
                     appendLogText(i18n("Mount first rotation is complete."));
 
-                    pahStage = PAH_SECOND_CAPTURE;
-                    emit newPAHStage(pahStage);
+                    m_PAHStage = PAH_SECOND_CAPTURE;
+                    emit newPAHStage(m_PAHStage);
 
                     PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
                     emit newPAHMessage(secondCaptureText->text());
@@ -4125,7 +4125,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 return;
             } // endif not manual slew
         }
-        else if (pahStage == PAH_SECOND_ROTATE)
+        else if (m_PAHStage == PAH_SECOND_ROTATE)
         {
             // only wait for telescope to slew to new position if manual slewing is switched off
             if(!PAHManual->isChecked())
@@ -4137,8 +4137,8 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     currentTelescope->StopWE();
                     appendLogText(i18n("Mount second rotation is complete."));
 
-                    pahStage = PAH_THIRD_CAPTURE;
-                    emit newPAHStage(pahStage);
+                    m_PAHStage = PAH_THIRD_CAPTURE;
+                    emit newPAHStage(m_PAHStage);
 
 
                     PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
@@ -4241,7 +4241,7 @@ void Align::handleMountMotion()
 {
     if (state == ALIGN_PROGRESS)
     {
-        if (pahStage == PAH_IDLE)
+        if (m_PAHStage == PAH_IDLE)
         {
             // whoops, mount slews during alignment
             appendLogText(i18n("Slew detected, aborting solving..."));
@@ -4392,14 +4392,14 @@ void Align::measureAzError()
 {
     static double initRA = 0, initDEC = 0, finalRA = 0, finalDEC = 0, initAz = 0;
 
-    if (pahStage != PAH_IDLE &&
+    if (m_PAHStage != PAH_IDLE &&
             (KMessageBox::warningContinueCancel(KStars::Instance(),
                     i18n("Polar Alignment Helper is still active. Do you want to continue "
                          "using legacy polar alignment tool?")) != KMessageBox::Continue))
         return;
 
-    pahStage = PAH_IDLE;
-    emit newPAHStage(pahStage);
+    m_PAHStage = PAH_IDLE;
+    emit newPAHStage(m_PAHStage);
 
     qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measuring Azimuth Error...";
 
@@ -4495,13 +4495,13 @@ void Align::measureAltError()
 {
     static double initRA = 0, initDEC = 0, finalRA = 0, finalDEC = 0, initAz = 0;
 
-    if (pahStage != PAH_IDLE && (KMessageBox::warningContinueCancel(KStars::Instance(),
-                                 i18n("Polar Alignment Helper is still active. Do you want to continue "
-                                      "using legacy polar alignment tool?")) != KMessageBox::Continue))
+    if (m_PAHStage != PAH_IDLE && (KMessageBox::warningContinueCancel(KStars::Instance(),
+                                   i18n("Polar Alignment Helper is still active. Do you want to continue "
+                                        "using legacy polar alignment tool?")) != KMessageBox::Continue))
         return;
 
-    pahStage = PAH_IDLE;
-    emit newPAHStage(pahStage);
+    m_PAHStage = PAH_IDLE;
+    emit newPAHStage(m_PAHStage);
 
     qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measuring Altitude Error...";
 
@@ -5097,7 +5097,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 
     if (state == IPS_ALERT)
     {
-        if (++m_CaptureErrorCounter == 3 && pahStage != PAH_REFRESH)
+        if (++m_CaptureErrorCounter == 3 && m_PAHStage != PAH_REFRESH)
         {
             appendLogText(i18n("Capture error. Aborting..."));
 
@@ -5271,8 +5271,8 @@ void Align::startPAHProcess()
     if (!checkPAHForMeridianCrossing())
         return;
 
-    pahStage = PAH_FIRST_CAPTURE;
-    emit newPAHStage(pahStage);
+    m_PAHStage = PAH_FIRST_CAPTURE;
+    emit newPAHStage(m_PAHStage);
 
     nothingR->setChecked(true);
     currentGotoMode = GOTO_NOTHING;
@@ -5314,7 +5314,7 @@ void Align::startPAHProcess()
 
 void Align::stopPAHProcess()
 {
-    if (pahStage == PAH_IDLE)
+    if (m_PAHStage == PAH_IDLE)
         return;
 
     qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
@@ -5334,8 +5334,8 @@ void Align::stopPAHProcess()
     if (currentTelescope && currentTelescope->isInMotion())
         currentTelescope->Abort();
 
-    pahStage = PAH_IDLE;
-    emit newPAHStage(pahStage);
+    m_PAHStage = PAH_IDLE;
+    emit newPAHStage(m_PAHStage);
 
     PAHStartB->setEnabled(true);
     PAHStopB->setEnabled(false);
@@ -5492,8 +5492,8 @@ void Align::setPAHCorrectionOffset(int x, int y)
 
 void Align::setPAHCorrectionSelectionComplete()
 {
-    pahStage = PAH_PRE_REFRESH;
-    emit newPAHStage(pahStage);
+    m_PAHStage = PAH_PRE_REFRESH;
+    emit newPAHStage(m_PAHStage);
 
     // If user stops here, we restore the settings, if not we
     // disable again in the refresh process
@@ -5509,17 +5509,17 @@ void Align::setPAHCorrectionSelectionComplete()
 void Align::setPAHSlewDone()
 {
     emit newPAHMessage("Manual slew done.");
-    switch(pahStage)
+    switch(m_PAHStage)
     {
         case PAH_FIRST_ROTATE :
-            pahStage = PAH_SECOND_CAPTURE;
-            emit newPAHStage(pahStage);
+            m_PAHStage = PAH_SECOND_CAPTURE;
+            emit newPAHStage(m_PAHStage);
             PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
             appendLogText(i18n("First manual rotation done."));
             break;
         case PAH_SECOND_ROTATE :
-            pahStage = PAH_THIRD_CAPTURE;
-            emit newPAHStage(pahStage);
+            m_PAHStage = PAH_THIRD_CAPTURE;
+            emit newPAHStage(m_PAHStage);
             PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
             appendLogText(i18n("Second manual rotation done."));
             break;
@@ -5537,8 +5537,8 @@ void Align::startPAHRefreshProcess()
 {
     qCInfo(KSTARS_EKOS_ALIGN) << "Starting Polar Alignment Assistant refreshing...";
 
-    pahStage = PAH_REFRESH;
-    emit newPAHStage(pahStage);
+    m_PAHStage = PAH_REFRESH;
+    emit newPAHStage(m_PAHStage);
 
     PAHRefreshB->setEnabled(false);
 
@@ -5568,19 +5568,19 @@ void Align::setPAHRefreshComplete()
 
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
-    if (pahStage == PAH_FIND_CP)
+    if (m_PAHStage == PAH_FIND_CP)
     {
         setSolverAction(GOTO_NOTHING);
         appendLogText(
             i18n("Mount is synced to celestial pole. You can now continue Polar Alignment Assistant procedure."));
-        pahStage = PAH_FIRST_CAPTURE;
-        emit newPAHStage(pahStage);
+        m_PAHStage = PAH_FIRST_CAPTURE;
+        emit newPAHStage(m_PAHStage);
         return;
     }
 
-    if (pahStage == PAH_FIRST_CAPTURE || pahStage == PAH_SECOND_CAPTURE || pahStage == PAH_THIRD_CAPTURE)
+    if (m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_SECOND_CAPTURE || m_PAHStage == PAH_THIRD_CAPTURE)
     {
-        bool doWcs = (pahStage == PAH_THIRD_CAPTURE) || !Options::limitedResourcesMode();
+        bool doWcs = (m_PAHStage == PAH_THIRD_CAPTURE) || !Options::limitedResourcesMode();
         if (doWcs)
             appendLogText(i18n("Please wait while WCS data is processed..."));
         connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
@@ -5596,7 +5596,7 @@ void Align::setWCSToggled(bool result)
     //alignView->disconnect(this);
     disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled);
 
-    if (pahStage == PAH_FIRST_CAPTURE)
+    if (m_PAHStage == PAH_FIRST_CAPTURE)
     {
         // We need WCS to be synced first
         if (result == false && m_wcsSynced == true)
@@ -5609,18 +5609,18 @@ void Align::setWCSToggled(bool result)
         polarAlign.reset();
         polarAlign.addPoint(alignView->getImageData());
 
-        pahStage = PAH_FIRST_ROTATE;
-        emit newPAHStage(pahStage);
+        m_PAHStage = PAH_FIRST_ROTATE;
+        emit newPAHStage(m_PAHStage);
 
         PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
         emit newPAHMessage(firstRotateText->text());
 
         rotatePAH();
     }
-    else if (pahStage == PAH_SECOND_CAPTURE)
+    else if (m_PAHStage == PAH_SECOND_CAPTURE)
     {
-        pahStage = PAH_SECOND_ROTATE;
-        emit newPAHStage(pahStage);
+        m_PAHStage = PAH_SECOND_ROTATE;
+        emit newPAHStage(m_PAHStage);
 
         PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
         emit newPAHMessage(secondRotateText->text());
@@ -5629,7 +5629,7 @@ void Align::setWCSToggled(bool result)
 
         rotatePAH();
     }
-    else if (pahStage == PAH_THIRD_CAPTURE)
+    else if (m_PAHStage == PAH_THIRD_CAPTURE)
     {
         FITSData *imageData = alignView->getImageData();
 
@@ -5646,8 +5646,8 @@ void Align::setWCSToggled(bool result)
         // We have celestial pole location. So correction vector is just the vector between these two points
         calculatePAHError();
 
-        pahStage = PAH_STAR_SELECT;
-        emit newPAHStage(pahStage);
+        m_PAHStage = PAH_STAR_SELECT;
+        emit newPAHStage(m_PAHStage);
 
         PAHWidgets->setCurrentWidget(PAHCorrectionPage);
         emit newPAHMessage(correctionText->text());
@@ -5701,7 +5701,7 @@ void Align::setMountStatus(ISD::Telescope::Status newState)
             if (state != ALIGN_PROGRESS)
             {
                 solveB->setEnabled(true);
-                if (pahStage == PAH_IDLE)
+                if (m_PAHStage == PAH_IDLE)
                 {
                     PAHStartB->setEnabled(true);
                     loadSlewB->setEnabled(true);
@@ -5862,7 +5862,7 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 
 QString Align::getPAHMessage() const
 {
-    switch (pahStage)
+    switch (m_PAHStage)
     {
         case PAH_IDLE:
         case PAH_FIND_CP:
@@ -6101,7 +6101,7 @@ void Align::setTargetCoords(double ra, double de)
 
 void Align::calculateAlignTargetDiff()
 {
-    if (pahStage == PAH_FIRST_CAPTURE || pahStage == PAH_SECOND_CAPTURE || pahStage == PAH_THIRD_CAPTURE)
+    if (m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_SECOND_CAPTURE || m_PAHStage == PAH_THIRD_CAPTURE)
         return;
     m_TargetDiffRA = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
     m_TargetDiffDE = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;

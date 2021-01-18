@@ -251,7 +251,40 @@ void Media::upload(FITSView * view)
     // For low bandwidth images
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
-        QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        QPixmap scaledImage;
+        // Align images
+        if (m_UUID == "+A" && m_Manager->alignModule()->getPAHStage() >= Ekos::Align::PAH_STAR_SELECT)
+        {
+            if (correctionVector.isNull() == false)
+            {
+                scaledImage = view->getDisplayPixmap();
+                QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
+                double length = correctionVector.length();
+                if (length < 100)
+                    length = 100;
+                QRect boundingRectable;
+                boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
+
+                QPoint topLeft = (center - QPointF(length, length)).toPoint();
+                boundingRectable.moveTo(topLeft);
+
+                boundingRectable = boundingRectable.intersected(scaledImage.rect());
+
+                emit newBoundingRect(boundingRectable, scaledImage.size());
+
+                scaledImage = scaledImage.copy(boundingRectable);
+            }
+            else
+            {
+                scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+                emit newBoundingRect(QRect(), QSize());
+            }
+        }
+        else
+        {
+            scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        }
+
         scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
         //ext = "jpg";
     }
@@ -273,40 +306,81 @@ void Media::upload(FITSView * view)
         previewImage.reset();
 }
 
-//void Media::sendUpdatedFrame(FITSView * view)
-//{
-//    if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
-//        return;
+void Media::sendUpdatedFrame(FITSView *view)
+{
+    QString ext = "jpg";
+    QByteArray jpegData;
+    QBuffer buffer(&jpegData);
+    buffer.open(QIODevice::WriteOnly);
 
-//    QByteArray jpegData;
-//    QBuffer buffer(&jpegData);
-//    buffer.open(QIODevice::WriteOnly);
-//    QPixmap displayPixmap = view->getDisplayPixmap();
-//    if (correctionVector.isNull() == false)
-//    {
-//        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
-//        double length = correctionVector.length();
-//        if (length < 100)
-//            length = 100;
-//        QRect boundingRectable;
-//        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
+    const FITSData * imageData = view->getImageData();
+    QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
+    QString sizeBytes = KFormat().formatByteSize(imageData->size());
+    QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
+    imageData->getRecordValue("XBINNING", xbin);
+    imageData->getRecordValue("YBINNING", ybin);
+    imageData->getRecordValue("EXPTIME", exposure);
+    imageData->getRecordValue("GAIN", gain);
+    imageData->getRecordValue("PIXSIZE1", pixel_size);
+    imageData->getRecordValue("FOCALLEN", focal_length);
+    imageData->getRecordValue("APTDIA", aperture);
 
-//        QPoint topLeft = (center - QPointF(length, length)).toPoint();
-//        boundingRectable.moveTo(topLeft);
+    // Account for binning
+    const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
+    // Send everything as strings
+    QJsonObject metadata =
+    {
+        {"resolution", resolution},
+        {"size", sizeBytes},
+        {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
+        {"bpp", QString::number(imageData->bpp())},
+        {"uuid", m_UUID},
+        {"exposure", exposure.toString()},
+        {"focal_length", focal_length.toString()},
+        {"aperture", aperture.toString()},
+        {"gain", gain.toString()},
+        {"pixel_size", QString::number(binned_pixel, 'f', 4)},
+        {"ext", ext}
+    };
 
-//        boundingRectable = boundingRectable.intersected(displayPixmap.rect());
+    // First METADATA_PACKET bytes of the binary data is always allocated
+    // to the metadata
+    // the rest to the image data.
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
+    buffer.write(meta);
 
-//        emit newBoundingRect(boundingRectable, displayPixmap.size());
+    // For low bandwidth images
+    QPixmap scaledImage;
+    // Align images
+    if (correctionVector.isNull() == false)
+    {
+        scaledImage = view->getDisplayPixmap();
+        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
+        double length = correctionVector.length();
+        if (length < 100)
+            length = 100;
+        QRect boundingRectable;
+        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
 
-//        displayPixmap = displayPixmap.copy(boundingRectable);
-//    }
-//    else
-//        emit newBoundingRect(QRect(), QSize());
-//    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY / 2);
-//    buffer.close();
+        QPoint topLeft = (center - QPointF(length, length)).toPoint();
+        boundingRectable.moveTo(topLeft);
+        boundingRectable = boundingRectable.intersected(scaledImage.rect());
 
-//    m_WebSocket.sendBinaryMessage(jpegData);
-//}
+        emit newBoundingRect(boundingRectable, scaledImage.size());
+
+        scaledImage = scaledImage.copy(boundingRectable).scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+    }
+    else
+    {
+        scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        emit newBoundingRect(QRect(), QSize());
+    }
+
+    scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
+    buffer.close();
+    emit newImage(jpegData);
+}
 
 void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
