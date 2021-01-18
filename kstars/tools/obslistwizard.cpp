@@ -77,12 +77,15 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     connect(olw->Dec, &QLineEdit::editingFinished, this, &ObsListWizard::slotParseRegion);
     connect(olw->Radius, &QLineEdit::editingFinished, this, &ObsListWizard::slotObjectCountDirty);
     connect(olw->Date, &QDateEdit::dateChanged, this, &ObsListWizard::slotObjectCountDirty);
-    connect(olw->Mag, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->Mag, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &ObsListWizard::slotObjectCountDirty);
     connect(olw->IncludeNoMag, &QPushButton::clicked, this, &ObsListWizard::slotObjectCountDirty);
     connect(olw->timeTo, &QTimeEdit::timeChanged, this, &ObsListWizard::slotObjectCountDirty);
     connect(olw->timeFrom, &QTimeEdit::timeChanged, this, &ObsListWizard::slotObjectCountDirty);
-    connect(olw->minAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
-    connect(olw->maxAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ObsListWizard::slotObjectCountDirty);
+    connect(olw->minAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &ObsListWizard::slotObjectCountDirty);
+    connect(olw->maxAlt, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &ObsListWizard::slotObjectCountDirty);
 
     olw->coverage->setValue(Options::obsListCoverage());
     connect(olw->coverage, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double value)
@@ -621,19 +624,19 @@ void ObsListWizard::applyFilters(bool doBuildList)
         if (olw->SelectByDate->isChecked() && filterPass)
             applyObservableFilter(data->skyComposite()->findByName(i18n("Neptune")), doBuildList);
 
-        if (maglimit < data->skyComposite()->findByName(i18n("Pluto"))->mag())
-        {
-            if (!doBuildList)
-                --ObjectCount;
-            filterPass = false;
-        }
-        else
-            filterPass = true;
+        //        if (maglimit < data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto"))->mag())
+        //        {
+        //            if (!doBuildList)
+        //                --ObjectCount;
+        //            filterPass = false;
+        //        }
+        //        else
+        //            filterPass = true;
 
-        if (needRegion && filterPass)
-            filterPass = applyRegionFilter(data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto")), doBuildList);
-        if (olw->SelectByDate->isChecked() && filterPass)
-            applyObservableFilter(data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto")), doBuildList);
+        //        if (needRegion && filterPass)
+        //            filterPass = applyRegionFilter(data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto")), doBuildList);
+        //        if (olw->SelectByDate->isChecked() && filterPass)
+        //            applyObservableFilter(data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto")), doBuildList);
     }
 
     //Deep sky objects
