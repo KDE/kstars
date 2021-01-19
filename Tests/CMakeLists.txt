@@ -65,3 +65,5 @@ IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     ENDIF ()
     add_subdirectory(kstars_ui)
 ENDIF ()
+
+add_subdirectory(capture)
