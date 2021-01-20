@@ -1455,13 +1455,6 @@
                    </property>
                   </spacer>
                  </item>
-                 <item>
-                  <widget class="QCheckBox" name="PAHFlipVectorC">
-                   <property name="text">
-                    <string>Flip Vector</string>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
                </item>
                <item>
@@ -1551,13 +1544,6 @@
                    </property>
                    <property name="value">
                     <double>1.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="PAHFlipVectorC2">
-                   <property name="text">
-                    <string>Flip Vector</string>
                    </property>
                   </widget>
                  </item>

@@ -740,7 +740,7 @@ class Align : public QWidget, public Ui::Align
          */
         void syncCorrectionVector();
 
-        void setupCorrectionGraphics(const QPointF &pixel, QLineF *correctionVector);
+        void setupCorrectionGraphics(const QPointF &pixel);
 
         /**
              * @brief processPAHStage After solver is complete, handle PAH Stage processing
@@ -931,9 +931,11 @@ class Align : public QWidget, public Ui::Align
         bool rememberSolverWCS { false };
         //bool rememberMeridianFlip { false };
 
-        // Correction vector line between mount RA Axis and celestial pole
-        QLineF correctionVector;
-        QPointF correctionTo, correctionFrom, correctionAltTo;
+        // Points on the image to correct mount's ra axis.
+        // correctionFrom is the star the user selected (or center of the image at start).
+        // correctionTo is where theuser should move that star.
+        // correctionAltTo is where the use should move that star to only fix altitude.
+        QPointF correctionFrom, correctionTo, correctionAltTo;
 
         // CCDs using Guide Scope for parameters
         //QStringList guideScopeCCDs;

@@ -49,6 +49,8 @@
 
 #include <ekos_align_debug.h>
 
+#define PAA_VERSION "v2.1"
+
 #define PAH_CUTOFF_FOV            10 // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS 10
 #define CAPTURE_RETRY_DELAY       10000
@@ -174,18 +176,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(PAHSlewRateCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&](int index)
     {
         Options::setPAHMountSpeedIndex(index);
-    });
-
-    PAHFlipVectorC->setChecked(Options::pAHFlipCorrectionVector());
-    PAHFlipVectorC2->setChecked(Options::pAHFlipCorrectionVector());
-    connect(PAHFlipVectorC2, &QCheckBox::toggled, [&] { PAHFlipVectorC->setChecked(PAHFlipVectorC2->isChecked());});
-    connect(PAHFlipVectorC, &QCheckBox::toggled, [&]()
-    {
-        Options::setPAHFlipCorrectionVector(PAHFlipVectorC->isChecked());
-        PAHFlipVectorC2->blockSignals(true);
-        PAHFlipVectorC2->setChecked(PAHFlipVectorC->isChecked());
-        PAHFlipVectorC2->blockSignals(false);
-        syncCorrectionVector();
     });
 
     gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
@@ -5272,7 +5262,7 @@ bool Align::checkPAHForMeridianCrossing()
 
 void Align::startPAHProcess()
 {
-    qCInfo(KSTARS_EKOS_ALIGN) << "Starting Polar Alignment Assistant process...";
+    qCInfo(KSTARS_EKOS_ALIGN) << QString("Starting Polar Alignment Assistant process %1 ...").arg(PAA_VERSION);
 
     // Right off the bat, check if this alignment might cause a pier crash.
     // If we're crossing the meridian, warn unless within 5-degrees from the pole.
@@ -5351,12 +5341,7 @@ void Align::stopPAHProcess()
     PAHWidgets->setCurrentWidget(PAHIntroPage);
     emit newPAHMessage(introText->text());
 
-    correctionVector = QLineF();
-    alignView->setCorrectionParams(correctionVector);
-
-    QPointF correctionOffset;
-    alignView->setCorrectionOffset(correctionOffset);
-    alignView->setRACircle(QVector3D());
+    alignView->reset();
     alignView->setRefreshEnabled(false);
 
     emit newFrame(alignView);
@@ -5412,9 +5397,12 @@ void Align::rotatePAH()
                        targetPAH.dec().toDMSString()));
 }
 
-void Align::setupCorrectionGraphics(const QPointF &pixel, QLineF *correctionVector)
+void Align::setupCorrectionGraphics(const QPointF &pixel)
 {
-    FITSData *imageData = alignView->getImageData();
+    // We use the previously stored image (the 3rd PAA image)
+    // so we can continue to estimage the correction even after
+    // capturing new images during the refresh stage.
+    FITSData *imageData = alignView->keptImage();
 
     // Just the altitude correction
     if (!polarAlign.findCorrectedPixel(imageData, pixel, &correctionAltTo, true))
@@ -5434,15 +5422,16 @@ void Align::setupCorrectionGraphics(const QPointF &pixel, QLineF *correctionVect
                           .arg(correctionAltTo.x(), 4, 'f', 0).arg(correctionAltTo.y(), 4, 'f', 0);
     qCDebug(KSTARS_EKOS_ALIGN) << debugString;
     correctionFrom = pixel;
-    correctionVector->setP1(Options::pAHFlipCorrectionVector() ? correctionTo : correctionFrom);
-    correctionVector->setP2(Options::pAHFlipCorrectionVector() ? correctionFrom : correctionTo);
-    QLineF altLine(correctionFrom, correctionAltTo);
-    alignView->setCorrectionParams(*correctionVector, &altLine);
+    alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+
     return;
 }
 
 void Align::calculatePAHError()
 {
+    // Hold on to the imageData so we can use it during the refresh phase.
+    alignView->holdOnToImage();
+
     FITSData *imageData = alignView->getImageData();
     if (!polarAlign.findAxis())
     {
@@ -5464,23 +5453,32 @@ void Align::calculatePAHError()
     appendLogText(msg);
     PAHErrorLabel->setText(msg);
 
-    setupCorrectionGraphics(QPointF(imageData->width() / 2, imageData->height() / 2), &correctionVector);
+    setupCorrectionGraphics(QPointF(imageData->width() / 2, imageData->height() / 2));
+
+    // Find Celestial pole location and mount's RA axis
+    SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+    QPointF imagePoint, celestialPolePoint;
+    imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
+    if (imageData->contains(celestialPolePoint))
+    {
+        alignView->setCelestialPole(celestialPolePoint);
+        QPointF raAxis;
+        if (polarAlign.findCorrectedPixel(imageData, celestialPolePoint, &raAxis))
+            alignView->setRaAxis(raAxis);
+    }
 
     connect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
-    emit polarResultUpdated(correctionVector, polarError.toDMSString());
+    emit polarResultUpdated(QLineF(correctionFrom, correctionTo), polarError.toDMSString());
 
     connect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector, Qt::UniqueConnection);
-    emit newCorrectionVector(correctionVector);
+    emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
     emit newFrame(alignView);
 }
 
 void Align::syncCorrectionVector()
 {
-    correctionVector.setP1(Options::pAHFlipCorrectionVector() ? correctionTo : correctionFrom);
-    correctionVector.setP2(Options::pAHFlipCorrectionVector() ? correctionFrom : correctionTo);
-    emit newCorrectionVector(correctionVector);
-    QLineF altLine(correctionFrom, correctionAltTo);
-    alignView->setCorrectionParams(correctionVector, &altLine);
+    emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
+    alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
 }
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
@@ -5494,7 +5492,7 @@ void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 
 void Align::setPAHCorrectionOffset(int x, int y)
 {
-    setupCorrectionGraphics(QPointF(x, y), &correctionVector);
+    setupCorrectionGraphics(QPointF(x, y));
     emit newFrame(alignView);
 }
 

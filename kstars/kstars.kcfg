@@ -2173,10 +2173,6 @@
          <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>
          <default>false</default>
       </entry>
-      <entry name="PAHFlipCorrectionVector" type="Bool">
-         <label>Flip correction vector.</label>
-         <default>false</default>
-      </entry>
    </group>
    <group name="Guide">
       <entry name="DefaultGuideCCD" type="String">
