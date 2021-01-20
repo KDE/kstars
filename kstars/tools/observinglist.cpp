@@ -827,7 +827,6 @@ void ObservingList::slotBatchAdd()
             msgBox.exec();
         }
     }
-    Q_ASSERT(false); // Not implemented
 }
 
 void ObservingList::slotEyepieceView()
