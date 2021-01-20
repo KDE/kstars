@@ -3591,7 +3591,8 @@ void Manager::connectModules()
 
         connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
                 Qt::UniqueConnection);
-        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame,
+                Qt::UniqueConnection);
 
         connect(alignProcess.get(), &Ekos::Align::polarResultUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::setPolarResults, Qt::UniqueConnection);
