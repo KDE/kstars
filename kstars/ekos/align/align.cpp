@@ -2031,10 +2031,18 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
         PAHSlewRateCombo->blockSignals(true);
         PAHSlewRateCombo->clear();
         PAHSlewRateCombo->addItems(currentTelescope->slewRates());
-        if (Options::pAHMountSpeedIndex() >= 0)
-            PAHSlewRateCombo->setCurrentIndex(Options::pAHMountSpeedIndex());
+        const uint16_t configMountSpeed = Options::pAHMountSpeedIndex();
+        if (configMountSpeed < PAHSlewRateCombo->count())
+            PAHSlewRateCombo->setCurrentIndex(configMountSpeed);
         else
-            PAHSlewRateCombo->setCurrentIndex(currentTelescope->getSlewRate());
+        {
+            int currentSlewRateIndex = currentTelescope->getSlewRate();
+            if (currentSlewRateIndex >= 0)
+            {
+                PAHSlewRateCombo->setCurrentIndex(currentSlewRateIndex);
+                Options::setPAHMountSpeedIndex(currentSlewRateIndex);
+            }
+        }
         PAHSlewRateCombo->blockSignals(false);
 
         m_isRateSynced = !currentTelescope->slewRates().empty();
