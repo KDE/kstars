@@ -87,6 +87,8 @@ void AlignView::setCorrectionParams(QLineF &line, QLineF *altOnlyLine)
     celestialPolePoint = line.p1();
     markerCrosshair    = line.p2();
 
+    emit newCorrectionVector(correctionLine);
+
     updateFrame();
 }
 
