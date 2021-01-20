@@ -251,40 +251,7 @@ void Media::upload(FITSView * view)
     // For low bandwidth images
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
-        QPixmap scaledImage;
-        // Align images
-        if (m_UUID == "+A" && m_Manager->alignModule()->getPAHStage() >= Ekos::Align::PAH_STAR_SELECT)
-        {
-            if (correctionVector.isNull() == false)
-            {
-                scaledImage = view->getDisplayPixmap();
-                QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
-                double length = correctionVector.length();
-                if (length < 100)
-                    length = 100;
-                QRect boundingRectable;
-                boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
-
-                QPoint topLeft = (center - QPointF(length, length)).toPoint();
-                boundingRectable.moveTo(topLeft);
-
-                boundingRectable = boundingRectable.intersected(scaledImage.rect());
-
-                emit newBoundingRect(boundingRectable, scaledImage.size());
-
-                scaledImage = scaledImage.copy(boundingRectable);
-            }
-            else
-            {
-                scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
-                emit newBoundingRect(QRect(), QSize());
-            }
-        }
-        else
-        {
-            scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
-        }
-
+        QImage scaledImage = view->getDisplayImage().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
         scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
         //ext = "jpg";
     }
@@ -357,12 +324,9 @@ void Media::sendUpdatedFrame(FITSView *view)
     {
         scaledImage = view->getDisplayPixmap();
         QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
-        double length = correctionVector.length();
-        if (length < 100)
-            length = 100;
+        uint32_t length = qMax(static_cast<uint32_t>(correctionVector.length()), 100u);
         QRect boundingRectable;
-        boundingRectable.setSize(QSize(static_cast<int>(length * 2), static_cast<int>(length * 2)));
-
+        boundingRectable.setSize(QSize(length * 2, length * 2));
         QPoint topLeft = (center - QPointF(length, length)).toPoint();
         boundingRectable.moveTo(topLeft);
         boundingRectable = boundingRectable.intersected(scaledImage.rect());
