@@ -134,7 +134,7 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
     connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::DirectConnection);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::BlockingQueuedConnection);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
     connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
@@ -469,8 +469,7 @@ void INDIListener::processUniversalMessage(const QString &message)
 
     if (Options::messageNotificationINDI())
     {
-        KNotification::event(QLatin1String("IndiServerMessage"),
-                             displayMessage + " (INDI)");
+        KSNotification::event(QLatin1String("IndiServerMessage"), displayMessage, KSNotification::EVENT_WARN);
     }
     else
     {

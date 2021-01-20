@@ -60,17 +60,17 @@ class Analyze : public QWidget, public Ui::Analyze
                 Session(double s, double e, int o, QCPItemRect *r)
                     : start(s), end(e), offset(o), rect(r) {}
 
-                // These 2 are used to build html tables for the info box display.
-                void startTable(const QString &name, const QString &status,
-                                const QDateTime &startClock, const QDateTime &endClock);
-                void addRow(const QString &key, const QString &value1String, const QString &value2String = "");
-                // Returns the html string to use in the info box.
-                QString html() const;
+                // These 2 are used to build tables for the details display.
+                void setupTable(const QString &name, const QString &status,
+                                const QDateTime &startClock, const QDateTime &endClock,
+                                QTableWidget *table);
+                void addRow(const QString &key, const QString &value);
 
                 // True if this session is temporary.
                 bool isTemporary() const;
 
             private:
+                QTableWidget *details;
                 QString htmlString;
         };
         // Below are subclasses of Session used to represent all the different
@@ -242,7 +242,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // (Un)highlights a segment on the timeline after one is clicked.
         // This indicates which segment's data is displayed in the
-        // graphicsPlot and infoBox.
+        // graphicsPlot and details table.
         void highlightTimelineItem(double y, double start, double end);
         void unhighlightTimelineItem();
 

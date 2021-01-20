@@ -9,8 +9,10 @@
 
 #pragma once
 
+
 #include "ui_align.h"
 #include "ui_mountmodel.h"
+#include "ui_manualrotator.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
@@ -18,6 +20,7 @@
 #include "indi/indidome.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "polaralign.h"
 
 #include <QTime>
 #include <QTimer>
@@ -503,11 +506,17 @@ class Align : public QWidget, public Ui::Align
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
+        void setMountCoords(const QString &ra, const QString &dec, const QString &az,
+                            const QString &alt, int pierSide, const QString &ha);
 
         // PAH Ekos Live
-        QString getPAHStage() const
+        QString getPAHStageString() const
         {
-            return PAHStages[pahStage];
+            return PAHStages[m_PAHStage];
+        }
+        PAHStage getPAHStage() const
+        {
+            return m_PAHStage;
         }
         bool isPAHEnabled() const
         {
@@ -645,6 +654,11 @@ class Align : public QWidget, public Ui::Align
         KPageWidgetItem *indexFilesPage;
         QString savedOptionsProfiles;
         /**
+            * @brief Warns the user if the polar alignment might cross the meridian.
+            */
+        bool checkPAHForMeridianCrossing();
+
+        /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
             */
         void calculateFOV();
@@ -726,18 +740,12 @@ class Align : public QWidget, public Ui::Align
          */
         void syncCorrectionVector();
 
+        void setupCorrectionGraphics(const QPointF &pixel, QLineF *correctionVector);
+
         /**
              * @brief processPAHStage After solver is complete, handle PAH Stage processing
              */
         void processPAHStage(double orientation, double ra, double dec, double pixscale);
-
-        CircleSolution findCircleSolutions(const QPointF &p1, const QPointF p2, double angle,
-                                           QPair<QPointF, QPointF> &circleSolutions);
-
-        double distance(const QPointF &p1, const QPointF &p2);
-        bool findRACircle(QVector3D &RACircle);
-        bool isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3);
-        bool calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle);
 
         void resizeEvent(QResizeEvent *event) override;
 
@@ -914,7 +922,7 @@ class Align : public QWidget, public Ui::Align
         QPointer<FITSViewer> fv;
 
         // Polar Alignment Helper
-        PAHStage pahStage { PAH_IDLE };
+        PAHStage m_PAHStage { PAH_IDLE };
         SkyPoint targetPAH;
         bool isPAHReady { false };
 
@@ -923,23 +931,9 @@ class Align : public QWidget, public Ui::Align
         bool rememberSolverWCS { false };
         //bool rememberMeridianFlip { false };
 
-        // Sky centers
-        typedef struct
-        {
-            SkyPoint skyCenter;
-            QPointF celestialPole;
-            QPointF pixelCenter;
-            double pixelScale { 0 };
-            double orientation { 0 };
-            KStarsDateTime ts;
-        } PAHImageInfo;
-
-        QVector<PAHImageInfo *> pahImageInfos;
-
-        // User desired offset when selecting a bright star in the image
-        QPointF celestialPolePoint, correctionOffset, RACenterPoint;
         // Correction vector line between mount RA Axis and celestial pole
         QLineF correctionVector;
+        QPointF correctionTo, correctionFrom, correctionAltTo;
 
         // CCDs using Guide Scope for parameters
         //QStringList guideScopeCCDs;
@@ -969,6 +963,8 @@ class Align : public QWidget, public Ui::Align
         bool mountModelReset { false };
         bool targetAccuracyNotMet { false };
         bool previewShowing { false };
+        QDialog manualRotatorDialog;
+        Ui_manualRotator manualRotator;
         QUrl alignURL;
         QUrl alignURLPath;
         QVector<const StarObject *> alignStars;
@@ -979,6 +975,10 @@ class Align : public QWidget, public Ui::Align
         double primaryEffectiveFL = -1, guideEffectiveFL = -1;
         bool m_isRateSynced = false;
         bool domeReady = true;
+
+        // Current mount pointing state.
+        dms mountRa, mountDec, mountAz, mountAlt, mountHa;
+        ISD::Telescope::PierSide mountPierSide { ISD::Telescope::PierSide::PIER_UNKNOWN };
 
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
@@ -1004,5 +1004,8 @@ class Align : public QWidget, public Ui::Align
 
         // Threshold to stop PAH rotation in degrees
         static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };
+
+        // Class used to estimate alignment error.
+        PolarAlign polarAlign;
 };
 }

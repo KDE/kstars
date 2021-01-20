@@ -24,12 +24,12 @@ class AlignView : public FITSView
         explicit AlignView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
         /* Calculate WCS header info and update WCS info */
-        bool injectWCS(double orientation, double ra, double dec, double pixscale);
+        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool extras = true);
 
         void drawOverlay(QPainter *, double scale) override;
 
         // Correction line
-        void setCorrectionParams(QLineF &line);
+        void setCorrectionParams(QLineF &line, QLineF *altOnlyLine = nullptr);
         void setCorrectionOffset(QPointF &newOffset);
 
         void setRACircle(const QVector3D &value);
@@ -44,6 +44,7 @@ class AlignView : public FITSView
     private:
         // Correction Line
         QLineF correctionLine;
+        QLineF altLine;
         QPointF correctionOffset, celestialPolePoint;
         QVector3D RACircle;
 

@@ -777,7 +777,7 @@ bool DriverManager::disconnectRemoteHost(DriverInfo *dv)
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
         clients.removeOne(clientManager);
-        delete clientManager;
+        clientManager->deleteLater();
         updateMenuActions();
         return true;
     }

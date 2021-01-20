@@ -989,7 +989,7 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
 
     QJsonObject polarState =
     {
-        {"stage", align->getPAHStage()}
+        {"stage", align->getPAHStageString()}
     };
 
 
@@ -1057,6 +1057,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
 {
     if (command == commands[START_PROFILE])
     {
+        if (m_Manager->getEkosStartingStatus() != Ekos::Idle)
+            m_Manager->stop();
+
         m_Manager->setProfile(payload["name"].toString());
         m_Manager->start();
     }
@@ -1393,7 +1396,7 @@ void Message::sendStates()
         doc.setHtml(m_Manager->alignModule()->getPAHMessage());
         QJsonObject polarState =
         {
-            {"stage", m_Manager->alignModule()->getPAHStage()},
+            {"stage", m_Manager->alignModule()->getPAHStageString()},
             {"enabled", m_Manager->alignModule()->isPAHEnabled()},
             {"message", doc.toPlainText()},
         };
@@ -1406,7 +1409,7 @@ void Message::sendStates()
 
 void Message::sendEvent(const QString &message, KSNotification::EventType event)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
+    if (m_isConnected == false && m_Options[OPTION_SET_NOTIFICATIONS] == false)
         return;
 
     QJsonObject newEvent = {{ "severity", event}, {"message", message}, {"uuid", QUuid::createUuid().toString()}};

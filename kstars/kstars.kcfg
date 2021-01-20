@@ -177,7 +177,7 @@
       <entry name="messageNotificationINDI" type="Bool">
          <label>INDI message notifications</label>
          <whatsthis>Show INDI messages as desktop notifications instead of dialogs.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="useKStarsSource" type="Bool">
          <label>Use KStars time and location for synchronization?</label>
@@ -1690,7 +1690,7 @@
       </entry>
       <entry name="MaxTemperatureDiff" type="Double">
          <label>Maximum acceptable difference between requested and measured temperature set point.</label>
-         <default>0.1</default>
+         <default>1</default>
       </entry>
       <entry name="MaxStartGuiderDrift" type="Double">
          <label>Maximum acceptable guider drift allowed before starting capture.</label>
@@ -1793,7 +1793,7 @@
       <entry name="FocusTicks" type="UInt">
          <label>Default Focuser step ticks</label>
          <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
-         <default>100</default>
+         <default>500</default>
       </entry>
       <entry name="FocusSettleTime" type="Double">
          <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>
