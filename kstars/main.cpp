@@ -67,11 +67,7 @@ int main(int argc, char *argv[])
 {
 #if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
     // Ignore SIGPIPE
-    struct sigaction act;
-    memset(&act, 0, sizeof(act));
-    act.sa_handler = SIG_IGN;
-    act.sa_flags = SA_RESTART;
-    sigaction(SIGPIPE, &act, nullptr);
+    signal(SIGPIPE, SIG_IGN);
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
