@@ -5493,6 +5493,7 @@ void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 void Align::setPAHCorrectionOffset(int x, int y)
 {
     setupCorrectionGraphics(QPointF(x, y));
+    emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
     emit newFrame(alignView);
 }
 
