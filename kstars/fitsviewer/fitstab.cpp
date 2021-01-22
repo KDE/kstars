@@ -276,25 +276,25 @@ QHBoxLayout* FITSTab::setupStretchBar()
     {
         StretchParams params = view->getStretchParams();
         params.grey_red.shadows = this->maxShadows * value / 10000.0f;
-        view->setSampling(Options::stretchPreviewSampling());
+        view->setPreviewSampling(Options::stretchPreviewSampling());
         view->setStretchParams(params);
-        view->setSampling(1);
+        view->setPreviewSampling(0);
     });
     connect(midtonesSlider.get(), &QSlider::sliderMoved, [ = ](int value)
     {
         StretchParams params = view->getStretchParams();
         params.grey_red.midtones = this->maxMidtones * value / 10000.0f;
-        view->setSampling(Options::stretchPreviewSampling());
+        view->setPreviewSampling(Options::stretchPreviewSampling());
         view->setStretchParams(params);
-        view->setSampling(1);
+        view->setPreviewSampling(0);
     });
     connect(highlightsSlider.get(), &QSlider::sliderMoved, [ = ](int value)
     {
         StretchParams params = view->getStretchParams();
         params.grey_red.highlights = this->maxHighlights * value / 10000.0f;
-        view->setSampling(Options::stretchPreviewSampling());
+        view->setPreviewSampling(Options::stretchPreviewSampling());
         view->setStretchParams(params);
-        view->setSampling(1);
+        view->setPreviewSampling(0);
     });
 
     // Make a final full-res display when the slider is released.

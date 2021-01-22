@@ -231,9 +231,13 @@ class FITSView : public QScrollArea
         void setAutoStretchParams();
 
         // When sampling is > 1, we will display the image at a lower resolution.
-        void setSampling(int value)
+        // When sampling = 0, reset to the adaptive sampling value
+        void setPreviewSampling(uint8_t value)
         {
-            if (value > 0) sampling = value;
+            if (value == 0)
+                m_PreviewSampling = m_AdaptiveSampling;
+            else
+                m_PreviewSampling = value * m_AdaptiveSampling;
         }
 
     public slots:
@@ -356,7 +360,9 @@ class FITSView : public QScrollArea
         StretchParams stretchParams;
 
         // Resolution for display. Sampling=2 means display every other sample.
-        int sampling { 1 };
+        uint8_t m_PreviewSampling { 1 };
+        // Adaptive sampling is based on available RAM
+        uint8_t m_AdaptiveSampling {1};
 
         struct
         {

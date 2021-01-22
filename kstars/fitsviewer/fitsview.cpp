@@ -106,7 +106,7 @@ void FITSView::doStretch(QImage *outputImage)
         tempParams = stretchParams;
 
     stretch.setParams(tempParams);
-    stretch.run(imageData->getImageBuffer(), outputImage, sampling);
+    stretch.run(imageData->getImageBuffer(), outputImage, m_PreviewSampling);
 }
 
 // Store stretch parameters, and turn on stretching if it isn't already on.
@@ -376,6 +376,25 @@ bool FITSView::processData()
     //initDisplayImage();
 
     imageData->applyFilter(filter);
+
+    double availableRAM = 0;
+    if (Options::adaptiveSampling() && (availableRAM = KSUtils::getAvailableRAM()) > 0)
+    {
+        // Possible color maximum image size
+        double max_size = image_width * image_height * 4;
+        // Ratio of image size to available RAM size
+        double ratio = max_size / availableRAM;
+
+        // Increase adaptive sampling with more limited RAM
+        if (ratio < 0.1)
+            m_AdaptiveSampling = 1;
+        else if (ratio < 0.2)
+            m_AdaptiveSampling = 2;
+        else
+            m_AdaptiveSampling = 4;
+
+        m_PreviewSampling *= m_AdaptiveSampling;
+    }
 
     // Rescale to fits window on first load
     if (firstLoad)
@@ -737,14 +756,14 @@ void FITSView::updateFrameLargeImage()
     font.setPixelSize(scaleSize(FONT_SIZE));
     painter.setFont(font);
 
-    if (sampling == 1)
+    if (m_PreviewSampling == 1)
     {
         drawOverlay(&painter, 1.0);
         drawStarFilter(&painter, 1.0);
     }
     image_frame->setPixmap(displayPixmap);
 
-    image_frame->resize(((sampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
+    image_frame->resize(((m_PreviewSampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
 }
 
 void FITSView::updateFrameSmallImage()
@@ -755,13 +774,12 @@ void FITSView::updateFrameSmallImage()
 
     QPainter painter(&displayPixmap);
 
-    if (sampling == 1)
+    if (m_PreviewSampling == 1)
     {
         drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
         drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
     }
     image_frame->setPixmap(displayPixmap);
-
     image_frame->resize(currentWidth, currentHeight);
 }
 
@@ -1856,8 +1874,8 @@ void FITSView::initDisplayImage()
 {
     // Account for leftover when sampling. Thus a 5-wide image sampled by 2
     // would result in a width of 3 (samples 0, 2 and 4).
-    int w = (imageData->width() + sampling - 1) / sampling;
-    int h = (imageData->height() + sampling - 1) / sampling;
+    int w = (imageData->width() + m_PreviewSampling - 1) / m_PreviewSampling;
+    int h = (imageData->height() + m_PreviewSampling - 1) / m_PreviewSampling;
 
     if (imageData->channels() == 1)
     {

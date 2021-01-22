@@ -1737,4 +1737,39 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
 #endif
 }
 
+double getAvailableRAM()
+{
+#if defined(Q_OS_OSX)
+    int mib [] = { CTL_HW, HW_MEMSIZE };
+    size_t length;
+    length = sizeof(int64_t);
+    int64_t RAMcheck;
+    if(sysctl(mib, 2, &RAMcheck, &length, NULL, 0))
+        return false; // On Error
+    //Until I can figure out how to get free RAM on Mac
+    return RAMcheck;
+#elif defined(Q_OS_LINUX)
+    QProcess p;
+    p.start("awk", QStringList() << "/MemAvailable/ { print $2 }" << "/proc/meminfo");
+    p.waitForFinished();
+    QString memory = p.readAllStandardOutput();
+    p.close();
+    //kB to bytes
+    return (memory.toLong() * 1024.0);
+#else
+    MEMORYSTATUSEX memory_status;
+    ZeroMemory(&memory_status, sizeof(MEMORYSTATUSEX));
+    memory_status.dwLength = sizeof(MEMORYSTATUSEX);
+    if (GlobalMemoryStatusEx(&memory_status))
+    {
+        return memory_status.ullAvailPhys;
+    }
+    else
+    {
+        return 0;
+    }
+#endif
+    return 0;
+}
+
 }
