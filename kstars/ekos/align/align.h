@@ -928,6 +928,9 @@ class Align : public QWidget, public Ui::Align
         SkyPoint targetPAH;
         bool isPAHReady { false };
 
+        // Polar alignment will retry capture & solve a few times if solve fails.
+        int m_PAHRetrySolveCounter { 0 };
+
         // keep track of autoWSC
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };

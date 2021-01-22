@@ -1255,6 +1255,52 @@
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="PAHManualRotatePage">
+              <layout class="QVBoxLayout" name="verticalLayout_manual">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_manual">
+                 <item>
+                  <widget class="QLabel" name="manualRotateText">
+                   <property name="text">
+                    <string>Please rotate your mount in RA</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="PAHManualDone">
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Done</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
              <widget class="QWidget" name="PAHFirstRotatePage">
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
@@ -1281,26 +1327,6 @@
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="PAHfirstDone">
-                   <property name="text">
-                    <string>Done</string>
                    </property>
                   </widget>
                  </item>
@@ -1348,26 +1374,6 @@
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="PAHsecondDone">
-                   <property name="text">
-                    <string>Done</string>
                    </property>
                   </widget>
                  </item>
@@ -1802,42 +1808,9 @@
   <tabstop>PAHDoneB</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>PAHManual</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>PAHfirstDone</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>699</x>
-     <y>392</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>388</x>
-     <y>316</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>PAHManual</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>PAHsecondDone</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>699</x>
-     <y>392</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>385</x>
-     <y>316</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverModeButtonGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>

@@ -306,6 +306,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
             &Ekos::Align::setBinningIndex);
 
     // PAH Connections
+    PAHWidgets->setCurrentWidget(PAHIntroPage);
     connect(this, &Align::PAHEnabled, [&](bool enabled)
     {
         PAHStartB->setEnabled(enabled);
@@ -321,9 +322,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(PAHCorrectionsNextB, &QPushButton::clicked, this, &Ekos::Align::setPAHCorrectionSelectionComplete);
     connect(PAHRefreshB, &QPushButton::clicked, this, &Ekos::Align::startPAHRefreshProcess);
     connect(PAHDoneB, &QPushButton::clicked, this, &Ekos::Align::setPAHRefreshComplete);
-    // done buttons for manual slewing during polar alignment:
-    connect(PAHfirstDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
-    connect(PAHsecondDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
+    // done button for manual slewing during polar alignment:
+    connect(PAHManualDone, &QPushButton::clicked, this, &Ekos::Align::setPAHSlewDone);
 
     //if (solverOptions->text().contains("no-fits2fits"))
     //     appendLogText(i18n(
@@ -3252,118 +3252,24 @@ void Align::startSolving()
 
     state = ALIGN_PROGRESS;
     emit newStatus(state);
-
-    /**
-    QStringList solverArgs;
-
-    QString options = solverOptions->text().simplified();
-
-    if (isGenerated)
-    {
-        solverArgs = options.split(' ');
-        // Replace RA and DE with LST & 90/-90 pole
-        if (m_PAHStage == PAH_FIRST_CAPTURE)
-        {
-            for (int i = 0; i < solverArgs.count(); i++)
-            {
-                // RA
-                if (solverArgs[i] == "-3")
-                    solverArgs[i + 1] = QString::number(KStarsData::Instance()->lst()->Degrees());
-                // DE. +90 for Northern hemisphere. -90 for southern hemisphere
-                else if (solverArgs[i] == "-4")
-                    solverArgs[i + 1] = QString::number(hemisphere == NORTH_HEMISPHERE ? 90 : -90);
-            }
-        }
-    }
-    else if (filename.endsWith(QLatin1String("fits")) || filename.endsWith(QLatin1String("fit")))
-    {
-        solverArgs = getSolverOptionsFromFITS(filename);
-        appendLogText(i18n("Using solver options: %1", solverArgs.join(' ')));
-    }
-    else
-    {
-        KGuiItem blindItem(i18n("Blind solver"), QString(),
-                           i18n("Blind solver takes a very long time to solve but can reliably solve any image any "
-                                "where in the sky given enough time."));
-        KGuiItem existingItem(i18n("Use existing settings"), QString(),
-                              i18n("Mount must be pointing close to the target location and current field of view must "
-                                   "match the image's field of view."));
-
-        int rc = KMessageBox::questionYesNoCancel(nullptr,
-                 i18n("No metadata is available in this image. Do you want to use the "
-                      "blind solver or the existing solver settings?"),
-                 i18n("Astrometry solver"), blindItem, existingItem,
-                 KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
-
-        if (rc == KMessageBox::Yes)
-        {
-            QVariantMap optionsMap;
-
-            if (Options::astrometryUseNoVerify())
-                optionsMap["noverify"] = true;
-
-            if (Options::astrometryUseResort())
-                optionsMap["resort"] = true;
-
-            if (Options::astrometryUseNoFITS2FITS())
-                optionsMap["nofits2fits"] = true;
-
-            if (Options::astrometryUseDownsample())
-                optionsMap["downsample"] = Options::astrometryDownsample();
-
-            //Options needed for Sextractor
-            int bin = Options::solverBinningIndex() + 1;
-            optionsMap["image_width"] = ccd_width / bin;
-            optionsMap["image_height"] = ccd_height / bin;
-
-            solverArgs = generateOptions(optionsMap, solverBackendGroup->checkedId());
-        }
-        else if (rc == KMessageBox::No)
-            solverArgs = options.split(' ');
-        else
-        {
-            abort();
-            return;
-        }
-    }
-
-    //    if (solverIterations == 0 && mountModelReset == false)
-    //    {
-    //        double ra, dec;
-    //        currentTelescope->getEqCoords(&ra, &dec);
-    //        targetCoord.setRA(ra);
-    //        targetCoord.setDec(dec);
-    //    }
-
-    //    mountModelReset = false;
-
-    Options::setSolverAccuracyThreshold(accuracySpin->value());
-    Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
-    Options::setSolverGotoOption(currentGotoMode);
-
-    if (fov_x > 0)
-        parser->verifyIndexFiles(fov_x, fov_y);
-
-    solverTimer.start();
-
-    m_AlignTimer.start();
-
-    if (currentGotoMode == GOTO_SLEW)
-        appendLogText(i18n("Solver iteration #%1", solverIterations + 1));
-
-    state = ALIGN_PROGRESS;
-    emit newStatus(state);
-
-    parser->startSovler(filename, solverArgs, isGenerated);
-    **/
 }
 
-//Note this is temporary, just trying to see if it works.
 void Align::solverComplete()
 {
     disconnect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
     if(!m_StellarSolver->solvingDone() || m_StellarSolver->failed())
+    {
+        if ((m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_SECOND_CAPTURE || m_PAHStage == PAH_THIRD_CAPTURE)
+                && ++m_PAHRetrySolveCounter < 4)
+        {
+            captureAndSolve();
+            return;
+        }
         solverFailed();
+        appendLogText(i18n("PAA: Stopping, solver failed too many times."));
+        stopPAHProcess();
+        return;
+    }
     else
     {
         FITSImage::Solution solution = m_StellarSolver->getSolution();
@@ -5307,6 +5213,7 @@ void Align::startPAHProcess()
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
     emit newPAHMessage(firstCaptureText->text());
 
+    m_PAHRetrySolveCounter = 0;
     captureAndSolve();
 }
 
@@ -5375,7 +5282,6 @@ void Align::rotatePAH()
     // if Manual slewing is selected, don't move the mount
     if (PAHManual->isChecked())
     {
-        appendLogText(i18n("Please rotate your mount about %1 deg in RA", m_TargetDiffRA ));
         return;
     }
 
@@ -5619,8 +5525,20 @@ void Align::setWCSToggled(bool result)
         m_PAHStage = PAH_FIRST_ROTATE;
         emit newPAHStage(m_PAHStage);
 
-        PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
-        emit newPAHMessage(firstRotateText->text());
+        if (PAHManual->isChecked())
+        {
+            QString msg = QString("Please rotate your mount about %1 deg in RA")
+                          .arg(PAHRotationSpin->value());
+            manualRotateText->setText(msg);
+            appendLogText(msg);
+            PAHWidgets->setCurrentWidget(PAHManualRotatePage);
+            emit newPAHMessage(manualRotateText->text());
+        }
+        else
+        {
+            PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
+            emit newPAHMessage(firstRotateText->text());
+        }
 
         rotatePAH();
     }
@@ -5629,8 +5547,20 @@ void Align::setWCSToggled(bool result)
         m_PAHStage = PAH_SECOND_ROTATE;
         emit newPAHStage(m_PAHStage);
 
-        PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
-        emit newPAHMessage(secondRotateText->text());
+        if (PAHManual->isChecked())
+        {
+            QString msg = QString("Please rotate your mount about %1 deg in RA")
+                          .arg(PAHRotationSpin->value());
+            manualRotateText->setText(msg);
+            appendLogText(msg);
+            PAHWidgets->setCurrentWidget(PAHManualRotatePage);
+            emit newPAHMessage(manualRotateText->text());
+        }
+        else
+        {
+            PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
+            emit newPAHMessage(secondRotateText->text());
+        }
 
         polarAlign.addPoint(alignView->getImageData());
 
