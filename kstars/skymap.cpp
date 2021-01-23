@@ -477,7 +477,7 @@ void SkyMap::slotDSS()
     if (kstars)
     {
         new ImageViewer(
-            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
+            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [free for non-commercial use]."),
             this);
         //iv->show();
     }
