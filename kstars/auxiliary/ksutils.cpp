@@ -1764,7 +1764,7 @@ double getAvailableRAM()
     p.close();
     //kB to bytes
     return (memory.toLong() * 1024.0);
-#else
+#elif defined(Q_OS_WIN32)
     MEMORYSTATUSEX memory_status;
     ZeroMemory(&memory_status, sizeof(MEMORYSTATUSEX));
     memory_status.dwLength = sizeof(MEMORYSTATUSEX);
