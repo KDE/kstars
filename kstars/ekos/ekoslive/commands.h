@@ -25,6 +25,7 @@ enum COMMANDS
     GET_FILTER_WHEELS,
     GET_DOMES,
     GET_CAPS,
+    GET_STELLARSOLVER_PROFILES,
     GET_DRIVERS,
     GET_DEVICES,
     NEW_CONNECTION_STATE,
@@ -90,6 +91,13 @@ enum COMMANDS
     MOUNT_SET_MOTION,
     MOUNT_SET_TRACKING,
     MOUNT_SET_SLEW_RATE,
+    MOUNT_SET_ALTITUDE_LIMITS,
+    MOUNT_SET_HA_LIMIT,
+    MOUNT_SET_MERIDIAN_FLIP,
+    MOUNT_SET_AUTO_PARK,
+    MOUNT_SET_EVERYDAY_AUTO_PARK,
+    MOUNT_CLEAR,
+    MOUNT_GET_SETTINGS,
 
     // Dome
     DOME_PARK,
@@ -104,6 +112,7 @@ enum COMMANDS
 
     // Focus
     FOCUS_START,
+    FOCUS_CAPTURE,
     FOCUS_STOP,
     FOCUS_RESET,
     FOCUS_IN,
@@ -119,6 +128,8 @@ enum COMMANDS
 
     // Guide
     GUIDE_START,
+    GUIDE_CAPTURE,
+    GUIDE_LOOP,
     GUIDE_STOP,
     GUIDE_CLEAR,
     GUIDE_REPORT,
@@ -184,6 +195,7 @@ static QMap<COMMANDS, QString> const commands =
     {GET_FILTER_WHEELS, "get_filter_wheels"},
     {GET_DOMES, "get_domes"},
     {GET_CAPS, "get_caps"},
+    {GET_STELLARSOLVER_PROFILES, "get_stellarsolver_profiles"},
     {GET_DRIVERS, "get_drivers"},
     {GET_DEVICES, "get_devices"},
     {NEW_CONNECTION_STATE, "new_connection_state"},
@@ -245,6 +257,13 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_MOTION, "mount_set_motion"},
     {MOUNT_SET_TRACKING, "mount_set_tracking"},
     {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"},
+    {MOUNT_SET_ALTITUDE_LIMITS, "mount_set_altitude_limits"},
+    {MOUNT_SET_HA_LIMIT, "mount_set_ha_limit"},
+    {MOUNT_SET_MERIDIAN_FLIP, "mount_set_meridian_flip"},
+    {MOUNT_SET_AUTO_PARK, "mount_set_auto_park"},
+    {MOUNT_SET_EVERYDAY_AUTO_PARK, "mount_set_everyday_auto_park"},
+    {MOUNT_CLEAR, "mount_clear"},
+    {MOUNT_GET_SETTINGS, "mount_get_settings"},
 
     {DOME_PARK, "dome_park"},
     {DOME_UNPARK, "dome_unpark"},
@@ -256,6 +275,7 @@ static QMap<COMMANDS, QString> const commands =
     {CAP_SET_LIGHT, "cap_set_light"},
 
     {FOCUS_START, "focus_start"},
+    {FOCUS_CAPTURE, "focus_capture"},
     {FOCUS_STOP, "focus_stop"},
     {FOCUS_RESET, "focus_reset"},
     {FOCUS_IN, "focus_in"},
@@ -270,6 +290,8 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
 
     {GUIDE_START, "guide_start"},
+    {GUIDE_CAPTURE, "guide_capture"},
+    {GUIDE_LOOP, "guide_loop"},
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
     {GUIDE_REPORT, "guide_report"},

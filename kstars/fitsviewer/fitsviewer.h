@@ -63,16 +63,16 @@ class FITSViewer : public KXmlGuiWindow
         explicit FITSViewer(QWidget *parent);
         ~FITSViewer();
 
-        void addFITS(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
-                     const QString &previewText = QString(), bool silent = true);
+        void loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
+                      const QString &previewText = QString(), bool silent = true);
 
-        bool addFITSFromData(FITSData *data, const QUrl &imageName, int *tab_uid,
-			     FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
-			     const QString &previewText = QString());
+        bool loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid,
+                      FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
+                      const QString &previewText = QString());
 
-        void updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE, bool silent = true);
-        bool updateFITSFromData(FITSData *data, const QUrl &imageName, int fitsUID,
-				int *tab_uid, FITSScale filter = FITS_NONE);
+        void updateFile(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE, bool silent = true);
+        bool updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
+                        FITSScale filter = FITS_NONE);
         bool removeFITS(int fitsUID);
 
         bool isStarsMarked()
@@ -115,10 +115,11 @@ class FITSViewer : public KXmlGuiWindow
         void ZoomDefault();
         void ZoomToFit();
         void updateAction(const QString &name, bool enable);
-        void updateTabStatus(bool clean);
+        void updateTabStatus(bool clean, const QUrl &imageURL);
         void closeTab(int index);
         void toggleStars();
         void toggleCrossHair();
+        void toggleClipping();
         void toggleEQGrid();
         void toggleObjects();
         void togglePixelGrid();
@@ -140,12 +141,12 @@ class FITSViewer : public KXmlGuiWindow
         bool addFITSCommon(FITSTab *tab, const QUrl &imageName,
                            FITSMode mode, const QString &previewText);
         bool updateFITSCommon(FITSTab *tab, const QUrl &imageName);
-  
+
         QTabWidget *fitsTabWidget { nullptr };
         QUndoGroup *undoGroup { nullptr };
         FITSDebayer *debayerDialog { nullptr };
         KLed led;
-        QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS;
+        QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsHFR;
         QAction *saveFileAction { nullptr };
         QAction *saveFileAsAction { nullptr };
         QList<FITSTab *> fitsTabs;
@@ -158,5 +159,6 @@ class FITSViewer : public KXmlGuiWindow
         void trackingStarSelected(int x, int y);
         void loaded(int tabUID);
         void closed(int tabUID);
+        //void terminated();
         void failed();
 };

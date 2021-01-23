@@ -48,6 +48,10 @@
 #include "fitshistogram.h"
 #endif
 
+#if !defined(KSTARS_LITE) && defined(HAVE_LIBRAW)
+#include <libraw/libraw.h>
+#endif
+
 #include <cfloat>
 #include <cmath>
 
@@ -60,7 +64,7 @@
 #define ZOOM_HIGH_INCR 50
 
 const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-
+const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw" };
 
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
@@ -81,30 +85,34 @@ FITSData::FITSData(const FITSData * other)
     debayerParams.offsetX = debayerParams.offsetY = 0;
 
     this->m_Mode = other->m_Mode;
-    this->m_Channels = other->m_Channels;
-    memcpy(&stats, &(other->stats), sizeof(stats));
-    m_ImageBuffer = new uint8_t[stats.samples_per_channel * m_Channels * stats.bytesPerPixel];
-    memcpy(m_ImageBuffer, other->m_ImageBuffer, stats.samples_per_channel * m_Channels * stats.bytesPerPixel);
+    this->m_Statistics.channels = other->m_Statistics.channels;
+    memcpy(&m_Statistics, &(other->m_Statistics), sizeof(m_Statistics));
+    m_ImageBuffer = new uint8_t[m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel];
+    memcpy(m_ImageBuffer, other->m_ImageBuffer,
+           m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel);
 }
 
 FITSData::~FITSData()
 {
     int status = 0;
 
+    if (m_StarFindFuture.isRunning())
+        m_StarFindFuture.waitForFinished();
+
     clearImageBuffers();
 
 #ifdef HAVE_WCSLIB
-    if (m_wcs != nullptr)
-        wcsvfree(&m_nwcs, &m_wcs);
+    if (m_WCSHandle != nullptr)
+        wcsvfree(&m_nwcs, &m_WCSHandle);
 #endif
 
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
 
-    delete[] wcs_coord;
+    delete[] m_WCSCoordinates;
 
-    if (objList.count() > 0)
-        qDeleteAll(objList);
+    if (m_SkyObjects.count() > 0)
+        qDeleteAll(m_SkyObjects);
 
     if (fptr != nullptr)
     {
@@ -115,8 +123,6 @@ FITSData::~FITSData()
         if (m_isTemporary && autoRemoveTemporaryFITS)
             QFile::remove(m_Filename);
     }
-
-    qDeleteAll(records);
 }
 
 void FITSData::loadCommon(const QString &inFilename)
@@ -143,20 +149,20 @@ void FITSData::loadCommon(const QString &inFilename)
     m_Filename = inFilename;
 }
 
-bool FITSData::loadFITSFromMemory(const QString &inFilename, void *fits_buffer,
-                                  size_t fits_buffer_size, bool silent)
+bool FITSData::loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename, bool silent)
 {
     loadCommon(inFilename);
-    qCDebug(KSTARS_FITS) << "Reading FITS file buffer (" << KFormat().formatByteSize(fits_buffer_size) << ")";
-    return privateLoad(fits_buffer, fits_buffer_size, silent);
+    qCDebug(KSTARS_FITS) << "Reading file buffer (" << KFormat().formatByteSize(buffer.size()) << ")";
+    return privateLoad(buffer, extension, silent);
 }
 
-QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
+QFuture<bool> FITSData::loadFromFile(const QString &inFilename, bool silent)
 {
     loadCommon(inFilename);
-    qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
-    QFuture<bool> result = QtConcurrent::run(
-                               this, &FITSData::privateLoad, nullptr, 0, silent);
+    QFileInfo info(m_Filename);
+    QString extension = info.completeSuffix().toLower();
+    qCInfo(KSTARS_FITS) << "Loading file " << m_Filename;
+    QFuture<bool> result = QtConcurrent::run(this, &FITSData::privateLoad, QByteArray(), extension, silent);
 
     return result;
 }
@@ -178,24 +184,36 @@ bool fitsOpenError(int status, const QString &message, bool silent)
 }
 }
 
-bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool silent)
+bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension, bool silent)
+{
+    m_isTemporary = m_Filename.startsWith(m_TemporaryPath);
+
+    if (extension.contains("fit"))
+        return loadFITSImage(buffer, extension, silent);
+    if (QImageReader::supportedImageFormats().contains(extension.toLatin1()))
+        return loadCanonicalImage(buffer, extension, silent);
+    else if (RAWFormats.contains(extension))
+        return loadRAWImage(buffer, extension, silent);
+
+    return false;
+}
+
+bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension, bool silent)
 {
     int status = 0, anynull = 0;
     long naxes[3];
     QString errMessage;
 
-    m_isTemporary = m_Filename.startsWith(m_TemporaryPath);
-
-    if (fits_buffer == nullptr && m_Filename.endsWith(".fz"))
+    if (buffer.isEmpty() && extension.contains(".fz"))
     {
         // Store so we don't lose.
         m_compressedFilename = m_Filename;
 
         QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
                                        QRegularExpression("[-{}]")));
-        fpstate	fpvar;
+        fpstate fpvar;
         fp_init (&fpvar);
-        if (fp_unpack(m_Filename.toLatin1().data(), uncompressedFile.toLatin1().data(), fpvar) < 0)
+        if (fp_unpack(m_Filename.toLocal8Bit().data(), uncompressedFile.toLocal8Bit().data(), fpvar) < 0)
         {
             errMessage = i18n("Failed to unpack compressed fits");
             if (!silent)
@@ -213,39 +231,36 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         m_isCompressed = true;
     }
 
-    if (fits_buffer == nullptr)
+    if (buffer.isEmpty())
     {
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
-        if (fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status))
+        if (fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status))
         {
-            if(privateLoadOtherFormat(fits_buffer, fits_buffer_size, silent))
-                return true;
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
-        else
-            stats.size = QFile(m_Filename).size();
+
+        m_Statistics.size = QFile(m_Filename).size();
     }
     else
     {
         // Read the FITS file from a memory buffer.
-        void *temp_buffer = fits_buffer;
-        size_t temp_size = fits_buffer_size;
-        if (fits_open_memfile(&fptr, m_Filename.toLatin1().data(), READONLY,
+        void *temp_buffer = const_cast<void *>(reinterpret_cast<const void *>(buffer.data()));
+        size_t temp_size = buffer.size();
+        if (fits_open_memfile(&fptr, m_Filename.toLocal8Bit().data(), READONLY,
                               &temp_buffer, &temp_size, 0, nullptr, &status))
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
-        else
-            stats.size = fits_buffer_size;
+
+        m_Statistics.size = temp_size;
     }
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
-    int fitsBitPix = 0;
-    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(stats.ndim), naxes, &status))
+    if (fits_get_img_param(fptr, 3, &m_FITSBITPIX, &(m_Statistics.ndim), naxes, &status))
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
-    if (stats.ndim < 2)
+    if (m_Statistics.ndim < 2)
     {
         errMessage = i18n("1D FITS images are not supported in KStars.");
         if (!silent)
@@ -254,51 +269,51 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         return false;
     }
 
-    switch (fitsBitPix)
+    switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
-            stats.dataType      = TBYTE;
-            stats.bytesPerPixel = sizeof(uint8_t);
+            m_Statistics.dataType      = TBYTE;
+            m_Statistics.bytesPerPixel = sizeof(uint8_t);
             break;
         case SHORT_IMG:
             // Read SHORT image as USHORT
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(int16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(int16_t);
             break;
         case USHORT_IMG:
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(uint16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(uint16_t);
             break;
         case LONG_IMG:
             // Read LONG image as ULONG
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(int32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(int32_t);
             break;
         case ULONG_IMG:
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(uint32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(uint32_t);
             break;
         case FLOAT_IMG:
-            stats.dataType      = TFLOAT;
-            stats.bytesPerPixel = sizeof(float);
+            m_Statistics.dataType      = TFLOAT;
+            m_Statistics.bytesPerPixel = sizeof(float);
             break;
         case LONGLONG_IMG:
-            stats.dataType      = TLONGLONG;
-            stats.bytesPerPixel = sizeof(int64_t);
+            m_Statistics.dataType      = TLONGLONG;
+            m_Statistics.bytesPerPixel = sizeof(int64_t);
             break;
         case DOUBLE_IMG:
-            stats.dataType      = TDOUBLE;
-            stats.bytesPerPixel = sizeof(double);
+            m_Statistics.dataType      = TDOUBLE;
+            m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = i18n("Bit depth %1 is not supported.", fitsBitPix);
+            errMessage = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
             qCCritical(KSTARS_FITS) << errMessage;
             return false;
     }
 
-    if (stats.ndim < 3)
+    if (m_Statistics.ndim < 3)
         naxes[2] = 1;
 
     if (naxes[0] == 0 || naxes[1] == 0)
@@ -310,20 +325,20 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
         return false;
     }
 
-    stats.width               = naxes[0];
-    stats.height              = naxes[1];
-    stats.samples_per_channel = stats.width * stats.height;
+    m_Statistics.width               = naxes[0];
+    m_Statistics.height              = naxes[1];
+    m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
 
     clearImageBuffers();
 
-    m_Channels = naxes[2];
+    m_Statistics.channels = naxes[2];
 
     // Channels always set to #1 if we are not required to process 3D Cubes
     // Or if mode is not FITS_NORMAL (guide, focus..etc)
     if (m_Mode != FITS_NORMAL || !Options::auto3DCube())
-        m_Channels = 1;
+        m_Statistics.channels = 1;
 
-    m_ImageBufferSize = stats.samples_per_channel * m_Channels * stats.bytesPerPixel;
+    m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
@@ -336,9 +351,9 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     rotCounter     = 0;
     flipHCounter   = 0;
     flipVCounter   = 0;
-    long nelements = stats.samples_per_channel * m_Channels;
+    long nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
 
-    if (fits_read_img(fptr, stats.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
+    if (fits_read_img(fptr, m_Statistics.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
         return fitsOpenError(status, i18n("Error reading image."), silent);
 
     parseHeader();
@@ -346,9 +361,12 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     // Get UTC date time
     QVariant value;
     if (getRecordValue("DATE-OBS", value) && value.isValid())
-        m_DateTime = KStarsDateTime(value.toDateTime());
+    {
+        QDateTime ts = value.toDateTime();
+        m_DateTime = KStarsDateTime(ts.date(), ts.time());
+    }
 
-    if (Options::autoDebayer() && checkDebayer())
+    if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
         //m_BayerBuffer = m_ImageBuffer;
         if (debayer())
@@ -356,8 +374,6 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     }
     else
         calculateStats();
-
-    WCSLoaded = false;
 
     if (m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN)
         checkForWCS();
@@ -367,78 +383,90 @@ bool FITSData::privateLoad(void *fits_buffer, size_t fits_buffer_size, bool sile
     return true;
 }
 
-bool FITSData::privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size, bool silent)
+bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &extension, bool silent)
 {
-    QImageReader fileReader(m_Filename.toLatin1());
-
-    if (QImageReader::supportedImageFormats().contains(fileReader.format()) == false)
-    {
-        qCCritical(KSTARS_FITS) << "Failed to convert" << m_Filename << "to FITS since format, " << fileReader.format() <<
-                                ", is not supported in Qt";
-        return false;
-    }
-
+    // TODO need to add error popups as well later on
+    Q_UNUSED(silent);
     QString errMessage;
     QImage imageFromFile;
-    if(!imageFromFile.load(m_Filename.toLatin1()))
+    if (!buffer.isEmpty())
     {
-        qCCritical(KSTARS_FITS) << "Failed to open image.";
-        return false;
+        if(!imageFromFile.loadFromData(reinterpret_cast<const uint8_t*>(buffer.data()), buffer.size(),
+                                       extension.toLatin1().constData()))
+        {
+            qCCritical(KSTARS_FITS) << "Failed to open image.";
+            return false;
+        }
+
+        m_Statistics.size = buffer.size();
+    }
+    else
+    {
+        if(!imageFromFile.load(m_Filename.toLocal8Bit()))
+        {
+            qCCritical(KSTARS_FITS) << "Failed to open image.";
+            return false;
+        }
+
+        m_Statistics.size = QFileInfo(m_Filename).size();
     }
 
-    imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
+    //imageFromFile = imageFromFile.convertToFormat(QImage::Format_RGB32);
 
-    int fitsBitPix =
-        8; //Note: This will need to be changed.  I think QT only loads 8 bpp images.  Also the depth method gives the total bits per pixel in the image not just the bits per pixel in each channel.
-    switch (fitsBitPix)
+    // Note: This will need to be changed.  I think QT only loads 8 bpp images.
+    // Also the depth method gives the total bits per pixel in the image not just the bits per
+    // pixel in each channel.
+    const int m_FITSBITPIX = 8;
+    switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
-            stats.dataType      = TBYTE;
-            stats.bytesPerPixel = sizeof(uint8_t);
+            m_Statistics.dataType      = TBYTE;
+            m_Statistics.bytesPerPixel = sizeof(uint8_t);
             break;
         case SHORT_IMG:
             // Read SHORT image as USHORT
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(int16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(int16_t);
             break;
         case USHORT_IMG:
-            stats.dataType      = TUSHORT;
-            stats.bytesPerPixel = sizeof(uint16_t);
+            m_Statistics.dataType      = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(uint16_t);
             break;
         case LONG_IMG:
             // Read LONG image as ULONG
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(int32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(int32_t);
             break;
         case ULONG_IMG:
-            stats.dataType      = TULONG;
-            stats.bytesPerPixel = sizeof(uint32_t);
+            m_Statistics.dataType      = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(uint32_t);
             break;
         case FLOAT_IMG:
-            stats.dataType      = TFLOAT;
-            stats.bytesPerPixel = sizeof(float);
+            m_Statistics.dataType      = TFLOAT;
+            m_Statistics.bytesPerPixel = sizeof(float);
             break;
         case LONGLONG_IMG:
-            stats.dataType      = TLONGLONG;
-            stats.bytesPerPixel = sizeof(int64_t);
+            m_Statistics.dataType      = TLONGLONG;
+            m_Statistics.bytesPerPixel = sizeof(int64_t);
             break;
         case DOUBLE_IMG:
-            stats.dataType      = TDOUBLE;
-            stats.bytesPerPixel = sizeof(double);
+            m_Statistics.dataType      = TDOUBLE;
+            m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = QString("Bit depth %1 is not supported.").arg(fitsBitPix);
+            errMessage = QString("Bit depth %1 is not supported.").arg(m_FITSBITPIX);
             QMessageBox::critical(nullptr, "Message", errMessage);
             qCCritical(KSTARS_FITS) << errMessage;
             return false;
     }
 
-    stats.width = static_cast<uint16_t>(imageFromFile.width());
-    stats.height = static_cast<uint16_t>(imageFromFile.height());
-    m_Channels = 3;
-    stats.samples_per_channel = stats.width * stats.height;
+    m_Statistics.width = static_cast<uint16_t>(imageFromFile.width());
+    m_Statistics.height = static_cast<uint16_t>(imageFromFile.height());
+    m_Statistics.channels = imageFromFile.isGrayscale() ? 1 : 3;
+    m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
     clearImageBuffers();
-    m_ImageBufferSize = stats.samples_per_channel * m_Channels * static_cast<uint16_t>(stats.bytesPerPixel);
+    m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * static_cast<uint16_t>
+                        (m_Statistics.bytesPerPixel);
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
@@ -448,24 +476,151 @@ bool FITSData::privateLoadOtherFormat(void *fits_buffer, size_t fits_buffer_size
         return false;
     }
 
-    auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
-    auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
-
-    // Data in RGB32, with bytes in the order of B,G,R,A, we need to copy them into 3 layers for FITS
-
-    uint8_t * rBuff = debayered_buffer;
-    uint8_t * gBuff = debayered_buffer + (stats.width * stats.height);
-    uint8_t * bBuff = debayered_buffer + (stats.width * stats.height * 2);
-
-    int imax = stats.samples_per_channel * 4 - 4;
-    for (int i = 0; i <= imax; i += 4)
+    if (m_Statistics.channels == 1)
     {
-        *rBuff++ = original_bayered_buffer[i + 2];
-        *gBuff++ = original_bayered_buffer[i + 1];
-        *bBuff++ = original_bayered_buffer[i + 0];
+        memcpy(m_ImageBuffer, imageFromFile.bits(), m_ImageBufferSize);
+    }
+    else
+    {
+
+        auto debayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+        auto * original_bayered_buffer = reinterpret_cast<uint8_t *>(imageFromFile.bits());
+
+        // Data in RGBA, with bytes in the order of B,G,R we need to copy them into 3 layers for FITS
+        uint8_t * rBuff = debayered_buffer;
+        uint8_t * gBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height);
+        uint8_t * bBuff = debayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
+
+        int imax = m_Statistics.samples_per_channel * 4 - 4;
+        for (int i = 0; i <= imax; i += 4)
+        {
+            *rBuff++ = original_bayered_buffer[i + 2];
+            *gBuff++ = original_bayered_buffer[i + 1];
+            *bBuff++ = original_bayered_buffer[i + 0];
+        }
     }
 
+    calculateStats();
     return true;
+}
+
+bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension, bool silent)
+{
+    // TODO need to add error popups as well later on
+    Q_UNUSED(silent);
+    Q_UNUSED(extension);
+
+#if !defined(KSTARS_LITE) && !defined(HAVE_LIBRAW)
+    lastError = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
+    return false;
+#else
+
+    int ret = 0;
+    // Creation of image processing object
+    LibRaw RawProcessor;
+
+    // Let us open the file/buffer
+    if (buffer.isEmpty())
+    {
+        // Open file
+        if ((ret = RawProcessor.open_file(m_Filename.toLocal8Bit().constData())) != LIBRAW_SUCCESS)
+        {
+            lastError = i18n("Cannot open file %1: %2", m_Filename, libraw_strerror(ret));
+            RawProcessor.recycle();
+            return false;
+        }
+
+        m_Statistics.size = QFileInfo(m_Filename).size();
+    }
+    // Open Buffer
+    else
+    {
+        if ((ret = RawProcessor.open_buffer(const_cast<void *>(reinterpret_cast<const void *>(buffer.data())),
+                                            buffer.size())) != LIBRAW_SUCCESS)
+        {
+            lastError = i18n("Cannot open buffer: %1", libraw_strerror(ret));
+            RawProcessor.recycle();
+            return false;
+        }
+
+        m_Statistics.size = buffer.size();
+    }
+
+    // Let us unpack the thumbnail
+    if ((ret = RawProcessor.unpack()) != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot unpack_thumb: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    if ((ret = RawProcessor.dcraw_process()) != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot dcraw_process: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    libraw_processed_image_t *image = RawProcessor.dcraw_make_mem_image(&ret);
+    if (ret != LIBRAW_SUCCESS)
+    {
+        lastError = i18n("Cannot load to memory: %1", libraw_strerror(ret));
+        RawProcessor.recycle();
+        return false;
+    }
+
+    RawProcessor.recycle();
+
+    m_Statistics.bytesPerPixel = image->bits / 8;
+    // We only support two types now
+    if (m_Statistics.bytesPerPixel == 1)
+        m_Statistics.dataType = TBYTE;
+    else
+        m_Statistics.dataType = TUSHORT;
+    m_Statistics.width = image->width;
+    m_Statistics.height = image->height;
+    m_Statistics.channels = image->colors;
+    m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
+    clearImageBuffers();
+    m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
+    m_ImageBuffer = new uint8_t[m_ImageBufferSize];
+    if (m_ImageBuffer == nullptr)
+    {
+        qCCritical(KSTARS_FITS) << QString("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ").arg(
+                                    m_ImageBufferSize);
+        libraw_dcraw_clear_mem(image);
+        clearImageBuffers();
+        return false;
+    }
+
+    auto destination_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+    auto source_buffer = reinterpret_cast<uint8_t *>(image->data);
+
+    // For mono, we memcpy directly
+    if (image->colors == 1)
+    {
+        memcpy(destination_buffer, source_buffer, m_ImageBufferSize);
+    }
+    else
+    {
+        // Data in RGB24, with bytes in the order of R,G,B. We copy them copy them into 3 layers for FITS
+        uint8_t * rBuff = destination_buffer;
+        uint8_t * gBuff = destination_buffer + (m_Statistics.width * m_Statistics.height);
+        uint8_t * bBuff = destination_buffer + (m_Statistics.width * m_Statistics.height * 2);
+
+        int imax = m_Statistics.samples_per_channel * 3 - 3;
+        for (int i = 0; i <= imax; i += 3)
+        {
+            *rBuff++ = source_buffer[i + 0];
+            *gBuff++ = source_buffer[i + 1];
+            *bBuff++ = source_buffer[i + 2];
+        }
+    }
+    libraw_dcraw_clear_mem(image);
+
+    calculateStats();
+    return true;
+#endif
 }
 
 bool FITSData::saveImage(const QString &newFilename)
@@ -498,14 +653,14 @@ bool FITSData::saveImage(const QString &newFilename)
             fitsImage = QImage(width(), height(), QImage::Format_RGB32);
         }
 
-        double dataMin = stats.mean[0] - stats.stddev[0];
-        double dataMax = stats.mean[0] + stats.stddev[0] * 3;
+        double dataMin = m_Statistics.mean[0] - m_Statistics.stddev[0];
+        double dataMax = m_Statistics.mean[0] + m_Statistics.stddev[0] * 3;
 
         double bscale = 255. / (dataMax - dataMin);
         double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
         // Long way to do this since we do not want to use templated functions here
-        switch (stats.dataType)
+        switch (m_Statistics.dataType)
         {
             case TBYTE:
                 convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -556,11 +711,11 @@ bool FITSData::saveImage(const QString &newFilename)
         return false;
     }
 
-    int status = 0, exttype = 0;
+    int status = 0;
     long nelements;
     fitsfile * new_fptr;
 
-    if (HasDebayer)
+    if (m_isTemporary == false && HasDebayer && m_Filename.isEmpty() == false)
     {
         fits_flush_file(fptr, &status);
         /* close current file */
@@ -585,44 +740,24 @@ bool FITSData::saveImage(const QString &newFilename)
             return false;
         }
 
-        if (m_isTemporary && autoRemoveTemporaryFITS)
-        {
-            QFile::remove(m_Filename);
-            m_isTemporary = false;
-        }
+        //        if (m_isTemporary && autoRemoveTemporaryFITS)
+        //        {
+        //            QFile::remove(m_Filename);
+        //            m_isTemporary = false;
+        //        }
 
         m_Filename = finalFileName;
 
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
-        fits_open_diskfile(&fptr, m_Filename.toLatin1(), READONLY, &status);
+        fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status);
         fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status);
 
         return true;
     }
 
-    nelements = stats.samples_per_channel * m_Channels;
+    nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
 
-    /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, newFilename.toLatin1(), &status))
-    {
-        fits_report_error(stderr, status);
-        return status;
-    }
-
-    //    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    //    {
-    //        fits_report_error(stderr, status);
-    //        return status;
-    //    }
-
-    if (fits_copy_header(fptr, new_fptr, &status))
-    {
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_flush_file(fptr, &status);
     /* close current file */
     if (fits_close_file(fptr, &status))
     {
@@ -630,18 +765,29 @@ bool FITSData::saveImage(const QString &newFilename)
         return false;
     }
 
+    /* Create a new File, overwriting existing*/
+    if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }
+
     status = 0;
 
     fptr = new_fptr;
 
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
+    // Create image
+    long naxis = m_Statistics.channels == 1 ? 2 : 3;
+    long naxes[3] = {m_Statistics.width, m_Statistics.height, naxis};
+    // JM 2020-12-28: Here we to use bitpix values
+    if (fits_create_img(fptr, m_FITSBITPIX, naxis, naxes, &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
-    /* Write Data */
-    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
+    // Here we need to use the actual data type
+    if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
         return false;
@@ -650,31 +796,50 @@ bool FITSData::saveImage(const QString &newFilename)
     /* Write keywords */
 
     // Minimum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
+    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(m_Statistics.min), "Minimum value", &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
     // Maximum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
+    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(m_Statistics.max), "Maximum value", &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
-    // NAXIS1
-    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
+    // Skip first 10 standard records and copy the rest.
+    for (int i = 10; i < m_HeaderRecords.count(); i++)
     {
-        fits_report_error(stderr, status);
-        return false;
-    }
+        QString key = m_HeaderRecords[i].key;
+        const char *comment = m_HeaderRecords[i].comment.toLatin1().constBegin();
+        QVariant value = m_HeaderRecords[i].value;
 
-    // NAXIS2
-    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
-    {
-        fits_report_error(stderr, status);
-        return false;
+        switch (value.type())
+        {
+            case QVariant::Int:
+            {
+                int number = value.toInt();
+                fits_write_key(fptr, TINT, key.toLatin1().constData(), &number, comment, &status);
+            }
+            break;
+
+            case QVariant::Double:
+            {
+                double number = value.toDouble();
+                fits_write_key(fptr, TDOUBLE, key.toLatin1().constData(), &number, comment, &status);
+            }
+            break;
+
+            case QVariant::String:
+            default:
+            {
+                char valueBuffer[256] = {0};
+                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256);
+                fits_write_key(fptr, TSTRING, key.toLatin1().constData(), valueBuffer, comment, &status);
+            }
+        }
     }
 
     // ISO Date
@@ -708,7 +873,7 @@ bool FITSData::saveImage(const QString &newFilename)
 
     rotCounter = flipHCounter = flipVCounter = 0;
 
-    if (m_isTemporary && autoRemoveTemporaryFITS)
+    if (m_Filename.isEmpty() == false && m_isTemporary && autoRemoveTemporaryFITS)
     {
         QFile::remove(m_Filename);
         m_isTemporary = false;
@@ -736,7 +901,7 @@ void FITSData::calculateStats(bool refresh)
     calculateMinMax(refresh);
 
     // Get standard deviation and mean in one run
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
             runningAverageStdDev<uint8_t>();
@@ -775,7 +940,7 @@ void FITSData::calculateStats(bool refresh)
     }
 
     // FIXME That's not really SNR, must implement a proper solution for this value
-    stats.SNR = stats.mean[0] / stats.stddev[0];
+    m_Statistics.SNR = m_Statistics.mean[0] / m_Statistics.stddev[0];
 }
 
 int FITSData::calculateMinMax(bool refresh)
@@ -786,27 +951,27 @@ int FITSData::calculateMinMax(bool refresh)
 
     if ((fptr != nullptr) && !refresh)
     {
-        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), nullptr, &status) == 0)
+        if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
             nfound++;
 
-        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max[0]), nullptr, &status) == 0)
+        if (fits_read_key_dbl(fptr, "DATAMAX", &(m_Statistics.max[0]), nullptr, &status) == 0)
             nfound++;
 
         // If we found both keywords, no need to calculate them, unless they are both zeros
-        if (nfound == 2 && !(stats.min[0] == 0 && stats.max[0] == 0))
+        if (nfound == 2 && !(m_Statistics.min[0] == 0 && m_Statistics.max[0] == 0))
             return 0;
     }
 
-    stats.min[0] = 1.0E30;
-    stats.max[0] = -1.0E30;
+    m_Statistics.min[0] = 1.0E30;
+    m_Statistics.max[0] = -1.0E30;
 
-    stats.min[1] = 1.0E30;
-    stats.max[1] = -1.0E30;
+    m_Statistics.min[1] = 1.0E30;
+    m_Statistics.max[1] = -1.0E30;
 
-    stats.min[2] = 1.0E30;
-    stats.max[2] = -1.0E30;
+    m_Statistics.min[2] = 1.0E30;
+    m_Statistics.max[2] = -1.0E30;
 
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
             calculateMinMax<uint8_t>();
@@ -859,10 +1024,12 @@ QPair<T, T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
 
     for (uint32_t i = start; i < end; i++)
     {
-        if (buffer[i] < min)
-            min = buffer[i];
-        else if (buffer[i] > max)
-            max = buffer[i];
+        min = qMin(buffer[i], min);
+        max = qMax(buffer[i], max);
+        //        if (buffer[i] < min)
+        //            min = buffer[i];
+        //        else if (buffer[i] > max)
+        //            max = buffer[i];
     }
 
     return qMakePair(min, max);
@@ -874,18 +1041,19 @@ void FITSData::calculateMinMax()
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
 
+
     // Create N threads
     const uint8_t nThreads = 16;
 
-    for (int n = 0; n < m_Channels; n++)
+    for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * stats.samples_per_channel;
+        uint32_t cStart = n * m_Statistics.samples_per_channel;
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = stats.samples_per_channel / nThreads;
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
         // Start location for inspecting elements
         uint32_t tStart = cStart;
@@ -904,14 +1072,12 @@ void FITSData::calculateMinMax()
         for (int i = 0; i < nThreads; i++)
         {
             QPair<T, T> result = futures[i].result();
-            if (result.first < min)
-                min = result.first;
-            if (result.second > max)
-                max = result.second;
+            min = qMin(result.first, min);
+            max = qMax(result.second, max);
         }
 
-        stats.min[n] = min;
-        stats.max[n] = max;
+        m_Statistics.min[n] = min;
+        m_Statistics.max[n] = max;
     }
 }
 
@@ -943,15 +1109,15 @@ void FITSData::runningAverageStdDev()
     // Create N threads
     const uint8_t nThreads = 16;
 
-    for (int n = 0; n < m_Channels; n++)
+    for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * stats.samples_per_channel;
+        uint32_t cStart = n * m_Statistics.samples_per_channel;
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = stats.samples_per_channel / nThreads;
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
         // Start location for inspecting elements
         uint32_t tStart = cStart;
@@ -977,10 +1143,10 @@ void FITSData::runningAverageStdDev()
             squared_sum += result.second;
         }
 
-        double variance = squared_sum / stats.samples_per_channel;
+        double variance = squared_sum / m_Statistics.samples_per_channel;
 
-        stats.mean[n]   = mean / nThreads;
-        stats.stddev[n] = sqrt(variance);
+        m_Statistics.mean[n]   = mean / nThreads;
+        m_Statistics.stddev[n] = sqrt(variance);
     }
 }
 
@@ -1027,25 +1193,25 @@ void FITSData::convolutionFilter(const QVector<double> &kernel, int kernelSize)
 
     // Start with the pixel that is offset fOff from top and fOff from the left side
     // this is so entire kernel is on your image
-    for (int offsetY = 0; offsetY < stats.height; offsetY++)
+    for (int offsetY = 0; offsetY < m_Statistics.height; offsetY++)
     {
-        for (int offsetX = 0; offsetX < stats.width; offsetX++)
+        for (int offsetX = 0; offsetX < m_Statistics.width; offsetX++)
         {
             // reset gray value to 0
             gt = 0;
             // position of the kernel center pixel
-            int byteOffset = offsetY * stats.width + offsetX;
+            int byteOffset = offsetY * m_Statistics.width + offsetX;
 
             // kernel calculations
             for (int filterY = -fOff; filterY <= fOff; filterY++)
             {
                 for (int filterX = -fOff; filterX <= fOff; filterX++)
                 {
-                    if ((offsetY + filterY) >= 0 && (offsetY + filterY) < stats.height
-                            && ((offsetX + filterX) >= 0 && (offsetX + filterX) < stats.width ))
+                    if ((offsetY + filterY) >= 0 && (offsetY + filterY) < m_Statistics.height
+                            && ((offsetX + filterX) >= 0 && (offsetX + filterX) < m_Statistics.width ))
                     {
 
-                        int calcOffset = byteOffset + filterX + filterY * stats.width;
+                        int calcOffset = byteOffset + filterX + filterY * m_Statistics.width;
                         int index = (filterY + fOff) * kernelSize + (filterX + fOff);
                         double kernelValue = kernel.at(index);
                         gt += (imagePtr[calcOffset]) * kernelValue;
@@ -1080,8 +1246,8 @@ void FITSData::gaussianBlur(int kernelSize, double sigma)
 
 void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
 {
-    stats.min[channel] = newMin;
-    stats.max[channel] = newMax;
+    m_Statistics.min[channel] = newMin;
+    m_Statistics.max[channel] = newMax;
 }
 
 bool FITSData::parseHeader()
@@ -1096,45 +1262,46 @@ bool FITSData::parseHeader()
         return false;
     }
 
+    m_HeaderRecords.clear();
     QString recordList = QString(header);
 
     for (int i = 0; i < nkeys; i++)
     {
-        Record * oneRecord = new Record;
+        Record oneRecord;
         // Quotes cause issues for simplified below so we're removing them.
         QString record = recordList.mid(i * 80, 80).remove("'");
         QStringList properties = record.split(QRegExp("[=/]"));
         // If it is only a comment
         if (properties.size() == 1)
         {
-            oneRecord->key = properties[0].mid(0, 7);
-            oneRecord->comment = properties[0].mid(8).simplified();
+            oneRecord.key = properties[0].mid(0, 7);
+            oneRecord.comment = properties[0].mid(8).simplified();
         }
         else
         {
-            oneRecord->key = properties[0].simplified();
-            oneRecord->value = properties[1].simplified();
+            oneRecord.key = properties[0].simplified();
+            oneRecord.value = properties[1].simplified();
             if (properties.size() > 2)
-                oneRecord->comment = properties[2].simplified();
+                oneRecord.comment = properties[2].simplified();
 
             // Try to guess the value.
             // Test for integer & double. If neither, then leave it as "string".
             bool ok = false;
 
             // Is it Integer?
-            oneRecord->value.toInt(&ok);
+            oneRecord.value.toInt(&ok);
             if (ok)
-                oneRecord->value.convert(QMetaType::Int);
+                oneRecord.value.convert(QMetaType::Int);
             else
             {
                 // Is it double?
-                oneRecord->value.toDouble(&ok);
+                oneRecord.value.toDouble(&ok);
                 if (ok)
-                    oneRecord->value.convert(QMetaType::Double);
+                    oneRecord.value.convert(QMetaType::Double);
             }
         }
 
-        records.append(oneRecord);
+        m_HeaderRecords.append(oneRecord);
     }
 
     free(header);
@@ -1144,20 +1311,124 @@ bool FITSData::parseHeader()
 
 bool FITSData::getRecordValue(const QString &key, QVariant &value) const
 {
-    for (Record * oneRecord : records)
+    auto result = std::find_if(m_HeaderRecords.begin(), m_HeaderRecords.end(), [&key](const Record & oneRecord)
     {
-        if (oneRecord->key == key)
-        {
-            value = oneRecord->value;
-            return true;
-        }
+        return (oneRecord.key == key && oneRecord.value.isValid());
+    });
+
+    if (result != m_HeaderRecords.end())
+    {
+        value = (*result).value;
+        return true;
+    }
+    return false;
+}
+
+bool FITSData::parseSolution(FITSImage::Solution &solution) const
+{
+    dms angleValue;
+    bool raOK = false, deOK = false, coordOK = false, scaleOK = false;
+    QVariant value;
+
+    // Reset all
+    solution.fieldWidth = solution.fieldHeight = solution.pixscale = solution.ra = solution.dec = -1;
+
+    // RA
+    if (getRecordValue("OBJCTRA", value))
+    {
+        angleValue = dms::fromString(value.toString(), false);
+        solution.ra = angleValue.Degrees();
+        raOK = true;
+    }
+    else if (getRecordValue("RA", value))
+    {
+        solution.ra = value.toDouble(&raOK);
     }
 
-    return false;
+    // DE
+    if (getRecordValue("OBJCTDEC", value))
+    {
+        angleValue = dms::fromString(value.toString(), true);
+        solution.dec = angleValue.Degrees();
+        deOK = true;
+    }
+    else if (getRecordValue("DEC", value))
+    {
+        solution.dec = value.toDouble(&deOK);
+    }
+
+    coordOK = raOK && deOK;
+
+    // PixScale
+    double scale = -1;
+    if (getRecordValue("SCALE", value))
+    {
+        scale = value.toDouble();
+    }
+
+    double focal_length = -1;
+    if (getRecordValue("FOCALLEN", value))
+    {
+        focal_length = value.toDouble();
+    }
+
+    double pixsize1 = -1, pixsize2 = -1;
+    // Pixel Size 1
+    if (getRecordValue("PIXSIZE1", value))
+    {
+        pixsize1 = value.toDouble();
+    }
+    // Pixel Size 2
+    if (getRecordValue("PIXSIZE2", value))
+    {
+        pixsize2 = value.toDouble();
+    }
+
+    int binx = 1, biny = 1;
+    // Binning X
+    if (getRecordValue("XBINNING", value))
+    {
+        binx = value.toDouble();
+    }
+    // Binning Y
+    if (getRecordValue("YBINNING", value))
+    {
+        biny = value.toDouble();
+    }
+
+    if (pixsize1 > 0 && pixsize2 > 0)
+    {
+        // If we have scale, then that's it
+        if (scale > 0)
+        {
+            // Arcsecs per pixel
+            solution.pixscale = scale;
+            // Arcmins
+            solution.fieldWidth = (m_Statistics.width * scale) / 60.0;
+            // Arcmins, and account for pixel ratio if non-squared.
+            solution.fieldHeight = (m_Statistics.height * scale * (pixsize2 / pixsize1)) / 60.0;
+        }
+        else if (focal_length > 0)
+        {
+            // Arcmins
+            solution.fieldWidth = ((206264.8062470963552 * m_Statistics.width * (pixsize1 / 1000.0)) / (focal_length * binx)) / 60.0;
+            // Arsmins
+            solution.fieldHeight = ((206264.8062470963552 * m_Statistics.height * (pixsize2 / 1000.0)) / (focal_length * biny)) / 60.0;
+            // Arcsecs per pixel
+            solution.pixscale = (206264.8062470963552 * (pixsize1 / 1000.0)) / (focal_length * binx);
+        }
+
+        scaleOK = true;
+    }
+
+    return (coordOK || scaleOK);
 }
 
 QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 {
+    if (m_StarFindFuture.isRunning())
+        m_StarFindFuture.waitForFinished();
+
     starAlgorithm = algorithm;
     qDeleteAll(starCenters);
     starCenters.clear();
@@ -1167,61 +1438,68 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     {
         case ALGORITHM_SEP:
         {
-            if (m_Mode == FITS_NORMAL && trackingBox.isNull() && Options::quickHFR())
+            QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            if (m_Mode == FITS_NORMAL && trackingBox.isNull())
             {
-                // Just finds stars in the center 25% of the image.
-                const int w = getStatistics().width;
-                const int h = getStatistics().height;
-                QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
-                // need this with QRect.
-                detector->configure("radiusIsBoundary", "false");
-                return detector->findSources(middle);
-            }
-            else
-            {
-                QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
-                return detector->findSources(trackingBox);
-            }
-
-            case ALGORITHM_GRADIENT:
-            default:
-            {
-                QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
-                return detector->findSources(trackingBox);
-            }
-
-            case ALGORITHM_CENTROID:
-            {
-#ifndef KSTARS_LITE
-                if (histogram)
-                    if (!histogram->isConstructed())
-                        histogram->constructHistogram();
-
-                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
-                detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
-                return detector->findSources(trackingBox);
-            }
-#else
+                if (Options::quickHFR())
                 {
-                    QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
-                    return detector->findSources(starCenters, trackingBox);
+                    //Just finds stars in the center 25% of the image.
+                    const int w = getStatistics().width;
+                    const int h = getStatistics().height;
+                    QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
+                    return detector->findSources(middle);
                 }
+            }
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
+        }
+
+        case ALGORITHM_GRADIENT:
+        default:
+        {
+            QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
+        }
+
+        case ALGORITHM_CENTROID:
+        {
+#ifndef KSTARS_LITE
+            if (histogram)
+                if (!histogram->isConstructed())
+                    histogram->constructHistogram();
+
+            QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            detector->configure("JMINDEX", histogram ? histogram->getJMIndex() : 100);
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
+        }
+#else
+            {
+                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
+                return detector->findSources(starCenters, trackingBox);
+            }
 #endif
 
-            case ALGORITHM_THRESHOLD:
-            {
-                QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
-                detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
-                detector->findSources(trackingBox);
-            }
+        case ALGORITHM_THRESHOLD:
+        {
+            QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
+            m_StarFindFuture =  detector->findSources(trackingBox);
+            return m_StarFindFuture;
+        }
 
-            case ALGORITHM_BAHTINOV:
-            {
-                QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
-                detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
-                return detector->findSources(trackingBox);
-            }
+        case ALGORITHM_BAHTINOV:
+        {
+            QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
+            detector->setSettings(m_SourceExtractorSettings);
+            detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
+            m_StarFindFuture = detector->findSources(trackingBox);
+            return m_StarFindFuture;
         }
     }
 }
@@ -1302,7 +1580,7 @@ double FITSData::getHFR(HFRType type)
     // No real way to tell the scale, so only remove saturated stars with range 0 -> 2**16
     // for non-byte types. Unsigned types and floating types, or really any pixels whose
     // range isn't 0-64 (or 0-255 for bytes) won't have their saturated stars removed.
-    const int saturationValue = stats.dataType == TBYTE ? 250 : 50000;
+    const int saturationValue = m_Statistics.dataType == TBYTE ? 250 : 50000;
     int numSaturated = 0;
     for (auto center : starCenters)
         if (center->val > saturationValue)
@@ -1368,6 +1646,25 @@ double FITSData::getHFR(int x, int y)
     return -1;
 }
 
+double FITSData::getEccentricity()
+{
+    if (starCenters.empty())
+        return -1;
+    std::vector<float> eccs;
+    for (const auto &s : starCenters)
+        eccs.push_back(s->ellipticity);
+    int middle = eccs.size() / 2;
+    std::nth_element(eccs.begin(), eccs.begin() + middle, eccs.end());
+    float medianEllipticity = eccs[middle];
+
+    // SEP gives us the ellipticity (flattening) directly.
+    // To get the eccentricity, use this formula:
+    // e = sqrt(ellipticity * (2 - ellipticity))
+    // https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
+    const float eccentricity = sqrt(medianEllipticity * (2 - medianEllipticity));
+    return eccentricity;
+}
+
 void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * min, QVector<double> * max)
 {
     if (type == FITS_NONE)
@@ -1387,8 +1684,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
         {
             for (int i = 0; i < 3; i++)
             {
-                dataMin[i] = stats.mean[i] - stats.stddev[i];
-                dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
+                dataMin[i] = m_Statistics.mean[i] - m_Statistics.stddev[i];
+                dataMax[i] = m_Statistics.mean[i] + m_Statistics.stddev[i] * 3;
             }
         }
         break;
@@ -1397,8 +1694,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
         {
             for (int i = 0; i < 3; i++)
             {
-                dataMin[i] = stats.mean[i] + stats.stddev[i];
-                dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
+                dataMin[i] = m_Statistics.mean[i] + m_Statistics.stddev[i];
+                dataMax[i] = m_Statistics.mean[i] + m_Statistics.stddev[i] * 3;
             }
         }
         break;
@@ -1407,7 +1704,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
         {
             for (int i = 0; i < 3; i++)
             {
-                dataMin[i] = stats.mean[i];
+                dataMin[i] = m_Statistics.mean[i];
             }
         }
         break;
@@ -1416,7 +1713,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
             break;
     }
 
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
         {
@@ -1544,8 +1841,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
     // Create N threads
     const uint8_t nThreads = 16;
 
-    uint32_t width  = stats.width;
-    uint32_t height = stats.height;
+    uint32_t width  = m_Statistics.width;
+    uint32_t height = m_Statistics.height;
 
     //QTime timer;
     //timer.start();
@@ -1574,18 +1871,18 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     coeff[i] = max[i] / sqrt(max[i]);
             }
 
-            for (int n = 0; n < m_Channels; n++)
+            for (int n = 0; n < m_Statistics.channels; n++)
             {
                 if (type == FITS_HIGH_PASS)
-                    min[n] = stats.mean[n];
+                    min[n] = m_Statistics.mean[n];
 
-                uint32_t cStart = n * stats.samples_per_channel;
+                uint32_t cStart = n * m_Statistics.samples_per_channel;
 
                 // Calculate how many elements we process per thread
-                uint32_t tStride = stats.samples_per_channel / nThreads;
+                uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
 
                 // Calculate the final stride since we can have some left over due to division above
-                uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+                uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
 
                 T * runningBuffer = image + cStart;
 
@@ -1632,15 +1929,15 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                 }
             }
 
-            for (int i = 0; i < nThreads * m_Channels; i++)
+            for (int i = 0; i < nThreads * m_Statistics.channels; i++)
                 futures[i].waitForFinished();
 
             if (calcStats)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    stats.min[i] = min[i];
-                    stats.max[i] = max[i];
+                    m_Statistics.min[i] = min[i];
+                    m_Statistics.max[i] = max[i];
                 }
                 //if (type != FITS_AUTO && type != FITS_LINEAR)
                 runningAverageStdDev<T>();
@@ -1665,9 +1962,9 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
             uint32_t row = 0;
             uint32_t index = 0;
 
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                uint32_t offset = i * stats.samples_per_channel;
+                uint32_t offset = i * m_Statistics.samples_per_channel;
                 for (uint32_t j = 0; j < height; j++)
                 {
                     row = offset + j * width;
@@ -1692,15 +1989,15 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
         // Based on http://www.librow.com/articles/article-1
         case FITS_MEDIAN:
         {
-            uint8_t BBP      = stats.bytesPerPixel;
+            uint8_t BBP      = m_Statistics.bytesPerPixel;
             auto * extension = new T[(width + 2) * (height + 2)];
             //   Check memory allocation
             if (!extension)
                 return;
             //   Create image extension
-            for (uint32_t ch = 0; ch < m_Channels; ch++)
+            for (uint32_t ch = 0; ch < m_Statistics.channels; ch++)
             {
-                uint32_t offset = ch * stats.samples_per_channel;
+                uint32_t offset = ch * m_Statistics.samples_per_channel;
                 uint32_t N = width, M = height;
 
                 for (uint32_t i = 0; i < M; ++i)
@@ -1812,10 +2109,10 @@ bool FITSData::checkForWCS()
     int nkeyrec, nreject;
 
     // Free wcs before re-use
-    if (m_wcs != nullptr)
+    if (m_WCSHandle != nullptr)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
     }
 
     if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
@@ -1826,35 +2123,36 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &m_nwcs, &m_wcs)) != 0)
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
     {
         free(header);
-        wcsvfree(&m_nwcs, &m_wcs);
+        wcsvfree(&m_nwcs, &m_WCSHandle);
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
         return false;
     }
 
     free(header);
 
-    if (m_wcs == nullptr)
+    if (m_WCSHandle == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (m_wcs->crpix[0] == 0)
+    if (m_WCSHandle->crpix[0] == 0)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
-    if ((status = wcsset(m_wcs)) != 0)
+    cdfix(m_WCSHandle);
+    if ((status = wcsset(m_WCSHandle)) != 0)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
@@ -1865,28 +2163,27 @@ bool FITSData::checkForWCS()
     return HasWCS;
 }
 
-bool FITSData::loadWCS()
+bool FITSData::loadWCS(bool extras)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 
-    if (WCSLoaded)
+    if (m_WCSState == Success)
     {
-        qWarning() << "WCS data already loaded";
+        qCWarning(KSTARS_FITS) << "WCS data already loaded";
         return true;
     }
 
-    if (m_wcs != nullptr)
+    if (m_WCSHandle != nullptr)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
     }
 
     qCDebug(KSTARS_FITS) << "Started WCS Data Processing...";
 
     int status = 0;
     char * header;
-    int nkeyrec, nreject, nwcs, stat[2];
-    double imgcrd[2], phi = 0, pixcrd[2], theta = 0, world[2];
+    int nkeyrec, nreject, nwcs;
     int w  = width();
     int h = height();
 
@@ -1895,81 +2192,108 @@ bool FITSData::loadWCS()
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
         lastError = errmsg;
+        m_WCSState = Failure;
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &m_wcs)) != 0)
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &m_WCSHandle)) != 0)
     {
         free(header);
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
+        m_WCSState = Failure;
         return false;
     }
 
     free(header);
 
-    if (m_wcs == nullptr)
+    if (m_WCSHandle == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
+        m_WCSState = Failure;
         return false;
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (m_wcs->crpix[0] == 0)
+    if (m_WCSHandle->crpix[0] == 0)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
         lastError = i18n("No world coordinate systems found.");
+        m_WCSState = Failure;
         return false;
     }
 
-    if ((status = wcsset(m_wcs)) != 0)
+    cdfix(m_WCSHandle);
+    if ((status = wcsset(m_WCSHandle)) != 0)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+        m_WCSState = Failure;
         return false;
     }
 
-    delete[] wcs_coord;
+    delete[] m_WCSCoordinates;
 
-    wcs_coord = new FITSImage::wcs_point[w * h];
+    m_WCSCoordinates = new FITSImage::wcs_point[w * h];
 
-    if (wcs_coord == nullptr)
+    if (m_WCSCoordinates == nullptr)
     {
-        wcsvfree(&m_nwcs, &m_wcs);
-        m_wcs = nullptr;
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
         lastError = "Not enough memory for WCS data!";
+        m_WCSState = Failure;
         return false;
     }
 
-    FITSImage::wcs_point * p = wcs_coord;
+    m_WCSState = Busy;
 
-    for (int i = 0; i < h; i++)
+    if (extras)
     {
-        for (int j = 0; j < w; j++)
+        const int nThreads = QThread::idealThreadCount();
+        QList<QFuture<void>> futures;
+        // Calculate how many elements we process per thread
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
+        // Calculate the final stride since we can have some left over due to division above
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
+
+        for (int i = 0; i < nThreads; i++)
         {
-            pixcrd[0] = j;
-            pixcrd[1] = i;
-
-            if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+            uint32_t cStart = i * tStride;
+            uint32_t cEnd = cStart + ((i == (nThreads - 1)) ? fStride : tStride);
+            // Run threads
+            futures.append(QtConcurrent::run([ = ]()
             {
-                lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
-            }
-            else
-            {
-                p->ra  = world[0];
-                p->dec = world[1];
-
-                p++;
-            }
+                double phi = 0, theta = 0, world[2], pixcrd[2], imgcrd[2];
+                int stat[2];
+                FITSImage::wcs_point *wcsPointer = m_WCSCoordinates + cStart;
+                for (uint32_t i = cStart; i < cEnd; i++)
+                {
+                    uint32_t x = i % w;
+                    uint32_t y = i / w;
+                    pixcrd[0] = x;
+                    pixcrd[1] = y;
+                    if (wcsp2s(m_WCSHandle, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0]) == 0)
+                    {
+                        wcsPointer->ra  = world[0];
+                        wcsPointer->dec = world[1];
+                    }
+                    wcsPointer++;
+                }
+            }));
         }
+
+        for (auto &oneFuture : futures)
+            oneFuture.waitForFinished();
+
+        SkyPoint startPoint(m_WCSCoordinates->ra / 15.0, m_WCSCoordinates->dec);
+        SkyPoint endPoint( (m_WCSCoordinates + w * h - 1)->ra / 15.0, (m_WCSCoordinates + w * h - 1)->dec);
+        findObjectsInImage(startPoint, endPoint);
     }
-
-    findObjectsInImage(&world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
-
-    WCSLoaded = true;
+    m_WCSState = Success;
+    FullWCS = extras;
     HasWCS = true;
 
     qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";
@@ -1980,14 +2304,13 @@ bool FITSData::loadWCS()
 #endif
 }
 
-bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint)
+bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-    int status = 0;
-    int stat[2];
-    double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
+    int status, stat[NWCSFIX];
+    double imgcrd[NWCSFIX], phi, pixcrd[NWCSFIX], theta, worldcrd[NWCSFIX];
 
-    if (m_wcs == nullptr)
+    if (m_WCSHandle == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
@@ -1996,9 +2319,13 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     worldcrd[0] = wcsCoord.ra0().Degrees();
     worldcrd[1] = wcsCoord.dec0().Degrees();
 
-    if ((status = wcss2p(m_wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
+    if ((status = wcss2p(m_WCSHandle, 1, 2, worldcrd, &phi, &theta, imgcrd, pixcrd, stat)) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+
+        fprintf(stderr, "******************* wcss2p(%f,%f) error: %s\n", worldcrd[0], worldcrd[1], lastError.toLatin1().data());//////////////////////////
+        qCDebug(KSTARS_FITS) << "wcss2p failed with:" << worldcrd[0] << worldcrd[1];///////////////////////
+        
         return false;
     }
 
@@ -2020,11 +2347,10 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
 bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-    int status = 0;
-    int stat[2];
-    double imgcrd[2], phi, pixcrd[2], theta, world[2];
+    int status, stat[NWCSFIX];
+    double imgcrd[NWCSFIX], phi, pixcrd[NWCSFIX], theta, world[NWCSFIX];
 
-    if (m_wcs == nullptr)
+    if (m_WCSHandle == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
@@ -2033,7 +2359,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     pixcrd[0] = wcsPixelPoint.x();
     pixcrd[1] = wcsPixelPoint.y();
 
-    if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
+    if ((status = wcsp2s(m_WCSHandle, 1, 2, pixcrd, imgcrd, &phi, &theta, world, stat)) != 0)
     {
         lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2053,18 +2379,19 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 }
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-void FITSData::findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[],
-                                  int stat[])
+void FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
 {
+    if (KStarsData::Instance() == nullptr)
+        return;
+
     int w = width();
     int h = height();
-    int status = 0;
-    char date[64];
+    QVariant date;
     KSNumbers * num = nullptr;
 
-    if (fits_read_keyword(fptr, "DATE-OBS", date, nullptr, &status) == 0)
+    if (getRecordValue("DATE-OBS", date))
     {
-        QString tsString(date);
+        QString tsString(date.toString());
         tsString = tsString.remove('\'').trimmed();
         // Add Zulu time to indicate UTC
         tsString += "Z";
@@ -2074,67 +2401,45 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
         if (ts.isValid())
             num = new KSNumbers(KStarsDateTime(ts).djd());
     }
+
+    //Set to current time if the above does not work.
     if (num == nullptr)
-        num = new KSNumbers(KStarsData::Instance()->ut().djd()); //Set to current time if the above does not work.
+        num = new KSNumbers(KStarsData::Instance()->ut().djd());
 
-    SkyMapComposite * map = KStarsData::Instance()->skyComposite();
+    startPoint.updateCoordsNow(num);
+    endPoint.updateCoordsNow(num);
 
-    FITSImage::wcs_point * wcs_coord = getWCSCoord();
-    if (wcs_coord != nullptr)
+    m_SkyObjects.clear();
+
+    QList<SkyObject *> list = KStarsData::Instance()->skyComposite()->findObjectsInArea(startPoint, endPoint);
+    list.erase(std::remove_if(list.begin(), list.end(), [](SkyObject * oneObject)
     {
-        int size = w * h;
+        int type = oneObject->type();
+        return (type == SkyObject::STAR || type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
+                type == SkyObject::COMET || type == SkyObject::SUPERNOVA || type == SkyObject::MOON ||
+                type == SkyObject::SATELLITE);
+    }), list.end());
 
-        objList.clear();
+    double world[2], phi, theta, imgcrd[2], pixcrd[2];
+    int stat[2];
+    for (auto &object : list)
+    {
+        world[0] = object->ra0().Degrees();
+        world[1] = object->dec0().Degrees();
 
-        SkyPoint p1;
-        p1.setRA0(dms(wcs_coord[0].ra));
-        p1.setDec0(dms(wcs_coord[0].dec));
-        p1.updateCoordsNow(num);
-        SkyPoint p2;
-        p2.setRA0(dms(wcs_coord[size - 1].ra));
-        p2.setDec0(dms(wcs_coord[size - 1].dec));
-        p2.updateCoordsNow(num);
-        QList<SkyObject *> list = map->findObjectsInArea(p1, p2);
-
-        foreach (SkyObject * object, list)
+        if (wcss2p(m_WCSHandle, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0]) == 0)
         {
-            int type = object->type();
-            if (object->name() == "star" || type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
-                    type == SkyObject::COMET || type == SkyObject::SUPERNOVA || type == SkyObject::MOON ||
-                    type == SkyObject::SATELLITE)
-            {
-                //DO NOT DISPLAY, at least for now, because these things move and change.
-            }
-
-            int x = -100;
-            int y = -100;
-
-            world[0] = object->ra0().Degrees();
-            world[1] = object->dec0().Degrees();
-
-            if ((status = wcss2p(m_wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
-            {
-                fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status, wcs_errmsg[status]);
-            }
-            else
-            {
-                x = pixcrd[0]; //The X and Y are set to the found position if it does work.
-                y = pixcrd[1];
-            }
-
+            //The X and Y are set to the found position if it does work.
+            int x = pixcrd[0];
+            int y = pixcrd[1];
             if (x > 0 && y > 0 && x < w && y < h)
-                objList.append(new FITSSkyObject(object, x, y));
+                m_SkyObjects.append(new FITSSkyObject(object, x, y));
         }
     }
 
     delete (num);
 }
 #endif
-
-QList<FITSSkyObject *> FITSData::getSkyObjects()
-{
-    return objList;
-}
 
 int FITSData::getFlipVCounter() const
 {
@@ -2188,13 +2493,13 @@ bool FITSData::rotFITS(int rotate, int mirror)
     else if (rotate < 0)
         rotate = rotate + 360;
 
-    nx = stats.width;
-    ny = stats.height;
+    nx = m_Statistics.width;
+    ny = m_Statistics.height;
 
-    int BBP = stats.bytesPerPixel;
+    int BBP = m_Statistics.bytesPerPixel;
 
     /* Allocate buffer for rotated image */
-    rotimage = new uint8_t[stats.samples_per_channel * m_Channels * BBP];
+    rotimage = new uint8_t[m_Statistics.samples_per_channel * m_Statistics.channels * BBP];
 
     if (rotimage == nullptr)
     {
@@ -2210,9 +2515,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
@@ -2223,9 +2528,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -2236,9 +2541,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -2253,9 +2558,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = ny - y1 - 1;
@@ -2269,9 +2574,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -2281,9 +2586,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = ny - y1 - 1;
@@ -2296,8 +2601,8 @@ bool FITSData::rotFITS(int rotate, int mirror)
             }
         }
 
-        stats.width  = ny;
-        stats.height = nx;
+        m_Statistics.width  = ny;
+        m_Statistics.height = nx;
     }
 
     /* Rotate by 180 degrees */
@@ -2305,9 +2610,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -2318,9 +2623,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
@@ -2331,9 +2636,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -2352,9 +2657,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
     {
         if (mirror == 1)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -2364,9 +2669,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else if (mirror == 2)
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = ny - y1 - 1;
@@ -2380,9 +2685,9 @@ bool FITSData::rotFITS(int rotate, int mirror)
         }
         else
         {
-            for (int i = 0; i < m_Channels; i++)
+            for (int i = 0; i < m_Statistics.channels; i++)
             {
-                offset = stats.samples_per_channel * i;
+                offset = m_Statistics.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     x2 = y1;
@@ -2395,16 +2700,16 @@ bool FITSData::rotFITS(int rotate, int mirror)
             }
         }
 
-        stats.width  = ny;
-        stats.height = nx;
+        m_Statistics.width  = ny;
+        m_Statistics.height = nx;
     }
 
     /* If rotating by more than 315 degrees, assume top-bottom reflection */
     else if (rotate >= 315 && mirror)
     {
-        for (int i = 0; i < m_Channels; i++)
+        for (int i = 0; i < m_Statistics.channels; i++)
         {
-            offset = stats.samples_per_channel * i;
+            offset = m_Statistics.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
@@ -2430,8 +2735,8 @@ void FITSData::rotWCSFITS(int angle, int mirror)
     double ctemp1, ctemp2, ctemp3, ctemp4, naxis1, naxis2;
     int WCS_DECIMALS = 6;
 
-    naxis1 = stats.width;
-    naxis2 = stats.height;
+    naxis1 = m_Statistics.width;
+    naxis2 = m_Statistics.height;
 
     if (fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status))
     {
@@ -2731,7 +3036,7 @@ bool FITSData::checkDebayer()
     if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
 
-    if (stats.dataType != TUSHORT && stats.dataType != TBYTE)
+    if (m_Statistics.dataType != TUSHORT && m_Statistics.dataType != TBYTE)
     {
         KSNotification::error(i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
         return false;
@@ -2742,7 +3047,7 @@ bool FITSData::checkDebayer()
     QString order(roworder);
     order = order.remove('\'').trimmed();
 
-    if (order == "BOTTOM-UP" && !(stats.height % 2))
+    if (order == "BOTTOM-UP" && !(m_Statistics.height % 2))
     {
         if (pattern == "RGGB")
             pattern = "GBRG";
@@ -2840,7 +3145,7 @@ bool FITSData::debayer()
     //        }
     //    }
 
-    switch (stats.dataType)
+    switch (m_Statistics.dataType)
     {
         case TBYTE:
             return debayer_8bit();
@@ -2857,8 +3162,18 @@ bool FITSData::debayer_8bit()
 {
     dc1394error_t error_code;
 
-    uint32_t rgb_size = stats.samples_per_channel * 3 * stats.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
+    uint8_t * destinationBuffer = nullptr;
+
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint8_t *>(destinationBuffer);
@@ -2869,24 +3184,24 @@ bool FITSData::debayer_8bit()
         return false;
     }
 
-    int ds1394_height = stats.height;
+    int ds1394_height = m_Statistics.height;
     auto dc1394_source = bayer_source_buffer;
 
     if (debayerParams.offsetY == 1)
     {
-        dc1394_source += stats.width;
+        dc1394_source += m_Statistics.width;
         ds1394_height--;
     }
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
-    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height,
+    error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, m_Statistics.width, ds1394_height,
                                             debayerParams.filter,
                                             debayerParams.method);
 
     if (error_code != DC1394_SUCCESS)
     {
         KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
-        m_Channels = 1;
+        m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
     }
@@ -2894,12 +3209,14 @@ bool FITSData::debayer_8bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
@@ -2911,10 +3228,10 @@ bool FITSData::debayer_8bit()
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
     uint8_t * rBuff = bayered_buffer;
-    uint8_t * gBuff = bayered_buffer + (stats.width * stats.height);
-    uint8_t * bBuff = bayered_buffer + (stats.width * stats.height * 2);
+    uint8_t * gBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height);
+    uint8_t * bBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-    int imax = stats.samples_per_channel * 3 - 3;
+    int imax = m_Statistics.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
     {
         *rBuff++ = bayer_destination_buffer[i];
@@ -2922,7 +3239,8 @@ bool FITSData::debayer_8bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.dataType = TBYTE;
     delete[] destinationBuffer;
     return true;
 }
@@ -2931,8 +3249,17 @@ bool FITSData::debayer_16bit()
 {
     dc1394error_t error_code;
 
-    uint32_t rgb_size = stats.samples_per_channel * 3 * stats.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
+    uint8_t *destinationBuffer = nullptr;
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint16_t *>(destinationBuffer);
@@ -2943,24 +3270,24 @@ bool FITSData::debayer_16bit()
         return false;
     }
 
-    int ds1394_height = stats.height;
+    int ds1394_height = m_Statistics.height;
     auto dc1394_source = bayer_source_buffer;
 
     if (debayerParams.offsetY == 1)
     {
-        dc1394_source += stats.width;
+        dc1394_source += m_Statistics.width;
         ds1394_height--;
     }
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
-    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, stats.width, ds1394_height,
+    error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, m_Statistics.width, ds1394_height,
                  debayerParams.filter,
                  debayerParams.method, 16);
 
     if (error_code != DC1394_SUCCESS)
     {
         KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
-        m_Channels = 1;
+        m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
     }
@@ -2968,12 +3295,14 @@ bool FITSData::debayer_16bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
@@ -2985,10 +3314,10 @@ bool FITSData::debayer_16bit()
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
     uint16_t * rBuff = bayered_buffer;
-    uint16_t * gBuff = bayered_buffer + (stats.width * stats.height);
-    uint16_t * bBuff = bayered_buffer + (stats.width * stats.height * 2);
+    uint16_t * gBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height);
+    uint16_t * bBuff = bayered_buffer + (m_Statistics.width * m_Statistics.height * 2);
 
-    int imax = stats.samples_per_channel * 3 - 3;
+    int imax = m_Statistics.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
     {
         *rBuff++ = bayer_destination_buffer[i];
@@ -2996,7 +3325,8 @@ bool FITSData::debayer_16bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.dataType = TUSHORT;
     delete[] destinationBuffer;
     return true;
 }
@@ -3004,10 +3334,10 @@ bool FITSData::debayer_16bit()
 double FITSData::getADU() const
 {
     double adu = 0;
-    for (int i = 0; i < m_Channels; i++)
-        adu += stats.mean[i];
+    for (int i = 0; i < m_Statistics.channels; i++)
+        adu += m_Statistics.mean[i];
 
-    return (adu / static_cast<double>(m_Channels));
+    return (adu / static_cast<double>(m_Statistics.channels));
 }
 
 QString FITSData::getLastError() const
@@ -3083,7 +3413,7 @@ QImage FITSData::FITSToImage(const QString &filename)
 
     FITSData data;
 
-    QFuture<bool> future = data.loadFITS(filename);
+    QFuture<bool> future = data.loadFromFile(filename);
 
     // Wait synchronously
     future.waitForFinished();
@@ -3111,14 +3441,14 @@ QImage FITSData::FITSToImage(const QString &filename)
         fitsImage = QImage(data.width(), data.height(), QImage::Format_RGB32);
     }
 
-    double dataMin = data.stats.mean[0] - data.stats.stddev[0];
-    double dataMax = data.stats.mean[0] + data.stats.stddev[0] * 3;
+    double dataMin = data.m_Statistics.mean[0] - data.m_Statistics.stddev[0];
+    double dataMax = data.m_Statistics.mean[0] + data.m_Statistics.stddev[0] * 3;
 
     double bscale = 255. / (dataMax - dataMin);
     double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
 
     // Long way to do this since we do not want to use templated functions here
-    switch (data.stats.dataType)
+    switch (data.m_Statistics.dataType)
     {
         case TBYTE:
             data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
@@ -3184,7 +3514,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     long naxes[3] = { input.width(), input.height(), naxis == 3 ? 3 : 1 };
     char error_status[512] = {0};
 
-    if (fits_create_file(&fptr, QString('!' + output).toLatin1().data(), &status))
+    if (fits_create_file(&fptr, QString('!' + output).toLocal8Bit().data(), &status))
     {
         fits_get_errstatus(status, error_status);
         qCCritical(KSTARS_FITS) << "Failed to create FITS file. Error:" << error_status;
@@ -3278,197 +3608,6 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     return true;
 }
 
-#if 0
-bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
-{
-    int status = 0, exttype = 0;
-    long nelements;
-    fitsfile * new_fptr;
-    char errMsg[512];
-
-    qCInfo(KSTARS_FITS) << "Creating new WCS file:" << newWCSFile << "with parameters Orientation:" << orientation
-                        << "RA:" << ra << "DE:" << dec << "Pixel Scale:" << pixscale;
-
-    nelements = stats.samples_per_channel * m_Channels;
-
-    /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, QString('!' + newWCSFile).toLatin1(), &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* close current file */
-    if (fits_close_file(fptr, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    status = 0;
-
-    if (m_isTemporary && autoRemoveTemporaryFITS)
-    {
-        QFile::remove(m_Filename);
-        m_isTemporary = false;
-        qCDebug(KSTARS_FITS) << "Removing FITS File: " << m_Filename;
-    }
-
-    m_Filename = newWCSFile;
-    m_isTemporary = true;
-
-    fptr = new_fptr;
-
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* Write Data */
-    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* Write keywords */
-
-    // Minimum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // Maximum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // NAXIS1
-    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // NAXIS2
-    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
-    fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
-
-    int epoch = 2000;
-
-    fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
-
-    fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
-
-    char radecsys[8] = "FK5";
-    char ctype1[16]  = "RA---TAN";
-    char ctype2[16]  = "DEC--TAN";
-
-    fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
-
-    double crpix1 = width() / 2.0;
-    double crpix2 = height() / 2.0;
-
-    fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
-
-    // Arcsecs per Pixel
-    double secpix1 = pixscale;
-    double secpix2 = pixscale;
-
-    fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
-
-    double degpix1 = secpix1 / 3600.0;
-    double degpix2 = secpix2 / 3600.0;
-
-    fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
-    fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
-
-    // Rotation is CW, we need to convert it to CCW per CROTA1 definition
-    double rotation = 360 - orientation;
-    if (rotation > 360)
-        rotation -= 360;
-
-    fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
-    fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
-
-    // ISO Date
-    if (fits_write_date(fptr, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    QString history =
-        QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
-    // History
-    if (fits_write_history(fptr, history.toLatin1(), &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_flush_file(fptr, &status);
-
-    WCSLoaded = false;
-
-    qCDebug(KSTARS_FITS) << "Finished creating WCS file: " << newWCSFile;
-
-    return true;
-}
-#endif
-
 bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale)
 {
     int status = 0;
@@ -3518,7 +3657,7 @@ bool FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
     fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
     fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
 
-    WCSLoaded = false;
+    m_WCSState = Idle;
 
     qCDebug(KSTARS_FITS) << "Finished update WCS info.";
 
@@ -3527,15 +3666,15 @@ bool FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
 
 bool FITSData::contains(const QPointF &point) const
 {
-    return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
+    return (point.x() >= 0 && point.y() >= 0 && point.x() <= m_Statistics.width && point.y() <= m_Statistics.height);
 }
 
 void FITSData::saveStatistics(FITSImage::Statistic &other)
 {
-    other = stats;
+    other = m_Statistics;
 }
 
 void FITSData::restoreStatistics(FITSImage::Statistic &other)
 {
-    stats = other;
+    m_Statistics = other;
 }

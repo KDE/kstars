@@ -72,11 +72,11 @@
     captureCountN->setValue((int)(count)); \
     KTRY_CAPTURE_GADGET(QSpinBox, captureDelayN); \
     captureDelayN->setValue((int)(delay)); \
-    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
     KTRY_CAPTURE_COMBO_SET(captureTypeS, "Light"); \
     KTRY_CAPTURE_GADGET(QComboBox, captureFormatS); \
     KTRY_CAPTURE_COMBO_SET(captureFormatS, "FITS"); \
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS); \
     KTRY_CAPTURE_COMBO_SET(captureFilterS, (filter)); \
     KTRY_CAPTURE_GADGET(QLineEdit, fileDirectoryT); \
     fileDirectoryT->setText(destination); \

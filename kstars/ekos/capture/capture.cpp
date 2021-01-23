@@ -21,6 +21,7 @@
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "scriptsmanager.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "indi/driverinfo.h"
@@ -41,7 +42,7 @@
 #define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.0
+#define SQ_FORMAT_VERSION 2.1
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
@@ -181,6 +182,8 @@ Capture::Capture()
     connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
     connect(rotatorB, &QPushButton::clicked, rotatorSettings.get(), &Ekos::Capture::show);
 
+    connect(scriptManagerB, &QPushButton::clicked, this, &Ekos::Capture::handleScriptsManager);
+
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -217,7 +220,14 @@ Capture::Capture()
     ////////////////////////////////////////////////////////////////////////
     /// Settings
     ////////////////////////////////////////////////////////////////////////
-    // #1 Guide Deviation Check
+    // #0 Start Guide Deviation Check
+    startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
+    connect(startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
+    {
+        Options::setEnforceStartGuiderDrift(checked);
+    });
+
+    // #1 Abort Guide Deviation Check
     limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
     connect(limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
     {
@@ -330,8 +340,25 @@ Capture::Capture()
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Capture::processCaptureTimeout);
 
     // Post capture script
-    connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
-            this, &Ekos::Capture::postScriptFinished);
+    connect(&m_CaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+            this, &Ekos::Capture::scriptFinished);
+    connect(&m_CaptureScript, &QProcess::errorOccurred,
+            [this](QProcess::ProcessError error)
+    {
+        Q_UNUSED(error);
+        appendLogText(m_CaptureScript.errorString());
+        scriptFinished(-1, QProcess::NormalExit);
+    });
+    connect(&m_CaptureScript, &QProcess::readyReadStandardError,
+            [this]()
+    {
+        appendLogText(m_CaptureScript.readAllStandardError());
+    });
+    connect(&m_CaptureScript, &QProcess::readyReadStandardOutput,
+            [this]()
+    {
+        appendLogText(m_CaptureScript.readAllStandardOutput());
+    });
 
     // Remote directory
     connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
@@ -402,7 +429,6 @@ Capture::Capture()
     //It fires every 100 ms while images are downloading.
     downloadProgressTimer.setInterval(100);
     connect(&downloadProgressTimer, &QTimer::timeout, this, &Ekos::Capture::setDownloadProgress);
-
 }
 
 Capture::~Capture()
@@ -569,7 +595,7 @@ void Capture::start()
 
     SequenceJob * first_job = nullptr;
 
-    foreach (SequenceJob * job, jobs)
+    for (auto &job : jobs)
     {
         if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
         {
@@ -583,7 +609,7 @@ void Capture::start()
     if (first_job == nullptr)
     {
         // If we have at least one job that are in error, bail out, even if ignoring job progress
-        foreach (SequenceJob * job, jobs)
+        for (auto &job : jobs)
         {
             if (job->getStatus() != SequenceJob::JOB_DONE)
             {
@@ -602,7 +628,7 @@ void Capture::start()
                 return;
 
         // If the end-user accepted to reset, reset all jobs and restart
-        foreach (SequenceJob * job, jobs)
+        for (auto &job : jobs)
             job->resetStatus();
 
         first_job = jobs.first();
@@ -612,7 +638,7 @@ void Capture::start()
     else if (ignoreJobProgress)
     {
         appendLogText(i18n("Warning: option \"Always Reset Sequence When Starting\" is enabled and resets the sequence counts."));
-        foreach (SequenceJob * job, jobs)
+        for (auto &job : jobs)
             job->resetStatus();
     }
 
@@ -649,7 +675,27 @@ void Capture::start()
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
     if (limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
-    prepareJob(first_job);
+
+    if (currentCCD->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
+    {
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_PRIMARY);
+            prepareJob(first_job);
+        });
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            prepareJob(first_job);
+        });
+
+        KSMessageBox::Instance()->questionYesNo(i18n("Are you imaging with %1 using your primary telescope?",
+                                                currentCCD->getDeviceName()),
+                                                i18n("Telescope Type"), 10, true);
+    }
+    else
+        prepareJob(first_job);
 }
 
 /**
@@ -750,9 +796,9 @@ void Capture::stop(CaptureState targetState)
 
     if (meridianFlipStage == MF_NONE || meridianFlipStage >= MF_COMPLETED)
         secondsLabel->clear();
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
-    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
+    //    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
     currentCCD->setFITSDir(QString());
@@ -789,20 +835,20 @@ void Capture::stop(CaptureState targetState)
     setMeridianFlipStage(MF_READY);
 }
 
-void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
-{
-    if (activeJob && (myChip == nullptr || myChip == targetChip))
-    {
-        activeJob->setProperty("filename", filename);
-        emit newImage(activeJob);
-        // We only emit this for client/both images since remote images already send this automatically
-        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
-        {
-            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
-            m_GeneratedPreviewFITS.clear();
-        }
-    }
-}
+//void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
+//{
+//    if (activeJob && (myChip == nullptr || myChip == targetChip))
+//    {
+//        activeJob->setProperty("filename", filename);
+//        emit newImage(activeJob);
+//        // We only emit this for client/both images since remote images already send this automatically
+//        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
+//        {
+//            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
+//            m_GeneratedPreviewFITS.clear();
+//        }
+//    }
+//}
 
 bool Capture::setCamera(const QString &device)
 {
@@ -840,16 +886,17 @@ void Capture::checkCCD(int ccdNum)
         // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
 
+        targetChip = nullptr;
         if (cameraS->itemText(ccdNum).right(6) == QString("Guider"))
         {
             useGuideHead = true;
             targetChip   = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         }
-        else
+
+        if (targetChip == nullptr)
         {
-            currentCCD   = CCDs.at(ccdNum);
-            targetChip   = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
             useGuideHead = false;
+            targetChip   = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         }
 
         // Make sure we have a valid chip and valid base device.
@@ -1550,65 +1597,79 @@ void Capture::checkNextExposure()
 }
 
 
-void Capture::newFITS(IBLOB * bp)
+void Capture::processData(const QSharedPointer<FITSData> &data)
 {
     ISD::CCDChip * tChip = nullptr;
+
+    QString blobInfo;
+    if (data)
+    {
+        m_ImageData = data;
+        blobInfo = QString("{Device: %1 Property: %2 Element: %3 Chip: %4}").arg(data->property("device").toString())
+                   .arg(data->property("blobVector").toString())
+                   .arg(data->property("blobElement").toString())
+                   .arg(data->property("chip").toInt());
+    }
+    else
+        m_ImageData.reset();
 
     // If there is no active job, ignore
     if (activeJob == nullptr)
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring received FITS" << bp->name << "as active job is null.";
+        if (data)
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring received FITS as active job is null.";
         return;
     }
 
     if (meridianFlipStage >= MF_ALIGNING)
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as meridian flip stage is" << meridianFlipStage;
+        if (data)
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as meridian flip stage is" << meridianFlipStage;
         return;
     }
 
+    // If image is client or both, let's process it.
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        if (bp == nullptr)
-        {
-            appendLogText(i18n("Failed to save file to %1", activeJob->getSignature()));
-            abort();
-            return;
-        }
+        //        if (data.isNull())
+        //        {
+        //            appendLogText(i18n("Failed to save file to %1", activeJob->getSignature()));
+        //            abort();
+        //            return;
+        //        }
 
         if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as current capture state is not active" <<
-                                           m_State;
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as current capture state is not active" << m_State;
             return;
         }
 
-        if (!strcmp(bp->name, "CCD2"))
-            tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-        else
-            tChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
-        if (tChip != targetChip)
+        //if (!strcmp(data->name, "CCD2"))
+        if (data)
         {
-            if (guideState == GUIDE_IDLE)
-                qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it does not correspond to the target chip" <<
-                                               targetChip->getType();
-            return;
+            tChip = currentCCD->getChip(static_cast<ISD::CCDChip::ChipType>(data->property("chip").toInt()));
+            if (tChip != targetChip)
+            {
+                if (guideState == GUIDE_IDLE)
+                    qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as it does not correspond to the target chip"
+                                                   << targetChip->getType();
+                return;
+            }
         }
 
         if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" <<
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as it has the wrong capture mode" <<
                                            targetChip->getCaptureMode();
             return;
         }
 
         // If the FITS is not for our device, simply ignore
-        //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
-        if (QString(bp->bvp->device) != currentCCD->getDeviceName())
+
+        if (data && data->property("device").toString() != currentCCD->getDeviceName())
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Ignoring Received FITS" << bp->name << "as the blob device name" << bp->bvp->device
-                                           << "does not equal active camera" << currentCCD->getDeviceName();
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as the blob device name does not equal active camera"
+                                           << currentCCD->getDeviceName();
             return;
         }
 
@@ -1619,14 +1680,12 @@ void Capture::newFITS(IBLOB * bp)
 
         // m_isLooping client-side looping (next capture starts after image is downloaded to client)
         // currentCCD->isLooping driver side looping (without any delays, next capture starts after driver reads data)
-        if (m_isLooping == false && currentCCD->isLooping() == false)
+        if (data && m_isLooping == false && currentCCD->isLooping() == false)
         {
-            disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
+            disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
 
             if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
             {
-                FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
-                FITSData * darkData     = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
                 uint16_t offsetX       = static_cast<uint16_t>(activeJob->getSubX() / activeJob->getXBin());
                 uint16_t offsetY       = static_cast<uint16_t>(activeJob->getSubY() / activeJob->getYBin());
 
@@ -1635,24 +1694,29 @@ void Capture::newFITS(IBLOB * bp)
                     if (currentCCD->isLooping() == false)
                         DarkLibrary::Instance()->disconnect(this);
                     if (completed)
+                    {
+                        FITSView *view = targetChip->getImageView(FITS_NORMAL);
+                        if (view)
+                        {
+                            view->rescale(ZOOM_KEEP_LEVEL);
+                            view->updateFrame();
+                        }
                         setCaptureComplete();
+                    }
                     else
                         abort();
                 });
+
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
-
-                if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX, offsetY);
-                else
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX, offsetY);
-
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, activeJob->getExposure(),
+                        targetChip->getCaptureFilter(), offsetX, offsetY);
                 return;
             }
         }
     }
 
-    blobChip    = bp ? static_cast<ISD::CCDChip *>(bp->aux0) : nullptr;
-    blobFilename = bp ? static_cast<const char *>(bp->aux2) : QString();
+    //    blobChip    = bp ? static_cast<ISD::CCDChip *>(bp->aux0) : nullptr;
+    //    blobFilename = bp ? static_cast<const char *>(bp->aux2) : QString();
 
     setCaptureComplete();
 }
@@ -1681,9 +1745,10 @@ IPState Capture::setCaptureComplete()
     // In case we're framing, let's start
     if (m_isLooping)
     {
-        sendNewImage(blobFilename, blobChip);
+        //sendNewImage(blobFilename, blobChip);
         secondsLabel->setText(i18n("Framing..."));
-        activeJob->capture(darkSubCheck->isChecked() ? true : false);
+        emit newImage(activeJob, m_ImageData);
+        activeJob->capture(darkSubCheck->isChecked() ? true : false, m_AutoFocusReady);
         return IPS_OK;
     }
 
@@ -1716,11 +1781,13 @@ IPState Capture::setCaptureComplete()
     // If it was initially set as pure preview job and NOT as preview for calibration
     if (activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
     {
-        sendNewImage(blobFilename, blobChip);
+        //sendNewImage(blobFilename, blobChip);
+        emit newImage(activeJob, m_ImageData);
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
         currentCCD->setUploadMode(rememberUploadMode);
-        delete (activeJob);
+        //delete (activeJob);
+        activeJob->deleteLater();
         // Reset active job pointer
         activeJob = nullptr;
         abort();
@@ -1751,11 +1818,11 @@ IPState Capture::setCaptureComplete()
     ditherCounter--;
 
     // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-        emit newImage(activeJob);
+    //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    emit newImage(activeJob, m_ImageData);
     // For Client/Both images, send file name.
-    else
-        sendNewImage(blobFilename, blobChip);
+    //else
+    //    sendNewImage(blobFilename, blobChip);
 
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
@@ -1777,9 +1844,19 @@ IPState Capture::setCaptureComplete()
 
     appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
 
-    FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
-    double hfr = currentImage ? currentImage->getImageData()->getHFR(HFR_AVERAGE) : 0;
-    emit captureComplete(blobFilename, activeJob->getExposure(), activeJob->getFilterName(), hfr);
+    double hfr = -1, eccentricity = -1;
+    int numStars = -1, median = -1;
+    QString filename;
+    if (m_ImageData)
+    {
+        hfr = m_ImageData->getHFR(HFR_AVERAGE);
+        numStars = m_ImageData->getSkyBackground().starsDetected;
+        median = m_ImageData->getMedian();
+        eccentricity = m_ImageData->getEccentricity();
+        filename = m_ImageData->filename();
+    }
+    emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr,
+                         numStars, median, eccentricity);
 
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -1787,28 +1864,46 @@ IPState Capture::setCaptureComplete()
     currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
     // Check if we need to execute post capture script first
-    if (activeJob->getPostCaptureScript().isEmpty() == false)
+    const QString postCaptureScript = activeJob->getScript(SCRIPT_POST_CAPTURE);
+    if (postCaptureScript.isEmpty() == false)
     {
-        postCaptureScript.start(activeJob->getPostCaptureScript());
-        appendLogText(i18n("Executing post capture script %1", activeJob->getPostCaptureScript()));
+        m_CaptureScriptType = SCRIPT_POST_CAPTURE;
+        m_CaptureScript.start(postCaptureScript, generateScriptArguments());
+        appendLogText(i18n("Executing post capture script %1", postCaptureScript));
         return IPS_OK;
     }
 
     // if we're done
     if (activeJob->getCount() <= activeJob->getCompleted())
     {
-        processJobCompletion();
+        processJobCompletionStage1();
         return IPS_OK;
     }
 
     return resumeSequence();
 }
 
+
+void Capture::processJobCompletionStage1()
+{
+    // JM 2020-12-06: Check if we need to execute post-job script first.
+    const QString postJobScript = activeJob->getScript(SCRIPT_POST_JOB);
+    if (!postJobScript.isEmpty())
+    {
+        m_CaptureScriptType = SCRIPT_POST_JOB;
+        m_CaptureScript.start(postJobScript, generateScriptArguments());
+        appendLogText(i18n("Executing post job script %1", postJobScript));
+        return;
+    }
+    else
+        processJobCompletionStage2();
+}
+
 /**
  * @brief Stop execution of the current sequence and check whether there exists a next sequence
  *        and start it, if there is a next one to be started (@see resumeSequence()).
  */
-void Capture::processJobCompletion()
+void Capture::processJobCompletionStage2()
 {
     activeJob->done();
 
@@ -1926,7 +2021,7 @@ IPState Capture::resumeSequence()
         {
             //check delta also when starting a new job!
             isTemperatureDeltaCheckActive = (m_AutoFocusReady && limitFocusDeltaTS->isChecked());
-            
+
             prepareJob(next_job);
 
             //Resume guiding if it was suspended before
@@ -2072,22 +2167,15 @@ bool Capture::startFocusIfRequired()
 
 void Capture::captureOne()
 {
-
-    //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    /*if (fileUploadModeS->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
+    if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local or both. Please change "
-                           "upload mode to client and try again."));
-        return;
-    }*/
-
-    if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+        appendLogText(i18n("Cannot capture while focus module is busy."));
+    }
+    else if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     {
         appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
-        return;
     }
-
-    if (addJob(true))
+    else if (addJob(true))
     {
         m_State = CAPTURE_PROGRESS;
         prepareJob(jobs.last());
@@ -2096,9 +2184,16 @@ void Capture::captureOne()
 
 void Capture::startFraming()
 {
-    m_isLooping = true;
-    appendLogText(i18n("Starting framing..."));
-    captureOne();
+    if (focusState >= FOCUS_PROGRESS)
+    {
+        appendLogText(i18n("Cannot start framing while focus module is busy."));
+    }
+    else if (!m_isLooping)
+    {
+        m_isLooping = true;
+        appendLogText(i18n("Starting framing..."));
+        captureOne();
+    }
 }
 
 void Capture::captureImage()
@@ -2106,17 +2201,6 @@ void Capture::captureImage()
     if (activeJob == nullptr)
         return;
 
-    captureTimeout.stop();
-
-    seqTimer->stop();
-    SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
-
-    if (currentCCD->isConnected() == false)
-    {
-        appendLogText(i18n("Error: Lost connection to CCD."));
-        abort();
-        return;
-    }
     // This test must be placed before the FOCUS_PROGRESS test,
     // as sometimes the FilterManager can cause an auto-focus.
     // If the filterManager is not IDLE, then try again in 1 second.
@@ -2141,12 +2225,27 @@ void Capture::captureImage()
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             return;
     }
+
+    // Do not start nor abort if Focus is busy
     if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy."));
+        appendLogText(i18n("Delaying capture while focus module is busy."));
+        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+        return;
+    }
+
+    // Bail out if we have no CCD anymore
+    if (currentCCD->isConnected() == false)
+    {
+        appendLogText(i18n("Error: Lost connection to CCD."));
         abort();
         return;
     }
+
+    captureTimeout.stop();
+    seqTimer->stop();
+
+    SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
 
     /*
     if (filterSlot != nullptr)
@@ -2175,8 +2274,8 @@ void Capture::captureImage()
             currentCCD->setExposureLoopCount(static_cast<uint>(remaining));
     }
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);
-    connect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
+    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData, Qt::UniqueConnection);
+    //connect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
@@ -2234,7 +2333,7 @@ void Capture::captureImage()
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
-    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
+    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false, m_AutoFocusReady);
 
     if (rc != SequenceJob::CAPTURE_OK)
     {
@@ -2272,6 +2371,13 @@ void Capture::captureImage()
         case SequenceJob::CAPTURE_FILTER_BUSY:
             // Try again in 1 second if filter is busy
             secondsLabel->setText(i18n("Changing filter..."));
+            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            break;
+
+        case SequenceJob::CAPTURE_GUIDER_DRIFT_WAIT:
+            // Try again in 1 second if filter is busy
+            secondsLabel->setText(i18n("Guider settling..."));
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the guider to settle.";
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
 
@@ -2428,7 +2534,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         {
             if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
             {
-                newFITS(nullptr);
+                processData(nullptr);
                 return;
             }
         }
@@ -2521,11 +2627,7 @@ bool Capture::addJob(bool preview)
         job->setFilterManager(filterManager);
     }
 
-    if (job == nullptr)
-    {
-        qWarning() << "Job is nullptr!" << endl;
-        return false;
-    }
+    Q_ASSERT_X(job, __FUNCTION__, "Capture Job is invalid.");
 
     if (captureISOS)
         job->setISOIndex(captureISOS->currentIndex());
@@ -2552,7 +2654,7 @@ bool Capture::addJob(bool preview)
     job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
     job->setUploadMode(static_cast<ISD::CCD::UploadMode>(fileUploadModeS->currentIndex()));
-    job->setPostCaptureScript(fileScriptT->text());
+    job->setScripts(m_Scripts);
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
     job->setPreMountPark(preMountPark);
@@ -2578,6 +2680,10 @@ bool Capture::addJob(bool preview)
                            fileTimestampS->isChecked());
     job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
     job->setFullPrefix(imagePrefix);
+
+    job->setEnforceStartGuiderDrift(job->getFrameType() == FRAME_LIGHT &&
+                                    startGuiderDriftS->isChecked());
+    job->setTargetStartGuiderDrift(startGuiderDriftN->value());
 
     //if (filterSlot != nullptr && currentFilter != nullptr)
     if (captureFilterS->currentIndex() != -1 && currentFilter != nullptr)
@@ -2665,33 +2771,37 @@ bool Capture::addJob(bool preview)
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
-    type->setText(captureTypeS->currentText());
-    type->setTextAlignment(Qt::AlignHCenter);
-    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Type", type->text());
+    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    job->setCountCell(count);
+    jsonJob.insert("Count", count->text());
 
-    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
-    bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
-    bin->setTextAlignment(Qt::AlignHCenter);
-    bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Bin", bin->text());
-
-    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     exp->setText(QString("%L1").arg(captureExposureN->value(), 0, 'f', captureExposureN->decimals()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Exp", exp->text());
 
-    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    type->setText(captureTypeS->currentText());
+    type->setTextAlignment(Qt::AlignHCenter);
+    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Type", type->text());
+
+    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
+    bin->setTextAlignment(Qt::AlignHCenter);
+    bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Bin", bin->text());
+
+    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
     if (captureISOS && captureISOS->currentIndex() != -1)
     {
         iso->setText(captureISOS->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (captureGainN->value() >= 0 && std::fabs(captureGainN->value() - GainSpinSpecialValue) > 0)
+    else if (job->getGain() >= 0)
     {
-        iso->setText(captureGainN->cleanText());
+        iso->setText(QString::number(job->getGain(), 'f', 1));
         jsonJob.insert("ISO/Gain", iso->text());
     }
     else
@@ -2702,10 +2812,10 @@ bool Capture::addJob(bool preview)
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
-    if (captureOffsetN->value() >= 0 && std::fabs(captureOffsetN->value() - OffsetSpinSpecialValue) > 0)
+    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
+    if (job->getOffset() >= 0)
     {
-        offset->setText(captureOffsetN->cleanText());
+        offset->setText(QString::number(job->getOffset(), 'f', 1));
         jsonJob.insert("Offset", offset->text());
     }
     else
@@ -2716,20 +2826,16 @@ bool Capture::addJob(bool preview)
     offset->setTextAlignment(Qt::AlignHCenter);
     offset->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
-    job->setCountCell(count);
-    jsonJob.insert("Count", count->text());
-
     if (m_JobUnderEdit == false)
     {
         queueTable->setItem(currentRow, 0, status);
         queueTable->setItem(currentRow, 1, filter);
-        queueTable->setItem(currentRow, 2, type);
-        queueTable->setItem(currentRow, 3, bin);
-        queueTable->setItem(currentRow, 4, exp);
-        queueTable->setItem(currentRow, 5, iso);
-        queueTable->setItem(currentRow, 6, offset);
-        queueTable->setItem(currentRow, 7, count);
+        queueTable->setItem(currentRow, 2, count);
+        queueTable->setItem(currentRow, 3, exp);
+        queueTable->setItem(currentRow, 4, type);
+        queueTable->setItem(currentRow, 5, bin);
+        queueTable->setItem(currentRow, 6, iso);
+        queueTable->setItem(currentRow, 7, offset);
 
         m_SequenceArray.append(jsonJob);
         emit sequenceChanged(m_SequenceArray);
@@ -2802,6 +2908,9 @@ void Capture::removeJob(int index)
 
     m_SequenceArray.removeAt(index);
     emit sequenceChanged(m_SequenceArray);
+
+    if (jobs.empty())
+        return;
 
     SequenceJob * job = jobs.at(index);
     jobs.removeOne(job);
@@ -3006,7 +3115,7 @@ void Capture::prepareJob(SequenceJob * job)
             int count = capturedFramesMap[signature];
 
             // Count how many captures this job has to process, given that previous jobs may have done some work already
-            foreach (SequenceJob * a_job, jobs)
+            for (auto &a_job : jobs)
                 if (a_job == activeJob)
                     break;
                 else if (a_job->getSignature() == activeJob->getSignature())
@@ -3052,7 +3161,7 @@ void Capture::prepareJob(SequenceJob * job)
             appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
                                QString("%L1").arg(job->getExposure(), 0, 'f', 3), job->getFilterName(),
                                activeJob->getCompleted(), activeJob->getCount()));
-            processJobCompletion();
+            processJobCompletionStage2();
 
             /* FIXME: find a clearer way to exit here */
             return;
@@ -3088,7 +3197,7 @@ void Capture::prepareJob(SequenceJob * job)
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
                 currentCCD->setBLOBEnabled(true);
-                prepareActiveJob();
+                prepareActiveJobStage1();
 
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
@@ -3106,17 +3215,33 @@ void Capture::prepareJob(SequenceJob * job)
         }
     }
 
-    prepareActiveJob();
+    prepareActiveJobStage1();
 
 }
 
+void Capture::prepareActiveJobStage1()
+{
+    // JM 2020-12-06: Check if we need to execute pre-job script first.
+    const QString preJobScript = activeJob->getScript(SCRIPT_PRE_JOB);
+    // Only run pre-job script for the first time and not after some images were captured but then stopped due to abort.
+    if (!preJobScript.isEmpty() && activeJob->getCompleted() == 0)
+    {
+        m_CaptureScriptType = SCRIPT_PRE_JOB;
+        m_CaptureScript.start(preJobScript, generateScriptArguments());
+        appendLogText(i18n("Executing pre job script %1", preJobScript));
+        return;
+    }
+    else
+        prepareActiveJobStage2();
+
+}
 /**
  * @brief Reset #calibrationStage and continue with preparePreCaptureActions().
  */
-void Capture::prepareActiveJob()
+void Capture::prepareActiveJobStage2()
 {
     // Just notification of active job stating up
-    emit newImage(activeJob);
+    emit newImage(activeJob, m_ImageData);
 
     //connect(job, SIGNAL(checkFocus()), this, &Ekos::Capture::startPostFilterAutoFocus()));
 
@@ -3139,7 +3264,17 @@ void Capture::prepareActiveJob()
      * procedure is important to avoid any surprise that could make the whole schedule ineffective.
      */
 
-    preparePreCaptureActions();
+    // JM 2020-12-06: Check if we need to execute pre-capture script first.
+    const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+    if (!preCaptureScript.isEmpty())
+    {
+        m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+        m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+        appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
+        return;
+    }
+    else
+        preparePreCaptureActions();
 }
 
 /**
@@ -3171,6 +3306,8 @@ void Capture::preparePreCaptureActions()
         currentCCD->getTemperature(&temperature);
         activeJob->setCurrentTemperature(temperature);
     }
+
+    activeJob->resetCurrentGuiderDrift();
 
     // update rotator angle
     if (currentRotator != nullptr && activeJob->getTargetRotation() != Ekos::INVALID_VALUE)
@@ -3205,6 +3342,10 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
         case CAPTURE_SETTING_TEMPERATURE:
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
+            break;
+        case CAPTURE_GUIDER_DRIFT:
+            appendLogText(i18n("Waiting for guide drift below %1 a-s...", activeJob->getTargetStartGuiderDrift()));
+            secondsLabel->setText(i18n("Wait for Guider < %1 a-s...", activeJob->getTargetStartGuiderDrift()));
             break;
 
         case CAPTURE_SETTING_ROTATOR:
@@ -3295,8 +3436,9 @@ void Capture::updatePreCaptureCalibrationStatus()
     captureImage();
 }
 
-void Capture::setFocusTemperatureDelta(double focusTemperatureDelta)
+void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperture)
 {
+    Q_UNUSED(absTemperture);
     // This produces too much log spam
     // Maybe add a threshold to report later?
     //qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
@@ -3334,6 +3476,10 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     //        if (activeJob == nullptr)
     //            return;
     //    }
+    const double deviation_rms = std::hypot(delta_ra, delta_dec);
+    if (activeJob)
+        activeJob->setCurrentGuiderDrift(deviation_rms);
+
     // if guiding deviations occur and no job is active, check if a meridian flip is ready to be executed
     if (activeJob == nullptr && checkMeridianFlipReady())
         return;
@@ -3342,7 +3488,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     // if the guide deviations are within our limits, we resume the sequence
     if (meridianFlipStage == MF_GUIDING)
     {
-        double deviation_rms = std::hypot(delta_ra, delta_dec);
         // If the user didn't select any guiding deviation, we fall through
         // otherwise we can for deviation RMS
         if (limitGuideDeviationS->isChecked() == false || deviation_rms < limitGuideDeviationN->value())
@@ -3358,8 +3503,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (limitGuideDeviationS->isChecked() == false || (activeJob && (activeJob->isPreview()
             || activeJob->getExposeLeft() == 0.0)))
         return;
-
-    double deviation_rms = sqrt( (delta_ra * delta_ra + delta_dec * delta_dec) / 2.0);
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
 
@@ -3435,7 +3578,8 @@ void Capture::setFocusStatus(FocusState state)
     qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusStatus: " << state;
     focusState = state;
 
-    if (focusState > FOCUS_ABORTED)
+    // Do not process above aborted or when meridian flip in progress
+    if (focusState > FOCUS_ABORTED || meridianFlipStage == MF_FLIPPING ||  meridianFlipStage == MF_SLEWING)
         return;
 
     if (focusState == FOCUS_COMPLETE)
@@ -3586,9 +3730,9 @@ void Capture::setMeridianFlipStage(MFStage stage)
                     meridianFlipStage = stage;
                     emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
                 }
-                else if (!checkMeridianFlipRunning())
+                else if (!(checkMeridianFlipRunning() || meridianFlipStage == MF_COMPLETED))
                 {
-                    // if beither a MF has been requested (checked above) or is in a post
+                    // if neither a MF has been requested (checked above) or is in a post
                     // MF calibration phase, no MF needs to take place.
                     // Hence we set to the stage to NONE
                     meridianFlipStage = MF_NONE;
@@ -3653,23 +3797,21 @@ void Capture::meridianFlipStatusChanged(Mount::MeridianFlipStatus status)
         case Mount::FLIP_PLANNED:
             if (meridianFlipStage > MF_NONE)
             {
-                // it seems like the meridian flip had been postponed
-                resumeSequence();
-                return;
+                // This should never happen, since a meridian flip seems to be ongoing
+                qCritical(KSTARS_EKOS_CAPTURE) << "Accepting meridian flip request while being in stage " << meridianFlipStage;
+            }
+
+            // If we are autoguiding, we should resume autoguiding after flip
+            resumeGuidingAfterFlip = isGuidingOn();
+
+            if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
+            {
+                setMeridianFlipStage(MF_INITIATED);
+                emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
             }
             else
-            {
-                // If we are autoguiding, we should resume autoguiding after flip
-                resumeGuidingAfterFlip = isGuidingOn();
+                setMeridianFlipStage(MF_REQUESTED);
 
-                if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
-                {
-                    setMeridianFlipStage(MF_INITIATED);
-                    emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
-                }
-                else
-                    setMeridianFlipStage(MF_REQUESTED);
-            }
             break;
 
         case Mount::FLIP_RUNNING:
@@ -3771,7 +3913,7 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
+        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -3781,7 +3923,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Sequence Queue"), dirPath,
                    "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
@@ -3845,6 +3987,11 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 {
                     limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                }
+                else if (!strcmp(tagXMLEle(ep), "GuideStartDeviation"))
+                {
+                    startGuiderDriftS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    startGuiderDriftN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
                 {
@@ -3918,6 +4065,7 @@ bool Capture::processJobInfo(XMLEle * root)
     XMLEle * subEP;
     rotatorSettings->setRotationEnforced(false);
 
+    m_Scripts.clear();
     QLocale cLocale = QLocale::c();
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
@@ -3993,7 +4141,19 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
         {
-            fileScriptT->setText(pcdataXMLEle(ep));
+            m_Scripts[SCRIPT_POST_CAPTURE] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PreCaptureScript"))
+        {
+            m_Scripts[SCRIPT_PRE_CAPTURE] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PostJobScript"))
+        {
+            m_Scripts[SCRIPT_POST_JOB] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PreJobScript"))
+        {
+            m_Scripts[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
@@ -4140,7 +4300,7 @@ void Capture::saveSequenceQueue()
 
     if (m_SequenceURL.isEmpty())
     {
-        m_SequenceURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
+        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
                         "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (m_SequenceURL.isEmpty())
@@ -4221,6 +4381,8 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << endl;
     outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << endl;
+    outstream << "<GuideStartDeviation enabled='" << (startGuiderDriftS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(startGuiderDriftN->value()) << "</GuideStartDeviation>" << endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
     if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
@@ -4232,7 +4394,7 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
     outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
-    foreach (SequenceJob * job, jobs)
+    for (auto &job : jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
@@ -4266,8 +4428,14 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Count>" << cLocale.toString(job->getCount()) << "</Count>" << endl;
         // ms to seconds
         outstream << "<Delay>" << cLocale.toString(job->getDelay() / 1000.0) << "</Delay>" << endl;
-        if (job->getPostCaptureScript().isEmpty() == false)
-            outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
+        if (job->getScript(SCRIPT_PRE_CAPTURE).isEmpty() == false)
+            outstream << "<PreCaptureScript>" << job->getScript(SCRIPT_PRE_CAPTURE) << "</PreCaptureScript>" << endl;
+        if (job->getScript(SCRIPT_POST_CAPTURE).isEmpty() == false)
+            outstream << "<PostCaptureScript>" << job->getScript(SCRIPT_POST_CAPTURE) << "</PostCaptureScript>" << endl;
+        if (job->getScript(SCRIPT_PRE_JOB).isEmpty() == false)
+            outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << endl;
+        if (job->getScript(SCRIPT_POST_JOB).isEmpty() == false)
+            outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << endl;
         outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
         if (job->getRemoteDir().isEmpty() == false)
@@ -4402,7 +4570,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileTimestampS->setChecked(tsEnabled);
     captureCountN->setValue(job->getCount());
     captureDelayN->setValue(job->getDelay() / 1000);
-    fileScriptT->setText(job->getPostCaptureScript());
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
     fileRemoteDirT->setText(job->getRemoteDir());
@@ -4413,6 +4580,11 @@ void Capture::syncGUIToJob(SequenceJob * job)
     if (job->getEnforceTemperature())
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
+    // Start guider drift options
+    startGuiderDriftS->setChecked(job->getEnforceStartGuiderDrift());
+    if (job->getEnforceStartGuiderDrift())
+        startGuiderDriftN->setValue(job->getTargetStartGuiderDrift());
+
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     flatFieldDuration  = job->getFlatFieldDuration();
@@ -4422,6 +4594,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
     wallCoord          = job->getWallCoord();
     preMountPark       = job->isPreMountPark();
     preDomePark        = job->isPreDomePark();
+
+    // Script options
+    m_Scripts          = job->getScripts();
 
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
@@ -4461,13 +4636,13 @@ QJsonObject Capture::getPresetSettings()
     // Try to get settings value
     // if not found, fallback to camera value
     double gain = -1;
-    if (captureGainN->value() != GainSpinSpecialValue)
+    if (GainSpinSpecialValue > INVALID_VALUE && captureGainN->value() > GainSpinSpecialValue)
         gain = captureGainN->value();
     else if (currentCCD && currentCCD->hasGain())
         currentCCD->getGain(&gain);
 
     double offset = -1;
-    if (captureOffsetN->value() != OffsetSpinSpecialValue)
+    if (OffsetSpinSpecialValue > INVALID_VALUE && captureOffsetN->value() > OffsetSpinSpecialValue)
         offset = captureOffsetN->value();
     else if (currentCCD && currentCCD->hasOffset())
         currentCCD->getOffset(&offset);
@@ -4839,7 +5014,7 @@ void Capture::processFlipCompleted()
                           KSNotification::EVENT_INFO);
 
 
-    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE || m_State == CAPTURE_PAUSED)
+    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE)
     {
         // reset the meridian flip stage and jump directly MF_NONE, since no
         // restart of guiding etc. necessary
@@ -4855,7 +5030,10 @@ bool Capture::checkGuidingAfterFlip()
         return false;
     // If we're not autoguiding then we're done
     if (resumeGuidingAfterFlip == false)
+    {
+        setMeridianFlipStage(MF_NONE);
         return false;
+    }
 
     // if we are waiting for a calibration, start it
     if (m_State < CAPTURE_CALIBRATING)
@@ -4919,6 +5097,7 @@ bool Capture::checkPausing()
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
         m_State = CAPTURE_PAUSED;
+        emit newStatus(m_State);
         // handle a requested meridian flip
         if (meridianFlipStage != MF_NONE)
             setMeridianFlipStage(MF_READY);
@@ -5100,15 +5279,25 @@ void Capture::setGuideStatus(GuideState state)
     }
 
     guideState = state;
+
+    if (activeJob)
+    {
+        activeJob->setGuiderActive(isActivelyGuiding());
+        activeJob->resetCurrentGuiderDrift();
+    }
 }
 
 
 void Capture::processGuidingFailed()
 {
+    if (focusState > FOCUS_PROGRESS)
+    {
+        appendLogText(i18n("Autoguiding stopped. Waiting for autofocus to finish..."));
+    }
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-    if (isGuidingOn() && meridianFlipStage == MF_NONE &&
-            ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
-             this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
+    else if (isGuidingOn() && meridianFlipStage == MF_NONE &&
+             ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
+              this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
         abort();
@@ -5520,16 +5709,6 @@ IPState Capture::checkLightFrameScopeCoverOpen()
             // we need to manually uncover them.
             if (m_TelescopeCoveredDarkExposure || m_TelescopeCoveredFlatExposure)
             {
-                // Uncover telescope
-                // N.B. This operation cannot be autonomous
-                //        if (KMessageBox::warningContinueCancel(
-                //                    nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Telescope Covered"),
-                //                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                //                    "uncover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-                //        {
-                //            return IPS_ALERT;
-                //        }
-
                 // If we already asked for confirmation and waiting for it
                 // let us see if the confirmation is fulfilled
                 // otherwise we return.
@@ -5542,7 +5721,6 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                 // Continue
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredDarkExposure = false;
                     m_TelescopeCoveredFlatExposure = false;
@@ -5550,7 +5728,7 @@ IPState Capture::checkLightFrameScopeCoverOpen()
                 });
 
                 // Cancel
-                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
                     KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
@@ -5636,24 +5814,8 @@ IPState Capture::checkDarkFramePendingTasks()
         if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
             return IPS_BUSY;
 
-        //        // This action cannot be autonomous
-        //        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
-        //                                       i18n("Dark Exposure")) == KMessageBox::Yes)
-        //        {
-        //            hasNoShutter = false;
-        //            shutterfulCCDs.append(deviceName);
-        //            Options::setShutterfulCCDs(shutterfulCCDs);
-        //        }
-        //        else
-        //        {
-        //            hasNoShutter = true;
-        //            shutterlessCCDs.append(deviceName);
-        //            Options::setShutterlessCCDs(shutterlessCCDs);
-        //        }
-
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
         {
-            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
             KSMessageBox::Instance()->disconnect(this);
             QStringList shutterfulCCDs  = Options::shutterfulCCDs();
             QString deviceName = currentCCD->getDeviceName();
@@ -5661,9 +5823,8 @@ IPState Capture::checkDarkFramePendingTasks()
             Options::setShutterfulCCDs(shutterfulCCDs);
             calibrationCheckType = CAL_CHECK_TASK;
         });
-        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
         {
-            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
             KSMessageBox::Instance()->disconnect(this);
             QStringList shutterlessCCDs = Options::shutterlessCCDs();
             QString deviceName = currentCCD->getDeviceName();
@@ -5693,9 +5854,8 @@ IPState Capture::checkDarkFramePendingTasks()
                     return IPS_BUSY;
 
                 // Continue
-                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredDarkExposure = true;
                     m_TelescopeCoveredFlatExposure = false;
@@ -5703,22 +5863,12 @@ IPState Capture::checkDarkFramePendingTasks()
                 });
 
                 // Cancel
-                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
                     abort();
                 });
-
-                //            if (KMessageBox::warningContinueCancel(
-                //                        nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
-                //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                //                        "cover_scope_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-                //            {
-                //                abort();
-                //                return IPS_ALERT;
-                //            }
 
                 calibrationCheckType = CAL_CHECK_CONFIRMATION;
 
@@ -5834,22 +5984,12 @@ IPState Capture::checkFlatFramePendingTasks()
             {
                 if (calibrationCheckType == CAL_CHECK_CONFIRMATION)
                     return IPS_BUSY;
-                // This action cannot be autonomous
-                //            if (KMessageBox::warningContinueCancel(
-                //                        nullptr, i18n("Cover telescope with evenly illuminated light source."), i18n("Flat Frame"),
-                //                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                //                        "flat_light_cover_dialog_notification", KMessageBox::WindowModal | KMessageBox::Notify) == KMessageBox::Cancel)
-                //            {
-                //                abort();
-                //                return IPS_ALERT;
-                //            }
-                //            m_TelescopeCoveredFlatExposure = true;
-                //            m_TelescopeCoveredDarkExposure = false;
+
+                calibrationCheckType = CAL_CHECK_CONFIRMATION;
 
                 // Continue
-                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_TelescopeCoveredFlatExposure = true;
                     m_TelescopeCoveredDarkExposure = false;
@@ -5857,17 +5997,14 @@ IPState Capture::checkFlatFramePendingTasks()
                 });
 
                 // Cancel
-                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+                connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     calibrationCheckType = CAL_CHECK_TASK;
                     abort();
                 });
 
-                calibrationCheckType = CAL_CHECK_CONFIRMATION;
-
-                KSMessageBox::Instance()->warningContinueCancel(i18n("Cover telescope with evenly illuminated light source."),
+                KSMessageBox::Instance()->warningContinueCancel(i18n("Cover telescope with an evenly illuminated light source."),
                         i18n("Flat Frame"),
                         Options::manualCoverTimeout());
 
@@ -6331,27 +6468,47 @@ void Capture::startPostFilterAutoFocus()
 }
 */
 
-void Capture::postScriptFinished(int exitCode, QProcess::ExitStatus status)
+void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
 {
     Q_UNUSED(status)
 
-    appendLogText(i18n("Post capture script finished with code %1.", exitCode));
+    switch (m_CaptureScriptType)
+    {
+        case SCRIPT_PRE_CAPTURE:
+            appendLogText(i18n("Pre capture script finished with code %1.", exitCode));
+            preparePreCaptureActions();
+            break;
 
-    // If we're done, proceed to completion.
-    if (activeJob->getCount() <= activeJob->getCompleted())
-    {
-        processJobCompletion();
-    }
-    // Else check if meridian condition is met.
-    else if (checkMeridianFlipReady())
-    {
-        appendLogText(i18n("Processing meridian flip..."));
-    }
-    // Then if nothing else, just resume sequence.
-    else
-    {
-        appendLogText(i18n("Resuming sequence..."));
-        resumeSequence();
+        case SCRIPT_POST_CAPTURE:
+            appendLogText(i18n("Post capture script finished with code %1.", exitCode));
+
+            // If we're done, proceed to completion.
+            if (activeJob->getCount() <= activeJob->getCompleted())
+            {
+                processJobCompletionStage1();
+            }
+            // Else check if meridian condition is met.
+            else if (checkMeridianFlipReady())
+            {
+                appendLogText(i18n("Processing meridian flip..."));
+            }
+            // Then if nothing else, just resume sequence.
+            else
+            {
+                appendLogText(i18n("Resuming sequence..."));
+                resumeSequence();
+            }
+            break;
+
+        case SCRIPT_PRE_JOB:
+            appendLogText(i18n("Pre job script finished with code %1.", exitCode));
+            prepareActiveJobStage2();
+            break;
+
+        case SCRIPT_POST_JOB:
+            appendLogText(i18n("Post job script finished with code %1.", exitCode));
+            processJobCompletionStage2();
+            break;
     }
 }
 
@@ -6646,26 +6803,6 @@ bool Capture::isModelinDSLRInfo(const QString &model)
     return (pos != DSLRInfos.end());
 }
 
-#if 0
-void Capture::syncDriverToDSLRLimits()
-{
-    if (targetChip == nullptr)
-        return;
-
-    QString model(currentCCD->getDeviceName());
-
-    // Check if model already exists
-    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
-    {
-        return (oneDSLRInfo["Model"] == model);
-    });
-
-    if (pos != DSLRInfos.end())
-        targetChip->setImageInfo((*pos)["Width"].toInt(), (*pos)["Height"].toInt(), (*pos)["PixelW"].toDouble(),
-                                 (*pos)["PixelH"].toDouble(), 8);
-}
-#endif
-
 void Capture::cullToDSLRLimits()
 {
     QString model(currentCCD->getDeviceName());
@@ -6703,19 +6840,21 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
 
 void Capture::setPresetSettings(const QJsonObject &settings)
 {
-    // FIXME: QComboBox signal "activated" does not trigger when setting text programmatically.
-    const QString targetCamera = settings["camera"].toString();
-    const QString targetFW = settings["fw"].toString();
-    const QString targetFilter = settings["filter"].toString();
+    static bool init = false;
 
-    if (cameraS->currentText() != targetCamera)
+    // FIXME: QComboBox signal "activated" does not trigger when setting text programmatically.
+    const QString targetCamera = settings["camera"].toString(cameraS->currentText());
+    const QString targetFW = settings["fw"].toString(filterWheelS->currentText());
+    const QString targetFilter = settings["filter"].toString(captureFilterS->currentText());
+
+    if (cameraS->currentText() != targetCamera || init == false)
     {
         const int index = cameraS->findText(targetCamera);
         cameraS->setCurrentIndex(index);
         checkCCD(index);
     }
 
-    if (!targetFW.isEmpty() && filterWheelS->currentText() != targetFW)
+    if ((!targetFW.isEmpty() && filterWheelS->currentText() != targetFW) || init == false)
     {
         const int index = filterWheelS->findText(targetFW);
         filterWheelS->setCurrentIndex(index);
@@ -6739,16 +6878,22 @@ void Capture::setPresetSettings(const QJsonObject &settings)
         setTargetTemperature(temperature);
     }
 
-    double gain = settings["gain"].toDouble(-1);
-    if (gain >= 0 && currentCCD && currentCCD->hasGain())
+    double gain = settings["gain"].toDouble(GainSpinSpecialValue);
+    if (currentCCD && currentCCD->hasGain())
     {
-        setGain(gain);
+        if (gain == GainSpinSpecialValue)
+            captureGainN->setValue(GainSpinSpecialValue);
+        else
+            setGain(gain);
     }
 
-    double offset = settings["offset"].toDouble(-1);
-    if (offset >= 0 && currentCCD && currentCCD->hasOffset())
+    double offset = settings["offset"].toDouble(OffsetSpinSpecialValue);
+    if (currentCCD && currentCCD->hasOffset())
     {
-        setOffset(offset);
+        if (offset == OffsetSpinSpecialValue)
+            captureOffsetN->setValue(OffsetSpinSpecialValue);
+        else
+            setOffset(offset);
     }
 
     int format = settings["format"].toInt(-1);
@@ -6763,12 +6908,14 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     int isoIndex = settings["iso"].toInt(-1);
     if (isoIndex >= 0)
         setISO(isoIndex);
+
+    init = true;
 }
 
 void Capture::setFileSettings(const QJsonObject &settings)
 {
     const QString prefix = settings["prefix"].toString(filePrefixT->text());
-    const QString script = settings["script"].toString(fileScriptT->text());
+    //const QString script = settings["script"].toString(fileScriptT->text());
     const QString directory = settings["directory"].toString(fileDirectoryT->text());
     const bool filter = settings["filter"].toBool(fileFilterS->isChecked());
     const bool duration = settings["duration"].toBool(fileDurationS->isChecked());
@@ -6777,7 +6924,7 @@ void Capture::setFileSettings(const QJsonObject &settings)
     const QString remote = settings["remote"].toString(fileRemoteDirT->text());
 
     filePrefixT->setText(prefix);
-    fileScriptT->setText(script);
+    //    fileScriptT->setText(script);
     fileDirectoryT->setText(directory);
     fileFilterS->setChecked(filter);
     fileDurationS->setChecked(duration);
@@ -6791,7 +6938,7 @@ QJsonObject Capture::getFileSettings()
     QJsonObject settings =
     {
         {"prefix", filePrefixT->text()},
-        {"script", fileScriptT->text()},
+        //        {"script", fileScriptT->text()},
         {"directory", fileDirectoryT->text()},
         {"filter", fileFilterS->isChecked()},
         {"duration", fileDurationS->isChecked()},
@@ -6992,10 +7139,10 @@ void Capture::processCaptureTimeout()
     else restartExposure();
 }
 
-void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
-{
-    m_GeneratedPreviewFITS = previewFITS;
-}
+//void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
+//{
+//    m_GeneratedPreviewFITS = previewFITS;
+//}
 
 void Capture::createDSLRDialog()
 {
@@ -7224,6 +7371,11 @@ bool Capture::isGuidingOn()
            );
 }
 
+bool Capture::isActivelyGuiding()
+{
+    return isGuidingOn() && (guideState == GUIDE_GUIDING);
+}
+
 QString Capture::MFStageString(MFStage stage)
 {
     switch(stage)
@@ -7320,4 +7472,23 @@ void Capture::restartCamera(const QString &name)
     KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to restart %1 camera driver?", name),
                                             i18n("Driver Restart"), 5);
 }
+
+void Capture::handleScriptsManager()
+{
+    QPointer<ScriptsManager> manager = new ScriptsManager(this);
+
+    manager->setScripts(m_Scripts);
+
+    if (manager->exec() == QDialog::Accepted)
+    {
+        m_Scripts = manager->getScripts();
+    }
+}
+
+QStringList Capture::generateScriptArguments() const
+{
+    // TODO based on user feedback on what paramters are most useful to pass
+    return QStringList();
+}
+
 }

@@ -33,6 +33,7 @@
 
 #include <fitsio.h>
 #include <ekos_scheduler_debug.h>
+#include <indicom.h>
 
 #define BAD_SCORE                -1000
 #define MAX_FAILURE_ATTEMPTS      5
@@ -419,7 +420,7 @@ void Scheduler::applyConfig()
 
 void Scheduler::selectObject()
 {
-    if (FindDialog::Instance()->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->execWithParent(Ekos::Manager::Instance()) == QDialog::Accepted)
     {
         SkyObject *object = FindDialog::Instance()->targetObject();
         addObject(object);
@@ -453,7 +454,7 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(this, i18n("Select FITS Image"), dirPath, "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select FITS Image"), dirPath, "FITS (*.fits *.fit)");
     if (fitsURL.isEmpty())
         return;
 
@@ -551,13 +552,12 @@ void Scheduler::processFITSSelection()
     }
 }
 
-void Scheduler::selectSequence()
+void Scheduler::setSequence(const QString &sequenceFileURL)
 {
-    sequenceURL =
-        QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), dirPath, i18n("Ekos Sequence Queue (*.esq)"));
-    if (sequenceURL.isEmpty())
-        return;
+    sequenceURL = QUrl::fromLocalFile(sequenceFileURL);
 
+    if (sequenceFileURL.isEmpty())
+        return;
     dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
     sequenceEdit->setText(sequenceURL.toLocalFile());
@@ -574,9 +574,16 @@ void Scheduler::selectSequence()
     setDirty();
 }
 
+void Scheduler::selectSequence()
+{
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Select Sequence Queue"), dirPath.toLocalFile(), i18n("Ekos Sequence Queue (*.esq)"));
+
+    setSequence(file);
+}
+
 void Scheduler::selectStartupScript()
 {
-    startupScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Startup Script"), dirPath, i18n("Script (*)"));
+    startupScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Startup Script"), dirPath, i18n("Script (*)"));
     if (startupScriptURL.isEmpty())
         return;
 
@@ -588,7 +595,7 @@ void Scheduler::selectStartupScript()
 
 void Scheduler::selectShutdownScript()
 {
-    shutdownScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Shutdown Script"), dirPath, i18n("Script (*)"));
+    shutdownScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Shutdown Script"), dirPath, i18n("Script (*)"));
     if (shutdownScriptURL.isEmpty())
         return;
 
@@ -694,6 +701,8 @@ void Scheduler::saveJob()
     job->setPriority(prioritySpin->value());
     job->setTargetCoords(ra, dec);
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
+    job->setRotation(rotationSpin->value());
+
 
     /* Consider sequence file is new, and clear captured frames map */
     job->setCapturedFramesMap(SchedulerJob::CapturedFramesMap());
@@ -903,6 +912,8 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
         fitsEdit->setText(job->getFITSFile().toLocalFile());
     else
         fitsEdit->clear();
+
+    rotationSpin->setValue(job->getRotation());
 
     sequenceEdit->setText(job->getSequenceFile().toLocalFile());
 
@@ -3702,7 +3713,7 @@ bool Scheduler::manageConnectionLoss()
 void Scheduler::load()
 {
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(this, i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+        QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
     if (fileURL.isEmpty())
         return;
 
@@ -3718,6 +3729,18 @@ void Scheduler::load()
     /* Run a job idle evaluation after a successful load */
     if (loadScheduler(fileURL.toLocalFile()))
         startJobEvaluation();
+}
+
+void Scheduler::removeAllJobs()
+{
+    if (jobUnderEdit >= 0)
+        resetJobEdit();
+
+    while (queueTable->rowCount() > 0)
+        queueTable->removeRow(0);
+
+    qDeleteAll(jobs);
+    jobs.clear();
 }
 
 bool Scheduler::loadScheduler(const QString &fileURL)
@@ -3736,14 +3759,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
         return false;
     }
 
-    if (jobUnderEdit >= 0)
-        resetJobEdit();
-
-    while (queueTable->rowCount() > 0)
-        queueTable->removeRow(0);
-
-    qDeleteAll(jobs);
-    jobs.clear();
+    removeAllJobs();
 
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
@@ -3874,6 +3890,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
 
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
+    rotationSpin->setValue(0);
 
     // We expect all data read from the XML to be in the C locale - QLocale::c()
     QLocale cLocale = QLocale::c();
@@ -3910,6 +3927,10 @@ bool Scheduler::processJobInfo(XMLEle *root)
         {
             fitsEdit->setText(pcdataXMLEle(ep));
             fitsURL.setPath(fitsEdit->text());
+        }
+        else if (!strcmp(tagXMLEle(ep), "Rotation"))
+        {
+            rotationSpin->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "StartupCondition"))
         {
@@ -4019,7 +4040,7 @@ void Scheduler::save()
     if (schedulerURL.isEmpty())
     {
         schedulerURL =
-            QFileDialog::getSaveFileUrl(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+            QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
         // if user presses cancel
         if (schedulerURL.isEmpty())
         {
@@ -4086,6 +4107,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << endl;
+        else
+            outstream << "<Rotation>" << job->getRotation() << "</Rotation>" << endl;
 
         outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << endl;
 
@@ -4590,14 +4613,25 @@ void Scheduler::startAstrometry()
         // JM 2020.08.20: Send J2000 TargetCoords to Align module so that we always resort back to the
         // target original targets even if we drifted away due to any reason like guiding calibration failures.
         const SkyPoint targetCoords = currentJob->getTargetCoords();
-        QList<QVariant> targetArgs;
+        QList<QVariant> targetArgs, rotationArgs;
         targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
+        rotationArgs << currentJob->getRotation();
 
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords",
                      targetArgs)).type() == QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetCoords request received DBUS error: %2").arg(
                                                   currentJob->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+
+        if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetRotation",
+                    rotationArgs)).type() == QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetRotation request received DBUS error: %2").arg(
+                                                currentJob->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
                 currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
@@ -4940,13 +4974,44 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     SchedulerJob::CapturedFramesMap capture_map;
     bool const rememberJobProgress = Options::rememberJobProgress();
 
-    int totalSequenceCount = 0, totalCompletedCount = 0;
+    int totalCompletedCount = 0;
     double totalImagingTime  = 0;
 
     // Determine number of captures in the scheduler job
     int capturesPerRepeat = 0;
+    QMap<QString, uint16_t> expected;
     foreach (SequenceJob *seqJob, seqJobs)
+    {
         capturesPerRepeat += seqJob->getCount();
+        QString const signature = seqJob->getSignature();
+        expected[signature] = seqJob->getCount() + (expected.contains(signature) ? expected[signature] : 0);
+    }
+
+    // fill the captured frames map
+    for (QString key: expected.keys())
+    {
+        if (rememberJobProgress)
+        {
+            int diff = expected[key] * schedJob->getRepeatsRequired() - capturedFramesCount[key];
+            // captured more than required?
+            if (diff <= 0)
+                capture_map[key] = expected[key];
+            // need more frames than one cycle could capture?
+            else if (diff >= expected[key])
+                capture_map[key] = 0;
+            // else we know that 0 < diff < expected[key]
+            else
+                capture_map[key] = expected[key] - diff;
+        }
+        else
+            capture_map[key] = 0;
+
+        // collect all captured frames counts
+        if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+            totalCompletedCount += capturedFramesCount[key];
+        else
+            totalCompletedCount += std::min(capturedFramesCount[key], static_cast<uint16_t>(expected[key] * schedJob->getRepeatsRequired()));
+    }
 
     // Loop through sequence jobs to calculate the number of required frames and estimate duration.
     foreach (SequenceJob *seqJob, seqJobs)
@@ -4965,10 +5030,12 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         }
 
         // Note that looping jobs will have zero repeats required.
-        int const captures_required = seqJob->getCount() * schedJob->getRepeatsRequired();
+        QString const signature      = seqJob->getSignature();
+        QString const signature_path = QFileInfo(signature).path();
+        int captures_required        = seqJob->getCount() * schedJob->getRepeatsRequired();
+        int captures_completed       = capturedFramesCount[signature];
 
-        int captures_completed = 0;
-        if (rememberJobProgress)
+        if (rememberJobProgress && schedJob->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
         {
             /* Enumerate sequence jobs associated to this scheduler job, and assign them a completed count.
              *
@@ -4998,13 +5065,11 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
              * This is why it is important to manage the repeat count of the scheduler job, as stated earlier.
              */
 
-            // Retrieve cached count of completed captures for the output folder of this seqJob
-            QString const signature = seqJob->getSignature();
-            QString const signature_path = QFileInfo(signature).path();
-            captures_completed = capturedFramesCount[signature];
+            // we start with the total value
+            captures_required = expected[seqJob->getSignature()] * schedJob->getRepeatsRequired();
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 sees %2 captures in output folder '%3'.").arg(seqName).arg(
-                                              captures_completed).arg(signature_path);
+                                              captures_completed).arg(QFileInfo(signature).path());
 
             // Enumerate sequence jobs to check how many captures are completed overall in the same storage as the current one
             foreach (SequenceJob *prevSeqJob, seqJobs)
@@ -5013,51 +5078,18 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                 if (seqJob == prevSeqJob)
                     break;
 
-                // If the previous sequence signature matches the current, reduce completion count to take duplicates into account
-                if (!signature.compare(prevSeqJob->getLocalDir() + prevSeqJob->getDirectoryPostfix()))
-                {
-                    // Note that looping jobs will have zero repeats required.
-                    int const previous_captures_required = prevSeqJob->getCount() * schedJob->getRepeatsRequired();
-                    qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has a previous duplicate sequence job requiring %2 captures.").arg(
-                                                      seqName).arg(previous_captures_required);
-                    captures_completed -= previous_captures_required;
-                }
+                // If the previous sequence signature matches the current, skip counting to take duplicates into account
+                if (!signature.compare(prevSeqJob->getSignature()))
+                    captures_required = 0;
 
-                // Now completed count can be needlessly negative for this job, so clamp to zero
-                if (captures_completed < 0)
-                    captures_completed = 0;
-
-                // And break if no captures remain, this job has to execute
-                if (captures_completed == 0)
+                // And break if no captures remain, this job does not need to be executed
+                if (captures_required == 0)
                     break;
             }
 
-            // Finally we're only interested in the number of captures required for this sequence item
-            if (0 < captures_required && captures_required < captures_completed)
-                captures_completed = captures_required;
+            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(
+                                                  seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
 
-            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(
-                                              seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
-
-            // Update the completion count for this signature in the frame map if we still have captures to take.
-            // That frame map will be transferred to the Capture module, for which the sequence is a single batch of the scheduler job.
-            // For instance, consider a scheduler job repeated 3 times and using a 3xLum sequence, so we want 9xLum in the end.
-            // - If no captures are already processed, the frame map contains Lum=0
-            // - If 1xLum are already processed, the frame map contains Lum=0 when the batch executes, so that 3xLum may be taken.
-            // - If 3xLum are already processed, the frame map contains Lum=0 when the batch executes, as we still need more than what the sequence provides.
-            // - If 7xLum are already processed, the frame map contains Lum=1 when the batch executes, because we now only need 2xLum to finish the job.
-            // Therefore we need to specify a number of existing captures only for the last batch of the scheduler job.
-            // In the last batch, we only need the remainder of frames to get to the required total.
-            if (captures_completed < captures_required)
-            {
-                if (captures_required - captures_completed < seqJob->getCount())
-                    capture_map[signature] = captures_completed % seqJob->getCount();
-                else
-                    capture_map[signature] = 0;
-            }
-            else capture_map[signature] = captures_required;
-
-            // From now on, 'captures_completed' is the number of frames completed for the *current* sequence job
         }
         // Else rely on the captures done during this session
         else
@@ -5069,7 +5101,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         // OR if the completion condition is set to LOOP so it is never complete due to looping.
         // Note that looping jobs will have zero repeats required.
         // FIXME: As it is implemented now, FINISH_LOOP may loop over a capture-complete, therefore inoperant, scheduler job.
-        bool const areJobCapturesComplete = !(captures_completed < captures_required || 0 == captures_required);
+        bool const areJobCapturesComplete = (0 == captures_required || captures_completed >= captures_required);
         if (seqJob->getFrameType() == FRAME_LIGHT)
         {
             if(areJobCapturesComplete)
@@ -5083,14 +5115,10 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 captures calibration frames.").arg(seqName);
         }
 
-        totalSequenceCount += captures_required;
-        totalCompletedCount += captures_completed;
-
         /* If captures are not complete, we have imaging time left */
         if (!areJobCapturesComplete)
         {
-            /* if looping, consider we always have one capture left */
-            unsigned int const captures_to_go = 0 < captures_required ? captures_required - captures_completed : 1;
+            unsigned int const captures_to_go = captures_required - captures_completed;
             totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * captures_to_go);
 
             /* If we have light frames to process, add focus/dithering delay */
@@ -5115,7 +5143,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     }
 
     schedJob->setCapturedFramesMap(capture_map);
-    schedJob->setSequenceCount(totalSequenceCount);
+    schedJob->setSequenceCount(capturesPerRepeat * schedJob->getRepeatsRequired());
 
     // only in case we remember the job progress, we change the completion count
     if (rememberJobProgress)
@@ -5165,7 +5193,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         schedJob->setEstimatedTime(0);
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' will not run, complete with %2/%3 captures.")
-                                       .arg(schedJob->getName()).arg(totalCompletedCount).arg(totalSequenceCount);
+                                       .arg(schedJob->getName()).arg(schedJob->getCompletedCount()).arg(schedJob->getSequenceCount());
     }
     // Else consolidate with step durations
     else
@@ -6082,6 +6110,7 @@ void Scheduler::startMosaicTool()
 
             raBox->showInHours(oneJob->skyCenter.ra0());
             decBox->showInDegrees(oneJob->skyCenter.dec0());
+            rotationSpin->setValue(range360(oneJob->rotation));
 
             saveJob();
         }

@@ -70,10 +70,6 @@ WizDataUI::WizDataUI(QWidget *parent) : QFrame(parent)
 
 KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
-    setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
-#endif
-
     wizardStack = new QStackedWidget(this);
     adjustSize();
 
@@ -83,14 +79,17 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(wizardStack);
     setLayout(mainLayout);
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
+    buttonBox = new QDialogButtonBox(Qt::Horizontal);
     nextB     = new QPushButton(i18n("&Next >"));
     nextB->setDefault(true);
     backB = new QPushButton(i18n("< &Back"));
     backB->setEnabled(false);
+    completeB = new QPushButton(i18n("Done"));
 
     buttonBox->addButton(backB, QDialogButtonBox::ActionRole);
     buttonBox->addButton(nextB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(completeB, QDialogButtonBox::AcceptRole);
+    completeB->setVisible(false);
 
     mainLayout->addWidget(buttonBox);
 
@@ -113,23 +112,23 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     QPixmap im;
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzstars.png")))
         welcome->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzstars.png"))
         welcome->Banner->setPixmap(im);
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzgeo.png")))
         location->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() + "/wzgeo.png"))
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() + "/wzgeo.png"))
         location->Banner->setPixmap(im);
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")))
         download->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzdownload.png"))
         download->Banner->setPixmap(im);
 
 #ifdef Q_OS_OSX
     if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")))
         data->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzdownload.png"))
         data->Banner->setPixmap(im);
 
@@ -140,7 +139,6 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
 
     connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(slotOpenOrCopyKStarsDataDirectory()));
     connect(data->installGSC, SIGNAL(clicked()), this, SLOT(slotInstallGSC()));
-    connect(this, SIGNAL(accepted()), this, SLOT(slotFinishWizard()));
 
     gscMonitor = new QProgressIndicator(data);
     data->GSCLayout->addWidget(gscMonitor);
@@ -175,22 +173,12 @@ void KSWizard::setButtonsEnabled()
 {
     nextB->setEnabled(wizardStack->currentIndex() < wizardStack->count() - 1);
     backB->setEnabled(wizardStack->currentIndex() > 0);
+    completeB->setVisible(wizardStack->currentIndex() == wizardStack->count() - 1);
 
 #ifdef Q_OS_OSX
-    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(dataDirExists());
     if ((wizardStack->currentWidget() == data) && (!dataDirExists()))
     {
         nextB->setEnabled(false);
-    }
-    if (wizardStack->currentWidget() == location)
-    {
-        if (KStars::Instance())
-        {
-            if (location->LongBox->isReadOnly() == false)
-            {
-                initGeoPage();
-            }
-        }
     }
 #endif
 }
@@ -278,14 +266,6 @@ void KSWizard::slotDownload()
     dlg.exec();
 }
 
-void KSWizard::slotFinishWizard()
-{
-    Options::setRunStartupWizard(false);
-    if (KStars::Instance() && geo())
-        KStars::Instance()->updateLocationFromWizard(*(geo()));
-    delete this;
-}
-
 void KSWizard::slotOpenOrCopyKStarsDataDirectory()
 {
 #ifdef Q_OS_OSX
@@ -293,7 +273,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty())
     {
-        QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
+        QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath();
         if (! dataSourceDir.exists()) //If there is no default data directory in the app bundle
         {
             KSNotification::sorry(i18n("There was no default data directory found in the app bundle."));
@@ -311,12 +291,6 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         KSUtils::copyRecursively(dataSourceDir.absolutePath(), dataLocation);
         //This will update the next, ok, and copy kstars dir buttons.
         slotUpdateDataButtons();
-
-        //This will let the program load after the data folder is copied
-        hide();
-        setModal(false);
-        setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
-        show();
     }
     else
     {

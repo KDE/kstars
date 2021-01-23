@@ -45,10 +45,12 @@ class Media : public QObject
         void registerCameras();
 
         // Ekos Media Message to User
-        void sendPreviewJPEG(const QString &filename, QJsonObject metadata);
+        //void sendPreviewJPEG(const QString &filename, QJsonObject metadata);
         void sendPreviewImage(const QString &filename, const QString &uuid);
+        void sendPreviewImage(const QSharedPointer<FITSData> &data, const QString &uuid);
         void sendPreviewImage(FITSView * view, const QString &uuid);
         void sendUpdatedFrame(FITSView * view);
+        void sendModuleFrame(FITSView * view);
 
     signals:
         void connected();
@@ -63,7 +65,7 @@ class Media : public QObject
         void disconnectServer();
 
         // Capture
-        void sendVideoFrame(std::shared_ptr<QImage> frame);
+        void sendVideoFrame(const QSharedPointer<QImage> &frame);
 
         // Options
         void setOptions(QMap<int, bool> options)
@@ -120,19 +122,22 @@ class Media : public QObject
         bool m_sendBlobs { true};
 
         // Image width for high-bandwidth setting
-        static const uint16_t HB_WIDTH = 640;
+        static const uint16_t HB_WIDTH = 960;
         // Image high bandwidth image quality (jpg)
-        static const uint8_t HB_IMAGE_QUALITY = 76;
+        static const uint8_t HB_IMAGE_QUALITY = 90;
         // Video high bandwidth video quality (jpg)
         static const uint8_t HB_VIDEO_QUALITY = 64;
         // Image high bandwidth image quality (jpg) for PAH
         static const uint8_t HB_PAH_IMAGE_QUALITY = 50;
         // Video high bandwidth video quality (jpg) for PAH
-        static const uint8_t HB_PAH_VIDEO_QUALITY = 25;
+        static const uint8_t HB_PAH_VIDEO_QUALITY = 24;
 
         // Retry every 5 seconds in case remote server is down
         static const uint16_t RECONNECT_INTERVAL = 5000;
         // Retry for 1 hour before giving up
         static const uint16_t RECONNECT_MAX_TRIES = 720;
+
+        // Binary Metadata Size
+        static const uint16_t METADATA_PACKET = 256;
 };
 }

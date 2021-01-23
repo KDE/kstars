@@ -364,7 +364,7 @@ QString FindDialog::processSearchText(QString searchText)
 
     // Remove multiple spaces and replace them by a single space
     re.setPattern("  +");
-    searchText.replace(re, " ");
+    searchtext.replace(re, " ");
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
@@ -512,4 +512,25 @@ void FindDialog::slotDetails()
         dd->exec();
         delete dd;
     }
+}
+
+int FindDialog::execWithParent(QWidget* parent)
+{
+    QWidget * const oldParent = parentWidget();
+
+    if (nullptr != parent)
+    {
+        setParent(parent);
+        setWindowFlag(Qt::Dialog, true);
+    }
+
+    int const result = QDialog::exec();
+
+    if (nullptr != parent)
+    {
+        setParent(oldParent);
+        setWindowFlag(Qt::Dialog, true);
+    }
+
+    return result;
 }

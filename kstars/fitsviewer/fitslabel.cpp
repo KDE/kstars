@@ -170,7 +170,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
         }
 
         bool objFound = false;
-        foreach (FITSSkyObject *listObject, view_data->objList)
+        for (auto &listObject : view_data->getSkyObjects())
         {
             if ((std::abs(listObject->x() - x) < 5 / scale) && (std::abs(listObject->y() - y) < 5 / scale))
             {
@@ -260,16 +260,16 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         mouseReleaseEvent(e);
         if (view_data->hasWCS())
         {
-            foreach (FITSSkyObject *listObject, view_data->objList)
+            for (auto &listObject : view_data->getSkyObjects())
             {
-                if ((std::abs(listObject->x() - x) < 5 / scale) && (std::abs(listObject->y() - y) < 5 / scale))
+                if ((std::abs(listObject->x() - x) < 10 / scale) && (std::abs(listObject->y() - y) < 10 / scale))
                 {
                     SkyObject *object = listObject->skyObject();
                     KSPopupMenu *pmenu;
                     pmenu = new KSPopupMenu();
                     object->initPopupMenu(pmenu);
                     QList<QAction *> actions = pmenu->actions();
-                    foreach (QAction *action, actions)
+                    for (auto action : actions)
                     {
                         if (action->text().left(7) == "Starhop")
                             pmenu->removeAction(action);

@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "config-kstars.h"
+
 #include "fits_debug.h"
 #include "fitssepdetector.h"
 #include "Options.h"
@@ -28,26 +29,28 @@
 #include <QtConcurrent>
 
 #ifdef HAVE_STELLARSOLVER
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <stellarsolver.h>
 #else
+#include <cstring>
 #include "sep/sep.h"
 #endif
 
-void FITSSEPDetector::configure(const QString &param, const QVariant &value)
-{
-    if (param == "numStars")
-        numStars = value.toInt();
-    else if (param == "fractionRemoved")
-        fractionRemoved = value.toDouble();
-    else if (param == "deblendNThresh")
-        deblendNThresh = value.toInt();
-    else if (param == "deblendMincont")
-        deblendMincont = value.toDouble();
-    else if (param == "radiusIsBoundary")
-        radiusIsBoundary = value.toBool();
-    else
-        qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
-}
+//void FITSSEPDetector::configure(const QString &param, const QVariant &value)
+//{
+//    if (param == "numStars")
+//        numStars = value.toInt();
+//    else if (param == "fractionRemoved")
+//        fractionRemoved = value.toDouble();
+//    else if (param == "deblendNThresh")
+//        deblendNThresh = value.toInt();
+//    else if (param == "deblendMincont")
+//        deblendMincont = value.toDouble();
+//    else if (param == "radiusIsBoundary")
+//        radiusIsBoundary = value.toBool();
+//    else
+//        qCDebug(KSTARS_FITS) << "Bad SEP Parameter!!!!! " << param;
+//}
 
 // TODO: (hy 4/11/2020)
 // The api into these star detection methods should be generalized so that various parameters
@@ -59,83 +62,139 @@ void FITSSEPDetector::configure(const QString &param, const QVariant &value)
 
 QFuture<bool> FITSSEPDetector::findSources(QRect const &boundary)
 {
-    return QtConcurrent::run(this, &FITSSEPDetector::findSourcesAndBackground, boundary, nullptr);
+    return QtConcurrent::run(this, &FITSSEPDetector::findSourcesAndBackground, boundary);
 }
 
-bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackground *bg)
+bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 {
     QList<Edge*> starCenters;
+    SkyBackground skyBG;
+    int maxStarsCount = getValue("maxStarsCount", 100000).toInt();
 #ifdef HAVE_STELLARSOLVER
-    Q_UNUSED(bg);
-    //Note this is the part I added.  It is just an initial attempt to get it working
-    constexpr int maxNumCenters =
-        50;  //This parameter can be set in the profile, but I did it this way since it is used in the code further down.
-    QPointer<StellarSolver> solver = new StellarSolver(image_data->getStatistics(), image_data->getImageBuffer());
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedOptionsProfiles.ini");
-    QList<SSolver::Parameters> optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    if(optionsList.count() > static_cast<int>(Options::focusOptionsProfile()))
-        solver->setParameters(optionsList.at(Options::focusOptionsProfile()));
-    else
-        solver->setParameterProfile(SSolver::Parameters::ALL_STARS);
+    int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
+    Ekos::ProfileGroup group = static_cast<Ekos::ProfileGroup>(getValue("optionsProfileGroup", 1).toInt());
 
-    qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList.at(Options::focusOptionsProfile()).listName;
-    //connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
-    if(Options::focusLogging())
-        solver->setSSLogLevel(SSolver::LOG_NORMAL);
+    QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
+    QString filename = "";
+    switch(group)
+    {
+        case Ekos::AlignProfiles:
+            //So it should not be here if it is Align.
+            break;
+        case Ekos::GuideProfiles:
+            filename = "SavedGuideProfiles.ini";
+            break;
+        case Ekos::FocusProfiles:
+            filename = "SavedFocusProfiles.ini";
+            break;
+        case Ekos::HFRProfiles:
+            filename = "SavedHFRProfiles.ini";
+            break;
+    }
+
+    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
+    QList<SSolver::Parameters> optionsList;
+    if(QFile(savedOptionsProfiles).exists())
+        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
-        solver->setSSLogLevel(SSolver::LOG_OFF);
+    {
+        switch(group)
+        {
+            case Ekos::AlignProfiles:
+                //So it should not be here if it is Align.
+                break;
+            case Ekos::GuideProfiles:
+                optionsList = Ekos::getDefaultGuideOptionsProfiles();
+                break;
+            case Ekos::FocusProfiles:
+                optionsList = Ekos::getDefaultFocusOptionsProfiles();
+                break;
+            case Ekos::HFRProfiles:
+                optionsList = Ekos::getDefaultHFROptionsProfiles();
+                break;
+        }
+    }
+    if (optionsProfileIndex >= 0 && optionsList.count() > optionsProfileIndex)
+    {
+        solver->setParameters(optionsList[optionsProfileIndex]);
+        qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList[optionsProfileIndex].listName;
+    }
+    else
+        solver->setParameters(SSolver::Parameters()); // This is default
+    //connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
+    //    if(Options::focusLogging())
+    //        solver->setSSLogLevel(SSolver::LOG_NORMAL);
+    //    else
+    //        solver->setSSLogLevel(SSolver::LOG_OFF);
 
     // Wait synchronously
 
+    QEventLoop loop;
+    connect(solver, &StellarSolver::finished, &loop, &QEventLoop::quit);
     QList<FITSImage::Star> stars;
-    if (!boundary.isNull())
-    {
-        solver->extract(true, boundary);
-        while (solver->isRunning())
-        {
-            QThread::msleep(100);
-        }
-        stars = solver->getStarList();
-    }
+    //    if (!boundary.isNull())
+    //    {
 
-    if (stars.empty())
-    {
-        solver->extract(true);
-        while (solver->isRunning())
-        {
-            QThread::msleep(100);
-        }
-        stars = solver->getStarList();
-    }
+    solver->extract(true, boundary);
+    loop.exec(QEventLoop::ExcludeUserInputEvents);
+    stars = solver->getStarList();
+    //    }
+
+    //    if (stars.empty())
+    //    {
+    //        solver->extract(true);
+    //        loop.exec();
+    //        stars = solver->getStarList();
+    //    }
 
     if (stars.empty())
         return false;
 
-    QList<Edge *> edges;
+    auto bg = solver->getBackground();
 
-    for (auto &star : stars)
-    {
-        auto * center = new Edge();
-        center->x = star.x;
-        center->y = star.y;
-        center->val = star.peak;
-        center->sum = star.flux;
-        center->HFR = star.HFR;
-        center->width = star.a;
-        edges.append(center);
-    }
+    skyBG.mean = bg.global;
+    skyBG.sigma = bg.globalrms;
+    skyBG.numPixelsInSkyEstimate = bg.bw * bg.bh;
+    skyBG.setStarsDetected(bg.num_stars_detected);
+    m_ImageData->setSkyBackground(skyBG);
+
     //There is more information that can be obtained by the Stellarsolver.
     //Background info, Star positions(if a plate solve was done before), etc
     //The information is available as long as the StellarSolver exists.
 
+    // Let's sort edges, starting with widest
+    std::sort(stars.begin(), stars.end(), [](const FITSImage::Star & star1, const FITSImage::Star & star2) -> bool { return star1.HFR > star2.HFR;});
+
+    // Take only the first maxNumCenters stars
+    int starCount = qMin(maxStarsCount, stars.count());
+    starCenters.reserve(starCount);
+    for (int i = 0; i < starCount; i++)
+    {
+        Edge *oneEdge = new Edge();
+        oneEdge->x = stars[i].x;
+        oneEdge->y = stars[i].y;
+        oneEdge->val = stars[i].peak;
+        oneEdge->sum = stars[i].flux;
+        oneEdge->HFR = stars[i].HFR;
+        oneEdge->width = stars[i].a;
+        if (stars[i].a > 0)
+            // See page 63 to find the ellipticity equation for SEP.
+            // http://astroa.physics.metu.edu.tr/MANUALS/sextractor/Guide2source_extractor.pdf
+            oneEdge->ellipticity = 1 - stars[i].b / stars[i].a;
+        else
+            oneEdge->ellipticity = 0;
+
+        starCenters.append(oneEdge);
+    }
+    m_ImageData->setStarCenters(starCenters);
+
 #else
 
-    FITSImage::Statistic const &stats = image_data->getStatistics();
+    FITSImage::Statistic const &stats = m_ImageData->getStatistics();
 
     int x = 0, y = 0, w = stats.width, h = stats.height, maxRadius = 50;
     std::vector<std::pair<int, double>> ovals;
-    const int maxNumCenters = numStars;
+    int maxNumCenters = getValue("maxStars", 50).toInt();
 
     // We may skip 20% of the stars (those with the largest 20% HFRs) as those are suspect
     // to be non-stars) if we have plenty of detections.
@@ -147,7 +206,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
         y = boundary.y();
         w = boundary.width();
         h = boundary.height();
-        if (radiusIsBoundary)
+        if (getValue("radiusIsBoundary", true).toBool())
             maxRadius = w;
     }
 
@@ -156,31 +215,31 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
     switch (stats.dataType)
     {
         case TBYTE:
-            getFloatBuffer<uint8_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<uint8_t>(data, x, y, w, h, m_ImageData);
             break;
         case TSHORT:
-            getFloatBuffer<int16_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<int16_t>(data, x, y, w, h, m_ImageData);
             break;
         case TUSHORT:
-            getFloatBuffer<uint16_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<uint16_t>(data, x, y, w, h, m_ImageData);
             break;
         case TLONG:
-            getFloatBuffer<int32_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<int32_t>(data, x, y, w, h, m_ImageData);
             break;
         case TULONG:
-            getFloatBuffer<uint32_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<uint32_t>(data, x, y, w, h, m_ImageData);
             break;
         case TFLOAT:
             if (boundary.isNull())
-                memcpy(data, image_data->getImageBuffer(), sizeof(float)*w * h);
+                memcpy(data, m_ImageData->getImageBuffer(), sizeof(float)*w * h);
             else
-                getFloatBuffer<float>(data, x, y, w, h, image_data);
+                getFloatBuffer<float>(data, x, y, w, h, m_ImageData);
             break;
         case TLONGLONG:
-            getFloatBuffer<int64_t>(data, x, y, w, h, image_data);
+            getFloatBuffer<int64_t>(data, x, y, w, h, m_ImageData);
             break;
         case TDOUBLE:
-            getFloatBuffer<double>(data, x, y, w, h, image_data);
+            getFloatBuffer<double>(data, x, y, w, h, m_ImageData);
             break;
         default:
             delete [] data;
@@ -199,33 +258,69 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
     double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge *> edges;
 
+    auto cleanup = [ & ]()
+    {
+        delete[] data;
+        sep_bkg_free(bkg);
+        sep_catalog_free(catalog);
+        free(imback);
+        free(flux);
+        free(fluxerr);
+        free(area);
+        free(flag);
+
+        if (status != 0)
+        {
+            char errorMessage[512];
+            sep_get_errmsg(status, errorMessage);
+            qCritical(KSTARS_FITS) << errorMessage;
+        }
+    };
+
     // #0 Create SEP Image structure
     sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
 
     // #1 Background estimate
     status = sep_background(&im, 64, 64, 3, 3, 0.0, &bkg);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
 
     // #2 Background evaluation
     imback = (float *)malloc((w * h) * sizeof(float));
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
 
-    if (bg != nullptr)
-        bg->initialize(bkg->global, bkg->globalrms, bkg->bh * bkg->bw);
+    skyBG.initialize(bkg->global, bkg->globalrms, bkg->bh * bkg->bw);
 
     // #3 Background subtraction
     status = sep_bkg_subarray(bkg, im.data, im.dtype);
-    if (status != 0) goto exit;
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
 
     // #4 Source Extraction
     status = sep_extract(&im, 2 * bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV,
-                         deblendNThresh, deblendMincont, 1, 1.0, &catalog);
-    if (status != 0) goto exit;
+                         getValue("deblendNThresh", 32).toInt(),
+                         getValue("deblendMincont", 0.005).toDouble(),
+                         1, 1.0, &catalog);
+    if (status != 0)
+    {
+        cleanup();
+        return false;
+    }
     qCDebug(KSTARS_FITS) << "SEP detected " << catalog->nobj << " stars.";
-    if (bg != nullptr)
-        bg->setStarsDetected(catalog->nobj);
+    skyBG.setStarsDetected(catalog->nobj);
 
+    double fractionRemoved = getValue("fractionRemoved", 0.2).toDouble();
     // Skip the 20% largest stars if we have plenty.
     if (catalog->nobj * (1 - fractionRemoved) > maxNumCenters)
         startIndex = catalog->nobj * fractionRemoved;
@@ -260,23 +355,21 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
             center->width = flux_fractions[1] * 2;
         edges.append(center);
     }
-#endif
 
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
 
     // Take only the first maxNumCenters stars
     {
-        int starCount = qMin(maxNumCenters, edges.count());
+        int starCount = qMin(maxStarsCount, edges.count());
         for (int i = 0; i < starCount; i++)
             starCenters.append(edges[i]);
 
-        image_data->setStarCenters(starCenters);
+        m_ImageData->setStarCenters(starCenters);
     }
 
     edges.clear();
 
-#ifndef HAVE_STELLARSOLVER
     qCDebug(KSTARS_FITS) << QString("Sky background: global %1 rms %2 cell ht %3 wd %4")
                          .arg(QString::number(bkg->global, 'f', 2))
                          .arg(QString::number(bkg->globalrms, 'f', 2))
@@ -286,25 +379,10 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary, SkyBackgro
         qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
                              << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->sum
                              << starCenters[i]->numPixels << starCenters[i]->HFR;
-    image_data->setStarCenters(starCenters);
+    m_ImageData->setStarCenters(starCenters);
+    m_ImageData->setSkyBackground(skyBG);
 
-exit:
-    delete[] data;
-    sep_bkg_free(bkg);
-    sep_catalog_free(catalog);
-    free(imback);
-    free(flux);
-    free(fluxerr);
-    free(area);
-    free(flag);
-
-    if (status != 0)
-    {
-        char errorMessage[512];
-        sep_get_errmsg(status, errorMessage);
-        qCritical(KSTARS_FITS) << errorMessage;
-        return false;
-    }
+    cleanup();
 #endif
     return true;
 }
@@ -350,7 +428,7 @@ void SkyBackground::initialize(double mean_, double sigma_,
 }
 
 // Taken from: http://www1.phys.vt.edu/~jhs/phys3154/snr20040108.pdf
-double SkyBackground::SNR(double flux, double numPixels, double gain)
+double SkyBackground::SNR(double flux, double numPixels, double gain) const
 {
     if (numPixelsInSkyEstimate <= 0 || gain <= 0)
         return 0;

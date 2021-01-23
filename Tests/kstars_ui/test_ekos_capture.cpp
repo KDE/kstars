@@ -64,7 +64,7 @@ QStringList TestEkosCapture::searchFITS(QDir const &dir) const
     //foreach (auto &f, list)
     //    QWARN(QString(dir.path()+'/'+f).toStdString().c_str());
 
-    foreach (auto &d, dir.entryList(QDir::NoDotAndDotDot|QDir::Dirs))
+    foreach (auto &d, dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs))
         list.append(searchFITS(QDir(dir.path() + '/' + d)));
 
     return list;
@@ -78,43 +78,72 @@ void TestEkosCapture::testAddCaptureJob()
     KTRY_CAPTURE_GADGET(QComboBox, captureFilterS);
     KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
     KTRY_CAPTURE_GADGET(QPushButton, addToQueueB);
+    KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
 
-    QString frameTypes[] = {"Light", "Dark", "Flat"};
-    int const frameTypeCount = sizeof(frameTypes)/sizeof(frameTypes[0]);
+    // These are the expected exhaustive list of frame names
+    QString frameTypes[] = {"Light", "Bias", "Dark", "Flat"};
+    int const frameTypeCount = sizeof(frameTypes) / sizeof(frameTypes[0]);
 
+    // Verify our assumption about those frame types is correct
+    QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->count(), frameTypeCount, 5000);
+    for (QString &frameType: frameTypes)
+        if(captureTypeS->findText(frameType) < 0)
+            QFAIL(qPrintable(QString("Frame '%1' expected by the test is not in the Capture frame list").arg(frameType)));
+
+    // These are the expected exhaustive list of filter names from the default Filter Wheel Simulator
     QString filterTypes[] = {"Red", "Green", "Blue", "H_Alpha", "OIII", "SII", "LPR", "Luminance"};
-    int const filterTypeCount = sizeof(filterTypes)/sizeof(filterTypes[0]);
+    int const filterTypeCount = sizeof(filterTypes) / sizeof(filterTypes[0]);
+
+    // Verify our assumption about those filters is correct - but wait for properties to be read from the device
+    QTRY_COMPARE_WITH_TIMEOUT(captureFilterS->count(), filterTypeCount, 5000);
+    for (QString &filterType: filterTypes)
+        if(captureFilterS->findText(filterType) < 0)
+            QFAIL(qPrintable(QString("Filter '%1' expected by the test is not in the Capture filter list").arg(filterType)));
 
     // Add a few capture jobs
     int const job_count = 50;
+    QWARN("When clicking the 'Add' button, immediately starting to fill the next job overwrites the job being added.");
     for (int i = 0; i < job_count; i++)
     {
-        captureExposureN->setValue(((double)i)/10.0);
+        captureExposureN->setValue(((double)i) / 10.0);
         captureCountN->setValue(i);
         captureDelayN->setValue(i);
         KTRY_CAPTURE_COMBO_SET(captureTypeS, frameTypes[i % frameTypeCount]);
         KTRY_CAPTURE_COMBO_SET(captureFilterS, filterTypes[i % filterTypeCount]);
         KTRY_CAPTURE_CLICK(addToQueueB);
+        // Wait for the job to be added, else the next loop will overwrite the current job
+        QTRY_COMPARE_WITH_TIMEOUT(queueTable->rowCount(), i + 1, 100);
     }
 
     // Count the number of rows
-    KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
     QVERIFY(queueTable->rowCount() == job_count);
+
+    // Check first capture job item, which could not accept exposure duration 0 and count 0
+    QWARN("This test assumes that minimal exposure is 0.01 for the CCD Simulator.");
+    queueTable->setCurrentCell(0, 1);
+    QTRY_VERIFY_WITH_TIMEOUT(queueTable->currentRow() == 0, 1000);
+
+    // It actually takes time before all signals syncing UI are processed, so wait for situation to settle
+    QTRY_COMPARE_WITH_TIMEOUT(captureExposureN->value(), 0.01, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(captureCountN->value(), 1, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(captureDelayN->value(), 0, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->currentText(), frameTypes[0], 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(captureFilterS->currentText(), filterTypes[0], 1000);
 
     // Select a few cells and verify the feedback on the left side UI
     srand(42);
-    for (int i = 0; i < job_count/2; i++)
+    for (int index = 1; index < job_count / 2; index += rand() % 4 + 1)
     {
-        int const index = rand() % job_count;
-
         QVERIFY(index < queueTable->rowCount());
         queueTable->setCurrentCell(index, 1);
         QTRY_VERIFY_WITH_TIMEOUT(queueTable->currentRow() == index, 1000);
-        QCOMPARE(captureExposureN->value(), ((double)index)/10.0);
-        QCOMPARE(captureCountN->value(), index);
-        QCOMPARE(captureDelayN->value(), index);
-        QCOMPARE(captureTypeS->currentText(), frameTypes[index % frameTypeCount]);
-        QCOMPARE(captureFilterS->currentText(), filterTypes[index % filterTypeCount]);
+
+        // It actually takes time before all signals syncing UI are processed, so wait for situation to settle
+        QTRY_VERIFY_WITH_TIMEOUT(std::fabs(captureExposureN->value() - static_cast<double>(index) / 10.0) < 0.1, 1000);
+        QTRY_COMPARE_WITH_TIMEOUT(captureCountN->value(), index, 1000);
+        QTRY_COMPARE_WITH_TIMEOUT(captureDelayN->value(), index, 1000);
+        QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->currentText(), frameTypes[index % frameTypeCount], 1000);
+        QTRY_COMPARE_WITH_TIMEOUT(captureFilterS->currentText(), filterTypes[index % filterTypeCount], 1000);
     }
 
     // Remove all the rows
@@ -123,7 +152,7 @@ void TestEkosCapture::testAddCaptureJob()
     for (int i = job_count; 0 < i; i--)
     {
         KTRY_CAPTURE_CLICK(removeFromQueueB);
-        QVERIFY(i-1 == queueTable->rowCount());
+        QVERIFY(i - 1 == queueTable->rowCount());
     }
 }
 
@@ -141,17 +170,18 @@ void TestEkosCapture::testCaptureToTemporary()
     QCOMPARE(startB->icon().name(), QString("media-playback-start"));
     KTRY_CAPTURE_CLICK(startB);
     QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-stop"), 500);
-    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), 5000*2);
+    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), 30000);
 
-    QWARN("When storing to a recognized system temporary folder, only one FITS file is created.");
-    QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 1, 1000);
-    QCOMPARE(searchFITS(QDir(destination.path()))[0], QString("Light_005.fits"));
+    QWARN("Test capturing to temporary is no longer valid since we don't create temporary files any more.");
+    //    QWARN("When storing to a recognized system temporary folder, only one FITS file is created.");
+    //    QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 1, 1000);
+    //    QCOMPARE(searchFITS(QDir(destination.path()))[0], QString("Light_005.fits"));
 }
 
 void TestEkosCapture::testCaptureSingle()
 {
     // We cannot use a system temporary due to what testCaptureToTemporary marks
-    QTemporaryDir destination(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)+"/test-XXXXXX");
+    QTemporaryDir destination(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVERIFY(destination.isValid());
     QVERIFY(destination.autoRemove());
 
@@ -200,7 +230,7 @@ void TestEkosCapture::testCaptureSingle()
 void TestEkosCapture::testCaptureMultiple()
 {
     // We cannot use a system temporary due to what testCaptureToTemporary marks
-    QTemporaryDir destination(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)+"/test-XXXXXX");
+    QTemporaryDir destination(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVERIFY(destination.isValid());
     QVERIFY(destination.autoRemove());
 
@@ -212,15 +242,15 @@ void TestEkosCapture::testCaptureMultiple()
     KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 1, "H_Alpha", destination.path());
     QWARN("A sequence of exposures under 1 second will always take 1 second to capture each of them.");
     //size_t const duration = (500+0)*1+(700+0)*2+(200+0)*5+(900+0)*2+(500+1000)*1;
-    size_t const duration = 1000*(1+2+5+2+1);
-    size_t const count = 1+2+5+2+1;
+    size_t const duration = 1000 * (1 + 2 + 5 + 2 + 1);
+    size_t const count = 1 + 2 + 5 + 2 + 1;
 
     // Start capturing and wait for procedure to end (visual icon changing) - leave enough time for frames to store
     KTRY_CAPTURE_GADGET(QPushButton, startB);
     QCOMPARE(startB->icon().name(), QString("media-playback-start"));
     KTRY_CAPTURE_CLICK(startB);
     QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-stop"), 500);
-    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), duration*2);
+    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), duration * 2);
 
     // Verify the proper number of FITS file were created
     QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == count, 1000);
@@ -242,10 +272,10 @@ void TestEkosCapture::testCaptureMultiple()
     // Capture again
     KTRY_CAPTURE_CLICK(startB);
     QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-stop"), 500);
-    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), duration*1.2);
+    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), duration * 1.2);
 
     // Verify the proper number of additional FITS file were created again
-    QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 2*count, 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 2 * count, 1000);
 
     // TODO: test storage options
 }

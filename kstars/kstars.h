@@ -165,8 +165,9 @@ class KStars : public KXmlGuiWindow
         }
 
 #ifdef HAVE_CFITSIO
-        QPointer<FITSViewer> genericFITSViewer();
-        void addFITSViewer(QPointer<FITSViewer> fv);
+        //        void addFITSViewer(const QSharedPointer<FITSViewer> &fv);
+        const QPointer<FITSViewer> &genericFITSViewer();
+        const QPointer<FITSViewer> &createFITSViewer();
         void clearAllViewers();
 #endif
 

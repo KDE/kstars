@@ -197,6 +197,10 @@ void Telescope::registerProperty(INDI::Property *prop)
     {
         m_isJ2000 = false;
     }
+    else if (!strcmp(prop->getName(), "SAT_TRACKING_STAT"))
+    {
+        m_canTrackSatellite = true;        
+    }
     else if (!strcmp(prop->getName(), "EQUATORIAL_COORD"))
     {
         m_isJ2000 = true;
@@ -414,13 +418,13 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                                             (WECurrentMotion == IPS_BUSY && WEPreviousState != IPS_BUSY)))
             {
                 inManualMotion = true;
-                KSNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
+                //KSNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
             }
             else if (inManualMotion && ((NSCurrentMotion != IPS_BUSY && NSPreviousState == IPS_BUSY) ||
                                         (WECurrentMotion != IPS_BUSY && WEPreviousState == IPS_BUSY)))
             {
                 inManualMotion = false;
-                KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount motion stopped"));
+                //KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount motion stopped"));
             }
 
             NSPreviousState = NSCurrentMotion;
@@ -433,6 +437,59 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
 
 void Telescope::processText(ITextVectorProperty *tvp)
 {
+    if (!strcmp(tvp->name, "SAT_TLE_TEXT"))
+    {
+        if ((tvp->s == IPS_OK) && (m_TLEIsSetForTracking))
+        {
+            ITextVectorProperty *trajWindow = baseDevice->getText("SAT_PASS_WINDOW");
+            if (trajWindow == nullptr)
+            {
+                qCDebug(KSTARS_INDI) << "Property SAT_PASS_WINDOW not found";
+            }
+            else
+            {    
+                IText *trajStart = IUFindText(trajWindow, "SAT_PASS_WINDOW_START");
+                IText *trajEnd = IUFindText(trajWindow, "SAT_PASS_WINDOW_END");
+                
+                if (trajStart == nullptr || trajEnd == nullptr)
+                {   
+                    qCDebug(KSTARS_INDI) << "Start or end in SAT_PASS_WINDOW not found";
+                }
+                else
+                {
+                    IUSaveText(trajStart, g_satPassStart.toString(Qt::ISODate).toLocal8Bit().data());
+                    IUSaveText(trajEnd, g_satPassEnd.toString(Qt::ISODate).toLocal8Bit().data());
+            
+                    clientManager->sendNewText(trajWindow);
+                    m_windowIsSetForTracking = true;
+                }
+            }
+        }
+    }
+    else if (!strcmp(tvp->name, "SAT_PASS_WINDOW"))
+    {
+        if ((tvp->s == IPS_OK) && (m_TLEIsSetForTracking) && (m_windowIsSetForTracking))
+        {
+            ISwitchVectorProperty *trackSwitchV  = baseDevice->getSwitch("SAT_TRACKING_STAT");
+            if (!trackSwitchV)
+            {   
+                qCDebug(KSTARS_INDI) << "Property SAT_TRACKING_STAT not found";
+            }
+            else
+            {
+                ISwitch *trackSwitch = IUFindSwitch(trackSwitchV, "SAT_TRACK");
+                if (trackSwitch)
+                {
+                    IUResetSwitch(trackSwitchV);
+                    trackSwitch->s = ISS_ON;
+
+                    clientManager->sendNewSwitch(trackSwitchV);
+                    m_TLEIsSetForTracking = false;
+                    m_windowIsSetForTracking = false;
+                }
+            }
+        }
+    }
     DeviceDecorator::processText(tvp);
 }
 
@@ -446,6 +503,7 @@ bool Telescope::canGuide()
     else
         return false;
 }
+
 
 bool Telescope::canPark()
 {
@@ -784,8 +842,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 sendToClient();
             };
 
-            // Sun Warning
-            if (currentObject->name() == i18n("Sun"))
+            // Sun Warning, but don't ask if tracking is already solar.
+            if (currentObject->name() == i18n("Sun") && currentTrackMode != TRACK_SOLAR)
             {
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
                 {
@@ -1178,6 +1236,30 @@ bool Telescope::setAlignmentModelEnabled(bool enable)
 
     return wasExecuted;
 }
+
+bool Telescope::setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassStart, const KStarsDateTime satPassEnd)
+{    
+    ITextVectorProperty *tleTextVec = baseDevice->getText("SAT_TLE_TEXT");
+    if (!tleTextVec)
+    {   
+        qCDebug(KSTARS_INDI) << "Property SAT_TLE_TEXT not found";
+        return false;
+    }
+    
+    IText *tleText = IUFindText(tleTextVec, "TLE");
+    if (!tleText)
+        return false;
+    
+    IUSaveText(tleText, tle.toLocal8Bit().data());
+    
+    clientManager->sendNewText(tleTextVec);
+    m_TLEIsSetForTracking = true;
+    g_satPassStart = satPassStart;
+    g_satPassEnd = satPassEnd;
+    return true;
+    // See Telescope::processText for the following steps (setting window and switch)
+}
+
 
 bool Telescope::clearParking()
 {

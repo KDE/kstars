@@ -374,9 +374,9 @@ void ProfileEditor::setRemoteMode(bool enable)
     ui->INDIWebManagerPort->setEnabled(enable);
 }
 
-void ProfileEditor::setPi(ProfileInfo *value)
+void ProfileEditor::setPi(ProfileInfo *newProfile)
 {
-    pi = value;
+    pi = newProfile;
 
     ui->profileIN->setText(pi->name);
 
@@ -428,10 +428,10 @@ void ProfileEditor::setPi(ProfileInfo *value)
     }
 
     QMapIterator<QString, QString> i(pi->drivers);
-    int row = 0;
 
     while (i.hasNext())
     {
+        int row = 0;
         i.next();
 
         QString key   = i.key();
@@ -977,9 +977,27 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
         ui->mountCombo->setCurrentIndex(ui->mountCombo->count() - 1);
     }
 
-    ui->ccdCombo->setCurrentText(profile["ccd"].toString("--"));
-    ui->guiderCombo->setCurrentText(profile["guider"].toString("--"));
-    ui->focuserCombo->setCurrentText(profile["focuser"].toString("--"));
+    const QString ccd = profile["ccd"].toString("--");
+    if (ccd != "--")
+    {
+        ui->ccdCombo->addItem(ccd);
+        ui->ccdCombo->setCurrentIndex(ui->ccdCombo->count() - 1);
+    }
+
+    const QString guider = profile["guider"].toString("--");
+    if (guider != "--")
+    {
+        ui->guiderCombo->addItem(guider);
+        ui->guiderCombo->setCurrentIndex(ui->guiderCombo->count() - 1);
+    }
+
+    const QString focuser = profile["focuser"].toString("--");
+    if (focuser != "--")
+    {
+        ui->focuserCombo->addItem(focuser);
+        ui->focuserCombo->setCurrentIndex(ui->focuserCombo->count() - 1);
+    }
+
     ui->filterCombo->setCurrentText(profile["filter"].toString("--"));
     ui->AOCombo->setCurrentText(profile["ao"].toString("--"));
     ui->domeCombo->setCurrentText(profile["dome"].toString("--"));

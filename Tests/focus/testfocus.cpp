@@ -29,6 +29,7 @@ class TestFocus : public QObject
 
     private slots:
         void basicTest();
+        void restartTest();
 };
 
 #include "testfocus.moc"
@@ -48,9 +49,9 @@ FocusAlgorithmInterface::FocusParams makeParams()
     const double temperature = 20.0;
     const double initialOutwardSteps = 5;
     const FocusAlgorithmInterface::FocusParams params(
-                maxTravel, initialStepSize, startPosition, minPositionAllowed,
-                maxPositionAllowed, maxIterations, focusTolerance, filterName,
-                temperature, initialOutwardSteps);
+        maxTravel, initialStepSize, startPosition, minPositionAllowed,
+        maxPositionAllowed, maxIterations, focusTolerance, filterName,
+        temperature, initialOutwardSteps);
     return params;
 }
 
@@ -264,6 +265,47 @@ void TestFocus::basicTest()
     QCOMPARE(position, -1);
     QVERIFY(focuser->isDone());
     QCOMPARE(focuser->solution(), -1);
+}
+
+// This test replays a situation from a log where the focuser started "too low"
+// and restarts a bit higher.
+void TestFocus::restartTest()
+{
+    auto params = makeParams();
+    params.startPosition = 11592;
+    std::unique_ptr<FocusAlgorithmInterface> focuser(MakeLinearFocuser(params));
+
+    int currentPosition = focuser->initialPosition();
+    QCOMPARE(currentPosition, 11717);
+
+    int position = focuser->newMeasurement(currentPosition, 1.24586);
+    QCOMPARE(position, 11692);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1.22075);
+    QCOMPARE(position, 11667);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1.47694);
+    QCOMPARE(position, 11642);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1.71925);
+    QCOMPARE(position, 11617);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1.73312);
+    QCOMPARE(position, 11592);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1.90926);
+    QCOMPARE(position, 11567);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2.09901);
+
+    // At this point it should restart with a higher initial position, but not too high.
+    QCOMPARE(position, 11842);
 }
 
 QTEST_GUILESS_MAIN(TestFocus)

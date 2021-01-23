@@ -34,6 +34,8 @@ Latest stable version is v3.4.2
 The KStars handbook can be found in your $(KDEDIR)/share/doc/HTML/<lang>/kstars/
 directory.  You can also easily access it from the Help menu, or by pressing
 the [F1] key, or by visiting https://docs.kde.org/?application=kstars
+Unfortunately, it's a bit out-of-date. We welcome volunteers to help
+update it.
 
 In addition, there are the following README files:
 
@@ -83,7 +85,7 @@ To build and develop KStars, several packages may be required from your distribu
 
 Debian/Ubuntu
 ```
-sudo apt-get -y install build-essential cmake git libstellarsolver-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev kio-dev kinit-dev libkf5newstuff-dev kdoctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme
+sudo apt-get -y install build-essential cmake git libstellarsolver-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev kdoctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme
 ```
 
 Fedora
@@ -121,6 +123,39 @@ KStars uses [Artistic Style](http://astyle.sourceforge.net) to format all the C+
 --max-code-length=124
 ```
 Some IDEs (e.g. QtCreator) support automatic formatting for the code every time you save the file to disk.
+
+### Making Updates to the Handbook
+
+On linux run the following to install the necessary programs:
+
+```
+sudo apt-get install docbook docbook-utils
+```
+
+The source for the handbook is in kstars/doc.
+You can edit those files, include them in commits and MRs like you would c++ files (see below).
+You could figure out the markup by example, or learn from [online doc for docbook](https://opensource.com/article/17/9/docbook).
+In general, it is best to first copy the entire kstars/doc directory to a temporary directory, and edit and generate the handbook there,
+because if you ran meinproc in the main source directory, you would generate many .html files there,
+and you don't want to commit the generated files to your git repository.
+
+```
+cp -pr kstars/doc ~/DOCBOOK
+cd ~/DOCBOOK
+meinproc5 index.docbook
+```
+
+The above should generate html files. Then, in a browser, you can simply open DOCBOOK/index.html and navigate your way to the part you want, e.g. just type something similar to this in the url bar of chrome: file:///home/YOUR_USER_NAME/DOCBOOK/doc/tool-ekos.html
+Make changes to some of the .docbook files in ~/DOCBOOK/*.docbook. Regenerate the html files, and view your changes in the browser, as before. Iterate.
+
+To check syntax, you might want to run:
+
+```
+checkXML5 index.docbook
+```
+
+Once you're happy, copy your modified files back to kstars/doc, and treat the edited/new files as usual with git,
+including your modified files in a new commit and eventually a new merge request.
 
 ### Merge Request Descriptions
 

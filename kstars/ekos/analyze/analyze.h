@@ -11,6 +11,7 @@
 #define ANALYZE_H
 
 #include <QtDBus>
+#include <memory>
 
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
@@ -22,13 +23,15 @@ class OffsetDateTimeTicker;
 
 namespace Ekos
 {
+
+class RmsFilter;
+
 /**
  *@class Analyze
  *@short Analysis tab for Ekos sessions.
  *@author Hy Murveit
  *@version 1.0
  */
-
 class Analyze : public QWidget, public Ui::Analyze
 {
         Q_OBJECT
@@ -57,17 +60,17 @@ class Analyze : public QWidget, public Ui::Analyze
                 Session(double s, double e, int o, QCPItemRect *r)
                     : start(s), end(e), offset(o), rect(r) {}
 
-                // These 2 are used to build html tables for the info box display.
-                void startTable(const QString &name, const QString &status,
-                                const QDateTime &startClock, const QDateTime &endClock);
-                void addRow(const QString &key, const QString &value1String, const QString &value2String = "");
-                // Returns the html string to use in the info box.
-                QString html() const;
+                // These 2 are used to build tables for the details display.
+                void setupTable(const QString &name, const QString &status,
+                                const QDateTime &startClock, const QDateTime &endClock,
+                                QTableWidget *table);
+                void addRow(const QString &key, const QString &value);
 
                 // True if this session is temporary.
                 bool isTemporary() const;
 
             private:
+                QTableWidget *details;
                 QString htmlString;
         };
         // Below are subclasses of Session used to represent all the different
@@ -146,8 +149,8 @@ class Analyze : public QWidget, public Ui::Analyze
         // used to gather data about those processes.
 
         // From Capture
-        void captureComplete(const QString &filename, double exposureSeconds,
-                             const QString &filter, double hfr);
+        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                             double hfr, int numStars, int median, double eccentricity);
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -160,6 +163,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
+        void newTemperature(double temperatureDelta, double temperature);
 
         // From Align
         void alignState(Ekos::AlignState state);
@@ -181,12 +185,13 @@ class Analyze : public QWidget, public Ui::Analyze
         // BatchMode is true in the file reading path. It means don't call replot() as there may be
         // many more messages to come. The rest of the args are specific to the message type.
         void processCaptureStarting(double time, double exposureSeconds, const QString &filter, bool batchMode = false);
-        void processCaptureComplete(double time, const QString &filename,
-                                    double exposureSeconds, const QString &filter, double hfr, bool batchMode = false);
+        void processCaptureComplete(double time, const QString &filename, double exposureSeconds, const QString &filter,
+                                    double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
         void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
         void processAutofocusStarting(double time, double temperature, const QString &filter, bool batchMode = false);
         void processAutofocusComplete(double time, const QString &filter, const QString &points, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode = false);
+        void processTemperature(double time, double temperature, bool batchMode = false);
         void processGuideState(double time, const QString &state, bool batchMode = false);
         void processGuideStats(double time, double raError, double decError, int raPulse,
                                int decPulse, double snr, double skyBg, int numStars, bool batchMode = false);
@@ -237,7 +242,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // (Un)highlights a segment on the timeline after one is clicked.
         // This indicates which segment's data is displayed in the
-        // graphicsPlot and infoBox.
+        // graphicsPlot and details table.
         void highlightTimelineItem(double y, double start, double end);
         void unhighlightTimelineItem();
 
@@ -277,13 +282,9 @@ class Analyze : public QWidget, public Ui::Analyze
                                    double skyBackground, double drift, double rms, double time);
         void addMountCoords(double ra, double dec, double az, double alt, int pierSide,
                             double ha, double time);
-        void addHFR(double hfr, const double time, double startTime);
-
-        // AddGuideStats uses rmsFilter() to compute RMS values of the squared
-        // RA and DEC errors, thus calculating the RMS error.
-        double rmsFilter(double x);
-        void initRmsFilter();
-        void resetRmsFilter();
+        void addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
+                    const double time, double startTime);
+        void addTemperature(double temperature, const double time);
 
         // Initialize the graphs (axes, linestyle, pen, name, checkbox callbacks).
         // Returns the graph index.
@@ -331,6 +332,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void resetMountState();
         void resetMountCoords();
         void resetMountFlipState();
+        void resetTemperature();
 
         // Read and display an input .analyze file.
         double readDataFromFile(const QString &filename);
@@ -371,15 +373,19 @@ class Analyze : public QWidget, public Ui::Analyze
         // When displaying the current session it should equal analyzeStartTime.
         QDateTime displayStartTime;
 
-        // Digital filter values for the RMS filter.
-        double rmsFilterAlpha { 0 };
-        double filteredRMS { 0 };
+        // AddGuideStats uses RmsFilter to compute RMS values of the squared
+        // RA and DEC errors, thus calculating the RMS error.
+        std::unique_ptr<RmsFilter> guiderRms;
+        std::unique_ptr<RmsFilter> captureRms;
 
         // Y-axes for the for several plots where we rescale based on data.
         // QCustomPlot owns these pointers' memory, don't free it.
         QCPAxis *snrAxis;
         QCPAxis *numStarsAxis;
         QCPAxis *skyBgAxis;
+        QCPAxis *medianAxis;
+        QCPAxis *numCaptureStarsAxis;
+        QCPAxis *temperatureAxis;
         // Used to keep track of the y-axis position when moving it with the mouse.
         double yAxisInitialPos = { 0 };
 
@@ -431,9 +437,13 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // GuideStats state-machine variables.
         double lastGuideStatsTime { -1 };
+        double lastCaptureRmsTime { -1 };
         int numStarsMax { 0 };
         double snrMax { 0 };
         double skyBgMax { 0 };
+        int medianMax { 0 };
+        int numCaptureStarsMax { 0 };
+        double lastTemperature { -1000 };
 
         // AlignState state-machine variables.
         AlignState lastAlignStateReceived { ALIGN_IDLE };

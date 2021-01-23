@@ -12,9 +12,17 @@
     <method name="stop">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="removeAllJobs">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="loadScheduler">
       <arg name="fileURL" type="s" direction="in"/>
       <arg type="b" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+    </method>
+    <method name="setSequence">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="sequenceFileURL" type="s" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
     </method>
     <method name="resetAllJobs">

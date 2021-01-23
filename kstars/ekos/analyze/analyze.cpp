@@ -64,6 +64,10 @@ constexpr double halfTimelineHeight = 0.35;
 // These are initialized in initStatsPlot when the graphs are added.
 // They index the graphs in statsPlot, e.g. statsPlot->graph(HFR_GRAPH)->addData(...)
 int HFR_GRAPH = -1;
+int TEMPERATURE_GRAPH = -1;
+int NUM_CAPTURE_STARS_GRAPH = -1;
+int MEDIAN_GRAPH = -1;
+int ECCENTRICITY_GRAPH = -1;
 int NUMSTARS_GRAPH = -1;
 int SKYBG_GRAPH = -1;
 int SNR_GRAPH = -1;
@@ -73,6 +77,7 @@ int RA_PULSE_GRAPH = -1;
 int DEC_PULSE_GRAPH = -1;
 int DRIFT_GRAPH = -1;
 int RMS_GRAPH = -1;
+int CAPTURE_RMS_GRAPH = -1;
 int MOUNT_RA_GRAPH = -1;
 int MOUNT_DEC_GRAPH = -1;
 int MOUNT_HA_GRAPH = -1;
@@ -287,11 +292,39 @@ IntervalFinder<Ekos::Analyze::MountFlipSession> mountFlipSessions;
 namespace Ekos
 {
 
+// RmsFilter computes the RMS error of a 2-D sequence. Input the x error and y error
+// into newSample(). It returns the sqrt of an approximate moving average of the squared
+// errors roughly averaged over 40 samples--implemented by a simple digital low-pass filter.
+// It's used to compute RMS guider errors, where x and y would be RA and DEC errors.
+class RmsFilter
+{
+    public:
+        RmsFilter()
+        {
+            constexpr double timeConstant = 40.0;
+            alpha = 1.0 / pow(timeConstant, 0.865);
+        }
+        void resetFilter()
+        {
+            filteredRMS = 0;
+        }
+        double newSample(double x, double y)
+        {
+            const double valueSquared = x * x + y * y;
+            filteredRMS = alpha * valueSquared + (1.0 - alpha) * filteredRMS;
+            return sqrt(filteredRMS);
+        }
+    private:
+        double alpha { 0 };
+        double filteredRMS { 0 };
+};
+
 Analyze::Analyze()
 {
     setupUi(this);
 
-    initRmsFilter();
+    captureRms.reset(new RmsFilter);
+    guiderRms.reset(new RmsFilter);
 
     alternateFolder = QDir::homePath();
 
@@ -455,7 +488,7 @@ void Analyze::unhighlightTimelineItem()
         timelinePlot->removeItem(selectionHighlight);
         selectionHighlight = nullptr;
     }
-    infoBox->clear();
+    detailsTable->clear();
 }
 
 // Highlight the area between start and end on row y in Timeline.
@@ -470,26 +503,6 @@ void Analyze::highlightTimelineItem(double y, double start, double end)
     rect->bottomRight->setCoords(end, y - halfHeight);
     rect->setBrush(timelineSelectionBrush);
     selectionHighlight = rect;
-}
-
-// These help calculate the RMS values of the ra and drift errors. It takes
-// an approximate moving average of the squared errors roughly averaged over
-// 40 samples implemented by a simple digital low-pass filter.
-void Analyze::initRmsFilter()
-{
-    constexpr double timeConstant = 40.0;
-    rmsFilterAlpha = 1.0 / pow(timeConstant, 0.865);
-}
-
-double Analyze::rmsFilter(double x)
-{
-    filteredRMS = rmsFilterAlpha * x + (1.0 - rmsFilterAlpha) * filteredRMS;
-    return filteredRMS;
-}
-
-void Analyze::resetRmsFilter()
-{
-    filteredRMS = 0;
 }
 
 // Creates a fat line-segment on the Timeline, optionally with a stripe in the middle.
@@ -532,17 +545,43 @@ void Analyze::addGuideStats(double raDrift, double decDrift, int raPulse, int de
         addGuideStatsInternal(qQNaN(), qQNaN(), 0, 0, qQNaN(), qQNaN(), qQNaN(), qQNaN(), qQNaN(),
                               lastGuideStatsTime + .0001);
         addGuideStatsInternal(qQNaN(), qQNaN(), 0, 0, qQNaN(), qQNaN(), qQNaN(), qQNaN(), qQNaN(), time - .0001);
-        resetRmsFilter();
+        guiderRms->resetFilter();
     }
 
     const double drift = std::hypot(raDrift, decDrift);
 
     // To compute the RMS error, which is sqrt(sum square error / N), filter the squared
-    // error, which effectively returns sum squared error / N.
-    // The RMS value is then the sqrt of the filtered value.
-    const double rms = sqrt(rmsFilter(raDrift * raDrift + decDrift * decDrift));
-
+    // error, which effectively returns sum squared error / N, and take the sqrt.
+    // This is done by RmsFilter::newSample().
+    const double rms = guiderRms->newSample(raDrift, decDrift);
     addGuideStatsInternal(raDrift, decDrift, double(raPulse), double(decPulse), snr, numStars, skyBackground, drift, rms, time);
+
+    // If capture is active, plot the capture RMS.
+    if (captureStartedTime >= 0)
+    {
+        // lastCaptureRmsTime is the last time we plotted a capture RMS value.
+        // If we have plotted values previously, and there's a gap in guiding
+        // we must place NaN values in the graph surrounding the gap.
+        if ((lastCaptureRmsTime >= 0) &&
+                (time - lastCaptureRmsTime > MAX_GUIDE_STATS_GAP))
+        {
+            // this is the first sample in a series with a gap behind us.
+            statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(lastCaptureRmsTime + .0001, qQNaN());
+            statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(time - .0001, qQNaN());
+            // I can go either way on this. E.g. resetting the filter will start the RMS
+            // average over again, e.g. after a autofocus where the guider was suspended
+            // for a couple minutes. Not having it will average the new capture's guide
+            // errors with the previous capture's. This is, of course, a display decision.
+            // The actual guiding is not affected. I went with not resetting the RMS filter
+            // that only uses guiding samples during capture, and resetting the one that
+            // uses all guider samples (guiderRms above).
+            // captureRms->resetFilter();
+        }
+        const double rmsC = captureRms->newSample(raDrift, decDrift);
+        statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(time, rmsC);
+        lastCaptureRmsTime = time;
+    }
+
     lastGuideStatsTime = time;
 }
 
@@ -567,6 +606,8 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
         numStarsMax = std::max(numStars, static_cast<double>(numStarsMax));
 
     snrAxis->setRange(-1.05 * snrMax, std::max(10.0, 1.05 * snrMax));
+    medianAxis->setRange(-1.35 * medianMax, std::max(10.0, 1.35 * medianMax));
+    numCaptureStarsAxis->setRange(-1.45 * numCaptureStarsMax, std::max(10.0, 1.45 * numCaptureStarsMax));
     skyBgAxis->setRange(0, std::max(10.0, 1.15 * skyBgMax));
     numStarsAxis->setRange(0, std::max(10.0, 1.25 * numStarsMax));
 
@@ -575,14 +616,39 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
     statsPlot->graph(SKYBG_GRAPH)->addData(time, skyBackground);
 }
 
+void Analyze::addTemperature(double temperature, double time)
+{
+    // The HFR corresponds to the last capture
+    statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
+}
+
 // Add the HFR values to the Stats graph, as a constant value between startTime and time.
-void Analyze::addHFR(double hfr, double time, double startTime)
+void Analyze::addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
+                     double time, double startTime)
 {
     // The HFR corresponds to the last capture
     statsPlot->graph(HFR_GRAPH)->addData(startTime - .0001, qQNaN());
     statsPlot->graph(HFR_GRAPH)->addData(startTime, hfr);
     statsPlot->graph(HFR_GRAPH)->addData(time, hfr);
     statsPlot->graph(HFR_GRAPH)->addData(time + .0001, qQNaN());
+
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(startTime, numCaptureStars);
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(time, numCaptureStars);
+    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(time + .0001, qQNaN());
+
+    statsPlot->graph(MEDIAN_GRAPH)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(MEDIAN_GRAPH)->addData(startTime, median);
+    statsPlot->graph(MEDIAN_GRAPH)->addData(time, median);
+    statsPlot->graph(MEDIAN_GRAPH)->addData(time + .0001, qQNaN());
+
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(startTime, eccentricity);
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(time, eccentricity);
+    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(time + .0001, qQNaN());
+
+    medianMax = std::max(median, medianMax);
+    numCaptureStarsMax = std::max(numCaptureStars, numCaptureStarsMax);
 }
 
 // Add the Mount Coordinates values to the Stats graph.
@@ -657,7 +723,7 @@ double Analyze::processInputLine(const QString &line)
         const QString filter = list[3];
         processCaptureStarting(time, exposureSeconds, filter, true);
     }
-    else if ((list[0] == "CaptureComplete") && (list.size() == 6))
+    else if ((list[0] == "CaptureComplete") && (list.size() >= 6) && (list.size() <= 9))
     {
         const double exposureSeconds = QString(list[2]).toDouble(&ok);
         if (!ok)
@@ -667,7 +733,16 @@ double Analyze::processInputLine(const QString &line)
         if (!ok)
             return 0;
         const QString filename = list[5];
-        processCaptureComplete(time, filename, exposureSeconds, filter, hfr, true);
+        const int numStars = (list.size() > 6) ? QString(list[6]).toInt(&ok) : 0;
+        if (!ok)
+            return 0;
+        const int median = (list.size() > 7) ? QString(list[7]).toInt(&ok) : 0;
+        if (!ok)
+            return 0;
+        const double eccentricity = (list.size() > 8) ? QString(list[8]).toDouble(&ok) : 0;
+        if (!ok)
+            return 0;
+        processCaptureComplete(time, filename, exposureSeconds, filter, hfr, numStars, median, eccentricity, true);
     }
     else if ((list[0] == "CaptureAborted") && (list.size() == 3))
     {
@@ -725,6 +800,13 @@ double Analyze::processInputLine(const QString &line)
             return 0;
         processGuideStats(time, ra, dec, raPulse, decPulse, snr, skyBg, numStars, true);
     }
+    else if ((list[0] == "Temperature") && list.size() == 3)
+    {
+        const double temperature = QString(list[2]).toDouble(&ok);
+        if (!ok)
+            return 0;
+        processTemperature(time, temperature, true);
+    }
     else if ((list[0] == "MountState") && list.size() == 3)
     {
         processMountState(time, list[2], true);
@@ -766,49 +848,86 @@ double Analyze::processInputLine(const QString &line)
     return time;
 }
 
-// Helper to create tables in the infoBox display.
-// Start the table, displaying the heading and timing information, common to all sessions.
-void Analyze::Session::startTable(const QString &name, const QString &status,
-                                  const QDateTime &startClock, const QDateTime &endClock)
+namespace
 {
+void addDetailsRow(QTableWidget *table, const QString &col1, const QColor &color1,
+                   const QString &col2, const QColor &color2,
+                   const QString &col3 = "", const QColor &color3 = Qt::white)
+{
+    int row = table->rowCount();
+    table->setRowCount(row + 1);
+
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setText(col1);
+    item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    item->setForeground(color1);
+    table->setItem(row, 0, item);
+
+    item = new QTableWidgetItem();
+    item->setText(col2);
+    item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    item->setForeground(color2);
+    if (col1 == "Filename")
+    {
+        // Special Case long filenames.
+        QFont ft = item->font();
+        ft.setPointSizeF(8.0);
+        item->setFont(ft);
+    }
+    table->setItem(row, 1, item);
+
+    if (col3.size() > 0)
+    {
+        item = new QTableWidgetItem();
+        item->setText(col3);
+        item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        item->setForeground(color3);
+        table->setItem(row, 2, item);
+    }
+    else
+    {
+        // Column 1 spans 2nd and 3rd columns
+        table->setSpan(row, 1, 1, 2);
+    }
+}
+}
+
+// Helper to create tables in the details display.
+// Start the table, displaying the heading and timing information, common to all sessions.
+void Analyze::Session::setupTable(const QString &name, const QString &status,
+                                  const QDateTime &startClock, const QDateTime &endClock, QTableWidget *table)
+{
+    details = table;
+    details->clear();
+    details->setRowCount(0);
+    details->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    details->setColumnCount(3);
+    details->verticalHeader()->setDefaultSectionSize(20);
+    details->horizontalHeader()->setStretchLastSection(true);
+    details->setColumnWidth(0, 100);
+    details->setColumnWidth(1, 100);
+    details->setShowGrid(false);
+    details->setWordWrap(true);
+    details->horizontalHeader()->hide();
+    details->verticalHeader()->hide();
+
     QString startDateStr = startClock.toString("dd.MM.yyyy");
     QString startTimeStr = startClock.toString("hh:mm:ss");
     QString endTimeStr = isTemporary() ? "Ongoing"
                          : endClock.toString("hh:mm:ss");
 
-    htmlString = QString("<style>td { padding: 0px 10px }</style>"
-                         "<html><table><tr style=\"color:yellow\"><td>%1</td><td>%2</td></tr>"
-                         "<tr><td style=\"color:yellow\">Date</td><td>%3</td><td></td></tr>"
-                         "<tr><td style=\"color:yellow\">Interval</td><td>%4s</td><td>%5s</td></tr>"
-                         "<tr><td style=\"color:yellow\">Clock</td><td>%6</td><td>%7</td></tr>"
-                         "<tr><td style=\"color:yellow\">Duration</td><td>%8s</td><td></td></tr>")
-                 .arg(name).arg(status)
-                 .arg(startDateStr)
-                 .arg(QString::number(start, 'f', 3))
-                 .arg(isTemporary() ? "Ongoing" : QString::number(end, 'f', 3))
-                 .arg(startTimeStr).arg(endTimeStr)
-                 .arg(QString::number(end - start, 'f', 1));
+    addDetailsRow(details, name, Qt::yellow, status, Qt::yellow);
+    addDetailsRow(details, "Date", Qt::yellow, startDateStr, Qt::white);
+    addDetailsRow(details, "Interval", Qt::yellow, QString::number(start, 'f', 3), Qt::white,
+                  isTemporary() ? "Ongoing" : QString::number(end, 'f', 3), Qt::white);
+    addDetailsRow(details, "Clock", Qt::yellow, startTimeStr, Qt::white, endTimeStr, Qt::white);
+    addDetailsRow(details, "Duration", Qt::yellow, QString::number(end - start, 'f', 1), Qt::white);
 }
 
 // Add a new row to the table, which is specific to the particular Timeline line.
-void Analyze::Session::addRow(const QString &key, const QString &value1String, const QString &value2String)
+void Analyze::Session::addRow(const QString &key, const QString &value)
 {
-
-    QString row;
-    if (value2String.size() == 0)
-        // When the 2nd value is empty, have the 1st span both columns.
-        row = QString("<tr><td style=\"color:yellow\">%1</td><td colspan=\"2\">%2</td></tr>")
-              .arg(key).arg(value1String).arg(value2String);
-    else
-        row = QString("<tr><td style=\"color:yellow\">%1</td><td>%2</td><td>%3</td></tr>")
-              .arg(key).arg(value1String).arg(value2String);
-    htmlString = htmlString + row;
-}
-
-// Complete the table.
-QString Analyze::Session::html() const
-{
-    return htmlString + "</table></html>";
+    addDetailsRow(details, key, Qt::yellow, value, Qt::white);
 }
 
 bool Analyze::Session::isTemporary() const
@@ -849,18 +968,18 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
 }
 
 // When the user clicks on a particular capture session in the timeline,
-// a table is rendered in the infoBox, and, if it was a double click,
+// a table is rendered in the details section, and, if it was a double click,
 // the fits file is displayed, if it can be found.
 void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
 {
     highlightTimelineItem(c.offset, c.start, c.end);
 
     if (c.isTemporary())
-        c.startTable("Capture", "in progress", clockTime(c.start), clockTime(c.start));
+        c.setupTable("Capture", "in progress", clockTime(c.start), clockTime(c.start), detailsTable);
     else if (c.aborted)
-        c.startTable("Capture", "ABORTED", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Capture", "ABORTED", clockTime(c.start), clockTime(c.end), detailsTable);
     else
-        c.startTable("Capture", "successful", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Capture", "successful", clockTime(c.start), clockTime(c.end), detailsTable);
 
     c.addRow("Filter", c.filter);
 
@@ -873,7 +992,6 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
     c.addRow("Exposure", QString::number(c.duration, 'f', 2));
     if (!c.isTemporary())
         c.addRow("Filename", c.filename);
-    infoBox->setHtml(c.html());
 
     if (doubleClick && !c.isTemporary())
     {
@@ -889,7 +1007,7 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
 }
 
 // When the user clicks on a focus session in the timeline,
-// a table is rendered in the infoBox, and the HFR/position plot
+// a table is rendered in the details section, and the HFR/position plot
 // is displayed in the graphics plot. If focus is ongoing
 // the information for the graphics is not plotted as it is not yet available.
 void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
@@ -898,11 +1016,11 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
     highlightTimelineItem(c.offset, c.start, c.end);
 
     if (c.success)
-        c.startTable("Focus", "successful", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Focus", "successful", clockTime(c.start), clockTime(c.end), detailsTable);
     else if (c.isTemporary())
-        c.startTable("Focus", "in progress", clockTime(c.start), clockTime(c.start));
+        c.setupTable("Focus", "in progress", clockTime(c.start), clockTime(c.start), detailsTable);
     else
-        c.startTable("Focus", "FAILED", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Focus", "FAILED", clockTime(c.start), clockTime(c.end), detailsTable);
 
     double finalHfr = c.hfrs.size() > 0 ? c.hfrs.last() : 0;
     if (c.success)
@@ -911,7 +1029,6 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
         c.addRow("Iterations", QString::number(c.positions.size()));
     c.addRow("Filter", c.filter);
     c.addRow("Temperature", QString::number(c.temperature, 'f', 1));
-    infoBox->setHtml(c.html());
 
     if (c.isTemporary())
         resetGraphicsPlot();
@@ -920,7 +1037,7 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
 }
 
 // When the user clicks on a guide session in the timeline,
-// a table is rendered in the infoBox. If it has a G_GUIDING state
+// a table is rendered in the details section. If it has a G_GUIDING state
 // then a drift plot is generated and  RMS values are calculated
 // for the guiding session's time interval.
 void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
@@ -940,7 +1057,7 @@ void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
     else if (c.simpleState == G_DITHERING)
         st = "Dithering";
 
-    c.startTable("Guide", st, clockTime(c.start), clockTime(c.end));
+    c.setupTable("Guide", st, clockTime(c.start), clockTime(c.end), detailsTable);
     resetGraphicsPlot();
     if (c.simpleState == G_GUIDING)
     {
@@ -955,7 +1072,6 @@ void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
         }
         c.addRow("Num Samples", QString::number(numSamples));
     }
-    infoBox->setHtml(c.html());
 }
 
 void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
@@ -1019,37 +1135,34 @@ void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
 }
 
 // When the user clicks on a particular mount session in the timeline,
-// a table is rendered in the infoBox.
+// a table is rendered in the details section.
 void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(MOUNT_Y, c.start, c.end);
 
-    c.startTable("Mount", mountStatusString(c.state), clockTime(c.start),
-                 clockTime(c.isTemporary() ? c.start : c.end));
-    infoBox->setHtml(c.html());
+    c.setupTable("Mount", mountStatusString(c.state), clockTime(c.start),
+                 clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
 // When the user clicks on a particular align session in the timeline,
-// a table is rendered in the infoBox.
+// a table is rendered in the details section.
 void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(ALIGN_Y, c.start, c.end);
-    c.startTable("Align", getAlignStatusString(c.state), clockTime(c.start),
-                 clockTime(c.isTemporary() ? c.start : c.end));
-    infoBox->setHtml(c.html());
+    c.setupTable("Align", getAlignStatusString(c.state), clockTime(c.start),
+                 clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
 // When the user clicks on a particular meridian flip session in the timeline,
-// a table is rendered in the infoBox.
+// a table is rendered in the details section.
 void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(MERIDIAN_FLIP_Y, c.start, c.end);
-    c.startTable("Meridian Flip", Mount::meridianFlipStatusString(c.state),
-                 clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end));
-    infoBox->setHtml(c.html());
+    c.setupTable("Meridian Flip", Mount::meridianFlipStatusString(c.state),
+                 clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
 // This method determines which timeline session (if any) was selected
@@ -1210,14 +1323,14 @@ void Analyze::scroll(int value)
 }
 void Analyze::scrollRight()
 {
-    plotStart = std::min(maxXValue - plotWidth, plotStart + plotWidth);
+    plotStart = std::min(maxXValue - plotWidth / 5, plotStart + plotWidth / 5);
     fullWidthCB->setChecked(false);
     replot();
 
 }
 void Analyze::scrollLeft()
 {
-    plotStart = std::max(0.0, plotStart - plotWidth);
+    plotStart = std::max(0.0, plotStart - plotWidth / 5);
     fullWidthCB->setChecked(false);
     replot();
 
@@ -1322,19 +1435,28 @@ void Analyze::updateStatsValues()
     const double time = statsCursorTime < 0 ? maxXValue : statsCursorTime;
 
     auto d2Fcn = [](double d) -> QString { return QString::number(d, 'f', 2); };
-    // HFR is the only one to use the last real value, that is, it
-    // keeps the hfr from the last exposure.
+    // HFR, numCaptureStars, median & eccentricity are the only ones to use the last real value,
+    // that is, it keeps those values from the last exposure.
     updateStat(time, hfrOut, statsPlot->graph(HFR_GRAPH), d2Fcn, true);
+    updateStat(time, eccentricityOut, statsPlot->graph(ECCENTRICITY_GRAPH), d2Fcn, true);
     updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d2Fcn);
     updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d2Fcn);
     updateStat(time, raOut, statsPlot->graph(RA_GRAPH), d2Fcn);
     updateStat(time, decOut, statsPlot->graph(DEC_GRAPH), d2Fcn);
     updateStat(time, driftOut, statsPlot->graph(DRIFT_GRAPH), d2Fcn);
     updateStat(time, rmsOut, statsPlot->graph(RMS_GRAPH), d2Fcn);
+    updateStat(time, rmsCOut, statsPlot->graph(CAPTURE_RMS_GRAPH), d2Fcn);
     updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d2Fcn);
     updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn);
+    updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
 
-    auto hmsFcn = [](double d) -> QString { dms ra; ra.setD(d); return ra.toHMSString(); };
+    auto hmsFcn = [](double d) -> QString
+    {
+        dms ra;
+        ra.setD(d);
+        return QString("%1:%2:%3").arg(ra.hour()).arg(ra.minute()).arg(ra.second());
+        //return ra.toHMSString();
+    };
     updateStat(time, mountRaOut, statsPlot->graph(MOUNT_RA_GRAPH), hmsFcn);
     auto dmsFcn = [](double d) -> QString { dms dec; dec.setD(d); return dec.toDMSString(); };
     updateStat(time, mountDecOut, statsPlot->graph(MOUNT_DEC_GRAPH), dmsFcn);
@@ -1349,7 +1471,7 @@ void Analyze::updateStatsValues()
             ha.setH(24.0 - ha.Hours());
             sgn = '-';
         }
-        return QString("%1%2h %3m").arg(sgn).arg(ha.hour(), 2, 10, z)
+        return QString("%1%2:%3").arg(sgn).arg(ha.hour(), 2, 10, z)
         .arg(ha.minute(), 2, 10, z);
     };
     updateStat(time, mountHaOut, statsPlot->graph(MOUNT_HA_GRAPH), haFcn);
@@ -1358,10 +1480,13 @@ void Analyze::updateStatsValues()
     updateStat(time, numStarsOut, statsPlot->graph(NUMSTARS_GRAPH), intFcn);
     updateStat(time, raPulseOut, statsPlot->graph(RA_PULSE_GRAPH), intFcn);
     updateStat(time, decPulseOut, statsPlot->graph(DEC_PULSE_GRAPH), intFcn);
+    updateStat(time, numCaptureStarsOut, statsPlot->graph(NUM_CAPTURE_STARS_GRAPH), intFcn, true);
+    updateStat(time, medianOut, statsPlot->graph(MEDIAN_GRAPH), intFcn, true);
+
 
     auto pierFcn = [](double d) -> QString
     {
-        return d == 0.0 ? "W (ptg E)" : d == 1.0 ? "E (ptg W)" : "?";
+        return d == 0.0 ? "W->E" : d == 1.0 ? "E->W" : "?";
     };
     updateStat(time, pierSideOut, statsPlot->graph(PIER_SIDE_GRAPH), pierFcn);
 }
@@ -1369,15 +1494,20 @@ void Analyze::updateStatsValues()
 void Analyze::initStatsCheckboxes()
 {
     hfrCB->setChecked(Options::analyzeHFR());
+    numCaptureStarsCB->setChecked(Options::analyzeNumCaptureStars());
+    medianCB->setChecked(Options::analyzeMedian());
+    eccentricityCB->setChecked(Options::analyzeEccentricity());
     numStarsCB->setChecked(Options::analyzeNumStars());
     skyBgCB->setChecked(Options::analyzeSkyBg());
     snrCB->setChecked(Options::analyzeSNR());
+    temperatureCB->setChecked(Options::analyzeTemperature());
     raCB->setChecked(Options::analyzeRA());
     decCB->setChecked(Options::analyzeDEC());
     raPulseCB->setChecked(Options::analyzeRAp());
     decPulseCB->setChecked(Options::analyzeDECp());
     driftCB->setChecked(Options::analyzeDrift());
     rmsCB->setChecked(Options::analyzeRMS());
+    rmsCCB->setChecked(Options::analyzeRMSC());
     mountRaCB->setChecked(Options::analyzeMountRA());
     mountDecCB->setChecked(Options::analyzeMountDEC());
     mountHaCB->setChecked(Options::analyzeMountHA());
@@ -1537,6 +1667,31 @@ void Analyze::initStatsPlot()
                      "will have their HFRs computed."));
     });
 
+    numCaptureStarsAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    numCaptureStarsAxis->setVisible(false);
+    numCaptureStarsAxis->setRange(0, 1000);  // this will be reset.
+    NUM_CAPTURE_STARS_GRAPH = initGraphAndCB(statsPlot, numCaptureStarsAxis, QCPGraph::lsStepRight, Qt::darkGreen, "#SubStars",
+                              numCaptureStarsCB, Options::setAnalyzeNumCaptureStars);
+    connect(numCaptureStarsCB, &QCheckBox::clicked,
+            [ = ](bool show)
+    {
+        if (show && !Options::autoHFR())
+            KSNotification::info(
+                i18n("The \"Auto Compute HFR\" option in the KStars "
+                     "FITS options menu is not set. You won't get # stars in capture image values "
+                     "without it. Once you set it, newly captured images "
+                     "will have their stars detected."));
+    });
+
+    medianAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    medianAxis->setVisible(false);
+    medianAxis->setRange(0, 1000);  // this will be reset.
+    MEDIAN_GRAPH = initGraphAndCB(statsPlot, medianAxis, QCPGraph::lsStepRight, Qt::darkGray, "median",
+                                  medianCB, Options::setAnalyzeMedian);
+
+    ECCENTRICITY_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsStepRight, Qt::darkMagenta, "ecc",
+                                        eccentricityCB, Options::setAnalyzeEccentricity);
+
     numStarsAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     numStarsAxis->setVisible(false);
     numStarsAxis->setRange(0, 15000);
@@ -1548,6 +1703,13 @@ void Analyze::initStatsPlot()
     skyBgAxis->setRange(0, 1000);
     SKYBG_GRAPH = initGraphAndCB(statsPlot, skyBgAxis, QCPGraph::lsStepRight, Qt::darkYellow, "SkyBG", skyBgCB,
                                  Options::setAnalyzeSkyBg);
+
+
+    temperatureAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    temperatureAxis->setVisible(false);
+    temperatureAxis->setRange(-40, 40);
+    TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "temp", temperatureCB,
+                                       Options::setAnalyzeTemperature);
 
     snrAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     snrAxis->setVisible(false);
@@ -1580,6 +1742,8 @@ void Analyze::initStatsPlot()
     DRIFT_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::lightGray, "Drift", driftCB,
                                  Options::setAnalyzeDrift);
     RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "RMS", rmsCB, Options::setAnalyzeRMS);
+    CAPTURE_RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "RMSc", rmsCCB,
+                                       Options::setAnalyzeRMSC);
 
     QCPAxis *mountRaDecAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     mountRaDecAxis->setVisible(false);
@@ -1633,7 +1797,8 @@ void Analyze::reset()
     plotStart = 0.0;
     plotWidth = 10.0;
 
-    resetRmsFilter();
+    guiderRms->resetFilter();
+    captureRms->resetFilter();
 
     unhighlightTimelineItem();
 
@@ -1647,11 +1812,11 @@ void Analyze::reset()
 
     resetGraphicsPlot();
 
-    infoBox->setText("");
-    QPalette p = infoBox->palette();
+    detailsTable->clear();
+    QPalette p = detailsTable->palette();
     p.setColor(QPalette::Base, Qt::black);
     p.setColor(QPalette::Text, Qt::white);
-    infoBox->setPalette(p);
+    detailsTable->setPalette(p);
 
     inputValue->clear();
     captureSessions.clear();
@@ -1660,10 +1825,16 @@ void Analyze::reset()
     numStarsOut->setText("");
     skyBgOut->setText("");
     snrOut->setText("");
+    temperatureOut->setText("");
+    eccentricityOut->setText("");
+    medianOut->setText("");
+    numCaptureStarsOut->setText("");
+
     raOut->setText("");
     decOut->setText("");
     driftOut->setText("");
     rmsOut->setText("");
+    rmsCOut->setText("");
 
     removeStatsCursor();
     removeTemporarySessions();
@@ -1751,21 +1922,14 @@ void Analyze::displayFITS(const QString &filename)
 
     if (fitsViewer.isNull())
     {
-        if (Options::singleWindowCapturedFITS())
-            fitsViewer = KStars::Instance()->genericFITSViewer();
-        else
-        {
-            fitsViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-            KStars::Instance()->addFITSViewer(fitsViewer);
-        }
-
-        fitsViewer->addFITS(url);
-        FITSView *currentView = fitsViewer->getCurrentView();
-        if (currentView)
-            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+        fitsViewer = KStars::Instance()->createFITSViewer();
+        fitsViewer->loadFile(url);
+        //        FITSView *currentView = fitsViewer->getCurrentView();
+        //        if (currentView)
+        //            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
     }
     else
-        fitsViewer->updateFITS(url, 0);
+        fitsViewer->updateFile(url, 0);
 
     fitsViewer->show();
 }
@@ -1946,22 +2110,26 @@ void Analyze::processCaptureStarting(double time, double exposureSeconds, const 
 }
 
 // Called when the captureComplete slot receives a signal.
-void Analyze::captureComplete(const QString &filename, double exposureSeconds,
-                              const QString &filter, double hfr)
+void Analyze::captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                              double hfr, int numStars, int median, double eccentricity)
 {
     saveMessage("CaptureComplete",
-                QString("%1,%2,%3,%4")
+                QString("%1,%2,%3,%4,%5,%6,%7")
                 .arg(QString::number(exposureSeconds, 'f', 3))
                 .arg(filter)
                 .arg(QString::number(hfr, 'f', 3))
-                .arg(filename));
+                .arg(filename)
+                .arg(numStars)
+                .arg(median)
+                .arg(QString::number(eccentricity, 'f', 3)));
     if (runtimeDisplay && captureStartedTime >= 0)
-        processCaptureComplete(logTime(), filename, exposureSeconds, filter, hfr);
+        processCaptureComplete(logTime(), filename, exposureSeconds, filter, hfr,
+                               numStars, median, eccentricity);
 }
 
 void Analyze::processCaptureComplete(double time, const QString &filename,
-                                     double exposureSeconds, const QString &filter,
-                                     double hfr, bool batchMode)
+                                     double exposureSeconds, const QString &filter, double hfr,
+                                     int numStars, int median, double eccentricity, bool batchMode)
 {
     removeTemporarySession(&temporaryCaptureSession);
     QBrush stripe;
@@ -1971,7 +2139,7 @@ void Analyze::processCaptureComplete(double time, const QString &filename,
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, nullptr);
     captureSessions.add(CaptureSession(captureStartedTime, time, nullptr, false,
                                        filename, exposureSeconds, filter));
-    addHFR(hfr, time, captureStartedTime);
+    addHFR(hfr, numStars, median, eccentricity, time, captureStartedTime);
     updateMaxX(time);
     if (!batchMode)
         replot();
@@ -2010,6 +2178,8 @@ void Analyze::resetCaptureState()
 {
     captureStartedTime = -1;
     captureStartedFilter = "";
+    medianMax = 1;
+    numCaptureStarsMax = 1;
 }
 
 void Analyze::autofocusStarting(double temperature, const QString &filter)
@@ -2026,6 +2196,7 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
     autofocusStartedTime = time;
     autofocusStartedFilter = filter;
     autofocusStartedTemperature = temperature;
+    addTemperature(temperature, time);
     updateMaxX(time);
     if (!batchMode)
     {
@@ -2244,6 +2415,32 @@ void Analyze::resetGuideState()
     guideStateStartedTime = -1;
 }
 
+void Analyze::newTemperature(double temperatureDelta, double temperature)
+{
+    Q_UNUSED(temperatureDelta);
+    if (temperature > -200 && temperature != lastTemperature)
+    {
+        saveMessage("Temperature", QString("%1").arg(QString::number(temperature, 'f', 3)));
+        lastTemperature = temperature;
+        if (runtimeDisplay)
+            processTemperature(logTime(), temperature);
+    }
+}
+
+void Analyze::processTemperature(double time, double temperature, bool batchMode)
+{
+    addTemperature(temperature, time);
+    updateMaxX(time);
+    if (!batchMode)
+        replot();
+}
+
+void Analyze::resetTemperature()
+{
+    lastTemperature = -1000;;
+}
+
+
 void Analyze::guideStats(double raError, double decError, int raPulse, int decPulse,
                          double snr, double skyBg, int numStars)
 {
@@ -2271,7 +2468,8 @@ void Analyze::processGuideStats(double time, double raError, double decError,
 
 void Analyze::resetGuideStats()
 {
-    lastGuideStatsTime = -1;;
+    lastGuideStatsTime = -1;
+    lastCaptureRmsTime = -1;
     numStarsMax = 0;
     snrMax = 0;
     skyBgMax = 0;
@@ -2622,4 +2820,5 @@ void Analyze::resetMountFlipState()
     lastMountFlipStateStarted = Mount::FLIP_NONE;
     mountFlipStateStartedTime = -1;
 }
-}
+
+}  // namespace Ekos

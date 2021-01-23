@@ -114,8 +114,8 @@ void ClientManager::newProperty(INDI::Property *prop)
 
 void ClientManager::removeProperty(INDI::Property *prop)
 {
-    QString name = prop->getName();
-    QString device = prop->getDeviceName();
+    const QString name = prop->getName();
+    const QString device = prop->getDeviceName();
     emit removeINDIProperty(device, name);
 
     // If BLOB property is removed, remove its corresponding property if one exists.
@@ -123,7 +123,9 @@ void ClientManager::removeProperty(INDI::Property *prop)
     {
         for (QPointer<BlobManager> bm : blobManagers)
         {
-            if (bm.data()->property("property").toString() == name)
+            const QString bProperty = bm.data()->property("property").toString();
+            const QString bDevice = bm.data()->property("device").toString();
+            if (bDevice == device && bProperty == name)
             {
                 blobManagers.removeOne(bm);
                 bm.data()->disconnectServer();

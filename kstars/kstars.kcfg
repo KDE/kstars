@@ -177,7 +177,7 @@
       <entry name="messageNotificationINDI" type="Bool">
          <label>INDI message notifications</label>
          <whatsthis>Show INDI messages as desktop notifications instead of dialogs.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="useKStarsSource" type="Bool">
          <label>Use KStars time and location for synchronization?</label>
@@ -1325,6 +1325,11 @@
       </entry>
    </group>
    <group name="General">
+       <entry name="KStarsFirstRun" type="Bool">
+          <label>Is this the first time running KStars?</label>
+          <whatsthis>This allows KStars to perform several operations if it has never been installed before.</whatsthis>
+          <default>true</default>
+       </entry>
       <entry name="AlwaysRecomputeCoordinates" type="Bool">
          <label>Always recompute coordinates</label>
          <whatsthis>Checking this option causes recomputation of current equatorial coordinates from catalog coordinates (i.e. application of precession, nutation and aberration corrections) for every redraw of the map. This makes processing slower when there are many stars to handle, but is more likely to be bug free. There are known bugs in the rendering of stars when this recomputation is avoided.</whatsthis>
@@ -1429,10 +1434,6 @@
    <entry name="AutoDebayer" type="Bool">
       <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
       <default>!KSUtils::isHardwareLimited()</default>
-   </entry>
-   <entry name="AutoImageToFITS" type="Bool">
-      <label>Convert received non-FITS images to FITS for display purposes.</label>
-      <default>false</default>
    </entry>
    <entry name="Auto3DCube" type="Bool">
       <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
@@ -1689,7 +1690,15 @@
       </entry>
       <entry name="MaxTemperatureDiff" type="Double">
          <label>Maximum acceptable difference between requested and measured temperature set point.</label>
-         <default>0.1</default>
+         <default>1</default>
+      </entry>
+      <entry name="MaxStartGuiderDrift" type="Double">
+         <label>Maximum acceptable guider drift allowed before starting capture.</label>
+         <default>2</default>
+      </entry>
+      <entry name="EnforceStartGuiderDrift" type="Bool">
+         <label>Enforce maximum acceptable guider drift allowed before starting capture.</label>
+         <default>false</default>
       </entry>
       <entry name="GuidingSettle" type="Double">
          <label>Wait this many seconds after guiding is resumed before starting capture.</label>
@@ -1725,6 +1734,14 @@
       </entry>
       <entry name="AutoStretch" type="Bool">
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
+         <default>true</default>
+      </entry>
+      <entry name="StretchPreviewSampling" type="UInt">
+         <label>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</label>
+         <default>4</default>
+      </entry>
+      <entry name="AdaptiveSampling" type="Bool">
+         <label>Automatically down sample images based on available resources.</label>
          <default>true</default>
       </entry>
       <entry name="useSummaryPreview" type="Bool">
@@ -1780,7 +1797,7 @@
       <entry name="FocusTicks" type="UInt">
          <label>Default Focuser step ticks</label>
          <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
-         <default>100</default>
+         <default>500</default>
       </entry>
       <entry name="FocusSettleTime" type="Double">
          <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>
@@ -1903,7 +1920,15 @@
       </entry>
       <entry name="FocusOptionsProfile" type="UInt">
          <label>Options Profile for Sextraction when Focusing.</label>
-         <default>4</default>
+         <default>0</default>
+      </entry>
+      <entry name="HFRSextractorType" type="UInt">
+         <label>Internal or External Sextractor to compute subs HFR.</label>
+         <default>0</default>
+      </entry>
+      <entry name="HFROptionsProfile" type="UInt">
+         <label>Options Profile for Sextraction to compute subs HFR</label>
+         <default>0</default>
       </entry>
       <entry name="GuideSextractorType" type="UInt">
          <label>Internal or External Sextractor for Guiding.</label>
@@ -1911,14 +1936,18 @@
       </entry>
       <entry name="GuideOptionsProfile" type="UInt">
          <label>Options Profile for Sextraction when Guiding.</label>
-         <default>4</default>
+         <default>0</default>
       </entry>
       <entry name="SolveSextractorType" type="UInt">
          <label>Internal, External, or BuiltIn Sextractor for Solving.</label>
          <default>0</default>
       </entry>
-      <entry name="SolverType" type="UInt">
+      <entry name="SolverMode" type="UInt">
          <label>Local (0) or Remote (1) solver.</label>
+         <default>0</default>
+      </entry>
+      <entry name="SolverType" type="UInt">
+         <label>Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for Local ASTAP. 3 for Online Astrometry.</label>
          <default>0</default>
       </entry>
       <entry name="SolveOptionsProfile" type="UInt">
@@ -2146,10 +2175,6 @@
       </entry>
       <entry name="PAHAutoPark" type="Bool">
          <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>
-         <default>true</default>
-      </entry>
-      <entry name="PAHFlipCorrectionVector" type="Bool">
-         <label>Flip correction vector.</label>
          <default>false</default>
       </entry>
    </group>
@@ -2557,6 +2582,22 @@
       <whatsthis>Display HFR on the Analyze Statistics Plot.</whatsthis>
       <default>true</default>
     </entry>
+    <entry name="AnalyzeNumCaptureStars" type="Bool">
+      <whatsthis>Display number of stars detected in the capture on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeMedian" type="Bool">
+      <whatsthis>Display median sample value for the capture on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeEccentricity" type="Bool">
+      <whatsthis>Display the median eccentricity for the stars in the capture on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AnalyzeTemperature" type="Bool">
+      <whatsthis>Display the ambient temperature on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="AnalyzeNumStars" type="Bool">
       <whatsthis>Display NumStars on the Analyze Statistics Plot.</whatsthis>
       <default>false</default>
@@ -2592,6 +2633,10 @@
     <entry name="AnalyzeRMS" type="Bool">
       <whatsthis>Display RMS Error on the Analyze Statistics Plot.</whatsthis>
       <default>true</default>
+    </entry>
+    <entry name="AnalyzeRMSC" type="Bool">
+      <whatsthis>Display RMS Error (during capture) on the Analyze Statistics Plot.</whatsthis>
+      <default>false</default>
     </entry>
     <entry name="AnalyzeMountRA" type="Bool">
       <whatsthis>Display Mount RA on the Analyze Statistics Plot.</whatsthis>

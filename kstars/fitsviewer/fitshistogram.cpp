@@ -240,7 +240,7 @@ template <typename T> void FITSHistogram::constructHistogram()
                     id = 0;
                 frequency[n][id] += sampleBy;
             }
-         }));
+        }));
     }
 
     for (QFuture<void> future : futures)
@@ -344,7 +344,8 @@ template <typename T> void FITSHistogram::constructHistogram()
 
     // Custom index to indicate the overall contrast of the image
     if (cumulativeFrequency[RED_CHANNEL][binCount / 4] > 0)
-        JMIndex = cumulativeFrequency[RED_CHANNEL][binCount / 8] / cumulativeFrequency[RED_CHANNEL][binCount / 4];
+        JMIndex = cumulativeFrequency[RED_CHANNEL][binCount / 8] / static_cast<double>(cumulativeFrequency[RED_CHANNEL][binCount /
+                  4]);
     else
         JMIndex = 1;
     qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
@@ -700,7 +701,7 @@ void FITSHistogramCommand::redo()
         histogram->constructHistogram();
 
         if (tab->getViewer()->isStarsMarked())
-            imageData->findStars();
+            imageData->findStars().waitForFinished();
     }
 
     image->pushFilter(type);
@@ -752,7 +753,7 @@ void FITSHistogramCommand::undo()
         histogram->constructHistogram();
 
         if (tab->getViewer()->isStarsMarked())
-            imageData->findStars();
+            imageData->findStars().waitForFinished();
     }
 
     image->popFilter();

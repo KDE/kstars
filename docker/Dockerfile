@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 # Suitable for builds
 RUN apt update && apt -y install --no-install-recommends software-properties-common
-RUN apt update && add-apt-repository ppa:mutlaqja/ppa
+RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
 RUN apt update && apt -y install --no-install-recommends \
       gcc-multilib \
       g++-multilib \
@@ -32,18 +32,15 @@ RUN apt update && apt -y install --no-install-recommends \
       zlib1g-dev \
       libcfitsio-dev \
       libnova-dev \
-      libindi-dev \
-      indi-bin \
       wcslib-dev \
       libraw-dev \
       libgsl-dev \
       phonon4qt5-backend-vlc \
       qt5keychain-dev \
-      libsecret-1-dev \
-      libstellarsolver
+      libsecret-1-dev
 
 # Suitable for tests
-RUN apt update && add-apt-repository ppa:mutlaqja/ppa
+RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
 RUN apt update && add-apt-repository ppa:pch/phd2
 RUN apt update && apt -y --no-install-recommends install \
       make \
@@ -54,8 +51,6 @@ RUN apt update && apt -y --no-install-recommends install \
       astrometry.net \
       kded5 \
       kinit \
-      libindi1 \
-      indi-bin \
       breeze-icon-theme \
       libqt5sql5-sqlite \
       qml-module-qtquick-controls \

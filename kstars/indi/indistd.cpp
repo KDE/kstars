@@ -64,6 +64,12 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
     });
 }
 
+GenericDevice::~GenericDevice()
+{
+    for (auto &metadata : streamFileMetadata)
+        metadata.file->close();
+}
+
 void GenericDevice::registerDBusType()
 {
 #ifndef KSTARS_LITE
@@ -393,7 +399,6 @@ void GenericDevice::processBLOB(IBLOB *bp)
     if (bp->bvp->p == IP_WO)
         return;
 
-    QFile *data_file = nullptr;
     INDIDataTypes dataType;
 
     if (!strcmp(bp->format, ".ascii"))
@@ -413,40 +418,55 @@ void GenericDevice::processBLOB(IBLOB *bp)
 
     filename += QString("%1_").arg(bp->label) + ts + QString(bp->format).trimmed();
 
-    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
-    bp->aux2 = BLOBFilename;
+    //    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    //    bp->aux2 = BLOBFilename;
 
+    // Text Streaming
     if (dataType == DATA_ASCII)
     {
-        if (bp->aux0 == nullptr)
+        // First time, create a data file to hold the stream.
+
+        auto it = std::find_if(streamFileMetadata.begin(), streamFileMetadata.end(), [bp](const StreamFileMetadata & data)
         {
-            bp->aux0               = new int();
-            QFile *ascii_data_file = new QFile();
-            ascii_data_file->setFileName(filename);
-            if (!ascii_data_file->open(QIODevice::WriteOnly))
-            {
-                qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << ascii_data_file->fileName() << endl;
-                return;
-            }
+            return (bp->bvp->device == data.device && bp->bvp->name == data.property && bp->name == data.element);
+        });
 
-            bp->aux1 = ascii_data_file;
+        QFile *streamDatafile = nullptr;
+
+        // New stream data file
+        if (it == streamFileMetadata.end())
+        {
+            StreamFileMetadata metadata;
+            metadata.device = bp->bvp->device;
+            metadata.property = bp->bvp->name;
+            metadata.element = bp->name;
+
+            // Create new file instance
+            // Since it's a child of this class, don't worry about deallocating it
+            streamDatafile = new QFile(this);
+            metadata.file = streamDatafile;
+
+            streamFileMetadata.append(metadata);
         }
+        else
+            streamDatafile = (*it).file;
 
-        data_file = (QFile *)bp->aux1;
+        // Try to get
 
-        QDataStream out(data_file);
-        for (nr = 0; nr < (int)bp->size; nr += n)
+        QDataStream out(streamDatafile);
+        for (nr = 0; nr < bp->size; nr += n)
             n = out.writeRawData(static_cast<char *>(bp->blob) + nr, bp->size - nr);
 
         out.writeRawData((const char *)"\n", 1);
-        data_file->flush();
+        streamDatafile->flush();
+
     }
     else
     {
         QFile fits_temp_file(filename);
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
-            qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << fits_temp_file.fileName() << endl;
+            qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << fits_temp_file.fileName();
             return;
         }
 
@@ -759,7 +779,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 {
     GDSetCommand *indiCommand = static_cast<GDSetCommand *>(setPropCommand);
 
-    //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue << endl;
+    //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue;
 
     INDI::Property *pp = baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
 
@@ -785,7 +805,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             sp->s = indiCommand->elementValue.toInt() == 0 ? ISS_OFF : ISS_ON;
 
-            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
+            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
             clientManager->sendNewSwitch(svp);
 
             return true;
@@ -810,7 +830,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             np->value = value;
 
-            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
+            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
             clientManager->sendNewNumber(nvp);
         }
         break;
@@ -1279,7 +1299,7 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
 
     clientManager->sendNewNumber(npulse);
 
-    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
+    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms ";
 
     return true;
 }

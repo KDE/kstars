@@ -204,11 +204,22 @@ class Scheduler : public QWidget, public Ui::Scheduler
         Q_SCRIPTABLE Q_NOREPLY void stop();
 
         /** DBUS interface function.
+             * @brief Remove all scheduler jobs
+             */
+        Q_SCRIPTABLE Q_NOREPLY void removeAllJobs();
+
+        /** DBUS interface function.
              * @brief Loads the Ekos Scheduler List (.esl) file.
              * @param fileURL path to a file
              * @return true if loading file is successful, false otherwise.
              */
         Q_SCRIPTABLE bool loadScheduler(const QString &fileURL);
+
+        /** DBUS interface function.
+         * @brief Set the file URL pointing to the capture sequence file
+         * @param sequenceFileURL URL of the capture sequence file
+         */
+        Q_SCRIPTABLE void setSequence(const QString &sequenceFileURL);
 
         /** DBUS interface function.
              * @brief Resets all jobs to IDLE
@@ -244,10 +255,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void setErrorHandlingStrategy (ErrorHandlingStrategy strategy);
 
+
         /** @}*/
 
         /** @{ */
-    private:
+
+private:
         /** @internal Safeguard flag to avoid registering signals from widgets multiple times.
          */
         bool jobChangesAreWatched { false };

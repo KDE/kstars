@@ -36,6 +36,7 @@ AppDir:
     include:
       - frameworkintegration
       - kimageformat-plugins
+      - kio
       - libbz2-1.0
       - libcanberra-pulse
       - libcfitsio5
@@ -80,6 +81,7 @@ AppDir:
       - libkf5widgetsaddons5
       - libkf5windowsystem5
       - libkf5xmlgui5
+      - libkf5auth5
       - liblz4-1
       - libopenexr22
       - libpciaccess0

@@ -62,6 +62,7 @@ class FindDialog : public QDialog
      */
     inline SkyObject *targetObject() { return m_targetObject; }
 
+
     // Backend methods
     /**
      * @short Do some post processing on the search text to interpret what the user meant
@@ -76,6 +77,14 @@ class FindDialog : public QDialog
      * @return a pointer to the DeepSkyObject (instance managed by internetResolvedComponent) if successful, nullptr otherwise
      */
     static DeepSkyObject *resolveAndAdd(const QString &query);
+
+    /**
+     * @brief exec overrides base's QDialog::exec() to provide a parent widget.
+     * @param parent is the widget to position the FindDialog instance againt.
+     * @return QDialog::exec() result.
+     */
+    int execWithParent(QWidget* parent = nullptr);
+
 
   public slots:
     /**

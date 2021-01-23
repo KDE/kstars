@@ -40,6 +40,7 @@ class Edge
         float HFR {-1};
         float sum {0};
         float numPixels {0};
+        float ellipticity {0};
 };
 
 class BahtinovEdge : public Edge
@@ -57,7 +58,7 @@ class FITSStarDetector : public QObject
     public:
         /** @brief Instantiate a detector for a FITS data file.
          */
-        explicit FITSStarDetector(FITSData *data): QObject(), image_data(data) {};
+        explicit FITSStarDetector(FITSData *data): QObject(), m_ImageData(data) {};
 
         /** @brief Find sources in the parent FITS data file.
          * @param starCenters is the list of sources to append to.
@@ -71,16 +72,23 @@ class FITSStarDetector : public QObject
          * @param value is the value of the detection setting identified by 'setting'.
          * @return The detector as a chain to call the overridden findSources.
          */
-        virtual void configure(const QString &setting, const QVariant &value);
+        virtual void configure(const QString &key, const QVariant &value);
+
+        void setSettings(const QVariantMap &settings)
+        {
+            m_Settings = settings;
+        }
+        QVariant getValue(const QString &key, QVariant defaultValue = QVariant()) const;
 
         /** @brief Helper to configure the detection method from a data model.
          * @param settings is the list of key/value pairs for the method to use settings from.
          * @note Data model 'settings' is considered a key/value list, using column 1 text as case-insensitive keys and column 2 data as values.
          * @return The detector as a chain to call the overridden findSources.
          */
-        void configure(QStandardItemModel const &settings);
+        //void configure(QStandardItemModel const &settings);
 
     protected:
-        FITSData *image_data {nullptr};
+        FITSData *m_ImageData {nullptr};
+        QVariantMap m_Settings;
 };
 

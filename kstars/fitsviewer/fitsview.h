@@ -62,13 +62,13 @@ class FITSView : public QScrollArea
          * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
          * Obtain error by calling lastError()
          */
-        void loadFITS(const QString &inFilename, bool silent = true);
+        void loadFile(const QString &inFilename, bool silent = true);
 
         /**
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
          * @param data pointer to FITSData objects
          */
-        bool loadFITSFromData(FITSData *data);
+        bool loadData(const QSharedPointer<FITSData> &data);
 
         // Save FITS
         bool saveImage(const QString &newFilename);
@@ -78,7 +78,7 @@ class FITSView : public QScrollArea
         // Access functions
         FITSData *getImageData() const
         {
-            return imageData;
+            return imageData.data();
         }
         double getCurrentZoom() const
         {
@@ -118,6 +118,7 @@ class FITSView : public QScrollArea
         // Overlay objects
         void drawStarFilter(QPainter *, double scale);
         void drawStarCentroid(QPainter *, double scale);
+        void drawClipping(QPainter *);
         void drawTrackingBox(QPainter *, double scale);
         void drawMarker(QPainter *, double scale);
         void drawCrosshair(QPainter *, double scale);
@@ -127,6 +128,7 @@ class FITSView : public QScrollArea
 
         bool isImageStretched();
         bool isCrosshairShown();
+        bool isClippingShown();
         bool areObjectsShown();
         bool isEQGridShown();
         bool isPixelGridShown();
@@ -229,9 +231,13 @@ class FITSView : public QScrollArea
         void setAutoStretchParams();
 
         // When sampling is > 1, we will display the image at a lower resolution.
-        void setSampling(int value)
+        // When sampling = 0, reset to the adaptive sampling value
+        void setPreviewSampling(uint8_t value)
         {
-            if (value > 0) sampling = value;
+            if (value == 0)
+                m_PreviewSampling = m_AdaptiveSampling;
+            else
+                m_PreviewSampling = value * m_AdaptiveSampling;
         }
 
     public slots:
@@ -256,6 +262,7 @@ class FITSView : public QScrollArea
         void centerTelescope();
 
         void toggleStretch();
+        void toggleClipping();
 
         virtual void processPointSelection(int x, int y);
         virtual void processMarkerSelection(int x, int y);
@@ -295,7 +302,7 @@ class FITSView : public QScrollArea
         /// Cross hair
         QPointF markerCrosshair;
         /// Pointer to FITSData object
-        FITSData *imageData { nullptr };
+        QSharedPointer<FITSData> imageData;
         /// Current zoom level
         double currentZoom { 0 };
         // The maximum percent zoom. The value is recalculated in the constructor
@@ -304,13 +311,12 @@ class FITSView : public QScrollArea
 
     private:
         bool processData();
-        void doStretch(FITSData *data, QImage *outputImage);
+        void doStretch(QImage *outputImage);
         double scaleSize(double size);
         bool isLargeImage();
         void updateFrameLargeImage();
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
-
 
         QLabel *noImageLabel { nullptr };
         QPixmap noImage;
@@ -339,6 +345,7 @@ class FITSView : public QScrollArea
         bool showEQGrid { false };
         bool showPixelGrid { false };
         bool showStarsHFR { false };
+        bool showClipping { false };
 
         // Should the image be displayed in linear (false) or stretched (true).
         // Initial value controlled by Options::autoStretch.
@@ -353,7 +360,9 @@ class FITSView : public QScrollArea
         StretchParams stretchParams;
 
         // Resolution for display. Sampling=2 means display every other sample.
-        int sampling { 1 };
+        uint8_t m_PreviewSampling { 1 };
+        // Adaptive sampling is based on available RAM
+        uint8_t m_AdaptiveSampling {1};
 
         struct
         {

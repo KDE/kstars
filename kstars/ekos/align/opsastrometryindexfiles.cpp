@@ -113,34 +113,28 @@ void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
 
 void OpsAstrometryIndexFiles::updateIndexDirectoryList()
 {
-    QStringList indexFileDirs = Options::astrometryIndexFolderList();
+    // This is needed because they might have directories stored in the config file.
+    // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    bool updated = false;
-    foreach(QString dataDir, astrometryDataDirs)
-    {
-        if(!indexFileDirs.contains(dataDir))
-        {
-            indexFileDirs.append(dataDir);
-            updated = true;
-        }
-    }
-    if (indexFileDirs.count() == 0)
-        return;
-    if(updated)
-        Options::setAstrometryIndexFolderList(indexFileDirs);
+
     indexLocations->clear();
-    if(indexFileDirs.count() > 1)
+    if(astrometryDataDirs.count() > 1)
         indexLocations->addItem("All Sources");
-    indexLocations->addItems(indexFileDirs);
+    indexLocations->addItems(astrometryDataDirs);
     slotUpdate();
 }
 
 void OpsAstrometryIndexFiles::addDirectoryToList(QString directory)
 {
-    QStringList indexFileDirs = Options::astrometryIndexFolderList();
-    if(indexFileDirs.contains(directory))
+    QDir dir(directory);
+    if(!dir.exists())
         return;
-    indexFileDirs.append(directory);
+    QString directoryPath = dir.absolutePath();
+
+    QStringList indexFileDirs = Options::astrometryIndexFolderList();
+    if(indexFileDirs.contains(directoryPath))
+        return;
+    indexFileDirs.append(directoryPath);
     Options::setAstrometryIndexFolderList(indexFileDirs);
     updateIndexDirectoryList();
 }
@@ -179,8 +173,8 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     QStringList nameFilter("*.fits");
 
-    if (Options::astrometrySolverIsInternal())
-        KSUtils::configureLocalAstrometryConfIfNecessary();
+    //    if (Options::astrometrySolverIsInternal())
+    //        KSUtils::configureLocalAstrometryConfIfNecessary();
 
     QStringList astrometryDataDirs = Options::astrometryIndexFolderList();
 

@@ -67,11 +67,7 @@ int main(int argc, char *argv[])
 {
 #if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
     // Ignore SIGPIPE
-    struct sigaction act;
-    memset(&act, 0, sizeof(act));
-    act.sa_handler = SIG_IGN;
-    act.sa_flags = SA_RESTART;
-    sigaction(SIGPIPE, &act, nullptr);
+    signal(SIGPIPE, SIG_IGN);
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
@@ -81,12 +77,13 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_OSX
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
-    if (!KSUtils::copyDataFolderFromAppBundleIfNeeded())
+    if (!KSUtils::setupMacKStarsIfNeeded())
     {
         KSNotification::sorry(i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
         return 1;
     }
 #endif
+    Options::setKStarsFirstRun(false);
     app.setApplicationVersion(KSTARS_VERSION);
     /**
     * enable high dpi support

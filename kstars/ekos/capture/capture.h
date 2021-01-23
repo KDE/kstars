@@ -63,7 +63,7 @@ class RotatorSettings;
  * interface to enable unattended scripting.
  *
  * @author Jasem Mutlaq
- * @version 1.8
+ * @version 1.9
  */
 namespace Ekos
 {
@@ -174,6 +174,12 @@ class Capture : public QWidget, public Ui::Capture
              * @param fileURL full URL of the filename
              */
         Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
+
+        /** DBUS interface function.
+             * Saves the Sequence Queue to the Ekos Sequence Queue file.
+             * @param fileURL full URL of the filename
+             */
+        Q_SCRIPTABLE bool saveSequenceQueue(const QString &path);
 
         /** DBUS interface function.
              * Enables or disables the maximum guiding deviation and sets its value.
@@ -547,7 +553,7 @@ class Capture : public QWidget, public Ui::Capture
              * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
              * @param bp pointer to blob containing FITS data
              */
-        void newFITS(IBLOB *bp);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief checkCCD Refreshes the CCD information in the capture module.
@@ -623,9 +629,13 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
+         */
+        void prepareActiveJobStage1();
+        /**
          * @brief prepareActiveJob Reset calibration state machine and prepare capture job actions.
          */
-        void prepareActiveJob();
+        void prepareActiveJobStage2();
 
         /**
              * @brief preparePreCaptureActions Check if we need to update filter position or CCD temperature before starting capture process
@@ -646,7 +656,7 @@ class Capture : public QWidget, public Ui::Capture
         {
             focusHFR = newHFR;
         }
-        void setFocusTemperatureDelta(double focusTemperatureDelta);
+        void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
         // Return TRUE if we need to run focus/autofocus. Otherwise false if not necessary
         bool startFocusIfRequired();
 
@@ -660,7 +670,7 @@ class Capture : public QWidget, public Ui::Capture
         void setMountStatus(ISD::Telescope::Status newState);
 
         void setGuideChip(ISD::CCDChip *chip);
-        void setGeneratedPreviewFITS(const QString &previewFITS);
+        //void setGeneratedPreviewFITS(const QString &previewFITS);
 
         // Clear Camera Configuration
         void clearCameraConfiguration();
@@ -724,6 +734,9 @@ class Capture : public QWidget, public Ui::Capture
         bool processPostCaptureCalibrationStage();
         void updatePreCaptureCalibrationStatus();
 
+        // Script Manager
+        void handleScriptsManager();
+
         /* Frame Type calibration checks */
 
         /**
@@ -743,13 +756,13 @@ class Capture : public QWidget, public Ui::Capture
         IPState checkDarkFramePendingTasks();
 
         // Send image info
-        void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
+        //void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
 
         // Capture
         IPState setCaptureComplete();
 
-        // post capture script
-        void postScriptFinished(int exitCode, QProcess::ExitStatus status);
+        // capture scripts
+        void scriptFinished(int exitCode, QProcess::ExitStatus status);
 
         void setVideoStreamEnabled(bool enabled);
 
@@ -780,7 +793,7 @@ class Capture : public QWidget, public Ui::Capture
         void resetFocus();
         void suspendGuiding();
         void resumeGuiding();
-        void newImage(Ekos::SequenceJob *job);
+        void newImage(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data);
         void newExposureProgress(Ekos::SequenceJob *job);
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
@@ -791,8 +804,8 @@ class Capture : public QWidget, public Ui::Capture
         void driverTimedout(const QString &deviceName);
 
         // Signals for the Analyze tab.
-        void captureComplete(const QString &filename, double exposureSeconds,
-                             const QString &filter, double hfr);
+        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
+                             double hfr, int numStars, int median, double eccentricity);
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -813,8 +826,18 @@ class Capture : public QWidget, public Ui::Capture
         void prepareJob(SequenceJob *job);
         void syncGUIToJob(SequenceJob *job);
         bool processJobInfo(XMLEle *root);
-        void processJobCompletion();
-        bool saveSequenceQueue(const QString &path);
+
+        /**
+         * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
+         * if yes, we run it and wait until it is done before we move to stage2
+         */
+        void processJobCompletionStage1();
+
+        /**
+         * @brief processJobCompletionStage2 Set job as complete and look for next job in the sequence, if any.
+         */
+        void processJobCompletionStage2();
+
         void constructPrefix(QString &imagePrefix);
         double setCurrentADU(double value);
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
@@ -880,7 +903,21 @@ class Capture : public QWidget, public Ui::Capture
 
         // short cut for all guiding states that indicate guiding is on
         bool isGuidingOn();
+        // short cut for all guiding states that indicate guiding in state GUIDING
+        bool isActivelyGuiding();
 
+        /**
+         * @brief generateScriptArguments Generate argument list to pass to capture script
+         * @return generates argument list consisting of one argument -metadata followed by JSON-formatted key:value pair:
+         * -ts UNIX timestamp
+         * -image full path to captured image (if any)
+         * -size size of file in bytes (if any)
+         * -job {name, index}
+         * -capture {name, index}
+         * -filter
+         * TODO depending on user feedback.
+         */
+        QStringList generateScriptArguments() const;
         /* Capture */
 
         /**
@@ -922,8 +959,8 @@ class Capture : public QWidget, public Ui::Capture
         ISD::CCDChip *targetChip { nullptr };
         ISD::CCDChip *guideChip { nullptr };
         ISD::CCDChip *blobChip { nullptr };
-        QString blobFilename;
-        QString m_GeneratedPreviewFITS;
+        //QString blobFilename;
+        //QString m_GeneratedPreviewFITS;
 
         // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
         QList<ISD::GDInterface *> Filters;
@@ -938,7 +975,9 @@ class Capture : public QWidget, public Ui::Capture
         ISD::LightBox *currentLightBox { nullptr };
         ISD::Dome *currentDome { nullptr };
 
-        QPointer<QDBusInterface> mountInterface { nullptr };
+        QPointer<QDBusInterface> mountInterface;
+
+        QSharedPointer<FITSData> m_ImageData;
 
         QStringList m_LogText;
         QUrl m_SequenceURL;
@@ -1002,6 +1041,7 @@ class Capture : public QWidget, public Ui::Capture
         bool m_TelescopeCoveredDarkExposure { false };
         bool m_TelescopeCoveredFlatExposure { false };
         ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
+        QMap<ScriptTypes, QString> m_Scripts;
 
         QUrl dirPath;
 
@@ -1024,7 +1064,8 @@ class Capture : public QWidget, public Ui::Capture
         QMap<ISD::CCDChip *, QVariantMap> frameSettings;
 
         // Post capture script
-        QProcess postCaptureScript;
+        QProcess m_CaptureScript;
+        uint8_t m_CaptureScriptType {0};
 
         // Rotator Settings
         std::unique_ptr<RotatorSettings> rotatorSettings;
@@ -1052,8 +1093,8 @@ class Capture : public QWidget, public Ui::Capture
         void processFlipCompleted();
 
         // Controls
-        double GainSpinSpecialValue;
-        double OffsetSpinSpecialValue;
+        double GainSpinSpecialValue { INVALID_VALUE };
+        double OffsetSpinSpecialValue { INVALID_VALUE };
 
         QList<double> downloadTimes;
         QElapsedTimer downloadTimer;

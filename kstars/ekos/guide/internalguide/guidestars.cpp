@@ -15,13 +15,14 @@
 
 #include <math.h>
 #include <stellarsolver.h>
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <QTime>
 
 // Keeps at most this many reference "neighbor" stars
 #define MAX_GUIDE_STARS 10
 
 // Then when looking for the guide star, gets this many candidates.
-#define STARS_TO_SEARCH 25
+#define STARS_TO_SEARCH 250
 
 // Don't use stars with SNR lower than this when computing multi-star drift.
 #define MIN_DRIFT_SNR  8
@@ -33,7 +34,7 @@
 // We limit the HFR for guide stars. When searching for the guide star, we relax this by the
 // margin below (e.g. if a guide star was selected that was near the max guide-star hfr, the later
 // the hfr increased a little, we still want to be able to find it.
-constexpr double HFR_MARGIN = 0.25;
+constexpr double HFR_MARGIN = 2.0;
 /*
  Start with a set of reference (x,y) positions from stars, where one is designated a guide star.
  Given these and a set of new input stars, determine a mapping of new stars to the references.
@@ -43,6 +44,52 @@ constexpr double HFR_MARGIN = 0.25;
  stars not appearing in references. However, the guide star must appear in both for this to
  be successful.
  */
+
+// This adds quite a bit to the debug log, so disabling it in normal circumstances.
+// #define GUIDESTARS_DEBUG
+
+namespace
+{
+QString logHeader(const QString &label)
+{
+    return QString("%1 %2 %3 %4 %5 %6 %7")
+           .arg(label, -9).arg("#", 3).arg("x   ", 6).arg("y   ", 6).arg("flux", 6)
+           .arg("HFR", 6).arg("SNR ", 5);
+}
+
+QString logStar(const QString &label, int index, const SkyBackground &bg, const Edge &star)
+{
+    double snr = bg.SNR(star.sum, star.numPixels);
+    return QString("%1 %2 %3 %4 %5 %6 %7")
+           .arg(label, -9)
+           .arg(index, 3)
+           .arg(star.x, 6, 'f', 1)
+           .arg(star.y, 6, 'f', 1)
+           .arg(star.sum, 6, 'f', 0)
+           .arg(star.HFR, 6, 'f', 2)
+           .arg(snr, 5, 'f', 1);
+}
+
+void logStars(const QString &label, const QString &label2, const SkyBackground &bg,
+              int size,
+              std::function<const Edge & (int index)> stars,
+              const QString &extraLabel,
+              std::function<QString (int index)> extras)
+{
+    QString header = logHeader(label);
+    if (extraLabel.size() > 0)
+        header.append(QString("  %1").arg(extraLabel));
+    qCDebug(KSTARS_EKOS_GUIDE) << header;
+    for (int i = 0; i < size; ++i)
+    {
+        const auto &star = stars(i);
+        QString line = logStar(label2, i, bg, star);
+        if (extraLabel.size() > 0)
+            line.append(QString(" %1").arg(extras(i)));
+        qCDebug(KSTARS_EKOS_GUIDE) << line;
+    }
+}
+}  //namespace
 
 GuideStars::GuideStars()
 {
@@ -143,23 +190,21 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
         scores[i] = score;
     }
 
+    logStars("Select", "Star", skyBackground,
+             maxIndex,
+             [&](int i) -> const Edge&
+    {
+        return stars[i];
+    },
+    "score", [&](int i) -> QString
+    {
+        return QString("%1").arg(scores[i], 5);
+    });
+
     int maxScore      = -1;
     int maxScoreIndex = -1;
-
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("  #    X      Y    Flux   HFR  SEPsc Score  SNR");
     for (int i = 0; i < maxIndex; i++)
     {
-        auto bg = skybackground();
-        double snr = bg.SNR(stars[i].sum, stars[i].numPixels);
-        qCDebug(KSTARS_EKOS_GUIDE) << QString("%1 %2 %3 %4 %5 %6 %7 %8")
-                                   .arg(i, 3)
-                                   .arg(stars[i].x, 6, 'f', 1)
-                                   .arg(stars[i].y, 6, 'f', 1)
-                                   .arg(stars[i].sum, 6, 'f', 0)
-                                   .arg(stars[i].HFR, 5, 'f', 2)
-                                   .arg(sepScores[i], 5, 'f', 0)
-                                   .arg(scores[i], 5)
-                                   .arg(snr, 5, 'f', 1);
         if (scores[i] > maxScore)
         {
             maxScore      = scores[i];
@@ -219,26 +264,6 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
     }
 }
 
-void GuideStars::logDetectedStars()
-{
-    qCDebug(KSTARS_EKOS_GUIDE)
-            << QString("findGuideStar()  x      y      flux   HFR   SNR   Ref");
-    for (int i = 0; i < detectedStars.size(); ++i)
-    {
-        const auto &star = detectedStars[i];
-        auto bg = skybackground();
-        double snr = bg.SNR(star.sum, star.numPixels);
-        qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 %7")
-                                   .arg(i, 3)
-                                   .arg(star.x, 6, 'f', 1)
-                                   .arg(star.y, 6, 'f', 1)
-                                   .arg(star.sum, 6, 'f', 0)
-                                   .arg(star.HFR, 6, 'f', 2)
-                                   .arg(snr, 5, 'f', 1)
-                                   .arg(getStarMap(i), 3);
-    }
-}
-
 // Find the guide star using the starCorrespondence algorithm (looking for
 // the other reference stars in the same relative position as when the guide star was selected).
 // If this method fails, it backs off to looking in the tracking box for the highest scoring star.
@@ -286,23 +311,22 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
                 qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence found " << i << "at" << star.x << star.y << "SNR" << SNR;
                 if (guideView != nullptr)
                     plotStars(guideView, trackingBox);
-                // Fail if the detected star is not in the tracking box.
-                if (trackingBox.isValid() && !trackingBox.contains(std::round(star.x), std::round(star.y)))
-                {
-                    logDetectedStars();
-                    qCDebug(KSTARS_EKOS_GUIDE) << QString("findGuideStar found a star at %1,%2 but it is outside the tracking box")
-                                               .arg(star.x, 6, 'f', 1)
-                                               .arg(star.y, 6, 'f', 1);
-                    return Vector(-1, -1, -1);
-
-                }
                 return Vector(star.x, star.y, 0);
             }
         }
     }
 
     qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence not used. It failed to find the guide star.";
-    logDetectedStars();
+    logStars("findGuide", "Star", skyBackground,
+             detectedStars.size(),
+             [&](int i) -> const Edge&
+    {
+        return detectedStars[i];
+    },
+    "score", [&](int i) -> QString
+    {
+        return QString("%1").arg(getStarMap(i));
+    });
 
     if (trackingBox.isValid() == false)
         return Vector(-1, -1, -1);
@@ -338,42 +362,19 @@ SSolver::Parameters GuideStars::getStarExtractionParameters(int num)
 }
 
 // This is the interface to star detection.
-int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num)
+int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> *sepStars, int num)
 {
-    qDeleteAll(*sepStars);
-    sepStars->clear();
-
     if (imageData == nullptr)
         return 0;
 
-    StellarSolver *solver = new StellarSolver(imageData->getStatistics(), imageData->getImageBuffer(), nullptr);
-    solver->setParameters(getStarExtractionParameters(num));
+    QVariantMap settings;
+    settings["optionsProfileIndex"] = Options::guideOptionsProfile();
+    settings["optionsProfileGroup"] = static_cast<int>(Ekos::GuideProfiles);
+    imageData->setSourceExtractorSettings(settings);
+    imageData->findStars(ALGORITHM_SEP).waitForFinished();
+    skyBackground = imageData->getSkyBackground();
 
-    QEventLoop event;
-    QObject::connect(solver, SIGNAL(ready()), &event, SLOT(quit()), Qt::QueuedConnection);
-    solver->extract(true);
-    event.exec();
-    if(!solver->sextractionDone() || solver->failed())
-        return 0;
-    auto bg = solver->getBackground();
-    skyBackground.mean = bg.global;
-    skyBackground.sigma = bg.globalrms;
-    skyBackground.numPixelsInSkyEstimate = bg.bw * bg.bh;
-
-    QList<FITSImage::Star> stars = solver->getStarList();
-    QList<Edge *> edges;
-
-    for (int index = 0; index < stars.count(); index++)
-    {
-        FITSImage::Star star = stars.at(index);
-        auto * center = new Edge();
-        center->x = star.x;
-        center->y = star.y;
-        center->val = star.peak;
-        center->sum = star.flux;
-        center->HFR = star.HFR;
-        edges.append(center);
-    }
+    QList<Edge *> edges = imageData->getStarCenters();
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
 
@@ -385,15 +386,15 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int
     }
 
     edges.clear();
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("  #      X      Y    Flux    Width   HFR");
-    for (int i = 0; i < sepStars->count(); i++)
-        qCDebug(KSTARS_EKOS_GUIDE) << QString("%1  %2  %3  %4  %5  %6")
-                                   .arg(i, 3)
-                                   .arg(sepStars->at(i)->x, 6, 'f', 1)
-                                   .arg(sepStars->at(i)->y, 6, 'f', 1)
-                                   .arg(sepStars->at(i)->sum, 6, 'f', 1)
-                                   .arg(sepStars->at(i)->width, 5, 'f', 3)
-                                   .arg(sepStars->at(i)->HFR, 5, 'f', 3);
+
+#ifdef GUIDESTARS_DEBUG
+    logStars("Detected", "Star", skyBackground,
+             sepStars->count(),
+             [&sepStars](int i) -> const Edge&
+    {
+        return *(sepStars->at(i));
+    }, "", nullptr);
+#endif
     return sepStars->count();
 }
 
@@ -585,7 +586,7 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
     double guideStarRADrift = 0, guideStarDECDrift = 0;
     QVector<double> raDrifts, decDrifts;
     qCDebug(KSTARS_EKOS_GUIDE)
-            << QString("                 x      y      flux   HFR   SNR   Ref:  x      y     flux  HFR    dRA    dDEC");
+            << QString("%1 %2  dRA   dDEC").arg(logHeader("")).arg(logHeader("    Ref:"));
     for (int i = 0; i < detectedStars.size(); ++i)
     {
         const auto &star = detectedStars[i];
@@ -610,31 +611,17 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
             decDrifts.push_back(driftDEC);
             numStarsProcessed++;
 
-            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11  %12  %13")
-                                       .arg(i, 3)
-                                       .arg(star.x, 6, 'f', 1)
-                                       .arg(star.y, 6, 'f', 1)
-                                       .arg(star.sum, 6, 'f', 0)
-                                       .arg(star.HFR, 6, 'f', 2)
-                                       .arg(snr, 5, 'f', 1)
-                                       .arg(getStarMap(i), 3)
-                                       .arg(ref.x, 6, 'f', 1)
-                                       .arg(ref.y, 6, 'f', 1)
-                                       .arg(ref.sum, 6, 'f', 0)
-                                       .arg(ref.HFR, 5, 'f', 2)
-                                       .arg(driftRA, 5, 'f', 2)
-                                       .arg(driftDEC, 5, 'f', 2);
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << QString("%1 %2 %3 %4").arg(logStar("MultiStar", i, bg, star))
+                    .arg(logStar("    Ref:", getStarMap(i), bg, ref))
+                    .arg(driftRA, 5, 'f', 2).arg(driftDEC, 5, 'f', 2);
         }
+#ifdef GUIDESTARS_DEBUG
         else
         {
-            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar: %1 %2 %3 %4 %5 %6 NOT ASSOCIATED")
-                                       .arg(i, 3)
-                                       .arg(star.x, 6, 'f', 1)
-                                       .arg(star.y, 6, 'f', 1)
-                                       .arg(star.sum, 6, 'f', 0)
-                                       .arg(star.HFR, 6, 'f', 2)
-                                       .arg(snr, 5, 'f', 1);
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("%1 -- NOT ASSOCIATED").arg(logStar("MultiStar", i, bg, star));
         }
+#endif
     }
 
     if (numStarsProcessed == 0 || !guideStarProcessed)

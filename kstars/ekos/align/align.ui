@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>562</height>
+    <width>724</width>
+    <height>627</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -440,7 +440,7 @@
         <item row="4" column="1">
          <widget class="QLineEdit" name="FocalLengthOut">
           <property name="toolTip">
-           <string>Effective Focal Length in millimeters based on Astrometric measurements.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active telescope supplied (effective) focal length in millimeters. Update telescope focal length to match the effective focal length to speed up plate solving.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -457,7 +457,7 @@
         <item row="4" column="3">
          <widget class="QLineEdit" name="FocalRatioOut">
           <property name="toolTip">
-           <string>Effective Focal Ratio based on astrometric measurements.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active telescope calculated (effective) focal ratio. The effective focal ratio is measured from astrometry.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -661,7 +661,7 @@
      <item>
       <widget class="QGroupBox" name="stellarSolverOptionsGroup">
        <property name="title">
-        <string>Solver Type</string>
+        <string>Solver Mode</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
         <property name="spacing">
@@ -688,7 +688,7 @@
            <bool>true</bool>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">solverTypeButtonGroup</string>
+           <string notr="true">solverModeButtonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -701,7 +701,7 @@
            <string>Remote</string>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">solverTypeButtonGroup</string>
+           <string notr="true">solverModeButtonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -727,12 +727,12 @@
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::MinimumExpanding</enum>
+        <enum>QSizePolicy::Minimum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>5</height>
         </size>
        </property>
       </spacer>
@@ -1112,7 +1112,7 @@
                   <bool>true</bool>
                  </property>
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Park&lt;/span&gt; your mount to home position where it &lt;span style=&quot; font-weight:600;&quot;&gt;points&lt;/span&gt; toward the celestial pole with the counter weight down. Select mount direction and speed and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Park&lt;/span&gt; your mount to home position where it &lt;span style=&quot; font-weight:600;&quot;&gt;points&lt;/span&gt; toward the celestial pole with the counter weight down. Select mount direction and speed and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process. If you do not have a view of the pole, use the SkyMap or Ekos mount control to point anywhere, preferably near the meridian, choose East or West according your side, lower the rotation angle if necessary, and click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1255,6 +1255,52 @@
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="PAHManualRotatePage">
+              <layout class="QVBoxLayout" name="verticalLayout_manual">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_manual">
+                 <item>
+                  <widget class="QLabel" name="manualRotateText">
+                   <property name="text">
+                    <string>Please rotate your mount in RA</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="PAHManualDone">
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Done</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
              <widget class="QWidget" name="PAHFirstRotatePage">
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
@@ -1281,26 +1327,6 @@
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="PAHfirstDone">
-                   <property name="text">
-                    <string>Done</string>
                    </property>
                   </widget>
                  </item>
@@ -1348,26 +1374,6 @@
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="PAHsecondDone">
-                   <property name="text">
-                    <string>Done</string>
                    </property>
                   </widget>
                  </item>
@@ -1455,13 +1461,6 @@
                    </property>
                   </spacer>
                  </item>
-                 <item>
-                  <widget class="QCheckBox" name="PAHFlipVectorC">
-                   <property name="text">
-                    <string>Flip Vector</string>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
                </item>
                <item>
@@ -1516,7 +1515,7 @@
                <item>
                 <widget class="QLabel" name="refreshText">
                  <property name="text">
-                  <string>&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
+                  <string>&lt;p&gt;Adjust mount's Altitude knob moving star along &lt;span style=&quot; font-weight:600; color:#ffff50;&quot;&gt;yellow&lt;/span&gt; line, then adjust Azimuth knobs moving along &lt;span style=&quot; font-weight:600; color:#00ff00;&quot;&gt;green&lt;/span&gt; line until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1551,13 +1550,6 @@
                    </property>
                    <property name="value">
                     <double>1.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="PAHFlipVectorC2">
-                   <property name="text">
-                    <string>Flip Vector</string>
                    </property>
                   </widget>
                  </item>
@@ -1816,42 +1808,9 @@
   <tabstop>PAHDoneB</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>PAHManual</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>PAHfirstDone</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>699</x>
-     <y>392</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>388</x>
-     <y>316</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>PAHManual</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>PAHsecondDone</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>699</x>
-     <y>392</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>385</x>
-     <y>316</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <buttongroups>
+  <buttongroup name="solverModeButtonGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
-  <buttongroup name="solverTypeButtonGroup"/>
  </buttongroups>
 </ui>

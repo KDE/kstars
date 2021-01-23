@@ -19,6 +19,7 @@
 #include "opsgpg.h"
 #include "Options.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "externalguide/linguider.h"
 #include "externalguide/phd2.h"
@@ -640,7 +641,7 @@ void Guide::exportGuideData()
     if (numPoints == 0)
         return;
 
-    QUrl exportFile = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Guide Data"), guideURLPath,
+    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Export Guide Data"), guideURLPath,
                       "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;
@@ -1203,6 +1204,7 @@ bool Guide::captureOneFrame()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+    targetChip->setBatchMode(false);
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(FRAME_LIGHT);
 
@@ -1223,7 +1225,7 @@ bool Guide::captureOneFrame()
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS, Qt::UniqueConnection);
+    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Guide::processData, Qt::UniqueConnection);
     qCDebug(KSTARS_EKOS_GUIDE) << "Capturing frame...";
 
     double finalExposure = seqExpose;
@@ -1401,22 +1403,34 @@ void Guide::reconnectDriver(const QString &camera, const QString &via)
     });
 }
 
-void Guide::newFITS(IBLOB *bp)
+void Guide::processData(const QSharedPointer<FITSData> &data)
 {
-    INDI_UNUSED(bp);
-
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     if (targetChip->getCaptureMode() != FITS_GUIDE)
     {
-        qCWarning(KSTARS_EKOS_GUIDE) << "Ignoring Received FITS" << bp->name << "as it has the wrong capture mode" <<
-                                     targetChip->getCaptureMode();
+        if (data)
+        {
+            QString blobInfo = QString("{Device: %1 Property: %2 Element: %3 Chip: %4}").arg(data->property("device").toString())
+                               .arg(data->property("blobVector").toString())
+                               .arg(data->property("blobElement").toString())
+                               .arg(data->property("chip").toInt());
+
+            qCWarning(KSTARS_EKOS_GUIDE) << blobInfo << "Ignoring Received FITS as it has the wrong capture mode" <<
+                                         targetChip->getCaptureMode();
+        }
+
         return;
     }
+
+    if (data)
+        m_ImageData = data;
+    else
+        m_ImageData.reset();
 
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
 
-    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Guide::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Guide::processData);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
 
@@ -1519,6 +1533,7 @@ void Guide::setCaptureComplete()
             break;
     }
 
+    emit newImage(guideView);
     emit newStarPixmap(guideView->getTrackingBoxPixmap(10));
 }
 
@@ -3157,13 +3172,17 @@ bool Guide::executeOneOperation(GuideState operation)
         case GUIDE_DARK:
         {
             // Do we need to take a dark frame?
-            if (Options::guideDarkFrameEnabled())
+            if (m_ImageData && Options::guideDarkFrameEnabled())
             {
                 QVariantMap settings = frameSettings[targetChip];
-                uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
-                uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
+                uint16_t offsetX = 0;
+                uint16_t offsetY = 0;
 
-                FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+                if (settings["x"].isValid() && settings["y"].isValid())
+                {
+                    offsetX = settings["x"].toInt() / settings["binx"].toInt();
+                    offsetY = settings["y"].toInt() / settings["biny"].toInt();
+                }
 
                 connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {
@@ -3171,23 +3190,19 @@ bool Guide::executeOneOperation(GuideState operation)
                     if (completed != darkFrameCheck->isChecked())
                         setDarkFrameEnabled(completed);
                     if (completed)
+                    {
+                        guideView->rescale(ZOOM_KEEP_LEVEL);
+                        guideView->updateFrame();
                         setCaptureComplete();
+                    }
                     else
                         abort();
                 });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Guide::appendLogText);
-
                 actionRequired = true;
-
                 targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
-
-                if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX,
-                                                      offsetY);
-                else
-                {
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
-                }
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
+                        offsetX, offsetY);
             }
         }
         break;
@@ -3242,28 +3257,17 @@ void Guide::processGuideOptions()
 
 void Guide::showFITSViewer()
 {
-    FITSData *data = guideView->getImageData();
-    if (data)
+    static int lastFVTabID = -1;
+    if (m_ImageData)
     {
-        QUrl url = QUrl::fromLocalFile(data->filename());
-
+        QUrl url = QUrl::fromLocalFile("guide.fits");
         if (fv.isNull())
         {
-            if (Options::singleWindowCapturedFITS())
-                fv = KStars::Instance()->genericFITSViewer();
-            else
-            {
-                fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-                KStars::Instance()->addFITSViewer(fv);
-            }
-
-            fv->addFITS(url);
-            FITSView *currentView = fv->getCurrentView();
-            if (currentView)
-                currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+            fv = KStars::Instance()->createFITSViewer();
+            fv->loadData(m_ImageData, url, &lastFVTabID);
         }
-        else
-            fv->updateFITS(url, 0);
+        else if (fv->updateData(m_ImageData, url, lastFVTabID, &lastFVTabID) == false)
+            fv->loadData(m_ImageData, url, &lastFVTabID);
 
         fv->show();
     }
@@ -3860,29 +3864,8 @@ void Guide::initConnections()
             capture();
     });
 
-    connect(loopB, &QPushButton::clicked, this, [this]()
-    {
-        state = GUIDE_LOOPING;
-        emit newStatus(state);
-
-        if(guiderType == GUIDE_PHD2)
-        {
-            configurePHD2Camera();
-            if(phd2Guider->isCurrentCameraNotInEkos())
-                appendLogText(
-                    i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
-            else if(Options::guideSubframeEnabled())
-            {
-                appendLogText(
-                    i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
-                subFrameCheck->setChecked(false);
-            }
-            phd2Guider->loop();
-            stopB->setEnabled(true);
-        }
-        else
-            capture();
-    });
+    // Framing
+    connect(loopB, &QPushButton::clicked, this, &Guide::loop);
 
     // Stop
     connect(stopB, &QPushButton::clicked, this, &Ekos::Guide::abort);
@@ -4096,7 +4079,7 @@ QJsonObject Guide::getSettings() const
     settings.insert("west", westControlCheck->isChecked());
     settings.insert("north", northControlCheck->isChecked());
     settings.insert("south", southControlCheck->isChecked());
-    settings.insert("scope", FOVScopeCombo->currentIndex());
+    settings.insert("scope", qMax(0, FOVScopeCombo->currentIndex()));
     settings.insert("swap", swapCheck->isChecked());
     settings.insert("ra_gain", spinBox_PropGainRA->value());
     settings.insert("de_gain", spinBox_PropGainDEC->value());
@@ -4110,6 +4093,8 @@ QJsonObject Guide::getSettings() const
 
 void Guide::setSettings(const QJsonObject &settings)
 {
+    static bool init = false;
+
     auto syncControl = [settings](const QString & key, QWidget * widget)
     {
         QSpinBox *pSB = nullptr;
@@ -4121,31 +4106,46 @@ void Guide::setSettings(const QJsonObject &settings)
         {
             const int value = settings[key].toInt(pSB->value());
             if (value != pSB->value())
+            {
                 pSB->setValue(value);
+                return true;
+            }
         }
         else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
         {
             const double value = settings[key].toDouble(pDSB->value());
             if (value != pDSB->value())
+            {
                 pDSB->setValue(value);
+                return true;
+            }
         }
         else if ((pCB = qobject_cast<QCheckBox *>(widget)))
         {
             const bool value = settings[key].toBool(pCB->isChecked());
             if (value != pCB->isChecked())
+            {
                 pCB->setChecked(value);
+                return true;
+            }
         }
         // ONLY FOR STRINGS, not INDEX
         else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
         {
             const QString value = settings[key].toString(pComboBox->currentText());
             if (value != pComboBox->currentText())
+            {
                 pComboBox->setCurrentText(value);
+                return true;
+            }
         }
+
+        return false;
     };
 
     // Camera
-    syncControl("camera", guiderCombo);
+    if (syncControl("camera", guiderCombo) || init == false)
+        checkCCD();
     // Via
     syncControl("via", ST4Combo);
     // Exposure
@@ -4170,8 +4170,8 @@ void Guide::setSettings(const QJsonObject &settings)
     syncControl("north", northControlCheck);
     syncControl("south", southControlCheck);
     // Scope
-    const int scope = settings["scope"].toInt(FOVScopeCombo->currentIndex() + 1) - 1;
-    if (scope != FOVScopeCombo->currentIndex())
+    const int scope = settings["scope"].toInt(FOVScopeCombo->currentIndex());
+    if (scope >= 0 && scope != FOVScopeCombo->currentIndex())
         FOVScopeCombo->setCurrentIndex(scope);
     // RA Gain
     syncControl("ra_gain", spinBox_PropGainRA);
@@ -4186,6 +4186,31 @@ void Guide::setSettings(const QJsonObject &settings)
     Options::setDitherFrames(ditherFrequency);
     const bool gpg = settings["gpg"].toBool(Options::gPGEnabled());
     Options::setGPGEnabled(gpg);
+
+    init = true;
 }
 
+void Guide::loop()
+{
+    state = GUIDE_LOOPING;
+    emit newStatus(state);
+
+    if(guiderType == GUIDE_PHD2)
+    {
+        configurePHD2Camera();
+        if(phd2Guider->isCurrentCameraNotInEkos())
+            appendLogText(
+                i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
+        else if(Options::guideSubframeEnabled())
+        {
+            appendLogText(
+                i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
+            subFrameCheck->setChecked(false);
+        }
+        phd2Guider->loop();
+        stopB->setEnabled(true);
+    }
+    else
+        capture();
+}
 }

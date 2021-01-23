@@ -29,6 +29,7 @@ class ClientManager;
 class DriverInfo;
 class DeviceInfo;
 class QTimer;
+class QFile;
 
 // INDI Standard Device Namespace
 namespace ISD
@@ -143,7 +144,7 @@ class GenericDevice : public GDInterface
 
     public:
         explicit GenericDevice(DeviceInfo &idv, ClientManager *cm);
-        virtual ~GenericDevice() override = default;
+        virtual ~GenericDevice();
 
         virtual void registerProperty(INDI::Property *prop) override;
         virtual void removeProperty(const QString &name) override;
@@ -213,6 +214,16 @@ class GenericDevice : public GDInterface
         void updateLocation();
 
     private:
+
+        class StreamFileMetadata
+        {
+            public:
+                QString device;
+                QString property;
+                QString element;
+                QFile *file { nullptr};
+        };
+
         static void registerDBusType();
         bool connected { false };
         QString m_Name;
@@ -221,7 +232,8 @@ class GenericDevice : public GDInterface
         INDI::BaseDevice *baseDevice { nullptr };
         ClientManager *clientManager { nullptr };
         QTimer *watchDogTimer { nullptr };
-        char BLOBFilename[MAXINDIFILENAME + 1];
+        QList<StreamFileMetadata> streamFileMetadata;
+        //char BLOBFilename[MAXINDIFILENAME + 1];
 };
 
 /**

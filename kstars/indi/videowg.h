@@ -48,7 +48,7 @@ class VideoWG : public QLabel
 
     signals:
         void newSelection(QRect);
-        void imageChanged(std::shared_ptr<QImage> frame);
+        void imageChanged(const QSharedPointer<QImage> &frame);
 
     private:
         bool debayer(const IBLOB *bp, const BayerParams &params);
@@ -57,7 +57,7 @@ class VideoWG : public QLabel
         uint16_t streamH { 0 };
         uint32_t totalBaseCount { 0 };
         QVector<QRgb> grayTable;
-        std::shared_ptr<QImage> streamImage;
+        QSharedPointer<QImage> streamImage;
         QPixmap kPix;
         QRubberBand *rubberBand { nullptr };
         QPoint origin;

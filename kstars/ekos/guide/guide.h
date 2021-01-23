@@ -300,6 +300,11 @@ class Guide : public QWidget, public Ui::Guide
         Q_SCRIPTABLE bool capture();
 
         /** DBUS interface function.
+             * Loop frames specified by the exposure control continuously until stopped.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void loop();
+
+        /** DBUS interface function.
              * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
              * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
              */
@@ -341,7 +346,7 @@ class Guide : public QWidget, public Ui::Guide
         /**
              * @brief newFITS is called by the INDI framework whenever there is a new BLOB arriving
              */
-        void newFITS(IBLOB *);
+        void processData(const QSharedPointer<FITSData> &data);
 
         /**
              * @brief setST4 Sets a new ST4 device from the combobox index
@@ -492,6 +497,7 @@ class Guide : public QWidget, public Ui::Guide
         void newLog(const QString &text);
         void newStatus(Ekos::GuideState status);
 
+        void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
 
@@ -664,6 +670,7 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<PHD2> phd2Guider;
         QPointer<LinGuider> linGuider;
         QPointer<FITSViewer> fv;
+        QSharedPointer<FITSData> m_ImageData;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };

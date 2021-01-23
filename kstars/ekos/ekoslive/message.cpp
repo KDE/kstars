@@ -33,6 +33,7 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager)
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
             &Message::onError);
 
+    m_ThrottleTS = QDateTime::currentDateTime();
 }
 
 void Message::connectServer()
@@ -194,6 +195,8 @@ void Message::onTextReceived(const QString &message)
         sendDomes();
     else if (command == commands[GET_CAPS])
         sendCaps();
+    else if (command == commands[GET_STELLARSOLVER_PROFILES])
+        sendStellarSolverProfiles();
     else if (command == commands[GET_DEVICES])
         sendDevices();
     else if (command == commands[DIALOG_GET_RESPONSE])
@@ -235,7 +238,7 @@ void Message::sendCameras()
     {
         ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
         connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
-        connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
+        //connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
         ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
         double temperature = Ekos::INVALID_VALUE;
@@ -331,10 +334,29 @@ void Message::sendMounts()
         QJsonObject slewRate =
         {
             {"name", oneTelescope->getDeviceName() },
-            {"slewRate", oneTelescope->getSlewRate() }
+            {"slewRate", oneTelescope->getSlewRate() },
+            {"pierSide", oneTelescope->pierSide() },
         };
 
         sendResponse(commands[NEW_MOUNT_STATE], slewRate);
+    }
+
+    if (m_Manager->mountModule())
+    {
+        // Mount module states
+        QJsonObject mountModuleSettings =
+        {
+            {"altitudeLimitsEnabled", m_Manager->mountModule()->altitudeLimitsEnabled()},
+            {"altitudeLimitsMin", m_Manager->mountModule()->altitudeLimits()[0]},
+            {"altitudeLimitsMax", m_Manager->mountModule()->altitudeLimits()[1]},
+            {"haLimitEnabled", m_Manager->mountModule()->hourAngleLimitEnabled()},
+            {"haLimitValue", m_Manager->mountModule()->hourAngleLimit()},
+            {"meridianFlipEnabled", m_Manager->mountModule()->meridianFlipEnabled()},
+            {"meridianFlipValue", m_Manager->mountModule()->meridianFlipValue()},
+            {"autoParkEnabled", m_Manager->mountModule()->autoParkEnabled()},
+        };
+
+        sendResponse(commands[MOUNT_GET_SETTINGS], mountModuleSettings);
     }
 }
 
@@ -419,6 +441,25 @@ void Message::sendCaps()
             updateCapStatus(status);
         }
     }
+}
+
+void Message::sendStellarSolverProfiles()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonObject profiles;
+
+    if (m_Manager->focusModule())
+        profiles.insert("focus", QJsonArray::fromStringList(m_Manager->focusModule()->getStellarSolverProfiles()));
+    // TODO
+    //    if (m_Manager->guideModule())
+    //        profiles.insert("guide", QJsonArray::fromStringList(m_Manager->guideModule()->getStellarSolverProfiles()));
+    if (m_Manager->alignModule())
+        profiles.insert("align", QJsonArray::fromStringList(m_Manager->alignModule()->getStellarSolverProfiles()));
+
+
+    sendResponse(commands[GET_STELLARSOLVER_PROFILES], profiles);
 }
 
 void Message::sendDrivers()
@@ -523,6 +564,12 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 {
     Ekos::Capture *capture = m_Manager->captureModule();
 
+    if (capture == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as capture module is not available";
+        return;
+    }
+
     if (command == commands[CAPTURE_PREVIEW])
     {
         setCapturePresetSettings(payload);
@@ -547,7 +594,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_STOP])
         capture->stop();
     else if (command == commands[CAPTURE_LOOP])
+    {
+        setCapturePresetSettings(payload);
         capture->startFraming();
+    }
     else if (command == commands[CAPTURE_GET_SEQUENCES])
     {
         sendCaptureSequence(capture->getSequence());
@@ -620,12 +670,21 @@ void Message::sendFocusSettings(const QJsonObject &settings)
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
-    Q_UNUSED(payload)
+
+    if (guide == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as guide module is not available";
+        return;
+    }
 
     if (command == commands[GUIDE_START])
     {
         guide->guide();
     }
+    else if (command == commands[GUIDE_CAPTURE])
+        guide->capture();
+    else if (command == commands[GUIDE_LOOP])
+        guide->loop();
     else if (command == commands[GUIDE_STOP])
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
@@ -637,10 +696,20 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Focus *focus = m_Manager->focusModule();
-    Q_UNUSED(payload)
+
+    if (focus == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as focus module is not available";
+        return;
+    }
 
     if (command == commands[FOCUS_START])
         focus->start();
+    else if (command == commands[FOCUS_CAPTURE])
+    {
+        focus->resetFrame();
+        focus->capture();
+    }
     else if (command == commands[FOCUS_STOP])
         focus->abort();
     else if (command == commands[FOCUS_RESET])
@@ -670,6 +739,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Mount *mount = m_Manager->mountModule();
+
+    if (mount == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as mount module is not available";
+        return;
+    }
 
     if (command == commands[MOUNT_ABORT])
         mount->abort();
@@ -718,13 +793,50 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         else if (direction == "W")
             mount->motionCommand(action, -1, ISD::Telescope::MOTION_WEST);
     }
+    else if (command == commands[MOUNT_SET_ALTITUDE_LIMITS])
+    {
+        QList<double> limits;
+        limits.append(payload["min"].toDouble(0));
+        limits.append(payload["max"].toDouble(90));
+        mount->setAltitudeLimits(limits);
+        mount->setAltitudeLimitsEnabled(payload["enabled"].toBool());
+    }
+    else if (command == commands[MOUNT_SET_HA_LIMIT])
+    {
+        mount->setHourAngleLimit(payload["value"].toDouble());
+        mount->setHourAngleLimitEnabled(payload["enabled"].toBool());
+    }
+    else if (command == commands[MOUNT_SET_MERIDIAN_FLIP])
+    {
+        // Meridian flip value is in degress. Need to convert to hours.
+        mount->setMeridianFlipValues(payload["enabled"].toBool(),
+                                     payload["value"].toDouble() / 15.0);
+    }
+    else if (command == commands[MOUNT_SET_EVERYDAY_AUTO_PARK])
+    {
+        const bool enabled = payload["enabled"].toBool();
+        mount->setAutoParkDailyEnabled(enabled);
+    }
+    else if (command == commands[MOUNT_SET_AUTO_PARK])
+    {
+        const bool enabled = payload["enabled"].toBool();
+        // Only set startup time when enabled.
+        if (enabled)
+            mount->setAutoParkStartup(QTime::fromString(payload["value"].toString()));
+        mount->setAutoParkEnabled(enabled);
+    }
+
 }
 
 void Message::processDomeCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Dome *dome = m_Manager->domeModule();
 
-    Q_ASSERT_X(dome != nullptr, __FUNCTION__, "Dome module is not valid");
+    if (dome == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as dome module is not available";
+        return;
+    }
 
     if (command == commands[DOME_PARK])
         dome->park();
@@ -740,7 +852,11 @@ void Message::processCapCommands(const QString &command, const QJsonObject &payl
 {
     Ekos::DustCap *cap = m_Manager->capModule();
 
-    Q_ASSERT_X(cap != nullptr, __FUNCTION__, "Dust cap module is not valid");
+    if (cap == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as cap module is not available";
+        return;
+    }
 
     if (command == commands[CAP_PARK])
         cap->park();
@@ -754,15 +870,27 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
 {
     Ekos::Align *align = m_Manager->alignModule();
 
+    if (align == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as align module is not available";
+        return;
+    }
+
     if (command == commands[ALIGN_SOLVE])
+    {
+        align->syncTargetToMount();
         align->captureAndSolve();
+    }
     else if (command == commands[ALIGN_SET_SETTINGS])
         align->setSettings(payload);
     else if (command == commands[ALIGN_STOP])
         align->abort();
     else if (command == commands[ALIGN_LOAD_AND_SLEW])
     {
-        QTemporaryFile file;
+        QString filename = QDir::tempPath() + QDir::separator() +
+                           QString("XXXXXXloadslew.%1").arg(payload["ext"].toString("fits"));
+        QTemporaryFile file(filename);
+        file.setAutoRemove(false);
         file.open();
         file.write(QByteArray::fromBase64(payload["data"].toString().toLatin1()));
         file.close();
@@ -861,7 +989,7 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
 
     QJsonObject polarState =
     {
-        {"stage", align->getPAHStage()}
+        {"stage", align->getPAHStageString()}
     };
 
 
@@ -929,6 +1057,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
 {
     if (command == commands[START_PROFILE])
     {
+        if (m_Manager->getEkosStartingStatus() != Ekos::Idle)
+            m_Manager->stop();
+
         m_Manager->setProfile(payload["name"].toString());
         m_Manager->start();
     }
@@ -1146,12 +1277,22 @@ void Message::sendResponse(const QString &command, const QJsonArray &payload)
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
 }
 
-void Message::updateMountStatus(const QJsonObject &status)
+void Message::updateMountStatus(const QJsonObject &status, bool throttle)
 {
     if (m_isConnected == false)
         return;
 
-    sendResponse(commands[NEW_MOUNT_STATE], status);
+    if (throttle)
+    {
+        QDateTime now = QDateTime::currentDateTime();
+        if (m_ThrottleTS.msecsTo(now) >= THROTTLE_INTERVAL)
+        {
+            m_ThrottleTS = now;
+            sendResponse(commands[NEW_MOUNT_STATE], status);
+        }
+    }
+    else
+        sendResponse(commands[NEW_MOUNT_STATE], status);
 }
 
 void Message::updateCaptureStatus(const QJsonObject &status)
@@ -1225,7 +1366,8 @@ void Message::sendStates()
         {
             {"status", m_Manager->mountStatus->text()},
             {"target", m_Manager->mountTarget->text()},
-            {"slewRate", m_Manager->mountModule()->slewRate()}
+            {"slewRate", m_Manager->mountModule()->slewRate()},
+            {"pierSide", m_Manager->mountModule()->pierSide()}
         };
 
         sendResponse(commands[NEW_MOUNT_STATE], mountState);
@@ -1254,7 +1396,7 @@ void Message::sendStates()
         doc.setHtml(m_Manager->alignModule()->getPAHMessage());
         QJsonObject polarState =
         {
-            {"stage", m_Manager->alignModule()->getPAHStage()},
+            {"stage", m_Manager->alignModule()->getPAHStageString()},
             {"enabled", m_Manager->alignModule()->isPAHEnabled()},
             {"message", doc.toPlainText()},
         };
@@ -1267,7 +1409,7 @@ void Message::sendStates()
 
 void Message::sendEvent(const QString &message, KSNotification::EventType event)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
+    if (m_isConnected == false && m_Options[OPTION_SET_NOTIFICATIONS] == false)
         return;
 
     QJsonObject newEvent = {{ "severity", event}, {"message", message}, {"uuid", QUuid::createUuid().toString()}};
@@ -1285,7 +1427,7 @@ void Message::processDialogResponse(const QJsonObject &payload)
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 
-void Message::processNewProperty(INDI::Property *prop)
+void Message::processNewProperty(INDI::Property * prop)
 {
     // Do not send new properties until all properties settle down
     // then send any properties that appears afterwards since the initial bunch
@@ -1311,7 +1453,7 @@ void Message::processDeleteProperty(const QString &device, const QString &name)
         QJsonDocument::Compact));
 }
 
-void Message::processNewNumber(INumberVectorProperty *nvp)
+void Message::processNewNumber(INumberVectorProperty * nvp)
 {
     if (m_PropertySubscriptions.contains(nvp->device))
     {
@@ -1326,7 +1468,7 @@ void Message::processNewNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Message::processNewText(ITextVectorProperty *tvp)
+void Message::processNewText(ITextVectorProperty * tvp)
 {
     if (m_PropertySubscriptions.contains(tvp->device))
     {
@@ -1341,7 +1483,7 @@ void Message::processNewText(ITextVectorProperty *tvp)
     }
 }
 
-void Message::processNewSwitch(ISwitchVectorProperty *svp)
+void Message::processNewSwitch(ISwitchVectorProperty * svp)
 {
     if (m_PropertySubscriptions.contains(svp->device))
     {
@@ -1356,7 +1498,7 @@ void Message::processNewSwitch(ISwitchVectorProperty *svp)
     }
 }
 
-void Message::processNewLight(ILightVectorProperty *lvp)
+void Message::processNewLight(ILightVectorProperty * lvp)
 {
     if (m_PropertySubscriptions.contains(lvp->device))
     {
