@@ -29,7 +29,6 @@
 #include "dms.h"
 
 #include <QPointF>
-#include <QProcess>
 #include <QSharedPointer>
 #include "config-kstars.h"
 

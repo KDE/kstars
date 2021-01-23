@@ -40,6 +40,14 @@
 #include <stellarsolver.h>
 #endif
 
+#if defined(__APPLE__)
+#include <sys/sysctl.h>
+#elif defined(_WIN32)
+#include "windows.h"
+#else //Linux
+#include <QProcess>
+#endif
+
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
