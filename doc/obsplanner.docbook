@@ -171,6 +171,8 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
+  <para>Another way of adding objects to your observation plan is using the newly introduced <guibutton>Batch Add</guibutton> will open up a text box where you can type many objects to add in one shot to the observation planner. Any objects not in the KStars database already will be resolved using SIMBAD (provided this has been enabled in the Settings) and added to the database. The entire process of adding objects is slow and may take a while, and you can watch the progress in the Status Bar. Any objects that could not be found are then listed in an error message, so you can identify and fix the errors. Usually this may be because SIMBAD expects a different way of specifying the object (e.g. Sim 147 instead of Simeis 147). This new feature allows you to easily scrape data from observing lists on the web etc and add them to your workflow in KStars.
+  </para>
   <para>This is how the <guilabel>Execution Session</guilabel> Window look. It can be opened by pressing <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>. In it you can also see some information about the selected object and you are able to add observing notes.</para>
   <mediaobject>
     <imageobject>
