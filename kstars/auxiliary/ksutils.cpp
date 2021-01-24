@@ -125,7 +125,7 @@ QString getDSSURL(const SkyPoint *const p)
 
 QString getDSSURL(const dms &ra, const dms &dec, float width, float height, const QString &type)
 {
-    const QString URLprefix("http://archive.stsci.edu/cgi-bin/dss_search?");
+    const QString URLprefix("https://archive.stsci.edu/cgi-bin/dss_search?");
     QString URLsuffix             = QString("&e=J2000&f=%1&c=none&fov=NONE").arg(type);
     const double dss_default_size = Options::defaultDSSImageSize();
 
