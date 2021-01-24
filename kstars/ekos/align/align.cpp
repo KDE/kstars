@@ -3266,8 +3266,11 @@ void Align::solverComplete()
             return;
         }
         solverFailed();
-        appendLogText(i18n("PAA: Stopping, solver failed too many times."));
-        stopPAHProcess();
+        if (m_PAHStage != PAH_IDLE)
+        {
+            appendLogText(i18n("PAA: Stopping, solver failed too many times."));
+            stopPAHProcess();
+        }
         return;
     }
     else
