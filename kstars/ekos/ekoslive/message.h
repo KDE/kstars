@@ -75,6 +75,7 @@ class Message : public QObject
 
         // Connection
         void sendConnection();
+        void sendModuleState(const QString &name);
 
         // Ekos
         void setEkosStatingStatus(Ekos::CommunicationStatus status);

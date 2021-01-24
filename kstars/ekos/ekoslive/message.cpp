@@ -33,6 +33,8 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager)
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
             &Message::onError);
 
+    connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
+
     m_ThrottleTS = QDateTime::currentDateTime();
 }
 
@@ -1510,6 +1512,67 @@ void Message::processNewLight(ILightVectorProperty * lvp)
             m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
                 QJsonDocument::Compact));
         }
+    }
+}
+
+void Message::sendModuleState(const QString &name)
+{
+    if (m_isConnected == false)
+        return;
+
+    if (name == "Capture")
+    {
+        QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
+        sendResponse(commands[NEW_CAPTURE_STATE], captureState);
+        sendCaptureSequence(m_Manager->captureModule()->getSequence());
+    }
+    else if (name == "Mount")
+    {
+        QJsonObject mountState =
+        {
+            {"status", m_Manager->mountStatus->text()},
+            {"target", m_Manager->mountTarget->text()},
+            {"slewRate", m_Manager->mountModule()->slewRate()},
+            {"pierSide", m_Manager->mountModule()->pierSide()}
+        };
+
+        sendResponse(commands[NEW_MOUNT_STATE], mountState);
+    }
+    else if (name == "Focus")
+    {
+        QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
+        sendResponse(commands[NEW_FOCUS_STATE], focusState);
+    }
+    else if (name == "Guide")
+    {
+        QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
+        sendResponse(commands[NEW_GUIDE_STATE], guideState);
+    }
+    else if (name == "Align")
+    {
+        // Align State
+        QJsonObject alignState =
+        {
+            {"status", Ekos::alignStates[m_Manager->alignModule()->status()]},
+        };
+        sendResponse(commands[NEW_ALIGN_STATE], alignState);
+
+        // Align settings
+        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+
+        // Polar State
+        QTextDocument doc;
+        doc.setHtml(m_Manager->alignModule()->getPAHMessage());
+        QJsonObject polarState =
+        {
+            {"stage", m_Manager->alignModule()->getPAHStageString()},
+            {"enabled", m_Manager->alignModule()->isPAHEnabled()},
+            {"message", doc.toPlainText()},
+        };
+        sendResponse(commands[NEW_POLAR_STATE], polarState);
+
+        // Polar settings
+        sendResponse(commands[PAH_SET_SETTINGS], m_Manager->alignModule()->getPAHSettings());
     }
 }
 
