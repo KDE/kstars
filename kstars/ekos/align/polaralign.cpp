@@ -260,16 +260,16 @@ double d2r(double degrees)
 void PolarAlign::rotate(const QPointF &azAltPoint, const QPointF &azAltRotation, QPointF *azAltResult) const
 {
     const double alt = azAltPoint.y();
-
-    // First rotate Azimuth
-    const double az = azAltPoint.x() + azAltRotation.x();
+    const double az = azAltPoint.x();
 
     const double azRadians = d2r(az);
     const double altRadians = d2r(alt);
 
+    // First do the rotation in altitude.
+
     // Convert the new point to xyz
     // See https://mathworld.wolfram.com/SphericalCoordinates.html
-    // In this coordinate system, x points to the pole
+    // In this coordinate system, x points forward
     // y points to the left
     // z points up.
     // In this system, theta is the angle between x & y and is related
@@ -315,6 +315,9 @@ void PolarAlign::rotate(const QPointF &azAltPoint, const QPointF &azAltRotation,
     const double az2Radians = -theta2;
     const double alt2Radians = (M_PI / 2.0) - phi2;
 
-    azAltResult->setX(360 * az2Radians / (2 * M_PI));
+    // Finally rotate by the Azimuth rotation
+    const double newAz = azAltRotation.x() + (360.0 * az2Radians / (2 * M_PI));
+
+    azAltResult->setX(newAz);
     azAltResult->setY(360 * alt2Radians / (2 * M_PI));
 }
