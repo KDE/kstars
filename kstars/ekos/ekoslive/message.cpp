@@ -1017,7 +1017,7 @@ void Message::setPAHMessage(const QString &message)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
-void Message::setPolarResults(QLineF correctionVector, QString polarError)
+void Message::setPolarResults(QLineF correctionVector, double polarError, double azError, double altError)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -1031,7 +1031,9 @@ void Message::setPolarResults(QLineF correctionVector, QString polarError)
         {"center_y", center.y()},
         {"mag", correctionVector.length()},
         {"pa", correctionVector.angle()},
-        {"error", polarError}
+        {"error", polarError},
+        {"azError", azError},
+        {"altError", altError}
     };
 
     QJsonObject polarState =

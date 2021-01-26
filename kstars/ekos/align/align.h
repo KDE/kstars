@@ -638,7 +638,7 @@ class Align : public QWidget, public Ui::Align
         // This is sent when the pixmap is updated within the view
         void newFrame(FITSView *view);
 
-        void polarResultUpdated(QLineF correctionVector, QString polarError);
+        void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
         void newCorrectionVector(QLineF correctionVector);
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
 

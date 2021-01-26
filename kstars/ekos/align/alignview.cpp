@@ -87,6 +87,7 @@ void AlignView::drawTriangle(QPainter *painter)
     if (correctionFrom.isNull() && correctionTo.isNull() && correctionAltTo.isNull())
         return;
 
+    painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(Qt::NoBrush);
 
     const double scale = getScale();

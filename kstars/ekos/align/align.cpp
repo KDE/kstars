@@ -5160,64 +5160,73 @@ bool Align::checkPAHForMeridianCrossing()
          (mountPierSide == ISD::Telescope::PIER_WEST && goingWest && closeToMeridian) ||
          (mountPierSide == ISD::Telescope::PIER_UNKNOWN && closeToMeridian));
 
-    if (!wouldCrossMeridian)
-        return true;
-
-    int r = KMessageBox::warningContinueCancel(nullptr,
-            i18n("Warning, This could cause the telescope to cross the meridian. Check your direction."));
-
-    return (r != KMessageBox::Cancel);
+    return wouldCrossMeridian;
 }
 
 void Align::startPAHProcess()
 {
     qCInfo(KSTARS_EKOS_ALIGN) << QString("Starting Polar Alignment Assistant process %1 ...").arg(PAA_VERSION);
 
+    auto executePAH = [&]()
+    {
+        m_PAHStage = PAH_FIRST_CAPTURE;
+        emit newPAHStage(m_PAHStage);
+
+        nothingR->setChecked(true);
+        currentGotoMode = GOTO_NOTHING;
+        loadSlewB->setEnabled(false);
+
+        rememberSolverWCS = Options::astrometrySolverWCS();
+        rememberAutoWCS   = Options::autoWCS();
+        //rememberMeridianFlip = Options::executeMeridianFlip();
+
+        Options::setAutoWCS(false);
+        Options::setAstrometrySolverWCS(true);
+        //Options::setExecuteMeridianFlip(false);
+
+        if (Options::limitedResourcesMode())
+            appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
+
+        if (currentTelescope->hasAlignmentModel())
+        {
+            appendLogText(i18n("Clearing mount Alignment Model..."));
+            mountModelReset = currentTelescope->clearAlignmentModel();
+        }
+
+        // Unpark
+        currentTelescope->UnPark();
+
+        // Set tracking ON if not already
+        if (currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
+            currentTelescope->setTrackEnabled(true);
+
+        PAHStartB->setEnabled(false);
+        PAHStopB->setEnabled(true);
+
+
+        PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
+        emit newPAHMessage(firstCaptureText->text());
+
+        m_PAHRetrySolveCounter = 0;
+        captureAndSolve();
+    };
+
     // Right off the bat, check if this alignment might cause a pier crash.
     // If we're crossing the meridian, warn unless within 5-degrees from the pole.
-    if (!checkPAHForMeridianCrossing())
-        return;
-
-    m_PAHStage = PAH_FIRST_CAPTURE;
-    emit newPAHStage(m_PAHStage);
-
-    nothingR->setChecked(true);
-    currentGotoMode = GOTO_NOTHING;
-    loadSlewB->setEnabled(false);
-
-    rememberSolverWCS = Options::astrometrySolverWCS();
-    rememberAutoWCS   = Options::autoWCS();
-    //rememberMeridianFlip = Options::executeMeridianFlip();
-
-    Options::setAutoWCS(false);
-    Options::setAstrometrySolverWCS(true);
-    //Options::setExecuteMeridianFlip(false);
-
-    if (Options::limitedResourcesMode())
-        appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
-
-    if (currentTelescope->hasAlignmentModel())
+    if (checkPAHForMeridianCrossing())
     {
-        appendLogText(i18n("Clearing mount Alignment Model..."));
-        mountModelReset = currentTelescope->clearAlignmentModel();
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            executePAH();
+        });
+
+        KSMessageBox::Instance()->warningContinueCancel(
+            i18n("Warning, This could cause the telescope to cross the meridian. Check your direction."),
+            i18n("Polar Alignment"), 15);
     }
-
-    // Unpark
-    currentTelescope->UnPark();
-
-    // Set tracking ON if not already
-    if (currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
-        currentTelescope->setTrackEnabled(true);
-
-    PAHStartB->setEnabled(false);
-    PAHStopB->setEnabled(true);
-
-
-    PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
-    emit newPAHMessage(firstCaptureText->text());
-
-    m_PAHRetrySolveCounter = 0;
-    captureAndSolve();
+    else
+        executePAH();
 }
 
 void Align::stopPAHProcess()
@@ -5352,13 +5361,14 @@ void Align::calculatePAHError()
     double azimuthError, altitudeError;
     polarAlign.calculateAzAltError(&azimuthError, &altitudeError);
     dms polarError(hypot(altitudeError, azimuthError));
+    dms azError(azimuthError), altError(altitudeError);
 
     if (alignView->isEQGridShown() == false && !Options::limitedResourcesMode())
         alignView->toggleEQGrid();
 
     QString msg = QString("%1. Azimuth: %2  Altitude: %3")
-                  .arg(polarError.toDMSString()).arg(dms(azimuthError).toDMSString())
-                  .arg(dms(altitudeError).toDMSString());
+                  .arg(polarError.toDMSString()).arg(azError.toDMSString())
+                  .arg(altError.toDMSString());
     appendLogText(msg);
     PAHErrorLabel->setText(msg);
 
@@ -5377,7 +5387,7 @@ void Align::calculatePAHError()
     }
 
     connect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
-    emit polarResultUpdated(QLineF(correctionFrom, correctionTo), polarError.toDMSString());
+    emit polarResultUpdated(QLineF(correctionFrom, correctionTo), polarError.Degrees(), azError.Degrees(), altError.Degrees());
 
     connect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector, Qt::UniqueConnection);
     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
