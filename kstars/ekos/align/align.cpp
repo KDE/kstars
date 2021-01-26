@@ -5167,7 +5167,7 @@ void Align::startPAHProcess()
 {
     qCInfo(KSTARS_EKOS_ALIGN) << QString("Starting Polar Alignment Assistant process %1 ...").arg(PAA_VERSION);
 
-    auto executePAH = [&]()
+    auto executePAH = [ this ]()
     {
         m_PAHStage = PAH_FIRST_CAPTURE;
         emit newPAHStage(m_PAHStage);
@@ -5215,7 +5215,7 @@ void Align::startPAHProcess()
     // If we're crossing the meridian, warn unless within 5-degrees from the pole.
     if (checkPAHForMeridianCrossing())
     {
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executePAH]()
         {
             KSMessageBox::Instance()->disconnect(this);
             executePAH();
