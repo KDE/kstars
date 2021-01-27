@@ -41,8 +41,8 @@ class TestPlaceholderPath : public QObject
 
     private slots:
 
-        void testPrecess_data();
-        void testPrecess();
+        void testSequenceJobSignature_data();
+        void testSequenceJobSignature();
 
     private:
 };
