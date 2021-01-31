@@ -908,14 +908,13 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     raBox->showInHours(job->getTargetCoords().ra0());
     decBox->showInDegrees(job->getTargetCoords().dec0());
 
-    if (job->getFITSFile().isEmpty() == false)
-        fitsEdit->setText(job->getFITSFile().toLocalFile());
-    else
-        fitsEdit->clear();
+    // fitsURL/sequenceURL are not part of UI, but the UI serves as model, so keep them here for now
+    fitsURL = job->getFITSFile().isEmpty() ? QUrl() : job->getFITSFile();
+    sequenceURL = job->getSequenceFile();
+    fitsEdit->setText(fitsURL.toLocalFile());
+    sequenceEdit->setText(sequenceURL.toLocalFile());
 
     rotationSpin->setValue(job->getRotation());
-
-    sequenceEdit->setText(job->getSequenceFile().toLocalFile());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -1014,13 +1013,6 @@ void Scheduler::loadJob(QModelIndex i)
     //job->setState(SchedulerJob::JOB_IDLE);
     //job->setStage(SchedulerJob::STAGE_IDLE);
     syncGUIToJob(job);
-
-    if (job->getFITSFile().isEmpty() == false)
-        fitsURL = job->getFITSFile();
-    else
-        fitsURL = QUrl();
-
-    sequenceURL = job->getSequenceFile();
 
     /* Turn the add button into an apply button */
     setJobAddApply(false);
