@@ -101,7 +101,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         switch(group)
         {
             case Ekos::AlignProfiles:
-                //So it should not be here if it is Align.
+                optionsList = Ekos::getDefaultAlignOptionsProfiles();
                 break;
             case Ekos::GuideProfiles:
                 optionsList = Ekos::getDefaultGuideOptionsProfiles();
@@ -135,7 +135,8 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     //    if (!boundary.isNull())
     //    {
 
-    solver->extract(true, boundary);
+    const bool runHFR = group != Ekos::AlignProfiles;
+    solver->extract(runHFR, boundary);
     loop.exec(QEventLoop::ExcludeUserInputEvents);
     stars = solver->getStarList();
     //    }
@@ -163,7 +164,11 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     //The information is available as long as the StellarSolver exists.
 
     // Let's sort edges, starting with widest
-    std::sort(stars.begin(), stars.end(), [](const FITSImage::Star & star1, const FITSImage::Star & star2) -> bool { return star1.HFR > star2.HFR;});
+    if (runHFR)
+        std::sort(stars.begin(), stars.end(), [](const FITSImage::Star & star1, const FITSImage::Star & star2) -> bool { return star1.HFR > star2.HFR;});
+    else
+        std::sort(stars.begin(), stars.end(), [](const FITSImage::Star & star1, const FITSImage::Star & star2) -> bool { return star1.flux > star2.flux;});
+
 
     // Take only the first maxNumCenters stars
     int starCount = qMin(maxStarsCount, stars.count());

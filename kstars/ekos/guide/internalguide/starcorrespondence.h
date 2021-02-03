@@ -48,7 +48,7 @@ class StarCorrespondence
         // not correspond to any input stars. There will be no star-reference mapping with
         // distance longer than maxDistance. If adapt is true, the input positions are used
         // to incrementally adapt the reference positions.
-        void find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt = true);
+        void find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt = true, double minFraction = 0.5);
 
         // Returns the number of reference stars.
         int size() const

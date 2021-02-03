@@ -20,6 +20,7 @@
 #include "indi/indidome.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/guide/internalguide/starcorrespondence.h"
 #include "polaralign.h"
 
 #include <QTime>
@@ -659,6 +660,11 @@ class Align : public QWidget, public Ui::Align
             * @brief Warns the user if the polar alignment might cross the meridian.
             */
         bool checkPAHForMeridianCrossing();
+
+        void processPAHRefresh();
+        bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
+        int refreshIteration { 0 };
+        StarCorrespondence starCorrespondencePAH;
 
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.

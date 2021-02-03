@@ -31,7 +31,7 @@ TestPoleAxis::~TestPoleAxis()
 {
 }
 
-void TestPoleAxis::compare(PoleAxis::V3 v, double x, double y, double z)
+void TestPoleAxis::compare(Rotations::V3 v, double x, double y, double z)
 {
     QVERIFY2(std::fabs(v.x() - x) < 0.00001,
              qPrintable(QString("dc.x %1, x %2 error %3").arg(v.x()).arg(x).arg(((v.x() - x) * 3600.0), 6, 'f', 1)));
@@ -74,7 +74,7 @@ void TestPoleAxis::testDirCos()
     d.setD(Dec);
 
 
-    PoleAxis::V3 dc;
+    Rotations::V3 dc;
     dc = PoleAxis::dirCos(h, d);
 
 
@@ -102,7 +102,7 @@ void TestPoleAxis::testPriSec()
     QFETCH(double, X);
     QFETCH(double, Y);
     QFETCH(double, Z);
-    PoleAxis::V3 dc(X, Y, Z);
+    Rotations::V3 dc(X, Y, Z);
     dms p = PoleAxis::primary(dc);
     compare(p.HoursHa(), Ha, "Ha");
     compare(PoleAxis::secondary(dc).Degrees(), Dec, "Dec");
@@ -151,7 +151,7 @@ void TestPoleAxis::testPoleAxis()
     SkyPoint p3(Ha3, Dec3);
 
 
-    PoleAxis::V3 pa = PoleAxis::poleAxis(p1, p2, p3);
+    Rotations::V3 pa = PoleAxis::poleAxis(p1, p2, p3);
 
     compare(pa.x(), X, "X");
     compare(pa.y(), Y, "Y");

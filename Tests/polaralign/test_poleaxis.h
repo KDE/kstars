@@ -49,7 +49,7 @@ class TestPoleAxis : public QObject
         void testPoleAxis();
 
     private:
-        void compare(PoleAxis::V3 v, double x, double y, double z);
+        void compare(Rotations::V3 v, double x, double y, double z);
         void compare(double a, double e, QString msg = "");
         void compare(float a, double e, QString msg = "")
         {

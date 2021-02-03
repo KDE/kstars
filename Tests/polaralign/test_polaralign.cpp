@@ -17,6 +17,9 @@
 #include <libnova/libnova.h>
 #include "fitsviewer/fitscommon.h"
 #include "fitsviewer/fitsdata.h"
+#include "rotations.h"
+
+using Rotations::V3;
 
 // Solver's solution. RA, DEC, & orientation in degrees, pixScale in arc-seconds/pixel,
 // and the sample's time in UTC.
@@ -88,7 +91,7 @@ void TestPolarAlign::compare(const QPointF &point, double x, double y, double to
 
 namespace
 {
-void runPAA(const GeoLocation &geo, const PaaData &data)
+void runPAA(const GeoLocation &geo, const PaaData &data, bool canSkipPixelError = false)
 {
     PolarAlign polarAlign(&geo);
 
@@ -121,6 +124,68 @@ void runPAA(const GeoLocation &geo, const PaaData &data)
     {
         QVERIFY(polarAlign.findCorrectedPixel(
                     image.get(), QPointF(data.x, data.y), &corrected));
+        double azE, altE;
+
+        // Just fix the altitude, not the azimuth, for the pixelError tests below.
+        QPointF altCorrected;
+        QVERIFY(polarAlign.findCorrectedPixel(
+                    image.get(), QPointF(data.x, data.y), &altCorrected, true));
+
+        // Below pixelError tests, test our ability to estimate how much error is left to be corrected
+        // as the user progresses along the polar alignment procedure.
+        // We use pretty generous error margins below since pixelError is an approximation.
+
+        // Test the entire path, start to end. We should see the full azimuth and altitude errors.
+        QVERIFY(polarAlign.pixelError(image.get(), QPointF(data.x, data.y), corrected, &azE, &altE));
+        QVERIFY(fabs(azE - azimuthError) < .02);
+        QVERIFY(fabs(altE - altitudeError) < .01);
+
+        // Simulate that the user has started correcting, and is halfway on the alt-only segment,
+        // there should be 1/2 the alt error left, and all of the az error.
+        if (polarAlign.pixelError(image.get(), QPointF((altCorrected.x() + data.x) / 2, (altCorrected.y() + data.y) / 2), corrected,
+                                  &azE, &altE))
+        {
+            QVERIFY(fabs(azE - azimuthError) < .01);
+            QVERIFY(fabs(altE - altitudeError / 2.0) < .01);
+        }
+        else QVERIFY(canSkipPixelError);
+
+        // Simulate that the full alt correction path has been completed.
+        // The azimuth error should not be fixed, but alt should be fully corrected.
+        if (polarAlign.pixelError(image.get(), altCorrected, corrected, &azE, &altE))
+        {
+            QVERIFY(fabs(azE - azimuthError) < .01);
+            QVERIFY(fabs(altE) < .01);
+        }
+        else QVERIFY(canSkipPixelError);
+
+        // Now simulate that the user has gone further, halfway through on the az path.
+        // There should be 1/2 the az error left but none of the alt error should remain.
+        if (polarAlign.pixelError(image.get(), QPointF((corrected.x() + altCorrected.x()) / 2,
+                                  (corrected.y() + altCorrected.y()) / 2), corrected, &azE, &altE))
+        {
+            QVERIFY(fabs(azE - azimuthError / 2) < .01);
+            QVERIFY(fabs(altE) < .01);
+        }
+        else QVERIFY(canSkipPixelError);
+
+        // At the end there should be no error left.
+        if (polarAlign.pixelError(image.get(), corrected, corrected, &azE, &altE))
+        {
+            QVERIFY(fabs(azE) < .01);
+            QVERIFY(fabs(altE) < .01);
+        }
+        else QVERIFY(canSkipPixelError);
+
+        // Test the alt-only path.
+        // Using that correction path, there should be no Azimuth error, but alt error remains.
+        if (polarAlign.pixelError(image.get(), QPointF(data.x, data.y), altCorrected, &azE, &altE))
+        {
+            QVERIFY(fabs(azE) < .01);
+            QVERIFY(fabs(altE - altitudeError) < .01);
+        }
+        else QVERIFY(canSkipPixelError);
+
     }
     // Some approximations in the time (no sub-second decimals), and the
     // findAltAz search resolution introduce a pixel or two of error.
@@ -145,7 +210,7 @@ void TestPolarAlign::testRunPAA()
         { 10.17858, 89.82383,  95.80819, 1.32543, 2020, 12, 30, 03, 16, 46},
         {358.41548, 89.82049, 113.44157, 1.32468, 2020, 12, 30, 03, 17, 18},
         // mount axis x,y  pole center in x,y
-        1880, 1565, 1836, 1534
+        1880, 1565, 1858, 1559
     });
 
     // Corrected the above, now very low error (0 0' 11")
@@ -154,7 +219,7 @@ void TestPolarAlign::testRunPAA()
         { 74.23824, 89.75702, 127.82348, 1.32612, 2020, 12, 30, 3, 28, 50},
         { 66.19830, 89.77333, 148.11177, 1.32484, 2020, 12, 30, 3, 29, 22},
         { 59.87800, 89.80076, 170.45317, 1.32384, 2020, 12, 30, 3, 29, 59},
-        2238, 1225, 1847, 1584
+        2238, 1225, 1842, 1576
     });
 
     // Manually increased the alt error, now 0 23' 50'
@@ -163,7 +228,7 @@ void TestPolarAlign::testRunPAA()
         { 46.61670, 89.41158,  98.86135, 1.32586,  2020, 12, 30, 3, 34, 02},
         { 43.13352, 89.41121, 123.87848, 1.32566, 2020, 12, 30, 3, 34, 39},
         { 40.04437, 89.42768, 149.79166, 1.32392, 2020, 12, 30, 3, 35, 11},
-        1544, 415, 1839, 1587
+        1544, 415, 1842, 1585
     });
 
     // Fixed it again.
@@ -172,7 +237,7 @@ void TestPolarAlign::testRunPAA()
         { 75.31905, 89.76408, 126.18540, 1.32508, 2020, 12, 30, 3, 39, 33},
         { 67.12354, 89.77885, 145.52730, 1.32492, 2020, 12, 30, 3, 40, 04},
         { 60.22412, 89.80675, 168.40166, 1.32473, 2020, 12, 30, 3, 40, 37},
-        2222, 1245, 1818, 1575
+        2222, 1245, 1842, 1597
     });
 
     // From 12/31
@@ -185,7 +250,7 @@ void TestPolarAlign::testRunPAA()
         { 63.69466, 89.77876, 124.27465, 1.32519, 2020, 12, 31, 18, 52, 42},
         { 54.75964, 89.79547, 143.06160, 1.32367, 2020, 12, 31, 18, 53, 15},
         { 47.33568, 89.82357, 165.12844, 1.32267, 2020, 12, 31, 18, 53, 52},
-        2204, 1295, 1832, 1539
+        2204, 1295, 1851, 1550
     });
 
     // double: 0'40", float: 0'00", orig: 0'41"
@@ -194,7 +259,7 @@ void TestPolarAlign::testRunPAA()
         { 21.22696, 89.82033, 79.74928, 1.32493, 2020, 12, 31, 19, 00, 52},
         { 10.14439, 89.80891, 97.13185, 1.32523, 2020, 12, 31, 19, 01, 25},
         { 359.05594, 89.81023, 114.39229, 1.32437, 2020, 12, 31, 19, 01, 58},
-        1858, 1546, 1839, 1568
+        1858, 1546, 1847, 1574
     });
 
     // double: 11'59", float: 11'01", orig: 11'08"
@@ -203,7 +268,7 @@ void TestPolarAlign::testRunPAA()
         { 266.87080, 89.98377, -35.40868, 1.33053, 2020, 12, 31, 19, 06, 46},
         { 293.43530, 89.94730, 19.32200, 1.32335, 2020, 12, 31, 19, 07, 24},
         { 285.55085, 89.91166, 40.10587, 1.32260, 2020, 12, 31, 19, 07, 56},
-        2173, 1943, 1840, 1578
+        2173, 1943, 1842, 1574
     });
 
     // double: 1'14", float: 0'00", orig: 0'57"
@@ -212,7 +277,7 @@ void TestPolarAlign::testRunPAA()
         { 22.74402, 89.82040, 78.32075, 1.32462, 2020, 12, 31, 19, 12, 34},
         { 11.69887, 89.80704, 95.88488, 1.32375, 2020, 12, 31, 19, 13, 11},
         { 0.95646, 89.80782, 113.01201, 1.32432, 2020, 12, 31, 19, 13, 43},
-        1847, 1555, 1866, 1614
+        1847, 1555, 1848, 1598
     });
 
     // double: 32'28", float: 38'37", orig: 30'19"
@@ -221,7 +286,7 @@ void TestPolarAlign::testRunPAA()
         { 317.02018, 89.44380, 10.85411, 1.32380, 2020, 12, 31, 19, 18, 00},
         { 316.55330, 89.40583, 38.75090, 1.32350, 2020, 12, 31, 19, 18, 33},
         { 314.63678, 89.37679, 64.65160, 1.32335, 2020, 12, 31, 19, 19, 06},
-        795, 2485, 1829, 1580
+        795, 2485, 1826, 1595
     });
 
     // double: 1'34", float: 1'30", orig: 1'26"
@@ -230,7 +295,7 @@ void TestPolarAlign::testRunPAA()
         { 27.96856, 89.82500, 80.98310, 1.32435, 2020, 12, 31, 19, 22, 48},
         { 16.47574, 89.81367, 97.74878, 1.32394, 2020, 12, 31, 19, 23, 25},
         { 5.50816, 89.81455, 114.24102, 1.32390, 2020, 12, 31, 19, 23, 58},
-        1868, 1552, 1808, 1587
+        1868, 1552, 1831, 1604
     });
 
     // double: 0'25", float: 0'00", orig: 0'25"
@@ -239,7 +304,7 @@ void TestPolarAlign::testRunPAA()
         { 22.29262, 89.82396, 73.68740, 1.32484, 2020, 12, 31, 19, 29, 17},
         { 11.20186, 89.80799, 91.89482, 1.32477, 2020, 12, 31, 19, 29, 55},
         { 0.26659, 89.80523, 109.34529, 1.32489, 2020, 12, 31, 19, 30, 27},
-        1828, 1584, 1819, 1595
+        1828, 1584, 1831, 1602
     });
 
     // double: 17'35", float: 16'46", orig: 16'21"
@@ -248,7 +313,7 @@ void TestPolarAlign::testRunPAA()
         { 45.20803, 89.58706, 95.79552, 1.32496, 2020, 12, 31, 19, 32, 40},
         { 39.89580, 89.58748, 119.13221, 1.32328, 2020, 12, 31, 19, 33, 13},
         { 35.18193, 89.60542, 144.28407, 1.32255, 2020, 12, 31, 19, 33, 51},
-        1700, 887, 1820, 1593
+        1700, 887, 1833, 1606
     });
 
     // double: 0'15", float: 0'00", orig: 0'04"
@@ -266,7 +331,7 @@ void TestPolarAlign::testRunPAA()
         { 33.77699, 89.85172, 55.15250, 1.32489, 2021, 01, 06, 05,  9, 23 },
         { 23.30335, 89.82440, 74.05880, 1.32592, 2021, 01, 06, 05,  9, 50 },
         { 12.72288, 89.81051, 91.35879, 1.32540, 2021, 01, 06, 05, 10, 15 },
-        2328, 1760, 2320, 1771
+        2328, 1760, 2331, 1783
     });
 
     // Note, far off pole
@@ -284,7 +349,7 @@ void TestPolarAlign::testRunPAA()
         { 50.73028, 49.49321, -8.27081, 1.32448, 2021, 01, 06, 05, 18, 31 },
         { 21.45768, 49.52983, -8.00221, 1.32467, 2021, 01, 06, 05, 18, 58 },
         { 353.23623, 49.64241, -7.79150, 1.32521, 2021, 01, 06, 05, 19, 24 },
-        3007, 1256, 3519, 946
+        3007, 1256, 3516, 951
     });
 
     runPAA(siliconValley,
@@ -292,7 +357,7 @@ void TestPolarAlign::testRunPAA()
         { 33.93431, 89.84705, 51.18593, 1.32465, 2021, 01, 06, 05, 25, 48 },
         { 25.03596, 89.82113, 69.85483, 1.32561, 2021, 01, 06, 05, 26, 13 },
         { 14.68785, 89.80521, 88.25234, 1.32571, 2021, 01, 06, 05, 26, 40 },
-        2328, 1760, 2328, 1759
+        2328, 1760, 2350, 1785
     });
 
     // Note, far off pole
@@ -304,20 +369,22 @@ void TestPolarAlign::testRunPAA()
         2446, 2088, 2392, 2522
     });
 
+    // pixelError has issues with this one. Letting it slide for now.
+    // The user interface will just not give an estimate in that case.
     runPAA(siliconValley,
     {
         { 80.96890, 11.74259, 171.42773, 1.32514, 2021, 01, 06, 05, 45, 05 },
         { 110.26384, 11.81600, 171.56395, 1.32316, 2021, 01, 06, 05, 45, 31 },
         { 138.33895, 11.78703, 171.85951, 1.32656, 2021, 01, 06, 05, 45, 57 },
-        1087, 861, 460, 137
-    });
+        1087, 861, 454, 130
+    }, true);
 
     runPAA(siliconValley,
     {
         { 38.40316, 89.32378, 49.26512, 1.32596, 2021, 01, 06, 05, 50, 17 },
         { 36.29482, 89.29488, 75.01016, 1.32645, 2021, 01, 06, 05, 50, 42 },
         { 33.52382, 89.28142, 100.14838, 1.32604, 2021, 01, 06, 05, 51, 8 },
-        2328, 1760, 3772, 2188
+        2328, 1760, 3746, 2172
     });
 
     // Note, far off pole
@@ -326,7 +393,7 @@ void TestPolarAlign::testRunPAA()
         { 51.11166, 48.88918, -8.54258, 1.32508, 2021, 01, 06, 05, 52, 43 },
         { 23.14732, 48.86777, -8.06648, 1.32514, 2021, 01, 06, 05, 53, 9 },
         { 355.71059, 48.98942, -7.64124, 1.32527, 2021, 01, 06, 05, 53, 35 },
-        2205, 2214, 3210, 1031
+        2205, 2214, 3203, 1043
     });
 
     // Note, far off pole
@@ -452,6 +519,17 @@ void TestPolarAlign::testRunPAA()
         { 23.51969, 89.09648, -3.24191, 9.49659, 2021, 01, 12, 0, 49, 15 },
         2328, 1760, 2337, 1756
     });
+
+    runPAA(siliconValley,
+    {
+        // ra0       dec0   orientation pixscale  date-time in UTC
+        { 47.31826, 1.94192, -84.57643, 1.32459, 2021, 01, 26, 3, 15, 28},
+        { 18.35969, 2.08571, -84.37967, 1.32451, 2021, 01, 26, 3, 15, 54},
+        {350.43339, 2.27862, -84.29692, 1.32590, 2021, 01, 26, 3, 16, 19},
+        // mount axis x,y  pole center in x,y
+        3855, 1117, 4022, 1623
+    });
+
 }
 
 void TestPolarAlign::getAzAlt(const KStarsDateTime &time, const GeoLocation &geo,
@@ -584,10 +662,10 @@ void TestPolarAlign::testRotate()
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30));
     PolarAlign polarAlign(&geo);
 
-    QPointF point, rot, result;
+    QPointF point, rot;
     point = QPointF(az, alt);
     rot = QPointF(deltaAz, deltaAlt);
-    polarAlign.rotate(point, rot, &result);
+    QPointF result = Rotations::rotateRaAxis(point, rot);
     compare(result, azRotated, altRotated, .001);
 }
 

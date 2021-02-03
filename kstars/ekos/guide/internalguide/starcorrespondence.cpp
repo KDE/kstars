@@ -111,7 +111,8 @@ void StarCorrespondence::reset()
     initialized = false;
 }
 
-void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt)
+void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt,
+                              double minFraction)
 {
     // This is the cost of not finding one of the reference stars.
     constexpr double missingRefStarCost = 100;
@@ -130,12 +131,12 @@ void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVec
     sortByX(stars, &sortedStars, &sortedToOriginal);
 
     // We won't accept a solution worse than bestCost.
-    // In this case, we need to find about half the reference stars.
+    // In the default case, we need to find about half the reference stars.
     // Another possibility is a constraint on the input stars being mapped
     // E.g. that the more likely solution is one where the stars are close to the references.
     // This can be an issue if the number of input stars is way less than the number of reference stars
     // but in that case we can fail and go to the default star-finding algorithm.
-    int bestCost = guideStarOffsets.size() * missingRefStarCost / 2.0;
+    int bestCost = guideStarOffsets.size() * missingRefStarCost * (1 - minFraction);
 
     // Assume the guide star corresponds to each of the stars.
     // Score the assignment, pick the best, and then assign the rest.

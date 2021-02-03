@@ -2322,10 +2322,6 @@ bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPoi
     if ((status = wcss2p(m_WCSHandle, 1, 2, worldcrd, &phi, &theta, imgcrd, pixcrd, stat)) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
-
-        fprintf(stderr, "******************* wcss2p(%f,%f) error: %s\n", worldcrd[0], worldcrd[1], lastError.toLatin1().data());//////////////////////////
-        qCDebug(KSTARS_FITS) << "wcss2p failed with:" << worldcrd[0] << worldcrd[1];///////////////////////
-        
         return false;
     }
 
