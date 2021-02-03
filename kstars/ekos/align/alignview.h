@@ -39,10 +39,7 @@ class AlignView : public FITSView
         void setRefreshEnabled(bool enable);
 
         // When non-null, alignview draws a small circle in the pixel position specified.
-        void setStarCircle(const QPointF &pixel = QPointF())
-        {
-            starCircle = pixel;
-        }
+        void setStarCircle(const QPointF &pixel = QPointF());
 
         void holdOnToImage();
         void releaseImage();

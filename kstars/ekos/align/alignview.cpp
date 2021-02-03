@@ -86,6 +86,12 @@ void AlignView::setCorrectionParams(const QPointF &from, const QPointF &to, cons
     updateFrame();
 }
 
+void AlignView::setStarCircle(const QPointF &pixel)
+{
+    starCircle = pixel;
+    updateFrame();
+}
+
 void AlignView::drawTriangle(QPainter *painter)
 {
     if (correctionFrom.isNull() && correctionTo.isNull() && correctionAltTo.isNull())
