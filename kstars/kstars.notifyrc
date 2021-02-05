@@ -1196,7 +1196,7 @@ Comment[sv]=Håller på att parkera kupol
 Comment[tr]=Kubbe park etme devam ediyor
 Comment[uk]=Виконуємо паркування купола
 Comment[x-test]=xxParking dome is in progressxx
-Comment[zh_CN]=泊位圆顶正在进行中
+Comment[zh_CN]=正在归位位圆顶
 Action=None
 [Event/DomeParked]
 Name=Dome Parked
