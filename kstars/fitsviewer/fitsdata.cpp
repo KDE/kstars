@@ -949,7 +949,9 @@ int FITSData::calculateMinMax(bool refresh)
 
     status = 0;
 
-    if ((fptr != nullptr) && !refresh)
+    // Only fetch from header if we have a single channel
+    // Otherwise, calculate manually.
+    if (m_Statistics.channels == 1 && fptr != nullptr && !refresh)
     {
         if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
             nfound++;
