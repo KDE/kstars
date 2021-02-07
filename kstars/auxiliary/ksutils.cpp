@@ -36,10 +36,6 @@
 #include <libraw/libraw.h>
 #endif
 
-#ifdef HAVE_STELLARSOLVER
-#include <stellarsolver.h>
-#endif
-
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
 #elif defined(_WIN32)
@@ -51,6 +47,10 @@
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
+
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#endif
 
 namespace KSUtils
 {

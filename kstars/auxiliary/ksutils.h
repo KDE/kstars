@@ -32,10 +32,6 @@
 #include <QSharedPointer>
 #include "config-kstars.h"
 
-#ifdef HAVE_STELLARSOLVER
-#include <parameters.h>
-#endif
-
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wignored-attributes"
