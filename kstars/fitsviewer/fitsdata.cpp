@@ -366,7 +366,9 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         m_DateTime = KStarsDateTime(ts.date(), ts.time());
     }
 
-    if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
+    // Only check for debayed IF the original naxes[2] is 1
+    // which is for single channels.
+    if (naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
         //m_BayerBuffer = m_ImageBuffer;
         if (debayer())
@@ -3126,22 +3128,21 @@ void FITSData::setBayerParams(BayerParams * param)
     debayerParams.offsetY = param->offsetY;
 }
 
-bool FITSData::debayer()
+bool FITSData::debayer(bool reload)
 {
-    //    if (m_ImageBuffer == nullptr)
-    //    {
-    //        int anynull = 0, status = 0;
+    if (reload)
+    {
+        int anynull = 0, status = 0;
 
-    //        //m_BayerBuffer = m_ImageBuffer;
-
-    //        if (fits_read_img(fptr, stats.dataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
-    //        {
-    //            char errmsg[512];
-    //            fits_get_errstatus(status, errmsg);
-    //            KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
-    //            return false;
-    //        }
-    //    }
+        if (fits_read_img(fptr, m_Statistics.dataType, 1, m_Statistics.samples_per_channel, nullptr, m_ImageBuffer,
+                          &anynull, &status))
+        {
+            //                char errmsg[512];
+            //                fits_get_errstatus(status, errmsg);
+            //                KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
+            return false;
+        }
+    }
 
     switch (m_Statistics.dataType)
     {

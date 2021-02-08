@@ -389,7 +389,13 @@ class FITSData : public QObject
         {
             return HasDebayer;
         }
-        bool debayer();
+
+        /**
+         * @brief debayer the 1-channel data to 3-channel RGB using the default debayer pattern detected in the FITS header.
+         * @param reload If true, it will read the image again from disk before performing debayering. This is necessary to attempt
+         * subsequent debayering processes on an already debayered image.
+         */
+        bool debayer(bool reload = false);
         bool debayer_8bit();
         bool debayer_16bit();
         void getBayerParams(BayerParams *param);
