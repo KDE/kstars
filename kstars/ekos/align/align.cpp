@@ -1379,7 +1379,8 @@ int Align::findClosestAlignmentPointToTelescope()
             dms raDMS = dms::fromString(raCell->text(), false);
             dms deDMS = dms::fromString(deCell->text(), true);
 
-            dms thisDiff = telescopeCoord.angularDistanceTo(new SkyPoint(raDMS, deDMS));
+            SkyPoint sk(raDMS, deDMS);
+            dms thisDiff = telescopeCoord.angularDistanceTo(&sk);
             if (thisDiff.Degrees() < bestDiff.Degrees())
             {
                 index    = i;

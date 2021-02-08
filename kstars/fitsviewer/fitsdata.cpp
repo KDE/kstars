@@ -838,7 +838,7 @@ bool FITSData::saveImage(const QString &newFilename)
             default:
             {
                 char valueBuffer[256] = {0};
-                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256);
+                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256-1);
                 fits_write_key(fptr, TSTRING, key.toLatin1().constData(), valueBuffer, comment, &status);
             }
         }

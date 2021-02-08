@@ -177,28 +177,30 @@ SpatialFailure::SpatialFailure(const char *context, const char *operation, const
                 context = defaultstr[CONTEXT];
             because = "failed operation";
         }
-        str_  = new char[slen(context) + slen(operation) + slen(resource) + slen(because) + 50];
+        size_t const len = slen(context) + slen(operation) + slen(resource) + slen(because) + 50;
+        str_  = new char[len];
         *str_ = '\0';
+        char * ptr = str_;
         if (!context)
             context = defaultstr[CONTEXT];
-        sprintf(str_, "%s: ", context);
+        ptr += sprintf(ptr, "%s: ", context);
         if (operation)
         {
-            sprintf(str_, "%s %s failed ", str_, operation);
+            ptr += sprintf(ptr, " %s failed ", operation);
         }
         if (resource)
         {
             if (operation)
-                sprintf(str_, "%s on \"%s\"", str_, resource);
+                ptr += sprintf(ptr, " on \"%s\"", resource);
             else
-                sprintf(str_, "%s trouble with \"%s\"", str_, resource);
+                ptr += sprintf(ptr, " trouble with \"%s\"", resource);
         }
         if (because)
         {
             if (operation || resource)
-                sprintf(str_, "%s because %s", str_, because);
+                ptr += sprintf(ptr, " because %s", because);
             else
-                sprintf(str_, "%s %s", str_, because);
+                ptr += sprintf(ptr, " %s", because);
         }
     }
     catch (...)
@@ -224,17 +226,18 @@ SpatialBoundsError::SpatialBoundsError(const char *context, const char *array, i
     {
         if (limit != -1)
         {
+            char * ptr = str_;
             if (array)
-                sprintf(str_, "%s[%d]", str_, index);
+                ptr += sprintf(ptr, "[%d]", index);
             else
-                sprintf(str_, "%s array index %d ", str_, index);
+                ptr += sprintf(ptr, " array index %d ", index);
             if (index > limit)
             {
-                sprintf(str_, "%s over upper bound by %d", str_, index - limit);
+                ptr += sprintf(ptr, " over upper bound by %d", index - limit);
             }
             else
             {
-                sprintf(str_, "%s under lower bound by %d", str_, limit - index);
+                ptr += sprintf(ptr, " under lower bound by %d", limit - index);
             }
         }
     }

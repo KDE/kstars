@@ -377,7 +377,7 @@ int fp_preflight (int argc, char *argv[], int unpack, fpstate *fpptr)
             fp_msg ("\n   is too long\n"); fp_noop (); exit (-1);
         }
 
-        strncpy (infits, argv[iarg], SZ_STR);
+        strncpy (infits, argv[iarg], SZ_STR-1);
         if (infits[0] == '-' && infits[1] != '\0') {
             /* don't interpret this as intending to read input file from stdin */
             fp_msg ("Error: invalid input file name\n   "); fp_msg (argv[iarg]);
@@ -964,7 +964,7 @@ int fp_unpack (char *infits, char *outfits, fpstate fpvar)
 {
     fitsfile *infptr, *outfptr;
     int stat=0, hdutype, extnum, single = 0;
-    char *loc, *hduloc, hduname[SZ_STR];
+    char *loc, *hduloc, hduname[SZ_STR] = { 0 };
 
     fits_open_file (&infptr, infits, READONLY, &stat);
     fits_create_file (&outfptr, outfits, &stat);
@@ -1121,7 +1121,7 @@ int fp_test (char *infits, char *outfits, char *outfits2, fpstate fpvar)
 
     LONGLONG nrows;
     /* structure to hold image statistics (defined in fpack.h) */
-    imgstats imagestats;
+    imgstats imagestats = { 0 };
 
     fits_open_file (&inputfptr, infits, READONLY, &stat);
     fits_create_file (&outfptr, outfits, &stat);
@@ -1207,28 +1207,29 @@ int fp_test (char *infits, char *outfits, char *outfits2, fpstate fpvar)
             /* compute basic statistics about the input image */
             if (bitpix == BYTE_IMG) {
                 bpix = 8;
-                strcpy(dtype, "8  ");
+                strncpy(dtype, "8  ", sizeof(dtype)/sizeof(dtype[0]));
                 fp_i2stat(infptr, naxis, naxes, &imagestats, &stat);
             } else if (bitpix == SHORT_IMG) {
                 bpix = 16;
-                strcpy(dtype, "16 ");
+                strncpy(dtype, "16 ", sizeof(dtype)/sizeof(dtype[0]));
                 fp_i2stat(infptr, naxis, naxes, &imagestats, &stat);
             } else if (bitpix == LONG_IMG) {
                 bpix = 32;
-                strcpy(dtype, "32 ");
+                strncpy(dtype, "32 ", sizeof(dtype)/sizeof(dtype[0]));
                 fp_i4stat(infptr, naxis, naxes, &imagestats, &stat);
             } else if (bitpix == LONGLONG_IMG) {
                 bpix = 64;
-                strcpy(dtype, "64 ");
+                strncpy(dtype, "64 ", sizeof(dtype)/sizeof(dtype[0]));
             } else if (bitpix == FLOAT_IMG)   {
                 bpix = 32;
-                strcpy(dtype, "-32");
+                strncpy(dtype, "-32", sizeof(dtype)/sizeof(dtype[0]));
                 fp_r4stat(infptr, naxis, naxes, &imagestats, &stat);
             } else if (bitpix == DOUBLE_IMG)  {
                 bpix = 64;
-                strcpy(dtype, "-64");
+                strncpy(dtype, "-64", sizeof(dtype)/sizeof(dtype[0]));
                 fp_r4stat(infptr, naxis, naxes, &imagestats, &stat);
             }
+            else dtype[0] = '\0';
 
             /* use the minimum of the MAD 2nd, 3rd, and 5th order noise estimates */
             noisemin = imagestats.noise3;
