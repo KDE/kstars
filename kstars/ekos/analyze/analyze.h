@@ -89,7 +89,7 @@ class Analyze : public QWidget, public Ui::Analyze
                                double duration_, const QString &filter_)
                     : Session(start_, end_, CAPTURE_Y, rect),
                       aborted(aborted_), filename(filename_),
-                      duration(duration_), filter(filter_) {}
+                      duration(duration_), filter(filter_), hfr(0) {}
                 CaptureSession() : Session(0, 0, CAPTURE_Y, nullptr) {}
         };
         // Guide sessions collapse some of the possible guiding states.

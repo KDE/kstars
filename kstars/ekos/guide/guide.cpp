@@ -3397,7 +3397,9 @@ void Guide::handleManualDither()
             guider->dither(ditherDialog.magnitude->value());
         else
         {
-            dynamic_cast<InternalGuider *>(guider)->ditherXY(ditherDialog.x->value(), ditherDialog.y->value());
+            InternalGuider * const ig = dynamic_cast<InternalGuider *>(guider);
+            if (ig)
+                ig->ditherXY(ditherDialog.x->value(), ditherDialog.y->value());
         }
     }
 }

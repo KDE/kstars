@@ -171,7 +171,9 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Magnitude: The moon displays illumination fraction instead
             if (obj->name() == i18n("Moon"))
             {
-                objIllumVal = QString("%1 %").arg(QLocale().toString((dynamic_cast<KSMoon *>(obj))->illum() * 100., 0));
+                KSMoon * const m = dynamic_cast<KSMoon *>(obj);
+                if (m)
+                    objIllumVal = QString("%1 %").arg(QLocale().toString(m->illum() * 100., 0));
             }
 
             objMagVal =

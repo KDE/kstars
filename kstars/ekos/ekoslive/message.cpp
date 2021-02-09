@@ -391,14 +391,19 @@ void Message::sendDomes()
     {
         ISD::Dome *oneDome = dynamic_cast<ISD::Dome*>(gd);
 
-        QJsonObject status =
+        if (oneDome)
         {
-            { "name", oneDome->getDeviceName()},
-            { "status", ISD::Dome::getStatusString(oneDome->status())}
-        };
-        if (oneDome->canAbsMove())
-            status["az"] = oneDome->azimuthPosition();
-        sendResponse(commands[NEW_DOME_STATE], status);
+            QJsonObject status =
+            {
+                { "name", oneDome->getDeviceName()},
+                { "status", ISD::Dome::getStatusString(oneDome->status())}
+            };
+
+            if (oneDome->canAbsMove())
+                status["az"] = oneDome->azimuthPosition();
+
+            sendResponse(commands[NEW_DOME_STATE], status);
+        }
     }
 }
 
@@ -415,14 +420,17 @@ void Message::sendCaps()
         {
             ISD::DustCap *dustCap = dynamic_cast<ISD::DustCap*>(gd);
 
-            QJsonObject oneCap =
+            if (dustCap)
             {
-                {"name", dustCap->getDeviceName()},
-                {"canPark", dustCap->canPark()},
-                {"hasLight", dustCap->hasLight()},
-            };
+                QJsonObject oneCap =
+                {
+                    {"name", dustCap->getDeviceName()},
+                    {"canPark", dustCap->canPark()},
+                    {"hasLight", dustCap->hasLight()},
+                };
 
-            capList.append(oneCap);
+                capList.append(oneCap);
+            }
         }
     }
 
@@ -515,13 +523,16 @@ void Message::sendTemperature(double value)
 {
     ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(sender());
 
-    QJsonObject temperature =
+    if (oneCCD)
     {
-        {"name", oneCCD->getDeviceName()},
-        {"temperature", value}
-    };
+        QJsonObject temperature =
+        {
+            {"name", oneCCD->getDeviceName()},
+            {"temperature", value}
+        };
 
-    sendResponse(commands[NEW_CAMERA_STATE], temperature);
+        sendResponse(commands[NEW_CAMERA_STATE], temperature);
+    }
 }
 
 void Message::sendFilterWheels()

@@ -900,13 +900,6 @@ int fp_pack (char *infits, char *outfits, fpstate fpvar, int *islossless)
     fits_create_file (&outfptr, outfits, &stat);
     if (stat)
     {
-        fp_abort_output(infptr, NULL, stat);
-        return -1;
-    }
-
-
-    if (stat)
-    {
         fp_abort_output(infptr, outfptr, stat);
         return -1;
     }

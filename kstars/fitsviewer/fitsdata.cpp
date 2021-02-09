@@ -1510,7 +1510,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
 
 int FITSData::filterStars(const float innerRadius, const float outerRadius)
 {
-    long const sqDiagonal = this->width() * this->width() / 4 + this->height() * this->height() / 4;
+    long const sqDiagonal = (long) this->width() * (long) this->width() / 4 + (long) this->height() * (long) this->height() / 4;
     long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
     long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
 

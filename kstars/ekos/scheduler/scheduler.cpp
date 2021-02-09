@@ -5084,8 +5084,14 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
         }
         // Else rely on the captures done during this session
-        else
+        else if (0 < capturesPerRepeat)
+        {
             captures_completed = schedJob->getCompletedCount() / capturesPerRepeat * seqJob->getCount();
+        }
+        else
+        {
+            captures_completed = 0;
+        }
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
         // Without light frames, there is no need to do focusing, alignment, guiding...etc

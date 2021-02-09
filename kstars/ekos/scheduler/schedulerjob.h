@@ -456,10 +456,10 @@ private:
 
     /* @internal Caches to optimize cell rendering. */
     /* @{ */
-    double altitudeAtStartup;
-    double altitudeAtCompletion;
-    bool isSettingAtStartup;
-    bool isSettingAtCompletion;
+    double altitudeAtStartup { 0 };
+    double altitudeAtCompletion { 0 };
+    bool isSettingAtStartup { false };
+    bool isSettingAtCompletion { false };
     /* @} */
 
     QUrl sequenceFile;
