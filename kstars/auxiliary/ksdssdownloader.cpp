@@ -136,7 +136,7 @@ QString KSDssDownloader::getDSSURL(const dms &ra, const dms &dec, float width, f
 
     QString version   = version_.toLower();
     QString type      = type_.toLower();
-    QString URLprefix = QString("http://archive.stsci.edu/cgi-bin/dss_search?v=%1&").arg(version);
+    QString URLprefix = QString("https://archive.stsci.edu/cgi-bin/dss_search?v=%1&").arg(version);
     QString URLsuffix = QString("&e=J2000&f=%1&c=none&fov=NONE").arg(type);
 
     char decsgn = (dec.Degrees() < 0.0) ? '-' : '+';

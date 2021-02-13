@@ -75,6 +75,13 @@ class PolarAlign
         // and the azimuth center and altitude center computed in findAxis().
         void calculateAzAltError(double *azError, double *altError) const;
 
+        // Given the current axis, fill in azError and altError with the polar alignment
+        // error, if a star at location pixel were move in the camera view to pixel2.
+        // image would be the 3rd PAA image.
+        // Returns false if the paa error couldn't be computer.
+        bool pixelError(FITSData *image, const QPointF &pixel, const QPointF &pixel2,
+                        double *azError, double *altError);
+
         /// reset starts the process over, removing the points.
         void reset();
 
@@ -82,13 +89,6 @@ class PolarAlign
         void getAxis(double *azAxis, double *altAxis) const;
 
     private:
-        // Rotate the az/alt point. Used when assisting the user to correct a polar alignment error.
-        // Input is the point to be rotated, Azimuth = azAltPoint.x(), Altitude = azAltPoint.y().
-        // azAltRotation: the rotation angles, which correspond to the error in polar alignment
-        // that we would like to correct at the pole. azAltResult.x() is the rotated azimuth coordinate.
-        // azAltResult.y() is the rotated altitude coordinate.
-        void rotate(const QPointF &azAltPoint, const QPointF &azAltRotation, QPointF *azAltResult) const;
-
         // returns true in the northern hemisphere.
         // if no geo location available, defaults to northern.
         bool northernHemisphere() const;
@@ -99,6 +99,20 @@ class PolarAlign
         // Does the necessary processing so that azimuth and altitude values
         // can be retrieved for the x,y pixel in image.
         bool prepareAzAlt(FITSData *image, const QPointF &pixel, SkyPoint *point) const;
+
+
+        // Internal utility used by the external findCorrectedPixel and by pixelError().
+        // Similar args as the public findCorrectedPixel().
+        bool findCorrectedPixel(FITSData *image, const QPointF &pixel,
+                                QPointF *corrected, double azError, double altError);
+
+        // Internal utility used by the public pixelError, which iterates at different
+        // resolutions passed in to this method. As the resoltion can be coarse, actualPixel
+        // is the one used (as opposed to pixel2) for the error returned.
+        void pixelError(FITSData *image, const QPointF &pixel, const QPointF &pixel2,
+                        double minAz, double maxAz, double azInc,
+                        double minAlt, double maxAlt, double altInc,
+                        double *azError, double *altError, QPointF *actualPixel);
 
         // These three positions are used to estimate the polar alignment error.
         QVector<SkyPoint> points;

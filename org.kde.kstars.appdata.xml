@@ -80,7 +80,7 @@
     <p xml:lang="es">KStars es un software astronómico de licencia libre, de código abierto y multiplataforma, creado por KDE.</p>
     <p xml:lang="et">KStars on KDE loodud vaba litsentsiga avatud lähtekoodiga platvormiülene astronoomiatarkvara.</p>
     <p xml:lang="eu">KStars lizentzia askeko, sorburu irekiko, plataforma-anitzerako KDEk egindako astronomia softwarea da.</p>
-    <p xml:lang="fr">KStar est un logiciel d'astronomie sous licence libre, « open source » et multiplate-forme de KDE.</p>
+    <p xml:lang="fr">KStar est un logiciel d'astronomie sous licence libre, « Open Source » et multi-plate-forme de KDE.</p>
     <p xml:lang="gl">KStars é un software de astronomía libre, de código aberto e compatíbel con múltiple plataformas creado por KDE.</p>
     <p xml:lang="id">KStars adalah Software Astronomi yang terlisensi secara bebas, sumber terbuka, lintas platform oleh KDE.</p>
     <p xml:lang="it">KStars è un software di astronomia multi-piattaforma con licenza gratuita ed open source della comunità KDE.</p>
@@ -189,6 +189,7 @@
     <p xml:lang="tr">KStars ile birlikte Ekos gökyüzü fotoğrafçılığı programı, sayısız teleskop, CCD, DSLR, odaklayıcı, filtre ve çok daha fazlasını içeren tüm INDI cihazlarını kontrol edebilen eksiksiz bir gökyüzü fotoğrafçılığı çözümü de dahildir. Ekos, çevrimiçi ve çevrimdışı astrometri çözücüsünü, otomatik netleme ve otomatik götürme özelliklerini kullanarak ve güçlü, yerleşik sıralama yöneticisini kullanarak tek veya birden çok görüntüyü yakalamak suretiyle son derece hassas izleme özelliğini destekler.</p>
     <p xml:lang="uk">До складу пакунків з KStars включено астрометричний розв’язувач Ekos — повноцінне астрографічне рішення, яке може керувати усіма пристроями INDI, зокрема багатьма телескопами, ПЗЗ, цифровими дзеркальними фотокамерами, засобам фокусування, фільтрами та іншими інструментами. У Ekos передбачено підтримку високоточного стеження за допомогою засобів інтерактивної та авторомної астрометрії, автофокусування та автонаведення, можливості захоплення одного або декількох зображень на основі потужного вбудованого засобу керування зйомкою.</p>
     <p xml:lang="x-test">xxIncluded with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.xx</p>
+    <p xml:lang="zh-CN">KStars 包括了 Ekos 天文摄影套件：一个完整的天体摄影解决方案，能够控制所有 INDI 设备，包括无数望远镜、CCD、DSLR、电调、滤镜和更多其它设备。 Ekos 支持使用在线和离线天体测量解析器进行高度准确的跟踪、自动聚焦和自动导星功能，以及使用内建的序列管理器拍摄单个或多个图像。</p>
     <p xml:lang="zh-TW">包含在 KStars 中的是 Ekos 天文攝影套裝軟體，這是一套可以控制所有 INDI 裝置的完整解決方案，其中包含了眾多望遠鏡、CCS、DSLR、聚焦器、濾光片與許多其他東西。Ekos 使用線上與離線的天體測量計算程式、自動對焦與自動導航功能進行高精度追蹤，並使用功能強大的序列管理程式來照出一張或多張照片。</p>
     <p>Astronomical Catalogs:</p>
     <p xml:lang="ar">الفهارس الفلكيّة:</p>
@@ -280,6 +281,7 @@
       <li xml:lang="tr">16 büyüklüğündeki 100 milyon yıldızı içeren ek katalog</li>
       <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
       <li xml:lang="x-test">xxExtra catalogs consisting of 100 million stars to magnitude 16xx</li>
+      <li xml:lang="zh-CN">额外星表涵盖了最暗到16星等的一亿星</li>
       <li xml:lang="zh-TW">包含到星等 16 的一億個星體的額外類別</li>
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalog</li>
       <li xml:lang="ar">فهارس يمكن تنزيلها وتشمل صور ميسييه، و”أَبِلّ“ للسُّدم الكوكبيّة، وفهرس ”شَارپْلِس“، وفهرس ”لُوِند“ للسُّدم المعتمة</li>
@@ -304,6 +306,7 @@
       <li xml:lang="tr">İndirilebilir kataloglar, Messier Görüntüleri, Abell Gezegenimsi Bulutsusu ve Sharpless Kataloğu, Lynds Koyu Bulutsusu Kataloğu'nuda içerir</li>
       <li xml:lang="uk">придатні до отримання каталоги з зображеннями об’єктів каталогу Месьє, каталогу планетарних туманностей Абеля та каталогу Шарплеса, каталогу темних туманностей Ліндса;</li>
       <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalogxx</li>
+      <li xml:lang="zh-CN">可下载的星表，包括梅西叶星云星团表、Abell 行星星云、沙普利斯亮星云表、林茨暗星云表。</li>
       <li xml:lang="zh-TW">可下載的分類，包括 Messier images、Abell Planetary Nebulae、Sharpless Catalog、Lynds Dark Nebula Catalog 等</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="ar">تصحيح الدّقّة والانحراف والانكسار الجوّيّ</li>
@@ -332,6 +335,7 @@
       <li xml:lang="tr">Devinim, nutasyon ve atmosferik kırılma için düzeltmeler</li>
       <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
       <li xml:lang="x-test">xxCorrections for precession, nutation and atmospheric refractionxx</li>
+      <li xml:lang="zh-CN">针对岁差、章动和大气折射的校正</li>
       <li xml:lang="zh-TW">歲差、地軸震動與大氣磨擦修正</li>
       <li>Tools for retrieval of data from online databases</li>
       <li xml:lang="ar">أدوات لجلب البيانات من قواعد البيانات الشّبكيّة</li>

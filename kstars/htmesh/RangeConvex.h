@@ -82,7 +82,7 @@ class LINKAGE RangeConvex
   protected:
     HtmRange *hr;
     int olevel;
-    Sign sign_;
+    Sign sign_ { zERO };
 
     // Do the intersection (common function for overloaded intersect())
     // Simplification routine for zERO convexes. This is called by

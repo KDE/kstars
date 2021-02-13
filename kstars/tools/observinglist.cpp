@@ -1722,7 +1722,7 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
         const StarObject *s = dynamic_cast<const StarObject *>(o);
 
         // JM: Enable HD Index stars to be added to the observing list.
-        if (s->getHDIndex() != 0)
+        if (s != nullptr && s->getHDIndex() != 0)
             finalObjectName = QString("HD %1").arg(QString::number(s->getHDIndex()));
     }
     else

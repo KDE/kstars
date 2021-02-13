@@ -56,70 +56,48 @@ secondary(V) where V contains the above x,y,z coordinates,
 will return the dec angle pointing to V.
 ******************************************************************/
 
-PoleAxis::V3 PoleAxis::V3::normal(const V3 &v1, const V3 &v2, const V3 &v3)
+Rotations::V3 PoleAxis::dirCos(const dms primary, const dms secondary)
 {
-    // First subtract d21 = V2-V1; d31 = V3-V1
-    const V3 d21 = V3(v2.x() - v1.x(), v2.y() - v1.y(), v2.z() - v1.z());
-    const V3 d31 = V3(v3.x() - v2.x(), v3.y() - v2.y(), v3.z() - v2.z());
-    // Now take the cross-product of d21 and d31
-    const V3 cross = V3(d21.y() * d31.z() - d21.z() * d31.y(),
-                        d21.z() * d31.x() - d21.x() * d31.z(),
-                        d21.x() * d31.y() - d21.y() * d31.x());
-    // Finally normalize cross so that it is a unit vector.
-    const double lenSq = cross.x() * cross.x() + cross.y() * cross.y() + cross.z() * cross.z();
-    if (lenSq == 0.0) return V3();
-    const double len = sqrt(lenSq);
-    // Should we also fail if len < e.g. 5e-8 ??
-    return V3(cross.x() / len, cross.y() / len, cross.z() / len);
-}
-
-double PoleAxis::V3::length()
-{
-    return sqrt(X * X + Y * Y + Z * Z);
-}
-
-PoleAxis::V3 PoleAxis::dirCos(const dms primary, const dms secondary)
-{
-    return V3(
+    return Rotations::V3(
                static_cast<float>(secondary.cos() * primary.cos()),
                static_cast<float>(secondary.cos() * primary.sin()),
                static_cast<float>(secondary.sin()));
 }
 
-PoleAxis::V3 PoleAxis::dirCos(const SkyPoint sp)
+Rotations::V3 PoleAxis::dirCos(const SkyPoint sp)
 {
     return dirCos(sp.ra(), sp.dec());
 }
 
-dms PoleAxis::primary(V3 dirCos)
+dms PoleAxis::primary(Rotations::V3 dirCos)
 {
     dms p;
     p.setRadians(static_cast<double>(std::atan2(dirCos.y(), dirCos.x())));
     return p;
 }
 
-dms PoleAxis::secondary(V3 dirCos)
+dms PoleAxis::secondary(Rotations::V3 dirCos)
 {
     dms p;
     p.setRadians(static_cast<double>(std::asin(dirCos.z())));
     return p;
 }
 
-SkyPoint PoleAxis::skyPoint(V3 dc)
+SkyPoint PoleAxis::skyPoint(Rotations::V3 dc)
 {
     return SkyPoint(primary(dc), secondary(dc));
 }
 
-PoleAxis::V3 PoleAxis::poleAxis(SkyPoint p1, SkyPoint p2, SkyPoint p3)
+Rotations::V3 PoleAxis::poleAxis(SkyPoint p1, SkyPoint p2, SkyPoint p3)
 {
     // convert the three positions to vectors, these define the plane
     // of the Ha axis rotation
-    V3 v1 = PoleAxis::dirCos(p1);
-    V3 v2 = PoleAxis::dirCos(p2);
-    V3 v3 = PoleAxis::dirCos(p3);
+    Rotations::V3 v1 = PoleAxis::dirCos(p1);
+    Rotations::V3 v2 = PoleAxis::dirCos(p2);
+    Rotations::V3 v3 = PoleAxis::dirCos(p3);
 
     // the Ha axis direction is the normal to the plane
-    V3 p = V3::normal(v1, v2, v3);
+    Rotations::V3 p = Rotations::V3::normal(v1, v2, v3);
 
     // p points to the north or south pole depending on the rotation of the points
     // the other pole position can be determined by reversing the sign of the Dec and

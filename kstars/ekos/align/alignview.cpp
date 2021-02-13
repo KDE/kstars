@@ -35,6 +35,9 @@ void AlignView::drawOverlay(QPainter *painter, double scale)
 
     // drawTriangle checks if the points are valid.
     drawTriangle(painter);
+
+    // ditto
+    drawStarCircle(painter);
 }
 
 bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool extras)
@@ -66,6 +69,7 @@ void AlignView::reset()
     markerCrosshair = QPointF();
     celestialPolePoint = QPointF();
     raAxis = QPointF();
+    starCircle = QPointF();
     releaseImage();
 }
 
@@ -82,11 +86,18 @@ void AlignView::setCorrectionParams(const QPointF &from, const QPointF &to, cons
     updateFrame();
 }
 
+void AlignView::setStarCircle(const QPointF &pixel)
+{
+    starCircle = pixel;
+    updateFrame();
+}
+
 void AlignView::drawTriangle(QPainter *painter)
 {
     if (correctionFrom.isNull() && correctionTo.isNull() && correctionAltTo.isNull())
         return;
 
+    painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(Qt::NoBrush);
 
     const double scale = getScale();
@@ -128,6 +139,23 @@ void AlignView::drawTriangle(QPainter *painter)
         else
             painter->drawText(x + sr, y + sr, i18nc("South Celestial Pole", "SCP"));
     }
+}
+
+
+void AlignView::drawStarCircle(QPainter *painter)
+{
+    if (starCircle.isNull())
+        return;
+
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setBrush(Qt::NoBrush);
+
+    const double scale = getScale();
+    QPointF center(starCircle.x() * scale, starCircle.y() * scale);
+
+    // Could get fancy and change from yellow to green when closer to the green line.
+    painter->setPen(QPen(Qt::yellow, 1));
+    painter->drawEllipse(center, 35.0, 35.0);
 }
 
 void AlignView::drawRaAxis(QPainter *painter)

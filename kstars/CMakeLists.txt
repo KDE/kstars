@@ -209,6 +209,7 @@ if (INDI_FOUND)
             #ekos/align/astapastrometryparser.cpp
             ekos/align/poleaxis.cpp
             ekos/align/polaralign.cpp
+            ekos/align/rotations.cpp
 
             # Guide
             ekos/guide/guide.cpp

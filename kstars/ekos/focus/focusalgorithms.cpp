@@ -148,6 +148,7 @@ void LinearFocusAlgorithm::computeInitialPosition()
     inFirstPass = true;
     solutionPending = false;
     firstPassBestValue = -1;
+    firstPassBestPosition = 0;
     numPolySolutionsFound = 0;
     numRestartSolutionsFound = 0;
     secondPassStartIndex = -1;

@@ -242,12 +242,12 @@ protected:
     QString m_Guider = "Internal";
 
     // PHD2 setup (host and port)
-    QProcess *phd2;
+    QProcess *phd2 { nullptr };
     QString const phd2_guider_host = "localhost";
     QString const phd2_guider_port = "4400";
 
     // current mount meridian flip status
-    Ekos::Mount::MeridianFlipStatus m_MFStatus;
+    Ekos::Mount::MeridianFlipStatus m_MFStatus { Ekos::Mount::FLIP_NONE };
     // sequence of alignment states that are expected
     QQueue<Ekos::AlignState> expectedAlignStates;
     // sequence of capture states that are expected
@@ -298,16 +298,16 @@ protected slots:
 
 private:
     // current alignment status
-    Ekos::AlignState m_AlignStatus;
+    Ekos::AlignState m_AlignStatus { Ekos::ALIGN_IDLE };
 
     // current capture status
-    Ekos::CaptureState m_CaptureStatus;
+    Ekos::CaptureState m_CaptureStatus { Ekos::CAPTURE_IDLE };
 
     // current focus status
-    Ekos::FocusState m_FocusStatus;
+    Ekos::FocusState m_FocusStatus { Ekos::FOCUS_IDLE };
 
     // current guiding status
-    Ekos::GuideState m_GuideStatus;
+    Ekos::GuideState m_GuideStatus { Ekos::GUIDE_IDLE };
 
     /**
      * @brief Slot to track the align status of the mount

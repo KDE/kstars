@@ -152,7 +152,7 @@ class FITSView : public QScrollArea
         }
 
         // Zoom related
-        void cleanUpZoom(QPoint viewCenter);
+        void cleanUpZoom(QPoint viewCenter = QPoint());
         QPoint getImagePoint(QPoint viewPortPoint);
         uint16_t zoomedWidth()
         {

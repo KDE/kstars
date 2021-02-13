@@ -477,7 +477,7 @@ void SkyMap::slotDSS()
     if (kstars)
     {
         new ImageViewer(
-            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
+            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [free for non-commercial use]."),
             this);
         //iv->show();
     }
@@ -545,8 +545,8 @@ void SkyMap::slotSDSS()
     // implemented in ObservingList::setCurrentImage() etc. in
     // tools/observinglist.cpp; must try to de-duplicate as much as
     // possible.
-    QString URLprefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
-    QString URLsuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
+    QString URLprefix("http://skyserver.sdss.org/dr16/SkyServerWS/ImgCutout/getjpeg?");
+    QString URLsuffix("&scale=1.0&width=600&height=600");
     dms ra(0.0), dec(0.0);
     QString RAString, DecString;
 

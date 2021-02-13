@@ -650,6 +650,8 @@ void FITSView::ZoomIn()
     currentWidth  = imageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = imageData->height() * (currentZoom / ZOOM_DEFAULT);
 
+    cleanUpZoom();
+
     updateFrame();
 
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
@@ -673,6 +675,8 @@ void FITSView::ZoomOut()
     if (!imageData) return;
     currentWidth  = imageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = imageData->height() * (currentZoom / ZOOM_DEFAULT);
+
+    cleanUpZoom();
 
     updateFrame();
 
@@ -1843,12 +1847,13 @@ void FITSView::cleanUpZoom(QPoint viewCenter)
         x0 = trackingBox.center().x() * scale;
         y0 = trackingBox.center().y() * scale;
     }
-    else
+    else if (!viewCenter.isNull())
     {
         x0 = viewCenter.x() * scale;
         y0 = viewCenter.y() * scale;
     }
-    ensureVisible(x0, y0, width() / 2, height() / 2);
+    if ((x0 != 0) || (y0 != 0))
+        ensureVisible(x0, y0, width() / 2, height() / 2);
     updateMouseCursor();
 }
 

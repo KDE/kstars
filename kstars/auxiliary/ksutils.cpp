@@ -36,10 +36,6 @@
 #include <libraw/libraw.h>
 #endif
 
-#ifdef HAVE_STELLARSOLVER
-#include <stellarsolver.h>
-#endif
-
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
 #elif defined(_WIN32)
@@ -51,6 +47,10 @@
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
+
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#endif
 
 namespace KSUtils
 {
@@ -125,7 +125,7 @@ QString getDSSURL(const SkyPoint *const p)
 
 QString getDSSURL(const dms &ra, const dms &dec, float width, float height, const QString &type)
 {
-    const QString URLprefix("http://archive.stsci.edu/cgi-bin/dss_search?");
+    const QString URLprefix("https://archive.stsci.edu/cgi-bin/dss_search?");
     QString URLsuffix             = QString("&e=J2000&f=%1&c=none&fov=NONE").arg(type);
     const double dss_default_size = Options::defaultDSSImageSize();
 
@@ -1764,7 +1764,7 @@ double getAvailableRAM()
     p.close();
     //kB to bytes
     return (memory.toLong() * 1024.0);
-#else
+#elif defined(Q_OS_WIN32)
     MEMORYSTATUSEX memory_status;
     ZeroMemory(&memory_status, sizeof(MEMORYSTATUSEX));
     memory_status.dwLength = sizeof(MEMORYSTATUSEX);

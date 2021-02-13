@@ -38,6 +38,9 @@ class AlignView : public FITSView
         void setCelestialPole(const QPointF &value);
         void setRefreshEnabled(bool enable);
 
+        // When non-null, alignview draws a small circle in the pixel position specified.
+        void setStarCircle(const QPointF &pixel = QPointF());
+
         void holdOnToImage();
         void releaseImage();
         FITSData *keptImage() const
@@ -48,6 +51,7 @@ class AlignView : public FITSView
     protected:
         void drawTriangle(QPainter *painter);
         void drawRaAxis(QPainter *painter);
+        void drawStarCircle(QPainter *painter);
 
         virtual void processMarkerSelection(int x, int y) override;
 
@@ -60,6 +64,8 @@ class AlignView : public FITSView
         // The mount's RA axis' position on the image.
         QPointF raAxis;
         QSharedPointer<FITSData> keptImagePointer;
+        // The position of a star being tracked in the polar-alignment routine.
+        QPointF starCircle;
 
     signals:
         void newCorrectionVector(QLineF correctionVector);

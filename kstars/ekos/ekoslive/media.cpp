@@ -281,6 +281,10 @@ void Media::sendUpdatedFrame(FITSView *view)
     buffer.open(QIODevice::WriteOnly);
 
     const FITSData * imageData = view->getImageData();
+
+    if (!imageData)
+        return;
+
     QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
     QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
@@ -333,7 +337,7 @@ void Media::sendUpdatedFrame(FITSView *view)
 
         emit newBoundingRect(boundingRectable, scaledImage.size());
 
-        scaledImage = scaledImage.copy(boundingRectable).scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        scaledImage = scaledImage.copy(boundingRectable);
     }
     else
     {

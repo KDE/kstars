@@ -1351,7 +1351,7 @@ void CCD::setWSBLOB(const QByteArray &message, const QString &extension)
 
     primaryCCDBLOB->blob = const_cast<char *>(message.data());
     primaryCCDBLOB->size = message.size();
-    strncpy(primaryCCDBLOB->format, extension.toLatin1().constData(), MAXINDIFORMAT);
+    strncpy(primaryCCDBLOB->format, extension.toLatin1().constData(), MAXINDIFORMAT-1);
     processBLOB(primaryCCDBLOB);
 
     // Disassociate

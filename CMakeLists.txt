@@ -275,7 +275,7 @@ endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT WIN32)
   add_definitions(-DQT_STRICT_ITERATORS)
 endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII)

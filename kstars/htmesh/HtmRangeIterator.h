@@ -24,7 +24,7 @@ class HtmRangeIterator
 
   private:
     Key nextval;
-    Key currange[2]; /* Low and High */
+    Key currange[2] { 0 }; /* Low and High */
     HtmRangeIterator() : range(nullptr), nextval(-1) {}
 };
 

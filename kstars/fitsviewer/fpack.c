@@ -213,7 +213,7 @@ int fp_get_param (int argc, char *argv[], fpstate *fpptr)
 		    if (++iarg >= argc) {
 			fp_usage (); exit (-1);
 		    } else
-			strncpy (tile, argv[iarg], SZ_STR); /* checked below */
+			strncpy (tile, argv[iarg], SZ_STR-1); /* checked below */
 
 		} else if (argv[iarg][1] == 'v') {
 		    fpptr->verbose = 1;

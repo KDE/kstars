@@ -75,6 +75,7 @@ class Message : public QObject
 
         // Connection
         void sendConnection();
+        void sendModuleState(const QString &name);
 
         // Ekos
         void setEkosStatingStatus(Ekos::CommunicationStatus status);
@@ -93,7 +94,7 @@ class Message : public QObject
         // Polar
         void setPAHStage(Ekos::Align::PAHStage stage);
         void setPAHMessage(const QString &message);
-        void setPolarResults(QLineF correctionVector, QString polarError);
+        void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
         void setPAHEnabled(bool enabled);
         void setBoundingRect(QRect rect, QSize view);
 

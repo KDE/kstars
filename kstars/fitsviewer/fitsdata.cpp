@@ -366,7 +366,9 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         m_DateTime = KStarsDateTime(ts.date(), ts.time());
     }
 
-    if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
+    // Only check for debayed IF the original naxes[2] is 1
+    // which is for single channels.
+    if (naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
         //m_BayerBuffer = m_ImageBuffer;
         if (debayer())
@@ -836,7 +838,7 @@ bool FITSData::saveImage(const QString &newFilename)
             default:
             {
                 char valueBuffer[256] = {0};
-                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256);
+                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256-1);
                 fits_write_key(fptr, TSTRING, key.toLatin1().constData(), valueBuffer, comment, &status);
             }
         }
@@ -949,7 +951,9 @@ int FITSData::calculateMinMax(bool refresh)
 
     status = 0;
 
-    if ((fptr != nullptr) && !refresh)
+    // Only fetch from header if we have a single channel
+    // Otherwise, calculate manually.
+    if (m_Statistics.channels == 1 && fptr != nullptr && !refresh)
     {
         if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
             nfound++;
@@ -1506,7 +1510,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
 
 int FITSData::filterStars(const float innerRadius, const float outerRadius)
 {
-    long const sqDiagonal = this->width() * this->width() / 4 + this->height() * this->height() / 4;
+    long const sqDiagonal = (long) this->width() * (long) this->width() / 4 + (long) this->height() * (long) this->height() / 4;
     long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
     long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
 
@@ -2322,10 +2326,6 @@ bool FITSData::wcsToPixel(const SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPoi
     if ((status = wcss2p(m_WCSHandle, 1, 2, worldcrd, &phi, &theta, imgcrd, pixcrd, stat)) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
-
-        fprintf(stderr, "******************* wcss2p(%f,%f) error: %s\n", worldcrd[0], worldcrd[1], lastError.toLatin1().data());//////////////////////////
-        qCDebug(KSTARS_FITS) << "wcss2p failed with:" << worldcrd[0] << worldcrd[1];///////////////////////
-        
         return false;
     }
 
@@ -3128,22 +3128,21 @@ void FITSData::setBayerParams(BayerParams * param)
     debayerParams.offsetY = param->offsetY;
 }
 
-bool FITSData::debayer()
+bool FITSData::debayer(bool reload)
 {
-    //    if (m_ImageBuffer == nullptr)
-    //    {
-    //        int anynull = 0, status = 0;
+    if (reload)
+    {
+        int anynull = 0, status = 0;
 
-    //        //m_BayerBuffer = m_ImageBuffer;
-
-    //        if (fits_read_img(fptr, stats.dataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
-    //        {
-    //            char errmsg[512];
-    //            fits_get_errstatus(status, errmsg);
-    //            KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
-    //            return false;
-    //        }
-    //    }
+        if (fits_read_img(fptr, m_Statistics.dataType, 1, m_Statistics.samples_per_channel, nullptr, m_ImageBuffer,
+                          &anynull, &status))
+        {
+            //                char errmsg[512];
+            //                fits_get_errstatus(status, errmsg);
+            //                KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
+            return false;
+        }
+    }
 
     switch (m_Statistics.dataType)
     {
