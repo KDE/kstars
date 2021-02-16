@@ -251,7 +251,7 @@ void Media::upload(FITSView * view)
     // For low bandwidth images
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
-        QImage scaledImage = view->getDisplayImage().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
         scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
         //ext = "jpg";
     }
