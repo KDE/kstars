@@ -1252,13 +1252,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
             if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
                 return;
 
-            if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE     ||
-                    driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
-                    driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
-                    driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
-                    driverInterface & INDI::BaseDevice::WEATHER_INTERFACE   ||
-                    driverInterface & INDI::BaseDevice::GPS_INTERFACE)
-                serialPortAssistant->addDevice(devInterface);
+            serialPortAssistant->addDevice(devInterface);
 
             if (Options::autoLoadSerialAssistant())
                 serialPortAssistant->show();

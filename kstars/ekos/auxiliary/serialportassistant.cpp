@@ -39,9 +39,12 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
                      "/wzserialportassistant.png"))
         wizardPix->setPixmap(im);
 
-    connect(nextB, &QPushButton::clicked, [&]()
+    connect(nextB, &QPushButton::clicked, [this]()
     {
-        gotoDevicePage(devices[devices.indexOf(m_CurrentDevice) + 1]);
+        if (m_CurrentDevice)
+            gotoDevicePage(m_CurrentDevice);
+        else if (!devices.empty())
+            gotoDevicePage(devices.first());
     });
 
     loadRules();
@@ -107,9 +110,21 @@ void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
     });
 
     QPushButton *skipButton = new QPushButton(i18n("Skip Device"), devicePage);
-    connect(skipButton, &QPushButton::clicked, [&]()
+    connect(skipButton, &QPushButton::clicked, [this]()
     {
-        gotoDevicePage(devices[devices.indexOf(m_CurrentDevice) + 1]);
+        // If we have more devices, go to them one by one
+        if (m_CurrentDevice)
+        {
+            // Check if next index is available
+            int nextIndex = devices.indexOf(m_CurrentDevice) + 1;
+            if (nextIndex < devices.count())
+            {
+                gotoDevicePage(devices[nextIndex]);
+                return;
+            }
+        }
+
+        gotoDevicePage(nullptr);
     });
     QCheckBox *hardwareSlotC = new QCheckBox(i18n("Physical Port Mapping"), devicePage);
     hardwareSlotC->setObjectName("hardwareSlot");
