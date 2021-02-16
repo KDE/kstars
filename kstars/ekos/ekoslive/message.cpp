@@ -239,7 +239,7 @@ void Message::sendCameras()
     for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
     {
         ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
-        connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
+        //connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
         //connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
         ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
