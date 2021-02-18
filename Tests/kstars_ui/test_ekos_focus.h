@@ -29,7 +29,7 @@
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule() != nullptr, 5000); \
     KTRY_EKOS_GADGET(QTabWidget, toolsWidget); \
     toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->focusModule()); \
-    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->focusModule(), 1000); } while (false)
+    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->focusModule(), 5000); } while (false)
 
 /** @brief Helper to retrieve a gadget in the Focus tab specifically.
  * @param klass is the class of the gadget to look for.
@@ -44,11 +44,13 @@
  * @warning Fails the test if the button is not currently enabled.
  */
 #define KTRY_FOCUS_CLICK(button) do { \
-    QTimer::singleShot(100, Ekos::Manager::Instance(), []() { \
+    static volatile bool clicked = false; \
+    QTimer::singleShot(100, Ekos::Manager::Instance(), [&]() { \
         KTRY_FOCUS_GADGET(QPushButton, button); \
-        QVERIFY2(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str()); \
-        QTest::mouseClick(button, Qt::LeftButton); }); \
-    QTest::qWait(200); } while(false)
+        QVERIFY2(button->isEnabled(), qPrintable(QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button))); \
+        QTest::mouseClick(button, Qt::LeftButton); \
+        clicked = true; }); \
+    QTRY_VERIFY_WITH_TIMEOUT(clicked, 5000); } while(false)
 
 /** @brief Helper to set a string text into a QComboBox in the Focus module.
  * @param combobox is the gadget name of the QComboBox to look for in the UI configuration.
@@ -84,10 +86,10 @@
     focusFramesSpin->setValue(averaged); \
     KTRY_FOCUS_GADGET(QPushButton, captureB); \
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB); \
-    QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 1000); \
-    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000); \
+    QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000); \
+    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 5000); \
     KTRY_FOCUS_CLICK(captureB); \
-    QTRY_VERIFY_WITH_TIMEOUT(!captureB->isEnabled(), 1000); \
+    QTRY_VERIFY_WITH_TIMEOUT(!captureB->isEnabled(), 5000); \
     QVERIFY(stopFocusB->isEnabled()); \
     QTest::qWait(exposure*averaged*1000); \
     QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000 + exposure*averaged*1000/5); \

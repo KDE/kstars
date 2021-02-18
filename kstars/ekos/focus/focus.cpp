@@ -36,7 +36,7 @@
 
 #define FOCUS_TIMEOUT_THRESHOLD  120000
 #define MAXIMUM_ABS_ITERATIONS   30
-#define MAXIMUM_RESET_ITERATIONS 2
+#define MAXIMUM_RESET_ITERATIONS 3
 #define AUTO_STAR_TIMEOUT        45000
 #define MINIMUM_PULSE_TIMER      32
 #define MAX_RECAPTURE_RETRIES    3
@@ -627,8 +627,10 @@ void Focus::getAbsFocusPosition()
         absTicksSpin->setMaximum(absMove->np[0].max);
         absTicksSpin->setSingleStep(absMove->np[0].step);
 
-        maxTravelIN->setMinimum(absMove->np[0].min);
-        maxTravelIN->setMaximum(absMove->np[0].max);
+        // Restrict the travel if needed
+        double const travel = fabs(absMove->np[0].max - absMove->np[0].min);
+        if (travel < maxTravelIN->maximum())
+            maxTravelIN->setMaximum(travel);
 
         absTicksLabel->setText(QString::number(currentPosition));
 
@@ -709,9 +711,17 @@ void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperatur
 
 void Focus::start()
 {
+    if (currentFocuser == nullptr)
+    {
+        appendLogText(i18n("No Focuser connected."));
+        completeFocusProcedure(false);
+        return;
+    }
+
     if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
+        completeFocusProcedure(false);
         return;
     }
 
@@ -719,6 +729,7 @@ void Focus::start()
     {
         appendLogText(i18n("Starting pulse step is too low. Increase the step size to %1 or higher...",
                            MINIMUM_PULSE_TIMER * 5));
+        completeFocusProcedure(false);
         return;
     }
 
@@ -879,11 +890,7 @@ int Focus::adjustLinearPosition(int position, int newPosition)
 
 void Focus::checkStopFocus()
 {
-    //    if (inSequenceFocus == true)
-    //    {
-    //        inSequenceFocus = false;
-    //        setAutoFocusResult(false);
-    //    }
+    resetFocusIteration = MAXIMUM_RESET_ITERATIONS + 1;
 
     if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
     {
@@ -895,10 +902,14 @@ void Focus::checkStopFocus()
 
     if (hfrInProgress)
     {
+        stopFocusB->setEnabled(false);
         appendLogText(i18n("Detection in progress, please wait."));
+        QTimer::singleShot(1000, this, &Focus::checkStopFocus);
     }
     else
+    {
         completeFocusProcedure(false);
+    }
 }
 
 void Focus::abort()
@@ -907,18 +918,8 @@ void Focus::abort()
     if (state <= FOCUS_ABORTED)
         return;
 
-    QString str = "";
-    const int size = hfr_position.size();
-    for (int i = 0; i < size; ++i)
-    {
-        str.append(QString("%1%2|%3")
-                   .arg(i == 0 ? "" : "|" )
-                   .arg(QString::number(hfr_position[i], 'f', 0))
-                   .arg(QString::number(hfr_value[i], 'f', 3)));
-    }
-
-    emit autofocusAborted(filter(), str);
-    stop(true);
+    checkStopFocus();
+    appendLogText(i18n("Autofocus aborted."));
 }
 
 void Focus::stop(bool aborted)
@@ -988,6 +989,7 @@ void Focus::capture(double settleTime)
         captureTimer.start(static_cast<int>(settleTime * 1000));
         return;
     }
+
     if (captureInProgress)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
@@ -996,13 +998,15 @@ void Focus::capture(double settleTime)
 
     if (currentCCD == nullptr)
     {
-        appendLogText(i18n("Error: No camera detected."));
+        appendLogText(i18n("Error: No Camera detected."));
+        checkStopFocus();
         return;
     }
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(i18n("Error: Lost connection to camera."));
+        appendLogText(i18n("Error: Lost connection to Camera."));
+        checkStopFocus();
         return;
     }
 
@@ -1013,18 +1017,24 @@ void Focus::capture(double settleTime)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-    double seqExpose = exposureIN->value();
 
     if (currentCCD->isBLOBEnabled() == false)
     {
         currentCCD->setBLOBEnabled(true);
     }
 
-    if (currentFilter != nullptr && FilterPosCombo->currentIndex() != -1)
+    if (FilterPosCombo->currentIndex() != -1)
     {
+        if (currentFilter == nullptr)
+        {
+            appendLogText(i18n("Error: No Filter Wheel detected."));
+            checkStopFocus();
+            return;
+        }
         if (currentFilter->isConnected() == false)
         {
-            appendLogText(i18n("Error: Lost connection to filter wheel."));
+            appendLogText(i18n("Error: Lost connection to Filter Wheel."));
+            checkStopFocus();
             return;
         }
 
@@ -1110,15 +1120,21 @@ void Focus::capture(double settleTime)
 
     focusView->setBaseSize(focusingWidget->size());
 
-    // Timeout is exposure duration + timeout threshold in seconds
-    captureTimeout.start(seqExpose * 1000 + FOCUS_TIMEOUT_THRESHOLD);
+    if (targetChip->capture(exposureIN->value()))
+    {
+        // Timeout is exposure duration + timeout threshold in seconds
+        long const timeout = lround(ceil(exposureIN->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
+        captureTimeout.start(timeout);
 
-    targetChip->capture(seqExpose);
+        if (inFocusLoop == false)
+            appendLogText(i18n("Capturing image..."));
 
-    if (inFocusLoop == false)
-        appendLogText(i18n("Capturing image..."));
-
-    resetButtons();
+        resetButtons();
+    }
+    else if (inAutoFocus)
+    {
+        completeFocusProcedure(false);
+    }
 }
 
 bool Focus::focusIn(int ms)
@@ -1138,18 +1154,24 @@ bool Focus::focusOut(int ms)
 // If amount > 0 we focus out, otherwise in.
 bool Focus::changeFocus(int amount)
 {
-    if (currentFocuser == nullptr)
-        return false;
+    // Retry capture if we stay at the same position
+    if (inAutoFocus && amount == 0)
+    {
+        capture(FocusSettleTime->value());
+        return true;
+    }
 
-    // This needs to be re-thought. Just returning does not set the timer
-    // and the algorithm ends in limbo.
-    // Ignore zero
-    // if (amount == 0)
-    //    return true;
+    if (currentFocuser == nullptr)
+    {
+        appendLogText(i18n("Error: No Focuser detected."));
+        checkStopFocus();
+        return false;
+    }
 
     if (currentFocuser->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Focuser."));
+        checkStopFocus();
         return false;
     }
 
@@ -1244,7 +1266,8 @@ void Focus::calculateHFR()
 {
     appendLogText(i18n("Detection complete."));
 
-    double hfr = -1;
+    // Beware as this HFR value is then treated specifically by the graph renderer
+    double hfr = FocusAlgorithmInterface::IGNORED_HFR;
 
     if (m_StarFinderWatcher.result() == false)
     {
@@ -1335,7 +1358,7 @@ bool Focus::appendHFR(double newHFR)
     QVector <double> samples(HFRFrames);
     samples.erase(std::remove_if(samples.begin(), samples.end(), [](const double HFR)
     {
-        return HFR == -1;
+        return HFR == FocusAlgorithmInterface::IGNORED_HFR;
     }), samples.end());
 
     // Perform simple sigma clipping if more than a few samples
@@ -1384,6 +1407,7 @@ bool Focus::appendHFR(double newHFR)
 void Focus::completeFocusProcedure(bool success)
 {
     QString analysis_results = "";
+
     if (inAutoFocus)
     {
         if (success)
@@ -1415,25 +1439,32 @@ void Focus::completeFocusProcedure(bool success)
                                .arg(filter())
                                .arg(QString::number(currentHFR, 'f', 3))
                                .arg(QString::number(mountAlt, 'f', 1)));
+
+            // Replace user position with optimal position
+            absTicksSpin->setValue(currentPosition);
         }
         // In case of failure, go back to last position if the focuser is absolute
-        else if (canAbsMove && currentFocuser && currentFocuser->isConnected() && initialFocuserAbsPosition >= 0)
+        else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS)
         {
-            currentFocuser->moveAbs(initialFocuserAbsPosition);
-            appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+            // If we are able to, move the focuser back to the initial position
+            if (currentFocuser && currentFocuser->isConnected())
+            {
+                appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+                currentFocuser->moveAbs(initialFocuserAbsPosition);
+            }
 
-            // If we're doing in sequence focusing using an absolute focuser, let's retry focusing starting from last known good position before we give up
-            if (inAutoFocus && resetFocusIteration++ < MAXIMUM_RESET_ITERATIONS && resetFocus == false)
+            // If we're doing in sequence focusing using an absolute focuser, retry focusing once starting from last known good position
+            if (!resetFocus && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS)
             {
                 resetFocus = true;
-                // Reset focus frame in case the star in subframe was lost
+
+                // Reset focus frame in case the star in subframe was lost and start again
                 resetFrame();
-                // start again
-                start();
                 return;
             }
         }
 
+        // Reset the retry count on success or maximum count
         resetFocusIteration = 0;
     }
 
@@ -1529,7 +1560,7 @@ void Focus::setCurrentHFR(double value)
     starsOut->setText(QString("%1").arg(m_ImageData->getDetectedStars()));
 
     // Display message in case _last_ HFR was negative
-    if (lastHFR == -1)
+    if (lastHFR == FocusAlgorithmInterface::IGNORED_HFR)
         appendLogText(i18n("FITS received. No stars detected."));
 
     // If we have a valid HFR value
@@ -1595,42 +1626,14 @@ void Focus::setCurrentHFR(double value)
     }
     else
     {
-        // Let's record an invalid star result
-        QVector3D oneStar(starCenter.x(), starCenter.y(), -1);
+        // Let's record an invalid star result - IGNORED_HFR must be suitable as invalid star HFR!
+        QVector3D oneStar(starCenter.x(), starCenter.y(), FocusAlgorithmInterface::IGNORED_HFR);
         starsHFR.append(oneStar);
     }
 
     // First check that we haven't already search for stars
     // Since star-searching algorithm are time-consuming, we should only search when necessary
     focusView->updateFrame();
-
-    // Try to average values and find if we have bogus results
-    if (inAutoFocus && starsHFR.count() > 3)
-    {
-        float mean = 0, sum = 0, stddev = 0, noHFR = 0;
-
-        for (int i = 0; i < starsHFR.count(); i++)
-        {
-            sum += starsHFR[i].x();
-            if (starsHFR[i].z() == -1)
-                noHFR++;
-        }
-
-        mean = sum / starsHFR.count();
-
-        // Calculate standard deviation
-        for (int i = 0; i < starsHFR.count(); i++)
-            stddev += pow(starsHFR[i].x() - mean, 2);
-
-        stddev = sqrt(stddev / starsHFR.count());
-
-        if (currentHFR == -1 && (stddev > focusBoxSize->value() / 10.0 || noHFR / starsHFR.count() > 0.75))
-        {
-            appendLogText(i18n("No reliable star is detected. Aborting..."));
-            completeFocusProcedure(false);
-            return;
-        }
-    }
 
     setHFRComplete();
 }
@@ -2069,19 +2072,19 @@ bool Focus::autoFocusChecks()
     }
 
     // No stars detected, try to capture again
-    if (currentHFR == -1)
+    if (currentHFR == FocusAlgorithmInterface::IGNORED_HFR)
     {
         if (noStarCount < MAX_RECAPTURE_RETRIES)
         {
+            noStarCount++;
             appendLogText(i18n("No stars detected, capturing again..."));
             capture();
-            noStarCount++;
             return false;
         }
-        else if (noStarCount == MAX_RECAPTURE_RETRIES)
+        else if (focusAlgorithm == FOCUS_LINEAR)
         {
-            currentHFR = 20;
-            noStarCount++;
+            appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
+            noStarCount = 0;
         }
         else
         {
@@ -2092,6 +2095,7 @@ bool Focus::autoFocusChecks()
     }
     else
         noStarCount = 0;
+
     return true;
 }
 
@@ -2181,6 +2185,8 @@ void Focus::autoFocusLinear()
 
 void Focus::autoFocusAbs()
 {
+    // Q_ASSERT_X(canAbsMove || canRelMove, __FUNCTION__, "Prerequisite: only absolute and relative focusers");
+
     static int minHFRPos = 0, focusOutLimit = 0, focusInLimit = 0;
     static double minHFR = 0;
     double targetPosition = 0, delta = 0;
@@ -2218,6 +2224,33 @@ void Focus::autoFocusAbs()
             HFRInc                    = 0;
             focusOutLimit             = 0;
             focusInLimit              = 0;
+
+            // This is the first step, so clamp the initial target position to the device limits
+            // If the focuser cannot move because it is at one end of the interval, try the opposite direction next
+            if (absMotionMax < currentPosition + pulseDuration)
+            {
+                if (currentPosition < absMotionMax)
+                {
+                    pulseDuration = absMotionMax - currentPosition;
+                }
+                else
+                {
+                    pulseDuration = 0;
+                    lastFocusDirection = FOCUS_IN;
+                }
+            }
+            else if (currentPosition + pulseDuration < absMotionMin)
+            {
+                if (absMotionMin < currentPosition)
+                {
+                    pulseDuration = currentPosition - absMotionMin;
+                }
+                else
+                {
+                    pulseDuration = 0;
+                    lastFocusDirection = FOCUS_OUT;
+                }
+            }
 
             if (!changeFocus(pulseDuration))
                 completeFocusProcedure(false);
@@ -2426,10 +2459,12 @@ void Focus::autoFocusAbs()
             else if (targetPosition > absMotionMax)
                 targetPosition = absMotionMax;
 
-            // Ops, we can't go any further, we're done.
+            // We cannot go any further because of the device limits, this is a failure
             if (targetPosition == currentPosition)
             {
-                completeFocusProcedure(true);
+                appendLogText("Focuser cannot move further, device limits reached. Autofocus aborted.");
+                qCDebug(KSTARS_EKOS_FOCUS) << "Focuser cannot move further, restricted by device limits at " << targetPosition;
+                completeFocusProcedure(false);
                 return;
             }
 
@@ -2441,6 +2476,7 @@ void Focus::autoFocusAbs()
                 return;
             }
 
+            // Restrict the target position even more with the maximum travel option
             if (fabs(targetPosition - initialFocuserAbsPosition) > maxTravelIN->value())
             {
                 int minTravelLimit = qMax(0.0, initialFocuserAbsPosition - maxTravelIN->value());
@@ -2516,16 +2552,26 @@ void Focus::autoFocusRel()
     }
 
     // No stars detected, try to capture again
-    if (currentHFR == -1)
+    if (currentHFR == FocusAlgorithmInterface::IGNORED_HFR)
     {
-        if (noStarCount++ < MAX_RECAPTURE_RETRIES)
+        if (noStarCount < MAX_RECAPTURE_RETRIES)
         {
+            noStarCount++;
             appendLogText(i18n("No stars detected, capturing again..."));
             capture();
             return;
         }
+        else if (focusAlgorithm == FOCUS_LINEAR)
+        {
+            appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
+            noStarCount = 0;
+        }
         else
-            currentHFR = 20;
+        {
+            appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
+            completeFocusProcedure(false);
+            return;
+        }
     }
     else
         noStarCount = 0;
@@ -2636,6 +2682,9 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
+    if (currentFocuser == nullptr)
+        return;
+
     // Return if it is not our current focuser
     if (nvp->device != currentFocuser->getDeviceName())
         return;
@@ -2682,20 +2731,26 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             }
         }
 
-        if (adjustFocus && nvp->s == IPS_OK)
+        if (nvp->s == IPS_OK)
         {
-            adjustFocus = false;
-            lastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted();
-            return;
-        }
+            // Systematically reset UI when focuser finishes moving
+            resetButtons();
 
-        if (resetFocus && nvp->s == IPS_OK)
-        {
-            resetFocus = false;
-            inAutoFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (adjustFocus)
+            {
+                adjustFocus = false;
+                lastFocusDirection = FOCUS_NONE;
+                emit focusPositionAdjusted();
+                return;
+            }
+
+            if (resetFocus)
+            {
+                resetFocus = false;
+                inAutoFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
 
         if (canAbsMove && inAutoFocus)
@@ -3224,11 +3279,16 @@ void Focus::checkAutoStarTimeout()
 void Focus::setAbsoluteFocusTicks()
 {
     if (currentFocuser == nullptr)
+    {
+        appendLogText(i18n("Error: No Focuser detected."));
+        checkStopFocus();
         return;
+    }
 
     if (currentFocuser->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Focuser."));
+        checkStopFocus();
         return;
     }
 
@@ -3578,15 +3638,28 @@ void Focus::processCaptureTimeout()
 
         appendLogText(i18n("Exposure timeout. Aborting..."));
         completeFocusProcedure(false);
-
     }
     else
     {
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
-        targetChip->capture(exposureIN->value());
-        captureTimeout.start(exposureIN->value() * 1000 + FOCUS_TIMEOUT_THRESHOLD);
+
+        if (targetChip->capture(exposureIN->value()))
+        {
+            // Timeout is exposure duration + timeout threshold in seconds
+            long const timeout = lround(ceil(exposureIN->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
+            captureTimeout.start(timeout);
+
+            if (inFocusLoop == false)
+                appendLogText(i18n("Capturing image again..."));
+
+            resetButtons();
+        }
+        else if (inAutoFocus)
+        {
+            completeFocusProcedure(false);
+        }
     }
 }
 
@@ -3752,7 +3825,8 @@ void Focus::loadSettings()
 
     // Box Size
     focusBoxSize->setValue(Options::focusBoxSize());
-    // Max Travel
+    // Max Travel - this will be overriden by the device
+    maxTravelIN->setMinimum(0.0);
     if (Options::focusMaxTravel() > maxTravelIN->maximum())
         maxTravelIN->setMaximum(Options::focusMaxTravel());
     maxTravelIN->setValue(Options::focusMaxTravel());

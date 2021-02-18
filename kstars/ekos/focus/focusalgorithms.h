@@ -24,6 +24,10 @@ namespace Ekos
 class FocusAlgorithmInterface
 {
 public:
+    // Invalid HFR result - this value (-1) is compatible with graph renderings
+    static double constexpr IGNORED_HFR = -1;
+
+public:
     struct FocusParams {
         // Maximum movement from current position allowed for the algorithm.
         int maxTravel;
