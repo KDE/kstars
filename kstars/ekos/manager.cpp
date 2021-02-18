@@ -2963,7 +2963,6 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
                                 int pierSide, const QString &ha)
 {
-    Q_UNUSED(ha);
     Q_UNUSED(pierSide);
     raOUT->setText(ra);
     decOUT->setText(dec);
@@ -2976,6 +2975,7 @@ void Manager::updateMountCoords(const QString &ra, const QString &dec, const QSt
         {"de", dms::fromString(dec, true).Degrees()},
         {"az", dms::fromString(az, true).Degrees()},
         {"at", dms::fromString(alt, true).Degrees()},
+        {"ha", dms::fromString(ha, false).Degrees()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
