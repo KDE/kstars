@@ -5270,14 +5270,7 @@ void Align::setCaptureStatus(CaptureState newState)
             // capture
             if (currentTelescope && m_CaptureState != CAPTURE_SUSPENDED)
             {
-                double ra, dec;
-                currentTelescope->getEqCoords(&ra, &dec);
-                targetCoord.setRA(ra);
-                targetCoord.setDec(dec);
-                // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
-                // Function to do that in case of any changes in the future in that function.
-                SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
-                setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
+                syncTargetToMount();
             }
 
         }
@@ -6282,7 +6275,7 @@ void Align::setTargetCoords(double ra, double de)
     targetCoord.setDec0(de);
     targetCoord.updateCoordsNow(KStarsData::Instance()->updateNum());
 
-    qCDebug(KSTARS_EKOS_ALIGN) << "Target Coordinates updated to RA:" << targetCoord.ra().toHMSString()
+    qCDebug(KSTARS_EKOS_ALIGN) << "Target Coordinates updated to JNow RA:" << targetCoord.ra().toHMSString()
                                << "DE:" << targetCoord.dec().toDMSString();
 }
 
@@ -6370,11 +6363,18 @@ void Align::syncTargetToMount()
 {
     double ra, dec;
     currentTelescope->getEqCoords(&ra, &dec);
-    targetCoord.setRA(ra);
-    targetCoord.setDec(dec);
+    SkyPoint currentMountCoords(ra, dec);
+
+    qCDebug(KSTARS_EKOS_ALIGN) << "Mount Coordinates JNow RA:" << currentMountCoords.ra().toHMSString()
+                               << "DE:" << currentMountCoords.dec().toDMSString();
+
     // While we can set targetCoord = J2000Coord now, it's better to use setTargetCoord
     // Function to do that in case of any changes in the future in that function.
-    SkyPoint J2000Coord = targetCoord.catalogueCoord(KStarsData::Instance()->lt().djd());
+    SkyPoint J2000Coord = currentMountCoords.catalogueCoord(KStarsData::Instance()->lt().djd());
+
+    qCDebug(KSTARS_EKOS_ALIGN) << "Mount Coordinates J2000 RA:" << J2000Coord.ra().toHMSString()
+                               << "DE:" << J2000Coord.dec().toDMSString();
+
     setTargetCoords(J2000Coord.ra0().Hours(), J2000Coord.dec0().Degrees());
 }
 
