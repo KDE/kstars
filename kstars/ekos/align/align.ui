@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>724</width>
+    <width>786</width>
     <height>627</height>
    </rect>
   </property>
@@ -1112,7 +1112,7 @@
                   <bool>true</bool>
                  </property>
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Put your equatorial mount in the home position and point it toward the celestial pole or any point near the meridian. Select  &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;mount direction&lt;/span&gt; and  &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;speed &lt;/span&gt; and then click &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Start&lt;/span&gt; to begin the polar alignment process.&lt;/p&gt;&lt;p&gt;Before beginning, &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;consider binning at 2x2 or more &lt;/span&gt;if you are using a Raspberry Pi4 to improve response time in the correction phase.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Put your equatorial mount in the home position and point it toward the celestial pole or any point near the meridian. Select &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;mount direction&lt;/span&gt; and &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;speed &lt;/span&gt;and then click &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Start&lt;/span&gt; to begin the polar alignment process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1515,7 +1515,7 @@
                <item>
                 <widget class="QLabel" name="refreshText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture at the given exposure duration. Adjust mount's &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Altitude knob&lt;/span&gt; to move the star along the &lt;span style=&quot; font-weight:600; color:#ffff50;&quot;&gt;Yellow&lt;/span&gt; line, then adjust the &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Azimuth knob&lt;/span&gt; to move it along The &lt;span style=&quot; font-weight:600; color:#00ff00;&quot;&gt;Green&lt;/span&gt; line until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Done&lt;/span&gt; when the star is centered.&lt;/p&gt; &lt;p&gt;You can use &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Update PA Error&lt;/span&gt; to assist you. It circles the selected star and estimates the remaining error. Tracking can fail near the image edge. Trust your eyes over the the drawn circle.&lt;/p&gt;&lt;p&gt;If updates are slow, use more binning (from the start).&lt;/p&gt;      &lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture at the given exposure duration. Adjust mount's &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Altitude knob&lt;/span&gt; to move the star along the &lt;span style=&quot; font-weight:600; color:#ffff50;&quot;&gt;Yellow&lt;/span&gt; line, then adjust the &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Azimuth knob&lt;/span&gt; to move it along the &lt;span style=&quot; font-weight:600; color:#00ff00;&quot;&gt;Green&lt;/span&gt; line until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Done&lt;/span&gt; when the star is centered.&lt;/p&gt;&lt;p&gt;Use &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Update PA Error&lt;/span&gt; to estimate the error as you adjust the star position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1671,11 +1671,11 @@
                      <height>16777215</height>
                     </size>
                    </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
                    <property name="toolTip">
                     <string>Polar Alignment total error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1718,11 +1718,11 @@
                      <height>16777215</height>
                     </size>
                    </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
                    <property name="toolTip">
                     <string>Polar Alignment altitude error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1765,11 +1765,11 @@
                      <height>16777215</height>
                     </size>
                    </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
                    <property name="toolTip">
                     <string>Polar Alignment azimuth error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1789,164 +1789,162 @@
                 </layout>
                </item>
                <item>
-                <widget class="QWidget" name="PAHUpdatedErrorLine">
-                 <layout class="QHBoxLayout" name="PAHUpdatedErrorLineLayout">
-                  <property name="spacing">
-                   <number>3</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_PAHUpdatedErrorTotal">
-                    <property name="minimumSize">
-                     <size>
-                      <width>100</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>100</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Polar Alignment total error estimated after recent adjustments.</string>
-                    </property>
-                    <property name="text">
-                     <string>Updated Err:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PAHUpdatedErrorTotal">
-                    <property name="minimumSize">
-                     <size>
-                      <width>100</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>100</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="readOnly">
-                     <bool>true</bool>
-                    </property>
+                <layout class="QHBoxLayout" name="PAHUpdatedErrorLineLayout">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_PAHUpdatedErrorTotal">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
-                     <string>Polar Alignment total error estimated after recent adjustments.</string>
-                   </property>                    
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_PAHUpdatedErrorAlt">
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Polar Alignment altitude error estimated after recent adjustments.</string>
-                    </property>
-                    <property name="text">
-                     <string>Alt:</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PAHUpdatedErrorAlt">
-                    <property name="minimumSize">
-                     <size>
-                      <width>100</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="readOnly">
-                     <bool>true</bool>
-                    </property>
+                    <string>Polar Alignment total error estimated after recent adjustments.</string>
+                   </property>
+                   <property name="text">
+                    <string>Updated Err:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="PAHUpdatedErrorTotal">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
-                     <string>Polar Alignment altitude error estimated after recent adjustments.</string>
-                   </property>                    
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_PAHUpdatedErrorAz">
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
-                    </property>
-                    <property name="text">
-                     <string>Az:</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PAHUpdatedErrorAz">
-                    <property name="minimumSize">
-                     <size>
-                      <width>100</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>100</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="readOnly">
-                     <bool>true</bool>
-                    </property>
+                    <string>Polar Alignment total error estimated after recent adjustments.</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_PAHUpdatedErrorAlt">
+                   <property name="minimumSize">
+                    <size>
+                     <width>50</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
-                     <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
-                   </property>                    
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_updatedError">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </widget>
+                    <string>Polar Alignment altitude error estimated after recent adjustments.</string>
+                   </property>
+                   <property name="text">
+                    <string>Alt:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="PAHUpdatedErrorAlt">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="toolTip">
+                    <string>Polar Alignment altitude error estimated after recent adjustments.</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_PAHUpdatedErrorAz">
+                   <property name="minimumSize">
+                    <size>
+                     <width>50</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="toolTip">
+                    <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
+                   </property>
+                   <property name="text">
+                    <string>Az:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="PAHUpdatedErrorAz">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="toolTip">
+                    <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_updatedError">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -2144,7 +2142,7 @@
                <item>
                 <widget class="QLabel" name="firstSettleText">
                  <property name="text">
-                    <string>&lt;p&gt;Settling after the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation.&lt;/p&gt;</string>
+                  <string>&lt;p&gt;Settling after the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -2173,7 +2171,7 @@
                <item>
                 <widget class="QLabel" name="secondSettleText">
                  <property name="text">
-                    <string>&lt;p&gt;Settling after the &lt;span style=&quot; font-style:italic;&quot;&gt;second&lt;/span&gt; mount rotation.&lt;/p&gt;</string>
+                  <string>&lt;p&gt;Settling after the &lt;span style=&quot; font-style:italic;&quot;&gt;second&lt;/span&gt; mount rotation.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
