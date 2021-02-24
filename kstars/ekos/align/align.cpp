@@ -301,6 +301,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
             &Ekos::Align::updateTelescopeType);
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
+    connect(accuracySpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]()
+    {
+        Options::setSolverAccuracyThreshold(accuracySpin->value());
+        buildTarget();
+    });
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
 
     delaySpin->setValue(Options::settlingTime());
@@ -382,7 +387,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(alignPlot, &QCustomPlot::mouseMove, this, &Ekos::Align::handlePointTooltip);
     connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Align::handleVerticalPlotSizeChange);
     connect(alignSplitter, &QSplitter::splitterMoved, this, &Ekos::Align::handleHorizontalPlotSizeChange);
-    connect(accuracySpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Align::buildTarget);
 
     alignPlot->resize(190, 190);
     alignPlot->replot();

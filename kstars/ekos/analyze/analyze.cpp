@@ -1022,11 +1022,17 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
     else
         c.setupTable("Focus", "FAILED", clockTime(c.start), clockTime(c.end), detailsTable);
 
-    double finalHfr = c.hfrs.size() > 0 ? c.hfrs.last() : 0;
-    if (c.success)
-        c.addRow("HFR", c.isTemporary() ? "" : QString::number(finalHfr, 'f', 2));
     if (!c.isTemporary())
+    {
+        if (c.success)
+        {
+            if (c.hfrs.size() > 0)
+                c.addRow("HFR", QString::number(c.hfrs.last(), 'f', 2));
+            if (c.positions.size() > 0)
+                c.addRow("Solution", QString::number(c.positions.last(), 'f', 0));
+        }
         c.addRow("Iterations", QString::number(c.positions.size()));
+    }
     c.addRow("Filter", c.filter);
     c.addRow("Temperature", QString::number(c.temperature, 'f', 1));
 
