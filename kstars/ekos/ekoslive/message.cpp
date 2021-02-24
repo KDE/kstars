@@ -600,6 +600,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
+        capture->setVideoLimits(payload["maxBufferSize"].toInt(512), payload["maxPreviewFPS"].toInt(10));
         capture->toggleVideo(payload["enabled"].toBool());
     }
     else if (command == commands[CAPTURE_START])

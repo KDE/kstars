@@ -390,6 +390,13 @@ class Capture : public QWidget, public Ui::Capture
         QJsonObject getLimitSettings();
 
         /**
+         * @brief setVideoLimits sets the buffer size and max preview fps for live preview
+         * @param maxBufferSize in bytes
+         * @param maxPreviewFPS number of frames per second
+         * @return True if value is updated, false otherwise.
+         */
+        bool setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS);
+        /**
          * @brief addDSLRInfo Save DSLR Info the in the database. If the interactive dialog was open, close it.
          * @param model Camera name
          * @param maxW Maximum width in pixels

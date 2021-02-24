@@ -292,6 +292,7 @@ class CCD : public DeviceDecorator
         bool isStreamingEnabled();
         bool setStreamExposure(double duration);
         bool getStreamExposure(double *duration);
+        bool setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS);
 
         // Video Recording
         bool setSERNameDirectory(const QString &filename, const QString &directory);

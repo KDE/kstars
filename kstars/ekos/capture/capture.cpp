@@ -6542,6 +6542,14 @@ void Capture::toggleVideo(bool enabled)
     currentCCD->setVideoStreamEnabled(enabled);
 }
 
+bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
+{
+    if (currentCCD == nullptr)
+        return false;
+
+    return currentCCD->setStreamLimits(maxBufferSize, maxPreviewFPS);
+}
+
 void Capture::setVideoStreamEnabled(bool enabled)
 {
     if (enabled)
