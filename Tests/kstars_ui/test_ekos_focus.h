@@ -22,6 +22,7 @@
 #include <QSpinBox>
 #include <QCheckBox>
 #include <QtTest>
+#include <QSystemTrayIcon>
 
 /** @brief Helper to show the Focus tab
  */
@@ -81,18 +82,18 @@
     exposureIN->setValue(exposure); } while (false)
 
 #define KTRY_FOCUS_DETECT(exposure, averaged, gain) do { \
-    KTRY_FOCUS_EXPOSURE(exposure, gain); \
+    KTRY_FOCUS_EXPOSURE((exposure), (gain)); \
     KTRY_FOCUS_GADGET(QSpinBox, focusFramesSpin); \
     focusFramesSpin->setValue(averaged); \
     KTRY_FOCUS_GADGET(QPushButton, captureB); \
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB); \
     QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000); \
-    QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 5000); \
+    QTRY_VERIFY(!stopFocusB->isEnabled()); \
     KTRY_FOCUS_CLICK(captureB); \
     QTRY_VERIFY_WITH_TIMEOUT(!captureB->isEnabled(), 5000); \
     QVERIFY(stopFocusB->isEnabled()); \
-    QTest::qWait(exposure*averaged*1000); \
-    QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000 + exposure*averaged*1000/5); \
+    QTest::qWait(ceil(exposure)*(averaged)*1000); \
+    QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 20000 + exposure*averaged*1000/5); \
     QVERIFY(!stopFocusB->isEnabled()); } while (false)
 /** @} */
 
@@ -113,31 +114,41 @@
     KTRY_FOCUS_GADGET(QDoubleSpinBox, toleranceIN); \
     toleranceIN->setValue(tolerance); \
     KTRY_FOCUS_COMBO_SET(focusDetectionCombo, detection); \
-    KTRY_FOCUS_COMBO_SET(focusAlgorithmCombo, algorithm); } while (false)
+    KTRY_FOCUS_COMBO_SET(focusAlgorithmCombo, algorithm); \
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, maxTravelIN); \
+    maxTravelIN->setValue(10000); } while (false)
 
 /** @brief Helper to move the focuser.
  * @param steps is the absolute step value to set.
  */
 #define KTRY_FOCUS_MOVETO(steps) do { \
     KTRY_FOCUS_GADGET(QSpinBox, absTicksSpin); \
+    QTRY_VERIFY_WITH_TIMEOUT(absTicksSpin->isEnabled(), 500); \
     absTicksSpin->setValue(steps); \
     KTRY_FOCUS_GADGET(QPushButton, startGotoB); \
     KTRY_FOCUS_CLICK(startGotoB); \
     KTRY_FOCUS_GADGET(QLineEdit, absTicksLabel); \
-    QTRY_COMPARE_WITH_TIMEOUT(absTicksLabel->text().toInt(), steps, 5000); } while (false)
+    QTRY_COMPARE_WITH_TIMEOUT(absTicksLabel->text().toInt(), steps, 10000); } while (false)
 
 /** @brief Helper to sync the mount at the meridian for focus tests.
  * @warning This is needed because the CCD Simulator has much rotation jitter at the celestial pole.
  * @param alt is the altitude to sync to, use 60.0 as degrees for instance.
+ * @param track whether to enable track or not.
+ * @param ha_ofs is the offset to add to the LST before syncing (east is positive).
  */
-#define KTRY_FOCUS_SYNC(alt) do { \
-    QWARN("Syncing mount at an altitude on the meridian to avoid celestial pole jitter on the simulator."); \
+#define KTRY_FOCUS_SYNC(alt, track, ha_ofs) do { \
+    QVERIFY(KStarsData::Instance()); \
     GeoLocation * const geo = KStarsData::Instance()->geo(); \
     KStarsDateTime const now(KStarsData::Instance()->lt()); \
     KSNumbers const numbers(now.djd()); \
     CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst()); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000); \
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(LST.Hours(), (alt))); } while (false)
+    Ekos::Manager::Instance()->mountModule()->setMeridianFlipValues(true, 0); \
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(LST.Hours()+(ha_ofs), (alt))); \
+    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); } while (false)
+
+#define KTELL(message) do { \
+    m_Notifier->showMessage(__FUNCTION__, (message), QIcon()); } while(false)
 
 class TestEkosFocus : public QObject
 {
@@ -145,6 +156,9 @@ class TestEkosFocus : public QObject
 
 public:
     explicit TestEkosFocus(QObject *parent = nullptr);
+
+protected:
+    QSystemTrayIcon * m_Notifier { nullptr };
 
 private slots:
     void initTestCase();
@@ -157,10 +171,11 @@ private slots:
     void testDuplicateFocusRequest();
     void testAutofocusSignalEmission();
     void testFocusAbort();
-    void testGuidingSuspend();
-    void testFocusWhenGuidingResumes();
+    void testGuidingSuspendWhileFocusing();
+    void testFocusWhenHFRChecking();
     void testFocusFailure();
     void testFocusOptions();
+    void testFocusWhenMountFlips();
 
     void testStarDetection_data();
     void testStarDetection();

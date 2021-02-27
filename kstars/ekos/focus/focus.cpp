@@ -157,7 +157,7 @@ Focus::~Focus()
 
 void Focus::resetFrame()
 {
-    if (currentCCD)
+    if (currentCCD && currentCCD->isConnected())
     {
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -1446,22 +1446,31 @@ void Focus::completeFocusProcedure(bool success)
         // In case of failure, go back to last position if the focuser is absolute
         else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS)
         {
-            // If we are able to, move the focuser back to the initial position
-            if (currentFocuser && currentFocuser->isConnected())
-            {
-                appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
-                currentFocuser->moveAbs(initialFocuserAbsPosition);
-            }
+            // If we're doing in-sequence focusing using an absolute focuser, retry focusing once, starting from last known good position
+            bool const retry_focusing = !resetFocus && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
 
-            // If we're doing in sequence focusing using an absolute focuser, retry focusing once starting from last known good position
-            if (!resetFocus && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS)
+            // If retrying, before moving, reset focus frame in case the star in subframe was lost
+            if (retry_focusing)
             {
                 resetFocus = true;
-
-                // Reset focus frame in case the star in subframe was lost and start again
                 resetFrame();
-                return;
             }
+
+            // If we are able to and need to, move the focuser back to the initial position and let the procedure restart from its termination
+            if (currentFocuser && currentFocuser->isConnected())
+            {
+                // HACK: If the focuser will not move, cheat a little to get the notification - see processNumber
+                if (currentPosition == initialFocuserAbsPosition)
+                    currentPosition--;
+
+                appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+                currentFocuser->moveAbs(initialFocuserAbsPosition);
+                /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
+            }
+
+            // Bypass the rest of the function if we retry - we will fail if we could not move the focuser
+            if (retry_focusing)
+                return;
         }
 
         // Reset the retry count on success or maximum count
@@ -1494,24 +1503,21 @@ void Focus::completeFocusProcedure(bool success)
             state = Ekos::FOCUS_COMPLETE;
 
             if (autoFocusUsed)
+            {
                 KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
+                emit autofocusComplete(filter(), analysis_results);
+            }
         }
         else
         {
             state = Ekos::FOCUS_FAILED;
+
             if (autoFocusUsed)
+            {
                 KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
                                       KSNotification::EVENT_ALERT);
-        }
-
-        // Set the procedure result
-        if (autoFocusUsed)
-        {
-            // Send the completion message to other modules
-            if (success)
-                emit autofocusComplete(filter(), analysis_results);
-            else
                 emit autofocusAborted(filter(), analysis_results);
+            }
         }
 
         qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state);
@@ -2711,11 +2717,15 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
         INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
+
+        // FIXME: We should check state validity, but some focusers do not care - make ignore an option!
         if (pos)
         {
             int newPosition = static_cast<int>(pos->value);
+
             // Some absolute focuser constantly report the position without a state change.
             // Therefore we ignore it if both value and state are the same as last time.
+            // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
             if (currentPosition == newPosition && currentPositionState == nvp->s)
                 return;
 
