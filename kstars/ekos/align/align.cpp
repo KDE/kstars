@@ -3842,7 +3842,7 @@ void Align::solverFailed()
     appendLogText(i18n("Solver Failed."));
     if(!Options::alignmentLogging())
         appendLogText(
-            i18n("To get more information about why the solver may have failed, please enable Alignment Logging in the Ekos Logging Options."));
+            i18n("Please check you have sufficient stars in the image. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
 
     KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
                           KSNotification::EVENT_ALERT);
