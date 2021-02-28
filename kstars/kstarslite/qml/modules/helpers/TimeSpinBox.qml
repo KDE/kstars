@@ -166,52 +166,52 @@ SpinBox {
 
         timeString = []
         if ( ! daysOnly ) {
-            timeString.push( "0 " + i18np( "seconds", "secs" ));
-            timeString.push( "0.1 " + i18np( "seconds", "secs" ));
-            timeString.push( "0.25 " + i18np( "seconds", "secs" ));
-            timeString.push( "0.5 " + i18np( "seconds", "secs" ));
-            timeString.push( "1 " + i18np( "second", "sec" ));
-            timeString.push( "2 " + i18np( "seconds", "secs" ));
-            timeString.push( "5 " + i18np( "seconds", "secs" ));
-            timeString.push( "10 " + i18np( "seconds", "secs" ));
-            timeString.push( "20 " + i18np( "seconds", "secs" ));
-            timeString.push( "30 " + i18np( "seconds", "secs" ));
-            timeString.push( "1 " + i18np( "minute", "min" ));
-            timeString.push( "2 " + i18np( "minutes", "mins" ));
-            timeString.push( "5 " + i18np( "minutes", "mins" ));
-            timeString.push( "10 " + i18np( "minutes", "mins" ));
-            timeString.push( "15 " + i18np( "minutes", "mins" ));
-            timeString.push( "30 " + i18np( "minutes", "mins" ));
-            timeString.push( "1 " +xi18n( "hour" ));
-            timeString.push( "2 " + i18np( "hours", "hrs" ));
-            timeString.push( "3 " + i18np( "hours", "hrs" ));
-            timeString.push( "6 " + i18np( "hours", "hrs" ));
-            timeString.push( "12 " + i18np( "hours", "hrs" ));
+            timeString.push( i18n( "0 secs" ));
+            timeString.push( i18n( "0.1 secs" ));
+            timeString.push( i18n( "0.25 secs" ));
+            timeString.push( i18n( "0.5 secs" ));
+            timeString.push( i18n( "1 sec" ));
+            timeString.push( i18n( "2 secs" ));
+            timeString.push( i18n( "5 secs" ));
+            timeString.push( i18n( "10 secs" ));
+            timeString.push( i18n( "20 secs" ));
+            timeString.push( i18n( "30 secs" ));
+            timeString.push( i18n( "1 min" ));
+            timeString.push( i18n( "2 mins" ));
+            timeString.push( i18n( "5 mins" ));
+            timeString.push( i18n( "10 mins" ));
+            timeString.push( i18n( "15 mins" ));
+            timeString.push( i18n( "30 mins" ));
+            timeString.push( i18n( "1 hour" ));
+            timeString.push( i18n( "2 hrs" ));
+            timeString.push( i18n( "3 hrs" ));
+            timeString.push( i18n( "6 hrs" ));
+            timeString.push( i18n( "12 hrs" ));
         } else {
-            timeString.push( "0 " +xi18n( "days" ));
+            timeString.push( i18n( "0 days" ));
         }
-        timeString.push( "1 " + i18np( "sidereal day", "sid day" ));
-        timeString.push( "1 " +xi18n( "day" ));
-        timeString.push( "2 " +xi18n( "days" ));
-        timeString.push( "3 " +xi18n( "days" ));
-        timeString.push( "5 " +xi18n( "days" ));
-        timeString.push( "1 " +xi18n( "week" ));
-        timeString.push( "2 " + i18np( "weeks", "wks" ));
-        timeString.push( "3 " + i18np( "weeks", "wks" ));
-        timeString.push( "1 " +xi18n( "month" ));
-        timeString.push( "2 " + i18np( "months", "mths" ));
-        timeString.push( "3 " + i18np( "months", "mths" ));
-        timeString.push( "4 " + i18np( "months", "mths" ));
-        timeString.push( "6 " + i18np( "months", "mths" ));
-        timeString.push( "9 " + i18np( "months", "mths" ));
-        timeString.push( "1 " + xi18n( "year" ));
-        timeString.push( "2 " + i18np( "years", "yrs" ));
-        timeString.push( "3 " + i18np( "years", "yrs" ));
-        timeString.push( "5 " + i18np( "years", "yrs" ));
-        timeString.push( "10 " + i18np( "years", "yrs" ));
-        timeString.push( "25 " + i18np( "years", "yrs" ));
-        timeString.push( "50 " + i18np( "years", "yrs" ));
-        timeString.push( "100 " + i18np( "years", "yrs" ));
+        timeString.push( i18n( "1 sid day" ));
+        timeString.push( i18n( "1 day" ));
+        timeString.push( i18n( "2 days" ));
+        timeString.push( i18n( "3 days" ));
+        timeString.push( i18n( "5 days" ));
+        timeString.push( i18n( "1 week" ));
+        timeString.push( i18n( "2 wks" ));
+        timeString.push( i18n( "3 wks" ));
+        timeString.push( i18n( "1 month" ));
+        timeString.push( i18n( "2 mths" ));
+        timeString.push( i18n( "3 mths" ));
+        timeString.push( i18n( "4 mths" ));
+        timeString.push( i18n( "6 mths" ));
+        timeString.push( i18n( "9 mths" ));
+        timeString.push( i18n( "1 year" ));
+        timeString.push( i18n( "2 yrs" ));
+        timeString.push( i18n( "3 yrs" ));
+        timeString.push( i18n( "5 yrs" ));
+        timeString.push( i18n( "10 yrs" ));
+        timeString.push( i18n( "25 yrs" ));
+        timeString.push( i18n( "50 yrs" ));
+        timeString.push( i18n( "100 yrs" ));
 
         if ( !daysOnly ) {
             from = -41
