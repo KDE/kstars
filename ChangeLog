@@ -4,6 +4,97 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.2 (Huygens):
+
+ec39e58d5 2021-02-28 Jasem Mutlaq         Fix return code error
+fea80004a 2021-02-28 Jasem Mutlaq         Improve solve failure alignment message
+157c8cff0 2021-02-28 Jasem Mutlaq         Mark stable release for 3.5.2
+487ca62b2 2021-02-28 Eric Dejouhanet      Fix fread return code check and non-init block use.
+e6c2c9c4c 2021-02-27 Hy Murveit           Save the estimated GPG period.
+a2f6995f6 2021-02-28 Yuri Chornoivan      Fix wrong usage of i18np()
+d80cef232 2021-02-27 Eric Dejouhanet      Fix Guider capture/reacquire timeout handling
+3f0274dda 2021-02-27 Eric Dejouhanet      Protect from focuser loss, ensure autofocus stop from button.
+a09145800 2021-02-24 Aziz Bouland         adds the ability to set the video buffer size and the max frames per second sent from ekos programtically
+ab65d91b8 2021-02-24 Jasem Mutlaq         INDI driver sync
+739c70fb8 2021-02-23 Hy Murveit           Save Align accuracy. Add focus position to Analyze focus info box.
+8240afe3c 2021-02-22 Yuri Chornoivan      Fix minor typo
+4aaad41e8 2021-02-22 Jasem Mutlaq         Fix build error
+601788519 2021-02-21 Jasem Mutlaq         Simplify PAA messages
+65b0f85d5 2021-02-18 Jasem Mutlaq         Add more information about mount coordinates conversions in log
+9ecc46851 2021-02-18 Jasem Mutlaq         Add ha to mount messages
+c5a7b5be0 2021-02-18 Eric Dejouhanet      Protect from focuser loss, ensure autofocus stop from button.
+11e7f786c 2021-02-16 Jasem Mutlaq         Send pixmap for low-res images
+d61c55749 2021-02-16 Jasem Mutlaq         No need to send temperature as state
+224caa313 2021-02-16 Jasem Mutlaq         Fix crash in serial port assistant device navigation
+b26c18ea1 2021-02-11 Hy Murveit           Add apt-add-ppa to README.md build instructions.
+c97f2adb4 2021-02-09 Eric Dejouhanet      Fix issues found by Coverity Scan (level medium)
+578da02cb 2021-02-08 Jasem Mutlaq         Disable placehold test on Windows until fixed later
+8962f1cc6 2021-02-08 Eric Dejouhanet      Fix issues found by Coverity Scan (level High).
+e50708a71 2021-02-08 Jasem Mutlaq         Only debayer images that originally have single channel in the fits header.
+dec23434b 2021-02-08 Jasem Mutlaq         Make sure we have single channel to read data min and max. For multichannel we calculate directly.
+b0268d421 2021-02-07 Jasem Mutlaq         Add visual studio ignores
+ea1cc1f96 2021-02-07 Jasem Mutlaq         Disable strict iterators for Windows
+1426c837f 2021-02-07 Jasem Mutlaq         Make KStars compile on Windows in Debug mode. Apparently headers order is important
+bfd04bf36 2021-01-27 Kwon-Young Choi      Test SequenceJob::getSignature
+b4e350952 2021-01-19 Kwon-Young Choi      Empty TestPlaceholderPath class in preparation of issue #54
+43c5c5dbe 2021-02-05 Jasem Mutlaq         INDI Drivers sync
+2d790408f 2021-02-05 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+c10e174fe 2021-02-03 Hy Murveit           PAA UI: Fix wording. Speedup drawing of circle.
+1caa4dcce 2021-02-04 Yuri Chornoivan      Fix minor typos
+c5c04f2e9 2021-02-03 Hy Murveit           New UI to help user correct polar alignment.
+4c3a23ed3 2021-02-02 Jasem Mutlaq         Simplify serial assistant
+783a076fb 2021-02-02 Jasem Mutlaq         Add weather interface as well since most are serial devices
+e37423958 2021-02-01 Jasem Mutlaq         No need to scale bounded rectangle
+708d9be9d 2021-01-31 Eric Dejouhanet      Fix sequence unexpectedly changing when pasting a Scheduler job.
+dc14609eb 2021-01-26 Jasem Mutlaq         Quick fix for meridian message box crash
+2e32f9886 2021-01-26 Jasem Mutlaq         Use KSMessageBox dialog to display meridian warning. Send az and alt error in the polarUpdated signal
+86b990833 2021-01-25 Hy Murveit           PAA fix issue with rotation, adjust test.
+b1a4eba48 2021-01-25 l10n daemon script   GIT_SILENT made messages (after extraction)
+5b3eacbd9 2021-01-24 Jasem Mutlaq         Send state when modules are started
+df1571634 2021-01-24 Jasem Mutlaq         Simplify PAH text
+e0bd6d66c 2021-01-24 Akarsh Simha         Update DSS URLs to https.
+dcc946b43 2021-01-24 l10n daemon script   GIT_SILENT made messages (after extraction)
+9ab004338 2021-01-22 Hy Murveit           PAA bugfix, make sure PAA is running before cancelling it on solver fail.
+54c8299b8 2021-01-23 Jasem Mutlaq         Fix build on BSD
+cef2ab206 2021-01-23 Jasem Mutlaq         Fix build on Windows
+dc3e949a0 2021-01-23 Jasem Mutlaq         Add adaptive sampling as a possible solution to load large images in memory constrained systems
+fb74da14b 2021-01-22 Hy Murveit           Fix PAA manual rotation message, Retry if solver fails, PAA UI cleanup.
+7619cc39a 2021-01-21 Jasem Mutlaq         Safe to add blocking connection back. No deadlock detected with tests
+f89934aa3 2021-01-21 Jasem Mutlaq         Emit change for vector correction
+83b04aa39 2021-01-16 Rick Bassham         feat: add rotation to scheduler
+74e0dac19 2021-01-20 Hy Murveit           Simplify AlignView for PAA and fix bug there.
+ed097b432 2021-01-20 Jasem Mutlaq         Remove older code now that we send updated frame
+1941d7623 2021-01-20 Jasem Mutlaq         Make the connection unique
+81570e3a8 2021-01-20 Jasem Mutlaq         Send correction vector on update
+4f3be0fc6 2021-01-20 Jasem Mutlaq         Fix mount speed settings in polar alignment
+1c57e4518 2021-01-20 Jasem Mutlaq         Ignore SIGPIPE again
+1b3245b3c 2021-01-20 Jasem Mutlaq         Safe to use blocking queued connection now
+0975bdf7f 2021-01-20 Jasem Mutlaq         Auto park on PAH completion should be off now by default
+c02f114a5 2021-01-18 Jasem Mutlaq         Fix Ekoslive PAH refresh
+74c8d9d91 2021-01-18 Jasem Mutlaq         Remove Pluto from planet search in observation wizard
+17637042f 2021-01-17 Hy Murveit           Analyze details table--move to QTableWidget.
+2a6ed9959 2021-01-17 Jasem Mutlaq         Remove extra functions for end focus as they were causing confusion. Focus tested under multiple real scenarios under Ikarus Observatory along with ..
+6a797bfaf 2021-01-17 Jasem Mutlaq         Create userdb database backup file and restore it once detecting a corrupted file for whatever reason
+3656fed1d 2021-01-17 Jasem Mutlaq         Delete client later to prevent crash under some scenarios
+a65830501 2021-01-17 Jasem Mutlaq         Abort focus if it is in progress while meridian flip is underway
+2e3ca42ba 2021-01-17 Jasem Mutlaq         WHen in meridian flip, ignore focus state changes
+85c3b3196 2021-01-17 Jasem Mutlaq         Must set this flag otherwise state is not dispatched in completeFocusProcedure
+f53607cdc 2021-01-17 Eric Dejouhanet      Fix Capture aborting exposure of Focus
+8f55f85d2 2021-01-16 l10n daemon script   GIT_SILENT made messages (after extraction)
+8dcefc97b 2021-01-15 Jasem Mutlaq         If ekos status is not idle, try to stop ekos first before starting again
+b90f3ef33 2021-01-13 Jasem Mutlaq         Set maximum temperature diff to 1 up from 0.1 as many cameras coolers are not usually accurate enough to 0.1. This would allow for first image to ki..
+05510da0e 2021-01-15 Hy Murveit           PAA--cleanup test. Update user messaging.
+53f886c33 2021-01-15 Jasem Mutlaq         Send ekoslive events even when not fully connected
+e15ef966f 2021-01-15 Jasem Mutlaq         Use KSNotification on device connection failure
+f87c3ba28 2021-01-15 Jasem Mutlaq         Use KSNotification::event instead of direct KNotification
+26c615d94 2021-01-15 Jasem Mutlaq         Use more sane defaults for INDI message notification and starting step size for most focusers
+29cda560e 2021-01-13 Jasem Mutlaq         Use Blocking Queued Connection again since deadlock issue temporarily fixed on INDI side
+0fa393571 2021-01-13 Hy Murveit           PAA: sample from the center of the image. Update test. minor bugfix.
+b7ac3bd53 2021-01-11 Hy Murveit           Fix PAA type (purple -> green).
+cbe33115a 2020-12-20 Hy Murveit           New polar-alignment scheme
+4635b3b08 2021-01-10 Brodrick Bassham     feat: manual rotation dialog in alignment module
+c5e8b6234 2021-01-10 Jasem Mutlaq         Starting 3.5.2 development cycle
+
 3.5.1 (Centauri):
 
 0b214549f 2021-01-07 Jasem Mutlaq         Mark 3.5.1 stable release                                                                                                                             
