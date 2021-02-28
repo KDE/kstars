@@ -25,7 +25,7 @@ constexpr double MAX_ARCSEC_ERROR = 5.0;
 
 // If we skip this many samples, reset gpg.
 constexpr int MAX_SKIPPED_SAMPLES = 4;
-  
+
 // Fills parameters from the KStars options.
 void getGPGParameters(GaussianProcessGuider::guide_parameters *parameters)
 {
@@ -242,5 +242,10 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
             .arg(gpgPulse)
             .arg(*pulseLength)
             .arg(*pulseDir);
+    if (Options::gPGEstimatePeriod())
+    {
+        double period_length = gpg->GetGPHyperparameters()[PKPeriodLength];
+        Options::setGPGPeriod(period_length);
+    }
     return true;
 }
