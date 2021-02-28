@@ -482,10 +482,11 @@ bool StarComponent::loadStaticData()
         Trixel trixel = i; // = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
         for (unsigned long j = 0; j < static_cast<unsigned long>(dataReader.getRecordCount(i)); ++j)
         {
-            if (sizeof(StarData) != fread(&stardata, sizeof(StarData), 1, dataFile))
+            if (1 != fread(&stardata, sizeof(StarData), 1, dataFile))
             {
                 qCCritical(KSTARS) << "FILE FORMAT ERROR: Could not read StarData structure for star #" << j << " under trixel #"
                                    << trixel;
+                continue;
             }
 
             /* Swap Bytes when required */
