@@ -991,6 +991,10 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         align->setPAHRefreshComplete();
     }
+    else if (command == commands[PAH_SLEW_DONE])
+    {
+        align->setPAHSlewDone();
+    }
 }
 
 void Message::setPAHStage(Ekos::Align::PAHStage stage)
