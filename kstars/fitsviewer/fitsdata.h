@@ -324,6 +324,12 @@ class FITSData : public QObject
             return m_DateTime;
         }
 
+        // Set the time, for testing (doesn't set header field)
+        void setDateTime(const KStarsDateTime &t)
+        {
+            m_DateTime = t;
+        }
+
         // WCS
         // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
         bool checkForWCS();
@@ -332,8 +338,14 @@ class FITSData : public QObject
         {
             return HasWCS;
         }
+        // The WCS can be loaded without pre-computing each pixel's position. This can make certain
+        // operations slow. FullWCS() is true if the pixel positions are pre-calculated.
+        bool fullWCS()
+        {
+            return FullWCS;
+        }
         // Load WCS data
-        bool loadWCS();
+        bool loadWCS(bool extras = true);
         // Get WCS State
         WCSState getWCSState() const
         {
@@ -377,7 +389,13 @@ class FITSData : public QObject
         {
             return HasDebayer;
         }
-        bool debayer();
+
+        /**
+         * @brief debayer the 1-channel data to 3-channel RGB using the default debayer pattern detected in the FITS header.
+         * @param reload If true, it will read the image again from disk before performing debayering. This is necessary to attempt
+         * subsequent debayering processes on an already debayered image.
+         */
+        bool debayer(bool reload = false);
         bool debayer_8bit();
         bool debayer_16bit();
         void getBayerParams(BayerParams *param);
@@ -532,7 +550,9 @@ class FITSData : public QObject
         ///Star Selection Algorithm
         StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
         /// Do we have WCS keywords in this FITS data?
-        bool HasWCS { false };
+        bool HasWCS { false };        /// Do we have WCS keywords in this FITS data?
+        /// we can initialize wcs without computing all the image positions.
+        bool FullWCS { false };
         /// Is the image debayarable?
         bool HasDebayer { false };
 
@@ -569,6 +589,7 @@ class FITSData : public QObject
         /// Bayer parameters
         BayerParams debayerParams;
 
+        int m_FITSBITPIX {USHORT_IMG};
         FITSImage::Statistic m_Statistics;
 
         // A list of header records

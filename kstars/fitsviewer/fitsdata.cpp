@@ -257,8 +257,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
 
-    int fitsBitPix = 0;
-    if (fits_get_img_param(fptr, 3, &fitsBitPix, &(m_Statistics.ndim), naxes, &status))
+    if (fits_get_img_param(fptr, 3, &m_FITSBITPIX, &(m_Statistics.ndim), naxes, &status))
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
 
     if (m_Statistics.ndim < 2)
@@ -270,7 +269,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         return false;
     }
 
-    switch (fitsBitPix)
+    switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
             m_Statistics.dataType      = TBYTE;
@@ -307,7 +306,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = i18n("Bit depth %1 is not supported.", fitsBitPix);
+            errMessage = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
             qCCritical(KSTARS_FITS) << errMessage;
@@ -362,9 +361,14 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     // Get UTC date time
     QVariant value;
     if (getRecordValue("DATE-OBS", value) && value.isValid())
-        m_DateTime = KStarsDateTime(value.toDateTime());
+    {
+        QDateTime ts = value.toDateTime();
+        m_DateTime = KStarsDateTime(ts.date(), ts.time());
+    }
 
-    if (m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
+    // Only check for debayed IF the original naxes[2] is 1
+    // which is for single channels.
+    if (naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
     {
         //m_BayerBuffer = m_ImageBuffer;
         if (debayer())
@@ -414,8 +418,8 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
     // pixel in each channel.
-    const int fitsBitPix = 8;
-    switch (fitsBitPix)
+    const int m_FITSBITPIX = 8;
+    switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
             m_Statistics.dataType      = TBYTE;
@@ -452,7 +456,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
             m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = QString("Bit depth %1 is not supported.").arg(fitsBitPix);
+            errMessage = QString("Bit depth %1 is not supported.").arg(m_FITSBITPIX);
             QMessageBox::critical(nullptr, "Message", errMessage);
             qCCritical(KSTARS_FITS) << errMessage;
             return false;
@@ -777,13 +781,14 @@ bool FITSData::saveImage(const QString &newFilename)
     // Create image
     long naxis = m_Statistics.channels == 1 ? 2 : 3;
     long naxes[3] = {m_Statistics.width, m_Statistics.height, naxis};
-    if (fits_create_img(fptr, m_Statistics.dataType, naxis, naxes, &status))
+    // JM 2020-12-28: Here we to use bitpix values
+    if (fits_create_img(fptr, m_FITSBITPIX, naxis, naxes, &status))
     {
         fits_report_error(stderr, status);
         return false;
     }
 
-    /* Write Data */
+    // Here we need to use the actual data type
     if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         fits_report_error(stderr, status);
@@ -833,7 +838,7 @@ bool FITSData::saveImage(const QString &newFilename)
             default:
             {
                 char valueBuffer[256] = {0};
-                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256);
+                strncpy(valueBuffer, value.toString().toLatin1().constData(), 256-1);
                 fits_write_key(fptr, TSTRING, key.toLatin1().constData(), valueBuffer, comment, &status);
             }
         }
@@ -946,7 +951,9 @@ int FITSData::calculateMinMax(bool refresh)
 
     status = 0;
 
-    if ((fptr != nullptr) && !refresh)
+    // Only fetch from header if we have a single channel
+    // Otherwise, calculate manually.
+    if (m_Statistics.channels == 1 && fptr != nullptr && !refresh)
     {
         if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
             nfound++;
@@ -1503,7 +1510,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
 
 int FITSData::filterStars(const float innerRadius, const float outerRadius)
 {
-    long const sqDiagonal = this->width() * this->width() / 4 + this->height() * this->height() / 4;
+    long const sqDiagonal = (long) this->width() * (long) this->width() / 4 + (long) this->height() * (long) this->height() / 4;
     long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
     long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
 
@@ -2144,7 +2151,7 @@ bool FITSData::checkForWCS()
         lastError = i18n("No world coordinate systems found.");
         return false;
     }
-    
+
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -2160,7 +2167,7 @@ bool FITSData::checkForWCS()
     return HasWCS;
 }
 
-bool FITSData::loadWCS()
+bool FITSData::loadWCS(bool extras)
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 
@@ -2221,7 +2228,7 @@ bool FITSData::loadWCS()
         m_WCSState = Failure;
         return false;
     }
-    
+
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -2247,68 +2254,50 @@ bool FITSData::loadWCS()
 
     m_WCSState = Busy;
 
-    const int nThreads = QThread::idealThreadCount();
-    QList<QFuture<void>> futures;
-    // Calculate how many elements we process per thread
-    uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
-    // Calculate the final stride since we can have some left over due to division above
-    uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
-
-    for (int i = 0; i < nThreads; i++)
+    if (extras)
     {
-        uint32_t cStart = i * tStride;
-        uint32_t cEnd = cStart + ((i == (nThreads - 1)) ? fStride : tStride);
-        // Run threads
-        futures.append(QtConcurrent::run([ = ]()
+        const int nThreads = QThread::idealThreadCount();
+        QList<QFuture<void>> futures;
+        // Calculate how many elements we process per thread
+        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
+        // Calculate the final stride since we can have some left over due to division above
+        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
+
+        for (int i = 0; i < nThreads; i++)
         {
-            double phi = 0, theta = 0, world[2], pixcrd[2], imgcrd[2];
-            int stat[2];
-            FITSImage::wcs_point *wcsPointer = m_WCSCoordinates + cStart;
-            for (uint32_t i = cStart; i < cEnd; i++)
+            uint32_t cStart = i * tStride;
+            uint32_t cEnd = cStart + ((i == (nThreads - 1)) ? fStride : tStride);
+            // Run threads
+            futures.append(QtConcurrent::run([ = ]()
             {
-                uint32_t x = i % w;
-                uint32_t y = i / w;
-                pixcrd[0] = x;
-                pixcrd[1] = y;
-                if (wcsp2s(m_WCSHandle, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0]) == 0)
+                double phi = 0, theta = 0, world[2], pixcrd[2], imgcrd[2];
+                int stat[2];
+                FITSImage::wcs_point *wcsPointer = m_WCSCoordinates + cStart;
+                for (uint32_t i = cStart; i < cEnd; i++)
                 {
-                    wcsPointer->ra  = world[0];
-                    wcsPointer->dec = world[1];
+                    uint32_t x = i % w;
+                    uint32_t y = i / w;
+                    pixcrd[0] = x;
+                    pixcrd[1] = y;
+                    if (wcsp2s(m_WCSHandle, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0]) == 0)
+                    {
+                        wcsPointer->ra  = world[0];
+                        wcsPointer->dec = world[1];
+                    }
+                    wcsPointer++;
                 }
-                wcsPointer++;
-            }
-        }));
+            }));
+        }
+
+        for (auto &oneFuture : futures)
+            oneFuture.waitForFinished();
+
+        SkyPoint startPoint(m_WCSCoordinates->ra / 15.0, m_WCSCoordinates->dec);
+        SkyPoint endPoint( (m_WCSCoordinates + w * h - 1)->ra / 15.0, (m_WCSCoordinates + w * h - 1)->dec);
+        findObjectsInImage(startPoint, endPoint);
     }
-
-    for (auto &oneFuture : futures)
-        oneFuture.waitForFinished();
-
-    //    for (int i = 0; i < h; i++)
-    //    {
-    //        for (int j = 0; j < w; j++)
-    //        {
-    //            pixcrd[0] = j;
-    //            pixcrd[1] = i;
-
-    //            if ((status = wcsp2s(m_wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
-    //            {
-    //                lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
-    //            }
-    //            else
-    //            {
-    //                p->ra  = world[0];
-    //                p->dec = world[1];
-
-    //                p++;
-    //            }
-    //        }
-    //    }
-
-    SkyPoint startPoint(m_WCSCoordinates->ra / 15.0, m_WCSCoordinates->dec);
-    SkyPoint endPoint( (m_WCSCoordinates + w * h - 1)->ra / 15.0, (m_WCSCoordinates + w * h - 1)->dec);
-    findObjectsInImage(startPoint, endPoint);
-
     m_WCSState = Success;
+    FullWCS = extras;
     HasWCS = true;
 
     qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";
@@ -2392,6 +2381,9 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 void FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
 {
+    if (KStarsData::Instance() == nullptr)
+        return;
+
     int w = width();
     int h = height();
     QVariant date;
@@ -3136,22 +3128,21 @@ void FITSData::setBayerParams(BayerParams * param)
     debayerParams.offsetY = param->offsetY;
 }
 
-bool FITSData::debayer()
+bool FITSData::debayer(bool reload)
 {
-    //    if (m_ImageBuffer == nullptr)
-    //    {
-    //        int anynull = 0, status = 0;
+    if (reload)
+    {
+        int anynull = 0, status = 0;
 
-    //        //m_BayerBuffer = m_ImageBuffer;
-
-    //        if (fits_read_img(fptr, stats.dataType, 1, stats.samples_per_channel, nullptr, m_ImageBuffer, &anynull, &status))
-    //        {
-    //            char errmsg[512];
-    //            fits_get_errstatus(status, errmsg);
-    //            KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
-    //            return false;
-    //        }
-    //    }
+        if (fits_read_img(fptr, m_Statistics.dataType, 1, m_Statistics.samples_per_channel, nullptr, m_ImageBuffer,
+                          &anynull, &status))
+        {
+            //                char errmsg[512];
+            //                fits_get_errstatus(status, errmsg);
+            //                KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
+            return false;
+        }
+    }
 
     switch (m_Statistics.dataType)
     {
@@ -3171,7 +3162,17 @@ bool FITSData::debayer_8bit()
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint8_t * destinationBuffer = nullptr;
+
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint8_t *>(destinationBuffer);
@@ -3207,12 +3208,14 @@ bool FITSData::debayer_8bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
@@ -3246,7 +3249,16 @@ bool FITSData::debayer_16bit()
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
-    auto * destinationBuffer = new uint8_t[rgb_size];
+    uint8_t *destinationBuffer = nullptr;
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        return false;
+    }
 
     auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
     auto * bayer_destination_buffer = reinterpret_cast<uint16_t *>(destinationBuffer);
@@ -3282,12 +3294,14 @@ bool FITSData::debayer_16bit()
     if (m_ImageBufferSize != rgb_size)
     {
         delete[] m_ImageBuffer;
-        m_ImageBuffer = new uint8_t[rgb_size];
-
-        if (m_ImageBuffer == nullptr)
+        try
+        {
+            m_ImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
             return false;
         }
 
@@ -3592,197 +3606,6 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
 
     return true;
 }
-
-#if 0
-bool FITSData::injectWCS(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
-{
-    int status = 0, exttype = 0;
-    long nelements;
-    fitsfile * new_fptr;
-    char errMsg[512];
-
-    qCInfo(KSTARS_FITS) << "Creating new WCS file:" << newWCSFile << "with parameters Orientation:" << orientation
-                        << "RA:" << ra << "DE:" << dec << "Pixel Scale:" << pixscale;
-
-    nelements = stats.samples_per_channel * stats.channels;
-
-    /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, QString('!' + newWCSFile).toLatin1(), &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* close current file */
-    if (fits_close_file(fptr, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    status = 0;
-
-    if (m_isTemporary && autoRemoveTemporaryFITS)
-    {
-        QFile::remove(m_Filename);
-        m_isTemporary = false;
-        qCDebug(KSTARS_FITS) << "Removing FITS File: " << m_Filename;
-    }
-
-    m_Filename = newWCSFile;
-    m_isTemporary = true;
-
-    fptr = new_fptr;
-
-    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* Write Data */
-    if (fits_write_img(fptr, stats.dataType, 1, nelements, m_ImageBuffer, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    /* Write keywords */
-
-    // Minimum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // Maximum
-    if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // NAXIS1
-    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    // NAXIS2
-    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
-    fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
-
-    int epoch = 2000;
-
-    fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
-
-    fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
-
-    char radecsys[8] = "FK5";
-    char ctype1[16]  = "RA---TAN";
-    char ctype2[16]  = "DEC--TAN";
-
-    fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
-
-    double crpix1 = width() / 2.0;
-    double crpix2 = height() / 2.0;
-
-    fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
-
-    // Arcsecs per Pixel
-    double secpix1 = pixscale;
-    double secpix2 = pixscale;
-
-    fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
-
-    double degpix1 = secpix1 / 3600.0;
-    double degpix2 = secpix2 / 3600.0;
-
-    fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
-    fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
-
-    // Rotation is CW, we need to convert it to CCW per CROTA1 definition
-    double rotation = 360 - orientation;
-    if (rotation > 360)
-        rotation -= 360;
-
-    fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
-    fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
-
-    // ISO Date
-    if (fits_write_date(fptr, &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    QString history =
-        QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
-    // History
-    if (fits_write_history(fptr, history.toLatin1(), &status))
-    {
-        fits_get_errstatus(status, errMsg);
-        lastError = QString(errMsg);
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    fits_flush_file(fptr, &status);
-
-    WCSLoaded = false;
-
-    qCDebug(KSTARS_FITS) << "Finished creating WCS file: " << newWCSFile;
-
-    return true;
-}
-#endif
 
 bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale)
 {

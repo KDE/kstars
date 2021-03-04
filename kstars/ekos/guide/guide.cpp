@@ -1390,9 +1390,13 @@ void Guide::reconnectDriver(const QString &camera, const QString &via)
             ST4Combo->setCurrentIndex(ST4Combo->findText(via));
             checkCCD();
 
-            // restart capture
-            m_CaptureTimeoutCounter = 0;
-            captureOneFrame();
+            if (guiderType == GUIDE_INTERNAL)
+            {
+                // restart capture
+                m_CaptureTimeoutCounter = 0;
+                captureOneFrame();
+            }
+
             return;
         }
     }
@@ -2031,7 +2035,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             break;
 
         case GUIDE_REACQUIRE:
-            capture();
+            if (guiderType == GUIDE_INTERNAL)
+                capture();
             break;
 
         case GUIDE_MANUAL_DITHERING:
@@ -2046,7 +2051,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             if (Options::ditherSettle() > 0)
                 appendLogText(i18np("Post-dither settling for %1 second...", "Post-dither settling for %1 seconds...",
                                     Options::ditherSettle()));
-            capture();
+            if (guiderType == GUIDE_INTERNAL)
+                capture();
             break;
 
         case GUIDE_DITHERING_ERROR:
@@ -3175,8 +3181,14 @@ bool Guide::executeOneOperation(GuideState operation)
             if (m_ImageData && Options::guideDarkFrameEnabled())
             {
                 QVariantMap settings = frameSettings[targetChip];
-                uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
-                uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
+                uint16_t offsetX = 0;
+                uint16_t offsetY = 0;
+
+                if (settings["x"].isValid() && settings["y"].isValid())
+                {
+                    offsetX = settings["x"].toInt() / settings["binx"].toInt();
+                    offsetY = settings["y"].toInt() / settings["biny"].toInt();
+                }
 
                 connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
                 {
@@ -3391,7 +3403,9 @@ void Guide::handleManualDither()
             guider->dither(ditherDialog.magnitude->value());
         else
         {
-            dynamic_cast<InternalGuider *>(guider)->ditherXY(ditherDialog.x->value(), ditherDialog.y->value());
+            InternalGuider * const ig = dynamic_cast<InternalGuider *>(guider);
+            if (ig)
+                ig->ditherXY(ditherDialog.x->value(), ditherDialog.y->value());
         }
     }
 }
@@ -3854,7 +3868,7 @@ void Guide::initConnections()
             }
             phd2Guider->captureSingleFrame();
         }
-        else
+        else if (guiderType == GUIDE_INTERNAL)
             capture();
     });
 
@@ -4204,7 +4218,7 @@ void Guide::loop()
         phd2Guider->loop();
         stopB->setEnabled(true);
     }
-    else
+    else if (guiderType == GUIDE_INTERNAL)
         capture();
 }
 }

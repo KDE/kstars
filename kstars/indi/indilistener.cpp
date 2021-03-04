@@ -134,7 +134,7 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
     connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::BlockingQueuedConnection);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
     connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
@@ -273,7 +273,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "FILTER_NAME"))
             {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN &&
+                        !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
                 {
                     devices.removeOne(oneDevice);
                     oneDevice = new ISD::Filter(oneDevice);
@@ -284,7 +285,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
             {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
+                if (oneDevice->getType() == KSTARS_UNKNOWN &&
+                        !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
                 {
                     devices.removeOne(oneDevice);
                     oneDevice = new ISD::Focuser(oneDevice);
@@ -467,8 +469,7 @@ void INDIListener::processUniversalMessage(const QString &message)
 
     if (Options::messageNotificationINDI())
     {
-        KNotification::event(QLatin1String("IndiServerMessage"),
-                             displayMessage + " (INDI)");
+        KSNotification::event(QLatin1String("IndiServerMessage"), displayMessage, KSNotification::EVENT_WARN);
     }
     else
     {

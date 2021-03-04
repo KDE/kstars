@@ -22,6 +22,10 @@
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
     </method>
+    <method name="setSolverMode">
+      <arg name="mode" type="u" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="setSolverAction">
       <arg name="mode" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -55,6 +59,10 @@
     <method name="setTargetCoords">
       <arg name="ra" type="d" direction="in"/>
       <arg name="de" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setTargetRotation">
+      <arg name="rotation" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <signal name="newStatus">

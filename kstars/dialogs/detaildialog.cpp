@@ -181,6 +181,9 @@ void DetailDialog::createGeneralTab()
         {
             KSPlanetBase *ps = dynamic_cast<KSPlanetBase *>(selectedObject);
 
+            if (!ps)
+                break;
+
             Data->Names->setText(ps->longname());
 
             //Type is "G5 star" for Sun
@@ -304,6 +307,9 @@ void DetailDialog::createGeneralTab()
         default: //deep-sky objects
         {
             DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(selectedObject);
+
+            if (!dso)
+                break;
 
             //Show all names recorded for the object
             QStringList nameList;

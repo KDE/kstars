@@ -23,33 +23,33 @@ class QString;
 
 class FITSLabel : public QLabel
 {
-    Q_OBJECT
-  public:
-    explicit FITSLabel(FITSView *img, QWidget *parent = nullptr);
-    virtual ~FITSLabel() override = default;
+        Q_OBJECT
+    public:
+        explicit FITSLabel(FITSView *img, QWidget *parent = nullptr);
+        virtual ~FITSLabel() override = default;
 
-    void setSize(double w, double h);
-    void centerTelescope(double raJ2000, double decJ2000);
-    bool getMouseButtonDown();
+        void setSize(double w, double h);
+        void centerTelescope(double raJ2000, double decJ2000);
+        bool getMouseButtonDown();
 
-  protected:
-    virtual void mouseMoveEvent(QMouseEvent *e) override;
-    virtual void mousePressEvent(QMouseEvent *e) override;
-    virtual void mouseReleaseEvent(QMouseEvent *e) override;
-    virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
+    protected:
+        virtual void mouseMoveEvent(QMouseEvent *e) override;
+        virtual void mousePressEvent(QMouseEvent *e) override;
+        virtual void mouseReleaseEvent(QMouseEvent *e) override;
+        virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
 
-  private:
-    bool mouseButtonDown { false };
-    QPoint lastMousePoint;
-    FITSView *view { nullptr };
-    dms ra;
-    dms dec;
-    double width { 0 };
-    double height { 0 };
-    double size { 0 };
+    private:
+        bool mouseButtonDown { false };
+        QPoint lastMousePoint;
+        FITSView *view { nullptr };
+        dms ra;
+        dms dec;
+        double width { 0 };
+        double height { 0 };
+        double size { 0 };
 
-  signals:
-    void newStatus(const QString &msg, FITSBar id);
-    void pointSelected(int x, int y);
-    void markerSelected(int x, int y);
+    signals:
+        void newStatus(const QString &msg, FITSBar id);
+        void pointSelected(int x, int y);
+        void markerSelected(int x, int y);
 };

@@ -33,6 +33,7 @@
 
 #include <fitsio.h>
 #include <ekos_scheduler_debug.h>
+#include <indicom.h>
 
 #define BAD_SCORE                -1000
 #define MAX_FAILURE_ATTEMPTS      5
@@ -700,6 +701,8 @@ void Scheduler::saveJob()
     job->setPriority(prioritySpin->value());
     job->setTargetCoords(ra, dec);
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
+    job->setRotation(rotationSpin->value());
+
 
     /* Consider sequence file is new, and clear captured frames map */
     job->setCapturedFramesMap(SchedulerJob::CapturedFramesMap());
@@ -905,12 +908,13 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     raBox->showInHours(job->getTargetCoords().ra0());
     decBox->showInDegrees(job->getTargetCoords().dec0());
 
-    if (job->getFITSFile().isEmpty() == false)
-        fitsEdit->setText(job->getFITSFile().toLocalFile());
-    else
-        fitsEdit->clear();
+    // fitsURL/sequenceURL are not part of UI, but the UI serves as model, so keep them here for now
+    fitsURL = job->getFITSFile().isEmpty() ? QUrl() : job->getFITSFile();
+    sequenceURL = job->getSequenceFile();
+    fitsEdit->setText(fitsURL.toLocalFile());
+    sequenceEdit->setText(sequenceURL.toLocalFile());
 
-    sequenceEdit->setText(job->getSequenceFile().toLocalFile());
+    rotationSpin->setValue(job->getRotation());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -1009,13 +1013,6 @@ void Scheduler::loadJob(QModelIndex i)
     //job->setState(SchedulerJob::JOB_IDLE);
     //job->setStage(SchedulerJob::STAGE_IDLE);
     syncGUIToJob(job);
-
-    if (job->getFITSFile().isEmpty() == false)
-        fitsURL = job->getFITSFile();
-    else
-        fitsURL = QUrl();
-
-    sequenceURL = job->getSequenceFile();
 
     /* Turn the add button into an apply button */
     setJobAddApply(false);
@@ -3885,6 +3882,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
 
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
+    rotationSpin->setValue(0);
 
     // We expect all data read from the XML to be in the C locale - QLocale::c()
     QLocale cLocale = QLocale::c();
@@ -3921,6 +3919,10 @@ bool Scheduler::processJobInfo(XMLEle *root)
         {
             fitsEdit->setText(pcdataXMLEle(ep));
             fitsURL.setPath(fitsEdit->text());
+        }
+        else if (!strcmp(tagXMLEle(ep), "Rotation"))
+        {
+            rotationSpin->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "StartupCondition"))
         {
@@ -4097,6 +4099,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << endl;
+        else
+            outstream << "<Rotation>" << job->getRotation() << "</Rotation>" << endl;
 
         outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << endl;
 
@@ -4601,14 +4605,25 @@ void Scheduler::startAstrometry()
         // JM 2020.08.20: Send J2000 TargetCoords to Align module so that we always resort back to the
         // target original targets even if we drifted away due to any reason like guiding calibration failures.
         const SkyPoint targetCoords = currentJob->getTargetCoords();
-        QList<QVariant> targetArgs;
+        QList<QVariant> targetArgs, rotationArgs;
         targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
+        rotationArgs << currentJob->getRotation();
 
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords",
                      targetArgs)).type() == QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetCoords request received DBUS error: %2").arg(
                                                   currentJob->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+
+        if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetRotation",
+                    rotationArgs)).type() == QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetRotation request received DBUS error: %2").arg(
+                                                currentJob->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
                 currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
@@ -5069,8 +5084,14 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
         }
         // Else rely on the captures done during this session
-        else
+        else if (0 < capturesPerRepeat)
+        {
             captures_completed = schedJob->getCompletedCount() / capturesPerRepeat * seqJob->getCount();
+        }
+        else
+        {
+            captures_completed = 0;
+        }
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
         // Without light frames, there is no need to do focusing, alignment, guiding...etc
@@ -6087,6 +6108,7 @@ void Scheduler::startMosaicTool()
 
             raBox->showInHours(oneJob->skyCenter.ra0());
             decBox->showInDegrees(oneJob->skyCenter.dec0());
+            rotationSpin->setValue(range360(oneJob->rotation));
 
             saveJob();
         }

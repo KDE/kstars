@@ -15,6 +15,7 @@
 #include <QNetworkReply>
 #include <QButtonGroup>
 #include <QRegularExpression>
+#include <QTimer>
 #include <basedevice.h>
 
 #include "ksnotification.h"
@@ -38,24 +39,34 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
                      "/wzserialportassistant.png"))
         wizardPix->setPixmap(im);
 
-    connect(nextB, &QPushButton::clicked, [&]() {
-        gotoDevicePage(devices[devices.indexOf(m_CurrentDevice)+1]);
+    connect(nextB, &QPushButton::clicked, [this]()
+    {
+        if (m_CurrentDevice)
+            gotoDevicePage(m_CurrentDevice);
+        else if (!devices.empty())
+            gotoDevicePage(devices.first());
     });
 
     loadRules();
 
-    connect(rulesView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](const QItemSelection &selected) {
+    connect(rulesView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](const QItemSelection & selected)
+    {
         clearRuleB->setEnabled(selected.count() > 0);
     });
-    connect(model.get(), &QStandardItemModel::rowsRemoved, [&]() { clearRuleB->setEnabled(model->rowCount() > 0); });
+    connect(model.get(), &QStandardItemModel::rowsRemoved, [&]()
+    {
+        clearRuleB->setEnabled(model->rowCount() > 0);
+    });
     connect(clearRuleB, &QPushButton::clicked, this, &SerialPortAssistant::removeActiveRule);
 
     displayOnStartupC->setChecked(Options::autoLoadSerialAssistant());
-    connect(displayOnStartupC, &QCheckBox::toggled, [&](bool enabled) {
+    connect(displayOnStartupC, &QCheckBox::toggled, [&](bool enabled)
+    {
         Options::setAutoLoadSerialAssistant(enabled);
     });
 
-    connect(closeB, &QPushButton::clicked, [&]() {
+    connect(closeB, &QPushButton::clicked, [&]()
+    {
         gotoDevicePage(nullptr);
         close();
     });
@@ -82,8 +93,9 @@ void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
     layout->addWidget(deviceLabel);
 
     QLabel *instructionsLabel = new QLabel(devicePage);
-    instructionsLabel->setText(i18n("To assign a permanent designation to the device, you need to unplug the device from stellarmate "
-                                    "then replug it after 1 second. Click on the <b>Start Scan</b> to begin this procedure."));
+    instructionsLabel->setText(
+        i18n("To assign a permanent designation to the device, you need to unplug the device from stellarmate "
+             "then replug it after 1 second. Click on the <b>Start Scan</b> to begin this procedure."));
     instructionsLabel->setWordWrap(true);
     layout->addWidget(instructionsLabel);
 
@@ -92,37 +104,52 @@ void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
     startButton->setObjectName("startButton");
 
     QPushButton *homeButton = new QPushButton(QIcon::fromTheme("go-home"), i18n("Home"), devicePage);
-    connect(homeButton, &QPushButton::clicked, [&]() {
+    connect(homeButton, &QPushButton::clicked, [&]()
+    {
         gotoDevicePage(nullptr);
     });
 
     QPushButton *skipButton = new QPushButton(i18n("Skip Device"), devicePage);
-    connect(skipButton, &QPushButton::clicked, [&]() {
-        gotoDevicePage(devices[devices.indexOf(m_CurrentDevice)+1]);
+    connect(skipButton, &QPushButton::clicked, [this]()
+    {
+        // If we have more devices, go to them one by one
+        if (m_CurrentDevice)
+        {
+            // Check if next index is available
+            int nextIndex = devices.indexOf(m_CurrentDevice) + 1;
+            if (nextIndex < devices.count())
+            {
+                gotoDevicePage(devices[nextIndex]);
+                return;
+            }
+        }
+
+        gotoDevicePage(nullptr);
     });
     QCheckBox *hardwareSlotC = new QCheckBox(i18n("Physical Port Mapping"), devicePage);
     hardwareSlotC->setObjectName("hardwareSlot");
-    hardwareSlotC->setToolTip(i18n("Assign the permanent name based on which physical port the device is plugged to in StellarMate. "
-                                   "This is useful to distinguish between two identical USB adapters. The device must <b>always</b> be "
-                                   "plugged into the same port for this to work."));
-    actionsLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred));
+    hardwareSlotC->setToolTip(
+        i18n("Assign the permanent name based on which physical port the device is plugged to in StellarMate. "
+             "This is useful to distinguish between two identical USB adapters. The device must <b>always</b> be "
+             "plugged into the same port for this to work."));
+    actionsLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred));
     actionsLayout->addWidget(startButton);
     actionsLayout->addWidget(skipButton);
     actionsLayout->addWidget(hardwareSlotC);
-    actionsLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred));
+    actionsLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred));
     actionsLayout->addWidget(homeButton);
     layout->addLayout(actionsLayout);
 
     QHBoxLayout *animationLayout = new QHBoxLayout(devicePage);
     QLabel *smAnimation = new QLabel(devicePage);
-    smAnimation->setFixedSize(QSize(360,203));
+    smAnimation->setFixedSize(QSize(360, 203));
     QMovie *smGIF = new QMovie(":/videos/sm_animation.gif");
     smAnimation->setMovie(smGIF);
     smAnimation->setObjectName("animation");
 
-    animationLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred));
+    animationLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred));
     animationLayout->addWidget(smAnimation);
-    animationLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred));
+    animationLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred));
 
     QButtonGroup *actionGroup = new QButtonGroup(devicePage);
     actionGroup->setObjectName("actionGroup");
@@ -136,9 +163,10 @@ void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
     //smGIF->start();
     //smAnimation->hide();
 
-    serialPortWizard->insertWidget(serialPortWizard->count()-1, devicePage);
+    serialPortWizard->insertWidget(serialPortWizard->count() - 1, devicePage);
 
-    connect(startButton, &QPushButton::clicked, [=]() {
+    connect(startButton, &QPushButton::clicked, [ = ]()
+    {
         startButton->setText(i18n("Standby, Scanning..."));
         for (auto b : actionGroup->buttons())
             b->setEnabled(false);
@@ -160,7 +188,7 @@ void SerialPortAssistant::gotoDevicePage(ISD::GDInterface *device)
     }
 
     m_CurrentDevice = device;
-    serialPortWizard->setCurrentIndex(index+1);
+    serialPortWizard->setCurrentIndex(index + 1);
 }
 
 bool SerialPortAssistant::loadRules()
@@ -273,7 +301,8 @@ void SerialPortAssistant::parseDevices()
     QJsonDocument jsonDoc = QJsonDocument::fromJson(response->readAll());
     if (jsonDoc.isObject() == false)
     {
-        KSNotification::error(i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
+        KSNotification::error(
+            i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
         resetCurrentPage();
         return;
     }
@@ -283,7 +312,8 @@ void SerialPortAssistant::parseDevices()
     // Make sure we have valid vendor ID
     if (rule.contains("ID_VENDOR_ID") == false || rule["ID_VENDOR_ID"].toString().count() != 4)
     {
-        KSNotification::error(i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
+        KSNotification::error(
+            i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
         resetCurrentPage();
         return;
     }
@@ -298,7 +328,8 @@ void SerialPortAssistant::parseDevices()
     // Remove any spaces from the device name
     QString symlink = serialPortWizard->currentWidget()->objectName().toLower().remove(" ");
 
-    QJsonObject newRule = {
+    QJsonObject newRule =
+    {
         {"vid", rule["ID_VENDOR_ID"].toString() },
         {"pid", rule["ID_MODEL_ID"].toString() },
         {"serial", serial },
@@ -312,7 +343,7 @@ void SerialPortAssistant::parseDevices()
         int index = devPath.lastIndexOf("/");
         if (index > 0)
         {
-            newRule.insert("port", devPath.mid(index+1));
+            newRule.insert("port", devPath.mid(index + 1));
         }
     }
     else if (model)
@@ -340,7 +371,7 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     QByteArray data = QJsonDocument(rule).toJson(QJsonDocument::Compact);
     if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
     {
-        KSNotification::info(i18n("Mapping is successful. Please unplug and replug your device again now."));
+        KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Mapping is successful."), KSNotification::EVENT_INFO);
         ITextVectorProperty *devicePort = m_CurrentDevice->getBaseDevice()->getText("DEVICE_PORT");
         if (devicePort)
         {
@@ -349,7 +380,6 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
             m_CurrentDevice->getDriverInfo()->getClientManager()->sendNewText(devicePort);
             m_CurrentDevice->setConfig(SAVE_CONFIG);
             m_CurrentDevice->Connect();
-            //serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
         }
 
         loadRules();

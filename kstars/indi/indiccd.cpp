@@ -1351,7 +1351,7 @@ void CCD::setWSBLOB(const QByteArray &message, const QString &extension)
 
     primaryCCDBLOB->blob = const_cast<char *>(message.data());
     primaryCCDBLOB->size = message.size();
-    strncpy(primaryCCDBLOB->format, extension.toLatin1().constData(), MAXINDIFORMAT);
+    strncpy(primaryCCDBLOB->format, extension.toLatin1().constData(), MAXINDIFORMAT - 1);
     processBLOB(primaryCCDBLOB);
 
     // Disassociate
@@ -2230,6 +2230,30 @@ bool CCD::resetStreamingFrame()
         harg->value = harg->max;
 
         clientManager->sendNewNumber(frameProp);
+        return true;
+    }
+
+    return false;
+}
+
+bool CCD::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
+{
+    INumberVectorProperty *limitsProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+
+    if (limitsProp == nullptr)
+        return false;
+
+    INumber *bufferMax = IUFindNumber(limitsProp, "LIMITS_BUFFER_MAX");
+    INumber *previewFPS = IUFindNumber(limitsProp, "LIMITS_PREVIEW_FPS");
+
+    if (bufferMax && previewFPS)
+    {
+        if(std::fabs(bufferMax->value - maxBufferSize) == 0 && std::fabs(previewFPS->value - maxPreviewFPS) == 0)
+            return true;
+
+        bufferMax->value = maxBufferSize;
+        previewFPS->value = maxPreviewFPS;
+        clientManager->sendNewNumber(limitsProp);
         return true;
     }
 

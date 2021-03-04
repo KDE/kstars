@@ -216,11 +216,11 @@ void StarObject::init(const DeepStarData *stardata)
     else
     {
         BV_Index = (stardata->B - stardata->V) / 1000.0;
-        (BV_Index > 0.0) && (SpType[0] = 'A');
-        (BV_Index > 0.325) && (SpType[0] = 'F');
-        (BV_Index > 0.575) && (SpType[0] = 'G');
-        (BV_Index > 0.975) && (SpType[0] = 'K');
-        (BV_Index > 1.6) && (SpType[0] = 'M');
+        if (BV_Index > 0.0) SpType[0] = 'A';
+        if (BV_Index > 0.325) SpType[0] = 'F';
+        if (BV_Index > 0.575) SpType[0] = 'G';
+        if (BV_Index > 0.975) SpType[0] = 'K';
+        if (BV_Index > 1.6) SpType[0] = 'M';
     }
 
     PM_RA        = stardata->dRA / 100.0;

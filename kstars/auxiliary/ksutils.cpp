@@ -36,13 +36,21 @@
 #include <libraw/libraw.h>
 #endif
 
-#ifdef HAVE_STELLARSOLVER
-#include <stellarsolver.h>
+#if defined(__APPLE__)
+#include <sys/sysctl.h>
+#elif defined(_WIN32)
+#include "windows.h"
+#else //Linux
+#include <QProcess>
 #endif
 
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
+
+#ifdef HAVE_STELLARSOLVER
+#include <stellarsolver.h>
+#endif
 
 namespace KSUtils
 {
@@ -117,7 +125,7 @@ QString getDSSURL(const SkyPoint *const p)
 
 QString getDSSURL(const dms &ra, const dms &dec, float width, float height, const QString &type)
 {
-    const QString URLprefix("http://archive.stsci.edu/cgi-bin/dss_search?");
+    const QString URLprefix("https://archive.stsci.edu/cgi-bin/dss_search?");
     QString URLsuffix             = QString("&e=J2000&f=%1&c=none&fov=NONE").arg(type);
     const double dss_default_size = Options::defaultDSSImageSize();
 
@@ -1735,6 +1743,41 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
     }
     return true;
 #endif
+}
+
+double getAvailableRAM()
+{
+#if defined(Q_OS_OSX)
+    int mib [] = { CTL_HW, HW_MEMSIZE };
+    size_t length;
+    length = sizeof(int64_t);
+    int64_t RAMcheck;
+    if(sysctl(mib, 2, &RAMcheck, &length, NULL, 0))
+        return false; // On Error
+    //Until I can figure out how to get free RAM on Mac
+    return RAMcheck;
+#elif defined(Q_OS_LINUX)
+    QProcess p;
+    p.start("awk", QStringList() << "/MemAvailable/ { print $2 }" << "/proc/meminfo");
+    p.waitForFinished();
+    QString memory = p.readAllStandardOutput();
+    p.close();
+    //kB to bytes
+    return (memory.toLong() * 1024.0);
+#elif defined(Q_OS_WIN32)
+    MEMORYSTATUSEX memory_status;
+    ZeroMemory(&memory_status, sizeof(MEMORYSTATUSEX));
+    memory_status.dwLength = sizeof(MEMORYSTATUSEX);
+    if (GlobalMemoryStatusEx(&memory_status))
+    {
+        return memory_status.ullAvailPhys;
+    }
+    else
+    {
+        return 0;
+    }
+#endif
+    return 0;
 }
 
 }

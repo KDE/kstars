@@ -113,6 +113,7 @@ if (INDI_FOUND)
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
+            ekos/capture/scriptsmanager.ui
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
@@ -120,6 +121,7 @@ if (INDI_FOUND)
             ekos/align/opsalign.ui
             #ekos/align/opsastrometrycfg.ui
             ekos/align/opsastrometryindexfiles.ui
+            ekos/align/manualrotator.ui
             ekos/align/mountmodel.ui
             #ekos/align/opsastap.ui
             # Focus
@@ -173,6 +175,7 @@ if (INDI_FOUND)
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
+            ekos/capture/scriptsmanager.cpp
 
             # Analyze
             ekos/analyze/analyze.cpp
@@ -204,7 +207,9 @@ if (INDI_FOUND)
             #ekos/align/onlineastrometryparser.cpp
             ekos/align/remoteastrometryparser.cpp
             #ekos/align/astapastrometryparser.cpp
+            ekos/align/poleaxis.cpp
             ekos/align/polaralign.cpp
+            ekos/align/rotations.cpp
 
             # Guide
             ekos/guide/guide.cpp

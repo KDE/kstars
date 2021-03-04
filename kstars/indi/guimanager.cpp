@@ -184,7 +184,7 @@ void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
     connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice);
+    connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice, Qt::BlockingQueuedConnection);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -259,8 +259,8 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
-    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
+    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
     connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
     connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);

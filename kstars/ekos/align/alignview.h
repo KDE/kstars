@@ -24,28 +24,48 @@ class AlignView : public FITSView
         explicit AlignView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
         /* Calculate WCS header info and update WCS info */
-        bool injectWCS(double orientation, double ra, double dec, double pixscale);
+        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool extras = true);
 
         void drawOverlay(QPainter *, double scale) override;
 
-        // Correction line
-        void setCorrectionParams(QLineF &line);
-        void setCorrectionOffset(QPointF &newOffset);
+        // Resets the marker and lines, celestial pole point and raAxis.
+        void reset();
 
-        void setRACircle(const QVector3D &value);
+        // Correction line
+        void setCorrectionParams(const QPointF &from, const QPointF &to, const QPointF &altTo);
+
+        void setRaAxis(const QPointF &value);
+        void setCelestialPole(const QPointF &value);
         void setRefreshEnabled(bool enable);
 
+        // When non-null, alignview draws a small circle in the pixel position specified.
+        void setStarCircle(const QPointF &pixel = QPointF());
+
+        void holdOnToImage();
+        void releaseImage();
+        FITSData *keptImage() const
+        {
+            return keptImagePointer.data();
+        }
+
     protected:
-        void drawLine(QPainter *painter);
-        void drawCircle(QPainter *painter);
+        void drawTriangle(QPainter *painter);
+        void drawRaAxis(QPainter *painter);
+        void drawStarCircle(QPainter *painter);
 
         virtual void processMarkerSelection(int x, int y) override;
 
     private:
-        // Correction Line
-        QLineF correctionLine;
-        QPointF correctionOffset, celestialPolePoint;
-        QVector3D RACircle;
+        // Correction points. from=user-selected point. to=destination for the point.
+        // altTo = destination to correct altitude only.
+        QPointF correctionFrom, correctionTo, correctionAltTo;
+        // The celestial pole's position on the image.
+        QPointF celestialPolePoint;
+        // The mount's RA axis' position on the image.
+        QPointF raAxis;
+        QSharedPointer<FITSData> keptImagePointer;
+        // The position of a star being tracked in the polar-alignment routine.
+        QPointF starCircle;
 
     signals:
         void newCorrectionVector(QLineF correctionVector);

@@ -1243,13 +1243,7 @@ bool InternalGuider::processGuiding()
 
     double delta_rms = std::hypot(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
     if (delta_rms > Options::guideMaxDeltaRMS())
-    {
-        // Stop sending pulses on the 3rd time the delta RMS is high
-        // so that we don't stray too far off the main target.
-        if (state == GUIDE_GUIDING && m_highRMSCounter > 2)
-            sendPulses = false;
         m_highRMSCounter++;
-    }
     else
         m_highRMSCounter = 0;
 

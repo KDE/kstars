@@ -32,10 +32,6 @@
 #include <QSharedPointer>
 #include "config-kstars.h"
 
-#ifdef HAVE_STELLARSOLVER
-#include <parameters.h>
-#endif
-
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wignored-attributes"
@@ -301,4 +297,12 @@ QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataField
  * @return True if conversion is successful, false otherwise.
  */
 bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMessage);
+
+/**
+ * @brief getAvailableRAM Try to get available and total RAM on system
+ * @return availableRAM Available (free and unclaimed) system RAM in bytes. 0 if failed to determine RAM
+ * @return True if RAM was successfully queried, false otherwise.
+ */
+double getAvailableRAM();
+
 }

@@ -1901,11 +1901,8 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
     auto executeSetGPS = [this, newGPS]()
     {
         currentGPS = newGPS;
-        connect(newGPS, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)),
-                Qt::UniqueConnection);
-
+        connect(newGPS, &ISD::GenericDevice::numberUpdated, this, &Ekos::Mount::updateNumber, Qt::UniqueConnection);
         appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
-
         syncGPS();
     };
 
@@ -1922,8 +1919,7 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
         });
 
         KSMessageBox::Instance()->questionYesNo(i18n("GPS is detected. Do you want to switch time and location source to GPS?"),
-                                                i18n("GPS Settings"),
-                                                10);
+                                                i18n("GPS Settings"), 10);
     }
     else
         executeSetGPS();
@@ -2023,6 +2019,11 @@ void Mount::setAutoParkEnabled(bool enable)
         startParkTimer();
     else
         stopParkTimer();
+}
+
+void Mount::setAutoParkDailyEnabled(bool enabled)
+{
+    everyDayCheck->setChecked(enabled);
 }
 
 void Mount::setAutoParkStartup(QTime startup)

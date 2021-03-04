@@ -240,7 +240,7 @@ class InternalGuider : public GuideInterface
         QQueue<Vector> m_ProgressiveDither;
 
         // How many high RMS pulses before we stop
-        static const uint8_t MAX_RMS_THRESHOLD = 5;
+        static const uint8_t MAX_RMS_THRESHOLD = 10;
         // How many lost stars before we stop
         static const uint8_t MAX_LOST_STAR_THRESHOLD = 5;
 

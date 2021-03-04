@@ -76,6 +76,7 @@ Satellite::Satellite(const QString &name, const QString &line1, const QString &l
     m_mean_anomaly  = line2.midRef(43, 8).toDouble() * DEG2RAD;
     m_mean_motion   = line2.midRef(52, 11).toDouble() * TWOPI / MINPD;
     m_nb_revolution = line2.midRef(63, 5).toInt();
+    m_tle           = name + "\n" + line1 + "\n" + line2;
 
     setName(name);
     setName2(name);
@@ -1325,22 +1326,27 @@ void Satellite::initPopupMenu(KSPopupMenu *pmenu)
 #endif
 }
 
-double Satellite::velocity()
+double Satellite::velocity() const
 {
     return m_velocity;
 }
 
-double Satellite::altitude()
+double Satellite::altitude() const
 {
     return m_altitude;
 }
 
-double Satellite::range()
+double Satellite::range() const
 {
     return m_range;
 }
 
-QString Satellite::id()
+QString Satellite::id() const
 {
     return m_id;
+}
+
+QString Satellite::tle() const
+{
+    return m_tle;
 }

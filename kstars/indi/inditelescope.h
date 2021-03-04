@@ -172,6 +172,26 @@ class Telescope : public DeviceDecorator
             return m_PierSide;
         }
 
+        // Satellite tracking
+        bool canTrackSatellite()
+        {
+            return m_canTrackSatellite;
+        }
+
+        /**
+         * @short Tracks satellite on provided TLE, initial epoch for trajectory calculation and window in minutes
+         *
+         * This function needs a Two-Line-Element and a time window in the form of an initial point and a
+         * number of minutes on which the trajectory should start. The function was developed wiht the lx200
+         * in mind. If the trajectory has already started, the current time and a window of 1min are sufficient. 
+         *
+         * @param tle Two-line-element.
+         * @param satPassStart Start time of the trajectory calculation
+         * @param satPassEnd End time of the trajectory calculation
+         */
+        bool setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassStart, const KStarsDateTime satPassEnd);
+        
+
     protected:
         bool sendCoords(SkyPoint *ScopeTarget);
 
@@ -206,6 +226,9 @@ class Telescope : public DeviceDecorator
         IPState WEPreviousState  = IPS_IDLE;
         PierSide m_PierSide = PIER_UNKNOWN;
 
+        KStarsDateTime g_satPassStart;
+        KStarsDateTime g_satPassEnd;
+
         QMap<TrackModes, uint8_t> TrackMap;
         TrackModes currentTrackMode { TRACK_SIDEREAL };
 
@@ -214,6 +237,9 @@ class Telescope : public DeviceDecorator
         bool m_canGoto { false};
         bool m_canSync { false};
         bool m_canAbort { false };
+        bool m_canTrackSatellite { false };
+        bool m_TLEIsSetForTracking { false };
+        bool m_windowIsSetForTracking { false };
         bool m_hasTrackModes { false};
         bool m_hasCustomTrackRate { false};
         bool m_hasCustomParking { false };

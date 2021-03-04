@@ -106,7 +106,7 @@ void FITSView::doStretch(QImage *outputImage)
         tempParams = stretchParams;
 
     stretch.setParams(tempParams);
-    stretch.run(imageData->getImageBuffer(), outputImage, sampling);
+    stretch.run(imageData->getImageBuffer(), outputImage, m_PreviewSampling);
 }
 
 // Store stretch parameters, and turn on stretching if it isn't already on.
@@ -275,7 +275,7 @@ void FITSView::setCursorMode(CursorMode mode)
     {
         if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
         {
-            QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+            QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
             wcsWatcher.setFuture(future);
         }
     }
@@ -377,6 +377,25 @@ bool FITSView::processData()
 
     imageData->applyFilter(filter);
 
+    double availableRAM = 0;
+    if (Options::adaptiveSampling() && (availableRAM = KSUtils::getAvailableRAM()) > 0)
+    {
+        // Possible color maximum image size
+        double max_size = image_width * image_height * 4;
+        // Ratio of image size to available RAM size
+        double ratio = max_size / availableRAM;
+
+        // Increase adaptive sampling with more limited RAM
+        if (ratio < 0.1)
+            m_AdaptiveSampling = 1;
+        else if (ratio < 0.2)
+            m_AdaptiveSampling = 2;
+        else
+            m_AdaptiveSampling = 4;
+
+        m_PreviewSampling *= m_AdaptiveSampling;
+    }
+
     // Rescale to fits window on first load
     if (firstLoad)
     {
@@ -407,7 +426,7 @@ bool FITSView::processData()
             Options::autoWCS() &&
             !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
         wcsWatcher.setFuture(future);
     }
     else
@@ -631,6 +650,8 @@ void FITSView::ZoomIn()
     currentWidth  = imageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = imageData->height() * (currentZoom / ZOOM_DEFAULT);
 
+    cleanUpZoom();
+
     updateFrame();
 
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
@@ -654,6 +675,8 @@ void FITSView::ZoomOut()
     if (!imageData) return;
     currentWidth  = imageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = imageData->height() * (currentZoom / ZOOM_DEFAULT);
+
+    cleanUpZoom();
 
     updateFrame();
 
@@ -737,14 +760,14 @@ void FITSView::updateFrameLargeImage()
     font.setPixelSize(scaleSize(FONT_SIZE));
     painter.setFont(font);
 
-    if (sampling == 1)
+    if (m_PreviewSampling == 1)
     {
         drawOverlay(&painter, 1.0);
         drawStarFilter(&painter, 1.0);
     }
     image_frame->setPixmap(displayPixmap);
 
-    image_frame->resize(((sampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
+    image_frame->resize(((m_PreviewSampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
 }
 
 void FITSView::updateFrameSmallImage()
@@ -755,13 +778,12 @@ void FITSView::updateFrameSmallImage()
 
     QPainter painter(&displayPixmap);
 
-    if (sampling == 1)
+    if (m_PreviewSampling == 1)
     {
         drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
         drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
     }
     image_frame->setPixmap(displayPixmap);
-
     image_frame->resize(currentWidth, currentHeight);
 }
 
@@ -1219,7 +1241,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
     const int image_width = imageData->width();
     const int image_height = imageData->height();
 
-    if (imageData->hasWCS())
+    if (imageData->hasWCS() && imageData->fullWCS())
     {
         FITSImage::wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
@@ -1566,7 +1588,7 @@ void FITSView::toggleEQGrid()
 
     if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
         wcsWatcher.setFuture(future);
         return;
     }
@@ -1581,7 +1603,7 @@ void FITSView::toggleObjects()
 
     if (imageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, true);
         wcsWatcher.setFuture(future);
         return;
     }
@@ -1825,12 +1847,13 @@ void FITSView::cleanUpZoom(QPoint viewCenter)
         x0 = trackingBox.center().x() * scale;
         y0 = trackingBox.center().y() * scale;
     }
-    else
+    else if (!viewCenter.isNull())
     {
         x0 = viewCenter.x() * scale;
         y0 = viewCenter.y() * scale;
     }
-    ensureVisible(x0, y0, width() / 2, height() / 2);
+    if ((x0 != 0) || (y0 != 0))
+        ensureVisible(x0, y0, width() / 2, height() / 2);
     updateMouseCursor();
 }
 
@@ -1856,8 +1879,8 @@ void FITSView::initDisplayImage()
 {
     // Account for leftover when sampling. Thus a 5-wide image sampled by 2
     // would result in a width of 3 (samples 0, 2 and 4).
-    int w = (imageData->width() + sampling - 1) / sampling;
-    int h = (imageData->height() + sampling - 1) / sampling;
+    int w = (imageData->width() + m_PreviewSampling - 1) / m_PreviewSampling;
+    int h = (imageData->height() + m_PreviewSampling - 1) / m_PreviewSampling;
 
     if (imageData->channels() == 1)
     {

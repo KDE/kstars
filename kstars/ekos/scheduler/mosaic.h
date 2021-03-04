@@ -25,6 +25,7 @@ typedef struct
     QPointF center;
     QPointF center_rot;
     SkyPoint skyCenter;
+    double rotation;
 } OneTile;
 
 class MosaicTile : public QGraphicsItem

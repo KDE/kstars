@@ -34,8 +34,11 @@ bool ShFovExporter::calculatePath(const SkyPoint &src, const SkyPoint &dest, dou
     m_Src  = src;
     m_Dest = dest;
 
-    m_skyObjList = KSUtils::castStarObjListToSkyObjList(m_StarHopper.computePath(src, dest, fov, maglim));
-    m_Path       = *m_skyObjList;
+    auto list = m_StarHopper.computePath(src, dest, fov, maglim);
+    m_skyObjList = KSUtils::castStarObjListToSkyObjList(list);
+    delete list;
+
+    m_Path = *m_skyObjList;
     if (m_Path.isEmpty())
     {
         return false;

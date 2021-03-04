@@ -19,10 +19,6 @@
 #include <QPainter>
 #include <QtConcurrent>
 
-#define ZOOM_DEFAULT 100.0
-#define ZOOM_MIN     10
-#define ZOOM_MAX     400
-
 AlignView::AlignView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
 {
 }
@@ -34,14 +30,17 @@ void AlignView::drawOverlay(QPainter *painter, double scale)
     FITSView::drawOverlay(painter, getScale());
     painter->setOpacity(1);
 
-    if (RACircle.isNull() == false)
-        drawCircle(painter);
+    // drawRaAxis checks to see that the pole is valid and in the image.
+    drawRaAxis(painter);
 
-    if (correctionLine.isNull() == false)
-        drawLine(painter);
+    // drawTriangle checks if the points are valid.
+    drawTriangle(painter);
+
+    // ditto
+    drawStarCircle(painter);
 }
 
-bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale)
+bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool extras)
 {
     bool rc = imageData->injectWCS(orientation, ra, dec, pixscale);
     // If file fails to load, then no WCS data
@@ -55,90 +54,77 @@ bool AlignView::injectWCS(double orientation, double ra, double dec, double pixs
     if (wcsWatcher.isRunning() == false && imageData->getWCSState() == FITSData::Idle)
     {
         // Load WCS async
-        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS);
+        QFuture<bool> future = QtConcurrent::run(imageData.data(), &FITSData::loadWCS, extras);
         wcsWatcher.setFuture(future);
     }
 
     return true;
 }
 
-void AlignView::setCorrectionParams(QLineF &line)
+void AlignView::reset()
+{
+    correctionFrom = QPointF();
+    correctionTo = QPointF();
+    correctionAltTo = QPointF();
+    markerCrosshair = QPointF();
+    celestialPolePoint = QPointF();
+    raAxis = QPointF();
+    starCircle = QPointF();
+    releaseImage();
+}
+
+void AlignView::setCorrectionParams(const QPointF &from, const QPointF &to, const QPointF &altTo)
 {
     if (imageData.isNull())
         return;
 
-    bool RAAxisInside  = imageData->contains(line.p1());
-    bool CPPointInside = imageData->contains(line.p2());
-
-    // If points are outside, let's translate the line to be within the frame
-    if (RAAxisInside == false || CPPointInside == false)
-    {
-        QPointF center(imageData->width() / 2, imageData->height() / 2);
-        QPointF offset(center - line.p1());
-        line.translate(offset);
-    }
-
-    correctionLine     = line;
-    celestialPolePoint = line.p1();
-    markerCrosshair    = line.p2();
+    correctionFrom = from;
+    correctionTo = to;
+    correctionAltTo = altTo;
+    markerCrosshair = to;
 
     updateFrame();
 }
 
-void AlignView::setCorrectionOffset(QPointF &newOffset)
+void AlignView::setStarCircle(const QPointF &pixel)
 {
-    if (imageData == nullptr)
+    starCircle = pixel;
+    updateFrame();
+}
+
+void AlignView::drawTriangle(QPainter *painter)
+{
+    if (correctionFrom.isNull() && correctionTo.isNull() && correctionAltTo.isNull())
         return;
 
-    if (newOffset.isNull() == false)
-    {
-        correctionOffset  = newOffset;
-        QPointF offset    = correctionOffset - correctionLine.p1();
-        QLineF offsetLine = correctionLine;
-        offsetLine.translate(offset);
-        markerCrosshair = offsetLine.p2();
-
-        emit newCorrectionVector(offsetLine);
-    }
-    // Clear points
-    else
-    {
-        correctionOffset = newOffset;
-        markerCrosshair  = newOffset;
-
-        emit newCorrectionVector(correctionLine);
-    }
-
-    updateFrame();
-}
-
-void AlignView::drawLine(QPainter *painter)
-{
-    painter->setPen(QPen(Qt::magenta, 2));
+    painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(Qt::NoBrush);
 
-    QLineF zoomedLine = correctionLine;
-    QPointF offset;
-
-    if (correctionOffset.isNull() == false)
-    {
-        offset = correctionOffset - correctionLine.p1();
-    }
-
-    zoomedLine.translate(offset);
-
     const double scale = getScale();
-    double x1 = zoomedLine.p1().x() * scale;
-    double y1 = zoomedLine.p1().y() * scale;
 
-    double x2 = zoomedLine.p2().x() * scale;
-    double y2 = zoomedLine.p2().y() * scale;
+    // Some of the points may be out of the image.
+    painter->setPen(QPen(Qt::magenta, 2));
+    painter->drawLine(correctionFrom.x() * scale,
+                      correctionFrom.y() * scale,
+                      correctionTo.x() * scale,
+                      correctionTo.y() * scale);
 
-    painter->drawLine(x1, y1, x2, y2);
+    painter->setPen(QPen(Qt::yellow, 3));
+    painter->drawLine(correctionFrom.x() * scale,
+                      correctionFrom.y() * scale,
+                      correctionAltTo.x() * scale,
+                      correctionAltTo.y() * scale);
+
+    painter->setPen(QPen(Qt::green, 3));
+    painter->drawLine(correctionAltTo.x() * scale,
+                      correctionAltTo.y() * scale,
+                      correctionTo.x() * scale,
+                      correctionTo.y() * scale);
 
     // In limited memory mode, WCS data is not loaded so no Equatorial Gridlines are drawn
     // so we have to at least draw the NCP/SCP locations
-    if (Options::limitedResourcesMode())
+    if (Options::limitedResourcesMode() && !celestialPolePoint.isNull()
+            && imageData->contains(celestialPolePoint))
     {
         QPen pen;
         pen.setWidth(2);
@@ -155,8 +141,28 @@ void AlignView::drawLine(QPainter *painter)
     }
 }
 
-void AlignView::drawCircle(QPainter *painter)
+
+void AlignView::drawStarCircle(QPainter *painter)
 {
+    if (starCircle.isNull())
+        return;
+
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setBrush(Qt::NoBrush);
+
+    const double scale = getScale();
+    QPointF center(starCircle.x() * scale, starCircle.y() * scale);
+
+    // Could get fancy and change from yellow to green when closer to the green line.
+    painter->setPen(QPen(Qt::yellow, 1));
+    painter->drawEllipse(center, 35.0, 35.0);
+}
+
+void AlignView::drawRaAxis(QPainter *painter)
+{
+    if (raAxis.isNull() || !imageData->contains(raAxis))
+        return;
+
     QPen pen(Qt::green);
     pen.setWidth(2);
     pen.setStyle(Qt::DashLine);
@@ -164,13 +170,13 @@ void AlignView::drawCircle(QPainter *painter)
     painter->setBrush(Qt::NoBrush);
 
     const double scale = getScale();
-    QPointF center(RACircle.x() * scale, RACircle.y() * scale);
+    const QPointF center(raAxis.x() * scale, raAxis.y() * scale);
 
     // Big Radius
-    double r = RACircle.z() * scale;
+    const double r = 200 * scale;
 
     // Small radius
-    double sr = r / 25.0;
+    const double sr = r / 25.0;
 
     painter->drawEllipse(center, sr, sr);
     painter->drawEllipse(center, r, r);
@@ -179,9 +185,15 @@ void AlignView::drawCircle(QPainter *painter)
     painter->drawText(center.x() + sr, center.y() + sr, i18n("RA Axis"));
 }
 
-void AlignView::setRACircle(const QVector3D &value)
+void AlignView::setRaAxis(const QPointF &value)
 {
-    RACircle = value;
+    raAxis = value;
+    updateFrame();
+}
+
+void AlignView::setCelestialPole(const QPointF &value)
+{
+    celestialPolePoint = value;
     updateFrame();
 }
 
@@ -197,4 +209,14 @@ void AlignView::processMarkerSelection(int x, int y)
 {
     Q_UNUSED(x)
     Q_UNUSED(y)
+}
+
+void AlignView::holdOnToImage()
+{
+    keptImagePointer = imageData;
+}
+
+void AlignView::releaseImage()
+{
+    keptImagePointer.reset();
 }

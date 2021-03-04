@@ -77,6 +77,7 @@ int RA_PULSE_GRAPH = -1;
 int DEC_PULSE_GRAPH = -1;
 int DRIFT_GRAPH = -1;
 int RMS_GRAPH = -1;
+int CAPTURE_RMS_GRAPH = -1;
 int MOUNT_RA_GRAPH = -1;
 int MOUNT_DEC_GRAPH = -1;
 int MOUNT_HA_GRAPH = -1;
@@ -291,11 +292,39 @@ IntervalFinder<Ekos::Analyze::MountFlipSession> mountFlipSessions;
 namespace Ekos
 {
 
+// RmsFilter computes the RMS error of a 2-D sequence. Input the x error and y error
+// into newSample(). It returns the sqrt of an approximate moving average of the squared
+// errors roughly averaged over 40 samples--implemented by a simple digital low-pass filter.
+// It's used to compute RMS guider errors, where x and y would be RA and DEC errors.
+class RmsFilter
+{
+    public:
+        RmsFilter()
+        {
+            constexpr double timeConstant = 40.0;
+            alpha = 1.0 / pow(timeConstant, 0.865);
+        }
+        void resetFilter()
+        {
+            filteredRMS = 0;
+        }
+        double newSample(double x, double y)
+        {
+            const double valueSquared = x * x + y * y;
+            filteredRMS = alpha * valueSquared + (1.0 - alpha) * filteredRMS;
+            return sqrt(filteredRMS);
+        }
+    private:
+        double alpha { 0 };
+        double filteredRMS { 0 };
+};
+
 Analyze::Analyze()
 {
     setupUi(this);
 
-    initRmsFilter();
+    captureRms.reset(new RmsFilter);
+    guiderRms.reset(new RmsFilter);
 
     alternateFolder = QDir::homePath();
 
@@ -459,7 +488,7 @@ void Analyze::unhighlightTimelineItem()
         timelinePlot->removeItem(selectionHighlight);
         selectionHighlight = nullptr;
     }
-    infoBox->clear();
+    detailsTable->clear();
 }
 
 // Highlight the area between start and end on row y in Timeline.
@@ -474,26 +503,6 @@ void Analyze::highlightTimelineItem(double y, double start, double end)
     rect->bottomRight->setCoords(end, y - halfHeight);
     rect->setBrush(timelineSelectionBrush);
     selectionHighlight = rect;
-}
-
-// These help calculate the RMS values of the ra and drift errors. It takes
-// an approximate moving average of the squared errors roughly averaged over
-// 40 samples implemented by a simple digital low-pass filter.
-void Analyze::initRmsFilter()
-{
-    constexpr double timeConstant = 40.0;
-    rmsFilterAlpha = 1.0 / pow(timeConstant, 0.865);
-}
-
-double Analyze::rmsFilter(double x)
-{
-    filteredRMS = rmsFilterAlpha * x + (1.0 - rmsFilterAlpha) * filteredRMS;
-    return filteredRMS;
-}
-
-void Analyze::resetRmsFilter()
-{
-    filteredRMS = 0;
 }
 
 // Creates a fat line-segment on the Timeline, optionally with a stripe in the middle.
@@ -536,17 +545,43 @@ void Analyze::addGuideStats(double raDrift, double decDrift, int raPulse, int de
         addGuideStatsInternal(qQNaN(), qQNaN(), 0, 0, qQNaN(), qQNaN(), qQNaN(), qQNaN(), qQNaN(),
                               lastGuideStatsTime + .0001);
         addGuideStatsInternal(qQNaN(), qQNaN(), 0, 0, qQNaN(), qQNaN(), qQNaN(), qQNaN(), qQNaN(), time - .0001);
-        resetRmsFilter();
+        guiderRms->resetFilter();
     }
 
     const double drift = std::hypot(raDrift, decDrift);
 
     // To compute the RMS error, which is sqrt(sum square error / N), filter the squared
-    // error, which effectively returns sum squared error / N.
-    // The RMS value is then the sqrt of the filtered value.
-    const double rms = sqrt(rmsFilter(raDrift * raDrift + decDrift * decDrift));
-
+    // error, which effectively returns sum squared error / N, and take the sqrt.
+    // This is done by RmsFilter::newSample().
+    const double rms = guiderRms->newSample(raDrift, decDrift);
     addGuideStatsInternal(raDrift, decDrift, double(raPulse), double(decPulse), snr, numStars, skyBackground, drift, rms, time);
+
+    // If capture is active, plot the capture RMS.
+    if (captureStartedTime >= 0)
+    {
+        // lastCaptureRmsTime is the last time we plotted a capture RMS value.
+        // If we have plotted values previously, and there's a gap in guiding
+        // we must place NaN values in the graph surrounding the gap.
+        if ((lastCaptureRmsTime >= 0) &&
+                (time - lastCaptureRmsTime > MAX_GUIDE_STATS_GAP))
+        {
+            // this is the first sample in a series with a gap behind us.
+            statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(lastCaptureRmsTime + .0001, qQNaN());
+            statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(time - .0001, qQNaN());
+            // I can go either way on this. E.g. resetting the filter will start the RMS
+            // average over again, e.g. after a autofocus where the guider was suspended
+            // for a couple minutes. Not having it will average the new capture's guide
+            // errors with the previous capture's. This is, of course, a display decision.
+            // The actual guiding is not affected. I went with not resetting the RMS filter
+            // that only uses guiding samples during capture, and resetting the one that
+            // uses all guider samples (guiderRms above).
+            // captureRms->resetFilter();
+        }
+        const double rmsC = captureRms->newSample(raDrift, decDrift);
+        statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(time, rmsC);
+        lastCaptureRmsTime = time;
+    }
+
     lastGuideStatsTime = time;
 }
 
@@ -813,49 +848,86 @@ double Analyze::processInputLine(const QString &line)
     return time;
 }
 
-// Helper to create tables in the infoBox display.
-// Start the table, displaying the heading and timing information, common to all sessions.
-void Analyze::Session::startTable(const QString &name, const QString &status,
-                                  const QDateTime &startClock, const QDateTime &endClock)
+namespace
 {
+void addDetailsRow(QTableWidget *table, const QString &col1, const QColor &color1,
+                   const QString &col2, const QColor &color2,
+                   const QString &col3 = "", const QColor &color3 = Qt::white)
+{
+    int row = table->rowCount();
+    table->setRowCount(row + 1);
+
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setText(col1);
+    item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    item->setForeground(color1);
+    table->setItem(row, 0, item);
+
+    item = new QTableWidgetItem();
+    item->setText(col2);
+    item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    item->setForeground(color2);
+    if (col1 == "Filename")
+    {
+        // Special Case long filenames.
+        QFont ft = item->font();
+        ft.setPointSizeF(8.0);
+        item->setFont(ft);
+    }
+    table->setItem(row, 1, item);
+
+    if (col3.size() > 0)
+    {
+        item = new QTableWidgetItem();
+        item->setText(col3);
+        item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        item->setForeground(color3);
+        table->setItem(row, 2, item);
+    }
+    else
+    {
+        // Column 1 spans 2nd and 3rd columns
+        table->setSpan(row, 1, 1, 2);
+    }
+}
+}
+
+// Helper to create tables in the details display.
+// Start the table, displaying the heading and timing information, common to all sessions.
+void Analyze::Session::setupTable(const QString &name, const QString &status,
+                                  const QDateTime &startClock, const QDateTime &endClock, QTableWidget *table)
+{
+    details = table;
+    details->clear();
+    details->setRowCount(0);
+    details->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    details->setColumnCount(3);
+    details->verticalHeader()->setDefaultSectionSize(20);
+    details->horizontalHeader()->setStretchLastSection(true);
+    details->setColumnWidth(0, 100);
+    details->setColumnWidth(1, 100);
+    details->setShowGrid(false);
+    details->setWordWrap(true);
+    details->horizontalHeader()->hide();
+    details->verticalHeader()->hide();
+
     QString startDateStr = startClock.toString("dd.MM.yyyy");
     QString startTimeStr = startClock.toString("hh:mm:ss");
     QString endTimeStr = isTemporary() ? "Ongoing"
                          : endClock.toString("hh:mm:ss");
 
-    htmlString = QString("<style>td { padding: 0px 10px }</style>"
-                         "<html><table><tr style=\"color:yellow\"><td>%1</td><td>%2</td></tr>"
-                         "<tr><td style=\"color:yellow\">Date</td><td>%3</td><td></td></tr>"
-                         "<tr><td style=\"color:yellow\">Interval</td><td>%4s</td><td>%5s</td></tr>"
-                         "<tr><td style=\"color:yellow\">Clock</td><td>%6</td><td>%7</td></tr>"
-                         "<tr><td style=\"color:yellow\">Duration</td><td>%8s</td><td></td></tr>")
-                 .arg(name).arg(status)
-                 .arg(startDateStr)
-                 .arg(QString::number(start, 'f', 3))
-                 .arg(isTemporary() ? "Ongoing" : QString::number(end, 'f', 3))
-                 .arg(startTimeStr).arg(endTimeStr)
-                 .arg(QString::number(end - start, 'f', 1));
+    addDetailsRow(details, name, Qt::yellow, status, Qt::yellow);
+    addDetailsRow(details, "Date", Qt::yellow, startDateStr, Qt::white);
+    addDetailsRow(details, "Interval", Qt::yellow, QString::number(start, 'f', 3), Qt::white,
+                  isTemporary() ? "Ongoing" : QString::number(end, 'f', 3), Qt::white);
+    addDetailsRow(details, "Clock", Qt::yellow, startTimeStr, Qt::white, endTimeStr, Qt::white);
+    addDetailsRow(details, "Duration", Qt::yellow, QString::number(end - start, 'f', 1), Qt::white);
 }
 
 // Add a new row to the table, which is specific to the particular Timeline line.
-void Analyze::Session::addRow(const QString &key, const QString &value1String, const QString &value2String)
+void Analyze::Session::addRow(const QString &key, const QString &value)
 {
-
-    QString row;
-    if (value2String.size() == 0)
-        // When the 2nd value is empty, have the 1st span both columns.
-        row = QString("<tr><td style=\"color:yellow\">%1</td><td colspan=\"2\">%2</td></tr>")
-              .arg(key).arg(value1String).arg(value2String);
-    else
-        row = QString("<tr><td style=\"color:yellow\">%1</td><td>%2</td><td>%3</td></tr>")
-              .arg(key).arg(value1String).arg(value2String);
-    htmlString = htmlString + row;
-}
-
-// Complete the table.
-QString Analyze::Session::html() const
-{
-    return htmlString + "</table></html>";
+    addDetailsRow(details, key, Qt::yellow, value, Qt::white);
 }
 
 bool Analyze::Session::isTemporary() const
@@ -896,18 +968,18 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
 }
 
 // When the user clicks on a particular capture session in the timeline,
-// a table is rendered in the infoBox, and, if it was a double click,
+// a table is rendered in the details section, and, if it was a double click,
 // the fits file is displayed, if it can be found.
 void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
 {
     highlightTimelineItem(c.offset, c.start, c.end);
 
     if (c.isTemporary())
-        c.startTable("Capture", "in progress", clockTime(c.start), clockTime(c.start));
+        c.setupTable("Capture", "in progress", clockTime(c.start), clockTime(c.start), detailsTable);
     else if (c.aborted)
-        c.startTable("Capture", "ABORTED", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Capture", "ABORTED", clockTime(c.start), clockTime(c.end), detailsTable);
     else
-        c.startTable("Capture", "successful", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Capture", "successful", clockTime(c.start), clockTime(c.end), detailsTable);
 
     c.addRow("Filter", c.filter);
 
@@ -920,7 +992,6 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
     c.addRow("Exposure", QString::number(c.duration, 'f', 2));
     if (!c.isTemporary())
         c.addRow("Filename", c.filename);
-    infoBox->setHtml(c.html());
 
     if (doubleClick && !c.isTemporary())
     {
@@ -936,7 +1007,7 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
 }
 
 // When the user clicks on a focus session in the timeline,
-// a table is rendered in the infoBox, and the HFR/position plot
+// a table is rendered in the details section, and the HFR/position plot
 // is displayed in the graphics plot. If focus is ongoing
 // the information for the graphics is not plotted as it is not yet available.
 void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
@@ -945,20 +1016,25 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
     highlightTimelineItem(c.offset, c.start, c.end);
 
     if (c.success)
-        c.startTable("Focus", "successful", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Focus", "successful", clockTime(c.start), clockTime(c.end), detailsTable);
     else if (c.isTemporary())
-        c.startTable("Focus", "in progress", clockTime(c.start), clockTime(c.start));
+        c.setupTable("Focus", "in progress", clockTime(c.start), clockTime(c.start), detailsTable);
     else
-        c.startTable("Focus", "FAILED", clockTime(c.start), clockTime(c.end));
+        c.setupTable("Focus", "FAILED", clockTime(c.start), clockTime(c.end), detailsTable);
 
-    double finalHfr = c.hfrs.size() > 0 ? c.hfrs.last() : 0;
-    if (c.success)
-        c.addRow("HFR", c.isTemporary() ? "" : QString::number(finalHfr, 'f', 2));
     if (!c.isTemporary())
+    {
+        if (c.success)
+        {
+            if (c.hfrs.size() > 0)
+                c.addRow("HFR", QString::number(c.hfrs.last(), 'f', 2));
+            if (c.positions.size() > 0)
+                c.addRow("Solution", QString::number(c.positions.last(), 'f', 0));
+        }
         c.addRow("Iterations", QString::number(c.positions.size()));
+    }
     c.addRow("Filter", c.filter);
     c.addRow("Temperature", QString::number(c.temperature, 'f', 1));
-    infoBox->setHtml(c.html());
 
     if (c.isTemporary())
         resetGraphicsPlot();
@@ -967,7 +1043,7 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
 }
 
 // When the user clicks on a guide session in the timeline,
-// a table is rendered in the infoBox. If it has a G_GUIDING state
+// a table is rendered in the details section. If it has a G_GUIDING state
 // then a drift plot is generated and  RMS values are calculated
 // for the guiding session's time interval.
 void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
@@ -987,7 +1063,7 @@ void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
     else if (c.simpleState == G_DITHERING)
         st = "Dithering";
 
-    c.startTable("Guide", st, clockTime(c.start), clockTime(c.end));
+    c.setupTable("Guide", st, clockTime(c.start), clockTime(c.end), detailsTable);
     resetGraphicsPlot();
     if (c.simpleState == G_GUIDING)
     {
@@ -1002,7 +1078,6 @@ void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
         }
         c.addRow("Num Samples", QString::number(numSamples));
     }
-    infoBox->setHtml(c.html());
 }
 
 void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
@@ -1066,37 +1141,34 @@ void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
 }
 
 // When the user clicks on a particular mount session in the timeline,
-// a table is rendered in the infoBox.
+// a table is rendered in the details section.
 void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(MOUNT_Y, c.start, c.end);
 
-    c.startTable("Mount", mountStatusString(c.state), clockTime(c.start),
-                 clockTime(c.isTemporary() ? c.start : c.end));
-    infoBox->setHtml(c.html());
+    c.setupTable("Mount", mountStatusString(c.state), clockTime(c.start),
+                 clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
 // When the user clicks on a particular align session in the timeline,
-// a table is rendered in the infoBox.
+// a table is rendered in the details section.
 void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(ALIGN_Y, c.start, c.end);
-    c.startTable("Align", getAlignStatusString(c.state), clockTime(c.start),
-                 clockTime(c.isTemporary() ? c.start : c.end));
-    infoBox->setHtml(c.html());
+    c.setupTable("Align", getAlignStatusString(c.state), clockTime(c.start),
+                 clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
 // When the user clicks on a particular meridian flip session in the timeline,
-// a table is rendered in the infoBox.
+// a table is rendered in the details section.
 void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(MERIDIAN_FLIP_Y, c.start, c.end);
-    c.startTable("Meridian Flip", Mount::meridianFlipStatusString(c.state),
-                 clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end));
-    infoBox->setHtml(c.html());
+    c.setupTable("Meridian Flip", Mount::meridianFlipStatusString(c.state),
+                 clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
 // This method determines which timeline session (if any) was selected
@@ -1257,14 +1329,14 @@ void Analyze::scroll(int value)
 }
 void Analyze::scrollRight()
 {
-    plotStart = std::min(maxXValue - plotWidth, plotStart + plotWidth);
+    plotStart = std::min(maxXValue - plotWidth / 5, plotStart + plotWidth / 5);
     fullWidthCB->setChecked(false);
     replot();
 
 }
 void Analyze::scrollLeft()
 {
-    plotStart = std::max(0.0, plotStart - plotWidth);
+    plotStart = std::max(0.0, plotStart - plotWidth / 5);
     fullWidthCB->setChecked(false);
     replot();
 
@@ -1379,6 +1451,7 @@ void Analyze::updateStatsValues()
     updateStat(time, decOut, statsPlot->graph(DEC_GRAPH), d2Fcn);
     updateStat(time, driftOut, statsPlot->graph(DRIFT_GRAPH), d2Fcn);
     updateStat(time, rmsOut, statsPlot->graph(RMS_GRAPH), d2Fcn);
+    updateStat(time, rmsCOut, statsPlot->graph(CAPTURE_RMS_GRAPH), d2Fcn);
     updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d2Fcn);
     updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn);
     updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
@@ -1440,6 +1513,7 @@ void Analyze::initStatsCheckboxes()
     decPulseCB->setChecked(Options::analyzeDECp());
     driftCB->setChecked(Options::analyzeDrift());
     rmsCB->setChecked(Options::analyzeRMS());
+    rmsCCB->setChecked(Options::analyzeRMSC());
     mountRaCB->setChecked(Options::analyzeMountRA());
     mountDecCB->setChecked(Options::analyzeMountDEC());
     mountHaCB->setChecked(Options::analyzeMountHA());
@@ -1674,6 +1748,8 @@ void Analyze::initStatsPlot()
     DRIFT_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::lightGray, "Drift", driftCB,
                                  Options::setAnalyzeDrift);
     RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "RMS", rmsCB, Options::setAnalyzeRMS);
+    CAPTURE_RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "RMSc", rmsCCB,
+                                       Options::setAnalyzeRMSC);
 
     QCPAxis *mountRaDecAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     mountRaDecAxis->setVisible(false);
@@ -1727,7 +1803,8 @@ void Analyze::reset()
     plotStart = 0.0;
     plotWidth = 10.0;
 
-    resetRmsFilter();
+    guiderRms->resetFilter();
+    captureRms->resetFilter();
 
     unhighlightTimelineItem();
 
@@ -1741,11 +1818,11 @@ void Analyze::reset()
 
     resetGraphicsPlot();
 
-    infoBox->setText("");
-    QPalette p = infoBox->palette();
+    detailsTable->clear();
+    QPalette p = detailsTable->palette();
     p.setColor(QPalette::Base, Qt::black);
     p.setColor(QPalette::Text, Qt::white);
-    infoBox->setPalette(p);
+    detailsTable->setPalette(p);
 
     inputValue->clear();
     captureSessions.clear();
@@ -1763,6 +1840,7 @@ void Analyze::reset()
     decOut->setText("");
     driftOut->setText("");
     rmsOut->setText("");
+    rmsCOut->setText("");
 
     removeStatsCursor();
     removeTemporarySessions();
@@ -2396,7 +2474,8 @@ void Analyze::processGuideStats(double time, double raError, double decError,
 
 void Analyze::resetGuideStats()
 {
-    lastGuideStatsTime = -1;;
+    lastGuideStatsTime = -1;
+    lastCaptureRmsTime = -1;
     numStarsMax = 0;
     snrMax = 0;
     skyBgMax = 0;
@@ -2747,4 +2826,5 @@ void Analyze::resetMountFlipState()
     lastMountFlipStateStarted = Mount::FLIP_NONE;
     mountFlipStateStartedTime = -1;
 }
-}
+
+}  // namespace Ekos

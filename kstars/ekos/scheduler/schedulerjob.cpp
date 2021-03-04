@@ -424,6 +424,11 @@ void SchedulerJob::setTargetCoords(dms &ra, dms &dec)
     targetCoords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
 }
 
+void SchedulerJob::setRotation(double value)
+{
+    rotation = value;
+}
+
 void SchedulerJob::updateJobCells()
 {
     if (nullptr != nameCell)

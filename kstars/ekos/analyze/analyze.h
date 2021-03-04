@@ -11,6 +11,7 @@
 #define ANALYZE_H
 
 #include <QtDBus>
+#include <memory>
 
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
@@ -22,13 +23,15 @@ class OffsetDateTimeTicker;
 
 namespace Ekos
 {
+
+class RmsFilter;
+
 /**
  *@class Analyze
  *@short Analysis tab for Ekos sessions.
  *@author Hy Murveit
  *@version 1.0
  */
-
 class Analyze : public QWidget, public Ui::Analyze
 {
         Q_OBJECT
@@ -57,17 +60,17 @@ class Analyze : public QWidget, public Ui::Analyze
                 Session(double s, double e, int o, QCPItemRect *r)
                     : start(s), end(e), offset(o), rect(r) {}
 
-                // These 2 are used to build html tables for the info box display.
-                void startTable(const QString &name, const QString &status,
-                                const QDateTime &startClock, const QDateTime &endClock);
-                void addRow(const QString &key, const QString &value1String, const QString &value2String = "");
-                // Returns the html string to use in the info box.
-                QString html() const;
+                // These 2 are used to build tables for the details display.
+                void setupTable(const QString &name, const QString &status,
+                                const QDateTime &startClock, const QDateTime &endClock,
+                                QTableWidget *table);
+                void addRow(const QString &key, const QString &value);
 
                 // True if this session is temporary.
                 bool isTemporary() const;
 
             private:
+                QTableWidget *details;
                 QString htmlString;
         };
         // Below are subclasses of Session used to represent all the different
@@ -86,7 +89,7 @@ class Analyze : public QWidget, public Ui::Analyze
                                double duration_, const QString &filter_)
                     : Session(start_, end_, CAPTURE_Y, rect),
                       aborted(aborted_), filename(filename_),
-                      duration(duration_), filter(filter_) {}
+                      duration(duration_), filter(filter_), hfr(0) {}
                 CaptureSession() : Session(0, 0, CAPTURE_Y, nullptr) {}
         };
         // Guide sessions collapse some of the possible guiding states.
@@ -239,7 +242,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // (Un)highlights a segment on the timeline after one is clicked.
         // This indicates which segment's data is displayed in the
-        // graphicsPlot and infoBox.
+        // graphicsPlot and details table.
         void highlightTimelineItem(double y, double start, double end);
         void unhighlightTimelineItem();
 
@@ -282,12 +285,6 @@ class Analyze : public QWidget, public Ui::Analyze
         void addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
                     const double time, double startTime);
         void addTemperature(double temperature, const double time);
-
-        // AddGuideStats uses rmsFilter() to compute RMS values of the squared
-        // RA and DEC errors, thus calculating the RMS error.
-        double rmsFilter(double x);
-        void initRmsFilter();
-        void resetRmsFilter();
 
         // Initialize the graphs (axes, linestyle, pen, name, checkbox callbacks).
         // Returns the graph index.
@@ -376,9 +373,10 @@ class Analyze : public QWidget, public Ui::Analyze
         // When displaying the current session it should equal analyzeStartTime.
         QDateTime displayStartTime;
 
-        // Digital filter values for the RMS filter.
-        double rmsFilterAlpha { 0 };
-        double filteredRMS { 0 };
+        // AddGuideStats uses RmsFilter to compute RMS values of the squared
+        // RA and DEC errors, thus calculating the RMS error.
+        std::unique_ptr<RmsFilter> guiderRms;
+        std::unique_ptr<RmsFilter> captureRms;
 
         // Y-axes for the for several plots where we rescale based on data.
         // QCustomPlot owns these pointers' memory, don't free it.
@@ -439,6 +437,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // GuideStats state-machine variables.
         double lastGuideStatsTime { -1 };
+        double lastCaptureRmsTime { -1 };
         int numStarsMax { 0 };
         double snrMax { 0 };
         double skyBgMax { 0 };

@@ -16,6 +16,7 @@
 #include "indi/clientmanager.h"
 
 #include <KNotifications/KNotification>
+#include <ekos_capture_debug.h>
 
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
@@ -29,11 +30,13 @@ SequenceJob::SequenceJob()
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")
                     << i18n("Complete");
     currentTemperature = targetTemperature = Ekos::INVALID_VALUE;
+    currentGuiderDrift = targetStartGuiderDrift = Ekos::INVALID_VALUE;
     targetRotation = currentRotation = Ekos::INVALID_VALUE;
 
     prepareActions[ACTION_FILTER] = true;
     prepareActions[ACTION_TEMPERATURE] = true;
     prepareActions[ACTION_ROTATOR] = true;
+    prepareActions[ACTION_GUIDER_DRIFT] = true;
 }
 
 void SequenceJob::reset()
@@ -87,6 +90,13 @@ void SequenceJob::prepareCapture()
         prepareActions[ACTION_TEMPERATURE] = false;
         emit prepareState(CAPTURE_SETTING_TEMPERATURE);
         activeCCD->setTemperature(targetTemperature);
+    }
+
+    // Check if we need to wait for the guider to settle.
+    if (!guiderDriftOK())
+    {
+        prepareActions[ACTION_GUIDER_DRIFT] = false;
+        emit prepareState(CAPTURE_GUIDER_DRIFT);
     }
 
     // Check if we need to update rotator
@@ -202,7 +212,7 @@ bool SequenceJob::areActionsReady()
     return true;
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autofocusReady)
 {
     activeChip->setBatchMode(!preview);
 
@@ -263,13 +273,19 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
             emit prepareState(CAPTURE_CHANGING_FILTER);
 
             FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
-            // Don't perform autofocus on preview or calibration frames.
-            if (isPreview() || frameType != FRAME_LIGHT)
+            // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
+            if (isPreview() || frameType != FRAME_LIGHT || autofocusReady == false)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
             filterManager->setFilterPosition(targetFilter, policy);
             return CAPTURE_FILTER_BUSY;
         }
+    }
+
+    if (!guiderDriftOK())
+    {
+        emit prepareState(CAPTURE_GUIDER_DRIFT);
+        return CAPTURE_GUIDER_DRIFT_WAIT;
     }
 
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
@@ -383,6 +399,16 @@ void SequenceJob::setTargetTemperature(double value)
     targetTemperature = value;
 }
 
+void SequenceJob::setTargetStartGuiderDrift(double value)
+{
+    targetStartGuiderDrift = value;
+}
+
+double SequenceJob::getTargetStartGuiderDrift() const
+{
+    return targetStartGuiderDrift;
+}
+
 double SequenceJob::getTargetADU() const
 {
     return calibrationSettings.targetADU;
@@ -473,14 +499,14 @@ void SequenceJob::setEnforceTemperature(bool value)
     enforceTemperature = value;
 }
 
-QString SequenceJob::getPostCaptureScript() const
+bool SequenceJob::getEnforceStartGuiderDrift() const
 {
-    return postCaptureScript;
+    return enforceStartGuiderDrift;
 }
 
-void SequenceJob::setPostCaptureScript(const QString &value)
+void SequenceJob::setEnforceStartGuiderDrift(bool value)
 {
-    postCaptureScript = value;
+    enforceStartGuiderDrift = value;
 }
 
 ISD::CCD::UploadMode SequenceJob::getUploadMode() const
@@ -588,4 +614,35 @@ void SequenceJob::setCurrentRotation(double value)
     }
 
 }
+
+double SequenceJob::getCurrentGuiderDrift() const
+{
+    return currentGuiderDrift;
+}
+
+void SequenceJob::resetCurrentGuiderDrift()
+{
+    setCurrentGuiderDrift(1e8);
+}
+
+bool SequenceJob::guiderDriftOK() const
+{
+    return (!guiderActive ||
+            !enforceStartGuiderDrift ||
+            frameType != FRAME_LIGHT ||
+            currentGuiderDrift <= targetStartGuiderDrift);
+}
+
+void SequenceJob::setCurrentGuiderDrift(double value)
+{
+    currentGuiderDrift = value;
+    prepareActions[ACTION_GUIDER_DRIFT] = guiderDriftOK();
+
+    if (prepareReady == false && areActionsReady())
+    {
+        prepareReady = true;
+        emit prepareComplete();
+    }
+}
+
 }

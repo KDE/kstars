@@ -183,6 +183,12 @@ class Mount : public QWidget, public Ui::Mount
         Q_SCRIPTABLE void setAutoParkEnabled(bool enable);
 
         /**
+         * @brief setAutoParkDailyEnabled toggles everyday Auto Park
+         * @param enable true to activate, false to deactivate
+         */
+        Q_SCRIPTABLE void setAutoParkDailyEnabled(bool enabled);
+
+        /**
          * @brief setAutoParkStartup Set time when automatic parking is activated.
          * @param startup Startup time. should not be more than 12 hours away.
          */

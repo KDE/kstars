@@ -226,8 +226,7 @@ void DarkLibrary::subtract(const QSharedPointer<FITSData> &darkData, const QShar
     // If telescope is covered, let's uncover it
     auto checkTelescopeCover = [this]()
     {
-        if (m_RemoteCap && subtractParams.targetChip &&
-                subtractParams.targetChip->getCCD()->getTelescopeType() == ISD::CCD::TELESCOPE_PRIMARY)
+        if (m_RemoteCap && subtractParams.targetChip->getCCD()->getTelescopeType() == ISD::CCD::TELESCOPE_PRIMARY)
         {
             // Uncover dust cap if it was covered already
             if (m_RemoteCap->isUnParked() == false && m_RemoteCap->status() != ISD::DustCap::CAP_UNPARKING)
@@ -271,7 +270,8 @@ void DarkLibrary::subtract(const QSharedPointer<FITSData> &darkData, const QShar
 
     if (m_TelescopeCovered)
     {
-        checkTelescopeCover();
+        if (subtractParams.targetChip)
+            checkTelescopeCover();
 
         // Otherwise, call this function again
         QTimer::singleShot(1000, this, [ = ]
@@ -332,6 +332,11 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, const QSharedPoin
     QSharedPointer<FITSData> darkData;
     if (getDarkFrame(targetChip, duration, darkData))
     {
+        subtractParams.targetChip  = targetChip;
+        subtractParams.targetData  = targetData;
+        subtractParams.duration    = duration;
+        subtractParams.offsetX     = offsetX;
+        subtractParams.offsetY     = offsetY;
         subtract(darkData, targetData, filter, offsetX, offsetY);
         return;
     }

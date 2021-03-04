@@ -166,8 +166,8 @@ class Calibration
 
         // The calibrated values of how many pulse milliseconds are required to
         // move one pixel in RA and DEC.
-        double raPulseMsPerPixel;
-        double decPulseMsPerPixel;
+        double raPulseMsPerPixel { 0 };
+        double decPulseMsPerPixel { 0 };
 
         // The decSwap that was computed in calibration.
         bool calibrationDecSwap { false };

@@ -89,6 +89,9 @@ class SchedulerJob
     void setTargetCoords(dms& ra, dms& dec);
     /** @} */
 
+    double getRotation() { return rotation; }
+    void setRotation(double rotation);
+
     /** @brief Capture sequence this job uses while running. */
     /** @{ */
     QUrl getSequenceFile() const { return sequenceFile; }
@@ -345,7 +348,7 @@ class SchedulerJob
     /** @brief Determining whether a SchedulerJob is a duplicate of another.
      * @param a_job is the other SchedulerJob to test duplication against.
      * @return True if objects are different, but name and sequence file are identical, else false.
-     * @warning This is a weak comparison, but that's what the scheduler looks at to decide completion. 
+     * @warning This is a weak comparison, but that's what the scheduler looks at to decide completion.
      */
     bool isDuplicateOf(SchedulerJob const *a_job) const { return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile; }
 
@@ -436,6 +439,7 @@ class SchedulerJob
 private:
     QString name;
     SkyPoint targetCoords;
+    double rotation { -1 };
     JOBStatus state { JOB_IDLE };
     JOBStage stage { STAGE_IDLE };
 
@@ -452,10 +456,10 @@ private:
 
     /* @internal Caches to optimize cell rendering. */
     /* @{ */
-    double altitudeAtStartup;
-    double altitudeAtCompletion;
-    bool isSettingAtStartup;
-    bool isSettingAtCompletion;
+    double altitudeAtStartup { 0 };
+    double altitudeAtCompletion { 0 };
+    bool isSettingAtStartup { false };
+    bool isSettingAtCompletion { false };
     /* @} */
 
     QUrl sequenceFile;

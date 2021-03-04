@@ -135,7 +135,8 @@ bool INDI_D::removeProperty(INDI::Property *prop)
 
 bool INDI_D::removeProperty(const QString &device, const QString &name)
 {
-    Q_UNUSED(device)
+    if (device != m_Name)
+        return false;
 
     for (auto &oneGroup : groupsList)
     {

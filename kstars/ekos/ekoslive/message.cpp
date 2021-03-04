@@ -33,6 +33,8 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager)
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
             &Message::onError);
 
+    connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
+
     m_ThrottleTS = QDateTime::currentDateTime();
 }
 
@@ -237,7 +239,7 @@ void Message::sendCameras()
     for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
     {
         ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
-        connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
+        //connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
         //connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
         ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -389,14 +391,19 @@ void Message::sendDomes()
     {
         ISD::Dome *oneDome = dynamic_cast<ISD::Dome*>(gd);
 
-        QJsonObject status =
+        if (oneDome)
         {
-            { "name", oneDome->getDeviceName()},
-            { "status", ISD::Dome::getStatusString(oneDome->status())}
-        };
-        if (oneDome->canAbsMove())
-            status["az"] = oneDome->azimuthPosition();
-        sendResponse(commands[NEW_DOME_STATE], status);
+            QJsonObject status =
+            {
+                { "name", oneDome->getDeviceName()},
+                { "status", ISD::Dome::getStatusString(oneDome->status())}
+            };
+
+            if (oneDome->canAbsMove())
+                status["az"] = oneDome->azimuthPosition();
+
+            sendResponse(commands[NEW_DOME_STATE], status);
+        }
     }
 }
 
@@ -413,14 +420,17 @@ void Message::sendCaps()
         {
             ISD::DustCap *dustCap = dynamic_cast<ISD::DustCap*>(gd);
 
-            QJsonObject oneCap =
+            if (dustCap)
             {
-                {"name", dustCap->getDeviceName()},
-                {"canPark", dustCap->canPark()},
-                {"hasLight", dustCap->hasLight()},
-            };
+                QJsonObject oneCap =
+                {
+                    {"name", dustCap->getDeviceName()},
+                    {"canPark", dustCap->canPark()},
+                    {"hasLight", dustCap->hasLight()},
+                };
 
-            capList.append(oneCap);
+                capList.append(oneCap);
+            }
         }
     }
 
@@ -513,13 +523,16 @@ void Message::sendTemperature(double value)
 {
     ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(sender());
 
-    QJsonObject temperature =
+    if (oneCCD)
     {
-        {"name", oneCCD->getDeviceName()},
-        {"temperature", value}
-    };
+        QJsonObject temperature =
+        {
+            {"name", oneCCD->getDeviceName()},
+            {"temperature", value}
+        };
 
-    sendResponse(commands[NEW_CAMERA_STATE], temperature);
+        sendResponse(commands[NEW_CAMERA_STATE], temperature);
+    }
 }
 
 void Message::sendFilterWheels()
@@ -587,6 +600,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
+        capture->setVideoLimits(payload["maxBufferSize"].toInt(512), payload["maxPreviewFPS"].toInt(10));
         capture->toggleVideo(payload["enabled"].toBool());
     }
     else if (command == commands[CAPTURE_START])
@@ -812,6 +826,11 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         mount->setMeridianFlipValues(payload["enabled"].toBool(),
                                      payload["value"].toDouble() / 15.0);
     }
+    else if (command == commands[MOUNT_SET_EVERYDAY_AUTO_PARK])
+    {
+        const bool enabled = payload["enabled"].toBool();
+        mount->setAutoParkDailyEnabled(enabled);
+    }
     else if (command == commands[MOUNT_SET_AUTO_PARK])
     {
         const bool enabled = payload["enabled"].toBool();
@@ -820,6 +839,7 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             mount->setAutoParkStartup(QTime::fromString(payload["value"].toString()));
         mount->setAutoParkEnabled(enabled);
     }
+
 }
 
 void Message::processDomeCommands(const QString &command, const QJsonObject &payload)
@@ -971,6 +991,10 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         align->setPAHRefreshComplete();
     }
+    else if (command == commands[PAH_SLEW_DONE])
+    {
+        align->setPAHSlewDone();
+    }
 }
 
 void Message::setPAHStage(Ekos::Align::PAHStage stage)
@@ -983,7 +1007,7 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
 
     QJsonObject polarState =
     {
-        {"stage", align->getPAHStage()}
+        {"stage", align->getPAHStageString()}
     };
 
 
@@ -1009,7 +1033,7 @@ void Message::setPAHMessage(const QString &message)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
-void Message::setPolarResults(QLineF correctionVector, QString polarError)
+void Message::setPolarResults(QLineF correctionVector, double polarError, double azError, double altError)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -1023,7 +1047,9 @@ void Message::setPolarResults(QLineF correctionVector, QString polarError)
         {"center_y", center.y()},
         {"mag", correctionVector.length()},
         {"pa", correctionVector.angle()},
-        {"error", polarError}
+        {"error", polarError},
+        {"azError", azError},
+        {"altError", altError}
     };
 
     QJsonObject polarState =
@@ -1051,6 +1077,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
 {
     if (command == commands[START_PROFILE])
     {
+        if (m_Manager->getEkosStartingStatus() != Ekos::Idle)
+            m_Manager->stop();
+
         m_Manager->setProfile(payload["name"].toString());
         m_Manager->start();
     }
@@ -1387,7 +1416,7 @@ void Message::sendStates()
         doc.setHtml(m_Manager->alignModule()->getPAHMessage());
         QJsonObject polarState =
         {
-            {"stage", m_Manager->alignModule()->getPAHStage()},
+            {"stage", m_Manager->alignModule()->getPAHStageString()},
             {"enabled", m_Manager->alignModule()->isPAHEnabled()},
             {"message", doc.toPlainText()},
         };
@@ -1400,7 +1429,7 @@ void Message::sendStates()
 
 void Message::sendEvent(const QString &message, KSNotification::EventType event)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
+    if (m_isConnected == false && m_Options[OPTION_SET_NOTIFICATIONS] == false)
         return;
 
     QJsonObject newEvent = {{ "severity", event}, {"message", message}, {"uuid", QUuid::createUuid().toString()}};
@@ -1501,6 +1530,67 @@ void Message::processNewLight(ILightVectorProperty * lvp)
             m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
                 QJsonDocument::Compact));
         }
+    }
+}
+
+void Message::sendModuleState(const QString &name)
+{
+    if (m_isConnected == false)
+        return;
+
+    if (name == "Capture")
+    {
+        QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
+        sendResponse(commands[NEW_CAPTURE_STATE], captureState);
+        sendCaptureSequence(m_Manager->captureModule()->getSequence());
+    }
+    else if (name == "Mount")
+    {
+        QJsonObject mountState =
+        {
+            {"status", m_Manager->mountStatus->text()},
+            {"target", m_Manager->mountTarget->text()},
+            {"slewRate", m_Manager->mountModule()->slewRate()},
+            {"pierSide", m_Manager->mountModule()->pierSide()}
+        };
+
+        sendResponse(commands[NEW_MOUNT_STATE], mountState);
+    }
+    else if (name == "Focus")
+    {
+        QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
+        sendResponse(commands[NEW_FOCUS_STATE], focusState);
+    }
+    else if (name == "Guide")
+    {
+        QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
+        sendResponse(commands[NEW_GUIDE_STATE], guideState);
+    }
+    else if (name == "Align")
+    {
+        // Align State
+        QJsonObject alignState =
+        {
+            {"status", Ekos::alignStates[m_Manager->alignModule()->status()]},
+        };
+        sendResponse(commands[NEW_ALIGN_STATE], alignState);
+
+        // Align settings
+        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+
+        // Polar State
+        QTextDocument doc;
+        doc.setHtml(m_Manager->alignModule()->getPAHMessage());
+        QJsonObject polarState =
+        {
+            {"stage", m_Manager->alignModule()->getPAHStageString()},
+            {"enabled", m_Manager->alignModule()->isPAHEnabled()},
+            {"message", doc.toPlainText()},
+        };
+        sendResponse(commands[NEW_POLAR_STATE], polarState);
+
+        // Polar settings
+        sendResponse(commands[PAH_SET_SETTINGS], m_Manager->alignModule()->getPAHSettings());
     }
 }
 

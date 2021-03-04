@@ -95,6 +95,7 @@ enum COMMANDS
     MOUNT_SET_HA_LIMIT,
     MOUNT_SET_MERIDIAN_FLIP,
     MOUNT_SET_AUTO_PARK,
+    MOUNT_SET_EVERYDAY_AUTO_PARK,
     MOUNT_CLEAR,
     MOUNT_GET_SETTINGS,
 
@@ -150,6 +151,7 @@ enum COMMANDS
     PAH_REFRESHING_DONE,
     PAH_SET_SETTINGS,
     PAH_RESET_VIEW,
+    PAH_SLEW_DONE,
 
     // Options
     OPTION_SET_HIGH_BANDWIDTH,
@@ -260,6 +262,7 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_HA_LIMIT, "mount_set_ha_limit"},
     {MOUNT_SET_MERIDIAN_FLIP, "mount_set_meridian_flip"},
     {MOUNT_SET_AUTO_PARK, "mount_set_auto_park"},
+    {MOUNT_SET_EVERYDAY_AUTO_PARK, "mount_set_everyday_auto_park"},
     {MOUNT_CLEAR, "mount_clear"},
     {MOUNT_GET_SETTINGS, "mount_get_settings"},
 
@@ -309,6 +312,7 @@ static QMap<COMMANDS, QString> const commands =
     {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
     {PAH_REFRESHING_DONE, "polar_refreshing_done"},
     {PAH_RESET_VIEW, "polar_reset_view"},
+    {PAH_SLEW_DONE, "polar_slew_done"},
 
     {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},

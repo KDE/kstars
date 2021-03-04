@@ -58,7 +58,7 @@ void FITSDebayer::applyDebayer()
 
         qApp->processEvents();
 
-        if (image_data->debayer())
+        if (image_data->debayer(true))
         {
             ui->statusEdit->setText(i18n("Complete."));
             view->rescale(ZOOM_KEEP_LEVEL);

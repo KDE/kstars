@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>345</width>
-    <height>193</height>
+    <width>443</width>
+    <height>312</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <property name="spacing">
     <number>3</number>
    </property>
@@ -28,98 +28,168 @@
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
-      <widget class="QGroupBox" name="FITSViewerGroup">
-       <property name="enabled">
-        <bool>true</bool>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>3</number>
        </property>
-       <property name="title">
-        <string>Look &amp;&amp; Feel</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QCheckBox" name="kcfg_useFITSViewer">
-          <property name="toolTip">
-           <string>Automatically display received images in the FITS Viewer</string>
+       <item>
+        <widget class="QGroupBox" name="FITSViewerGroup">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="title">
+          <string>Look &amp;&amp; Feel</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QCheckBox" name="kcfg_useFITSViewer">
+            <property name="toolTip">
+             <string>Automatically display received images in the FITS Viewer</string>
+            </property>
+            <property name="text">
+             <string>Use FITS Viewer</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
+            <property name="toolTip">
+             <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Preview Tab</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
+            <property name="toolTip">
+             <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Window Capture</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
+            <property name="toolTip">
+             <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Window Open</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_focusFITSOnNewImage">
+            <property name="toolTip">
+             <string>Bring the FITSViewer window to the foreground when receiving a new image</string>
+            </property>
+            <property name="text">
+             <string>Focus on receiving an image</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_independentWindowFITS">
+            <property name="toolTip">
+             <string>Make FITS Viewer window independent from KStars</string>
+            </property>
+            <property name="text">
+             <string>Independent Window</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Down Sampling</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="leftMargin">
+           <number>3</number>
           </property>
-          <property name="text">
-           <string>Use FITS Viewer</string>
+          <property name="topMargin">
+           <number>3</number>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
-          <property name="toolTip">
-           <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+          <property name="rightMargin">
+           <number>3</number>
           </property>
-          <property name="statusTip">
-           <string/>
+          <property name="bottomMargin">
+           <number>3</number>
           </property>
-          <property name="whatsThis">
-           <string/>
+          <property name="spacing">
+           <number>3</number>
           </property>
-          <property name="text">
-           <string>Single Preview Tab</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
-          <property name="toolTip">
-           <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Single Window Capture</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
-          <property name="toolTip">
-           <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Single Window Open</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_focusFITSOnNewImage">
-          <property name="toolTip">
-           <string>Bring the FITSViewer window to the foreground when receiving a new image</string>
-          </property>
-          <property name="text">
-           <string>Focus on receiving an image</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_independentWindowFITS">
-          <property name="toolTip">
-           <string>Make FITS Viewer window independent from KStars</string>
-          </property>
-          <property name="text">
-           <string>Independent Window</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+          <item row="0" column="0" colspan="2">
+           <widget class="QCheckBox" name="kcfg_AdaptiveSampling">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically down sample images based on available resources.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Adaptive Sampling</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="stretchPreviewSamplingLabel">
+            <property name="toolTip">
+             <string>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</string>
+            </property>
+            <property name="text">
+             <string>Stretch Preview</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="kcfg_StretchPreviewSampling">
+            <property name="toolTip">
+             <string>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>5</number>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox">
@@ -134,16 +204,6 @@
           </property>
           <property name="text">
            <string>Auto Stretch</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_AutoImageToFITS">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If an image is received in a non-FITS format and needs to be displayed, attempt to convert it to FITS format.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Warning: This operation is very CPU and memory intensive.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Auto Convert Images</string>
           </property>
          </widget>
         </item>
@@ -220,7 +280,10 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayoutHFR">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>2</number>
+          </property>
           <item>
            <widget class="QLabel" name="hfrSepLabel">
             <property name="toolTip">

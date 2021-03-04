@@ -330,7 +330,7 @@ class Focus : public QWidget, public Ui::Focus
              * @brief setFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
              * @param status If true, the focus process finished successfully. Otherwise, it failed.
              */
-        void setAutoFocusResult(bool status);
+        //void setAutoFocusResult(bool status);
 
         /**
              * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
@@ -617,7 +617,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Keep track of what we're doing right now
         bool inAutoFocus { false };
         bool inFocusLoop { false };
-        bool inSequenceFocus { false };
+        //bool inSequenceFocus { false };
         bool resetFocus { false };
         /// Did we reverse direction?
         bool reverseDir { false };

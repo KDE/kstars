@@ -1034,15 +1034,18 @@ void Manager::checkINDITimeout()
 
         if (remainingDevices.count() == 1)
         {
-            appendLogText(i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.",
-                               remainingDevices.at(0)));
+            QString message = i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.",
+                                   remainingDevices.at(0));
+            appendLogText(message);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
             KNotification::beep(i18n("Ekos startup error"));
         }
         else
         {
-            appendLogText(i18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected "
-                               "and powered on.",
-                               remainingDevices.join("\n")));
+            QString message = i18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected "
+                                   "and powered on.", remainingDevices.join("\n"));
+            appendLogText(message);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
             KNotification::beep(i18n("Ekos startup error"));
         }
     }
@@ -1249,12 +1252,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
             if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
                 return;
 
-            if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE ||
-                    driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
-                    driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
-                    driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
-                    driverInterface & INDI::BaseDevice::GPS_INTERFACE)
-                serialPortAssistant->addDevice(devInterface);
+            serialPortAssistant->addDevice(devInterface);
 
             if (Options::autoLoadSerialAssistant())
                 serialPortAssistant->show();
@@ -2965,7 +2963,6 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
                                 int pierSide, const QString &ha)
 {
-    Q_UNUSED(ha);
     Q_UNUSED(pierSide);
     raOUT->setText(ra);
     decOUT->setText(dec);
@@ -2978,6 +2975,7 @@ void Manager::updateMountCoords(const QString &ra, const QString &dec, const QSt
         {"de", dms::fromString(dec, true).Degrees()},
         {"az", dms::fromString(az, true).Degrees()},
         {"at", dms::fromString(alt, true).Degrees()},
+        {"ha", dms::fromString(ha, false).Degrees()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
@@ -3474,6 +3472,10 @@ void Manager::connectModules()
         // New Focus temperature delta
         connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.get(),
                 &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
+
+        // Meridian Flip
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::abort,
+                Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections
@@ -3554,6 +3556,8 @@ void Manager::connectModules()
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus,
                 Qt::UniqueConnection);
+        connect(mountProcess.get(), &Ekos::Mount::newCoords, alignProcess.get(), &Ekos::Align::setMountCoords,
+                Qt::UniqueConnection);
     }
 
     // Mount <---> Guide connections
@@ -3582,7 +3586,8 @@ void Manager::connectModules()
 
         connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
                 Qt::UniqueConnection);
-        //connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame,
+                Qt::UniqueConnection);
 
         connect(alignProcess.get(), &Ekos::Align::polarResultUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::setPolarResults, Qt::UniqueConnection);

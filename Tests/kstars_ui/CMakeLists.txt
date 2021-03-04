@@ -60,6 +60,18 @@ TARGET_LINK_LIBRARIES(test_ekos_meridianflip_specials ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure
 # ADD_TEST(NAME TestEkosMeridianFlipSpecials COMMAND test_ekos_meridianflip_specials)
 
+ADD_EXECUTABLE(test_ekos_scheduler ${KSTARS_UI_EKOS_SRC} test_ekos_scheduler.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_scheduler ${KSTARS_UI_EKOS_LIBS})
+ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/../scheduler/1x1s_Lum.esq
+            ${CMAKE_CURRENT_BINARY_DIR}/1x1s_Lum.esq)
+ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/../scheduler/1x1s_RGBLumRGB.esq
+            ${CMAKE_CURRENT_BINARY_DIR}/1x1s_RGBLumRGB.esq)
+ADD_TEST(NAME TestEkosScheduler COMMAND test_ekos_scheduler)
+
 ADD_EXECUTABLE(test_ekos_guide ${KSTARS_UI_EKOS_SRC} test_ekos_guide.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_guide ${KSTARS_UI_EKOS_LIBS})
 ADD_CUSTOM_COMMAND( TARGET test_ekos_guide POST_BUILD

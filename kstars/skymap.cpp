@@ -46,6 +46,7 @@
 #include "skycomponents/flagcomponent.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
+#include "skyobjects/satellite.h"
 #include "tools/flagmanager.h"
 #include "widgets/infoboxwidget.h"
 #include "projections/azimuthalequidistantprojector.h"
@@ -476,7 +477,7 @@ void SkyMap::slotDSS()
     if (kstars)
     {
         new ImageViewer(
-            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
+            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [free for non-commercial use]."),
             this);
         //iv->show();
     }
@@ -519,14 +520,33 @@ void SkyMap::slotCopyCoordinates()
                                        Alt.toDMSString()));
 }
 
+
+void SkyMap::slotCopyTLE()
+{
+    
+    QString tle = "";
+    if (clickedObject()->type() == SkyObject::SATELLITE)
+    {
+        Satellite *sat = (Satellite *) clickedObject();
+        tle = sat->tle();
+    }
+    else
+    {
+        tle = "NO TLE FOR OBJECT";
+    }
+    
+
+    QApplication::clipboard()->setText(tle);
+}
+
 void SkyMap::slotSDSS()
 {
     // TODO: Remove code duplication -- we have the same stuff
     // implemented in ObservingList::setCurrentImage() etc. in
     // tools/observinglist.cpp; must try to de-duplicate as much as
     // possible.
-    QString URLprefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
-    QString URLsuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
+    QString URLprefix("http://skyserver.sdss.org/dr16/SkyServerWS/ImgCutout/getjpeg?");
+    QString URLsuffix("&scale=1.0&width=600&height=600");
     dms ra(0.0), dec(0.0);
     QString RAString, DecString;
 

@@ -61,12 +61,13 @@ void InfoBoxWidget::updateSize()
 {
     QFontMetrics fm(font());
     int w = 0;
-    foreach (const QString &str, m_strings) {
-        #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+    foreach (const QString &str, m_strings)
+    {
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
         w = qMax(w, fm.horizontalAdvance(str));
-        #else
+#else
         w = qMax(w, fm.width(str));
-        #endif
+#endif
     }
 
     int h = fm.height() * (m_shaded ? 1 : m_strings.size());
@@ -81,14 +82,15 @@ void InfoBoxWidget::slotTimeChanged()
 
     m_strings.clear();
     m_strings
-        << i18nc("Local Time", "LT: ") + data->lt().time().toString(QLocale().timeFormat().remove('t')) +
-               "   " + // Remove timezone, as timezone of geolocation in KStars might not be same as system locale timezone
-               QLocale().toString(data->lt().date());
+            << i18nc("Local Time", "LT: ") + data->lt().time().toString(QLocale().timeFormat().remove('t')) +
+            "   " + // Remove timezone, as timezone of geolocation in KStars might not be same as system locale timezone
+            QLocale().toString(data->lt().date());
 
     m_strings << i18nc("Universal Time", "UT: ") + data->ut().time().toString("HH:mm:ss") + "   " +
-                     QLocale().toString(data->ut().date()); // Do not format UTC according to locale
+              QLocale().toString(data->ut().date()); // Do not format UTC according to locale
 
-    const QString STString = QString::asprintf("%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(), data->lst()->second());
+    const QString STString = QString::asprintf("%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(),
+                             data->lst()->second());
     //Don't use KLocale::formatNumber() for Julian Day because we don't want
     //thousands-place separators
     QString JDString = QString::number(data->ut().djd(), 'f', 2);
@@ -109,7 +111,7 @@ void InfoBoxWidget::slotGeoChanged()
     //                 i18nc("Latitude", "Lat:") + ' ' + QLocale().toString(geo->lat()->Degrees(), 3);
 
     m_strings << i18nc("Longitude", "Long:") + ' ' + geo->lng()->toDMSString(true) + ' ' +
-                 i18nc("Latitude", "Lat:") + ' ' + geo->lat()->toDMSString(true);
+              i18nc("Latitude", "Lat:") + ' ' + geo->lat()->toDMSString(true);
     updateSize();
     update();
 }
@@ -129,9 +131,20 @@ void InfoBoxWidget::setPoint(QString name, SkyPoint *p)
     m_strings.clear();
     m_strings << name;
     m_strings << i18nc("Right Ascension", "RA") + ": " + p->ra().toHMSString() + "  " + i18nc("Declination", "Dec") +
-                     ": " + p->dec().toDMSString(true);
+              ": " + p->dec().toDMSString(true);
     m_strings << i18nc("Azimuth", "Az") + ": " + p->az().toDMSString(true) + "  " + i18nc("Altitude", "Alt") + ": " +
-                     p->alt().toDMSString(true);
+              p->alt().toDMSString(true);
+
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    dms ha(lst - p->ra());
+    QChar sign('+');
+    if (ha.Hours() > 12.0)
+    {
+        ha.setH(24.0 - ha.Hours());
+        sign = '-';
+    }
+    m_strings << i18nc("Hour Angle", "HA") + ": " + sign + ha.toHMSString() + "  " + i18nc("Zenith Angle", "ZA") + ": " +
+              dms(90 - p->alt().Degrees()).toDMSString(true);
     updateSize();
     update();
 }
