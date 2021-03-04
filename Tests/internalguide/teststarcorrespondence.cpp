@@ -43,17 +43,8 @@ Edge makeEdge(float x, float y)
     return e;
 }
 
-/*
-void printStars(const QList<Edge>& stars)
-{
-  for (int i = 0; i < stars.size(); ++i) {
-    printf("[%2d] %5.2f,%5.2f ", i, stars[i].x, stars[i].y);
-  }
-}
-*/
 void runTest(int guideStar)
 {
-
     constexpr double maxDistanceToStar = 5.0;
 
     // Setup a number of stars.
@@ -71,10 +62,13 @@ void runTest(int guideStar)
     stars.append(makeEdge(50, 60));
     // Assign guideStar as the guide star.
     StarCorrespondence c(stars, guideStar);
+    c.setImageSize(120, 100); // Not necessary, but speeds things up.
     QVector<int> output;
 
     // Identity test.
-    c.find(stars, maxDistanceToStar, &output, false);
+    Vector position = c.find(stars, maxDistanceToStar, &output, false);
+    QVERIFY2(position.x == stars[guideStar].x, "Identity");
+    QVERIFY2(position.y == stars[guideStar].y, "Identity");
     for (int i = 0; i < stars.size(); ++i)
     {
         QVERIFY2(output[i] == i, "Identity");
@@ -91,15 +85,19 @@ void runTest(int guideStar)
         double y = stars[i].y + rand_fraction;
         stars2.append(makeEdge(x, y));
     }
-    c.find(stars2, maxDistanceToStar, &output, false);
+    position = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY2(position.x == stars2[guideStar].x, "small move");
+    QVERIFY2(position.y == stars2[guideStar].y, "small move");
     for (int i = 0; i < stars.size(); ++i)
     {
         QVERIFY2(output[i] == i, "small move");
     }
 
-    // Remove one of the stars (not the guide star).
+    // Remove one of the stars (not the guide star which is 0-5).
     stars2.removeAt(8);
-    c.find(stars2, maxDistanceToStar, &output, false);
+    position = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY2(position.x == stars2[guideStar].x, "one removed");
+    QVERIFY2(position.y == stars2[guideStar].y, "one removed");
     for (int i = 0; i < stars2.size(); ++i)
     {
         if (i < 8) QVERIFY2(output[i] == i, "one removed");
@@ -107,11 +105,50 @@ void runTest(int guideStar)
     }
 
     // Remove the guide star. Nothing should be returned.
+    double guideX = stars2[guideStar].x;
+    double guideY = stars2[guideStar].y;
     stars2.removeAt(guideStar);
-    c.find(stars2, maxDistanceToStar, &output, false);
+    c.setAllowMissingGuideStar(false);
+    position = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY2(position.x == -1, "guide removed");
+    QVERIFY2(position.y == -1, "guide removed");
     for (int i = 0; i < stars2.size(); ++i)
     {
         QVERIFY2(output[i] == -1, "guide removed");
+    }
+
+    // Allow it to be resilient to missing guide stars.
+    c.setAllowMissingGuideStar(true);
+    position = c.find(stars2, maxDistanceToStar, &output, false);
+    // There's been noise added so it won't recover the guide star exactly.
+    QVERIFY2(fabs(position.x - guideX) < 2, "guide and 8 removed");
+    QVERIFY2(fabs(position.y - guideY) < 2, "guide and 8 removed");
+    for (int i = 0; i < stars2.size(); ++i)
+    {
+        // previously we removed 8, but also removing the guide star moves the index for star 8 to 7.
+        const int missingStar = 7;
+        if (i < missingStar && i < guideStar)
+            QVERIFY2(output[i] == i, "guide and 8 removed");
+        else if (i < guideStar || i < missingStar)
+            QVERIFY2(output[i] == (i + 1), "guide and 8 removed");
+        else
+            QVERIFY2(output[i] == (i + 2), "guide and 8 removed");
+    }
+
+    // Use  clean star positions to exactly recover the lost guide star.
+    guideX = stars[guideStar].x;
+    guideY = stars[guideStar].y;
+    stars.removeAt(guideStar);
+    c.setAllowMissingGuideStar(true);
+    position = c.find(stars, maxDistanceToStar, &output, false);
+    QVERIFY2(position.x == guideX, "guide removed and recovered");
+    QVERIFY2(position.y == guideY, "guide removed and recovered");
+    for (int i = 0; i < stars2.size(); ++i)
+    {
+        if (i < guideStar)
+            QVERIFY2(output[i] == i, "guide removed & recovered");
+        else
+            QVERIFY2(output[i] == (i + 1), "guide removed & recovered");
     }
 }
 

@@ -1167,7 +1167,6 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
             qCDebug(KSTARS_EKOS_GUIDE) << "-------> MultiStar:      Diff RA: " << multiStarRADrift << " DEC: " << multiStarDECDrift;
             drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = multiStarRADrift;
             drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = multiStarDECDrift;
-
         }
         else
         {

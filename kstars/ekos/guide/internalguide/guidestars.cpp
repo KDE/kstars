@@ -45,11 +45,9 @@ constexpr double HFR_MARGIN = 2.0;
  be successful.
  */
 
-// This adds quite a bit to the debug log, so disabling it in normal circumstances.
-// #define GUIDESTARS_DEBUG
-
 namespace
 {
+
 QString logHeader(const QString &label)
 {
     return QString("%1 %2 %3 %4 %5 %6 %7")
@@ -296,7 +294,11 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
         if (detectedStars.empty())
             return Vector(-1, -1, -1);
 
-        starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap);
+        // Allow it to guide even if the main guide star isn't detected (as long as enough reference stars are).
+        starCorrespondence.setAllowMissingGuideStar(allowMissingGuideStar);
+        // Star correspondence can run quicker if it knows the image size.
+        starCorrespondence.setImageSize(imageData->width(), imageData->height());
+        Vector position = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap);
 
         // Is there a correspondence to the guide star
         // Should we also weight distance to the tracking box?
@@ -313,6 +315,19 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
                     plotStars(guideView, trackingBox);
                 return Vector(star.x, star.y, 0);
             }
+        }
+        // None of the stars matched the guide star, but it's possible star correspondence
+        // invented a guide star position.
+        if (position.x >= 0 && position.y >= 0)
+        {
+            // For now we're returning an snr of 0
+            double SNR = 0;
+            guideStarSNR = SNR;
+            guideStarMass = 0;
+            qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << position.x << position.y << "SNR" << SNR;
+            if (guideView != nullptr)
+                plotStars(guideView, trackingBox);
+            return position;
         }
     }
 
@@ -386,15 +401,6 @@ int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> *sepStars, in
     }
 
     edges.clear();
-
-#ifdef GUIDESTARS_DEBUG
-    logStars("Detected", "Star", skyBackground,
-             sepStars->count(),
-             [&sepStars](int i) -> const Edge&
-    {
-        return *(sepStars->at(i));
-    }, "", nullptr);
-#endif
     return sepStars->count();
 }
 
@@ -616,23 +622,18 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
                     .arg(logStar("    Ref:", getStarMap(i), bg, ref))
                     .arg(driftRA, 5, 'f', 2).arg(driftDEC, 5, 'f', 2);
         }
-#ifdef GUIDESTARS_DEBUG
-        else
-        {
-            qCDebug(KSTARS_EKOS_GUIDE) << QString("%1 -- NOT ASSOCIATED").arg(logStar("MultiStar", i, bg, star));
-        }
-#endif
     }
 
-    if (numStarsProcessed == 0 || !guideStarProcessed)
+    if (numStarsProcessed == 0 || (!allowMissingGuideStar && !guideStarProcessed))
         return false;
 
     // Filter out reference star drifts that are too different from the guide-star drift.
     QVector<double> raDriftsKeep, decDriftsKeep;
     for (int i = 0; i < raDrifts.size(); ++i)
     {
-        if ((fabs(raDrifts[i] - guideStarRADrift) < 2.0) &&
-                (fabs(decDrifts[i] - guideStarDECDrift) < 2.0))
+        if ((allowMissingGuideStar && !guideStarProcessed) ||
+                ((fabs(raDrifts[i] - guideStarRADrift) < 2.0) &&
+                 (fabs(decDrifts[i] - guideStarDECDrift) < 2.0)))
         {
             driftRASum += raDrifts[i];
             driftDECSum += decDrifts[i];

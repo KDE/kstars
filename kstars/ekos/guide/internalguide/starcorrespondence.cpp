@@ -12,22 +12,39 @@
 #include <math.h>
 #include "ekos_guide_debug.h"
 
-namespace
-{
-
 // Finds the star in sortedStars that's closest to x,y and within maxDistance pixels.
 // Returns the index of the closest star in  sortedStars, or -1 if none satisfies the criteria.
 // sortedStars must be sorted by x, from lower x to higher x.
 // Fills distance to the pixel distance to the closest star.
-int findClosestStar(double x, double y, const QList<Edge> sortedStars,
-                    double maxDistance, double *distance)
+int StarCorrespondence::findClosestStar(double x, double y, const QList<Edge> sortedStars,
+                                        double maxDistance, double *distance) const
 {
+    if (x < -maxDistance || y < -maxDistance ||
+            x > imageWidth + maxDistance || y > imageWidth + maxDistance)
+        return -1;
+
+    const int size = sortedStars.size();
+    int startPoint = 0;
+
+    // Efficiency improvement to quickly find the start point.
+    // Increments by size/10 to find a better start point.
+    const int coarseIncrement = size / 10;
+    if (coarseIncrement > 1)
+    {
+        for (int i = 0; i < size; i += coarseIncrement)
+        {
+            if (sortedStars[i].x < x - maxDistance)
+                startPoint = i;
+            else
+                break;
+        }
+    }
+
     // Iterate through the stars starting with the star with lowest x where x >= x - maxDistance
     // through the star with greatest x where x <= x + maxDistance.  Find the closest star to x,y.
     int bestIndex = -1;
     double bestSquaredDistance = maxDistance * maxDistance;
-    const int size = sortedStars.size();
-    for (int i = 0; i < size; ++i)
+    for (int i = startPoint; i < size; ++i)
     {
         auto &star = sortedStars[i];
         if (star.x < x - maxDistance) continue;
@@ -45,6 +62,8 @@ int findClosestStar(double x, double y, const QList<Edge> sortedStars,
     return bestIndex;
 }
 
+namespace
+{
 // Sorts stars by their x values, places the sorted stars into sortedStars.
 // sortedToOriginal is a map whose index is the index of a star in sortedStars and whose
 // value is the index of a star in stars.
@@ -111,8 +130,9 @@ void StarCorrespondence::reset()
     initialized = false;
 }
 
-void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt,
-                              double minFraction)
+int StarCorrespondence::findInternal(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap,
+                                     int guideStarIndex, const QVector<Offsets> &offsets,
+                                     int *numFound, int *numNotFound, double minFraction) const
 {
     // This is the cost of not finding one of the reference stars.
     constexpr double missingRefStarCost = 100;
@@ -122,21 +142,17 @@ void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVec
     // Initialize all stars to not-corresponding to any reference star.
     *starMap = QVector<int>(stars.size(), -1);
 
-    if (!initialized) return;
-
-    // findClosestStar needs an input with stars sorted by their x.
-    // Do this outside of the loop.
-    QList<Edge> sortedStars;
-    QVector<int> sortedToOriginal;
-    sortByX(stars, &sortedStars, &sortedToOriginal);
-
     // We won't accept a solution worse than bestCost.
     // In the default case, we need to find about half the reference stars.
     // Another possibility is a constraint on the input stars being mapped
     // E.g. that the more likely solution is one where the stars are close to the references.
     // This can be an issue if the number of input stars is way less than the number of reference stars
     // but in that case we can fail and go to the default star-finding algorithm.
-    int bestCost = guideStarOffsets.size() * missingRefStarCost * (1 - minFraction);
+    int bestCost = offsets.size() * missingRefStarCost * (1 - minFraction);
+    // Note that the above implies that if stars.size() < offsets.size() * minFraction
+    // then it is impossible to succeed.
+    if (stars.size() < minFraction * offsets.size())
+        return -1;
 
     // Assume the guide star corresponds to each of the stars.
     // Score the assignment, pick the best, and then assign the rest.
@@ -150,7 +166,7 @@ void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVec
         double cost = 0.0;
         QVector<int> mapping(stars.size(), -1);
         int numFound = 0, numNotFound = 0;
-        for (int offsetIndex = 0; offsetIndex < guideStarOffsets.size(); ++offsetIndex)
+        for (int offsetIndex = 0; offsetIndex < offsets.size(); ++offsetIndex)
         {
             // Of course, the guide star has offsets 0 to itself.
             if (offsetIndex == guideStarIndex) continue;
@@ -160,11 +176,11 @@ void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVec
 
             // Look for an input star at the offset position.
             // Note the index value returned is the sorted index, which is converted back later.
-            const auto &offset = guideStarOffsets[offsetIndex];
+            const auto &offset = offsets[offsetIndex];
             double distance;
-            const int sortedIndex = findClosestStar(starX + offset.x, starY + offset.y,
-                                                    sortedStars, maxDistance, &distance);
-            if (sortedIndex < 0)
+            const int closestIndex = findClosestStar(starX + offset.x, starY + offset.y,
+                                     stars, maxDistance, &distance);
+            if (closestIndex < 0)
             {
                 // This reference star position had no corresponding input star.
                 cost += missingRefStarCost;
@@ -172,12 +188,10 @@ void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVec
                 continue;
             }
             numFound++;
-            // Convert to the unsorted index value.
-            const int index = sortedToOriginal[sortedIndex];
 
             // If starIndex is the star that corresponds to guideStarIndex, then
             // stars[index] corresponds to references[offsetIndex]
-            mapping[index] = offsetIndex;
+            mapping[closestIndex] = offsetIndex;
             cost += distance * distanceWeight;
         }
         if (cost < bestCost)
@@ -193,12 +207,169 @@ void StarCorrespondence::find(const QList<Edge> &stars, double maxDistance, QVec
             (*starMap)[starIndex] = guideStarIndex;
         }
     }
-    if (bestStarIndex >= 0)
+    *numFound = bestNumFound;
+    *numNotFound = bestNumNotFound;
+    return bestStarIndex;
+}
+
+// Converts offsets that are from the point-of-view of the guidestar, to offsets from targetStar.
+void StarCorrespondence::makeOffsets(const QVector<Offsets> &offsets, QVector<Offsets> *targetOffsets,
+                                     int targetStar) const
+{
+    targetOffsets->resize(offsets.size());
+    int xOffset = offsets[targetStar].x;
+    int yOffset = offsets[targetStar].y;
+    for (int i = 0; i < offsets.size(); ++i)
+    {
+        if (i == targetStar)
+        {
+            (*targetOffsets)[i] = Offsets(0, 0);
+        }
+        else
+        {
+            const double x = offsets[i].x - xOffset;
+            const double y = offsets[i].y - yOffset;
+            (*targetOffsets)[i] = Offsets(x, y);
+        }
+    }
+
+}
+
+// We create an imaginary star from the ones we did find.
+Vector StarCorrespondence::inventStarPosition(const QList<Edge> &stars, QVector<int> &starMap,
+        QVector<Offsets> offsets, Offsets offset) const
+{
+    QVector<double> xPositions, yPositions;
+    for (int i = 0; i < starMap.size(); ++i)
+    {
+        int reference = starMap[i];
+        if (reference >= 0)
+        {
+            xPositions.push_back(stars[i].x - offsets[reference].x);
+            yPositions.push_back(stars[i].y - offsets[reference].y);
+        }
+    }
+    if (xPositions.size() == 0)
+        return Vector(-1, -1, -1);
+
+    // Compute the median x and y values. After gathering the values above,
+    // we sort them and use the middle positions.
+    std::sort(xPositions.begin(),  xPositions.end(),  [] (double d1, double d2)
+    {
+        return d1 < d2;
+    });
+    std::sort(yPositions.begin(), yPositions.end(), [] (double d1, double d2)
+    {
+        return d1 < d2;
+    });
+    const int num = xPositions.size();
+    double xVal = 0, yVal = 0;
+    if (num % 2 == 0)
+    {
+        const int middle = num / 2;
+        xVal = (xPositions[middle - 1] + xPositions[middle]) / 2.0;
+        yVal = (yPositions[middle - 1] + yPositions[middle]) / 2.0;
+    }
+    else
+    {
+        const int middle = num / 2;  // because it's 0-based
+        xVal = xPositions[middle];
+        yVal = yPositions[middle];
+    }
+    return Vector(xVal - offset.x, yVal - offset.y, -1);
+}
+
+namespace
+{
+// This utility converts the starMap to refer to indexes in the original star QVector
+// instead of the sorted-by-x version.
+void unmapStarMap(const QVector<int> &sortedStarMap, const QVector<int> &sortedToOriginal, QVector<int> *starMap)
+{
+    for (int i = 0; i < sortedStarMap.size(); ++i)
+        (*starMap)[sortedToOriginal[i]] = sortedStarMap[i];
+}
+}
+
+Vector StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
+                                QVector<int> *starMap, bool adapt, double minFraction)
+{
+    *starMap = QVector<int>(stars.size(), -1);
+    if (!initialized)  return Vector(-1, -1, -1);
+    int numFound, numNotFound;
+
+    // findClosestStar needs an input with stars sorted by their x.
+    // Do this outside of the loops.
+    QList<Edge> sortedStars;
+    QVector<int> sortedToOriginal;
+    sortByX(stars, &sortedStars, &sortedToOriginal);
+
+    QVector<int> sortedStarMap;
+    int bestStarIndex = findInternal(sortedStars, maxDistance, &sortedStarMap, guideStarIndex,
+                                     guideStarOffsets, &numFound, &numNotFound, minFraction);
+
+    Vector starPosition(-1, -1, -1);
+    if (bestStarIndex > -1)
+    {
+        // Convert back to the unsorted index value.
+        bestStarIndex = sortedToOriginal[bestStarIndex];
+        unmapStarMap(sortedStarMap, sortedToOriginal, starMap);
+
+        starPosition = Vector(stars[bestStarIndex].x, stars[bestStarIndex].y, -1);
         qCDebug(KSTARS_EKOS_GUIDE)
                 << " StarCorrespondence found guideStar at " << bestStarIndex << "found/not"
-                << bestNumFound << bestNumNotFound;
-    if (adapt)
+                << numFound << numNotFound;
+    }
+    else if (allowMissingGuideStar && bestStarIndex == -1 &&
+             stars.size() >= minFraction * guideStarOffsets.size())
+    {
+        // If we didn't find a good solution, perhaps the guide star was not detected.
+        // See if we can get a reasonable solution from the other stars.
+        int bestNumFound = 0;
+        int bestNumNotFound = 0;
+        Vector bestPosition(-1, -1, -1);
+        for (int gStarIndex = 0; gStarIndex < guideStarOffsets.size(); gStarIndex++)
+        {
+            if (gStarIndex == guideStarIndex)
+                continue;
+            QVector<Offsets> gStarOffsets;
+            makeOffsets(guideStarOffsets, &gStarOffsets, gStarIndex);
+            QVector<int> newStarMap;
+            int detectedStarIndex = findInternal(sortedStars, maxDistance, &newStarMap,
+                                                 gStarIndex, gStarOffsets,
+                                                 &numFound, &numNotFound, minFraction);
+            if (detectedStarIndex >= 0 && numFound > bestNumFound)
+            {
+                Vector position = inventStarPosition(sortedStars, newStarMap, gStarOffsets,
+                                                     guideStarOffsets[gStarIndex]);
+                if (position.x < 0 || position.y < 0)
+                    continue;
+
+                bestPosition = position;
+                bestNumFound = numFound;
+                bestNumNotFound = numNotFound;
+                sortedStarMap = newStarMap;
+
+                if (numNotFound <= 1)
+                    // We can't do better than this.
+                    break;
+            }
+        }
+        if (bestNumFound > 0)
+        {
+            // Convert back to the unsorted index value.
+            unmapStarMap(sortedStarMap, sortedToOriginal, starMap);
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << "StarCorrespondence found guideStar (invented) at "
+                    << bestPosition.x << bestPosition.y << "found/not" << bestNumFound << bestNumNotFound;
+            return bestPosition;
+        }
+        else qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence could not invent guideStar.";
+    }
+    else qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence could not find guideStar.";
+
+    if (adapt && (bestStarIndex != -1))
         adaptOffsets(stars, *starMap);
+    return starPosition;
 }
 
 // Compute the alpha cooeficient for a simple IIR filter used in adaptOffsets()
