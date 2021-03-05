@@ -21,8 +21,8 @@ Rectangle {
         font.pointSize: 12
     }
 
-    width: fontMetrics.height * 13.5
-    height: fontMetrics.height * 29.5
+    width:  (Qt.platform.os === "osx") ? fontMetrics.height * 13.5 /.75 : fontMetrics.height * 13.5
+    height: (Qt.platform.os === "osx") ? fontMetrics.height * 29.5 /.75 : fontMetrics.height * 29.5
 
     ColumnLayout {
         id: mainVerticalLayout
