@@ -2713,7 +2713,7 @@ bool Capture::addJob(bool preview)
 
     job->setFrame(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(), captureFrameHN->value());
     job->setRemoteDir(fileRemoteDirT->text());
-    job->setLocalDir(fileDirectoryT->text());
+    job->setLocalDir(QUrl(fileDirectoryT->text()).adjusted(QUrl::StripTrailingSlash).path());
 
     if (m_JobUnderEdit == false)
     {
