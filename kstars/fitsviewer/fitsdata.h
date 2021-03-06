@@ -45,6 +45,7 @@
 #include <QObject>
 #include <QRect>
 #include <QVariant>
+#include <QTemporaryFile>
 
 #ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
@@ -588,6 +589,7 @@ class FITSData : public QObject
         //uint8_t *m_BayerBuffer { nullptr };
         /// Bayer parameters
         BayerParams debayerParams;
+        QTemporaryFile m_TemporaryDataFile;
 
         int m_FITSBITPIX {USHORT_IMG};
         FITSImage::Statistic m_Statistics;
