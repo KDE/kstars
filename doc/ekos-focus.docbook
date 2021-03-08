@@ -154,7 +154,7 @@
             </listitem>
             <listitem>
                 <para>
-                    <emphasis role="bold">Box size</emphasis>: Sets the box size used to enclose the focus star. Increase if you have very large stars.</para>
+                    <emphasis role="bold">Box size</emphasis>: Sets the box size used to enclose the focus star. Increase if you have very large stars. For Bahtinov focus the box size can be increased even more to better enclose the Bahtinov diffraction pattern.</para>
             </listitem>
             <listitem>
                 <para>
@@ -200,6 +200,12 @@
             <listitem>
                 <para>
                     <emphasis role="bold">Detection</emphasis>: Select star detection algorithm. Each algorithm has its strengths and weaknesses. It is recommended to keep the default value unless it fails to properly detect stars.</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <emphasis role="bold">Bahtinov</emphasis>: This detection method can be used when using a Bahtinov mask for focusing. First take an image, then select the star to focus on. A new image will be taken and the diffraction pattern will be analysed. Three lines will be displayed on the diffraction pattern showing how well the pattern is recognized and how good the image is in focus. When the pattern is not well recognized, the 'Num. of rows' parameter can be adjusted to improve recognition. The line with the circles at each end is a magnified indicator for the focus. The shorter the line, the better the image is in focus.</para>
+                        </listitem>
+                    </itemizedlist>
             </listitem>
         </itemizedlist>
     </sect3>
