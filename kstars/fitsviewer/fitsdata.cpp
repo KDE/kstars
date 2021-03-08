@@ -259,7 +259,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
 
         m_Statistics.size = temp_size;
-        m_isTemporary = true;
+        m_isTemporary = m_Filename.startsWith(QDir::tempPath());
     }
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
