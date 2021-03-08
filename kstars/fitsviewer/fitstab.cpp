@@ -491,7 +491,8 @@ void FITSTab::processData()
     // Don't add it to the list if it is already there
     if (recentImages->findItems(currentURL.toLocalFile(), Qt::MatchExactly).count() == 0)
     {
-        if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
+        //Don't add it to the list if it is a preview
+        if(!image_data->filename().startsWith(QDir::tempPath()))
         {
             disconnect(recentImages, &QListWidget::currentRowChanged, this,
                        &FITSTab::selectRecentFITS);

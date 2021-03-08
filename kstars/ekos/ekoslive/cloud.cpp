@@ -150,7 +150,6 @@ void Cloud::upload(const QString &filename, const QString &uuid)
     watcher.waitForFinished();
     m_UUID = uuid;
     m_ImageData.reset(new FITSData(), &QObject::deleteLater);
-    m_ImageData->setAutoRemoveTemporaryFITS(false);
     QFuture<bool> result = m_ImageData->loadFromFile(filename);
     watcher.setFuture(result);
 }
