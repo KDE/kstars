@@ -273,7 +273,7 @@ void TestEkosMeridianFlipBase::cleanup()
  *
  * ********************************************************************************* */
 
-void TestEkosMeridianFlipBase::prepareTestData(QList<QString> filterList, QList<bool> focusList, QList<bool> autofocusList,
+void TestEkosMeridianFlipBase::prepareTestData(double exptime, QList<QString> filterList, QList<bool> focusList, QList<bool> autofocusList,
         QList<bool> ditherList)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
@@ -299,8 +299,9 @@ void TestEkosMeridianFlipBase::prepareTestData(QList<QString> filterList, QList<
                     // both focus==true && autofocus==true does not make sense
                     if (focus == false || autofocus == false)
                         QTest::newRow(QString("%6: %1x%2, foc=%3, af=%4, di=%5").arg(count).arg(filter).arg(focus ? "yes" : "no").arg(
-                                          autofocus ? "yes" : "no").arg(dither ? "yes" : "no").arg(m_Guider).toLocal8Bit()) << count << 18.0 << filter << focus <<
-                                                  autofocus << dither;
+                                          autofocus ? "yes" : "no").arg(dither ? "yes" : "no").arg(m_Guider).toLocal8Bit()) << count << exptime
+                                                                                                                            << filter << focus
+                                                                                                                            << autofocus << dither;
                 }
 #endif
 }
@@ -342,13 +343,14 @@ bool TestEkosMeridianFlipBase::positionMountForMF(int secsToMF, bool fast)
 }
 
 
-bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool calibrate, bool initialFocus)
+bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool calibrate, bool initialFocus, bool guideDeviation)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
     Q_UNUSED(secsToMF)
     Q_UNUSED(calibrate)
     Q_UNUSED(initialFocus)
+    Q_UNUSED(guideDeviation)
 #else
     // switch to capture module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
@@ -382,6 +384,9 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool calibra
     QFETCH(bool, dither);
     dithering_checked = dither;
     Options::setDitherEnabled(dither);
+
+    // set guide deviation guard
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
 
     if (calibrate)
     {
@@ -489,25 +494,24 @@ bool TestEkosMeridianFlipBase::stopAligning()
 
 bool TestEkosMeridianFlipBase::startCapturing()
 {
+    QFETCH(double, exptime);
     // Now we can estimate how many captures will happen before the meridian flip.
-    int t2mf = secondsToMF();
-    if (t2mf > 0)
-    {
-        // Ensure that the first autofocus event takes place after the flip
-        if (autofocus_checked)
-            Options::setInSequenceCheckFrames(static_cast<uint>(1 + t2mf / 18));
+    int t2mf = std::max(secondsToMF(), 0);
 
-        // Ensure that dithering takes place after the flip
-        if (dithering_checked)
-            Options::setDitherFrames(static_cast<uint>(1 + t2mf / 18));
-    }
+    // Ensure that the first autofocus event takes place after the flip
+    if (autofocus_checked)
+        Options::setInSequenceCheckFrames(static_cast<uint>(1 + t2mf / exptime));
+
+    // Ensure that dithering takes place after the flip
+    if (dithering_checked)
+        Options::setDitherFrames(static_cast<uint>(1 + t2mf / exptime));
 
     // switch to the capture module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
 
     // check if capture is in a stopped state
     KWRAP_SUB(QVERIFY(getCaptureStatus() == Ekos::CAPTURE_IDLE || getCaptureStatus() == Ekos::CAPTURE_ABORTED
-                      || getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
+                      || getCaptureStatus() == Ekos::CAPTURE_SUSPENDED|| getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
 
     // press start
     expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
@@ -557,6 +561,10 @@ bool TestEkosMeridianFlipBase::startFocusing()
     // absolute position 40000
     KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), absTicksSpin, 40000);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startGotoB);
+    // initial step size 15000
+    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), stepIN, 15000);
+    // suspend guiding while focusing
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // wait one second for settling
     QTest::qWait(1000);
     // start focusing

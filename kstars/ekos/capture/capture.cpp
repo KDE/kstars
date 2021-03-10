@@ -3527,14 +3527,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             suspend();
 
             m_SpikeDetected     = false;
-
-            // Check if we need to start meridian flip
-            if (checkMeridianFlipReady())
-                return;
-
             m_DeviationDetected = true;
 
-            guideDeviationTimer.start();
+            // Check if we need to start meridian flip. If yes, we need to start capturing
+            // to ensure that capturing is recovered after the flip
+            if (checkMeridianFlipReady())
+                start();
+            else
+                guideDeviationTimer.start();
         }
         return;
     }
