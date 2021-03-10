@@ -3766,6 +3766,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                 {
                     qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
                     //firstAutoFocus = true;
+                    inSequenceFocusCounter = 0;
                     limitFocusHFRN->setValue(fileHFR);
                 }
 
