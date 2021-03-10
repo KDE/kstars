@@ -513,6 +513,7 @@ set(kstars_options_SRCS
     options/opssolarsystem.cpp
     options/opssatellites.cpp
     options/opssupernovae.cpp
+    options/opsterrain.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -523,6 +524,7 @@ set(kstars_optionsui_SRCS
     options/opssolarsystem.ui
     options/opssatellites.ui
     options/opssupernovae.ui
+    options/opsterrain.ui
 )
 
 set(kstars_dialogs_SRCS
@@ -565,6 +567,10 @@ set(hips_SRCS
     hips/pixcache.cpp
     hips/urlfiledownload.cpp
     hips/opships.cpp
+)
+
+set(terrain_SRCS
+    terrain/terrainrenderer.cpp
 )
 
 set(hips_manager_SRCS
@@ -659,6 +665,7 @@ set(libkstarscomponents_SRCS
     skycomponents/equator.cpp
     skycomponents/artificialhorizoncomponent.cpp
     skycomponents/hipscomponent.cpp
+    skycomponents/terraincomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
     skycomponents/skycomponent.cpp
@@ -964,6 +971,7 @@ set(kstars_SRCS
     ${kstars_skyobjects_SRCS}
     ${kstars_dialogs_SRCS}
     ${hips_SRCS}
+    ${terrain_SRCS}
     ${oal_SRCS}
     ${printing_SRCS}
     #KStars Lite

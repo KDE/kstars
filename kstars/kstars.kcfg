@@ -2711,6 +2711,48 @@
        <default>false</default>
     </entry>
    </group>
+   <group name="Terrain">
+    <entry name="TerrainSource" type="String">
+          <label>Terrain Filename.</label>
+          <whatsthis>Terrain source filename.</whatsthis>
+          <default>None</default>
+    </entry>
+    <entry name="TerrainSourceCorrectAz" type="Int">
+          <label>Terrain Azimuth Correction.</label>
+          <whatsthis>Terrain source azimuth correction.</whatsthis>
+          <default>0</default>
+    </entry>
+    <entry name="TerrainDownsampling" type="Int">
+          <label>Terrain Downsampling</label>
+          <whatsthis>Speed quality tradeoff for rendering the terrain image.</whatsthis>
+          <default>4</default>
+    </entry>
+    <entry name="TerrainPanning" type="Bool">
+          <label>Terrain While panning.</label>
+          <whatsthis>Redraw terrain while panning.</whatsthis>
+          <default>true</default>
+    </entry>
+    <entry name="ShowTerrain" type="Bool">
+       <label>Draw terrain</label>
+       <whatsthis>Toggle whether the terrain is drawn in the sky map.</whatsthis>
+       <default>false</default>
+    </entry>
+    <entry name="TerrainSkipSpeedup" type="Bool">
+       <label>Terrain Skip Speedup</label>
+       <whatsthis>Enable a one of the terrain drawing speedups.</whatsthis>
+       <default>true</default>
+    </entry>
+    <entry name="TerrainTransparencySpeedup" type="Bool">
+       <label>Terrain Transparency Speedup.</label>
+       <whatsthis>Enable a one of the terrain drawing speedups.</whatsthis>
+       <default>true</default>
+    </entry>
+    <entry name="TerrainSmoothPixels" type="Bool">
+       <label>Terrain Smooth Pixels.</label>
+       <whatsthis>Smooth pixels for a more pleasant, but slower rendering.</whatsthis>
+       <default>false</default>
+    </entry>
+   </group>
    <group name="Observatory">
    <entry name="warningActionsActive" type="Bool">
       <label>Will be reacted upon warnings?</label>

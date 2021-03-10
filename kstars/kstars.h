@@ -72,6 +72,7 @@ class OpsGuides;
 class OpsSolarSystem;
 class OpsSatellites;
 class OpsSupernovae;
+class OpsTerrain;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -758,6 +759,9 @@ class KStars : public KXmlGuiWindow
         /** Toggle to and from full screen mode */
         void slotFullScreen();
 
+        /** Toggle whether to show the terrain image on the skymap. */
+        void slotTerrain();
+
         /** Save data to config file before exiting.*/
         void slotAboutToQuit();
 
@@ -901,6 +905,7 @@ class KStars : public KXmlGuiWindow
 
         OpsCatalog *opcatalog { nullptr };
         OpsGuides *opguides { nullptr };
+        OpsTerrain *opterrain { nullptr };
         OpsSolarSystem *opsolsys { nullptr };
         OpsSatellites *opssatellites { nullptr };
         OpsSupernovae *opssupernovae { nullptr };

@@ -22,10 +22,12 @@
 #include "Options.h"
 #include "skymap.h"
 #include "skycomponents/skymapcomposite.h"
+#include "auxiliary/kspaths.h"
 
 #include <KConfigDialog>
 
 #include <QPushButton>
+#include <QFileDialog>
 
 OpsGuides::OpsGuides() : QFrame(KStars::Instance())
 {
@@ -55,13 +57,23 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
 
     // Track changes to apply settings
     connect(constellationButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
-            [&]() { isDirty = true; });
+            [&]()
+    {
+        isDirty = true;
+    });
     connect(nameButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
-            [&]() { isDirty = true; });
+            [&]()
+    {
+        isDirty = true;
+    });
     connect(kcfg_SkyCulture, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-            [&]() { isDirty = true; });
+            [&]()
+    {
+        isDirty = true;
+    });
 
     isDirty = false;
+
 }
 
 void OpsGuides::slotToggleConstellOptions(bool state)
@@ -105,7 +117,7 @@ void OpsGuides::slotApply()
     {
         if (data->skyComposite()->currentCulture() !=
                 data->skyComposite()->getCultureName(kcfg_SkyCulture->currentIndex()) ||
-            data->skyComposite()->isLocalCNames() != Options::useLocalConstellNames())
+                data->skyComposite()->isLocalCNames() != Options::useLocalConstellNames())
         {
             map->setClickedObject(nullptr);
             map->setFocusObject(nullptr);
