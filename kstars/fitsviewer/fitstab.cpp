@@ -522,7 +522,7 @@ bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITS
         return false;
     }
 
-    processData();
+    //processData();
     return true;
 }
 

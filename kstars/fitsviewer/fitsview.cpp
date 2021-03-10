@@ -393,7 +393,7 @@ bool FITSView::processData()
         else
             m_AdaptiveSampling = 4;
 
-        m_PreviewSampling *= m_AdaptiveSampling;
+        m_PreviewSampling = m_AdaptiveSampling;
     }
 
     // Rescale to fits window on first load
@@ -719,7 +719,7 @@ bool FITSView::isLargeImage()
 // and get scale returns the ratio of that pixmap size to the image size.
 double FITSView::getScale()
 {
-    return isLargeImage() ? 1.0 : currentZoom / ZOOM_DEFAULT;
+    return (isLargeImage() ? 1.0 : currentZoom / ZOOM_DEFAULT) / m_PreviewSampling;
 }
 
 // scaleSize() is only used with the large-image rendering strategy. It may increase the line
@@ -729,7 +729,7 @@ double FITSView::scaleSize(double size)
 {
     if (!isLargeImage())
         return size;
-    return currentZoom > 100.0 ? size : std::round(size * 100.0 / currentZoom);
+    return (currentZoom > 100.0 ? size : std::round(size * 100.0 / currentZoom)) / m_PreviewSampling;
 }
 
 void FITSView::updateFrame()
@@ -760,14 +760,10 @@ void FITSView::updateFrameLargeImage()
     font.setPixelSize(scaleSize(FONT_SIZE));
     painter.setFont(font);
 
-    if (m_PreviewSampling == 1)
-    {
-        drawOverlay(&painter, 1.0);
-        drawStarFilter(&painter, 1.0);
-    }
+    drawOverlay(&painter, 1.0 / m_PreviewSampling);
+    drawStarFilter(&painter, 1.0 / m_PreviewSampling);
     image_frame->setPixmap(displayPixmap);
-
-    image_frame->resize(((m_PreviewSampling * currentZoom) / 100.0) * image_frame->pixmap()->size());
+    image_frame->resize(((m_PreviewSampling * currentZoom) / 100.0) * displayPixmap.size());
 }
 
 void FITSView::updateFrameSmallImage()
@@ -778,11 +774,11 @@ void FITSView::updateFrameSmallImage()
 
     QPainter painter(&displayPixmap);
 
-    if (m_PreviewSampling == 1)
-    {
-        drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
-        drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
-    }
+    //    if (m_PreviewSampling == 1)
+    //    {
+    drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
+    drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
+    //}
     image_frame->setPixmap(displayPixmap);
     image_frame->resize(currentWidth, currentHeight);
 }
