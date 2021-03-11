@@ -1258,20 +1258,64 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     else if (command == commands[DEVICE_PROPERTY_SUBSCRIBE])
     {
         const QString property = payload["property"].toString();
+        const QString group = payload["group"].toString();
+
+        // Get existing subscribed props for this device
         QSet<QString> props;
         if (m_PropertySubscriptions.contains(device))
             props = m_PropertySubscriptions[device];
-        props.insert(property);
+
+        // If it is just a single property, let's insert it to props.
+        if (property.isEmpty() == false)
+            props.insert(property);
+        // If group is specified, then we need to add ALL properties belonging to this group.
+        else if (group.isEmpty() == false)
+        {
+            for (auto &oneProp : oneDevice->getProperties())
+            {
+                if (oneProp->getGroupName() == group)
+                    props.insert(oneProp->getName());
+            }
+        }
+        // Otherwise, subscribe to ALL property in this device
+        else
+        {
+            for (auto &oneProp : oneDevice->getProperties())
+                props.insert(oneProp->getName());
+        }
+
         m_PropertySubscriptions[device] = props;
     }
     else if (command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
     {
         const QString property = payload["property"].toString();
+        const QString group = payload["group"].toString();
+
+        // Get existing subscribed props for this device
+        QSet<QString> props;
         if (m_PropertySubscriptions.contains(device))
-        {
-            QSet<QString> props = m_PropertySubscriptions[device];
+            props = m_PropertySubscriptions[device];
+
+        // If it is just a single property, let's insert it to props.
+        if (property.isEmpty() == false)
             props.remove(property);
+        // If group is specified, then we need to add ALL properties belonging to this group.
+        else if (group.isEmpty() == false)
+        {
+            for (auto &oneProp : oneDevice->getProperties())
+            {
+                if (oneProp->getGroupName() == group)
+                    props.remove(oneProp->getName());
+            }
         }
+        // Otherwise, subscribe to ALL property in this device
+        else
+        {
+            for (auto &oneProp : oneDevice->getProperties())
+                props.remove(oneProp->getName());
+        }
+
+        m_PropertySubscriptions[device] = props;
     }
 }
 
