@@ -1362,7 +1362,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
                     bool inImage = imageData->wcsToPixel(pointToGet, pixelPoint, imagePoint);
                     if (inImage)
                     {
-                        QPointF pt(pixelPoint.x(), pixelPoint.y());
+                        QPointF pt(pixelPoint.x() * scale, pixelPoint.y() * scale);
                         eqGridPoints.append(pt);
                     }
                 }
