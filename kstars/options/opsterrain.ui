@@ -42,18 +42,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>16777215</height>
-             </size>
-            </property>
             <property name="whatsThis">
              <string>Specify the terrain file to use.</string>
             </property>
@@ -69,12 +57,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
             </property>
            </widget>
           </item>
@@ -115,18 +97,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
             <property name="toolTip">
              <string>Rotate terrain in azimuth degrees so north is actually north</string>
             </property>
@@ -142,12 +112,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>75</width>
-              <height>16777215</height>
-             </size>
             </property>
             <property name="toolTip">
              <string>Rotate terrain in azimuth degrees so north is actually north</string>
@@ -202,18 +166,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>200</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>120</width>
-            <height>40</height>
-           </size>
-          </property>
           <property name="toolTip">
            <string>Set the coarseness of the terrain image rendered. 1 is full resolution, but can be slow, 6 or more would be coarse resolution and fast.</string>
           </property>
@@ -224,12 +176,6 @@
         </item>
         <item>
          <widget class="QSpinBox" name="kcfg_TerrainDownsampling">
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>16777215</height>
-           </size>
-          </property>
           <property name="toolTip">
            <string>Set the coarseness of the terrain image rendered. 1 is full resolution, but can be slow, 6 or more would be coarse resolution and fast.</string>
           </property>
