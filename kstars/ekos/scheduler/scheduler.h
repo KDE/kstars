@@ -408,7 +408,19 @@ private:
         void setPaused();
         void save();
         void saveAs();
-        void load();
+
+        /**
+         * @brief load Open a file dialog to select an ESL file, and load its contents.
+         * @param clearQueue Clear the queue before loading, or append ESL contents to queue.
+         */
+        void load(bool clearQueue);
+
+        /**
+         * @brief appendEkosScheduleList Append the contents of an ESL file to the queue.
+         * @param fileURL File URL to load contents from.
+         * @return True if contents were loaded successfully, else false.
+         */
+        bool appendEkosScheduleList(const QString &fileURL);
 
         void resetJobEdit();
 

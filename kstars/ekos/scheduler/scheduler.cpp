@@ -152,6 +152,8 @@ Scheduler::Scheduler()
     queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueLoadB->setIcon(QIcon::fromTheme("document-open"));
     queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    queueAppendB->setIcon(QIcon::fromTheme("document-import"));
+    queueAppendB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     loadSequenceB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -202,7 +204,8 @@ Scheduler::Scheduler()
 
     connect(queueSaveAsB, &QPushButton::clicked, this, &Scheduler::saveAs);
     connect(queueSaveB, &QPushButton::clicked, this, &Scheduler::save);
-    connect(queueLoadB, &QPushButton::clicked, this, &Scheduler::load);
+    connect(queueLoadB, &QPushButton::clicked, this, [&](){ load(true); });
+    connect(queueAppendB, &QPushButton::clicked, this, [&](){ load(false); });
 
     connect(twilightCheck, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
@@ -1415,6 +1418,7 @@ void Scheduler::stop()
     //startB->setText("Start Scheduler");
 
     queueLoadB->setEnabled(true);
+    queueAppendB->setEnabled(true);
     addToQueueB->setEnabled(true);
     setJobManipulation(false, false);
     mosaicB->setEnabled(true);
@@ -1454,6 +1458,7 @@ void Scheduler::start()
 
             /* Disable edit-related buttons */
             queueLoadB->setEnabled(false);
+            queueAppendB->setEnabled(false);
             addToQueueB->setEnabled(false);
             setJobManipulation(false, false);
             mosaicB->setEnabled(false);
@@ -3702,7 +3707,7 @@ bool Scheduler::manageConnectionLoss()
     return true;
 }
 
-void Scheduler::load()
+void Scheduler::load(bool clearQueue)
 {
     QUrl fileURL =
         QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
@@ -3718,8 +3723,11 @@ void Scheduler::load()
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
+    if (clearQueue)
+        removeAllJobs();
+
     /* Run a job idle evaluation after a successful load */
-    if (loadScheduler(fileURL.toLocalFile()))
+    if (appendEkosScheduleList(fileURL.toLocalFile()))
         startJobEvaluation();
 }
 
@@ -3737,6 +3745,12 @@ void Scheduler::removeAllJobs()
 
 bool Scheduler::loadScheduler(const QString &fileURL)
 {
+    removeAllJobs();
+    return appendEkosScheduleList(fileURL);
+}
+
+bool Scheduler::appendEkosScheduleList(const QString &fileURL)
+{
     SchedulerState const old_state = state;
     state = SCHEDULER_LOADING;
 
@@ -3750,8 +3764,6 @@ bool Scheduler::loadScheduler(const QString &fileURL)
         state = old_state;
         return false;
     }
-
-    removeAllJobs();
 
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
