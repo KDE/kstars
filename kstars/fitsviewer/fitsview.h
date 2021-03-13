@@ -23,6 +23,7 @@
 #include <QPixmap>
 #include <QScrollArea>
 #include <QStack>
+#include <QTimer>
 #include <QPointer>
 
 #ifdef WIN32
@@ -383,6 +384,7 @@ class FITSView : public QScrollArea
         FITSMode mode;
         FITSScale filter;
         QString m_LastError;
+        QTimer m_UpdateFrameTimer;
 
         QStack<FITSScale> filterStack;
 

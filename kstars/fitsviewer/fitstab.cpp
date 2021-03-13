@@ -477,12 +477,6 @@ void FITSTab::processData()
         view->searchStars();
         qCDebug(KSTARS_FITS) << "FITS HFR:" << image_data->getHFR();
     }
-    // This could both compute the HFRs and setup the graphics, however,
-    // if shouldComputeHFR() above is true, then that will compute the HFRs
-    // and this would notice that and just setup graphics. They are separated
-    // for the case where the graphics is not desired.
-    if (viewer->isStarsMarked())
-        view->toggleStars(true);
 
     evaluateStats();
 
@@ -503,7 +497,15 @@ void FITSTab::processData()
         }
     }
 
-    view->updateFrame();
+    //     This could both compute the HFRs and setup the graphics, however,
+    //     if shouldComputeHFR() above is true, then that will compute the HFRs
+    //     and this would notice that and just setup graphics. They are separated
+    //     for the case where the graphics is not desired.
+    if (viewer->isStarsMarked())
+    {
+        view->toggleStars(true);
+        view->updateFrame();
+    }
 }
 
 bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITSScale filter)
@@ -512,6 +514,12 @@ bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITS
 
     // Empty URL
     currentURL = QUrl();
+
+    if (viewer->isStarsMarked())
+    {
+        view->toggleStars(true);
+        //view->updateFrame();
+    }
 
     view->setFilter(filter);
 
@@ -522,7 +530,7 @@ bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITS
         return false;
     }
 
-    //processData();
+    processData();
     return true;
 }
 

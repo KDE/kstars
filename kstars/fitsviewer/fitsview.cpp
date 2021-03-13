@@ -203,6 +203,24 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(image_frame.get(), SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
+    m_UpdateFrameTimer.setInterval(250);
+    m_UpdateFrameTimer.setSingleShot(true);
+    connect(&m_UpdateFrameTimer, &QTimer::timeout, [this]()
+    {
+        if (toggleStretchAction)
+            toggleStretchAction->setChecked(stretchImage);
+
+        // We employ two schemes for managing the image and its overlays, depending on the size of the image
+        // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
+        // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
+        // the size of the image itself, never scaling that up.
+        if (isLargeImage())
+            updateFrameLargeImage();
+        else
+            updateFrameSmallImage();
+
+    });
+
     connect(&fitsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::loadInFrame);
 
     image_frame->setMouseTracking(true);
@@ -734,17 +752,9 @@ double FITSView::scaleSize(double size)
 
 void FITSView::updateFrame()
 {
-    if (toggleStretchAction)
-        toggleStretchAction->setChecked(stretchImage);
-
-    // We employ two schemes for managing the image and its overlays, depending on the size of the image
-    // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
-    // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
-    // the size of the image itself, never scaling that up.
-    if (isLargeImage())
-        updateFrameLargeImage();
-    else
-        updateFrameSmallImage();
+    // JM 2021-03-13: This timer is used to throttle updateFrame calls to improve performance
+    // If after 250ms no further update frames are called, then the actual update is triggered.
+    m_UpdateFrameTimer.start();
 }
 
 
@@ -1747,37 +1757,35 @@ void FITSView::toggleStars(bool enable)
 {
     markStars = enable;
 
-    if (markStars && !imageData->areStarsSearched())
+    if (markStars)
         searchStars();
 }
 
 void FITSView::searchStars()
 {
     QVariant frameType;
-    if (!imageData || (imageData->getRecordValue("FRAME", frameType) && frameType.toString() != "Light"))
+    if (imageData->areStarsSearched() || !imageData || (imageData->getRecordValue("FRAME", frameType)
+            && frameType.toString() != "Light"))
         return;
 
-    if (!imageData->areStarsSearched())
-    {
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-        emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
-        qApp->processEvents();
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
+    qApp->processEvents();
 
 #ifdef HAVE_STELLARSOLVER
-        QVariantMap extractionSettings;
-        extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
-        extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
-        getImageData()->setSourceExtractorSettings(extractionSettings);
+    QVariantMap extractionSettings;
+    extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
+    extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
+    getImageData()->setSourceExtractorSettings(extractionSettings);
 #endif
 
-        QFuture<bool> result = findStars(ALGORITHM_SEP);
-        result.waitForFinished();
-        if (result.result() && isVisible())
-        {
-            emit newStatus("", FITS_MESSAGE);
-        }
-        QApplication::restoreOverrideCursor();
+    QFuture<bool> result = findStars(ALGORITHM_SEP);
+    result.waitForFinished();
+    if (result.result() && isVisible())
+    {
+        emit newStatus("", FITS_MESSAGE);
     }
+    QApplication::restoreOverrideCursor();
 }
 
 void FITSView::processPointSelection(int x, int y)
