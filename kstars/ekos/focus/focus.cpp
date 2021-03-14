@@ -2468,9 +2468,19 @@ void Focus::autoFocusAbs()
             // We cannot go any further because of the device limits, this is a failure
             if (targetPosition == currentPosition)
             {
-                appendLogText("Focuser cannot move further, device limits reached. Autofocus aborted.");
-                qCDebug(KSTARS_EKOS_FOCUS) << "Focuser cannot move further, restricted by device limits at " << targetPosition;
-                completeFocusProcedure(false);
+                // If case target position happens to be the minimal historical
+                // HFR position, accept this value instead of bailing out.
+                if (targetPosition == minHFRPos)
+                {
+                    appendLogText("Stopping at minimum recorded HFR position.");
+                    completeFocusProcedure(true);
+                }
+                else
+                {
+                    appendLogText("Focuser cannot move further, device limits reached. Autofocus aborted.");
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Focuser cannot move further, restricted by device limits at " << targetPosition;
+                    completeFocusProcedure(false);
+                }
                 return;
             }
 

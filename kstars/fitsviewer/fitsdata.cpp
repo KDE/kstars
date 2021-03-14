@@ -125,9 +125,6 @@ FITSData::~FITSData()
         fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         fptr = nullptr;
-
-        if (m_isTemporary && autoRemoveTemporaryFITS)
-            QFile::remove(m_Filename);
     }
 }
 
@@ -142,14 +139,6 @@ void FITSData::loadCommon(const QString &inFilename)
         fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         fptr = nullptr;
-
-        // If current file is temporary AND
-        // Auto Remove Temporary File is Set AND
-        // New filename is different from existing filename
-        // THen remove it. We have to check for name since we cannot delete
-        // the same filename and try to open it below!
-        if (m_isTemporary && autoRemoveTemporaryFITS && inFilename != m_Filename)
-            QFile::remove(m_Filename);
     }
 
     m_Filename = inFilename;
@@ -228,10 +217,6 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             return false;
         }
 
-        // Remove compressed .fz if it was temporary
-        if (m_isTemporary && autoRemoveTemporaryFITS)
-            QFile::remove(m_Filename);
-
         m_Filename = uncompressedFile;
         m_isTemporary = true;
         m_isCompressed = true;
@@ -246,7 +231,6 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
 
-        m_isTemporary = false;
         m_Statistics.size = QFile(m_Filename).size();
     }
     else
@@ -259,7 +243,6 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
 
         m_Statistics.size = temp_size;
-        m_isTemporary = true;
     }
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
@@ -757,12 +740,6 @@ bool FITSData::saveImage(const QString &newFilename)
             return false;
         }
 
-        if (m_isTemporary && autoRemoveTemporaryFITS)
-        {
-            QFile::remove(m_Filename);
-            m_isTemporary = false;
-        }
-
         m_Filename = finalFileName;
 
         // Use open diskfile as it does not use extended file names which has problems opening
@@ -890,12 +867,6 @@ bool FITSData::saveImage(const QString &newFilename)
         rotWCSFITS(rot, mirror);
 
     rotCounter = flipHCounter = flipVCounter = 0;
-
-    if (m_Filename.isEmpty() == false && m_isTemporary && autoRemoveTemporaryFITS)
-    {
-        QFile::remove(m_Filename);
-        m_isTemporary = false;
-    }
 
     m_Filename = newFilename;
 
@@ -3359,17 +3330,6 @@ QString FITSData::getLastError() const
 {
     return lastError;
 }
-
-bool FITSData::getAutoRemoveTemporaryFITS() const
-{
-    return autoRemoveTemporaryFITS;
-}
-
-void FITSData::setAutoRemoveTemporaryFITS(bool value)
-{
-    autoRemoveTemporaryFITS = value;
-}
-
 
 template <typename T>
 void FITSData::convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image)

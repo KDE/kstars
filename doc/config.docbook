@@ -141,9 +141,9 @@ The window is depicted below:
 </para>
 
 <para>
-The <guilabel>Configure &kstars;</guilabel> window is divided into eleven pages:
+The <guilabel>Configure &kstars;</guilabel> window is divided into twelve pages:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
-<guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, <guilabel>FITS</guilabel>,
+<guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Terrain</guilabel>, <guilabel>Colors</guilabel>, <guilabel>FITS</guilabel>,
 <guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel>, <guilabel>Xplanet</guilabel> and <guilabel>Advanced</guilabel>.
 </para>
 
@@ -189,6 +189,16 @@ Milky Way contour).
 <para>
 <indexterm><primary>Sky culture</primary></indexterm>
 It is possible to choose a <guilabel>Sky culture</guilabel> for the constellation lines and names on this page. The current version of &kstars; includes data for more than a dozen sky cultures.
+</para>
+
+<!-- Terrain page: -->
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Terrain page</secondary></indexterm>
+<indexterm><primary>Terrain image</primary>
+<secondary>Customizing</secondary></indexterm>
+The <guilabel>Terrain</guilabel> page allows you to set the terrain or landscape image
+and configure its speedup options.
 </para>
 
 <!-- Colors page: -->
@@ -441,7 +451,7 @@ displayed in &kstars;. You can choose to see the stars or not by checking the
 options will be enabled. Thus, you can set how many stars are drawn on the map
 using the <guilabel>Star Density</guilabel> slider. You can also customize
 &kstars; to toggle star name and <link linkend="ai-magnitude">magnitudes</link>.
-Star names are drawn next to bright stars. To display labels of fainter stars, 
+Star names are drawn next to bright stars. To display labels of fainter stars,
 increase the <guilabel>Label density</guilabel> slider.
 </para>
 
@@ -449,15 +459,15 @@ increase the <guilabel>Label density</guilabel> slider.
 <indexterm><primary>Catalogs</primary>
 <secondary>Deep-Sky Catalogs</secondary></indexterm>
 Below the stars section, the <guilabel>Deep-Sky Objects</guilabel> section controls
-the display of several non-stellar object catalogs. You can toggle the display of 
-Deep Sky Objects and control the display of their names and magnitudes. By default, 
+the display of several non-stellar object catalogs. You can toggle the display of
+Deep Sky Objects and control the display of their names and magnitudes. By default,
 the list of deep-sky objects includes the Messier, NGC and IC catalogs.
-Addons catalogs are available via the 
-<menuchoice><guimenu>Data</guimenu><guimenuitem>Download New Data...</guimenuitem></menuchoice> 
-submenu where you can download catalogs provided by &kstars; team and the community. 
-Furthermore, &kstars; supports import of custom catalogs. To import a raw ASCII catalog 
-data file into &kstars;, press the <guibutton>Import Catalog</guibutton> and follow 
-the instructions. To import a custom catalog already in &kstars; catalog format, press the 
+Addons catalogs are available via the
+<menuchoice><guimenu>Data</guimenu><guimenuitem>Download New Data...</guimenuitem></menuchoice>
+submenu where you can download catalogs provided by &kstars; team and the community.
+Furthermore, &kstars; supports import of custom catalogs. To import a raw ASCII catalog
+data file into &kstars;, press the <guibutton>Import Catalog</guibutton> and follow
+the instructions. To import a custom catalog already in &kstars; catalog format, press the
 <guilabel>Load Catalog</guilabel> button.
 
 Each line in the custom catalog file should contain the following space-separated fields:
@@ -490,7 +500,7 @@ word, it must be enclosed in quotation marks.
 <para>
 Once you have constructed a custom data file, open the &kstars; configuration window
 to the <guilabel>Catalogs</guilabel> tab, and press the
-<guibutton>Import Catalog...</guibutton> button.  A popup window appears in which 
+<guibutton>Import Catalog...</guibutton> button.  A popup window appears in which
 you can specify a name for the catalog, and the name of the file (including the path):
 </para>
 <screenshot>
@@ -604,21 +614,21 @@ magnitudes are unknown, or not available to &kstars;, are drawn irrespective of 
 </para>
 
 <para>
-The following is a brief tutorial on adding new catalogues to &kstars;. To import a 
+The following is a brief tutorial on adding new catalogues to &kstars;. To import a
 new catalog, download a raw catalog data file where the data columns are space delimited.
-Any lines starting with # shall be ignored. For this example, we shall use the 
+Any lines starting with # shall be ignored. For this example, we shall use the
 <quote>Lynds Catalog of Dark Nebulae</quote>.
 
 <itemizedlist>
 
 <listitem>
 <para>
-Download / write the raw catalog data file (the raw file is the file containing catalog's 
-objects described by a set of parameters, like: ID Number, Right Ascension, Declination and so on). 
+Download / write the raw catalog data file (the raw file is the file containing catalog's
+objects described by a set of parameters, like: ID Number, Right Ascension, Declination and so on).
 </para>
 
 <important>
-<para>In order to successfully load a custom catalog into &kstars;, you need to use the following syntax: 
+<para>In order to successfully load a custom catalog into &kstars;, you need to use the following syntax:
 (otherwise your catalog will be entirely ignored or maybe some objects from your catalog will be wrongly drawn)
 </para>
 <itemizedlist>
@@ -648,13 +658,13 @@ The following is a subset of the original raw data file:
    5 17 13.2   -24 22    .20 +07.96    .012 4   0    9  595
 </programlisting>
 
-The raw file contains some extra information, unusable for &kstars;. It also contains extra white spaces 
-and values are not meeting &kstars; expectations (&ie; for Right Ascension: colon-delimited hh:mm:ss.s 
-or floating-point value). Thus, it need to be modified in order to match &kstars; format. 
-For a better understanding on what each column means, you can take a look at 
-<ulink url="ftp://cdsarc.u-strasbg.fr/cats/VII/7A/">the original source</ulink> of the catalog. 
-It contains the raw data file and, in addition, it contains an useful readme, which will help 
-you understand what you should keep and furthermore, what you need to remove from the raw data file. 
+The raw file contains some extra information, unusable for &kstars;. It also contains extra white spaces
+and values are not meeting &kstars; expectations (&ie; for Right Ascension: colon-delimited hh:mm:ss.s
+or floating-point value). Thus, it need to be modified in order to match &kstars; format.
+For a better understanding on what each column means, you can take a look at
+<ulink url="ftp://cdsarc.u-strasbg.fr/cats/VII/7A/">the original source</ulink> of the catalog.
+It contains the raw data file and, in addition, it contains an useful readme, which will help
+you understand what you should keep and furthermore, what you need to remove from the raw data file.
 Minimally, the raw data file should contain the following fields:
 <itemizedlist>
 <listitem><para>ID Number</para></listitem>
@@ -667,59 +677,59 @@ Minimally, the raw data file should contain the following fields:
 
 <para>
 The raw <quote>Dark Nebulae by Lynds</quote> contains only three usable fields for &kstars;:
-Right Ascension, Declination and Area (square degrees). Therefore, in order to properly 
-import the catalog into &kstars;, the ID and Object Type fields need to be added. You can 
-insert these values manually using your favorite text editor. However, it is recommended 
-to use any spreadsheet application to import the raw data file and add the necessary 
-columns. This is especially convenient for large data sets. Since the original raw data 
-contains an area field which is not supported by &kstars;, we need to approximate it to a 
-usable value which is the Major Axis. Therefore, we use the following formula in the 
+Right Ascension, Declination and Area (square degrees). Therefore, in order to properly
+import the catalog into &kstars;, the ID and Object Type fields need to be added. You can
+insert these values manually using your favorite text editor. However, it is recommended
+to use any spreadsheet application to import the raw data file and add the necessary
+columns. This is especially convenient for large data sets. Since the original raw data
+contains an area field which is not supported by &kstars;, we need to approximate it to a
+usable value which is the Major Axis. Therefore, we use the following formula in the
 spreadsheet to convert area to major axis in arcminutes:
 <constant>Major Axis = sqrt(Area) * 60</constant>
 </para>
 
 <para>
-After importing the raw data file into &kstars; and selecting the appropriate columns, &kstars; 
-shall generate the final catalog file suitable for loading directly into &kstars;. 
+After importing the raw data file into &kstars; and selecting the appropriate columns, &kstars;
+shall generate the final catalog file suitable for loading directly into &kstars;.
 For example, this is a small subset of the content (header + first five objects) of the
-<quote>Dark Nebulae by Lynds</quote> catalog which was created by &kstars; after importing 
+<quote>Dark Nebulae by Lynds</quote> catalog which was created by &kstars; after importing
 the raw data file which only contains the data columns:
 </para>
 <programlisting>
-# Delimiter:  
+# Delimiter:
 # Name: LyndsCatalog
 # Prefix: Lynds
 # Color: #ff7600
 # Epoch: 2000
-# ID  RA  Dc  Mj  Tp  
+# ID  RA  Dc  Mj  Tp
 1 16:26:0 -16:0:0.1 13.943 5
 2 18:4:0 -31:30:0.1 66.813 5
 3 18:0:0 -31:0:0.1 141.986 5
 4 16:59:5 -22:8:0.1 3.795 5
 5 17:13:2 -24:22:0.2 6.573 5
 </programlisting>
-<para>As seen above, each column was assigned a &kstars; designated header such as the ID, 
-Right Ascension, Declination, Major axis and Object Type fields. Note that the Catalog Prefix 
-(<quote>Lynds</quote>) and the ID field are used together for identifying objects in the Sky Map 
-(&ie; objects from this catalog will have names like: Lynds 1, Lynds 2, Lynds 617 up to the 
+<para>As seen above, each column was assigned a &kstars; designated header such as the ID,
+Right Ascension, Declination, Major axis and Object Type fields. Note that the Catalog Prefix
+(<quote>Lynds</quote>) and the ID field are used together for identifying objects in the Sky Map
+(&ie; objects from this catalog will have names like: Lynds 1, Lynds 2, Lynds 617 up to the
 last object, Lynds 1791).
 </para>
 </listitem>
 
 <listitem><para>
-Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> 
+Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice>
 menu and choose <guilabel>Catalogs</guilabel> tab.
 </para></listitem>
 
 <listitem><para>
-In the Deep-Sky objects section, press the <guibutton>Import Catalog...</guibutton> button. 
-If the button is not available, check the <guibutton>Deep-Sky Catalogs</guibutton> checkbox. 
+In the Deep-Sky objects section, press the <guibutton>Import Catalog...</guibutton> button.
+If the button is not available, check the <guibutton>Deep-Sky Catalogs</guibutton> checkbox.
 This will enable you to configure &kstars; deep-sky objects catalogs.
 </para></listitem>
 
 <listitem><para>
-After you press the <guibutton>Import Catalog...</guibutton> button, 
-<guilabel>Import Catalog</guilabel> window will pop up. At first, click on 
+After you press the <guibutton>Import Catalog...</guibutton> button,
+<guilabel>Import Catalog</guilabel> window will pop up. At first, click on
 <guibutton>Open file dialog</guibutton> button in order to select the raw data file.
 <screenshot>
 <screeninfo>Import catalog</screeninfo>
@@ -750,11 +760,11 @@ In the dialog window, find your raw file, select it and then press <guibutton>Op
 </para></listitem>
 
 <listitem><para>
-Now, you need to specify the correct order of the catalog fields within the raw 
-data file. The fields must be added inside <guilabel>Catalog fields</guilabel> 
-list. Note that you can drag fields in order to build the right order or you can 
-use additional fields from <guilabel>Available fields</guilabel> fields. For 
-example, if your raw data file contains a magnitude column, then you need to add 
+Now, you need to specify the correct order of the catalog fields within the raw
+data file. The fields must be added inside <guilabel>Catalog fields</guilabel>
+list. Note that you can drag fields in order to build the right order or you can
+use additional fields from <guilabel>Available fields</guilabel> fields. For
+example, if your raw data file contains a magnitude column, then you need to add
 Magnitude field to the <guilabel>Catalog fields</guilabel> list.
 <screenshot>
 <screeninfo>Complete info for new catalog</screeninfo>
@@ -770,27 +780,27 @@ Magnitude field to the <guilabel>Catalog fields</guilabel> list.
 </para></listitem>
 
 <listitem><para>
-After you set the fields so that they match to your catalog raw file, you can move 
-to the next step: completing the remaining input fields: <guilabel>Coordinate epoch</guilabel>, 
-<guilabel>Catalog name prefix</guilabel>, <guilabel>Catalog name</guilabel> and 
-<guilabel>Save catalog as</guilabel>. You can also choose the <guilabel>Symbol color</guilabel> 
-used for your catalog. There you can specify how the fields are split within the raw data 
+After you set the fields so that they match to your catalog raw file, you can move
+to the next step: completing the remaining input fields: <guilabel>Coordinate epoch</guilabel>,
+<guilabel>Catalog name prefix</guilabel>, <guilabel>Catalog name</guilabel> and
+<guilabel>Save catalog as</guilabel>. You can also choose the <guilabel>Symbol color</guilabel>
+used for your catalog. There you can specify how the fields are split within the raw data
 file: CSV (Comma-separated values) or Space Delimited.
 </para></listitem>
 
 <listitem><para>
-You can preview the output by pressing the <guibutton>Preview Output</guibutton> button. 
-Pay attention to the header fields to have the same order as your catalog fields 
+You can preview the output by pressing the <guibutton>Preview Output</guibutton> button.
+Pay attention to the header fields to have the same order as your catalog fields
 (&ie; ID RA Dec Major Axis and Object Type).
 </para></listitem>
 
 <listitem><para>
-Press <guibutton>OK</guibutton> button to close the <guilabel>Catalog Preview</guilabel> window. 
+Press <guibutton>OK</guibutton> button to close the <guilabel>Catalog Preview</guilabel> window.
 Then press <guibutton>OK</guibutton> button again to create and save your catalog.
 </para></listitem>
 
 <listitem><para>
-After you successfully imported your catalog, it will be displayed in the catalogs list. 
+After you successfully imported your catalog, it will be displayed in the catalogs list.
 You can choose to be displayed or not, by pressing on its checkbox.
 <screenshot>
 <screeninfo>Added Dark Nebulae by Lynds catalog</screeninfo>
@@ -879,8 +889,8 @@ the search satellites method that &kstars; provides. You need to enter the name 
 satellites</guilabel> text box and the list will be reduced only to its best matches.
 </para>
 <para>
-You can add new satellites to &kstars; default satellites set by editing the 
-<filename>kstars/data/satellites.dat</filename> file. As each line of this file is a group of 
+You can add new satellites to &kstars; default satellites set by editing the
+<filename>kstars/data/satellites.dat</filename> file. As each line of this file is a group of
 satellites, you need to add a new entry for your desired satellites group.
 An entry should have the following format: <userinput>Group Name;local_filename;url</userinput>.
 For example: <userinput>Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt</userinput>.
@@ -949,6 +959,43 @@ constellation names using your local language.
 </para>
 </sect1>
 
+<sect1 id="terrain">
+<title>Terrain</title>
+<screenshot>
+<screeninfo>Terrain Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="terrain_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Terrain Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Terrain page</secondary></indexterm>
+The <guilabel>Terrain</guilabel> page lets you configure whether the terrain (landscape) image will be shown on the skymap.
+</para>
+<para>
+The user is responsible for creating a partially-transparent image, that is overlayed onto the sky map. This image should have transparent regions that the user creates to let the skymap show through, and opaque regions representing the trees, buildings, the landscape around the telescope. There is a particular format required, and this is a significant effort. There are many resources on the web that explain how this is done for <ulink url="http://stellarium.org/landscapes.html">Stellarium</ulink>. The details of image creation are the same.
+</para>
+<para>
+Initially, the user captures a full sphere equirectangular projection image from approximately the same point-of-view as his/her telescope. This kind of image can be captured with the Google Camera App, or the Google YouTube App on iPhone, or likely many other camera apps. The user then needs to edit the resulting image so that the sky is erased/transparent, and save it as a PNG. Finally, the user needs to determine where North is in the image, so it can eventually be aligned with the skymap. Once all that is done, the sky map can simulate the local sky view including the local terrain.
+</para>
+<para>
+Once the image is created, it is possible to upload it via the <guilabel>Terrain</guilabel> page and configure the azimuth correction value (in degrees) that allows the user to rotate the view so north in the sky map is aligned with the north in the image.
+</para>
+<para>
+Moreover, some speedup options can be configured to achieve the best user experience when rendering the terrain on the sky map.
+</para>
+<tip>
+    <para>
+        You can toggle the terrain overlay on and off using a keyboard shortcut <keycombo>&Ctrl;&Shift;<keycap>T</keycap></keycombo> and the <menuchoice><guimenu>View</guimenu><guimenuitem>Show terrain</guimenuitem></menuchoice> menu item.
+    </para>
+</tip>
+</sect1>
+
 <sect1 id="colors">
 <title>Colors</title>
 <screenshot>
@@ -999,6 +1046,17 @@ Scheme</guibutton> button.
 
 <sect1 id="fits-configure">
 <title>FITS</title>
+<screenshot>
+<screeninfo>FITS Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="fits_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>FITS Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>FITS page</secondary></indexterm>
 <para><abbrev>FITS</abbrev> (Flexible Image Transport System) is a popular open  standard for storage, transmission and processing of digital data. For the details, one is referred to the <ulink url="https://en.wikipedia.org/wiki/FITS">corresponding Wikipedia article</ulink>. This page allows you to configure presentation and processing of FITS data in &kstars;.
@@ -1009,16 +1067,16 @@ Scheme</guibutton> button.
 <para>
 Check the <guilabel>Use FITS Viewer</guilabel> item if you want automatically display received images in the FITS Viewer.
 </para>
-<para>The <guilabel>Single Preview Tab</guilabel> item is to display all captured FITS images in a single tab instead of multiple tabs 
-per image. The <guilabel>Single Window Capture</guilabel> item is to display captured FITS images from all cameras in a single FITS Viewer window 
-instead of a dedicated window to each camera. The <guilabel>Single Window Open</guilabel> item is to display opened FITS images in a single FITS Viewer window instead of a 
+<para>The <guilabel>Single Preview Tab</guilabel> item is to display all captured FITS images in a single tab instead of multiple tabs
+per image. The <guilabel>Single Window Capture</guilabel> item is to display captured FITS images from all cameras in a single FITS Viewer window
+instead of a dedicated window to each camera. The <guilabel>Single Window Open</guilabel> item is to display opened FITS images in a single FITS Viewer window instead of a
 dedicated window to each file and the <guilabel>Independent Window</guilabel> item is to make FITS Viewer window independent from &kstars;.
 </para>
 <para>
-The right panel lists processing options. The <guilabel>Auto Stretch</guilabel> item is to always apply auto stretch to images in FITS Viewer, <guilabel>Limited Resources Mode</guilabel> is to enable limited resource mode to turn off any resource-intensive operations, namely: <guilabel>Auto Debayer</guilabel> (bayered images will not be debayered; only grayscale images are shown), <guilabel>Auto WCS</guilabel> (World Coordinate System data 
-will not be processed; WCS maps sky coordinates to image coordinates; 
-equatorial grid lines, object identification, and telescope slew within an 
-image are disabled), and <guilabel>3D Cube</guilabel> (RGB images will not be 
+The right panel lists processing options. The <guilabel>Auto Stretch</guilabel> item is to always apply auto stretch to images in FITS Viewer, <guilabel>Limited Resources Mode</guilabel> is to enable limited resource mode to turn off any resource-intensive operations, namely: <guilabel>Auto Debayer</guilabel> (bayered images will not be debayered; only grayscale images are shown), <guilabel>Auto WCS</guilabel> (World Coordinate System data
+will not be processed; WCS maps sky coordinates to image coordinates;
+equatorial grid lines, object identification, and telescope slew within an
+image are disabled), and <guilabel>3D Cube</guilabel> (RGB images will not be
 processed; only grayscale images are shown). You can switch off some of these resource-greedy operations separately as well.
 </para>
 </sect1>
@@ -1061,6 +1119,26 @@ Ekos supports highly accurate tracking using online and offline astrometry solve
 and autoguiding capabilities, and capture of single or multiple images using the powerful
 built in sequence manager. For detailed explanation of <guilabel>Ekos</guilabel>,
 see the <link linkend="tool-ekos">Ekos section of this manual</link>.
+</para>
+</sect1>
+
+<sect1 id="xplanet-configure">
+<title>Xplanet</title>
+<screenshot>
+<screeninfo>Xplanet Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="xplanet_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Xplanet Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<ulink url="http://xplanet.sourceforge.net/">Xplanet</ulink> (should be installed separately) is
+a solar system planet surface renderer. This page allows you to configure presentation and
+processing of <application>Xplanet</application> data in &kstars;.
 </para>
 </sect1>
 

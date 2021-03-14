@@ -874,6 +874,13 @@ void Mount::motionCommand(int command, int NS, int WE)
     }
 }
 
+
+void Mount::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
+{
+    currentTelescope->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
+}
+
+
 void Mount::save()
 {
     if (currentTelescope == nullptr)

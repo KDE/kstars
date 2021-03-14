@@ -477,12 +477,6 @@ void FITSTab::processData()
         view->searchStars();
         qCDebug(KSTARS_FITS) << "FITS HFR:" << image_data->getHFR();
     }
-    // This could both compute the HFRs and setup the graphics, however,
-    // if shouldComputeHFR() above is true, then that will compute the HFRs
-    // and this would notice that and just setup graphics. They are separated
-    // for the case where the graphics is not desired.
-    if (viewer->isStarsMarked())
-        view->toggleStars(true);
 
     evaluateStats();
 
@@ -491,7 +485,8 @@ void FITSTab::processData()
     // Don't add it to the list if it is already there
     if (recentImages->findItems(currentURL.toLocalFile(), Qt::MatchExactly).count() == 0)
     {
-        if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
+        //Don't add it to the list if it is a preview
+        if(!image_data->filename().startsWith(QDir::tempPath()))
         {
             disconnect(recentImages, &QListWidget::currentRowChanged, this,
                        &FITSTab::selectRecentFITS);
@@ -502,7 +497,15 @@ void FITSTab::processData()
         }
     }
 
-    view->updateFrame();
+    //     This could both compute the HFRs and setup the graphics, however,
+    //     if shouldComputeHFR() above is true, then that will compute the HFRs
+    //     and this would notice that and just setup graphics. They are separated
+    //     for the case where the graphics is not desired.
+    if (viewer->isStarsMarked())
+    {
+        view->toggleStars(true);
+        view->updateFrame();
+    }
 }
 
 bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITSScale filter)
@@ -511,6 +514,12 @@ bool FITSTab::loadData(const QSharedPointer<FITSData> &data, FITSMode mode, FITS
 
     // Empty URL
     currentURL = QUrl();
+
+    if (viewer->isStarsMarked())
+    {
+        view->toggleStars(true);
+        //view->updateFrame();
+    }
 
     view->setFilter(filter);
 

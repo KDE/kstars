@@ -1257,21 +1257,74 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     // When subscribed, the updates are immediately pushed as soon as they are received.
     else if (command == commands[DEVICE_PROPERTY_SUBSCRIBE])
     {
-        const QString property = payload["property"].toString();
+        const QJsonArray properties = payload["properties"].toArray();
+        const QJsonArray groups = payload["groups"].toArray();
+
+        // Get existing subscribed props for this device
         QSet<QString> props;
         if (m_PropertySubscriptions.contains(device))
             props = m_PropertySubscriptions[device];
-        props.insert(property);
+
+        // If it is just a single property, let's insert it to props.
+        if (properties.isEmpty() == false)
+        {
+            for (const auto &oneProp : properties)
+                props.insert(oneProp.toString());
+        }
+        // If group is specified, then we need to add ALL properties belonging to this group.
+        else if (groups.isEmpty() == false)
+        {
+            QVariantList indiGroups = groups.toVariantList();
+            for (auto &oneProp : oneDevice->getProperties())
+            {
+                if (indiGroups.contains(oneProp->getGroupName()))
+                    props.insert(oneProp->getName());
+            }
+        }
+        // Otherwise, subscribe to ALL property in this device
+        else
+        {
+            for (auto &oneProp : oneDevice->getProperties())
+                props.insert(oneProp->getName());
+        }
+
         m_PropertySubscriptions[device] = props;
     }
     else if (command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
     {
-        const QString property = payload["property"].toString();
+        const QJsonArray properties = payload["properties"].toArray();
+        const QJsonArray groups = payload["groups"].toArray();
+
+        // Get existing subscribed props for this device
+        QSet<QString> props;
         if (m_PropertySubscriptions.contains(device))
+            props = m_PropertySubscriptions[device];
+
+        // If it is just a single property, let's insert it to props.
+        // If it is just a single property, let's insert it to props.
+        if (properties.isEmpty() == false)
         {
-            QSet<QString> props = m_PropertySubscriptions[device];
-            props.remove(property);
+            for (const auto &oneProp : properties)
+                props.remove(oneProp.toString());
         }
+        // If group is specified, then we need to add ALL properties belonging to this group.
+        else if (groups.isEmpty() == false)
+        {
+            QVariantList indiGroups = groups.toVariantList();
+            for (auto &oneProp : oneDevice->getProperties())
+            {
+                if (indiGroups.contains(oneProp->getGroupName()))
+                    props.remove(oneProp->getName());
+            }
+        }
+        // Otherwise, subscribe to ALL property in this device
+        else
+        {
+            for (auto &oneProp : oneDevice->getProperties())
+                props.remove(oneProp->getName());
+        }
+
+        m_PropertySubscriptions[device] = props;
     }
 }
 

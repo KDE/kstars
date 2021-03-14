@@ -155,6 +155,7 @@ int main(int argc, char *argv[])
                         i18n("Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"));
     aboutData.addCredit(i18n("Yuri Fabirovsky"), i18n("Splash screen for both regular KStars and KStars Lite."));
     aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port."));
+    aboutData.addCredit(i18n("Patrick Molenaar"), i18n("Bahtinov Focus Assistant."));
 
     KAboutData::setApplicationData(aboutData);
 

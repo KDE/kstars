@@ -430,6 +430,15 @@ class Mount : public QWidget, public Ui::Mount
         void motionCommand(int command, int NS, int WE);
 
         /**
+         * @brief Send a guide pulse to the telescope.
+         * @param ra_dir RA guide direction
+         * @param ra_msecs duration of the RA guiding pulse in milliseconds
+         * @param dec_dir dec guide direction
+         * @param dec_msecs duration of the DEC guiding pulse in milliseconds
+         */
+        void doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
+
+        /**
              * @brief save Save telescope focal length and aperture in the INDI telescope driver configuration.
              */
         void save();

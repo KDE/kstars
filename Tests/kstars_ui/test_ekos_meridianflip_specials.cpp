@@ -25,10 +25,68 @@ TestEkosMeridianFlipSpecials::TestEkosMeridianFlipSpecials(QString guider, QObje
 {
 }
 
+void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
+{
+    // set up the capture sequence
+    QVERIFY(prepareCaptureTestcase(40, true, true, true));
+
+    // start guiding
+    QVERIFY(startGuiding(2.0));
+
+    // start capturing
+    QVERIFY(startCapturing());
+
+    // wait until a flip is planned
+    QVERIFY(QTest::qWaitFor([&](){return expectedMeridianFlipStates.head() != Ekos::Mount::FLIP_PLANNED;}, 60000));
+
+    qCInfo(KSTARS_EKOS_TEST()) << "Meridian flip planned...";
+    // guiding deviation leads to a suspended capture
+    expectedCaptureStates.enqueue(Ekos::CAPTURE_SUSPENDED);
+
+    // now send motion north to create a guiding deviation
+    Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
+    mount->doPulse(RA_INC_DIR, 2000, NO_DIR, 0);
+    qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA guiding.";
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedCaptureStates, 10000);
+
+    // check if meridian flip runs and completes successfully
+    QVERIFY(checkMFExecuted(25));
+
+    // set guards for post MF checks
+    // autofocus (= insequence focusing) and dithering happen after first capture
+    // otherwise it is sufficient to wait for start of capturing
+    if (autofocus_checked || dithering_checked)
+        expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
+    else
+        expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
+
+    expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
+
+
+    // check if guiding is running
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedGuidingStates, 30000);
+
+    // check refocusing, that should happen immediately after the guiding calibration
+    // exception: in sequence focusing needs one capture, since the guiding deviation
+    // has interrupted the first capture
+    if (autofocus_checked == false)
+        QVERIFY(checkRefocusing(true));
+
+    // check if capturing has been started
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedCaptureStates, 60000);
+
+    // After the first capture dithering should take place
+    QVERIFY(checkDithering());
+
+    // in sequence focusing check
+    if (autofocus_checked == true)
+        QVERIFY(checkRefocusing(true));
+}
+
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(15, true, true));
+    QVERIFY(prepareCaptureTestcase(15, true, true, false));
 
     // start guiding
     QVERIFY(startGuiding(2.0));
@@ -63,7 +121,7 @@ void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, true));
+    QVERIFY(prepareCaptureTestcase(40, true, true, false));
 
     // start alignment
     QVERIFY(startAligning(5.0));
@@ -150,19 +208,24 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
  *
  * ********************************************************************************* */
 
+void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF_data()
+{
+    prepareTestData(45.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+}
+
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
 {
-    prepareTestData({"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true});
+    prepareTestData(18.0, {"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 {
-    prepareTestData({"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(18.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testRepeatedMF_data()
 {
-    prepareTestData({"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Luminance"}, {false}, {false}, {false});
 }
 
 

@@ -41,6 +41,15 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
         }
     });
 
+    connect(kcfg_DitherEnabled, &QCheckBox::toggled, this, [&](bool checked)
+    {
+        if (checked && kcfg_DitherNoGuiding->isChecked())
+        {
+            KSNotification::error("Guided dithering cannot be used along with non-guided dithering.");
+            kcfg_DitherNoGuiding->setChecked(false);
+        }
+    });
+
     editGuideProfile->setIcon(QIcon::fromTheme("document-edit"));
     editGuideProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 

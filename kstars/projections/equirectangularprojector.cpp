@@ -70,7 +70,7 @@ Vector2f EquirectangularProjector::toScreenVec(const SkyPoint *o, bool oRefract,
     return p;
 }
 
-SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
+SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool onlyAltAz) const
 {
     SkyPoint result;
 
@@ -88,7 +88,8 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
         if (m_vp.useRefraction)
             alt = SkyPoint::unrefract(alt);
         result.setAlt(alt);
-        result.HorizontalToEquatorial(LST, lat);
+        if (!onlyAltAz)
+            result.HorizontalToEquatorial(LST, lat);
         return result;
     }
     else

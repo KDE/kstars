@@ -427,10 +427,6 @@ class FITSData : public QObject
         {
             return m_compressedFilename;
         }
-        bool isTempFile() const
-        {
-            return m_isTemporary;
-        }
         bool isCompressed() const
         {
             return m_isCompressed;
@@ -465,9 +461,6 @@ class FITSData : public QObject
          * @return True if conversion is successful, false otherwise.
          */
         static bool ImageToFITS(const QString &filename, const QString &format, QString &output);
-
-        bool getAutoRemoveTemporaryFITS() const;
-        void setAutoRemoveTemporaryFITS(bool value);
 
         QString getLastError() const;
 
@@ -602,9 +595,6 @@ class FITSData : public QObject
 
         // Detector Settings
         QVariantMap m_SourceExtractorSettings;
-
-        /// Remove temporary files after closing
-        bool autoRemoveTemporaryFITS { true };
 
         QFuture<bool> m_StarFindFuture;
 

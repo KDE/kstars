@@ -6228,8 +6228,6 @@ QJsonObject Align::getPAHSettings() const
 
 void Align::setPAHSettings(const QJsonObject &settings)
 {
-    setSettings(settings);
-
     PAHDirectionCombo->setCurrentIndex(settings["mountDirection"].toInt(0));
     PAHRotationSpin->setValue(settings["mountRotation"].toInt(30));
     PAHExposure->setValue(settings["refresh"].toDouble(1));

@@ -51,6 +51,7 @@
         <file>qml/mount/go-west.png</file>
         <file>qml/mount/mountbox.qml</file>
         <file>qml/mount/stop.png</file>
+        <file>icons/kstars_terrain.png</file>
         <file>icons/kstars_satellites_invisible.svg</file>
         <file>icons/kstars_satellites_visible.svg</file>
         <file>icons/cloud-online.svg</file>

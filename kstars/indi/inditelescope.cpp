@@ -199,7 +199,7 @@ void Telescope::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "SAT_TRACKING_STAT"))
     {
-        m_canTrackSatellite = true;        
+        m_canTrackSatellite = true;
     }
     else if (!strcmp(prop->getName(), "EQUATORIAL_COORD"))
     {
@@ -301,19 +301,10 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             if (svp->s == IPS_ALERT)
             {
                 // First, inform everyone watch this that an error occurred.
-                m_ParkStatus = PARK_ERROR;
                 emit newParkStatus(PARK_ERROR);
-
-                // JM 2020-05-27: Retain status and let whatever process process decide what to do after the error.
-                // If alert, set park status to whatever it was opposite to. That is, if it was parking and failed
-                // then we set status to unparked since it did not successfully complete parking.
-                //                if (m_ParkStatus == PARK_PARKING)
-                //                    m_ParkStatus = PARK_UNPARKED;
-                //                else if (m_ParkStatus == PARK_UNPARKING)
-                //                    m_ParkStatus = PARK_PARKED;
-
-                //                emit newParkStatus(m_ParkStatus);
-
+                // JM 2021-03-08: Reset parking internal state to either PARKED or UNPARKED.
+                // Whatever the current switch is set to
+                m_ParkStatus = (sp->s == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
                 KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::EVENT_ALERT);
             }
             else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
@@ -447,19 +438,19 @@ void Telescope::processText(ITextVectorProperty *tvp)
                 qCDebug(KSTARS_INDI) << "Property SAT_PASS_WINDOW not found";
             }
             else
-            {    
+            {
                 IText *trajStart = IUFindText(trajWindow, "SAT_PASS_WINDOW_START");
                 IText *trajEnd = IUFindText(trajWindow, "SAT_PASS_WINDOW_END");
-                
+
                 if (trajStart == nullptr || trajEnd == nullptr)
-                {   
+                {
                     qCDebug(KSTARS_INDI) << "Start or end in SAT_PASS_WINDOW not found";
                 }
                 else
                 {
                     IUSaveText(trajStart, g_satPassStart.toString(Qt::ISODate).toLocal8Bit().data());
                     IUSaveText(trajEnd, g_satPassEnd.toString(Qt::ISODate).toLocal8Bit().data());
-            
+
                     clientManager->sendNewText(trajWindow);
                     m_windowIsSetForTracking = true;
                 }
@@ -472,7 +463,7 @@ void Telescope::processText(ITextVectorProperty *tvp)
         {
             ISwitchVectorProperty *trackSwitchV  = baseDevice->getSwitch("SAT_TRACKING_STAT");
             if (!trackSwitchV)
-            {   
+            {
                 qCDebug(KSTARS_INDI) << "Property SAT_TRACKING_STAT not found";
             }
             else
@@ -1238,20 +1229,20 @@ bool Telescope::setAlignmentModelEnabled(bool enable)
 }
 
 bool Telescope::setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassStart, const KStarsDateTime satPassEnd)
-{    
+{
     ITextVectorProperty *tleTextVec = baseDevice->getText("SAT_TLE_TEXT");
     if (!tleTextVec)
-    {   
+    {
         qCDebug(KSTARS_INDI) << "Property SAT_TLE_TEXT not found";
         return false;
     }
-    
+
     IText *tleText = IUFindText(tleTextVec, "TLE");
     if (!tleText)
         return false;
-    
+
     IUSaveText(tleText, tle.toLocal8Bit().data());
-    
+
     clientManager->sendNewText(tleTextVec);
     m_TLEIsSetForTracking = true;
     g_satPassStart = satPassStart;
