@@ -831,6 +831,22 @@
            </widget>
           </item>
           <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Preferred</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QPushButton" name="mosaicB">
             <property name="enabled">
              <bool>false</bool>
@@ -854,7 +870,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Create mosaic job. You must add a job before creating a mosaic job.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Open the Mosaic Tool.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;The Mosaic Tool requires a target with valid coordinates in the left panel, and a valid sequence file.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;The target will be used as center for the mosaic and the sequence will be assigned to all tiles of the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string/>
@@ -865,6 +881,9 @@
            <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>

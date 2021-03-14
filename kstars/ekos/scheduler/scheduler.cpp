@@ -6047,15 +6047,11 @@ void Scheduler::startMosaicTool()
         return;
     }
 
-    Mosaic mosaicTool;
-
     SkyPoint center;
     center.setRA0(ra);
     center.setDec0(dec);
 
-    mosaicTool.setCenter(center);
-    mosaicTool.calculateFOV();
-    mosaicTool.adjustSize();
+    Mosaic mosaicTool(nameEdit->text(), center, Ekos::Manager::Instance());
 
     if (mosaicTool.exec() == QDialog::Accepted)
     {
@@ -6104,7 +6100,7 @@ void Scheduler::startMosaicTool()
         QString fitsFileBackup = fitsEdit->text();
         fitsEdit->clear();
 
-        foreach (OneTile *oneJob, mosaicTool.getJobs())
+        foreach (auto oneJob, mosaicTool.getJobs())
         {
             QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
 
@@ -6118,9 +6114,9 @@ void Scheduler::startMosaicTool()
             sequenceEdit->setText(filename);
             sequenceURL = QUrl::fromLocalFile(filename);
 
-            raBox->showInHours(oneJob->skyCenter.ra0());
-            decBox->showInDegrees(oneJob->skyCenter.dec0());
-            rotationSpin->setValue(range360(oneJob->rotation));
+            raBox->showInHours(oneJob.center.ra0());
+            decBox->showInDegrees(oneJob.center.dec0());
+            rotationSpin->setValue(oneJob.rotation);
 
             saveJob();
         }

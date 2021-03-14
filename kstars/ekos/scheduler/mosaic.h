@@ -10,138 +10,81 @@
 #pragma once
 
 #include "skypoint.h"
-#include "ui_mosaic.h"
 
+#include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QDialog>
+#include <QBrush>
+#include <QPen>
+
+namespace Ui
+{
+class mosaicDialog;
+}
 
 namespace Ekos
 {
 class Scheduler;
+class MosaicTile;
 
-typedef struct
-{
-    QPointF pos;
-    QPointF center;
-    QPointF center_rot;
-    SkyPoint skyCenter;
-    double rotation;
-} OneTile;
-
-class MosaicTile : public QGraphicsItem
-{
-    public:
-        MosaicTile();
-        ~MosaicTile();
-
-        void setPA(double positionAngle)
-        {
-            pa = positionAngle * -1;
-        }
-        void setDimension(int width, int height)
-        {
-            w = width;
-            h = height;
-        }
-        void setFOV(double fov_x, double fov_y)
-        {
-            fovW = fov_x;
-            fovH = fov_y;
-        }
-        void setOverlap(double value)
-        {
-            overlap = value;
-        }
-
-        int getWidth()
-        {
-            return w;
-        }
-        int getHeight()
-        {
-            return h;
-        }
-        double getOverlap()
-        {
-            return overlap;
-        }
-        double getPA()
-        {
-            return pa;
-        }
-
-        void updateTiles();
-        OneTile *getTile(int row, int col);
-
-        QRectF boundingRect() const override;
-
-        QList<OneTile *> getTiles() const;
-
-    protected:
-        void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
-
-    private:
-        QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
-
-        double overlap { 0 };
-        int w { 1 };
-        int h { 1 };
-        double fovW { 0 };
-        double fovH { 0 };
-        double pa { 0 };
-
-        QBrush brush;
-        QPen pen;
-
-        QBrush textBrush;
-        QPen textPen;
-
-        QList<OneTile *> tiles;
-};
-
-class Mosaic : public QDialog, public Ui::mosaicDialog
+class Mosaic : public QDialog
 {
         Q_OBJECT
 
     public:
-        Mosaic();
+        Mosaic(QString targetName, SkyPoint center, QWidget *parent = nullptr);
         ~Mosaic() override;
+
+    public:
+        Ui::mosaicDialog* ui { nullptr };
 
         void setCameraSize(uint16_t width, uint16_t height);
         void setPixelSize(double pixelWSize, double pixelHSize);
         void setFocalLength(double focalLength);
         void setCenter(const SkyPoint &value);
+        QString getJobsDir() const;
 
-        QString getJobsDir()
+    public:
+        typedef struct _Job
         {
-            return jobsDir->text();
-        }
-        QList<OneTile *> getJobs()
-        {
-            return mosaicTileItem->getTiles();
-        }
+            SkyPoint center;
+            double rotation;
+        } Job;
+
+        QList <Job> getJobs() const;
 
     protected:
         virtual void showEvent(QShowEvent *) override;
         virtual void resizeEvent(QResizeEvent *) override;
 
+        /// @brief Camera information validity checker.
+        bool isScopeInfoValid() const;
+
+        /// @brief Expected arcmin field width for the current number of tiles.
+        double getTargetWFOV() const;
+
+        /// @brief Expected arcmin field height for the current number of tiles.
+        double getTargetHFOV() const;
+
+        /// @brief Expected number of tiles for the current target field width.
+        double getTargetMosaicW() const;
+
+        /// @brief Expected number of tiles for the current target field height.
+        double getTargetMosaicH() const;
+
     public slots:
-
+        void updateTargetFOVFromGrid();
+        void updateGridFromTargetFOV();
         void constructMosaic();
-
         void calculateFOV();
-
         void updateTargetFOV();
-
         void saveJobsDirectory();
-
         void resetFOV();
-
-        void createJobs();
-
-        void render();
-
         void fetchINDIInformation();
+
+    public slots:
+        virtual int exec() override;
+        virtual void accept() override;
 
     private:
         SkyPoint center;
@@ -152,11 +95,15 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
 
         MosaicTile *mosaicTileItem { nullptr };
 
-        double pixelsPerArcminRA { 0 }, pixelsPerArcminDE;
+        double pixelsPerArcminRA { 0 }, pixelsPerArcminDE { 0 };
+        double renderedWFOV { 0 }, renderedHFOV { 0 };
+        double premosaicZoomFactor { 0 };
 
         QPointF screenPoint;
         QGraphicsScene scene;
 
         bool rememberAltAzOption;
+
+        QTimer *updateTimer { nullptr };
 };
 }
