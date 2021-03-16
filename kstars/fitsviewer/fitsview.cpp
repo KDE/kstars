@@ -754,7 +754,24 @@ void FITSView::updateFrame()
 {
     // JM 2021-03-13: This timer is used to throttle updateFrame calls to improve performance
     // If after 250ms no further update frames are called, then the actual update is triggered.
-    m_UpdateFrameTimer.start();
+    // JM 2021-03-16: When stretching in progress, immediately execute so that the user see the changes
+    // in real time
+    if (m_StretchingInProgress)
+    {
+        if (toggleStretchAction)
+            toggleStretchAction->setChecked(stretchImage);
+
+        // We employ two schemes for managing the image and its overlays, depending on the size of the image
+        // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
+        // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
+        // the size of the image itself, never scaling that up.
+        if (isLargeImage())
+            updateFrameLargeImage();
+        else
+            updateFrameSmallImage();
+    }
+    else
+        m_UpdateFrameTimer.start();
 }
 
 
