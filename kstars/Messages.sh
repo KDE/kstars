@@ -19,7 +19,7 @@ sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
 grep ^C data/cnames.dat | awk '{ print "xi18nc( \"Sky Culture\", \"" $2 "\" );" }' >> "kstars_i18n.cpp"
 
 # City data (name, province, country)
-python data/scripts/extract_geo_data.py >> "kstars_i18n.cpp"
+python3 data/scripts/extract_geo_data.py >> "kstars_i18n.cpp"
 
 # extract image/info menu items
 awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\\\""); print "xi18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | sed 's/xi18nc(.*,"");//' >> "image_url.tmp"
