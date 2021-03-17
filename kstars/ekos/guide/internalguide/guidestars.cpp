@@ -295,7 +295,11 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
             return Vector(-1, -1, -1);
 
         // Allow it to guide even if the main guide star isn't detected (as long as enough reference stars are).
-        starCorrespondence.setAllowMissingGuideStar(allowMissingGuideStar);
+        constexpr int maxMissingGuideStars = 5;
+        starCorrespondence.setAllowMissingGuideStar(
+            allowMissingGuideStar &&
+            missedGuideStars < maxMissingGuideStars);
+
         // Star correspondence can run quicker if it knows the image size.
         starCorrespondence.setImageSize(imageData->width(), imageData->height());
         Vector position = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap);
@@ -310,6 +314,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
                 double SNR = skyBackground.SNR(star.sum, star.numPixels);
                 guideStarSNR = SNR;
                 guideStarMass = star.sum;
+                missedGuideStars = 0;
                 qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence found " << i << "at" << star.x << star.y << "SNR" << SNR;
                 if (guideView != nullptr)
                     plotStars(guideView, trackingBox);
@@ -324,6 +329,7 @@ Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, 
             double SNR = 0;
             guideStarSNR = SNR;
             guideStarMass = 0;
+            missedGuideStars++;
             qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << position.x << position.y << "SNR" << SNR;
             if (guideView != nullptr)
                 plotStars(guideView, trackingBox);
