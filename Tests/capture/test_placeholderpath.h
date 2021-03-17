@@ -45,6 +45,9 @@ class TestPlaceholderPath : public QObject
     void testCaptureAddJob_data();
     void testCaptureAddJob();
 
+    void testCCDGenerateFilename_data();
+    void testCCDGenerateFilename();
+
     void testSequenceJobSignature_data();
     void testSequenceJobSignature();
 

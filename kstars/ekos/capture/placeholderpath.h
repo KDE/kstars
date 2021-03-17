@@ -40,6 +40,9 @@ class PlaceholderPath
       void processJobInfo(SequenceJob *job, QString targetName);
       void addJob(SequenceJob *job, QString targetName);
       void constructPrefix(SequenceJob *job, QString &imagePrefix);
+      void generateFilename(
+              const QString &format, bool batch_mode, QString *filename,
+              QString fitsDir, QString seqPrefix, int nextSequenceID);
 
     private:
       const QString getFrameType(CCDFrameType frameType) {

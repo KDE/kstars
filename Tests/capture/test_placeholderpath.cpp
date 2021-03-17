@@ -22,6 +22,8 @@
 #include "ekos/capture/placeholderpath.h"
 
 #include <QFile>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 TestPlaceholderPath::TestPlaceholderPath() : QObject()
 {
@@ -262,6 +264,106 @@ void TestPlaceholderPath::testCaptureAddJob()
   QCOMPARE(job.getSignature(), signature);
 
   delXMLEle(root);
+#endif
+}
+
+void TestPlaceholderPath::testCCDGenerateFilename_data()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  QTest::addColumn<QString>("format");
+  QTest::addColumn<bool>("batch_mode");
+  QTest::addColumn<QString>("fitsDir");
+  QTest::addColumn<QString>("seqPrefix");
+  QTest::addColumn<int>("nextSequenceID");
+  QTest::addColumn<QString>("desiredFilename");
+
+  // format
+  QTest::addRow("0")  << ""      << false << ""    << ""            << 0 << "/.+/kstars/000";
+  QTest::addRow("1")  << ""      << false << ""    << ""            << 1 << "/.+/kstars/001";
+  QTest::addRow("2")  << ""      << false << ""    << "_ISO8601"    << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000";
+  QTest::addRow("3")  << ""      << false << ""    << "_ISO8601"    << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001";
+  QTest::addRow("4")  << ""      << false << ""    << "_ISO8601bar" << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000";
+  QTest::addRow("5")  << ""      << false << ""    << "_ISO8601bar" << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001";
+  QTest::addRow("6")  << ""      << false << ""    << "bar"         << 0 << "/.+/kstars/bar_000";
+  QTest::addRow("7")  << ""      << false << ""    << "bar"         << 1 << "/.+/kstars/bar_001";
+  QTest::addRow("8")  << ""      << false << "foo" << ""            << 0 << "/.+/kstars/000";
+  QTest::addRow("9")  << ""      << false << "foo" << ""            << 1 << "/.+/kstars/001";
+  QTest::addRow("10") << ""      << false << "foo" << "_ISO8601"    << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000";
+  QTest::addRow("11") << ""      << false << "foo" << "_ISO8601"    << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001";
+  QTest::addRow("12") << ""      << false << "foo" << "_ISO8601bar" << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000";
+  QTest::addRow("13") << ""      << false << "foo" << "_ISO8601bar" << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001";
+  QTest::addRow("14") << ""      << false << "foo" << "bar"         << 0 << "/.+/kstars/bar_000";
+  QTest::addRow("15") << ""      << false << "foo" << "bar"         << 1 << "/.+/kstars/bar_001";
+  QTest::addRow("16") << ""      << true  << ""    << ""            << 0 << "/.+/000";
+  QTest::addRow("17") << ""      << true  << ""    << ""            << 1 << "/.+/001";
+  QTest::addRow("18") << ""      << true  << ""    << "_ISO8601"    << 0 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000";
+  QTest::addRow("19") << ""      << true  << ""    << "_ISO8601"    << 1 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001";
+  QTest::addRow("20") << ""      << true  << ""    << "_ISO8601bar" << 0 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000";
+  QTest::addRow("21") << ""      << true  << ""    << "_ISO8601bar" << 1 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001";
+  QTest::addRow("22") << ""      << true  << ""    << "bar"         << 0 << "/.+/bar_000";
+  QTest::addRow("23") << ""      << true  << ""    << "bar"         << 1 << "/.+/bar_001";
+  QTest::addRow("24") << ""      << true  << "foo" << ""            << 0 << "foo/000";
+  QTest::addRow("25") << ""      << true  << "foo" << ""            << 1 << "foo/001";
+  QTest::addRow("26") << ""      << true  << "foo" << "_ISO8601"    << 0 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000";
+  QTest::addRow("27") << ""      << true  << "foo" << "_ISO8601"    << 1 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001";
+  QTest::addRow("28") << ""      << true  << "foo" << "_ISO8601bar" << 0 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000";
+  QTest::addRow("29") << ""      << true  << "foo" << "_ISO8601bar" << 1 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001";
+  QTest::addRow("30") << ""      << true  << "foo" << "bar"         << 0 << "foo/bar_000";
+  QTest::addRow("31") << ""      << true  << "foo" << "bar"         << 1 << "foo/bar_001";
+  QTest::addRow("32") << ".fits" << false << ""    << ""            << 0 << "/.+/kstars/000.fits";
+  QTest::addRow("33") << ".fits" << false << ""    << ""            << 1 << "/.+/kstars/001.fits";
+  QTest::addRow("34") << ".fits" << false << ""    << "_ISO8601"    << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000.fits";
+  QTest::addRow("35") << ".fits" << false << ""    << "_ISO8601"    << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001.fits";
+  QTest::addRow("36") << ".fits" << false << ""    << "_ISO8601bar" << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000.fits";
+  QTest::addRow("37") << ".fits" << false << ""    << "_ISO8601bar" << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001.fits";
+  QTest::addRow("38") << ".fits" << false << ""    << "bar"         << 0 << "/.+/kstars/bar_000.fits";
+  QTest::addRow("39") << ".fits" << false << ""    << "bar"         << 1 << "/.+/kstars/bar_001.fits";
+  QTest::addRow("40") << ".fits" << false << "foo" << ""            << 0 << "/.+/kstars/000.fits";
+  QTest::addRow("41") << ".fits" << false << "foo" << ""            << 1 << "/.+/kstars/001.fits";
+  QTest::addRow("42") << ".fits" << false << "foo" << "_ISO8601"    << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000.fits";
+  QTest::addRow("43") << ".fits" << false << "foo" << "_ISO8601"    << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001.fits";
+  QTest::addRow("44") << ".fits" << false << "foo" << "_ISO8601bar" << 0 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000.fits";
+  QTest::addRow("45") << ".fits" << false << "foo" << "_ISO8601bar" << 1 << "/.+/kstars/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001.fits";
+  QTest::addRow("46") << ".fits" << false << "foo" << "bar"         << 0 << "/.+/kstars/bar_000.fits";
+  QTest::addRow("47") << ".fits" << false << "foo" << "bar"         << 1 << "/.+/kstars/bar_001.fits";
+  QTest::addRow("48") << ".fits" << true  << ""    << ""            << 0 << "/.+/000.fits";
+  QTest::addRow("49") << ".fits" << true  << ""    << ""            << 1 << "/.+/001.fits";
+  QTest::addRow("50") << ".fits" << true  << ""    << "_ISO8601"    << 0 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000.fits";
+  QTest::addRow("51") << ".fits" << true  << ""    << "_ISO8601"    << 1 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001.fits";
+  QTest::addRow("52") << ".fits" << true  << ""    << "_ISO8601bar" << 0 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000.fits";
+  QTest::addRow("53") << ".fits" << true  << ""    << "_ISO8601bar" << 1 << "/.+/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001.fits";
+  QTest::addRow("54") << ".fits" << true  << ""    << "bar"         << 0 << "/.+/bar_000.fits";
+  QTest::addRow("55") << ".fits" << true  << ""    << "bar"         << 1 << "/.+/bar_001.fits";
+  QTest::addRow("56") << ".fits" << true  << "foo" << ""            << 0 << "foo/000.fits";
+  QTest::addRow("57") << ".fits" << true  << "foo" << ""            << 1 << "foo/001.fits";
+  QTest::addRow("58") << ".fits" << true  << "foo" << "_ISO8601"    << 0 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_000.fits";
+  QTest::addRow("59") << ".fits" << true  << "foo" << "_ISO8601"    << 1 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_001.fits";
+  QTest::addRow("60") << ".fits" << true  << "foo" << "_ISO8601bar" << 0 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_000.fits";
+  QTest::addRow("61") << ".fits" << true  << "foo" << "_ISO8601bar" << 1 << "foo/_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}bar_001.fits";
+  QTest::addRow("62") << ".fits" << true  << "foo" << "bar"         << 0 << "foo/bar_000.fits";
+  QTest::addRow("63") << ".fits" << true  << "foo" << "bar"         << 1 << "foo/bar_001.fits";
+#endif
+}
+
+void TestPlaceholderPath::testCCDGenerateFilename()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  QFETCH(QString, format);
+  QFETCH(bool, batch_mode);
+  QFETCH(QString, fitsDir);
+  QFETCH(QString, seqPrefix);
+  QFETCH(int, nextSequenceID);
+  QFETCH(QString, desiredFilename);
+
+  QString filename;
+  auto placeholderPath = Ekos::PlaceholderPath();
+  placeholderPath.generateFilename(format, batch_mode, &filename, fitsDir, seqPrefix, nextSequenceID);
+
+  QVERIFY(QRegularExpression(desiredFilename).match(filename).hasMatch());
 #endif
 }
 

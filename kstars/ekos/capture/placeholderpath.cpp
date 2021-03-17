@@ -19,6 +19,8 @@
 
 #include "ekos/scheduler/schedulerjob.h"
 #include "sequencejob.h"
+#include "Options.h"
+#include "kspaths.h"
 
 #include <QString>
 
@@ -192,6 +194,42 @@ void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
     {
         imagePrefix += SequenceJob::ISOMarker;
     }
+}
+
+void PlaceholderPath::generateFilename(
+        const QString &format, bool batch_mode, QString *filename,
+        QString fitsDir, QString seqPrefix, int nextSequenceID
+        )
+{
+    QString currentDir;
+    if (batch_mode)
+        currentDir = fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
+    else
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
+
+    /*
+    if (QDir(currentDir).exists() == false)
+        QDir().mkpath(currentDir);
+    */
+
+    if (currentDir.endsWith('/') == false)
+        currentDir.append('/');
+
+    // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+    // The timestamp is no longer ISO8601 but it should solve interoperality issues
+    // between different OS hosts
+    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
+
+    if (seqPrefix.contains("_ISO8601"))
+    {
+        QString finalPrefix = seqPrefix;
+        finalPrefix.replace("ISO8601", ts);
+        *filename = currentDir + finalPrefix +
+                    QString("_%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
+    }
+    else
+        *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
+                    QString("%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
 }
 
 }

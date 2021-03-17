@@ -22,12 +22,14 @@
 #include "Options.h"
 #include "streamwg.h"
 //#include "ekos/manager.h"
+#include "ekos/capture/placeholderpath.h"
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsdata.h"
 #endif
 
 #include <KNotifications/KNotification>
 #include <QImageReader>
+#include <QFileInfo>
 #include <QStatusBar>
 #include <QtConcurrent>
 
@@ -1395,33 +1397,13 @@ void CCD::processStream(IBLOB *bp)
 
 bool CCD::generateFilename(const QString &format, bool batch_mode, QString *filename)
 {
-    QString currentDir;
-    if (batch_mode)
-        currentDir = fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
-    else
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
 
-    if (QDir(currentDir).exists() == false)
-        QDir().mkpath(currentDir);
+    auto placeholderPath = Ekos::PlaceholderPath();
+    placeholderPath.generateFilename(format, batch_mode, filename, fitsDir, seqPrefix, nextSequenceID);
 
-    if (currentDir.endsWith('/') == false)
-        currentDir.append('/');
-
-    // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
-    // The timestamp is no longer ISO8601 but it should solve interoperality issues
-    // between different OS hosts
-    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-
-    if (seqPrefix.contains("_ISO8601"))
-    {
-        QString finalPrefix = seqPrefix;
-        finalPrefix.replace("ISO8601", ts);
-        *filename = currentDir + finalPrefix +
-                    QString("_%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
-    }
-    else
-        *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                    QString("%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
+    QDir currentDir = QFileInfo(*filename).dir();
+    if (currentDir.exists() == false)
+        QDir().mkpath(currentDir.path());
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
