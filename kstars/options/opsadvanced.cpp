@@ -22,6 +22,7 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "skymap.h"
+#include "ksmessagebox.h"
 #include "widgets/timespinbox.h"
 
 #include <KConfigDialog>
@@ -58,6 +59,8 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
     {
         kcfg_ZoomScrollFactor->setValue(value / 100.0);
     });
+
+    connect(purgeAllConfigB, &QPushButton::clicked, this, &OpsAdvanced::slotPurge);
 
     connect(kcfg_DefaultCursor, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [](int index)
     {
@@ -110,4 +113,30 @@ void OpsAdvanced::slotShowLogFiles()
 void OpsAdvanced::slotApply()
 {
     KSUtils::Logging::SyncFilterRules();
+}
+
+void OpsAdvanced::slotPurge()
+{
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+        QString dbFile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +  "userdb.sqlite";
+        QFile::remove(dbFile);
+        QString configFile = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/kstarsrc";
+        QFile::remove(configFile);
+        configFile = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/kstars.notifyrc";
+        QFile::remove(configFile);
+
+        KSMessageBox::Instance()->info(i18n("Purge complete. Please restart KStars."));
+    });
+
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+    {
+        KSMessageBox::Instance()->disconnect(this);
+    });
+
+    KSMessageBox::Instance()->warningContinueCancel(
+        i18n("Warning! All KStars configuration is going to be purged. This cannot be reversed."),
+        i18n("Clear Configuration"), 30, false);
+
 }
