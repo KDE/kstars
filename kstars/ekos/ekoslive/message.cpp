@@ -1237,7 +1237,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     else if (command == commands[DEVICE_GET])
     {
         QJsonArray properties;
-        for (const auto &oneProp : oneDevice->getProperties())
+        for (const auto &oneProp : *oneDevice->getProperties())
         {
             QJsonObject singleProp;
             if (oneDevice->getJSONProperty(oneProp->getName(), singleProp, payload["compact"].toBool(false)))
@@ -1275,7 +1275,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         else if (groups.isEmpty() == false)
         {
             QVariantList indiGroups = groups.toVariantList();
-            for (auto &oneProp : oneDevice->getProperties())
+            for (auto &oneProp : *oneDevice->getProperties())
             {
                 if (indiGroups.contains(oneProp->getGroupName()))
                     props.insert(oneProp->getName());
@@ -1284,7 +1284,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         // Otherwise, subscribe to ALL property in this device
         else
         {
-            for (auto &oneProp : oneDevice->getProperties())
+            for (auto &oneProp : *oneDevice->getProperties())
                 props.insert(oneProp->getName());
         }
 
@@ -1311,7 +1311,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         else if (groups.isEmpty() == false)
         {
             QVariantList indiGroups = groups.toVariantList();
-            for (auto &oneProp : oneDevice->getProperties())
+            for (auto &oneProp : *oneDevice->getProperties())
             {
                 if (indiGroups.contains(oneProp->getGroupName()))
                     props.remove(oneProp->getName());
@@ -1320,7 +1320,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         // Otherwise, subscribe to ALL property in this device
         else
         {
-            for (auto &oneProp : oneDevice->getProperties())
+            for (auto &oneProp : *oneDevice->getProperties())
                 props.remove(oneProp->getName());
         }
 

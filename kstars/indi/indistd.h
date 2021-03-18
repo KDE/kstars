@@ -14,6 +14,7 @@
 #include "indicommon.h"
 
 #include <indiproperty.h>
+#include <basedevice.h>
 
 #include <QObject>
 #include <QVariant>
@@ -30,6 +31,8 @@ class DriverInfo;
 class DeviceInfo;
 class QTimer;
 class QFile;
+
+using Properties = INDI::BaseDevice::Properties;
 
 // INDI Standard Device Namespace
 namespace ISD
@@ -77,13 +80,13 @@ class GDInterface : public QObject
         virtual void processMessage(int messageID)             = 0;
 
         // Accessors
-        virtual const QHash<QString, INDI::Property *> &getProperties() = 0;
-        virtual DeviceFamily getType()                  = 0;
-        virtual DriverInfo *getDriverInfo()             = 0;
-        virtual DeviceInfo *getDeviceInfo()             = 0;
-        virtual INDI::BaseDevice *getBaseDevice()       = 0;
-        virtual uint32_t getDriverInterface()           = 0;
-        virtual QString getDriverVersion()              = 0;
+        virtual const Properties * getProperties()             = 0;
+        virtual DeviceFamily getType()                         = 0;
+        virtual DriverInfo *getDriverInfo()                    = 0;
+        virtual DeviceInfo *getDeviceInfo()                    = 0;
+        virtual INDI::BaseDevice *getBaseDevice()              = 0;
+        virtual uint32_t getDriverInterface()                  = 0;
+        virtual QString getDriverVersion()                     = 0;
 
         // Convenience functions
         virtual bool setConfig(INDIConfig tConfig)           = 0;
@@ -110,7 +113,6 @@ class GDInterface : public QObject
         DeviceFamily dType { KSTARS_UNKNOWN };
         uint32_t driverInterface { 0 };
         QString driverVersion;
-        QHash<QString, INDI::Property *> properties;
 
     signals:
         void Connected();
@@ -168,9 +170,9 @@ class GenericDevice : public GDInterface
         {
             return deviceInfo;
         }
-        virtual const QHash<QString, INDI::Property *> &getProperties() override
+        virtual const Properties * getProperties() override
         {
-            return properties;
+            return baseDevice->getProperties();
         }
         virtual uint32_t getDriverInterface() override
         {
@@ -266,7 +268,7 @@ class DeviceDecorator : public GDInterface
         virtual const QString &getDeviceName() const override;
         DriverInfo *getDriverInfo() override;
         DeviceInfo *getDeviceInfo() override;
-        virtual const QHash<QString, INDI::Property *> &getProperties() override;
+        virtual const Properties * getProperties() override;
         uint32_t getDriverInterface() override;
         QString getDriverVersion() override;
         virtual INDI::BaseDevice *getBaseDevice() override;
