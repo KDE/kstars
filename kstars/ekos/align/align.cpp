@@ -5627,10 +5627,7 @@ void Align::setPAHCorrectionOffset(int x, int y)
 {
     if (m_PAHStage == PAH_REFRESH || m_PAHStage == PAH_PRE_REFRESH)
     {
-        KSNotification::info(
-            i18n("Unfortunately, you cannot modify the polar-alignment star once the refresh "
-                 "process has begun. You should do that before clicking 'Next'. "
-                 "The system depends on the measurements made previously."));
+        appendLogText(i18n("Polar-alignment star cannot be updated during refresh phase as it might affect error measurements."));
     }
     else
     {
