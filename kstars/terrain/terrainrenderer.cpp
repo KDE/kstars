@@ -366,6 +366,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
         {
             qCDebug(KSTARS) << QString("Failed reading terrain file %1").arg(filename);
             initialized = false;
+            Options::setShowTerrain(false);
         }
     }
 
