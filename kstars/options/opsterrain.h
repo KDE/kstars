@@ -35,6 +35,7 @@ class OpsTerrain : public QFrame, public Ui::OpsTerrain
     public:
         explicit OpsTerrain();
         virtual ~OpsTerrain() override = default;
+        void syncOptions();
 
     private slots:
         void slotApply();

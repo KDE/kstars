@@ -24,6 +24,9 @@
 #include "skyqpainter.h"
 #include "projections/projector.h"
 #include "skypoint.h"
+#include "kstars.h"
+
+#include <QStatusBar>
 
 // This is the factory that builds the one-and-only TerrainRenderer.
 TerrainRenderer * TerrainRenderer::_terrainRenderer = nullptr;
@@ -364,9 +367,14 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
         }
         else
         {
-            qCDebug(KSTARS) << QString("Failed reading terrain file %1").arg(filename);
+            if (filename.isEmpty())
+                KStars::Instance()->statusBar()->showMessage(i18n("Failed to load terrain. Set terrain file in Settings."));
+            else
+                KStars::Instance()->statusBar()->showMessage(i18n("Failed to load terrain image (%1). Set terrain file in Settings.",
+                        filename));
             initialized = false;
             Options::setShowTerrain(false);
+            KStars::Instance()->syncOps();
         }
     }
 

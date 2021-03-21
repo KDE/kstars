@@ -83,12 +83,22 @@ OpsTerrain::OpsTerrain() : QFrame(KStars::Instance())
     isDirty = false;
 }
 
+void OpsTerrain::syncOptions()
+{
+    ShowTerrainB->setChecked(Options::showTerrain());
+    ShowTerrainPanningB->setChecked(Options::terrainPanning());
+    TerrainSkipB->setChecked(Options::terrainSkipSpeedup());
+    TerrainSmoothB->setChecked(Options::terrainSmoothPixels());
+    TerrainTransparentB->setChecked(Options::terrainTransparencySpeedup());
+}
+
+
 void OpsTerrain::saveTerrainFilename()
 {
     QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "terrain/";
     if (QDir(dir).exists() == false)
         QDir().mkpath(dir);
-  
+
     QUrl dirPath = QUrl::fromLocalFile(dir);
     QUrl fileUrl =
         QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Terrain Image Filename"), dirPath, i18n("PNG Files (*.png)"));

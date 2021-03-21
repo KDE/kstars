@@ -191,6 +191,9 @@ class KStars : public KXmlGuiWindow
              */
         void applyConfig(bool doApplyFocus = true);
 
+        /** Sync Options to GUI, if any */
+        void syncOps();
+
         void showImgExportDialog();
 
         void syncFOVActions();

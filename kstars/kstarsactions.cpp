@@ -1097,6 +1097,13 @@ KConfigDialog* KStars::prepareOps()
     return dialog;
 }
 
+void KStars::syncOps()
+{
+    opterrain->syncOptions();
+    actionCollection()->action("toggle_terrain")
+    ->setText(Options::showTerrain() ? i18n("Stop showing terrain") : i18n("Show terrain"));
+}
+
 void KStars::slotApplyConfigChanges()
 {
     Options::self()->save();
