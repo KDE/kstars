@@ -2479,7 +2479,7 @@
     </entry>
       <entry name="PreemptiveShutdown" type="Bool">
          <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="ResetMountModelOnAlignFail" type="Bool">
          <label>Reset mount model in case of alignment failure.</label>
