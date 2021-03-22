@@ -40,56 +40,57 @@ OpsTerrain::OpsTerrain() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
-    ShowTerrainB->setChecked(Options::showTerrain());
-    connect(ShowTerrainB, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    {
-        Q_UNUSED(state);
-        Options::setShowTerrain(ShowTerrainB->isChecked());
-        isDirty = true;
-    });
-    ShowTerrainPanningB->setChecked(Options::terrainPanning());
-    connect(ShowTerrainPanningB, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    {
-        Q_UNUSED(state);
-        Options::setTerrainPanning(ShowTerrainPanningB->isChecked());
-        isDirty = true;
-    });
-    TerrainSkipB->setChecked(Options::terrainSkipSpeedup());
-    connect(TerrainSkipB, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    {
-        Q_UNUSED(state);
-        Options::setTerrainSkipSpeedup(TerrainSkipB->isChecked());
-        isDirty = true;
-    });
-    TerrainSmoothB->setChecked(Options::terrainSmoothPixels());
-    connect(TerrainSmoothB, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    {
-        Q_UNUSED(state);
-        Options::setTerrainSmoothPixels(TerrainSmoothB->isChecked());
-        isDirty = true;
-    });
-    TerrainTransparentB->setChecked(Options::terrainTransparencySpeedup());
-    connect(TerrainTransparentB, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    {
-        Q_UNUSED(state);
-        Options::setTerrainTransparencySpeedup(TerrainTransparentB->isChecked());
-        isDirty = true;
-    });
+    //    kcfg_ShowTerrain->setChecked(Options::showTerrain());
+    //    connect(kcfg_ShowTerrain, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
+    //    {
+    //        Q_UNUSED(state);
+    //        Options::setShowTerrain(kcfg_ShowTerrain->isChecked());
+    //        isDirty = true;
+    //    });
+    //    kcfg_ShowTerrainPanning->setChecked(Options::terrainPanning());
+    //    connect(kcfg_ShowTerrainPanning, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
+    //    {
+    //        Q_UNUSED(state);
+    //        Options::setTerrainPanning(kcfg_ShowTerrainPanning->isChecked());
+    //        isDirty = true;
+    //    });
+    //    kcfg_TerrainSkipSpeedup->setChecked(Options::terrainSkipSpeedup());
+    //    connect(kcfg_TerrainSkipSpeedup, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
+    //    {
+    //        Q_UNUSED(state);
+    //        Options::setTerrainSkipSpeedup(kcfg_TerrainSkipSpeedup->isChecked());
+    //        isDirty = true;
+    //    });
+    //    kcfg_TerrainSmoothPixels->setChecked(Options::terrainSmoothPixels());
+    //    connect(kcfg_TerrainSmoothPixels, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
+    //    {
+    //        Q_UNUSED(state);
+    //        Options::setTerrainSmoothPixels(kcfg_TerrainSmoothPixels->isChecked());
+    //        isDirty = true;
+    //    });
+    //    kcfg_TerrainTransparencySpeedup->setChecked(Options::terrainTransparencySpeedup());
+    //    connect(kcfg_TerrainTransparencySpeedup, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged),
+    //            this, [&](int state)
+    //    {
+    //        Q_UNUSED(state);
+    //        Options::setTerrainTransparencySpeedup(kcfg_TerrainTransparencySpeedup->isChecked());
+    //        isDirty = true;
+    //    });
 
     selectTerrainFileB->setIcon(QIcon::fromTheme("document-open"));
     selectTerrainFileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(selectTerrainFileB, SIGNAL(clicked()), this, SLOT(saveTerrainFilename()));
 
-    isDirty = false;
+    //isDirty = false;
 }
 
 void OpsTerrain::syncOptions()
 {
-    ShowTerrainB->setChecked(Options::showTerrain());
-    ShowTerrainPanningB->setChecked(Options::terrainPanning());
-    TerrainSkipB->setChecked(Options::terrainSkipSpeedup());
-    TerrainSmoothB->setChecked(Options::terrainSmoothPixels());
-    TerrainTransparentB->setChecked(Options::terrainTransparencySpeedup());
+    kcfg_ShowTerrain->setChecked(Options::showTerrain());
+    kcfg_TerrainPanning->setChecked(Options::terrainPanning());
+    kcfg_TerrainSkipSpeedup->setChecked(Options::terrainSkipSpeedup());
+    kcfg_TerrainSmoothPixels->setChecked(Options::terrainSmoothPixels());
+    kcfg_TerrainTransparencySpeedup->setChecked(Options::terrainTransparencySpeedup());
 }
 
 
@@ -109,10 +110,10 @@ void OpsTerrain::saveTerrainFilename()
 
 void OpsTerrain::slotApply()
 {
-    if (isDirty == false)
-        return;
+    //    if (isDirty == false)
+    //        return;
 
-    isDirty = false;
+    //    isDirty = false;
 
     KStarsData *data = KStarsData::Instance();
     SkyMap *map      = SkyMap::Instance();

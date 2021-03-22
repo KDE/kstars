@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
-    <height>549</height>
+    <width>346</width>
+    <height>357</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="terrainVerticalLayout_2">
@@ -26,7 +26,7 @@
       <item>
        <layout class="QVBoxLayout">
         <item>
-         <widget class="QCheckBox" name="ShowTerrainB">
+         <widget class="QCheckBox" name="kcfg_ShowTerrain">
           <property name="text">
            <string>Show Terrain</string>
           </property>
@@ -209,39 +209,39 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="ShowTerrainPanningB">
+       <widget class="QCheckBox" name="kcfg_TerrainPanning">
         <property name="text">
          <string>Show Terrain While Panning</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="TerrainSmoothB">
-        <property name="text">
-         <string>Smooth Pixels</string>
-        </property>
+       <widget class="QCheckBox" name="kcfg_TerrainSmoothPixels">
         <property name="toolTip">
          <string>Creates a smoother image at the cost of some extra computation.</string>
         </property>
+        <property name="text">
+         <string>Smooth Pixels</string>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="TerrainSkipB">
+       <widget class="QCheckBox" name="kcfg_TerrainSkipSpeedup">
+        <property name="toolTip">
+         <string>A speedup with minor image quality cost.</string>
+        </property>
         <property name="text">
          <string>Skip Pixels Speedup</string>
         </property>
-        <property name="toolTip">
-         <string>A speedup with minor image quality cost.</string>
-        </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="TerrainTransparentB">
-        <property name="text">
-         <string>Transparency Speedup</string>
-        </property>
+       <widget class="QCheckBox" name="kcfg_TerrainTransparencySpeedup">
         <property name="toolTip">
          <string>A speedup with minor image quality cost.</string>
+        </property>
+        <property name="text">
+         <string>Transparency Speedup</string>
         </property>
        </widget>
       </item>
