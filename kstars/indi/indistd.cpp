@@ -21,6 +21,7 @@
 #include "Options.h"
 #include "skymap.h"
 
+#include <indicom.h>
 #include <QImageReader>
 #include <QStatusBar>
 
@@ -907,12 +908,19 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                 case INDI_NUMBER:
                 {
                     INumberVectorProperty *nvp = oneProp->getNumber();
-                    for (auto oneElement : propElements)
+                    for (const auto &oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         INumber *np = IUFindNumber(nvp, oneElementObject["name"].toString().toLatin1().constData());
                         if (np)
-                            np->value = oneElementObject["value"].toDouble();
+                        {
+                            double newValue = oneElementObject["value"].toDouble(std::numeric_limits<double>::quiet_NaN());
+                            if (std::isnan(newValue))
+                            {
+                                f_scansexa(oneElementObject["value"].toString().toLatin1().constData(), &newValue);
+                            }
+                            np->value = newValue;
+                        }
                     }
 
                     clientManager->sendNewNumber(nvp);
@@ -922,7 +930,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                 case INDI_TEXT:
                 {
                     ITextVectorProperty *tvp = oneProp->getText();
-                    for (auto oneElement : propElements)
+                    for (const auto &oneElement : propElements)
                     {
                         QJsonObject oneElementObject = oneElement.toObject();
                         IText *tp = IUFindText(tvp, oneElementObject["name"].toString().toLatin1().constData());
