@@ -1723,7 +1723,7 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
             ++it;
     }
 
-    if (managedDevices.isEmpty())
+    if (managedDevices.isEmpty() && genericDevices.isEmpty() && proxyDevices.isEmpty())
     {
         cleanDevices();
         removeTabs();
