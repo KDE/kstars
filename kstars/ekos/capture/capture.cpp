@@ -4865,7 +4865,12 @@ int Capture::getJobRemainingTime(SequenceJob * job)
                                      (job->getCount() - job->getCompleted()));
 
     if (job->getStatus() == SequenceJob::JOB_BUSY)
-        remaining += job->getExposeLeft() + getEstimatedDownloadTime();
+    {
+        if (job->getExposeLeft())
+            remaining -= job->getExposure() - job->getExposeLeft();
+        else
+            remaining += job->getExposeLeft() + getEstimatedDownloadTime();
+    }
 
     return remaining;
 }
