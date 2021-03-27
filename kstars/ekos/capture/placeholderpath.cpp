@@ -241,6 +241,9 @@ void PlaceholderPath::generateFilename(
 void PlaceholderPath::generateFilename(
         QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, QString *filename)
 {
+    QString rawFilePrefix;
+    bool filterEnabled, exposureEnabled, tsEnabled;
+    job.getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
     QString filter = job.getFilterName();
     CCDFrameType frameType = job.getFrameType();
 
@@ -271,19 +274,23 @@ void PlaceholderPath::generateFilename(
         if (match.captured("name") == "f") {
             replacement = m_seqFilename.baseName();
         } else if (match.captured("name") == "D") {
-            replacement = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
+            if (tsEnabled) {
+                replacement = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
+            }
         } else if (match.captured("name") == "T") {
             replacement = getFrameType(frameType);
         } else if (match.captured("name") == "e") {
-            double exposure = job.getExposure();
-            double fractpart, intpart;
-            fractpart = std::modf(exposure, &intpart);
-            if (fractpart == 0) {
-                replacement = QString::number(exposure, 'd', 0) + QString("_secs");
-            } else if (exposure >= 1e-3) {
-                replacement = QString::number(exposure, 'f', 3) + QString("_secs");
-            } else {
-                replacement = QString::number(exposure, 'f', 6) + QString("_secs");
+            if (exposureEnabled) {
+                double exposure = job.getExposure();
+                double fractpart, intpart;
+                fractpart = std::modf(exposure, &intpart);
+                if (fractpart == 0) {
+                    replacement = QString::number(exposure, 'd', 0) + QString("_secs");
+                } else if (exposure >= 1e-3) {
+                    replacement = QString::number(exposure, 'f', 3) + QString("_secs");
+                } else {
+                    replacement = QString::number(exposure, 'f', 6) + QString("_secs");
+                }
             }
         } else if (match.captured("name") == "F") {
             replacement = job.getFilterName();
