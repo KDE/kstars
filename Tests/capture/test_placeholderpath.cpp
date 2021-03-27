@@ -498,4 +498,175 @@ void TestPlaceholderPath::testFullNamingSequence()
 #endif
 }
 
+void TestPlaceholderPath::testFlexibleNaming_data()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  const QList<const char*> columns = {
+    "Exposure",
+    "Filter",
+    "Type",
+    "Prefix",
+    "RawPrefix",
+    "FilterEnabled",
+    "ExpEnabled",
+    "TimeStampEnabled",
+    "seqFilename",
+    "targetName",
+    "batch_mode",
+    "nextSequenceID",
+    "format",
+    "result",
+  };
+  for (const auto &column: columns) {
+    QTest::addColumn<QString>(column);
+  }
+  QTest::addRow("f")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%f"  << "^100x30s_RGB\\.fits$";
+  QTest::addRow("p")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%p"  << "^/home/user/Images/NGC7635\\.fits$";
+  QTest::addRow("p1") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%p1" << "^/home/user/Images/NGC7635\\.fits$";
+  QTest::addRow("p2") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%p2" << "^/home/user/Images\\.fits$";
+  QTest::addRow("p3") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%p3" << "^/home/user\\.fits$";
+  QTest::addRow("p4") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%p4" << "^/home\\.fits$";
+  QTest::addRow("d")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%d"  << "^NGC7635\\.fits$";
+  QTest::addRow("d1") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%d1" << "^NGC7635\\.fits$";
+  QTest::addRow("d2") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%d2" << "^Images\\.fits$";
+  QTest::addRow("d3") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%d3" << "^user\\.fits$";
+  QTest::addRow("d4") << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" << "1" << "" << "%d4" << "^home\\.fits$";
+
+  QTest::addRow("t")  << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << "target" << "" << ""  << "%t"  << "^target\\.fits$";
+  QTest::addRow("T")  << ""      << ""      << "Light" << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << ""  << "%T"  << "^Light\\.fits$";
+  QTest::addRow("F")  << ""      << "sobel" << ""      << "prefix" << "" << "1" << ""  << ""  << "" << ""       << "" << ""  << "%F"  << "^sobel\\.fits$";
+  QTest::addRow("e")  << "0.001" << ""      << ""      << "prefix" << "" << ""  << "1" << ""  << "" << ""       << "" << ""  << "%e"  << "^0.001_secs\\.fits$";
+  QTest::addRow("D")  << ""      << ""      << ""      << "prefix" << "" << ""  << ""  << "1" << "" << ""       << "" << ""  << "%D"  << "^\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}\\.fits$";
+  QTest::addRow("s")  << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1" << "%s"  << "^1\\.fits$";
+  QTest::addRow("s1") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1" << "%s1" << "^1\\.fits$";
+  QTest::addRow("s2") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1" << "%s2" << "^01\\.fits$";
+  QTest::addRow("s3") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1" << "%s3" << "^001\\.fits$";
+  QTest::addRow("s4") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1" << "%s4" << "^0001\\.fits$";
+
+  QTest::addRow("_s") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "1" << "_%s" << "^_1\\.fits$";
+  parseCSV(":/testFlexibleNaming_data.csv", columns);
+#endif
+}
+
+void TestPlaceholderPath::testFlexibleNaming()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  QFETCH(QString, Exposure);
+  QFETCH(QString, Filter);
+  QFETCH(QString, Type);
+  QFETCH(QString, Prefix);
+  QFETCH(QString, RawPrefix);
+  QFETCH(QString, FilterEnabled);
+  QFETCH(QString, ExpEnabled);
+  QFETCH(QString, TimeStampEnabled);
+  QFETCH(QString, seqFilename);
+  QFETCH(QString, targetName);
+  QFETCH(QString, batch_mode);
+  QFETCH(QString, nextSequenceID);
+  QFETCH(QString, format);
+  QFETCH(QString, result);
+
+  XMLEle *root = buildXML(
+      Exposure,
+      Filter,
+      Type,
+      Prefix,
+      RawPrefix,
+      FilterEnabled,
+      ExpEnabled,
+      TimeStampEnabled,
+      "");
+
+  Ekos::SequenceJob job(root);
+  auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
+  QString filename;
+  bool bm = bool(batch_mode.toInt());
+  int i = nextSequenceID.toInt();
+  placeholderPath.generateFilename(format, job, targetName, bm, i, &filename);
+  QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
+           QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
+  //QCOMPARE(filename, result);
+#endif
+}
+
+void TestPlaceholderPath::testFlexibleNamingChangeBehavior_data()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  const QList<const char*> columns = {
+    "Exposure",
+    "Filter",
+    "Type",
+    "Prefix",
+    "RawPrefix",
+    "FilterEnabled",
+    "ExpEnabled",
+    "TimeStampEnabled",
+    "seqFilename",
+    "targetName",
+    "batch_mode",
+    "nextSequenceID",
+    "format",
+    "old_result",
+    "new_result",
+  };
+  for (const auto &column: columns) {
+    QTest::addColumn<QString>(column);
+  }
+  parseCSV(":/testFlexibleNamingChangeBehavior_data.csv", columns);
+#endif
+}
+
+void TestPlaceholderPath::testFlexibleNamingChangeBehavior()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  QFETCH(QString, Exposure);
+  QFETCH(QString, Filter);
+  QFETCH(QString, Type);
+  QFETCH(QString, Prefix);
+  QFETCH(QString, RawPrefix);
+  QFETCH(QString, FilterEnabled);
+  QFETCH(QString, ExpEnabled);
+  QFETCH(QString, TimeStampEnabled);
+  QFETCH(QString, seqFilename);
+  QFETCH(QString, targetName);
+  QFETCH(QString, batch_mode);
+  QFETCH(QString, nextSequenceID);
+  QFETCH(QString, format);
+  QFETCH(QString, old_result);
+  QFETCH(QString, new_result);
+
+  XMLEle *root = buildXML(
+      Exposure,
+      Filter,
+      Type,
+      Prefix,
+      RawPrefix,
+      FilterEnabled,
+      ExpEnabled,
+      TimeStampEnabled,
+      "");
+
+  Ekos::SequenceJob job(root);
+  auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
+  QString filename;
+  bool bm = bool(batch_mode.toInt());
+  int i = nextSequenceID.toInt();
+  placeholderPath.generateFilename(format, job, targetName, bm, i, &filename);
+  QEXPECT_FAIL("", "original filename had __ or // or /_ that are now removed", Continue);
+  QVERIFY2(QRegularExpression(old_result).match(filename).hasMatch(),
+           QString("\nNot Expected: %1\nObtained: %2\n").arg(old_result, filename).toStdString().c_str());
+  QVERIFY2(QRegularExpression(new_result).match(filename).hasMatch(),
+           QString("\nExpected: %1\nObtained: %2\n").arg(new_result, filename).toStdString().c_str());
+  //QCOMPARE(filename, result);
+#endif
+}
+
 QTEST_GUILESS_MAIN(TestPlaceholderPath)

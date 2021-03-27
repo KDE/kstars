@@ -53,6 +53,11 @@ class TestPlaceholderPath : public QObject
 
     void testFullNamingSequence_data();
     void testFullNamingSequence();
+
+    void testFlexibleNaming_data();
+    void testFlexibleNaming();
+    void testFlexibleNamingChangeBehavior_data();
+    void testFlexibleNamingChangeBehavior();
 };
 
 #endif

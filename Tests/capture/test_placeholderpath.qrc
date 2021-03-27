@@ -2,5 +2,7 @@
 <qresource>
     <file>testSchedulerProcessJobInfo_data.csv</file>
     <file alias="testFullNamingSequence_data.csv">testFullNamingSequence_data_small.csv</file>
+    <file alias="testFlexibleNaming_data.csv">testFlexibleNaming_data_small.csv</file>
+    <file alias="testFlexibleNamingChangeBehavior_data.csv">testFlexibleNamingChangeBehavior_data_small.csv</file>
 </qresource>
 </RCC>

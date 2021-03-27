@@ -23,6 +23,7 @@
 #include "indi/indistd.h"
 
 #include <QDebug>
+#include <QFileInfo>
 
 class QString;
 class SchedulerJob;
@@ -34,6 +35,7 @@ class SequenceJob;
 class PlaceholderPath
 {
     public:
+      PlaceholderPath(QString seqFilename);
       PlaceholderPath();
       ~PlaceholderPath();
 
@@ -43,6 +45,7 @@ class PlaceholderPath
       void generateFilename(
               const QString &format, bool batch_mode, QString *filename,
               QString fitsDir, QString seqPrefix, int nextSequenceID);
+      void generateFilename(QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, QString *filename);
 
     private:
       const QString getFrameType(CCDFrameType frameType) {
@@ -53,7 +56,9 @@ class PlaceholderPath
           qWarning() << frameType << " not in " << m_frameTypes.keys();
           return "";
       }
+
       const QMap<CCDFrameType, QString> m_frameTypes;
+      QFileInfo m_seqFilename;
 };
 
 }

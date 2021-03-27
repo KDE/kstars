@@ -28,14 +28,20 @@
 
 namespace Ekos {
 
-PlaceholderPath::PlaceholderPath():
+PlaceholderPath::PlaceholderPath(QString seqFilename):
     m_frameTypes({
             {FRAME_LIGHT, "Light"},
             {FRAME_DARK, "Dark"},
             {FRAME_BIAS, "Bias"},
             {FRAME_FLAT, "Flat"},
             {FRAME_NONE, ""},
-    })
+    }),
+    m_seqFilename(seqFilename)
+{
+}
+
+PlaceholderPath::PlaceholderPath():
+    PlaceholderPath("")
 {
 }
 
@@ -230,6 +236,73 @@ void PlaceholderPath::generateFilename(
     else
         *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
                     QString("%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
+}
+
+void PlaceholderPath::generateFilename(
+        QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, QString *filename)
+{
+    QString filter = job.getFilterName();
+    CCDFrameType frameType = job.getFrameType();
+
+    targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+        // Remove any two or more __
+        .replace( QRegularExpression("_{2,}"), "_")
+        // Remove any _ at the end
+        .replace( QRegularExpression("_$"), "");
+    int i = 1;
+
+    QRegularExpressionMatch match;
+    QRegularExpression re("\\%(?<name>[f,D,T,e,F,t,d,p,s])(?<level>\\d+)?");
+    while ((i = format.indexOf(re, i-1, &match)) != -1) {
+        QString replacement = "";
+        if (match.captured("name") == "f") {
+            replacement = m_seqFilename.baseName();
+        } else if (match.captured("name") == "D") {
+            replacement = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
+        } else if (match.captured("name") == "T") {
+            replacement = getFrameType(frameType);
+        } else if (match.captured("name") == "e") {
+            double exposure = job.getExposure();
+            double fractpart, intpart;
+            fractpart = std::modf(exposure, &intpart);
+            if (fractpart == 0) {
+                replacement = QString::number(exposure, 'd', 0) + QString("_secs");
+            } else if (exposure >= 1e-3) {
+                replacement = QString::number(exposure, 'f', 3) + QString("_secs");
+            } else {
+                replacement = QString::number(exposure, 'f', 6) + QString("_secs");
+            }
+        } else if (match.captured("name") == "F") {
+            replacement = job.getFilterName();
+        } else if (match.captured("name") == "t") {
+            replacement = targetName;
+        } else if (match.captured("name") == "d" || match.captured("name") == "p") {
+            int level = 0;
+            if (!match.captured("level").isEmpty()) {
+                level = match.captured("level").toInt() - 1;
+            }
+            QFileInfo dir = m_seqFilename;
+            for (int j = 0; j < level; ++j) {
+                dir = QFileInfo(dir.dir().path());
+            }
+            if (match.captured("name") == "d") {
+                replacement = dir.dir().dirName();
+            } else if (match.captured("name") == "p") {
+                replacement = dir.path();
+            }
+        } else if (match.captured("name") == "s") {
+            int level = 1;
+            if (!match.captured("level").isEmpty()) {
+                level = match.captured("level").toInt();
+            }
+            replacement = QString("%1").arg(nextSequenceID, level, 10, QChar('0'));
+        } else {
+            qWarning() << "Unknown replacement string: " << match.captured("replace");
+        }
+        format = format.replace(match.capturedStart(), match.capturedLength(), replacement);
+        ++i;
+    }
+    *filename = format + ".fits";
 }
 
 }
