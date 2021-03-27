@@ -51,6 +51,8 @@ class TestPlaceholderPath : public QObject
     void testSequenceJobSignature_data();
     void testSequenceJobSignature();
 
+    void testFullNamingSequence_data();
+    void testFullNamingSequence();
 };
 
 #endif

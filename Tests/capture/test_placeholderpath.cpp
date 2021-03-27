@@ -79,6 +79,7 @@ XMLEle* buildXML(
     QString RawPrefix,
     QString FilterEnabled,
     QString ExpEnabled,
+    QString TimeStampEnabled,
     QString FITSDirectory
     )
 {
@@ -114,6 +115,10 @@ XMLEle* buildXML(
     if (!ExpEnabled.isEmpty()) {
       subEP = addXMLEle(ep, "ExpEnabled");
       editXMLEle(subEP, ExpEnabled.toStdString().c_str());
+    }
+    if (!TimeStampEnabled.isEmpty()) {
+      subEP = addXMLEle(ep, "TimeStampEnabled");
+      editXMLEle(subEP, TimeStampEnabled.toStdString().c_str());
     }
   }
 
@@ -181,6 +186,7 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
       RawPrefix,
       FilterEnabled,
       ExpEnabled,
+      "",
       FITSDirectory);
 
   Ekos::SequenceJob job(root);
@@ -247,6 +253,7 @@ void TestPlaceholderPath::testCaptureAddJob()
       RawPrefix,
       FilterEnabled,
       ExpEnabled,
+      "",
       FITSDirectory);
 
   // for addJob, targetName should already be sanitized
@@ -408,6 +415,86 @@ void TestPlaceholderPath::testSequenceJobSignature()
   QCOMPARE(job->getSignature(), signature);
 
   delete job;
+#endif
+}
+
+void TestPlaceholderPath::testFullNamingSequence_data()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+  const QList<const char*> columns = {
+    "Exposure",
+    "Filter",
+    "Type",
+    "Prefix",
+    "RawPrefix",
+    "FilterEnabled",
+    "ExpEnabled",
+    "TimeStampEnabled",
+    "FITSDirectory",
+    "targetName",
+    "batch_mode",
+    "nextSequenceID",
+    "result",
+  };
+  for (const auto &column: columns) {
+    QTest::addColumn<QString>(column);
+  }
+  parseCSV(":/testFullNamingSequence_data.csv", columns);
+#endif
+}
+
+void TestPlaceholderPath::testFullNamingSequence()
+{
+#if QT_VERSION < 0x050900
+    QSKIP("Skipping fixture-based test on old QT version.");
+#else
+
+  QFETCH(QString, Exposure);
+  QFETCH(QString, Filter);
+  QFETCH(QString, Type);
+  QFETCH(QString, Prefix);
+  QFETCH(QString, RawPrefix);
+  QFETCH(QString, FilterEnabled);
+  QFETCH(QString, ExpEnabled);
+  QFETCH(QString, TimeStampEnabled);
+  QFETCH(QString, FITSDirectory);
+  QFETCH(QString, targetName);
+  QFETCH(QString, batch_mode);
+  QFETCH(QString, nextSequenceID);
+  QFETCH(QString, result);
+
+  XMLEle *root = buildXML(
+      Exposure,
+      Filter,
+      Type,
+      Prefix,
+      RawPrefix,
+      FilterEnabled,
+      ExpEnabled,
+      TimeStampEnabled,
+      FITSDirectory);
+
+  Ekos::SequenceJob job(root);
+  auto placeholderPath = Ekos::PlaceholderPath();
+  // for addJob, targetName should already be sanitized
+  // taken from scheduler.cpp:2491-2495
+  targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+              // Remove any two or more __
+              .replace( QRegularExpression("_{2,}"), "_")
+              // Remove any _ at the end
+              .replace( QRegularExpression("_$"), "");
+  placeholderPath.addJob(&job, targetName);
+  QString fitsDir, filename;
+  // from sequencejob.cpp:302-303
+  if (job.getLocalDir().isEmpty() == false)
+      fitsDir = job.getLocalDir() + job.getDirectoryPostfix();
+  placeholderPath.generateFilename(".fits", bool(batch_mode.toInt()), &filename, fitsDir, job.getFullPrefix(), nextSequenceID.toInt());
+  //QCOMPARE(filename, result);
+  QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
+           QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
+
 #endif
 }
 
