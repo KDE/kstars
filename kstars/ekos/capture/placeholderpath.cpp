@@ -252,7 +252,7 @@ void PlaceholderPath::generateFilename(
     int i = 1;
 
     QRegularExpressionMatch match;
-    QRegularExpression re("\\%(?<name>[f,D,T,e,F,t,d,p,s])(?<level>\\d+)?");
+    QRegularExpression re("(?<replace>\\%(?<name>[f,D,T,e,F,t,d,p,s])(?<level>\\d+)?)(?<sep>[_/])?");
     while ((i = format.indexOf(re, i-1, &match)) != -1) {
         QString replacement = "";
         if (match.captured("name") == "f") {
@@ -299,7 +299,11 @@ void PlaceholderPath::generateFilename(
         } else {
             qWarning() << "Unknown replacement string: " << match.captured("replace");
         }
-        format = format.replace(match.capturedStart(), match.capturedLength(), replacement);
+        if (replacement.isEmpty()) {
+            format = format.replace(match.capturedStart(), match.capturedLength(), replacement);
+        } else {
+            format = format.replace(match.capturedStart("replace"), match.capturedLength("replace"), replacement);
+        }
         ++i;
     }
     *filename = format + ".fits";
