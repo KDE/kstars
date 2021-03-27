@@ -251,6 +251,19 @@ void PlaceholderPath::generateFilename(
         .replace( QRegularExpression("_$"), "");
     int i = 1;
 
+    QString currentDir;
+    if (batch_mode) {
+        currentDir = m_seqFilename.path().isEmpty() ? Options::fitsDir() : currentDir;
+    } else {
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
+    }
+
+    if (currentDir.endsWith('/') == true)
+        currentDir.chop(1);
+
+    if (!currentDir.isEmpty())
+        format = currentDir + "/" + format.section("/", -1);
+
     QRegularExpressionMatch match;
     QRegularExpression re("(?<replace>\\%(?<name>[f,D,T,e,F,t,d,p,s])(?<level>\\d+)?)(?<sep>[_/])?");
     while ((i = format.indexOf(re, i-1, &match)) != -1) {
