@@ -293,7 +293,23 @@ void PlaceholderPath::generateFilename(
                 }
             }
         } else if (match.captured("name") == "F") {
-            replacement = job.getFilterName();
+            if (format.indexOf("/", match.capturedStart()) == -1) {
+                // in the basename part of the path
+                if (filterEnabled && filter.isEmpty() == false
+                        && (frameType == FRAME_LIGHT
+                            || frameType == FRAME_FLAT
+                            || frameType == FRAME_NONE)) {
+                    replacement = job.getFilterName();
+                }
+            } else {
+                // in the directory part of the path
+                if (job.getFilterName().isEmpty() == false
+                        && (frameType == FRAME_LIGHT
+                            || frameType == FRAME_FLAT
+                            || frameType == FRAME_NONE)) {
+                    replacement = job.getFilterName();
+                }
+            }
         } else if (match.captured("name") == "t") {
             replacement = targetName;
         } else if (match.captured("name") == "d" || match.captured("name") == "p") {
