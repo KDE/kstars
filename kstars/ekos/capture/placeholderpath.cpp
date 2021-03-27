@@ -311,7 +311,16 @@ void PlaceholderPath::generateFilename(
                 }
             }
         } else if (match.captured("name") == "t") {
-            replacement = targetName;
+            if (format.indexOf("/", match.capturedStart()) != -1) {
+                // in the directory part of the path
+                replacement = targetName;
+            } else {
+                // in the basename part of the path
+                replacement = rawFilePrefix;
+                if (replacement.isEmpty() && !targetName.isEmpty()) {
+                    replacement = targetName;
+                }
+            }
         } else if (match.captured("name") == "d" || match.captured("name") == "p") {
             int level = 0;
             if (!match.captured("level").isEmpty()) {
