@@ -72,8 +72,6 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     m_RegionsModel->setHorizontalHeaderLabels(QStringList()
             << i18n("Region") << i18nc("Azimuth", "Az") << i18nc("Altitude", "Alt"));
 
-    connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(checkRegionState(QStandardItem*)));
-
     ui->regionsList->setModel(m_RegionsModel);
 
     ui->pointsList->setModel(m_RegionsModel);
@@ -111,7 +109,6 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     //Connect buttons
     connect(ui->addRegionB, SIGNAL(clicked()), this, SLOT(slotAddRegion()));
     connect(ui->removeRegionB, SIGNAL(clicked()), this, SLOT(slotRemoveRegion()));
-    connect(ui->removeRegionB, SIGNAL(clicked()), this, SLOT(slotRemovePoint()));
 
     connect(ui->regionsList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSetShownRegion(QModelIndex)));
 
@@ -565,17 +562,4 @@ void HorizonManager::setPointSelection(bool enable)
 {
     selectPoints = enable;
     ui->selectPointsB->setChecked(enable);
-}
-
-void HorizonManager::checkRegionState(QStandardItem *item)
-{
-    //foreach(ArtificialHorizonEntity *horizon, *m_HorizonList)
-    if (item->row() >= m_HorizonList->count())
-        return;
-
-    ArtificialHorizonEntity *horizon = m_HorizonList->at(item->row());
-
-    horizon->setRegion(item->data(Qt::DisplayRole).toString());
-    horizon->setEnabled(item->checkState() == Qt::Checked);
-    SkyMap::Instance()->forceUpdateNow();
 }
