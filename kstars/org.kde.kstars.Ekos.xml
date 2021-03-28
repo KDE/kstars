@@ -1,8 +1,12 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos">
-    <property name="indiStatus" type="u" access="read"/>
-    <property name="ekosStatus" type="u" access="read"/>
+    <property name="indiStatus" type="(i)" access="read">
+        <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CommunicationStatus"/>
+    </property>
+    <property name="ekosStatus" type="(i)" access="read">
+        <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CommunicationStatus"/>
+    </property>
     <property name="settleStatus" type="u" access="read"/>
     <property name="ekosLiveStatus" type="b" access="read"/>
     <property name="logText" type="as" access="read"/>
