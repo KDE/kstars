@@ -301,6 +301,8 @@ void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList, LineLi
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
 
+    if (points->size() == 0)
+        return;
     QPointF oLast = m_proj->toScreen(points->first().get(), true, &isVisibleLast);
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(points->first().get());

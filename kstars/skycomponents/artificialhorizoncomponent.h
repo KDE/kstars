@@ -15,30 +15,33 @@
 
 class ArtificialHorizonEntity
 {
-  public:
-    ArtificialHorizonEntity() = default;
-    ~ArtificialHorizonEntity();
+    public:
+        ArtificialHorizonEntity() = default;
+        ~ArtificialHorizonEntity();
 
-    QString region() const;
-    void setRegion(const QString &Region);
+        QString region() const;
+        void setRegion(const QString &Region);
 
-    bool enabled() const;
-    void setEnabled(bool Enabled);
+        bool enabled() const;
+        void setEnabled(bool Enabled);
 
-    void clearList();
-    void setList(const std::shared_ptr<LineList> &list);
-    std::shared_ptr<LineList> list();
+        void clearList();
+        void setList(const std::shared_ptr<LineList> &list);
+        std::shared_ptr<LineList> list();
 
-  private:
-    QString m_Region;
-    bool m_Enabled { false };
-    std::shared_ptr<LineList> m_List;
+        // Returns the altitude constraint for the azimuth angle.
+        double altitudeConstraint(double azimuthDegrees);
+
+    private:
+        QString m_Region;
+        bool m_Enabled { false };
+        std::shared_ptr<LineList> m_List;
 };
 
 /**
  * @class ArtificialHorizon
  * Represents custom area from the horizon upwards which represent blocked views from the vantage point of the user.
- * Such blocked views could stem for example from tall trees or buildings. The user can define one or more polygons to
+ * Such blocked views could stem for example from tall trees or buildings. The user can define a series of line segments to
  * represent the blocked areas.
  *
  * @author Jasem Mutlaq
@@ -46,32 +49,52 @@ class ArtificialHorizonEntity
  */
 class ArtificialHorizonComponent : public NoPrecessIndex
 {
-  public:
-    /**
-     * @short Constructor
-     *
-     * @p parent pointer to the parent SkyComposite object
-     * name is the name of the subclass
-     */
-    explicit ArtificialHorizonComponent(SkyComposite *parent);
+    public:
+        /**
+         * @short Constructor
+         *
+         * @p parent pointer to the parent SkyComposite object
+         * name is the name of the subclass
+         */
+        explicit ArtificialHorizonComponent(SkyComposite *parent);
 
-    virtual ~ArtificialHorizonComponent() override;
+        virtual ~ArtificialHorizonComponent() override;
 
-    bool selected() override;
-    void draw(SkyPainter *skyp) override;
+        bool selected() override;
+        void draw(SkyPainter *skyp) override;
 
-    void setLivePreview(const std::shared_ptr<LineList> &preview) { livePreview = preview; }
-    void addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list);
-    void removeRegion(const QString &regionName, bool lineOnly = false);
-    inline QList<ArtificialHorizonEntity *> *horizonList() { return &m_HorizonList; }
+        void setLivePreview(const std::shared_ptr<LineList> &preview)
+        {
+            livePreview = preview;
+        }
+        void setSelectedPreviewPoint(int index)
+        {
+            selectedPreviewPoint = index;
+        }
+        void addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list);
+        void removeRegion(const QString &regionName, bool lineOnly = false);
+        inline QList<ArtificialHorizonEntity *> *horizonList()
+        {
+            return &m_HorizonList;
+        }
 
-    bool load();
-    void save();
+        bool load();
+        void save();
 
-  protected:
-    void preDraw(SkyPainter *skyp) override;
+        // Returns the maximum altitude constraint from all the enabled ArtificialHorizonEntities.
+        double altitudeConstraint(double azimuthDegrees) const;
 
-  private:
-    QList<ArtificialHorizonEntity *> m_HorizonList;
-    std::shared_ptr<LineList> livePreview;
+        // Returns true if one or more artificial horizons are enabled.
+        bool altitudeConstraintsExist() const;
+
+
+    protected:
+        void preDraw(SkyPainter *skyp) override;
+
+    private:
+        QList<ArtificialHorizonEntity *> m_HorizonList;
+        std::shared_ptr<LineList> livePreview;
+        int selectedPreviewPoint { -1 };
+
+        friend class TestArtificialHorizon;
 };

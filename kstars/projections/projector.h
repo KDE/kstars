@@ -57,6 +57,9 @@ class ViewParams
         bool useAltAz;
         bool fillGround; ///<If the ground is filled, then points below horizon are invisible
         SkyPoint *focus;
+        ViewParams() : width(0), height(0), zoomFactor(0),
+            useRefraction(false), useAltAz(false), fillGround(false),
+            focus(nullptr) {}
 };
 
 /**

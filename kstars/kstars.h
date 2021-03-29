@@ -918,4 +918,6 @@ class KStars : public KXmlGuiWindow
         OpsEkos *opsekos { nullptr };
         OpsFITS *opsfits { nullptr };
         OpsXplanet *opsxplanet { nullptr };
+
+        friend class TestArtificialHorizon;
 };

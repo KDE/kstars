@@ -52,9 +52,13 @@ class HorizonManager : public QDialog
 
         void showRegion(const int regionID);
 
-        bool validatePolygon(int regionID);
+        bool validate(int regionID);
 
         void deleteRegion(int regionID);
+
+    protected:
+        void closeEvent(QCloseEvent *event) override;
+        void showEvent(QShowEvent *event) override;
 
     public slots:
         /** @short Add region */
@@ -66,20 +70,25 @@ class HorizonManager : public QDialog
         void addSkyPoint(SkyPoint *skypoint);
         void slotAddPoint();
         void slotRemovePoint();
+        void slotClosed();
 
         void clearPoints();
 
         void setSelectPoints(bool);
+        void slotCurrentPointChanged(const QModelIndex &current, const QModelIndex &previous);
 
     private slots:
-        void processSkyPoint(QStandardItem *item, int row);
         void verifyItemValue(QStandardItem *item);
         void slotSaveChanges();
         void slotSetShownRegion(QModelIndex idx);
 
     private:
+        void addPoint(SkyPoint *skyPoint);
         void terminateLivePreview();
         void setPointSelection(bool enable);
+        void removeEmptyRows(int regionID);
+        void setupLivePreview(QStandardItem *item);
+        void setupValidation(int regionID);
 
         HorizonManagerUI *ui { nullptr };
 
@@ -90,4 +99,6 @@ class HorizonManager : public QDialog
 
         std::shared_ptr<LineList> livePreview;
         bool selectPoints { false };
+
+        friend class TestArtificialHorizon;
 };
