@@ -1,7 +1,7 @@
 /***************************************************************************
-                     test_placeholderpath.h  -  KStars Planetarium
+                     placeholderpath.h  -  KStars Ekos
                              -------------------
-    begin                : Mon 18 Jan 2021 11:51:21 CDT
+    begin                : Tue 19 Jan 2021 15:06:21 CDT
     copyright            : (c) 2021 by Kwon-Young Choi
     email                : kwon-young.choi@hotmail.fr
 ***************************************************************************/
@@ -15,36 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TEST_PLACEHOLDERPATH_H
-#define TEST_PLACEHOLDERPATH_H
 
-#include <QtTest/QtTest>
-#include <QDebug>
+#ifndef PLACEHOLDERPATH
+#define PLACEHOLDERPATH
 
-#define UNIT_TEST
+#include <lilxml.h>
 
-/**
- * @class TestPlaceholderPath
- * @short Tests for some PlaceholderPath operations
- * @author Kwon-Young Choi <kwon-young.choi@hotmail.fr>
- */
+class QString;
+class SchedulerJob;
 
-class TestPlaceholderPath : public QObject
+namespace Ekos {
+
+class SequenceJob;
+
+class PlaceholderPath
 {
-    Q_OBJECT
+    public:
+      PlaceholderPath();
+      ~PlaceholderPath();
 
-  public:
-    TestPlaceholderPath();
-    ~TestPlaceholderPath() override;
-
-  private slots:
-
-    void testSchedulerProcessJobInfo_data();
-    void testSchedulerProcessJobInfo();
-
-    void testSequenceJobSignature_data();
-    void testSequenceJobSignature();
-
+      void processJobInfo(SequenceJob *job, QString targetName);
 };
 
-#endif
+}
+
+#endif /* ifndef PLACEHOLDERPATH */

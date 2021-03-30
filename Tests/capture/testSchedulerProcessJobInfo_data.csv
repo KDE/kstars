@@ -1,0 +1,393 @@
+,,,,,,,,,//
+,,,,,,,/bar/toto,,/bar/toto//
+,,Bias,,,,,/bar/toto,,/bar/toto/Bias/Bias
+0.00001,sobel,Bias,prefix,,,1,/bar/toto,,/bar/toto/Bias/Bias_0.000010_secs
+1.00001,sobel,Bias,prefix,,,1,/bar/toto,,/bar/toto/Bias/Bias_1.000_secs
+0.1,sobel,Bias,prefix,,,1,/bar/toto,,/bar/toto/Bias/Bias_0.100_secs
+,sobel,Bias,prefix,,,1,/bar/toto,,/bar/toto/Bias/Bias_0_secs
+1.00,sobel,Bias,prefix,,,1,/bar/toto,,/bar/toto/Bias/Bias_1_secs
+,,Bias,prefix,toto,,,/bar/toto,,/bar/toto/Bias/toto_Bias
+0.00001,,Bias,prefix,toto,,1,/bar/toto,,/bar/toto/Bias/toto_Bias_0.000010_secs
+0.1,,Bias,prefix,toto,,1,/bar/toto,,/bar/toto/Bias/toto_Bias_0.100_secs
+,,Bias,prefix,toto,,1,/bar/toto,,/bar/toto/Bias/toto_Bias_0_secs
+1.00,,Bias,prefix,toto,,1,/bar/toto,,/bar/toto/Bias/toto_Bias_1_secs
+,,Dark,,,,,/bar/toto,,/bar/toto/Dark/Dark
+0.00001,sobel,Dark,prefix,,,1,/bar/toto,,/bar/toto/Dark/Dark_0.000010_secs
+0.1,sobel,Dark,prefix,,,1,/bar/toto,,/bar/toto/Dark/Dark_0.100_secs
+,sobel,Dark,prefix,,,1,/bar/toto,,/bar/toto/Dark/Dark_0_secs
+1.00,sobel,Dark,prefix,,,1,/bar/toto,,/bar/toto/Dark/Dark_1_secs
+,,Dark,prefix,toto,,,/bar/toto,,/bar/toto/Dark/toto_Dark
+0.00001,,Dark,prefix,toto,,1,/bar/toto,,/bar/toto/Dark/toto_Dark_0.000010_secs
+0.1,,Dark,prefix,toto,,1,/bar/toto,,/bar/toto/Dark/toto_Dark_0.100_secs
+,,Dark,prefix,toto,,1,/bar/toto,,/bar/toto/Dark/toto_Dark_0_secs
+1.00,,Dark,prefix,toto,,1,/bar/toto,,/bar/toto/Dark/toto_Dark_1_secs
+,,Flat,,,,,/bar/toto,,/bar/toto/Flat/Flat
+,sobel,Flat,,,,,/bar/toto,,/bar/toto/Flat/sobel/Flat
+0.00001,sobel,Flat,prefix,,,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_0.000010_secs
+0.1,sobel,Flat,prefix,,,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_0.100_secs
+,sobel,Flat,prefix,,,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_0_secs
+1.00,sobel,Flat,prefix,,,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_1_secs
+,sobel,Flat,prefix,,1,,/bar/toto,,/bar/toto/Flat/sobel/Flat_sobel
+0.00001,sobel,Flat,prefix,,1,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,,1,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_sobel_0.100_secs
+,sobel,Flat,prefix,,1,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,,1,1,/bar/toto,,/bar/toto/Flat/sobel/Flat_sobel_1_secs
+,sobel,Flat,prefix,toto,,,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat
+0.00001,sobel,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_0.000010_secs
+0.1,sobel,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_0.100_secs
+,sobel,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_0_secs
+1.00,sobel,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_1_secs
+,sobel,Flat,prefix,toto,1,,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_sobel
+0.00001,sobel,Flat,prefix,toto,1,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,toto,1,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_sobel_0.100_secs
+,sobel,Flat,prefix,toto,1,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,toto,1,1,/bar/toto,,/bar/toto/Flat/sobel/toto_Flat_sobel_1_secs
+,,Flat,prefix,toto,,,/bar/toto,,/bar/toto/Flat/toto_Flat
+0.00001,,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/toto_Flat_0.000010_secs
+0.1,,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/toto_Flat_0.100_secs
+,,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/toto_Flat_0_secs
+1.00,,Flat,prefix,toto,,1,/bar/toto,,/bar/toto/Flat/toto_Flat_1_secs
+,,Bias,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias
+0.00001,sobel,Bias,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_0.000010_secs
+0.1,sobel,Bias,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_0.100_secs
+,sobel,Bias,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_0_secs
+1.00,sobel,Bias,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_1_secs
+,,Bias,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias
+0.00001,,Bias,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_0.000010_secs
+0.1,,Bias,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_0.100_secs
+,,Bias,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_0_secs
+1.00,,Bias,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_1_secs
+,,Dark,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark
+0.00001,sobel,Dark,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_0.000010_secs
+0.1,sobel,Dark,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_0.100_secs
+,sobel,Dark,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_0_secs
+1.00,sobel,Dark,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_1_secs
+,,Dark,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark
+0.00001,,Dark,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_0.000010_secs
+0.1,,Dark,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_0.100_secs
+,,Dark,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_0_secs
+1.00,,Dark,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_1_secs
+,,Flat,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/foo_bar_toto_tata_coco_fofo_Flat
+,sobel,Flat,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat
+0.00001,sobel,Flat,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_0.000010_secs
+0.1,sobel,Flat,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_0.100_secs
+,sobel,Flat,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_0_secs
+1.00,sobel,Flat,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_1_secs
+,sobel,Flat,prefix,,1,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel
+0.00001,sobel,Flat,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_0.100_secs
+,sobel,Flat,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_1_secs
+,sobel,Flat,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat
+0.00001,sobel,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_0.000010_secs
+0.1,sobel,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_0.100_secs
+,sobel,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_0_secs
+1.00,sobel,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_1_secs
+,sobel,Flat,prefix,toto,1,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel
+0.00001,sobel,Flat,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_0.100_secs
+,sobel,Flat,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_1_secs
+,,Flat,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat
+0.00001,,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_0.000010_secs
+0.1,,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_0.100_secs
+,,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_0_secs
+1.00,,Flat,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_1_secs
+,,,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//foo_bar_toto_tata_coco_fofo_
+,,Light,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/foo_bar_toto_tata_coco_fofo_Light
+,sobel,Light,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light
+0.00001,sobel,Light,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_0.000010_secs
+0.1,sobel,Light,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_0.100_secs
+,sobel,Light,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_0_secs
+1.00,sobel,Light,prefix,,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_1_secs
+,sobel,Light,prefix,,1,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel
+0.00001,sobel,Light,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_0.100_secs
+,sobel,Light,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_0_secs
+1.00,sobel,Light,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_1_secs
+,sobel,Light,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light
+0.00001,sobel,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_0.000010_secs
+0.1,sobel,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_0.100_secs
+,sobel,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_0_secs
+1.00,sobel,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_1_secs
+,sobel,Light,prefix,toto,1,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel
+0.00001,sobel,Light,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_0.100_secs
+,sobel,Light,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_0_secs
+1.00,sobel,Light,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_1_secs
+,,Light,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/toto_Light
+0.00001,,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/toto_Light_0.000010_secs
+0.1,,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/toto_Light_0.100_secs
+,,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/toto_Light_0_secs
+1.00,,Light,prefix,toto,,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo/Light/toto_Light_1_secs
+,sobel,,,,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo_
+0.00001,sobel,,prefix,,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__0.000010_secs
+0.1,sobel,,prefix,,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__0.100_secs
+,sobel,,prefix,,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__0_secs
+1.00,sobel,,prefix,,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__1_secs
+,sobel,,prefix,,1,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel
+0.00001,sobel,,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_0.000010_secs
+0.1,sobel,,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_0.100_secs
+,sobel,,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_0_secs
+1.00,sobel,,prefix,,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_1_secs
+,sobel,,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto_
+0.00001,sobel,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__0.000010_secs
+0.1,sobel,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__0.100_secs
+,sobel,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__0_secs
+1.00,sobel,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__1_secs
+,sobel,,prefix,toto,1,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel
+0.00001,sobel,,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_0.000010_secs
+0.1,sobel,,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_0.100_secs
+,sobel,,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_0_secs
+1.00,sobel,,prefix,toto,1,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_1_secs
+,,,prefix,toto,,,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//toto_
+0.00001,,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//toto__0.000010_secs
+0.1,,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//toto__0.100_secs
+,,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//toto__0_secs
+1.00,,,prefix,toto,0,1,/bar/toto,foo bar/toto(tata):coco*~fofo_,/bar/toto/foo_bar_toto_tata_coco_fofo//toto__1_secs
+,,Light,,,,,/bar/toto,,/bar/toto/Light/Light
+,sobel,Light,,,,,/bar/toto,,/bar/toto/Light/sobel/Light
+0.00001,sobel,Light,prefix,,,1,/bar/toto,,/bar/toto/Light/sobel/Light_0.000010_secs
+0.1,sobel,Light,prefix,,,1,/bar/toto,,/bar/toto/Light/sobel/Light_0.100_secs
+,sobel,Light,prefix,,,1,/bar/toto,,/bar/toto/Light/sobel/Light_0_secs
+1.00,sobel,Light,prefix,,,1,/bar/toto,,/bar/toto/Light/sobel/Light_1_secs
+,sobel,Light,prefix,,1,,/bar/toto,,/bar/toto/Light/sobel/Light_sobel
+0.00001,sobel,Light,prefix,,1,1,/bar/toto,,/bar/toto/Light/sobel/Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,,1,1,/bar/toto,,/bar/toto/Light/sobel/Light_sobel_0.100_secs
+,sobel,Light,prefix,,1,1,/bar/toto,,/bar/toto/Light/sobel/Light_sobel_0_secs
+1.00,sobel,Light,prefix,,1,1,/bar/toto,,/bar/toto/Light/sobel/Light_sobel_1_secs
+,sobel,Light,prefix,toto,,,/bar/toto,,/bar/toto/Light/sobel/toto_Light
+0.00001,sobel,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_0.000010_secs
+0.1,sobel,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_0.100_secs
+,sobel,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_0_secs
+1.00,sobel,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_1_secs
+,sobel,Light,prefix,toto,1,,/bar/toto,,/bar/toto/Light/sobel/toto_Light_sobel
+0.00001,sobel,Light,prefix,toto,1,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,toto,1,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_sobel_0.100_secs
+,sobel,Light,prefix,toto,1,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_sobel_0_secs
+1.00,sobel,Light,prefix,toto,1,1,/bar/toto,,/bar/toto/Light/sobel/toto_Light_sobel_1_secs
+,,Light,prefix,toto,,,/bar/toto,,/bar/toto/Light/toto_Light
+0.00001,,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/toto_Light_0.000010_secs
+0.1,,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/toto_Light_0.100_secs
+,,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/toto_Light_0_secs
+1.00,,Light,prefix,toto,,1,/bar/toto,,/bar/toto/Light/toto_Light_1_secs
+,sobel,,,,,,/bar/toto,,/bar/toto//sobel/
+0.00001,sobel,,prefix,,0,1,/bar/toto,,/bar/toto//sobel/_0.000010_secs
+0.1,sobel,,prefix,,0,1,/bar/toto,,/bar/toto//sobel/_0.100_secs
+,sobel,,prefix,,0,1,/bar/toto,,/bar/toto//sobel/_0_secs
+1.00,sobel,,prefix,,0,1,/bar/toto,,/bar/toto//sobel/_1_secs
+,sobel,,prefix,,1,,/bar/toto,,/bar/toto//sobel/_sobel
+0.00001,sobel,,prefix,,1,1,/bar/toto,,/bar/toto//sobel/_sobel_0.000010_secs
+0.1,sobel,,prefix,,1,1,/bar/toto,,/bar/toto//sobel/_sobel_0.100_secs
+,sobel,,prefix,,1,1,/bar/toto,,/bar/toto//sobel/_sobel_0_secs
+1.00,sobel,,prefix,,1,1,/bar/toto,,/bar/toto//sobel/_sobel_1_secs
+,sobel,,prefix,toto,,,/bar/toto,,/bar/toto//sobel/toto_
+0.00001,sobel,,prefix,toto,0,1,/bar/toto,,/bar/toto//sobel/toto__0.000010_secs
+0.1,sobel,,prefix,toto,0,1,/bar/toto,,/bar/toto//sobel/toto__0.100_secs
+,sobel,,prefix,toto,0,1,/bar/toto,,/bar/toto//sobel/toto__0_secs
+1.00,sobel,,prefix,toto,0,1,/bar/toto,,/bar/toto//sobel/toto__1_secs
+,sobel,,prefix,toto,1,,/bar/toto,,/bar/toto//sobel/toto__sobel
+0.00001,sobel,,prefix,toto,1,1,/bar/toto,,/bar/toto//sobel/toto__sobel_0.000010_secs
+0.1,sobel,,prefix,toto,1,1,/bar/toto,,/bar/toto//sobel/toto__sobel_0.100_secs
+,sobel,,prefix,toto,1,1,/bar/toto,,/bar/toto//sobel/toto__sobel_0_secs
+1.00,sobel,,prefix,toto,1,1,/bar/toto,,/bar/toto//sobel/toto__sobel_1_secs
+,,,prefix,toto,,,/bar/toto,,/bar/toto//toto_
+0.00001,,,prefix,toto,0,1,/bar/toto,,/bar/toto//toto__0.000010_secs
+0.1,,,prefix,toto,0,1,/bar/toto,,/bar/toto//toto__0.100_secs
+,,,prefix,toto,0,1,/bar/toto,,/bar/toto//toto__0_secs
+1.00,,,prefix,toto,0,1,/bar/toto,,/bar/toto//toto__1_secs
+,,Bias,,,,,,,/Bias/Bias
+0.00001,sobel,Bias,prefix,,,1,,,/Bias/Bias_0.000010_secs
+0.1,sobel,Bias,prefix,,,1,,,/Bias/Bias_0.100_secs
+,sobel,Bias,prefix,,,1,,,/Bias/Bias_0_secs
+1.00,sobel,Bias,prefix,,,1,,,/Bias/Bias_1_secs
+,,Bias,prefix,toto,,,,,/Bias/toto_Bias
+0.00001,,Bias,prefix,toto,,1,,,/Bias/toto_Bias_0.000010_secs
+0.1,,Bias,prefix,toto,,1,,,/Bias/toto_Bias_0.100_secs
+,,Bias,prefix,toto,,1,,,/Bias/toto_Bias_0_secs
+1.00,,Bias,prefix,toto,,1,,,/Bias/toto_Bias_1_secs
+,,Dark,,,,,,,/Dark/Dark
+0.00001,sobel,Dark,prefix,,,1,,,/Dark/Dark_0.000010_secs
+0.1,sobel,Dark,prefix,,,1,,,/Dark/Dark_0.100_secs
+,sobel,Dark,prefix,,,1,,,/Dark/Dark_0_secs
+1.00,sobel,Dark,prefix,,,1,,,/Dark/Dark_1_secs
+,,Dark,prefix,toto,,,,,/Dark/toto_Dark
+0.00001,,Dark,prefix,toto,,1,,,/Dark/toto_Dark_0.000010_secs
+0.1,,Dark,prefix,toto,,1,,,/Dark/toto_Dark_0.100_secs
+,,Dark,prefix,toto,,1,,,/Dark/toto_Dark_0_secs
+1.00,,Dark,prefix,toto,,1,,,/Dark/toto_Dark_1_secs
+,,Flat,,,,,,,/Flat/Flat
+,sobel,Flat,,,,,,,/Flat/sobel/Flat
+0.00001,sobel,Flat,prefix,,,1,,,/Flat/sobel/Flat_0.000010_secs
+0.1,sobel,Flat,prefix,,,1,,,/Flat/sobel/Flat_0.100_secs
+,sobel,Flat,prefix,,,1,,,/Flat/sobel/Flat_0_secs
+1.00,sobel,Flat,prefix,,,1,,,/Flat/sobel/Flat_1_secs
+,sobel,Flat,prefix,,1,,,,/Flat/sobel/Flat_sobel
+0.00001,sobel,Flat,prefix,,1,1,,,/Flat/sobel/Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,,1,1,,,/Flat/sobel/Flat_sobel_0.100_secs
+,sobel,Flat,prefix,,1,1,,,/Flat/sobel/Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,,1,1,,,/Flat/sobel/Flat_sobel_1_secs
+,sobel,Flat,prefix,toto,,,,,/Flat/sobel/toto_Flat
+0.00001,sobel,Flat,prefix,toto,,1,,,/Flat/sobel/toto_Flat_0.000010_secs
+0.1,sobel,Flat,prefix,toto,,1,,,/Flat/sobel/toto_Flat_0.100_secs
+,sobel,Flat,prefix,toto,,1,,,/Flat/sobel/toto_Flat_0_secs
+1.00,sobel,Flat,prefix,toto,,1,,,/Flat/sobel/toto_Flat_1_secs
+,sobel,Flat,prefix,toto,1,,,,/Flat/sobel/toto_Flat_sobel
+0.00001,sobel,Flat,prefix,toto,1,1,,,/Flat/sobel/toto_Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,toto,1,1,,,/Flat/sobel/toto_Flat_sobel_0.100_secs
+,sobel,Flat,prefix,toto,1,1,,,/Flat/sobel/toto_Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,toto,1,1,,,/Flat/sobel/toto_Flat_sobel_1_secs
+,,Flat,prefix,toto,,,,,/Flat/toto_Flat
+0.00001,,Flat,prefix,toto,,1,,,/Flat/toto_Flat_0.000010_secs
+0.1,,Flat,prefix,toto,,1,,,/Flat/toto_Flat_0.100_secs
+,,Flat,prefix,toto,,1,,,/Flat/toto_Flat_0_secs
+1.00,,Flat,prefix,toto,,1,,,/Flat/toto_Flat_1_secs
+,,Bias,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias
+0.00001,sobel,Bias,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_0.000010_secs
+0.1,sobel,Bias,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_0.100_secs
+,sobel,Bias,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_0_secs
+1.00,sobel,Bias,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/foo_bar_toto_tata_coco_fofo_Bias_1_secs
+,,Bias,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias
+0.00001,,Bias,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_0.000010_secs
+0.1,,Bias,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_0.100_secs
+,,Bias,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_0_secs
+1.00,,Bias,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Bias/toto_Bias_1_secs
+,,Dark,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark
+0.00001,sobel,Dark,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_0.000010_secs
+0.1,sobel,Dark,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_0.100_secs
+,sobel,Dark,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_0_secs
+1.00,sobel,Dark,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/foo_bar_toto_tata_coco_fofo_Dark_1_secs
+,,Dark,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark
+0.00001,,Dark,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_0.000010_secs
+0.1,,Dark,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_0.100_secs
+,,Dark,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_0_secs
+1.00,,Dark,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Dark/toto_Dark_1_secs
+,,Flat,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/foo_bar_toto_tata_coco_fofo_Flat
+,sobel,Flat,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat
+0.00001,sobel,Flat,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_0.000010_secs
+0.1,sobel,Flat,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_0.100_secs
+,sobel,Flat,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_0_secs
+1.00,sobel,Flat,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_1_secs
+,sobel,Flat,prefix,,1,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel
+0.00001,sobel,Flat,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_0.100_secs
+,sobel,Flat,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/foo_bar_toto_tata_coco_fofo_Flat_sobel_1_secs
+,sobel,Flat,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat
+0.00001,sobel,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_0.000010_secs
+0.1,sobel,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_0.100_secs
+,sobel,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_0_secs
+1.00,sobel,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_1_secs
+,sobel,Flat,prefix,toto,1,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel
+0.00001,sobel,Flat,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_0.000010_secs
+0.1,sobel,Flat,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_0.100_secs
+,sobel,Flat,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_0_secs
+1.00,sobel,Flat,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/sobel/toto_Flat_sobel_1_secs
+,,Flat,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat
+0.00001,,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_0.000010_secs
+0.1,,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_0.100_secs
+,,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_0_secs
+1.00,,Flat,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Flat/toto_Flat_1_secs
+,,,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//foo_bar_toto_tata_coco_fofo_
+,,Light,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/foo_bar_toto_tata_coco_fofo_Light
+,sobel,Light,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light
+0.00001,sobel,Light,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_0.000010_secs
+0.1,sobel,Light,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_0.100_secs
+,sobel,Light,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_0_secs
+1.00,sobel,Light,prefix,,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_1_secs
+,sobel,Light,prefix,,1,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel
+0.00001,sobel,Light,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_0.100_secs
+,sobel,Light,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_0_secs
+1.00,sobel,Light,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/foo_bar_toto_tata_coco_fofo_Light_sobel_1_secs
+,sobel,Light,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light
+0.00001,sobel,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_0.000010_secs
+0.1,sobel,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_0.100_secs
+,sobel,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_0_secs
+1.00,sobel,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_1_secs
+,sobel,Light,prefix,toto,1,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel
+0.00001,sobel,Light,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_0.100_secs
+,sobel,Light,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_0_secs
+1.00,sobel,Light,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/sobel/toto_Light_sobel_1_secs
+,,Light,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/toto_Light
+0.00001,,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/toto_Light_0.000010_secs
+0.1,,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/toto_Light_0.100_secs
+,,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/toto_Light_0_secs
+1.00,,Light,prefix,toto,,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo/Light/toto_Light_1_secs
+,sobel,,,,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo_
+0.00001,sobel,,prefix,,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__0.000010_secs
+0.1,sobel,,prefix,,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__0.100_secs
+,sobel,,prefix,,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__0_secs
+1.00,sobel,,prefix,,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__1_secs
+,sobel,,prefix,,1,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel
+0.00001,sobel,,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_0.000010_secs
+0.1,sobel,,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_0.100_secs
+,sobel,,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_0_secs
+1.00,sobel,,prefix,,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/foo_bar_toto_tata_coco_fofo__sobel_1_secs
+,sobel,,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto_
+0.00001,sobel,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__0.000010_secs
+0.1,sobel,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__0.100_secs
+,sobel,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__0_secs
+1.00,sobel,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__1_secs
+,sobel,,prefix,toto,1,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel
+0.00001,sobel,,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_0.000010_secs
+0.1,sobel,,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_0.100_secs
+,sobel,,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_0_secs
+1.00,sobel,,prefix,toto,1,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//sobel/toto__sobel_1_secs
+,,,prefix,toto,,,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//toto_
+0.00001,,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//toto__0.000010_secs
+0.1,,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//toto__0.100_secs
+,,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//toto__0_secs
+1.00,,,prefix,toto,0,1,,foo bar/toto(tata):coco*~fofo_,/foo_bar_toto_tata_coco_fofo//toto__1_secs
+,,Light,,,,,,,/Light/Light
+,sobel,Light,,,,,,,/Light/sobel/Light
+0.00001,sobel,Light,prefix,,,1,,,/Light/sobel/Light_0.000010_secs
+0.1,sobel,Light,prefix,,,1,,,/Light/sobel/Light_0.100_secs
+,sobel,Light,prefix,,,1,,,/Light/sobel/Light_0_secs
+1.00,sobel,Light,prefix,,,1,,,/Light/sobel/Light_1_secs
+,sobel,Light,prefix,,1,,,,/Light/sobel/Light_sobel
+0.00001,sobel,Light,prefix,,1,1,,,/Light/sobel/Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,,1,1,,,/Light/sobel/Light_sobel_0.100_secs
+,sobel,Light,prefix,,1,1,,,/Light/sobel/Light_sobel_0_secs
+1.00,sobel,Light,prefix,,1,1,,,/Light/sobel/Light_sobel_1_secs
+,sobel,Light,prefix,toto,,,,,/Light/sobel/toto_Light
+0.00001,sobel,Light,prefix,toto,,1,,,/Light/sobel/toto_Light_0.000010_secs
+0.1,sobel,Light,prefix,toto,,1,,,/Light/sobel/toto_Light_0.100_secs
+,sobel,Light,prefix,toto,,1,,,/Light/sobel/toto_Light_0_secs
+1.00,sobel,Light,prefix,toto,,1,,,/Light/sobel/toto_Light_1_secs
+,sobel,Light,prefix,toto,1,,,,/Light/sobel/toto_Light_sobel
+0.00001,sobel,Light,prefix,toto,1,1,,,/Light/sobel/toto_Light_sobel_0.000010_secs
+0.1,sobel,Light,prefix,toto,1,1,,,/Light/sobel/toto_Light_sobel_0.100_secs
+,sobel,Light,prefix,toto,1,1,,,/Light/sobel/toto_Light_sobel_0_secs
+1.00,sobel,Light,prefix,toto,1,1,,,/Light/sobel/toto_Light_sobel_1_secs
+,,Light,prefix,toto,,,,,/Light/toto_Light
+0.00001,,Light,prefix,toto,,1,,,/Light/toto_Light_0.000010_secs
+0.1,,Light,prefix,toto,,1,,,/Light/toto_Light_0.100_secs
+,,Light,prefix,toto,,1,,,/Light/toto_Light_0_secs
+1.00,,Light,prefix,toto,,1,,,/Light/toto_Light_1_secs
+,sobel,,,,,,,,//sobel/
+0.00001,sobel,,prefix,,0,1,,,//sobel/_0.000010_secs
+0.1,sobel,,prefix,,0,1,,,//sobel/_0.100_secs
+,sobel,,prefix,,0,1,,,//sobel/_0_secs
+1.00,sobel,,prefix,,0,1,,,//sobel/_1_secs
+,sobel,,prefix,,1,,,,//sobel/_sobel
+0.00001,sobel,,prefix,,1,1,,,//sobel/_sobel_0.000010_secs
+0.1,sobel,,prefix,,1,1,,,//sobel/_sobel_0.100_secs
+,sobel,,prefix,,1,1,,,//sobel/_sobel_0_secs
+1.00,sobel,,prefix,,1,1,,,//sobel/_sobel_1_secs
+,sobel,,prefix,toto,,,,,//sobel/toto_
+0.00001,sobel,,prefix,toto,0,1,,,//sobel/toto__0.000010_secs
+0.1,sobel,,prefix,toto,0,1,,,//sobel/toto__0.100_secs
+,sobel,,prefix,toto,0,1,,,//sobel/toto__0_secs
+1.00,sobel,,prefix,toto,0,1,,,//sobel/toto__1_secs
+,sobel,,prefix,toto,1,,,,//sobel/toto__sobel
+0.00001,sobel,,prefix,toto,1,1,,,//sobel/toto__sobel_0.000010_secs
+0.1,sobel,,prefix,toto,1,1,,,//sobel/toto__sobel_0.100_secs
+,sobel,,prefix,toto,1,1,,,//sobel/toto__sobel_0_secs
+1.00,sobel,,prefix,toto,1,1,,,//sobel/toto__sobel_1_secs
+,,,prefix,toto,,,,,//toto_
+0.00001,,,prefix,toto,0,1,,,//toto__0.000010_secs
+0.1,,,prefix,toto,0,1,,,//toto__0.100_secs
+,,,prefix,toto,0,1,,,//toto__0_secs
+1.00,,,prefix,toto,0,1,,,//toto__1_secs

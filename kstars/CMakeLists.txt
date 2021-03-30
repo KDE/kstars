@@ -176,6 +176,7 @@ if (INDI_FOUND)
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
             ekos/capture/scriptsmanager.cpp
+            ekos/capture/placeholderpath.cpp
 
             # Analyze
             ekos/analyze/analyze.cpp

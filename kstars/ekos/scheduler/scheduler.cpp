@@ -26,6 +26,7 @@
 #include "dialogs/finddialog.h"
 #include "ekos/manager.h"
 #include "ekos/capture/sequencejob.h"
+#include "ekos/capture/placeholderpath.h"
 #include "skyobjects/starobject.h"
 
 #include <KNotifications/KNotification>
@@ -6486,149 +6487,12 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
 
 SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 {
-    XMLEle *ep    = nullptr;
-    XMLEle *subEP = nullptr;
+    SequenceJob *job = new SequenceJob(root);
+    if (FRAME_LIGHT == job->getFrameType() && nullptr != schedJob)
+        schedJob->setLightFramesRequired(true);
 
-    const QMap<QString, CCDFrameType> frameTypes =
-    {
-        { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
-    };
-
-    SequenceJob *job = new SequenceJob();
-    QString rawPrefix, frameType, filterType;
-    double exposure    = 0;
-    bool filterEnabled = false, expEnabled = false, tsEnabled = false;
-
-    /* Reset light frame presence flag before enumerating */
-    // JM 2018-09-14: If last sequence job is not LIGHT
-    // then scheduler job light frame is set to whatever last sequence job is
-    // so if it was non-LIGHT, this value is set to false which is wrong.
-    //if (nullptr != schedJob)
-    //    schedJob->setLightFramesRequired(false);
-
-    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
-    {
-        if (!strcmp(tagXMLEle(ep), "Exposure"))
-        {
-            exposure = atof(pcdataXMLEle(ep));
-            job->setExposure(exposure);
-        }
-        else if (!strcmp(tagXMLEle(ep), "Filter"))
-        {
-            filterType = QString(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Type"))
-        {
-            frameType = QString(pcdataXMLEle(ep));
-
-            /* Record frame type and mark presence of light frames for this sequence */
-            CCDFrameType const frameEnum = frameTypes[frameType];
-            job->setFrameType(frameEnum);
-            if (FRAME_LIGHT == frameEnum && nullptr != schedJob)
-                schedJob->setLightFramesRequired(true);
-        }
-        else if (!strcmp(tagXMLEle(ep), "Prefix"))
-        {
-            subEP = findXMLEle(ep, "RawPrefix");
-            if (subEP)
-                rawPrefix = QString(pcdataXMLEle(subEP));
-
-            subEP = findXMLEle(ep, "FilterEnabled");
-            if (subEP)
-                filterEnabled = !strcmp("1", pcdataXMLEle(subEP));
-
-            subEP = findXMLEle(ep, "ExpEnabled");
-            if (subEP)
-                expEnabled = (!strcmp("1", pcdataXMLEle(subEP)));
-
-            subEP = findXMLEle(ep, "TimeStampEnabled");
-            if (subEP)
-                tsEnabled = (!strcmp("1", pcdataXMLEle(subEP)));
-
-            job->setPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
-        }
-        else if (!strcmp(tagXMLEle(ep), "Count"))
-        {
-            job->setCount(atoi(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Delay"))
-        {
-            job->setDelay(atoi(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
-        {
-            job->setLocalDir(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
-        {
-            job->setRemoteDir(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "UploadMode"))
-        {
-            job->setUploadMode(static_cast<ISD::CCD::UploadMode>(atoi(pcdataXMLEle(ep))));
-        }
-    }
-
-    // Sanitize name
-    QString targetName = schedJob->getName();
-    targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                 // Remove any two or more __
-                 .replace( QRegularExpression("_{2,}"), "_")
-                 // Remove any _ at the end
-                 .replace( QRegularExpression("_$"), "");
-
-    // Because scheduler sets the target name in capture module
-    // it would be the same as the raw prefix
-    if (targetName.isEmpty() == false && rawPrefix.isEmpty())
-        rawPrefix = targetName;
-
-    // Make full prefix
-    QString imagePrefix = rawPrefix;
-
-    if (imagePrefix.isEmpty() == false)
-        imagePrefix += '_';
-
-    imagePrefix += frameType;
-
-    if (filterEnabled && filterType.isEmpty() == false &&
-            (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT))
-    {
-        imagePrefix += '_';
-
-        imagePrefix += filterType;
-    }
-
-    if (expEnabled)
-    {
-        imagePrefix += '_';
-
-        if (exposure == static_cast<int>(exposure))
-            // Whole number
-            imagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
-        else
-        {
-            // Decimal
-            if (exposure >= 0.001)
-                imagePrefix += QString::number(exposure, 'f', 3) + QString("_secs");
-            else
-                imagePrefix += QString::number(exposure, 'f', 6) + QString("_secs");
-        }
-    }
-
-    job->setFullPrefix(imagePrefix);
-
-    // Directory postfix
-    QString directoryPostfix;
-
-    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in capture.cpp */
-    if (targetName.isEmpty())
-        directoryPostfix = QLatin1String("/") + frameType;
-    else
-        directoryPostfix = QLatin1String("/") + targetName + QLatin1String("/") + frameType;
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
-        directoryPostfix += QLatin1String("/") + filterType;
-
-    job->setDirectoryPostfix(directoryPostfix);
+    auto placeholderPath = Ekos::PlaceholderPath();
+    placeholderPath.processJobInfo(job, schedJob->getName());
 
     return job;
 }

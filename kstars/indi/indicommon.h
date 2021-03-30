@@ -186,7 +186,7 @@ const QMap<DeviceFamily, QString> DeviceFamilyLabels =
     {KSTARS_UNKNOWN, "Unknown"},
 };
 
-typedef enum { FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, FRAME_FLAT } CCDFrameType;
+typedef enum { FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, FRAME_FLAT, FRAME_NONE } CCDFrameType;
 
 typedef enum { SINGLE_BIN, DOUBLE_BIN, TRIPLE_BIN, QUADRAPLE_BIN } CCDBinType;
 
