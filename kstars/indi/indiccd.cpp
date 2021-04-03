@@ -33,7 +33,7 @@
 
 #include <basedevice.h>
 
-const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw" };
+const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
 namespace
 {
