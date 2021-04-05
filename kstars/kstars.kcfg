@@ -138,7 +138,6 @@
          <default>true</default>
       </entry>
    </group>
-
    <group name="indi">
     <entry name="INDIWindowWidth" type="UInt">
           <label>INDI window width</label>
@@ -196,15 +195,20 @@
          <whatsthis>The default location of saved FITS files</whatsthis>
          <default code="true">KSUtils::getDefaultPath("fitsDir")</default>
       </entry>
-      <entry name="serverPortStart" type="String">
+      <entry name="serverTransferBufferSize" type="Int">
+         <label>INDI Server Transfer Buffer</label>
+         <whatsthis>Allows drivers to queue buffers not exceeding this size in MB</whatsthis>
+         <default>1024</default>
+      </entry>
+      <entry name="serverPortStart" type="Int">
          <label>INDI Server Start Port</label>
          <whatsthis>INDI server will attempt to bind with ports starting from this port</whatsthis>
          <default>7624</default>
       </entry>
-      <entry name="serverPortEnd" type="String">
+      <entry name="serverPortEnd" type="Int">
          <label>INDI Server Final Port</label>
          <whatsthis>INDI server will attempt to bind with ports ending with this port</whatsthis>
-         <default>9000</default>
+         <default>8623</default>
       </entry>
       <entry name="filterAlias" type="StringList">
          <label>Aliases for filter wheel slots.</label>

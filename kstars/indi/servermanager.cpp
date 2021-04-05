@@ -104,7 +104,7 @@ bool ServerManager::start()
         return false;
     }
 
-    args << "-m" << "300" << "-r" << "0" << "-f" << fifoFile;
+    args << "-m" << QString::number(Options::serverTransferBufferSize()) << "-r" << "0" << "-f" << fifoFile;
 
     qCDebug(KSTARS_INDI) << "Starting INDI Server: " << args << "-f" << fifoFile;
 
