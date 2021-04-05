@@ -89,7 +89,7 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    currentPort = Options::serverPortStart();
+    currentPort = Options::serverPortStart() - 1;
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     ui                      = new DriverManagerUI(this);
@@ -493,7 +493,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     }
 
     // Reset current port
-    currentPort = Options::serverPortStart();
+    currentPort = Options::serverPortStart() - 1;
 
     updateMenuActions();
 }
