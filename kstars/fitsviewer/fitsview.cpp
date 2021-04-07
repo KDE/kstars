@@ -203,7 +203,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(image_frame.get(), SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
-    m_UpdateFrameTimer.setInterval(250);
+    m_UpdateFrameTimer.setInterval(50);
     m_UpdateFrameTimer.setSingleShot(true);
     connect(&m_UpdateFrameTimer, &QTimer::timeout, [this]()
     {
@@ -468,9 +468,9 @@ bool FITSView::processData()
     }
 
     // Fore immediate load of frame for first load.
-    m_StretchingInProgress = true;
+    //m_StretchingInProgress = true;
     updateFrame();
-    m_StretchingInProgress = false;
+    //m_StretchingInProgress = false;
     return true;
 }
 
