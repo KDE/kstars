@@ -3200,15 +3200,13 @@ bool Guide::executeOneOperation(GuideState operation)
                     {
                         guideView->rescale(ZOOM_KEEP_LEVEL);
                         guideView->updateFrame();
-                        setCaptureComplete();
                     }
-                    else
-                        abort();
+                    setCaptureComplete();
                 });
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Guide::appendLogText);
                 actionRequired = true;
                 targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
+                DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
                         offsetX, offsetY);
             }
         }

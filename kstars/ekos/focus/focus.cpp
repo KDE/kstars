@@ -1239,16 +1239,14 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
             {
                 focusView->rescale(ZOOM_KEEP_LEVEL);
                 focusView->updateFrame();
-                setCaptureComplete();
             }
-            else
-                abort();
+            setCaptureComplete();
             resetButtons();
         });
         connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 
         //targetChip->setCaptureFilter(defaultScale);
-        DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), defaultScale, offsetX, offsetY);
+        DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), defaultScale, offsetX, offsetY);
         return;
     }
 

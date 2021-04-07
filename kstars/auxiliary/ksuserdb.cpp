@@ -191,6 +191,15 @@ bool KSUserDB::Initialize()
             if (!query.exec(columnQuery))
                 qCWarning(KSTARS) << query.lastError();
         }
+
+        // Add Defect Map
+        if (currentDBVersion < 307)
+        {
+            QSqlQuery query(m_UserDB);
+            QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN defectmap TEXT DEFAULT NULL");
+            if (!query.exec(columnQuery))
+                qCWarning(KSTARS) << query.lastError();
+        }
     }
     m_UserDB.close();
     return true;
@@ -516,7 +525,6 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
     darkframe.select();
 
     QSqlRecord record = darkframe.record();
-
     // Remove PK so that it gets auto-incremented later
     record.remove(0);
     // Remove timestamp so that it gets auto-generated
@@ -526,9 +534,25 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
         record.setValue(iter.key(), iter.value());
 
     darkframe.insertRecord(-1, record);
-
     darkframe.submitAll();
 
+    m_UserDB.close();
+}
+
+void KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
+{
+    m_UserDB.open();
+    QSqlTableModel darkframe(nullptr, m_UserDB);
+    darkframe.setTable("darkframe");
+    darkframe.setFilter(QString("id=%1").arg(oneFrame["id"].toInt()));
+    darkframe.select();
+
+    QSqlRecord record = darkframe.record(0);
+    for (QVariantMap::const_iterator iter = oneFrame.begin(); iter != oneFrame.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    darkframe.setRecord(0, record);
+    darkframe.submitAll();
     m_UserDB.close();
 }
 
@@ -562,7 +586,7 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
     {
         QVariantMap recordMap;
         QSqlRecord record = darkframe.record(i);
-        for (int j = 1; j < record.count(); j++)
+        for (int j = 0; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j);
 
         darkFrames.append(recordMap);

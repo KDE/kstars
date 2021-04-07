@@ -1,5 +1,5 @@
 /*  Ekos Dark Library Handler
-    Copyright (C) 2016 Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Copyright (C) 2021 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -11,11 +11,24 @@
 
 #include "indi/indiccd.h"
 #include "indi/indicap.h"
+#include "darkview.h"
+#include "defectmap.h"
+#include "ekos/ekos.h"
 
-#include <QObject>
+#include <QDialog>
+#include <QPointer>
+#include "ui_darklibrary.h"
+
+class QSqlTableModel;
+class QSortFilterProxyModel;
+class FITSHistogramView;
 
 namespace Ekos
 {
+
+class Capture;
+class SequenceJob;
+
 /**
  * @class DarkLibrary
  * @short Handles acquisition & loading of dark frames for cameras. If a suitable dark frame exists,
@@ -24,64 +37,208 @@ namespace Ekos
  * @author Jasem Mutlaq
  * @version 1.0
  */
-class DarkLibrary : public QObject
+class DarkLibrary : public QDialog, public Ui::DarkLibrary
 {
         Q_OBJECT
 
     public:
         static DarkLibrary *Instance();
 
-        bool getDarkFrame(ISD::CCDChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
-        void subtract(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
-                      uint16_t offsetX, uint16_t offsetY);
+        bool findDarkFrame(ISD::CCDChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
+        bool findDefectMap(ISD::CCDChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);
         // Return false if canceled. True if dark capture proceeds
-        void captureAndSubtract(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
-                                FITSScale filter, uint16_t offsetX, uint16_t offsetY);
+        void denoise(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
+                     FITSScale filter, uint16_t offsetX, uint16_t offsetY);
         void refreshFromDB();
 
-        void setRemoteCap(ISD::GDInterface *remoteCap);
-        void removeDevice(ISD::GDInterface *device);
+        //        void setRemoteCap(ISD::GDInterface *remoteCap);
+        //        void removeDevice(ISD::GDInterface *device);
 
+        void addCamera(ISD::GDInterface * newCCD);
+        void removeCamera(ISD::GDInterface * newCCD);
+
+        void checkCamera(int ccdNum = -1);
         void reset();
+
+        void setCaptureModule(Capture *instance);
 
     signals:
         void darkFrameCompleted(bool);
         void newLog(const QString &message);
 
     public slots:
-        void processImage(const QSharedPointer<FITSData> &calibrationData);
+        //void processImage(const QSharedPointer<FITSData> &calibrationData);
+        void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+
+    private slots:
+        void clearAll();
+        void clearRow();
+        void clearExpired();
+        void openDarksFolder();
+        void saveDefectMap();
+        void loadDarkFITS(QModelIndex index);
 
     private:
-        explicit DarkLibrary(QObject *parent);
+        explicit DarkLibrary(QWidget *parent);
         ~DarkLibrary();
 
         static DarkLibrary *_DarkLibrary;
 
-        bool loadDarkFile(const QString &filename);
-        bool saveDarkFile(const QSharedPointer<FITSData> data);
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Dark Frames Functions
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * @brief countDarkTotalTime Given current settings, count how many minutes
+         * are required to complete all the darks.
+         */
+        void countDarkTotalTime();
+
+        /**
+         * @brief generateDarkJobs Check the user frame parameters in the Darks tab and generate the corresponding
+         * capture jobs. Populate capture module with the dark jobs.
+         */
+        void generateDarkJobs();
+
+        /**
+         * @brief executeDarkJobs Start executing the dark jobs in capture module.
+         */
+        void executeDarkJobs();
+
+        /**
+         * @brief stopDarkJobs Abort all dark job captures.
+         */
+        void stopDarkJobs();
+
+        /**
+         * @brief generateMasterFrameHelper Calls templated generateMasterFrame with the correct data type.
+         * @param data Passed dark frame data to generateMasterFrame
+         * @param metadata passed metadata to generateMasterFrame
+         */
+        void generateMasterFrame(const QSharedPointer<FITSData> &data, const QJsonObject &metadata);
+
+        /**
+         * @brief generateMasterFrame After data aggregation is done, the selected stacking algorithm is applied and the master dark
+         * frame is saved to disk and user database along with the metadata.
+         * @param data last used data. This is not used for reading, but to simply apply the algorithm to the FITSData buffer
+         * and then save it to disk.
+         * @param metadata information on frame to help in the stacking process.
+         */
+        template <typename T>  void generateMasterFrameInternal(const QSharedPointer<FITSData> &data, const QJsonObject &metadata);
+
+        /**
+         * @brief aggregateHelper Calls tempelated aggregate function with the appropiate data type.
+         * @param data Dark frame data to pass on to aggregate function.
+         */
+        void aggregate(const QSharedPointer<FITSData> &data);
+
+        /**
+         * @brief aggregate Aggregate the data as per the selected algorithm. Each time a new dark frame is received, this function
+         * adds the frame data to the dark buffer.
+         * @param data Dark frame data.
+         */
+        template <typename T> void aggregateInternal(const QSharedPointer<FITSData> &data);
+
+        /**
+         * @brief subtractHelper Calls tempelated subtract function
+         * @param darkData passes dark frame data to templerated subtract function.
+         * @param lightData passes list frame data to templerated subtract function.
+         * @param filter passes filter to templerated subtract function.
+         * @param offsetX passes offsetX to templerated subtract function.
+         * @param offsetY passes offsetY to templerated subtract function.
+         */
+        void subtractDarkData(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
+                              uint16_t offsetX, uint16_t offsetY);
+
+        /**
+         * @brief subtract Subtracts dark pixels from light pixels given the supplied parameters
+         * @param darkData Dark frame data.
+         * @param lightData Light frame data. The light frame data is modified in this process.
+         * @param filter Any filters to apply to light frame data post-subtraction.
+         * @param offsetX Only apply subtraction beyond offsetX in X-axis.
+         * @param offsetY Only apply subtraction beyond offsetY in Y-axis.
+         */
+        template <typename T>
+        void subtractInternal(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
+                              uint16_t offsetX, uint16_t offsetY);
+
+        /**
+         * @brief cacheDarkFrameFromFile Load dark frame from disk and saves it in the local dark frames cache
+         * @param filename path of dark frame to load
+         * @return True if file is successfully loaded, false otherwise.
+         */
+        bool cacheDarkFrameFromFile(const QString &filename);
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Misc Functions
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        void initView();
+        void setCaptureState(CaptureState state);
+        void reloadDarksFromDatabase();
+        void setDarkFrameLoaded();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Defect Map Functions
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        void refreshMasters();
+        void loadDefectMap();
+        void populateMasterMetedata();
+        /**
+         * @brief cacheDefectMapFromFile Load defect map from disk and saves it in the local defect maps cache
+         * @param key dark file name that is used as the key in the defect map cache
+         * @param filename path of dark frame to load
+         * @return True if file is successfully loaded, false otherwise.
+         */
+        bool cacheDefectMapFromFile(const QString &key, const QString &filename);
+
+        /**
+         * @brief normalizeDefects Remove defects from LIGHT image by replacing bad pixels with a 3x3 median filter around
+         * them.
+         * @param defectMap Defect Map containing a list of hot and cold pixels.
+         * @param lightData Target light data to remove noise from.
+         * @param filter Filter used for light data
+         * @param offsetX Only apply filtering beyond offsetX in X-axis.
+         * @param offsetY Only apply filtering beyond offsetX in Y-axis.
+         */
+        void normalizeDefects(const QSharedPointer<DefectMap> &defectMap, const QSharedPointer<FITSData> &lightData,
+                              FITSScale filter, uint16_t offsetX, uint16_t offsetY);
 
         template <typename T>
-        void subtract(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
-                      uint16_t offsetX, uint16_t offsetY);
+        void normalizeDefectsInternal(const QSharedPointer<DefectMap> &defectMap, const QSharedPointer<FITSData> &lightData,
+                                      FITSScale filter, uint16_t offsetX, uint16_t offsetY);
 
-        QList<QVariantMap> darkFrames;
-        QHash<QString, QSharedPointer<FITSData>> darkFiles;
-
-        struct
-        {
-            ISD::CCDChip *targetChip { nullptr };
-            double duration { 0 };
-            uint16_t offsetX { 0 };
-            uint16_t offsetY { 0 };
-            QSharedPointer<FITSData> targetData;
-            FITSScale filter;
-        } subtractParams;
-
-        bool m_TelescopeCovered { false };
-        bool m_ConfirmationPending { false };
+        template <typename T>
+        T median3x3Filter(uint16_t x, uint16_t y, uint32_t width, T *buffer);
 
 
-        QTimer captureSubtractTimer;
-        ISD::DustCap *m_RemoteCap {nullptr};
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Member Variables
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+        QList<QVariantMap> m_DarkFramesDatabaseList;
+        QMap<QString, QSharedPointer<FITSData>> m_CachedDarkFrames;
+        QMap<QString, QSharedPointer<DefectMap>> m_CachedDefectMaps;
+
+        ISD::CCD *m_CurrentCamera {nullptr};
+        ISD::CCDChip *m_TargetChip {nullptr};
+        QList<ISD::CCD *> m_Cameras;
+        bool m_UseGuideHead {false};
+
+        Capture *m_CaptureModule {nullptr};
+        QSqlTableModel *darkFramesModel = nullptr;
+        QSortFilterProxyModel *sortFilter = nullptr;
+
+        std::vector<uint32_t> m_DarkMasterBuffer;
+        uint32_t m_DarkImagesCounter {0};
+        bool m_RememberFITSViewer {true};
+        bool m_defectMapPending { false};
+        QString m_DefectMapFilename, m_MasterDarkFrameFilename;
+        QStringList m_DarkCameras, m_DefectCameras;
+        QPointer<DarkView> m_DarkView;
+        QPointer<QStatusBar> m_StatusBar;
+        QPointer<QLabel> m_StatusLabel, m_FileLabel;
+        QSharedPointer<DefectMap> m_CurrentDefectMap;
+        QSharedPointer<FITSData> m_CurrentDarkFrame;
+        QFutureWatcher<bool> m_DarkFrameFutureWatcher;
 };
 }

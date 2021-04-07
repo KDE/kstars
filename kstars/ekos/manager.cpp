@@ -1640,7 +1640,7 @@ void Manager::setDustCap(ISD::GDInterface * dustCapDevice)
     if (captureProcess.get() != nullptr)
         captureProcess->setDustCap(dustCapDevice);
 
-    DarkLibrary::Instance()->setRemoteCap(dustCapDevice);
+    //DarkLibrary::Instance()->setRemoteCap(dustCapDevice);
 
 }
 
@@ -1683,8 +1683,10 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
     if (dustCapProcess)
     {
         dustCapProcess->removeDevice(devInterface);
-        DarkLibrary::Instance()->removeDevice(devInterface);
     }
+
+    if (devInterface->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+        DarkLibrary::Instance()->removeCamera(devInterface);
 
     appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 

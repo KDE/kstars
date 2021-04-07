@@ -1459,6 +1459,10 @@
       <label>Conserve CPU and memory by disabling all resource-intensive features in FITS Viewer</label>
       <default>KSUtils::isHardwareLimited()</default>
    </entry>
+   <entry name="NonLinearHistogram" type="Bool">
+      <label>Create histogram from non-linear auto-stretched image rather than linear raw image data.</label>
+      <default>true</default>
+   </entry>
    </group>
    <group name="WISettings">
       <entry name="BortleClass" type="UInt">
@@ -1549,6 +1553,12 @@
    </entry>
    <entry name="shutterlessCCDs" type="StringList">
       <label>List of CCDs without mechanical or electronic shutters.</label>
+   </entry>
+   <entry name="darkCameras" type="StringList">
+      <label>List of cameras that prefer dark substraction noise removal method.</label>
+   </entry>
+   <entry name="defectCameras" type="StringList">
+      <label>List of cameras that prefer defect map noise removal method.</label>
    </entry>
    </group>
    <group name="Mount">

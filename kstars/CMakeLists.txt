@@ -143,6 +143,7 @@ if (INDI_FOUND)
             ekos/auxiliary/opslogs.ui
             ekos/auxiliary/serialportassistant.ui
             ekos/auxiliary/stellarsolverprofileeditor.ui
+            ekos/auxiliary/darklibrary.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
             # INDI Hub
@@ -162,6 +163,8 @@ if (INDI_FOUND)
             ekos/auxiliary/weather.cpp
             ekos/auxiliary/dustcap.cpp
             ekos/auxiliary/darklibrary.cpp
+            ekos/auxiliary/darkview.cpp
+            ekos/auxiliary/defectmap.cpp
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/filterdelegate.cpp
             ekos/auxiliary/opslogs.cpp
@@ -293,7 +296,9 @@ if (CFITSIO_FOUND)
         fitsviewer/bayer.c
         fitsviewer/fpack.c
         fitsviewer/fpackutil.c
-        fitsviewer/fitshistogram.cpp
+        fitsviewer/fitshistogrameditor.cpp
+        fitsviewer/fitshistogramview.cpp
+        fitsviewer/fitshistogramcommand.cpp
         fitsviewer/fitsview.cpp
         fitsviewer/fitsdata.cpp
         fitsviewer/fitsstardetector.cpp

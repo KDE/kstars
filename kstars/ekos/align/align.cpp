@@ -3036,14 +3036,13 @@ void Align::processData(const QSharedPointer<FITSData> &data)
                 {
                     alignView->rescale(ZOOM_KEEP_LEVEL);
                     alignView->updateFrame();
-                    setCaptureComplete();
                 }
-                else
-                    abort();
+
+                setCaptureComplete();
             });
             connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
-                    offsetX, offsetY);
+            DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
+                                             offsetX, offsetY);
             return;
         }
 

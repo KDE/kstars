@@ -59,7 +59,7 @@
 class QProgressDialog;
 
 class SkyPoint;
-class FITSHistogram;
+class FITSHistogramData;
 class Edge;
 
 class FITSData : public QObject
@@ -106,6 +106,11 @@ class FITSData : public QObject
             Failure
         } WCSState;
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Read and Write file/buffer Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
         /**
          * @brief loadFITS Loading FITS file asynchronously.
          * @param inFilename Path to FITS file (or compressed fits.gz)
@@ -136,10 +141,6 @@ class FITSData : public QObject
         bool saveImage(const QString &newFilename);
         /* Rescale image lineary from image_buffer, fit to window if desired */
         int rescale(FITSZoom type);
-        /* Calculate stats */
-        void calculateStats(bool refresh = false);
-        /* Check if a particular point exists within the image */
-        bool contains(const QPointF &point) const;
 
         // Access functions
         void clearImageBuffers();
@@ -147,7 +148,13 @@ class FITSData : public QObject
         uint8_t const *getImageBuffer() const;
         uint8_t *getWritableImageBuffer();
 
-        // Statistics
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Statistics Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        // Calculate stats
+        void calculateStats(bool refresh = false);
         void saveStatistics(FITSImage::Statistic &other);
         void restoreStatistics(FITSImage::Statistic &other);
         FITSImage::Statistic const &getStatistics() const
@@ -170,6 +177,14 @@ class FITSData : public QObject
         int channels() const
         {
             return m_Statistics.channels;
+        }
+        uint32_t samplesPerChannel() const
+        {
+            return m_Statistics.samples_per_channel;
+        }
+        uint32_t dataType() const
+        {
+            return m_Statistics.dataType;
         }
         double getMin(uint8_t channel = 0) const
         {
@@ -248,6 +263,11 @@ class FITSData : public QObject
         }
         double getADU() const;
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// FITS Header Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
         // FITS Record
         bool getRecordValue(const QString &key, QVariant &value) const;
         const QList<Record> &getRecords() const
@@ -255,6 +275,11 @@ class FITSData : public QObject
             return m_HeaderRecords;
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Star Search & HFR Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
         // Star Detection - Native KStars implementation
         void setStarAlgorithm(StarAlgorithm algorithm)
         {
@@ -320,6 +345,12 @@ class FITSData : public QObject
         double getHFR(HFRType type = HFR_AVERAGE);
         double getHFR(int x, int y);
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Date & Time (WCS) Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+
         const KStarsDateTime &getDateTime() const
         {
             return m_DateTime;
@@ -331,7 +362,13 @@ class FITSData : public QObject
             m_DateTime = t;
         }
 
-        // WCS
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// World Coordinate System (WCS) Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        // Check if a particular point exists within the image
+        bool contains(const QPointF &point) const;
         // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
         bool checkForWCS();
         // Does image have valid WCS?
@@ -385,6 +422,12 @@ class FITSData : public QObject
              */
         bool injectWCS(double orientation, double ra, double dec, double pixscale);
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Debayering Functions
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+
         // Debayer
         bool hasDebayer()
         {
@@ -402,14 +445,50 @@ class FITSData : public QObject
         void getBayerParams(BayerParams *param);
         void setBayerParams(BayerParams *param);
 
-        // Histogram
-#ifndef KSTARS_LITE
-        void setHistogram(FITSHistogram *inHistogram)
-        {
-            histogram = inHistogram;
-        }
-#endif
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Public Histogram Functions
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
 
+        void resetHistogram()
+        {
+            m_HistogramConstructed = false;
+        }
+        double getHistogramBinWidth(int channel = 0)
+        {
+            return m_HistogramBinWidth[channel];
+        }
+
+        const QVector<uint32_t> &getCumulativeFrequency(uint8_t channel = 0) const
+        {
+            return m_CumulativeFrequency[channel];
+        };
+        const QVector<double> &getHistogramIntensity(uint8_t channel = 0) const
+        {
+            return m_HistogramIntensity[channel];
+        }
+        const QVector<double> &getHistogramFrequency(uint8_t channel = 0) const
+        {
+            return m_HistogramFrequency[channel];
+        }
+
+        double getJMIndex() const
+        {
+            return m_JMIndex;
+        };
+
+        bool isHistogramConstructed()
+        {
+            return m_HistogramConstructed;
+        }
+        void constructHistogram();
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Filters and Rotations Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
         // Filter
         void applyFilter(FITSScale type, uint8_t *image = nullptr, QVector<double> *targetMin = nullptr,
                          QVector<double> *targetMax = nullptr);
@@ -440,6 +519,11 @@ class FITSData : public QObject
         int getFlipVCounter() const;
         void setFlipVCounter(int value);
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Object Search Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
         void findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
@@ -450,6 +534,11 @@ class FITSData : public QObject
             return m_SkyObjects;
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Image Conversion Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
         // Create autostretch image from FITS File
         static QImage FITSToImage(const QString &filename);
 
@@ -466,6 +555,8 @@ class FITSData : public QObject
 
     signals:
         void converted(QImage);
+        void histogramReady();
+        void dataChanged();
 
     private:
         void loadCommon(const QString &inFilename);
@@ -526,9 +617,13 @@ class FITSData : public QObject
         template <typename T>
         void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);
 
-#ifndef KSTARS_LITE
-        FITSHistogram *histogram { nullptr }; // Pointer to the FITS data histogram
-#endif
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Private Histogram Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        template <typename T>  void constructHistogramInternal();
+
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
         /// Generic data image buffer
@@ -571,7 +666,7 @@ class FITSData : public QObject
         {
             nullptr
         };
-        int m_nwcs = 0;
+        int m_nwcs {0};
         WCSState m_WCSState { Idle };
         /// All the stars we detected, if any.
         QList<Edge *> starCenters;
@@ -579,7 +674,6 @@ class FITSData : public QObject
         /// The biggest fattest star in the image.
         Edge *m_SelectedHFRStar { nullptr };
 
-        //uint8_t *m_BayerBuffer { nullptr };
         /// Bayer parameters
         BayerParams debayerParams;
         QTemporaryFile m_TemporaryDataFile;
@@ -598,9 +692,22 @@ class FITSData : public QObject
 
         QFuture<bool> m_StarFindFuture;
 
-        QList<FITSSkyObject *> m_SkyObjects; //Does this need to be public??
+        QList<FITSSkyObject *> m_SkyObjects;
 
-        QString lastError;
+        QString m_LastError;
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Histogram Variables
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        QVector<QVector<uint32_t>> m_CumulativeFrequency;
+        QVector<QVector<double>> m_HistogramIntensity;
+        QVector<QVector<double>> m_HistogramFrequency;
+        QVector<double> m_HistogramBinWidth;
+        uint16_t m_HistogramBinCount { 0 };
+        double m_JMIndex { 0 };
+        bool m_HistogramConstructed { false };
 
         static const QString m_TemporaryPath;
 };

@@ -77,15 +77,21 @@ class FITSView : public QScrollArea
         bool rescale(FITSZoom type);
 
         // Access functions
-        FITSData *getImageData() const
+        Q_DECL_DEPRECATED FITSData *getImageData() const
         {
-            return imageData.data();
+            return m_ImageData.data();
         }
+
+        const QSharedPointer<FITSData> &imageData() const
+        {
+            return m_ImageData;
+        }
+
         double getCurrentZoom() const
         {
             return currentZoom;
         }
-        QImage getDisplayImage() const
+        const QImage &getDisplayImage() const
         {
             return rawImage;
         }
@@ -309,7 +315,7 @@ class FITSView : public QScrollArea
         /// Cross hair
         QPointF markerCrosshair;
         /// Pointer to FITSData object
-        QSharedPointer<FITSData> imageData;
+        QSharedPointer<FITSData> m_ImageData;
         /// Current zoom level
         double currentZoom { 0 };
         // The maximum percent zoom. The value is recalculated in the constructor

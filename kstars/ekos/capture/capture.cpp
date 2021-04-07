@@ -93,6 +93,7 @@ Capture::Capture()
 
     connect(startB, &QPushButton::clicked, this, &Ekos::Capture::toggleSequence);
     connect(pauseB, &QPushButton::clicked, this, &Ekos::Capture::pause);
+    connect(darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -215,8 +216,8 @@ Capture::Capture()
 
     fileDirectoryT->setText(Options::fitsDir());
 
-    for (auto &filter : FITSViewer::filterTypes)
-        filterCombo->addItem(filter);
+    //    for (auto &filter : FITSViewer::filterTypes)
+    //        filterCombo->addItem(filter);
 
     ////////////////////////////////////////////////////////////////////////
     /// Settings
@@ -430,6 +431,8 @@ Capture::Capture()
     //It fires every 100 ms while images are downloading.
     downloadProgressTimer.setInterval(100);
     connect(&downloadProgressTimer, &QTimer::timeout, this, &Ekos::Capture::setDownloadProgress);
+
+    DarkLibrary::Instance()->setCaptureModule(this);
 }
 
 Capture::~Capture()
@@ -457,6 +460,8 @@ void Capture::addCCD(ISD::GDInterface * newCCD)
     CCDs.append(ccd);
 
     cameraS->addItem(ccd->getDeviceName());
+
+    DarkLibrary::Instance()->addCamera(newCCD);
 
     if (Filters.count() > 0)
         syncFilterInfo();
@@ -579,11 +584,11 @@ void Capture::registerNewModule(const QString &name)
  */
 void Capture::start()
 {
-    if (darkSubCheck->isChecked())
-    {
-        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
-        return;
-    }
+    //    if (darkSubCheck->isChecked())
+    //    {
+    //        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
+    //        return;
+    //    }
 
     // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
     ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
@@ -1124,6 +1129,8 @@ void Capture::checkCCD(int ccdNum)
         connect(currentCCD, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
         connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
         connect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
+
+        DarkLibrary::Instance()->checkCamera();
     }
 }
 
@@ -1685,34 +1692,34 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         {
             disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
 
-            if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
-            {
-                uint16_t offsetX       = static_cast<uint16_t>(activeJob->getSubX() / activeJob->getXBin());
-                uint16_t offsetY       = static_cast<uint16_t>(activeJob->getSubY() / activeJob->getYBin());
+            //            if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
+            //            {
+            //                uint16_t offsetX       = static_cast<uint16_t>(activeJob->getSubX() / activeJob->getXBin());
+            //                uint16_t offsetY       = static_cast<uint16_t>(activeJob->getSubY() / activeJob->getYBin());
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-                {
-                    if (currentCCD->isLooping() == false)
-                        DarkLibrary::Instance()->disconnect(this);
-                    if (completed)
-                    {
-                        FITSView *view = targetChip->getImageView(FITS_NORMAL);
-                        if (view)
-                        {
-                            view->rescale(ZOOM_KEEP_LEVEL);
-                            view->updateFrame();
-                        }
-                        setCaptureComplete();
-                    }
-                    else
-                        abort();
-                });
+            //                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
+            //                {
+            //                    if (currentCCD->isLooping() == false)
+            //                        DarkLibrary::Instance()->disconnect(this);
+            //                    if (completed)
+            //                    {
+            //                        FITSView *view = targetChip->getImageView(FITS_NORMAL);
+            //                        if (view)
+            //                        {
+            //                            view->rescale(ZOOM_KEEP_LEVEL);
+            //                            view->updateFrame();
+            //                        }
+            //                        setCaptureComplete();
+            //                    }
+            //                    else
+            //                        abort();
+            //                });
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, activeJob->getExposure(),
-                        targetChip->getCaptureFilter(), offsetX, offsetY);
-                return;
-            }
+            //                connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
+            //                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, activeJob->getExposure(),
+            //                        targetChip->getCaptureFilter(), offsetX, offsetY);
+            //                return;
+            //            }
         }
     }
 
@@ -1749,7 +1756,7 @@ IPState Capture::setCaptureComplete()
         //sendNewImage(blobFilename, blobChip);
         secondsLabel->setText(i18n("Framing..."));
         emit newImage(activeJob, m_ImageData);
-        activeJob->capture(darkSubCheck->isChecked() ? true : false, m_AutoFocusReady);
+        activeJob->capture(m_AutoFocusReady);
         return IPS_OK;
     }
 
@@ -2172,10 +2179,10 @@ void Capture::captureOne()
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
     }
-    else if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
-    {
-        appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
-    }
+    //    else if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+    //    {
+    //        appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
+    //    }
     else if (addJob(true))
     {
         m_State = CAPTURE_PROGRESS;
@@ -2334,7 +2341,7 @@ void Capture::captureImage()
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
-    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false, m_AutoFocusReady);
+    rc = activeJob->capture(m_AutoFocusReady);
 
     if (rc != SequenceJob::CAPTURE_OK)
     {
@@ -2601,11 +2608,11 @@ bool Capture::addJob(bool preview)
 
     SequenceJob * job = nullptr;
 
-    if (preview == false && darkSubCheck->isChecked())
-    {
-        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
-        return false;
-    }
+    //    if (preview == false && darkSubCheck->isChecked())
+    //    {
+    //        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
+    //        return false;
+    //    }
 
     if (fileUploadModeS->currentIndex() != ISD::CCD::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
     {
@@ -2651,7 +2658,7 @@ bool Capture::addJob(bool preview)
         job->setCurrentTemperature(currentTemperature);
     }
 
-    job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
+    //job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
     job->setUploadMode(static_cast<ISD::CCD::UploadMode>(fileUploadModeS->currentIndex()));
     job->setScripts(m_Scripts);
@@ -6829,8 +6836,8 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     int bin = settings["bin"].toInt(1);
     setBinning(bin, bin);
 
-    double temperature = settings["temperature"].toDouble(100);
-    if (temperature < 100 && currentCCD && currentCCD->hasCoolerControl())
+    double temperature = settings["temperature"].toDouble(INVALID_VALUE);
+    if (temperature > INVALID_VALUE && currentCCD && currentCCD->hasCoolerControl())
     {
         setForceTemperature(true);
         setTargetTemperature(temperature);
@@ -7143,6 +7150,8 @@ void Capture::removeDevice(ISD::GDInterface *device)
         CCDs.removeAll(oneCCD);
         cameraS->removeItem(cameraS->findText(device->getDeviceName()));
         cameraS->removeItem(cameraS->findText(device->getDeviceName() + QString(" Guider")));
+
+        DarkLibrary::Instance()->removeCamera(oneCCD);
 
         if (CCDs.empty())
         {

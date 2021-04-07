@@ -295,7 +295,7 @@ bool SequenceJob::areActionsReady()
     return true;
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autofocusReady)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
 {
     activeChip->setBatchMode(!preview);
 
@@ -395,11 +395,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autof
 
     activeChip->setFrameType(frameType);
     activeChip->setCaptureMode(FITS_NORMAL);
-
-    if (noCaptureFilter)
-        activeChip->setCaptureFilter(FITS_NONE);
-    else
-        activeChip->setCaptureFilter(captureFilter);
+    activeChip->setCaptureFilter(FITS_NONE);
 
     // If filter is different that CCD, send the filter info
     //    if (activeFilter && activeFilter != activeCCD)

@@ -38,7 +38,7 @@
 #include <KNotifications/KStatusNotifierItem>
 
 #ifndef KSTARS_LITE
-#include "fitshistogram.h"
+#include "fitshistogrameditor.h"
 #endif
 
 #include <fits_debug.h>

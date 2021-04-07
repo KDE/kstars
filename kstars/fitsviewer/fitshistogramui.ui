@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>230</width>
-    <height>476</height>
+    <width>220</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,8 +35,23 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
-    <widget class="QCustomPlot" name="histogramPlot" native="true">
+    <widget class="FITSHistogramView" name="histogramPlot" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
@@ -59,6 +74,9 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item row="1" column="2">
       <widget class="ctkRangeSlider" name="greenSlider">
        <property name="orientation">
@@ -123,6 +141,9 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="minLabel_2">
        <property name="text">
@@ -166,81 +187,10 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="FITSScaleGroup">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="title">
-      <string>FITS Scale</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>2</number>
-      </property>
-      <property name="topMargin">
-       <number>2</number>
-      </property>
-      <property name="rightMargin">
-       <number>2</number>
-      </property>
-      <property name="bottomMargin">
-       <number>2</number>
-      </property>
-      <item>
-       <widget class="QRadioButton" name="linearR">
-        <property name="text">
-         <string>L&amp;inear</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">FITSScaleButtonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="logR">
-        <property name="text">
-         <string>&amp;Log</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">FITSScaleButtonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QCheckBox" name="hideSaturated">
-       <property name="text">
-        <string>Hide Saturation Spike</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
       <widget class="QPushButton" name="applyB">
        <property name="text">
@@ -254,15 +204,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>auxiliary/qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ctkRangeSlider</class>
    <extends>QSlider</extends>
    <header>auxiliary/ctkrangeslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FITSHistogramView</class>
+   <extends>QWidget</extends>
+   <header>fitsviewer/fitshistogramview.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
