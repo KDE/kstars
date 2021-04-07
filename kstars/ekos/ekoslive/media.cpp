@@ -230,6 +230,7 @@ void Media::upload(FITSView * view)
     {
         {"resolution", resolution},
         {"size", sizeBytes},
+        {"channels", imageData->channels()},
         {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
         {"bpp", QString::number(imageData->bpp())},
         {"uuid", m_UUID},
@@ -303,6 +304,7 @@ void Media::sendUpdatedFrame(FITSView *view)
     {
         {"resolution", resolution},
         {"size", sizeBytes},
+        {"channels", imageData->channels()},
         {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
         {"bpp", QString::number(imageData->bpp())},
         {"uuid", m_UUID},
