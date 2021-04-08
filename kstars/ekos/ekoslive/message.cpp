@@ -1211,6 +1211,15 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
 {
     QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
     QString device = payload["device"].toString();
+
+    // In case we want to UNSUBSCRIBE from all at once
+    if (device.isEmpty() && command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
+    {
+        m_PropertySubscriptions.clear();
+        return;
+    }
+
+    // For the device
     auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
     {
         return (QString(oneDevice->getDeviceName()) == device);
