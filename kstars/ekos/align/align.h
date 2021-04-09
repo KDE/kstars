@@ -143,6 +143,13 @@ class Align : public QWidget, public Ui::Align
             OBJECT_FIXED_GRID
         };
 
+        typedef enum
+        {
+            ALIGN_RESULT_SUCCESS,
+            ALIGN_RESULT_WARNING,
+            ALIGN_RESULT_FAILED
+        } AlignResult;
+
         /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
              * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
             */
@@ -570,6 +577,7 @@ class Align : public QWidget, public Ui::Align
 
         // Solver timeout
         void checkAlignmentTimeout();
+        void setAlignTableResult(AlignResult result);
 
         void updateTelescopeType(int index);
 

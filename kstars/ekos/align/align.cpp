@@ -215,7 +215,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
                 m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
             }
             else
+            {
+                setAlignTableResult(ALIGN_RESULT_FAILED);
                 captureAndSolve();
+            }
         }
     });
 
@@ -1846,13 +1849,7 @@ void Align::checkAlignmentTimeout()
         appendLogText(i18n("Solver timed out."));
         parser->stopSolver();
 
-        int currentRow = solutionTable->rowCount() - 1;
-        solutionTable->setCellWidget(currentRow, 3, new QWidget());
-        QTableWidgetItem *statusReport = new QTableWidgetItem();
-        statusReport->setIcon(QIcon(":/icons/timedout.svg"));
-        statusReport->setFlags(Qt::ItemIsSelectable);
-        solutionTable->setItem(currentRow, 3, statusReport);
-
+        setAlignTableResult(ALIGN_RESULT_FAILED);
         captureAndSolve();
     }
     // TODO must also account for loadAndSlew. Retain file name
@@ -3144,6 +3141,7 @@ void Align::processPAHRefresh()
                           .arg(refreshIteration).arg(correctionFrom.x()).arg(correctionFrom.y());
             qCDebug(KSTARS_EKOS_ALIGN) << debugString;
 
+            setAlignTableResult(ALIGN_RESULT_FAILED);
             captureAndSolve();
             return;
         }
@@ -5223,17 +5221,36 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
         }
 
         appendLogText(i18n("Restarting capture attempt #%1", m_CaptureErrorCounter));
-
-        int currentRow = solutionTable->rowCount() - 1;
-
-        solutionTable->setCellWidget(currentRow, 3, new QWidget());
-        QTableWidgetItem *statusReport = new QTableWidgetItem();
-        statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-        statusReport->setFlags(Qt::ItemIsSelectable);
-        solutionTable->setItem(currentRow, 3, statusReport);
-
+        setAlignTableResult(ALIGN_RESULT_FAILED);
         captureAndSolve();
     }
+}
+
+void Align::setAlignTableResult(AlignResult result)
+{
+    QIcon icon;
+    switch (result)
+    {
+        case ALIGN_RESULT_SUCCESS:
+            icon = QIcon(":/icons/AlignSuccess.svg");
+            break;
+
+        case ALIGN_RESULT_WARNING:
+            icon = QIcon(":/icons/AlignWarning.svg");
+            break;
+
+        case ALIGN_RESULT_FAILED:
+        default:
+            icon = QIcon(":/icons/AlignFailure.svg");
+            break;
+    }
+
+    int currentRow = solutionTable->rowCount() - 1;
+    solutionTable->setCellWidget(currentRow, 3, new QWidget());
+    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    statusReport->setIcon(icon);
+    statusReport->setFlags(Qt::ItemIsSelectable);
+    solutionTable->setItem(currentRow, 3, statusReport);
 }
 
 void Align::setFocusStatus(Ekos::FocusState state)
