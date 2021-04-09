@@ -59,10 +59,6 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-#define REPORT_FITS_ERROR char fitsErrorMessage[512]={0}; \
-                          fits_get_errstatus(status, fitsErrorMessage); \
-                          m_LastError = fitsErrorMessage;
-
 const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
@@ -230,7 +226,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         // files with [ ] or ( ) in their names.
         if (fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status))
         {
-            REPORT_FITS_ERROR
+            recordLastError(status);
             return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
         }
 
@@ -244,7 +240,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         if (fits_open_memfile(&fptr, m_Filename.toLocal8Bit().data(), READONLY,
                               &temp_buffer, &temp_size, 0, nullptr, &status))
         {
-            REPORT_FITS_ERROR
+            recordLastError(status);
             return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
         }
 
@@ -253,13 +249,13 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
     }
 
     if (fits_get_img_param(fptr, 3, &m_FITSBITPIX, &(m_Statistics.ndim), naxes, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
     }
 
@@ -360,7 +356,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
     if (fits_read_img(fptr, m_Statistics.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return fitsOpenError(status, i18n("Error reading image."), silent);
     }
 
@@ -738,7 +734,7 @@ bool FITSData::saveImage(const QString &newFilename)
         /* close current file */
         if (fits_close_file(fptr, &status))
         {
-            REPORT_FITS_ERROR
+            recordLastError(status);
             return status;
         }
 
@@ -773,14 +769,14 @@ bool FITSData::saveImage(const QString &newFilename)
     /* close current file */
     if (fptr && fits_close_file(fptr, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return status;
     }
 
@@ -794,14 +790,14 @@ bool FITSData::saveImage(const QString &newFilename)
     // JM 2020-12-28: Here we to use bitpix values
     if (fits_create_img(fptr, m_FITSBITPIX, naxis, naxes, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
     // Here we need to use the actual data type
     if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
@@ -810,14 +806,14 @@ bool FITSData::saveImage(const QString &newFilename)
     // Minimum
     if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(m_Statistics.min), "Minimum value", &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
     // Maximum
     if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(m_Statistics.max), "Maximum value", &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
@@ -906,7 +902,7 @@ bool FITSData::saveImage(const QString &newFilename)
     // ISO Date
     if (fits_write_date(fptr, &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
@@ -915,7 +911,7 @@ bool FITSData::saveImage(const QString &newFilename)
     // History
     if (fits_write_history(fptr, history.toLatin1(), &status))
     {
-        REPORT_FITS_ERROR
+        recordLastError(status);
         return false;
     }
 
@@ -3953,3 +3949,9 @@ template <typename T> void FITSData::constructHistogramInternal()
     emit histogramReady();
 }
 
+void FITSData::recordLastError(int errorCode)
+{
+    char fitsErrorMessage[512] = {0};
+    fits_get_errstatus(errorCode, fitsErrorMessage);
+    m_LastError = fitsErrorMessage;
+}

@@ -1288,11 +1288,7 @@ void DarkLibrary::executeDarkJobs()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::stopDarkJobs()
 {
-    startB->setEnabled(true);
-    stopB->setEnabled(false);
     m_CaptureModule->stop();
-    m_StatusLabel->setText(i18n("Idle"));
-    Options::setUseFITSViewer(m_RememberFITSViewer);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1470,12 +1466,16 @@ void DarkLibrary::setCaptureState(CaptureState state)
     switch (state)
     {
         case CAPTURE_ABORTED:
+            startB->setEnabled(true);
+            stopB->setEnabled(false);
+            Options::setUseFITSViewer(m_RememberFITSViewer);
             m_StatusLabel->setText(i18n("Capture aborted."));
             break;
         case CAPTURE_COMPLETE:
-            m_StatusLabel->setText(i18n("Capture completed."));
             startB->setEnabled(true);
             stopB->setEnabled(false);
+            Options::setUseFITSViewer(m_RememberFITSViewer);
+            m_StatusLabel->setText(i18n("Capture completed."));
             break;
         default:
             break;

@@ -55,11 +55,6 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     {
         undoStack->push(command);
     });
-    //    connect(undoStack, &QUndoStack::indexChanged, [this]
-    //    {
-    //        if (m_View && Options::nonLinearHistogram())
-    //            m_HistogramEditor->createNonLinearHistogram();
-    //    });
 }
 
 FITSTab::~FITSTab()

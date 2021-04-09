@@ -473,6 +473,10 @@ class FITSData : public QObject
             return m_HistogramFrequency[channel];
         }
 
+        /**
+         * @brief getJMIndex Overall contrast of the image used in find centeroid algorithm. i.e. is the image diffuse?
+         * @return Value of JMIndex
+         */
         double getJMIndex() const
         {
             return m_JMIndex;
@@ -555,7 +559,15 @@ class FITSData : public QObject
 
     signals:
         void converted(QImage);
+
+        /**
+         * @brief histogramReady Sends signal when histogram construction is complete.
+         */
         void histogramReady();
+
+        /**
+         * @brief dataChanged Send signal when undelying raw data buffer data changed.
+         */
         void dataChanged();
 
     private:
@@ -579,6 +591,9 @@ class FITSData : public QObject
         int calculateMinMax(bool refresh = false);
         bool checkDebayer();
         void readWCSKeys();
+
+        // Record last FITS error
+        void recordLastError(int errorCode);
 
         // FITS Record
         bool parseHeader();
@@ -666,6 +681,7 @@ class FITSData : public QObject
         {
             nullptr
         };
+        /// Number of coordinate representations found.
         int m_nwcs {0};
         WCSState m_WCSState { Idle };
         /// All the stars we detected, if any.
@@ -678,6 +694,9 @@ class FITSData : public QObject
         BayerParams debayerParams;
         QTemporaryFile m_TemporaryDataFile;
 
+        /// Data type of fits pixel in the image. Used when saving FITS again.
+        /// There is bit depth and also data type. They're not the same.
+        /// 16bit can be either SHORT_IMG or USHORT_IMG, so m_FITSBITPIX specifies which is
         int m_FITSBITPIX {USHORT_IMG};
         FITSImage::Statistic m_Statistics;
 

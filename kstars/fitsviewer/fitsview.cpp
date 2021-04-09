@@ -332,8 +332,8 @@ void FITSView::loadFile(const QString &inFilename, bool silent)
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
 
-    //    delete imageData;
-    //    imageData = nullptr;
+    //    delete m_ImageData;
+    //    m_ImageData = nullptr;
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
@@ -358,10 +358,10 @@ bool FITSView::loadData(const QSharedPointer<FITSData> &data)
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
 
-    //    if (imageData != nullptr)
+    //    if (m_ImageData != nullptr)
     //    {
-    //        delete imageData;
-    //        imageData = nullptr;
+    //        delete m_ImageData;
+    //        m_ImageData = nullptr;
     //    }
 
     filterStack.clear();
@@ -1739,21 +1739,21 @@ void FITSView::viewStarProfile()
         if(mode == FITS_ALIGN || mode == FITS_NORMAL)
         {
             starProfileWidget->enableTrackingBox(true);
-            imageData->setStarAlgorithm(ALGORITHM_CENTROID);
+            m_ImageData->setStarAlgorithm(ALGORITHM_CENTROID);
             connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
         }
     }
-    QList<Edge *> starCenters = imageData->getStarCentersInSubFrame(trackingBox);
+    QList<Edge *> starCenters = m_ImageData->getStarCentersInSubFrame(trackingBox);
     if(starCenters.size() == 0)
     {
         // FIXME, the following does not work anymore.
-        //imageData->findStars(&trackingBox, true);
+        //m_ImageData->findStars(&trackingBox, true);
         // FIXME replacing it with this
-        imageData->findStars(ALGORITHM_CENTROID, trackingBox).waitForFinished();
-        starCenters = imageData->getStarCentersInSubFrame(trackingBox);
+        m_ImageData->findStars(ALGORITHM_CENTROID, trackingBox).waitForFinished();
+        starCenters = m_ImageData->getStarCentersInSubFrame(trackingBox);
     }
 
-    starProfileWidget->loadData(imageData, trackingBox, starCenters);
+    starProfileWidget->loadData(m_ImageData, trackingBox, starCenters);
     starProfileWidget->show();
     starProfileWidget->raise();
     if(markStars)
@@ -1978,9 +1978,9 @@ void FITSView::pinchTriggered(QPinchGesture * gesture)
 /*void FITSView::handleWCSCompletion()
 {
     //bool hasWCS = wcsWatcher.result();
-    if(imageData->hasWCS())
+    if(m_ImageData->hasWCS())
         this->updateFrame();
-    emit wcsToggled(imageData->hasWCS());
+    emit wcsToggled(m_ImageData->hasWCS());
 }*/
 
 void FITSView::syncWCSState()

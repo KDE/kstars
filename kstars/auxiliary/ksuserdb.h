@@ -80,7 +80,7 @@ class KSUserDB
 
         void AddDarkFrame(const QVariantMap &oneFrame);
         void UpdateDarkFrame(const QVariantMap &oneFrame);
-        bool DeleteDarkFrame(const QString &filename);
+        void DeleteDarkFrame(const QString &filename);
         void GetAllDarkFrames(QList<QVariantMap> &darkFrames);
 
 

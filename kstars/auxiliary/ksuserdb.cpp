@@ -517,6 +517,10 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
 
 /* Dark Library Section */
 
+/**
+ * @brief KSUserDB::AddDarkFrame Saves a new dark frame data to the database
+ * @param oneFrame Map that contains 1 to 1 correspondence with the database table, except for primary key and timestamp.
+ */
 void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
 {
     m_UserDB.open();
@@ -539,6 +543,10 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
     m_UserDB.close();
 }
 
+/**
+ * @brief KSUserDB::UpdateDarkFrame Updates an existing dark frame record in the data, replace all values matching the supplied ID
+ * @param oneFrame dark frame to update. The ID should already exist in the database.
+ */
 void KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
 {
     m_UserDB.open();
@@ -556,7 +564,11 @@ void KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
     m_UserDB.close();
 }
 
-bool KSUserDB::DeleteDarkFrame(const QString &filename)
+/**
+ * @brief KSUserDB::DeleteDarkFrame Delete from database a dark frame record that matches the filename field.
+ * @param filename filename of dark frame to delete from database.
+ */
+void KSUserDB::DeleteDarkFrame(const QString &filename)
 {
     m_UserDB.open();
     QSqlTableModel darkframe(nullptr, m_UserDB);
@@ -569,8 +581,6 @@ bool KSUserDB::DeleteDarkFrame(const QString &filename)
     darkframe.submitAll();
 
     m_UserDB.close();
-
-    return true;
 }
 
 void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
