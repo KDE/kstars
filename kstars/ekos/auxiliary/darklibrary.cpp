@@ -13,6 +13,7 @@
 
 #include "Options.h"
 
+#include "ekos/manager.h"
 #include "ekos/capture/capture.h"
 #include "ekos/capture/sequencejob.h"
 #include "kstars.h"
@@ -37,7 +38,7 @@ DarkLibrary *DarkLibrary::_DarkLibrary = nullptr;
 DarkLibrary *DarkLibrary::Instance()
 {
     if (_DarkLibrary == nullptr)
-        _DarkLibrary = new DarkLibrary(KStars::Instance());
+        _DarkLibrary = new DarkLibrary(Manager::Instance());
 
     return _DarkLibrary;
 }
