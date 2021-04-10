@@ -23,6 +23,8 @@
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitshistogramview.h"
 
+#include "ekos_debug.h"
+
 #include <QDesktopServices>
 #include <QSqlRecord>
 #include <QSqlTableModel>
@@ -616,6 +618,7 @@ void DarkLibrary::denoise(ISD::CCDChip *m_TargetChip, const QSharedPointer<FITSD
         if (findDefectMap(m_TargetChip, duration, targetDefectMap))
         {
             normalizeDefects(targetDefectMap, targetData, filter, offsetX, offsetY);
+            qCDebug(KSTARS_EKOS) << "Defect map denoising applied";
             return;
         }
     }
@@ -625,6 +628,7 @@ void DarkLibrary::denoise(ISD::CCDChip *m_TargetChip, const QSharedPointer<FITSD
     if (findDarkFrame(m_TargetChip, duration, darkData))
     {
         subtractDarkData(darkData, targetData, filter, offsetX, offsetY);
+        qCDebug(KSTARS_EKOS) << "Dark frame subtraction applied";
         return;
     }
 
