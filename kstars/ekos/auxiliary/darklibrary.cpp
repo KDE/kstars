@@ -1274,13 +1274,15 @@ void DarkLibrary::executeDarkJobs()
 {
     m_DarkImagesCounter = 0;
     darkProgress->setTextVisible(true);
-    connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage);
+    connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage, Qt::UniqueConnection);
+    connect(m_CaptureModule, &Capture::newStatus, this, &DarkLibrary::setCaptureState, Qt::UniqueConnection);
 
     Options::setUseFITSViewer(false);
     startB->setEnabled(false);
     stopB->setEnabled(true);
     m_StatusLabel->setText(i18n("In progress..."));
     m_CaptureModule->start();
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1288,7 +1290,9 @@ void DarkLibrary::executeDarkJobs()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::stopDarkJobs()
 {
-    m_CaptureModule->stop();
+    m_CaptureModule->abort();
+    darkProgress->setValue(0);
+    m_CaptureModule->disconnect(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1455,7 +1459,6 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 void DarkLibrary::setCaptureModule(Capture *instance)
 {
     m_CaptureModule = instance;
-    connect(m_CaptureModule, &Capture::newStatus, this, &DarkLibrary::setCaptureState, Qt::UniqueConnection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
