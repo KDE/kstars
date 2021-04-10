@@ -766,6 +766,9 @@
               </item>
               <item row="1" column="5">
                <widget class="QCheckBox" name="coldPixelsEnabled">
+                <property name="toolTip">
+                 <string>Enable cold pixel detection in the master dark frame.</string>
+                </property>
                 <property name="text">
                  <string>Enabled</string>
                 </property>
@@ -812,6 +815,9 @@
               </item>
               <item row="0" column="5">
                <widget class="QCheckBox" name="hotPixelsEnabled">
+                <property name="toolTip">
+                 <string>Enable detection of hot pixels in the master dark frame.</string>
+                </property>
                 <property name="text">
                  <string>Enabled</string>
                 </property>
@@ -885,6 +891,9 @@
                  <height>32</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Reset aggressiveness sliders to default values.</string>
+               </property>
                <property name="text">
                 <string>Reset</string>
                </property>
@@ -911,6 +920,9 @@
                  <height>32</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Detect hot and cold pixels within the aggressiveness threshold.</string>
+               </property>
                <property name="text">
                 <string>Generate Map</string>
                </property>
@@ -929,6 +941,9 @@
                  <width>32</width>
                  <height>32</height>
                 </size>
+               </property>
+               <property name="toolTip">
+                <string>Save defect map to disk once the map results are satisfactory.</string>
                </property>
                <property name="text">
                 <string/>
@@ -1186,11 +1201,11 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="darkHandlingButtonGroup"/>
   <buttongroup name="binningButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="darkHandlingButtonGroup"/>
  </buttongroups>
 </ui>
