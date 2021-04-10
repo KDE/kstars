@@ -96,7 +96,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     fitsWCS.setVisible(false);
 
-    statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsHFR);
+    statusBar()->insertPermanentWidget(FITS_HFR, &fitsHFR);
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
     statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
