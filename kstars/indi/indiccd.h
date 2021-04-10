@@ -234,10 +234,10 @@ class CCD : public DeviceDecorator
         {
             nextSequenceID = count;
         }
-        void setFilter(const QString &newFilter)
-        {
-            filter = newFilter;
-        }
+        //        void setFilter(const QString &newFilter)
+        //        {
+        //            filter = newFilter;
+        //        }
 
         // Gain controls
         bool hasGain()
@@ -371,7 +371,7 @@ class CCD : public DeviceDecorator
         void setupFITSViewerWindows();
         void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
 
-        QString filter;
+        //QString filter;
         bool ISOMode { true };
         bool HasGuideHead { false };
         bool HasCooler { false };

@@ -3730,32 +3730,36 @@ void Manager::syncActiveDevices()
                 }
                 else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
                 {
-#if 0
-                    if (tvp->tp[i].aux0 != nullptr)
-                    {
-                        bool *override = static_cast<bool *>(tvp->tp[i].aux0);
-                        if (override && *override)
-                            continue;
-                    }
-                    devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
-#endif
                     devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
                     // Active filter wheel should be set to whatever the user selects in capture module
                     const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
                     // Does defaultFilterWheel exist in devices?
-                    for (auto &oneDev : devs)
+                    if (defaultFilterWheel == "--")
                     {
-                        if (oneDev->getDeviceName() == defaultFilterWheel)
+                        // If already empty, do not update it.
+                        if (!QString(tvp->tp[i].text).isEmpty())
                         {
-                            // TODO this should be profile specific
-                            if (QString(tvp->tp[i].text) != defaultFilterWheel)
+                            IUSaveText(&tvp->tp[i], "");
+                            oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        for (auto &oneDev : devs)
+                        {
+                            if (oneDev->getDeviceName() == defaultFilterWheel)
                             {
-                                IUSaveText(&tvp->tp[i], defaultFilterWheel.toLatin1().constData());
-                                oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
-                                break;
-                            }
+                                // TODO this should be profile specific
+                                if (QString(tvp->tp[i].text) != defaultFilterWheel)
+                                {
+                                    IUSaveText(&tvp->tp[i], defaultFilterWheel.toLatin1().constData());
+                                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                                    break;
+                                }
 
-                            continue;
+                                continue;
+                            }
                         }
                     }
                     // If it does not exist, then continue and pick from available devs below.

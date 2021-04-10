@@ -77,8 +77,7 @@ void addFITSKeywords(const QString &filename, const QString &filter_used)
 }
 
 // Internal function to write an image blob to disk.
-bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size,
-                            bool add_fits_keywords, const QString &filter)
+bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
 {
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
@@ -97,8 +96,8 @@ bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t 
                         QFileDevice::WriteUser |
                         QFileDevice::ReadGroup |
                         QFileDevice::ReadOther);
-    if (add_fits_keywords)
-        addFITSKeywords(filename, filter);
+    //    if (add_fits_keywords)
+    //        addFITSKeywords(filename, filter);
     return true;
 }
 }
@@ -1466,14 +1465,12 @@ bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
         memcpy(fileWriteBuffer, bp->blob, bp->size);
-        fileWriteThread = QtConcurrent::run(WriteImageFileInternal, fileWriteFilename,
-                                            fileWriteBuffer, bp->size, is_fits, filter);
-        filter = "";
+        fileWriteThread = QtConcurrent::run(WriteImageFileInternal, fileWriteFilename, fileWriteBuffer, bp->size);
+        //filter = "";
     }
     else
     {
-        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->size,
-                                    false, filter))
+        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->size))
             return false;
     }
     return true;

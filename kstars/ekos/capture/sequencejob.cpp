@@ -74,11 +74,12 @@ SequenceJob::SequenceJob(XMLEle *root):
         {
             /* Record frame type and mark presence of light frames for this sequence */
             QString frameTypeStr = QString(pcdataXMLEle(ep));
-            if (frameTypes.contains(frameTypeStr)) {
+            if (frameTypes.contains(frameTypeStr))
+            {
                 frameType = frameTypes[frameTypeStr];
             }
             //if (FRAME_LIGHT == frameType && nullptr != schedJob)
-                //schedJob->setLightFramesRequired(true);
+            //schedJob->setLightFramesRequired(true);
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
@@ -402,8 +403,8 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autof
         activeChip->setCaptureFilter(captureFilter);
 
     // If filter is different that CCD, send the filter info
-    if (activeFilter && activeFilter != activeCCD)
-        activeCCD->setFilter(filter);
+    //    if (activeFilter && activeFilter != activeCCD)
+    //        activeCCD->setFilter(filter);
 
     //status = JOB_BUSY;
     setStatus(getStatus());
