@@ -124,7 +124,7 @@ void FITSView::setStretchParams(const StretchParams &params)
     stretchImage = true;
 
     if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
-        updateFrame();
+        updateFrame(true);
 }
 
 // Turn on or off stretching, and if on, use whatever parameters are currently stored.
@@ -134,7 +134,7 @@ void FITSView::setStretch(bool onOff)
     {
         stretchImage = onOff;
         if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
-            updateFrame();
+            updateFrame(true);
     }
 }
 
@@ -144,7 +144,7 @@ void FITSView::setAutoStretchParams()
     stretchImage = true;
     autoStretch = true;
     if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
-        updateFrame();
+        updateFrame(true);
 }
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), zoomFactor(1.2)
@@ -468,9 +468,7 @@ bool FITSView::processData()
     }
 
     // Fore immediate load of frame for first load.
-    //m_StretchingInProgress = true;
-    updateFrame();
-    //m_StretchingInProgress = false;
+    updateFrame(true);
     return true;
 }
 
@@ -758,13 +756,13 @@ double FITSView::scaleSize(double size)
     return (currentZoom > 100.0 ? size : std::round(size * 100.0 / currentZoom)) / m_PreviewSampling;
 }
 
-void FITSView::updateFrame()
+void FITSView::updateFrame(bool now)
 {
     // JM 2021-03-13: This timer is used to throttle updateFrame calls to improve performance
     // If after 250ms no further update frames are called, then the actual update is triggered.
     // JM 2021-03-16: When stretching in progress, immediately execute so that the user see the changes
     // in real time
-    if (m_StretchingInProgress)
+    if (now)
     {
         if (toggleStretchAction)
             toggleStretchAction->setChecked(stretchImage);

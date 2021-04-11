@@ -142,7 +142,7 @@ class FITSView : public QScrollArea
         bool imageHasWCS();
 
         // Setup the graphics.
-        void updateFrame();
+        void updateFrame(bool now = false);
 
         bool isTelescopeActive();
 

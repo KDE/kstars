@@ -725,7 +725,7 @@ class FITSData : public QObject
         QVector<QVector<double>> m_HistogramFrequency;
         QVector<double> m_HistogramBinWidth;
         uint16_t m_HistogramBinCount { 0 };
-        double m_JMIndex { 0 };
+        double m_JMIndex { 1 };
         bool m_HistogramConstructed { false };
 
         static const QString m_TemporaryPath;
