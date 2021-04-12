@@ -83,13 +83,13 @@ void AlignView::setCorrectionParams(const QPointF &from, const QPointF &to, cons
     correctionAltTo = altTo;
     markerCrosshair = to;
 
-    updateFrame();
+    updateFrame(true);
 }
 
 void AlignView::setStarCircle(const QPointF &pixel)
 {
     starCircle = pixel;
-    updateFrame();
+    updateFrame(true);
 }
 
 void AlignView::drawTriangle(QPainter *painter)
@@ -188,13 +188,13 @@ void AlignView::drawRaAxis(QPainter *painter)
 void AlignView::setRaAxis(const QPointF &value)
 {
     raAxis = value;
-    updateFrame();
+    updateFrame(true);
 }
 
 void AlignView::setCelestialPole(const QPointF &value)
 {
     celestialPolePoint = value;
-    updateFrame();
+    updateFrame(true);
 }
 
 void AlignView::setRefreshEnabled(bool enable)
