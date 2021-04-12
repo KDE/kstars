@@ -2873,16 +2873,6 @@ bool Align::captureAndSolve()
         }
     }
 
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    {
-        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-    }
-
-    rememberCCDExposureLooping = currentCCD->isLooping();
-    if (rememberCCDExposureLooping)
-        currentCCD->setExposureLoopingEnabled(false);
-
     // Remove temporary FITS files left before by the solver
     QDir dir(QDir::tempPath());
     dir.setNameFilters(QStringList() << "fits*"  << "tmp.*");
@@ -2890,22 +2880,7 @@ bool Align::captureAndSolve()
     for (auto &dirFile : dir.entryList())
         dir.remove(dirFile);
 
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
-
-    targetChip->resetFrame();
-    targetChip->setBatchMode(false);
-    targetChip->setCaptureMode(FITS_ALIGN);
-    targetChip->setFrameType(FRAME_LIGHT);
-
-    int bin = Options::solverBinningIndex() + 1;
-    targetChip->setBinning(bin, bin);
-
-    // Set gain if applicable
-    if (currentCCD->hasGain() && GainSpin->value() > GainSpinSpecialValue)
-        currentCCD->setGain(GainSpin->value());
-    // Set ISO if applicable
-    if (ISOCombo->currentIndex() >= 0)
-        targetChip->setISOIndex(ISOCombo->currentIndex());
+    prepareCapture(targetChip);
 
     // In case we're in refresh phase of the polar alignment helper then we use capture value from there
     if (m_PAHStage == PAH_REFRESH)
@@ -3048,6 +3023,35 @@ void Align::processData(const QSharedPointer<FITSData> &data)
 
         setCaptureComplete();
     }
+}
+
+void Align::prepareCapture(ISD::CCDChip *targetChip)
+{
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+    }
+
+    rememberCCDExposureLooping = currentCCD->isLooping();
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(false);
+
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    targetChip->resetFrame();
+    targetChip->setBatchMode(false);
+    targetChip->setCaptureMode(FITS_ALIGN);
+    targetChip->setFrameType(FRAME_LIGHT);
+
+    int bin = Options::solverBinningIndex() + 1;
+    targetChip->setBinning(bin, bin);
+
+    // Set gain if applicable
+    if (currentCCD->hasGain() && GainSpin->value() > GainSpinSpecialValue)
+        currentCCD->setGain(GainSpin->value());
+    // Set ISO if applicable
+    if (ISOCombo->currentIndex() >= 0)
+        targetChip->setISOIndex(ISOCombo->currentIndex());
 }
 
 bool Align::detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *starIndex)

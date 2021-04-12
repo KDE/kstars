@@ -560,6 +560,12 @@ class Guide : public QWidget, public Ui::Guide
         void setExternalGuiderBLOBEnabled(bool enable);
 
         /**
+         * @brief prepareCapture Set common settings for capture for guide module
+         * @param targetChip target Chip
+         */
+        void prepareCapture(ISD::CCDChip *targetChip);
+
+        /**
          * @brief setRMSVisibility Decides which RMS plot is visible.
          */
         void setRMSVisibility();

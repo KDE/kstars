@@ -474,6 +474,11 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        /**
+         * @brief prepareCapture Set common settings for capture for focus module
+         * @param targetChip target Chip
+         */
+        void prepareCapture(ISD::CCDChip *targetChip);
         ////////////////////////////////////////////////////////////////////
         /// HFR
         ////////////////////////////////////////////////////////////////////

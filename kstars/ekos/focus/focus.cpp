@@ -1011,7 +1011,6 @@ void Focus::capture(double settleTime)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-
     if (currentCCD->isBLOBEnabled() == false)
     {
         currentCCD->setBLOBEnabled(true);
@@ -1061,39 +1060,10 @@ void Focus::capture(double settleTime)
         }
     }
 
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    {
-        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-    }
-
-    rememberCCDExposureLooping = currentCCD->isLooping();
-    if (rememberCCDExposureLooping)
-        currentCCD->setExposureLoopingEnabled(false);
-
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
-    targetChip->setBatchMode(false);
-    targetChip->setBinning(activeBin, activeBin);
-
-    targetChip->setCaptureMode(FITS_FOCUS);
-
-    // Always disable filtering if using a dark frame and then re-apply after subtraction. TODO: Implement this in capture and guide and align
-    if (darkFrameCheck->isChecked())
-        targetChip->setCaptureFilter(FITS_NONE);
-    else
-        targetChip->setCaptureFilter(defaultScale);
-
-    if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 &&
-            targetChip->getISOIndex() != ISOCombo->currentIndex())
-        targetChip->setISOIndex(ISOCombo->currentIndex());
-
-    if (gainIN->isEnabled())
-        currentCCD->setGain(gainIN->value());
+    prepareCapture(targetChip);
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
     connect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
-
-    targetChip->setFrameType(FRAME_LIGHT);
 
     if (frameSettings.contains(targetChip))
     {
@@ -1129,6 +1099,38 @@ void Focus::capture(double settleTime)
     {
         completeFocusProcedure(false);
     }
+}
+
+void Focus::prepareCapture(ISD::CCDChip *targetChip)
+{
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+    }
+
+    rememberCCDExposureLooping = currentCCD->isLooping();
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(false);
+
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    targetChip->setBatchMode(false);
+    targetChip->setBinning(activeBin, activeBin);
+    targetChip->setCaptureMode(FITS_FOCUS);
+    targetChip->setFrameType(FRAME_LIGHT);
+
+    // Always disable filtering if using a dark frame and then re-apply after subtraction. TODO: Implement this in capture and guide and align
+    if (darkFrameCheck->isChecked())
+        targetChip->setCaptureFilter(FITS_NONE);
+    else
+        targetChip->setCaptureFilter(defaultScale);
+
+    if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 &&
+            targetChip->getISOIndex() != ISOCombo->currentIndex())
+        targetChip->setISOIndex(ISOCombo->currentIndex());
+
+    if (gainIN->isEnabled())
+        currentCCD->setGain(gainIN->value());
 }
 
 bool Focus::focusIn(int ms)
@@ -3656,6 +3658,8 @@ void Focus::processCaptureTimeout()
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
+
+        prepareCapture(targetChip);
 
         if (targetChip->capture(exposureIN->value()))
         {

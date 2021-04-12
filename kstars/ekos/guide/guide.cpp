@@ -1204,14 +1204,7 @@ bool Guide::captureOneFrame()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    targetChip->setBatchMode(false);
-    targetChip->setCaptureMode(FITS_GUIDE);
-    targetChip->setFrameType(FRAME_LIGHT);
-
-    if (darkFrameCheck->isChecked())
-        targetChip->setCaptureFilter(FITS_NONE);
-    else
-        targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
+    prepareCapture(targetChip);
 
     guideView->setBaseSize(guideWidget->size());
     setBusy(true);
@@ -1222,8 +1215,6 @@ bool Guide::captureOneFrame()
         targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(),
                              settings["h"].toInt());
     }
-
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Guide::processData, Qt::UniqueConnection);
     qCDebug(KSTARS_EKOS_GUIDE) << "Capturing frame...";
@@ -1242,6 +1233,18 @@ bool Guide::captureOneFrame()
     targetChip->capture(finalExposure);
 
     return true;
+}
+
+void Guide::prepareCapture(ISD::CCDChip *targetChip)
+{
+    targetChip->setBatchMode(false);
+    targetChip->setCaptureMode(FITS_GUIDE);
+    targetChip->setFrameType(FRAME_LIGHT);
+    if (darkFrameCheck->isChecked())
+        targetChip->setCaptureFilter(FITS_NONE);
+    else
+        targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 }
 
 bool Guide::abort()
@@ -1341,6 +1344,7 @@ void Guide::processCaptureTimeout()
         currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
+        prepareCapture(targetChip);
         targetChip->capture(exposureIN->value());
         captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
     };
@@ -3207,7 +3211,7 @@ bool Guide::executeOneOperation(GuideState operation)
                 actionRequired = true;
                 targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
                 DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
-                        offsetX, offsetY);
+                                                 offsetX, offsetY);
             }
         }
         break;

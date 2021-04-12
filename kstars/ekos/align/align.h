@@ -585,6 +585,12 @@ class Align : public QWidget, public Ui::Align
         void showFITSViewer();
         void toggleAlignWidgetFullScreen();
 
+        /**
+         * @brief prepareCapture Set common settings for capture for align module
+         * @param targetChip target Chip
+         */
+        void prepareCapture(ISD::CCDChip *targetChip);
+
         // Polar Alignment Helper slots
 
         void rotatePAH();
