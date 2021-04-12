@@ -427,9 +427,11 @@ void ServerManager::processStandardError()
                 restartDriver(*crashedDriver);
             });
 
+            QString label = (*crashedDriver)->getUniqueLabel();
+            if (label.isEmpty())
+                label = (*crashedDriver)->getExecutable();
             KSMessageBox::Instance()->warningContinueCancel(i18n("INDI Driver <b>%1</b> crashed. Restart it?",
-                    (*crashedDriver)->getUniqueLabel()),
-                    i18n("Driver crash"), 10);
+                    label), i18n("Driver crash"), 10);
         }
     }
 #endif
