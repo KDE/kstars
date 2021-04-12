@@ -674,7 +674,6 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
 void DarkLibrary::processNewBLOB(IBLOB *bp)
 {
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
-    m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
     if (!m_CurrentDarkFrame->loadFromBuffer(buffer, "fits"))
     {
         m_FileLabel->setText(i18n("Failed to process data."));
