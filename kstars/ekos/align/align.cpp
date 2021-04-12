@@ -310,6 +310,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         Options::setSolverAccuracyThreshold(accuracySpin->value());
         buildTarget();
     });
+
+    connect(alignDarkFrameCheck, &QCheckBox::toggled, [this]()
+    {
+        Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
+    });
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
 
     delaySpin->setValue(Options::settlingTime());
