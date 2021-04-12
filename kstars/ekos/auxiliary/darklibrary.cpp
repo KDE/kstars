@@ -68,8 +68,6 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Dark Generation Connections
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    connect(m_DarkView, &FITSView::loaded, this, &DarkLibrary::setDarkFrameLoaded);
     m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
 
     m_DarkCameras = Options::darkCameras();
@@ -154,6 +152,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         generateDarkJobs();
         executeDarkJobs();
     });
+
+    connect(stopB, &QPushButton::clicked, this, &DarkLibrary::stopDarkJobs);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Master Darks Database Connections
@@ -697,15 +697,14 @@ void DarkLibrary::clearExpired()
     // Anything before this must go
     QDateTime expiredDate = QDateTime::currentDateTime().addDays(kcfg_DarkLibraryDuration->value() * -1);
 
-    QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
-
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
     userdb.open();
     QSqlTableModel darkframe(nullptr, userdb);
     darkframe.setEditStrategy(QSqlTableModel::OnManualSubmit);
     darkframe.setTable("darkframe");
     // Select all those that already expired.
-    darkframe.setFilter("timestamp < \'" + expiredDate.toString(Qt::ISODate) + "\'");
+    darkframe.setFilter("ccd LIKE \'" + m_CurrentCamera->getDeviceName() + "\' AND timestamp < \'" + expiredDate.toString(
+                            Qt::ISODate) + "\'");
 
     darkframe.select();
 
@@ -713,7 +712,11 @@ void DarkLibrary::clearExpired()
     for (int i = 0; i < darkframe.rowCount(); ++i)
     {
         QString oneFile = darkframe.record(i).value("filename").toString();
-        QFile::remove(darkFilesPath + QDir::separator() + oneFile);
+        QFile::remove(oneFile);
+        QString defectMap = darkframe.record(i).value("defectmap").toString();
+        if (defectMap.isEmpty() == false)
+            QFile::remove(defectMap);
+
     }
 
     // And remove them from the database
@@ -739,15 +742,25 @@ void DarkLibrary::clearAll()
             KMessageBox::No)
         return;
 
-    QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
-
-    QDir darkDir(darkFilesPath);
-    darkDir.removeRecursively();
-    darkDir.mkdir(darkFilesPath);
-
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
     userdb.open();
+    QSqlTableModel darkframe(nullptr, userdb);
     darkFramesModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    darkframe.setTable("darkframe");
+    darkframe.setFilter("ccd LIKE \'" + m_CurrentCamera->getDeviceName() + "\'");
+    darkFramesModel->select();
+
+    // Now remove all the expired files from disk
+    for (int i = 0; i < darkframe.rowCount(); ++i)
+    {
+        QString oneFile = darkframe.record(i).value("filename").toString();
+        QFile::remove(oneFile);
+        QString defectMap = darkframe.record(i).value("defectmap").toString();
+        if (defectMap.isEmpty() == false)
+            QFile::remove(defectMap);
+
+    }
+
     darkFramesModel->removeRows(0, darkFramesModel->rowCount());
     darkFramesModel->submitAll();
     userdb.close();
@@ -764,7 +777,16 @@ void DarkLibrary::clearRow()
 {
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
     int row = darkTableView->currentIndex().row();
+
+    QSqlRecord record = darkFramesModel->record(row);
+    QString filename = record.value("filename").toString();
+    QString defectMap = record.value("defectmap").toString();
+    QFile::remove(filename);
+    if (!defectMap.isEmpty())
+        QFile::remove(defectMap);
+
     userdb.open();
+
     darkFramesModel->removeRow(row);
     darkFramesModel->submitAll();
     userdb.close();
@@ -1312,8 +1334,7 @@ void DarkLibrary::initView()
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(m_DarkView);
     darkWidget->setLayout(vlayout);
-    //    m_DarkView->setStarsEnabled(true);
-    //    m_DarkView->setStarsHFREnabled(true);
+    connect(m_DarkView, &FITSView::loaded, this, &DarkLibrary::setDarkFrameLoaded);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
