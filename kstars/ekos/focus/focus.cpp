@@ -3655,7 +3655,7 @@ void Focus::processCaptureTimeout()
     if (captureTimeoutCounter >= 3)
     {
         captureTimeoutCounter = 0;
-
+        captureTimeout.stop();
         appendLogText(i18n("Exposure timeout. Aborting..."));
         completeFocusProcedure(false);
     }

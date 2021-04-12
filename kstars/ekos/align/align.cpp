@@ -203,6 +203,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         if (m_CaptureTimeoutCounter++ > 3)
         {
             appendLogText(i18n("Capture timed out."));
+            m_CaptureTimer.stop();
             abort();
         }
         else

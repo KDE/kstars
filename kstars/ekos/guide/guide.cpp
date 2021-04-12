@@ -1358,6 +1358,7 @@ void Guide::processCaptureTimeout()
         else if (state == GUIDE_CALIBRATING)
             appendLogText(i18n("Exposure timeout. Aborting Calibration."));
 
+        captureTimeout.stop();
         abort();
         return;
     }
