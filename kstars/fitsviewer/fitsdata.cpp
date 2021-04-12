@@ -3814,9 +3814,9 @@ template <typename T> void FITSData::constructHistogramInternal()
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
-        m_HistogramIntensity[n].fill(0, m_HistogramBinCount);
-        m_HistogramFrequency[n].fill(0, m_HistogramBinCount);
-        m_CumulativeFrequency[n].fill(0, m_HistogramBinCount);
+        m_HistogramIntensity[n].fill(0, m_HistogramBinCount + 1);
+        m_HistogramFrequency[n].fill(0, m_HistogramBinCount + 1);
+        m_CumulativeFrequency[n].fill(0, m_HistogramBinCount + 1);
         m_HistogramBinWidth[n] = (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1);
         // Initialize the median to 0 in case the computation below fails.
         setMedian(0, n);
