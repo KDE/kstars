@@ -26,7 +26,14 @@
 
 namespace Ekos {
 
-PlaceholderPath::PlaceholderPath()
+PlaceholderPath::PlaceholderPath():
+    m_frameTypes({
+            {FRAME_LIGHT, "Light"},
+            {FRAME_DARK, "Dark"},
+            {FRAME_BIAS, "Bias"},
+            {FRAME_FLAT, "Flat"},
+            {FRAME_NONE, ""},
+    })
 {
 }
 
@@ -36,17 +43,7 @@ PlaceholderPath::~PlaceholderPath()
 
 void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
 {
-    const QMap<CCDFrameType, QString> frameTypes =
-    {
-        { FRAME_LIGHT, "Light" }, { FRAME_DARK, "Dark" }, { FRAME_BIAS, "Bias" }, { FRAME_FLAT, "Flat" }, {FRAME_NONE, ""},
-    };
-
-    QString frameType = "";
-    if (frameTypes.contains(job->getFrameType())) {
-        frameType = frameTypes[job->getFrameType()];
-    } else {
-        qWarning() << job->getFrameType() << " not in " << frameTypes.keys();
-    }
+    QString frameType = getFrameType(job->getFrameType());
     QString rawPrefix, filterType = job->getFilterName();
     double exposure    = job->getExposure();
     bool filterEnabled = false, expEnabled = false, tsEnabled = false;
@@ -110,6 +107,91 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
         directoryPostfix += QLatin1String("/") + filterType;
 
     job->setDirectoryPostfix(directoryPostfix);
+}
+
+void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
+{
+    CCDFrameType frameType = job->getFrameType();
+    QString frameTypeStr = getFrameType(frameType);
+    QString imagePrefix;
+    QString rawFilePrefix;
+    bool filterEnabled, exposureEnabled, tsEnabled;
+    job->getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
+
+    imagePrefix = rawFilePrefix;
+
+    // JM 2019-11-26: In case there is no raw prefix set
+    // BUT target name is set, we update the prefix to include
+    // the target name, which is usually set by the scheduler.
+    if (imagePrefix.isEmpty() && !targetName.isEmpty())
+    {
+        imagePrefix = targetName;
+    }
+
+    constructPrefix(job, imagePrefix);
+
+    job->setFullPrefix(imagePrefix);
+
+    QString directoryPostfix;
+
+    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
+    if (targetName.isEmpty())
+        directoryPostfix = QLatin1String("/") + frameTypeStr;
+    else
+        directoryPostfix = QLatin1String("/") + targetName + QLatin1String("/") + frameTypeStr;
+    if ((frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE) &&  job->getFilterName().isEmpty() == false)
+        directoryPostfix += QLatin1String("/") + job->getFilterName();
+
+    job->setDirectoryPostfix(directoryPostfix);
+}
+
+void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
+{
+    CCDFrameType frameType = job->getFrameType();
+    QString filter = job->getFilterName();
+    QString rawFilePrefix;
+    bool filterEnabled, exposureEnabled, tsEnabled;
+    job->getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
+    double exposure = job->getExposure();
+
+    if (imagePrefix.isEmpty() == false)
+        imagePrefix += '_';
+
+    imagePrefix += getFrameType(frameType);
+
+    /*if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
+            captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&
+            captureTypeS->currentText().compare("Dark", Qt::CaseInsensitive))*/
+    if (filterEnabled && filter.isEmpty() == false &&
+            (frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE))
+    {
+        imagePrefix += '_';
+        imagePrefix += filter;
+    }
+    if (exposureEnabled)
+    {
+        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+        imagePrefix += '_';
+
+        double exposureValue = job->getExposure();
+
+        // Don't use the locale for exposure value in the capture file name, so that we get a "." as decimal separator
+        if (exposureValue == static_cast<int>(exposureValue))
+            // Whole number
+            imagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
+        else
+        {
+            // Decimal
+            if (exposure >= 0.001)
+                imagePrefix += QString::number(exposure, 'f', 3) + QString("_secs");
+            else
+                imagePrefix += QString::number(exposure, 'f', 6) + QString("_secs");
+        }
+    }
+    if (tsEnabled)
+    {
+        imagePrefix += SequenceJob::ISOMarker;
+    }
 }
 
 }

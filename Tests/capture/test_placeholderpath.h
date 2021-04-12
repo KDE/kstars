@@ -42,6 +42,9 @@ class TestPlaceholderPath : public QObject
     void testSchedulerProcessJobInfo_data();
     void testSchedulerProcessJobInfo();
 
+    void testCaptureAddJob_data();
+    void testCaptureAddJob();
+
     void testSequenceJobSignature_data();
     void testSequenceJobSignature();
 

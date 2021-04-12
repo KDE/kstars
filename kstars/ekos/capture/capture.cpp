@@ -15,6 +15,7 @@
 #include "Options.h"
 #include "rotatorsettings.h"
 #include "sequencejob.h"
+#include "placeholderpath.h"
 #include "skymap.h"
 #include "ui_calibrationoptions.h"
 #include "auxiliary/QProgressIndicator.h"
@@ -2599,7 +2600,6 @@ bool Capture::addJob(bool preview)
         return false;
 
     SequenceJob * job = nullptr;
-    QString imagePrefix;
 
     if (preview == false && darkSubCheck->isChecked())
     {
@@ -2663,23 +2663,17 @@ bool Capture::addJob(bool preview)
     job->setTargetADU(targetADU);
     job->setTargetADUTolerance(targetADUTolerance);
 
-    imagePrefix = filePrefixT->text();
-
     // JM 2019-11-26: In case there is no raw prefix set
     // BUT target name is set, we update the prefix to include
     // the target name, which is usually set by the scheduler.
-    if (imagePrefix.isEmpty() && !m_TargetName.isEmpty())
+    if (filePrefixT->text().isEmpty() && !m_TargetName.isEmpty())
     {
         filePrefixT->setText(m_TargetName);
-        imagePrefix = m_TargetName;
     }
-
-    constructPrefix(imagePrefix);
 
     job->setPrefixSettings(filePrefixT->text(), fileFilterS->isChecked(), fileDurationS->isChecked(),
                            fileTimestampS->isChecked());
     job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
-    job->setFullPrefix(imagePrefix);
 
     job->setEnforceStartGuiderDrift(job->getFrameType() == FRAME_LIGHT &&
                                     startGuiderDriftS->isChecked());
@@ -2731,17 +2725,8 @@ bool Capture::addJob(bool preview)
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
 
-    QString directoryPostfix;
-
-    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
-    if (m_TargetName.isEmpty())
-        directoryPostfix = QLatin1String("/") + captureTypeS->currentText();
-    else
-        directoryPostfix = QLatin1String("/") + m_TargetName + QLatin1String("/") + captureTypeS->currentText();
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) &&  job->getFilterName().isEmpty() == false)
-        directoryPostfix += QLatin1String("/") + job->getFilterName();
-
-    job->setDirectoryPostfix(directoryPostfix);
+    auto placeholderPath = Ekos::PlaceholderPath();
+    placeholderPath.addJob(job, m_TargetName);
 
     int currentRow = 0;
     if (m_JobUnderEdit == false)
@@ -4718,48 +4703,6 @@ void Capture::resetJobEdit()
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 }
 
-void Capture::constructPrefix(QString &imagePrefix)
-{
-    if (imagePrefix.isEmpty() == false)
-        imagePrefix += '_';
-
-    imagePrefix += captureTypeS->currentText();
-
-    /*if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
-            captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&
-            captureTypeS->currentText().compare("Dark", Qt::CaseInsensitive))*/
-    if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
-            (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT))
-    {
-        imagePrefix += '_';
-        imagePrefix += captureFilterS->currentText();
-    }
-    if (fileDurationS->isChecked())
-    {
-        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-        imagePrefix += '_';
-
-        double exposureValue = captureExposureN->value();
-
-        // Don't use the locale for exposure value in the capture file name, so that we get a "." as decimal separator
-        if (exposureValue == static_cast<int>(exposureValue))
-            // Whole number
-            imagePrefix += QString::number(captureExposureN->value(), 'd', 0) + QString("_secs");
-        else
-        {
-            // Decimal
-            if (captureExposureN->value() >= 0.001)
-                imagePrefix += QString::number(captureExposureN->value(), 'f', 3) + QString("_secs");
-            else
-                imagePrefix += QString::number(captureExposureN->value(), 'f', 6) + QString("_secs");
-        }
-    }
-    if (fileTimestampS->isChecked())
-    {
-        imagePrefix += SequenceJob::ISOMarker;
-    }
-}
-
 double Capture::getProgressPercentage()
 {
     int totalImageCount     = 0;
@@ -6383,7 +6326,8 @@ bool Capture::processPostCaptureCalibrationStage()
                     // Get raw prefix
                     captureExposureN->setValue(activeJob->getExposure());
                     QString imagePrefix = activeJob->property("rawPrefix").toString();
-                    constructPrefix(imagePrefix);
+                    auto placeholderPath = Ekos::PlaceholderPath();
+                    placeholderPath.constructPrefix(activeJob, imagePrefix);
                     activeJob->setFullPrefix(imagePrefix);
                     seqPrefix = imagePrefix;
                     currentCCD->setSeqPrefix(imagePrefix);

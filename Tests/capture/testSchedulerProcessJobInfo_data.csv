@@ -1,3 +1,4 @@
+Exposure,Filter,Type,Prefix,RawPrefix,FilterEnabled,ExpEnabled,FITSDirectory,targetName,signature
 ,,,,,,,,,//
 ,,,,,,,/bar/toto,,/bar/toto//
 ,,Bias,,,,,/bar/toto,,/bar/toto/Bias/Bias

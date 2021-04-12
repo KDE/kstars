@@ -845,7 +845,6 @@ class Capture : public QWidget, public Ui::Capture
          */
         void processJobCompletionStage2();
 
-        void constructPrefix(QString &imagePrefix);
         double setCurrentADU(double value);
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
 
