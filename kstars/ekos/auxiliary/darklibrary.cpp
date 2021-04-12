@@ -883,6 +883,8 @@ void DarkLibrary::reloadDarksFromDatabase()
     darkTableView->hideColumn(2);
 
     userdb.close();
+
+    refreshMasters();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
