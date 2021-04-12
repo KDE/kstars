@@ -67,8 +67,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void newLog(const QString &message);
 
     public slots:
-        //void processImage(const QSharedPointer<FITSData> &calibrationData);
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+        void processNewBLOB(IBLOB *bp);
 
     private slots:
         void clearAll();
@@ -231,6 +231,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         std::vector<uint32_t> m_DarkMasterBuffer;
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
+        bool m_RememberSummaryView {true};
         bool m_defectMapPending { false};
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;
         QStringList m_DarkCameras, m_DefectCameras;

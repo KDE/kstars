@@ -225,6 +225,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     // Settings & Initialization
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     m_RememberFITSViewer = Options::useFITSViewer();
+    m_RememberSummaryView = Options::useSummaryPreview();
     initView();
 }
 
@@ -642,16 +643,10 @@ void DarkLibrary::denoise(ISD::CCDChip *m_TargetChip, const QSharedPointer<FITSD
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data)
 {
-    if (data.isNull() || job->getStatus() == SequenceJob::JOB_IDLE)
+    Q_UNUSED(data);
+    if (job->getStatus() == SequenceJob::JOB_IDLE)
         return;
 
-    m_DarkView->loadData(data);
-
-    uint32_t totalElements = data->channels() * data->samplesPerChannel();
-    if (totalElements != m_DarkMasterBuffer.size())
-        m_DarkMasterBuffer.assign(totalElements, 0);
-
-    aggregate(data);
     if (job->getCompleted() == job->getCount())
     {
         QJsonObject metadata
@@ -669,9 +664,30 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
             metadata["temperature"] = job->getCurrentTemperature();
 
         metadata["count"] = job->getCount();
-        generateMasterFrame(data, metadata);
+        generateMasterFrame(m_CurrentDarkFrame, metadata);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::processNewBLOB(IBLOB *bp)
+{
+    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
+    m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
+    if (!m_CurrentDarkFrame->loadFromBuffer(buffer, "fits"))
+    {
+        m_FileLabel->setText(i18n("Failed to process data."));
+        return;
     }
 
+    m_DarkView->loadData(m_CurrentDarkFrame);
+
+    uint32_t totalElements = m_CurrentDarkFrame->channels() * m_CurrentDarkFrame->samplesPerChannel();
+    if (totalElements != m_DarkMasterBuffer.size())
+        m_DarkMasterBuffer.assign(totalElements, 0);
+
+    aggregate(m_CurrentDarkFrame);
     darkProgress->setValue(darkProgress->value() + 1);
     m_StatusLabel->setText(i18n("Received %1/%2 images.", darkProgress->value(), darkProgress->maximum()));
 }
@@ -1303,8 +1319,10 @@ void DarkLibrary::executeDarkJobs()
     darkProgress->setTextVisible(true);
     connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage, Qt::UniqueConnection);
     connect(m_CaptureModule, &Capture::newStatus, this, &DarkLibrary::setCaptureState, Qt::UniqueConnection);
+    connect(m_CurrentCamera, &ISD::CCD::BLOBUpdated, this, &DarkLibrary::processNewBLOB, Qt::UniqueConnection);
 
     Options::setUseFITSViewer(false);
+    Options::setUseSummaryPreview(false);
     startB->setEnabled(false);
     stopB->setEnabled(true);
     m_StatusLabel->setText(i18n("In progress..."));
@@ -1320,6 +1338,7 @@ void DarkLibrary::stopDarkJobs()
     m_CaptureModule->abort();
     darkProgress->setValue(0);
     m_CaptureModule->disconnect(this);
+    m_CurrentCamera->disconnect(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1498,12 +1517,14 @@ void DarkLibrary::setCaptureState(CaptureState state)
             startB->setEnabled(true);
             stopB->setEnabled(false);
             Options::setUseFITSViewer(m_RememberFITSViewer);
+            Options::setUseFITSViewer(m_RememberSummaryView);
             m_StatusLabel->setText(i18n("Capture aborted."));
             break;
         case CAPTURE_COMPLETE:
             startB->setEnabled(true);
             stopB->setEnabled(false);
             Options::setUseFITSViewer(m_RememberFITSViewer);
+            Options::setUseFITSViewer(m_RememberSummaryView);
             m_StatusLabel->setText(i18n("Capture completed."));
             break;
         default:
