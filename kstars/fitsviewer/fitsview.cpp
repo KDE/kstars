@@ -676,7 +676,7 @@ void FITSView::ZoomIn()
 
     cleanUpZoom();
 
-    updateFrame();
+    updateFrame(true);
 
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 }
@@ -702,7 +702,7 @@ void FITSView::ZoomOut()
 
     cleanUpZoom();
 
-    updateFrame();
+    updateFrame(true);
 
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 }
@@ -712,7 +712,7 @@ void FITSView::ZoomToFit()
     if (rawImage.isNull() == false)
     {
         rescale(ZOOM_FIT_WINDOW);
-        updateFrame();
+        updateFrame(true);
     }
 }
 
