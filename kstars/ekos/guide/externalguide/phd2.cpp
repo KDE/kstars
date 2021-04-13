@@ -154,7 +154,12 @@ PHD2::PHD2()
                 emit newLog(i18n("Reconnecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
 
                 connect(tcpSocket, &QTcpSocket::readyRead, this, &PHD2::readPHD2, Qt::UniqueConnection);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
                 connect(tcpSocket, &QTcpSocket::errorOccurred, this, &PHD2::displayError, Qt::UniqueConnection);
+#else
+                connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
+                        SLOT(displayError(QAbstractSocket::SocketError)));
+#endif
                 tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
             }
         }
@@ -183,7 +188,12 @@ bool PHD2::Connect()
             emit newLog(i18n("Connecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
 
             connect(tcpSocket, &QTcpSocket::readyRead, this, &PHD2::readPHD2, Qt::UniqueConnection);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
             connect(tcpSocket, &QTcpSocket::errorOccurred, this, &PHD2::displayError, Qt::UniqueConnection);
+#else
+            connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
+                    SLOT(displayError(QAbstractSocket::SocketError)));
+#endif
 
             tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
 
