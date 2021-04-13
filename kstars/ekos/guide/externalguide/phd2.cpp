@@ -34,10 +34,6 @@ PHD2::PHD2()
 {
     tcpSocket = new QTcpSocket(this);
 
-    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readPHD2()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
-            SLOT(displayError(QAbstractSocket::SocketError)));
-
     //This list of available PHD Events is on https://github.com/OpenPHDGuiding/phd2/wiki/EventMonitoring
 
     events["Version"]                 = Version;
@@ -64,6 +60,7 @@ PHD2::PHD2()
     events["LockPositionLost"]        = LockPositionLost;
     events["Alert"]                   = Alert;
     events["GuideParamChange"]        = GuideParamChange;
+    events["ConfigurationChange"]     = ConfigurationChange;
 
     //This list of available PHD Methods is on https://github.com/OpenPHDGuiding/phd2/wiki/EventMonitoring
     //Only some of the methods are implemented.  The ones that say COMMAND_RECEIVED simply return a 0 saying the command was received.
@@ -149,11 +146,21 @@ PHD2::PHD2()
     {
         if (tcpSocket->state() == QTcpSocket::UnconnectedState)
         {
-            emit newLog(i18n("Reconnecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
-            tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
+            m_PHD2ReconnectCounter++;
+            if (m_PHD2ReconnectCounter > PHD2_RECONNECT_THRESHOLD)
+                stateTimer->stop();
+            else
+            {
+                emit newLog(i18n("Reconnecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
+
+                connect(tcpSocket, &QTcpSocket::readyRead, this, &PHD2::readPHD2, Qt::UniqueConnection);
+                connect(tcpSocket, &QTcpSocket::errorOccurred, this, &PHD2::displayError, Qt::UniqueConnection);
+                tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
+            }
         }
         else if (tcpSocket->state() == QTcpSocket::ConnectedState)
         {
+            m_PHD2ReconnectCounter = 0;
             checkIfEquipmentConnected();
             requestAppState();
         }
@@ -174,8 +181,14 @@ bool PHD2::Connect()
             // Not yet connected, let's connect server
             connection = CONNECTING;
             emit newLog(i18n("Connecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
+
+            connect(tcpSocket, &QTcpSocket::readyRead, this, &PHD2::readPHD2, Qt::UniqueConnection);
+            connect(tcpSocket, &QTcpSocket::errorOccurred, this, &PHD2::displayError, Qt::UniqueConnection);
+
             tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
-            stateTimer->start(1000);
+
+            m_PHD2ReconnectCounter = 0;
+            stateTimer->start(PHD2_RECONNECT_TIMEOUT);
             return true;
 
         case EQUIPMENT_DISCONNECTED:
@@ -206,6 +219,8 @@ void PHD2::ResetConnectionState()
 
     ditherTimer->stop();
     abortTimer->stop();
+
+    tcpSocket->disconnect(this);
 
     emit newStatus(GUIDE_DISCONNECTED);
 }
@@ -525,6 +540,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             break;
 
         case GuideParamChange:
+        case ConfigurationChange:
             //Don't do anything for now, might change this later.
             //Some Possible Parameter Names:
             //Backlash comp enabled, Backlash comp amount,
@@ -535,6 +551,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             //Low-pass2 minimum move, Low-pass2 aggressiveness,
             //Hysteresis hysteresis, Hysteresis aggression
             break;
+
     }
 }
 
