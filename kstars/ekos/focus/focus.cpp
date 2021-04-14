@@ -928,37 +928,31 @@ void Focus::stop(bool aborted)
 
     captureTimeout.stop();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
     inAutoFocus     = false;
     focuserAdditionalMovement = 0;
     inFocusLoop     = false;
-    //inSequenceFocus = false;
-    // Why starSelected is set to false below? We should retain star selection status under:
-    // 1. Autostar is off, or
-    // 2. Toggle subframe, or
-    // 3. Reset frame
-    // 4. Manual motion?
-
-    //starSelected       = false;
     polySolutionFound  = 0;
     captureInProgress  = false;
     captureFailureCounter = 0;
     minimumRequiredHFR = -1;
     noStarCount        = 0;
     HFRFrames.clear();
-    //maxHFR=1;
 
-    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-    disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
+    // Check if CCD was not removed due to crash or other reasons.
+    if (currentCCD)
+    {
+        disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
+        disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
 
-    if (rememberUploadMode != currentCCD->getUploadMode())
-        currentCCD->setUploadMode(rememberUploadMode);
+        if (rememberUploadMode != currentCCD->getUploadMode())
+            currentCCD->setUploadMode(rememberUploadMode);
 
-    if (rememberCCDExposureLooping)
-        currentCCD->setExposureLoopingEnabled(true);
+        if (rememberCCDExposureLooping)
+            currentCCD->setExposureLoopingEnabled(true);
 
-    targetChip->abortExposure();
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        targetChip->abortExposure();
+    }
 
     resetButtons();
 
