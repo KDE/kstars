@@ -3768,7 +3768,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     return true;
 }
 
-bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale)
+bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     int status = 0;
 
@@ -3797,7 +3797,7 @@ bool FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
     fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
 
     // Arcsecs per Pixel
-    double secpix1 = pixscale;
+    double secpix1 = eastToTheRight ? pixscale : -pixscale;
     double secpix2 = pixscale;
 
     fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);

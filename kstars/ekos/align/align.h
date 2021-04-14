@@ -484,8 +484,9 @@ class Align : public QWidget, public Ui::Align
              * @param ra Center RA in solved image, degrees.
              * @param dec Center DEC in solved image, degrees.
              * @param pixscale Image scale is arcsec/pixel
+             * @param eastToTheRight When the image is rotated, so that North is up, East would be to the right.
              */
-        void solverFinished(double orientation, double ra, double dec, double pixscale);
+        void solverFinished(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
         void solverComplete();
 
@@ -768,7 +769,7 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief processPAHStage After solver is complete, handle PAH Stage processing
              */
-        void processPAHStage(double orientation, double ra, double dec, double pixscale);
+        void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
         void resizeEvent(QResizeEvent *event) override;
 

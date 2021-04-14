@@ -47,7 +47,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     });
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
-    connect(this, SIGNAL(solverFinished(double, double, double, double)), this, SLOT(resetSolver()));
+    connect(this, SIGNAL(solverFinished(double, double, double, double, bool)), this, SLOT(resetSolver()));
 }
 
 bool OnlineAstrometryParser::init()
@@ -491,7 +491,8 @@ void OnlineAstrometryParser::onResult(QNetworkReply *reply)
 
             elapsed = (int)round(solverTimer.elapsed() / 1000.0);
             align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
-            emit solverFinished(orientation, ra, dec, pixscale);
+            // Parity == 0 is positive parity (East to the Left when North is up).
+            emit solverFinished(orientation, ra, dec, pixscale, parity != 0);
 
             break;
 

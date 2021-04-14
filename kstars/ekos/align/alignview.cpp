@@ -40,9 +40,9 @@ void AlignView::drawOverlay(QPainter *painter, double scale)
     drawStarCircle(painter);
 }
 
-bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool extras)
+bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool extras)
 {
-    bool rc = m_ImageData->injectWCS(orientation, ra, dec, pixscale);
+    bool rc = m_ImageData->injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
     // If file fails to load, then no WCS data
     if (rc == false)
     {

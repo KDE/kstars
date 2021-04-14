@@ -296,7 +296,7 @@ void RemoteAstrometryParser::checkResults(INumberVectorProperty *nvp)
         int elapsed = (int)round(solverTimer.elapsed() / 1000.0);
         align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
         stopSolver();
-        emit solverFinished(orientation, ra, de, pixscale);
+        emit solverFinished(orientation, ra, de, pixscale, parity != "pos");
     }
 }
 }

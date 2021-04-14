@@ -416,9 +416,10 @@ class FITSData : public QObject
              * @param ra J2000 Right Ascension
              * @param dec J2000 Declination
              * @param pixscale Pixel scale in arcsecs per pixel
+             * @param eastToTheRight if true, then when the image is rotated so that north is up, then east would be to the right on the image.
              * @return  True if file is successfully updated with WCS info.
              */
-        bool injectWCS(double orientation, double ra, double dec, double pixscale);
+        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////

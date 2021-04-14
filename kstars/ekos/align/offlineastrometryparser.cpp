@@ -446,7 +446,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
     int elapsed = static_cast<int>(round(solverTimer.elapsed() / 1000.0));
     align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
 
-    emit solverFinished(orientation, ra, dec, pixscale);
+    emit solverFinished(orientation, ra, dec, pixscale, parity != "pos");
 }
 
 void OfflineAstrometryParser::logSolver()

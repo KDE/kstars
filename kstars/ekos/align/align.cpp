@@ -3497,11 +3497,13 @@ void Align::solverComplete()
     else
     {
         FITSImage::Solution solution = m_StellarSolver->getSolution();
-        solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale);
+        // Would be better if parity was a bool field instead of a QString with "pos" and "neg" as possible values.
+        const bool eastToTheRight = solution.parity == "pos" ? false : true;
+        solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
     }
 }
 
-void Align::solverFinished(double orientation, double ra, double dec, double pixscale)
+void Align::solverFinished(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     pi->stopAnimation();
     stopB->setEnabled(false);
@@ -3534,9 +3536,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     targetChip->getBinning(&binx, &biny);
 
     if (Options::alignmentLogging())
-        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'f', 5),
+    {
+        QString parityString = eastToTheRight ? "neg" : "pos";
+        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)", QString::number(ra, 'f', 5),
                            QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
-                           QString::number(pixscale, 'f', 5)));
+                           QString::number(pixscale, 'f', 5), parityString));
+    }
 
     // When solving (without Load&Slew), update effective FOV and focal length accordingly.
     if (loadSlewState == IPS_IDLE &&
@@ -3834,7 +3839,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setProperty("visible", true);
 
     if (m_PAHStage != PAH_IDLE)
-        processPAHStage(orientation, ra, dec, pixscale);
+        processPAHStage(orientation, ra, dec, pixscale, eastToTheRight);
     else if (azStage > AZ_INIT || altStage > ALT_INIT)
         executePolarAlign();
     else
@@ -5743,7 +5748,7 @@ void Align::setPAHRefreshComplete()
     stopPAHProcess();
 }
 
-void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
+void Align::processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     if (m_PAHStage == PAH_FIND_CP)
     {
@@ -5768,7 +5773,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
                    : PAHThirdWcsPage));
         }
         connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-        alignView->injectWCS(orientation, ra, dec, pixscale, doWcs);
+        alignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
         return;
     }
 }
