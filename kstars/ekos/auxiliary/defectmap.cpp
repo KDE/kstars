@@ -118,7 +118,8 @@ bool DefectMap::save(const QString &filename, const QString &camera)
 //////////////////////////////////////////////////////////////////////////////
 double DefectMap::calculateSigma(uint8_t aggressiveness)
 {
-    return -0.0965807 * aggressiveness + 9.804243;
+    // Estimated power law fitting to compress values within 0.25 to 5 sigma range
+    return 4.9862127851 * exp(-0.0003088013 * (aggressiveness - 1.6840377227) * (aggressiveness - 1.6840377227));
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -242,8 +243,6 @@ void DefectMap::filterPixels()
     m_HotPixelsThreshold = m_HotPixels.lower_bound(BadPixel(0, 0, hotPixelThreshold));
     m_ColdPixelsThreshold = m_ColdPixels.lower_bound(BadPixel(0, 0, coldPixelThreshold));
 
-    //    emit hotPixelsUpdated(m_HotPixelsThreshold, m_HotPixels.end());
-    //    emit coldPixelsUpdated(m_ColdPixelsThreshold, m_ColdPixels.end());
     if (m_HotPixelsThreshold == m_HotPixels.cend())
         m_HotPixelsCount = 0;
     else

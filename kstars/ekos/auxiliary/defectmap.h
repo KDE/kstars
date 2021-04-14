@@ -24,16 +24,12 @@ class BadPixel
         {
             return value < rhs.value;
         }
-        bool operator>(const BadPixel &rhs) const
-        {
-            return value > rhs.value;
-        }
         QJsonObject json() const;
         uint16_t x{0}, y{0};
         double value {0};
 };
 
-typedef std::set<BadPixel> BadPixelSet;
+typedef std::multiset<BadPixel> BadPixelSet;
 
 class DefectMap : public QObject
 {

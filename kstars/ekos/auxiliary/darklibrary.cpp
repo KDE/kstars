@@ -59,7 +59,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(m_StatusBar);
 
     histogramView->setProperty("axesLabelEnabled", false);
-    histogramView->setProperty("linear", true);
+    //histogramView->setProperty("linear", true);
 
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks");
@@ -112,7 +112,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         histogramView->setEnabled(true);
         histogramView->reset();
         histogramView->syncGUI();
-        populateMasterMetedata();
+        //populateMasterMetedata();
     });
 
     connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -914,7 +914,7 @@ void DarkLibrary::loadDefectMap()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::setDarkFrameLoaded()
 {
-    if (m_DarkFrameFutureWatcher.result() == false)
+    if (m_DarkFrameFutureWatcher.isFinished() && m_DarkFrameFutureWatcher.result() == false)
     {
         m_FileLabel->setText(i18n("Failed to load %1: %2",  m_MasterDarkFrameFilename, m_CurrentDarkFrame->getLastError()));
         return;
@@ -940,8 +940,8 @@ void DarkLibrary::setDarkFrameLoaded()
             aggresivenessColdSlider->setValue(m_CurrentDefectMap->property("ColdPixelAggressiveness").toInt());
         });
 
-        if (!m_DefectMapFilename.isEmpty() && m_CurrentDefectMap->load(m_DefectMapFilename))
-            m_CachedDefectMaps[m_MasterDarkFrameFilename] = m_CurrentDefectMap;
+        if (!m_DefectMapFilename.isEmpty())
+            cacheDefectMapFromFile(m_MasterDarkFrameFilename, m_DefectMapFilename);
 
         m_DarkView->loadData(m_CurrentDarkFrame);
         m_DarkView->setDefectMap(m_CurrentDefectMap);
@@ -959,10 +959,10 @@ void DarkLibrary::setDarkFrameLoaded()
 
     histogramView->setImageData(m_CurrentDarkFrame);
 
-    if (!m_CurrentDarkFrame->isHistogramConstructed())
+    if (!Options::nonLinearHistogram() && !m_CurrentDarkFrame->isHistogramConstructed())
         m_CurrentDarkFrame->constructHistogram();
-    else
-        populateMasterMetedata();
+
+    populateMasterMetedata();
 
     //}
 
@@ -991,25 +991,6 @@ void DarkLibrary::populateMasterMetedata()
     if (m_CurrentDarkFrame->getRecordValue("EXPTIME", value))
         masterExposure->setText(value.toString());
     // Median
-    if (m_CurrentDarkFrame->getRecordValue("MEDIAN1", value))
-    {
-        double median = 0;
-        double medians[3] = {0};
-        medians[0] = value.toDouble();
-        if (m_CurrentDarkFrame->getRecordValue("MEDIAN2", value))
-            medians[1] = value.toDouble();
-        if (m_CurrentDarkFrame->getRecordValue("MEDIAN3", value))
-            medians[2] = value.toDouble();
-        if (medians[1] > 0)
-            median = (medians[0] + medians[1] + medians[2]) / 3.0;
-        else
-            median = medians[0];
-
-        if (median > 0)
-            masterMedian->setText(QString::number(median, 'f', 1));
-    }
-    // No FITS headers, get median from statistics
-    else
     {
         // Refresh statistics
         //FITSHistogram histogram()
@@ -1029,24 +1010,6 @@ void DarkLibrary::populateMasterMetedata()
             masterMedian->setText(QString::number(median, 'f', 1));
     }
     // Mean
-    if (m_CurrentDarkFrame->getRecordValue("MEAN1", value))
-    {
-        double mean = 0;
-        double means[3] = {0};
-        means[0] = value.toDouble();
-        if (m_CurrentDarkFrame->getRecordValue("MEAN2", value))
-            means[1] = value.toDouble();
-        if (m_CurrentDarkFrame->getRecordValue("MEAN3", value))
-            means[2] = value.toDouble();
-        if (means[1] > 0)
-            mean = (means[0] + means[1] + means[2]) / 3.0;
-        else
-            mean = means[0];
-
-        masterMean->setText(QString::number(mean, 'f', 1));
-    }
-    // No FITS header, get from statistics
-    else
     {
         double mean = 0;
         double means[3] = {0};
@@ -1061,24 +1024,6 @@ void DarkLibrary::populateMasterMetedata()
         masterMean->setText(QString::number(mean, 'f', 1));
     }
     // Standard Deviation
-    if (m_CurrentDarkFrame->getRecordValue("STDDEV1", value))
-    {
-        double stddev = 0;
-        double stddevs[3] = {0};
-        stddevs[0] = value.toDouble();
-        if (m_CurrentDarkFrame->getRecordValue("STDDEV2", value))
-            stddevs[1] = value.toDouble();
-        if (m_CurrentDarkFrame->getRecordValue("STDDEV3", value))
-            stddevs[2] = value.toDouble();
-        if (stddevs[1] > 0)
-            stddev = (stddevs[0] + stddevs[1] + stddevs[2]) / 3.0;
-        else
-            stddev = stddevs[0];
-
-        masterDeviation->setText(QString::number(stddev, 'f', 1));
-    }
-    // No FITS header, get from statistics
-    else
     {
         double stddev = 0;
         double stddevs[3] = {0};
@@ -1094,8 +1039,6 @@ void DarkLibrary::populateMasterMetedata()
     }
 
     m_CurrentDefectMap->setDarkData(m_CurrentDarkFrame);
-    //m_DarkView->updateFrame();
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

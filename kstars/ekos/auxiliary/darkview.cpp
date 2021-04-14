@@ -60,20 +60,24 @@ void DarkView::setDefectMap(const QSharedPointer<DefectMap> &defect)
 
 void DarkView::drawBadPixels(QPainter * painter, double scale)
 {
-    //QFont painterFont;
-    //double fontSize = painterFont.pointSizeF() * 2;
-    //painter->setRenderHint(QPainter::Antialiasing);
+    if (m_CurrentDefectMap->hotPixels().size() > 0)
+    {
+        painter->setPen(QPen(QColor(qRgba(255, 0, 0, 128)), scale));
+        for (BadPixelSet::const_iterator onePixel = m_CurrentDefectMap->hotThreshold();
+                onePixel != m_CurrentDefectMap->hotPixels().cend(); ++onePixel)
+        {
+            painter->drawEllipse(QRectF(((*onePixel).x - 1) * scale, ((*onePixel).y - 1) * scale, 2 * scale, 2 * scale));
+        }
+    }
 
-    painter->setPen(QPen(QColor(qRgba(255, 0, 0, 128)), scale));
-    for (BadPixelSet::const_iterator onePixel = m_CurrentDefectMap->hotThreshold();
-            onePixel != m_CurrentDefectMap->hotPixels().cend(); ++onePixel)
-        //painter->drawPoint(QPointF(((*onePixel).x + 0.5) * scale, ((*onePixel).y + 0.5) * scale));
-        painter->drawEllipse(QRectF(((*onePixel).x - 1) * scale, ((*onePixel).y - 1) * scale, 2 * scale, 2 * scale));
-
-    painter->setPen(QPen(QColor(qRgba(0, 0, 255, 128)), scale));
-    for (BadPixelSet::const_iterator onePixel = m_CurrentDefectMap->coldPixels().cbegin();
-            onePixel != m_CurrentDefectMap->coldThreshold(); ++onePixel)
-        //painter->drawPoint(QPointF(((*onePixel).x + 0.5) * scale, ((*onePixel).y + 0.5) * scale));
-        painter->drawEllipse(QRectF(((*onePixel).x - 1) * scale, ((*onePixel).y - 1) * scale, 2 * scale, 2 * scale));
+    if (m_CurrentDefectMap->coldPixels().size() > 0)
+    {
+        painter->setPen(QPen(QColor(qRgba(0, 0, 255, 128)), scale));
+        for (BadPixelSet::const_iterator onePixel = m_CurrentDefectMap->coldPixels().cbegin();
+                onePixel != m_CurrentDefectMap->coldThreshold(); ++onePixel)
+        {
+            painter->drawEllipse(QRectF(((*onePixel).x - 1) * scale, ((*onePixel).y - 1) * scale, 2 * scale, 2 * scale));
+        }
+    }
 }
 
