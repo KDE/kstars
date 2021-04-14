@@ -588,7 +588,8 @@ class FITSData : public QObject
         bool loadRAWImage(const QByteArray &buffer, const QString &extension, bool silent);
 
         void rotWCSFITS(int angle, int mirror);
-        int calculateMinMax(bool refresh = false);
+        void calculateMinMax(bool refresh = false);
+        void calculateMedian(bool refresh = false);
         bool checkDebayer();
         void readWCSKeys();
 
@@ -612,6 +613,8 @@ class FITSData : public QObject
 
         template <typename T>
         void calculateMinMax();
+        template <typename T>
+        void calculateMedian();
 
         template <typename T>
         QPair<T, T> getParitionMinMax(uint32_t start, uint32_t stride);

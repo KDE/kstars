@@ -950,6 +950,7 @@ void FITSData::calculateStats(bool refresh)
 {
     // Calculate min max
     calculateMinMax(refresh);
+    calculateMedian(refresh);
 
     // Try to read mean/median/stddev if in file
     if (refresh == false && fptr)
@@ -963,14 +964,6 @@ void FITSData::calculateStats(bool refresh)
         fits_read_key_dbl(fptr, "MEAN3", &m_Statistics.mean[2], nullptr, &status);
 
         status = 0;
-        if (fits_read_key_dbl(fptr, "MEDIAN1", &m_Statistics.median[0], nullptr, &status) == 0)
-            nfound++;
-
-        // NB. These could fail if missing, which is OK.
-        fits_read_key_dbl(fptr, "MEDIAN2", &m_Statistics.median[1], nullptr, &status);
-        fits_read_key_dbl(fptr, "MEDIAN3", &m_Statistics.median[2], nullptr, &status);
-
-        status = 0;
         if (fits_read_key_dbl(fptr, "STDDEV1", &m_Statistics.stddev[0], nullptr, &status) == 0)
             nfound++;
         // NB. These could fail if missing, which is OK.
@@ -978,7 +971,7 @@ void FITSData::calculateStats(bool refresh)
         fits_read_key_dbl(fptr, "STDDEV3", &m_Statistics.stddev[2], nullptr, &status);
 
         // If all is OK, we're done
-        if (nfound == 3)
+        if (nfound == 2)
             return;
     }
 
@@ -1025,7 +1018,7 @@ void FITSData::calculateStats(bool refresh)
     m_Statistics.SNR = m_Statistics.mean[0] / m_Statistics.stddev[0];
 }
 
-int FITSData::calculateMinMax(bool refresh)
+void FITSData::calculateMinMax(bool refresh)
 {
     int status, nfound = 0;
 
@@ -1060,7 +1053,7 @@ int FITSData::calculateMinMax(bool refresh)
 
         // If we found both keywords, no need to calculate them, unless they are both zeros
         if (nfound == 2 && !(m_Statistics.min[0] == 0 && m_Statistics.max[0] == 0))
-            return 0;
+            return;
     }
 
     m_Statistics.min[0] = 1.0E30;
@@ -1109,8 +1102,97 @@ int FITSData::calculateMinMax(bool refresh)
         default:
             break;
     }
+}
 
-    return 0;
+void FITSData::calculateMedian(bool refresh)
+{
+    int status, nfound = 0;
+
+    status = 0;
+
+    // Only fetch from header if we have a single channel
+    // Otherwise, calculate manually.
+    if (fptr != nullptr && !refresh)
+    {
+        status = 0;
+        if (fits_read_key_dbl(fptr, "MEDIAN1", &m_Statistics.median[0], nullptr, &status) == 0)
+            nfound++;
+
+        // NB. These could fail if missing, which is OK.
+        fits_read_key_dbl(fptr, "MEDIAN2", &m_Statistics.median[1], nullptr, &status);
+        fits_read_key_dbl(fptr, "MEDIAN3", &m_Statistics.median[2], nullptr, &status);
+
+        if (nfound == 1)
+            return;
+    }
+
+    m_Statistics.median[RED_CHANNEL] = 0;
+    m_Statistics.median[GREEN_CHANNEL] = 0;
+    m_Statistics.median[BLUE_CHANNEL] = 0;
+
+    switch (m_Statistics.dataType)
+    {
+        case TBYTE:
+            calculateMedian<uint8_t>();
+            break;
+
+        case TSHORT:
+            calculateMedian<int16_t>();
+            break;
+
+        case TUSHORT:
+            calculateMedian<uint16_t>();
+            break;
+
+        case TLONG:
+            calculateMedian<int32_t>();
+            break;
+
+        case TULONG:
+            calculateMedian<uint32_t>();
+            break;
+
+        case TFLOAT:
+            calculateMedian<float>();
+            break;
+
+        case TLONGLONG:
+            calculateMedian<int64_t>();
+            break;
+
+        case TDOUBLE:
+            calculateMedian<double>();
+            break;
+
+        default:
+            break;
+    }
+}
+
+template <typename T>
+void FITSData::calculateMedian()
+{
+    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    const uint32_t maxMedianSize = 500000;
+    uint32_t medianSize = m_Statistics.samples_per_channel;
+    uint8_t downsample = 1;
+    if (medianSize > maxMedianSize)
+    {
+        downsample = medianSize / maxMedianSize + 0.999;
+        medianSize /= downsample;
+    }
+    std::vector<T> samples;
+    samples.reserve(medianSize);
+
+    for (uint8_t n = 0; n < m_Statistics.channels; n++)
+    {
+        auto *oneChannel = buffer + n * m_Statistics.samples_per_channel;
+        for (uint32_t upto = 0; upto < m_Statistics.samples_per_channel; upto += downsample)
+            samples.push_back(oneChannel[upto]);
+        const uint32_t middle = samples.size() / 2;
+        std::nth_element(samples.begin(), samples.begin() + middle, samples.end());
+        m_Statistics.median[n] = samples[middle];
+    }
 }
 
 template <typename T>
@@ -3818,8 +3900,6 @@ template <typename T> void FITSData::constructHistogramInternal()
         m_HistogramFrequency[n].fill(0, m_HistogramBinCount + 1);
         m_CumulativeFrequency[n].fill(0, m_HistogramBinCount + 1);
         m_HistogramBinWidth[n] = (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1);
-        // Initialize the median to 0 in case the computation below fails.
-        setMedian(0, n);
     }
 
     QVector<QFuture<void>> futures;
@@ -3871,6 +3951,7 @@ template <typename T> void FITSData::constructHistogramInternal()
 
     futures.clear();
 
+#if 0
     for (int n = 0; n < m_Statistics.channels; n++)
     {
         futures.append(QtConcurrent::run([ = ]()
@@ -3934,6 +4015,7 @@ template <typename T> void FITSData::constructHistogramInternal()
 
     for (QFuture<void> future : futures)
         future.waitForFinished();
+#endif
 
     // Custom index to indicate the overall contrast of the image
     if (m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 4] > 0)
