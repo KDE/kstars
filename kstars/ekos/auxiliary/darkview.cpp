@@ -41,26 +41,21 @@ void DarkView::drawOverlay(QPainter *painter, double scale)
 
 void DarkView::reset()
 {
-    //    correctionFrom = QPointF();
-    //    correctionTo = QPointF();
-    //    correctionAltTo = QPointF();
-    //    markerCrosshair = QPointF();
-    //    celestialPolePoint = QPointF();
-    //    raAxis = QPointF();
-    //    starCircle = QPointF();
-    //    releaseImage();
+    m_CurrentDefectMap.clear();
 }
 
 void DarkView::setDefectMap(const QSharedPointer<DefectMap> &defect)
 {
     m_CurrentDefectMap = defect;
-
-    connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, this, &DarkView::updateFrame);
+    connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, this, &DarkView::updateFrame, Qt::UniqueConnection);
 }
 
 void DarkView::drawBadPixels(QPainter * painter, double scale)
 {
-    if (m_CurrentDefectMap->hotPixels().size() > 0)
+    if (!m_CurrentDefectMap)
+        return;
+
+    if (m_CurrentDefectMap->hotCount() > 0)
     {
         painter->setPen(QPen(QColor(qRgba(255, 0, 0, 128)), scale));
         for (BadPixelSet::const_iterator onePixel = m_CurrentDefectMap->hotThreshold();
@@ -70,7 +65,7 @@ void DarkView::drawBadPixels(QPainter * painter, double scale)
         }
     }
 
-    if (m_CurrentDefectMap->coldPixels().size() > 0)
+    if (m_CurrentDefectMap->coldCount() > 0)
     {
         painter->setPen(QPen(QColor(qRgba(0, 0, 255, 128)), scale));
         for (BadPixelSet::const_iterator onePixel = m_CurrentDefectMap->coldPixels().cbegin();

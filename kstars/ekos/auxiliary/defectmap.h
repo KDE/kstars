@@ -82,8 +82,17 @@ class DefectMap : public QObject
         }
         const BadPixelSet::const_iterator coldThreshold() const
         {
-            return (m_ColdEnabled ? m_ColdPixelsThreshold : m_ColdPixels.end());
+            return (m_ColdEnabled ? m_ColdPixelsThreshold : m_ColdPixels.begin());
         }
+        uint32_t hotCount() const
+        {
+            return m_HotPixelsCount;
+        }
+        uint32_t coldCount() const
+        {
+            return m_ColdPixelsCount;
+        }
+
         void filterPixels();
     signals:
         //        void hotPixelsUpdated(const BadPixelSet::const_iterator &start, const BadPixelSet::const_iterator &end);

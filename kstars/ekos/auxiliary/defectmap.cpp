@@ -107,6 +107,7 @@ bool DefectMap::save(const QString &filename, const QString &camera)
     if (!output.open(QIODevice::WriteOnly))
         return false;
 
+    m_Filename = filename;
     output.write(QJsonDocument(root).toJson());
     output.close();
 
@@ -118,8 +119,8 @@ bool DefectMap::save(const QString &filename, const QString &camera)
 //////////////////////////////////////////////////////////////////////////////
 double DefectMap::calculateSigma(uint8_t aggressiveness)
 {
-    // Estimated power law fitting to compress values within 0.25 to 5 sigma range
-    return 4.9862127851 * exp(-0.0003088013 * (aggressiveness - 1.6840377227) * (aggressiveness - 1.6840377227));
+    // Estimated power law fitting to compress values within 0.25 to 11.5 sigma range
+    return 15.06267851378 * exp(-0.00022016271 * (aggressiveness + 35.57096806316) * (aggressiveness + 35.57096806316));
 }
 
 //////////////////////////////////////////////////////////////////////////////

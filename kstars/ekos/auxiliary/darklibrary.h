@@ -175,13 +175,13 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void initView();
         void setCaptureState(CaptureState state);
         void reloadDarksFromDatabase();
-        void setDarkFrameLoaded();
+        void loadCurrentMasterDefectMap();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Defect Map Functions
         ////////////////////////////////////////////////////////////////////////////////////////////////
         void refreshMasters();
-        void loadDefectMap();
+        void loadCurrentMasterDark();
         void populateMasterMetedata();
         /**
          * @brief cacheDefectMapFromFile Load defect map from disk and saves it in the local defect maps cache
@@ -232,7 +232,6 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
         bool m_RememberSummaryView {true};
-        bool m_defectMapPending { false};
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;
         QStringList m_DarkCameras, m_DefectCameras;
         QPointer<DarkView> m_DarkView;
