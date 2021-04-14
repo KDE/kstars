@@ -505,7 +505,7 @@ bool FITSView::saveImage(const QString &newFilename)
 
 bool FITSView::rescale(FITSZoom type)
 {
-    switch (m_ImageData->getStatistics().dataType)
+    switch (m_ImageData->dataType())
     {
         case TBYTE:
             return rescale<uint8_t>(type);
@@ -903,7 +903,7 @@ void FITSView::drawClipping(QPainter *painter)
     constexpr double SHORT_CLIP = 30000;
     constexpr double USHORT_CLIP = 60000;
     constexpr double BYTE_CLIP = 250;
-    switch (m_ImageData->getStatistics().dataType)
+    switch (m_ImageData->dataType())
     {
         case TBYTE:
             drawClip(reinterpret_cast<uint8_t const*>(input), m_ImageData->channels(), painter, width, height, BYTE_CLIP,
