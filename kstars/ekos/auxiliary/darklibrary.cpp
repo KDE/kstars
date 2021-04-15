@@ -281,7 +281,7 @@ bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSh
             if (map["binX"].toInt() == binX && map["binY"].toInt() == binY)
             {
                 // Then check for temperature
-                if (m_TargetChip->getCCD()->hasCooler())
+                if (m_TargetChip->getCCD()->hasCoolerControl())
                 {
                     double temperature = 0;
                     m_TargetChip->getCCD()->getTemperature(&temperature);
