@@ -286,7 +286,9 @@ void Media::sendUpdatedFrame(FITSView *view)
     if (!imageData)
         return;
 
-    QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
+    const int32_t width = imageData->width();
+    const int32_t height = imageData->height();
+    QString resolution = QString("%1x%2").arg(width).arg(height);
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
     QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
     imageData->getRecordValue("XBINNING", xbin);
@@ -329,22 +331,29 @@ void Media::sendUpdatedFrame(FITSView *view)
     if (correctionVector.isNull() == false)
     {
         scaledImage = view->getDisplayPixmap();
-        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
-        uint32_t length = qMax(static_cast<uint32_t>(correctionVector.length()), 100u);
+        const double currentZoom = view->getCurrentZoom();
+        if ((currentZoom / 100) != 1)
+            scaledImage = view->getDisplayPixmap().scaledToWidth(view->zoomedWidth());
+        else
+            scaledImage = view->getDisplayPixmap();
+        // as we factor in the zoom level, we adjust center and length accordingly
+        QPointF center = 0.5 * correctionVector.p1() * (currentZoom / 100) + 0.5 * correctionVector.p2() * (currentZoom / 100);
+        uint32_t length = qMax(correctionVector.length() / (currentZoom / 100), 100 / (currentZoom / 100));
+
         QRect boundingRectable;
         boundingRectable.setSize(QSize(length * 2, length * 2));
         QPoint topLeft = (center - QPointF(length, length)).toPoint();
         boundingRectable.moveTo(topLeft);
         boundingRectable = boundingRectable.intersected(scaledImage.rect());
 
-        emit newBoundingRect(boundingRectable, scaledImage.size());
+        emit newBoundingRect(boundingRectable, scaledImage.size(), currentZoom);
 
         scaledImage = scaledImage.copy(boundingRectable);
     }
     else
     {
         scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
-        emit newBoundingRect(QRect(), QSize());
+        emit newBoundingRect(QRect(), QSize(), 100);
     }
 
     scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);

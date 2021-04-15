@@ -147,7 +147,7 @@ void FITSView::setAutoStretchParams()
         updateFrame(true);
 }
 
-FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), zoomFactor(1.2)
+FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), m_ZoomFactor(1.2)
 {
     // stretchImage is whether to stretch or not--the stretch may or may not use automatically generated parameters.
     // The user may enter his/her own.

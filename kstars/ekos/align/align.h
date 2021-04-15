@@ -554,6 +554,7 @@ class Align : public QWidget, public Ui::Align
         void setPAHSlewDone();
         void setPAHCorrectionSelectionComplete();
         void zoomAlignView();
+        void setAlignZoom(double scale);
 
         // Align Settings
         QJsonObject getSettings() const;

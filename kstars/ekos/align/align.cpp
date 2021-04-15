@@ -5642,8 +5642,9 @@ void Align::syncCorrectionVector()
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 {
-    double x = dx * alignView->zoomedWidth() * (alignView->getCurrentZoom() / 100);
-    double y = dy * alignView->zoomedHeight() * (alignView->getCurrentZoom() / 100);
+    double x = dx * alignView->zoomedWidth();
+    double y = dy * alignView->zoomedHeight();
+
 
     setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
 
@@ -6099,6 +6100,16 @@ QString Align::getPAHMessage() const
 void Align::zoomAlignView()
 {
     alignView->ZoomDefault();
+
+    emit newFrame(alignView);
+}
+
+void Align::setAlignZoom(double scale)
+{
+    if (scale > 1)
+        alignView->ZoomIn();
+    else if (scale < 1)
+        alignView->ZoomOut();
 
     emit newFrame(alignView);
 }

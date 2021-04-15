@@ -18,6 +18,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
+#include "fitsviewer/fitsview.h"
 
 #include <KActionCollection>
 #include <basedevice.h>
@@ -977,8 +978,10 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 
             // #2 Find fraction of the dimensions above the full image size
             // Add to it the bounding rect top left offsets
-            x = (boundX + boundingRect.x()) / viewSize.width();
-            y = (boundY + boundingRect.y()) / viewSize.height();
+            // factors in the change caused by zoom
+            x = ((boundX + boundingRect.x()) / (m_CurrentZoom / 100)) / viewSize.width();
+            y = ((boundY + boundingRect.y()) / (m_CurrentZoom / 100)) / viewSize.height();
+
         }
 
         align->setPAHCorrectionOffsetPercentage(x, y);
@@ -995,6 +998,12 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         align->setPAHSlewDone();
     }
+    else if (command == commands[PAH_PAH_SET_ZOOM])
+    {
+        double scale = payload["scale"].toDouble();
+        align->setAlignZoom(scale);
+    }
+
 }
 
 void Message::setPAHStage(Ekos::Align::PAHStage stage)
@@ -1498,10 +1507,11 @@ void Message::sendEvent(const QString &message, KSNotification::EventType event)
     sendResponse(commands[NEW_NOTIFICATION], newEvent);
 }
 
-void Message::setBoundingRect(QRect rect, QSize view)
+void Message::setBoundingRect(QRect rect, QSize view, double currentZoom)
 {
     boundingRect = rect;
     viewSize = view;
+    m_CurrentZoom = currentZoom;
 }
 
 void Message::processDialogResponse(const QJsonObject &payload)

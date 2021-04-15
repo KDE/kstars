@@ -96,8 +96,7 @@ class Message : public QObject
         void setPAHMessage(const QString &message);
         void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
         void setPAHEnabled(bool enabled);
-        void setBoundingRect(QRect rect, QSize view);
-
+        void setBoundingRect(QRect rect, QSize view, double currentZoom);
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
         void sendCaptureSettings(const QJsonObject &settings);
@@ -194,6 +193,7 @@ class Message : public QObject
         QLineF correctionVector;
         QRect boundingRect;
         QSize viewSize;
+        double m_CurrentZoom {100};
 
         QDateTime m_ThrottleTS;
 

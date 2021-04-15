@@ -169,6 +169,11 @@ class FITSView : public QScrollArea
         {
             return currentHeight;
         }
+        double ZoomFactor() const
+        {
+            return m_ZoomFactor;
+        }
+
 
         // Star Detection
         QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
@@ -343,7 +348,7 @@ class FITSView : public QScrollArea
         /// Current height due to zoom
         uint16_t currentHeight { 0 };
         /// Image zoom factor
-        const double zoomFactor;
+        const double m_ZoomFactor;
 
         // Original full-size image
         QImage rawImage;
