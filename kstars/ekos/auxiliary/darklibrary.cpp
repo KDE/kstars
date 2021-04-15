@@ -808,6 +808,14 @@ void DarkLibrary::clearAll()
     Ekos::DarkLibrary::Instance()->refreshFromDB();
 
     m_CurrentDarkFrame.clear();
+    m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
+    connect(m_CurrentDarkFrame.get(), &FITSData::histogramReady, [this]()
+    {
+        histogramView->setEnabled(true);
+        histogramView->reset();
+        histogramView->syncGUI();
+    });
+
     m_CurrentDefectMap.clear();
 
     // Refesh db entries for other cameras
