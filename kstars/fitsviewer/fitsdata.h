@@ -139,8 +139,6 @@ class FITSData : public QObject
 
         /* Save FITS or JPG/PNG*/
         bool saveImage(const QString &newFilename);
-        /* Rescale image lineary from image_buffer, fit to window if desired */
-        int rescale(FITSZoom type);
 
         // Access functions
         void clearImageBuffers();
