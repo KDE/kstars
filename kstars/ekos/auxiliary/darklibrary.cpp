@@ -267,6 +267,7 @@ void DarkLibrary::refreshFromDB()
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData)
 {
+    QVariantMap bestCandidate;
     for (auto &map : m_DarkFramesDatabaseList)
     {
         // First check CCD name matches and check if we are on the correct chip
@@ -290,44 +291,51 @@ bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSh
                         continue;
                 }
 
-                // Then check for duration
-                // TODO make this value configurable
-                if (fabs(map["duration"].toDouble() - duration) > .1)
-                    continue;
-
-                // Finally check if the duration is acceptable
-                QDateTime frameTime = QDateTime::fromString(map["timestamp"].toString(), Qt::ISODate);
-                if (frameTime.daysTo(QDateTime::currentDateTime()) > Options::darkLibraryDuration())
-                    continue;
-
-                QString filename = map["filename"].toString();
-
-                if (m_CachedDarkFrames.contains(filename))
-                {
-                    darkData = m_CachedDarkFrames[filename];
-                    return true;
-                }
-
-                // Finally we made it, let's put it in the hash
-                if (cacheDarkFrameFromFile(filename))
-                {
-                    darkData = m_CachedDarkFrames[filename];
-                    return true;
-                }
-                else
-                {
-                    // Remove bad dark frame
-                    emit newLog(i18n("Removing bad dark frame file %1", filename));
-                    m_CachedDarkFrames.remove(filename);
-                    QFile::remove(filename);
-                    KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
-                    return false;
-                }
+                // Find candidate with closest time in case we have multiple defect maps
+                if (bestCandidate.isEmpty() ||
+                        (map["defectmap"].toString().isEmpty() == false &&
+                         (fabs(map["duration"].toDouble() - duration) <
+                          fabs(bestCandidate["duration"].toDouble() - duration))))
+                    bestCandidate = map;
             }
         }
     }
 
+    if (bestCandidate.isEmpty())
+        return false;
+
+    if (fabs(bestCandidate["duration"].toDouble() - duration) > 3)
+        emit i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %1 seconds exposure for more accurate results.",
+                  QString::number(bestCandidate["duration"].toDouble(), 'f', 1),
+                  QString::number(duration, 'f', 1));
+
+    // Finally check if the duration is acceptable
+    QDateTime frameTime = QDateTime::fromString(bestCandidate["timestamp"].toString(), Qt::ISODate);
+    if (frameTime.daysTo(QDateTime::currentDateTime()) > Options::darkLibraryDuration())
+        return false;
+
+    QString filename = bestCandidate["filename"].toString();
+
+    if (m_CachedDarkFrames.contains(filename))
+    {
+        darkData = m_CachedDarkFrames[filename];
+        return true;
+    }
+
+    // Finally we made it, let's put it in the hash
+    if (cacheDarkFrameFromFile(filename))
+    {
+        darkData = m_CachedDarkFrames[filename];
+        return true;
+    }
+
+    // Remove bad dark frame
+    emit newLog(i18n("Removing bad dark frame file %1", filename));
+    m_CachedDarkFrames.remove(filename);
+    QFile::remove(filename);
+    KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
     return false;
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -478,6 +486,7 @@ void DarkLibrary::normalizeDefectsInternal(const QSharedPointer<DefectMap> &defe
         const QSharedPointer<FITSData> &lightData, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
 {
 
+    Q_UNUSED(filter);
     T *lightBuffer = reinterpret_cast<T *>(lightData->getWritableImageBuffer());
     const uint32_t width = lightData->width();
 
@@ -513,10 +522,7 @@ void DarkLibrary::normalizeDefectsInternal(const QSharedPointer<DefectMap> &defe
         lightBuffer[offset] = median3x3Filter(x - offsetX, y - offsetY, width, lightBuffer);
     }
 
-    lightData->applyFilter(filter);
-    if (filter == FITS_NONE)
-        lightData->calculateStats(true);
-
+    lightData->calculateStats(true);
     emit darkFrameCompleted(true);
 
 }
@@ -603,6 +609,8 @@ template <typename T>
 void DarkLibrary::subtractInternal(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData,
                                    FITSScale filter, uint16_t offsetX, uint16_t offsetY)
 {
+    Q_UNUSED(filter);
+
     const uint32_t width = lightData->width();
     const uint32_t height = lightData->height();
     T *lightBuffer = reinterpret_cast<T *>(lightData->getWritableImageBuffer());
@@ -620,10 +628,7 @@ void DarkLibrary::subtractInternal(const QSharedPointer<FITSData> &darkData, con
         darkBuffer += darkStride;
     }
 
-    lightData->applyFilter(filter);
-    if (filter == FITS_NONE)
-        lightData->calculateStats(true);
-
+    lightData->calculateStats(true);
     emit darkFrameCompleted(true);
 }
 
