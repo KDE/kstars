@@ -76,6 +76,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void clearExpired();
         void openDarksFolder();
         void saveDefectMap();
+        void setCompleted();
         void loadDarkFITS(QModelIndex index);
 
     private:

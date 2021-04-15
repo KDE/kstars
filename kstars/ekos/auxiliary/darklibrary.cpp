@@ -729,6 +729,21 @@ void DarkLibrary::reset()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::setCompleted()
+{
+    startB->setEnabled(true);
+    stopB->setEnabled(false);
+
+    Options::setUseFITSViewer(m_RememberFITSViewer);
+    Options::setUseFITSViewer(m_RememberSummaryView);
+
+    m_CurrentCamera->disconnect(this);
+    m_CaptureModule->disconnect(this);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::clearExpired()
 {
     if (darkFramesModel->rowCount() == 0)
@@ -1315,8 +1330,6 @@ void DarkLibrary::stopDarkJobs()
     m_CaptureModule->abort();
     darkProgress->setValue(0);
     m_DarkView->reset();
-    m_CaptureModule->disconnect(this);
-    m_CurrentCamera->disconnect(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1494,17 +1507,11 @@ void DarkLibrary::setCaptureState(CaptureState state)
     switch (state)
     {
         case CAPTURE_ABORTED:
-            startB->setEnabled(true);
-            stopB->setEnabled(false);
-            Options::setUseFITSViewer(m_RememberFITSViewer);
-            Options::setUseFITSViewer(m_RememberSummaryView);
+            setCompleted();
             m_StatusLabel->setText(i18n("Capture aborted."));
             break;
         case CAPTURE_COMPLETE:
-            startB->setEnabled(true);
-            stopB->setEnabled(false);
-            Options::setUseFITSViewer(m_RememberFITSViewer);
-            Options::setUseFITSViewer(m_RememberSummaryView);
+            setCompleted();
             m_StatusLabel->setText(i18n("Capture completed."));
             break;
         default:
