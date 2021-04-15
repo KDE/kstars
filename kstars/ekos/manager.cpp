@@ -3759,10 +3759,9 @@ void Manager::syncActiveDevices()
                                     oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                                     break;
                                 }
-
-                                continue;
                             }
                         }
+                        continue;
                     }
                     // If it does not exist, then continue and pick from available devs below.
 
