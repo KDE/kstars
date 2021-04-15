@@ -969,18 +969,18 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
         double x = payload["x"].toDouble();
         double y = payload["y"].toDouble();
 
-        if (boundingRect.isNull() == false)
+        if (m_BoundingRect.isNull() == false)
         {
             // #1 Find actual dimension inside the bounding rectangle
             // since if we have bounding rectable then x,y fractions are INSIDE it
-            double boundX = x * boundingRect.width();
-            double boundY = y * boundingRect.height();
+            double boundX = x * m_BoundingRect.width();
+            double boundY = y * m_BoundingRect.height();
 
             // #2 Find fraction of the dimensions above the full image size
             // Add to it the bounding rect top left offsets
             // factors in the change caused by zoom
-            x = ((boundX + boundingRect.x()) / (m_CurrentZoom / 100)) / viewSize.width();
-            y = ((boundY + boundingRect.y()) / (m_CurrentZoom / 100)) / viewSize.height();
+            x = ((boundX + m_BoundingRect.x()) / (m_CurrentZoom / 100)) / m_ViewSize.width();
+            y = ((boundY + m_BoundingRect.y()) / (m_CurrentZoom / 100)) / m_ViewSize.height();
 
         }
 
@@ -1509,8 +1509,8 @@ void Message::sendEvent(const QString &message, KSNotification::EventType event)
 
 void Message::setBoundingRect(QRect rect, QSize view, double currentZoom)
 {
-    boundingRect = rect;
-    viewSize = view;
+    m_BoundingRect = rect;
+    m_ViewSize = view;
     m_CurrentZoom = currentZoom;
 }
 

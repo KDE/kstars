@@ -332,13 +332,15 @@ void Media::sendUpdatedFrame(FITSView *view)
     {
         scaledImage = view->getDisplayPixmap();
         const double currentZoom = view->getCurrentZoom();
-        if ((currentZoom / 100) != 1)
+        const double normalizedZoom = currentZoom / 100;
+        // If zoom level is not 100%, then scale.
+        if (fabs(normalizedZoom - 1) > 0.001)
             scaledImage = view->getDisplayPixmap().scaledToWidth(view->zoomedWidth());
         else
             scaledImage = view->getDisplayPixmap();
         // as we factor in the zoom level, we adjust center and length accordingly
-        QPointF center = 0.5 * correctionVector.p1() * (currentZoom / 100) + 0.5 * correctionVector.p2() * (currentZoom / 100);
-        uint32_t length = qMax(correctionVector.length() / (currentZoom / 100), 100 / (currentZoom / 100));
+        QPointF center = 0.5 * correctionVector.p1() * normalizedZoom + 0.5 * correctionVector.p2() * normalizedZoom;
+        uint32_t length = qMax(correctionVector.length() / normalizedZoom, 100 / normalizedZoom);
 
         QRect boundingRectable;
         boundingRectable.setSize(QSize(length * 2, length * 2));

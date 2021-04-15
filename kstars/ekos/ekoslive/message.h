@@ -191,8 +191,8 @@ class Message : public QObject
         QMap<int, bool> m_Options;
         QMap<QString, QSet<QString>> m_PropertySubscriptions;
         QLineF correctionVector;
-        QRect boundingRect;
-        QSize viewSize;
+        QRect m_BoundingRect;
+        QSize m_ViewSize;
         double m_CurrentZoom {100};
 
         QDateTime m_ThrottleTS;
