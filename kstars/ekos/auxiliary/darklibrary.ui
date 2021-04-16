@@ -80,7 +80,7 @@
              <item>
               <widget class="QRadioButton" name="preferDarksRadio">
                <property name="toolTip">
-                <string>For the selected camera, remove noise by means of dark frame substraction.</string>
+                <string>For the selected camera, remove noise by means of dark frame subtraction.</string>
                </property>
                <property name="text">
                 <string>Darks</string>

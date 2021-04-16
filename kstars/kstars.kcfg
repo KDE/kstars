@@ -1555,7 +1555,7 @@
       <label>List of CCDs without mechanical or electronic shutters.</label>
    </entry>
    <entry name="darkCameras" type="StringList">
-      <label>List of cameras that prefer dark substraction noise removal method.</label>
+      <label>List of cameras that prefer dark subtraction noise removal method.</label>
    </entry>
    <entry name="defectCameras" type="StringList">
       <label>List of cameras that prefer defect map noise removal method.</label>
