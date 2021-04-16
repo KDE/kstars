@@ -123,7 +123,7 @@ void FITSView::setStretchParams(const StretchParams &params)
     autoStretch = false;
     stretchImage = true;
 
-    if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+    if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
         updateFrame(true);
 }
 
@@ -133,7 +133,7 @@ void FITSView::setStretch(bool onOff)
     if (stretchImage != onOff)
     {
         stretchImage = onOff;
-        if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+        if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
             updateFrame(true);
     }
 }
@@ -143,7 +143,7 @@ void FITSView::setAutoStretchParams()
 {
     stretchImage = true;
     autoStretch = true;
-    if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+    if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
         updateFrame(true);
 }
 
@@ -187,7 +187,6 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     grabGesture(Qt::PinchGesture);
 
-    image_frame.reset(new FITSLabel(this));
     filter = filterType;
     mode   = fitsMode;
 
@@ -198,9 +197,12 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     setBaseSize(740, 530);
 
-    connect(image_frame.get(), SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
-    connect(image_frame.get(), SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
-    connect(image_frame.get(), SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+    m_ImageFrame = new FITSLabel(this);
+    m_ImageFrame->setMouseTracking(true);
+    connect(m_ImageFrame, SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
+    connect(m_ImageFrame, SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
+    connect(m_ImageFrame, SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
     m_UpdateFrameTimer.setInterval(50);
@@ -222,7 +224,6 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     connect(&fitsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::loadInFrame);
 
-    image_frame->setMouseTracking(true);
     setCursorMode(
         selectCursor); //This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
 
@@ -230,7 +231,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     noImage.load(":/images/noimage.png");
     noImageLabel->setPixmap(noImage);
     noImageLabel->setAlignment(Qt::AlignCenter);
-    this->setWidget(noImageLabel);
+    setWidget(noImageLabel);
 
     redScopePixmap = QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
     magentaScopePixmap = QPixmap(":/icons/center_telescope_magenta.svg").scaled(32, 32, Qt::KeepAspectRatio,
@@ -253,7 +254,7 @@ void FITSView::updateMouseCursor()
     {
         if (horizontalScrollBar()->maximum() > 0 || verticalScrollBar()->maximum() > 0)
         {
-            if (!image_frame->getMouseButtonDown())
+            if (!m_ImageFrame->getMouseButtonDown())
                 viewport()->setCursor(Qt::PointingHandCursor);
             else
                 viewport()->setCursor(Qt::ClosedHandCursor);
@@ -300,7 +301,7 @@ void FITSView::setCursorMode(CursorMode mode)
 
 void FITSView::resizeEvent(QResizeEvent * event)
 {
-    if ((m_ImageData == nullptr) && noImageLabel != nullptr)
+    if (m_ImageData == nullptr && noImageLabel != nullptr)
     {
         noImageLabel->setPixmap(
             noImage.scaled(width() - 20, height() - 20, Qt::KeepAspectRatio, Qt::FastTransformation));
@@ -348,6 +349,19 @@ void FITSView::loadFile(const QString &inFilename, bool silent)
     fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename, silent));
 }
 
+void FITSView::clearView()
+{
+    if (!noImageLabel)
+    {
+        noImageLabel = new QLabel();
+        noImage.load(":/images/noimage.png");
+        noImageLabel->setPixmap(noImage);
+        noImageLabel->setAlignment(Qt::AlignCenter);
+    }
+
+    setWidget(noImageLabel);
+}
+
 bool FITSView::loadData(const QSharedPointer<FITSData> &data)
 {
     if (floatingToolBar != nullptr)
@@ -357,12 +371,6 @@ bool FITSView::loadData(const QSharedPointer<FITSData> &data)
 
     // In case loadWCS is still running for previous image data, let's wait until it's over
     wcsWatcher.waitForFinished();
-
-    //    if (m_ImageData != nullptr)
-    //    {
-    //        delete m_ImageData;
-    //        m_ImageData = nullptr;
-    //    }
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
@@ -393,7 +401,15 @@ bool FITSView::processData()
     int image_width  = currentWidth;
     int image_height = currentHeight;
 
-    image_frame->setSize(image_width, image_height);
+    if (!m_ImageFrame)
+    {
+        m_ImageFrame = new FITSLabel(this);
+        m_ImageFrame->setMouseTracking(true);
+        connect(m_ImageFrame, SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
+        connect(m_ImageFrame, SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
+        connect(m_ImageFrame, SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+    }
+    m_ImageFrame->setSize(image_width, image_height);
 
     // Init the display image
     // JM 2020.01.08: Disabling as proposed by Hy
@@ -641,9 +657,9 @@ bool FITSView::rescale(FITSZoom type)
     }
 
     initDisplayImage();
-    image_frame->setScaledContents(true);
+    m_ImageFrame->setScaledContents(true);
     doStretch(&rawImage);
-    setWidget(image_frame.get());
+    setWidget(m_ImageFrame);
 
     // This is needed by fitstab, even if the zoom doesn't change, to change the stretch UI.
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
@@ -670,7 +686,8 @@ void FITSView::ZoomIn()
         emit actionUpdated("view_zoom_in", false);
     }
 
-    if (!m_ImageData) return;
+    if (!m_ImageData)
+        return;
     currentWidth  = m_ImageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = m_ImageData->height() * (currentZoom / ZOOM_DEFAULT);
 
@@ -795,8 +812,8 @@ void FITSView::updateFrameLargeImage()
 
     drawOverlay(&painter, 1.0 / m_PreviewSampling);
     drawStarFilter(&painter, 1.0 / m_PreviewSampling);
-    image_frame->setPixmap(displayPixmap);
-    image_frame->resize(((m_PreviewSampling * currentZoom) / 100.0) * displayPixmap.size());
+    m_ImageFrame->setPixmap(displayPixmap);
+    m_ImageFrame->resize(((m_PreviewSampling * currentZoom) / 100.0) * displayPixmap.size());
 }
 
 void FITSView::updateFrameSmallImage()
@@ -812,8 +829,8 @@ void FITSView::updateFrameSmallImage()
     drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
     drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
     //}
-    image_frame->setPixmap(displayPixmap);
-    image_frame->resize(currentWidth, currentHeight);
+    m_ImageFrame->setPixmap(displayPixmap);
+    m_ImageFrame->resize(currentWidth, currentHeight);
 }
 
 void FITSView::drawStarFilter(QPainter *painter, double scale)
@@ -940,7 +957,7 @@ void FITSView::drawClipping(QPainter *painter)
 
 void FITSView::ZoomDefault()
 {
-    if (image_frame != nullptr)
+    if (m_ImageFrame)
     {
         emit actionUpdated("view_zoom_out", true);
         emit actionUpdated("view_zoom_in", true);
@@ -1546,7 +1563,7 @@ QPixmap &FITSView::getTrackingBoxPixmap(uint8_t margin)
     int w  = (trackingBox.width() + margin * 2) * scale;
     int h  = (trackingBox.height() + margin * 2) * scale;
 
-    trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
+    trackingBoxPixmap = m_ImageFrame->grab(QRect(x1, y1, w, h));
     return trackingBoxPixmap;
 }
 
@@ -1622,7 +1639,7 @@ void FITSView::toggleEQGrid()
         return;
     }
 
-    if (image_frame != nullptr)
+    if (m_ImageFrame)
         updateFrame();
 }
 
@@ -1637,21 +1654,21 @@ void FITSView::toggleObjects()
         return;
     }
 
-    if (image_frame != nullptr)
+    if (m_ImageFrame)
         updateFrame();
 }
 
 void FITSView::toggleStars()
 {
     toggleStars(!markStars);
-    if (image_frame != nullptr)
+    if (m_ImageFrame)
         updateFrame();
 }
 
 void FITSView::toggleStretch()
 {
     stretchImage = !stretchImage;
-    if (image_frame != nullptr && rescale(ZOOM_KEEP_LEVEL))
+    if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
         updateFrame();
 }
 

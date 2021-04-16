@@ -71,6 +71,11 @@ class FITSView : public QScrollArea
          */
         bool loadData(const QSharedPointer<FITSData> &data);
 
+        /**
+         * @brief clearView Reset view to NO IMAGE
+         */
+        void clearView();
+
         // Save FITS
         bool saveImage(const QString &newFilename);
         // Rescale image lineary from image_buffer, fit to window if desired
@@ -336,12 +341,10 @@ class FITSView : public QScrollArea
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
 
-        QLabel *noImageLabel { nullptr };
+        QPointer<QLabel> noImageLabel;
         QPixmap noImage;
-
+        QPointer<FITSLabel> m_ImageFrame;
         QVector<QPointF> eqGridPoints;
-
-        std::unique_ptr<FITSLabel> image_frame;
 
         /// Current width due to zoom
         uint16_t currentWidth { 0 };
