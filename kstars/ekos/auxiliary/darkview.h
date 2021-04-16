@@ -21,6 +21,7 @@ class DefectMap;
 class DarkView : public FITSView
 {
         Q_OBJECT
+
     public:
         explicit DarkView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
@@ -28,15 +29,14 @@ class DarkView : public FITSView
 
         // Resets the marker and lines, celestial pole point and raAxis.
         void reset();
-
         void setDefectMap(const QSharedPointer<DefectMap> &defect);
-
+        void setDefectMapEnabled(bool enabled);
 
     protected:
         void drawBadPixels(QPainter * painter, double scale);
+
     private:
-
-
         QSharedPointer<DefectMap> m_CurrentDefectMap;
+        bool m_DefectMapEnabled {false};
 
 };

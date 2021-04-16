@@ -181,8 +181,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Defect Map Functions
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        void refreshMasters();
-        void loadCurrentMasterDark();
+        void refreshDefectMastersList();
+        void loadCurrentMasterDark(const QString &camera, int masterIndex = -1);
         void populateMasterMetedata();
         /**
          * @brief cacheDefectMapFromFile Load defect map from disk and saves it in the local defect maps cache

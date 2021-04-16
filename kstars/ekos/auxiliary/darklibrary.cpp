@@ -100,16 +100,25 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     connect(clearExpiredB, &QPushButton::clicked, this, &DarkLibrary::clearExpired);
     connect(refreshB, &QPushButton::clicked, this, &DarkLibrary::reloadDarksFromDatabase);
 
-    connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]()
+    connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this](int index)
     {
         checkCamera();
-        refreshMasters();
+        refreshDefectMastersList();
+        loadCurrentMasterDark(cameraS->itemText(index));
     });
 
     connect(&m_DarkFrameFutureWatcher, &QFutureWatcher<bool>::finished, [this]()
     {
-        if (m_DarkFrameFutureWatcher.result() && darkTabsWidget->currentIndex() == 1)
+        // If loading is successful, then set it in current dark view
+        if (m_DarkFrameFutureWatcher.result())
+        {
+            m_DarkView->loadData(m_CurrentDarkFrame);
             loadCurrentMasterDefectMap();
+            histogramView->setImageData(m_CurrentDarkFrame);
+            if (!Options::nonLinearHistogram() && !m_CurrentDarkFrame->isHistogramConstructed())
+                m_CurrentDarkFrame->constructHistogram();
+            populateMasterMetedata();
+        }
         else
             m_FileLabel->setText(i18n("Failed to load %1: %2",  m_MasterDarkFrameFilename, m_CurrentDarkFrame->getLastError()));
 
@@ -121,8 +130,11 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         histogramView->syncGUI();
     });
 
-    connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &DarkLibrary::loadCurrentMasterDark);
+    connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index)
+    {
+        DarkLibrary::loadCurrentMasterDark(cameraS->currentText(), index);
+    });
+
 
     connect(minExposureSpin, &QDoubleSpinBox::editingFinished, this, &DarkLibrary::countDarkTotalTime);
     connect(maxExposureSpin, &QDoubleSpinBox::editingFinished, this, &DarkLibrary::countDarkTotalTime);
@@ -182,32 +194,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     connect(darkTabsWidget, &QTabWidget::currentChanged, [this](int index)
     {
-        if (index == 1)
-        {
-            reloadDarksFromDatabase();
-
-            if (masterDarksCombo->count() == 0)
-                refreshMasters();
-
-            if (m_CurrentDefectMap)
-            {
-                m_DarkView->setDefectMap(m_CurrentDefectMap);
-                m_DarkView->updateFrame();
-            }
-            else
-            {
-                loadCurrentMasterDark();
-            }
-        }
-        // Only load defect map in the defect tab
-        else
-        {
-            if (index > 0)
-                reloadDarksFromDatabase();
-
-            m_DarkView->reset();
-            m_DarkView->updateFrame();
-        }
+        m_DarkView->setDefectMapEnabled(index == 1);
     });
     connect(aggresivenessHotSlider, &QSlider::valueChanged, aggresivenessHotSpin, &QSpinBox::setValue);
     connect(aggresivenessColdSlider, &QSlider::valueChanged, aggresivenessColdSpin, &QSpinBox::setValue);
@@ -695,6 +682,8 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
 
         metadata["count"] = job->getCount();
         generateMasterFrame(m_CurrentDarkFrame, metadata);
+        reloadDarksFromDatabase();
+        populateMasterMetedata();
     }
 }
 
@@ -840,10 +829,6 @@ void DarkLibrary::clearAll()
 
     // Refesh db entries for other cameras
     reloadDarksFromDatabase();
-
-    // Redraw the frame
-    m_DarkView->reset();
-    m_DarkView->updateFrame();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -886,7 +871,7 @@ void DarkLibrary::openDarksFolder()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::refreshMasters()
+void DarkLibrary::refreshDefectMastersList()
 {
     masterDarksCombo->blockSignals(true);
     masterDarksCombo->clear();
@@ -894,6 +879,10 @@ void DarkLibrary::refreshMasters()
     for (int i = 0; i < darkFramesModel->rowCount(); ++i)
     {
         QSqlRecord record = darkFramesModel->record(i);
+
+        if (record.value("ccd") != cameraS->currentText())
+            continue;
+
         int binX = record.value("binX").toInt();
         int binY = record.value("binY").toInt();
         double temperature = record.value("temperature").toDouble();
@@ -945,27 +934,44 @@ void DarkLibrary::reloadDarksFromDatabase()
 
     userdb.close();
 
-    refreshMasters();
+    refreshDefectMastersList();
+    loadCurrentMasterDark(cameraS->currentText());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::loadCurrentMasterDark()
+void DarkLibrary::loadCurrentMasterDark(const QString &camera, int masterIndex)
 {
-    int index = masterDarksCombo->currentIndex();
-    if (index < 0)
+    if (masterIndex == -1)
+        masterIndex = masterDarksCombo->currentIndex();
+
+    if (masterIndex < 0)
         return;
 
-    QSqlRecord record = darkFramesModel->record(index);
+    for (int i = 0; i < darkFramesModel->rowCount(); ++i)
+    {
+        QSqlRecord record = darkFramesModel->record(i);
+        if (record.value("ccd") != camera)
+            continue;
+        // Get the master dark frame file name
+        m_MasterDarkFrameFilename = record.value("filename").toString();
 
-    m_MasterDarkFrameFilename = record.value("filename").toString();
-    m_DefectMapFilename = record.value("defectmap").toString();
+        if (m_MasterDarkFrameFilename.isEmpty())
+            return;
 
-    if (m_CurrentDarkFrame->filename() != m_MasterDarkFrameFilename)
-        m_DarkFrameFutureWatcher.setFuture(m_CurrentDarkFrame->loadFromFile(m_MasterDarkFrameFilename));
-    else if (darkTabsWidget->currentIndex() == 1)
-        loadCurrentMasterDefectMap();
+        // Get defect file name as well if available.
+        m_DefectMapFilename = record.value("defectmap").toString();
+
+        // If current dark frame is different from target filename, then load from file
+        if (m_CurrentDarkFrame->filename() != m_MasterDarkFrameFilename)
+            m_DarkFrameFutureWatcher.setFuture(m_CurrentDarkFrame->loadFromFile(m_MasterDarkFrameFilename));
+        // If current dark frame is the same one loaded, then check if we need to reload defect map
+        else
+        {
+            loadCurrentMasterDefectMap();
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -976,9 +982,12 @@ void DarkLibrary::loadCurrentMasterDefectMap()
     // Find if we have an existing map
     if (m_CachedDefectMaps.contains(m_MasterDarkFrameFilename))
     {
-        m_CurrentDefectMap = m_CachedDefectMaps.value(m_MasterDarkFrameFilename);
-        m_DarkView->loadData(m_CurrentDarkFrame);
-        m_DarkView->setDefectMap(m_CurrentDefectMap);
+        if (m_CurrentDefectMap != m_CachedDefectMaps.value(m_MasterDarkFrameFilename))
+        {
+            m_CurrentDefectMap = m_CachedDefectMaps.value(m_MasterDarkFrameFilename);
+            m_DarkView->setDefectMap(m_CurrentDefectMap);
+            m_CurrentDefectMap->setDarkData(m_CurrentDarkFrame);
+        }
     }
     // Create new defect map
     else
@@ -995,32 +1004,9 @@ void DarkLibrary::loadCurrentMasterDefectMap()
         if (!m_DefectMapFilename.isEmpty())
             cacheDefectMapFromFile(m_MasterDarkFrameFilename, m_DefectMapFilename);
 
-        m_DarkView->loadData(m_CurrentDarkFrame);
         m_DarkView->setDefectMap(m_CurrentDefectMap);
-
+        m_CurrentDefectMap->setDarkData(m_CurrentDarkFrame);
     }
-
-    //    if (Options::nonLinearHistogram())
-    //    {
-    //        histogramView->createNonLinearHistogram();
-    //        populateMasterMetedata();
-    //    }
-    //    else
-    //    {
-
-    histogramView->setImageData(m_CurrentDarkFrame);
-
-    if (!Options::nonLinearHistogram() && !m_CurrentDarkFrame->isHistogramConstructed())
-        m_CurrentDarkFrame->constructHistogram();
-
-    populateMasterMetedata();
-
-    //}
-
-    // N.B. This must be called AFTER histogram is established
-    //QtConcurrent::run(m_Histogram.data(), &FITSHistogramEditor::construct);
-
-    //populateMasterMetedata();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1088,8 +1074,6 @@ void DarkLibrary::populateMasterMetedata()
 
         masterDeviation->setText(QString::number(stddev, 'f', 1));
     }
-
-    m_CurrentDefectMap->setDarkData(m_CurrentDarkFrame);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1349,7 +1333,7 @@ void DarkLibrary::initView()
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(m_DarkView);
     darkWidget->setLayout(vlayout);
-    connect(m_DarkView, &FITSView::loaded, this, &DarkLibrary::loadCurrentMasterDefectMap);
+    //connect(m_DarkView, &FITSView::loaded, this, &DarkLibrary::loadCurrentMasterDefectMap);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1491,9 +1475,6 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
     m_DarkFramesDatabaseList.append(map);
     m_FileLabel->setText(i18n("Master Dark saved to %1", path));
     KStarsData::Instance()->userdb()->AddDarkFrame(map);
-    // Update IDs
-    KStarsData::Instance()->userdb()->GetAllDarkFrames(m_DarkFramesDatabaseList);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

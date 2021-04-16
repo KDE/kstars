@@ -31,17 +31,22 @@ void DarkView::drawOverlay(QPainter *painter, double scale)
     FITSView::drawOverlay(painter, getScale());
     painter->setOpacity(1);
 
-    if (m_CurrentDefectMap)
+    if (m_CurrentDefectMap && m_DefectMapEnabled)
         drawBadPixels(painter, scale);
-    // Add here our own overlays
-    //drawRaAxis(painter);
 }
-
-
 
 void DarkView::reset()
 {
     m_CurrentDefectMap.clear();
+}
+
+void DarkView::setDefectMapEnabled(bool enabled)
+{
+    if (m_DefectMapEnabled == enabled)
+        return;
+
+    m_DefectMapEnabled = enabled;
+    updateFrame();
 }
 
 void DarkView::setDefectMap(const QSharedPointer<DefectMap> &defect)
