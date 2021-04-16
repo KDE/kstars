@@ -177,11 +177,12 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void setCaptureState(CaptureState state);
         void reloadDarksFromDatabase();
         void loadCurrentMasterDefectMap();
+        void clearBuffers();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Defect Map Functions
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        void refreshDefectMastersList();
+        void refreshDefectMastersList(const QString &camera);
         void loadCurrentMasterDark(const QString &camera, int masterIndex = -1);
         void populateMasterMetedata();
         /**

@@ -100,11 +100,10 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     connect(clearExpiredB, &QPushButton::clicked, this, &DarkLibrary::clearExpired);
     connect(refreshB, &QPushButton::clicked, this, &DarkLibrary::reloadDarksFromDatabase);
 
-    connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this](int index)
+    connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]()
     {
         checkCamera();
-        refreshDefectMastersList();
-        loadCurrentMasterDark(cameraS->itemText(index));
+        reloadDarksFromDatabase();
     });
 
     connect(&m_DarkFrameFutureWatcher, &QFutureWatcher<bool>::finished, [this]()
@@ -194,7 +193,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     connect(darkTabsWidget, &QTabWidget::currentChanged, [this](int index)
     {
-        m_DarkView->setDefectMapEnabled(index == 1);
+        m_DarkView->setDefectMapEnabled(index == 1 && m_CurrentDefectMap);
     });
     connect(aggresivenessHotSlider, &QSlider::valueChanged, aggresivenessHotSpin, &QSpinBox::setValue);
     connect(aggresivenessColdSlider, &QSlider::valueChanged, aggresivenessColdSpin, &QSpinBox::setValue);
@@ -781,6 +780,24 @@ void DarkLibrary::clearExpired()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::clearBuffers()
+{
+    m_CurrentDarkFrame.clear();
+    // Should clear existing view
+    m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
+    connect(m_CurrentDarkFrame.get(), &FITSData::histogramReady, [this]()
+    {
+        histogramView->setEnabled(true);
+        histogramView->reset();
+        histogramView->syncGUI();
+    });
+    m_DarkView->clearView();
+    m_CurrentDefectMap.clear();
+
+}
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::clearAll()
 {
     if (darkFramesModel->rowCount() == 0)
@@ -815,17 +832,6 @@ void DarkLibrary::clearAll()
     userdb.close();
 
     Ekos::DarkLibrary::Instance()->refreshFromDB();
-
-    m_CurrentDarkFrame.clear();
-    m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
-    connect(m_CurrentDarkFrame.get(), &FITSData::histogramReady, [this]()
-    {
-        histogramView->setEnabled(true);
-        histogramView->reset();
-        histogramView->syncGUI();
-    });
-
-    m_CurrentDefectMap.clear();
 
     // Refesh db entries for other cameras
     reloadDarksFromDatabase();
@@ -871,8 +877,11 @@ void DarkLibrary::openDarksFolder()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::refreshDefectMastersList()
+void DarkLibrary::refreshDefectMastersList(const QString &camera)
 {
+    if (darkFramesModel->rowCount() == 0)
+        return;
+
     masterDarksCombo->blockSignals(true);
     masterDarksCombo->clear();
 
@@ -880,7 +889,7 @@ void DarkLibrary::refreshDefectMastersList()
     {
         QSqlRecord record = darkFramesModel->record(i);
 
-        if (record.value("ccd") != cameraS->currentText())
+        if (record.value("ccd") != camera)
             continue;
 
         int binX = record.value("binX").toInt();
@@ -913,12 +922,14 @@ void DarkLibrary::reloadDarksFromDatabase()
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
     userdb.open();
 
+    const QString camera = m_CurrentCamera->getDeviceName();
+
     delete (darkFramesModel);
     delete (sortFilter);
 
     darkFramesModel = new QSqlTableModel(this, userdb);
     darkFramesModel->setTable("darkframe");
-    darkFramesModel->setFilter(QString("ccd='%1'").arg(m_CurrentCamera->getDeviceName()));
+    darkFramesModel->setFilter(QString("ccd='%1'").arg(camera));
     darkFramesModel->select();
 
     sortFilter = new QSortFilterProxyModel(this);
@@ -934,8 +945,14 @@ void DarkLibrary::reloadDarksFromDatabase()
 
     userdb.close();
 
-    refreshDefectMastersList();
-    loadCurrentMasterDark(cameraS->currentText());
+    if (darkFramesModel->rowCount() == 0 && m_CurrentDarkFrame)
+    {
+        clearBuffers();
+        return;
+    }
+
+    refreshDefectMastersList(camera);
+    loadCurrentMasterDark(camera);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -946,7 +963,7 @@ void DarkLibrary::loadCurrentMasterDark(const QString &camera, int masterIndex)
     if (masterIndex == -1)
         masterIndex = masterDarksCombo->currentIndex();
 
-    if (masterIndex < 0)
+    if (masterIndex < 0 || darkFramesModel->rowCount() == 0)
         return;
 
     for (int i = 0; i < darkFramesModel->rowCount(); ++i)
