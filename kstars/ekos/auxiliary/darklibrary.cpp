@@ -683,6 +683,9 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
         generateMasterFrame(m_CurrentDarkFrame, metadata);
         reloadDarksFromDatabase();
         populateMasterMetedata();
+        histogramView->setImageData(m_CurrentDarkFrame);
+        if (!Options::nonLinearHistogram() && !m_CurrentDarkFrame->isHistogramConstructed())
+            m_CurrentDarkFrame->constructHistogram();
     }
 }
 
