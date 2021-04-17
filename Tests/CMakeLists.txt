@@ -44,7 +44,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/ekos/align
     ${kstars_SOURCE_DIR}/kstars/internalguide
     ${kstars_SOURCE_DIR}/kstars/focus
+    ${kstars_SOURCE_DIR}/kstars/scheduler
     )
+add_subdirectory(scheduler)
 add_subdirectory(focus)
 add_subdirectory(polaralign)
 # FIXME

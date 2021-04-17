@@ -24,15 +24,39 @@
 #define BAD_SCORE -1000
 #define MIN_ALTITUDE 15.0
 
+
+GeoLocation *SchedulerJob::storedGeo = nullptr;
+KStarsDateTime *SchedulerJob::storedLocalTime = nullptr;
+
 SchedulerJob::SchedulerJob()
 {
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Moon")));
+}
+
+// Private constructor for unit testing.
+SchedulerJob::SchedulerJob(KSMoon *moonPtr)
+{
+    moon = moonPtr;
 }
 
 void SchedulerJob::setName(const QString &value)
 {
     name = value;
     updateJobCells();
+}
+
+const KStarsDateTime &SchedulerJob::getLocalTime()
+{
+    if (hasLocalTime())
+        return *storedLocalTime;
+    return KStarsData::Instance()->lt();
+}
+
+GeoLocation const *SchedulerJob::getGeo()
+{
+    if (hasGeo())
+        return storedGeo;
+    return KStarsData::Instance()->geo();
 }
 
 void SchedulerJob::setStartupCondition(const StartupCondition &value)
@@ -77,6 +101,11 @@ void SchedulerJob::setFITSFile(const QUrl &value)
 void SchedulerJob::setMinAltitude(const double &value)
 {
     minAltitude = value;
+}
+
+bool SchedulerJob::hasAltitudeConstraint() const
+{
+    return hasMinAltitude();
 }
 
 void SchedulerJob::setMinMoonSeparation(const double &value)
@@ -416,12 +445,12 @@ void SchedulerJob::setCapturedFramesMap(const CapturedFramesMap &value)
     capturedFramesMap = value;
 }
 
-void SchedulerJob::setTargetCoords(dms &ra, dms &dec)
+void SchedulerJob::setTargetCoords(const dms &ra, const dms &dec, double djd)
 {
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);
 
-    targetCoords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
+    targetCoords.apparentCoord(static_cast<long double>(J2000), djd);
 }
 
 void SchedulerJob::setRotation(double value)
@@ -723,15 +752,15 @@ bool SchedulerJob::increasingStartupTimeOrder(SchedulerJob const *job1, Schedule
     return job1->getStartupTime() < job2->getStartupTime();
 }
 
-int16_t SchedulerJob::getAltitudeScore(QDateTime const &when) const
+
+int16_t SchedulerJob::getAltitudeScore(QDateTime const &when, double *altPtr) const
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-    GeoLocation *geo = KStarsData::Instance()->geo();
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
-                          KStarsData::Instance()->lt());
+                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          getLocalTime());
 
     // Create a sky object with the target catalog coordinates
     SkyPoint const target = getTargetCoords();
@@ -744,9 +773,11 @@ int16_t SchedulerJob::getAltitudeScore(QDateTime const &when) const
     o.updateCoordsNow(&numbers);
 
     // Compute local sidereal time for the current fraction of the day, calculate altitude
-    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
-    o.EquatorialToHorizontal(&LST, geo->lat());
+    CachingDms const LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, getGeo()->lat());
     double const altitude = o.alt().Degrees();
+    if (altPtr != nullptr)
+        *altPtr = altitude;
 
     double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
     int16_t score = BAD_SCORE - 1;
@@ -757,7 +788,7 @@ int16_t SchedulerJob::getAltitudeScore(QDateTime const &when) const
     {
         score = BAD_SCORE;
     }
-    else if (-90 < getMinAltitude())
+    else if (hasAltitudeConstraint())
     {
         // If under altitude constraint, bad score
         if (altitude < getMinAltitude())
@@ -797,13 +828,14 @@ int16_t SchedulerJob::getAltitudeScore(QDateTime const &when) const
 
 int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
 {
+    if (moon == nullptr) return 100;
+
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-    GeoLocation *geo = KStarsData::Instance()->geo();
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
-                          KStarsData::Instance()->lt());
+                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          getLocalTime());
 
     // Create a sky object with the target catalog coordinates
     SkyPoint const target = getTargetCoords();
@@ -816,11 +848,11 @@ int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
     o.updateCoordsNow(&numbers);
 
     // Update moon
-    //ut = geo->LTtoUT(ltWhen);
+    //ut = getGeo()->LTtoUT(ltWhen);
     //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
-    //LST = geo->GSTtoLST(ut.gst());
-    CachingDms LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
-    moon->updateCoords(&numbers, true, geo->lat(), &LST, true);
+    //LST = getGeo()->GSTtoLST(ut.gst());
+    CachingDms LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
+    moon->updateCoords(&numbers, true, getGeo()->lat(), &LST, true);
 
     double const moonAltitude = moon->alt().Degrees();
 
@@ -873,11 +905,12 @@ int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
 
 double SchedulerJob::getCurrentMoonSeparation() const
 {
+    if (moon == nullptr) return 180.0;
+
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-    GeoLocation *geo = KStarsData::Instance()->geo();
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
-    KStarsDateTime ltWhen(KStarsData::Instance()->lt());
+    KStarsDateTime ltWhen(getLocalTime());
 
     // Create a sky object with the target catalog coordinates
     SkyPoint const target = getTargetCoords();
@@ -890,11 +923,11 @@ double SchedulerJob::getCurrentMoonSeparation() const
     o.updateCoordsNow(&numbers);
 
     // Update moon
-    //ut = geo->LTtoUT(ltWhen);
+    //ut = getGeo()->LTtoUT(ltWhen);
     //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
-    //LST = geo->GSTtoLST(ut.gst());
-    CachingDms LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
-    moon->updateCoords(&numbers, true, geo->lat(), &LST, true);
+    //LST = getGeo()->GSTtoLST(ut.gst());
+    CachingDms LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
+    moon->updateCoords(&numbers, true, getGeo()->lat(), &LST, true);
 
     // Moon/Sky separation p
     return moon->angularDistanceTo(&o).Degrees();
@@ -903,12 +936,11 @@ double SchedulerJob::getCurrentMoonSeparation() const
 QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-    GeoLocation *geo = KStarsData::Instance()->geo();
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
-                          KStarsData::Instance()->lt());
+                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          getLocalTime());
 
     // Create a sky object with the target catalog coordinates
     SkyPoint const target = getTargetCoords();
@@ -917,7 +949,7 @@ QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
     o.setDec0(target.dec0());
 
     // Calculate the UT at the argument time
-    KStarsDateTime const ut = geo->LTtoUT(ltWhen);
+    KStarsDateTime const ut = getGeo()->LTtoUT(ltWhen);
 
     double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
 
@@ -931,8 +963,8 @@ QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
         o.updateCoordsNow(&numbers);
 
         // Compute local sidereal time for the current fraction of the day, calculate altitude
-        CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(ltOffset).gst());
-        o.EquatorialToHorizontal(&LST, geo->lat());
+        CachingDms const LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltOffset).gst());
+        o.EquatorialToHorizontal(&LST, getGeo()->lat());
         double const altitude = o.alt().Degrees();
 
         if (getMinAltitude() <= altitude)
@@ -963,13 +995,13 @@ QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
 QDateTime SchedulerJob::calculateCulmination(QDateTime const &when) const
 {
     // FIXME: culmination calculation is a min altitude requirement, should be an interval altitude requirement
-    GeoLocation *geo = KStarsData::Instance()->geo();
+
     // FIXME: block calculating target coordinates at a particular time is duplicated in calculateCulmination
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
-                          KStarsData::Instance()->lt());
+                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          getLocalTime());
 
     // Create a sky object with the target catalog coordinates
     SkyPoint const target = getTargetCoords();
@@ -982,7 +1014,7 @@ QDateTime SchedulerJob::calculateCulmination(QDateTime const &when) const
     o.updateCoordsNow(&numbers);
 
     // Calculate transit date/time at the argument date - transitTime requires UT and returns LocalTime
-    KStarsDateTime transitDateTime(ltWhen.date(), o.transitTime(geo->LTtoUT(ltWhen), geo), Qt::LocalTime);
+    KStarsDateTime transitDateTime(ltWhen.date(), o.transitTime(getGeo()->LTtoUT(ltWhen), getGeo()), Qt::LocalTime);
 
     // Shift transit date/time by the argument offset
     KStarsDateTime observationDateTime = transitDateTime.addSecs(getCulminationOffset() * 60);
@@ -1004,22 +1036,21 @@ QDateTime SchedulerJob::calculateCulmination(QDateTime const &when) const
 
     // Guarantees - culmination calculation is stable at minute level, so relax by lead time
     Q_ASSERT_X(observationDateTime.isValid(), __FUNCTION__, "Observation time for target culmination is valid.");
-    Q_ASSERT_X(ltWhen <= relaxedDateTime, __FUNCTION__, "Observation time for target culmination is at or after than argument time");
+    Q_ASSERT_X(ltWhen <= relaxedDateTime, __FUNCTION__,
+               "Observation time for target culmination is at or after than argument time");
 
     // Return consolidated culmination time
-    return Qt::UTC == observationDateTime.timeSpec() ? geo->UTtoLT(observationDateTime) : observationDateTime;
+    return Qt::UTC == observationDateTime.timeSpec() ? getGeo()->UTtoLT(observationDateTime) : observationDateTime;
 }
 
 double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting, bool debug)
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
-    GeoLocation * const geo = KStarsData::Instance()->geo();
-
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
-                          KStarsData::Instance()->lt());
+                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          getLocalTime());
 
     // Create a sky object with the target catalog coordinates
     SkyObject o;
@@ -1031,8 +1062,8 @@ double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when,
     o.updateCoordsNow(&numbers);
 
     // Calculate alt/az coordinates using KStars instance's geolocation
-    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
-    o.EquatorialToHorizontal(&LST, geo->lat());
+    CachingDms const LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, getGeo()->lat());
 
     // Hours are reduced to [0,24[, meridian being at 0
     double offset = LST.Hours() - o.ra().Hours();
