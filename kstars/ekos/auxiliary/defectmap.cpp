@@ -213,14 +213,20 @@ void DefectMap::initBadPixelsInternal(double hotPixelThreshold,
     T const *buffer  = reinterpret_cast<T const*>(m_DarkData->getImageBuffer());
     const uint32_t width = m_DarkData->width();
     const uint32_t height = m_DarkData->height();
-    // Skip 10% of edge
-    //    const uint32_t offsetX = width / 10;
-    //    const uint32_t offsetY = height / 10;
+
+    const uint32_t maxSize = 500000;
+    uint32_t samples = m_DarkData->samplesPerChannel();
+    uint8_t downsample = 1;
+    if (samples > maxSize)
+    {
+        downsample = (static_cast<double>(samples) / maxSize) + 0.999;
+        samples /= downsample;
+    }
 
     // Need templated function
-    for (uint32_t y = 5; y < height - 5; y++)
+    for (uint32_t y = 4; y < height - 4; y += downsample)
     {
-        for (uint32_t x = 5; x < width - 5; x++)
+        for (uint32_t x = 4; x < width - 4; x += downsample)
         {
             uint32_t offset = x + y * width;
             if (buffer[offset] > hotPixelThreshold)
