@@ -141,18 +141,18 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
 
     connect(minTemperatureSpin, &QDoubleSpinBox::editingFinished, [this]()
     {
-        maxTemperatureSpin->setMinimum(minTemperatureSpin->value() + temperatureStepSpin->value());
+        maxTemperatureSpin->setMinimum(minTemperatureSpin->value());
         countDarkTotalTime();
     });
     connect(maxTemperatureSpin, &QDoubleSpinBox::editingFinished, [this]()
     {
-        minTemperatureSpin->setMaximum(maxTemperatureSpin->value() - temperatureStepSpin->value());
+        minTemperatureSpin->setMaximum(maxTemperatureSpin->value());
         countDarkTotalTime();
     });
     connect(temperatureStepSpin, &QDoubleSpinBox::editingFinished, [this]()
     {
-        maxTemperatureSpin->setMinimum(minTemperatureSpin->value() + temperatureStepSpin->value());
-        minTemperatureSpin->setMaximum(maxTemperatureSpin->value() - temperatureStepSpin->value());
+        maxTemperatureSpin->setMinimum(minTemperatureSpin->value());
+        minTemperatureSpin->setMaximum(maxTemperatureSpin->value());
         countDarkTotalTime();
     });
 
@@ -1247,7 +1247,7 @@ void DarkLibrary::countDarkTotalTime()
 void DarkLibrary::generateDarkJobs()
 {
     QList<double> temperatures;
-    if (m_CurrentCamera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
+    if (m_CurrentCamera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) >= 0)
     {
         for (double oneTemperature = minTemperatureSpin->value(); oneTemperature <= maxTemperatureSpin->value();
                 oneTemperature += temperatureStepSpin->value())
