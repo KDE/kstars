@@ -963,35 +963,34 @@ void DarkLibrary::reloadDarksFromDatabase()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::loadCurrentMasterDark(const QString &camera, int masterIndex)
 {
+    // Do not process empty models
+    if (darkFramesModel->rowCount() == 0)
+        return;
+
     if (masterIndex == -1)
         masterIndex = masterDarksCombo->currentIndex();
 
-    if (masterIndex < 0 || darkFramesModel->rowCount() == 0)
+    if (masterIndex < 0 || masterIndex >= darkFramesModel->rowCount())
         return;
 
-    for (int i = 0; i < darkFramesModel->rowCount(); ++i)
-    {
-        QSqlRecord record = darkFramesModel->record(i);
-        if (record.value("ccd") != camera)
-            continue;
-        // Get the master dark frame file name
-        m_MasterDarkFrameFilename = record.value("filename").toString();
-
-        if (m_MasterDarkFrameFilename.isEmpty())
-            return;
-
-        // Get defect file name as well if available.
-        m_DefectMapFilename = record.value("defectmap").toString();
-
-        // If current dark frame is different from target filename, then load from file
-        if (m_CurrentDarkFrame->filename() != m_MasterDarkFrameFilename)
-            m_DarkFrameFutureWatcher.setFuture(m_CurrentDarkFrame->loadFromFile(m_MasterDarkFrameFilename));
-        // If current dark frame is the same one loaded, then check if we need to reload defect map
-        else
-            loadCurrentMasterDefectMap();
-
+    QSqlRecord record = darkFramesModel->record(masterIndex);
+    if (record.value("ccd") != camera)
         return;
-    }
+    // Get the master dark frame file name
+    m_MasterDarkFrameFilename = record.value("filename").toString();
+
+    if (m_MasterDarkFrameFilename.isEmpty())
+        return;
+
+    // Get defect file name as well if available.
+    m_DefectMapFilename = record.value("defectmap").toString();
+
+    // If current dark frame is different from target filename, then load from file
+    if (m_CurrentDarkFrame->filename() != m_MasterDarkFrameFilename)
+        m_DarkFrameFutureWatcher.setFuture(m_CurrentDarkFrame->loadFromFile(m_MasterDarkFrameFilename));
+    // If current dark frame is the same one loaded, then check if we need to reload defect map
+    else
+        loadCurrentMasterDefectMap();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
