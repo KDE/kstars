@@ -988,9 +988,9 @@ void DarkLibrary::loadCurrentMasterDark(const QString &camera, int masterIndex)
             m_DarkFrameFutureWatcher.setFuture(m_CurrentDarkFrame->loadFromFile(m_MasterDarkFrameFilename));
         // If current dark frame is the same one loaded, then check if we need to reload defect map
         else
-        {
             loadCurrentMasterDefectMap();
-        }
+
+        return;
     }
 }
 
