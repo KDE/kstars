@@ -74,7 +74,7 @@ class FITSView : public QScrollArea
         /**
          * @brief clearView Reset view to NO IMAGE
          */
-        void clearView();
+        void clearData();
 
         // Save FITS
         bool saveImage(const QString &newFilename);

@@ -349,7 +349,7 @@ void FITSView::loadFile(const QString &inFilename, bool silent)
     fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename, silent));
 }
 
-void FITSView::clearView()
+void FITSView::clearData()
 {
     if (!noImageLabel)
     {
@@ -360,6 +360,8 @@ void FITSView::clearView()
     }
 
     setWidget(noImageLabel);
+
+    m_ImageData.clear();
 }
 
 bool FITSView::loadData(const QSharedPointer<FITSData> &data)
@@ -563,7 +565,7 @@ void FITSView::enterEvent(QEvent * event)
 {
     Q_UNUSED(event)
 
-    if ((floatingToolBar != nullptr) && (m_ImageData != nullptr))
+    if (floatingToolBar && m_ImageData)
     {
         QPointer<QGraphicsOpacityEffect> eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
@@ -580,7 +582,7 @@ void FITSView::leaveEvent(QEvent * event)
 {
     Q_UNUSED(event)
 
-    if ((floatingToolBar != nullptr) && (m_ImageData != nullptr))
+    if (floatingToolBar && m_ImageData)
     {
         QPointer<QGraphicsOpacityEffect> eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
@@ -596,12 +598,9 @@ void FITSView::leaveEvent(QEvent * event)
 template <typename T>
 bool FITSView::rescale(FITSZoom type)
 {
-    // JM 2020.01.08: Disabling as proposed by Hy
-    //    if (rawImage.isNull())
-    //        return false;
-
     if (!m_ImageData)
         return false;
+
     int image_width  = m_ImageData->width();
     int image_height = m_ImageData->height();
     currentWidth  = image_width;
@@ -668,6 +667,9 @@ bool FITSView::rescale(FITSZoom type)
 
 void FITSView::ZoomIn()
 {
+    if (!m_ImageData)
+        return;
+
     if (currentZoom >= ZOOM_DEFAULT && Options::limitedResourcesMode())
     {
         emit newStatus(i18n("Cannot zoom in further due to active limited resources mode."), FITS_MESSAGE);
@@ -686,8 +688,6 @@ void FITSView::ZoomIn()
         emit actionUpdated("view_zoom_in", false);
     }
 
-    if (!m_ImageData)
-        return;
     currentWidth  = m_ImageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = m_ImageData->height() * (currentZoom / ZOOM_DEFAULT);
 
@@ -700,6 +700,9 @@ void FITSView::ZoomIn()
 
 void FITSView::ZoomOut()
 {
+    if (!m_ImageData)
+        return;
+
     if (currentZoom <= ZOOM_DEFAULT)
         currentZoom -= ZOOM_LOW_INCR;
     else
@@ -713,7 +716,6 @@ void FITSView::ZoomOut()
 
     emit actionUpdated("view_zoom_in", true);
 
-    if (!m_ImageData) return;
     currentWidth  = m_ImageData->width() * (currentZoom / ZOOM_DEFAULT);
     currentHeight = m_ImageData->height() * (currentZoom / ZOOM_DEFAULT);
 
@@ -726,6 +728,9 @@ void FITSView::ZoomOut()
 
 void FITSView::ZoomToFit()
 {
+    if (!m_ImageData)
+        return;
+
     if (rawImage.isNull() == false)
     {
         rescale(ZOOM_FIT_WINDOW);

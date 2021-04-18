@@ -794,7 +794,7 @@ void DarkLibrary::clearBuffers()
         histogramView->reset();
         histogramView->syncGUI();
     });
-    m_DarkView->clearView();
+    m_DarkView->clearData();
     m_CurrentDefectMap.clear();
 
 }
