@@ -1178,7 +1178,7 @@ void FITSData::calculateMedian()
     uint8_t downsample = 1;
     if (medianSize > maxMedianSize)
     {
-        downsample = medianSize / maxMedianSize + 0.999;
+        downsample = (static_cast<double>(medianSize) / maxMedianSize) + 0.999;
         medianSize /= downsample;
     }
     std::vector<T> samples;
