@@ -51,7 +51,7 @@
 #include <ekos_debug.h>
 
 #define MAX_REMOTE_INDI_TIMEOUT 15000
-#define MAX_LOCAL_INDI_TIMEOUT  5000
+#define MAX_LOCAL_INDI_TIMEOUT  10000
 
 namespace Ekos
 {
