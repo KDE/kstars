@@ -2235,7 +2235,7 @@ bool CCD::resetStreamingFrame()
 
 bool CCD::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 {
-    INumberVectorProperty *limitsProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+    INumberVectorProperty *limitsProp = baseDevice->getNumber("LIMITS");
 
     if (limitsProp == nullptr)
         return false;
@@ -2245,12 +2245,13 @@ bool CCD::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 
     if (bufferMax && previewFPS)
     {
-        if(std::fabs(bufferMax->value - maxBufferSize) == 0 && std::fabs(previewFPS->value - maxPreviewFPS) == 0)
-            return true;
+        if(std::fabs(bufferMax->value - maxBufferSize) > 0 || std::fabs(previewFPS->value - maxPreviewFPS) > 0)
+        {
+            bufferMax->value = maxBufferSize;
+            previewFPS->value = maxPreviewFPS;
+            clientManager->sendNewNumber(limitsProp);
+        }
 
-        bufferMax->value = maxBufferSize;
-        previewFPS->value = maxPreviewFPS;
-        clientManager->sendNewNumber(limitsProp);
         return true;
     }
 
