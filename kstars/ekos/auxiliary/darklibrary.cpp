@@ -1246,6 +1246,9 @@ void DarkLibrary::countDarkTotalTime()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::generateDarkJobs()
 {
+    // Always clear sequence queue before starting
+    m_CaptureModule->clearSequenceQueue();
+
     QList<double> temperatures;
     if (m_CurrentCamera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) >= 0)
     {
@@ -1255,9 +1258,15 @@ void DarkLibrary::generateDarkJobs()
             temperatures << oneTemperature;
         }
 
+        // Enforce temperature set
+        m_CaptureModule->setForceTemperature(true);
     }
     else
+    {
+        // Disable temperature set
+        m_CaptureModule->setForceTemperature(false);
         temperatures << INVALID_VALUE;
+    }
 
     QList<uint8_t> bins;
     if (bin1Check->isChecked())
