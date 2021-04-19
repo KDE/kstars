@@ -339,7 +339,7 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT "
                   "NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, "
-                  "filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
+                  "filename TEXT NOT NULL, defectmap TEXT DEFAULT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
 
     tables.append("CREATE TABLE IF NOT EXISTS hips (ID TEXT NOT NULL UNIQUE,"
                   "obs_title TEXT NOT NULL, obs_description TEXT NOT NULL, hips_order TEXT NOT NULL,"
