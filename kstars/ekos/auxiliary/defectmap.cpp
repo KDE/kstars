@@ -94,10 +94,17 @@ bool DefectMap::save(const QString &filename, const QString &camera)
     root.insert("coldAggressiveness", m_ColdPixelsAggressiveness);
 
     QJsonArray hotArray, coldArray;
-    for (const auto &onePixel : m_HotPixels)
-        hotArray.append(onePixel.json());
-    for (const auto &onePixel : m_ColdPixels)
-        coldArray.append(onePixel.json());
+    if (m_HotEnabled)
+    {
+        for (const auto &onePixel : m_HotPixels)
+            hotArray.append(onePixel.json());
+    }
+
+    if (m_ColdEnabled)
+    {
+        for (const auto &onePixel : m_ColdPixels)
+            coldArray.append(onePixel.json());
+    }
 
     root.insert("hot", hotArray);
     root.insert("cold", coldArray);
