@@ -196,6 +196,10 @@ bool KSUserDB::Initialize()
         if (currentDBVersion < 307)
         {
             QSqlQuery query(m_UserDB);
+            // If we are upgrading, remove all previous entries.
+            QString clearQuery = QString("DELETE FROM darkframe");
+            if (!query.exec(clearQuery))
+                qCWarning(KSTARS) << query.lastError();
             QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN defectmap TEXT DEFAULT NULL");
             if (!query.exec(columnQuery))
                 qCWarning(KSTARS) << query.lastError();
