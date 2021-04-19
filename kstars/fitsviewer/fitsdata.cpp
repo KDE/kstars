@@ -1651,6 +1651,9 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
 #ifndef KSTARS_LITE
             QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
             detector->setSettings(m_SourceExtractorSettings);
+            // We need JMIndex calculated from histogram
+            if (!isHistogramConstructed())
+                constructHistogram();
             detector->configure("JMINDEX", m_JMIndex);
             m_StarFindFuture = detector->findSources(trackingBox);
             return m_StarFindFuture;
@@ -3885,14 +3888,12 @@ void FITSData::constructHistogram()
 template <typename T> void FITSData::constructHistogramInternal()
 {
     auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
-
-
     uint32_t samples = m_Statistics.width * m_Statistics.height;
-    const uint32_t sampleBy = samples > 1000000 ? samples / 1000000 : 1;
+    const uint32_t sampleBy = samples > 500000 ? samples / 500000 : 1;
 
-    m_HistogramBinCount = qMax(0., qMin(m_Statistics.max[0] - m_Statistics.min[0], 400.0));
+    m_HistogramBinCount = qMax(0., qMin(m_Statistics.max[0] - m_Statistics.min[0], 256.0));
     if (m_HistogramBinCount <= 0)
-        m_HistogramBinCount = 400;
+        m_HistogramBinCount = 256;
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
