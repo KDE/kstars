@@ -3189,7 +3189,10 @@ bool Guide::executeOneOperation(GuideState operation)
                 uint16_t offsetX = 0;
                 uint16_t offsetY = 0;
 
-                if (settings["x"].isValid() && settings["y"].isValid())
+                if (settings["x"].isValid() &&
+                        settings["y"].isValid() &&
+                        settings["binx"].isValid() &&
+                        settings["biny"].isValid())
                 {
                     offsetX = settings["x"].toInt() / settings["binx"].toInt();
                     offsetY = settings["y"].toInt() / settings["biny"].toInt();
