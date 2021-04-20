@@ -206,6 +206,7 @@ class FITSData : public QObject
         {
             return m_Statistics.stddev[channel];
         }
+        double getAverageStdDev() const;
         void setMean(double value, uint8_t channel = 0)
         {
             m_Statistics.mean[channel] = value;
@@ -214,10 +215,16 @@ class FITSData : public QObject
         {
             return m_Statistics.mean[channel];
         }
+        // for single channel, just return the mean for channel zero
+        // for color, return the average
+        double getAverageMean() const;
         void setMedian(double val, uint8_t channel = 0)
         {
             m_Statistics.median[channel] = val;
         }
+        // for single channel, just return the median for channel zero
+        // for color, return the average
+        double getAverageMedian() const;
         double getMedian(uint8_t channel = 0) const
         {
             return m_Statistics.median[channel];

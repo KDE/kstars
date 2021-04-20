@@ -4038,3 +4038,27 @@ void FITSData::recordLastError(int errorCode)
     fits_get_errstatus(errorCode, fitsErrorMessage);
     m_LastError = fitsErrorMessage;
 }
+
+double FITSData::getAverageMean() const
+{
+    if (m_Statistics.channels == 1)
+        return m_Statistics.mean[0];
+    else
+        return (m_Statistics.mean[0] + m_Statistics.mean[1] + m_Statistics.mean[2]) / 3.0;
+}
+
+double FITSData::getAverageMedian() const
+{
+    if (m_Statistics.channels == 1)
+        return m_Statistics.median[0];
+    else
+        return (m_Statistics.median[0] + m_Statistics.median[1] + m_Statistics.median[2]) / 3.0;
+}
+
+double FITSData::getAverageStdDev() const
+{
+    if (m_Statistics.channels == 1)
+        return m_Statistics.stddev[0];
+    else
+        return (m_Statistics.stddev[0] + m_Statistics.stddev[1] + m_Statistics.stddev[2]) / 3.0;
+}

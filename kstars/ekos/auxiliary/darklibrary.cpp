@@ -1048,49 +1048,18 @@ void DarkLibrary::populateMasterMetedata()
         masterExposure->setText(value.toString());
     // Median
     {
-        // Refresh statistics
-        //FITSHistogram histogram()
-
-        double median = 0;
-        double medians[3] = {0};
-        medians[0] = m_CurrentDarkFrame->getMedian(0);
-        medians[1] = m_CurrentDarkFrame->getMedian(1);
-        medians[2] = m_CurrentDarkFrame->getMedian(2);
-
-        if (medians[1] > 0)
-            median = (medians[0] + medians[1] + medians[2]) / 3.0;
-        else
-            median = medians[0];
-
+        double median = m_CurrentDarkFrame->getAverageMedian();
         if (median > 0)
             masterMedian->setText(QString::number(median, 'f', 1));
     }
     // Mean
     {
-        double mean = 0;
-        double means[3] = {0};
-        means[0] = m_CurrentDarkFrame->getMean(0);
-        means[1] = m_CurrentDarkFrame->getMean(1);
-        means[2] = m_CurrentDarkFrame->getMean(2);
-        if (means[1] > 0)
-            mean = (means[0] + means[1] + means[2]) / 3.0;
-        else
-            mean = means[0];
-
+        double mean = m_CurrentDarkFrame->getAverageMean();
         masterMean->setText(QString::number(mean, 'f', 1));
     }
     // Standard Deviation
     {
-        double stddev = 0;
-        double stddevs[3] = {0};
-        stddevs[0] = m_CurrentDarkFrame->getStdDev(0);
-        stddevs[1] = m_CurrentDarkFrame->getStdDev(1);
-        stddevs[2] = m_CurrentDarkFrame->getStdDev(2);
-        if (stddevs[1] > 0)
-            stddev = (stddevs[0] + stddevs[1] + stddevs[2]) / 3.0;
-        else
-            stddev = stddevs[0];
-
+        double stddev = m_CurrentDarkFrame->getAverageStdDev();
         masterDeviation->setText(QString::number(stddev, 'f', 1));
     }
 }
