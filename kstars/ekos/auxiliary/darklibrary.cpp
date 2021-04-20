@@ -788,7 +788,7 @@ void DarkLibrary::clearBuffers()
     m_CurrentDarkFrame.clear();
     // Should clear existing view
     m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
-    connect(m_CurrentDarkFrame.get(), &FITSData::histogramReady, [this]()
+    connect(m_CurrentDarkFrame.data(), &FITSData::histogramReady, [this]()
     {
         histogramView->setEnabled(true);
         histogramView->reset();
