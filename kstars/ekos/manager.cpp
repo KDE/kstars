@@ -1387,7 +1387,19 @@ void Manager::deviceDisconnected()
         if (Options::verboseLogging())
             qCDebug(KSTARS_EKOS) << dev->getDeviceName() << " is disconnected.";
 
-        appendLogText(i18n("%1 is disconnected.", dev->getDeviceName()));
+        // In case a device fails to connect, display and log a useful message for the user.
+        if (m_indiStatus == Ekos::Error)
+        {
+            QString message = i18n("%1 failed to connect.\nPlease ensure the device is connected and powered on.",
+                                   dev->getDeviceName());
+            appendLogText(message);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
+        }
+        else if (m_indiStatus == Ekos::Idle)
+        {
+            QString message = i18n("%1 is disconnected.", dev->getDeviceName());
+            appendLogText(message);
+        }
     }
     else
         m_indiStatus = Ekos::Idle;
@@ -1405,24 +1417,6 @@ void Manager::deviceDisconnected()
         if (mountProcess.get() != nullptr)
             mountProcess->setEnabled(false);
     }
-    // Do not disable modules on device connection loss, let them handle it
-    /*
-    else if (dev->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
-    {
-        if (captureProcess.get() != nullptr)
-            captureProcess->setEnabled(false);
-        if (focusProcess.get() != nullptr)
-            focusProcess->setEnabled(false);
-        if (alignProcess.get() != nullptr)
-            alignProcess->setEnabled(false);
-        if (guideProcess.get() != nullptr)
-            guideProcess->setEnabled(false);
-    }
-    else if (dev->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
-    {
-        if (focusProcess.get() != nullptr)
-            focusProcess->setEnabled(false);
-    }*/
 }
 
 void Manager::setTelescope(ISD::GDInterface * scopeDevice)
