@@ -1674,7 +1674,7 @@
       </entry>
       <entry name="ResetMountModelAfterMeridian" type="Bool">
          <label>Reset mount model after meridian flip.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="CalibrationADUValue" type="UInt">
          <label>Desired flat field ADU</label>
