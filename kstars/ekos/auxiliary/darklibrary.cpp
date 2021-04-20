@@ -1303,6 +1303,7 @@ void DarkLibrary::generateDarkJobs()
                 settings["bin"] = oneBin;
                 settings["frameType"] = FRAME_DARK;
                 settings["temperature"] = oneTemperature;
+                settings["format"] = 0;
 
                 QString directory = prefix + QString("sequence_%1").arg(sequence);
                 QJsonObject fileSettings;
