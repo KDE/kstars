@@ -66,7 +66,7 @@ Mount::Mount()
 
     currentTelescope = nullptr;
 
-    abortDispatch = -1;
+    m_AbortDispatch = -1;
 
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
@@ -110,7 +110,7 @@ Mount::Mount()
 
     connect(enableLimitsCheck, &QCheckBox::toggled, this, &Mount::enableAltitudeLimits);
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
-    altLimitEnabled = enableLimitsCheck->isChecked();
+    m_AltitudeLimitEnabled = enableLimitsCheck->isChecked();
     connect(enableHaLimitCheck, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
     enableHaLimitCheck->setChecked(Options::enableHaLimit());
     //haLimitEnabled = enableHaLimitCheck->isChecked();
@@ -556,8 +556,8 @@ void Mount::updateTelescopeCoords()
             if (currentAlt < minAltLimit->value())
             {
                 // Only stop if current altitude is less than last altitude indicate worse situation
-                if (currentAlt < lastAlt &&
-                        (abortDispatch == -1 ||
+                if (currentAlt < m_LastAltitude &&
+                        (m_AbortDispatch == -1 ||
                          (currentTelescope->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
                     appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
@@ -566,14 +566,14 @@ void Mount::updateTelescopeCoords()
                     currentTelescope->setTrackEnabled(false);
                     //KNotification::event( QLatin1String( "OperationFailed" ));
                     KNotification::beep();
-                    abortDispatch++;
+                    m_AbortDispatch++;
                 }
             }
             else
             {
                 // Only stop if current altitude is higher than last altitude indicate worse situation
-                if (currentAlt > lastAlt &&
-                        (abortDispatch == -1 ||
+                if (currentAlt > m_LastAltitude &&
+                        (m_AbortDispatch == -1 ||
                          (currentTelescope->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
                     appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
@@ -582,12 +582,12 @@ void Mount::updateTelescopeCoords()
                     currentTelescope->setTrackEnabled(false);
                     //KNotification::event( QLatin1String( "OperationFailed" ));
                     KNotification::beep();
-                    abortDispatch++;
+                    m_AbortDispatch++;
                 }
             }
         }
         else
-            abortDispatch = -1;
+            m_AbortDispatch = -1;
 
         //qCDebug(KSTARS_EKOS_MOUNT) << "maxHaLimit " << maxHaLimit->isEnabled() << " value " << maxHaLimit->value();
 
@@ -615,15 +615,15 @@ void Mount::updateTelescopeCoords()
                     break;
             }
 
-            // qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << hourAngle() <<
-            //                              " haLimit " << haLimit <<
-            //                              " " << pierSideStateString() <<
-            //                              " haLimitReached " << (haLimitReached ? "true" : "false") <<
-            //                              " lastHa " << lastHa;
+            qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << hourAngle() <<
+                                       " haLimit " << haLimit <<
+                                       " " << pierSideStateString() <<
+                                       " haLimitReached " << (haLimitReached ? "true" : "false") <<
+                                       " lastHa " << m_LastHourAngle;
 
             // compare with last ha to avoid multiple calls
-            if (haLimitReached && (rangeHA(hourAngle() - lastHa) >= 0 ) &&
-                    (abortDispatch == -1 ||
+            if (haLimitReached && (rangeHA(hourAngle() - m_LastHourAngle) >= 0 ) &&
+                    (m_AbortDispatch == -1 ||
                      currentTelescope->isInMotion()))
             {
                 // moved past the limit, so stop
@@ -633,17 +633,17 @@ void Mount::updateTelescopeCoords()
                 currentTelescope->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
                 KNotification::beep();
-                abortDispatch++;
+                m_AbortDispatch++;
                 // ideally we pause and wait until we have passed the pier flip limit,
                 // then do a pier flip and try to resume
                 // this will need changing to use a target position because the current HA has stopped.
             }
         }
         else
-            abortDispatch = -1;
+            m_AbortDispatch = -1;
 
-        lastAlt = currentAlt;
-        lastHa = hourAngle();
+        m_LastAltitude = currentAlt;
+        m_LastHourAngle = hourAngle();
 
         dms ha2(lst - telescopeCoord.ra());
         emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text(),
@@ -973,13 +973,13 @@ void Mount::enableAltitudeLimits(bool enable)
 void Mount::enableAltLimits()
 {
     //Only enable if it was already enabled before and the minAltLimit is currently disabled.
-    if (altLimitEnabled && minAltLimit->isEnabled() == false)
+    if (m_AltitudeLimitEnabled && minAltLimit->isEnabled() == false)
         enableAltitudeLimits(true);
 }
 
 void Mount::disableAltLimits()
 {
-    altLimitEnabled = enableLimitsCheck->isChecked();
+    m_AltitudeLimitEnabled = enableLimitsCheck->isChecked();
 
     enableAltitudeLimits(false);
 }
@@ -995,13 +995,13 @@ void Mount::enableHourAngleLimits(bool enable)
 void Mount::enableHaLimits()
 {
     //Only enable if it was already enabled before and the minHaLimit is currently disabled.
-    if (haLimitEnabled && maxHaLimit->isEnabled() == false)
+    if (m_HourAngleLimitEnabled && maxHaLimit->isEnabled() == false)
         enableHourAngleLimits(true);
 }
 
 void Mount::disableHaLimits()
 {
-    haLimitEnabled = enableHaLimitCheck->isChecked();
+    m_HourAngleLimitEnabled = enableHaLimitCheck->isChecked();
 
     enableHourAngleLimits(false);
 }

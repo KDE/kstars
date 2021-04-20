@@ -543,13 +543,19 @@ class Mount : public QWidget, public Ui::Mount
         SkyPoint *currentTargetPosition = nullptr;
         SkyPoint telescopeCoord;
         QString lastNotificationMessage;
+
+        // Auto Park
         QTimer updateTimer;
         QTimer autoParkTimer;
-        double lastAlt;
-        int abortDispatch;
-        bool altLimitEnabled;
-        bool haLimitEnabled;
-        double lastHa;
+
+        // Limits
+        int m_AbortDispatch {-1};
+        bool m_AltitudeLimitEnabled {false};
+        double m_LastAltitude {0};
+        bool m_HourAngleLimitEnabled {false};
+        double m_LastHourAngle {0};
+
+        // GPS
         bool GPSInitialized = {false};
 
         ISD::Telescope::Status m_Status = ISD::Telescope::MOUNT_IDLE;
