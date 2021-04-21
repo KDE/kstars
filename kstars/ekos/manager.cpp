@@ -3760,10 +3760,11 @@ void Manager::syncActiveDevices()
                     // If it does not exist, then continue and pick from available devs below.
 
                 }
-                else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
-                {
-                    devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
-                }
+                // 2021.04.21 JM: There could be more than active weather device
+                //                else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
+                //                {
+                //                    devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
+                //                }
 
                 if (!devs.empty())
                 {
@@ -3774,10 +3775,6 @@ void Manager::syncActiveDevices()
                     }
                 }
             }
-
-            // Save configuration
-            //            if (propertyUpdated)
-            //                oneDevice->setConfig(SAVE_CONFIG);
         }
     }
 }
