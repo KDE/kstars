@@ -50,17 +50,14 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void denoise(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
                      FITSScale filter, uint16_t offsetX, uint16_t offsetY);
         void refreshFromDB();
-
-        //        void setRemoteCap(ISD::GDInterface *remoteCap);
-        //        void removeDevice(ISD::GDInterface *device);
-
         void addCamera(ISD::GDInterface * newCCD);
         void removeCamera(ISD::GDInterface * newCCD);
-
         void checkCamera(int ccdNum = -1);
         void reset();
-
         void setCaptureModule(Capture *instance);
+
+    protected:
+        virtual void closeEvent(QCloseEvent *ev) override;
 
     signals:
         void darkFrameCompleted(bool);
