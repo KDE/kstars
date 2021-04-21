@@ -360,11 +360,11 @@
             <version>1.0</version>
         </device>
         <device label="Pegasus FocusCube" manufacturer="Pegasus Astro">
-            <driver name="Pegasus DMFC">indi_dmfc_focus</driver>
+            <driver name="Pegasus FocusCube">indi_pegasus_focuscube</driver>
             <version>1.0</version>
         </device>
         <device label="Pegasus ScopsOAG" manufacturer="Pegasus Astro">
-            <driver name="Pegasus DMFC">indi_dmfc_focus</driver>
+            <driver name="Pegasus DMFC">indi_pegasus_scopsoag</driver>
             <version>1.0</version>
         </device>
         <device label="Pyxis" manufacturer="Optec">
@@ -587,6 +587,10 @@
             <driver name="USB_Dewpoint">indi_usbdewpoint</driver>
             <version>1.0</version>
         </device>
+        <device label="DeepSkyDad FP1" manufacturer="DeepSkyDad">
+            <driver name="DeepSkyDad FP1">indi_deepskydad_fp1</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Domes">
         <device label="ScopeDome Dome" manufacturer="ScopeDome">
@@ -781,7 +785,7 @@
     <devGroup group="Telescopes">
         <device label="Avalon StarGo" manufacturer="Avalon">
             <driver name="LX200 StarGo">indi_lx200stargo</driver>
-            <version>1.10</version>
+            <version>1.11</version>
         </device>
     </devGroup>
 </driversList>
@@ -797,15 +801,15 @@
     <devGroup group="Telescopes">
         <device label="Celestron AUX" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.8</version>
+            <version>0.9</version>
         </device>
         <device label="Celestron WiFi" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.8</version>
+            <version>0.9</version>
         </device>
         <device label="Nexstar Evolution" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.8</version>
+            <version>0.9</version>
         </device>
     </devGroup>
 </driversList>
