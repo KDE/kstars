@@ -1022,7 +1022,7 @@ void DarkLibrary::loadCurrentMasterDefectMap()
     else
     {
         m_CurrentDefectMap.reset(new DefectMap());
-        connect(m_CurrentDefectMap.get(), &DefectMap::pixelsUpdated, [this](uint32_t hot, uint32_t cold)
+        connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, [this](uint32_t hot, uint32_t cold)
         {
             hotPixelsCount->setValue(hot);
             coldPixelsCount->setValue(cold);
