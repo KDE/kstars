@@ -29,8 +29,10 @@
 #define KTRY_FOCUS_SHOW() do { \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule() != nullptr, 5000); \
     KTRY_EKOS_GADGET(QTabWidget, toolsWidget); \
+    QTRY_VERIFY_WITH_TIMEOUT(-1 != toolsWidget->indexOf(Ekos::Manager::Instance()->focusModule()), 5000); \
     toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->focusModule()); \
-    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->focusModule(), 5000); } while (false)
+    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->focusModule(), 5000); \
+    QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->focusModule()->focuser().isEmpty(), 5000); } while (false)
 
 /** @brief Helper to retrieve a gadget in the Focus tab specifically.
  * @param klass is the class of the gadget to look for.
@@ -130,35 +132,12 @@
     KTRY_FOCUS_GADGET(QLineEdit, absTicksLabel); \
     QTRY_COMPARE_WITH_TIMEOUT(absTicksLabel->text().toInt(), steps, 10000); } while (false)
 
-/** @brief Helper to sync the mount at the meridian for focus tests.
- * @warning This is needed because the CCD Simulator has much rotation jitter at the celestial pole.
- * @param alt is the altitude to sync to, use 60.0 as degrees for instance.
- * @param track whether to enable track or not.
- * @param ha_ofs is the offset to add to the LST before syncing (east is positive).
- */
-#define KTRY_FOCUS_SYNC(alt, track, ha_ofs) do { \
-    QVERIFY(KStarsData::Instance()); \
-    GeoLocation * const geo = KStarsData::Instance()->geo(); \
-    KStarsDateTime const now(KStarsData::Instance()->lt()); \
-    KSNumbers const numbers(now.djd()); \
-    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst()); \
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000); \
-    Ekos::Manager::Instance()->mountModule()->setMeridianFlipValues(true, 0); \
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(LST.Hours()+(ha_ofs), (alt))); \
-    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); } while (false)
-
-#define KTELL(message) do { \
-    m_Notifier->showMessage(__FUNCTION__, (message), QIcon()); } while(false)
-
 class TestEkosFocus : public QObject
 {
     Q_OBJECT
 
 public:
     explicit TestEkosFocus(QObject *parent = nullptr);
-
-protected:
-    QSystemTrayIcon * m_Notifier { nullptr };
 
 private slots:
     void initTestCase();

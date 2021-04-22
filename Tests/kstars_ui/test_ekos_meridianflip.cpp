@@ -235,6 +235,9 @@ void TestEkosMeridianFlip::testCaptureGuidingMF()
 
 void TestEkosMeridianFlip::testCaptureAlignMF()
 {
+    if (!astrometry_available)
+        QSKIP("No astrometry files available to run test");
+
     // set up the capture sequence
     QVERIFY(prepareCaptureTestcase(45, false, true, false));
 
@@ -267,6 +270,9 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
 
 void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 {
+    if (!astrometry_available)
+        QSKIP("No astrometry files available to run test");
+
     // set up the capture sequence
     QVERIFY(prepareCaptureTestcase(40, true, true, false));
 

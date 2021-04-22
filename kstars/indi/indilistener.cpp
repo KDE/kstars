@@ -131,10 +131,12 @@ void INDIListener::addClient(ClientManager *cm)
     clients.append(cm);
 
     connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice, Qt::BlockingQueuedConnection);
+    //connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice);
     connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
     connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
-    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::BlockingQueuedConnection);
+    //connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
     connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
@@ -158,21 +160,21 @@ void INDIListener::removeClient(ClientManager *cm)
 
         if (cm->isDriverManaged(dv))
         {
-            // If we have multiple devices per driver, we need to remove them all
-            if (dv->getAuxInfo().value("mdpd", false).toBool() == true)
-            {
-                while (it != devices.end())
-                {
-                    if (dv->getDevice((*it)->getDeviceName()) != nullptr)
-                    {
-                        it = devices.erase(it);
-                    }
-                    else
-                        break;
-                }
-            }
-            else
-                it = devices.erase(it);
+            //            // If we have multiple devices per driver, we need to remove them all
+            //            if (dv->getAuxInfo().value("mdpd", false).toBool() == true)
+            //            {
+            //                while (it != devices.end())
+            //                {
+            //                    if (dv->getDevice((*it)->getDeviceName()) != nullptr)
+            //                    {
+            //                        it = devices.erase(it);
+            //                    }
+            //                    else
+            //                        break;
+            //                }
+            //            }
+            //            else
+            //                it = devices.erase(it);
 
             cm->removeManagedDriver(dv);
             cm->disconnect(this);
@@ -189,7 +191,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
     ClientManager *cm = qobject_cast<ClientManager *>(sender());
     Q_ASSERT_X(cm, __FUNCTION__, "Client manager is not valid.");
 
-    qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getBaseDevice()->getDeviceName();
+    qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getDeviceName();
 
     ISD::GDInterface *gd = new ISD::GenericDevice(*dv, cm);
 
@@ -225,7 +227,7 @@ void INDIListener::removeDevice(const QString &deviceName)
             emit deviceRemoved(oneDevice);
             devices.removeOne(oneDevice);
             oneDevice->deleteLater();
-            break;
+            return;
         }
     }
 }

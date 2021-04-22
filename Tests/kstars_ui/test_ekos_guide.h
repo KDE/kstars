@@ -23,6 +23,16 @@
 #include <QCheckBox>
 #include <QtTest>
 
+/** @brief Helper to show the Guide tab
+ */
+#define KTRY_GUIDE_SHOW() do { \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule() != nullptr, 5000); \
+    KTRY_EKOS_GADGET(QTabWidget, toolsWidget); \
+    QTRY_VERIFY_WITH_TIMEOUT(-1 != toolsWidget->indexOf(Ekos::Manager::Instance()->guideModule()), 5000); \
+    toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->guideModule()); \
+    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->guideModule(), 5000); \
+    QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->guideModule()->camera().isEmpty(), 5000); } while (false)
+
 /** @brief Helper to retrieve a gadget in the Guide tab specifically.
  * @param klass is the class of the gadget to look for.
  * @param name is the gadget name to look for in the UI configuration.
@@ -88,6 +98,13 @@ class TestEkosGuide : public QObject
 public:
     explicit TestEkosGuide(QObject *parent = nullptr);
 
+protected:
+    QProcess * phd2 { nullptr };
+    QString testProfileName { "phd2_test_profile" };
+    QString const guider_host { "localhost" };
+    QString const guider_port { "4400" };
+    void stopPHD2();
+
 private slots:
     void initTestCase();
     void cleanupTestCase();
@@ -95,7 +112,9 @@ private slots:
     void init();
     void cleanup();
 
-    void testPHD2Connection();
+    void testPHD2ConnectionStability();
+    void testPHD2CaptureStability();
+    void testPHD2Calibration();
 };
 
 #endif // HAVE_INDI

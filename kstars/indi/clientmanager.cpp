@@ -162,7 +162,7 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
     {
         for (auto deviceInfo : driverInfo->getDevices())
         {
-            if (deviceInfo->getBaseDevice()->getDeviceName() == deviceName)
+            if (deviceInfo->getDeviceName() == deviceName)
             {
                 qCDebug(KSTARS_INDI) << "Removing device" << deviceName;
 
@@ -241,10 +241,10 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     for (auto di : dv->getDevices())
     {
         // #1 Remove from GUI Manager
-        GUIManager::Instance()->removeDevice(di->getBaseDevice()->getDeviceName());
+        GUIManager::Instance()->removeDevice(di->getDeviceName());
 
         // #2 Remove from INDI Listener
-        INDIListener::Instance()->removeDevice(di->getBaseDevice()->getDeviceName());
+        INDIListener::Instance()->removeDevice(di->getDeviceName());
 
         // #3 Remove device from Driver Info
         dv->removeDevice(di);

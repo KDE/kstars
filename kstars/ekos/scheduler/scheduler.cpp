@@ -205,8 +205,14 @@ Scheduler::Scheduler()
 
     connect(queueSaveAsB, &QPushButton::clicked, this, &Scheduler::saveAs);
     connect(queueSaveB, &QPushButton::clicked, this, &Scheduler::save);
-    connect(queueLoadB, &QPushButton::clicked, this, [&](){ load(true); });
-    connect(queueAppendB, &QPushButton::clicked, this, [&](){ load(false); });
+    connect(queueLoadB, &QPushButton::clicked, this, [&]()
+    {
+        load(true);
+    });
+    connect(queueAppendB, &QPushButton::clicked, this, [&]()
+    {
+        load(false);
+    });
 
     connect(twilightCheck, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
@@ -580,14 +586,16 @@ void Scheduler::setSequence(const QString &sequenceFileURL)
 
 void Scheduler::selectSequence()
 {
-    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Select Sequence Queue"), dirPath.toLocalFile(), i18n("Ekos Sequence Queue (*.esq)"));
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Select Sequence Queue"), dirPath.toLocalFile(),
+                   i18n("Ekos Sequence Queue (*.esq)"));
 
     setSequence(file);
 }
 
 void Scheduler::selectStartupScript()
 {
-    startupScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Startup Script"), dirPath, i18n("Script (*)"));
+    startupScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Startup Script"), dirPath,
+                       i18n("Script (*)"));
     if (startupScriptURL.isEmpty())
         return;
 
@@ -599,7 +607,8 @@ void Scheduler::selectStartupScript()
 
 void Scheduler::selectShutdownScript()
 {
-    shutdownScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Shutdown Script"), dirPath, i18n("Script (*)"));
+    shutdownScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Select Shutdown Script"), dirPath,
+                        i18n("Script (*)"));
     if (shutdownScriptURL.isEmpty())
         return;
 
@@ -3711,7 +3720,8 @@ bool Scheduler::manageConnectionLoss()
 void Scheduler::load(bool clearQueue)
 {
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+        QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Scheduler List"), dirPath,
+                                    "Ekos Scheduler List (*.esl)");
     if (fileURL.isEmpty())
         return;
 
@@ -4045,7 +4055,8 @@ void Scheduler::save()
     if (schedulerURL.isEmpty())
     {
         schedulerURL =
-            QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+            QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Scheduler List"), dirPath,
+                                        "Ekos Scheduler List (*.esl)");
         // if user presses cancel
         if (schedulerURL.isEmpty())
         {
@@ -4633,10 +4644,10 @@ void Scheduler::startAstrometry()
         }
 
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetRotation",
-                    rotationArgs)).type() == QDBusMessage::ErrorMessage)
+                     rotationArgs)).type() == QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetRotation request received DBUS error: %2").arg(
-                                                currentJob->getName(), reply.errorMessage());
+                                                  currentJob->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
                 currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
@@ -4720,7 +4731,26 @@ void Scheduler::startCapture(bool restart)
     {
         QList<QVariant> dbusargs;
         dbusargs.append(url);
-        captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
+        QDBusReply<bool> const captureReply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue",
+                                              dbusargs);
+        if (captureReply.error().type() != QDBusError::NoError)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' loadSequenceQueue request received DBUS error: %1").arg(currentJob->getName()).arg(
+                                                  captureReply.error().message());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+        // Check if loading sequence fails for whatever reason
+        else if (captureReply.value() == false)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' loadSequenceQueue request failed").arg(currentJob->getName());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
     }
 
 
@@ -4993,7 +5023,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     }
 
     // fill the captured frames map
-    for (QString key: expected.keys())
+    for (QString key : expected.keys())
     {
         if (rememberJobProgress)
         {
@@ -5015,7 +5045,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
             totalCompletedCount += capturedFramesCount[key];
         else
-            totalCompletedCount += std::min(capturedFramesCount[key], static_cast<uint16_t>(expected[key] * schedJob->getRepeatsRequired()));
+            totalCompletedCount += std::min(capturedFramesCount[key],
+                                            static_cast<uint16_t>(expected[key] * schedJob->getRepeatsRequired()));
     }
 
     // Loop through sequence jobs to calculate the number of required frames and estimate duration.
@@ -5093,7 +5124,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             }
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(
-                                                  seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
+                                               seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
 
         }
         // Else rely on the captures done during this session
@@ -6447,8 +6478,7 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
 
     if (!sFile.open(QIODevice::ReadOnly))
     {
-        QString message = i18n("Unable to open sequence queue file '%1'", fileURL);
-        KSNotification::sorry(message, i18n("Could Not Open File"));
+        appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
         return false;
     }
 

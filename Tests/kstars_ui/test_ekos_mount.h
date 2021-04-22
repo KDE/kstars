@@ -24,6 +24,7 @@
 #include <QSpinBox>
 #include <QCheckBox>
 #include <QtTest>
+#include <QDialog>
 
 /** @brief Helper to retrieve a gadget in the Mount tab specifically.
  * @param klass is the class of the gadget to look for.
@@ -44,6 +45,60 @@
         QTest::mouseClick(button, Qt::LeftButton); }); \
     QTest::qWait(200); } while(false)
 
+/** @brief Helper to sync the mount to an object.
+ * @param name is the name of the object to sync to.
+ * @param track whether to enable track or not.
+ */
+#define KTRY_MOUNT_SYNC_NAMED(name, track) do { \
+    QVERIFY(KStars::Instance()); \
+    QVERIFY(KStars::Instance()->data()); \
+    SkyObject const * const so = KStars::Instance()->data()->objectNamed(name); \
+    QVERIFY(so != nullptr); \
+    QVERIFY(KStarsData::Instance()); \
+    GeoLocation * const geo = KStarsData::Instance()->geo(); \
+    KStarsDateTime const now(KStarsData::Instance()->lt()); \
+    KSNumbers const numbers(now.djd()); \
+    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst()); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000); \
+    Ekos::Manager::Instance()->mountModule()->setMeridianFlipValues(true, 0); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->unpark(), 5000); \
+    SkyObject o(*so); \
+    o.updateCoordsNow(&numbers); \
+    o.EquatorialToHorizontal(&LST, geo->lat()); \
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(o.ra().Hours(), o.dec().Degrees())); \
+    if (!track) \
+        QTimer::singleShot(1000, [&]{ \
+        QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \
+        if(dialog != nullptr) emit dialog->accept(); }); \
+    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); \
+    if (track) \
+        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::Status::MOUNT_TRACKING, 30000); \
+    } while (false)
+
+/** @brief Helper to sync the mount at the meridian for focus tests.
+ * @warning This is needed because the CCD Simulator has much rotation jitter at the celestial pole.
+ * @param alt is the altitude to sync to, use 60.0 as degrees for instance.
+ * @param track whether to enable track or not.
+ * @param ha_ofs is the offset to add to the LST before syncing (east is positive).
+ */
+#define KTRY_MOUNT_SYNC(alt, track, ha_ofs) do { \
+    QVERIFY(KStarsData::Instance()); \
+    GeoLocation * const geo = KStarsData::Instance()->geo(); \
+    KStarsDateTime const now(KStarsData::Instance()->lt()); \
+    KSNumbers const numbers(now.djd()); \
+    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst()); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000); \
+    Ekos::Manager::Instance()->mountModule()->setMeridianFlipValues(true, 0); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->unpark(), 5000); \
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(LST.Hours()+(ha_ofs), (alt))); \
+    if (!track) \
+        QTimer::singleShot(1000, [&]{ \
+        QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \
+        if(dialog != nullptr) emit dialog->accept(); }); \
+    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); \
+    if (track) \
+        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::Status::MOUNT_TRACKING, 30000); \
+    } while (false)
 
 class TestEkosMount : public QObject
 {
