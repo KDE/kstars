@@ -16,6 +16,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "test_ekos_mount.h"
 #include "Options.h"
 
 class KFocusProcedureSteps: public QObject
@@ -77,16 +78,16 @@ void TestEkosFocus::initTestCase()
     KVERIFY_EKOS_IS_OPENED();
     KTRY_EKOS_START_SIMULATORS();
 
+    // We can't use this here because of the meridian flip test
     // HACK: Reset clock to initial conditions
-    KHACK_RESET_EKOS_TIME();
+    // KHACK_RESET_EKOS_TIME();
 
-    m_Notifier = new QSystemTrayIcon(QIcon::fromTheme("kstars_stars"), Ekos::Manager::Instance());
+    KTELL_BEGIN();
 }
 
 void TestEkosFocus::cleanupTestCase()
 {
-    delete m_Notifier;
-
+    KTELL_END();
     KTRY_EKOS_STOP_SIMULATORS();
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
@@ -94,7 +95,6 @@ void TestEkosFocus::cleanupTestCase()
 
 void TestEkosFocus::init()
 {
-    m_Notifier->show();
 }
 
 void TestEkosFocus::cleanup()
@@ -102,13 +102,13 @@ void TestEkosFocus::cleanup()
     if (Ekos::Manager::Instance())
         if (Ekos::Manager::Instance()->focusModule())
             Ekos::Manager::Instance()->focusModule()->abort();
-    m_Notifier->hide();
+    KTELL_HIDE();
 }
 
 void TestEkosFocus::testCaptureStates()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.");
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
 
     // Prepare to detect state change
     KFocusStateList state_list;
@@ -178,7 +178,7 @@ void TestEkosFocus::testDuplicateFocusRequest()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.0, 30);
     KTRY_FOCUS_EXPOSURE(3, 99);
@@ -217,7 +217,7 @@ void TestEkosFocus::testAutofocusSignalEmission()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0,true, +2);
+    KTRY_MOUNT_SYNC(60.0,true, -1);
 
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 30);
@@ -262,7 +262,7 @@ void TestEkosFocus::testFocusAbort()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 30);
     KTRY_FOCUS_EXPOSURE(3, 99);
@@ -309,7 +309,7 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 30);
     KTRY_FOCUS_EXPOSURE(3, 99);
@@ -375,9 +375,9 @@ void TestEkosFocus::testFocusWhenMountFlips()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, +10.0/3600);
     KTRY_FOCUS_MOVETO(35000);
-    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 5);
     KTRY_FOCUS_EXPOSURE(3, 99);
 
     KTRY_FOCUS_GADGET(QPushButton, startFocusB);
@@ -401,12 +401,12 @@ void TestEkosFocus::testFocusWhenMountFlips()
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 5000);
 
-    KTELL("Sync the mount on the other side of the meridian.\nCheck procedure aborts while flipping.");
-    KTRY_FOCUS_SYNC(60.0, true, -2);
+    KTELL("Wait for the meridian flip to occur.\nCheck procedure aborts while flipping.");
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_SLEWING, 15000);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 5000);
 
     KTELL("Wait for the flip to end.");
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 120000);
 
     KTELL("Start the procedure again.\nExpect the procedure to succeed.");
     autofocus.started = false;
@@ -420,7 +420,7 @@ void TestEkosFocus::testFocusWhenHFRChecking()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
     KTRY_FOCUS_EXPOSURE(3, 99);
@@ -480,7 +480,7 @@ void TestEkosFocus::testFocusFailure()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
 
     KTELL("Configure an autofocus that cannot see any star, so that the initial setup fails.");
     KTRY_FOCUS_MOVETO(10000);
@@ -537,7 +537,7 @@ void TestEkosFocus::testFocusOptions()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a standard autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_FOCUS_SYNC(60.0, true, +2);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
     KTRY_FOCUS_MOVETO(40000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3);
     KTRY_FOCUS_EXPOSURE(1, 99);

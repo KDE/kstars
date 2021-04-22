@@ -197,7 +197,8 @@ void TestEkosCapture::testCaptureSingle()
 
     // Verify a FITS file was created
     QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 1, 1000);
-    QVERIFY(searchFITS(QDir(destination.path())).contains("Light_001.fits"));
+    QVERIFY(searchFITS(QDir(destination.path()))[0].startsWith("Light_"));
+    QVERIFY(searchFITS(QDir(destination.path()))[0].endsWith("_001.fits"));
 
     // Reset sequence state - this makes a confirmation dialog appear
     volatile bool dialogValidated = false;
@@ -221,8 +222,10 @@ void TestEkosCapture::testCaptureSingle()
 
     // Verify an additional FITS file was created - asynchronously eventually
     QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 2, 2000);
-    QVERIFY(searchFITS(QDir(destination.path())).contains("Light_001.fits"));
-    QVERIFY(searchFITS(QDir(destination.path())).contains("Light_002.fits"));
+    QVERIFY(searchFITS(QDir(destination.path()))[0].startsWith("Light_"));
+    QVERIFY(searchFITS(QDir(destination.path()))[0].endsWith("_001.fits"));
+    QVERIFY(searchFITS(QDir(destination.path()))[1].startsWith("Light_"));
+    QVERIFY(searchFITS(QDir(destination.path()))[1].endsWith("_002.fits"));
 
     // TODO: test storage options
 }
@@ -272,7 +275,7 @@ void TestEkosCapture::testCaptureMultiple()
     // Capture again
     KTRY_CAPTURE_CLICK(startB);
     QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-stop"), 500);
-    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), duration * 1.2);
+    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), duration * 2);
 
     // Verify the proper number of additional FITS file were created again
     QTRY_VERIFY_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count() == 2 * count, 1000);

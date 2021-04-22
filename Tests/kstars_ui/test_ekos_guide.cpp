@@ -16,6 +16,8 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "test_ekos_mount.h" // KTRY_MOUNT_SYNC
+#include "test_ekos_focus.h" // KTRY_FOCUS_MOVETO
 
 #include "ekos/manager.h"
 #include "ekos/profileeditor.h"
@@ -30,29 +32,6 @@ void TestEkosGuide::initTestCase()
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
-}
-
-void TestEkosGuide::cleanupTestCase()
-{
-    KTRY_CLOSE_EKOS();
-    KVERIFY_EKOS_IS_HIDDEN();
-}
-
-void TestEkosGuide::init()
-{
-
-}
-
-void TestEkosGuide::cleanup()
-{
-
-}
-
-void TestEkosGuide::testPHD2Connection()
-{
-    QString testProfileName("phd2_test_profile");
-    QString const guider_host("localhost");
-    QString const guider_port("4400");
 
     // Update simulator profile to use PHD2 as guider
     {
@@ -82,25 +61,9 @@ void TestEkosGuide::testPHD2Connection()
             QCOMPARE(externalGuidePort->text(), guider_port);
 
             // Setting an item programmatically in a treeview combobox...
-            KTRY_PROFILEEDITOR_GADGET(QComboBox, mountCombo);
-            QString lookup("Telescope Simulator"); // FIXME: Move this to fixtures
-            // Match the text recursively in the model, this results in a model index with a parent
-            QModelIndexList const list = mountCombo->model()->match(mountCombo->model()->index(0, 0), Qt::DisplayRole, QVariant::fromValue(lookup), 1, Qt::MatchRecursive);
-            QVERIFY(0 < list.count());
-            QModelIndex const &item = list.first();
-            //QWARN(QString("Found text '%1' at #%2, parent at #%3").arg(item.data().toString()).arg(item.row()).arg(item.parent().row()).toStdString().data());
-            QCOMPARE(list.value(0).data().toString(), lookup);
-            QVERIFY(!item.parent().parent().isValid());
-            // Now set the combobox model root to the match's parent
-            mountCombo->setRootModelIndex(item.parent());
-            // And set the text as if the end-user had selected it
-            mountCombo->setCurrentText(lookup);
-            QCOMPARE(mountCombo->currentText(), lookup);
-
-            KTRY_PROFILEEDITOR_GADGET(QComboBox, ccdCombo);
-            lookup = "CCD Simulator";
-            ccdCombo->setCurrentText(lookup);
-            QCOMPARE(ccdCombo->currentText(), lookup);
+            KTRY_PROFILEEDITOR_TREE_COMBOBOX(mountCombo, "Telescope Simulator");
+            KTRY_PROFILEEDITOR_TREE_COMBOBOX(ccdCombo, "CCD Simulator");
+            KTRY_PROFILEEDITOR_TREE_COMBOBOX(focuserCombo, "Focuser Simulator");
 
             // Save the profile using the "Save" button
             QDialogButtonBox* buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");
@@ -133,9 +96,21 @@ void TestEkosGuide::testPHD2Connection()
         // Verification of the first test step
         QVERIFY(isDone);
     }
+}
+
+void TestEkosGuide::cleanupTestCase()
+{
+    KTRY_CLOSE_EKOS();
+    KVERIFY_EKOS_IS_HIDDEN();
+}
+
+void TestEkosGuide::init()
+{
+    // In case the previous test failed
+    stopPHD2();
 
     // Start a parallel PHD2 instance
-    QProcess phd2(this);
+    phd2 = new QProcess(this);
 
     // No success using that strange --load option, it loads and exits, but does not save anywhere
 #if 0
@@ -161,53 +136,76 @@ void TestEkosGuide::testPHD2Connection()
 #endif
 
     // Start PHD2 with the proper configuration
-    phd2.start(QString("phd2"));
-    QVERIFY(phd2.waitForStarted(3000));
+    phd2->start(QString("phd2"));
+    QVERIFY(phd2->waitForStarted(3000));
     QTest::qWait(2000);
-    QTRY_VERIFY_WITH_TIMEOUT(phd2.state() == QProcess::Running, 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(phd2->state() == QProcess::Running, 1000);
 
     // Try to connect to the PHD2 server
     QTcpSocket phd2_server(this);
     //phd2_server.connectToHost("localhost", guider_port.toUInt());
     phd2_server.connectToHost(guider_host, guider_port.toUInt(), QIODevice::ReadOnly, QAbstractSocket::IPv4Protocol);
-    if(!phd2_server.waitForConnected(5000))
+    if(!phd2_server.waitForConnected(30000))
     {
-        QWARN(QString("Cannot continue, PHD2 server is unavailable (%1)").arg(phd2_server.errorString()).toStdString().c_str());
-        return;
+        QSKIP(QString("Cannot continue, PHD2 server is unavailable (%1)").arg(phd2_server.errorString()).toStdString().c_str());
     }
-    phd2_server.disconnectFromHost();
-    if (phd2_server.state() == QTcpSocket::ConnectedState)
-        QVERIFY(phd2_server.waitForDisconnected(1000));
+    else
+    {
+        phd2_server.disconnectFromHost();
+        if (phd2_server.state() == QTcpSocket::ConnectedState)
+            QVERIFY(phd2_server.waitForDisconnected(1000));
+        QWARN(qPrintable(QString("Connection test OK, phd2 found listening on %1:%2").arg(guider_host).arg(guider_port)));
+    }
 
     // Start Ekos
-    KTRY_EKOS_SELECT_PROFILE(testProfileName);
-    KTRY_EKOS_CLICK(processINDIB); \
-    QWARN("HACK HACK HACK adding delay here for devices to connect"); \
-    QTest::qWait(10000);
+    KTRY_EKOS_START_PROFILE(testProfileName);
 
+    // Do not reset clock, we are using the Telescope Simulator which does not receive simulated time
     // HACK: Reset clock to initial conditions
-    KHACK_RESET_EKOS_TIME();
+    // KHACK_RESET_EKOS_TIME();
 
-    // Wait for Focus to come up, switch to Focus tab
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule() != nullptr, 5000);
-    KTRY_EKOS_GADGET(QTabWidget, toolsWidget);
-    toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->guideModule());
-    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->guideModule(), 1000);
+    // Wait for Focus to come up, adjust focus
+    KTRY_FOCUS_SHOW();
+    //KTRY_FOCUS_MOVETO(35000);
+    // HACK HACK HACK adjust ccd gain
+    KTRY_FOCUS_EXPOSURE(1, 99);
+
+    // Wait for Guide to come up, switch to guide module
+    KTRY_GUIDE_SHOW();
 
     // Verify the phd2 server was connected successfully - by default, PHD2 has a 16-second timeout to camera connection
     KTRY_GUIDE_GADGET(QPushButton, externalConnectB);
     QTRY_VERIFY_WITH_TIMEOUT(!externalConnectB->isEnabled(), 30000);
     KTRY_GUIDE_GADGET(QPushButton, externalDisconnectB);
     QTRY_VERIFY_WITH_TIMEOUT(externalDisconnectB->isEnabled(), 10000);
+}
 
+void TestEkosGuide::cleanup()
+{
+    KTRY_EKOS_STOP_SIMULATORS();
+    stopPHD2();
+}
+
+void TestEkosGuide::stopPHD2()
+{
+    // Stop PHD2 if needed
+    if (phd2)
+    {
+        phd2->terminate();
+        phd2->waitForFinished(5000);
+        delete phd2;
+        phd2 = nullptr;
+    }
+}
+
+void TestEkosGuide::testPHD2ConnectionStability()
+{
     KTRY_GUIDE_GADGET(QPushButton, guideB);
     KTRY_GUIDE_GADGET(QPushButton, stopB);
     KTRY_GUIDE_GADGET(QPushButton, captureB);
     KTRY_GUIDE_GADGET(QPushButton, loopB);
-    KTRY_GUIDE_GADGET(QPushButton, clearCalibrationB);
-    KTRY_GUIDE_GADGET(QWidget, idlingStateLed);
-    KTRY_GUIDE_GADGET(QWidget, preparingStateLed);
-    KTRY_GUIDE_GADGET(QWidget, runningStateLed);
+    KTRY_GUIDE_GADGET(QPushButton, externalConnectB);
+    KTRY_GUIDE_GADGET(QPushButton, externalDisconnectB);
 
     // Run a few connect/disconnect cycles
     for (int count = 0; count < 10; count++)
@@ -223,8 +221,24 @@ void TestEkosGuide::testPHD2Connection()
         QVERIFY(!loopB->isEnabled());
         QVERIFY(!stopB->isEnabled());
         KTRY_GUIDE_CLICK(externalConnectB);
-        QTRY_VERIFY_WITH_TIMEOUT(externalDisconnectB->isEnabled(), 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(externalDisconnectB->isEnabled(), 60000);
     }
+
+    // Disconnect
+    KTRY_GUIDE_CLICK(externalDisconnectB);
+    QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 10000);
+}
+
+void TestEkosGuide::testPHD2CaptureStability()
+{
+    KTRY_GUIDE_GADGET(QPushButton, stopB);
+    KTRY_GUIDE_GADGET(QPushButton, captureB);
+    KTRY_GUIDE_GADGET(QPushButton, loopB);
+    KTRY_GUIDE_GADGET(QWidget, idlingStateLed);
+    KTRY_GUIDE_GADGET(QWidget, preparingStateLed);
+    KTRY_GUIDE_GADGET(QWidget, runningStateLed);
+    KTRY_GUIDE_GADGET(QPushButton, externalConnectB);
+    KTRY_GUIDE_GADGET(QPushButton, externalDisconnectB);
 
     // When connected, capture, loop and guide are enabled
     // Run a few guide/stop cycles
@@ -252,76 +266,97 @@ void TestEkosGuide::testPHD2Connection()
         QVERIFY((dynamic_cast <KLed*> (runningStateLed))->state() == KLed::Off);
     }
 
+    // Disconnect
+    KTRY_GUIDE_CLICK(externalDisconnectB);
+    QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 10000);
+}
+
+void TestEkosGuide::testPHD2Calibration()
+{
+    KTRY_GUIDE_GADGET(QPushButton, guideB);
+    KTRY_GUIDE_GADGET(QPushButton, stopB);
+    KTRY_GUIDE_GADGET(QPushButton, clearCalibrationB);
+    KTRY_GUIDE_GADGET(QWidget, idlingStateLed);
+    KTRY_GUIDE_GADGET(QWidget, preparingStateLed);
+    KTRY_GUIDE_GADGET(QWidget, runningStateLed);
+    KTRY_GUIDE_GADGET(QPushButton, externalConnectB);
+    KTRY_GUIDE_GADGET(QPushButton, externalDisconnectB);
+
+    // We will need to wait a bit more than 30+20 times the default exposure, which is 1 second, plus processing, 2s
+
+    uint const calibration_timeout = Options::guideCalibrationTimeout();
+    Options::setGuideCalibrationTimeout(50*3);
+
+    uint const loststar_timeout = Options::guideLostStarTimeout();
+    Options::setGuideLostStarTimeout(10);
+
+    QWARN("As of 202103 it is not possible to use the CCD Simulator at NCP because of jitter - skipping");
+    if (false) {
     // Run a calibration with the telescope pointing at NCP (default position) - Calibration is bound to fail bcause of RA
     // Two options: PHD2 either fails to see movement, or just switches to looping without doing anything
+    // KTRY_MOUNT_SYNC(90, false, -1);
     QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);
     KTRY_GUIDE_CLICK(guideB);
 
-    // Wait for calibration to start
+    // Wait for calibration to start");
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::On, 5000);
-
-    // We need to wait a bit more than 62 times the default exposure, which is 1 second
-
-    uint const calibration_timeout = Options::guideCalibrationTimeout();
-    Options::setGuideCalibrationTimeout(62);
-
-    uint const loststar_timeout = Options::guideLostStarTimeout();
-    Options::setGuideLostStarTimeout(30);
 
     // Wait for the calibration to fail
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, Options::guideCalibrationTimeout() * 1200);
+    }
 
-    // Run a calibration with the telescope pointing at Meridian - RA 3h DEC 0 at the current date is SW
+    KTELL("Run a calibration with the telescope pointing after Meridian");
     // And don't forget to track!
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3,0));
-    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 2000);
+    //KTRY_MOUNT_SYNC(20, true, -1);
+    KTRY_MOUNT_SYNC_NAMED("Mizar", true);
     QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);
     KTRY_GUIDE_CLICK(guideB);
 
-    // We need to wait a bit more than 22 times the default exposure, which is 1 second
+    double const ra = dms(Ekos::Manager::Instance()->mountModule()->raOUT->text(), false).Hours();
+    double const dec = dms(Ekos::Manager::Instance()->mountModule()->decOUT->text(), true).Degrees();
+
+    KTELL("We need to wait a bit more than 50 times the default exposure, with a processing time of 3 seconds");
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, Options::guideCalibrationTimeout() * 1200);
 
-    // We can stop guiding now that calibration is done
+    KTELL("Wait a bit while guiding");
+    QTest::qWait(5000);
+
+    KTELL("We can stop guiding now that calibration is done");
     KTRY_GUIDE_CLICK(stopB);
     QWARN("Guide aborts without waiting for PHD2 to report abort, so wait after stopping before restarting.");
     QTest::qWait(500);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, 10000);
 
-    // We can restart, and there will be no calibration to wait for
+    KTELL("We can restart, and there will be no calibration to wait for");
+    QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 5000);
+    QTest::qWait(500);
     KTRY_GUIDE_CLICK(guideB);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, 10000);
 
-    // Sync the telescope just enough for the star mass to drop, PHD2 will notify star lost
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3.01,0));
-    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 5000);
+    KTELL("Sync the telescope just enough for the star mass to drop, PHD2 will notify star lost");
+    Ekos::Manager::Instance()->mountModule()->sync(ra - 0.01, dec);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::yellow, 10000);
 
-    // Sync the telescope back for the star mass to return, PHD2 will notify star selected
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3,0));
-    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 5000);
+    KTELL("Sync the telescope back for the star mass to return, PHD2 will notify star selected");
+    Ekos::Manager::Instance()->mountModule()->sync(ra - 0.00, dec);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, 10000);
 
-    // Sync the telescope just enough for the star mass to drop, PHD2 will notify star lost again
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(3.01,0));
-    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(true);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 5000);
+    KTELL("Sync the telescope just enough for the star mass to drop, PHD2 will notify star lost again");
+    Ekos::Manager::Instance()->mountModule()->sync(ra - 0.01, dec);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::yellow, 10000);
 
-    // Wait for guiding to abort
+    KTELL("Wait for guiding to abort");
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, Options::guideLostStarTimeout() * 1200);
     QVERIFY((dynamic_cast <KLed*> (preparingStateLed))->color() == Qt::red);
     QVERIFY((dynamic_cast <KLed*> (idlingStateLed))->color() == Qt::green);
 
-    // We can restart, and wait for calibration to end
+    // We can restart, and wait for calibration to end");
     // However that test is not stable - sometimes PHD2 will refuse to continue, sometimes will catch something
     QWARN("Restarting to guide when there is no star locked may or may not look for a lock position, bypassing test.");
     //KTRY_GUIDE_CLICK(guideB);
     //QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, Options::guideCalibrationTimeout() * 1200);
 
-    // Instead, clear calibration and restart
+    KTELL("Clear calibration and restart");
     QTRY_VERIFY_WITH_TIMEOUT(clearCalibrationB->isEnabled(), 10000);
     KTRY_GUIDE_CLICK(clearCalibrationB);
     QWARN("No feedback available on PHD2 calibration removal, so wait a bit.");
@@ -365,13 +400,6 @@ void TestEkosGuide::testPHD2Connection()
     // Disconnect
     KTRY_GUIDE_CLICK(externalDisconnectB);
     QTRY_VERIFY_WITH_TIMEOUT(externalConnectB->isEnabled(), 10000);
-
-    // Stop Simulators
-    KTRY_EKOS_STOP_SIMULATORS();
-
-    // Stop PHD2
-    phd2.terminate();
-    QVERIFY(phd2.waitForFinished(5000));
 }
 
 QTEST_KSTARS_MAIN(TestEkosGuide)

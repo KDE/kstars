@@ -72,7 +72,6 @@
     name->setCurrentText(lookup); \
     QCOMPARE(name->currentText(), lookup); } while(false)
 
-
 class TestEkos: public QObject
 {
     Q_OBJECT

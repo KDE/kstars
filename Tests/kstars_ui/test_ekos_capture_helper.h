@@ -56,10 +56,12 @@ do {\
   * the given statement preliminary invokes return (due to a test failure inside).
   * @return false if statement equals false, otherwise continuing
   */
-#define KWRAP_SUB(statement) \
+#define KWRAP_SUB(statement) do \
 { bool passed = false; \
     [&]() { statement; passed = true;}(); \
-    if (!passed) return false; \
+    if (!passed) { \
+        QWARN(qPrintable(QString("FAIL! %1 (%2): " #statement).arg(__FUNCTION__).arg(__LINE__))); \
+        return false; } \
 } while (false)
 
 /**
@@ -202,8 +204,13 @@ do {\
  * @param combo object name of the combo box
  * @param value value the combo box should be set
  */
-#define KTRY_SET_COMBO(module, combo, value) \
-    KTRY_GADGET(module, QComboBox, combo); combo->setCurrentText(value); QVERIFY(combo->currentText() == value)
+#define KTRY_SET_COMBO(module, combo, value) do { \
+    KTRY_GADGET(module, QComboBox, combo); \
+    int const cbIndex = combo->findText(value); \
+    QVERIFY(0 <= cbIndex); \
+    combo->setCurrentIndex(cbIndex); \
+    combo->activated(cbIndex); \
+    QCOMPARE(combo->currentText(), QString(value)); } while (false)
 
 /** @brief Subroutine version of @see KTRY_SET_COMBO
  * @param module KStars module that holds the combo box
@@ -211,7 +218,7 @@ do {\
  * @param value value the combo box should be set
  */
 #define KTRY_SET_COMBO_SUB(module, combo, value) \
-    KWRAP_SUB(KTRY_GADGET(module, QComboBox, combo); combo->setCurrentText(value); QVERIFY(combo->currentText() == value))
+    KWRAP_SUB(KTRY_SET_COMBO(module, combo, value))
 
 /** @brief Helper to set a combo box by indexand verify whether it succeeded
  * @param module KStars module that holds the combo box

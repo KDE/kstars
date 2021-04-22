@@ -49,12 +49,13 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     else
         KWRAP_SUB(QVERIFY(setupEkosProfile("Simulators", false)));
     // start the profile
-    KTRY_EKOS_CLICK(processINDIB);
+    KWRAP_SUB(KTRY_EKOS_CLICK(processINDIB));
     // wait for the devices to come up
-    QTest::qWait(15000);
+    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000));
 
     // set mount defaults
     KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000));
+    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->slewStatus() != IPState::IPS_ALERT, 1000));
     // set primary scope to my favorite FSQ-85 with QE 0.73 Reducer
     KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), primaryScopeFocalIN, 339.0);
     KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), primaryScopeApertureIN, 85.0);
@@ -82,7 +83,7 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     {
         QWARN(QString("No astrometry index files found in %1").arg(
                   KSUtils::getAstrometryDataDirs().join(", ")).toStdString().c_str());
-        return false;
+        astrometry_available = false;
     }
     // switch to alignment module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->alignModule(), 1000));

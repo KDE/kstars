@@ -267,6 +267,8 @@ protected:
     bool autofocus_checked = false;
     // regular dithering on?
     bool dithering_checked = false;
+    // astrometry files available?
+    bool astrometry_available = true;
 
     /**
      * @brief Retrieve the current alignment status.
