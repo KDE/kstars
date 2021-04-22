@@ -23,15 +23,26 @@
  */
 class DeviceInfo
 {
-  public:
-    DeviceInfo(DriverInfo *parent, INDI::BaseDevice *ibd);
+    public:
+        DeviceInfo(DriverInfo *parent, INDI::BaseDevice *ibd);
 
-    DriverInfo *getDriverInfo() { return drv; }
-    INDI::BaseDevice *getBaseDevice() { return dp; }
+        const QString  &getDeviceName() const
+        {
+            return m_Name;
+        }
+        DriverInfo *getDriverInfo()
+        {
+            return drv;
+        }
+        INDI::BaseDevice *getBaseDevice()
+        {
+            return dp;
+        }
 
-  private:
-    DriverInfo *drv;
-    INDI::BaseDevice *dp;
+    private:
+        DriverInfo *drv;
+        INDI::BaseDevice *dp;
+        QString m_Name;
 };
 
 #endif // DEVICEINFO_H

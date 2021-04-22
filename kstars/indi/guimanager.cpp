@@ -185,6 +185,8 @@ void GUIManager::addClient(ClientManager *cm)
     clients.append(cm);
     connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice, Qt::BlockingQueuedConnection);
+    //connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice);
+    //connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -200,7 +202,7 @@ void GUIManager::removeClient(ClientManager *cm)
         {
             for (int i = 0; i < mainTabWidget->count(); i++)
             {
-                if (mainTabWidget->tabText(i).remove('&') == QString(gdv->getBaseDevice()->getDeviceName()))
+                if (mainTabWidget->tabText(i).remove('&') == QString(gdv->name()))
                 {
                     mainTabWidget->removeTab(i);
                     break;
@@ -209,7 +211,6 @@ void GUIManager::removeClient(ClientManager *cm)
 
             it.remove();
             gdv->deleteLater();
-            //break;
         }
     }
 
@@ -259,8 +260,10 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::BlockingQueuedConnection);
+    //    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::BlockingQueuedConnection);
+    //    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
+    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
     connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
     connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);
@@ -269,7 +272,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, &ClientManager::newINDIMessage, gdm, &INDI_D::updateMessageLog);
 
-    mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
+    mainTabWidget->addTab(gdm->getDeviceBox(), di->getDeviceName());
 
     guidevices.append(gdm);
 
