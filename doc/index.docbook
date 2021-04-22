@@ -116,10 +116,19 @@
 </othercredit>
 
 <othercredit role="developer">
-<firstname>James</firstname>
-<surname>Bowlin</surname>
+<firstname>Carsten</firstname>
+<surname>Niehaus</surname>
 <affiliation>
-<address><email>bowlin AT mindspring DOT com</email></address>
+<address><email>&Carsten.Niehaus.mail;</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Eric</firstname>
+<surname>Dejouhanet</surname>
+<affiliation>
+<address>eric DOT dejouhanet AT gmail DOT com</address>
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
@@ -134,10 +143,37 @@
 </othercredit>
 
 <othercredit role="developer">
-<firstname>Thomas</firstname>
-<surname>Kabelmann</surname>
+<firstname>Hy</firstname>
+<surname>Murveit</surname>
 <affiliation>
-<address>&Thomas.Kabelmann.mail;</address>
+<address><email>hy AT murveit DOT com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>James</firstname>
+<surname>Bowlin</surname>
+<affiliation>
+<address><email>bowlin AT mindspring DOT com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Mark</firstname>
+<surname>Holloman</surname>
+<affiliation>
+<address>&Mark.Holloman.mail;</address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Robert</firstname>
+<surname>Lancaster</surname>
+<affiliation>
+<address>rlancaste AT gmail DOT com</address>
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
@@ -152,19 +188,19 @@
 </othercredit>
 
 <othercredit role="developer">
-<firstname>Carsten</firstname>
-<surname>Niehaus</surname>
+<firstname>Thomas</firstname>
+<surname>Kabelmann</surname>
 <affiliation>
-<address><email>&Carsten.Niehaus.mail;</email></address>
+<address>&Thomas.Kabelmann.mail;</address>
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
 
 <othercredit role="developer">
-<firstname>Mark</firstname>
-<surname>Holloman</surname>
+<firstname>Wolfgang</firstname>
+<surname>Reissenberger</surname>
 <affiliation>
-<address>&Mark.Holloman.mail;</address>
+<address>sterne-jaege AT t-online DOT de</address>
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
@@ -174,13 +210,13 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2020</year>
+<year>2001-2021</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2021-03-11</date>
+<date>2022-04-26</date>
 <releaseinfo>3.5.3</releaseinfo>
 
 <abstract>
