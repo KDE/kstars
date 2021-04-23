@@ -37,12 +37,12 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
     name = (inName.isEmpty()) ? i18n("Unknown") : inName;
 
     m_PropertiesContainer = new QFrame(idv);
-    m_PropertiesLayout    = new QVBoxLayout(m_PropertiesContainer);
+    m_PropertiesLayout    = new QVBoxLayout;
     m_PropertiesLayout->setContentsMargins(20, 20, 20, 20);
     m_VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
     m_PropertiesLayout->addItem(m_VerticalSpacer);
     m_PropertiesLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    m_PropertiesContainer->setLayout(m_PropertiesLayout);
 
     m_ScrollArea = new QScrollArea;
     m_ScrollArea->setWidget(m_PropertiesContainer);
@@ -53,13 +53,11 @@ INDI_G::~INDI_G()
 {
     while (!m_PropertiesList.isEmpty())
         delete m_PropertiesList.takeFirst();
-
     delete (m_PropertiesContainer);
-
     delete (m_ScrollArea);
 }
 
-bool INDI_G::addProperty(INDI::Property *newProperty)
+bool INDI_G::addProperty(const INDI::Property *newProperty)
 {
     if (!newProperty->getRegistered())
         return false;
@@ -69,6 +67,12 @@ bool INDI_G::addProperty(INDI::Property *newProperty)
     // No duplicates
     if (getProperty(name))
         return false;
+
+    if (m_Dirty)
+    {
+        resetLayout();
+        m_Dirty = false;
+    }
 
     INDI_P *property = new INDI_P(this, newProperty);
     m_PropertiesList.append(property);
@@ -88,10 +92,51 @@ bool INDI_G::removeProperty(const QString &name)
     {
         m_PropertiesList.removeOne(oneProp);
         delete (oneProp);
+        m_Dirty = true;
         return true;
     }
 
     return false;
+}
+
+/////////////////////////////////////////////////////////////////////
+/// Reset the layout and remove ALL properties then re-add them
+/// This is a brute-force way of fixing a long standing bug with Qt
+/// If a property is removed, and then another property is added, it makes
+/// the tab completely inaccessible to mouse clicks. Users can only navigate the controls
+/// through use of tab key.
+/////////////////////////////////////////////////////////////////////
+void INDI_G::resetLayout()
+{
+    QList<const INDI::Property *> existingProps;
+
+    // Get all existing properties
+    for (auto &oneProp : m_PropertiesList)
+        existingProps.append(oneProp->getProperty());
+
+    // Remove all properties
+    qDeleteAll(m_PropertiesList);
+    m_PropertiesList.clear();
+
+    // Remove all containers
+    delete (m_PropertiesLayout);
+
+    // Init all containers again
+    // N.B. m_VerticalSpacer and m_PropertiesContainer would be automatically deleted by Qt.
+    m_PropertiesContainer = new QFrame(dp);
+    m_PropertiesLayout    = new QVBoxLayout;
+    m_PropertiesLayout->setContentsMargins(20, 20, 20, 20);
+    m_VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    m_PropertiesLayout->addItem(m_VerticalSpacer);
+    m_PropertiesLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    m_PropertiesContainer->setLayout(m_PropertiesLayout);
+    m_ScrollArea->setWidget(m_PropertiesContainer);
+    m_ScrollArea->setMinimumSize(dp->size());
+
+    // Re-add all properties
+    for (const auto &oneINDIProp : existingProps)
+        addProperty(oneINDIProp);
+
 }
 
 INDI_P *INDI_G::getProperty(const QString &name) const

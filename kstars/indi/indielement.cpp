@@ -39,7 +39,7 @@ extern const char *libindi_strings_context;
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
+INDI_E::INDI_E(INDI_P *gProp, const INDI::Property *dProp)
 {
     guiProp  = gProp;
     dataProp = dProp;

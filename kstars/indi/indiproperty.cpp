@@ -37,7 +37,7 @@ extern const char *libindi_strings_context;
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G *ipg, INDI::Property *prop)
+INDI_P::INDI_P(INDI_G *ipg, const INDI::Property *prop) : pg(ipg), dataProp(prop)
 {
     pg       = ipg;
     dataProp = prop;
