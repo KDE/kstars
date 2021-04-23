@@ -275,7 +275,7 @@ void KStars::initActions()
             << QKeySequence("Space");
 
     actionCollection()->addAction("toggle_terrain", this, SLOT(slotTerrain()))
-            << (Options::showTerrain() ? i18n("Stop showing terrain") :
+            << (Options::showTerrain() ? i18n("Hide terrain") :
                 i18n("Show terrain"))
             << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_T);
 

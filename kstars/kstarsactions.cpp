@@ -1791,7 +1791,7 @@ void KStars::slotTerrain()
 {
     Options::setShowTerrain(!Options::showTerrain());
     actionCollection()->action("toggle_terrain")
-    ->setText(Options::showTerrain() ? i18n("Stop showing terrain") : i18n("Show terrain"));
+    ->setText(Options::showTerrain() ? i18n("Hide terrain") : i18n("Show terrain"));
     KStars::Instance()->map()->forceUpdate();
 }
 
