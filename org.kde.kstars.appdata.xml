@@ -378,6 +378,7 @@
       <caption xml:lang="ca">Finestra principal del KStars</caption>
       <caption xml:lang="ca-valencia">Finestra principal del KStars</caption>
       <caption xml:lang="cs">Hlavní okno KStars</caption>
+      <caption xml:lang="de">Hauptfenster von KStars</caption>
       <caption xml:lang="en-GB">KStars main window</caption>
       <caption xml:lang="es">Ventana principal de KStars</caption>
       <caption xml:lang="et">KStarsi peaaken</caption>
@@ -456,6 +457,7 @@
       <caption xml:lang="ca">Planificador de l'observació del KStars</caption>
       <caption xml:lang="ca-valencia">Planificador de l'observació del KStars</caption>
       <caption xml:lang="cs">Plánovač pozorování KStars</caption>
+      <caption xml:lang="de">Beobachtungsliste von KStars</caption>
       <caption xml:lang="en-GB">Observation Planner of KStars</caption>
       <caption xml:lang="es">Planificador de observación de KStars</caption>
       <caption xml:lang="et">KStarsi vaatluste plaanija</caption>
