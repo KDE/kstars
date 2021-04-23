@@ -354,9 +354,15 @@ void StreamWG::toggleRecord()
     }
     else
     {
-        currentCCD->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
-        // Save config in INDI so the filename and directory templates are reloaded next time
-        currentCCD->setConfig(SAVE_CONFIG);
+        QString directory, filename;
+        currentCCD->getSERNameDirectory(filename, directory);
+        if (filename != options->recordFilenameEdit->text() ||
+                directory != options->recordDirectoryEdit->text())
+        {
+            currentCCD->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
+            // Save config in INDI so the filename and directory templates are reloaded next time
+            currentCCD->setConfig(SAVE_CONFIG);
+        }
 
         if (options->recordUntilStoppedR->isChecked())
         {

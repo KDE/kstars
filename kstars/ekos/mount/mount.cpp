@@ -900,34 +900,41 @@ void Mount::save()
 
     if (nvp)
     {
+        bool dirty = false;
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
         INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-
-        if (np)
+        if (np && std::fabs(np->value - primaryScopeApertureIN->value()) > 0)
+        {
+            dirty = true;
             np->value = primaryScopeApertureIN->value();
+        }
 
         np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np)
+        if (np && std::fabs(np->value - primaryScopeFocalIN->value()) > 0)
             np->value = primaryScopeFocalIN->value();
 
         np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        if (np)
-            np->value =
-                guideScopeApertureIN->value() <= 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
+        if (np && std::fabs(np->value - guideScopeApertureIN->value()) > 0)
+        {
+            dirty = true;
+            np->value = guideScopeApertureIN->value() <= 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
+        }
 
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np)
+        if (np && std::fabs(np->value - guideScopeFocalIN->value()) > 0)
+        {
+            dirty = true;
             np->value = guideScopeFocalIN->value() <= 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
+        }
 
         ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
 
         clientManager->sendNewNumber(nvp);
 
-        currentTelescope->setConfig(SAVE_CONFIG);
-
-        //appendLogText(i18n("Saving telescope information..."));
+        if (dirty)
+            currentTelescope->setConfig(SAVE_CONFIG);
     }
     else
         appendLogText(i18n("Failed to save telescope information."));

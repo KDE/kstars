@@ -2169,12 +2169,14 @@ bool CCD::setTelescopeType(TelescopeType type)
 
     telescopeType = type;
 
-    typePrimary->s = (telescopeType == TELESCOPE_PRIMARY) ? ISS_ON : ISS_OFF;
-    typeGuide->s   = (telescopeType == TELESCOPE_PRIMARY) ? ISS_OFF : ISS_ON;
-
-    clientManager->sendNewSwitch(svp);
-
-    setConfig(SAVE_CONFIG);
+    if ( (telescopeType == TELESCOPE_PRIMARY && typePrimary->s == ISS_OFF) ||
+            (telescopeType == TELESCOPE_GUIDE && typeGuide->s == ISS_OFF))
+    {
+        typePrimary->s = (telescopeType == TELESCOPE_PRIMARY) ? ISS_ON : ISS_OFF;
+        typeGuide->s   = (telescopeType == TELESCOPE_PRIMARY) ? ISS_OFF : ISS_ON;
+        clientManager->sendNewSwitch(svp);
+        setConfig(SAVE_CONFIG);
+    }
 
     return true;
 }
