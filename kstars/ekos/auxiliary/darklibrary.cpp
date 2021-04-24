@@ -122,7 +122,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
             m_FileLabel->setText(i18n("Failed to load %1: %2",  m_MasterDarkFrameFilename, m_CurrentDarkFrame->getLastError()));
 
     });
-    connect(m_CurrentDarkFrame.get(), &FITSData::histogramReady, [this]()
+    connect(m_CurrentDarkFrame.data(), &FITSData::histogramReady, [this]()
     {
         histogramView->setEnabled(true);
         histogramView->reset();
