@@ -235,7 +235,7 @@ void FITSHistogramView::setImageData(const QSharedPointer<FITSData> &data)
 {
     m_ImageData = data;
 
-    connect(m_ImageData.get(), &FITSData::dataChanged, [this]()
+    connect(m_ImageData.data(), &FITSData::dataChanged, [this]()
     {
         if (m_Linear)
         {
