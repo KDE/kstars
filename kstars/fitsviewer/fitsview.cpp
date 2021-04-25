@@ -391,7 +391,7 @@ bool FITSView::processData()
     if (!m_ImageData)
         return false;
 
-    connect(m_ImageData.get(), &FITSData::dataChanged, [this]()
+    connect(m_ImageData.data(), &FITSData::dataChanged, [this]()
     {
         rescale(ZOOM_KEEP_LEVEL);
         updateFrame();

@@ -198,7 +198,7 @@ void FITSHistogramEditor::setImageData(const QSharedPointer<FITSData> &data)
     m_ImageData = data;
     ui->histogramPlot->setImageData(data);
 
-    connect(m_ImageData.get(), &FITSData::dataChanged, [this]
+    connect(m_ImageData.data(), &FITSData::dataChanged, [this]
     {
         isGUISynced = false;
         syncGUI();
