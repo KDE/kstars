@@ -273,7 +273,7 @@ void WUTDialog::slotLoadList(const QString &c)
             {
                 SkyObject *o = data->skyComposite()->findByName(name);
 
-                if (checkVisibility(o) && o->mag() <= m_Mag)
+                if (o->mag() <= m_Mag && checkVisibility(o))
                     visibleObjects(c).insert(o);
             }
 
@@ -291,7 +291,7 @@ void WUTDialog::slotLoadList(const QString &c)
             {
                 const SkyObject *o =  object.second;
 
-                if (checkVisibility(o) && o->mag() <= m_Mag)
+                if (o->mag() <= m_Mag && checkVisibility(o))
                 {
                     visibleObjects(c).insert(o);
                 }
@@ -311,7 +311,7 @@ void WUTDialog::slotLoadList(const QString &c)
         else if (c == m_Categories[6]) //Asteroids
         {
             foreach (SkyObject *o, data->skyComposite()->asteroids())
-                if (checkVisibility(o) && o->name() != i18nc("Asteroid name (optional)", "Pluto") && o->mag() <= m_Mag)
+                if (o->mag() <= m_Mag && o->name() != i18nc("Asteroid name (optional)", "Pluto") && checkVisibility(o))
                     visibleObjects(c).insert(o);
 
             m_CategoryInitialized[c] = true;
@@ -320,7 +320,7 @@ void WUTDialog::slotLoadList(const QString &c)
         else if (c == m_Categories[7]) //Comets
         {
             foreach (SkyObject *o, data->skyComposite()->comets())
-                if (checkVisibility(o) && o->mag() <= m_Mag)
+                if (o->mag() <= m_Mag && checkVisibility(o))
                     visibleObjects(c).insert(o);
 
             m_CategoryInitialized[c] = true;
@@ -331,7 +331,7 @@ void WUTDialog::slotLoadList(const QString &c)
             foreach (DeepSkyObject *dso, data->skyComposite()->deepSkyObjects())
             {
                 SkyObject *o = (SkyObject *)dso;
-                if (checkVisibility(o) && o->mag() <= m_Mag)
+                if (o->mag() <= m_Mag && checkVisibility(o))
                 {
                     switch (o->type())
                     {
