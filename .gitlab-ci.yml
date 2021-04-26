@@ -59,8 +59,6 @@ build-and-test-stable:
   stage: test
   interruptible: true
   retry: 2
-  only:
-    - merge_requests
   variables:
     BUILD_TESTING: "ON"
   before_script:
@@ -82,15 +80,13 @@ build-and-test-unstable:
   stage: test-unstable
   interruptible: true
   allow_failure: true
-  only:
-    - merge_requests
   variables:
     BUILD_TESTING: "ON"
   before_script:
     - *build_recipe
   script:
     - rm -rf Testing
-    - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output
+    - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output || true
   after_script:
     - pwd
     - saxon-xslt -u $(find . -name Test.xml) https://raw.githubusercontent.com/rpavlik/jenkins-ctest-plugin/master/ctest-to-junit.xsl > ./junit_result.unstable.xml
@@ -104,8 +100,6 @@ build-appimage:
   stage: test
   interruptible: true
   allow_failure: true
-  only:
-    - merge_requests
   before_script:
     - python3 -m pip install appimage-builder
     - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
