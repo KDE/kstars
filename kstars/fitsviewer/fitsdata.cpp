@@ -524,7 +524,7 @@ bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension, 
     Q_UNUSED(extension);
 
 #if !defined(KSTARS_LITE) && !defined(HAVE_LIBRAW)
-    lastError = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
+    m_LastError = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
     return false;
 #else
 
