@@ -264,7 +264,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::DirectConnection);
+    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
     connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
     connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
