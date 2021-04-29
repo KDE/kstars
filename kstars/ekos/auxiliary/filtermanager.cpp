@@ -209,14 +209,14 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
 {
     if (m_currentFilterDevice == filter)
         return;
-    else
+    else if (m_currentFilterDevice)
         m_currentFilterDevice->disconnect(this);
 
     m_currentFilterDevice = filter;
 
-    connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
-    connect(filter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
-    connect(filter, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
+    connect(filter, &ISD::GenericDevice::textUpdated, this, &FilterManager::processText);
+    connect(filter, &ISD::GenericDevice::numberUpdated, this, &FilterManager::processNumber);
+    connect(filter, &ISD::GenericDevice::switchUpdated, this, &FilterManager::processSwitch);
     connect(filter, &ISD::GDInterface::Disconnected, [&]()
     {
         m_currentFilterLabels.clear();
