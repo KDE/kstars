@@ -86,6 +86,12 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     resize(Options::iNDIWindowWidth(), Options::iNDIWindowHeight());
 }
 
+GUIManager::~GUIManager()
+{
+    for (auto oneClient : qAsConst(clients))
+        oneClient->disconnect(this);
+}
+
 void GUIManager::changeAlwaysOnTop(Qt::ApplicationState state)
 {
     if (isVisible())
@@ -185,8 +191,6 @@ void GUIManager::addClient(ClientManager *cm)
     clients.append(cm);
     connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice, Qt::BlockingQueuedConnection);
-    //connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice);
-    //connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -260,9 +264,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(di->getBaseDevice(), cm);
 
-    //    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::BlockingQueuedConnection);
-    //    connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
+    connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty, Qt::DirectConnection);
     connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
     connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
