@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>934</width>
-    <height>578</height>
+    <height>586</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,7 +164,7 @@
                 <double>0.010000000000000</double>
                </property>
                <property name="maximum">
-                <double>60.000000000000000</double>
+                <double>998.000000000000000</double>
                </property>
                <property name="value">
                 <double>1.000000000000000</double>
@@ -313,7 +313,7 @@
                 <double>0.010000000000000</double>
                </property>
                <property name="maximum">
-                <double>60.000000000000000</double>
+                <double>999.000000000000000</double>
                </property>
                <property name="value">
                 <double>5.000000000000000</double>
@@ -1201,11 +1201,11 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="darkHandlingButtonGroup"/>
   <buttongroup name="binningButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="darkHandlingButtonGroup"/>
  </buttongroups>
 </ui>
