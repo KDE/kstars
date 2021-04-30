@@ -266,22 +266,53 @@ bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSh
             // Then check if binning is the same
             if (map["binX"].toInt() == binX && map["binY"].toInt() == binY)
             {
-                // Then check for temperature
+                // If camera has an active cooler, then we check temperature against the absolute threshold.
                 if (m_TargetChip->getCCD()->hasCoolerControl())
                 {
                     double temperature = 0;
                     m_TargetChip->getCCD()->getTemperature(&temperature);
                     double darkTemperature = map["temperature"].toDouble();
-                    // TODO make this configurable value, the threshold
+                    // If different is above threshold, it is completely rejected.
                     if (darkTemperature != INVALID_VALUE && fabs(darkTemperature - temperature) > Options::maxDarkTemperatureDiff())
                         continue;
                 }
 
+                if (bestCandidate.isEmpty())
+                {
+                    bestCandidate = map;
+                    continue;
+                }
+
+                // We try to find the best frame
+                // Frame closest in exposure duration wins
+                // Frame with temperature closest to stored temperature wins (if temperature is reported)
+                uint32_t thisMapScore = 0;
+                uint32_t bestCandidateScore = 0;
+
+                // Else we check for the closest passive temperature
+                if (m_TargetChip->getCCD()->hasCooler())
+                {
+                    double temperature = 0;
+                    m_TargetChip->getCCD()->getTemperature(&temperature);
+                    double diffMap = std::fabs(temperature - map["temperature"].toDouble());
+                    double diffBest = std::fabs(temperature - bestCandidate["temperature"].toDouble());
+                    // Prefer temperatures closest to target
+                    if (diffMap < diffBest)
+                        thisMapScore++;
+                    else if (diffBest < diffMap)
+                        bestCandidateScore++;
+                }
+
+                // Duration has a higher score priority over temperature
+                double diffMap = std::fabs(map["duration"].toDouble() - duration);
+                double diffBest = std::fabs(bestCandidate["duration"].toDouble() - duration);
+                if (diffMap < diffBest)
+                    thisMapScore += 2;
+                else if (diffBest < diffMap)
+                    bestCandidateScore += 2;
+
                 // Find candidate with closest time in case we have multiple defect maps
-                if (bestCandidate.isEmpty() ||
-                        (map["defectmap"].toString().isEmpty() == false &&
-                         (fabs(map["duration"].toDouble() - duration) <
-                          fabs(bestCandidate["duration"].toDouble() - duration))))
+                if (thisMapScore > bestCandidateScore)
                     bestCandidate = map;
             }
         }
@@ -332,6 +363,9 @@ bool DarkLibrary::findDefectMap(ISD::CCDChip *m_TargetChip, double duration, QSh
     QVariantMap bestCandidate;
     for (auto &map : m_DarkFramesDatabaseList)
     {
+        if (map["defectmap"].toString().isEmpty())
+            continue;
+
         // First check CCD name matches and check if we are on the correct chip
         if (map["ccd"].toString() == m_TargetChip->getCCD()->getDeviceName() &&
                 map["chip"].toInt() == static_cast<int>(m_TargetChip->getType()))
@@ -342,15 +376,47 @@ bool DarkLibrary::findDefectMap(ISD::CCDChip *m_TargetChip, double duration, QSh
             // Then check if binning is the same
             if (map["binX"].toInt() == binX && map["binY"].toInt() == binY)
             {
+                if (bestCandidate.isEmpty())
+                {
+                    bestCandidate = map;
+                    continue;
+                }
+
+                // We try to find the best frame
+                // Frame closest in exposure duration wins
+                // Frame with temperature closest to stored temperature wins (if temperature is reported)
+                uint32_t thisMapScore = 0;
+                uint32_t bestCandidateScore = 0;
+
+                // Else we check for the closest passive temperature
+                if (m_TargetChip->getCCD()->hasCooler())
+                {
+                    double temperature = 0;
+                    m_TargetChip->getCCD()->getTemperature(&temperature);
+                    double diffMap = std::fabs(temperature - map["temperature"].toDouble());
+                    double diffBest = std::fabs(temperature - bestCandidate["temperature"].toDouble());
+                    // Prefer temperatures closest to target
+                    if (diffMap < diffBest)
+                        thisMapScore++;
+                    else if (diffBest < diffMap)
+                        bestCandidateScore++;
+                }
+
+                // Duration has a higher score priority over temperature
+                double diffMap = std::fabs(map["duration"].toDouble() - duration);
+                double diffBest = std::fabs(bestCandidate["duration"].toDouble() - duration);
+                if (diffMap < diffBest)
+                    thisMapScore += 2;
+                else if (diffBest < diffMap)
+                    bestCandidateScore += 2;
+
                 // Find candidate with closest time in case we have multiple defect maps
-                if (bestCandidate.isEmpty() ||
-                        (map["defectmap"].toString().isEmpty() == false &&
-                         (fabs(map["duration"].toDouble() - duration) <
-                          fabs(bestCandidate["duration"].toDouble() - duration))))
+                if (thisMapScore > bestCandidateScore)
                     bestCandidate = map;
             }
         }
     }
+
 
     if (bestCandidate.isEmpty())
         return false;
@@ -674,9 +740,8 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
             {"duration", job->getExposure()}
         };
 
-        // Do not record temperature if camera has only passive temperature sensor
-        // with no way to control cooling.
-        if (m_CurrentCamera->hasCoolerControl())
+        // Record temperature
+        if (m_CurrentCamera->hasCooler())
             metadata["temperature"] = job->getCurrentTemperature();
 
         metadata["count"] = job->getCount();
