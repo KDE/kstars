@@ -100,6 +100,11 @@ TARGET_LINK_LIBRARIES(test_ekos_mount ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosMount COMMAND test_ekos_mount)
 SET_TESTS_PROPERTIES( TestEkosMount PROPERTIES LABELS "no-xvfb;ui" TIMEOUT 600 )
 
+ADD_EXECUTABLE(test_catalog_download ${KSTARS_UI_EKOS_SRC} test_catalog_download.cpp)
+TARGET_LINK_LIBRARIES(test_catalog_download ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestCatalogDownload COMMAND test_catalog_download)
+SET_TESTS_PROPERTIES( TestCatalogDownload PROPERTIES LABELS "stable;ui" TIMEOUT 600 )
+
 ELSE ()
 
 # JM 2010-10-15: Disable this test due to issues in CI

@@ -210,9 +210,12 @@ void SkyMapComposite::update(KSNumbers *num)
     //8. Deep sky
     //m_DeepSky->update( data, num );
     //9. Custom catalogs
-    m_CustomCatalogs->update(num);
-    m_internetResolvedComponent->update(num);
-    m_manualAdditionsComponent->update(num);
+    if (!SkyMapDrawAbstract::drawLock())
+    {
+        m_CustomCatalogs->update(num);
+        m_internetResolvedComponent->update(num);
+        m_manualAdditionsComponent->update(num);
+    }
     //10. Stars
     //m_Stars->update( data, num );
     //m_CLines->update( data, num );  // MUST follow stars.
