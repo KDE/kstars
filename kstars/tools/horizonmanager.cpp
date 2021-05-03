@@ -42,6 +42,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     ui->addRegionB->setIcon(QIcon::fromTheme("list-add"));
     ui->addPointB->setIcon(QIcon::fromTheme("list-add"));
     ui->removeRegionB->setIcon(QIcon::fromTheme("list-remove"));
+    ui->toggleCeilingB->setIcon(QIcon::fromTheme("window"));
     ui->removePointB->setIcon(QIcon::fromTheme("list-remove"));
     ui->clearPointsB->setIcon(QIcon::fromTheme("edit-clear"));
     ui->saveB->setIcon(QIcon::fromTheme("document-save"));
@@ -85,13 +86,20 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     horizonComponent = KStarsData::Instance()->skyComposite()->artificialHorizon();
 
     // Get the list
-    m_HorizonList = horizonComponent->horizonList();
+    const QList<ArtificialHorizonEntity *> *horizonList = horizonComponent->getHorizon().horizonList();
 
-    for (auto &horizon : *m_HorizonList)
+    for (auto &horizon : *horizonList)
     {
         QStandardItem *regionItem = new QStandardItem(horizon->region());
         regionItem->setCheckable(true);
         regionItem->setCheckState(horizon->enabled() ? Qt::Checked : Qt::Unchecked);
+
+        if (horizon->ceiling())
+            regionItem->setData(QIcon::fromTheme("window"), Qt::DecorationRole);
+        else
+            regionItem->setData(QIcon(), Qt::DecorationRole);
+        regionItem->setData(horizon->ceiling(), Qt::UserRole);
+
         m_RegionsModel->appendRow(regionItem);
 
         SkyList *points = horizon->list()->points();
@@ -106,12 +114,14 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     }
 
     ui->removeRegionB->setEnabled(true);
+    ui->toggleCeilingB->setEnabled(true);
 
     connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
 
     //Connect buttons
     connect(ui->addRegionB, SIGNAL(clicked()), this, SLOT(slotAddRegion()));
     connect(ui->removeRegionB, SIGNAL(clicked()), this, SLOT(slotRemoveRegion()));
+    connect(ui->toggleCeilingB, SIGNAL(clicked()), this, SLOT(slotToggleCeiling()));
 
     connect(ui->regionsList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSetShownRegion(QModelIndex)));
 
@@ -125,7 +135,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
 
     connect(ui->saveB, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 
-    if (m_HorizonList->count() > 0)
+    if (horizonList->count() > 0)
     {
         ui->regionsList->selectionModel()->setCurrentIndex(m_RegionsModel->index(0, 0),
                 QItemSelectionModel::SelectCurrent);
@@ -289,6 +299,24 @@ void HorizonManager::slotAddRegion()
     showRegion(m_RegionsModel->rowCount() - 1);
 }
 
+void HorizonManager::slotToggleCeiling()
+{
+    int regionID = ui->regionsList->currentIndex().row();
+    QStandardItem *regionItem = m_RegionsModel->item(regionID, 0);
+
+    bool turnCeilingOn = !regionItem->data(Qt::UserRole).toBool();
+    if (turnCeilingOn)
+    {
+        regionItem->setData(QIcon::fromTheme("window"), Qt::DecorationRole);
+        regionItem->setData(true, Qt::UserRole);
+    }
+    else
+    {
+        regionItem->setData(QIcon(), Qt::DecorationRole);
+        regionItem->setData(false, Qt::UserRole);
+    }
+}
+
 void HorizonManager::slotRemoveRegion()
 {
     terminateLivePreview();
@@ -368,7 +396,8 @@ void HorizonManager::slotSaveChanges()
             list->append(p);
         }
 
-        horizonComponent->addRegion(regionName, regionItem->checkState() == Qt::Checked ? true : false, list);
+        const bool ceiling = regionItem->data(Qt::UserRole).toBool();
+        horizonComponent->addRegion(regionName, regionItem->checkState() == Qt::Checked ? true : false, list, ceiling);
     }
 
     horizonComponent->save();

@@ -35,6 +35,7 @@ SET( TEST_KSLITE_LIBRARIES
 )
 
 add_subdirectory(auxiliary)
+add_subdirectory(tools)
 add_subdirectory(skyobjects)
 
 IF (CFITSIO_FOUND)

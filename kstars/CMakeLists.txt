@@ -414,6 +414,7 @@ set(libkstarstools_SRCS
     tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
     tools/adddeepskyobject.cpp
+    tools/greatcircle.cpp
 )
 
 if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)

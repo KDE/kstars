@@ -67,6 +67,8 @@ class HorizonManager : public QDialog
         /** @short Delete region */
         void slotRemoveRegion();
 
+        void slotToggleCeiling();
+
         void addSkyPoint(SkyPoint *skypoint);
         void slotAddPoint();
         void slotRemovePoint();
@@ -94,8 +96,6 @@ class HorizonManager : public QDialog
 
         QStandardItemModel *m_RegionsModel { nullptr };
         ArtificialHorizonComponent *horizonComponent { nullptr };
-
-        QList<ArtificialHorizonEntity *> *m_HorizonList { nullptr };
 
         std::shared_ptr<LineList> livePreview;
         bool selectPoints { false };

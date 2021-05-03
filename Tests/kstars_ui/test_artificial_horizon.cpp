@@ -239,6 +239,7 @@ void TestArtificialHorizon::testArtificialHorizon()
     // Region buttons
     KTRY_AH_GADGET(QPushButton, addRegionB);
     KTRY_AH_GADGET(QPushButton, removeRegionB);
+    KTRY_AH_GADGET(QPushButton, toggleCeilingB);
     KTRY_AH_GADGET(QPushButton, saveB);
     // Points buttons
     KTRY_AH_GADGET(QPushButton, addPointB);
@@ -290,6 +291,12 @@ void TestArtificialHorizon::testArtificialHorizon()
     // Make sure there are 5 points now for region 0.
     QVERIFY(5 == getRegion(0)->rowCount());
     QVERIFY(checkForRepeatedAzAlt(0));
+
+    // Turn this region into a ceiling, check it was noted, and turn that off.
+    QVERIFY(!getRegion(0)->data(Qt::UserRole).toBool());
+    KTRY_AH_CLICK(toggleCeilingB);
+    QVERIFY(getRegion(0)->data(Qt::UserRole).toBool());
+    KTRY_AH_CLICK(toggleCeilingB);
 
     // Add a 2nd region. This also turns of mouse-entry of points.
     KTRY_AH_CLICK(addRegionB);
@@ -412,7 +419,7 @@ void TestArtificialHorizon::testArtificialHorizon()
     QVERIFY(compareLivePreview(0, horizonComponent->livePreview->points()));
 
     // This section tests to make sure that, when a region is enabled,
-    // the horizon component's altitudeConstraint() method reflects the values
+    // the horizon component's isVisible() method reflects the values
     // of the region. Will test using the 2 points of the saved region above.
 
     // Get the approximate azimuth and altitude at the midpoint of the 2-point region.
@@ -432,9 +439,20 @@ void TestArtificialHorizon::testArtificialHorizon()
     // Same as clicking the apply button.
     KStars::Instance()->m_HorizonManager->slotSaveChanges();
 
-    // Verify that altitudeConstraint roughly reflects the region's limit.
-    QVERIFY(horizonComponent->altitudeConstraint(az) < alt + 5);
-    QVERIFY(horizonComponent->altitudeConstraint(az) > alt - 5);
+    // Verify that isVisible() roughly reflects the region's limit.
+    QVERIFY(horizonComponent->getHorizon().isVisible(az, alt + 5));
+    QVERIFY(!horizonComponent->getHorizon().isVisible(az, alt - 5));
+
+    // Turn the line into a ceiling line. The visibility should be reversed.
+    KTRY_AH_CLICK(toggleCeilingB);
+    KStars::Instance()->m_HorizonManager->slotSaveChanges();
+    QVERIFY(!horizonComponent->getHorizon().isVisible(az, alt + 5));
+    QVERIFY(horizonComponent->getHorizon().isVisible(az, alt - 5));
+    // and turn ceiling off for that line, and the original visibility returns.
+    KTRY_AH_CLICK(toggleCeilingB);
+    KStars::Instance()->m_HorizonManager->slotSaveChanges();
+    QVERIFY(horizonComponent->getHorizon().isVisible(az, alt + 5));
+    QVERIFY(!horizonComponent->getHorizon().isVisible(az, alt - 5));
 
     // Now Disable the constraint.
     QVERIFY(clickEnableRegion(regionsList, 0));
@@ -442,7 +460,7 @@ void TestArtificialHorizon::testArtificialHorizon()
     // Same as clicking the apply button.
     KStars::Instance()->m_HorizonManager->slotSaveChanges();
     // The constraint should be at -90 when not enabled.
-    QVERIFY(horizonComponent->altitudeConstraint(az) < -89.999);
+    QVERIFY(horizonComponent->getHorizon().isVisible(az, -89));
 
     // Finally enable the region again, click apply, and exit the module.
     // The constraint should still be there, even with the menu closed.
@@ -450,8 +468,8 @@ void TestArtificialHorizon::testArtificialHorizon()
     QVERIFY(getRegion(0)->checkState() == Qt::Checked);
     KStars::Instance()->m_HorizonManager->slotSaveChanges();
     KStars::Instance()->m_HorizonManager->close();
-    QVERIFY(horizonComponent->altitudeConstraint(az) < alt + 5);
-    QVERIFY(horizonComponent->altitudeConstraint(az) > alt - 5);
+    QVERIFY(horizonComponent->getHorizon().isVisible(az, alt + 5));
+    QVERIFY(!horizonComponent->getHorizon().isVisible(az, alt - 5));
 }
 
 QTEST_KSTARS_MAIN(TestArtificialHorizon)

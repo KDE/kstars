@@ -312,6 +312,8 @@ bool KSUserDB::RebuildDB()
                   "Eyepiece INTEGER DEFAULT NULL REFERENCES eyepiece (id), "
                   "FOV INTEGER DEFAULT NULL REFERENCES fov (id))");
 
+    // Note: enabled now encodes both a bool enabled value as well
+    // as another bool indicating if this is a horizon line or a ceiling line.
     tables.append("CREATE TABLE horizons ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "name TEXT NOT NULL,"
@@ -1716,10 +1718,13 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 
     for (int i = 0; i < regions.rowCount(); ++i)
     {
-        QSqlRecord record   = regions.record(i);
-        QString regionTable = record.value("name").toString();
-        QString regionName  = record.value("label").toString();
-        bool enabled        = record.value("enabled").toInt() == 1 ? true : false;
+        QSqlRecord record         = regions.record(i);
+        const QString regionTable = record.value("name").toString();
+        const QString regionName  = record.value("label").toString();
+
+        const int flags           = record.value("enabled").toInt();
+        const bool enabled        = flags & 0x1 ? true : false;
+        const bool ceiling        = flags & 0x2 ? true : false;
 
         points.setTable(regionTable);
         points.select();
@@ -1730,6 +1735,7 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 
         horizon->setRegion(regionName);
         horizon->setEnabled(enabled);
+        horizon->setCeiling(ceiling);
         horizon->setList(skyList);
 
         horizonList.append(horizon);
@@ -1790,7 +1796,10 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
     regions.insertRow(0);
     regions.setData(regions.index(0, 1), tableName);
     regions.setData(regions.index(0, 2), horizon->region());
-    regions.setData(regions.index(0, 3), horizon->enabled() ? 1 : 0);
+    int flags = 0;
+    if (horizon->enabled()) flags |= 0x1;
+    if (horizon->ceiling()) flags |= 0x2;
+    regions.setData(regions.index(0, 3), flags);
     regions.submitAll();
     regions.clear();
 

@@ -1,0 +1,11 @@
+SET( ArtificialHorizonTest_SRCS testartificialhorizon.cpp  )
+ADD_EXECUTABLE( testartificialhorizon testartificialhorizon.cpp )
+TARGET_LINK_LIBRARIES( testartificialhorizon ${TEST_LIBRARIES})
+ADD_TEST( NAME ArtificialHorizonTest COMMAND testartificialhorizon )
+SET_TESTS_PROPERTIES( ArtificialHorizonTest PROPERTIES LABELS "stable" TIMEOUT 600)
+
+SET( GreatCircleTest_SRCS testgreatcircle.cpp  )
+ADD_EXECUTABLE( testgreatcircle testgreatcircle.cpp )
+TARGET_LINK_LIBRARIES( testgreatcircle ${TEST_LIBRARIES})
+ADD_TEST( NAME GreatCircleTest COMMAND testgreatcircle )
+SET_TESTS_PROPERTIES( GreatCircleTest PROPERTIES LABELS "stable" TIMEOUT 600)
