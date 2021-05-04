@@ -48,7 +48,7 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
     // This timer looks for message boxes to close until stopped
     QTimer close_message_boxes;
     close_message_boxes.setInterval(500);
-    close_message_boxes.callOnTimeout([&]() {
+    QObject::connect(&close_message_boxes, &QTimer::timeout, &close_message_boxes, [&]() {
         QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget());
         if (dialog)
         {

@@ -210,22 +210,22 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF_data()
 {
-    prepareTestData(45.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(45.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
 {
-    prepareTestData(18.0, {"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 {
-    prepareTestData(18.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testRepeatedMF_data()
 {
-    prepareTestData(18.0, {"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {false});
 }
 
 

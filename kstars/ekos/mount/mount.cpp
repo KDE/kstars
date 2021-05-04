@@ -1395,14 +1395,7 @@ bool Mount::executeMeridianFlip()
     }
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    double HA = lst.Hours() - currentTargetPosition->ra().Hours();
-    if (HA > 12.0)
-    {
-        // no meridian flip necessary
-        qCInfo(KSTARS_EKOS_MOUNT) << "No Meridian flip: HA=" <<
-                                  dms(HA).toHMSString();
-        return false;
-    }
+    double HA = rangeHA(lst.Hours() - currentTargetPosition->ra().Hours());
 
     // execute meridian flip
     qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
