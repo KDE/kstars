@@ -323,7 +323,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 
 void TestEkosMeridianFlip::testSimpleMF_data()
 {
-    prepareTestData(18.0, {"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Dubai"}, {true, false}, {"Luminance"}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testSimpleMFDelay_data()
@@ -333,18 +333,18 @@ void TestEkosMeridianFlip::testSimpleMFDelay_data()
 
 void TestEkosMeridianFlip::testGuidingMF_data()
 {
-    prepareTestData(18.0, {"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMF_data()
 {
-    prepareTestData(18.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting_data()
 {
     // no tests for focusing and dithering
-    prepareTestData(18.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
@@ -354,7 +354,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
 
 void TestEkosMeridianFlip::testCaptureGuidingMF_data()
 {
-    prepareTestData(18.0, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
 }
 
 void TestEkosMeridianFlip::testCaptureAlignMF_data()

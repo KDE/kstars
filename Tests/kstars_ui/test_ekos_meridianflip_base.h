@@ -145,12 +145,15 @@ protected:
     /**
      * @brief Prepare test data iterating over all combination of parameters.
      * @param exptime exposure time of the test frames
+     * @param locationList variants of locations
+     * @param culminationList variants of upper or lower culmination (upper = true)
      * @param filterList variants of filter parameter tests
      * @param focusList variants with/without focus tests
      * @param autofocusList variants with/without HFR autofocus tests
      * @param ditherList variants with/without dithering tests
      */
-    void prepareTestData(double exptime, QList<QString> filterList, QList<bool> focusList, QList<bool> autofocusList, QList<bool> ditherList);
+    void prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<QString> filterList,
+                         QList<bool> focusList, QList<bool> autofocusList, QList<bool> ditherList);
 
     /**
      * @brief Check if astrometry files exist.
