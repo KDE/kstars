@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>804</width>
-    <height>493</height>
+    <height>512</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -764,6 +764,29 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="temperatureSourceLabel">
+            <property name="toolTip">
+             <string>Focuser temperature source</string>
+            </property>
+            <property name="text">
+             <string>ΔT</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="temperatureSourceCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Select focuser temperature source</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

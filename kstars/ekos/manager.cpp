@@ -1497,6 +1497,8 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
     initFocus();
 
     focusProcess->addCCD(ccdDevice);
+    if (dynamic_cast<ISD::CCD*>(ccdDevice)->hasCooler())
+        focusProcess->addTemperatureSource(ccdDevice);
 
     rc = false;
     if (Options::defaultFocusCCD().isEmpty() == false)
@@ -1578,6 +1580,8 @@ void Manager::setFocuser(ISD::GDInterface * focuserDevice)
     if (Options::defaultFocusFocuser().isEmpty() == false)
         focusProcess->setFocuser(Options::defaultFocusFocuser());
 
+    focusProcess->addTemperatureSource(focuserDevice);
+
     appendLogText(i18n("%1 focuser is online.", focuserDevice->getDeviceName()));
 }
 
@@ -1615,6 +1619,11 @@ void Manager::setWeather(ISD::GDInterface * weatherDevice)
     }
     else
         weatherProcess->setWeather(weatherDevice);
+
+    if (focusProcess)
+    {
+        focusProcess->addTemperatureSource(weatherDevice);
+    }
 
     appendLogText(i18n("%1 is online.", weatherDevice->getDeviceName()));
 }
@@ -1907,6 +1916,15 @@ void Manager::processNewProperty(INDI::Property * prop)
     {
         ekosLiveClient.get()->message()->sendCameras();
         ekosLiveClient.get()->media()->registerCameras();
+    }
+
+    if (!strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "FOCUSER_TEMPERATURE")
+            || !strcmp(prop->getName(), "WEATHER_PARAMETERS"))
+    {
+        if (focusProcess)
+        {
+            focusProcess->addTemperatureSource(deviceInterface);
+        }
     }
 
     if (!strcmp(prop->getName(), "ABS_DOME_POSITION") || !strcmp(prop->getName(), "DOME_ABORT_MOTION") ||
@@ -2253,19 +2271,6 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureProcess.get(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
-    //    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString & filename, const QString & previewFITS)
-    //    {
-    //        if (Options::useSummaryPreview() && QFile::exists(filename))
-    //        {
-    //            if (Options::autoImageToFITS())
-    //            {
-    //                if (previewFITS.isEmpty() == false)
-    //                    summaryPreview->loadFile(previewFITS);
-    //            }
-    //            else
-    //                summaryPreview->loadFile(filename);
-    //        }
-    //    });
     connect(captureProcess.get(), &Ekos::Capture::newDownloadProgress, this, &Ekos::Manager::updateDownloadProgress);
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     captureGroup->setEnabled(true);
@@ -2390,6 +2395,12 @@ void Manager::initFocus()
     {
         focusPI = new QProgressIndicator(focusProcess.get());
         focusStatusLayout->insertWidget(0, focusPI);
+    }
+
+    // Check for weather device to snoop temperature
+    for (auto &device : findDevices(KSTARS_WEATHER))
+    {
+        focusProcess->addTemperatureSource(device);
     }
 
     connectModules();
@@ -3541,11 +3552,11 @@ void Manager::connectModules()
     }
 
     // Focus <---> Observatory connections
-    if (focusProcess.get() && observatoryProcess.get())
-    {
-        connect(observatoryProcess.get(), &Ekos::Observatory::newWeatherData, focusProcess.get(), &Ekos::Focus::setWeatherData,
-                Qt::UniqueConnection);
-    }
+    //    if (focusProcess.get() && observatoryProcess.get())
+    //    {
+    //        connect(observatoryProcess.get(), &Ekos::Observatory::newWeatherData, focusProcess.get(), &Ekos::Focus::setWeatherData,
+    //                Qt::UniqueConnection);
+    //    }
 
     // Mount <---> Align connections
     if (mountProcess.get() && alignProcess.get())

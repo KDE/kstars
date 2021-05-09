@@ -378,6 +378,107 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     emit settingsUpdated(getSettings());
 }
 
+void Focus::addTemperatureSource(ISD::GDInterface *newSource)
+{
+    if (!newSource)
+        return;
+
+    for (const auto &oneSource : TemperatureSources)
+    {
+        if (oneSource->getDeviceName() == newSource->getDeviceName())
+            return;
+    }
+
+    TemperatureSources.append(newSource);
+    temperatureSourceCombo->addItem(newSource->getDeviceName());
+
+    int temperatureSourceIndex = temperatureSourceCombo->currentIndex();
+    if (Options::defaultFocusTemperatureSource().isEmpty())
+        Options::setDefaultFocusTemperatureSource(newSource->getDeviceName());
+    else
+        temperatureSourceIndex = temperatureSourceCombo->findText(Options::defaultFocusTemperatureSource());
+    if (temperatureSourceIndex < 0)
+        temperatureSourceIndex = 0;
+
+    checkTemperatureSource(temperatureSourceIndex);
+}
+
+void Focus::checkTemperatureSource(int index)
+{
+    if (index == -1)
+    {
+        index = temperatureSourceCombo->currentIndex();
+        if (index == -1)
+            return;
+    }
+
+    QString deviceName;
+    if (index < TemperatureSources.count())
+        deviceName = temperatureSourceCombo->itemText(index);
+
+    ISD::GDInterface *currentSource = nullptr;
+
+    for (auto &oneSource : TemperatureSources)
+    {
+        if (oneSource->getDeviceName() == deviceName)
+        {
+            currentSource = oneSource;
+            break;
+        }
+    }
+
+    // No valid device found
+    if (!currentSource)
+        return;
+
+    QStringList deviceNames;
+    // Disconnect all existing signals
+    for (const auto &oneSource : TemperatureSources)
+    {
+        deviceNames << oneSource->getDeviceName();
+        disconnect(oneSource, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
+    }
+
+    if (findTemperatureElement(currentSource))
+    {
+        m_LastSourceAutofocusTemperature = currentTemperatureSourceElement->value;
+    }
+    else
+        m_LastSourceAutofocusTemperature = INVALID_VALUE;
+    connect(currentSource, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
+
+    temperatureSourceCombo->clear();
+    temperatureSourceCombo->addItems(deviceNames);
+    temperatureSourceCombo->setCurrentIndex(index);
+}
+
+bool Focus::findTemperatureElement(ISD::GDInterface *device)
+{
+    INDI::Property *temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
+    if (!temperatureProperty)
+        temperatureProperty = device->getProperty("CCD_TEMPERATURE");
+    if (temperatureProperty)
+    {
+        currentTemperatureSourceElement = temperatureProperty->getNumber()->at(0);
+        return true;
+    }
+
+    temperatureProperty = device->getProperty("WEATHER_PARAMETERS");
+    if (temperatureProperty)
+    {
+        for (int i = 0; i < temperatureProperty->getNumber()->count(); i++)
+        {
+            if (strstr(temperatureProperty->getNumber()->at(i)->getName(), "_TEMPERATURE"))
+            {
+                currentTemperatureSourceElement = temperatureProperty->getNumber()->at(i);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool Focus::setFilterWheel(const QString &device)
 {
     bool deviceFound = false;
@@ -587,7 +688,7 @@ void Focus::checkFocuser(int FocuserNum)
         focusBacklashSpin->setValue(0);
     }
 
-    initializeFocuserTemperature();
+    //initializeFocuserTemperature();
 
     connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
     //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
@@ -639,6 +740,30 @@ void Focus::getAbsFocusPosition()
     }
 }
 
+void Focus::processTemperatureSource(INumberVectorProperty *nvp)
+{
+    if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp == nvp)
+    {
+        m_SourceTemperature = currentTemperatureSourceElement->value;
+
+        if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
+        {
+            emit newFocusTemperatureDelta(abs(m_SourceTemperature - m_LastSourceAutofocusTemperature), m_SourceTemperature);
+        }
+        else
+        {
+            emit newFocusTemperatureDelta(0, m_SourceTemperature);
+        }
+    }
+}
+
+void Focus::setLastFocusTemperature()
+{
+    m_LastSourceAutofocusTemperature = m_SourceTemperature;
+    emit newFocusTemperatureDelta(0, -1e6);
+}
+
+#if 0
 void Focus::initializeFocuserTemperature()
 {
     INumberVectorProperty *temperatureProperty = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
@@ -678,6 +803,7 @@ void Focus::setLastFocusTemperature()
     emit newFocusTemperatureDelta(0, -1e6);
 }
 
+
 void Focus::updateTemperature(TemperatureSource source, double newTemperature)
 {
     if (source == FOCUSER_TEMPERATURE && focuserTemperature != newTemperature)
@@ -708,6 +834,7 @@ void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperatur
         emit newFocusTemperatureDelta(0, newTemperature);
     }
 }
+#endif
 
 void Focus::start()
 {
@@ -820,8 +947,7 @@ void Focus::start()
                                 << " Tolerance: " << toleranceIN->value()
                                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
-    emit autofocusStarting(focuserTemperature != INVALID_VALUE
-                           ? focuserTemperature : observatoryTemperature, filter());
+    emit autofocusStarting(m_SourceTemperature, filter());
 
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
@@ -851,7 +977,7 @@ void Focus::start()
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
             MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
-            focuserTemperature != INVALID_VALUE ? focuserTemperature : observatoryTemperature,
+            m_SourceTemperature,
             Options::initialFocusOutSteps());
         if (canAbsMove)
             initialFocuserAbsPosition = position;
@@ -1424,12 +1550,12 @@ void Focus::completeFocusProcedure(bool success)
             // CR add auto focus position, temperature and filter to log in CSV format
             // this will help with setting up focus offsets and temperature compensation
             qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position," << currentPosition << ", temperature,"
-                                      << lastFocusTemperature << ", filter," << filter()
+                                      << m_LastSourceAutofocusTemperature << ", filter," << filter()
                                       << ", HFR," << currentHFR << ", altitude," << mountAlt;
 
             appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
                                .arg(QString::number(currentPosition))
-                               .arg(QString::number(lastFocusTemperature, 'f', 1))
+                               .arg(QString::number(m_LastSourceAutofocusTemperature, 'f', 1))
                                .arg(filter())
                                .arg(QString::number(currentHFR, 'f', 3))
                                .arg(QString::number(mountAlt, 'f', 1)));
@@ -2712,11 +2838,11 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         return;
     }
 
-    if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
-    {
-        updateTemperature(FOCUSER_TEMPERATURE, nvp->np[0].value);
-        return;
-    }
+    //    if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
+    //    {
+    //        updateTemperature(FOCUSER_TEMPERATURE, nvp->np[0].value);
+    //        return;
+    //    }
 
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
@@ -3464,6 +3590,20 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
         }
     }
 
+    // Check in Temperature Sources.
+    for (auto &oneSource : TemperatureSources)
+    {
+        if (oneSource->getDeviceName() == deviceRemoved->getDeviceName())
+        {
+            TemperatureSources.removeAll(oneSource);
+            temperatureSourceCombo->removeItem(temperatureSourceCombo->findText(oneSource->getDeviceName()));
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkTemperatureSource();
+            });
+        }
+    }
+
     // Check in CCDs
     for (ISD::GDInterface *ccd : CCDs)
     {
@@ -3615,18 +3755,18 @@ void Focus::toggleVideo(bool enabled)
         currentCCD->setVideoStreamEnabled(enabled);
 }
 
-void Focus::setWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
-{
-    auto pos = std::find_if(data.begin(), data.end(), [](ISD::Weather::WeatherData oneEntry)
-    {
-        return (oneEntry.name == "WEATHER_TEMPERATURE");
-    });
+//void Focus::setWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
+//{
+//    auto pos = std::find_if(data.begin(), data.end(), [](ISD::Weather::WeatherData oneEntry)
+//    {
+//        return (oneEntry.name == "WEATHER_TEMPERATURE");
+//    });
 
-    if (pos != data.end())
-    {
-        updateTemperature(OBSERVATORY_TEMPERATURE, pos->value);
-    }
-}
+//    if (pos != data.end())
+//    {
+//        updateTemperature(OBSERVATORY_TEMPERATURE, pos->value);
+//    }
+//}
 
 void Focus::setVideoStreamEnabled(bool enabled)
 {
@@ -3788,6 +3928,8 @@ void Focus::syncSettings()
         }
         else if (cbox == FilterDevicesCombo)
             Options::setDefaultFocusFilterWheel(cbox->currentText());
+        else if (cbox == temperatureSourceCombo)
+            Options::setDefaultFocusTemperatureSource(cbox->currentText());
         // Filter Effects already taken care of in filterChangeWarning
 
         ///////////////////////////////////////////////////////////////////////////
@@ -4151,6 +4293,9 @@ void Focus::initConnections()
     connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
     // Sync settings if the filter selection is updated.
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
+    // Sync settings if the temperature source selection is updated.
+    connect(temperatureSourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+            &Ekos::Focus::checkTemperatureSource);
 
     // Set focuser absolute position
     connect(startGotoB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
