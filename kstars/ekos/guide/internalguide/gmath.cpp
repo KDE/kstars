@@ -192,7 +192,7 @@ void cgmath::getStarScreenPosition(double *dx, double *dy) const
     *dy = scr_star_pos.y;
 }
 
-bool cgmath::reset(void)
+bool cgmath::reset()
 {
     ticks = 0;
     channel_ticks[GUIDE_RA] = channel_ticks[GUIDE_DEC] = 0;
@@ -269,7 +269,7 @@ void cgmath::do_ticks(void)
 }
 
 //-------------------- Processing ---------------------------
-void cgmath::start(void)
+void cgmath::start()
 {
     ticks                   = 0;
     channel_ticks[GUIDE_RA] = channel_ticks[GUIDE_DEC] = 0;
@@ -282,8 +282,6 @@ void cgmath::start(void)
 
     // cleanup stat vars.
     sum = 0;
-
-    preview_mode = false;
 
     if (calibration.getFocalLength() > 0 && aperture > 0)
         createGuideLog();
@@ -303,11 +301,6 @@ void cgmath::start(void)
     gpg->reset();
 }
 
-void cgmath::stop(void)
-{
-    preview_mode = true;
-}
-
 void cgmath::abort()
 {
     guideStars.reset();
@@ -318,12 +311,12 @@ void cgmath::suspend(bool mode)
     suspended = mode;
 }
 
-bool cgmath::isSuspended(void) const
+bool cgmath::isSuspended() const
 {
     return suspended;
 }
 
-bool cgmath::isStarLost(void) const
+bool cgmath::isStarLost() const
 {
     return lost_star;
 }
@@ -1085,7 +1078,7 @@ void cgmath::process_axes(void)
     }
 }
 
-void cgmath::performProcessing(GuideLog *logger, bool guiding)
+void cgmath::performProcessing(Ekos::GuideState state, GuideLog *logger)
 {
     if (suspended)
     {
@@ -1104,14 +1097,15 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
 
     Vector arc_star_pos, arc_reticle_pos;
 
-    // find guiding star location in
+    // find guiding star location in the image
     Vector star_pos;
     scr_star_pos = star_pos = findLocalStarPosition();
 
+    // If no star found, mark as lost star.
     if (star_pos.x == -1 || std::isnan(star_pos.x))
     {
         lost_star = true;
-        if (logger != nullptr && !preview_mode)
+        if (logger != nullptr && state == Ekos::GUIDE_GUIDING)
         {
             GuideLog::GuideData data;
             data.code = GuideLog::GuideData::NO_STAR_FOUND;
@@ -1123,10 +1117,12 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
     else
         lost_star = false;
 
+    // Emit the detected star center
     QVector3D starCenter(star_pos.x, star_pos.y, 0);
     emit newStarPosition(starCenter, true);
 
-    if (preview_mode)
+    // If we're only calibrating, then we're done.
+    if (state == Ekos::GUIDE_CALIBRATING)
         return;
 
     qCDebug(KSTARS_EKOS_GUIDE) << "################## BEGIN PROCESSING ##################";
@@ -1157,7 +1153,7 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
     qCDebug(KSTARS_EKOS_GUIDE) << "RA channel ticks: " << channel_ticks[GUIDE_RA]
                                << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
 
-    if (guiding && (square_alg_idx == SEP_MULTISTAR))
+    if (state == Ekos::GUIDE_GUIDING && (square_alg_idx == SEP_MULTISTAR))
     {
         double multiStarRADrift, multiStarDECDrift;
         if (guideStars.getDrift(sqrt(star_drift.x * star_drift.x + star_drift.y * star_drift.y),
@@ -1180,13 +1176,13 @@ void cgmath::performProcessing(GuideLog *logger, bool guiding)
     // make decision by axes
     process_axes();
 
-    if (guiding)
+    if (state == Ekos::GUIDE_GUIDING)
     {
         // process statistics
         calc_square_err();
 
-        if (guiding)
-            emitStats();
+        // Emit the statistics
+        emitStats();
 
         // finally process tickers
         do_ticks();

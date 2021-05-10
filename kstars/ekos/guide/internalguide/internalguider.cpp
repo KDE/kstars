@@ -504,7 +504,7 @@ bool InternalGuider::calibrate()
 
 void InternalGuider::processCalibration()
 {
-    pmath->performProcessing();
+    pmath->performProcessing(GUIDE_CALIBRATING);
 
     if (pmath->isStarLost())
     {
@@ -736,7 +736,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             // start point reached... so exit
             if (driftRA < 1.5)
             {
-                pmath->performProcessing();
+                pmath->performProcessing(GUIDE_CALIBRATING);
 
                 //m_CalibrationParams.ra_total_pulse += m_CalibrationParams.last_pulse;
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
@@ -1015,7 +1015,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             // start point reached... so exit
             if (driftRA < 1.5)
             {
-                pmath->performProcessing();
+                pmath->performProcessing(GUIDE_CALIBRATING);
                 m_CalibrationParams.last_pulse = Options::calibrationPulseDuration();
                 axis_calibration_complete = true;
             }
@@ -1209,7 +1209,7 @@ bool InternalGuider::processGuiding()
         m_isFirstFrame = false;
     }
     // calc math. it tracks square
-    pmath->performProcessing(&guideLog, state == GUIDE_GUIDING);
+    pmath->performProcessing(state, &guideLog);
 
     if (state == GUIDE_SUSPENDED)
     {
@@ -1329,7 +1329,7 @@ bool InternalGuider::processImageGuiding()
     uint32_t tick = 0;
 
     // calc math. it tracks square
-    pmath->performProcessing();
+    pmath->performProcessing(GUIDE_GUIDING);
 
     if (pmath->isStarLost() && ++m_starLostCounter > 2)
     {
