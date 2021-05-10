@@ -717,7 +717,7 @@ void Guide::addCamera(ISD::GDInterface *newCCD)
     {
         connect(ccd, &ISD::CCD::newBLOBManager, [ccd, this](INDI::Property * prop)
         {
-            if (!strcmp(prop->getName(), "CCD1") ||  !strcmp(prop->getName(), "CCD2"))
+            if (prop->isNameMatch("CCD1") ||  prop->isNameMatch("CCD2"))
             {
                 ccd->setBLOBEnabled(false); //This will disable PHD2 external guide frames until it is properly connected.
                 currentCCD = ccd;
@@ -916,29 +916,24 @@ void Guide::checkCCD(int ccdNum)
 
 void Guide::syncCCDInfo()
 {
-    INumberVectorProperty *nvp = nullptr;
-
-    if (currentCCD == nullptr)
+    if (!currentCCD)
         return;
 
-    if (useGuideHead)
-        nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
-    else
-        nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
+    auto nvp = currentCCD->getBaseDevice()->getNumber(useGuideHead ? "GUIDER_INFO" : "CCD_INFO");
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
+        auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
         if (np)
-            ccdPixelSizeX = np->value;
+            ccdPixelSizeX = np->getValue();
 
-        np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
+        np = nvp->findWidgetByName( "CCD_PIXEL_SIZE_Y");
         if (np)
-            ccdPixelSizeY = np->value;
+            ccdPixelSizeY = np->getValue();
 
-        np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
+        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
         if (np)
-            ccdPixelSizeY = np->value;
+            ccdPixelSizeY = np->getValue();
     }
 
     updateGuideParams();
@@ -965,18 +960,18 @@ void Guide::syncTelescopeInfo()
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return;
 
-    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
 
-        if (np && np->value > 0)
-            primaryAperture = np->value;
+        if (np && np->getValue() > 0)
+            primaryAperture = np->getValue();
 
-        np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        if (np && np->value > 0)
-            guideAperture = np->value;
+        np = nvp->findWidgetByName("GUIDER_APERTURE");
+        if (np && np->getValue() > 0)
+            guideAperture = np->getValue();
 
         aperture = primaryAperture;
 
@@ -984,13 +979,13 @@ void Guide::syncTelescopeInfo()
         if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
             aperture = guideAperture;
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            primaryFL = np->value;
+        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            primaryFL = np->getValue();
 
-        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            guideFL = np->value;
+        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            guideFL = np->getValue();
 
         focal_length = primaryFL;
 

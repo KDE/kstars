@@ -243,10 +243,10 @@ void INDIListener::registerProperty(INDI::Property *prop)
     {
         if (oneDevice->getDeviceName() == prop->getDeviceName())
         {
-            if (!strcmp(prop->getName(), "ON_COORD_SET") ||
-                    !strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") ||
-                    !strcmp(prop->getName(), "EQUATORIAL_COORD") ||
-                    !strcmp(prop->getName(), "HORIZONTAL_COORD"))
+            if (prop->isNameMatch("ON_COORD_SET") ||
+                    prop->isNameMatch("EQUATORIAL_EOD_COORD") ||
+                    prop->isNameMatch("EQUATORIAL_COORD") ||
+                    prop->isNameMatch("HORIZONTAL_COORD"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -257,7 +257,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newTelescope(oneDevice);
             }
-            else if (!strcmp(prop->getName(), "CCD_EXPOSURE"))
+            else if (prop->isNameMatch("CCD_EXPOSURE"))
             {
                 // Only register a CCD device if the interface explicitly contains CCD_INTERFACE
                 // and only if the device type is not already known.
@@ -273,7 +273,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newCCD(oneDevice);
             }
-            else if (!strcmp(prop->getName(), "FILTER_NAME"))
+            else if (prop->isNameMatch("FILTER_NAME"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN &&
                         !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
@@ -285,7 +285,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newFilter(oneDevice);
             }
-            else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
+            else if (prop->isNameMatch("FOCUS_MOTION"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN &&
                         !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
@@ -298,8 +298,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 emit newFocuser(oneDevice);
             }
 
-            else if (!strcmp(prop->getName(), "DOME_SHUTTER") ||
-                     !strcmp(prop->getName(), "DOME_MOTION"))
+            else if (prop->isNameMatch("DOME_SHUTTER") ||
+                     prop->isNameMatch("DOME_MOTION"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -310,7 +310,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newDome(oneDevice);
             }
-            else if (!strcmp(prop->getName(), "WEATHER_STATUS"))
+            else if (prop->isNameMatch("WEATHER_STATUS"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -321,7 +321,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newWeather(oneDevice);
             }
-            else if (!strcmp(prop->getName(), "CAP_PARK"))
+            else if (prop->isNameMatch("CAP_PARK"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -332,7 +332,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newDustCap(oneDevice);
             }
-            else if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
+            else if (prop->isNameMatch("FLAT_LIGHT_CONTROL"))
             {
                 // If light box part of dust cap
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
@@ -357,7 +357,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 }
             }
 
-            if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
+            if (prop->isNameMatch("TELESCOPE_TIMED_GUIDE_WE"))
             {
                 ISD::ST4 *st4Driver = new ISD::ST4(oneDevice->getBaseDevice(), oneDevice->getDriverInfo()->getClientManager());
                 st4Devices.append(st4Driver);

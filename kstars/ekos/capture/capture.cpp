@@ -1511,25 +1511,25 @@ void Capture::syncFilterInfo()
 {
     if (currentCCD)
     {
-        ITextVectorProperty * activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+        auto activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (activeDevices)
         {
-            IText * activeFilter = IUFindText(activeDevices, "ACTIVE_FILTER");
+            auto activeFilter = activeDevices->findWidgetByName("ACTIVE_FILTER");
             if (activeFilter)
             {
-                if (currentFilter != nullptr && (activeFilter->text != currentFilter->getDeviceName()))
+                if (currentFilter && (activeFilter->getText() != currentFilter->getDeviceName()))
                 {
                     m_FilterOverride = true;
-                    activeFilter->aux0 = &m_FilterOverride;
-                    IUSaveText(activeFilter, currentFilter->getDeviceName().toLatin1().constData());
+                    activeFilter->setAux(&m_FilterOverride);
+                    activeFilter->setText(currentFilter->getDeviceName().toLatin1().constData());
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
                 // Reset filter name in CCD driver
-                else if (currentFilter == nullptr && strlen(activeFilter->text) > 0)
+                else if (!currentFilter && strlen(activeFilter->getText()) > 0)
                 {
                     m_FilterOverride = true;
-                    activeFilter->aux0 = &m_FilterOverride;
-                    IUSaveText(activeFilter, "");
+                    activeFilter->setAux(&m_FilterOverride);
+                    activeFilter->setText("");
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }
@@ -3856,8 +3856,8 @@ void Capture::setRotator(ISD::GDInterface * newRotator)
 
     rotatorSettings->setRotator(newRotator);
 
-    INumberVectorProperty * nvp = newRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
-    rotatorSettings->setCurrentAngle(nvp->np[0].value);
+    auto nvp = newRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+    rotatorSettings->setCurrentAngle(nvp->at(0)->getValue());
 }
 
 void Capture::setTelescope(ISD::GDInterface * newTelescope)
@@ -3891,13 +3891,13 @@ void Capture::syncTelescopeInfo()
         // Sync ALL CCDs to current telescope
         for (ISD::CCD * oneCCD : CCDs)
         {
-            ITextVectorProperty * activeDevices = oneCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+            auto activeDevices = oneCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
             if (activeDevices)
             {
-                IText * activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
+                auto activeTelescope = activeDevices->findWidgetByName("ACTIVE_TELESCOPE");
                 if (activeTelescope)
                 {
-                    IUSaveText(activeTelescope, currentTelescope->getDeviceName().toLatin1().constData());
+                    activeTelescope->setText(currentTelescope->getDeviceName().toLatin1().constData());
                     oneCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }

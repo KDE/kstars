@@ -1361,8 +1361,8 @@ void Manager::deviceConnected()
         {
             connect(dev, &ISD::GDInterface::switchUpdated, this, &Ekos::Manager::watchDebugProperty);
 
-            ISwitchVectorProperty * configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-            if (configProp && configProp->s == IPS_IDLE)
+            auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+            if (configProp && configProp->getState() == IPS_IDLE)
                 device->setConfig(tConfig);
             break;
         }
@@ -1837,7 +1837,7 @@ void Manager::processNewProperty(INDI::Property * prop)
 
     ekosLiveClient.get()->message()->processNewProperty(prop);
 
-    if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
+    if (prop->isNameMatch("CONNECTION") && currentProfile->autoConnect)
     {
         // Check if we need to do any mappings
         const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
@@ -1851,14 +1851,14 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "DEVICE_PORT"))
+    if (prop->isNameMatch("DEVICE_PORT"))
     {
         // Check if we need to do any mappings
         const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
         if (!port.isEmpty())
         {
-            ITextVectorProperty *tvp = prop->getText();
-            IUSaveText(&(tvp->tp[0]), port.toLatin1().data());
+            auto tvp = prop->getText();
+            tvp->at(0)->setText(port.toLatin1().data());
             deviceInterface->getDriverInfo()->getClientManager()->sendNewText(tvp);
             // Now connect if we need to.
             if (currentProfile->autoConnect)
@@ -1868,58 +1868,58 @@ void Manager::processNewProperty(INDI::Property * prop)
     }
 
     // Check if we need to turn on DEBUG for logging purposes
-    if (!strcmp(prop->getName(), "DEBUG"))
+    if (prop->isNameMatch("DEBUG"))
     {
         uint16_t interface = deviceInterface->getDriverInterface();
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Check if we need to enable debug logging for the INDI drivers.
-            ISwitchVectorProperty * debugSP = prop->getSwitch();
-            debugSP->sp[0].s = ISS_ON;
-            debugSP->sp[1].s = ISS_OFF;
+            auto debugSP = prop->getSwitch();
+            debugSP->at(0)->setState(ISS_ON);
+            debugSP->at(1)->setState(ISS_OFF);
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
         }
     }
 
     // Handle debug levels for logging purposes
-    if (!strcmp(prop->getName(), "DEBUG_LEVEL"))
+    if (prop->isNameMatch("DEBUG_LEVEL"))
     {
         uint16_t interface = deviceInterface->getDriverInterface();
         // Check if the logging option for the specific device class is on and if the device interface matches it.
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Turn on everything
-            ISwitchVectorProperty * debugLevel = prop->getSwitch();
-            for (int i = 0; i < debugLevel->nsp; i++)
-                debugLevel->sp[i].s = ISS_ON;
+            auto debugLevel = prop->getSwitch();
+            for (auto &it : *debugLevel)
+                it.setState(ISS_ON);
 
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugLevel);
         }
     }
 
-    if (!strcmp(prop->getName(), "ACTIVE_DEVICES"))
+    if (prop->isNameMatch("ACTIVE_DEVICES"))
     {
         if (deviceInterface->getDriverInterface() > 0)
             syncActiveDevices();
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_INFO") || !strcmp(prop->getName(), "TELESCOPE_SLEW_RATE")
-            || !strcmp(prop->getName(), "TELESCOPE_PARK"))
+    if (prop->isNameMatch("TELESCOPE_INFO") || prop->isNameMatch("TELESCOPE_SLEW_RATE")
+            || prop->isNameMatch("TELESCOPE_PARK"))
     {
         ekosLiveClient.get()->message()->sendMounts();
         ekosLiveClient.get()->message()->sendScopes();
     }
 
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE")
-            || !strcmp(prop->getName(), "CCD_ISO") ||
-            !strcmp(prop->getName(), "CCD_GAIN") || !strcmp(prop->getName(), "CCD_CONTROLS"))
+    if (prop->isNameMatch("CCD_INFO") || prop->isNameMatch("CCD_TEMPERATURE")
+            || prop->isNameMatch("CCD_ISO") ||
+            prop->isNameMatch("CCD_GAIN") || prop->isNameMatch("CCD_CONTROLS"))
     {
         ekosLiveClient.get()->message()->sendCameras();
         ekosLiveClient.get()->media()->registerCameras();
     }
 
-    if (!strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "FOCUSER_TEMPERATURE")
-            || !strcmp(prop->getName(), "WEATHER_PARAMETERS"))
+    if (prop->isNameMatch("CCD_TEMPERATURE") || prop->isNameMatch("FOCUSER_TEMPERATURE")
+            || prop->isNameMatch("WEATHER_PARAMETERS"))
     {
         if (focusProcess)
         {
@@ -1927,27 +1927,27 @@ void Manager::processNewProperty(INDI::Property * prop)
         }
     }
 
-    if (!strcmp(prop->getName(), "ABS_DOME_POSITION") || !strcmp(prop->getName(), "DOME_ABORT_MOTION") ||
-            !strcmp(prop->getName(), "DOME_PARK"))
+    if (prop->isNameMatch("ABS_DOME_POSITION") || prop->isNameMatch("DOME_ABORT_MOTION") ||
+            prop->isNameMatch("DOME_PARK"))
     {
         ekosLiveClient.get()->message()->sendDomes();
     }
 
-    if (!strcmp(prop->getName(), "CAP_PARK") || !strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
+    if (prop->isNameMatch("CAP_PARK") || prop->isNameMatch("FLAT_LIGHT_CONTROL"))
     {
         ekosLiveClient.get()->message()->sendCaps();
     }
 
-    if (!strcmp(prop->getName(), "FILTER_NAME"))
+    if (prop->isNameMatch("FILTER_NAME"))
         ekosLiveClient.get()->message()->sendFilterWheels();
 
-    if (!strcmp(prop->getName(), "FILTER_NAME"))
+    if (prop->isNameMatch("FILTER_NAME"))
         filterManager.data()->initFilterProperties();
 
-    if (!strcmp(prop->getName(), "CONFIRM_FILTER_SET"))
+    if (prop->isNameMatch("CONFIRM_FILTER_SET"))
         filterManager.data()->initFilterProperties();
 
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
+    if (prop->isNameMatch("CCD_INFO") || prop->isNameMatch("GUIDER_INFO"))
     {
         if (focusProcess.get() != nullptr)
             focusProcess->syncCCDInfo();
@@ -1961,7 +1961,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
+    if (prop->isNameMatch("TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (guideProcess.get() != nullptr)
         {
@@ -1984,7 +1984,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
+    if (prop->isNameMatch("GUIDER_EXPOSURE"))
     {
         for (auto &device : findDevices(KSTARS_CCD))
         {
@@ -2008,7 +2008,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
+    if (prop->isNameMatch("CCD_FRAME_TYPE"))
     {
         if (captureProcess.get() != nullptr)
         {
@@ -2025,7 +2025,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "CCD_ISO"))
+    if (prop->isNameMatch("CCD_ISO"))
     {
         if (captureProcess.get() != nullptr)
             captureProcess->checkCCD();
@@ -2033,7 +2033,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
+    if (prop->isNameMatch("TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (captureProcess.get() != nullptr)
             captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
@@ -2045,7 +2045,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     }
 
     /*
-    if (!strcmp(prop->getName(), "FILTER_NAME"))
+    if (prop->isNameMatch("FILTER_NAME"))
     {
         if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
@@ -2061,7 +2061,7 @@ void Manager::processNewProperty(INDI::Property * prop)
     }
     */
 
-    if (!strcmp(prop->getName(), "ASTROMETRY_SOLVER"))
+    if (prop->isNameMatch("ASTROMETRY_SOLVER"))
     {
         for (auto &device : genericDevices)
         {
@@ -2074,7 +2074,7 @@ void Manager::processNewProperty(INDI::Property * prop)
         }
     }
 
-    if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
+    if (prop->isNameMatch("ABS_ROTATOR_ANGLE"))
     {
         managedDevices[KSTARS_ROTATOR] = deviceInterface;
         if (captureProcess.get() != nullptr)
@@ -2083,7 +2083,7 @@ void Manager::processNewProperty(INDI::Property * prop)
             alignProcess->setRotator(deviceInterface);
     }
 
-    if (!strcmp(prop->getName(), "GPS_REFRESH"))
+    if (prop->isNameMatch("GPS_REFRESH"))
     {
         managedDevices.insertMulti(KSTARS_AUXILIARY, deviceInterface);
         if (mountProcess.get() != nullptr)
@@ -3337,27 +3337,26 @@ void Manager::updateDebugInterfaces()
 
     for (ISD::GDInterface * device : genericDevices)
     {
-        INDI::Property * debugProp = device->getProperty("DEBUG");
-        ISwitchVectorProperty * debugSP = nullptr;
-        if (debugProp)
-            debugSP = debugProp->getSwitch();
-        else
+        auto debugProp = device->getProperty("DEBUG");
+        if (!debugProp)
             continue;
+
+        auto debugSP = debugProp->getSwitch();
 
         // Check if the debug interface matches the driver device class
         if ( ( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
                 debugSP->sp[0].s != ISS_ON)
         {
-            debugSP->sp[0].s = ISS_ON;
-            debugSP->sp[1].s = ISS_OFF;
+            debugSP->at(0)->setState(ISS_ON);
+            debugSP->at(1)->setState(ISS_OFF);
             device->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
             appendLogText(i18n("Enabling debug logging for %1...", device->getDeviceName()));
         }
         else if ( !( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
                   debugSP->sp[0].s != ISS_OFF)
         {
-            debugSP->sp[0].s = ISS_OFF;
-            debugSP->sp[1].s = ISS_ON;
+            debugSP->at(0)->setState(ISS_OFF);
+            debugSP->at(1)->setState(ISS_ON);
             device->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
             appendLogText(i18n("Disabling debug logging for %1...", device->getDeviceName()));
         }
@@ -3715,75 +3714,75 @@ void Manager::syncActiveDevices()
     {
         // Find out what ACTIVE_DEVICES properties this driver needs
         // and update it from the existing drivers.
-        ITextVectorProperty *tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
-        if (tvp)
+        auto tvp = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+        if (!tvp)
+            continue;
+
+        //bool propertyUpdated = false;
+
+        for (auto &it : *tvp)
         {
-            //bool propertyUpdated = false;
-
-            for (int i = 0; i < tvp->ntp; i++)
+            QList<ISD::GDInterface *> devs;
+            if (it.isNameMatch("ACTIVE_TELESCOPE"))
             {
-                QList<ISD::GDInterface *> devs;
-                if (!strcmp(tvp->tp[i].name, "ACTIVE_TELESCOPE"))
+                devs = findDevicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
+            }
+            else if (it.isNameMatch("ACTIVE_DOME"))
+            {
+                devs = findDevicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
+            }
+            else if (it.isNameMatch("ACTIVE_GPS"))
+            {
+                devs = findDevicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
+            }
+            else if (it.isNameMatch("ACTIVE_FILTER"))
+            {
+                devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+                // Active filter wheel should be set to whatever the user selects in capture module
+                const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
+                // Does defaultFilterWheel exist in devices?
+                if (defaultFilterWheel == "--")
                 {
-                    devs = findDevicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
-                }
-                else if (!strcmp(tvp->tp[i].name, "ACTIVE_DOME"))
-                {
-                    devs = findDevicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
-                }
-                else if (!strcmp(tvp->tp[i].name, "ACTIVE_GPS"))
-                {
-                    devs = findDevicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
-                }
-                else if (!strcmp(tvp->tp[i].name, "ACTIVE_FILTER"))
-                {
-                    devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
-                    // Active filter wheel should be set to whatever the user selects in capture module
-                    const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
-                    // Does defaultFilterWheel exist in devices?
-                    if (defaultFilterWheel == "--")
+                    // If already empty, do not update it.
+                    if (!QString(it.getText()).isEmpty())
                     {
-                        // If already empty, do not update it.
-                        if (!QString(tvp->tp[i].text).isEmpty())
-                        {
-                            IUSaveText(&tvp->tp[i], "");
-                            oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
-                        }
-                        continue;
-                    }
-                    else
-                    {
-                        for (auto &oneDev : devs)
-                        {
-                            if (oneDev->getDeviceName() == defaultFilterWheel)
-                            {
-                                // TODO this should be profile specific
-                                if (QString(tvp->tp[i].text) != defaultFilterWheel)
-                                {
-                                    IUSaveText(&tvp->tp[i], defaultFilterWheel.toLatin1().constData());
-                                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
-                                    break;
-                                }
-                            }
-                        }
-                        continue;
-                    }
-                    // If it does not exist, then continue and pick from available devs below.
-
-                }
-                // 2021.04.21 JM: There could be more than active weather device
-                //                else if (!strcmp(tvp->tp[i].name, "ACTIVE_WEATHER"))
-                //                {
-                //                    devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
-                //                }
-
-                if (!devs.empty())
-                {
-                    if (tvp->tp[i].text != devs.first()->getDeviceName())
-                    {
-                        IUSaveText(&tvp->tp[i], devs.first()->getDeviceName().toLatin1().constData());
+                        it.setText("");
                         oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                     }
+                    continue;
+                }
+                else
+                {
+                    for (auto &oneDev : devs)
+                    {
+                        if (oneDev->getDeviceName() == defaultFilterWheel)
+                        {
+                            // TODO this should be profile specific
+                            if (QString(it.getText()) != defaultFilterWheel)
+                            {
+                                it.setText(defaultFilterWheel.toLatin1().constData());
+                                oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                                break;
+                            }
+                        }
+                    }
+                    continue;
+                }
+                // If it does not exist, then continue and pick from available devs below.
+
+            }
+            // 2021.04.21 JM: There could be more than active weather device
+            //                else if (it.isNameMatch("ACTIVE_WEATHER"))
+            //                {
+            //                    devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
+            //                }
+
+            if (!devs.empty())
+            {
+                if (it.getText() != devs.first()->getDeviceName())
+                {
+                    it.setText(devs.first()->getDeviceName().toLatin1().constData());
+                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp);
                 }
             }
         }

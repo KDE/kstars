@@ -34,6 +34,8 @@
 
 #include <ekos_focus_debug.h>
 
+#include <cmath>
+
 #define FOCUS_TIMEOUT_THRESHOLD  120000
 #define MAXIMUM_ABS_ITERATIONS   30
 #define MAXIMUM_RESET_ITERATIONS 3
@@ -716,26 +718,27 @@ void Focus::getAbsFocusPosition()
     if (!canAbsMove)
         return;
 
-    INumberVectorProperty *absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+    auto absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
 
     if (absMove)
     {
-        currentPosition = static_cast<int>(absMove->np[0].value);
-        absMotionMax    = absMove->np[0].max;
-        absMotionMin    = absMove->np[0].min;
+        const auto &it = absMove->at(0);
+        currentPosition = static_cast<int>(it->getValue());
+        absMotionMax    = it->getMax();
+        absMotionMin    = it->getMin();
 
-        absTicksSpin->setMinimum(absMove->np[0].min);
-        absTicksSpin->setMaximum(absMove->np[0].max);
-        absTicksSpin->setSingleStep(absMove->np[0].step);
+        absTicksSpin->setMinimum(it->getMin());
+        absTicksSpin->setMaximum(it->getMax());
+        absTicksSpin->setSingleStep(it->getStep());
 
         // Restrict the travel if needed
-        double const travel = fabs(absMove->np[0].max - absMove->np[0].min);
+        double const travel = std::abs(it->getMax() - it->getMin());
         if (travel < maxTravelIN->maximum())
             maxTravelIN->setMaximum(travel);
 
         absTicksLabel->setText(QString::number(currentPosition));
 
-        stepIN->setMaximum(absMove->np[0].max / 2);
+        stepIN->setMaximum(it->getMax() / 2);
         //absTicksSpin->setValue(currentPosition);
     }
 }
@@ -766,11 +769,11 @@ void Focus::setLastFocusTemperature()
 #if 0
 void Focus::initializeFocuserTemperature()
 {
-    INumberVectorProperty *temperatureProperty = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
+    auto temperatureProperty = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
 
-    if (temperatureProperty && temperatureProperty->s != IPS_ALERT)
+    if (temperatureProperty && temperatureProperty->getState() != IPS_ALERT)
     {
-        focuserTemperature = temperatureProperty->np[0].value;
+        focuserTemperature = temperatureProperty->at(0)->getValue();
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(focuserTemperature, 0, 'f', 2);
     }
     else

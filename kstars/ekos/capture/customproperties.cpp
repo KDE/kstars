@@ -117,11 +117,12 @@ void CustomProperties::slotApply()
             {
                 QMap<QString, double> numberProperty;
 
-                INumberVectorProperty *np = indiProp->getNumber();
-                for (int i = 0; i < np->nnp; i++)
-                    numberProperty[np->np[i].name] = np->np[i].value;
+                auto np = indiProp->getNumber();
 
-                newMap[np->name] = numberProperty;
+                for (const auto &it: *np)
+                    numberProperty[it.getName()] = it.getValue();
+
+                newMap[np->getName()] = numberProperty;
 
                 break;
             }

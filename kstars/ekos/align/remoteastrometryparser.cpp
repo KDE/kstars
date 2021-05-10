@@ -55,10 +55,10 @@ bool RemoteAstrometryParser::startSovler(const QString &filename, const QStringL
         return false;
     }
 
-    ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
-    IBLOBVectorProperty *solverBLOB     = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
+    auto solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto solverBLOB   = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
 
-    if (solverSwitch == nullptr || solverBLOB == nullptr)
+    if (!solverSwitch || !solverBLOB)
     {
         align->appendLogText(i18n("Failed to find solver properties."));
         fp.close();
@@ -68,14 +68,15 @@ bool RemoteAstrometryParser::startSovler(const QString &filename, const QStringL
 
     sendArgs(args);
 
-    ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
-    if (enableSW->s == ISS_OFF)
+    auto enableSW = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
+    if (enableSW->getState() == ISS_OFF)
     {
         IUResetSwitch(solverSwitch);
-        enableSW->s = ISS_ON;
+        enableSW->setState(ISS_ON);
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
     }
 
+    // #PS: TODO
     IBLOB *bp = &(solverBLOB->bp[0]);
 
     bp->bloblen = bp->size = fp.size();
@@ -111,9 +112,9 @@ bool RemoteAstrometryParser::startSovler(const QString &filename, const QStringL
 
 bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 {
-    ITextVectorProperty *solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
+    auto solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
 
-    if (solverSettings == nullptr)
+    if (!solverSettings)
     {
         align->appendLogText(i18n("Failed to find solver settings."));
         emit solverFailed();
@@ -127,14 +128,15 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
             (args.contains("-3") || args.contains("-L")))
         solverArgs << "--parity" << parity;
 
-    for (int i = 0; i < solverSettings->ntp; i++)
+    //for (int i = 0; i < solverSettings->ntp; i++)
+    for (auto &it: *solverSettings)
     {
         // 2016-10-20: Disable setting this automatically since remote device might have different
         // settings
         /*if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_BINARY"))
             IUSaveText(&solverSettings->tp[i], Options::astrometrySolver().toLatin1().constData());*/
-        if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_OPTIONS"))
-            IUSaveText(&solverSettings->tp[i], solverArgs.join(" ").toLatin1().constData());
+        if (it.isNameMatch("ASTROMETRY_SETTINGS_OPTIONS"))
+            it.setText(solverArgs.join(" ").toLatin1().constData());
     }
 
     remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
@@ -147,29 +149,29 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 
 void RemoteAstrometryParser::setEnabled(bool enable)
 {
-    ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
 
-    if (solverSwitch == nullptr)
+    if (!solverSwitch)
         return;
 
-    ISwitch *enableSW  = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
-    ISwitch *disableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_DISABLE");
+    auto enableSW  = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
+    auto disableSW = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
 
-    if (enableSW == nullptr || disableSW == nullptr)
+    if (!enableSW || !disableSW)
         return;
 
-    if (enable && enableSW->s == ISS_OFF)
+    if (enable && enableSW->getState() == ISS_OFF)
     {
-        IUResetSwitch(solverSwitch);
-        enableSW->s = ISS_ON;
+        solverSwitch->reset();
+        enableSW->setState(ISS_ON);
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
         solverRunning = true;
         qCDebug(KSTARS_EKOS_ALIGN) << "Enabling remote solver...";
     }
     else if (enable == false && disableSW->s == ISS_OFF)
     {
-        IUResetSwitch(solverSwitch);
-        disableSW->s = ISS_ON;
+        solverSwitch->reset();
+        disableSW->setState(ISS_ON);
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
         solverRunning = false;
         qCDebug(KSTARS_EKOS_ALIGN) << "Disabling remote solver...";
@@ -180,24 +182,24 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
 {
     targetCCD = ccd;
 
-    if (remoteAstrometry == nullptr)
+    if (!remoteAstrometry)
         return false;
 
-    ITextVectorProperty *activeDevices = remoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
+    auto activeDevices = remoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
 
-    if (activeDevices == nullptr)
+    if (!activeDevices)
         return false;
 
-    IText *activeCCD  = IUFindText(activeDevices, "ACTIVE_CCD");
+    auto activeCCD  = activeDevices->findWidgetByName("ACTIVE_CCD");
 
-    if (activeCCD == nullptr)
+    if (!activeCCD)
         return false;
 
     // If same device, no need to update
-    if (QString(activeCCD->text) == ccd)
+    if (QString(activeCCD->getText()) == ccd)
         return true;
 
-    IUSaveText(activeCCD, ccd.toLatin1().data());
+    activeCCD->setText(ccd.toLatin1().data());
     remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
 
     return true;
@@ -209,15 +211,15 @@ bool RemoteAstrometryParser::stopSolver()
         return true;
 
     // Disable solver
-    ISwitchVectorProperty *svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     if (!svp)
         return false;
 
-    ISwitch *disableSW = IUFindSwitch(svp, "ASTROMETRY_SOLVER_DISABLE");
-    if (disableSW->s == ISS_OFF)
+    auto disableSW = svp->findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
+    if (disableSW->getState() == ISS_OFF)
     {
-        IUResetSwitch(svp);
-        disableSW->s = ISS_ON;
+        svp->reset();
+        disableSW->setState(ISS_ON);
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
     }
 

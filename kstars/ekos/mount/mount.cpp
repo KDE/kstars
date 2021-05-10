@@ -325,46 +325,46 @@ void Mount::removeDevice(ISD::GDInterface *device)
 
 void Mount::syncTelescopeInfo()
 {
-    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
+    if (!currentTelescope || currentTelescope->isConnected() == false)
         return;
 
-    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
 
-        if (np && np->value > 0)
-            primaryScopeApertureIN->setValue(np->value);
+        if (np && np->getValue() > 0)
+            primaryScopeApertureIN->setValue(np->getValue());
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            primaryScopeFocalIN->setValue(np->value);
+        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            primaryScopeFocalIN->setValue(np->getValue());
 
-        np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        if (np && np->value > 0)
-            guideScopeApertureIN->setValue(np->value);
+        np = nvp->findWidgetByName("GUIDER_APERTURE");
+        if (np && np->getValue() > 0)
+            guideScopeApertureIN->setValue(np->getValue());
 
-        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            guideScopeFocalIN->setValue(np->value);
+        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            guideScopeFocalIN->setValue(np->getValue());
     }
 
-    ISwitchVectorProperty *svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
+    auto svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
 
     if (svp)
     {
-        int index = IUFindOnSwitchIndex(svp);
+        int index = svp->findOnSwitchIndex();
 
         // QtQuick
         m_SpeedSlider->setEnabled(true);
-        m_SpeedSlider->setProperty("maximumValue", svp->nsp - 1);
+        m_SpeedSlider->setProperty("maximumValue", svp->count() - 1);
         m_SpeedSlider->setProperty("value", index);
 
-        m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->sp[index].label));
+        m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->at(index)->getLabel()));
         m_SpeedLabel->setEnabled(true);
     }
     else
@@ -403,8 +403,8 @@ void Mount::syncTelescopeInfo()
     {
         scopeConfigCombo->disconnect();
         scopeConfigCombo->clear();
-        for (int i = 0; i < svp->nsp; i++)
-            scopeConfigCombo->addItem(svp->sp[i].label);
+        for (const auto &it: *svp)
+            scopeConfigCombo->addItem(it.getLabel());
 
         scopeConfigCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
         connect(scopeConfigCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Mount::setScopeConfig);
@@ -437,9 +437,9 @@ void Mount::syncTelescopeInfo()
         trackingGroup->setEnabled(false);
     }
 
-    ITextVectorProperty *tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
+    auto tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
     if (tvp)
-        scopeConfigNameEdit->setText(tvp->tp[0].text);
+        scopeConfigNameEdit->setText(tvp->at(0)->getText());
 }
 
 void Mount::registerNewModule(const QString &name)
@@ -463,12 +463,12 @@ void Mount::updateText(ITextVectorProperty *tvp)
 
 bool Mount::setScopeConfig(int index)
 {
-    ISwitchVectorProperty *svp = currentTelescope->getBaseDevice()->getSwitch("APPLY_SCOPE_CONFIG");
-    if (svp == nullptr)
+    auto svp = currentTelescope->getBaseDevice()->getSwitch("APPLY_SCOPE_CONFIG");
+    if (!svp)
         return false;
 
-    IUResetSwitch(svp);
-    svp->sp[index].s = ISS_ON;
+    svp->reset();
+    svp->at(index)->setState(ISS_ON);
 
     // Clear scope config name so that it gets filled by INDI
     scopeConfigNameEdit->clear();
@@ -888,15 +888,15 @@ void Mount::save()
 
     if (scopeConfigNameEdit->text().isEmpty() == false)
     {
-        ITextVectorProperty *tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
+        auto tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
         if (tvp)
         {
-            IUSaveText(&(tvp->tp[0]), scopeConfigNameEdit->text().toLatin1().constData());
+            tvp->at(0)->setText(scopeConfigNameEdit->text().toLatin1().constData());
             currentTelescope->getDriverInfo()->getClientManager()->sendNewText(tvp);
         }
     }
 
-    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
@@ -904,29 +904,29 @@ void Mount::save()
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-        if (np && std::fabs(np->value - primaryScopeApertureIN->value()) > 0)
+        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
+        if (np && std::fabs(np->getValue() - primaryScopeApertureIN->value()) > 0)
         {
             dirty = true;
-            np->value = primaryScopeApertureIN->value();
+            np->setValue(primaryScopeApertureIN->value());
         }
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np && std::fabs(np->value - primaryScopeFocalIN->value()) > 0)
-            np->value = primaryScopeFocalIN->value();
+        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
+        if (np && std::fabs(np->getValue() - primaryScopeFocalIN->value()) > 0)
+            np->setValue(primaryScopeFocalIN->value());
 
-        np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        if (np && std::fabs(np->value - guideScopeApertureIN->value()) > 0)
+        np = nvp->findWidgetByName("GUIDER_APERTURE");
+        if (np && std::fabs(np->getValue() - guideScopeApertureIN->value()) > 0)
         {
             dirty = true;
-            np->value = guideScopeApertureIN->value() <= 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
+            np->setValue(guideScopeApertureIN->value() <= 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value());
         }
 
-        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && std::fabs(np->value - guideScopeFocalIN->value()) > 0)
+        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
+        if (np && std::fabs(np->getValue() - guideScopeFocalIN->value()) > 0)
         {
             dirty = true;
-            np->value = guideScopeFocalIN->value() <= 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
+            np->setValue(guideScopeFocalIN->value() <= 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value());
         }
 
         ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
@@ -1654,30 +1654,30 @@ Mount::ParkingStatus Mount::getParkingStatus()
     if (currentTelescope->canPark() == false)
         return UNPARKING_OK;
 
-    ISwitchVectorProperty *parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
+    auto parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
 
-    if (parkSP == nullptr)
+    if (!parkSP)
         return PARKING_ERROR;
 
-    switch (parkSP->s)
+    switch (parkSP->getState())
     {
         case IPS_IDLE:
             // If mount is unparked on startup, state is OK and switch is UNPARK
-            if (parkSP->sp[1].s == ISS_ON)
+            if (parkSP->at(1)->getState() == ISS_ON)
                 return UNPARKING_OK;
             else
                 return PARKING_IDLE;
         //break;
 
         case IPS_OK:
-            if (parkSP->sp[0].s == ISS_ON)
+            if (parkSP->at(0)->getState() == ISS_ON)
                 return PARKING_OK;
             else
                 return UNPARKING_OK;
         //break;
 
         case IPS_BUSY:
-            if (parkSP->sp[0].s == ISS_ON)
+            if (parkSP->at(0)->getState() == ISS_ON)
                 return PARKING_BUSY;
             else
                 return UNPARKING_BUSY;
@@ -1685,7 +1685,7 @@ Mount::ParkingStatus Mount::getParkingStatus()
         case IPS_ALERT:
             // If mount replied with an error to the last un/park request,
             // assume state did not change in order to return a clear state
-            if (parkSP->sp[0].s == ISS_ON)
+            if (parkSP->at(0)->getState() == ISS_ON)
                 return PARKING_OK;
             else
                 return UNPARKING_OK;
@@ -1935,22 +1935,22 @@ void Mount::setGPS(ISD::GDInterface *newGPS)
 void Mount::syncGPS()
 {
     // We only update when location is OK
-    INumberVectorProperty *location = currentGPS->getBaseDevice()->getNumber("GEOGRAPHIC_COORD");
-    if (location == nullptr || location->s != IPS_OK)
+    auto location = currentGPS->getBaseDevice()->getNumber("GEOGRAPHIC_COORD");
+    if (!location || location->getState() != IPS_OK)
         return;
 
     // Sync name
     if (currentTelescope)
     {
-        ITextVectorProperty *activeDevices = currentTelescope->getBaseDevice()->getText("ACTIVE_DEVICES");
+        auto activeDevices = currentTelescope->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (activeDevices)
         {
-            IText *activeGPS = IUFindText(activeDevices, "ACTIVE_GPS");
+            auto activeGPS = activeDevices->findWidgetByName("ACTIVE_GPS");
             if (activeGPS)
             {
-                if (activeGPS->text != currentGPS->getDeviceName())
+                if (activeGPS->getText() != currentGPS->getDeviceName())
                 {
-                    IUSaveText(activeGPS, currentGPS->getDeviceName().toLatin1().constData());
+                    activeGPS->setText(currentGPS->getDeviceName().toLatin1().constData());
                     currentTelescope->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }
@@ -1960,10 +1960,10 @@ void Mount::syncGPS()
     // GPS Refresh should only be called once automatically.
     if (GPSInitialized == false)
     {
-        ISwitchVectorProperty *refreshGPS = currentGPS->getBaseDevice()->getSwitch("GPS_REFRESH");
+        auto refreshGPS = currentGPS->getBaseDevice()->getSwitch("GPS_REFRESH");
         if (refreshGPS)
         {
-            refreshGPS->sp[0].s = ISS_ON;
+            refreshGPS->at(0)->setState(ISS_ON);
             currentGPS->getDriverInfo()->getClientManager()->sendNewSwitch(refreshGPS);
             GPSInitialized = true;
         }

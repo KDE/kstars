@@ -317,13 +317,13 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
         {
             QMap<QString, double> numbers = i.value();
             QMapIterator<QString, double> j(numbers);
-            INumberVectorProperty *np = customProp->getNumber();
+            auto np = customProp->getNumber();
             while (j.hasNext())
             {
                 j.next();
-                INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
+                auto oneNumber = np->findWidgetByName(j.key().toLatin1().data());
                 if (oneNumber)
-                    oneNumber->value = j.value();
+                    oneNumber->setValue(j.value());
             }
 
             activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);

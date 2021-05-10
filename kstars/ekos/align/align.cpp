@@ -2132,18 +2132,18 @@ bool Align::syncTelescopeInfo()
 
     syncR->setEnabled(canSync);
 
-    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
 
-        if (np && np->value > 0)
-            primaryAperture = np->value;
+        if (np && np->getValue() > 0)
+            primaryAperture = np->getValue();
 
-        np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        if (np && np->value > 0)
-            guideAperture = np->value;
+        np = nvp->findWidgetByName("GUIDER_APERTURE");
+        if (np && np->getValue() > 0)
+            guideAperture = np->getValue();
 
         aperture = primaryAperture;
 
@@ -2151,13 +2151,13 @@ bool Align::syncTelescopeInfo()
         if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
             aperture = guideAperture;
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            primaryFL = np->value;
+        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            primaryFL = np->getValue();
 
-        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            guideFL = np->value;
+        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            guideFL = np->getValue();
 
         focal_length = primaryFL;
 
@@ -2224,34 +2224,29 @@ void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
 
 void Align::syncCCDInfo()
 {
-    INumberVectorProperty *nvp = nullptr;
-
-    if (currentCCD == nullptr)
+    if (!currentCCD)
         return;
 
-    if (useGuideHead)
-        nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
-    else
-        nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
+    auto nvp = currentCCD->getBaseDevice()->getNumber(useGuideHead ? "GUIDER_INFO" : "CCD_INFO");
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
-        if (np && np->value > 0)
-            ccd_hor_pixel = ccd_ver_pixel = np->value;
+        auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
+        if (np && np->getValue() > 0)
+            ccd_hor_pixel = ccd_ver_pixel = np->getValue();
 
-        np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
-        if (np && np->value > 0)
-            ccd_ver_pixel = np->value;
+        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
+        if (np && np->getValue() > 0)
+            ccd_ver_pixel = np->getValue();
 
-        np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
-        if (np && np->value > 0)
-            ccd_ver_pixel = np->value;
+        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
+        if (np && np->getValue() > 0)
+            ccd_ver_pixel = np->getValue();
     }
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    auto svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
     if (svp)
         setWCSEnabled(Options::astrometrySolverWCS());
 
@@ -2859,13 +2854,13 @@ bool Align::captureAndSolve()
         else
         {
             // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
-            ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+            auto activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
             if (activeDevices)
             {
-                IText *activeCCD = IUFindText(activeDevices, "ACTIVE_CCD");
+                auto activeCCD = activeDevices->findWidgetByName("ACTIVE_CCD");
                 if (QString(activeCCD->text) != CCDCaptureCombo->currentText())
                 {
-                    IUSaveText(activeCCD, CCDCaptureCombo->currentText().toLatin1().data());
+                    activeCCD->setText(CCDCaptureCombo->currentText().toLatin1().data());
 
                     remoteParserDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
@@ -3598,14 +3593,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     if (Options::astrometrySolverWCS())
     {
-        INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
+        auto ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
         if (ccdRotation)
         {
-            INumber *rotation = IUFindNumber(ccdRotation, "CCD_ROTATION_VALUE");
+            auto rotation = ccdRotation->findWidgetByName("CCD_ROTATION_VALUE");
             if (rotation)
             {
                 ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
-                rotation->value              = orientation;
+                rotation->setValue(orientation);
                 clientManager->sendNewNumber(ccdRotation);
 
                 if (m_wcsSynced == false)
@@ -3614,8 +3609,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
 
                     // Just send telescope info in case the CCD driver did not pick up before.
-                    INumberVectorProperty *telescopeInfo =
-                        currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+                    auto telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
                     if (telescopeInfo)
                         clientManager->sendNewNumber(telescopeInfo);
 
@@ -3666,11 +3660,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         if (currentRotator != nullptr)
         {
             // Update Rotator offsets
-            INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+            auto absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
             if (absAngle)
             {
                 // PA = RawAngle * Multiplier + Offset
-                double rawAngle = absAngle->np[0].value;
+                double rawAngle = absAngle->at(0)->getValue();
                 double offset   = range360(solverPA - (rawAngle * Options::pAMultiplier()));
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
@@ -3686,7 +3680,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 //                    rawAngle += 360;
                 //                else if (rawAngle > 360)
                 //                    rawAngle -= 360;
-                absAngle->np[0].value = rawAngle;
+                absAngle->at(0)->setValue(rawAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
                 appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
@@ -4402,12 +4396,7 @@ void Align::handleMountMotion()
 
 void Align::handleMountStatus()
 {
-    INumberVectorProperty *nvp = nullptr;
-
-    if (currentTelescope->isJ2000())
-        nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
-    else
-        nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber(currentTelescope->isJ2000() ? "EQUATORIAL_COORD" : "EQUATORIAL_EOD_COORD");
 
     if (nvp)
         processNumber(nvp);
@@ -5185,31 +5174,31 @@ void Align::checkFilter(int filterNum)
 
 void Align::setWCSEnabled(bool enable)
 {
-    if (currentCCD == nullptr)
+    if (!currentCCD)
         return;
 
-    ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    auto wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
 
-    ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
-    ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
+    auto wcs_enable  = wcsControl->findWidgetByName("WCS_ENABLE");
+    auto wcs_disable = wcsControl->findWidgetByName("WCS_DISABLE");
 
     if (!wcs_enable || !wcs_disable)
         return;
 
-    if ((wcs_enable->s == ISS_ON && enable) || (wcs_disable->s == ISS_ON && !enable))
+    if ((wcs_enable->getState() == ISS_ON && enable) || (wcs_disable->getState() == ISS_ON && !enable))
         return;
 
-    IUResetSwitch(wcsControl);
+    wcsControl->reset();
     if (enable)
     {
         appendLogText(i18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the "
                            "CCD driver or by solving an image before proceeding to capture any further images, "
                            "otherwise the WCS information may be invalid."));
-        wcs_enable->s = ISS_ON;
+        wcs_enable->setState(ISS_ON);
     }
     else
     {
-        wcs_disable->s = ISS_ON;
+        wcs_disable->setState(ISS_ON);
         m_wcsSynced    = false;
         appendLogText(i18n("World Coordinate System (WCS) is disabled."));
     }

@@ -292,24 +292,24 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
         if (bd->isConnected() == false)
             continue;
 
-        INumberVectorProperty *coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
+        auto coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
 
         if (coordNP == nullptr)
         {
             coordNP = bd->getNumber("EQUATORIAL_COORD");
             if (coordNP)
             {
-                INumber *np = IUFindNumber(coordNP, "RA");
+                auto np = coordNP->findWidgetByName("RA");
                 if (np == nullptr)
                     continue;
-                indi_sp.setRA(np->value);
-                indi_sp.setRA0(np->value);
+                indi_sp.setRA(np->getValue());
+                indi_sp.setRA0(np->getValue());
 
-                np = IUFindNumber(coordNP, "DEC");
+                np = coordNP->findWidgetByName("DEC");
                 if (np == nullptr)
                     continue;
-                indi_sp.setDec(np->value);
-                indi_sp.setDec0(np->value);
+                indi_sp.setDec(np->getValue());
+                indi_sp.setDec0(np->getValue());
 
                 indi_sp.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
             }
@@ -320,30 +320,30 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
                     continue;
                 else
                 {
-                    INumber *np = IUFindNumber(coordNP, "AZ");
+                    auto np = coordNP->findWidgetByName("AZ");
                     if (np == nullptr)
                         continue;
-                    indi_sp.setAz(np->value);
+                    indi_sp.setAz(np->getValue());
 
-                    np = IUFindNumber(coordNP, "ALT");
+                    np = coordNP->findWidgetByName("ALT");
                     if (np == nullptr)
                         continue;
-                    indi_sp.setAlt(np->value);
+                    indi_sp.setAlt(np->getValue());
                     indi_sp.HorizontalToEquatorial(m_KStarsData->lst(), m_KStarsData->geo()->lat());
                 }
             }
         }
         else
         {
-            INumber *np = IUFindNumber(coordNP, "RA");
+            auto np = coordNP->findWidgetByName("RA");
             if (np == nullptr)
                 continue;
-            indi_sp.setRA(np->value);
+            indi_sp.setRA(np->getValue());
 
-            np = IUFindNumber(coordNP, "DEC");
+            np = coordNP->findWidgetByName("DEC");
             if (np == nullptr)
                 continue;
-            indi_sp.setDec(np->value);
+            indi_sp.setDec(np->getValue());
         }
 
         if (Options::useAltAz())

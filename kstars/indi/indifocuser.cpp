@@ -19,10 +19,10 @@ void Focuser::registerProperty(INDI::Property *prop)
     if (!prop->getRegistered())
         return;
 
-    if (!strcmp(prop->getName(), "FOCUS_MAX"))
+    if (prop->isNameMatch("FOCUS_MAX"))
     {
-        INumberVectorProperty *nvp = prop->getNumber();
-        m_maxPosition = nvp->np[0].value;
+        auto nvp = prop->getNumber();
+        m_maxPosition = nvp->at(0)->getValue();
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -55,21 +55,21 @@ void Focuser::processText(ITextVectorProperty *tvp)
 
 bool Focuser::focusIn()
 {
-    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    auto focusProp = baseDevice->getSwitch("FOCUS_MOTION");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
+    auto inFocus = focusProp->findWidgetByName("FOCUS_INWARD");
 
-    if (inFocus == nullptr)
+    if (!inFocus)
         return false;
 
-    if (inFocus->s == ISS_ON)
+    if (inFocus->getState() == ISS_ON)
         return true;
 
-    IUResetSwitch(focusProp);
-    inFocus->s = ISS_ON;
+    focusProp->reset();
+    inFocus->setState(ISS_ON);
 
     clientManager->sendNewSwitch(focusProp);
 
@@ -78,12 +78,12 @@ bool Focuser::focusIn()
 
 bool Focuser::stop()
 {
-    ISwitchVectorProperty *focusStop = baseDevice->getSwitch("FOCUS_ABORT_MOTION");
+    auto focusStop = baseDevice->getSwitch("FOCUS_ABORT_MOTION");
 
-    if (focusStop == nullptr)
+    if (!focusStop)
         return false;
 
-    focusStop->sp[0].s = ISS_ON;
+    focusStop->at(0)->setState(ISS_ON);
     clientManager->sendNewSwitch(focusStop);
 
     return true;
@@ -91,21 +91,21 @@ bool Focuser::stop()
 
 bool Focuser::focusOut()
 {
-    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    auto focusProp = baseDevice->getSwitch("FOCUS_MOTION");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    ISwitch *outFocus = IUFindSwitch(focusProp, "FOCUS_OUTWARD");
+    auto outFocus = focusProp->findWidgetByName("FOCUS_OUTWARD");
 
-    if (outFocus == nullptr)
+    if (!outFocus)
         return false;
 
-    if (outFocus->s == ISS_ON)
+    if (outFocus->getState() == ISS_ON)
         return true;
 
-    IUResetSwitch(focusProp);
-    outFocus->s = ISS_ON;
+    focusProp->reset();
+    outFocus->setState(ISS_ON);
 
     clientManager->sendNewSwitch(focusProp);
 
@@ -114,17 +114,17 @@ bool Focuser::focusOut()
 
 bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection *dir)
 {
-    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    auto focusProp = baseDevice->getSwitch("FOCUS_MOTION");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
+    auto inFocus = focusProp->findWidgetByName("FOCUS_INWARD");
 
-    if (inFocus == nullptr)
+    if (!inFocus)
         return false;
 
-    if (inFocus->s == ISS_ON)
+    if (inFocus->getState() == ISS_ON)
         *dir = FOCUS_INWARD;
     else
         *dir = FOCUS_OUTWARD;
@@ -134,12 +134,12 @@ bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection *dir)
 
 bool Focuser::moveByTimer(int msecs)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
+    auto focusProp = baseDevice->getNumber("FOCUS_TIMER");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    focusProp->np[0].value = msecs;
+    focusProp->at(0)->setValue(msecs);
 
     clientManager->sendNewNumber(focusProp);
 
@@ -148,12 +148,12 @@ bool Focuser::moveByTimer(int msecs)
 
 bool Focuser::moveAbs(int steps)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
+    auto focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    focusProp->np[0].value = steps;
+    focusProp->at(0)->setValue(steps);
 
     clientManager->sendNewNumber(focusProp);
 
@@ -162,9 +162,9 @@ bool Focuser::moveAbs(int steps)
 
 bool Focuser::canAbsMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
+    auto focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
     else
         return true;
@@ -172,7 +172,7 @@ bool Focuser::canAbsMove()
 
 bool Focuser::moveRel(int steps)
 {
-    INumberVectorProperty *focusProp;
+    INDI::PropertyView<INumber> *focusProp;
 
     if(canManualFocusDriveMove())
     {
@@ -201,10 +201,10 @@ bool Focuser::moveRel(int steps)
         focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
     }
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    focusProp->np[0].value = steps;
+    focusProp->at(0)->setValue(steps);
 
     clientManager->sendNewNumber(focusProp);
 
@@ -213,9 +213,9 @@ bool Focuser::moveRel(int steps)
 
 bool Focuser::canRelMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    auto focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
     else
         return true;
@@ -223,9 +223,9 @@ bool Focuser::canRelMove()
 
 bool Focuser::canManualFocusDriveMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("manualfocusdrive");
+    auto focusProp = baseDevice->getNumber("manualfocusdrive");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
     else
         return true;
@@ -233,20 +233,20 @@ bool Focuser::canManualFocusDriveMove()
 
 double Focuser::getLastManualFocusDriveValue()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("manualfocusdrive");
+    auto focusProp = baseDevice->getNumber("manualfocusdrive");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return 0;
 
-    return (double)focusProp->np[0].value;
+    return (double)focusProp->at(0)->getValue();
 }
 
 
 bool Focuser::canTimerMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
+    auto focusProp = baseDevice->getNumber("FOCUS_TIMER");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
     else
         return true;
@@ -254,12 +254,12 @@ bool Focuser::canTimerMove()
 
 bool Focuser::setmaxPosition(uint32_t steps)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_MAX");
+    auto focusProp = baseDevice->getNumber("FOCUS_MAX");
 
-    if (focusProp == nullptr)
+    if (!focusProp)
         return false;
 
-    focusProp->np[0].value = steps;
+    focusProp->at(0)->setValue(steps);
     clientManager->sendNewNumber(focusProp);
 
     return true;
@@ -267,38 +267,38 @@ bool Focuser::setmaxPosition(uint32_t steps)
 
 bool Focuser::hasBacklash()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
+    auto focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
     return (focusProp != nullptr);
 }
 
 bool Focuser::setBacklash(int32_t steps)
 {
-    ISwitchVectorProperty *focusToggle = baseDevice->getSwitch("FOCUS_BACKLASH_TOGGLE");
+    auto focusToggle = baseDevice->getSwitch("FOCUS_BACKLASH_TOGGLE");
     if (!focusToggle)
         return false;
 
     // Make sure focus compensation is enabled.
-    if (steps != 0 && focusToggle->sp[0].s != ISS_ON)
+    if (steps != 0 && focusToggle->at(0)->getState() != ISS_ON)
     {
-        IUResetSwitch(focusToggle);
-        focusToggle->sp[0].s = ISS_ON;
-        focusToggle->sp[1].s = ISS_OFF;
+        focusToggle->reset();
+        focusToggle->at(0)->setState(ISS_ON);
+        focusToggle->at(1)->setState(ISS_OFF);
         clientManager->sendNewSwitch(focusToggle);
     }
 
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
+    auto focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
     if (!focusProp)
         return false;
 
-    focusProp->np[0].value = steps;
+    focusProp->at(0)->setValue(steps);
     clientManager->sendNewNumber(focusProp);
 
     // If steps = 0, disable compensation
-    if (steps == 0 && focusToggle->sp[0].s == ISS_ON)
+    if (steps == 0 && focusToggle->at(0)->getState() == ISS_ON)
     {
-        IUResetSwitch(focusToggle);
-        focusToggle->sp[0].s = ISS_OFF;
-        focusToggle->sp[1].s = ISS_ON;
+        focusToggle->reset();
+        focusToggle->at(0)->setState(ISS_OFF);
+        focusToggle->at(1)->setState(ISS_ON);
         clientManager->sendNewSwitch(focusToggle);
     }
     return true;
@@ -306,11 +306,11 @@ bool Focuser::setBacklash(int32_t steps)
 
 int32_t Focuser::getBacklash()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
+    auto focusProp = baseDevice->getNumber("FOCUS_BACKLASH_STEPS");
     if (!focusProp)
         return -1;
 
-    return focusProp->np[0].value;
+    return focusProp->at(0)->getValue();
 }
 
 bool Focuser::hasDeviation()
