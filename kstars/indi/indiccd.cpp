@@ -27,6 +27,7 @@
 #endif
 
 #include <KNotifications/KNotification>
+#include "ksnotification.h"
 #include <QImageReader>
 #include <QStatusBar>
 #include <QtConcurrent>
@@ -1288,12 +1289,12 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         if (recordOFF && recordOFF->s == ISS_ON)
         {
             emit videoRecordToggled(false);
-            KNotification::event(QLatin1String("RecordingStopped"), i18n("Video Recording Stopped"));
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::EVENT_INFO);
         }
         else
         {
             emit videoRecordToggled(true);
-            KNotification::event(QLatin1String("RecordingStarted"), i18n("Video Recording Started"));
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::EVENT_INFO);
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_TYPE"))
