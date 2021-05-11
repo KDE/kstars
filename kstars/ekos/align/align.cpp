@@ -1848,9 +1848,9 @@ bool Align::isParserOK()
 
 void Align::checkAlignmentTimeout()
 {
-    if (loadSlewState != IPS_IDLE || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+    if (solveFromFile || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
         abort();
-    else if (loadSlewState == IPS_IDLE)
+    else if (!solveFromFile)
     {
         appendLogText(i18n("Solver timed out."));
         parser->stopSolver();
@@ -2910,7 +2910,7 @@ bool Align::captureAndSolve()
     //It also starts the progress indicator.
     double ra, dec;
     currentTelescope->getEqCoords(&ra, &dec);
-    if (loadSlewState == IPS_IDLE)
+    if (!solveFromFile)
     {
         int currentRow = solutionTable->rowCount();
         solutionTable->insertRow(currentRow);
@@ -3396,7 +3396,7 @@ void Align::startSolving()
             m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
         }
 
-        if (loadSlewState == IPS_BUSY)
+        if (solveFromFile)
         {
             FITSImage::Solution solution;
             data->parseSolution(solution);
@@ -3539,7 +3539,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     // When solving (without Load&Slew), update effective FOV and focal length accordingly.
-    if (loadSlewState == IPS_IDLE &&
+    if (!solveFromFile &&
             (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.05) &&
             pixscale > 0)
     {
@@ -3562,7 +3562,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
     // Do not update diff if we are performing load & slew.
-    if (loadSlewState == IPS_IDLE)
+    if (!solveFromFile)
     {
         pixScaleOut->setText(QString::number(pixscale, 'f', 2));
         calculateAlignTargetDiff();
@@ -3626,7 +3626,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)",
                        alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(),
                        telescopeCoord.dec().toDMSString()));
-    if (loadSlewState == IPS_IDLE && currentGotoMode == GOTO_SLEW)
+    if (!solveFromFile && currentGotoMode == GOTO_SLEW)
     {
         dms diffDeg(m_TargetDiffTotal / 3600.0);
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
@@ -3641,13 +3641,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
     std::unique_ptr<QTableWidgetItem> statusReport(new QTableWidgetItem());
     int currentRow = solutionTable->rowCount() - 1;
-    if (loadSlewState == IPS_IDLE)
+    if (!solveFromFile)
     {
         solutionTable->setCellWidget(currentRow, 3, new QWidget());
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
 
-    if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
+    if (solveFromFile && Options::astrometryUseRotator())
     {
         loadSlewTargetPA = solverPA;
         qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
@@ -3755,7 +3755,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         case GOTO_SYNC:
             executeGOTO();
 
-            if (loadSlewState == IPS_IDLE)
+            if (!solveFromFile)
             {
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
@@ -3764,13 +3764,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             return;
 
         case GOTO_SLEW:
-            if (loadSlewState == IPS_BUSY || m_TargetDiffTotal > static_cast<double>(accuracySpin->value()))
+            if (solveFromFile || m_TargetDiffTotal > static_cast<double>(accuracySpin->value()))
             {
-                if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+                if (!solveFromFile && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
                 {
                     appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
 
-                    if (loadSlewState == IPS_IDLE)
+                    if (!solveFromFile)
                     {
                         statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
                         solutionTable->setItem(currentRow, 3, statusReport.release());
@@ -3784,7 +3784,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
                 targetAccuracyNotMet = true;
 
-                if (loadSlewState == IPS_IDLE)
+                if (!solveFromFile)
                 {
                     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
                     solutionTable->setItem(currentRow, 3, statusReport.release());
@@ -3794,7 +3794,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 return;
             }
 
-            if (loadSlewState == IPS_IDLE)
+            if (!solveFromFile)
             {
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
@@ -3811,7 +3811,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             break;
 
         case GOTO_NOTHING:
-            if (loadSlewState == IPS_IDLE)
+            if (!solveFromFile)
             {
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
@@ -3864,7 +3864,7 @@ void Align::solverFailed()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    loadSlewState = IPS_IDLE;
+    solveFromFile = false;
     solverIterations = 0;
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
@@ -3906,7 +3906,7 @@ void Align::abort()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    loadSlewState = IPS_IDLE;
+    solveFromFile = false;
     solverIterations = 0;
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
@@ -4125,11 +4125,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                         //qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew completed.";
                         m_wasSlewStarted = false;
-                        if (loadSlewState == IPS_BUSY)
+                        if (solveFromFile)
                         {
-                            loadSlewState = IPS_IDLE;
-
-                            //qCDebug(KSTARS_EKOS_ALIGN) << "loadSlewState is IDLE.";
+                            solveFromFile = false;
 
                             state = ALIGN_PROGRESS;
                             emit newStatus(state);
@@ -4380,7 +4378,7 @@ void Align::handleMountMotion()
             appendLogText(i18n("Slew detected, aborting solving..."));
             abort();
             // reset the state to busy so that solving restarts after slewing finishes
-            loadSlewState = IPS_BUSY;
+            solveFromFile = true;
             // if mount model is running, retry the current alignment point
             if (mountModelRunning)
             {
@@ -4396,7 +4394,8 @@ void Align::handleMountMotion()
 
 void Align::handleMountStatus()
 {
-    auto nvp = currentTelescope->getBaseDevice()->getNumber(currentTelescope->isJ2000() ? "EQUATORIAL_COORD" : "EQUATORIAL_EOD_COORD");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber(currentTelescope->isJ2000() ? "EQUATORIAL_COORD" :
+               "EQUATORIAL_EOD_COORD");
 
     if (nvp)
         processNumber(nvp);
@@ -4405,7 +4404,7 @@ void Align::handleMountStatus()
 
 void Align::executeGOTO()
 {
-    if (loadSlewState == IPS_BUSY)
+    if (solveFromFile)
     {
         targetCoord = alignCoord;
         SlewToTarget();
@@ -4453,7 +4452,7 @@ void Align::Slew()
 
 void Align::SlewToTarget()
 {
-    if (canSync && loadSlewState == IPS_IDLE)
+    if (canSync && !solveFromFile)
     {
         // 2018-01-24 JM: This is ugly. Maybe use DBus? Signal/Slots? Ekos Manager usage like this should be avoided
 #if 0
@@ -4980,7 +4979,7 @@ bool Align::loadAndSlew(QString fileURL)
 
     differentialSlewingActivated = false;
 
-    loadSlewState = IPS_BUSY;
+    solveFromFile = true;
 
     stopPAHProcess();
 
@@ -5020,7 +5019,7 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 #endif
 
     differentialSlewingActivated = false;
-    loadSlewState = IPS_BUSY;
+    solveFromFile = true;
     stopPAHProcess();
     slewR->setChecked(true);
     currentGotoMode = GOTO_SLEW;
