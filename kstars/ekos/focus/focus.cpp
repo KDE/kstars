@@ -762,6 +762,8 @@ void Focus::processTemperatureSource(INumberVectorProperty *nvp)
 
 void Focus::setLastFocusTemperature()
 {
+    if (m_SourceTemperature == INVALID_VALUE && currentTemperatureSourceElement)
+        m_SourceTemperature = currentTemperatureSourceElement->value;
     m_LastSourceAutofocusTemperature = m_SourceTemperature;
     emit newFocusTemperatureDelta(0, -1e6);
 }
