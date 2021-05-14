@@ -4061,6 +4061,8 @@ void Focus::initSettingsConnections()
             &Ekos::Focus::syncSettings);
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
+    connect(temperatureSourceCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
+            &Ekos::Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Settings Group
