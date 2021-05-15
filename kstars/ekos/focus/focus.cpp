@@ -937,7 +937,9 @@ void Focus::start()
     //    Options::setFocusFramesCount(focusFramesSpin->value());
     //    Options::setFocusUseFullField(useFullField->isChecked());
 
-    qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with box size: " << focusBoxSize->value()
+    qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with Detection: " << focusDetectionCombo->currentText()
+                                << " Algorithm: " << focusAlgorithmCombo->currentText()
+                                << " Box size: " << focusBoxSize->value()
                                 << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
                                 << " Autostar: " << ( useAutoStar->isChecked() ? "yes" : "no" )
                                 << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
