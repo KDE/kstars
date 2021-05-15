@@ -747,24 +747,21 @@ void Focus::processTemperatureSource(INumberVectorProperty *nvp)
 {
     if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp == nvp)
     {
-        m_SourceTemperature = currentTemperatureSourceElement->value;
-
         if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
         {
-            emit newFocusTemperatureDelta(abs(m_SourceTemperature - m_LastSourceAutofocusTemperature), m_SourceTemperature);
+            emit newFocusTemperatureDelta(abs(currentTemperatureSourceElement->value - m_LastSourceAutofocusTemperature),
+                                          currentTemperatureSourceElement->value);
         }
         else
         {
-            emit newFocusTemperatureDelta(0, m_SourceTemperature);
+            emit newFocusTemperatureDelta(0, currentTemperatureSourceElement->value);
         }
     }
 }
 
 void Focus::setLastFocusTemperature()
 {
-    if (m_SourceTemperature == INVALID_VALUE && currentTemperatureSourceElement)
-        m_SourceTemperature = currentTemperatureSourceElement->value;
-    m_LastSourceAutofocusTemperature = m_SourceTemperature;
+    m_LastSourceAutofocusTemperature = currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE;
     emit newFocusTemperatureDelta(0, -1e6);
 }
 
@@ -952,7 +949,8 @@ void Focus::start()
                                 << " Tolerance: " << toleranceIN->value()
                                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
-    emit autofocusStarting(m_SourceTemperature, filter());
+    if (currentTemperatureSourceElement)
+        emit autofocusStarting(currentTemperatureSourceElement->value, filter());
 
     if (useAutoStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
@@ -982,7 +980,7 @@ void Focus::start()
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
             MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
-            m_SourceTemperature,
+            currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
             Options::initialFocusOutSteps());
         if (canAbsMove)
             initialFocuserAbsPosition = position;

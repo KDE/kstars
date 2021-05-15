@@ -762,7 +762,6 @@ class Focus : public QWidget, public Ui::Focus
 
         bool hasDeviation { false };
 
-        double m_SourceTemperature { INVALID_VALUE };
         //double observatoryTemperature { INVALID_VALUE };
         double m_LastSourceAutofocusTemperature { INVALID_VALUE };
         //TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
