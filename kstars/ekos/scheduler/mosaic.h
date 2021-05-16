@@ -49,6 +49,8 @@ class Mosaic : public QDialog
         {
             SkyPoint center;
             double rotation;
+            bool doAlign;
+            bool doFocus;
         } Job;
 
         QList <Job> getJobs() const;
@@ -81,6 +83,7 @@ class Mosaic : public QDialog
         void saveJobsDirectory();
         void resetFOV();
         void fetchINDIInformation();
+        void rewordStepEvery(int v);
 
     public slots:
         virtual int exec() override;

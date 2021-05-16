@@ -38,11 +38,12 @@ class MosaicTile : public QGraphicsItem
         MosaicTile()
         {
             brush.setStyle(Qt::NoBrush);
-            pen.setColor(Qt::red);
+            QColor lightGray(200, 200, 200, 100);
+            pen.setColor(lightGray);
             pen.setWidth(1);
 
             textBrush.setStyle(Qt::SolidPattern);
-            textPen.setColor(Qt::blue);
+            textPen.setColor(Qt::red);
             textPen.setWidth(2);
 
             setFlags(QGraphicsItem::ItemIsMovable);
@@ -110,6 +111,11 @@ class MosaicTile : public QGraphicsItem
         double getPA()
         {
             return pa;
+        }
+
+        void setPainterAlpha(int v)
+        {
+            m_PainterAlpha = v;
         }
 
     public:
@@ -235,17 +241,15 @@ class MosaicTile : public QGraphicsItem
             // HACK: all tiles should be QGraphicsItem instances so that texts would be scaled properly
             double const fontScale = 1/log(tiles.size() < 4 ? 4 : tiles.size());
 
-            // Draw a light background field first to help detect holes
-            painter->setBrush(QBrush(QColor(0, 192, 0, 50), Qt::SolidPattern));
+            // Draw a light background field first to help detect holes - reduce alpha as we are stacking tiles over this
+            painter->setBrush(QBrush(QColor(255, 0, 0, (200*m_PainterAlpha)/100), Qt::SolidPattern));
             painter->setPen(QPen(painter->brush(), 2, Qt::PenStyle::DotLine));
             painter->drawRect(QRectF(QPointF(-mfovW/2, -mfovH/2), QSizeF(mfovW, mfovH)));
 
-            QLinearGradient gradient(oneRect.topLeft(), oneRect.bottomRight());
-            gradient.setColorAt(0, QColor(192, 0, 0, 150));
-            gradient.setColorAt(1, QColor(64, 0, 0, 50));
+            // Fill tiles with a transparent brush to show overlaps
+            QBrush tileBrush(QColor(0, 255, 0, (200*m_PainterAlpha)/100), Qt::SolidPattern);
 
             // Draw each tile, adjusted for rotation
-            painter->setPen(pen);
             for (int row = 0; row < h; row++)
             {
                 for (int col = 0; col < w; col++)
@@ -257,10 +261,30 @@ class MosaicTile : public QGraphicsItem
                         painter->translate(tile->center);
                         painter->rotate(tile->rotation);
 
-                        painter->setBrush(QColor(Qt::GlobalColor::darkRed));
-                        painter->fillRect(oneRect, gradient);
+                        painter->setBrush(tileBrush);
+                        painter->setPen(pen);
+
+                        painter->drawRect(oneRect);
+
+                        painter->setWorldTransform(transform);
+                    }
+                }
+            }
+
+            // Overwrite with tile information
+            for (int row = 0; row < h; row++)
+            {
+                for (int col = 0; col < w; col++)
+                {
+                    OneTile const * const tile = getTile(row, col);
+                    if (tile)
+                    {
+                        QTransform const transform = painter->worldTransform();
+                        painter->translate(tile->center);
+                        painter->rotate(tile->rotation);
 
                         painter->setBrush(textBrush);
+                        painter->setPen(textPen);
 
                         defaultFont.setPointSize(50*fontScale);
                         painter->setFont(defaultFont);
@@ -271,16 +295,15 @@ class MosaicTile : public QGraphicsItem
                         painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignVCenter, QString("%1\n%2")
                                           .arg(tile->skyCenter.ra0().toHMSString())
                                           .arg(tile->skyCenter.dec0().toDMSString()));
-                        painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignBottom, QString("%1°")
-                                          .arg(tile->rotation, 5, 'f', 2));
+                        painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignBottom, QString("%1%2°")
+                                          .arg(tile->rotation >= 0.01 ? '+' : tile->rotation <= -0.01 ? '-' : '~')
+                                          .arg(abs(tile->rotation), 5, 'f', 2));
 
                         painter->setWorldTransform(transform);
                     }
                 }
             }
-
         }
-
 
         QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint, double paDegrees)
         {
@@ -315,6 +338,8 @@ class MosaicTile : public QGraphicsItem
 
         QBrush textBrush;
         QPen textPen;
+
+        int m_PainterAlpha { 50 };
 
         QList<OneTile *> tiles;
 };
@@ -381,6 +406,26 @@ Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(pa
 
     // Dialog can only be accepted when creating two tiles or more
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+    // Rendering options
+    connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
+    {
+        ui->transparencySlider->setToolTip(QString("%1%").arg(v));
+        mosaicTileItem->setPainterAlpha(v);
+        updateTimer->start();
+    });
+    connect(ui->transparencyAuto, &QCheckBox::toggled, this, [&](bool v)
+    {
+        emit ui->transparencySlider->setEnabled(!v);
+        if (v)
+            updateTimer->start();
+    });
+
+    // Job options
+    connect(ui->alignEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Mosaic::rewordStepEvery);
+    connect(ui->focusEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Mosaic::rewordStepEvery);
+    emit ui->alignEvery->valueChanged(0);
+    emit ui->focusEvery->valueChanged(0);
 
     // Center, fetch optics and adjust size
     setCenter(center);
@@ -590,7 +635,14 @@ void Mosaic::updateTargetFOV()
 
 void Mosaic::resizeEvent(QResizeEvent *)
 {
-    ui->mosaicView->fitInView(scene.sceneRect(), Qt::KeepAspectRatioByExpanding);
+    // Adjust scene rect to avoid rounding holes on border
+    QRectF adjustedSceneRect(scene.sceneRect());
+    adjustedSceneRect.setTop(adjustedSceneRect.top()+2);
+    adjustedSceneRect.setLeft(adjustedSceneRect.left()+2);
+    adjustedSceneRect.setRight(adjustedSceneRect.right()-2);
+    adjustedSceneRect.setBottom(adjustedSceneRect.bottom()-2);
+
+    ui->mosaicView->fitInView(adjustedSceneRect, Qt::KeepAspectRatioByExpanding);
     ui->mosaicView->centerOn(QPointF());
 }
 
@@ -686,6 +738,22 @@ void Mosaic::constructMosaic()
 
     ui->jobCountSpin->setValue(mosaicTileItem->getWidth() * mosaicTileItem->getHeight());
 
+    if (ui->transparencyAuto->isChecked())
+    {
+        // Tiles should be more transparent when many are overlapped
+        // Overlap < 50%: low transparency, as only two tiles will overlap on a line
+        // 50% < Overlap < 75%: mid transparency, as three tiles will overlap one a line
+        // 75% < Overlap: high transparency, as four tiles will overlap on a line
+        // Slider controlling transparency provides [5%,50%], which is scaled to 0-200 alpha.
+
+        if (1 < ui->jobCountSpin->value())
+            ui->transparencySlider->setValue(40 - ui->overlapSpin->value()/2);
+        else
+            ui->transparencySlider->setValue(40);
+
+        ui->transparencySlider->update();
+    }
+
     resizeEvent(nullptr);
     mosaicTileItem->show();
 
@@ -694,8 +762,6 @@ void Mosaic::constructMosaic()
 
 QList <Mosaic::Job> Mosaic::getJobs() const
 {
-    QPointF skymapCenterPoint = skyMapItem->boundingRect().center();
-
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile W:" << mosaicTileItem->boundingRect().width() << "H:" <<
                                    mosaicTileItem->boundingRect().height();
 
@@ -720,6 +786,14 @@ QList <Mosaic::Job> Mosaic::getJobs() const
             ts.center.setRA0(tile->skyCenter.ra0().Hours());
             ts.center.setDec0(tile->skyCenter.dec0().Degrees());
             ts.rotation = -mosaicTileItem->getPA();
+
+            ts.doAlign =
+                    (0 < ui->alignEvery->value()) &&
+                    (0 == ((j+i*mosaicTileItem->getHeight()) % ui->alignEvery->value()));
+
+            ts.doFocus =
+                    (0 < ui->focusEvery->value()) &&
+                    (0 == ((j+i*mosaicTileItem->getHeight()) % ui->focusEvery->value()));
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile RA0:" << tile->skyCenter.ra0().toHMSString() << "DE0:" <<
                                            tile->skyCenter.dec0().toDMSString();
@@ -762,6 +836,15 @@ void Mosaic::fetchINDIInformation()
     }
 
     calculateFOV();
+}
+
+void Mosaic::rewordStepEvery(int v)
+{
+    QSpinBox * sp = dynamic_cast<QSpinBox *>(sender());
+    if (0 < v)
+        sp->setSuffix(i18np(" Scheduler job", " Scheduler jobs", v));
+    else
+        sp->setSuffix(i18n(" (first only)"));
 }
 
 }

@@ -6223,6 +6223,9 @@ void Scheduler::startMosaicTool()
             decBox->showInDegrees(oneJob.center.dec0());
             rotationSpin->setValue(oneJob.rotation);
 
+            alignStepCheck->setChecked(oneJob.doAlign);
+            focusStepCheck->setChecked(oneJob.doFocus);
+
             saveJob();
         }
 
