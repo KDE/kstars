@@ -1539,7 +1539,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
     QVariantMap map;
     map["ccd"]         = metadata["camera"].toString();
     map["chip"]        = metadata["chip"].toInt();
-    map["binX"]        = metadata["binx"].toInt();;
+    map["binX"]        = metadata["binx"].toInt();
     map["binY"]        = metadata["biny"].toInt();
     map["temperature"] = metadata["temperature"].toDouble(INVALID_VALUE);
     map["duration"]    = metadata["duration"].toDouble();

@@ -2443,7 +2443,7 @@ void Analyze::processTemperature(double time, double temperature, bool batchMode
 
 void Analyze::resetTemperature()
 {
-    lastTemperature = -1000;;
+    lastTemperature = -1000;
 }
 
 

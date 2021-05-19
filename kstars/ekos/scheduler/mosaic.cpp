@@ -62,7 +62,7 @@ class MosaicTile : public QGraphicsItem
 
         void setPositionAngle(double positionAngle)
         {
-            pa = std::fmod(positionAngle * -1 + 360.0, 360.0);;
+            pa = std::fmod(positionAngle * -1 + 360.0, 360.0);
 
             // Rotate the whole mosaic around its local center
             setTransformOriginPoint(QPointF());

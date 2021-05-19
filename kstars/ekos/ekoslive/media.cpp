@@ -391,7 +391,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
         {"resolution", resolution},
         {"ext", "jpg"}
     };
-    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);;
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
