@@ -41,7 +41,7 @@ class Focuser : public DeviceDecorator
             dType = KSTARS_FOCUSER;
         }
 
-        void registerProperty(INDI::Property *prop) override;
+        void registerProperty(INDI::Property prop) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;

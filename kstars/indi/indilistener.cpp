@@ -232,21 +232,22 @@ void INDIListener::removeDevice(const QString &deviceName)
     }
 }
 
-void INDIListener::registerProperty(INDI::Property *prop)
+void INDIListener::registerProperty(INDI::Property prop)
 {
-    if (!prop->getRegistered())
+    fprintf(stderr, " +++ %s:%d\n", __FILE__, __LINE__);
+    if (!prop.getRegistered())
         return;
 
-    qCDebug(KSTARS_INDI) << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
+    qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName() << ">";
 
     for (auto oneDevice : devices)
     {
-        if (oneDevice->getDeviceName() == prop->getDeviceName())
+        if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
-            if (prop->isNameMatch("ON_COORD_SET") ||
-                    prop->isNameMatch("EQUATORIAL_EOD_COORD") ||
-                    prop->isNameMatch("EQUATORIAL_COORD") ||
-                    prop->isNameMatch("HORIZONTAL_COORD"))
+            if (prop.isNameMatch("ON_COORD_SET") ||
+                prop.isNameMatch("EQUATORIAL_EOD_COORD") ||
+                prop.isNameMatch("EQUATORIAL_COORD") ||
+                prop.isNameMatch("HORIZONTAL_COORD"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -257,7 +258,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newTelescope(oneDevice);
             }
-            else if (prop->isNameMatch("CCD_EXPOSURE"))
+            else if (prop.isNameMatch("CCD_EXPOSURE"))
             {
                 // Only register a CCD device if the interface explicitly contains CCD_INTERFACE
                 // and only if the device type is not already known.
@@ -273,7 +274,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newCCD(oneDevice);
             }
-            else if (prop->isNameMatch("FILTER_NAME"))
+            else if (prop.isNameMatch("FILTER_NAME"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN &&
                         !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
@@ -285,7 +286,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newFilter(oneDevice);
             }
-            else if (prop->isNameMatch("FOCUS_MOTION"))
+            else if (prop.isNameMatch("FOCUS_MOTION"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN &&
                         !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
@@ -298,8 +299,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 emit newFocuser(oneDevice);
             }
 
-            else if (prop->isNameMatch("DOME_SHUTTER") ||
-                     prop->isNameMatch("DOME_MOTION"))
+            else if (prop.isNameMatch("DOME_SHUTTER") ||
+                     prop.isNameMatch("DOME_MOTION"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -310,7 +311,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newDome(oneDevice);
             }
-            else if (prop->isNameMatch("WEATHER_STATUS"))
+            else if (prop.isNameMatch("WEATHER_STATUS"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -321,7 +322,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newWeather(oneDevice);
             }
-            else if (prop->isNameMatch("CAP_PARK"))
+            else if (prop.isNameMatch("CAP_PARK"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -332,7 +333,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newDustCap(oneDevice);
             }
-            else if (prop->isNameMatch("FLAT_LIGHT_CONTROL"))
+            else if (prop.isNameMatch("FLAT_LIGHT_CONTROL"))
             {
                 // If light box part of dust cap
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
@@ -357,7 +358,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 }
             }
 
-            if (prop->isNameMatch("TELESCOPE_TIMED_GUIDE_WE"))
+            if (prop.isNameMatch("TELESCOPE_TIMED_GUIDE_WE"))
             {
                 ISD::ST4 *st4Driver = new ISD::ST4(oneDevice->getBaseDevice(), oneDevice->getDriverInfo()->getClientManager());
                 st4Devices.append(st4Driver);

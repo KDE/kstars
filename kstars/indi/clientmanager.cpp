@@ -86,12 +86,14 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
     emit newINDIDevice(devInfo);
 }
 
-void ClientManager::newProperty(INDI::Property *prop)
+void ClientManager::newProperty(INDI::Property *pprop)
 {
+    INDI::Property prop(*pprop);
+
     // Do not emit the signal if the server is disconnected or disconnecting (deadlock between signals)
     if (!isServerConnected())
     {
-        IDLog("Received new property %s for disconnected device %s, discarding\n", prop->getName(), prop->getDeviceName());
+        IDLog("Received new property %s for disconnected device %s, discarding\n", prop.getName(), prop.getDeviceName());
         return;
     }
 
@@ -99,13 +101,13 @@ void ClientManager::newProperty(INDI::Property *prop)
     emit newINDIProperty(prop);
 
     // Only handle RW and RO BLOB properties
-    if (prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
+    if (prop.getType() == INDI_BLOB && prop.getPermission() != IP_WO)
     {
-        QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop->getBaseDevice()->getDeviceName(), prop->getName());
+        QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop.getBaseDevice()->getDeviceName(), prop.getName());
         connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
         connect(bm.data(), &BlobManager::connected, this, [prop, this]()
         {
-            if (prop && prop->getRegistered())
+            if (prop && prop.getRegistered())
                 emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
         });
         blobManagers.append(bm);

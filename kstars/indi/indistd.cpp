@@ -90,7 +90,7 @@ const QString &GenericDevice::getDeviceName() const
     return m_Name;
 }
 
-void GenericDevice::registerProperty(INDI::Property *prop)
+void GenericDevice::registerProperty(INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;
@@ -860,7 +860,7 @@ IPerm GenericDevice::getPermission(const QString &propName)
     return baseDevice->getPropertyPermission(propName.toLatin1().constData());
 }
 
-INDI::Property *GenericDevice::getProperty(const QString &propName)
+INDI::Property GenericDevice::getProperty(const QString &propName)
 {
     return baseDevice->getProperty(propName.toLatin1().constData());
 }
@@ -1076,7 +1076,7 @@ void DeviceDecorator::processMessage(int messageID)
     interfacePtr->processMessage(messageID);
 }
 
-void DeviceDecorator::registerProperty(INDI::Property * prop)
+void DeviceDecorator::registerProperty(INDI::Property prop)
 {
     interfacePtr->registerProperty(prop);
 }
@@ -1126,12 +1126,12 @@ QString DeviceDecorator::getDriverVersion()
     return interfacePtr->getDriverVersion();
 }
 
-const Properties * DeviceDecorator::getProperties()
+Properties DeviceDecorator::getProperties()
 {
     return interfacePtr->getProperties();
 }
 
-INDI::Property *DeviceDecorator::getProperty(const QString &propName)
+INDI::Property DeviceDecorator::getProperty(const QString &propName)
 {
     return interfacePtr->getProperty(propName);
 }
@@ -1355,7 +1355,7 @@ void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool com
     }
 }
 
-void propertyToJson(INDI::Property *prop, QJsonObject &propObject, bool compact)
+void propertyToJson(INDI::Property prop, QJsonObject &propObject, bool compact)
 {
     switch (prop->getType())
     {

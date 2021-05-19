@@ -91,7 +91,7 @@ void TelescopeLite::setDeviceName(const QString &deviceName)
     }
 }
 
-void TelescopeLite::registerProperty(INDI::Property *prop)
+void TelescopeLite::registerProperty(INDI::Property prop)
 {
     if (prop->isNameMatch("TELESCOPE_INFO"))
     {

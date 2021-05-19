@@ -1829,7 +1829,7 @@ void Manager::processDeleteProperty(const QString &name)
     ekosLiveClient.get()->message()->processDeleteProperty(deviceInterface->getDeviceName(), name);
 }
 
-void Manager::processNewProperty(INDI::Property * prop)
+void Manager::processNewProperty(INDI::Property prop)
 {
     ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 

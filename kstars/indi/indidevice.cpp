@@ -75,14 +75,14 @@ INDI_D::INDI_D(INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog()
     //parent->mainTabWidget->addTab(deviceVBox, label);
 }
 
-bool INDI_D::buildProperty(INDI::Property *prop)
+bool INDI_D::buildProperty(INDI::Property prop)
 {
-    if (!prop->getRegistered())
+    if (!prop.getRegistered())
         return false;
 
-    QString groupName(prop->getGroupName());
+    QString groupName(prop.getGroupName());
 
-    if (prop->getDeviceName() != m_Name)
+    if (prop.getDeviceName() != m_Name)
         return false;
 
     INDI_G *pg = getGroup(groupName);
@@ -98,7 +98,7 @@ bool INDI_D::buildProperty(INDI::Property *prop)
 }
 
 #if 0
-bool INDI_D::removeProperty(INDI::Property *prop)
+bool INDI_D::removeProperty(INDI::Property prop)
 {
     if (prop == nullptr)
         return false;

@@ -136,14 +136,14 @@ class ClientManagerLite : public INDI::BaseClientQt
          */
         Q_INVOKABLE QString syncLED(const QString &device, const QString &property, const QString &name = "");
 
-        void buildTextGUI(INDI::Property *property);
-        void buildNumberGUI(INDI::Property *property);
-        void buildMenuGUI(INDI::Property *property);
-        void buildSwitchGUI(INDI::Property *property, PGui guiType);
-        void buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property *property, bool exclusive = false,
+        void buildTextGUI(INDI::Property property);
+        void buildNumberGUI(INDI::Property property);
+        void buildMenuGUI(INDI::Property property);
+        void buildSwitchGUI(INDI::Property property, PGui guiType);
+        void buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property property, bool exclusive = false,
                          PGui guiType = PG_BUTTONS);
-        void buildLightGUI(INDI::Property *property);
-        //void buildBLOBGUI(INDI::Property *property);
+        void buildLightGUI(INDI::Property property);
+        //void buildBLOBGUI(INDI::Property property);
 
         Q_INVOKABLE void sendNewINDISwitch(const QString &deviceName, const QString &propName, const QString &name);
         Q_INVOKABLE void sendNewINDISwitch(const QString &deviceName, const QString &propName, int index);
@@ -188,8 +188,8 @@ class ClientManagerLite : public INDI::BaseClientQt
     protected:
         virtual void newDevice(INDI::BaseDevice *dp) override;
         virtual void removeDevice(INDI::BaseDevice *dp) override;
-        virtual void newProperty(INDI::Property *property) override;
-        virtual void removeProperty(INDI::Property *property) override;
+        virtual void newProperty(INDI::Property property) override;
+        virtual void removeProperty(INDI::Property property) override;
         virtual void newBLOB(IBLOB *bp) override;
         virtual void newSwitch(ISwitchVectorProperty *svp) override;
         virtual void newNumber(INumberVectorProperty *nvp) override;

@@ -39,7 +39,7 @@ class INDI_G
         INDI_G(INDI_D *idv, const QString &inName);
         ~INDI_G();
 
-        bool addProperty(const INDI::Property *newProperty);
+        bool addProperty(const INDI::Property newProperty);
 
         bool removeProperty(const QString &name);
         INDI_P *getProperty(const QString &name) const;

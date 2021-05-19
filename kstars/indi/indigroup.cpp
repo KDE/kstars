@@ -57,12 +57,12 @@ INDI_G::~INDI_G()
     delete (m_ScrollArea);
 }
 
-bool INDI_G::addProperty(const INDI::Property *newProperty)
+bool INDI_G::addProperty(INDI::Property newProperty)
 {
-    if (!newProperty->getRegistered())
+    if (!newProperty.getRegistered())
         return false;
 
-    QString name(newProperty->getName());
+    QString name(newProperty.getName());
 
     // No duplicates
     if (getProperty(name))
@@ -108,7 +108,7 @@ bool INDI_G::removeProperty(const QString &name)
 /////////////////////////////////////////////////////////////////////
 void INDI_G::resetLayout()
 {
-    QList<const INDI::Property *> existingProps;
+    QList<INDI::Property> existingProps;
 
     // Get all existing properties
     for (auto &oneProp : m_PropertiesList)

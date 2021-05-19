@@ -30,7 +30,7 @@ DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
     connect(readyTimer.get(), &QTimer::timeout, this, &DustCap::ready);
 }
 
-void DustCap::registerProperty(INDI::Property *prop)
+void DustCap::registerProperty(INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;

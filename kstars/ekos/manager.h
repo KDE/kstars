@@ -357,7 +357,7 @@ class Manager : public QDialog, public Ui::Manager
         void cleanDevices(bool stopDrivers = true);
 
         void processNewDevice(ISD::GDInterface *);
-        void processNewProperty(INDI::Property *);
+        void processNewProperty(INDI::Property);
         void processDeleteProperty(const QString &name);
 
         void processNewNumber(INumberVectorProperty *nvp);

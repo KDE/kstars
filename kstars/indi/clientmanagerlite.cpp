@@ -316,7 +316,7 @@ QString ClientManagerLite::syncLED(const QString &device, const QString &propert
     {
         if (devInfo->device->getDeviceName() == device)
         {
-            INDI::Property *prop = devInfo->device->getProperty(property.toLatin1());
+            INDI::Property prop = devInfo->device->getProperty(property.toLatin1());
             if (prop)
             {
                 IPState state = prop->getState();
@@ -476,7 +476,7 @@ void ClientManagerLite::buildNumberGUI(Property *property)
     }
 }
 
-void ClientManagerLite::buildMenuGUI(INDI::Property *property)
+void ClientManagerLite::buildMenuGUI(INDI::Property property)
 {
     /*QStringList menuOptions;
     QString oneOption;
@@ -508,7 +508,7 @@ void ClientManagerLite::buildMenuGUI(INDI::Property *property)
     }
 }
 
-void ClientManagerLite::buildSwitchGUI(INDI::Property *property, PGui guiType)
+void ClientManagerLite::buildSwitchGUI(INDI::Property property, PGui guiType)
 {
     auto svp = property->getSwitch();
     bool exclusive = false;
@@ -535,7 +535,7 @@ void ClientManagerLite::buildSwitchGUI(INDI::Property *property, PGui guiType)
     }
 }
 
-void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property *property, bool exclusive,
+void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property property, bool exclusive,
                                     PGui guiType)
 {
     QString name  = sw->name;
@@ -594,7 +594,7 @@ void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Propert
     }
 }
 
-void ClientManagerLite::buildLightGUI(INDI::Property *property)
+void ClientManagerLite::buildLightGUI(INDI::Property property)
 {
     auto lvp = property->getLight();
 
@@ -619,7 +619,7 @@ void ClientManagerLite::buildLightGUI(INDI::Property *property)
     }
 }
 
-/*void ClientManagerLite::buildBLOBGUI(INDI::Property *property) {
+/*void ClientManagerLite::buildBLOBGUI(INDI::Property property) {
     IBLOBVectorProperty *ibp = property->getBLOB();
 
     QString name  = ibp->name;
@@ -871,7 +871,7 @@ void ClientManagerLite::removeDevice(BaseDevice *dp)
     emit removeINDIDevice(QString(dp->getDeviceName()));
 }
 
-void ClientManagerLite::newProperty(INDI::Property *property)
+void ClientManagerLite::newProperty(INDI::Property property)
 {
     QString deviceName      = property->getDeviceName();
     QString name            = property->getName();
@@ -945,7 +945,7 @@ void ClientManagerLite::newProperty(INDI::Property *property)
     }
 }
 
-void ClientManagerLite::removeProperty(INDI::Property *property)
+void ClientManagerLite::removeProperty(INDI::Property property)
 {
     if (property == nullptr)
         return;

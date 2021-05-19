@@ -18,6 +18,7 @@
 #include "ekos/ekos.h"
 #include "ekos/manager.h"
 
+
 namespace EkosLive
 {
 class Message : public QObject
@@ -113,7 +114,7 @@ class Message : public QObject
         void processNewText(ITextVectorProperty *tvp);
         void processNewSwitch(ISwitchVectorProperty *svp);
         void processNewLight(ILightVectorProperty *lvp);
-        void processNewProperty(INDI::Property *prop);
+        void processNewProperty(INDI::Property prop);
         void processDeleteProperty(const QString &device, const QString &name);
 
         // StellarSolver

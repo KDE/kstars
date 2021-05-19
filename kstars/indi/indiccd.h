@@ -185,7 +185,7 @@ class CCD : public DeviceDecorator
         } BType;
         typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE, TELESCOPE_UNKNOWN } TelescopeType;
 
-        void registerProperty(INDI::Property *prop) override;
+        void registerProperty(INDI::Property prop) override;
         void removeProperty(const QString &name) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
@@ -341,7 +341,7 @@ class CCD : public DeviceDecorator
         //void FITSViewerDestroyed();
         void StreamWindowHidden();
         // Blob manager
-        void setBLOBManager(const char *device, INDI::Property * prop);
+        void setBLOBManager(const char *device, INDI::Property prop);
 
     protected slots:
         void setWSBLOB(const QByteArray &message, const QString &extension);
@@ -350,7 +350,7 @@ class CCD : public DeviceDecorator
         void newTemperatureValue(double value);
         void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
         void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
-        void newBLOBManager(INDI::Property *prop);
+        void newBLOBManager(INDI::Property prop);
         void newRemoteFile(QString);
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);

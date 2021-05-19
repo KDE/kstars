@@ -117,7 +117,7 @@ class DustCap : public QObject
         void ready();
 
     private:
-        void processProp(INDI::Property *prop);
+        void processProp(INDI::Property prop);
         void processSwitch(ISwitchVectorProperty *svp);
         void processNumber(INumberVectorProperty *nvp);
         // Devices needed for DustCap operation

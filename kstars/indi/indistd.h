@@ -70,7 +70,7 @@ class GDInterface : public QObject
 
     public:
         // Property handling
-        virtual void registerProperty(INDI::Property *prop)    = 0;
+        virtual void registerProperty(INDI::Property prop)     = 0;
         virtual void removeProperty(const QString &name)       = 0;
         virtual void processSwitch(ISwitchVectorProperty *svp) = 0;
         virtual void processText(ITextVectorProperty *tvp)     = 0;
@@ -80,7 +80,7 @@ class GDInterface : public QObject
         virtual void processMessage(int messageID)             = 0;
 
         // Accessors
-        virtual const Properties * getProperties()             = 0;
+        virtual Properties getProperties()                     = 0;
         virtual DeviceFamily getType()                         = 0;
         virtual DriverInfo *getDriverInfo()                    = 0;
         virtual DeviceInfo *getDeviceInfo()                    = 0;
@@ -96,7 +96,7 @@ class GDInterface : public QObject
                                    double *step)             = 0;
         virtual IPState getState(const QString &propName)    = 0;
         virtual IPerm getPermission(const QString &propName) = 0;
-        virtual INDI::Property *getProperty(const QString &propName) = 0;
+        virtual INDI::Property getProperty(const QString &propName) = 0;
         virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) = 0;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) = 0;
         virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements) = 0;
@@ -126,7 +126,7 @@ class GDInterface : public QObject
 
         void interfaceDefined();
         void systemPortDetected();
-        void propertyDefined(INDI::Property *prop);
+        void propertyDefined(INDI::Property prop);
         void propertyDeleted(const QString &name);
 };
 
@@ -148,7 +148,7 @@ class GenericDevice : public GDInterface
         explicit GenericDevice(DeviceInfo &idv, ClientManager *cm);
         virtual ~GenericDevice();
 
-        virtual void registerProperty(INDI::Property *prop) override;
+        virtual void registerProperty(INDI::Property prop) override;
         virtual void removeProperty(const QString &name) override;
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
         virtual void processText(ITextVectorProperty *tvp) override;
@@ -170,7 +170,7 @@ class GenericDevice : public GDInterface
         {
             return deviceInfo;
         }
-        virtual const Properties * getProperties() override
+        virtual Properties getProperties() override
         {
             return baseDevice->getProperties();
         }
@@ -196,7 +196,7 @@ class GenericDevice : public GDInterface
                                    double *step) override;
         virtual IPState getState(const QString &propName) override;
         virtual IPerm getPermission(const QString &propName) override;
-        virtual INDI::Property *getProperty(const QString &propName) override;
+        virtual INDI::Property getProperty(const QString &propName) override;
         virtual bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
         virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements) override;
@@ -252,7 +252,7 @@ class DeviceDecorator : public GDInterface
         explicit DeviceDecorator(GDInterface *iPtr);
         virtual ~DeviceDecorator() override;
 
-        virtual void registerProperty(INDI::Property *prop) override;
+        virtual void registerProperty(INDI::Property prop) override;
         virtual void removeProperty(const QString &name) override;
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
         virtual void processText(ITextVectorProperty *tvp) override;
@@ -268,7 +268,7 @@ class DeviceDecorator : public GDInterface
         virtual const QString &getDeviceName() const override;
         DriverInfo *getDriverInfo() override;
         DeviceInfo *getDeviceInfo() override;
-        virtual const Properties * getProperties() override;
+        virtual Properties getProperties() override;
         uint32_t getDriverInterface() override;
         QString getDriverVersion() override;
         virtual INDI::BaseDevice *getBaseDevice() override;
@@ -277,7 +277,7 @@ class DeviceDecorator : public GDInterface
         bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max, double *step) override;
         IPState getState(const QString &propName) override;
         IPerm getPermission(const QString &propName) override;
-        INDI::Property *getProperty(const QString &propName) override;
+        INDI::Property getProperty(const QString &propName) override;
         bool getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact) override;
         bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject) override;
         bool setJSONProperty(const QString &propName, const QJsonArray &propElements) override;
@@ -328,7 +328,7 @@ void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool co
 void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool compact = true);
 void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool compact = true);
 void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool compact = true);
-void propertyToJson(INDI::Property *prop, QJsonObject &propObject, bool compact = true);
+void propertyToJson(INDI::Property prop, QJsonObject &propObject, bool compact = true);
 
 }
 

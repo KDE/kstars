@@ -37,12 +37,11 @@ extern const char *libindi_strings_context;
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G *ipg, const INDI::Property *prop) : pg(ipg), dataProp(prop)
+INDI_P::INDI_P(INDI_G *ipg, INDI::Property prop)
+    : pg(ipg)
+    , dataProp(prop)
 {
-    pg       = ipg;
-    dataProp = prop;
-
-    name = QString(prop->getName());
+    name = QString(prop.getName());
 
     PHBox.reset(new QHBoxLayout());
     PHBox->setContentsMargins(0, 0, 0, 0);
@@ -61,7 +60,7 @@ INDI_P::~INDI_P()
 void INDI_P::updateStateLED()
 {
     /* set state light */
-    switch (dataProp->getState())
+    switch (dataProp.getState())
     {
         case IPS_IDLE:
             ledStatus->setColor(Qt::gray);
@@ -88,10 +87,10 @@ void INDI_P::updateStateLED()
  */
 void INDI_P::initGUI()
 {
-    QString label = i18nc(libindi_strings_context, dataProp->getLabel());
+    QString label = i18nc(libindi_strings_context, dataProp.getLabel());
 
     if (label == "(I18N_EMPTY_MESSAGE)")
-        label = dataProp->getLabel();
+        label = dataProp.getLabel();
 
     /* add to GUI group */
     ledStatus.reset(new KLed(pg->getContainer()));
@@ -138,12 +137,12 @@ void INDI_P::initGUI()
     // #3 Add the Vertical layout which may contain several elements
     PHBox->addLayout(PVBox);
 
-    switch (dataProp->getType())
+    switch (dataProp.getType())
     {
         case INDI_SWITCH:
-            if (dataProp->getSwitch()->getRule() == ISR_NOFMANY)
+            if (dataProp.getSwitch()->getRule() == ISR_NOFMANY)
                 guiType = PG_RADIO;
-            else if (dataProp->getSwitch()->count() > 4)
+            else if (dataProp.getSwitch()->count() > 4)
                 guiType = PG_MENU;
             else
                 guiType = PG_BUTTONS;
@@ -177,7 +176,7 @@ void INDI_P::initGUI()
 
 void INDI_P::buildSwitchGUI()
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -211,7 +210,7 @@ void INDI_P::buildSwitchGUI()
 
 void INDI_P::buildTextGUI()
 {
-    auto tvp = dataProp->getText();
+    auto tvp = dataProp.getText();
 
     if (!tvp)
         return;
@@ -239,7 +238,7 @@ void INDI_P::buildTextGUI()
 
 void INDI_P::buildNumberGUI()
 {
-    auto nvp = dataProp->getNumber();
+    auto nvp = dataProp.getNumber();
 
     if (!nvp)
         return;
@@ -263,7 +262,7 @@ void INDI_P::buildNumberGUI()
 
 void INDI_P::buildLightGUI()
 {
-    auto lvp = dataProp->getLight();
+    auto lvp = dataProp.getLight();
 
     if (!lvp)
         return;
@@ -282,7 +281,7 @@ void INDI_P::buildLightGUI()
 
 void INDI_P::buildBLOBGUI()
 {
-    auto bvp = dataProp->getBLOB();
+    auto bvp = dataProp.getBLOB();
 
     if (!bvp)
         return;
@@ -307,18 +306,18 @@ void INDI_P::buildBLOBGUI()
 
     connect(enableBLOBC, SIGNAL(stateChanged(int)), this, SLOT(setBLOBOption(int)));
 
-    if (dataProp->getPermission() != IP_RO)
+    if (dataProp.getPermission() != IP_RO)
         setupSetButton(i18n("Upload"));
 }
 
 void INDI_P::setBLOBOption(int state)
 {
-    pg->getDevice()->getClientManager()->setBLOBEnabled(state == Qt::Checked, dataProp->getDeviceName(), dataProp->getName());
+    pg->getDevice()->getClientManager()->setBLOBEnabled(state == Qt::Checked, dataProp.getDeviceName(), dataProp.getName());
 }
 
 void INDI_P::newSwitch(QAbstractButton *button)
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
     QString buttonText = button->text();
 
     if (!svp)
@@ -338,7 +337,7 @@ void INDI_P::newSwitch(QAbstractButton *button)
 
 void INDI_P::resetSwitch()
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -351,7 +350,7 @@ void INDI_P::resetSwitch()
 
 void INDI_P::newSwitch(int index)
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -369,7 +368,7 @@ void INDI_P::newSwitch(int index)
 
 void INDI_P::newSwitch(const QString &name)
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -401,7 +400,7 @@ void INDI_P::newSwitch(const QString &name)
 
 void INDI_P::sendSwitch()
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -419,11 +418,11 @@ void INDI_P::sendSwitch()
 
 void INDI_P::sendText()
 {
-    switch (dataProp->getType())
+    switch (dataProp.getType())
     {
         case INDI_TEXT:
         {
-            auto tvp = dataProp->getText();
+            auto tvp = dataProp.getText();
             if (!tvp)
                 return;
 
@@ -439,7 +438,7 @@ void INDI_P::sendText()
 
         case INDI_NUMBER:
         {
-            auto nvp = dataProp->getNumber();
+            auto nvp = dataProp.getNumber();
             if (!nvp)
                 return;
 
@@ -463,7 +462,7 @@ void INDI_P::buildMenuGUI()
     QStringList menuOptions;
     QString oneOption;
     int onItem = -1;
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -529,7 +528,7 @@ void INDI_P::addLayout(QHBoxLayout *layout)
 
 void INDI_P::updateMenuGUI()
 {
-    auto svp = dataProp->getSwitch();
+    auto svp = dataProp.getSwitch();
 
     if (!svp)
         return;
@@ -540,11 +539,11 @@ void INDI_P::updateMenuGUI()
 
 void INDI_P::processSetButton()
 {
-    switch (dataProp->getType())
+    switch (dataProp.getType())
     {
         case INDI_TEXT:
-            //if (!strcmp(dataProp->getName(), "TIME_UTC"))
-            if (dataProp->isNameMatch("TIME_UTC"))
+            //if (!strcmp(dataProp.getName(), "TIME_UTC"))
+            if (dataProp.isNameMatch("TIME_UTC"))
                 newTime();
             else
                 sendText();
@@ -568,7 +567,7 @@ void INDI_P::sendBlob()
 {
     //int index=0;
     //bool openingTag=false;
-    auto bvp = dataProp->getBLOB();
+    auto bvp = dataProp.getBLOB();
 
     if (!bvp)
         return;
@@ -664,5 +663,5 @@ INDI_E *INDI_P::getElement(const QString &elementName) const
 
 bool INDI_P::isRegistered() const
 {
-    return (dataProp && dataProp->getRegistered());
+    return (dataProp && dataProp.getRegistered());
 }

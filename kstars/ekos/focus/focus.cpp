@@ -2757,7 +2757,7 @@ void Focus::autoFocusRel()
     }
 }
 
-/*void Focus::registerFocusProperty(INDI::Property *prop)
+/*void Focus::registerFocusProperty(INDI::Property prop)
 {
     // Return if it is not our current focuser
     if (strcmp(prop->getDeviceName(), currentFocuser->getDeviceName()))

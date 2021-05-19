@@ -1519,7 +1519,7 @@ void Message::processDialogResponse(const QJsonObject &payload)
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 
-void Message::processNewProperty(INDI::Property * prop)
+void Message::processNewProperty(INDI::Property prop)
 {
     // Do not send new properties until all properties settle down
     // then send any properties that appears afterwards since the initial bunch

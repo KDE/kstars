@@ -14,14 +14,14 @@
 namespace ISD
 {
 
-void Focuser::registerProperty(INDI::Property *prop)
+void Focuser::registerProperty(INDI::Property prop)
 {
-    if (!prop->getRegistered())
+    if (!prop.getRegistered())
         return;
 
-    if (prop->isNameMatch("FOCUS_MAX"))
+    if (prop.isNameMatch("FOCUS_MAX"))
     {
-        auto nvp = prop->getNumber();
+        auto nvp = prop.getNumber();
         m_maxPosition = nvp->at(0)->getValue();
     }
 

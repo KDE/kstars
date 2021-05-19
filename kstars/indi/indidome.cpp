@@ -32,7 +32,7 @@ Dome::Dome(GDInterface *iPtr) : DeviceDecorator(iPtr)
     connect(readyTimer.get(), &QTimer::timeout, this, &Dome::ready);
 }
 
-void Dome::registerProperty(INDI::Property *prop)
+void Dome::registerProperty(INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;

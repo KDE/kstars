@@ -54,7 +54,7 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     qDBusRegisterMetaType<ISD::Telescope::PierSide>();
 }
 
-void Telescope::registerProperty(INDI::Property *prop)
+void Telescope::registerProperty(INDI::Property prop)
 {
     if (isConnected())
         readyTimer.start();

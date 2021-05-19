@@ -48,7 +48,7 @@ void DustCap::removeDevice(ISD::GDInterface *device)
     }
 }
 
-void DustCap::processProp(INDI::Property *prop)
+void DustCap::processProp(INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;

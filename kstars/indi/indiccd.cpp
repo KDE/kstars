@@ -915,7 +915,7 @@ CCD::~CCD()
         delete [] fileWriteBuffer;
 }
 
-void CCD::setBLOBManager(const char *device, INDI::Property *prop)
+void CCD::setBLOBManager(const char *device, INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;
@@ -924,7 +924,7 @@ void CCD::setBLOBManager(const char *device, INDI::Property *prop)
         emit newBLOBManager(prop);
 }
 
-void CCD::registerProperty(INDI::Property *prop)
+void CCD::registerProperty(INDI::Property prop)
 {
     if (isConnected())
         readyTimer.get()->start();
