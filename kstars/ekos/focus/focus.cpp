@@ -1438,7 +1438,7 @@ void Focus::analyzeSources()
     QVariantMap extractionSettings;
     extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
     extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::FocusProfiles);
-    focusView->getImageData()->setSourceExtractorSettings(extractionSettings);
+    focusView->imageData()->setSourceExtractorSettings(extractionSettings);
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
     // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
     // a bounding box for them to be effective in near real-time application.
@@ -1664,9 +1664,6 @@ void Focus::setCurrentHFR(double value)
 {
     currentHFR = value;
 
-    // Get handle to the image data
-    //FITSData *image_data = focusView->getImageData();
-
     // Let's now report the current HFR
     qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
                                << (starSelected ? 1 : m_ImageData->getDetectedStars());
@@ -1788,8 +1785,6 @@ void Focus::setCaptureComplete()
 
     captureInProgress = false;
 
-    // Get handle to the image data
-    //FITSData *image_data = focusView->getImageData();
 
     // Emit the whole image
     emit newImage(focusView);
@@ -1813,9 +1808,6 @@ void Focus::setCaptureComplete()
 
 void Focus::setHFRComplete()
 {
-    // Get handle to the image data
-    //FITSData *image_data = focusView->getImageData();
-
     // If we are just framing, let's capture again
     if (inFocusLoop)
     {
@@ -2042,7 +2034,7 @@ void Focus::setHFRComplete()
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
         QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
-        focusView->getImageData()->saveImage(filename);
+        focusView->imageData()->saveImage(filename);
     }
 
     // If we are not in autofocus process, we're done.

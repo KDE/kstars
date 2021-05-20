@@ -123,7 +123,7 @@ void GuideStars::setupStarCorrespondence(const QList<Edge> &neighbors, int guide
 
 // Calls SEP to generate a set of star detections and score them,
 // then calls selectGuideStars(detections, scores) to select the guide star.
-QVector3D GuideStars::selectGuideStar(FITSData *imageData)
+QVector3D GuideStars::selectGuideStar(const QSharedPointer<FITSData> &imageData)
 {
     if (imageData == nullptr)
         return QVector3D(-1, -1, -1);
@@ -265,7 +265,7 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 // Find the guide star using the starCorrespondence algorithm (looking for
 // the other reference stars in the same relative position as when the guide star was selected).
 // If this method fails, it backs off to looking in the tracking box for the highest scoring star.
-Vector GuideStars::findGuideStar(FITSData *imageData, const QRect &trackingBox, GuideView *guideView)
+Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox, GuideView *guideView)
 {
     // Don't accept reference stars whose position is more than this many pixels from expected.
     constexpr double maxStarAssociationDistance = 10;
@@ -383,7 +383,7 @@ SSolver::Parameters GuideStars::getStarExtractionParameters(int num)
 }
 
 // This is the interface to star detection.
-int GuideStars::findAllSEPStars(FITSData *imageData, QList<Edge *> *sepStars, int num)
+int GuideStars::findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList<Edge *> *sepStars, int num)
 {
     if (imageData == nullptr)
         return 0;
@@ -429,7 +429,7 @@ double GuideStars::findMinDistance(int index, const QList<Edge*> &stars)
 
 // Returns a list of 'num' stars, sorted according to evaluateSEPStars().
 // If the region-of-interest rectange is not null, it only returns scores in that area.
-void GuideStars::findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
+void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num, QList<Edge> *stars,
                               const double maxHFR, const QRect *roi,
                               QList<double> *outputScores, QList<double> *minDistances)
 {

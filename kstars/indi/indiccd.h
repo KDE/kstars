@@ -132,8 +132,8 @@ class CCDChip
         bool canAbort() const;
         void setCanAbort(bool value);
 
-        FITSData *getImageData() const;
-        void setImageData(FITSData *data)
+        const QSharedPointer<FITSData> &getImageData() const;
+        void setImageData(const QSharedPointer<FITSData> &data)
         {
             imageData = data;
         }
@@ -145,7 +145,7 @@ class CCDChip
 
     private:
         QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
-        FITSData *imageData { nullptr };
+        QSharedPointer<FITSData> imageData { nullptr };
         FITSMode captureMode { FITS_NORMAL };
         FITSScale captureFilter { FITS_NONE };
         INDI::BaseDevice *baseDevice { nullptr };

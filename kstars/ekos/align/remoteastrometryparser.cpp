@@ -43,7 +43,7 @@ void RemoteAstrometryParser::verifyIndexFiles(double, double)
 {
 }
 
-bool RemoteAstrometryParser::startSovler(const QString &filename, const QStringList &args, bool generated)
+bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringList &args, bool generated)
 {
     INDI_UNUSED(generated);
 
@@ -129,7 +129,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
         solverArgs << "--parity" << parity;
 
     //for (int i = 0; i < solverSettings->ntp; i++)
-    for (auto &it: *solverSettings)
+    for (auto &it : *solverSettings)
     {
         // 2016-10-20: Disable setting this automatically since remote device might have different
         // settings

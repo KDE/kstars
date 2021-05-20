@@ -61,7 +61,7 @@ void OnlineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     (void)fov_y;
 }
 
-bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStringList &args, bool generated)
+bool OnlineAstrometryParser::startSolver(const QString &in_filename, const QStringList &args, bool generated)
 {
     bool ok = false;
 

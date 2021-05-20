@@ -2581,7 +2581,7 @@ void Align::generateFOVBounds(double fov_w, QString &fov_low, QString &fov_high,
 }
 
 
-QStringList Align::generateRemoteArgs(FITSData *data)
+QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
 {
     QVariantMap optionsMap;
 
@@ -2868,7 +2868,7 @@ bool Align::captureAndSolve()
 
             // Enable remote parse
             dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
-            dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs());
+            dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs(QSharedPointer<FITSData>()));
             solverTimer.start();
         }
     }
@@ -3056,7 +3056,7 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
 
 bool Align::detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *starIndex)
 {
-    FITSData *imageData = alignView->getImageData();
+    const QSharedPointer<FITSData> imageData = alignView->imageData();
     stars->clear();
     *starIndex = -1;
 
@@ -3303,7 +3303,7 @@ void Align::startSolving()
     // This is needed because they might have directories stored in the config file.
     // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    FITSData *data = alignView->getImageData();
+    const QSharedPointer<FITSData> &data = alignView->imageData();
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
@@ -3460,7 +3460,7 @@ void Align::startSolving()
     {
         // This should run only for load&slew. For regular solve, we don't get here
         // as the image is read and solved server-side.
-        remoteParser->startSovler(data->filename(), generateRemoteArgs(data), false);
+        remoteParser->startSolver(data->filename(), generateRemoteArgs(data), false);
     }
 
     // Kick off timer
@@ -5548,7 +5548,7 @@ void Align::setupCorrectionGraphics(const QPointF &pixel)
     // We use the previously stored image (the 3rd PAA image)
     // so we can continue to estimage the correction even after
     // capturing new images during the refresh stage.
-    FITSData *imageData = alignView->keptImage();
+    const QSharedPointer<FITSData> &imageData = alignView->keptImage();
 
     // Just the altitude correction
     if (!polarAlign.findCorrectedPixel(imageData, pixel, &correctionAltTo, true))
@@ -5578,7 +5578,7 @@ void Align::calculatePAHError()
     // Hold on to the imageData so we can use it during the refresh phase.
     alignView->holdOnToImage();
 
-    FITSData *imageData = alignView->getImageData();
+    const QSharedPointer<FITSData> imageData = alignView->imageData();
     if (!polarAlign.findAxis())
     {
         appendLogText(i18n("PAA: Failed to find RA Axis center."));
@@ -5784,7 +5784,7 @@ void Align::setWCSToggled(bool result)
         }
 
         polarAlign.reset();
-        polarAlign.addPoint(alignView->getImageData());
+        polarAlign.addPoint(alignView->imageData());
 
         m_PAHStage = PAH_FIRST_ROTATE;
         emit newPAHStage(m_PAHStage);
@@ -5826,13 +5826,13 @@ void Align::setWCSToggled(bool result)
             emit newPAHMessage(secondRotateText->text());
         }
 
-        polarAlign.addPoint(alignView->getImageData());
+        polarAlign.addPoint(alignView->imageData());
 
         rotatePAH();
     }
     else if (m_PAHStage == PAH_THIRD_CAPTURE)
     {
-        FITSData *imageData = alignView->getImageData();
+        const QSharedPointer<FITSData> &imageData = alignView->imageData();
 
         // Critical error
         if (result == false)

@@ -338,7 +338,7 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
 
 namespace
 {
-QString HFRStatusString(FITSData *data)
+QString HFRStatusString(const QSharedPointer<FITSData> &data)
 {
     const double hfrValue = data->getHFR();
     if (hfrValue <= 0.0) return QString("");
@@ -412,7 +412,7 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
 
     fitsTabWidget->setCurrentWidget(tab);
 
-    actionCollection()->action("fits_debayer")->setEnabled(tab->getView()->getImageData()->hasDebayer());
+    actionCollection()->action("fits_debayer")->setEnabled(tab->getView()->imageData()->hasDebayer());
 
     tab->tabPositionUpdated();
 
@@ -421,7 +421,7 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
     led.setColor(Qt::green);
 
     if (tab->shouldComputeHFR())
-        updateStatusBar(HFRStatusString(tab->getView()->getImageData()), FITS_HFR);
+        updateStatusBar(HFRStatusString(tab->getView()->imageData()), FITS_HFR);
     else
         updateStatusBar("", FITS_HFR);
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
@@ -601,18 +601,18 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         view->updateFrame();
 
     if (fitsTabs[currentIndex]->shouldComputeHFR())
-        updateStatusBar(HFRStatusString(view->getImageData()), FITS_HFR);
+        updateStatusBar(HFRStatusString(view->imageData()), FITS_HFR);
     else
         updateStatusBar("", FITS_HFR);
 
-    if (view->getImageData()->hasDebayer())
+    if (view->imageData()->hasDebayer())
     {
         actionCollection()->action("fits_debayer")->setEnabled(true);
 
         if (debayerDialog)
         {
             BayerParams param;
-            view->getImageData()->getBayerParams(&param);
+            view->imageData()->getBayerParams(&param);
             debayerDialog->setBayerParams(&param);
         }
     }
@@ -746,7 +746,7 @@ void FITSViewer::debayerFITS()
         return;
 
     BayerParams param;
-    view->getImageData()->getBayerParams(&param);
+    view->imageData()->getBayerParams(&param);
     debayerDialog->setBayerParams(&param);
 
     debayerDialog->show();

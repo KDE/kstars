@@ -39,7 +39,7 @@ class ASTAPAstrometryParser : public AstrometryParser
         }
         virtual bool init() override;
         virtual void verifyIndexFiles(double fov_x, double fov_y) override;
-        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) override;
+        virtual bool startSolver(const QString &filename, const QStringList &args, bool generated = true) override;
         virtual bool stopSolver() override;
 
     public slots:

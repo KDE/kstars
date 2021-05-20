@@ -89,7 +89,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     }
 
     double x, y;
-    FITSData *view_data = view->getImageData();
+    const QSharedPointer<FITSData> &view_data = view->imageData();
 
     uint8_t const *buffer = view_data->getImageBuffer();
 
@@ -184,7 +184,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             QToolTip::hideText();
     }
 
-    double HFR = view->getImageData()->getHFR(x, y);
+    double HFR = view->imageData()->getHFR(x, y);
 
     if (HFR > 0)
         QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g', 3)), this);
@@ -215,7 +215,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     else if (e->buttons() & Qt::LeftButton && view->getCursorMode() == FITSView::scopeCursor)
     {
 #ifdef HAVE_INDI
-        FITSData *view_data = view->getImageData();
+        const QSharedPointer<FITSData> &view_data = view->imageData();
         if (view_data->hasWCS())
         {
             FITSImage::wcs_point *wcs_coord = view_data->getWCSCoord();
@@ -253,7 +253,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     y = KSUtils::clamp(y, 1.0, m_Height);
 
 #ifdef HAVE_INDI
-    FITSData *view_data = view->getImageData();
+    const QSharedPointer<FITSData> &view_data = view->imageData();
 
     if (e->buttons() & Qt::RightButton && view->getCursorMode() != FITSView::scopeCursor)
     {

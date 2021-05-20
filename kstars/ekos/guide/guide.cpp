@@ -1667,9 +1667,9 @@ bool Guide::guide()
                 double x = starCenter.x();
                 double y = starCenter.y();
 
-                if(guideView->getImageData() != nullptr)
+                if(guideView->imageData() != nullptr)
                 {
-                    if(guideView->getImageData()->width() > 50)
+                    if(guideView->imageData()->width() > 50)
                     {
                         guideConnect = connect(this, &Guide::newStatus, this, [this, x, y](Ekos::GuideState newState)
                         {
@@ -2163,9 +2163,9 @@ void Guide::syncTrackingBoxPosition()
     if(guiderType == GUIDE_PHD2)
     {
         //This way it won't set the tracking box on the Guide Star Image.
-        if(guideView->getImageData() != nullptr)
+        if(guideView->imageData() != nullptr)
         {
-            if(guideView->getImageData()->width() < 50)
+            if(guideView->imageData()->width() < 50)
             {
                 guideView->setTrackingBoxEnabled(false);
                 return;
@@ -2661,9 +2661,9 @@ void Guide::setTrackingStar(int x, int y)
     if(guiderType == GUIDE_PHD2)
     {
         //The Guide Star Image is 32 pixels across or less, so this guarantees it isn't that.
-        if(guideView->getImageData() != nullptr)
+        if(guideView->imageData() != nullptr)
         {
-            if(guideView->getImageData()->width() > 50)
+            if(guideView->imageData()->width() > 50)
                 phd2Guider->setLockPosition(starCenter.x(), starCenter.y());
         }
     }

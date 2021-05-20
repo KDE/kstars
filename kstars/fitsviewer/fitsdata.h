@@ -87,7 +87,7 @@ class FITSData : public QObject
 
     public:
         explicit FITSData(FITSMode fitsMode = FITS_NORMAL);
-        explicit FITSData(const FITSData *other);
+        explicit FITSData(const QSharedPointer<FITSData> &other);
         ~FITSData();
 
         /** Structure to hold FITS Header records */

@@ -201,7 +201,7 @@ class cgmath : public QObject
         Vector findLocalStarPosition(void) const;
 
         // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
-        float *createFloatImage(FITSData *target = nullptr) const;
+        float *createFloatImage(const QSharedPointer<FITSData> &target) const;
 
         void do_ticks(void);
         Vector point2arcsec(const Vector &p) const;

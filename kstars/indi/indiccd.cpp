@@ -162,7 +162,7 @@ void CCDChip::setImageView(FITSView *image, FITSMode imageType)
     }
 
     if (image)
-        imageData = image->getImageData();
+        imageData = image->imageData();
 }
 
 bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
@@ -554,7 +554,7 @@ void CCDChip::setCanAbort(bool value)
     CanAbort = value;
 }
 
-FITSData *CCDChip::getImageData() const
+const QSharedPointer<FITSData> &CCDChip::getImageData() const
 {
     return imageData;
 }
@@ -593,7 +593,7 @@ QStringList CCDChip::getISOList() const
     if (!isoProp)
         return isoList;
 
-    for (const auto &it: *isoProp)
+    for (const auto &it : *isoProp)
         isoList << it.getLabel();
 
     return isoList;
@@ -940,7 +940,7 @@ void CCD::registerProperty(INDI::Property prop)
 
         primaryChip->clearFrameTypes();
 
-        for (const auto &it: *ccdFrame)
+        for (const auto &it : *ccdFrame)
             primaryChip->addFrameLabel(it.getLabel());
     }
     else if (prop->isNameMatch("CCD_FRAME"))
@@ -1015,7 +1015,7 @@ void CCD::registerProperty(INDI::Property prop)
         if (svp)
         {
             bool ok = false;
-            for (const auto &it: *svp)
+            for (const auto &it : *svp)
             {
                 QString key = QString(it.getLabel());
                 double value = key.toDouble(&ok);
@@ -1093,7 +1093,7 @@ void CCD::registerProperty(INDI::Property prop)
         auto controlNP = prop->getNumber();
         if (controlNP)
         {
-            for (auto &it: *controlNP)
+            for (auto &it : *controlNP)
             {
                 QString name  = QString(it.getName()).toLower();
                 QString label = QString(it.getLabel()).toLower();
@@ -2218,9 +2218,9 @@ bool CCD::resetStreamingFrame()
     if (xarg && yarg && warg && harg)
     {
         if (!std::fabs(xarg->getValue() - xarg->getMin()) &&
-            !std::fabs(yarg->getValue() - yarg->getMin()) &&
-            !std::fabs(warg->getValue() - warg->getMax()) &&
-            !std::fabs(harg->getValue() - harg->getMax()))
+                !std::fabs(yarg->getValue() - yarg->getMin()) &&
+                !std::fabs(warg->getValue() - warg->getMax()) &&
+                !std::fabs(harg->getValue() - harg->getMax()))
             return false;
 
         xarg->setValue(xarg->getMin());
@@ -2275,9 +2275,9 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
     if (xarg && yarg && warg && harg)
     {
         if (!std::fabs(xarg->getValue() - x) &&
-            !std::fabs(yarg->getValue() - y) &&
-            !std::fabs(warg->getValue() - w) && 
-            !std::fabs(harg->getValue() - h))
+                !std::fabs(yarg->getValue() - y) &&
+                !std::fabs(warg->getValue() - w) &&
+                !std::fabs(harg->getValue() - h))
             return true;
 
         // N.B. We add offset since the X, Y are relative to whatever streaming frame is currently active

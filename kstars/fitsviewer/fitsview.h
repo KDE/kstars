@@ -81,12 +81,6 @@ class FITSView : public QScrollArea
         // Rescale image lineary from image_buffer, fit to window if desired
         bool rescale(FITSZoom type);
 
-        // Access functions
-        Q_DECL_DEPRECATED FITSData *getImageData() const
-        {
-            return m_ImageData.data();
-        }
-
         const QSharedPointer<FITSData> &imageData() const
         {
             return m_ImageData;

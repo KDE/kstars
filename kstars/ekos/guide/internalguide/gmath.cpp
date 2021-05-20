@@ -326,11 +326,13 @@ void cgmath::setLostStar(bool is_lost)
     lost_star = is_lost;
 }
 
-float *cgmath::createFloatImage(FITSData *target) const
+float *cgmath::createFloatImage(const QSharedPointer<FITSData> &target) const
 {
-    FITSData *imageData = target;
-    if (imageData == nullptr)
-        imageData = guideView->getImageData();
+    QSharedPointer<FITSData> imageData;
+    if (target == nullptr)
+        imageData = guideView->imageData();
+    else
+        imageData = target;
 
     // #1 Convert to float array
     // We only process 1st plane if it is a color image
@@ -421,9 +423,9 @@ QVector<float *> cgmath::partitionImage() const
 {
     QVector<float *> regions;
 
-    FITSData *imageData = guideView->getImageData();
+    const QSharedPointer<FITSData> &imageData = guideView->imageData();
 
-    float *imgFloat = createFloatImage();
+    float *imgFloat = createFloatImage(QSharedPointer<FITSData>());
 
     if (imgFloat == nullptr)
         return regions;
@@ -478,7 +480,7 @@ Vector cgmath::findLocalStarPosition(void)
     if (square_alg_idx == SEP_MULTISTAR)
     {
         QRect trackingBox = guideView->getTrackingBox();
-        return guideStars.findGuideStar(guideView->getImageData(), trackingBox, guideView);
+        return guideStars.findGuideStar(guideView->imageData(), trackingBox, guideView);
     }
 
     if (useRapidGuide)
@@ -486,7 +488,7 @@ Vector cgmath::findLocalStarPosition(void)
         return Vector(rapidDX, rapidDY, 0);
     }
 
-    FITSData *imageData = guideView->getImageData();
+    const QSharedPointer<FITSData> &imageData = guideView->imageData();
 
     if (imageGuideEnabled)
     {
@@ -597,7 +599,7 @@ Vector cgmath::findLocalStarPosition(void) const
     if (trackingBox.isValid() == false)
         return Vector(-1, -1, -1);
 
-    FITSData *imageData = guideView->getImageData();
+    const QSharedPointer<FITSData> &imageData = guideView->imageData();
 
     if (imageData == nullptr)
     {
@@ -1448,7 +1450,7 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
     //usImage smoothed;
     //smoothed.CopyFrom(image);
     //Median3(smoothed);
-    FITSData *smoothed = new FITSData(guideView->getImageData());
+    const QSharedPointer<FITSData> smoothed(new FITSData(guideView->imageData()));
     smoothed->applyFilter(FITS_MEDIAN);
 
     int searchRegion = guideView->getTrackingBox().width();
@@ -1637,14 +1639,13 @@ repeat:
     }
 
     delete [] conv;
-    delete (smoothed);
 
     return centers;
 }
 
 QVector3D cgmath::selectGuideStar()
 {
-    return guideStars.selectGuideStar(guideView->getImageData());
+    return guideStars.selectGuideStar(guideView->imageData());
 }
 
 double cgmath::getGuideStarSNR()

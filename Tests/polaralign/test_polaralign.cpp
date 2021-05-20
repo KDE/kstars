@@ -39,7 +39,7 @@ struct PaaData
 constexpr int IMAGE_WIDTH = 4656;
 constexpr int IMAGE_HEIGHT = 3520;
 
-void loadDummyFits(std::unique_ptr<FITSData> &image, const KStarsDateTime &time,
+void loadDummyFits(QSharedPointer<FITSData> &image, const KStarsDateTime &time,
                    double ra, double dec, double orientation, double pixScale, bool eastToTheRight)
 {
     image.reset(new FITSData(FITS_NORMAL));
@@ -59,7 +59,7 @@ void loadDummyFits(std::unique_ptr<FITSData> &image, const KStarsDateTime &time,
     QVERIFY(image->checkForWCS());
 }
 
-void setupData(const PaaData &data, int sampleNum, std::unique_ptr<FITSData> &image, bool eastToTheRight)
+void setupData(const PaaData &data, int sampleNum, QSharedPointer<FITSData> &image, bool eastToTheRight)
 {
     const Solution &d = sampleNum == 0 ? data.s1 : sampleNum == 1 ? data.s2 : data.s3;
 
@@ -97,16 +97,16 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
     PolarAlign polarAlign(&geo);
 
-    std::unique_ptr<FITSData> image;
+    QSharedPointer<FITSData> image;
 
     setupData(data, 0, image, eastToTheRight);
-    QVERIFY(polarAlign.addPoint(image.get()));
+    QVERIFY(polarAlign.addPoint(image));
 
     setupData(data, 1, image, eastToTheRight);
-    QVERIFY(polarAlign.addPoint(image.get()));
+    QVERIFY(polarAlign.addPoint(image));
 
     setupData(data, 2, image, eastToTheRight);
-    QVERIFY(polarAlign.addPoint(image.get()));
+    QVERIFY(polarAlign.addPoint(image));
 
     QVERIFY(polarAlign.findAxis());
 
@@ -120,31 +120,31 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
     if (data.x < 0 && data.y < 0)
     {
         QVERIFY(polarAlign.findCorrectedPixel(
-                    image.get(), QPointF(image->width() / 2, image->height() / 2), &corrected));
+                    image, QPointF(image->width() / 2, image->height() / 2), &corrected));
     }
     else
     {
         QVERIFY(polarAlign.findCorrectedPixel(
-                    image.get(), QPointF(data.x, data.y), &corrected));
+                    image, QPointF(data.x, data.y), &corrected));
         double azE, altE;
 
         // Just fix the altitude, not the azimuth, for the pixelError tests below.
         QPointF altCorrected;
         QVERIFY(polarAlign.findCorrectedPixel(
-                    image.get(), QPointF(data.x, data.y), &altCorrected, true));
+                    image, QPointF(data.x, data.y), &altCorrected, true));
 
         // Below pixelError tests, test our ability to estimate how much error is left to be corrected
         // as the user progresses along the polar alignment procedure.
         // We use pretty generous error margins below since pixelError is an approximation.
 
         // Test the entire path, start to end. We should see the full azimuth and altitude errors.
-        QVERIFY(polarAlign.pixelError(image.get(), QPointF(data.x, data.y), corrected, &azE, &altE));
+        QVERIFY(polarAlign.pixelError(image, QPointF(data.x, data.y), corrected, &azE, &altE));
         QVERIFY(fabs(azE - azimuthError) < .02);
         QVERIFY(fabs(altE - altitudeError) < .01);
 
         // Simulate that the user has started correcting, and is halfway on the alt-only segment,
         // there should be 1/2 the alt error left, and all of the az error.
-        if (polarAlign.pixelError(image.get(), QPointF((altCorrected.x() + data.x) / 2, (altCorrected.y() + data.y) / 2), corrected,
+        if (polarAlign.pixelError(image, QPointF((altCorrected.x() + data.x) / 2, (altCorrected.y() + data.y) / 2), corrected,
                                   &azE, &altE))
         {
             QVERIFY(fabs(azE - azimuthError) < .01);
@@ -154,7 +154,7 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
         // Simulate that the full alt correction path has been completed.
         // The azimuth error should not be fixed, but alt should be fully corrected.
-        if (polarAlign.pixelError(image.get(), altCorrected, corrected, &azE, &altE))
+        if (polarAlign.pixelError(image, altCorrected, corrected, &azE, &altE))
         {
             QVERIFY(fabs(azE - azimuthError) < .01);
             QVERIFY(fabs(altE) < .01);
@@ -163,7 +163,7 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
         // Now simulate that the user has gone further, halfway through on the az path.
         // There should be 1/2 the az error left but none of the alt error should remain.
-        if (polarAlign.pixelError(image.get(), QPointF((corrected.x() + altCorrected.x()) / 2,
+        if (polarAlign.pixelError(image, QPointF((corrected.x() + altCorrected.x()) / 2,
                                   (corrected.y() + altCorrected.y()) / 2), corrected, &azE, &altE))
         {
             QVERIFY(fabs(azE - azimuthError / 2) < .01);
@@ -172,7 +172,7 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
         else QVERIFY(canSkipPixelError);
 
         // At the end there should be no error left.
-        if (polarAlign.pixelError(image.get(), corrected, corrected, &azE, &altE))
+        if (polarAlign.pixelError(image, corrected, corrected, &azE, &altE))
         {
             QVERIFY(fabs(azE) < .01);
             QVERIFY(fabs(altE) < .01);
@@ -181,7 +181,7 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
         // Test the alt-only path.
         // Using that correction path, there should be no Azimuth error, but alt error remains.
-        if (polarAlign.pixelError(image.get(), QPointF(data.x, data.y), altCorrected, &azE, &altE))
+        if (polarAlign.pixelError(image, QPointF(data.x, data.y), altCorrected, &azE, &altE))
         {
             QVERIFY(fabs(azE) < .01);
             QVERIFY(fabs(altE - altitudeError) < .01);
@@ -584,12 +584,12 @@ void TestPolarAlign::getAzAlt(const KStarsDateTime &time, const GeoLocation &geo
                               const QPointF &pixel, double ra, double dec, double orientation,
                               double pixScale, double *az, double *alt)
 {
-    std::unique_ptr<FITSData> image;
+    QSharedPointer<FITSData> image;
     loadDummyFits(image, time, ra, dec, orientation, pixScale, true);
 
     SkyPoint pt;
     PolarAlign polarAlign(&geo);
-    QVERIFY(polarAlign.prepareAzAlt(image.get(), pixel, &pt));
+    QVERIFY(polarAlign.prepareAzAlt(image, pixel, &pt));
     *az = pt.az().Degrees();
     *alt = pt.alt().Degrees();
 }

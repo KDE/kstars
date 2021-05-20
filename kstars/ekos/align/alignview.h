@@ -43,9 +43,9 @@ class AlignView : public FITSView
 
         void holdOnToImage();
         void releaseImage();
-        FITSData *keptImage() const
+        const QSharedPointer<FITSData> keptImage() const
         {
-            return keptImagePointer.data();
+            return keptImagePointer;
         }
 
     protected:

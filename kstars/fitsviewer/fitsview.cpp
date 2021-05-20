@@ -1821,7 +1821,7 @@ void FITSView::searchStars()
     QVariantMap extractionSettings;
     extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
     extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
-    getImageData()->setSourceExtractorSettings(extractionSettings);
+    imageData()->setSourceExtractorSettings(extractionSettings);
 #endif
 
     QFuture<bool> result = findStars(ALGORITHM_SEP);

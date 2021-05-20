@@ -135,7 +135,7 @@ void FITSHistogram::showEvent(QShowEvent * event)
 
 void FITSHistogram::constructHistogram()
 {
-    FITSData * imageData = tab->getView()->getImageData();
+    const QSharedPointer<FITSData> &imageData = tab->getView()->imageData();
 
     isGUISynced = false;
 
@@ -184,7 +184,7 @@ void FITSHistogram::constructHistogram()
 
 template <typename T> void FITSHistogram::constructHistogram()
 {
-    FITSData * imageData = tab->getView()->getImageData();
+    const QSharedPointer<FITSData> &imageData = tab->getView()->imageData();
     uint16_t width = imageData->width(), height = imageData->height();
     uint8_t channels = imageData->channels();
 
@@ -364,7 +364,7 @@ void FITSHistogram::syncGUI()
     if (isGUISynced)
         return;
 
-    FITSData * imageData = tab->getView()->getImageData();
+    const QSharedPointer<FITSData> &imageData = tab->getView()->imageData();
     bool isColor = imageData->channels() > 1;
     // R/K is always enabled
     for (auto w : rgbWidgets[RED_CHANNEL])
@@ -526,7 +526,7 @@ FITSHistogramCommand::~FITSHistogramCommand()
 
 bool FITSHistogramCommand::calculateDelta(const uint8_t * buffer)
 {
-    FITSData * imageData = tab->getView()->getImageData();
+    const QSharedPointer<FITSData> &imageData = tab->getView()->imageData();
 
     uint8_t const * image_buffer = imageData->getImageBuffer();
     int totalPixels =
@@ -578,7 +578,7 @@ bool FITSHistogramCommand::calculateDelta(const uint8_t * buffer)
 bool FITSHistogramCommand::reverseDelta()
 {
     FITSView * image = tab->getView();
-    FITSData * imageData = image->getImageData();
+    const QSharedPointer<FITSData> &imageData = image->imageData();
     uint8_t const * image_buffer = (imageData->getImageBuffer());
 
     int totalPixels =
@@ -625,7 +625,7 @@ bool FITSHistogramCommand::reverseDelta()
 void FITSHistogramCommand::redo()
 {
     FITSView * image = tab->getView();
-    FITSData * imageData = image->getImageData();
+    const QSharedPointer<FITSData> &imageData = image->imageData();
 
     uint8_t const * image_buffer = imageData->getImageBuffer();
     uint8_t * buffer = nullptr;
@@ -714,7 +714,7 @@ void FITSHistogramCommand::redo()
 void FITSHistogramCommand::undo()
 {
     FITSView * image = tab->getView();
-    FITSData * imageData = image->getImageData();
+    const QSharedPointer<FITSData> &imageData = image->imageData();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -789,7 +789,7 @@ void FITSHistogram::driftMouseOverLine(QMouseEvent * event)
 {
     double intensity = customPlot->xAxis->pixelToCoord(event->localPos().x());
 
-    FITSData * imageData = tab->getView()->getImageData();
+    const QSharedPointer<FITSData> &imageData = tab->getView()->imageData();
     uint8_t channels = imageData->channels();
     QVector<double> freq(3, -1);
 

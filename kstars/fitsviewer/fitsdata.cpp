@@ -78,7 +78,7 @@ FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
     m_HistogramIntensity.resize(3);
 }
 
-FITSData::FITSData(const FITSData * other)
+FITSData::FITSData(const QSharedPointer<FITSData> &other)
 {
     qRegisterMetaType<FITSMode>("FITSMode");
 

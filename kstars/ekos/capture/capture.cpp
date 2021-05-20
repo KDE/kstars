@@ -6259,12 +6259,12 @@ bool Capture::processPostCaptureCalibrationStage()
             qCInfo(KSTARS_EKOS_CAPTURE) << "Enabling FITS Viewer...";
         }
 
-        FITSData * image_data   = nullptr;
+        QSharedPointer<FITSData> image_data;
         FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
 
         if (currentImage)
         {
-            image_data        = currentImage->getImageData();
+            image_data        = currentImage->imageData();
             double currentADU = image_data->getADU();
             bool outOfRange = false, saturated = false;
 

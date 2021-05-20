@@ -32,11 +32,11 @@ class Parameters;
  * The major methods are:
  *
  * GuideStars guideStars();
- * guideStars.selectGuideStar(FITSdata*);
+ * guideStars.selectGuideStar(QSharedPointer<FITSdata>);
  * Selects a guide star, given the input image. This can be done at the start of
  * calibration, when guiding starts, or when the guide star is lost.
  *
- * Vector xy = guideStars.findGuideStar(FITSdata*, QRect trackingBox)
+ * Vector xy = guideStars.findGuideStar(QSharedPointer<FITSdata>, QRect trackingBox)
  * Finds the guide star that was previously selected. xy will contain the pixel coordinates
  * {x,y,0}. The tracking box is not enforced if the multi-star star-finding algorithm
  * is used, however, if that fails, it backs off to the star with the best score
@@ -57,11 +57,11 @@ class GuideStars
         // Select a guide star, given the image.
         // Performs a SEP processing to detect stars, then finds the
         // most desirable guide star.
-        QVector3D selectGuideStar(FITSData *imageData);
+        QVector3D selectGuideStar(const QSharedPointer<FITSData> &imageData);
 
         // Finds the guide star previously selected with selectGuideStar()
         // in a new image. This sets up internal structures for getDrift().
-        Vector findGuideStar(FITSData *imageData, const QRect &trackingBox, GuideView *guideView = nullptr);
+        Vector findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox, GuideView *guideView = nullptr);
 
         // Finds the drift of the star positions in arc-seconds for RA and DEC.
         // Must be called after findGuideStar().
@@ -106,13 +106,13 @@ class GuideStars
         SSolver::Parameters getStarExtractionParameters(int num);
 
         // Returns the top num stars according to the evaluateSEPStars criteria.
-        void findTopStars(FITSData *imageData, int num, QList<Edge> *stars,
+        void findTopStars(const QSharedPointer<FITSData> &imageData, int num, QList<Edge> *stars,
                           const double maxHFR,
                           const QRect *roi = nullptr,
                           QList<double> *outputScores = nullptr,
                           QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algoritms.
-        int findAllSEPStars(FITSData *imageData, QList<Edge*> *sepStars, int num);
+        int findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList<Edge*> *sepStars, int num);
 
         // Convert from input image coordinates to output RA and DEC coordinates.
         Vector point2arcsec(const Vector &p) const;

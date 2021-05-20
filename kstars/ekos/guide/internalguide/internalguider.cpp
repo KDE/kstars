@@ -1425,7 +1425,7 @@ bool InternalGuider::selectAutoStar()
     if (Options::guideAlgorithm() == SEP_MULTISTAR)
         return selectAutoStarSEPMultistar();
 
-    FITSData *imageData = guideFrame->getImageData();
+    const QSharedPointer<FITSData> &imageData = guideFrame->imageData();
 
     if (imageData == nullptr)
         return false;

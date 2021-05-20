@@ -466,7 +466,7 @@ bool FITSTab::shouldComputeHFR() const
 
 void FITSTab::processData()
 {
-    const QSharedPointer<FITSData> imageData = m_View->imageData();
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
 
     m_HistogramEditor->setImageData(imageData);
 
@@ -590,8 +590,7 @@ void FITSTab::histoFITS()
 
 void FITSTab::evaluateStats()
 {
-    //FITSData *image_data = view->getImageData();
-    const QSharedPointer<FITSData> imageData = m_View->imageData();
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
 
     stat.statsTable->item(STAT_WIDTH, 0)->setText(QString::number(imageData->width()));
     stat.statsTable->item(STAT_HEIGHT, 0)->setText(QString::number(imageData->height()));
@@ -647,7 +646,7 @@ void FITSTab::statFITS()
 
 void FITSTab::loadFITSHeader()
 {
-    const QSharedPointer<FITSData> imageData = m_View->imageData();
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
 
     int nkeys = imageData->getRecords().size();
     int counter = 0;
@@ -719,7 +718,7 @@ bool FITSTab::saveFile()
 
         if (!saveImage(localFile))
         {
-            KSNotification::error(i18n("Image save error: %1", m_View->getImageData()->getLastError()), i18n("Image Save"));
+            KSNotification::error(i18n("Image save error: %1", m_View->imageData()->getLastError()), i18n("Image Save"));
             return false;
         }
 
@@ -766,6 +765,6 @@ void FITSTab::tabPositionUpdated()
 {
     undoStack->setActive(true);
     emit newStatus(QString("%1%").arg(m_View->getCurrentZoom()), FITS_ZOOM);
-    emit newStatus(QString("%1x%2").arg(m_View->getImageData()->width()).arg(m_View->getImageData()->height()),
+    emit newStatus(QString("%1x%2").arg(m_View->imageData()->width()).arg(m_View->imageData()->height()),
                    FITS_RESOLUTION);
 }

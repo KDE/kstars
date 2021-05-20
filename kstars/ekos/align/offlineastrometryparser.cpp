@@ -203,7 +203,7 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     }
 }
 
-bool OfflineAstrometryParser::startSovler(const QString &filename, const QStringList &args, bool generated)
+bool OfflineAstrometryParser::startSolver(const QString &filename, const QStringList &args, bool generated)
 {
     INDI_UNUSED(generated);
 

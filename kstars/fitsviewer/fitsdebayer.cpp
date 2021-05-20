@@ -38,7 +38,7 @@ void FITSDebayer::applyDebayer()
 
     if (view)
     {
-        FITSData *image_data = view->getImageData();
+        const QSharedPointer<FITSData> &image_data = view->imageData();
 
         dc1394bayer_method_t method = (dc1394bayer_method_t)ui->methodCombo->currentIndex();
         dc1394color_filter_t filter = (dc1394color_filter_t)(ui->filterCombo->currentIndex() + 512);

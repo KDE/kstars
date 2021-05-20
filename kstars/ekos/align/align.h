@@ -313,7 +313,7 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief Generate arguments we pass to the remote solver.
              */
-        QStringList generateRemoteArgs(FITSData *data = nullptr);
+        QStringList generateRemoteArgs(const QSharedPointer<FITSData> &imageData);
 
         /**
              * @brief Does our parser exist in the system?

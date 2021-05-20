@@ -36,7 +36,7 @@ void ASTAPAstrometryParser::verifyIndexFiles(double, double)
 {
 }
 
-bool ASTAPAstrometryParser::startSovler(const QString &filename, const QStringList &args, bool generated)
+bool ASTAPAstrometryParser::startSolver(const QString &filename, const QStringList &args, bool generated)
 {
     INDI_UNUSED(generated);
 

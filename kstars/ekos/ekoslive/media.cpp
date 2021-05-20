@@ -211,7 +211,7 @@ void Media::upload(FITSView * view)
     //            (imageData->isTempFile() == false))
     //        uuid = m_UUID;
 
-    const FITSData * imageData = view->getImageData();
+    const QSharedPointer<FITSData> imageData = view->imageData();
     QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
     QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
@@ -284,7 +284,7 @@ void Media::sendUpdatedFrame(FITSView *view)
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
 
-    const FITSData * imageData = view->getImageData();
+    const QSharedPointer<FITSData> imageData = view->imageData();
 
     if (!imageData)
         return;
