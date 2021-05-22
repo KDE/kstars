@@ -37,6 +37,7 @@ class FITSLabel : public QLabel
         virtual void mousePressEvent(QMouseEvent *e) override;
         virtual void mouseReleaseEvent(QMouseEvent *e) override;
         virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
+        virtual void leaveEvent(QEvent *e) override;
 
     private:
         bool mouseButtonDown { false };

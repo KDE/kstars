@@ -20,6 +20,7 @@
 #include "Options.h"
 #include "skymap.h"
 #include "ksnotification.h"
+#include <QGuiApplication>
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
@@ -66,6 +67,13 @@ void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
         view->updateMouseCursor();
     }
 }
+
+void FITSLabel::leaveEvent(QEvent *e)
+{
+    Q_UNUSED(e);
+    view->updateMagnifyingGlass(-1, -1);
+}
+
 /**
 I added some things to the top of this method to allow panning and Scope slewing to function.
 If you are in the dragMouse mode and the mousebutton is pressed, The method checks the difference
@@ -98,6 +106,11 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     x = round(e->x() / scale);
     y = round(e->y() / scale);
+
+    if(QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier))
+        view->updateMagnifyingGlass(x, y);
+    else
+        view->updateMagnifyingGlass(-1, -1);
 
     x = KSUtils::clamp(x, 1.0, m_Width);
     y = KSUtils::clamp(y, 1.0, m_Height);

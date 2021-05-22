@@ -131,6 +131,7 @@ class FITSView : public QScrollArea
         void drawEQGrid(QPainter *, double scale);
         void drawObjectNames(QPainter *painter, double scale);
         void drawPixelGrid(QPainter *painter, double scale);
+        void drawMagnifyingGlass(QPainter *painter, double scale);
 
         bool isImageStretched();
         bool isCrosshairShown();
@@ -264,6 +265,7 @@ class FITSView : public QScrollArea
         void ZoomOut();
         void ZoomDefault();
         void ZoomToFit();
+        void updateMagnifyingGlass(int x, int y);
 
         // Grids
         void toggleEQGrid();
@@ -422,6 +424,10 @@ class FITSView : public QScrollArea
         QAction *toggleProfileAction { nullptr };
         QAction *toggleStretchAction { nullptr };
 
+        // State for the magnifying glass overlay.
+        int magnifyingGlassX { -1 };
+        int magnifyingGlassY { -1 };
+        bool showMagnifyingGlass { false };
 
         //Star Profile Viewer
 #ifdef HAVE_DATAVISUALIZATION

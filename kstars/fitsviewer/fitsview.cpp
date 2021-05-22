@@ -759,7 +759,7 @@ bool FITSView::isLargeImage()
 }
 
 // getScale() is related to the image and overlay rendering strategy used.
-// If we're using a pixmap apprpriate for a large image, where we draw and render on a pixmap that's the image size
+// If we're using a pixmap appropriate for a large image, where we draw and render on a pixmap that's the image size
 // and we let the QLabel deal with scaling and zooming, then the scale is 1.0.
 // With smaller images, where memory use is not as severe, we create a pixmap that's the size of the scaled image
 // and get scale returns the ratio of that pixmap size to the image size.
@@ -1006,6 +1006,90 @@ void FITSView::drawOverlay(QPainter * painter, double scale)
 
     if (showClipping)
         drawClipping(painter);
+
+    if (showMagnifyingGlass)
+        drawMagnifyingGlass(painter, scale);
+}
+
+// Draws a 100% resolution image rectangle around the mouse position.
+void FITSView::drawMagnifyingGlass(QPainter *painter, double scale)
+{
+    if (magnifyingGlassX >= 0 && magnifyingGlassY >= 0 &&
+            magnifyingGlassX < m_ImageData->width() &&
+            magnifyingGlassY < m_ImageData->height())
+    {
+        // Amount of magnification.
+        constexpr double magAmount = 8;
+        // Desired size in pixels of the magnification window.
+        constexpr int magWindowSize = 130;
+        // The distance from the mouse position to the magnifying glass rectangle, in the source image coordinates.
+        const int winXOffset = magWindowSize * 10.0 / currentZoom;
+        const int winYOffset = magWindowSize * 10.0 / currentZoom;
+        // Size of a side of the square of input to make a window that size.
+        const int inputDimension = magWindowSize * 100 / currentZoom;
+        // Size of the square drawn. Not the same, necessarily as the magWindowSize,
+        // since the output may be scaled (if isLargeImage()==true) to become screen pixels.
+        const int outputDimension = inputDimension * scale + .99;
+
+        // Where the source data (to be magnified) comes from.
+        int imgLeft = magnifyingGlassX - inputDimension / (2 * magAmount);
+        int imgTop = magnifyingGlassY - inputDimension / (2 * magAmount);
+
+        // Where we'll draw the magnifying glass rectangle.
+        int winLeft = magnifyingGlassX + winXOffset;
+        int winTop = magnifyingGlassY + winYOffset;
+
+        // Normally we place the magnifying glass rectangle to the right and below the mouse curson.
+        // However, if it would be rendered outside the image, put it on the other side.
+        int w = rawImage.width();
+        int h = rawImage.height();
+        const int rightLimit = std::min(w, static_cast<int>((horizontalScrollBar()->value() + width()) * 100 / currentZoom));
+        const int bottomLimit = std::min(h, static_cast<int>((verticalScrollBar()->value() + height()) * 100 / currentZoom));
+        if (winLeft + winXOffset + inputDimension > rightLimit)
+            winLeft -= (2 * winXOffset + inputDimension);
+        if (winTop + winYOffset + inputDimension > bottomLimit)
+            winTop -= (2 * winYOffset + inputDimension);
+
+        // Blacken the output where magnifying outside the source image.
+        if ((imgLeft < 0 ) ||
+                (imgLeft + inputDimension / magAmount >= w) ||
+                (imgTop < 0) ||
+                (imgTop + inputDimension / magAmount > h))
+        {
+            painter->setBrush(QBrush(Qt::black));
+            painter->drawRect(winLeft * scale, winTop * scale, outputDimension, outputDimension);
+            painter->setBrush(QBrush(Qt::transparent));
+        }
+
+        // Finally, draw the magnified image.
+        painter->drawImage(QRect(winLeft * scale, winTop * scale, outputDimension, outputDimension),
+                           rawImage,
+                           QRect(imgLeft, imgTop, inputDimension / magAmount, inputDimension / magAmount));
+        // Draw a white border.
+        painter->setPen(QPen(Qt::white, scaleSize(1)));
+        painter->drawRect(winLeft * scale, winTop * scale, outputDimension, outputDimension);
+    }
+}
+
+// x,y are the image coordinates where the magnifying glass is positioned.
+void FITSView::updateMagnifyingGlass(int x, int y)
+{
+    if (!m_ImageData)
+        return;
+
+    magnifyingGlassX = x;
+    magnifyingGlassY = y;
+    if (magnifyingGlassX == -1 && magnifyingGlassY == -1)
+    {
+        if (showMagnifyingGlass)
+            updateFrame(true);
+        showMagnifyingGlass = false;
+    }
+    else
+    {
+        showMagnifyingGlass = true;
+        updateFrame(true);
+    }
 }
 
 void FITSView::updateMode(FITSMode fmode)
