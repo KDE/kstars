@@ -636,6 +636,11 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief showTemperatureRegulation Toggle temperature regulation dialog which sets temperature ramp and threshold
+         */
+        void showTemperatureRegulation();
+
+        /**
          * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
          */
         void prepareActiveJobStage1();

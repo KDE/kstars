@@ -94,6 +94,7 @@ Capture::Capture()
     connect(startB, &QPushButton::clicked, this, &Ekos::Capture::toggleSequence);
     connect(pauseB, &QPushButton::clicked, this, &Ekos::Capture::pause);
     connect(darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
+    connect(temperatureRegulationB, &QPushButton::clicked, this, &Ekos::Capture::showTemperatureRegulation);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -7458,6 +7459,58 @@ QStringList Capture::generateScriptArguments() const
 {
     // TODO based on user feedback on what paramters are most useful to pass
     return QStringList();
+}
+
+void Capture::showTemperatureRegulation()
+{
+    if (!currentCCD)
+        return;
+
+    double currentRamp, currentThreshold;
+    if (!currentCCD->getTemperatureRegulation(currentRamp, currentThreshold))
+        return;
+
+
+    double rMin, rMax, rStep, tMin, tMax, tStep;
+
+    currentCCD->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_SLOPE", &rMin, &rMax, &rStep);
+    currentCCD->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_THRESHOLD", &tMin, &tMax, &tStep);
+
+    QLabel rampLabel(i18nc("Temperature ramp celcius per minute", "Ramp (C/min):"));
+    QDoubleSpinBox rampSpin;
+    rampSpin.setMinimum(rMin);
+    rampSpin.setMaximum(rMax);
+    rampSpin.setSingleStep(rStep);
+    rampSpin.setValue(currentRamp);
+    rampSpin.setToolTip(i18n("Maximum temperature change per minute when cooling or warming the camera. Set zero to disable."));
+
+    QLabel thresholdLabel(i18n("Threshold:"));
+    QDoubleSpinBox thresholdSpin;
+    thresholdSpin.setMinimum(tMin);
+    thresholdSpin.setMaximum(tMax);
+    thresholdSpin.setSingleStep(tStep);
+    thresholdSpin.setValue(currentThreshold);
+    thresholdSpin.setToolTip(i18n("Maximum difference between camera and target temperatures"));
+
+    QFormLayout layout;
+    layout.addRow(&rampLabel, &rampSpin);
+    layout.addRow(&thresholdLabel, &thresholdSpin);
+
+    QPointer<QDialog> dialog = new QDialog(this);
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, dialog);
+    connect(&buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
+    connect(&buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
+    dialog->setWindowTitle(i18n("Set Temperature Regulation"));
+    layout.addWidget(&buttonBox);
+    dialog->setLayout(&layout);
+    dialog->setMinimumWidth(300);
+
+    if (dialog->exec() == QDialog::Accepted)
+    {
+        currentCCD->setTemperatureRegulation(rampSpin.value(), thresholdSpin.value());
+    }
+
+    //delete(dialog);
 }
 
 }

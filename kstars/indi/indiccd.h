@@ -221,6 +221,10 @@ class CCD : public DeviceDecorator
         bool getTemperature(double *value);
         bool setTemperature(double value);
 
+        // Temperature Regulation
+        bool getTemperatureRegulation(double &ramp, double &threshold);
+        bool setTemperatureRegulation(double ramp, double threshold);
+
         // Utility functions
         void setISOMode(bool enable)
         {

@@ -2625,4 +2625,26 @@ bool CCD::isCoolerOn()
     return (svp->at(0)->getState() == ISS_ON);
 }
 
+bool CCD::getTemperatureRegulation(double &ramp, double &threshold)
+{
+    auto regulation = baseDevice->getProperty("CCD_TEMP_RAMP");
+    if (!regulation->isValid())
+        return false;
+
+    ramp = regulation.getNumber()->at(0)->getValue();
+    threshold = regulation.getNumber()->at(1)->getValue();
+    return true;
+}
+
+bool CCD::setTemperatureRegulation(double ramp, double threshold)
+{
+    auto regulation = baseDevice->getProperty("CCD_TEMP_RAMP");
+    if (!regulation->isValid())
+        return false;
+
+    regulation.getNumber()->at(0)->setValue(ramp);
+    regulation.getNumber()->at(1)->setValue(threshold);
+    clientManager->sendNewNumber(regulation->getNumber());
+    return true;
+}
 }
