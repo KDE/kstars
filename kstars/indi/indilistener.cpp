@@ -234,7 +234,6 @@ void INDIListener::removeDevice(const QString &deviceName)
 
 void INDIListener::registerProperty(INDI::Property prop)
 {
-    fprintf(stderr, " +++ %s:%d\n", __FILE__, __LINE__);
     if (!prop.getRegistered())
         return;
 
@@ -245,9 +244,9 @@ void INDIListener::registerProperty(INDI::Property prop)
         if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
             if (prop.isNameMatch("ON_COORD_SET") ||
-                prop.isNameMatch("EQUATORIAL_EOD_COORD") ||
-                prop.isNameMatch("EQUATORIAL_COORD") ||
-                prop.isNameMatch("HORIZONTAL_COORD"))
+                    prop.isNameMatch("EQUATORIAL_EOD_COORD") ||
+                    prop.isNameMatch("EQUATORIAL_COORD") ||
+                    prop.isNameMatch("HORIZONTAL_COORD"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
