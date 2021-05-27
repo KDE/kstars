@@ -1063,11 +1063,11 @@ class Capture : public QWidget, public Ui::Capture
 
         // State
         CaptureState m_State { CAPTURE_IDLE };
-        FocusState focusState { FOCUS_IDLE };
-        GuideState guideState { GUIDE_IDLE };
-        IPState ditheringState {IPS_IDLE};
-        AlignState alignState { ALIGN_IDLE };
-        FilterState filterManagerState { FILTER_IDLE };
+        FocusState m_FocusState { FOCUS_IDLE };
+        GuideState m_GuideState { GUIDE_IDLE };
+        IPState m_DitheringState {IPS_IDLE};
+        AlignState m_AlignState { ALIGN_IDLE };
+        FilterState m_FilterManagerState { FILTER_IDLE };
 
         PauseFunctionPointer pauseFunction;
 
