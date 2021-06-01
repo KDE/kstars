@@ -3540,7 +3540,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     // When solving (without Load&Slew), update effective FOV and focal length accordingly.
     if (!solveFromFile &&
-            (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.05) &&
+            (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.005) &&
             pixscale > 0)
     {
         double newFOVW = ccd_width * pixscale / binx / 60.0;
