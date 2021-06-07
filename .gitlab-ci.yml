@@ -8,7 +8,7 @@ stages:
   - test
   - test-unstable
 
-image: tallfurryman/kstars-ci:0.7
+image: tallfurryman/kstars-ci:0.8
 
 variables:
   CCACHE_BASEDIR: "$CI_PROJECT_DIR"
