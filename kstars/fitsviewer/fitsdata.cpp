@@ -62,7 +62,6 @@
 const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
-
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 {
     qRegisterMetaType<FITSMode>("FITSMode");

@@ -1829,6 +1829,14 @@
          <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
          <default>1</default>
       </entry>
+      <entry name="FocusCaptureTimeout" type="UInt">
+         <whatsthis>Maximum time in seconds to wait for a captured image to be recieved before declaring a timeout.</whatsthis>
+         <default>120</default>
+      </entry>
+      <entry name="FocusMotionTimeout" type="UInt">
+         <whatsthis>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</whatsthis>
+         <default>30</default>
+      </entry>
       <entry name="FocusMaxTravel" type="UInt">
          <label>Maximum Focus Travel Distance</label>
          <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>

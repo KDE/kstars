@@ -36,7 +36,6 @@
 
 #include <cmath>
 
-#define FOCUS_TIMEOUT_THRESHOLD  120000
 #define MAXIMUM_ABS_ITERATIONS   30
 #define MAXIMUM_RESET_ITERATIONS 3
 #define AUTO_STAR_TIMEOUT        45000
@@ -94,6 +93,10 @@ Focus::Focus()
         button->setAutoDefault(false);
 
     appendLogText(i18n("Idle."));
+
+    // Focus motion timeout
+    m_FocusMotionTimer.setInterval(Options::focusMotionTimeout() * 1000);
+    connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
     // Create an autofocus CSV file, dated at startup time
     QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
@@ -869,7 +872,7 @@ void Focus::start()
     }
     else inAutoFocus = true;
 
-    lastFocusDirection = FOCUS_NONE;
+    m_LastFocusDirection = FOCUS_NONE;
 
     polySolutionFound = 0;
 
@@ -1058,6 +1061,8 @@ void Focus::stop(bool aborted)
     qCDebug(KSTARS_EKOS_FOCUS) << "Stopping Focus";
 
     captureTimeout.stop();
+    m_FocusMotionTimer.stop();
+    m_FocusMotionTimerCounter = 0;
 
     inAutoFocus     = false;
     focuserAdditionalMovement = 0;
@@ -1218,8 +1223,8 @@ void Focus::capture(double settleTime)
     if (targetChip->capture(exposureIN->value()))
     {
         // Timeout is exposure duration + timeout threshold in seconds
-        long const timeout = lround(ceil(exposureIN->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-        captureTimeout.start(timeout);
+        //long const timeout = lround(ceil(exposureIN->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
+        captureTimeout.start(Options::focusCaptureTimeout() * 1000);
 
         if (inFocusLoop == false)
             appendLogText(i18n("Capturing image..."));
@@ -1305,27 +1310,32 @@ bool Focus::changeFocus(int amount)
     const int absAmount = abs(amount);
     const bool focusingOut = amount > 0;
     const QString dirStr = focusingOut ? i18n("outward") : i18n("inward");
-    lastFocusDirection = focusingOut ? FOCUS_OUT : FOCUS_IN;
-
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus " << dirStr << " (" << absAmount << ")";
+    m_LastFocusDirection = focusingOut ? FOCUS_OUT : FOCUS_IN;
 
     if (focusingOut)
         currentFocuser->focusOut();
     else
         currentFocuser->focusIn();
 
+    // Keep track of motion in case it gets stuck.
+    m_FocusMotionTimerCounter = 0;
+    m_FocusMotionTimer.start();
+
     if (canAbsMove)
     {
+        m_LastFocusSteps = currentPosition + amount;
         currentFocuser->moveAbs(currentPosition + amount);
         appendLogText(i18n("Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else if (canRelMove)
     {
+        m_LastFocusSteps = absAmount;
         currentFocuser->moveRel(absAmount);
         appendLogText(i18np("Focusing %2 by %1 step...", "Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else
     {
+        m_LastFocusSteps = absAmount;
         currentFocuser->moveByTimer(absAmount);
         appendLogText(i18n("Focusing %2 by %1 ms...", absAmount, dirStr));
     }
@@ -1333,15 +1343,39 @@ bool Focus::changeFocus(int amount)
     return true;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void Focus::handleFocusMotionTimeout()
+{
+    if (++m_FocusMotionTimerCounter > 3)
+    {
+        appendLogText(i18n("Focuser is not responding to commands. Aborting..."));
+        completeFocusProcedure(false);
+    }
+
+    const QString dirStr = m_LastFocusDirection == FOCUS_OUT ? i18n("outward") : i18n("inward");
+    if (canAbsMove)
+    {
+        currentFocuser->moveAbs(m_LastFocusSteps);
+        appendLogText(i18n("Focus motion timed out. Focusing to %1 steps...", m_LastFocusSteps));
+    }
+    else if (canRelMove)
+    {
+        currentFocuser->moveRel(m_LastFocusSteps);
+        appendLogText(i18n("Focus motion timed out. Focusing %2 by %1 steps...", m_LastFocusSteps,
+                           dirStr));
+    }
+    else
+    {
+        currentFocuser->moveByTimer(m_LastFocusSteps);
+        appendLogText(i18n("Focus motion timed out. Focusing %2 by %1 ms...",
+                           m_LastFocusSteps, dirStr));
+    }
+}
+
 void Focus::processData(const QSharedPointer<FITSData> &data)
 {
-    //    if (data == nullptr)
-    //    {
-    //        capture();
-    //        return;
-    //    }
-
-
     // Ignore guide head if there is any.
     if (data->property("chip").toInt() == ISD::CCDChip::GUIDE_CCD)
         return;
@@ -2336,7 +2370,7 @@ void Focus::autoFocusAbs()
 
     drawHFRPlot();
 
-    switch (lastFocusDirection)
+    switch (m_LastFocusDirection)
     {
         case FOCUS_NONE:
             lastHFR                   = currentHFR;
@@ -2359,7 +2393,7 @@ void Focus::autoFocusAbs()
                 else
                 {
                     pulseDuration = 0;
-                    lastFocusDirection = FOCUS_IN;
+                    m_LastFocusDirection = FOCUS_IN;
                 }
             }
             else if (currentPosition + pulseDuration < absMotionMin)
@@ -2371,7 +2405,7 @@ void Focus::autoFocusAbs()
                 else
                 {
                     pulseDuration = 0;
-                    lastFocusDirection = FOCUS_OUT;
+                    m_LastFocusDirection = FOCUS_OUT;
                 }
             }
 
@@ -2419,12 +2453,12 @@ void Focus::autoFocusAbs()
                 }
 
                 // Let's now limit the travel distance of the focuser
-                if (lastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - lastHFR) > 0.1)
+                if (m_LastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusInLimit = lastHFRPos;
                     qCDebug(KSTARS_EKOS_FOCUS) << "New FocusInLimit " << focusInLimit;
                 }
-                else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit &&
+                else if (m_LastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit &&
                          fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusOutLimit = lastHFRPos;
@@ -2453,7 +2487,7 @@ void Focus::autoFocusAbs()
                 // Otherwise proceed iteratively
                 else
                 {
-                    if (lastFocusDirection == FOCUS_IN)
+                    if (m_LastFocusDirection == FOCUS_IN)
                         targetPosition = currentPosition - pulseDuration;
                     else
                         targetPosition = currentPosition + pulseDuration;
@@ -2505,7 +2539,7 @@ void Focus::autoFocusAbs()
                 qCDebug(KSTARS_EKOS_FOCUS) << "Focus is moving away from optimal HFR.";
 
                 // Let's set new limits
-                if (lastFocusDirection == FOCUS_IN)
+                if (m_LastFocusDirection == FOCUS_IN)
                 {
                     focusInLimit = currentPosition;
                     qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus IN limit to " << focusInLimit;
@@ -2555,7 +2589,7 @@ void Focus::autoFocusAbs()
                     pulseDuration = pulseDuration * 0.75;
 
                     // Let's get close to the minimum HFR position so far detected
-                    if (lastFocusDirection == FOCUS_OUT)
+                    if (m_LastFocusDirection == FOCUS_OUT)
                         targetPosition = minHFRPos - pulseDuration / 2;
                     else
                         targetPosition = minHFRPos + pulseDuration / 2;
@@ -2565,12 +2599,12 @@ void Focus::autoFocusAbs()
             }
 
             // Limit target Pulse to algorithm limits
-            if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPosition < focusInLimit)
+            if (focusInLimit != 0 && m_LastFocusDirection == FOCUS_IN && targetPosition < focusInLimit)
             {
                 targetPosition = focusInLimit;
                 qCDebug(KSTARS_EKOS_FOCUS) << "Limiting target pulse to focus in limit " << targetPosition;
             }
-            else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPosition > focusOutLimit)
+            else if (focusOutLimit != 0 && m_LastFocusDirection == FOCUS_OUT && targetPosition > focusOutLimit)
             {
                 targetPosition = focusOutLimit;
                 qCDebug(KSTARS_EKOS_FOCUS) << "Limiting target pulse to focus out limit " << targetPosition;
@@ -2709,7 +2743,7 @@ void Focus::autoFocusRel()
     else
         noStarCount = 0;
 
-    switch (lastFocusDirection)
+    switch (m_LastFocusDirection)
     {
         case FOCUS_NONE:
             lastHFR = currentHFR;
@@ -2729,7 +2763,7 @@ void Focus::autoFocusRel()
                     minHFR = currentHFR;
 
                 lastHFR = currentHFR;
-                changeFocus(lastFocusDirection == FOCUS_IN ? -pulseDuration : pulseDuration);
+                changeFocus(m_LastFocusDirection == FOCUS_IN ? -pulseDuration : pulseDuration);
                 HFRInc = 0;
             }
             else
@@ -2742,7 +2776,7 @@ void Focus::autoFocusRel()
 
                 pulseDuration *= 0.75;
 
-                if (!changeFocus(lastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration))
+                if (!changeFocus(m_LastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration))
                     completeFocusProcedure(false);
             }
             break;
@@ -2826,23 +2860,15 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
         return;
 
-    //    qCDebug(KSTARS_EKOS_FOCUS) << QString("processFocusNumber %1 state: %2")
-    //                               .arg(nvp->name).arg(nvp->s);
-
     if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
     {
         focusBacklashSpin->setValue(nvp->np[0].value);
         return;
     }
 
-    //    if (!strcmp(nvp->name, "FOCUS_TEMPERATURE"))
-    //    {
-    //        updateTemperature(FOCUSER_TEMPERATURE, nvp->np[0].value);
-    //        return;
-    //    }
-
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
+        m_FocusMotionTimer.stop();
         INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
 
         // FIXME: We should check state validity, but some focusers do not care - make ignore an option!
@@ -2861,8 +2887,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             if (currentPosition != newPosition)
             {
                 currentPosition = newPosition;
-                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << " (state = " << currentPositionState
-                                           << ")";
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << "State:" << pstateStr(
+                                               currentPositionState);
                 absTicksLabel->setText(QString::number(currentPosition));
                 emit absolutePositionChanged(currentPosition);
             }
@@ -2876,7 +2902,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             if (adjustFocus)
             {
                 adjustFocus = false;
-                lastFocusDirection = FOCUS_NONE;
+                m_LastFocusDirection = FOCUS_NONE;
                 emit focusPositionAdjusted();
                 return;
             }
@@ -2904,6 +2930,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "manualfocusdrive"))
     {
+        m_FocusMotionTimer.stop();
+
         INumber *pos = IUFindNumber(nvp, "manualfocusdrive");
         if (pos && nvp->s == IPS_OK)
         {
@@ -2915,7 +2943,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (adjustFocus && nvp->s == IPS_OK)
         {
             adjustFocus = false;
-            lastFocusDirection = FOCUS_NONE;
+            m_LastFocusDirection = FOCUS_NONE;
             emit focusPositionAdjusted();
             return;
         }
@@ -2940,10 +2968,12 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "REL_FOCUS_POSITION"))
     {
+        m_FocusMotionTimer.stop();
+
         INumber *pos = IUFindNumber(nvp, "FOCUS_RELATIVE_POSITION");
         if (pos && nvp->s == IPS_OK)
         {
-            currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+            currentPosition += pos->value * (m_LastFocusDirection == FOCUS_IN ? -1 : 1);
             qCDebug(KSTARS_EKOS_FOCUS)
                     << QString("Rel Focuser position changed by %1 to %2")
                     .arg(pos->value).arg(currentPosition);
@@ -2954,7 +2984,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (adjustFocus && nvp->s == IPS_OK)
         {
             adjustFocus = false;
-            lastFocusDirection = FOCUS_NONE;
+            m_LastFocusDirection = FOCUS_NONE;
             emit focusPositionAdjusted();
             return;
         }
@@ -2982,6 +3012,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "FOCUS_TIMER"))
     {
+        m_FocusMotionTimer.stop();
         if (resetFocus && nvp->s == IPS_OK)
         {
             resetFocus = false;
@@ -2996,7 +3027,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             INumber *pos = IUFindNumber(nvp, "FOCUS_TIMER_VALUE");
             if (pos)
             {
-                currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+                currentPosition += pos->value * (m_LastFocusDirection == FOCUS_IN ? -1 : 1);
                 qCDebug(KSTARS_EKOS_FOCUS)
                         << QString("Timer Focuser position changed by %1 to %2")
                         .arg(pos->value).arg(currentPosition);
@@ -3801,8 +3832,8 @@ void Focus::processCaptureTimeout()
         if (targetChip->capture(exposureIN->value()))
         {
             // Timeout is exposure duration + timeout threshold in seconds
-            long const timeout = lround(ceil(exposureIN->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-            captureTimeout.start(timeout);
+            //long const timeout = lround(ceil(exposureIN->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
+            captureTimeout.start(Options::focusCaptureTimeout() * 1000);
 
             if (inFocusLoop == false)
                 appendLogText(i18n("Capturing image again..."));
@@ -3892,6 +3923,10 @@ void Focus::syncSettings()
             Options::setFocusGaussianKernelSize(sb->value());
         else if (sb == multiRowAverageSpin)
             Options::setFocusMultiRowAverage(sb->value());
+        else if (sb == captureTimeoutSpin)
+            Options::setFocusCaptureTimeout(sb->value());
+        else if (sb == motionTimeoutSpin)
+            Options::setFocusMotionTimeout(sb->value());
     }
     else if ( (cb = qobject_cast<QCheckBox*>(sender())))
     {
@@ -4011,6 +4046,9 @@ void Focus::loadSettings()
     // Hough algorithm multi row average
     multiRowAverageSpin->setValue(Options::focusMultiRowAverage());
     multiRowAverageSpin->setEnabled(focusDetection == ALGORITHM_BAHTINOV);
+    // Timeouts
+    captureTimeoutSpin->setValue(Options::focusCaptureTimeout());
+    motionTimeoutSpin->setValue(Options::focusMotionTimeout());
 
     // Increase focus box size in case of Bahtinov mask focus
     // Disable auto star in case of Bahtinov mask focus
@@ -4080,6 +4118,8 @@ void Focus::initSettingsConnections()
     connect(gaussianSigmaSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(gaussianKernelSizeSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(multiRowAverageSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
+    connect(captureTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
+    connect(motionTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
 
     connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);

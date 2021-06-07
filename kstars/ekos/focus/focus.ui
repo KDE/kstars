@@ -830,102 +830,6 @@
              <property name="verticalSpacing">
               <number>3</number>
              </property>
-             <item row="1" column="1">
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>Box:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QCheckBox" name="useAutoStar">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Automatically select the best focus star from the image</string>
-               </property>
-               <property name="text">
-                <string>Auto Select Star</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="useFullField">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Full Field</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QDoubleSpinBox" name="fullFieldInnerRing">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;During full field focusing, stars which are inside this percentage of the frame are filtered out of HFR calculation (default 0%). Detection algorithms may also have an inherent filter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="suffix">
-                <string> %</string>
-               </property>
-               <property name="decimals">
-                <number>1</number>
-               </property>
-               <property name="singleStep">
-                <double>10.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QCheckBox" name="suspendGuideCheck">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Suspend Guiding while autofocus in progress</string>
-               </property>
-               <property name="text">
-                <string>Suspend Guiding</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <widget class="QCheckBox" name="darkFrameCheck">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Use dark frames from the library.</string>
-               </property>
-               <property name="text">
-                <string>Dark Frame</string>
-               </property>
-              </widget>
-             </item>
              <item row="3" column="1">
               <widget class="QLabel" name="label_13">
                <property name="text">
@@ -936,13 +840,22 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>Annulus:</string>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="useSubFrame">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <property name="toolTip">
+                <string>Subframe around the focus star during the autofocus procedure</string>
+               </property>
+               <property name="text">
+                <string>Sub Frame</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -965,8 +878,8 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="3">
-              <widget class="QDoubleSpinBox" name="fullFieldOuterRing">
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="useAutoStar">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -974,7 +887,23 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;During full field focusing, stars which are outside this percentage of the frame are filtered out of HFR calculation (default 100%). Detection algorithms may also have an inherent filter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>Automatically select the best focus star from the image</string>
+               </property>
+               <property name="text">
+                <string>Auto Select Star</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QDoubleSpinBox" name="fullFieldInnerRing">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;During full field focusing, stars which are inside this percentage of the frame are filtered out of HFR calculation (default 0%). Detection algorithms may also have an inherent filter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="suffix">
                 <string> %</string>
@@ -984,28 +913,6 @@
                </property>
                <property name="singleStep">
                 <double>10.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>100.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="useSubFrame">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Subframe around the focus star during the autofocus procedure</string>
-               </property>
-               <property name="text">
-                <string>Sub Frame</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -1034,6 +941,99 @@
                </property>
                <property name="value">
                 <number>32</number>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="suspendGuideCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Suspend Guiding while autofocus in progress</string>
+               </property>
+               <property name="text">
+                <string>Suspend Guiding</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Annulus:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QDoubleSpinBox" name="fullFieldOuterRing">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;During full field focusing, stars which are outside this percentage of the frame are filtered out of HFR calculation (default 100%). Detection algorithms may also have an inherent filter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="suffix">
+                <string> %</string>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>100.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="useFullField">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Full Field</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QCheckBox" name="darkFrameCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Use dark frames from the library.</string>
+               </property>
+               <property name="text">
+                <string>Dark Frame</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>Box:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
@@ -1424,46 +1424,22 @@
           <attribute name="title">
            <string>Mechanics</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <property name="spacing">
-            <number>3</number>
-           </property>
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0">
+            <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0">
              <property name="spacing">
               <number>3</number>
              </property>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="FocusSettleTime">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wait for this many seconds after moving the focuser before capturing the next image during Auto Focus.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string/>
                </property>
-               <property name="suffix">
-                <string> s</string>
+               <property name="whatsThis">
+                <string/>
                </property>
-               <property name="decimals">
-                <number>3</number>
-               </property>
-               <property name="maximum">
-                <double>30.000000000000000</double>
+               <property name="text">
+                <string>Initial Step size:</string>
                </property>
               </widget>
              </item>
@@ -1474,6 +1450,31 @@
                </property>
                <property name="text">
                 <string>Max Travel:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QDoubleSpinBox" name="initialFocusOutStepsIN">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;This number multiplied by initial-step-size is number of outward steps the Linear Focus algorithm moves away from the initial position at the start of focusing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="minimum">
+                <double>1.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>1.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>5.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1499,19 +1500,6 @@
                </property>
                <property name="value">
                 <number>250</number>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="whatsThis">
-                <string/>
-               </property>
-               <property name="text">
-                <string>Initial Step size:</string>
                </property>
               </widget>
              </item>
@@ -1550,10 +1538,52 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_17">
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_11">
                <property name="text">
-                <string>Max Step size:</string>
+                <string>Backlash:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_12b">
+               <property name="text">
+                <string>Out Step Multiple:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QSpinBox" name="focusBacklashSpin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;For backlash-aware focuser, the amount of backlash to apply when reversing movement direction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="FocusSettleTime">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wait for this many seconds after moving the focuser before capturing the next image during Auto Focus.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="suffix">
+                <string> s</string>
+               </property>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="maximum">
+                <double>30.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1573,55 +1603,50 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="2">
-              <widget class="QLabel" name="label_11">
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_17">
                <property name="text">
-                <string>Backlash:</string>
+                <string>Max Step size:</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="3">
-              <widget class="QSpinBox" name="focusBacklashSpin">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;For backlash-aware focuser, the amount of backlash to apply when reversing movement direction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QLabel" name="label_12b">
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_26">
                <property name="text">
-                <string>Out Step Multiple:</string>
+                <string>Capture Timeout:</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="3">
-              <widget class="QDoubleSpinBox" name="initialFocusOutStepsIN">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+             <item row="3" column="1">
+              <widget class="QSpinBox" name="captureTimeoutSpin">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;This number multiplied by initial-step-size is number of outward steps the Linear Focus algorithm moves away from the initial position at the start of focusing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>Maximum time in seconds to wait for a captured image to be recieved before declaring a timeout.</string>
                </property>
                <property name="minimum">
-                <double>1.000000000000000</double>
+                <number>5</number>
                </property>
                <property name="maximum">
-                <double>10.000000000000000</double>
+                <number>300</number>
                </property>
-               <property name="singleStep">
-                <double>1.000000000000000</double>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QLabel" name="label_27">
+               <property name="text">
+                <string>Motion Timeout:</string>
                </property>
-               <property name="value">
-                <double>5.000000000000000</double>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QSpinBox" name="motionTimeoutSpin">
+               <property name="toolTip">
+                <string>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>120</number>
                </property>
               </widget>
              </item>

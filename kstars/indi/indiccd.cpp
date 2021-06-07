@@ -36,47 +36,13 @@
 
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
-namespace
+const QString &getFITSModeStringString(FITSMode mode)
 {
-void addFITSKeywords(const QString &filename, const QString &filter_used)
-{
-#ifdef HAVE_CFITSIO
-    int status = 0;
-
-    if (filter_used.isEmpty() == false)
-    {
-        QString filt(filter_used);
-        QString key_comment("Filter name");
-        filt.replace(' ', '_');
-
-        fitsfile *fptr = nullptr;
-
-        // Use open diskfile as it does not use extended file names which has problems opening
-        // files with [ ] or ( ) in their names.
-        if (fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status))
-        {
-            fits_report_error(stderr, status);
-            return;
-        }
-
-        if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
-        {
-            fits_report_error(stderr, status);
-            return;
-        }
-
-        if (fits_update_key_str(fptr, "FILTER", filt.toLatin1().data(), key_comment.toLatin1().data(), &status))
-        {
-            fits_report_error(stderr, status);
-            return;
-        }
-
-        fits_flush_file(fptr, &status);
-        fits_close_file(fptr, &status);
-    }
-#endif
+    return FITSModes[mode];
 }
 
+namespace
+{
 // Internal function to write an image blob to disk.
 bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
 {
@@ -97,8 +63,6 @@ bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t 
                         QFileDevice::WriteUser |
                         QFileDevice::ReadGroup |
                         QFileDevice::ReadOther);
-    //    if (add_fits_keywords)
-    //        addFITSKeywords(filename, filter);
     return true;
 }
 }
@@ -1539,7 +1503,8 @@ void CCD::processBLOB(IBLOB *bp)
     else
     {
         targetChip = primaryChip.get();
-        qCDebug(KSTARS_INDI) << "processBLOB() mode " << targetChip->getCaptureMode();
+        qCDebug(KSTARS_INDI) << "Image recieved. Mode:" << getFITSModeStringString(targetChip->getCaptureMode()) << "Size:" <<
+                             bp->size;
     }
 
     // Create temporary name if ANY of the following conditions are met:

@@ -551,6 +551,12 @@ class Focus : public QWidget, public Ui::Focus
 
         bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
+        /**
+         * @brief handleFocusMotionTimeout When focuser is command to go to a target position, we expect to receive a notification
+         * that it arrived at the desired destination. If not, we command it again.
+         */
+        void handleFocusMotionTimeout();
+
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
         /// CCD device needed for focus operation
@@ -577,7 +583,9 @@ class Focus : public QWidget, public Ui::Focus
         QList<ISD::GDInterface *> TemperatureSources;
 
         /// As the name implies
-        FocusDirection lastFocusDirection { FOCUS_NONE };
+        FocusDirection m_LastFocusDirection { FOCUS_NONE };
+        /// Keep track of the last requested steps
+        uint32_t m_LastFocusSteps {0};
         /// What type of focusing are we doing right now?
         FocusType focusType { FOCUS_MANUAL };
         /// Focus HFR & Centeroid algorithms
@@ -745,6 +753,10 @@ class Focus : public QWidget, public Ui::Focus
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
         uint8_t captureFailureCounter { 0 };
+
+        // Focus motion timer.
+        QTimer m_FocusMotionTimer;
+        uint8_t m_FocusMotionTimerCounter {0};
 
         // Guide Suspend
         bool m_GuidingSuspended { false };
