@@ -90,6 +90,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 #endif
     setupUi(this);
 
+    // position the vertical splitter by 2/3
+    deviceSplitter->setSizes(QList<int>({20000, 10000}));
+
     qRegisterMetaType<Ekos::CommunicationStatus>("Ekos::CommunicationStatus");
     qDBusRegisterMetaType<Ekos::CommunicationStatus>();
 
@@ -109,9 +112,10 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     sequenceProgress->setDecimals(0);
     sequenceProgress->setFormat("%v");
     imageProgress->setValue(0);
-    imageProgress->setDecimals(1);
+    imageProgress->setDecimals(0);
     imageProgress->setFormat("%v");
     imageProgress->setBarStyle(QRoundProgressBar::StyleLine);
+    captureProgress->setDecimals(0);
     countdownTimer.setInterval(1000);
     connect(&countdownTimer, &QTimer::timeout, this, &Ekos::Manager::updateCaptureCountDown);
 
@@ -418,17 +422,8 @@ void Manager::showEvent(QShowEvent * /*event*/)
 
 void Manager::resizeEvent(QResizeEvent *)
 {
-    //previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    if (focusStarPixmap.get() != nullptr)
-        focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(),
-                                  Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    //if (focusProfilePixmap)
-    //focusProfileImage->setPixmap(focusProfilePixmap->scaled(focusProfileImage->width(), focusProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    if (guideStarPixmap.get() != nullptr)
-        guideStarImage->setPixmap(guideStarPixmap->scaled(guideStarImage->width(), guideStarImage->height(),
-                                  Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    //if (guideProfilePixmap)
-    //guideProfileImage->setPixmap(guideProfilePixmap->scaled(guideProfileImage->width(), guideProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    updateFocusDetailView();
+    updateGuideDetailView();
 }
 
 void Manager::loadProfiles()
@@ -2283,7 +2278,7 @@ void Manager::initCapture()
     if (!capturePI)
     {
         capturePI = new QProgressIndicator(captureProcess.get());
-        captureStatusLayout->insertWidget(0, capturePI);
+        captureStatusLayout->insertWidget(-1, capturePI);
     }
 
     for (auto &device : findDevices(KSTARS_AUXILIARY))
@@ -2389,12 +2384,32 @@ void Manager::initFocus()
         toolsWidget->setTabIcon(index, icon);
     }
 
+    // focus details buttons
+    connect(focusDetailNextButton, &QPushButton::clicked, [this]() {
+        if (currentFocusPixmapIndex == 0 && focusStarPixmap.get() != nullptr)
+            currentFocusPixmapIndex++;
+        else if (currentFocusPixmapIndex > 0)
+            currentFocusPixmapIndex = 0;
+
+        focusDetailView->setToolTip(focusDetailViewTooltips[currentFocusPixmapIndex]);
+        updateFocusDetailView();
+    });
+    connect(focusDetailPrevButton, &QPushButton::clicked, [this]() {
+        if (currentFocusPixmapIndex == 0 && focusStarPixmap.get() != nullptr)
+            currentFocusPixmapIndex++;
+        else if (currentFocusPixmapIndex > 0)
+            currentFocusPixmapIndex = 0;
+
+        focusDetailView->setToolTip(focusDetailViewTooltips[currentFocusPixmapIndex]);
+        updateFocusDetailView();
+    });
+
     focusGroup->setEnabled(true);
 
     if (!focusPI)
     {
         focusPI = new QProgressIndicator(focusProcess.get());
-        focusStatusLayout->insertWidget(0, focusPI);
+        focusTitleLayout->insertWidget(2, focusPI);
     }
 
     // Check for weather device to snoop temperature
@@ -2421,6 +2436,20 @@ void Manager::updateCurrentHFR(double newHFR, int position)
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
 }
 
+void Manager::updateFocusDetailView()
+{
+    if (currentFocusPixmapIndex == 0 && focusProfilePixmap.get() != nullptr)
+    {
+        focusDetailView->setPixmap(focusProfilePixmap.get()->scaled(focusDetailView->width(), focusDetailView->height(),
+                                                                    Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+    else if (currentFocusPixmapIndex == 1 && focusStarPixmap.get() != nullptr)
+    {
+        focusDetailView->setPixmap(focusStarPixmap.get()->scaled(focusDetailView->width(), focusDetailView->height(),
+                                                                 Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+}
+
 void Manager::updateSigmas(double ra, double de)
 {
     errRA->setText(QString::number(ra, 'f', 2) + "\"");
@@ -2429,6 +2458,19 @@ void Manager::updateSigmas(double ra, double de)
     QJsonObject cStatus = { {"rarms", ra}, {"derms", de} };
 
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
+}
+
+void Manager::updateGuideDetailView()
+{
+    if (currentGuidePixmapIndex == 0 && guideProfilePixmap.get() != nullptr)
+        guideDetailView->setPixmap(guideProfilePixmap.get()->scaled(guideDetailView->width(), guideDetailView->height(),
+                                                                    Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    else if (currentGuidePixmapIndex == 1 && guidePlotPixmap.get() != nullptr)
+        guideDetailView->setPixmap(guidePlotPixmap.get()->scaled(guideDetailView->width(), guideDetailView->height(),
+                                                                 Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    else if (currentGuidePixmapIndex == 2 && guideStarPixmap.get() != nullptr)
+        guideDetailView->setPixmap(guideStarPixmap.get()->scaled(guideDetailView->width(), guideDetailView->height(),
+                                                                 Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 void Manager::initMount()
@@ -2494,7 +2536,7 @@ void Manager::initMount()
     if (!mountPI)
     {
         mountPI = new QProgressIndicator(mountProcess.get());
-        mountStatusLayout->insertWidget(0, mountPI);
+        mountStatusLayout->insertWidget(-1, mountPI);
     }
 
     mountGroup->setEnabled(true);
@@ -2534,12 +2576,13 @@ void Manager::initGuide()
         if (!guidePI)
         {
             guidePI = new QProgressIndicator(guideProcess.get());
-            guideStatusLayout->insertWidget(0, guidePI);
+            guideTitleLayout->insertWidget(2, guidePI);
         }
 
         connect(guideProcess.get(), &Ekos::Guide::newStatus, this, &Ekos::Manager::updateGuideStatus);
         connect(guideProcess.get(), &Ekos::Guide::newStarPixmap, this, &Ekos::Manager::updateGuideStarPixmap);
         connect(guideProcess.get(), &Ekos::Guide::newProfilePixmap, this, &Ekos::Manager::updateGuideProfilePixmap);
+        connect(guideProcess.get(), &Ekos::Guide::newDriftPlotPixmap, this, &Ekos::Manager::updateGuidePlotPixmap);
         connect(guideProcess.get(), &Ekos::Guide::newAxisSigma, this, &Ekos::Manager::updateSigmas);
         connect(guideProcess.get(), &Ekos::Guide::newAxisDelta, [&](double ra, double de)
         {
@@ -2556,6 +2599,35 @@ void Manager::initGuide()
             icon        = QIcon(pix.transformed(trans));
             toolsWidget->setTabIcon(index, icon);
         }
+
+        // guide details buttons
+        connect(guideDetailNextButton, &QPushButton::clicked, [this]() {
+            if (currentGuidePixmapIndex == 0 && guidePlotPixmap.get() != nullptr)
+                currentGuidePixmapIndex++;
+            else if (currentGuidePixmapIndex == 1 && guideStarPixmap.get() != nullptr)
+                currentGuidePixmapIndex++;
+            else if (currentGuidePixmapIndex > 0)
+                currentGuidePixmapIndex = 0;
+
+            guideDetailView->setToolTip(guideDetailViewTooltips[currentGuidePixmapIndex]);
+            updateGuideDetailView();
+        });
+        connect(guideDetailPrevButton, &QPushButton::clicked, [this]() {
+            switch (currentGuidePixmapIndex) {
+            case 0:
+                if (guideStarPixmap.get() != nullptr)
+                    currentGuidePixmapIndex = 2;
+                else if (guidePlotPixmap.get() != nullptr)
+                    currentGuidePixmapIndex = 1;
+                break;
+            default:
+                currentGuidePixmapIndex--;
+                break;
+            }
+
+            guideDetailView->setToolTip(guideDetailViewTooltips[currentGuidePixmapIndex]);
+            updateGuideDetailView();
+        });
     }
 
     connectModules();
@@ -2991,28 +3063,46 @@ void Manager::updateMountCoords(const QString &ra, const QString &dec, const QSt
 void Manager::updateCaptureStatus(Ekos::CaptureState status)
 {
     captureStatus->setText(Ekos::getCaptureStatusString(status));
-    captureProgress->setValue(captureProcess->getProgressPercentage());
-
     overallCountDown.setHMS(0, 0, 0);
-    overallCountDown = overallCountDown.addSecs(captureProcess->getOverallRemainingTime());
+    bool infinite_loop = false;
+    int total_remaining_time = 0;
+    double total_percentage = 0;
 
-    sequenceCountDown.setHMS(0, 0, 0);
-    sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
-
-    if (status != Ekos::CAPTURE_ABORTED && status != Ekos::CAPTURE_COMPLETE && status != Ekos::CAPTURE_IDLE)
+    if (schedulerProcess.get() != nullptr && schedulerProcess.get()->getCurrentJob() != nullptr)
     {
-        if (status == Ekos::CAPTURE_CAPTURING)
-            capturePI->setColor(Qt::darkGreen);
-        else
-            capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (capturePI->isAnimated() == false)
-        {
-            capturePI->startAnimation();
-            countdownTimer.start();
-        }
+        // FIXME: accessing the completed count might be one too low due to concurrency of updating the count and this loop
+        int total_completed = schedulerProcess.get()->getCurrentJob()->getCompletedCount();
+        int total_count     = schedulerProcess.get()->getCurrentJob()->getSequenceCount();
+        infinite_loop       = (schedulerProcess.get()->getCurrentJob()->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
+        overallLabel->setText(QString("Schedule: %1 (%2/%3)")
+                              .arg(getCurrentJobName())
+                              .arg(total_completed)
+                              .arg(infinite_loop ? QString("-") : QString::number(total_count)));
+        if (total_count > 0)
+            total_percentage = (100 * total_completed) / total_count;
+        if (schedulerProcess.get()->getCurrentJob()->getEstimatedTime() > 0)
+            total_remaining_time = schedulerProcess.get()->getCurrentJob()->getEstimatedTime();
     }
     else
     {
+        total_percentage = captureProcess->getProgressPercentage();
+        total_remaining_time = captureProcess->getOverallRemainingTime();
+    }
+
+    switch (status) {
+    case Ekos::CAPTURE_IDLE:
+        sequenceProgress->setValue(0);
+        captureProgress->setValue(0);
+        sequenceLabel->setText(i18n("Sequence"));
+        overallLabel->setText("Overall");
+        imageRemainingTime->setText("--:--:--");
+        overallRemainingTime->setText("--:--:--");
+        sequenceRemainingTime->setText("--:--:--");
+        /* Fall through */
+    case Ekos::CAPTURE_ABORTED:
+        /* Fall through */
+    case Ekos::CAPTURE_COMPLETE:
+        imageProgress->setValue(0);
         if (capturePI->isAnimated())
         {
             capturePI->stopAnimation();
@@ -3023,13 +3113,35 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
                 if (focusPI->isAnimated())
                     focusPI->stopAnimation();
             }
-
-            imageProgress->setValue(0);
-            sequenceLabel->setText(i18n("Sequence"));
-            imageRemainingTime->setText("--:--:--");
-            overallRemainingTime->setText("--:--:--");
-            sequenceRemainingTime->setText("--:--:--");
         }
+        break;
+    default:
+        if (infinite_loop == false)
+        {
+            captureProgress->setValue(total_percentage);
+            overallCountDown = overallCountDown.addSecs(total_remaining_time);
+        }
+        else
+        {
+            captureProgress->setValue(0);
+            overallRemainingTime->setText("--:--:--");
+        }
+        captureProgress->setEnabled(infinite_loop == false);
+        overallRemainingTime->setEnabled(infinite_loop == false);
+
+        sequenceCountDown.setHMS(0, 0, 0);
+        sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
+
+        if (status == Ekos::CAPTURE_CAPTURING)
+            capturePI->setColor(Qt::darkGreen);
+        else
+            capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+        if (capturePI->isAnimated() == false)
+        {
+            capturePI->startAnimation();
+            countdownTimer.start();
+        }
+        break;
     }
 
     QJsonObject cStatus =
@@ -3049,10 +3161,12 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
 
     if (job->isPreview() == false)
     {
-        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)")
+        sequenceLabel->setText(QString("Job (%1/%2):  %3%4 %5s (%6/%7)")
                                .arg(captureProcess->getActiveJobID() + 1)
                                .arg(captureProcess->getJobCount())
-                               .arg(job->getFullPrefix())
+                               .arg(CCDFrameTypeNames[job->getFrameType()])
+                               .arg(static_cast<QString>(job->getFilterName().isEmpty() ? QString("") : " " + job->getFilterName()))
+                               .arg(job->getExposure(), 0, 'f', job->getExposure() >= 1 ? 1 : 3)
                                .arg(completed)
                                .arg(job->getCount()));
     }
@@ -3148,8 +3262,7 @@ void Manager::updateFocusStarPixmap(QPixmap &starPixmap)
         return;
 
     focusStarPixmap.reset(new QPixmap(starPixmap));
-    focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(),
-                              Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    updateFocusDetailView();
 }
 
 void Manager::updateFocusProfilePixmap(QPixmap &profilePixmap)
@@ -3157,7 +3270,8 @@ void Manager::updateFocusProfilePixmap(QPixmap &profilePixmap)
     if (profilePixmap.isNull())
         return;
 
-    focusProfileImage->setPixmap(profilePixmap);
+    focusProfilePixmap.reset(new QPixmap(profilePixmap));
+    updateFocusDetailView();
 }
 
 void Manager::setFocusStatus(Ekos::FocusState status)
@@ -3247,8 +3361,7 @@ void Manager::updateGuideStarPixmap(QPixmap &starPix)
         return;
 
     guideStarPixmap.reset(new QPixmap(starPix));
-    guideStarImage->setPixmap(guideStarPixmap->scaled(guideStarImage->width(), guideStarImage->height(),
-                              Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    updateGuideDetailView();
 }
 
 void Manager::updateGuideProfilePixmap(QPixmap &profilePix)
@@ -3256,7 +3369,17 @@ void Manager::updateGuideProfilePixmap(QPixmap &profilePix)
     if (profilePix.isNull())
         return;
 
-    guideProfileImage->setPixmap(profilePix);
+    guideProfilePixmap.reset(new QPixmap(profilePix));
+    updateGuideDetailView();
+}
+
+void Manager::updateGuidePlotPixmap(QPixmap &plotPix)
+{
+    if (plotPix.isNull())
+        return;
+
+    guidePlotPixmap.reset(new QPixmap(plotPix));
+    updateGuideDetailView();
 }
 
 void Manager::setTarget(SkyObject * o)

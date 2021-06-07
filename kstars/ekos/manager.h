@@ -428,12 +428,15 @@ class Manager : public QDialog, public Ui::Manager
         void updateFocusStarPixmap(QPixmap &starPixmap);
         void updateFocusProfilePixmap(QPixmap &profilePixmap);
         void updateCurrentHFR(double newHFR, int position);
+        void updateFocusDetailView();
 
         // Guide Summary
         void updateGuideStatus(GuideState status);
         void updateGuideStarPixmap(QPixmap &starPix);
         void updateGuideProfilePixmap(QPixmap &profilePix);
+        void updateGuidePlotPixmap(QPixmap &plotPix);
         void updateSigmas(double ra, double de);
+        void updateGuideDetailView();
 
     private:
         explicit Manager(QWidget *parent);
@@ -559,10 +562,18 @@ class Manager : public QDialog, public Ui::Manager
         // Focus Summary
         QProgressIndicator *focusPI { nullptr };
         std::unique_ptr<QPixmap> focusStarPixmap;
+        std::unique_ptr<QPixmap> focusProfilePixmap;
+        int currentFocusPixmapIndex = 0;
+        const QString focusDetailViewTooltips[2] = {"Focus Profile", "Focus Star"};
+
 
         // Guide Summary
         QProgressIndicator *guidePI { nullptr };
         std::unique_ptr<QPixmap> guideStarPixmap;
+        std::unique_ptr<QPixmap> guideProfilePixmap;
+        std::unique_ptr<QPixmap> guidePlotPixmap;
+        int currentGuidePixmapIndex = 0;
+        const QString guideDetailViewTooltips[3] = {"Guide Profile", "Guide Plot", "Guide Star"};
 
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };

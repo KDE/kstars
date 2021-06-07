@@ -500,6 +500,7 @@ class Guide : public QWidget, public Ui::Guide
         void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
+        void newDriftPlotPixmap(QPixmap &);
 
         // Immediate deviations in arcsecs
         void newAxisDelta(double ra, double de);
@@ -667,6 +668,8 @@ class Guide : public QWidget, public Ui::Guide
 
         // Profile Pixmap
         QPixmap profilePixmap;
+        // drift plot
+        QPixmap driftPlotPixmap;
 
         // Flag to start auto calibration followed immediately by guiding
         //bool autoCalibrateGuide { false };

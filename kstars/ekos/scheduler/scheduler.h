@@ -121,6 +121,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         ~Scheduler() = default;
 
         QString getCurrentJobName();
+        SchedulerJob *getCurrentJob()
+        {
+            return currentJob;
+        }
+
         void appendLogText(const QString &);
         QStringList logText()
         {

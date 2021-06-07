@@ -26,16 +26,7 @@
 
 namespace Ekos {
 
-PlaceholderPath::PlaceholderPath():
-    m_frameTypes({
-            {FRAME_LIGHT, "Light"},
-            {FRAME_DARK, "Dark"},
-            {FRAME_BIAS, "Bias"},
-            {FRAME_FLAT, "Flat"},
-            {FRAME_NONE, ""},
-    })
-{
-}
+PlaceholderPath::PlaceholderPath() {}
 
 PlaceholderPath::~PlaceholderPath()
 {
@@ -43,7 +34,7 @@ PlaceholderPath::~PlaceholderPath()
 
 void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
 {
-    QString frameType = getFrameType(job->getFrameType());
+    QString frameType = CCDFrameTypeNames[job->getFrameType()];
     QString rawPrefix, filterType = job->getFilterName();
     double exposure    = job->getExposure();
     bool filterEnabled = false, expEnabled = false, tsEnabled = false;
@@ -112,7 +103,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
 void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
 {
     CCDFrameType frameType = job->getFrameType();
-    QString frameTypeStr = getFrameType(frameType);
+    QString frameTypeStr = CCDFrameTypeNames[frameType];
     QString imagePrefix;
     QString rawFilePrefix;
     bool filterEnabled, exposureEnabled, tsEnabled;
@@ -157,7 +148,7 @@ void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
     if (imagePrefix.isEmpty() == false)
         imagePrefix += '_';
 
-    imagePrefix += getFrameType(frameType);
+    imagePrefix += CCDFrameTypeNames[frameType];
 
     /*if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
             captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&

@@ -40,17 +40,6 @@ class PlaceholderPath
       void processJobInfo(SequenceJob *job, QString targetName);
       void addJob(SequenceJob *job, QString targetName);
       void constructPrefix(SequenceJob *job, QString &imagePrefix);
-
-    private:
-      const QString getFrameType(CCDFrameType frameType) {
-          if (m_frameTypes.contains(frameType)) {
-              return m_frameTypes[frameType];
-          }
-
-          qWarning() << frameType << " not in " << m_frameTypes.keys();
-          return "";
-      }
-      const QMap<CCDFrameType, QString> m_frameTypes;
 };
 
 }

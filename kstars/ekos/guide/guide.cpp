@@ -2728,6 +2728,9 @@ void Guide::setAxisDelta(double ra, double de)
 
     profilePixmap = driftGraph->grab();
     emit newProfilePixmap(profilePixmap);
+
+    driftPlotPixmap = driftPlot->grab();
+    emit newDriftPlotPixmap(driftPlotPixmap);
 }
 
 void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message,
