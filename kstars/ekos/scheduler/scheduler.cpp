@@ -6065,37 +6065,6 @@ void Scheduler::updatePreDawn()
     preDawnDateTime.setTime(QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
 }
 
-bool Scheduler::isWeatherOK(SchedulerJob *job)
-{
-    if (weatherStatus == ISD::Weather::WEATHER_OK || weatherCheck->isChecked() == false)
-        return true;
-    else if (weatherStatus == ISD::Weather::WEATHER_IDLE)
-    {
-        if (indiState == INDI_READY)
-            appendLogText(i18n("Weather information is pending..."));
-        return true;
-    }
-
-    // Temporary BUSY is ALSO accepted for now
-    // TODO Figure out how to exactly handle this
-    if (weatherStatus == ISD::Weather::WEATHER_WARNING)
-        return true;
-
-    if (weatherStatus == ISD::Weather::WEATHER_ALERT)
-    {
-        job->setState(SchedulerJob::JOB_ABORTED);
-        appendLogText(i18n("Job '%1' suffers from bad weather, marking aborted.", job->getName()));
-    }
-    /*else if (weatherStatus == IPS_BUSY)
-    {
-        appendLogText(i18n("%1 observation job delayed due to bad weather.", job->getName()));
-        schedulerTimer.stop();
-        connect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
-    }*/
-
-    return false;
-}
-
 void Scheduler::resumeCheckStatus()
 {
     disconnect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
@@ -7188,7 +7157,9 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
     }
 
     // Shutdown scheduler if it was started and not already in shutdown
-    if (weatherStatus == ISD::Weather::WEATHER_ALERT && state != Ekos::SCHEDULER_IDLE && state != Ekos::SCHEDULER_SHUTDOWN)
+    // and if weather checkbox is checked.
+    if (weatherCheck->isChecked() && weatherStatus == ISD::Weather::WEATHER_ALERT && state != Ekos::SCHEDULER_IDLE
+            && state != Ekos::SCHEDULER_SHUTDOWN)
     {
         appendLogText(i18n("Starting shutdown procedure due to severe weather."));
         if (currentJob)
@@ -7199,7 +7170,6 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             jobTimer.stop();
         }
         checkShutdownState();
-        //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), &Scheduler::Qt::UniqueConnection);
     }
 }
 

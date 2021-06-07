@@ -783,8 +783,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         XMLEle *getSequenceJobRoot();
 
-        bool isWeatherOK(SchedulerJob *job);
-
         /**
             * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
             * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
