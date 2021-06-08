@@ -1503,7 +1503,7 @@ void CCD::processBLOB(IBLOB *bp)
     else
     {
         targetChip = primaryChip.get();
-        qCDebug(KSTARS_INDI) << "Image recieved. Mode:" << getFITSModeStringString(targetChip->getCaptureMode()) << "Size:" <<
+        qCDebug(KSTARS_INDI) << "Image received. Mode:" << getFITSModeStringString(targetChip->getCaptureMode()) << "Size:" <<
                              bp->size;
     }
 

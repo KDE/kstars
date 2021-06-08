@@ -1620,7 +1620,7 @@
              <item row="3" column="1">
               <widget class="QSpinBox" name="captureTimeoutSpin">
                <property name="toolTip">
-                <string>Maximum time in seconds to wait for a captured image to be recieved before declaring a timeout.</string>
+                <string>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</string>
                </property>
                <property name="minimum">
                 <number>5</number>

@@ -1830,7 +1830,7 @@
          <default>1</default>
       </entry>
       <entry name="FocusCaptureTimeout" type="UInt">
-         <whatsthis>Maximum time in seconds to wait for a captured image to be recieved before declaring a timeout.</whatsthis>
+         <whatsthis>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</whatsthis>
          <default>120</default>
       </entry>
       <entry name="FocusMotionTimeout" type="UInt">
