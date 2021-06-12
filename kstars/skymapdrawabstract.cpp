@@ -51,6 +51,7 @@
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
+#include "indi/inditelescope.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -76,9 +77,11 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
         {
             if (fov->lockCelestialPole())
             {
-                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance()->lst(),
+                                          KStarsData::Instance()->geo()->lat());
                 QPointF screenSkyPoint = p.viewport().center();
-                double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(), screenSkyPoint.y());
+                double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(),
+                                       screenSkyPoint.y());
                 fov->setCenter(centerSkyPoint);
                 fov->setNorthPA(northRotation);
             }
@@ -239,9 +242,11 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
         if (oneFOV->objectName() == "sensor_fov")
         {
             oneFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SensorFOVColor").name());
-            SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(),
+                                      KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
             QPointF screenSkyPoint = psky.viewport().center();
-            double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(), screenSkyPoint.y());
+            double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(),
+                                   screenSkyPoint.y());
             oneFOV->setCenter(centerSkyPoint);
             oneFOV->setNorthPA(northRotation);
             oneFOV->draw(psky, Options::zoomFactor());
@@ -279,24 +284,21 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
     psky.setBrush(Qt::NoBrush);
     float pxperdegree = Options::zoomFactor() / 57.3;
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto &gd : INDIListener::Instance()->getDevices())
     {
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        INDI::BaseDevice *bd = gd->getBaseDevice();
+        ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
 
-        if (bd == nullptr)
+        if (oneTelescope->isConnected() == false)
             continue;
 
-        if (bd->isConnected() == false)
-            continue;
-
-        auto coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
+        auto coordNP = oneTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
 
         if (coordNP == nullptr)
         {
-            coordNP = bd->getNumber("EQUATORIAL_COORD");
+            coordNP = oneTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
             if (coordNP)
             {
                 auto np = coordNP->findWidgetByName("RA");
@@ -315,7 +317,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             }
             else
             {
-                coordNP = bd->getNumber("HORIZONTAL_COORD");
+                coordNP = oneTelescope->getBaseDevice()->getNumber("HORIZONTAL_COORD");
                 if (coordNP == nullptr)
                     continue;
                 else
@@ -377,7 +379,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             psky.drawEllipse(QRectF(x1, y1, s1, s1));
             psky.drawEllipse(QRectF(x2, y2, s2, s2));
 
-            psky.drawText(QPointF(x0 + s2 + 2., y0), bd->getDeviceName());
+            psky.drawText(QPointF(x0 + s2 + 2., y0), oneTelescope->getDeviceName());
         }
         else
         {
@@ -403,7 +405,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             psky.drawEllipse(QRect(x1, y1, s1, s1));
             psky.drawEllipse(QRect(x2, y2, s2, s2));
 
-            psky.drawText(QPoint(x0 + s2 + 2, y0), bd->getDeviceName());
+            psky.drawText(QPoint(x0 + s2 + 2, y0), oneTelescope->getDeviceName());
         }
     }
 #endif

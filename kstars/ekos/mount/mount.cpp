@@ -403,7 +403,7 @@ void Mount::syncTelescopeInfo()
     {
         scopeConfigCombo->disconnect();
         scopeConfigCombo->clear();
-        for (const auto &it: *svp)
+        for (const auto &it : *svp)
             scopeConfigCombo->addItem(it.getLabel());
 
         scopeConfigCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
@@ -484,7 +484,7 @@ void Mount::updateTelescopeCoords()
         return;
 
     double ra = 0, dec = 0;
-    if (currentTelescope && currentTelescope->getEqCoords(&ra, &dec))
+    if (currentTelescope && currentTelescope->isConnected() && currentTelescope->getEqCoords(&ra, &dec))
     {
         if (currentTelescope->isJ2000())
         {
