@@ -2048,12 +2048,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             break;
 
         case GUIDE_DITHERING_SETTLE:
-            if (Options::ditherSettle() > 0)
-                appendLogText(i18np("Post-dither settling for %1 second...", "Post-dither settling for %1 seconds...",
-                                    Options::ditherSettle()));
-            // If not settling required, then capture immediately.
-            else if (guiderType == GUIDE_INTERNAL)
-                capture();
+            appendLogText(i18np("Post-dither settling for %1 second...", "Post-dither settling for %1 seconds...",
+                                Options::ditherSettle()));
             break;
 
         case GUIDE_DITHERING_ERROR:
