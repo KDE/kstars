@@ -58,9 +58,9 @@ namespace KSTheme
 
 class ThemeManagerCreator
 {
-public:
+    public:
 
-    Manager object;
+        Manager object;
 };
 
 Q_GLOBAL_STATIC(ThemeManagerCreator, creator)
@@ -70,20 +70,20 @@ Q_GLOBAL_STATIC(ThemeManagerCreator, creator)
 
 class Manager::Private
 {
-public:
+    public:
 
-    Private()
-        : defaultThemeName(i18nc("default theme name", "Default")),
-          themeMenuActionGroup(0),
-          themeMenuAction(0)
-    {
-    }
+        Private()
+            : defaultThemeName(i18nc("default theme name", "Default")),
+              themeMenuActionGroup(0),
+              themeMenuAction(0)
+        {
+        }
 
-    const QString          defaultThemeName;
-    QMap<QString, QString> themeMap;            // map<theme name, theme config path>
+        const QString          defaultThemeName;
+        QMap<QString, QString> themeMap;            // map<theme name, theme config path>
 
-    QActionGroup*          themeMenuActionGroup;
-    QMenu*                 themeMenuAction;
+        QActionGroup*          themeMenuActionGroup;
+        QMenu*                 themeMenuAction;
 };
 
 Manager::Manager()
@@ -115,10 +115,10 @@ QString Manager::currentThemeName() const
 
     QAction* const action = d->themeMenuActionGroup->checkedAction();
     return (!action ? defaultThemeName()
-                    : action->text().remove(QLatin1Char('&')));
+            : action->text().remove(QLatin1Char('&')));
 }
 
-void Manager::setCurrentTheme(const QString& name)
+void Manager::setCurrentTheme(const QString &name)
 {
     if (!d->themeMenuAction || !d->themeMenuActionGroup)
     {
@@ -146,12 +146,13 @@ void Manager::slotChangePalette()
     /*if (theme == defaultThemeName() || theme.isEmpty())
     {
         theme = currentDesktopdefaultTheme();
-    }*/    
+    }*/
 
     //QString themeIconName("breeze-dark");
     IconTheme themeIconType = BREEZE_DARK_THEME;
 
-    if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || (theme == "Default" && currentDesktopdefaultTheme().contains("Dark") == false))
+    if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || (theme == "Default"
+            && currentDesktopdefaultTheme().contains("Dark") == false))
         themeIconType = BREEZE_THEME;
 
     setIconTheme(themeIconType);
@@ -178,7 +179,10 @@ void Manager::slotChangePalette()
     if(theme == "Macintosh")
         qApp->setStyle(QStyleFactory::create("macintosh"));
     else
-        qApp->setStyle(QStyleFactory::create("Fusion"));
+    {
+        if (qgetenv("XDG_CURRENT_DESKTOP") != "KDE")
+            qApp->setStyle(QStyleFactory::create("Fusion"));
+    }
 
     // Special case. For Night Vision theme, we also change the Sky Color Scheme
     if (theme == "Default" && Options::colorSchemeFile() == "night.colors")
@@ -267,7 +271,7 @@ void Manager::populateThemeMenu()
 
     qCDebug(KSTARS) << "Paths to color scheme : " << dirs;
 
-    Q_FOREACH (const QString& dir, dirs)
+    Q_FOREACH (const QString &dir, dirs)
     {
         QDirIterator it(dir, QStringList() << QLatin1String("*.colors"));
 
@@ -306,7 +310,7 @@ void Manager::populateThemeMenu()
     QStringList actionMapKeys = actionMap.keys();
     actionMapKeys.sort();
 
-    foreach(const QString& name, actionMapKeys)
+    foreach(const QString &name, actionMapKeys)
     {
         d->themeMenuAction->addAction(actionMap.value(name));
     }
@@ -330,7 +334,7 @@ void Manager::updateCurrentDesktopDefaultThemePreview()
     }
 }
 
-QPixmap Manager::createSchemePreviewIcon(const KSharedConfigPtr& config) const
+QPixmap Manager::createSchemePreviewIcon(const KSharedConfigPtr &config) const
 {
     const uchar bits1[] = { 0xff, 0xff, 0xff, 0x2c, 0x16, 0x0b };
     const uchar bits2[] = { 0x68, 0x34, 0x1a, 0xff, 0xff, 0xff };
@@ -400,15 +404,17 @@ void Manager::setIconTheme(IconTheme theme)
     }
 
     QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
-    QString resourcePath = QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons/"+ rccFile).absolutePath();
+    QString resourcePath = QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons/" + rccFile).absolutePath();
     QResource::registerResource(resourcePath, "/icons/" + iconTheme);
-    #elif defined(Q_OS_WIN)
-    themeSearchPaths = themeSearchPaths << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory);
-    QString resourcePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory) + QDir::separator() + iconTheme + QDir::separator() + rccFile;
+#elif defined(Q_OS_WIN)
+    themeSearchPaths = themeSearchPaths << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons",
+                       QStandardPaths::LocateDirectory);
+    QString resourcePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons",
+                           QStandardPaths::LocateDirectory) + QDir::separator() + iconTheme + QDir::separator() + rccFile;
     QResource::registerResource(resourcePath, "/icons/" + iconTheme);
-    #else
+#else
     // On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
     // The important point is that the current theme must be left as is to avoid empty icons
     {
@@ -423,7 +429,7 @@ void Manager::setIconTheme(IconTheme theme)
             iconTheme = QIcon::themeName();
         }
     }
-    #endif
+#endif
 
     QIcon::setThemeSearchPaths(themeSearchPaths);
     //Note: in order to get it to actually load breeze from resources on mac, we had to add the index.theme, and just one icon from breeze into the qrc.  Not sure why this was needed, but it works.
