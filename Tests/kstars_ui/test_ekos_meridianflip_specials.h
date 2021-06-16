@@ -23,7 +23,7 @@ class TestEkosMeridianFlipSpecials : public TestEkosMeridianFlipBase
 public:
     explicit TestEkosMeridianFlipSpecials(QObject *parent = nullptr);
     explicit TestEkosMeridianFlipSpecials(QString guider, QObject *parent = nullptr);
-
+    
 private slots:
 
     /** @brief Test a meridian flip where a guiding deviation aborts a capture and subsequently a flip

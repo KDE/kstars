@@ -369,6 +369,9 @@ class Align : public QWidget, public Ui::Align
         static QStringList generateRemoteOptions(const QVariantMap &optionsMap);
         static void generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance = 0.05);
 
+        // access to the mount model UI, required for testing
+        Ui_mountModel * getMountModelUI() { return &mountModel; }
+
     public slots:
 
         /**
@@ -421,10 +424,21 @@ class Align : public QWidget, public Ui::Align
              *  @{
              */
 
+        /**
+         * @brief Stop aligning
+         * @param mode stop mode (abort or suspend)
+         */
+        void stop(AlignState mode);
+
         /** DBUS interface function.
-             * Aborts the solving operation.
+             * Aborts the solving operation, handle outside of the align module.
              */
-        Q_SCRIPTABLE Q_NOREPLY void abort();
+        Q_SCRIPTABLE Q_NOREPLY void abort() {stop(ALIGN_ABORTED);}
+
+        /**
+         * @brief Suspend aligning, recovery handled by the align module itself.
+         */
+        void suspend() {stop(ALIGN_SUSPENDED);}
 
         /** DBUS interface function.
              * Select the solver mode
@@ -676,6 +690,16 @@ class Align : public QWidget, public Ui::Align
             * @brief Warns the user if the polar alignment might cross the meridian.
             */
         bool checkPAHForMeridianCrossing();
+
+        /**
+         * @brief Retrieve the align status indicator
+         */
+        QProgressIndicator *getProgressStatus();
+
+        /**
+         * @brief Stop the progress animation in the solution table
+         */
+        void stopProgressAnimation();
 
         void processPAHRefresh();
         bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);

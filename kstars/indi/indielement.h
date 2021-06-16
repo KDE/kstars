@@ -78,6 +78,7 @@ class INDI_E : public QObject
         void updateNP();
 
         void setText(const QString &newText);
+        void setValue(double value);
 
         void setMin();
         void setMax();

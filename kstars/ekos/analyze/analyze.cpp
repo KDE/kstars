@@ -2513,6 +2513,8 @@ const QBrush alignBrush(AlignState state)
             return progressBrush;
         case ALIGN_ABORTED:
             return failureBrush;
+        case ALIGN_SUSPENDED:
+            return offBrush;
     }
     // Shouldn't get here.
     return offBrush;

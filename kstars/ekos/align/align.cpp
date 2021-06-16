@@ -3643,6 +3643,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     int currentRow = solutionTable->rowCount() - 1;
     if (!solveFromFile)
     {
+        stopProgressAnimation();
         solutionTable->setCellWidget(currentRow, 3, new QWidget());
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
@@ -3757,6 +3758,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
             if (!solveFromFile)
             {
+                stopProgressAnimation();
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
             }
@@ -3786,6 +3788,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
                 if (!solveFromFile)
                 {
+                    stopProgressAnimation();
                     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
                     solutionTable->setItem(currentRow, 3, statusReport.release());
                 }
@@ -3796,6 +3799,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
             if (!solveFromFile)
             {
+                stopProgressAnimation();
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
             }
@@ -3813,6 +3817,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         case GOTO_NOTHING:
             if (!solveFromFile)
             {
+                stopProgressAnimation();
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
             }
@@ -3875,15 +3880,10 @@ void Align::solverFailed()
 
     solverFOV->setProperty("visible", false);
 
-    int currentRow = solutionTable->rowCount() - 1;
-    solutionTable->setCellWidget(currentRow, 3, new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
-    statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-    statusReport->setFlags(Qt::ItemIsSelectable);
-    solutionTable->setItem(currentRow, 3, statusReport);
+    setAlignTableResult(ALIGN_RESULT_FAILED);
 }
 
-void Align::abort()
+void Align::stop(AlignState mode)
 {
     m_CaptureTimer.stop();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
@@ -3946,16 +3946,32 @@ void Align::abort()
         }
     }
 
-    state = ALIGN_ABORTED;
+    state = mode;
     emit newStatus(state);
 
+    setAlignTableResult(ALIGN_RESULT_FAILED);
+}
+
+QProgressIndicator * Align::getProgressStatus()
+{
     int currentRow = solutionTable->rowCount() - 1;
 
-    solutionTable->setCellWidget(currentRow, 3, new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
-    statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-    statusReport->setFlags(Qt::ItemIsSelectable);
-    solutionTable->setItem(currentRow, 3, statusReport);
+    // check if the current row indicates a progress state
+    // 1. no row present
+    if (currentRow < 0)
+        return nullptr;
+    // 2. indicator is not present or not a progress indicator
+    QWidget *indicator = solutionTable->cellWidget(currentRow, 3);
+    if (indicator == nullptr)
+        return nullptr;
+    return dynamic_cast<QProgressIndicator *>(indicator);
+}
+
+void Align::stopProgressAnimation()
+{
+    QProgressIndicator *progress_indicator = getProgressStatus();
+    if (progress_indicator != nullptr)
+        progress_indicator->stopAnimation();
 }
 
 QList<double> Align::getSolutionResult()
@@ -4375,17 +4391,13 @@ void Align::handleMountMotion()
         if (m_PAHStage == PAH_IDLE)
         {
             // whoops, mount slews during alignment
-            appendLogText(i18n("Slew detected, aborting solving..."));
-            abort();
+            appendLogText(i18n("Slew detected, suspend solving..."));
+            suspend();
             // reset the state to busy so that solving restarts after slewing finishes
             solveFromFile = true;
             // if mount model is running, retry the current alignment point
             if (mountModelRunning)
-            {
                 appendLogText(i18n("Restarting alignment point %1", currentAlignmentPoint + 1));
-                if (currentAlignmentPoint > 0)
-                    currentAlignmentPoint--;
-            }
         }
 
         state = ALIGN_SLEWING;
@@ -5230,6 +5242,15 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 
 void Align::setAlignTableResult(AlignResult result)
 {
+    // Do nothing if the progress indicator is not running.
+    // This is necessary since it could happen that a problem occurs
+    // before #captureAndSolve() has been started and there does not
+    // exist a table entry for the current run.
+    QProgressIndicator *progress_indicator = getProgressStatus();
+    if (progress_indicator == nullptr || ! progress_indicator->isAnimated())
+        return;
+    stopProgressAnimation();
+
     QIcon icon;
     switch (result)
     {
@@ -5246,7 +5267,6 @@ void Align::setAlignTableResult(AlignResult result)
             icon = QIcon(":/icons/AlignFailure.svg");
             break;
     }
-
     int currentRow = solutionTable->rowCount() - 1;
     solutionTable->setCellWidget(currentRow, 3, new QWidget());
     QTableWidgetItem *statusReport = new QTableWidgetItem();

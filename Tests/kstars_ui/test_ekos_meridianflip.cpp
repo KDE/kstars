@@ -82,6 +82,7 @@ void TestEkosMeridianFlip::testSimpleMFDelay()
 
     // check that the meridian flip is distance is in the expected corridor
     int distance = secondsToMF();
+    qCInfo(KSTARS_EKOS_TEST()) << distance << "seconds to meridian flip...";
     QTRY_VERIFY(delay < distance && distance < delay + 7);
 
     // check if meridian flip runs and completes successfully
@@ -129,14 +130,8 @@ void TestEkosMeridianFlip::testCaptureMF()
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(15));
 
-    // expect at least one capture
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
-
-    // check refocusing
-    QVERIFY(checkRefocusing(false));
-
-    // check if capturing continues
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedCaptureStates, 5000);
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
 }
 
 
@@ -216,20 +211,8 @@ void TestEkosMeridianFlip::testCaptureGuidingMF()
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(25));
 
-    // expected behavior after the meridian flip
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
-
-    // check if guiding continues (re-calibration necessary)
-    QTRY_VERIFY_WITH_TIMEOUT(getGuidingStatus() == Ekos::GUIDE_GUIDING, 75000);
-
-    // check refocusing, that should happen immediately after the guiding calibration
-    QVERIFY(checkRefocusing(true));
-
-    // check if capturing continues
-    QTRY_VERIFY_WITH_TIMEOUT(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 20000);
-
-    // After the first capture dithering should take place
-    QVERIFY(checkDithering());
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
 }
 
 
@@ -254,17 +237,8 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(25));
 
-    // expected behavior after the meridian flip
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
-
-    // check if alignment takes place
-    QTRY_VERIFY_WITH_TIMEOUT(getAlignStatus() == Ekos::ALIGN_COMPLETE, 60000);
-
-    // check refocusing
-    QVERIFY(checkRefocusing(false));
-
-    // check if capturing continues
-    QTRY_VERIFY_WITH_TIMEOUT(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 20000);
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
 }
 
 
@@ -292,25 +266,8 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(25));
 
-    // expected behavior after the meridian flip
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
-    expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
-
-    // check if alignment takes place
-    expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedAlignStates, 60000);
-
-    // check if guiding continues (re-calibration necessary)
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedGuidingStates, 75000);
-
-    // check refocusing, that should happen immediately after the guiding calibration
-    QVERIFY(checkRefocusing(true));
-
-    // check if capturing continues
-    QTRY_VERIFY_WITH_TIMEOUT(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 25000);
-
-    // After the first capture dithering should take place
-    QVERIFY(checkDithering());
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
 }
 
 

@@ -60,17 +60,18 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
     else
         expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
 
-    expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
-
-
     // check if guiding is running
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedGuidingStates, 30000);
+    if (use_guiding)
+    {
+        expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedGuidingStates, 30000);
+    }
 
     // check refocusing, that should happen immediately after the guiding calibration
     // exception: in sequence focusing needs one capture, since the guiding deviation
     // has interrupted the first capture
     if (autofocus_checked == false)
-        QVERIFY(checkRefocusing(true));
+        QVERIFY(checkRefocusing());
 
     // check if capturing has been started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedCaptureStates, 60000);
@@ -80,7 +81,7 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
 
     // in sequence focusing check
     if (autofocus_checked == true)
-        QVERIFY(checkRefocusing(true));
+        QVERIFY(checkRefocusing());
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
@@ -101,20 +102,8 @@ void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(25));
 
-    // expected behavior after the meridian flip
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
-
-    // check if guiding continues (re-calibration necessary)
-    QTRY_VERIFY_WITH_TIMEOUT(getGuidingStatus() == Ekos::GUIDE_GUIDING, 75000);
-
-    // check refocusing, that should happen immediately after the guiding calibration
-    QVERIFY(checkRefocusing(true));
-
-    // After the first capture dithering should take place
-    QVERIFY(checkDithering());
-
-    // check if capturing continues
-    QTRY_VERIFY_WITH_TIMEOUT(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 25000);
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
 }
 
 
@@ -152,25 +141,8 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
     // now finish pause
     KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), startB);
 
-    // expected behavior after the meridian flip
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
-    expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
-
-    // check if alignment takes place
-    expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedAlignStates, 60000);
-
-    // check if guiding continues (re-calibration necessary)
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedGuidingStates, 75000);
-
-    // check refocusing, that should happen immediately after the guiding calibration
-    QVERIFY(checkRefocusing(true));
-
-    // check if capturing continues
-    QTRY_VERIFY_WITH_TIMEOUT(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 25000);
-
-    // After the first capture dithering should take place
-    QVERIFY(checkDithering());
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
 }
 
 void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
@@ -202,6 +174,7 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
     indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.FLIP_HA.FLIP_HA=%2").arg(m_MountDevice).arg(0)});
 }
 
+
 /* *********************************************************************************
  *
  * Test data
@@ -210,7 +183,7 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF_data()
 {
-    prepareTestData(45.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(45.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
@@ -220,7 +193,7 @@ void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
 
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testRepeatedMF_data()

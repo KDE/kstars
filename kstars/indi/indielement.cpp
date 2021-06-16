@@ -334,6 +334,18 @@ void INDI_E::setText(const QString &newText)
     }
 }
 
+void INDI_E::setValue(double value)
+{
+    if (spin_w == nullptr || np == nullptr)
+        return;
+    // ensure that min <= value <= max
+    if (value < np->min || value > np->max)
+        return;
+
+    spin_w->setValue(value);
+    spinChanged(value);
+}
+
 void INDI_E::buildBLOB(IBLOB *ibp)
 {
     name  = ibp->name;

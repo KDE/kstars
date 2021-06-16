@@ -74,8 +74,8 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     KTRY_SET_SPINBOX_SUB(ekos->focusModule(), stepIN, 5000);
     // max travel 50000
     KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), maxTravelIN, 50000.0);
-    // focus tolerance 10%
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), toleranceIN, 10.0);
+    // focus tolerance 20%
+    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), toleranceIN, 20.0);
     // use polynomial algorithm
     KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Polynomial");
 
@@ -165,6 +165,7 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
 
 void TestEkosMeridianFlipBase::initTestCase()
 {
+    // ensure EKOS iis running
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
@@ -230,6 +231,13 @@ void TestEkosMeridianFlipBase::init()
     m_FocusStatus   = Ekos::FOCUS_IDLE;
     m_GuideStatus   = Ekos::GUIDE_IDLE;
     m_MFStatus      = Ekos::Mount::FLIP_NONE;
+
+    // disable by default
+    refocus_checked   = false;
+    autofocus_checked = false;
+    use_guiding       = false;
+    use_aligning      = false;
+    dithering_checked = false;
 
     // clear the queues
     expectedAlignStates.clear();
@@ -473,14 +481,13 @@ bool TestEkosMeridianFlipBase::checkDithering()
 }
 
 
-bool TestEkosMeridianFlipBase::checkRefocusing(bool guiding)
+bool TestEkosMeridianFlipBase::checkRefocusing()
 {
     if (refocus_checked || autofocus_checked)
-    {
-        expectedFocusStates.enqueue(Ekos::FOCUS_COMPLETE);
-        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedFocusStates, 60000);
-    }
-    if (guiding)
+        KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_COMPLETE || getFocusStatus() == Ekos::FOCUS_FAILED ||
+                                     getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
+
+    if (use_guiding)
         KTRY_VERIFY_WITH_TIMEOUT_SUB(getGuidingStatus() == Ekos::GUIDE_GUIDING, 20000);
     // all checks succeeded
     return true;
@@ -488,6 +495,9 @@ bool TestEkosMeridianFlipBase::checkRefocusing(bool guiding)
 
 bool TestEkosMeridianFlipBase::startAligning(double expTime)
 {
+    // mark alignment
+    use_aligning = true;
+
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000));
     // set the exposure time to the given value
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), exposureIN, expTime);
@@ -601,7 +611,7 @@ bool TestEkosMeridianFlipBase::startFocusing()
     // start focusing
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startFocusB);
     // wait for successful completion
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_COMPLETE, 90000);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_COMPLETE, 180000);
     qCInfo(KSTARS_EKOS_TEST) << "Focusing finished.";
     // all checks succeeded
     return true;
@@ -649,14 +659,16 @@ bool TestEkosMeridianFlipBase::startGuiding(double expTime)
     qCInfo(KSTARS_EKOS_TEST) << "Guiding started.";
     qCInfo(KSTARS_EKOS_TEST) << "Waiting 2sec for settle guiding ...";
     QTest::qWait(2000);
-    // all checks succeeded
+    // all checks succeeded, remember that guiding is running
+    use_guiding = true;
+
     return true;
 }
 
 bool TestEkosMeridianFlipBase::stopGuiding()
 {
-    // check whether guiding is already stopped
-    if (getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED)
+    // check whether guiding is not running or already stopped
+    if (use_guiding == false || getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED)
         return true;
 
     // switch to guiding module
@@ -665,7 +677,7 @@ bool TestEkosMeridianFlipBase::stopGuiding()
     // stop guiding
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, stopB);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), stopB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED, 5000);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED, 15000);
     qCInfo(KSTARS_EKOS_TEST) << "Guiding stopped.";
     qCInfo(KSTARS_EKOS_TEST) << "Waiting 2sec for settle guiding stop..."; // Avoid overlapping with focus pausing
     QTest::qWait(2000);
@@ -696,6 +708,42 @@ bool TestEkosMeridianFlipBase::checkMFExecuted(int startDelay)
     expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_COMPLETED);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedMeridianFlipStates, 60000);
     // all checks succeeded
+    return true;
+}
+
+bool TestEkosMeridianFlipBase::checkPostMFBehavior()
+{
+    // check if alignment succeeded
+    if (use_aligning)
+    {
+        expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedAlignStates, 120000);
+    }
+
+    // check if guiding is running
+    if (use_guiding)
+    {
+        expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 30000);
+    }
+
+    // check refocusing, that should happen immediately after the guiding calibration
+    KWRAP_SUB(QVERIFY(checkRefocusing()));
+
+    // check if capturing has been started
+    // dithering happen after first capture
+    // otherwise it is sufficient to wait for start of capturing
+    if (dithering_checked)
+    {
+        expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 60000);
+    }
+    else
+        KTRY_VERIFY_WITH_TIMEOUT_SUB(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 60000);
+
+    // After the first capture dithering should take place
+    KWRAP_SUB(QVERIFY(checkDithering()));
+
     return true;
 }
 
@@ -927,8 +975,6 @@ void TestEkosMeridianFlipBase::stopPHD2()
     phd2->terminate();
     QVERIFY(phd2->waitForFinished(5000));
 }
-
-
 
 
 /* *********************************************************************************

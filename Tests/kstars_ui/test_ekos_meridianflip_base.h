@@ -168,9 +168,8 @@ protected:
 
     /**
      * @brief Check if re-focusing is issued if required.
-     * @param is guiding on?
      */
-    bool checkRefocusing(bool guiding);
+    bool checkRefocusing();
 
     /**
      * @brief Helper function for start of alignment
@@ -234,6 +233,9 @@ protected:
      */
     void cleanupPHD2();
 
+    /** @brief Check if after a meridian flip all features work as expected: capturing, aligning, guiding and focusing */
+    bool checkPostMFBehavior();
+
 
     // Mount device
     QString m_MountDevice = "Telescope Simulator";
@@ -268,6 +270,10 @@ protected:
     bool refocus_checked = false;
     // HFR autofocus on?
     bool autofocus_checked = false;
+    // guiding used?
+    bool use_guiding = false;
+    // aligning used?
+    bool use_aligning = false;
     // regular dithering on?
     bool dithering_checked = false;
     // astrometry files available?
@@ -288,11 +294,11 @@ protected:
     /**
      * @brief Retrieve the current guiding status.
      */
-    Ekos::GuideState getGuidingStatus() {return m_GuideStatus;};
+    Ekos::GuideState getGuidingStatus() { return m_GuideStatus;}
     /**
      * @brief Retrieve the current mount meridian flip status.
      */
-    Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;};
+    Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;}
 
         
 protected slots:

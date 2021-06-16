@@ -145,7 +145,7 @@ void TestEkosCaptureCount::initTestCase()
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
     // start the profile
-    QVERIFY(startEkosProfile());
+    QVERIFY(m_CaptureHelper->startEkosProfile());
     m_CaptureHelper->initTestCase();
     QStandardPaths::setTestModeEnabled(true);
     QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "test");
@@ -161,7 +161,7 @@ void TestEkosCaptureCount::initTestCase()
 void TestEkosCaptureCount::cleanupTestCase()
 {
     m_CaptureHelper->cleanupTestCase();
-    QVERIFY(shutdownEkosProfile());
+    QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 
@@ -240,32 +240,6 @@ bool TestEkosCaptureCount::executeCapturing()
 
     // wait for shutdown
     QTest::qWait(500);
-    return true;
-}
-
-bool TestEkosCaptureCount::startEkosProfile()
-{
-    Ekos::Manager * const ekos = Ekos::Manager::Instance();
-
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->setupTab, 1000));
-
-    KWRAP_SUB(QVERIFY(m_CaptureHelper->setupEkosProfile("Simulators", false)));
-    // start the profile
-    KWRAP_SUB(KTRY_EKOS_CLICK(processINDIB));
-    // wait for the devices to come up
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000));
-    //QTest::qWait(10000);
-
-    // Everything completed successfully
-    return true;
-}
-
-bool TestEkosCaptureCount::shutdownEkosProfile()
-{
-    qCInfo(KSTARS_EKOS_TEST) << "Stopping profile ...";
-    KWRAP_SUB(KTRY_EKOS_STOP_SIMULATORS());
-    qCInfo(KSTARS_EKOS_TEST) << "Stopping profile ... (done)";
-    // Everything completed successfully
     return true;
 }
 
