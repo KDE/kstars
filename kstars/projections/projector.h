@@ -228,7 +228,7 @@ class Projector
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecting the object to its test point.
          */
-        double findNorthPA(SkyPoint *o, float x, float y) const;
+    double findNorthPA(const SkyPoint *o, float x, float y) const;
 
         /**
          * Determine the on-screen position angle of a SkyObject.  This is the sum
@@ -238,7 +238,7 @@ class Projector
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecting the object to its test point.
          */
-        double findPA(SkyObject *o, float x, float y) const;
+    double findPA(const SkyObject *o, float x, float y) const;
 
         /**
          * Get the ground polygon

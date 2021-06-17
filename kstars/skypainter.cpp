@@ -25,7 +25,6 @@
 #include "kstarsdata.h"
 #include "skycomponents/skiphashlist.h"
 #include "skycomponents/linelistlabel.h"
-#include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/ksplanetbase.h"

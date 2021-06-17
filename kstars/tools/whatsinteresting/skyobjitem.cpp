@@ -17,7 +17,7 @@
 
 #include "skyobjitem.h"
 
-#include "deepskyobject.h"
+#include "catalogobject.h"
 #include "ksfilereader.h"
 #include "kspaths.h"
 #include "ksplanetbase.h"
@@ -186,7 +186,7 @@ QString SkyObjItem::getSurfaceBrightness() const
       * brightness obtained in mag * arcminutes^-2
       */
 
-    DeepSkyObject *dso = dynamic_cast<DeepSkyObject*>(m_So);
+    auto *dso = dynamic_cast<CatalogObject*>(m_So);
     float SB           = m_So->mag();
 
     if (dso != nullptr)
@@ -209,7 +209,7 @@ QString SkyObjItem::getSize() const
         case Galaxy:
         case Cluster:
         case Nebula:
-            return QLocale().toString(((DeepSkyObject *)m_So)->a(), 'f', 2) + "\"";
+            return QLocale().toString(((CatalogObject *)m_So)->a(), 'f', 2) + "\"";
         case Planet:
             return QLocale().toString(((KSPlanetBase *)m_So)->angSize(), 'f', 2) + "\"";
         default:

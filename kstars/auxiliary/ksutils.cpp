@@ -20,7 +20,7 @@
 #include "ksnotification.h"
 #include "kstars_debug.h"
 
-#include "deepskyobject.h"
+#include "catalogobject.h"
 #ifndef KSTARS_LITE
 #include "kswizard.h"
 #endif
@@ -84,7 +84,7 @@ QString getDSSURL(const SkyPoint *const p)
     Q_ASSERT(p);
     Q_ASSERT(dss_default_size > 0.0 && dss_padding >= 0.0);
 
-    const DeepSkyObject *dso = dynamic_cast<const DeepSkyObject *>(p);
+    const auto *dso = dynamic_cast<const CatalogObject *>(p);
 
     // Decide what to do about the height and width
     if (dso)

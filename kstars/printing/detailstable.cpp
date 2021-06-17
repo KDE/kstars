@@ -26,11 +26,12 @@
 #include "starobject.h"
 #include "skymapcomposite.h"
 #include "constellationboundarylines.h"
-#include "deepskyobject.h"
-#include "catalogcomponent.h"
+#include "catalogobject.h"
 #include "ksmoon.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
+#include "Options.h"
+#include "catalogsdb.h"
 
 DetailsTable::DetailsTable()
 {
@@ -56,7 +57,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
     //Fill in the data fields
     //Contents depend on type of object
     StarObject *s      = nullptr;
-    DeepSkyObject *dso = nullptr;
+    CatalogObject *dso = nullptr;
     KSPlanetBase *ps   = nullptr;
     QString pname, oname;
 
@@ -216,7 +217,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
         default: //Deep-sky objects
         {
-            dso = (DeepSkyObject *)obj;
+            dso = (CatalogObject *)obj;
 
             //Show all names recorded for the object
             if (!dso->longname().isEmpty() && dso->longname() != dso->name())
@@ -243,24 +244,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 }
             }
 
-            if (dso->ugc() != 0)
-            {
-                if (!oname.isEmpty())
-                {
-                    oname += ", ";
-                }
-
-                oname += "UGC " + QString::number(dso->ugc());
-            }
-            if (dso->pgc() != 0)
-            {
-                if (!oname.isEmpty())
-                {
-                    oname += ", ";
-                }
-
-                oname += "PGC " + QString::number(dso->pgc());
-            }
+            oname += ", " + dso->catalogIdentifier();
 
             if (!oname.isEmpty())
             {
@@ -273,14 +257,13 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             if (dso->type() == SkyObject::RADIO_SOURCE)
             {
-                Q_ASSERT(dso->customCatalog());
                 objMagLabel =
-                    i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
+                    i18nc("integrated flux at a frequency", "Flux(%1):", CatalogsDB::flux_frequency);
                 objMagVal = i18nc("integrated flux value", "%1 %2", QLocale().toString(dso->flux(), 1),
-                                  dso->customCatalog()->fluxUnit()); //show to tenths place
+                                  CatalogsDB::flux_unit); //show to tenths place
             }
 
-            else if (dso->mag() > 90.0)
+            if (dso->mag() > 90.0)
             {
                 objMagVal = "--";
             }

@@ -18,12 +18,11 @@
 #ifndef NAMERESOLVER_H
 #define NAMERESOLVER_H
 
-/* #include "../../datahandlers/catalogentrydata.h" */
 #include "skyobject.h"
 
 // Forward declarations
 class QString;
-class CatalogEntryData;
+class CatalogObject;
 
 /**
  * @namespace NameResolver
@@ -45,7 +44,7 @@ namespace NameResolver
  * @short Resolve the name of the given DSO and extract data from
  * various sources
  */
-class CatalogEntryData resolveName(const QString &name);
+std::pair<bool, CatalogObject> resolveName(const QString &name);
 
 namespace NameResolverInternals
 {
@@ -54,9 +53,9 @@ namespace NameResolverInternals
  *
  * @param data the structure to fill with the obtained data
  * @param name the name (identifier) to resolve
- * @return Success value
+ * @return Success value and the object
  */
-bool sesameResolver(class CatalogEntryData &data, const QString &name);
+std::pair<bool, CatalogObject> sesameResolver(const QString &name);
 
 /*
  * @short Retrieve additional data from SIMBAD
@@ -69,7 +68,7 @@ bool sesameResolver(class CatalogEntryData &data, const QString &name);
  * filled with additional data
  * @return Success value
  */
-//        bool getDataFromSimbad( class CatalogEntryData &data );
+//        bool getDataFromSimbad( CatalogObject &data );
 
 /**
  * @short Interprets object type returned by Sesame
@@ -84,7 +83,7 @@ bool sesameResolver(class CatalogEntryData &data, const QString &name);
  * @return a SkyObject::TYPE.
  */
 SkyObject::TYPE interpretObjectType(const QString &typeString, bool caseSensitive = true);
-}
-};
+} // namespace NameResolverInternals
+}; // namespace NameResolver
 
 #endif

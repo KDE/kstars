@@ -23,6 +23,9 @@
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "ksnotification.h"
+#include "skyobjectuserdata.h"
+#include <kio/job_base.h>
+#include <kio/filecopyjob.h>
 #ifndef KSTARS_LITE
 #include "fov.h"
 #include "imageexporter.h"
@@ -105,7 +108,7 @@ KStarsData *KStarsData::Create()
 }
 
 KStarsData::KStarsData()
-    : m_Geo(dms(0), dms(0)), m_ksuserdb(), m_catalogdb(),
+    : m_Geo(dms(0), dms(0)), m_ksuserdb(),
       temporaryTrail(false),
       //locale( new KLocale( "kstars" ) ),
       m_preUpdateID(0), m_updateID(0), m_preUpdateNumID(0), m_updateNumID(0), m_preUpdateNum(J2000), m_updateNum(J2000)
@@ -130,13 +133,8 @@ KStarsData::~KStarsData()
     pinstance = nullptr;
 }
 
-
-
 bool KStarsData::initialize()
 {
-    //Initialize CatalogDB//
-    catalogdb()->Initialize();
-
     //Load Time Zone Rules//
     emit progressText(i18n("Reading time zone rules"));
     if (!readTimeZoneRulebook())
@@ -145,11 +143,11 @@ bool KStarsData::initialize()
         return false;
     }
 
+    emit progressText(
+        i18n("Upgrade existing user city db to support geographic elevation."));
 
-    emit progressText(i18n("Upgrade existing user city db to support geographic elevation."));
-
-
-    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "mycitydb.sqlite";
+    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                     QDir::separator() + "mycitydb.sqlite";
 
     /// This code to add Height column to table city in mycitydb.sqlite is a transitional measure to support a meaningful
     /// geographic elevation.
@@ -168,10 +166,13 @@ bool KStarsData::initialize()
                 emit progressText(i18n("Adding \"Elevation\" column to city table."));
 
                 QSqlQuery query(fixcitydb);
-                if (query.exec("alter table city add column Elevation real default -10;") == false)
+                if (query.exec(
+                        "alter table city add column Elevation real default -10;") ==
+                    false)
                 {
-                    emit progressText(QString("failed to add Elevation column to city table in mycitydb.sqlite: &1").arg(
-                                          query.lastError().text()));
+                    emit progressText(QString("failed to add Elevation column to city "
+                                              "table in mycitydb.sqlite: &1")
+                                          .arg(query.lastError().text()));
                 }
             }
             else
@@ -185,7 +186,6 @@ bool KStarsData::initialize()
         }
         fixcitydb.close();
     }
-
 
     //Load Cities//
     emit progressText(i18n("Loading city data"));
@@ -207,15 +207,19 @@ bool KStarsData::initialize()
     //On Android these 2 calls produce segfault. WARNING
     emit progressText(i18n("Loading Image URLs"));
 
-    if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
-        return false;
-    //QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"), 0, false);
+    // if (!readURLData("image_url.dat", SkyObjectUserdata::Type::image) &&
+    //     !nonFatalErrorMessage("image_url.dat"))
+    //     return false;
+    QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"),
+                      SkyObjectUserdata::Type::image);
 
     //Load Information URLs//
     //emit progressText(i18n("Loading Information URLs"));
-    if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
-        return false;
-    QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"), 1, false);
+    // if (!readURLData("info_url.dat", SkyObjectUserdata::Type::website) &&
+    //     !nonFatalErrorMessage("info_url.dat"))
+    //     return false;
+    QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"),
+                      SkyObjectUserdata::Type::website);
 
     //#endif
     //emit progressText( i18n("Loading Variable Stars" ) );
@@ -685,8 +689,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
     return fileFound;
 }
 
-// FIXME: This is a significant contributor to KStars start-up time
-bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
+bool KStarsData::readURLData(const QString &urlfile, SkyObjectUserdata::Type type)
 {
 #ifndef KSTARS_LITE
     if (KStars::Closing)
@@ -698,6 +701,7 @@ bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
         return false;
 
     QTextStream stream(&file);
+    QMutexLocker _{ &m_user_data_mutex };
 
     while (!stream.atEnd())
     {
@@ -728,28 +732,9 @@ bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
             //                    name == "Uranus" || name == "Neptune" /* || name == "Pluto" */)
             //                o = skyComposite()->findByName(i18n(name.toLocal8Bit().data()));
             //            else
-            SkyObject *o = skyComposite()->findByName(name);
 
-            if (!o)
-            {
-                qCWarning(KSTARS) << i18n("Object named %1 not found", name);
-            }
-            else
-            {
-                if (!deepOnly || (o->type() > 2 && o->type() < 9))
-                {
-                    if (type == 0) //image URL
-                    {
-                        o->ImageList().append(url);
-                        o->ImageTitle().append(title);
-                    }
-                    else if (type == 1) //info URL
-                    {
-                        o->InfoList().append(url);
-                        o->InfoTitle().append(title);
-                    }
-                }
-            }
+            auto &data_element = m_user_data[name];
+            data_element.addLink(title, QUrl{ url }, type);
         }
     }
     file.close();
@@ -790,14 +775,17 @@ bool KStarsData::readUserLog()
     QTextStream stream(&file);
 
     if (!stream.atEnd())
+
         buffer = stream.readAll();
+    QMutexLocker _{ &m_user_data_mutex };
 
     while (!buffer.isEmpty())
     {
         int startIndex, endIndex;
 
         startIndex = buffer.indexOf(QLatin1String("[KSLABEL:"));
-        sub      = buffer.mid(startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
+        sub        = buffer.mid(
+            startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
         endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
 
         // Read name after KSLABEL identifier
@@ -806,18 +794,8 @@ bool KStarsData::readUserLog()
         data   = sub.mid(sub.indexOf(']') + 2, endIndex - (sub.indexOf(']') + 2));
         buffer = buffer.mid(endIndex + 11);
 
-        //Find the sky object named 'name'.
-        //Note that ObjectNameList::find() looks for the ascii representation
-        //of star genetive names, so stars are identified that way in the user log.
-        SkyObject *o = skyComposite()->findByName(name);
-        if (!o)
-        {
-            qWarning() << name << " not found";
-        }
-        else
-        {
-            o->userLog() = data;
-        }
+        auto &data_element   = m_user_data[name];
+        data_element.userLog = data;
 
     } // end while
     file.close();
@@ -1173,16 +1151,6 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                     Options::setShowStars(bVal);
                     cmdCount++;
                 }
-                if (fn[1] == "ShowMessier" && bOk)
-                {
-                    Options::setShowMessier(bVal);
-                    cmdCount++;
-                }
-                if (fn[1] == "ShowMessierImages" && bOk)
-                {
-                    Options::setShowMessierImages(bVal);
-                    cmdCount++;
-                }
                 if (fn[1] == "ShowCLines" && bOk)
                 {
                     Options::setShowCLines(bVal);
@@ -1191,16 +1159,6 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                 if (fn[1] == "ShowCNames" && bOk)
                 {
                     Options::setShowCNames(bVal);
-                    cmdCount++;
-                }
-                if (fn[1] == "ShowNGC" && bOk)
-                {
-                    Options::setShowNGC(bVal);
-                    cmdCount++;
-                }
-                if (fn[1] == "ShowIC" && bOk)
-                {
-                    Options::setShowIC(bVal);
                     cmdCount++;
                 }
                 if (fn[1] == "ShowMilkyWay" && bOk)
@@ -1523,3 +1481,254 @@ ImageExporter *KStarsData::imageExporter()
     return m_ImageExporter.get();
 }
 #endif
+
+std::pair<bool, QString>
+KStarsData::addToUserData(const QString &name, const SkyObjectUserdata::LinkData &data)
+{
+    QMutexLocker _{ &m_user_data_mutex };
+
+    findUserData(name).links[data.type].push_back(data);
+
+    QString entry;
+    QFile file;
+    const auto isImage = data.type == SkyObjectUserdata::Type::image;
+
+    //Also, update the user's custom image links database
+    //check for user's image-links database.  If it doesn't exist, create it.
+    file.setFileName(
+        KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+        (isImage ?
+             "image_url.dat" :
+             "info_url.dat")); //determine filename in local user KDE directory tree.
+
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Append))
+        return { false,
+                 isImage ?
+                     i18n("Custom image-links file could not be opened.\nLink cannot "
+                          "be recorded for future sessions.") :
+                     i18n("Custom information-links file could not be opened.\nLink "
+                          "cannot be recorded for future sessions.") };
+    else
+    {
+        entry = name + ':' + data.title + ':' + data.url.toString();
+        QTextStream stream(&file);
+        stream << entry << '\n';
+        file.close();
+    }
+
+    return { true, {} };
+}
+
+std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
+                                             const QString &search_line,
+                                             const QString &replace_line)
+{
+    QString TempFileName, file_line;
+    QFile URLFile;
+    QTemporaryFile TempFile;
+    TempFile.setAutoRemove(false);
+    TempFile.open();
+
+    bool replace = !replace_line.isEmpty();
+
+    if (search_line.isEmpty())
+        return { false, "Invalid update request." };
+
+    TempFileName = TempFile.fileName();
+
+    switch (type)
+    {
+            // Info Links
+        case SkyObjectUserdata::Type::website:
+            // Get name for our local info_url file
+            URLFile.setFileName(
+                KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                "info_url.dat");
+            break;
+
+            // Image Links
+        case SkyObjectUserdata::Type::image:
+            // Get name for our local info_url file
+            URLFile.setFileName(
+                KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                "image_url.dat");
+            break;
+    }
+
+    // Copy URL file to temp file
+    KIO::file_copy(QUrl::fromLocalFile(URLFile.fileName()),
+                   QUrl::fromLocalFile(TempFileName), -1,
+                   KIO::Overwrite | KIO::HideProgressInfo);
+
+    if (!URLFile.open(QIODevice::WriteOnly))
+    {
+        return { false, "Failed to open " + URLFile.fileName() +
+                            "KStars cannot save to user database" };
+    }
+
+    // Get streams;
+    QTextStream temp_stream(&TempFile);
+    QTextStream out_stream(&URLFile);
+
+    bool found = false;
+    while (!temp_stream.atEnd())
+    {
+        file_line = temp_stream.readLine();
+        // If we find a match, either replace, or remove (by skipping).
+        if (file_line == search_line)
+        {
+            found = true;
+            if (replace)
+                (out_stream) << replace_line << '\n';
+            else
+                continue;
+        }
+        else
+            (out_stream) << file_line << '\n';
+    }
+
+    // just append it if we haven't found it.
+    if (!found && replace)
+    {
+        out_stream << replace_line << '\n';
+    }
+
+    URLFile.close();
+
+    return { true, {} };
+}
+
+std::pair<bool, QString> KStarsData::editUserData(const QString &name,
+                                                  const unsigned int index,
+                                                  const SkyObjectUserdata::LinkData &data)
+{
+    QMutexLocker _{ &m_user_data_mutex };
+
+    auto &entry = findUserData(name);
+    if (index >= entry.links[data.type].size())
+        return { false, i18n("Userdata at index %1 does not exist.", index) };
+
+    entry.links[data.type][index] = data;
+
+    QString search_line = name;
+    search_line += ':';
+    search_line += data.title;
+    search_line += ':';
+    search_line += data.url.toString();
+
+    QString replace_line = name + ':' + data.title + ':' + data.url.toString();
+    return updateLocalDatabase(data.type, search_line, replace_line);
+}
+
+std::pair<bool, QString> KStarsData::deleteUserData(const QString &name,
+                                                    const unsigned int index,
+                                                    SkyObjectUserdata::Type type)
+{
+    QMutexLocker _{ &m_user_data_mutex };
+
+    auto &linkList = findUserData(name).links[type];
+    if (index >= linkList.size())
+        return { false, i18n("Userdata at index %1 does not exist.", index) };
+
+    const auto data = linkList[index];
+    linkList.erase(linkList.begin() + index);
+
+    QString search_line = name;
+    search_line += ':';
+    search_line += data.title;
+    search_line += ':';
+    search_line += data.url.toString();
+
+    QString replace_line = name + ':' + data.title + ':' + data.url.toString();
+    return updateLocalDatabase(data.type, search_line, "");
+}
+
+std::pair<bool, QString> KStarsData::updateUserLog(const QString &name,
+                                                   const QString &newLog)
+{
+    QMutexLocker _{ &m_user_data_mutex };
+
+    QFile file;
+    QString logs; //existing logs
+
+    //Do nothing if:
+    //+ new log is the "default" message
+    //+ new log is empty
+    if (newLog == (i18n("Record here observation logs and/or data on %1.", name)) ||
+        newLog.isEmpty())
+        return { true, {} };
+
+    // header label
+    QString KSLabel = "[KSLABEL:" + name + ']';
+
+    file.setFileName(
+        KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+        "userlog.dat"); //determine filename in local user KDE directory tree.
+
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QTextStream instream(&file);
+        // read all data into memory
+        logs = instream.readAll();
+        file.close();
+    }
+
+    const auto &userLog = m_user_data[name].userLog;
+
+    // Remove old log entry from the logs text
+    if (!userLog.isEmpty())
+    {
+        int startIndex, endIndex;
+        QString sub;
+
+        startIndex = logs.indexOf(KSLabel);
+        sub        = logs.mid(startIndex);
+        endIndex   = sub.indexOf("[KSLogEnd]");
+
+        logs.remove(startIndex, endIndex + 11);
+    }
+
+    //append the new log entry to the end of the logs text
+    logs.append(KSLabel + '\n' + newLog.trimmed() + "\n[KSLogEnd]\n");
+
+    //Open file for writing
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        return { false, "Cannot write to user log file" };
+    }
+
+    //Write new logs text
+    QTextStream outstream(&file);
+    outstream << logs;
+
+    file.close();
+
+    findUserData(name).userLog = newLog;
+    return { true, {} };
+};
+
+const SkyObjectUserdata::Data &KStarsData::getUserData(const QString &name)
+{
+    QMutexLocker _{ &m_user_data_mutex };
+
+    return findUserData(name); // we're consting it
+}
+
+SkyObjectUserdata::Data &KStarsData::findUserData(const QString &name)
+{
+    auto element = m_user_data.find(name);
+    if (element != m_user_data.end())
+    {
+        return element->second;
+    }
+
+    // fallback: we did not find it directly, therefore we may try to
+    // find a matching object
+    const auto *object = m_SkyComposite->findByName(name);
+    if (object != nullptr)
+    {
+        return m_user_data[object->name()];
+    }
+
+    return m_user_data[name];
+};

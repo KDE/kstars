@@ -22,7 +22,6 @@
 #include "kstarslite.h"
 #include "skymaplite.h"
 #include "skyobjectlistmodel.h"
-#include "syncedcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skyobjects/skyobject.h"
 #include "tools/nameresolver.h"
@@ -195,26 +194,7 @@ bool FindDialogLite::isInList(QString searchQuery)
 
 void FindDialogLite::resolveInInternet(QString searchQuery)
 {
-    setIsResolveEnabled(false); //Disable "Search in Internet" button while we are searching for object
-    SkyObject *selObj = 0;
-    CatalogEntryData cedata;
-    cedata             = NameResolver::resolveName(processSearchText(searchQuery));
-    DeepSkyObject *dso = 0;
-
-    if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
-    {
-        dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject(cedata);
-        if (dso)
-            qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
-        selObj = dso;
-
-        filterByType(m_typeIndex); //Reload objects list of current type
-        setIsResolveEnabled(!isInList(m_searchQuery));
-    }
-    if (selObj == 0)
-    {
-        emit notifyMessage(i18n("No object named %1 found.", searchQuery));
-    }
+    emit notifyMessage(i18n("Not Implemented.", searchQuery));
 }
 
 void FindDialogLite::setIsResolveEnabled(bool isResolveEnabled)

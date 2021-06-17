@@ -1,0 +1,5 @@
+add_executable(test_catalogsdb test_catalogsdb.h)
+target_link_libraries(test_catalogsdb ${TEST_LIBRARIES})
+add_test(NAME test_catalogsdb COMMAND test_catalogsdb)
+file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+SET_TESTS_PROPERTIES(test_catalogsdb PROPERTIES LABELS "stable")

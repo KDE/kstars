@@ -21,6 +21,7 @@
 #include "kstarsdata.h"
 #include "ksnotification.h"
 #include "kstarsdatetime.h"
+#include "catalogsdb.h"
 #if defined(KSTARS_LITE)
 #include "kstarslite.h"
 #endif
@@ -50,13 +51,14 @@
 #include <QtGlobal>
 #include <QTranslator>
 
-#if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
+#if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
 #include <signal.h>
 #endif
 
 #ifndef KSTARS_LITE
 static const char description[] = I18N_NOOP("Desktop Planetarium");
-static const char notice[] = I18N_NOOP("Some images in KStars are for non-commercial use only. See README.images.");
+static const char notice[]      = I18N_NOOP(
+    "Some images in KStars are for non-commercial use only. See README.images.");
 #endif
 
 #if defined(Q_OS_ANDROID)
@@ -65,12 +67,12 @@ Q_DECL_EXPORT
 #endif
 int main(int argc, char *argv[])
 {
-#if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
+#if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
     // Ignore SIGPIPE
     signal(SIGPIPE, SIG_IGN);
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QApplication app(argc, argv);
@@ -79,7 +81,8 @@ int main(int argc, char *argv[])
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
     if (!KSUtils::setupMacKStarsIfNeeded())
     {
-        KSNotification::sorry(i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
+        KSNotification::sorry(i18n("Sorry, without a KStars Data Directory, KStars "
+                                   "cannot operate. Exiting program now."));
         return 1;
     }
 #endif
@@ -93,7 +96,8 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain("kstars");
 #if defined(KSTARS_LITE)
 #if defined(__ANDROID__)
-    KLocalizedString::addDomainLocaleDir("kstars", "/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/locale");
+    KLocalizedString::addDomainLocaleDir(
+        "kstars", "/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/locale");
 #else
     KLocalizedString::addDomainLocaleDir("kstars", "locale");
 #endif
@@ -101,59 +105,90 @@ int main(int argc, char *argv[])
 
 #ifndef KSTARS_LITE
 
+    // Create writable data dir if it does not exist
+    QDir writableDir;
+    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
+
     KCrash::initialize();
-    QString versionString = QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
-    KAboutData aboutData("kstars", i18n("KStars"), versionString, i18n(description),
-                         KAboutLicense::GPL,
-                         "2001-" + QString::number(QDate::currentDate().year()) +
-                         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"),
-                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3", KSTARS_BUILD_TS,
-                               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ? "Pre-release beta snapshot. Do not use in production."
-                               : "Stable release.", i18n(notice)), "https://edu.kde.org/kstars");
-    aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
-                        "http://www.30doradus.org");
-    aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com",
-                        "https://www.indilib.org");
+    QString versionString =
+        QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
+    KAboutData aboutData(
+        "kstars", i18n("KStars"), versionString, i18n(description), KAboutLicense::GPL,
+        "2001-" + QString::number(QDate::currentDate().year()) +
+            i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
+                 "2014-2017 Max Planck Society"),
+        i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3",
+              KSTARS_BUILD_TS,
+              KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
+                  "Pre-release beta snapshot. Do not use in production." :
+                  "Stable release.",
+              i18n(notice)),
+        "https://edu.kde.org/kstars");
+    aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
+                        "jharris@30doradus.org", "http://www.30doradus.org");
+    aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"),
+                        "mutlaqja@ikarustech.com", "https://www.indilib.org");
 
     // Active developers
-    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
-    aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer & Ekos Improvements. KStars OSX Port"),
+    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org",
+                        "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(i18n("Robert Lancaster"),
+                        i18n("FITSViewer & Ekos Improvements. KStars OSX Port"),
                         "rlancaste@gmail.com");
     aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
-    aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com", i18n("Ekos Scheduler Improvements"));
-    aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(), "sterne-jaeger@t-online.de",
+    aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com",
+                        i18n("Ekos Scheduler Improvements"));
+    aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(),
+                        "sterne-jaeger@t-online.de",
                         i18n("Ekos Scheduler & Observatory Improvements"));
-    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com", i18n("FITS, Focus, Guide Improvements"));
+    aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com",
+                        i18n("FITS, Focus, Guide Improvements"));
+    aboutData.addAuthor("Valentin Boettcher", QString(), "hiro@protagon.space",
+                        i18n("Binary Asteroid List, DSO Database & Catalogs"));
 
     // Inactive developers
-    aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
+    aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"),
+                        "afedoskin3@gmail.com");
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
     aboutData.addAuthor(i18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
     aboutData.addAuthor(i18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
-    aboutData.addAuthor(i18n("Heiko Evermann"), QString(), "heiko@evermann.de", "https://www.evermann.de");
+    aboutData.addAuthor(i18n("Heiko Evermann"), QString(), "heiko@evermann.de",
+                        "https://www.evermann.de");
     aboutData.addAuthor(i18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
     aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
     aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
-    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
-    aboutData.addAuthor(i18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
+    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(),
+                        "mboquien@free.fr");
+    aboutData.addAuthor(i18n("J&eacute;r&ocirc;me Sonrier"), QString(),
+                        "jsid@emor3j.fr.eu.org");
     aboutData.addAuthor(i18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
     aboutData.addAuthor(i18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
     aboutData.addAuthor(i18n("Henry de Valence"), QString(), "hdevalence@gmail.com");
-    aboutData.addAuthor(i18n("Samikshan Bairagya"), QString(), "samikshan.bairagya@kdemail.net");
+    aboutData.addAuthor(i18n("Samikshan Bairagya"), QString(),
+                        "samikshan.bairagya@kdemail.net");
     aboutData.addAuthor(i18n("Rafał Kułaga"), QString(), "rl.kulaga@gmail.com");
     aboutData.addAuthor(i18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
 
     // Contributors
-    aboutData.addCredit(i18n("Valery Kharitonov"),
-                        i18n("Converted labels containing technical terms to links to documentation"));
-    aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars"));
-    aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider"));
+    aboutData.addCredit(
+        i18n("Valery Kharitonov"),
+        i18n("Converted labels containing technical terms to links to documentation"));
+    aboutData.addCredit(i18n("Ana-Maria Constantin"),
+                        i18n("Technical documentation on Astronomy and KStars"));
+    aboutData.addCredit(i18n("Andrew Stepanenko"),
+                        i18n("Guiding code based on lin_guider"));
     aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork"));
-    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc."));
-    aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI."));
-    aboutData.addCredit(i18n("Stephane Lucas"),
-                        i18n("Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"));
-    aboutData.addCredit(i18n("Yuri Fabirovsky"), i18n("Splash screen for both regular KStars and KStars Lite."));
+    aboutData.addCredit(
+        i18n("Utkarsh Simha"),
+        i18n("Improvements to observation plan execution, star hopper etc."));
+    aboutData.addCredit(i18n("Daniel Holler"),
+                        i18n("Extensive testing and suggestions for Ekos/INDI."));
+    aboutData.addCredit(
+        i18n("Stephane Lucas"),
+        i18n("Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"));
+    aboutData.addCredit(i18n("Yuri Fabirovsky"),
+                        i18n("Splash screen for both regular KStars and KStars Lite."));
     aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port."));
     aboutData.addCredit(i18n("Patrick Molenaar"), i18n("Bahtinov Focus Assistant."));
 
@@ -172,7 +207,8 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption("paused", i18n("Start with clock paused.")));
 
     // urls to open
-    parser.addPositionalArgument(QStringLiteral("urls"), i18n("FITS file(s) to open."), QStringLiteral("[urls...]"));
+    parser.addPositionalArgument(QStringLiteral("urls"), i18n("FITS file(s) to open."),
+                                 QStringLiteral("[urls...]"));
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
@@ -207,7 +243,8 @@ int main(int argc, char *argv[])
         }
         else
         {
-            qCWarning(KSTARS) << i18n("Could not parse image format of %1; assuming PNG.", fname);
+            qCWarning(KSTARS) << i18n("Could not parse image format of %1; assuming PNG.",
+                                      fname);
         }
 
         //parse width and height
@@ -218,11 +255,15 @@ int main(int argc, char *argv[])
             h = parser.value("height").toInt(&ok);
         if (!ok)
         {
-            qCWarning(KSTARS) << "Unable to parse arguments Width: " << parser.value("width") << "  Height: " << parser.value("height");
+            qCWarning(KSTARS) << "Unable to parse arguments Width: "
+                              << parser.value("width")
+                              << "  Height: " << parser.value("height");
             return 1;
         }
+
         KStarsData *dat = KStarsData::Create();
-        QObject::connect(dat, SIGNAL(progressText(QString)), dat, SLOT(slotConsoleMessage(QString)));
+        QObject::connect(dat, SIGNAL(progressText(QString)), dat,
+                         SLOT(slotConsoleMessage(QString)));
         dat->initialize();
 
         //Set Geographic Location
@@ -253,12 +294,15 @@ int main(int argc, char *argv[])
             }
             else //assume Text format for date string
             {
-                kdt = dat->geo()->LTtoUT(KStarsDateTime(QDateTime::fromString(datestring, Qt::TextDate)));
+                kdt = dat->geo()->LTtoUT(
+                    KStarsDateTime(QDateTime::fromString(datestring, Qt::TextDate)));
             }
 
             if (!kdt.isValid())
             {
-                qCWarning(KSTARS) << i18n("Supplied date string is invalid: %1. Using CPU date/time instead.", datestring);
+                qCWarning(KSTARS) << i18n(
+                    "Supplied date string is invalid: %1. Using CPU date/time instead.",
+                    datestring);
 
                 kdt = KStarsDateTime::currentDateTimeUtc();
             }
@@ -321,10 +365,7 @@ int main(int argc, char *argv[])
     }
 
 #endif
-    // Create writable data dir if it does not exist
-    QDir writableDir;
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
+
 #ifndef KSTARS_LITE
     KStars::createInstance(true, !parser.isSet("paused"), datestring);
 

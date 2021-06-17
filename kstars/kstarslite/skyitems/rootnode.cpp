@@ -31,7 +31,6 @@
 #include "kstarslite/skyitems/constellationartitem.h"
 #include "kstarslite/skyitems/satellitesitem.h"
 #include "kstarslite/skyitems/supernovaeitem.h"
-#include "kstarslite/skyitems/syncedcatalogitem.h"
 
 //Lines
 #include "kstarslite/skyitems/lines/equatoritem.h"
@@ -91,9 +90,6 @@ RootNode::RootNode() : m_skyMapLite(SkyMapLite::Instance())
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
 
     m_FOVItem = new FOVItem(this);
-
-    m_internedResolvedCatalogItem = new SyncedCatalogItem(m_skyComposite->internetResolvedComponent(), this);
-    m_manualAdditionsCatalogItem  = new SyncedCatalogItem(m_skyComposite->manualAdditionsComponent(), this);
 
     m_telescopeSymbols = new TelescopeSymbolsItem(this);
 
@@ -287,9 +283,6 @@ void RootNode::update(bool clearTextures)
     m_satItem->update();
     m_snovaItem->update();
     m_horizonItem->update();
-
-    m_internedResolvedCatalogItem->update();
-    m_manualAdditionsCatalogItem->update();
 
     m_telescopeSymbols->update();
     m_labelsItem->update();

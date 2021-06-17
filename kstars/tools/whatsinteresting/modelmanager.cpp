@@ -151,72 +151,7 @@ void ModelManager::loadLists()
     loadObjectList(m_ObjectList[Nebulas], SkyObject::DARK_NEBULA);
 
     emit loadProgressUpdated(0.90);
-
-    for (int i = 1; i <= 110; i++)
-    {
-        SkyObject *o;
-        if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
-            m_ObjectList[Messier].append(new SkyObjItem(o));
-    }
-
     emit loadProgressUpdated(1);
-}
-
-void ModelManager::loadNGCCatalog()
-{
-    KStarsData *data = KStarsData::Instance();
-    if (!ngcLoaded)
-    {
-        for (int i = 1; i <= 7840; i++)
-        {
-            if (i % 100 == 0)
-                emit loadProgressUpdated((double)i / 7840.0);
-            SkyObject *o;
-            if ((o = data->skyComposite()->findByName("NGC " + QString::number(i))))
-                m_ObjectList[NGC].append(new SkyObjItem(o));
-        }
-        updateModel(m_ObsConditions, "ngc");
-        emit loadProgressUpdated(1);
-    }
-    ngcLoaded = true;
-}
-
-void ModelManager::loadICCatalog()
-{
-    KStarsData *data = KStarsData::Instance();
-    if (!icLoaded)
-    {
-        for (int i = 1; i <= 3866; i++)
-        {
-            if (i % 100 == 0)
-                emit loadProgressUpdated((double)i / 3866.0);
-            SkyObject *o;
-            if ((o = data->skyComposite()->findByName("IC " + QString::number(i))))
-                m_ObjectList[IC].append(new SkyObjItem(o));
-        }
-        updateModel(m_ObsConditions, "ic");
-        emit loadProgressUpdated(1);
-    }
-    icLoaded = true;
-}
-
-void ModelManager::loadSharplessCatalog()
-{
-    KStarsData *data = KStarsData::Instance();
-    if (!sharplessLoaded)
-    {
-        for (int i = 1; i <= 320; i++)
-        {
-            if (i % 100 == 0)
-                emit loadProgressUpdated((double)i / 320.0);
-            SkyObject *o;
-            if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
-                m_ObjectList[Sharpless].append(new SkyObjItem(o));
-        }
-        updateModel(m_ObsConditions, "sharpless");
-        emit loadProgressUpdated(1);
-    }
-    sharplessLoaded = true;
 }
 
 void ModelManager::updateAllModels(ObsConditions *obs)
@@ -232,17 +167,19 @@ void ModelManager::updateModel(ObsConditions *obs, QString modelName)
 {
     m_ObsConditions        = obs;
     SkyObjListModel *model = returnModel(modelName);
-    if (model)
+    const auto modelNumber = getModelNumber(modelName);
+
+    if (modelNumber > -1 && model)
     {
         model->resetModel();
         if (showOnlyFavorites && modelName == "galaxies")
-            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteGalaxies);
+            loadObjectsIntoModel(*m_ModelList[modelNumber], favoriteGalaxies);
         else if (showOnlyFavorites && modelName == "nebulas")
-            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteNebulas);
+            loadObjectsIntoModel(*m_ModelList[modelNumber], favoriteNebulas);
         else if (showOnlyFavorites && modelName == "clusters")
-            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteClusters);
+            loadObjectsIntoModel(*m_ModelList[modelNumber], favoriteClusters);
         else
-            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], m_ObjectList[getModelNumber(modelName)]);
+            loadObjectsIntoModel(*m_ModelList[modelNumber], m_ObjectList[modelNumber]);
         emit modelUpdated();
     }
 }
@@ -322,14 +259,6 @@ int ModelManager::getModelNumber(QString modelName)
         return Supernovas;
     if (modelName == "satellites")
         return Satellites;
-    if (modelName == "messier")
-        return Messier;
-    if (modelName == "ngc")
-        return NGC;
-    if (modelName == "ic")
-        return IC;
-    if (modelName == "sharpless")
-        return Sharpless;
     else
         return -1;
 }

@@ -554,14 +554,18 @@ void ObservingList::slotNewSelection()
                 //set LogObject to the new selected object
                 LogObject = currentObject();
                 ui->NotesEdit->setEnabled(true);
-                if (LogObject->userLog().isEmpty())
+
+                const auto &userLog =
+                  KStarsData::Instance()->getUserData(LogObject->name()).userLog;
+
+                if (userLog.isEmpty())
                 {
                     ui->NotesEdit->setPlainText(
                         i18n("Record here observation logs and/or data on %1.", getObjectName(LogObject)));
                 }
                 else
                 {
-                    ui->NotesEdit->setPlainText(LogObject->userLog());
+                    ui->NotesEdit->setPlainText(userLog);
                 }
                 if (sessionView)
                 {
@@ -822,7 +826,12 @@ void ObservingList::saveCurrentUserLog()
             ui->NotesEdit->toPlainText() !=
             i18n("Record here observation logs and/or data on %1.", getObjectName(LogObject)))
     {
-        LogObject->saveUserLog(ui->NotesEdit->toPlainText());
+        const auto &success = KStarsData::Instance()->updateUserLog(
+            LogObject->name(), ui->NotesEdit->toPlainText());
+
+        if (!success.first)
+            KSNotification::sorry(success.second, i18n("Could not update the user log."));
+
         ui->NotesEdit->clear();
         LogObject = nullptr;
     }
@@ -1552,11 +1561,13 @@ void ObservingList::slotSearchImage()
         //If a real image was set, save it.
         if (tp->imageFound())
         {
-            tp->image()->save(f.fileName(), "PNG");
+            const auto image = *tp->image();
+            image.save(f.fileName(), "PNG");
             //ui->ImagePreview->showPreview( QUrl::fromLocalFile( f.fileName() ) );
-            ui->ImagePreview->setPixmap(QPixmap(f.fileName()).scaledToHeight(ui->ImagePreview->width()));
             saveThumbImage();
             slotNewSelection();
+            ui->ImagePreview->setPixmap(image.scaledToHeight(ui->ImagePreview->width()));
+            ui->ImagePreview->repaint();
         }
     }
     delete pm;

@@ -9,7 +9,6 @@ install(FILES
     starnames.dat namedstars.dat unnamedstars.dat
     Henry-Draper.idx
     starlnum.idx
-    ngcic.dat
     clines.dat
     cnames.dat
     milkyway.dat
@@ -26,6 +25,7 @@ install(FILES
     chart.colors classic.colors moonless-night.colors night.colors
     tips TZrules.dat Interesting.dat PlanetFacts.dat indidrivers.xml
     advinterface.dat catalog.min.json satellites.dat glossary.xml defaultflag.gif
+    dso_main.kscat
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars
 )
 

@@ -29,7 +29,8 @@
 #include "skymap.h"
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
-#include "skyobjects/deepskyobject.h"
+#include "skyobjects/catalogobject.h"
+#include "catalogsdb.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/starobject.h"
 #include "tools/whatsinteresting/wiview.h"
@@ -455,14 +456,6 @@ void KStars::changeViewOption(const QString &op, const QString &val)
     //     if ( op == "FOVColor"               ) Options::setFOVColor(        val );
     if (op == "ShowStars" && bOk)
         Options::setShowStars(bVal);
-    if (op == "ShowMessier" && bOk)
-        Options::setShowMessier(bVal);
-    if (op == "ShowMessierImages" && bOk)
-        Options::setShowMessierImages(bVal);
-    if (op == "ShowNGC" && bOk)
-        Options::setShowNGC(bVal);
-    if (op == "ShowIC" && bOk)
-        Options::setShowIC(bVal);
     if (op == "ShowCLines" && bOk)
         Options::setShowCLines(bVal);
     if (op == "ShowCBounds" && bOk)
@@ -532,12 +525,6 @@ void KStars::changeViewOption(const QString &op, const QString &val)
         Options::setHideStars(bVal);
     if (op == "HidePlanets" && bOk)
         Options::setHidePlanets(bVal);
-    if (op == "HideMessier" && bOk)
-        Options::setHideMessier(bVal);
-    if (op == "HideNGC" && bOk)
-        Options::setHideNGC(bVal);
-    if (op == "HideIC" && bOk)
-        Options::setHideIC(bVal);
     if (op == "HideMilkyWay" && bOk)
         Options::setHideMilkyWay(bVal);
     if (op == "HideCNames" && bOk)
@@ -763,7 +750,7 @@ QString KStars::getObjectDataXML(const QString &objectName)
     stream.writeTextElement("Magnitude", QString::number(target->mag(), 'g', 2));
     stream.writeTextElement("Position_Angle", QString::number(target->pa(), 'g', 3));
     StarObject *star   = dynamic_cast<StarObject *>(target);
-    DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(target);
+    auto *dso = dynamic_cast<CatalogObject *>(target);
     if (star)
     {
         stream.writeTextElement("Spectral_Type", star->sptype());
@@ -779,7 +766,7 @@ QString KStars::getObjectDataXML(const QString &objectName)
     }
     else if (dso)
     {
-        stream.writeTextElement("Catalog", dso->catalog());
+        stream.writeTextElement("Catalog", dso->getCatalog().name);
         stream.writeTextElement("Major_Axis", QString::number(dso->a()));
         stream.writeTextElement("Minor_Axis", QString::number(dso->a() * dso->e()));
     }

@@ -561,8 +561,8 @@ class KStars : public KXmlGuiWindow
         /** Show the eyepiece view tool */
         void slotEyepieceView(SkyPoint *sp, const QString &imagePath = QString());
 
-        /** Show the add deep-sky object dialog */
-        void slotAddDeepSkyObject();
+        /** Show the DSO Catalog Management GUI */
+        void slotDSOCatalogGUI();
 
         /** action slot: open KStars startup wizard */
         void slotWizard();

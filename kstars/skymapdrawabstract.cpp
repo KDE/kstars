@@ -32,7 +32,8 @@
 #include "ksnumbers.h"
 #include "ksutils.h"
 #include "skyobjects/skyobject.h"
-#include "skyobjects/deepskyobject.h"
+#include "skyobjects/catalogobject.h"
+#include "catalogsdb.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "simclock.h"
@@ -144,10 +145,6 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
     bool drawPlanets   = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets());
     bool drawComets    = drawPlanets && Options::showComets();
     bool drawAsteroids = drawPlanets && Options::showAsteroids();
-    bool drawMessier   = Options::showDeepSky() && (Options::showMessier() || Options::showMessierImages()) &&
-                         !(checkSlewing && Options::hideMessier());
-    bool drawNGC        = Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC());
-    bool drawIC         = Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC());
     bool drawOther      = Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther());
     bool drawStars      = Options::showStars();
     bool hideFaintStars = checkSlewing && Options::hideStars();
@@ -201,13 +198,7 @@ void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
                 (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
                 (obj->type() == SkyObject::RADIO_SOURCE))
         {
-            if (((DeepSkyObject *)obj)->isCatalogM() && !drawMessier)
-                continue;
-            if (((DeepSkyObject *)obj)->isCatalogNGC() && !drawNGC)
-                continue;
-            if (((DeepSkyObject *)obj)->isCatalogIC() && !drawIC)
-                continue;
-            if (((DeepSkyObject *)obj)->isCatalogNone() && !drawOther)
+            if (((CatalogObject *)obj)->getCatalog().id == -1 && !drawOther)
                 continue;
         }
         if (obj->type() == SkyObject::COMET && !drawComets)

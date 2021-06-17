@@ -36,8 +36,9 @@ int SkyMesh::defaultLevel = -1;
 SkyMesh *SkyMesh::Create(int level)
 {
     SkyMesh *newInstance = pinstances.value(level, nullptr);
+    if (newInstance != nullptr)
+        return newInstance;
 
-    delete newInstance;
     newInstance = new SkyMesh(level);
     pinstances.insert(level, newInstance);
     if (defaultLevel < 0)
@@ -56,7 +57,8 @@ SkyMesh *SkyMesh::Instance(int level)
     return pinstances.value(level, nullptr);
 }
 
-SkyMesh::SkyMesh(int level) : HTMesh(level, level, NUM_MESH_BUF), m_drawID(0), m_KSNumbers(0)
+SkyMesh::SkyMesh(int level)
+    : HTMesh(level, level, NUM_MESH_BUF), m_drawID(0), m_KSNumbers(0)
 {
     errLimit = HTMesh::size() / 4;
     m_inDraw = false;

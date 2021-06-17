@@ -32,7 +32,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
     ${kstars_SOURCE_DIR}/kstars/tools
-)
+    ${kstars_SOURCE_DIR}/kstars/catalogsdb
+    ${kstars_SOURCE_DIR}/kstars/polyfills
+    )
 
 if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
@@ -413,7 +415,6 @@ set(libkstarstools_SRCS
     tools/eyepiecefield.cpp
     tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
-    tools/adddeepskyobject.cpp
     tools/greatcircle.cpp
 )
 
@@ -475,7 +476,6 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/flagmanager.ui
     tools/starhopperdialog.ui
     tools/horizonmanager.ui
-    tools/adddeepskyobject.ui
     tools/polarishourangle.ui
 )
 
@@ -535,7 +535,12 @@ set(kstars_optionsui_SRCS
 )
 
 set(kstars_dialogs_SRCS
-    dialogs/addcatdialog.cpp
+    dialogs/addcatalogobject.cpp
+    dialogs/catalogsdbui.cpp
+    dialogs/catalogeditform.cpp
+    dialogs/catalogdetails.cpp
+    dialogs/catalogcsvimport.cpp
+    dialogs/catalogobjectlistmodel.cpp
     dialogs/addlinkdialog.cpp
     dialogs/detaildialog.cpp
     dialogs/finddialog.cpp
@@ -547,7 +552,11 @@ set(kstars_dialogs_SRCS
 )
 
 set(kstars_dialogsui_SRCS
-    dialogs/addcatdialog.ui
+    dialogs/addcatalogobject.ui
+    dialogs/catalogsdbui.ui
+    dialogs/catalogeditform.ui
+    dialogs/catalogdetails.ui
+    dialogs/catalogcsvimport.ui
     dialogs/addlinkdialog.ui
     dialogs/details_database.ui
     dialogs/details_data.ui
@@ -656,9 +665,7 @@ set(libkstarscomponents_SRCS
     skycomponents/satellitescomponent.cpp
     skycomponents/starcomponent.cpp
     skycomponents/deepstarcomponent.cpp
-    skycomponents/deepskycomponent.cpp
-    skycomponents/catalogcomponent.cpp
-    skycomponents/syncedcatalogcomponent.cpp
+    skycomponents/catalogscomponent.cpp
     skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp
@@ -697,7 +704,7 @@ ENDIF ()
 
 set(kstars_skyobjects_SRCS
     skyobjects/constellationsart.cpp
-    skyobjects/deepskyobject.cpp
+    skyobjects/catalogobject.cpp
     skyobjects/jupitermoons.cpp
     skyobjects/planetmoons.cpp
     skyobjects/ksasteroid.cpp
@@ -784,6 +791,9 @@ SET(kstars_extra_kstars_SRCS
     skyqpainter.cpp
     )
 
+SET(catalogsdb_SRCS
+        catalogsdb/catalogsdb.cpp)
+
 # Temporary solution to allow use of qml files from source dir DELETE
 SET(KSTARSLITE_CPP_OPTIONS -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" -DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -820,7 +830,6 @@ set(klite_SRCS
     kstarslite/skyitems/satellitesitem.cpp
     kstarslite/skyitems/supernovaeitem.cpp
     kstarslite/skyitems/fovitem.cpp
-    kstarslite/skyitems/syncedcatalogitem.cpp
     #Line
     kstarslite/skyitems/lines/linesitem.cpp
     kstarslite/skyitems/lines/equatoritem.cpp
@@ -981,6 +990,7 @@ set(kstars_SRCS
     ${terrain_SRCS}
     ${oal_SRCS}
     ${printing_SRCS}
+    ${catalogsdb_SRCS}
     #KStars Lite
     ${kstarslite_SRCS}
     # Generated files
@@ -1014,6 +1024,8 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_analyze_debug.h IDENTIFIER KSTARS_EKOS_ANALYZE CATEGORY_NAME org.kde.kstars.ekos.analyze)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDENTIFIER KSTARS_EKOS_OBSERVATORY CATEGORY_NAME org.kde.kstars.ekos.observatory)
+
+ecm_qt_declare_logging_category(kstars_SRCS HEADER catalogsdb_debug.h IDENTIFIER KSTARS_CATALOGS CATEGORY_NAME org.kde.kstars.catalogdb)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
@@ -1071,6 +1083,11 @@ IF (NOT ANDROID)
     )
 
     add_library(KStarsLib STATIC ${kstars_SRCS})
+
+    if (BUILD_PYKSTARS)
+      set_target_properties(KStarsLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    endif ()
+
     include(GenerateExportHeader)
     generate_export_header(KStarsLib)
 
@@ -1259,6 +1276,10 @@ if(APPLE)
         ${CMAKE_CURRENT_SOURCE_DIR}/data/
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
 endif(APPLE)
+
+if (BUILD_PYKSTARS)
+  add_subdirectory(python)
+endif()
 
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 

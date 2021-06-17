@@ -266,14 +266,15 @@ The <guilabel>Find Object</guilabel> window is shown below:
 </para>
 
 <para>
-The window contains a list of all the named objects that &kstars; is
-aware of.  Many of the objects only have a numeric catalog name (for
-example, NGC 3077), but some objects have a common name as well (for
-example, Whirlpool Galaxy).  You can filter the list by name and
-by object type.  To filter by name, enter a string in the edit box
-at the top of the window; the list will then only contain names
-which start with that string.  To filter by type, select a type
-from the combo box at the bottom of the window.
+The window contains a list of (almost, see <xref linkend="catalogs"/>)
+all the named objects that &kstars; is aware of.  Many of the objects
+only have a numeric catalog name (for example, NGC 3077), but some
+objects have a common name as well (for example, Whirlpool Galaxy).
+You can filter the list by name and by object type.  To filter by
+name, enter a string in the edit box at the top of the window; the
+list will then only contain names which start with that string.  To
+filter by type, select a type from the combo box at the bottom of the
+window.
 </para>
 <para>
 &kstars; provides another method for resolving the objects that are 

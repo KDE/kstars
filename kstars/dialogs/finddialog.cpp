@@ -24,13 +24,12 @@
 #include "detaildialog.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
-#include "skyobjects/deepskyobject.h"
 #include "skycomponents/starcomponent.h"
-#include "skycomponents/syncedcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "tools/nameresolver.h"
 #include "skyobjectlistmodel.h"
-
+#include "catalogsdb.h"
+#include "catalogscomponent.h"
 #include <KMessageBox>
 
 #include <QSortFilterProxyModel>
@@ -39,7 +38,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 
-FindDialog * FindDialog::m_Instance = nullptr;
+FindDialog *FindDialog::m_Instance = nullptr;
 
 FindDialogUI::FindDialogUI(QWidget *parent) : QFrame(parent)
 {
@@ -408,15 +407,24 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 {
     if (!selObj && resolve)
     {
-        CatalogEntryData cedata = NameResolver::resolveName(processSearchText());
-        DeepSkyObject *dso = nullptr;
+        const auto &cedata = NameResolver::resolveName(processSearchText());
 
-        if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
+        if (cedata.first)
         {
-            dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject(cedata);
-            if (dso)
-                qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
-            selObj = dso;
+            CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+            manager.add_object(CatalogsDB::user_catalog_id, cedata.second);
+            const auto &added_object =
+                manager.get_object(cedata.second.getId(), CatalogsDB::user_catalog_id);
+
+            if (added_object.first)
+            {
+                CatalogObject *dso = &KStarsData::Instance()
+                                          ->skyComposite()
+                                          ->catalogsComponent()
+                                          ->insertStaticObject(added_object.second);
+
+                selObj = dso;
+            }
         }
     }
     m_targetObject = selObj;
@@ -439,7 +447,9 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
                 case SkyObject::SUPERNOVA_REMNANT:
                 case SkyObject::GALAXY:
                     if (selObj->name() != selObj->longname())
-                        m_HistoryCombo->addItem(QString("%1 (%2)").arg(selObj->name()).arg(selObj->longname()));
+                        m_HistoryCombo->addItem(QString("%1 (%2)")
+                                                    .arg(selObj->name())
+                                                    .arg(selObj->longname()));
                     else
                         m_HistoryCombo->addItem(QString("%1").arg(selObj->longname()));
                     break;

@@ -51,10 +51,6 @@ class ModelManager : public QObject
         Asteroids,
         Comets,
         Supernovas,
-        Messier,
-        NGC,
-        IC,
-        Sharpless,
         NumberOfLists
     };
 
@@ -92,13 +88,6 @@ class ModelManager : public QObject
 
     SkyObjListModel *getTempModel() { return tempModel; }
 
-    void loadNGCCatalog();
-    void loadICCatalog();
-    void loadSharplessCatalog();
-    bool isNGCLoaded() { return ngcLoaded; }
-    bool isICLoaded() { return icLoaded; }
-    bool isSharplessLoaded() { return sharplessLoaded; }
-
   signals:
     void loadProgressUpdated(double progress);
     void modelUpdated();
@@ -118,7 +107,4 @@ class ModelManager : public QObject
     QList<SkyObjItem *> favoriteNebulas;
     QList<SkyObjItem *> favoriteClusters;
     SkyObjListModel *tempModel { nullptr };
-    bool ngcLoaded { false };
-    bool icLoaded { false };
-    bool sharplessLoaded { false };
 };

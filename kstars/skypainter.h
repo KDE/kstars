@@ -38,6 +38,7 @@ class SkyMap;
 class SkyObject;
 class SkyPoint;
 class Supernova;
+class CatalogObject;
 
 /**
  * @short Draws things on the sky, without regard to backend.
@@ -101,7 +102,8 @@ class SkyPainter
          * @note it's more efficient to use this than repeated calls to drawSkyLine(),
          * because it avoids an extra points->size() -2 projections.
          */
-        virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr, LineListLabel *label = nullptr) = 0;
+    virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr,
+                                 LineListLabel *label = nullptr) = 0;
 
         /**
          * @short Draw a polygon in the sky.
@@ -126,17 +128,17 @@ class SkyPainter
          * @param sp the spectral class of the source
          * @return true if a source was drawn
          */
-        virtual bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') = 0;
+    virtual bool drawPointSource(const SkyPoint *loc, float mag, char sp = 'A') = 0;
 
         /**
-         * @short Draw a deep sky object
-         * @param obj the object to draw
-         * @param drawImage if true, try to draw the image of the object
-         * @return true if it was drawn
-         */
-        virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) = 0;
+     * @short Draw a deep sky object (loaded from the new implementation)
+     * @param obj the object to draw
+     * @param drawImage if true, try to draw the image of the object
+     * @return true if it was drawn
+     */
+    virtual bool drawCatalogObject(const CatalogObject &obj) = 0;
 
-        /**
+    /**
          * @short Draw a planet
          * @param planet the planet to draw
          * @return true if it was drawn
@@ -165,7 +167,8 @@ class SkyPainter
         /** @short Draw a Supernova */
         virtual bool drawSupernova(Supernova *sup) = 0;
 
-        virtual void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr, bool *drawLabel = nullptr) = 0;
+    virtual void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr,
+                             bool *drawLabel = nullptr) = 0;
 
         /** @short Get the width of a star of magnitude mag */
         float starWidth(float mag) const;
@@ -190,8 +193,8 @@ class SkyPainter
         virtual bool drawTerrain() = 0;
 
     protected:
-        SkyMap *m_sm { nullptr };
+    SkyMap *m_sm{ nullptr };
 
     private:
-        float m_sizeMagLim { 10.0f };
+    float m_sizeMagLim{ 10.0f };
 };

@@ -467,16 +467,8 @@ void ScriptBuilder::initViewOptions()
     fields << "ShowDeepSky" << i18n("Toggle display of all deep-sky objects") << i18n("bool");
     new QTreeWidgetItem(opsShowObj, fields);
     fields.clear();
-    fields << "ShowMessier" << i18n("Toggle display of Messier object symbols") << i18n("bool");
     new QTreeWidgetItem(opsShowObj, fields);
     fields.clear();
-    fields << "ShowMessierImages" << i18n("Toggle display of Messier object images") << i18n("bool");
-    new QTreeWidgetItem(opsShowObj, fields);
-    fields.clear();
-    fields << "ShowNGC" << i18n("Toggle display of NGC objects") << i18n("bool");
-    new QTreeWidgetItem(opsShowObj, fields);
-    fields.clear();
-    fields << "ShowIC" << i18n("Toggle display of IC objects") << i18n("bool");
     new QTreeWidgetItem(opsShowObj, fields);
     fields.clear();
     fields << "ShowSolarSystem" << i18n("Toggle display of all solar system bodies") << i18n("bool");
@@ -521,10 +513,6 @@ void ScriptBuilder::initViewOptions()
 
     argChangeViewOption->OptionName->addItem("ShowStars");
     argChangeViewOption->OptionName->addItem("ShowDeepSky");
-    argChangeViewOption->OptionName->addItem("ShowMessier");
-    argChangeViewOption->OptionName->addItem("ShowMessierImages");
-    argChangeViewOption->OptionName->addItem("ShowNGC");
-    argChangeViewOption->OptionName->addItem("ShowIC");
     argChangeViewOption->OptionName->addItem("ShowSolarSystem");
     argChangeViewOption->OptionName->addItem("ShowSun");
     argChangeViewOption->OptionName->addItem("ShowMoon");
@@ -630,15 +618,6 @@ void ScriptBuilder::initViewOptions()
     fields << "HidePlanets" << i18n("Hide solar system bodies while slewing?") << i18n("bool");
     new QTreeWidgetItem(opsHide, fields);
     fields.clear();
-    fields << "HideMessier" << i18n("Hide Messier objects while slewing?") << i18n("bool");
-    new QTreeWidgetItem(opsHide, fields);
-    fields.clear();
-    fields << "HideNGC" << i18n("Hide NGC objects while slewing?") << i18n("bool");
-    new QTreeWidgetItem(opsHide, fields);
-    fields.clear();
-    fields << "HideIC" << i18n("Hide IC objects while slewing?") << i18n("bool");
-    new QTreeWidgetItem(opsHide, fields);
-    fields.clear();
     fields << "HideMilkyWay" << i18n("Hide Milky Way while slewing?") << i18n("bool");
     new QTreeWidgetItem(opsHide, fields);
     fields.clear();
@@ -659,9 +638,6 @@ void ScriptBuilder::initViewOptions()
     argChangeViewOption->OptionName->addItem("SlewTimeScale");
     argChangeViewOption->OptionName->addItem("HideStars");
     argChangeViewOption->OptionName->addItem("HidePlanets");
-    argChangeViewOption->OptionName->addItem("HideMessier");
-    argChangeViewOption->OptionName->addItem("HideNGC");
-    argChangeViewOption->OptionName->addItem("HideIC");
     argChangeViewOption->OptionName->addItem("HideMilkyWay");
     argChangeViewOption->OptionName->addItem("HideCNames");
     argChangeViewOption->OptionName->addItem("HideCLines");

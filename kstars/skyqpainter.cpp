@@ -34,7 +34,7 @@
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/earthshadowcomponent.h"
 #include "skyobjects/constellationsart.h"
-#include "skyobjects/deepskyobject.h"
+#include "skyobjects/catalogobject.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/kssun.h"
@@ -91,7 +91,7 @@ const int nSPclasses = 7;
 QPixmap *imageCache[nSPclasses][nStarSizes] = { { nullptr } };
 
 std::unique_ptr<QPixmap> visibleSatPixmap, invisibleSatPixmap;
-}
+} // namespace
 
 int SkyQPainter::starColorMode           = 0;
 QColor SkyQPainter::m_starColor          = QColor();
@@ -116,26 +116,26 @@ void SkyQPainter::releaseImageCache()
 SkyQPainter::SkyQPainter(QPaintDevice *pd) : SkyPainter(), QPainter()
 {
     Q_ASSERT(pd);
-    m_pd          = pd;
-    m_size        = QSize(pd->width(), pd->height());
-    m_hipsRender  = new HIPSRenderer();
+    m_pd         = pd;
+    m_size       = QSize(pd->width(), pd->height());
+    m_hipsRender = new HIPSRenderer();
 }
 
 SkyQPainter::SkyQPainter(QPaintDevice *pd, const QSize &size) : SkyPainter(), QPainter()
 {
     Q_ASSERT(pd);
-    m_pd          = pd;
-    m_size        = size;
-    m_hipsRender  = new HIPSRenderer();
+    m_pd         = pd;
+    m_size       = size;
+    m_hipsRender = new HIPSRenderer();
 }
 
 SkyQPainter::SkyQPainter(QWidget *widget, QPaintDevice *pd) : SkyPainter(), QPainter()
 {
     Q_ASSERT(widget);
     // Set paint device pointer to pd or to the widget if pd = 0
-    m_pd          = (pd ? pd : widget);
-    m_size        = widget->size();
-    m_hipsRender  = new HIPSRenderer();
+    m_pd         = (pd ? pd : widget);
+    m_size       = widget->size();
+    m_hipsRender = new HIPSRenderer();
 }
 
 SkyQPainter::~SkyQPainter()
@@ -160,7 +160,8 @@ void SkyQPainter::end()
 void SkyQPainter::drawSkyBackground()
 {
     //FIXME use projector
-    fillRect(0, 0, m_size.width(), m_size.height(), KStarsData::Instance()->colorScheme()->colorNamed("SkyColor"));
+    fillRect(0, 0, m_size.width(), m_size.height(),
+             KStarsData::Instance()->colorScheme()->colorNamed("SkyColor"));
 }
 
 void SkyQPainter::setPen(const QPen &pen)
@@ -233,8 +234,13 @@ void SkyQPainter::initStarImages()
                     qreal x    = i - 7;
                     qreal y    = j - 7;
                     qreal dist = sqrt(x * x + y * y) / 7.0;
-                    starColor.setHsvF(h, qMin(qreal(1), dist < (10 - starColorIntensity) / 10.0 ? 0 : dist), v,
-                                      qMax(qreal(0), dist < (10 - starColorIntensity) / 20.0 ? 1 : 1 - dist));
+                    starColor.setHsvF(
+                        h,
+                        qMin(qreal(1),
+                             dist < (10 - starColorIntensity) / 10.0 ? 0 : dist),
+                        v,
+                        qMax(qreal(0),
+                             dist < (10 - starColorIntensity) / 20.0 ? 1 : 1 - dist));
                     p.setPen(starColor);
                     p.drawPoint(i, j);
                     p.drawPoint(14 - i, j);
@@ -259,7 +265,8 @@ void SkyQPainter::initStarImages()
         {
             if (!pmap[size])
                 pmap[size] = new QPixmap();
-            *pmap[size] = BigImage.scaled(size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            *pmap[size] = BigImage.scaled(size, size, Qt::KeepAspectRatio,
+                                          Qt::SmoothTransformation);
         }
     }
     starColorMode = Options::starColorMode();
@@ -296,7 +303,8 @@ void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
     //    } //FIXME: what if both are offscreen but the line isn't?
 }
 
-void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList, LineListLabel *label)
+void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList,
+                                  LineListLabel *label)
 {
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
@@ -417,12 +425,14 @@ bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
     if (!visible || !m_proj->onScreen(pos))
         return false;
 
-    float fakeStarSize = (10.0 + log10(Options::zoomFactor()) - log10(MINZOOM)) * (10 - planet->mag()) / 10;
+    float fakeStarSize = (10.0 + log10(Options::zoomFactor()) - log10(MINZOOM)) *
+                         (10 - planet->mag()) / 10;
     if (fakeStarSize > 15.0)
         fakeStarSize = 15.0;
 
     double size = planet->angSize() * dms::PI * Options::zoomFactor() / 10800.0;
-    if (size < fakeStarSize && planet->name() != i18n("Sun") && planet->name() != i18n("Moon"))
+    if (size < fakeStarSize && planet->name() != i18n("Sun") &&
+        planet->name() != i18n("Moon"))
     {
         // Draw them as bright stars of appropriate color instead of images
         char spType;
@@ -482,11 +492,13 @@ bool SkyQPainter::drawEarthShadow(KSEarthShadow *shadow)
     bool visible = false;
     QPointF pos  = m_proj->toScreen(shadow, true, &visible);
 
-    if(!visible)
+    if (!visible)
         return false;
 
-    double umbra_size = shadow->getUmbraAngSize() * dms::PI * Options::zoomFactor() / 10800.0;
-    double penumbra_size = shadow->getPenumbraAngSize() * dms::PI * Options::zoomFactor() / 10800.0;
+    double umbra_size =
+        shadow->getUmbraAngSize() * dms::PI * Options::zoomFactor() / 10800.0;
+    double penumbra_size =
+        shadow->getPenumbraAngSize() * dms::PI * Options::zoomFactor() / 10800.0;
 
     save();
     setBrush(QBrush(QColor(255, 96, 38, 128)));
@@ -503,7 +515,8 @@ bool SkyQPainter::drawComet(KSComet *com)
     if (!m_proj->checkVisibility(com))
         return false;
 
-    double size = com->angSize() * dms::PI * Options::zoomFactor() / 10800.0 / 2; // Radius
+    double size =
+        com->angSize() * dms::PI * Options::zoomFactor() / 10800.0 / 2; // Radius
     if (size < 1)
         size = 1;
 
@@ -516,27 +529,31 @@ bool SkyQPainter::drawComet(KSComet *com)
         // Draw the comet.
         drawEllipse(pos, size, size);
 
-        double comaLength = (com->getComaAngSize().arcmin() * dms::PI * Options::zoomFactor() / 10800.0);
+        double comaLength =
+            (com->getComaAngSize().arcmin() * dms::PI * Options::zoomFactor() / 10800.0);
 
         // If coma is visible and long enough.
         if (Options::showCometComas() && comaLength > size)
         {
-            KSSun *sun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
+            KSSun *sun =
+                KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
 
             // Find the angle to the sun.
             double comaAngle = m_proj->findPA(sun, pos.x(), pos.y());
 
-            const QVector<QPoint> coma = { QPoint(pos.x() - size, pos.y()), QPoint(pos.x() + size, pos.y()),
-                                           QPoint(pos.x(), pos.y() + comaLength)
-                                         };
+            const QVector<QPoint> coma = { QPoint(pos.x() - size, pos.y()),
+                                           QPoint(pos.x() + size, pos.y()),
+                                           QPoint(pos.x(), pos.y() + comaLength) };
 
             QPolygon comaPoly(coma);
 
-            comaPoly = QTransform()
-                       .translate(pos.x(), pos.y())
-                       .rotate(comaAngle) // Already + 180 Deg, because rotated from south, not north.
-                       .translate(-pos.x(), -pos.y())
-                       .map(comaPoly);
+            comaPoly =
+                QTransform()
+                    .translate(pos.x(), pos.y())
+                    .rotate(
+                        comaAngle) // Already + 180 Deg, because rotated from south, not north.
+                    .translate(-pos.x(), -pos.y())
+                    .map(comaPoly);
 
             save();
 
@@ -560,7 +577,7 @@ bool SkyQPainter::drawComet(KSComet *com)
     }
 }
 
-bool SkyQPainter::drawPointSource(SkyPoint *loc, float mag, char sp)
+bool SkyQPainter::drawPointSource(const SkyPoint *loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
     if (!m_proj->checkVisibility(loc))
@@ -569,8 +586,8 @@ bool SkyQPainter::drawPointSource(SkyPoint *loc, float mag, char sp)
     bool visible = false;
     QPointF pos  = m_proj->toScreen(loc, true, &visible);
     if (visible &&
-            m_proj->onScreen(
-                pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+        m_proj->onScreen(
+            pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
     {
         drawPointSource(pos, starWidth(mag), sp);
         return true;
@@ -622,14 +639,16 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     double zoom = Options::zoomFactor();
 
     bool visible = false;
-    obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    obj->EquatorialToHorizontal(KStarsData::Instance()->lst(),
+                                KStarsData::Instance()->geo()->lat());
     QPointF constellationmidpoint = m_proj->toScreen(obj, true, &visible);
 
     if (!visible || !m_proj->onScreen(constellationmidpoint))
         return false;
 
     //qDebug() << "o->pa() " << obj->pa();
-    float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
+    float positionangle =
+        m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
     //qDebug() << " final PA " << positionangle;
 
     float w = obj->getWidth() * 60 * dms::PI * zoom / 10800;
@@ -652,10 +671,10 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 
 bool SkyQPainter::drawHips()
 {
-    int w = viewport().width();
-    int h = viewport().height();
+    int w             = viewport().width();
+    int h             = viewport().height();
     QImage *hipsImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
-    bool rendered = m_hipsRender->render(w, h, hipsImage, m_proj);
+    bool rendered     = m_hipsRender->render(w, h, hipsImage, m_proj);
     if (rendered)
         drawImage(viewport(), *hipsImage);
 
@@ -665,11 +684,11 @@ bool SkyQPainter::drawHips()
 
 bool SkyQPainter::drawTerrain()
 {
-    int w = viewport().width();
-    int h = viewport().height();
-    QImage *terrainImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    int w                     = viewport().width();
+    int h                     = viewport().height();
+    QImage *terrainImage      = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
     TerrainRenderer *renderer = TerrainRenderer::Instance();
-    bool rendered = renderer->render(w, h, terrainImage, m_proj);
+    bool rendered             = renderer->render(w, h, terrainImage, m_proj);
     if (rendered)
         drawImage(viewport(), *terrainImage);
 
@@ -677,19 +696,19 @@ bool SkyQPainter::drawTerrain()
     return rendered;
 }
 
-bool SkyQPainter::drawDeepSkyObject(DeepSkyObject *obj, bool drawImage)
+bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
 {
-    if (!m_proj->checkVisibility(obj))
+    if (!m_proj->checkVisibility(&obj))
         return false;
 
     bool visible = false;
-    QPointF pos  = m_proj->toScreen(obj, true, &visible);
+    QPointF pos  = m_proj->toScreen(&obj, true, &visible);
     if (!visible || !m_proj->onScreen(pos))
         return false;
 
     // if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
     // if we use size 0.0 the star wouldn't be drawn
-    float majorAxis = obj->a();
+    float majorAxis = obj.a();
     if (majorAxis == 0.0)
     {
         majorAxis = 1.0;
@@ -698,34 +717,16 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject *obj, bool drawImage)
     float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
 
     //FIXME: this is probably incorrect
-    float positionAngle = m_proj->findPA(obj, pos.x(), pos.y());
-
-    //Draw Image
-    if (drawImage && Options::zoomFactor() > 5. * MINZOOM)
-        drawDeepSkyImage(pos, obj, positionAngle);
+    float positionAngle = m_proj->findPA(&obj, pos.x(), pos.y());
 
     //Draw Symbol
-    drawDeepSkySymbol(pos, obj->type(), size, obj->e(), positionAngle);
+    drawDeepSkySymbol(pos, obj.type(), size, obj.e(), positionAngle);
 
     return true;
 }
 
-bool SkyQPainter::drawDeepSkyImage(const QPointF &pos, DeepSkyObject *obj, float positionAngle)
-{
-    double zoom = Options::zoomFactor();
-    double w    = obj->a() * dms::PI * zoom / 10800.0;
-    double h    = obj->e() * w;
-
-    save();
-    translate(pos);
-    rotate(positionAngle);
-    drawImage(QRectF(-0.5 * w, -0.5 * h, w, h), obj->image());
-    restore();
-
-    return true;
-}
-
-void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, float e, float positionAngle)
+void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, float e,
+                                    float positionAngle)
 {
     float x    = pos.x();
     float y    = pos.y();
@@ -763,32 +764,28 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
 
     if (Options::useAntialias())
     {
-        lambdaDrawEllipse = [this](float x, float y, float width, float height)
-        {
+        lambdaDrawEllipse = [this](float x, float y, float width, float height) {
             drawEllipse(QRectF(x, y, width, height));
         };
-        lambdaDrawLine  = [this](float x1, float y1, float x2, float y2)
-        {
+        lambdaDrawLine = [this](float x1, float y1, float x2, float y2) {
             drawLine(QLineF(x1, y1, x2, y2));
         };
-        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY)
-        {
-            drawLine(QLineF(centerX - sizeX / 2., centerY, centerX + sizeX / 2., centerY));
-            drawLine(QLineF(centerX, centerY - sizeY / 2., centerX, centerY + sizeY / 2.));
+        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY) {
+            drawLine(
+                QLineF(centerX - sizeX / 2., centerY, centerX + sizeX / 2., centerY));
+            drawLine(
+                QLineF(centerX, centerY - sizeY / 2., centerX, centerY + sizeY / 2.));
         };
     }
     else
     {
-        lambdaDrawEllipse = [this](float x, float y, float width, float height)
-        {
+        lambdaDrawEllipse = [this](float x, float y, float width, float height) {
             drawEllipse(QRect(x, y, width, height));
         };
-        lambdaDrawLine  = [this](float x1, float y1, float x2, float y2)
-        {
+        lambdaDrawLine = [this](float x1, float y1, float x2, float y2) {
             drawLine(QLine(x1, y1, x2, y2));
         };
-        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY)
-        {
+        lambdaDrawCross = [this](float centerX, float centerY, float sizeX, float sizeY) {
             drawLine(QLine(centerX - sizeX / 2., centerY, centerX + sizeX / 2., centerY));
             drawLine(QLine(centerX, centerY - sizeY / 2., centerX, centerY + sizeY / 2.));
         };
@@ -816,8 +813,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 psize *= 2.;
             if (size > 100.)
                 psize *= 2.;
-            auto putDot = [psize, &lambdaDrawEllipse](float x, float y)
-            {
+            auto putDot = [psize, &lambdaDrawEllipse](float x, float y) {
                 lambdaDrawEllipse(x - psize / 2., y - psize / 2., psize, psize);
             };
             putDot(xa, y1);
@@ -916,7 +912,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             setBrush(tempBrush);
             break;
         }
-        default: // Unknown object or something we don't know how to draw. Just draw an ellipse with a ?-mark
+        default
+            : // Unknown object or something we don't know how to draw. Just draw an ellipse with a ?-mark
             color = pen().color().name();
             if (size < 1. && zoom > 20 * MINZOOM)
                 size = 3.; //force ellipse above zoomFactor 20
@@ -928,10 +925,10 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 QFont f             = font();
                 const QString qMark = " ? ";
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-                double scaleFactor  = 0.8 * size / fontMetrics().horizontalAdvance(qMark);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                double scaleFactor = 0.8 * size / fontMetrics().horizontalAdvance(qMark);
 #else
-                double scaleFactor  = 0.8 * size / fontMetrics().width(qMark);
+                double scaleFactor = 0.8 * size / fontMetrics().width(qMark);
 #endif
 
                 f.setPointSizeF(f.pointSizeF() * scaleFactor);
@@ -945,7 +942,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 {
                     int idx1 = int(dx1);
                     int idy1 = int(dy1);
-                    drawText(QRect(idx1, idy1, isize, int(e * size)), Qt::AlignCenter, qMark);
+                    drawText(QRect(idx1, idy1, isize, int(e * size)), Qt::AlignCenter,
+                             qMark);
                 }
                 restore(); //reset coordinate system (and font?)
             }

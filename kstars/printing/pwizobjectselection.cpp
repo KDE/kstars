@@ -23,7 +23,7 @@
 #include "dialogs/detaildialog.h"
 #include "starobject.h"
 #include "ksplanetbase.h"
-#include "deepskyobject.h"
+#include "catalogobject.h"
 #include <QPointer>
 #include <KLocalizedString>
 
@@ -154,7 +154,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
 
         default: // deep-sky object
         {
-            DeepSkyObject *dso = (DeepSkyObject *)obj;
+            auto *dso = (CatalogObject *)obj;
 
             QString oname, pname;
             //Show all names recorded for the object
@@ -182,25 +182,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
                 }
             }
 
-            if (dso->ugc())
-            {
-                if (!oname.isEmpty())
-                {
-                    oname += " ● ";
-                }
-
-                oname += "UGC " + QString::number(dso->ugc());
-            }
-
-            if (dso->pgc())
-            {
-                if (!oname.isEmpty())
-                {
-                    oname += " ● ";
-                }
-
-                oname += "PGC " + QString::number(dso->pgc());
-            }
+            oname += " ● " + dso->catalogIdentifier();
 
             if (!oname.isEmpty())
                 pname += " ● " + oname;

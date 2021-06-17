@@ -4,6 +4,8 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
+    ${kstars_SOURCE_DIR}/kstars/catalogsdb
+    ${kstars_SOURCE_DIR}/datahandlers
     )
 
 if(STELLARSOLVER_FOUND)
@@ -70,3 +72,4 @@ IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
 ENDIF ()
 
 add_subdirectory(capture)
+add_subdirectory(datahandlers)

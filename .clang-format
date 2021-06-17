@@ -22,7 +22,7 @@ BreakBeforeBraces: Allman
 BreakBeforeTernaryOperators: 'false'
 BreakConstructorInitializersBeforeComma: 'false'
 BreakStringLiterals: 'true'
-ColumnLimit: '120'
+ColumnLimit: '90'
 ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
 ConstructorInitializerIndentWidth: '4'
 ContinuationIndentWidth: '4'

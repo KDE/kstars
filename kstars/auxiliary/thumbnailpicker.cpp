@@ -17,8 +17,10 @@
 
 #include "thumbnailpicker.h"
 
+#include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnotification.h"
+#include "skyobjectuserdata.h"
 #include "thumbnaileditor.h"
 #include "dialogs/detaildialog.h"
 #include "skyobjects/skyobject.h"
@@ -109,7 +111,9 @@ void ThumbnailPicker::slotFillList()
 void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
 {
     //Preload ImageList with the URLs in the object's ImageList:
-    QStringList ImageList(Object->ImageList());
+    SkyObjectUserdata::LinkList ImageList{
+        KStarsData::Instance()->getUserData(Object->name()).images()
+    };
 
     if (result->error())
     {
@@ -126,13 +130,15 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
         index += 5; //move to end of "src=\"http:" marker
 
         //Image URL is everything from index to next occurrence of "\""
-        ImageList.append(PageHTML.mid(index, PageHTML.indexOf("\"", index) - index));
+        ImageList.push_back(SkyObjectUserdata::LinkData{
+            "", QUrl{ PageHTML.mid(index, PageHTML.indexOf("\"", index) - index) },
+            SkyObjectUserdata::Type::website });
 
         index = PageHTML.indexOf("src=\"http:", index);
     }
 
     //Total Number of images to be loaded:
-    int nImages = ImageList.count();
+    int nImages = ImageList.size();
     if (nImages)
     {
         ui->SearchProgress->setMinimum(0);
@@ -146,15 +152,16 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
     }
 
     //Add images from the ImageList
-    for (int i = 0; i < ImageList.size(); ++i)
+    for (const auto &image : ImageList)
     {
-        QUrl u(ImageList[i]);
+        const QUrl &u{ image.url };
 
         if (u.isValid())
         {
-            KIO::StoredTransferJob *j = KIO::storedGet(u, KIO::NoReload, KIO::HideProgressInfo);
+            KIO::StoredTransferJob *j =
+                KIO::storedGet(u, KIO::NoReload, KIO::HideProgressInfo);
             j->setUiDelegate(nullptr);
-            connect(j, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
+            connect(j, SIGNAL(result(KJob *)), SLOT(slotJobResult(KJob *)));
         }
     }
 }

@@ -404,8 +404,8 @@ void KStars::initActions()
             << QIcon::fromTheme("tools-wizard");
 
     // Manual data entry
-    actionCollection()->addAction("manual_add_dso", this, SLOT(slotAddDeepSkyObject()))
-            << i18n("Manually add a deep-sky object");
+    actionCollection()->addAction("dso_catalog_gui", this, SLOT(slotDSOCatalogGUI()))
+            << i18n("Manage DSO Catalogs");
 
     // Updates actions
     actionCollection()->addAction("update_comets", this, SLOT(slotUpdateComets()))

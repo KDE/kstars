@@ -137,6 +137,26 @@
          <whatsthis>Names of objects entered into the find dialog are resolved using online services and stored in the database. This option also toggles the display of such resolved objects on the sky map.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="DSOCachePercentage" type="UInt">
+         <label>Percentage of the sky to cache DSOs for.</label>
+         <whatsthis>The DSOs are loaded from a sqlite database and
+         cached in memory. This setting regulates how much of the DSOs
+         will be cached. Turning this value up yields better
+         performance at the cost of memory.</whatsthis>
+         <default>100</default>
+         <min>5</min>
+         <max>100</max>
+      </entry>
+      <entry name="DSOMinZoomFactor" type="UInt">
+         <label>Miminum zoom level to render DeepSkyObjects.</label>
+         <default>400</default>
+         <min>250</min>
+         <max>4000</max>
+      </entry>
+      <entry name="DSOCatalogFilename" type="String">
+         <label>The filename of the dso catalog.</label>
+         <default>dso_main.kscat</default>
+      </entry>
    </group>
    <group name="indi">
     <entry name="INDIWindowWidth" type="UInt">
@@ -413,21 +433,6 @@
          <whatsthis>Toggle whether the Milky Way contour is hidden while the display is in motion.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="HideIC" type="Bool">
-         <label>Hide IC objects while moving?</label>
-         <whatsthis>Toggle whether IC objects are hidden while the display is in motion.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="HideMessier" type="Bool">
-         <label>Hide Messier objects while moving?</label>
-         <whatsthis>Toggle whether Messier objects are hidden while the display is in motion.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="HideNGC" type="Bool">
-         <label>Hide NGC objects while moving?</label>
-         <whatsthis>Toggle whether NGC objects are hidden while the display is in motion.</whatsthis>
-         <default>true</default>
-      </entry>
       <entry name="HideOther" type="Bool">
          <label>Hide extra objects while moving?</label>
          <whatsthis>Toggle whether extra objects are hidden while the display is in motion.</whatsthis>
@@ -577,26 +582,6 @@
          <whatsthis>Toggle whether flags are drawn in the sky map.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="ShowIC" type="Bool">
-         <label>Draw IC objects in the sky map?</label>
-         <whatsthis>Toggle whether IC objects are drawn in the sky map.</whatsthis>
-         <default>false</default>
-      </entry>
-      <entry name="ShowNGC" type="Bool">
-         <label>Draw NGC objects in the sky map?</label>
-         <whatsthis>Toggle whether NGC objects are drawn in the sky map.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="ShowMessier" type="Bool">
-         <label>Draw Messier objects in the sky map?</label>
-         <whatsthis>Toggle whether Messier objects are drawn in the sky map.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="ShowMessierImages" type="Bool">
-         <label>Draw Messier object images in the sky map?</label>
-         <whatsthis>Toggle whether Messier objects are rendered as images in the sky map.</whatsthis>
-         <default>true</default>
-      </entry>
       <entry name="ShowOther" type="Bool">
          <label>Draw extra deep-sky objects in the sky map?</label>
          <whatsthis>Toggle whether extra objects are drawn in the sky map.</whatsthis>
@@ -700,7 +685,7 @@
       <entry name="ShowDeepSkyNames" type="Bool">
          <label>Label deep-sky objects in the sky map?</label>
          <whatsthis>Toggle whether deep-sky object name labels are shown in the sky map.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="SlewTimeScale" type="Double">
          <label>Minimum timescale for forced-slewing mode</label>
@@ -804,7 +789,16 @@
       <entry name="MagLimitDrawDeepSkyZoomOut" type="Double">
          <label>Faint limit for deep-sky objects when zoomed out</label>
          <whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
-         <default>5.0</default>
+         <default>1.0</default>
+      </entry>
+      <entry name="NumberStaticObjects" type="Int">
+         <label>Number of static objects to load from the DSO catalog.</label>
+         <whatsthis>The number of static objects to load from the DSO
+         catalog. Some parts of KStars like need a permanent in-memory
+         list of skyobjects. Therefore the brightes N objects are
+         being loaded at startup.
+         </whatsthis>
+         <default>10000</default>
       </entry>
       <entry name="ShowUnknownMagObjects" type="Bool">
          <label>Show deep-sky objects of unknown magnitude</label>
@@ -998,21 +992,6 @@
          <label>Color of local meridian line</label>
          <whatsthis>The color for the local meridian line.</whatsthis>
          <default>#0059b3</default>
-      </entry>
-      <entry name="MessierColor" type="String">
-         <label>Color of Messier objects</label>
-         <whatsthis>The color for Messier object symbols.</whatsthis>
-         <default>#0F0</default>
-      </entry>
-      <entry name="NGCColor" type="String">
-         <label>Color of NGC objects</label>
-         <whatsthis>The color for NGC object symbols.</whatsthis>
-         <default>#066</default>
-      </entry>
-      <entry name="ICColor" type="String">
-         <label>Color of IC objects</label>
-         <whatsthis>The color for IC object symbols.</whatsthis>
-         <default>#439</default>
       </entry>
       <entry name="MilkyWayWColor" type="String">
          <label>Color of Milky Way contour</label>
