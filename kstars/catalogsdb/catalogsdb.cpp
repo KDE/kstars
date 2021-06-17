@@ -233,18 +233,8 @@ std::pair<bool, QString> DBManager::register_catalog(
     const QString &description, const int version, const QString &color,
     const QString &license, const QString &maintainer)
 {
-    return register_catalog({ .id          = id,
-                              .name        = name,
-                              .precedence  = precedence,
-                              .author      = author,
-                              .source      = source,
-                              .description = description,
-                              .mut         = mut,
-                              .enabled     = enabled,
-                              .version     = version,
-                              .color       = color,
-                              .license     = license,
-                              .maintainer  = maintainer });
+    return register_catalog({ id, name, precedence, author, source, description, mut,
+                              enabled, version, color, license, maintainer });
 }
 
 std::pair<bool, QString> DBManager::register_catalog(const Catalog &cat)
@@ -291,18 +281,18 @@ bool DBManager::compile_master_catalog()
 
 const Catalog read_catalog(const QSqlQuery &query)
 {
-    return { .id          = query.value("id").toInt(),
-             .name        = query.value("name").toString(),
-             .precedence  = query.value("precedence").toDouble(),
-             .author      = query.value("author").toString(),
-             .source      = query.value("source").toString(),
-             .description = query.value("description").toString(),
-             .mut         = query.value("mut").toBool(),
-             .enabled     = query.value("enabled").toBool(),
-             .version     = query.value("version").toInt(),
-             .color       = query.value("color").toString(),
-             .license     = query.value("license").toString(),
-             .maintainer  = query.value("maintainer").toString() };
+    return { query.value("id").toInt(),
+             query.value("name").toString(),
+             query.value("precedence").toDouble(),
+             query.value("author").toString(),
+             query.value("source").toString(),
+             query.value("description").toString(),
+             query.value("mut").toBool(),
+             query.value("enabled").toBool(),
+             query.value("version").toInt(),
+             query.value("color").toString(),
+             query.value("license").toString(),
+             query.value("maintainer").toString() };
 }
 
 const std::pair<bool, Catalog> DBManager::get_catalog(const int id)

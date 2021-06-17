@@ -262,7 +262,7 @@ std::pair<bool, int> CatalogsDBUI::create_new_catalog(const CatalogsDB::Catalog 
 
 void CatalogsDBUI::create_new_catalog()
 {
-    create_new_catalog({ .id = m_manager.find_suitable_catalog_id() });
+    create_new_catalog({ m_manager.find_suitable_catalog_id() });
 }
 
 void CatalogsDBUI::dublicate_catalog()

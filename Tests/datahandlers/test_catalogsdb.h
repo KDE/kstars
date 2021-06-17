@@ -262,21 +262,21 @@ class TestCatalogsDB_DBManager : public QObject
         QCOMPARE(m_manager.get_catalog(0).second.description, "toaster");
         QCOMPARE(m_manager.get_catalog(0).second.mut, true); // did not change
 
-        success = m_manager.update_catalog_meta({ .id = -1, .name = "bla" });
+        success = m_manager.update_catalog_meta({ -1, "bla" });
         QVERIFY2(!success.first, "Changing meta of nonexisting catalog doesn't work.");
     }
 
     void register_from_catalog_objetct()
     {
-        const Catalog cat{ .id          = m_manager.find_suitable_catalog_id(),
-                           .name        = "test",
-                           .precedence  = 1,
-                           .author      = "tester",
-                           .source      = "test catalog",
-                           .description = "testing catalog",
-                           .mut         = true,
-                           .enabled     = false,
-                           .version     = 100 };
+        const Catalog cat{ m_manager.find_suitable_catalog_id(),
+                           "test",
+                           1,
+                           "tester",
+                           "test catalog",
+                           "testing catalog",
+                           true,
+                           false,
+                           100 };
 
         auto success = m_manager.register_catalog(cat);
         QVERIFY2(success.first, "Registering a catalog worked.");
@@ -297,15 +297,15 @@ class TestCatalogsDB_DBManager : public QObject
 
     void add_object_and_copy()
     {
-        const Catalog cat{ .id          = m_manager.find_suitable_catalog_id(),
-                           .name        = "test",
-                           .precedence  = 1,
-                           .author      = "tester",
-                           .source      = "test catalog",
-                           .description = "testing catalog",
-                           .mut         = true,
-                           .enabled     = false,
-                           .version     = 100 };
+        const Catalog cat{ m_manager.find_suitable_catalog_id(),
+                           "test",
+                           1,
+                           "tester",
+                           "test catalog",
+                           "testing catalog",
+                           true,
+                           false,
+                           100 };
 
         auto success = m_manager.register_catalog(cat);
         QVERIFY2(success.first, "Registering a catalog worked.");
@@ -385,15 +385,15 @@ class TestCatalogsDB_DBManager : public QObject
 
     void add_objects()
     {
-        const Catalog cat{ .id          = m_manager.find_suitable_catalog_id(),
-                           .name        = "test",
-                           .precedence  = 1,
-                           .author      = "tester",
-                           .source      = "test catalog",
-                           .description = "testing catalog",
-                           .mut         = true,
-                           .enabled     = false,
-                           .version     = 100 };
+        const Catalog cat{ m_manager.find_suitable_catalog_id(),
+                           "test",
+                           1,
+                           "tester",
+                           "test catalog",
+                           "testing catalog",
+                           true,
+                           false,
+                           100 };
 
         auto success = m_manager.register_catalog(cat);
         QVERIFY2(success.first, "Registering a catalog worked.");
