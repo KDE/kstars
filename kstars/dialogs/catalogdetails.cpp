@@ -223,7 +223,7 @@ void CatalogDetails::import_csv()
 
     if (!success_add.first)
         QMessageBox::warning(this, i18n("Warning"),
-                             i18n("Could not add the objects.<br>%2", success_add.second));
+                             i18n("Could not add the objects.<br>%1", success_add.second));
 
     reload_objects();
 };
