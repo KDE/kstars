@@ -330,8 +330,6 @@ void DetailDialog::createGeneralTab()
         default: //deep-sky objects
         {
             CatalogObject *dso = dynamic_cast<CatalogObject *>(selectedObject);
-            if (!dso)
-                return;
 
             if (!dso)
                 break;
@@ -341,19 +339,14 @@ void DetailDialog::createGeneralTab()
             if (!dso->longname().isEmpty() && dso->longname() != dso->name())
             {
                 nameList.append(dso->translatedLongName());
-                nameList.append(dso->translatedName());
             }
-            else
-            {
-                nameList.append(dso->translatedName());
-            }
+
+            nameList.append(dso->translatedName());
 
             if (!dso->translatedName2().isEmpty())
             {
                 nameList.append(dso->translatedName2());
             }
-
-            nameList.append(dso->catalogIdentifier());
 
             Data->Names->setText(nameList.join(","));
 
