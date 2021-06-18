@@ -88,7 +88,7 @@ void CatalogDetails::reload_catalog()
     if (!found.first)
     {
         QMessageBox::warning(this, i18n("Warning"),
-                             i18n("Could not load the catalog with id=", m_catalog_id));
+                             i18n("Could not load the catalog with id=%1", m_catalog_id));
         reject();
     }
 
@@ -157,7 +157,7 @@ void CatalogDetails::add_object()
     const auto &success = m_manager.add_object(m_catalog.id, dialog->get_object());
     if (!success.first)
         QMessageBox::warning(this, i18n("Warning"),
-                             i18n("Could add the object.<br>%1", success.second));
+                             i18n("Could not add the object.<br>%1", success.second));
 
     reload_objects();
 }
@@ -200,13 +200,13 @@ void CatalogDetails::edit_objects()
         const auto &success = m_manager.remove_object(m_catalog.id, obj.getObjectId());
         if (!success.first)
             QMessageBox::warning(this, i18n("Warning"),
-                                 i18n("Could remove the object.<br>%1", success.second));
+                                 i18n("Could not remove the object.<br>%1", success.second));
 
         const auto &success_add =
             m_manager.add_object(m_catalog.id, dialog->get_object());
         if (!success_add.first)
             QMessageBox::warning(this, i18n("Warning"),
-                                 i18n("Could add the object.<br>%1", success_add.second));
+                                 i18n("Could not add the object.<br>%1", success_add.second));
     }
 
     reload_objects();
@@ -223,7 +223,7 @@ void CatalogDetails::import_csv()
 
     if (!success_add.first)
         QMessageBox::warning(this, i18n("Warning"),
-                             i18n("Could add the objects.<br>%2", success_add.second));
+                             i18n("Could not add the objects.<br>%2", success_add.second));
 
     reload_objects();
 };

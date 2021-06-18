@@ -154,7 +154,7 @@
          <max>4000</max>
       </entry>
       <entry name="DSOCatalogFilename" type="String">
-         <label>The filename of the dso catalog.</label>
+         <label>The filename of the DSO catalog.</label>
          <default>dso_main.kscat</default>
       </entry>
    </group>

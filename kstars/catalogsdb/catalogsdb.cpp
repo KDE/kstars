@@ -621,7 +621,7 @@ DBManager::add_object(const int catalog_id, const SkyObject::TYPE t, const Cachi
     {
         auto err = query.lastError().text();
         if (err.startsWith("UNIQUE"))
-            err = i18n("The object is already in the catalogue!");
+            err = i18n("The object is already in the catalog!");
 
         return { false, i18n("Could not insert object! %1", err) };
     }
@@ -966,7 +966,7 @@ CatalogsDB::DBManager::add_objects(const int catalog_id,
         {
             auto err = query.lastError().text();
             if (err.startsWith("UNIQUE"))
-                err = i18n("The object is already in the catalogue!");
+                err = i18n("The object is already in the catalog!");
 
             return { false, i18n("Could not insert object! %1", err) };
         }

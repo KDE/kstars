@@ -186,7 +186,7 @@ void CatalogCSVImport::init_mapping_selectors()
     ui->buttonBox->buttons()[0]->setEnabled(true);
     ui->obj_count->setEnabled(true);
     ui->preview_button->setEnabled(true);
-    ui->obj_count->setText(i18n("%1 Objects", m_doc.GetRowCount()));
+    ui->obj_count->setText(i18np("%1 Object", "%1 Objects", m_doc.GetRowCount()));
 };
 
 void CatalogCSVImport::init_type_table()

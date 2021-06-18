@@ -293,7 +293,7 @@ void CatalogsDBUI::dublicate_catalog()
         const auto &remove_success = m_manager.remove_catalog(create_success.second);
         if (!remove_success.first)
             QMessageBox::critical(
-                this, i18n("Critical"),
+                this, i18n("Critical error"),
                 i18n("Could not clean up and remove the new catalog.<br>%1")
                     .arg(remove_success.second));
     };
