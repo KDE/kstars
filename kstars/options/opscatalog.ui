@@ -712,7 +712,7 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
             <property name="toolTip">
              <string>The number of static objects to load from the DSO
          catalog. Some parts of KStars like need a permanent in-memory
-         list of skyobjects. Therefore the brightes N objects are
+         list of skyobjects. Therefore the brightest N objects are
          being loaded at startup.</string>
             </property>
             <property name="text">

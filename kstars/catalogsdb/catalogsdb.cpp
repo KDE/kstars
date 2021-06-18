@@ -736,7 +736,7 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
     if (!query.exec("PRAGMA tmp.user_version") || !query.next() ||
         query.value(0).toInt() != m_db_version)
         return { false,
-                 i18n("Unsupported catalog format versin.<br>Wanted '%1' and got '%2'.")
+                 i18n("Unsupported catalog format version.<br>Wanted '%1' and got '%2'.")
                      .arg(m_db_version)
                      .arg(query.value(0).toInt()) };
 

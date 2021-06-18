@@ -148,7 +148,7 @@
          <max>100</max>
       </entry>
       <entry name="DSOMinZoomFactor" type="UInt">
-         <label>Miminum zoom level to render DeepSkyObjects.</label>
+         <label>Minimum zoom level to render DeepSkyObjects.</label>
          <default>400</default>
          <min>250</min>
          <max>4000</max>
@@ -795,7 +795,7 @@
          <label>Number of static objects to load from the DSO catalog.</label>
          <whatsthis>The number of static objects to load from the DSO
          catalog. Some parts of KStars like need a permanent in-memory
-         list of skyobjects. Therefore the brightes N objects are
+         list of skyobjects. Therefore the brightest N objects are
          being loaded at startup.
          </whatsthis>
          <default>10000</default>
