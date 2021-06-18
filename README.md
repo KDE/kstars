@@ -377,6 +377,7 @@ Jasem Mutlaq <mutlaqja@ikarustech.com>
 * Robert Lancaster <rlancaste@gmail.com>
 * Samikshan Bairagya <samikshan@gmail.com>
 * Thomas Kabelmann <tk78@gmx.de>
+* Valentin Boettcher <hiro@protagon.space>
 * Victor Cărbune <victor.carbune@kdemail.net>
 * Vincent Jagot <vincent.jagot@free.fr>
 * Wolfgang Reissenberger <sterne-jaeger@t-online.de>
