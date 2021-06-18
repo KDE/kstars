@@ -34,14 +34,6 @@ cat data/stars.dat | gawk 'BEGIN { FS=", "; } ($1!~/#/ && NF==3) { printf( "xi18
 # extract satellite group names
 cat data/satellites.dat | gawk 'BEGIN {FS=";"} ($1!~/#/) { printf( "xi18nc(\"Satellite group name\", \"%s\");\n", $1); }' >> kstars_i18n.cpp;
 
-# extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )
-cat data/ngcic.dat | grep -v '^#' | gawk '{ split(substr( $0, 77 ), name, " "); \
-if ( name[1]!="" ) { \
-printf( "%s", name[1] ); i=2; \
-while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
-printf( "\n" ); } }' | sort --unique | gawk '{ \
-printf( "xi18nc(\"object name (optional)\", \"%s\");\n", $0 ); }' >> kstars_i18n.cpp
-
 # Extract asteroids
 cat data/asteroids.dat | gawk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); name = substr($1,8); printf("xi18nc(\"Asteroid name (optional)\",\"%s\")\n",name)}}}' >> kstars_i18n.cpp;
 

@@ -210,7 +210,7 @@ void CatalogCSVImport::type_table_add_map()
     const auto cur_row = table->rowCount();
 
     table->setRowCount(cur_row + 1);
-    table->setItem(cur_row, 0, new QTableWidgetItem{ i18n("") });
+    table->setItem(cur_row, 0, new QTableWidgetItem{ "" });
     table->setCellWidget(cur_row, 1, type_selector_widget());
 };
 
