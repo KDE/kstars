@@ -454,16 +454,16 @@ the list of deep-sky objects includes the Messier, NGC and IC catalogs.
 Addons catalogs are available via the
 <menuchoice><guimenu>Data</guimenu><guimenuitem>Download New
 Data...</guimenuitem></menuchoice> submenu where you can download
-catalogs provided by &kstars; team and the community though
+catalogs provided by &kstars; team and the community through
 the <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs">catalog
 packaging repository</ulink>.  The <guilabel>DSO Minimal
-Zoom</guilabel> slider controls the minimal zoomlevel for which the
+Zoom</guilabel> slider controls the minimal zoom level for which the
 DSOs are shown. Increasing the minimal zoom level can lead to
 performance improvements when panning the skymap zoomed-out.
 The <guilabel>DSO Cache Percentage</guilabel> slider regulates how
 much of the DSO master catalog is being kept in memory. If you
-experience memory issues with large catalogs, try lowering
-percentage. The <guilabel>Label density</guilabel> slider controlls
+experience memory issues with large catalogs, try lowering the
+percentage. The <guilabel>Label density</guilabel> slider controls
 the perceived density of labels for the DSOs. If labels start to
 overlap and the skymap begins to look too crowded, try tuning this
 option. The <guilabel>Faint limit</guilabel> regulates up to which
@@ -494,14 +494,14 @@ the future.
 <para>
 DSO catalogs  in &kstars; are  just SQL (sqlite3) database  tables. Each
 catalog is represented by its own table which contains all its objects
-and an entry in a catalog  meta-data table. Additionally catalogs may be
-imported or  exported from  and into  stand-alone database  files.
+and an entry in a catalog  meta-data table. Additionally, catalogs may be
+imported or exported from and into stand-alone database  files.
 </para>
 
 <para>
-Each object has the usual properties like name and coordinates, but
+Each object has the usual properties like name and coordinates but
 additionally features two IDs. The first ID is the unique identifier
-for the specific object and calculated by hashing all the object fields
+for the specific object and is calculated by hashing all the object fields
 along with the catalog id. Because objects can be contained in several
 catalogs each object has an additional object id (OID) that identifies
 the physical object and may be shared by several objects of different
@@ -510,7 +510,7 @@ catalogs.
 
 <para>
 To speed up object lookup all enabled catalogs are merged into a
-master table.  Each catalog has a priority number and if several
+master table. Each catalog has a priority number and if several
 objects with the same OID occur the one from the catalog with the
 highest priority is loaded. The objects from the master catalog are
 then drawn on the sky and generally available in &kstars;.
@@ -525,9 +525,9 @@ reproducibly build catalogs in a homogeneous environment. Every
 catalog is
 implemented <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs/-/blob/master/catalogs/sharpless_2.py">
 as a python module</ulink> and provides standard methods to acquire
-data, parse it and to find duplicates in other catalogs. All
+data, parse it and find duplicates in other catalogs. All
 downloadable catalogs are implemented this way. If you'd like to make
-a catalog of you own available for &kstars;, it is recommended that you
+a catalog of your own available for &kstars;, it is recommended that you
 implement it as a package in the repository. The tooling provided
 there is so flexible, that it should work for you. For more
 information on how to do that see
