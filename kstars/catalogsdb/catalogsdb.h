@@ -630,10 +630,6 @@ class DatabaseError : std::exception
 /** \returns the path to the dso database */
 QString dso_db_path();
 
-/** \returns the path to the dso database and copies the default
-    database if it is not present. */
-QString init_dso_db_path();
-
 /** \returns true and a catalog if the catalog metadata (name, author,
     ...) can be read */
 std::pair<bool, Catalog> read_catalog_meta_from_file(const QString &path);

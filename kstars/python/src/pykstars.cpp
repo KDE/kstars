@@ -19,7 +19,7 @@
 #include "skyobjects/skypoint.h"
 #include "skymesh.h"
 #include "cachingdms.h"
-#include "sqlstatements.h"
+#include "sqlstatements.cpp"
 #include "catalogobject.h"
 #include "catalogsdb.h"
 #include <iostream>

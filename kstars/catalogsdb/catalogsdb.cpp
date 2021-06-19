@@ -26,7 +26,7 @@
 #include "skymesh.h"
 #include "Options.h"
 #include "final_action.h"
-#include "sqlstatements.h"
+#include "sqlstatements.cpp"
 
 using namespace CatalogsDB;
 
@@ -874,23 +874,6 @@ QString CatalogsDB::dso_db_path()
 {
     return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
            Options::dSOCatalogFilename();
-}
-
-QString CatalogsDB::init_dso_db_path()
-{
-    const auto &target = dso_db_path();
-    if (QFile(target).exists())
-        return target;
-
-    const auto &default_file = KSPaths::locate(QStandardPaths::GenericDataLocation,
-                                               Options::dSOCatalogFilename());
-
-    if (QFile(default_file).exists())
-    {
-        QFile::copy(default_file, target);
-    }
-
-    return target;
 }
 
 std::pair<bool, Catalog> CatalogsDB::read_catalog_meta_from_file(const QString &path)

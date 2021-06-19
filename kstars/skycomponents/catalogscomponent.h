@@ -50,13 +50,16 @@ class CatalogsComponent : public SkyComponent
     using ObjectList = std::vector<CatalogObject>;
 
     /**
-     * Constructs the Catalogscomponent with a \p parent and a database
-     * file under the path \p db_filename.
+     * Constructs the Catalogscomponent with a \p parent and a
+     * database file under the path \p db_filename. If \p load_ngc is
+     * specified, an attempt is made to load the default catalog from
+     * the default location into the db.
      *
      * The lru cache for the objects will be initialized to a capacity
      * configurable by Options::dSOCachePercentage.
      */
-    explicit CatalogsComponent(SkyComposite *parent, const QString &db_filename);
+    explicit CatalogsComponent(SkyComposite *parent, const QString &db_filename,
+                               bool load_default = false);
 
     ~CatalogsComponent() override = default;
 

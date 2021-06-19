@@ -27,12 +27,25 @@
 #include "kstars_debug.h"
 #include "kstars.h"
 #include "skymapcomposite.h"
+#include "kspaths.h"
 
-CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_filename)
+CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_filename,
+                                     bool load_default)
     : SkyComponent(parent), m_db_manager(db_filename), m_skyMesh{ SkyMesh::Create(
                                                            m_db_manager.htmesh_level()) },
       m_cache(m_skyMesh->size(), calculateCacheSize(Options::dSOCachePercentage()))
 {
+    if (load_default)
+    {
+        const auto &default_file = KSPaths::locate(QStandardPaths::GenericDataLocation,
+                                                   Options::dSODefaultCatalogFilename());
+
+        if (QFile(default_file).exists())
+        {
+            m_db_manager.import_catalog(default_file, false);
+        }
+    }
+
     loadStaticObjects();
     qCInfo(KSTARS) << "Loaded DSO catalogs.";
 }
@@ -264,8 +277,9 @@ SkyObject *CatalogsComponent::objectNearest(SkyPoint *p, double &maxrad)
         }
         catch (const CatalogsDB::DatabaseError &e)
         {
-            qCCritical(KSTARS) << "Could not load catlog objects in trixel: " << trixel
-                               << ", " << e.what();
+            KMessageBox::detailedError(
+                nullptr, i18n("Could not load catlog objects in trixel: %1", trixel),
+                e.what());
             throw; // do not silently fail
         }
     }

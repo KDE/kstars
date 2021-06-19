@@ -157,6 +157,10 @@
          <label>The filename of the DSO catalog.</label>
          <default>dso_main.kscat</default>
       </entry>
+      <entry name="DSODefaultCatalogFilename" type="String">
+         <label>The filename of the default DSO catalog (OpenNGC).</label>
+         <default>OpenNGC.kscat</default>
+      </entry>
    </group>
    <group name="indi">
     <entry name="INDIWindowWidth" type="UInt">

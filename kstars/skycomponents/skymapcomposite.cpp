@@ -34,6 +34,7 @@
 #include "localmeridiancomponent.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
+#include <kmessagebox.h>
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #endif
@@ -123,8 +124,40 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     addComponent(m_Equator = new Equator(this), 95);
     addComponent(m_Ecliptic = new Ecliptic(this), 95);
     addComponent(m_Horizon = new HorizonComponent(this), 100);
-    addComponent(m_Catalogs = new CatalogsComponent(this, CatalogsDB::init_dso_db_path()),
-                 5);
+
+    const auto &path = CatalogsDB::dso_db_path();
+    try
+    {
+        addComponent(m_Catalogs = new CatalogsComponent(this, path, !QFile::exists(path)),
+                     5);
+    }
+    catch (const CatalogsDB::DatabaseError &e)
+    {
+        KMessageBox::detailedError(nullptr, i18n("Failed to load the DSO database."),
+                                   e.what());
+
+        const auto &backup_path =
+            QString("%1.%2").arg(path).arg(QDateTime::currentDateTime().toTime_t());
+
+        const auto &answer = KMessageBox::questionYesNo(
+            nullptr,
+            i18n("Do you want to start over with an empty database?\n"
+                 "This will move the current DSO database \"%1\"\n"
+                 "to \"%2\"",
+                 path, backup_path),
+            "Start over?");
+
+        if (answer == KMessageBox::Yes)
+        {
+            QFile::rename(path, backup_path);
+            addComponent(m_Catalogs = new CatalogsComponent(this, path, true), 5);
+        }
+        else
+        {
+            KStars::Instance()->close();
+        }
+    }
+
     addComponent(
         m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures.get()), 100);
 
