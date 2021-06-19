@@ -113,49 +113,6 @@ struct CatalogStatistics
     int total_count = 0;
 };
 
-/**
- * A query that will automatically be prepared as soon as a value is
- * bound.
- */
-class CachedQuery : public QSqlQuery
-{
-  public:
-    CachedQuery(QSqlDatabase &db, QString statement, const bool forward_only)
-        : QSqlQuery{ db }, m_statement{ std::move(statement) }
-    {
-        setForwardOnly(forward_only);
-    };
-
-    template <typename... Args>
-    void bindValue(Args &&...args)
-    {
-        prepare();
-        QSqlQuery::bindValue(std::forward<Args>(args)...);
-    }
-
-    bool prepare()
-    {
-        if (!m_prepared)
-        {
-            m_prepared = QSqlQuery::prepare(m_statement);
-        }
-
-        return m_prepared;
-    }
-
-    bool prepare(const QString &query)
-    {
-        m_prepared  = QSqlQuery::prepare(query);
-        m_statement = query;
-
-        return m_prepared;
-    }
-
-  private:
-    bool m_prepared{ false };
-    QString m_statement;
-};
-
 const QString db_file_extension = "kscat";
 constexpr int application_id    = 0x4d515158;
 constexpr int custom_cat_min_id = 1000;
@@ -491,13 +448,13 @@ class DBManager
      * \sa prepare_queries
      */
 
-    CachedQuery m_q_cat_by_id;
-    CachedQuery m_q_obj_by_trixel;
-    CachedQuery m_q_obj_by_name;
-    CachedQuery m_q_obj_by_name_exact;
-    CachedQuery m_q_obj_by_maglim;
-    CachedQuery m_q_obj_by_maglim_and_type;
-    CachedQuery m_q_obj_by_oid;
+    QSqlQuery m_q_cat_by_id;
+    QSqlQuery m_q_obj_by_trixel;
+    QSqlQuery m_q_obj_by_name;
+    QSqlQuery m_q_obj_by_name_exact;
+    QSqlQuery m_q_obj_by_maglim;
+    QSqlQuery m_q_obj_by_maglim_and_type;
+    QSqlQuery m_q_obj_by_oid;
     //@}
 
     /**

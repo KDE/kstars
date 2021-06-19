@@ -121,12 +121,14 @@ void CatalogsComponent::draw(SkyPainter *skyp)
         for (auto &object : objects.data())
         {
             auto mag          = object.mag();
-            bool magCriterion = std::isnan(mag) || (mag < maglim) ||
-                                (showUnknownMagObjects && mag > 36.0);
+            bool mag_unknown  = std::isnan(mag) || (mag > 36.0);
+            bool magCriterion = (mag_unknown && showUnknownMagObjects) || (mag < maglim);
 
-            if (!magCriterion)
+            if (!magCriterion && !mag_unknown)
                 break; // the objects are strictly sorted by magnitude
-                       // with unknown mag first
+                       // unknown magnitude first
+            if (!magCriterion)
+                continue;
 
             float size = object.a() * dms::PI * Options::zoomFactor() / 10800.0;
 

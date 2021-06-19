@@ -27,6 +27,15 @@ namespace CatalogsDB
   */
 namespace SqlStatements
 {
+/* Hack to support older sqlite versions. */
+#if (QT_VERSION <= QT_VERSION_CHECK(5, 12, 0))
+const QString mag_asc  = "magnitude IS NOT NULL, magnitude ASC";
+const QString mag_desc = "magnitude IS NULL, magnitude DESC";
+#else
+const QString mag_asc  = "magnitude ASC NULLS FIRST";
+const QString mag_desc = "magnitude DESC NULLS LAST";
+#endif
+
 /* constants */
 const QString catalog_prefix       = "cat_";
 constexpr int current_db_version   = 1;
@@ -289,10 +298,11 @@ inline const QString dso_by_catalog(int catalog_id)
 }
 
 // Nulls last because we load the objects in reverse :P
-const QString _dso_by_trixel = "SELECT %1 FROM master WHERE trixel = "
-                               ":trixel ORDER BY magnitude DESC NULLS LAST";
 
-const QString dso_by_trixel = QString(_dso_by_trixel).arg(object_fields);
+const QString _dso_by_trixel = "SELECT %1 FROM master WHERE trixel = "
+                               ":trixel ORDER BY %2";
+
+const QString dso_by_trixel = QString(_dso_by_trixel).arg(object_fields).arg(mag_desc);
 
 const QString _dso_by_oid = "SELECT %1 FROM master WHERE oid = :id LIMIT 1";
 
@@ -309,41 +319,43 @@ const QString _dso_by_name = "SELECT %1, instr(name, :name) AS in_name, instr(lo
                              ":name) AS in_lname FROM master WHERE in_name "
                              "OR in_lname "
                              "ORDER BY name, long_name, "
-                             "magnitude ASC NULLS FIRST LIMIT :limit";
+                             "%2 LIMIT :limit";
 
 const QString _dso_by_name_exact = "SELECT %1 FROM master WHERE name = :name LIMIT 1";
 
-const QString dso_by_name       = QString(_dso_by_name).arg(object_fields);
+const QString dso_by_name       = QString(_dso_by_name).arg(object_fields).arg(mag_asc);
 const QString dso_by_name_exact = QString(_dso_by_name_exact).arg(object_fields);
 
 inline const QString dso_by_name_and_catalog(const int id)
 {
     return QString("SELECT %1 FROM cat_%2 WHERE instr(name, :name) "
                    "OR instr(long_name, :name) OR instr(catalog_identifier, :name)"
-                   "ORDER BY magnitude ASC NULLS FIRST LIMIT :limit")
+                   "ORDER BY %3 LIMIT :limit")
         .arg(object_fields)
-        .arg(id);
+        .arg(id)
+        .arg(mag_asc);
 }
 
 const QString _dso_by_maglim = "SELECT %1 FROM master WHERE magnitude < :maglim "
-                               "ORDER BY magnitude ASC NULLS FIRST LIMIT :limit";
+                               "ORDER BY %2 LIMIT :limit";
 
-const QString dso_by_maglim = QString(_dso_by_maglim).arg(object_fields);
+const QString dso_by_maglim = QString(_dso_by_maglim).arg(object_fields).arg(mag_asc);
 
 inline const QString dso_in_catalog_by_maglim(const int id)
 {
     return QString("SELECT %1 FROM cat_%2 WHERE magnitude < :maglim "
-                   "AND type = :type ORDER BY magnitude ASC NULLS FIRST LIMIT :limit")
+                   "AND type = :type ORDER BY %3 LIMIT :limit")
         .arg(object_fields)
-        .arg(id);
+        .arg(id)
+        .arg(mag_asc);
 }
 
 const QString _dso_by_maglim_and_type =
     "SELECT %1 FROM master WHERE type = :type AND magnitude < :maglim "
-    "ORDER BY magnitude ASC NULLS FIRST LIMIT :limit";
+    "ORDER BY %2 LIMIT :limit";
 
 const QString dso_by_maglim_and_type =
-    QString(_dso_by_maglim_and_type).arg(object_fields);
+    QString(_dso_by_maglim_and_type).arg(object_fields).arg(mag_asc);
 
 const QString _dso_count_by_type       = "SELECT type, COUNT(*) FROM %1 GROUP BY type";
 const QString dso_count_by_type_master = _dso_count_by_type.arg("master");

@@ -20,6 +20,7 @@
 #include <QSqlDriver>
 #include <QSqlRecord>
 #include <QMutexLocker>
+#include <qsqldatabase.h>
 #include "cachingdms.h"
 #include "catalogsdb.h"
 #include "kspaths.h"
@@ -39,17 +40,24 @@ int get_connection_index()
     return connection_index++;
 }
 
+QSqlQuery make_query(QSqlDatabase &db, QString statement, const bool forward_only)
+{
+    QSqlQuery query{ db };
+
+    query.setForwardOnly(forward_only);
+    if (!query.prepare(statement))
+    {
+        throw DatabaseError("Can't prepare query!", DatabaseError::ErrorType::PREPARE,
+                            query.lastError());
+    };
+
+    return query;
+}
+
 DBManager::DBManager(const QString &filename)
     : m_db{ QSqlDatabase::addDatabase(
           "QSQLITE", QString("cat_%1_%2").arg(filename).arg(get_connection_index())) },
-      m_db_file{ filename }, m_q_cat_by_id{ m_db, SqlStatements::get_catalog_by_id,
-                                            true },
-      m_q_obj_by_trixel{ m_db, SqlStatements::dso_by_trixel, false },
-      m_q_obj_by_name{ m_db, SqlStatements::dso_by_name, true },
-      m_q_obj_by_name_exact{ m_db, SqlStatements::dso_by_name_exact, true },
-      m_q_obj_by_maglim{ m_db, SqlStatements::dso_by_maglim, true },
-      m_q_obj_by_maglim_and_type{ m_db, SqlStatements::dso_by_maglim_and_type, true },
-      m_q_obj_by_oid{ m_db, SqlStatements::dso_by_oid, true }
+      m_db_file{ filename }
 {
     m_db.setDatabaseName(m_db_file);
 
@@ -108,6 +116,15 @@ DBManager::DBManager(const QString &filename)
                                 m_db.lastError());
         }
     }
+
+    m_q_cat_by_id = make_query(m_db, SqlStatements::get_catalog_by_id, true);
+    m_q_obj_by_trixel            = make_query(m_db, SqlStatements::dso_by_trixel, false);
+    m_q_obj_by_name              = make_query(m_db, SqlStatements::dso_by_name, true);
+    m_q_obj_by_name_exact = make_query(m_db, SqlStatements::dso_by_name_exact, true);
+    m_q_obj_by_maglim            = make_query(m_db, SqlStatements::dso_by_maglim, true);
+    m_q_obj_by_maglim_and_type =
+        make_query(m_db, SqlStatements::dso_by_maglim_and_type, true);
+    m_q_obj_by_oid = make_query(m_db, SqlStatements::dso_by_oid, true);
 };
 
 DBManager::DBManager(const DBManager &other) : DBManager::DBManager{ other.m_db_file } {};
