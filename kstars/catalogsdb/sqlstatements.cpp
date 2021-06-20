@@ -266,7 +266,8 @@ const QString _create_master = "CREATE TABLE master AS "
 const QString create_master = QString(_create_master).arg(master_catalog_fields);
 
 const QString create_master_trixel_index =
-    "CREATE INDEX master_trixel_mag ON master(trixel ASC, magnitude DESC)";
+    "CREATE INDEX master_trixel_mag ON master(trixel ASC, magnitude DESC, major_axis "
+    "ASC)";
 
 const QString create_master_mag_index =
     "CREATE INDEX master_mag ON master(magnitude ASC)";
@@ -300,7 +301,7 @@ inline const QString dso_by_catalog(int catalog_id)
 // Nulls last because we load the objects in reverse :P
 
 const QString _dso_by_trixel = "SELECT %1 FROM master WHERE trixel = "
-                               ":trixel ORDER BY %2";
+                               ":trixel ORDER BY %2, major_axis ASC";
 
 const QString dso_by_trixel = QString(_dso_by_trixel).arg(object_fields).arg(mag_desc);
 
