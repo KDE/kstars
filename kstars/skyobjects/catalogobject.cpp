@@ -1,5 +1,5 @@
 /***************************************************************************
-                   catlogobject.cpp  -  K Desktop Planetarium
+                   catalogobject.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Jun 2021
     copyright            : (C) 2021 by Valentin Boettcher, Jason Harris

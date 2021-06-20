@@ -112,7 +112,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             catch (const CatalogsDB::DatabaseError &e)
             {
                 qCCritical(KSTARS)
-                    << "Could not load catlog objects in trixel: " << trixel << ", "
+                    << "Could not load catalog objects in trixel: " << trixel << ", "
                     << e.what();
                 throw; // do not silently fail
             }
@@ -238,7 +238,7 @@ void CatalogsComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion 
         }
         catch (const CatalogsDB::DatabaseError &e)
         {
-            qCCritical(KSTARS) << "Could not load catlog objects in trixel: " << it.key()
+            qCCritical(KSTARS) << "Could not load catalog objects in trixel: " << it.key()
                                << ", " << e.what();
             throw; // do not silently fail
         }
@@ -280,7 +280,7 @@ SkyObject *CatalogsComponent::objectNearest(SkyPoint *p, double &maxrad)
         catch (const CatalogsDB::DatabaseError &e)
         {
             KMessageBox::detailedError(
-                nullptr, i18n("Could not load catlog objects in trixel: %1", trixel),
+                nullptr, i18n("Could not load catalog objects in trixel: %1", trixel),
                 e.what());
             throw; // do not silently fail
         }

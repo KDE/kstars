@@ -79,7 +79,7 @@ class CatalogsDBUI : public QDialog
     void create_new_catalog();
 
     /**
-     * Creates a new catalog based on \p `catlog` by prompting for the
+     * Creates a new catalog based on \p `catalog` by prompting for the
      * relevant details.
      *
      * returns wether a catalog was created and the id of the created catalog
