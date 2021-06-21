@@ -155,51 +155,48 @@ ISD::Telescope::Status toMountStatus(const QString &str)
 // TODO: Not sure how to internationalize this.
 bool filterStripeBrush(const QString &filter, QBrush *brush)
 {
-    if (!filter.compare("red", Qt::CaseInsensitive) ||
-            !filter.compare("r", Qt::CaseInsensitive))
+    const QRegularExpression::PatternOption c = QRegularExpression::CaseInsensitiveOption;
+
+    const QString rPattern("^(red|r)$");
+    if (QRegularExpression(rPattern, c).match(filter).hasMatch())
     {
         *brush = QBrush(Qt::red, Qt::SolidPattern);
         return true;
     }
-    else if (!filter.compare("green", Qt::CaseInsensitive) ||
-             !filter.compare("g", Qt::CaseInsensitive))
+    const QString gPattern("^(green|g)$");
+    if (QRegularExpression(gPattern, c).match(filter).hasMatch())
     {
         *brush = QBrush(Qt::green, Qt::SolidPattern);
         return true;
     }
-    else if (!filter.compare("blue", Qt::CaseInsensitive) ||
-             !filter.compare("b", Qt::CaseInsensitive))
+    const QString bPattern("^(blue|b)$");
+    if (QRegularExpression(bPattern, c).match(filter).hasMatch())
     {
         *brush = QBrush(Qt::blue, Qt::SolidPattern);
         return true;
     }
-    else if (!filter.compare("ha", Qt::CaseInsensitive) ||
-             !filter.compare("h", Qt::CaseInsensitive) ||
-             !filter.compare("h_alpha", Qt::CaseInsensitive) ||
-             !filter.compare("halpha", Qt::CaseInsensitive))
+    const QString hPattern("^(ha|h|h-a|h_a|h-alpha|hydrogen|hydrogen_alpha|hydrogen-alpha|h_alpha|halpha)$");
+    if (QRegularExpression(hPattern, c).match(filter).hasMatch())
     {
         *brush = QBrush(Qt::darkRed, Qt::SolidPattern);
         return true;
     }
-    else if (!filter.compare("oiii", Qt::CaseInsensitive) ||
-             !filter.compare("o3", Qt::CaseInsensitive))
+    const QString oPattern("^(oiii|oxygen|oxygen_3|oxygen-3|oxygen_iii|oxygen-iii|o_iii|o-iii|o_3|o-3|o3)$");
+    if (QRegularExpression(oPattern, c).match(filter).hasMatch())
     {
         *brush = QBrush(Qt::cyan, Qt::SolidPattern);
         return true;
     }
-    else if (!filter.compare("sii", Qt::CaseInsensitive) ||
-             !filter.compare("s2", Qt::CaseInsensitive))
+    const QString
+    sPattern("^(sii|sulphur|sulphur_2|sulphur-2|sulphur_ii|sulphur-ii|sulfur|sulfur_2|sulfur-2|sulfur_ii|sulfur-ii|s_ii|s-ii|s_2|s-2|s2)$");
+    if (QRegularExpression(sPattern, c).match(filter).hasMatch())
     {
         // Pink.
         *brush = QBrush(QColor(255, 182, 193), Qt::SolidPattern);
         return true;
     }
-    else if (!filter.compare("lpr", Qt::CaseInsensitive) ||
-             !filter.compare("L", Qt::CaseInsensitive) ||
-             !filter.compare("luminance", Qt::CaseInsensitive) ||
-             !filter.compare("lum", Qt::CaseInsensitive) ||
-             !filter.compare("lps", Qt::CaseInsensitive) ||
-             !filter.compare("cls", Qt::CaseInsensitive))
+    const QString lPattern("^(lpr|L|UV-IR cut|UV-IR|white|monochrome|broadband|clear|focus|luminance|lum|lps|cls)$");
+    if (QRegularExpression(lPattern, c).match(filter).hasMatch())
     {
         *brush = QBrush(Qt::white, Qt::SolidPattern);
         return true;
