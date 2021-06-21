@@ -809,6 +809,10 @@
          <whatsthis>When enabled, objects whose magnitudes are unknown, or not available to KStars, are drawn irrespective of the faint limits set.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="ShowInlineImages" type="Bool">
+         <label>Draw inline images for some objects on the sky?</label>
+         <default>true</default>
+      </entry>
       <!--
         <entry name="MagLimitDrawStar" type="Double">
         <label>Faint limit for stars</label>

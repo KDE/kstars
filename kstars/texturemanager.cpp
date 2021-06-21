@@ -80,49 +80,45 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     {
         return it;
     }
-    else
-    {
-        // Try to load from file in 'textures' subdirectory
-        QString filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("textures/%1.png").arg(name));
-        if (!filename.isNull())
-        {
-            return (TextureManager::CacheIter)m_p->m_textures.insert(name, QImage(filename, "PNG"));
-        }
-        else
-        {
-            //Try to load from the file in 'skycultures/western' subdirectory for western constellation art
-            QString filename =
-                KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycultures/western/%1.png").arg(name));
-            if (!filename.isNull())
-            {
-                return (TextureManager::CacheIter)m_p->m_textures.insert(name, QImage(filename, "PNG"));
-            }
-            else
-            {
-                //Try to load from the file in 'skycultures/inuit' subdirectory for Inuit constellation art
-                QString filename =
-                    KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycultures/inuit/%1.png").arg(name));
-                if (!filename.isNull())
-                {
-                    return (TextureManager::CacheIter)m_p->m_textures.insert(name, QImage(filename, "PNG"));
-                }
-                else
-                {
-                    // Try to load from file in main data directory
 
-                    filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("%1.png").arg(name));
-                    if (!filename.isNull())
-                    {
-                        return (TextureManager::CacheIter)m_p->m_textures.insert(name, QImage(filename, "PNG"));
-                    }
-                    else
-                    {
-                        return m_p->m_textures.constEnd();
-                    }
-                }
-            }
-        }
+    const auto &base = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    QDirIterator search(base, QStringList() << QString("%1.png").arg(name), QDir::Files,
+                        QDirIterator::Subdirectories);
+
+    if (search.hasNext())
+    {
+        return (TextureManager::CacheIter)m_p->m_textures.insert(
+            name, QImage(search.next(), "PNG"));
     }
+
+    //Try to load from the file in 'skycultures/western' subdirectory for western constellation art
+    QString filename = KSPaths::locate(QStandardPaths::GenericDataLocation,
+                                       QString("skycultures/western/%1.png").arg(name));
+    if (!filename.isNull())
+    {
+        return (TextureManager::CacheIter)m_p->m_textures.insert(name,
+                                                                 QImage(filename, "PNG"));
+    }
+
+    //Try to load from the file in 'skycultures/inuit' subdirectory for Inuit constellation art
+    filename = KSPaths::locate(QStandardPaths::GenericDataLocation,
+                               QString("skycultures/inuit/%1.png").arg(name));
+    if (!filename.isNull())
+    {
+        return (TextureManager::CacheIter)m_p->m_textures.insert(name,
+                                                                 QImage(filename, "PNG"));
+    }
+
+    // Try to load from file in main data directory
+    filename =
+        KSPaths::locate(QStandardPaths::GenericDataLocation, QString("%1.png").arg(name));
+    if (!filename.isNull())
+    {
+        return (TextureManager::CacheIter)m_p->m_textures.insert(name,
+                                                                 QImage(filename, "PNG"));
+    }
+
+    return m_p->m_textures.constEnd();
 }
 
 #ifdef HAVE_OPENGL

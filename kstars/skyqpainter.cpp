@@ -696,6 +696,25 @@ bool SkyQPainter::drawTerrain()
     return rendered;
 }
 
+void SkyQPainter::drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj,
+                                         float positionAngle)
+{
+    const auto &image = obj.image();
+
+    if (!image.first)
+        return;
+
+    double zoom = Options::zoomFactor();
+    double w    = obj.a() * dms::PI * zoom / 10800.0;
+    double h    = obj.e() * w;
+
+    save();
+    translate(pos);
+    rotate(positionAngle);
+    drawImage(QRectF(-0.5 * w, -0.5 * h, w, h), image.second);
+    restore();
+}
+
 bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
 {
     if (!m_proj->checkVisibility(&obj))
@@ -719,7 +738,11 @@ bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
     //FIXME: this is probably incorrect
     float positionAngle = m_proj->findPA(&obj, pos.x(), pos.y());
 
-    //Draw Symbol
+    // Draw image
+    if (Options::showInlineImages() && Options::zoomFactor() > 5. * MINZOOM)
+        drawCatalogObjectImage(pos, obj, positionAngle);
+
+    // Draw Symbol
     drawDeepSkySymbol(pos, obj.type(), size, obj.e(), positionAngle);
 
     return true;

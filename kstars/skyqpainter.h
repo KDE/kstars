@@ -89,6 +89,8 @@ class SkyQPainter : public SkyPainter, public QPainter
     void drawSkyPolygon(LineList *list, bool forceClip = true) override;
     bool drawPointSource(const SkyPoint *loc, float mag, char sp = 'A') override;
     bool drawCatalogObject(const CatalogObject &obj) override;
+    void drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj,
+                                float positionAngle);
     bool drawPlanet(KSPlanetBase *planet) override;
     bool drawEarthShadow(KSEarthShadow *shadow) override;
     void drawObservingList(const QList<SkyObject *> &obs) override;

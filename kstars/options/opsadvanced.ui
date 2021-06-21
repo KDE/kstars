@@ -360,7 +360,8 @@
             <string>Purge All Configuration</string>
            </property>
            <property name="icon">
-            <iconset theme="data-warning"/>
+            <iconset theme="data-warning">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -624,91 +625,91 @@
            </layout>
           </item>
          </layout>
-               </widget>
-              </item>
+        </widget>
+       </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_5">
-         <item row="2" column="0">
-               <widget class="QCheckBox" name="kcfg_HideMilkyWay">
-                <property name="toolTip">
-                 <string>Hide the Milky Way contour while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then the Milky Way contour will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Milky Way</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
+         <item row="1" column="0">
           <widget class="QCheckBox" name="kcfg_HideLabels">
-                <property name="text">
+           <property name="text">
             <string>Object labels</string>
-                </property>
-               </widget>
-              </item>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QCheckBox" name="kcfg_HidePlanets">
-                <property name="toolTip">
+           <property name="toolTip">
             <string>Hide solar system bodies while moving?</string>
-                </property>
-                <property name="whatsThis">
+           </property>
+           <property name="whatsThis">
             <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
+           </property>
+           <property name="text">
             <string>Solar system</string>
-                </property>
-               </widget>
-              </item>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="0">
           <widget class="QCheckBox" name="kcfg_HideGrids">
-                <property name="toolTip">
+           <property name="toolTip">
             <string>Hide coordinate grids while moving?</string>
-                </property>
-                <property name="whatsThis">
+           </property>
+           <property name="whatsThis">
             <string>If checked, then the coordinate grids will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
+           </property>
+           <property name="text">
             <string>Coordinate grids</string>
-                </property>
-               </widget>
-              </item>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="1">
           <widget class="QCheckBox" name="kcfg_HideCNames">
-                <property name="toolTip">
+           <property name="toolTip">
             <string>Hide constellation names while moving?</string>
-                </property>
-                <property name="whatsThis">
+           </property>
+           <property name="whatsThis">
             <string>If checked, then constellation names will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
+           </property>
+           <property name="text">
             <string>Constellation names</string>
-                </property>
-               </widget>
-              </item>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="1">
           <widget class="QCheckBox" name="kcfg_HideCLines">
-                <property name="toolTip">
+           <property name="toolTip">
             <string>Hide constellation lines while moving?</string>
-                </property>
-                <property name="whatsThis">
+           </property>
+           <property name="whatsThis">
             <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
+           </property>
+           <property name="text">
             <string>Constellation lines</string>
-                </property>
-               </widget>
-              </item>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="1">
-               <widget class="QCheckBox" name="kcfg_HideCBounds">
-                <property name="text">
-                 <string>Constellation boundaries</string>
-                </property>
-               </widget>
-              </item>
-           </layout>
-          </item>
+          <widget class="QCheckBox" name="kcfg_HideCBounds">
+           <property name="text">
+            <string>Constellation boundaries</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="kcfg_ShowInlineImages">
+           <property name="text">
+            <string>Inline Images</string>
+           </property>
+           <property name="toolTip">
+            <string>Show inline images on the sky?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, inline images will be shown on the skymap.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -981,7 +982,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="logbuttonGroup"/>
   <buttongroup name="verbosityButtonGroup"/>
+  <buttongroup name="logbuttonGroup"/>
  </buttongroups>
 </ui>

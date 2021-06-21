@@ -46,6 +46,7 @@
 #endif
 
 #include <QDesktopServices>
+#include <QDir>
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo,
                            QWidget *parent)
@@ -1133,7 +1134,8 @@ void DetailDialog::centerTelescope()
 void DetailDialog::showThumbnail()
 {
     //No image if object is a star
-    if (selectedObject->type() == SkyObject::STAR || selectedObject->type() == SkyObject::CATALOG_STAR)
+    if (selectedObject->type() == SkyObject::STAR ||
+        selectedObject->type() == SkyObject::CATALOG_STAR)
     {
         Thumbnail->scaled(Data->Image->width(), Data->Image->height());
         Thumbnail->fill(Data->DataFrame->palette().color(QPalette::Window));
@@ -1144,17 +1146,25 @@ void DetailDialog::showThumbnail()
     //Try to load the object's image from disk
     //If no image found, load "no image" image
     QFile file;
-    QString fname = "thumb-" + selectedObject->name().toLower().remove(' ').remove('/') + ".png";
-    if (KSUtils::openDataFile(file, fname))
+
+    const auto &base = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    QDirIterator search(
+        base,
+        QStringList() << "thumb-" +
+                             selectedObject->name().toLower().remove(' ').remove('/') +
+                             ".png",
+        QDir::Files, QDirIterator::Subdirectories);
+
+    if (search.hasNext())
     {
         file.close();
-        Thumbnail->load(file.fileName(), "PNG");
+        Thumbnail->load(search.next(), "PNG");
     }
     else
         Thumbnail->load(":/images/noimage.png");
 
-    *Thumbnail =
-        Thumbnail->scaled(Data->Image->width(), Data->Image->height(), Qt::KeepAspectRatio, Qt::FastTransformation);
+    *Thumbnail = Thumbnail->scaled(Data->Image->width(), Data->Image->height(),
+                                   Qt::KeepAspectRatio, Qt::FastTransformation);
 
     Data->Image->setPixmap(*Thumbnail);
 }
@@ -1165,7 +1175,10 @@ void DetailDialog::updateThumbnail()
 
     if (tp->exec() == QDialog::Accepted)
     {
-        QString fname = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "thumb-" +
+        QDir().mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                      "thumbnails");
+        QString fname = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                        "thumbnails/thumb-" +
                         selectedObject->name().toLower().remove(' ').remove('/') + ".png";
 
         Data->Image->setPixmap(*(tp->image()));
@@ -1177,7 +1190,8 @@ void DetailDialog::updateThumbnail()
             bool rc = Data->Image->pixmap()->save(fname, "PNG");
             if (rc == false)
             {
-                KSNotification::error(i18n("Unable to save image to %1", fname), i18n("Save Thumbnail"));
+                KSNotification::error(i18n("Unable to save image to %1", fname),
+                                      i18n("Save Thumbnail"));
             }
             else
                 *Thumbnail = *(Data->Image->pixmap());

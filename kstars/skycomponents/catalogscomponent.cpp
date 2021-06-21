@@ -110,6 +110,11 @@ void CatalogsComponent::draw(SkyPainter *skyp)
                 qCCritical(KSTARS)
                     << "Could not load catalog objects in trixel: " << trixel << ", "
                     << e.what();
+
+                KMessageBox::detailedError(
+                    nullptr, i18n("Could not load catalog objects in trixel: %1", trixel),
+                    e.what());
+
                 throw; // do not silently fail
             }
         }
@@ -151,6 +156,10 @@ void CatalogsComponent::draw(SkyPainter *skyp)
                 }
 
                 skyp->setPen(color);
+
+                if (Options::showInlineImages())
+                    object.load_image();
+
                 if (skyp->drawCatalogObject(object))
                     drawn_objects.push_back(object);
             }
@@ -257,6 +266,10 @@ void CatalogsComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion 
         {
             qCCritical(KSTARS) << "Could not load catalog objects in trixel: " << it.key()
                                << ", " << e.what();
+
+            KMessageBox::detailedError(
+                nullptr, i18n("Could not load catalog objects in trixel: %1", it.key()),
+                e.what());
             throw; // do not silently fail
         }
     }

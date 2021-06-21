@@ -20,9 +20,11 @@
 #include "dms.h"
 #include "skyobject.h"
 #include "nan.h"
+#include "texturemanager.h"
 
 #include <QString>
 #include <QByteArray>
+#include <QImage>
 #include <array>
 #include <utility>
 
@@ -231,6 +233,21 @@ class CatalogObject : public SkyObject
      */
     void setMag(const double mag) { SkyObject::setMag(mag); };
 
+    /**
+     * Load the image for this object.
+     */
+    void load_image();
+
+    /**
+     * Get the image for this object.
+     *
+     * @returns [has image?, the image]
+     */
+    inline std::pair<bool, const QImage &> image() const
+    {
+        return { !m_image.isNull(), m_image };
+    }
+
   private:
     /**
      * The unique physical object identifier (hash).
@@ -255,6 +272,18 @@ class CatalogObject : public SkyObject
      * The database path which this object was loaded from.
      */
     QString m_database_path;
+
+    /**
+     * Whether the image for this catalog object has been loaded.
+     */
+    bool m_image_loaded;
+
+    /**
+     * The image for this object (if any).
+     *
+     * @todo use std::optional
+     */
+    QImage m_image;
 
     //@{
     /**

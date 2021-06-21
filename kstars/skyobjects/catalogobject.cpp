@@ -154,3 +154,13 @@ CatalogObject::getId(const SkyObject::TYPE type, const double ra, const double d
 
     return hash.result();
 }
+
+void CatalogObject::load_image()
+{
+    if (!m_image_loaded)
+    {
+        QString tname  = name().toLower().remove(' ');
+        m_image        = TextureManager::getImage(tname);
+        m_image_loaded = true;
+    }
+}
