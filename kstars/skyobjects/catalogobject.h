@@ -276,7 +276,7 @@ class CatalogObject : public SkyObject
     /**
      * Whether the image for this catalog object has been loaded.
      */
-    bool m_image_loaded;
+    bool m_image_loaded{ false };
 
     /**
      * The image for this object (if any).

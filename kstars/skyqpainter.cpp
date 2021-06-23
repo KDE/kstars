@@ -739,7 +739,8 @@ bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
     float positionAngle = m_proj->findPA(&obj, pos.x(), pos.y());
 
     // Draw image
-    if (Options::showInlineImages() && Options::zoomFactor() > 5. * MINZOOM)
+    if (Options::showInlineImages() && Options::zoomFactor() > 5. * MINZOOM &&
+        !Options::showHIPS())
         drawCatalogObjectImage(pos, obj, positionAngle);
 
     // Draw Symbol
