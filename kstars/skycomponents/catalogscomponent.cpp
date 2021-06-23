@@ -55,9 +55,9 @@ double compute_maglim()
     double maglim = Options::magLimitDrawDeepSky();
 
     //adjust maglimit for ZoomLevel
-    double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
-    double lgz   = log10(Options::zoomFactor());
+    static const double lgmin{ log10(MINZOOM) };
+    static const double lgmax{ log10(MAXZOOM) };
+    double lgz = log10(Options::zoomFactor());
     if (lgz <= 0.75 * lgmax)
         maglim -=
             (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut()) *
@@ -87,16 +87,19 @@ void CatalogsComponent::draw(SkyPainter *skyp)
     auto hideLabels = (map.isSlewing() && Options::hideOnSlew()) ||
                       !(Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames());
 
+    const auto label_padding{ 1 + (1 - (Options::deepSkyLabelDensity() / 100)) * 50 };
     auto &proj = *map.projector();
 
     updateSkyMesh(map);
+
     MeshIterator region(m_skyMesh, DRAW_BUF);
 
     size_t num_trixels{ 0 };
+
     while (region.hasNext())
     {
-        num_trixels++;
         Trixel trixel = region.next();
+        num_trixels++;
 
         auto &objects = m_cache[trixel];
         if (!objects.is_set())
@@ -119,13 +122,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             }
         }
 
-        auto &to_be_drawn = objects.data();
-        std::vector<std::reference_wrapper<CatalogObject>> drawn_objects{};
-        if (!hideLabels)
-            drawn_objects.reserve(
-                to_be_drawn.size() * (Options::deepSkyLabelDensity() / 100) + 1);
-
-        for (auto &object : to_be_drawn)
+        for (auto &object : objects.data())
         {
             auto mag          = object.mag();
             bool mag_unknown  = std::isnan(mag) || (mag > 36.0);
@@ -160,26 +157,11 @@ void CatalogsComponent::draw(SkyPainter *skyp)
                 if (Options::showInlineImages())
                     object.load_image();
 
-                if (skyp->drawCatalogObject(object))
-                    drawn_objects.push_back(object);
+                if (skyp->drawCatalogObject(object) && !hideLabels)
+                {
+                    labeler.drawNameLabel(&object, proj.toScreen(&object), label_padding);
+                }
             }
-        }
-
-        if (hideLabels)
-            continue;
-
-        const size_t num_labels =
-            std::round(drawn_objects.size() * (Options::deepSkyLabelDensity() / 100) + 1);
-
-        size_t i = 0; // this way we draw at least one label
-        for (const auto &ref : drawn_objects)
-        {
-            auto &object = ref.get();
-            labeler.drawNameLabel(&object, proj.toScreen(&object));
-            i++;
-
-            if (i >= num_labels)
-                break;
         }
     }
 

@@ -238,8 +238,10 @@ class SkyLabeler
          * @param _p the position of that object
          * @return true if the label was drawn
          * //FIXME: should this just take an object pointer and do its own projection?
+         *
+         * \p padding_factor is the factor by which the real label size is scaled
          */
-    bool drawNameLabel(SkyObject *obj, const QPointF &_p);
+    bool drawNameLabel(SkyObject *obj, const QPointF &_p, const qreal padding_factor = 1);
 
     /**
          *@short draw the object's name label on the map, without checking for
@@ -285,8 +287,11 @@ class SkyLabeler
          *
          * It is usually easier to use drawLabel() or drawLabelOffest() instead
          * which both call mark() internally.
+         *
+         * \p padding_factor is the factor by which the real label size is
+         * scaled
          */
-    bool markText(const QPointF &p, const QString &text);
+    bool markText(const QPointF &p, const QString &text, qreal padding_factor = 1);
 
     /**
          * @short Works just like markText() above but for an arbitrary

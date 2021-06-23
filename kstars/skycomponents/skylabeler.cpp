@@ -169,7 +169,8 @@ bool SkyLabeler::drawGuideLabel(QPointF &o, const QString &text, double angle)
     return true;
 }
 
-bool SkyLabeler::drawNameLabel(SkyObject *obj, const QPointF &_p)
+bool SkyLabeler::drawNameLabel(SkyObject *obj, const QPointF &_p,
+                               const qreal padding_factor)
 {
     QString sLabel = obj->labelString();
     if (sLabel.isEmpty())
@@ -178,14 +179,14 @@ bool SkyLabeler::drawNameLabel(SkyObject *obj, const QPointF &_p)
     double offset = obj->labelOffset();
     QPointF p(_p.x() + offset, _p.y() + offset);
 
-    if (!markText(p, sLabel))
+    if (!markText(p, sLabel, padding_factor))
     {
         return false;
     }
     else
     {
-        double factor = log(Options::zoomFactor() / 750.0);
-        double newPointSize = qBound(12.0, factor*m_stdFont.pointSizeF(), 18.0);
+        double factor       = log(Options::zoomFactor() / 750.0);
+        double newPointSize = qBound(12.0, factor * m_stdFont.pointSizeF(), 18.0);
         QFont zoomFont(m_p.font());
         zoomFont.setPointSizeF(newPointSize);
         m_p.setFont(zoomFont);
@@ -415,10 +416,21 @@ void SkyLabeler::draw(QPainter &p)
 //
 // This code is easy to break and hard to fix.
 
-bool SkyLabeler::markText(const QPointF &p, const QString &text)
+bool SkyLabeler::markText(const QPointF &p, const QString &text, qreal padding_factor)
 {
-    qreal maxX = p.x() + m_fontMetrics.width(text);
-    qreal minY = p.y() - m_fontMetrics.height();
+    static const auto ramp_zoom = log10(MINZOOM) + log10(MAXZOOM) * .3;
+    static const auto logmin{ log10(MINZOOM) };
+
+    if (padding_factor != 1)
+    {
+        padding_factor =
+            (1 - ((std::min(log10(Options::zoomFactor()), ramp_zoom)) / ramp_zoom)) *
+                padding_factor +
+            1;
+    }
+
+    const qreal maxX = p.x() + m_fontMetrics.width(text) * padding_factor;
+    const qreal minY = p.y() - m_fontMetrics.height() * padding_factor;
     return markRegion(p.x(), maxX, p.y(), minY);
 }
 
