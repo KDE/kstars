@@ -81,8 +81,10 @@ DBManager::DBManager(const QString &filename)
 
     QSqlQuery master_exists{ m_db };
     master_exists.exec(SqlStatements::exists_master);
+    const bool master_does_exist = master_exists.next();
+    master_exists.finish();
 
-    if (init || master_exists.size() <= 0)
+    if (init || !master_does_exist)
     {
         if (!initialize_db())
         {

@@ -289,7 +289,7 @@ const QString get_catalog_by_id = "SELECT id, name, precedence, author, source, 
 const QString exists_catalog_by_id = "SELECT 1 FROM catalogs WHERE id = :id";
 
 const QString exists_master =
-    "SELECT name FROM sqlite_master WHERE type='table' AND name='{master}';";
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='master';";
 
 /* DSO queries */
 const QString _dso_by_catalog = QString("SELECT %1 FROM cat_%2").arg(catalog_fields);
