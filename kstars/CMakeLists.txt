@@ -1188,11 +1188,6 @@ if(INDI_FOUND)
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
         # StellarSolver
         target_link_libraries(KStarsLib StellarSolver::stellarsolver)
-        ##why is this necessary??
-        if(WIN32)
-          find_package(Boost 1.45.0 COMPONENTS regex)
-          target_link_libraries(KStarsLib wsock32 ${Boost_LIBRARIES})
-        endif(WIN32)
     endif ()
 
     if(WIN32 OR ANDROID)
