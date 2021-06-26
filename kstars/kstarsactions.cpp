@@ -26,6 +26,7 @@
 #include "kswizard.h"
 #include "Options.h"
 #include "skymap.h"
+#include "texturemanager.h"
 #include "dialogs/exportimagedialog.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
@@ -506,6 +507,7 @@ void KStars::slotDownload()
     KStars::Instance()->data()->setFullTimeUpdate();
     KStars::Instance()->updateTime();
     KStars::Instance()->map()->forceUpdate();
+    TextureManager::discoverTextureDirs();
 }
 
 void KStars::slotAVT()
