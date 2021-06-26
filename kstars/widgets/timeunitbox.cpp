@@ -20,6 +20,8 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
+#include <KLocalizedString>
+
 #define TUB_DAYUNITS 5
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
@@ -34,16 +36,25 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
     UpButton->setMaximumWidth(26);
     UpButton->setMaximumHeight(13);
 
+    IncreaseAction = new QAction(QIcon::fromTheme("go-next-skip"),
+                                 i18n("Increase Time Scale"));
+    IncreaseAction->setToolTip(i18n("Increase time scale to the next largest unit"));
+    connect(IncreaseAction, SIGNAL(triggered()), this, SLOT(increase()));
+    UpButton->setDefaultAction(IncreaseAction);
+
     DownButton = new QToolButton(this);
     DownButton->setArrowType(Qt::DownArrow);
     DownButton->setMaximumWidth(26);
     DownButton->setMaximumHeight(13);
 
+    DecreaseAction = new QAction(QIcon::fromTheme("go-previous-skip"),
+                                 i18n("Decrease Time Scale"));
+    DecreaseAction->setToolTip(i18n("Decrease time scale to the next smallest unit"));
+    connect(DecreaseAction, SIGNAL(triggered()), this, SLOT(decrease()));
+    DownButton->setDefaultAction(DecreaseAction);
+
     vlay->addWidget(UpButton);
     vlay->addWidget(DownButton);
-
-    connect(UpButton, SIGNAL(clicked()), this, SLOT(increase()));
-    connect(DownButton, SIGNAL(clicked()), this, SLOT(decrease()));
 
     for (int &item : UnitStep)
         item = 0;
@@ -88,6 +99,11 @@ void TimeUnitBox::increase()
     {
         setValue(value() + 1);
         emit valueChanged(value());
+        DecreaseAction->setEnabled(true);
+    }
+    else
+    {
+        IncreaseAction->setEnabled(false);
     }
 }
 
@@ -97,6 +113,11 @@ void TimeUnitBox::decrease()
     {
         setValue(value() - 1);
         emit valueChanged(value());
+        IncreaseAction->setEnabled(true);
+    }
+    else
+    {
+        DecreaseAction->setEnabled(false);
     }
 }
 

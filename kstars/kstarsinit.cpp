@@ -29,6 +29,7 @@
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/timespinbox.h"
 #include "widgets/timestepbox.h"
+#include "widgets/timeunitbox.h"
 #include "hips/hipsmanager.h"
 #include "auxiliary/thememanager.h"
 
@@ -538,7 +539,14 @@ void KStars::initActions()
     m_TimeStepBox->tsbox()->setToolTip(TSBToolTip);
     QWidgetAction *wa = new QWidgetAction(this);
     wa->setDefaultWidget(m_TimeStepBox);
+
+    // Add actions for the timestep widget's functions
     actionCollection()->addAction("timestep_control", wa) << i18n("Time step control");
+    const auto unitbox = m_TimeStepBox->unitbox();
+    ka = actionCollection()->addAction("timestep_increase_units", unitbox->increaseUnitsAction());
+    ka->setShortcut(QKeySequence(Qt::Key_Plus));
+    ka = actionCollection()->addAction("timestep_decrease_units", unitbox->decreaseUnitsAction());
+    ka->setShortcut(QKeySequence(Qt::Key_Underscore));
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT(slotViewToolBar()))
