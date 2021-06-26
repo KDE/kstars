@@ -44,8 +44,10 @@ TextureManager *TextureManager::m_p = nullptr;
 TextureManager *TextureManager::Create()
 {
     if (!m_p)
+    {
         m_p = new TextureManager();
-    discoverTextureDirs();
+        discoverTextureDirs();
+    }
     return m_p;
 }
 
