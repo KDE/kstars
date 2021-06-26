@@ -696,8 +696,7 @@ bool SkyQPainter::drawTerrain()
     return rendered;
 }
 
-void SkyQPainter::drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj,
-                                         float positionAngle)
+void SkyQPainter::drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj)
 {
     const auto &image = obj.image();
 
@@ -710,7 +709,7 @@ void SkyQPainter::drawCatalogObjectImage(const QPointF &pos, const CatalogObject
 
     save();
     translate(pos);
-    rotate(positionAngle);
+    rotate(obj.pa());
     drawImage(QRectF(-0.5 * w, -0.5 * h, w, h), image.second);
     restore();
 }
@@ -735,22 +734,18 @@ bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
 
     float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
 
-    //FIXME: this is probably incorrect
-    float positionAngle = m_proj->findPA(&obj, pos.x(), pos.y());
-
     // Draw image
     if (Options::showInlineImages() && Options::zoomFactor() > 5. * MINZOOM &&
         !Options::showHIPS())
-        drawCatalogObjectImage(pos, obj, positionAngle);
+        drawCatalogObjectImage(pos, obj);
 
     // Draw Symbol
-    drawDeepSkySymbol(pos, obj.type(), size, obj.e(), positionAngle);
-
+    drawDeepSkySymbol(pos, obj.type(), size, obj.e(), obj.pa());
     return true;
 }
 
 void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, float e,
-                                    float positionAngle)
+                                    double positionAngle)
 {
     float x    = pos.x();
     float y    = pos.y();
