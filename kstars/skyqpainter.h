@@ -89,7 +89,8 @@ class SkyQPainter : public SkyPainter, public QPainter
     void drawSkyPolygon(LineList *list, bool forceClip = true) override;
     bool drawPointSource(const SkyPoint *loc, float mag, char sp = 'A') override;
     bool drawCatalogObject(const CatalogObject &obj) override;
-    void drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj);
+    void drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj,
+                                float positionAngle);
     bool drawPlanet(KSPlanetBase *planet) override;
     bool drawEarthShadow(KSEarthShadow *shadow) override;
     void drawObservingList(const QList<SkyObject *> &obs) override;
@@ -98,7 +99,7 @@ class SkyQPainter : public SkyPainter, public QPainter
                      bool *drawLabel = nullptr) override;
     bool drawSatellite(Satellite *sat) override;
     virtual void drawDeepSkySymbol(const QPointF &pos, int type, float size, float e,
-                                   double positionAngle);
+                                   float positionAngle);
     bool drawSupernova(Supernova *sup) override;
     bool drawComet(KSComet *com) override;
     /// This function exists so that we can draw other objects (e.g., planets) as point sources.
