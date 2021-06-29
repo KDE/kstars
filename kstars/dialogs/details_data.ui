@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
-    <height>266</height>
+    <width>386</width>
+    <height>269</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -265,51 +265,6 @@
             <property name="spacing">
              <number>5</number>
             </property>
-            <item row="1" column="0">
-             <widget class="KSHelpLabel" name="DistanceLabel">
-              <property name="text">
-               <string>Distance:</string>
-              </property>
-              <property name="anchor" stdset="0">
-               <string comment="KDE::DoNotExtract">cosmicdist</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="AngSize">
-              <property name="font">
-               <font>
-                <family>Monospace</family>
-                <pointsize>10</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-                <strikeout>false</strikeout>
-               </font>
-              </property>
-              <property name="text">
-               <string>0.0 arcmin</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="AngSizeLabel">
-              <property name="text">
-               <string>Size:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="KSHelpLabel" name="MagLabel">
-              <property name="text">
-               <string>Magnitude:</string>
-              </property>
-              <property name="anchor" stdset="0">
-               <string comment="KDE::DoNotExtract">magnitude</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="1">
              <widget class="QLabel" name="Magnitude">
               <property name="font">
@@ -328,8 +283,15 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="Distance">
+            <item row="3" column="0">
+             <widget class="QLabel" name="AngSizeLabel">
+              <property name="text">
+               <string>Size:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="AngSize">
               <property name="font">
                <font>
                 <family>Monospace</family>
@@ -342,17 +304,7 @@
                </font>
               </property>
               <property name="text">
-               <string>0.0 pc</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="IllumLabel">
-              <property name="text">
-               <string>Illumination:</string>
-              </property>
-              <property name="openExternalLinks">
-               <bool>false</bool>
+               <string>0.0 arcmin</string>
               </property>
              </widget>
             </item>
@@ -378,10 +330,83 @@
               </property>
              </widget>
             </item>
+            <item row="1" column="0">
+             <widget class="KSHelpLabel" name="DistanceLabel">
+              <property name="text">
+               <string>Distance:</string>
+              </property>
+              <property name="anchor" stdset="0">
+               <string comment="KDE::DoNotExtract">cosmicdist</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="KSHelpLabel" name="MagLabel">
+              <property name="text">
+               <string>Magnitude:</string>
+              </property>
+              <property name="anchor" stdset="0">
+               <string comment="KDE::DoNotExtract">magnitude</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="IllumLabel">
+              <property name="text">
+               <string>Illumination:</string>
+              </property>
+              <property name="openExternalLinks">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="Distance">
+              <property name="font">
+               <font>
+                <family>Monospace</family>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text">
+               <string>0.0 pc</string>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="1">
              <widget class="QLabel" name="BVIndex">
               <property name="text">
                <string>--</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="CatalogLabel">
+              <property name="text">
+               <string>Catalog:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLabel" name="Catalog">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="font">
+               <font>
+                <family>Monospace</family>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
               </property>
              </widget>
             </item>

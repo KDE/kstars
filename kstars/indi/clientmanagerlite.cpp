@@ -316,7 +316,7 @@ QString ClientManagerLite::syncLED(const QString &device, const QString &propert
     {
         if (devInfo->device->getDeviceName() == device)
         {
-            INDI::Property *prop = devInfo->device->getProperty(property.toLatin1());
+            INDI::Property prop = devInfo->device->getProperty(property.toLatin1());
             if (prop)
             {
                 IPState state = prop->getState();
@@ -364,140 +364,131 @@ QString ClientManagerLite::syncLED(const QString &device, const QString &propert
 
 void ClientManagerLite::buildTextGUI(Property *property)
 {
+    auto tvp = property->getText();
+    if (!tvp)
+        return;
+
+    for (const auto &it: *tvp)
     {
-        ITextVectorProperty *tvp = property->getText();
-        if (tvp == nullptr)
-            return;
+        QString name  = it.getName();
+        QString label = it.getLabel();
+        QString text  = it.getText();
+        bool read     = false;
+        bool write    = false;
+        /*if (tp->label[0])
+                label = i18nc(libindi_strings_context, itp->label);
 
-        for (int i = 0; i < tvp->ntp; i++)
+            if (label == "(I18N_EMPTY_MESSAGE)")
+                label = itp->label;*/
+
+        if (label.isEmpty())
+            label = tvp->getName(); // #PS: it should be it.getName() ?
+        /*label = i18nc(libindi_strings_context, itp->name);
+
+            if (label == "(I18N_EMPTY_MESSAGE)")*/
+
+        //setupElementLabel();
+
+        /*if (tp->text[0])
+                text = i18nc(libindi_strings_context, tp->text);*/
+
+        switch (property->getPermission())
         {
-            IText *tp     = &(tvp->tp[i]);
-            QString name  = tp->name;
-            QString label = tp->label;
-            QString text  = tp->text;
-            bool read     = false;
-            bool write    = false;
-            /*if (tp->label[0])
-                    label = i18nc(libindi_strings_context, itp->label);
+            case IP_RW:
+                read  = true;
+                write = true;
+                break;
 
-                if (label == "(I18N_EMPTY_MESSAGE)")
-                    label = itp->label;*/
+            case IP_RO:
+                read  = true;
+                write = false;
+                break;
 
-            if (label.isEmpty())
-                label = tvp->name;
-            /*label = i18nc(libindi_strings_context, itp->name);
-
-                if (label == "(I18N_EMPTY_MESSAGE)")*/
-
-            //setupElementLabel();
-
-            /*if (tp->text[0])
-                    text = i18nc(libindi_strings_context, tp->text);*/
-
-            switch (property->getPermission())
-            {
-                case IP_RW:
-                    read  = true;
-                    write = true;
-
-                    break;
-
-                case IP_RO:
-                    read  = true;
-                    write = false;
-                    break;
-
-                case IP_WO:
-                    read  = false;
-                    write = true;
-                    break;
-            }
-            emit createINDIText(property->getDeviceName(), property->getName(), label, name, text, read, write);
+            case IP_WO:
+                read  = false;
+                write = true;
+                break;
         }
+        emit createINDIText(property->getDeviceName(), property->getName(), label, name, text, read, write);
     }
 }
 
 void ClientManagerLite::buildNumberGUI(Property *property)
 {
+    auto nvp = property->getNumber();
+    if (!nvp)
+        return;
+
+    //for (int i = 0; i < nvp->nnp; i++)
+    for (const auto &it: nvp)
     {
-        INumberVectorProperty *nvp = property->getNumber();
-        if (nvp == nullptr)
-            return;
+        bool scale = false;
+        char iNumber[MAXINDIFORMAT];
 
-        for (int i = 0; i < nvp->nnp; i++)
+        QString name  = it.getName();
+        QString label = it.getLabel();
+        QString text;
+        bool read  = false;
+        bool write = false;
+        /*if (tp->label[0])
+                label = i18nc(libindi_strings_context, itp->label);
+
+            if (label == "(I18N_EMPTY_MESSAGE)")
+                label = itp->label;*/
+
+        if (label.isEmpty())
+            label = np->getName();
+
+        numberFormat(iNumber, np.getFormat(), np.getValue());
+        text = iNumber;
+
+        /*label = i18nc(libindi_strings_context, itp->name);
+
+            if (label == "(I18N_EMPTY_MESSAGE)")*/
+
+        //setupElementLabel();
+
+        /*if (tp->text[0])
+                text = i18nc(libindi_strings_context, tp->text);*/
+
+        if (it.getStep() != 0 && (it.getMax() - it.getMin()) / it.getStep() <= 100)
+            scale = true;
+
+        switch (property->getPermission())
         {
-            bool scale = false;
-            char iNumber[MAXINDIFORMAT];
+            case IP_RW:
+                read  = true;
+                write = true;
+                break;
 
-            INumber *np   = &(nvp->np[i]);
-            QString name  = np->name;
-            QString label = np->label;
-            QString text;
-            bool read  = false;
-            bool write = false;
-            /*if (tp->label[0])
-                    label = i18nc(libindi_strings_context, itp->label);
+            case IP_RO:
+                read  = true;
+                write = false;
+                break;
 
-                if (label == "(I18N_EMPTY_MESSAGE)")
-                    label = itp->label;*/
-
-            if (label.isEmpty())
-                label = np->name;
-
-            numberFormat(iNumber, np->format, np->value);
-            text = iNumber;
-
-            /*label = i18nc(libindi_strings_context, itp->name);
-
-                if (label == "(I18N_EMPTY_MESSAGE)")*/
-
-            //setupElementLabel();
-
-            /*if (tp->text[0])
-                    text = i18nc(libindi_strings_context, tp->text);*/
-
-            if (np->step != 0 && (np->max - np->min) / np->step <= 100)
-                scale = true;
-
-            switch (property->getPermission())
-            {
-                case IP_RW:
-                    read  = true;
-                    write = true;
-
-                    break;
-
-                case IP_RO:
-                    read  = true;
-                    write = false;
-                    break;
-
-                case IP_WO:
-                    read  = false;
-                    write = true;
-                    break;
-            }
-            emit createINDINumber(property->getDeviceName(), property->getName(), label, name, text, read, write,
-                                  scale);
+            case IP_WO:
+                read  = false;
+                write = true;
+                break;
         }
+        emit createINDINumber(property->getDeviceName(), property->getName(), label, name, text, read, write,
+                                scale);
     }
 }
 
-void ClientManagerLite::buildMenuGUI(INDI::Property *property)
+void ClientManagerLite::buildMenuGUI(INDI::Property property)
 {
     /*QStringList menuOptions;
     QString oneOption;
     int onItem=-1;*/
-    ISwitchVectorProperty *svp = property->getSwitch();
+    auto svp = property->getSwitch();
 
-    if (svp == nullptr)
+    if (!svp)
         return;
 
-    for (int i = 0; i < svp->nsp; i++)
+    for (auto &it: *svp)
     {
-        ISwitch *tp = &(svp->sp[i]);
-
-        buildSwitch(false, tp, property);
+        buildSwitch(false, &it, property);
 
         /*if (tp->s == ISS_ON)
             onItem = i;
@@ -517,17 +508,17 @@ void ClientManagerLite::buildMenuGUI(INDI::Property *property)
     }
 }
 
-void ClientManagerLite::buildSwitchGUI(INDI::Property *property, PGui guiType)
+void ClientManagerLite::buildSwitchGUI(INDI::Property property, PGui guiType)
 {
-    ISwitchVectorProperty *svp = property->getSwitch();
-    bool exclusive             = false;
+    auto svp = property->getSwitch();
+    bool exclusive = false;
 
-    if (svp == nullptr)
+    if (!svp)
         return;
 
     if (guiType == PG_BUTTONS)
     {
-        if (svp->r == ISR_1OFMANY)
+        if (svp->getRule() == ISR_1OFMANY)
             exclusive = true;
         else
             exclusive = false;
@@ -538,14 +529,13 @@ void ClientManagerLite::buildSwitchGUI(INDI::Property *property, PGui guiType)
     /*if (svp->p != IP_RO)
         QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton*)));*/
 
-    for (int i = 0; i < svp->nsp; i++)
+    for (auto &it: *svp)
     {
-        ISwitch *sp = &(svp->sp[i]);
-        buildSwitch(true, sp, property, exclusive, guiType);
+        buildSwitch(true, &it, property, exclusive, guiType);
     }
 }
 
-void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property *property, bool exclusive,
+void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property property, bool exclusive,
                                     PGui guiType)
 {
     QString name  = sw->name;
@@ -604,34 +594,32 @@ void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Propert
     }
 }
 
-void ClientManagerLite::buildLightGUI(INDI::Property *property)
+void ClientManagerLite::buildLightGUI(INDI::Property property)
 {
-    ILightVectorProperty *lvp = property->getLight();
+    auto lvp = property->getLight();
 
-    if (lvp == nullptr)
+    if (!lvp)
         return;
 
-    for (int i = 0; i < lvp->nlp; i++)
+    for (auto &it: *lvp)
     {
-        ILight *ilp = &(lvp->lp[i]);
-
-        QString name  = ilp->name;
-        QString label = i18nc(libindi_strings_context, ilp->label);
+        QString name  = it.getName();
+        QString label = i18nc(libindi_strings_context, it.getLabel());
 
         if (label == "(I18N_EMPTY_MESSAGE)")
-            label = ilp->label;
+            label = it.getLabel();
 
         if (label.isEmpty())
-            label = i18nc(libindi_strings_context, ilp->name);
+            label = i18nc(libindi_strings_context, it.getName());
 
         if (label == "(I18N_EMPTY_MESSAGE)")
-            label = ilp->name;
+            label = it.getName();;
 
         emit createINDILight(property->getDeviceName(), property->getName(), label, name);
     }
 }
 
-/*void ClientManagerLite::buildBLOBGUI(INDI::Property *property) {
+/*void ClientManagerLite::buildBLOBGUI(INDI::Property property) {
     IBLOBVectorProperty *ibp = property->getBLOB();
 
     QString name  = ibp->name;
@@ -676,40 +664,40 @@ void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QStri
         INDI::BaseDevice *device = devInfo->device;
         if (device->getDeviceName() == deviceName)
         {
-            INDI::Property *property = device->getProperty(propName.toLatin1());
+            auto property = device->getProperty(propName.toLatin1());
             if (property)
             {
-                ISwitchVectorProperty *svp = property->getSwitch();
+                auto svp = property->getSwitch();
 
-                if (svp == nullptr)
+                if (!svp)
                     return;
 
-                ISwitch *sp = IUFindSwitch(svp, name.toLatin1().constData());
+                auto sp = svp->findWidgetByName(name.toLatin1().constData());
 
-                if (sp == nullptr)
+                if (!sp)
                     return;
 
-                if (QString(sp->name) == QString("CONNECT"))
+                if (sp->isNameMatch("CONNECT"))
                 {
-                    IUResetSwitch(svp);
-                    sp->s = ISS_ON;
+                    svp->reset();
+                    sp->setState(ISS_ON);
                 }
 
-                if (svp->r == ISR_1OFMANY)
+                if (svp->getRule() == ISR_1OFMANY)
                 {
-                    IUResetSwitch(svp);
-                    sp->s = ISS_ON;
+                    svp->reset();
+                    sp->setState(ISS_ON);
                 }
                 else
                 {
-                    if (svp->r == ISR_ATMOST1)
+                    if (svp->getRule() == ISR_ATMOST1)
                     {
-                        ISState prev_state = sp->s;
-                        IUResetSwitch(svp);
-                        sp->s = prev_state;
+                        ISState prev_state = sp->getState();
+                        svp->reset();
+                        sp->setState(prev_state);
                     }
 
-                    sp->s = (sp->s == ISS_ON) ? ISS_OFF : ISS_ON;
+                    sp->setState(sp->getState() == ISS_ON ? ISS_OFF : ISS_ON);
                 }
                 sendNewSwitch(svp);
             }
@@ -725,13 +713,13 @@ void ClientManagerLite::sendNewINDINumber(const QString &deviceName, const QStri
         INDI::BaseDevice *device = devInfo->device;
         if (device->getDeviceName() == deviceName)
         {
-            INumberVectorProperty *np = device->getNumber(propName.toLatin1());
+            auto np = device->getNumber(propName.toLatin1());
             if (np)
             {
-                INumber *n = IUFindNumber(np, numberName.toLatin1());
+                auto n = np->findWIdgetByName(numberName.toLatin1());
                 if (n)
                 {
-                    n->value = value;
+                    n->setValue(value);
                     sendNewNumber(np);
                     return;
                 }
@@ -754,13 +742,13 @@ void ClientManagerLite::sendNewINDIText(const QString &deviceName, const QString
         INDI::BaseDevice *device = devInfo->device;
         if (device->getDeviceName() == deviceName)
         {
-            ITextVectorProperty *tp = device->getText(propName.toLatin1());
+            auto tp = device->getText(propName.toLatin1());
             if (tp)
             {
-                IText *t = IUFindText(tp, fieldName.toLatin1());
+                auto t = tp->findWidgetByName(fieldName.toLatin1());
                 if (t)
                 {
-                    IUSaveText(t, text.toLatin1().data());
+                    t.setText(text.toLatin1().data());
                     sendNewText(tp);
                     return;
                 }
@@ -784,21 +772,21 @@ void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QStri
             INDI::BaseDevice *device = devInfo->device;
             if (device->getDeviceName() == deviceName)
             {
-                INDI::Property *property = device->getProperty(propName.toStdString().c_str());
+                auto property = device->getProperty(propName.toStdString().c_str());
                 if (property)
                 {
-                    ISwitchVectorProperty *svp = property->getSwitch();
+                    auto svp = property->getSwitch();
 
-                    if (svp == nullptr)
+                    if (!svp)
                         return;
 
-                    if (index >= svp->nsp)
+                    if (index >= svp->count())
                         return;
 
-                    ISwitch *sp = &(svp->sp[index]);
+                    auto sp = svp->at(index);
 
-                    IUResetSwitch(svp);
-                    sp->s = ISS_ON;
+                    sp->reset();
+                    sp->setState(ISS_ON);
 
                     sendNewSwitch(svp);
                 }
@@ -883,7 +871,7 @@ void ClientManagerLite::removeDevice(BaseDevice *dp)
     emit removeINDIDevice(QString(dp->getDeviceName()));
 }
 
-void ClientManagerLite::newProperty(INDI::Property *property)
+void ClientManagerLite::newProperty(INDI::Property property)
 {
     QString deviceName      = property->getDeviceName();
     QString name            = property->getName();
@@ -957,7 +945,7 @@ void ClientManagerLite::newProperty(INDI::Property *property)
     }
 }
 
-void ClientManagerLite::removeProperty(INDI::Property *property)
+void ClientManagerLite::removeProperty(INDI::Property property)
 {
     if (property == nullptr)
         return;

@@ -139,9 +139,9 @@ typedef enum
 const QString &getFocusStatusString(FocusState state);
 
 // Align States
-static const QStringList alignStates = { I18N_NOOP("Idle"),    I18N_NOOP("Complete"),    I18N_NOOP("Failed"),
+static const QStringList alignStates = { I18N_NOOP("Idle"),    I18N_NOOP("Complete"),  I18N_NOOP("Failed"),
                                          I18N_NOOP("Aborted"), I18N_NOOP("In Progress"), I18N_NOOP("Syncing"),
-                                         I18N_NOOP("Slewing")
+                                         I18N_NOOP("Slewing"), I18N_NOOP("Suspended")
                                        };
 
 typedef enum
@@ -152,7 +152,8 @@ typedef enum
     ALIGN_ABORTED,
     ALIGN_PROGRESS,
     ALIGN_SYNCING,
-    ALIGN_SLEWING
+    ALIGN_SLEWING,
+    ALIGN_SUSPENDED
 } AlignState;
 
 const QString &getAlignStatusString(AlignState state);

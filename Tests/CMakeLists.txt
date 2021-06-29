@@ -4,6 +4,8 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
+    ${kstars_SOURCE_DIR}/kstars/catalogsdb
+    ${kstars_SOURCE_DIR}/datahandlers
     )
 
 if(STELLARSOLVER_FOUND)
@@ -35,6 +37,7 @@ SET( TEST_KSLITE_LIBRARIES
 )
 
 add_subdirectory(auxiliary)
+add_subdirectory(tools)
 add_subdirectory(skyobjects)
 
 IF (CFITSIO_FOUND)
@@ -44,7 +47,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/ekos/align
     ${kstars_SOURCE_DIR}/kstars/internalguide
     ${kstars_SOURCE_DIR}/kstars/focus
+    ${kstars_SOURCE_DIR}/kstars/scheduler
     )
+add_subdirectory(scheduler)
 add_subdirectory(focus)
 add_subdirectory(polaralign)
 # FIXME
@@ -67,3 +72,4 @@ IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
 ENDIF ()
 
 add_subdirectory(capture)
+add_subdirectory(datahandlers)

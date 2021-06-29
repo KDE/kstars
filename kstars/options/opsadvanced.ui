@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>605</width>
-    <height>404</height>
+    <width>684</width>
+    <height>413</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -29,28 +29,13 @@
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>&amp;General</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="spacing">
@@ -352,6 +337,43 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="purgeAllConfigB">
+           <property name="toolTip">
+            <string>Clear all KStars configuration and user database.</string>
+           </property>
+           <property name="text">
+            <string>Purge All Configuration</string>
+           </property>
+           <property name="icon">
+            <iconset theme="data-warning">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer name="GeneralTabSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -600,132 +622,93 @@
               </item>
              </layout>
             </item>
-            <item>
-             <layout class="QGridLayout" name="gridLayout_5">
-              <item row="0" column="0">
-               <widget class="QCheckBox" name="kcfg_HidePlanets">
-                <property name="toolTip">
-                 <string>Hide solar system bodies while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Solar system</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QCheckBox" name="kcfg_HideMilkyWay">
-                <property name="toolTip">
-                 <string>Hide the Milky Way contour while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then the Milky Way contour will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Milky Way</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="kcfg_HideMessier">
-                <property name="toolTip">
-                 <string>Hide Messier objects when moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then objects in the Messier catalog will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Messier objects</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QCheckBox" name="kcfg_HideCNames">
-                <property name="toolTip">
-                 <string>Hide constellation names while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then constellation names will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Constellation names</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="kcfg_HideNGC">
-                <property name="toolTip">
-                 <string>Hide NGC objects while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then objects in the NGC catalog will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>NGC objects</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QCheckBox" name="kcfg_HideCLines">
-                <property name="toolTip">
-                 <string>Hide constellation lines while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Constellation lines</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QCheckBox" name="kcfg_HideIC">
-                <property name="toolTip">
-                 <string>Hide IC objects while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then objects in the IC catalog will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>IC objects</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QCheckBox" name="kcfg_HideCBounds">
-                <property name="text">
-                 <string>Constellation boundaries</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QCheckBox" name="kcfg_HideLabels">
-                <property name="text">
-                 <string>Object labels</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QCheckBox" name="kcfg_HideGrids">
-                <property name="toolTip">
-                 <string>Hide coordinate grids while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then the coordinate grids will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Coordinate grids</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
            </layout>
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="kcfg_HideLabels">
+           <property name="text">
+            <string>Object labels</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="kcfg_HidePlanets">
+           <property name="toolTip">
+            <string>Hide solar system bodies while moving?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
+           </property>
+           <property name="text">
+            <string>Solar system</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="kcfg_HideGrids">
+           <property name="toolTip">
+            <string>Hide coordinate grids while moving?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, then the coordinate grids will be hidden when the map is in motion.</string>
+           </property>
+           <property name="text">
+            <string>Coordinate grids</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="kcfg_HideCNames">
+           <property name="toolTip">
+            <string>Hide constellation names while moving?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, then constellation names will be hidden when the map is in motion.</string>
+           </property>
+           <property name="text">
+            <string>Constellation names</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="kcfg_HideCLines">
+           <property name="toolTip">
+            <string>Hide constellation lines while moving?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
+           </property>
+           <property name="text">
+            <string>Constellation lines</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QCheckBox" name="kcfg_HideCBounds">
+           <property name="text">
+            <string>Constellation boundaries</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="kcfg_ShowInlineImages">
+           <property name="text">
+            <string>Inline Images</string>
+           </property>
+           <property name="toolTip">
+            <string>Show inline images on the sky?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, inline images will be shown on the skymap.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -991,15 +974,6 @@
   <tabstop>kcfg_HideStars</tabstop>
   <tabstop>kcfg_MagLimitHideStar</tabstop>
   <tabstop>kcfg_HidePlanets</tabstop>
-  <tabstop>kcfg_HideMilkyWay</tabstop>
-  <tabstop>kcfg_HideMessier</tabstop>
-  <tabstop>kcfg_HideCNames</tabstop>
-  <tabstop>kcfg_HideNGC</tabstop>
-  <tabstop>kcfg_HideCLines</tabstop>
-  <tabstop>kcfg_HideIC</tabstop>
-  <tabstop>kcfg_HideCBounds</tabstop>
-  <tabstop>kcfg_HideLabels</tabstop>
-  <tabstop>kcfg_HideGrids</tabstop>
   <tabstop>kcfg_ObsListSymbol</tabstop>
   <tabstop>kcfg_ObsListText</tabstop>
   <tabstop>kcfg_ObsListPreferDSS</tabstop>

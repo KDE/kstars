@@ -279,7 +279,7 @@ void Execute::addTargetNotes()
     if (o)
     {
         currentTarget = o;
-        o->setNotes(ui.Notes->toPlainText());
+        KStarsData::Instance()->updateUserLog(o->name(), ui.Notes->toPlainText());
         ui.Notes->clear();
         loadObservationTab();
     }
@@ -382,7 +382,7 @@ void Execute::slotSetTarget(const QString &name)
         ui.Dec->setText(p.dec().toDMSString());
         ui.Alt->setText(p.alt().toDMSString());
         ui.Az->setText(p.az().toDMSString());
-        ui.Notes->setText(currentTarget->notes());
+        ui.Notes->setText(KStarsData::Instance()->getUserData(currentTarget->name()).userLog);
     }
 }
 

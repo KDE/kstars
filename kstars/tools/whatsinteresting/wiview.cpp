@@ -255,21 +255,7 @@ void WIView::onCategorySelected(QString model)
         visibleIconObj->setProperty("state", "unchecked");
     if (!m_ModManager->showOnlyFavoriteObjects())
         favoriteIconObj->setProperty("state", "unchecked");
-    if (model == "ngc" && (!m_ModManager->isNGCLoaded()))
-    {
-        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadNGCCatalog);
-        return;
-    }
-    if (model == "ic" && (!m_ModManager->isICLoaded()))
-    {
-        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadICCatalog);
-        return;
-    }
-    if (model == "sharpless" && (!m_ModManager->isSharplessLoaded()))
-    {
-        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadSharplessCatalog);
-        return;
-    }
+
     updateModel(*m_Obs);
 }
 

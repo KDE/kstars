@@ -137,8 +137,31 @@
          <whatsthis>Names of objects entered into the find dialog are resolved using online services and stored in the database. This option also toggles the display of such resolved objects on the sky map.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="DSOCachePercentage" type="UInt">
+         <label>Percentage of the sky to cache DSOs for.</label>
+         <whatsthis>The DSOs are loaded from a sqlite database and
+         cached in memory. This setting regulates how much of the DSOs
+         will be cached. Turning this value up yields better
+         performance at the cost of memory.</whatsthis>
+         <default>100</default>
+         <min>5</min>
+         <max>100</max>
+      </entry>
+      <entry name="DSOMinZoomFactor" type="UInt">
+         <label>Minimum zoom level to render DeepSkyObjects.</label>
+         <default>400</default>
+         <min>250</min>
+         <max>4000</max>
+      </entry>
+      <entry name="DSOCatalogFilename" type="String">
+         <label>The filename of the DSO catalog.</label>
+         <default>dso_main.kscat</default>
+      </entry>
+      <entry name="DSODefaultCatalogFilename" type="String">
+         <label>The filename of the default DSO catalog (OpenNGC).</label>
+         <default>OpenNGC.kscat</default>
+      </entry>
    </group>
-
    <group name="indi">
     <entry name="INDIWindowWidth" type="UInt">
           <label>INDI window width</label>
@@ -196,15 +219,20 @@
          <whatsthis>The default location of saved FITS files</whatsthis>
          <default code="true">KSUtils::getDefaultPath("fitsDir")</default>
       </entry>
-      <entry name="serverPortStart" type="String">
+      <entry name="serverTransferBufferSize" type="Int">
+         <label>INDI Server Transfer Buffer</label>
+         <whatsthis>Allows drivers to queue buffers not exceeding this size in MB</whatsthis>
+         <default>1024</default>
+      </entry>
+      <entry name="serverPortStart" type="Int">
          <label>INDI Server Start Port</label>
          <whatsthis>INDI server will attempt to bind with ports starting from this port</whatsthis>
          <default>7624</default>
       </entry>
-      <entry name="serverPortEnd" type="String">
+      <entry name="serverPortEnd" type="Int">
          <label>INDI Server Final Port</label>
          <whatsthis>INDI server will attempt to bind with ports ending with this port</whatsthis>
-         <default>9000</default>
+         <default>8623</default>
       </entry>
       <entry name="filterAlias" type="StringList">
          <label>Aliases for filter wheel slots.</label>
@@ -409,21 +437,6 @@
          <whatsthis>Toggle whether the Milky Way contour is hidden while the display is in motion.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="HideIC" type="Bool">
-         <label>Hide IC objects while moving?</label>
-         <whatsthis>Toggle whether IC objects are hidden while the display is in motion.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="HideMessier" type="Bool">
-         <label>Hide Messier objects while moving?</label>
-         <whatsthis>Toggle whether Messier objects are hidden while the display is in motion.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="HideNGC" type="Bool">
-         <label>Hide NGC objects while moving?</label>
-         <whatsthis>Toggle whether NGC objects are hidden while the display is in motion.</whatsthis>
-         <default>true</default>
-      </entry>
       <entry name="HideOther" type="Bool">
          <label>Hide extra objects while moving?</label>
          <whatsthis>Toggle whether extra objects are hidden while the display is in motion.</whatsthis>
@@ -573,26 +586,6 @@
          <whatsthis>Toggle whether flags are drawn in the sky map.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="ShowIC" type="Bool">
-         <label>Draw IC objects in the sky map?</label>
-         <whatsthis>Toggle whether IC objects are drawn in the sky map.</whatsthis>
-         <default>false</default>
-      </entry>
-      <entry name="ShowNGC" type="Bool">
-         <label>Draw NGC objects in the sky map?</label>
-         <whatsthis>Toggle whether NGC objects are drawn in the sky map.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="ShowMessier" type="Bool">
-         <label>Draw Messier objects in the sky map?</label>
-         <whatsthis>Toggle whether Messier objects are drawn in the sky map.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="ShowMessierImages" type="Bool">
-         <label>Draw Messier object images in the sky map?</label>
-         <whatsthis>Toggle whether Messier objects are rendered as images in the sky map.</whatsthis>
-         <default>true</default>
-      </entry>
       <entry name="ShowOther" type="Bool">
          <label>Draw extra deep-sky objects in the sky map?</label>
          <whatsthis>Toggle whether extra objects are drawn in the sky map.</whatsthis>
@@ -696,7 +689,7 @@
       <entry name="ShowDeepSkyNames" type="Bool">
          <label>Label deep-sky objects in the sky map?</label>
          <whatsthis>Toggle whether deep-sky object name labels are shown in the sky map.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="SlewTimeScale" type="Double">
          <label>Minimum timescale for forced-slewing mode</label>
@@ -800,11 +793,24 @@
       <entry name="MagLimitDrawDeepSkyZoomOut" type="Double">
          <label>Faint limit for deep-sky objects when zoomed out</label>
          <whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
-         <default>5.0</default>
+         <default>1.0</default>
+      </entry>
+      <entry name="NumberStaticObjects" type="Int">
+         <label>Number of static objects to load from the DSO catalog.</label>
+         <whatsthis>The number of static objects to load from the DSO
+         catalog. Some parts of KStars like need a permanent in-memory
+         list of skyobjects. Therefore the brightest N objects are
+         being loaded at startup.
+         </whatsthis>
+         <default>10000</default>
       </entry>
       <entry name="ShowUnknownMagObjects" type="Bool">
          <label>Show deep-sky objects of unknown magnitude</label>
          <whatsthis>When enabled, objects whose magnitudes are unknown, or not available to KStars, are drawn irrespective of the faint limits set.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="ShowInlineImages" type="Bool">
+         <label>Draw inline images for some objects on the sky?</label>
          <default>true</default>
       </entry>
       <!--
@@ -994,21 +1000,6 @@
          <label>Color of local meridian line</label>
          <whatsthis>The color for the local meridian line.</whatsthis>
          <default>#0059b3</default>
-      </entry>
-      <entry name="MessierColor" type="String">
-         <label>Color of Messier objects</label>
-         <whatsthis>The color for Messier object symbols.</whatsthis>
-         <default>#0F0</default>
-      </entry>
-      <entry name="NGCColor" type="String">
-         <label>Color of NGC objects</label>
-         <whatsthis>The color for NGC object symbols.</whatsthis>
-         <default>#066</default>
-      </entry>
-      <entry name="ICColor" type="String">
-         <label>Color of IC objects</label>
-         <whatsthis>The color for IC object symbols.</whatsthis>
-         <default>#439</default>
       </entry>
       <entry name="MilkyWayWColor" type="String">
          <label>Color of Milky Way contour</label>
@@ -1455,6 +1446,10 @@
       <label>Conserve CPU and memory by disabling all resource-intensive features in FITS Viewer</label>
       <default>KSUtils::isHardwareLimited()</default>
    </entry>
+   <entry name="NonLinearHistogram" type="Bool">
+      <label>Create histogram from non-linear auto-stretched image rather than linear raw image data.</label>
+      <default>true</default>
+   </entry>
    </group>
    <group name="WISettings">
       <entry name="BortleClass" type="UInt">
@@ -1545,6 +1540,12 @@
    </entry>
    <entry name="shutterlessCCDs" type="StringList">
       <label>List of CCDs without mechanical or electronic shutters.</label>
+   </entry>
+   <entry name="darkCameras" type="StringList">
+      <label>List of cameras that prefer dark subtraction noise removal method.</label>
+   </entry>
+   <entry name="defectCameras" type="StringList">
+      <label>List of cameras that prefer defect map noise removal method.</label>
    </entry>
    </group>
    <group name="Mount">
@@ -1660,7 +1661,7 @@
       </entry>
       <entry name="ResetMountModelAfterMeridian" type="Bool">
          <label>Reset mount model after meridian flip.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="CalibrationADUValue" type="UInt">
          <label>Desired flat field ADU</label>
@@ -1794,6 +1795,9 @@
       <entry name="DefaultFocusFilterWheel" type="String">
          <label>Default focus module filter wheel.</label>
       </entry>
+      <entry name="DefaultFocusTemperatureSource" type="String">
+         <label>Default focus module temperature source.</label>
+      </entry>
       <entry name="FocusTicks" type="UInt">
          <label>Default Focuser step ticks</label>
          <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
@@ -1811,6 +1815,14 @@
          <label>Default Focuser tolerance value</label>
          <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
          <default>1</default>
+      </entry>
+      <entry name="FocusCaptureTimeout" type="UInt">
+         <whatsthis>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</whatsthis>
+         <default>120</default>
+      </entry>
+      <entry name="FocusMotionTimeout" type="UInt">
+         <whatsthis>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</whatsthis>
+         <default>30</default>
       </entry>
       <entry name="FocusMaxTravel" type="UInt">
          <label>Maximum Focus Travel Distance</label>
@@ -2199,7 +2211,7 @@
       </entry>
       <entry name="GuideAlgorithm" type="UInt">
          <label>Which Algorithm to use track guide square (0 smart, 1 SEP, 2 fast, 3 threshold, 4 no threshold, 5 SEP multistar).</label>
-         <default>0</default>
+         <default>5</default>
       </entry>
       <entry name="PHD2Host" type="String">
          <label>Host name of external PHD2 service</label>
@@ -2479,7 +2491,7 @@
     </entry>
       <entry name="PreemptiveShutdown" type="Bool">
          <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="ResetMountModelOnAlignFail" type="Bool">
          <label>Reset mount model in case of alignment failure.</label>
@@ -2708,6 +2720,48 @@
     <entry name="ShowHIPS" type="Bool">
        <label>Draw HiPS sources in the sky map?</label>
        <whatsthis>Toggle whether the HIPS sources are drawn in the sky map.</whatsthis>
+       <default>false</default>
+    </entry>
+   </group>
+   <group name="Terrain">
+    <entry name="TerrainSource" type="String">
+          <label>Terrain Filename.</label>
+          <whatsthis>Terrain source filename.</whatsthis>
+          <default>None</default>
+    </entry>
+    <entry name="TerrainSourceCorrectAz" type="Int">
+          <label>Terrain Azimuth Correction.</label>
+          <whatsthis>Terrain source azimuth correction.</whatsthis>
+          <default>0</default>
+    </entry>
+    <entry name="TerrainDownsampling" type="Int">
+          <label>Terrain Downsampling</label>
+          <whatsthis>Speed quality tradeoff for rendering the terrain image.</whatsthis>
+          <default>4</default>
+    </entry>
+    <entry name="TerrainPanning" type="Bool">
+          <label>Terrain While panning.</label>
+          <whatsthis>Redraw terrain while panning.</whatsthis>
+          <default>true</default>
+    </entry>
+    <entry name="ShowTerrain" type="Bool">
+       <label>Draw terrain</label>
+       <whatsthis>Toggle whether the terrain is drawn in the sky map.</whatsthis>
+       <default>false</default>
+    </entry>
+    <entry name="TerrainSkipSpeedup" type="Bool">
+       <label>Terrain Skip Speedup</label>
+       <whatsthis>Enable a one of the terrain drawing speedups.</whatsthis>
+       <default>true</default>
+    </entry>
+    <entry name="TerrainTransparencySpeedup" type="Bool">
+       <label>Terrain Transparency Speedup.</label>
+       <whatsthis>Enable a one of the terrain drawing speedups.</whatsthis>
+       <default>true</default>
+    </entry>
+    <entry name="TerrainSmoothPixels" type="Bool">
+       <label>Terrain Smooth Pixels.</label>
+       <whatsthis>Smooth pixels for a more pleasant, but slower rendering.</whatsthis>
        <default>false</default>
     </entry>
    </group>

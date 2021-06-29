@@ -35,10 +35,10 @@ class SkyGLPainter : public SkyPainter
   public:
     explicit SkyGLPainter(QGLWidget *widget);
     bool drawPlanet(KSPlanetBase *planet) override;
-    bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) override;
-    bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') override;
+    bool drawPointSource(const SkyPoint *loc, float mag, char sp = 'A') override;
     void drawSkyPolygon(LineList *list, bool forceClip = true) override;
-    void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr, LineListLabel *label = nullptr) override;
+    void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr,
+                         LineListLabel *label = nullptr) override;
     void drawSkyLine(SkyPoint *a, SkyPoint *b) override;
     void drawSkyBackground() override;
     void drawObservingList(const QList<SkyObject *> &obs) override;
@@ -47,7 +47,8 @@ class SkyGLPainter : public SkyPainter
     void begin() override;
     void setBrush(const QBrush &brush) override;
     void setPen(const QPen &pen) override;
-    void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr, bool *drawLabel = nullptr) override;
+    void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr,
+                     bool *drawLabel = nullptr) override;
     bool drawSatellite(Satellite *sat) override;
     bool drawSupernova(Supernova *sup) override;
     void drawText(int x, int y, const QString text, QFont font, QColor color);
@@ -57,12 +58,13 @@ class SkyGLPainter : public SkyPainter
   private:
     bool addItem(SkyPoint *p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
-    void drawPolygon(const QVector<Vector2f> &poly, bool convex = true, bool flush_buffers = true);
+    void drawPolygon(const QVector<Vector2f> &poly, bool convex = true,
+                     bool flush_buffers = true);
 
     /** Render textured rectangle on screeen. Parameters are texture
          *  to be used, position, orientation and size of rectangle*/
-    void drawTexturedRectangle(const QImage &img, const Vector2f &pos, const float angle, const float sizeX,
-                               const float sizeY);
+    void drawTexturedRectangle(const QImage &img, const Vector2f &pos, const float angle,
+                               const float sizeX, const float sizeY);
 
     const Projector *m_proj;
 

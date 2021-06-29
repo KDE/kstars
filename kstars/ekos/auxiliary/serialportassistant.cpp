@@ -372,11 +372,11 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
     {
         KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Mapping is successful."), KSNotification::EVENT_INFO);
-        ITextVectorProperty *devicePort = m_CurrentDevice->getBaseDevice()->getText("DEVICE_PORT");
+        auto devicePort = m_CurrentDevice->getBaseDevice()->getText("DEVICE_PORT");
         if (devicePort)
         {
             // Set port in device and then save config
-            IUSaveText(&devicePort->tp[0], QString("/dev/%1").arg(rule["symlink"].toString()).toLatin1().constData());
+            devicePort->at(0)->setText(QString("/dev/%1").arg(rule["symlink"].toString()).toLatin1().constData());
             m_CurrentDevice->getDriverInfo()->getClientManager()->sendNewText(devicePort);
             m_CurrentDevice->setConfig(SAVE_CONFIG);
             m_CurrentDevice->Connect();

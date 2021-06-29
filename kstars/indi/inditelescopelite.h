@@ -60,7 +60,7 @@ class TelescopeLite : public QObject
     Q_ENUMS(TelescopeMotionWE)
     Q_ENUMS(TelescopeMotionCommand)
 
-    void registerProperty(INDI::Property *prop);
+    void registerProperty(INDI::Property prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);

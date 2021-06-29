@@ -42,7 +42,6 @@
 #include "skycomponents/satellitescomponent.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/constellationartcomponent.h"
-#include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
@@ -335,77 +334,7 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase *planet)
     }
 }
 
-bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject *obj, bool drawImage)
-{
-    //If it's surely not visible, just stop now
-    if (!m_proj->checkVisibility(obj))
-        return false;
-    int type = obj->type();
-
-    // Prevent crash if type > UNKNOWN
-    if (type > SkyObject::TYPE_UNKNOWN)
-        type = SkyObject::TYPE_UNKNOWN;
-
-    //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
-
-    //If it's a star, add it like a star
-    if (type < 2)
-        return addItem(obj, type, starWidth(obj->mag()));
-
-    bool visible = false;
-    Vector2f vec = m_proj->toScreenVec(obj, true, &visible);
-    if (!visible)
-        return false;
-
-    float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
-    float pa    = m_proj->findPA(obj, vec[0], vec[1]) * (M_PI / 180.0);
-    Rotation2Df r(pa);
-    float w = width / 2.;
-    float h = w * obj->e();
-
-    // Fake a small, finite width / height if the objects have
-    // undefined sizes (in pixels, does not scale) at high zooms
-    if (Options::zoomFactor() > 10800.0) // This means 1 arcmin maps to 2 pi pixels or something like that
-    {
-        if (w == 0)
-        {
-            w = 7;
-        }
-        if (h == 0)
-        {
-            h = 7;
-        }
-    }
-
-    //Init texture if it doesn't exist and we would be drawing it anyways
-    if (drawImage && !obj->image().isNull())
-    {
-        drawTexturedRectangle(obj->image(), vec, pa, w, h);
-    }
-    else
-    {
-        //If the buffer is full, flush it
-        if (m_idx[type] == BUFSIZE)
-            drawBuffer(type);
-
-        const int i           = 6 * m_idx[type];
-        m_vertex[type][i + 0] = vec + r * Vector2f(-w, -h);
-        m_vertex[type][i + 1] = vec + r * Vector2f(w, -h);
-        m_vertex[type][i + 2] = vec + r * Vector2f(-w, h);
-        m_vertex[type][i + 3] = vec + r * Vector2f(-w, h);
-        m_vertex[type][i + 4] = vec + r * Vector2f(w, -h);
-        m_vertex[type][i + 5] = vec + r * Vector2f(w, h);
-        Vector3f c(m_pen[0], m_pen[1], m_pen[2]);
-
-        for (int j = 0; j < 6; ++j)
-            m_color[type][i + j] = c;
-
-        ++m_idx[type];
-    }
-    return true;
-}
-
-bool SkyGLPainter::drawPointSource(SkyPoint *loc, float mag, char sp)
+bool SkyGLPainter::drawPointSource(const SkyPoint *loc, float mag, char sp)
 {
     //If it's surely not visible, just stop now
     if (!m_proj->checkVisibility(loc))

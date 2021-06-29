@@ -255,10 +255,13 @@ void OAL::Log::writeTarget(SkyObject *o)
         writer->writeEndElement();
     }
     writer->writeStartElement("constellation");
-    writer->writeCDATA(KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(o));
+    writer->writeCDATA(KStarsData::Instance()
+                           ->skyComposite()
+                           ->constellationBoundary()
+                           ->constellationName(o));
     writer->writeEndElement();
     writer->writeStartElement("notes");
-    writer->writeCDATA(o->notes());
+    writer->writeCDATA(KStarsData::Instance()->getUserData(o->name()).userLog);
     writer->writeEndElement();
     writer->writeEndElement();
 }
@@ -649,7 +652,9 @@ void OAL::Log::readTarget()
                 {
                     o = KStarsData::Instance()->objectNamed(name);
                     if (!o)
-                        o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName(name);
+                        o = KStarsData::Instance()
+                                ->skyComposite()
+                                ->findStarByGenetiveName(name);
                     if (o)
                         targetList().append(QSharedPointer<SkyObject>(o->clone()));
                 }
@@ -662,7 +667,8 @@ void OAL::Log::readTarget()
                     double maxrd = 0.5;
                     while (!o && maxrd <= 2.0)
                     {
-                        o = KStarsData::Instance()->skyComposite()->starNearest(&pos, maxrd);
+                        o = KStarsData::Instance()->skyComposite()->starNearest(&pos,
+                                                                                maxrd);
                         if (!o)
                             maxrd += 0.5;
                     }
@@ -681,7 +687,9 @@ void OAL::Log::readTarget()
             {
                 notes = reader->readElementText();
                 if (o)
-                    o->setNotes(notes);
+                {
+                    KStarsData::Instance()->updateUserLog(o->name(), notes);
+                }
             }
             //   else  if( reader->name() == "datasource" )
             //         qDebug() << reader->readElementText();

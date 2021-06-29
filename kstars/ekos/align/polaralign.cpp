@@ -70,7 +70,7 @@ void PolarAlign::reset()
 
 // Gets the pixel's j2000 RA&DEC coordinates, converts to JNow,  adjust to
 // the local time, and sets up the azimuth and altitude coordinates.
-bool PolarAlign::prepareAzAlt(FITSData *image, const QPointF &pixel, SkyPoint *point) const
+bool PolarAlign::prepareAzAlt(const QSharedPointer<FITSData> &image, const QPointF &pixel, SkyPoint *point) const
 {
     // WCS must be set up for this image.
     SkyPoint coords;
@@ -83,7 +83,7 @@ bool PolarAlign::prepareAzAlt(FITSData *image, const QPointF &pixel, SkyPoint *p
     return false;
 }
 
-bool PolarAlign::addPoint(FITSData *image)
+bool PolarAlign::addPoint(const QSharedPointer<FITSData> &image)
 {
     SkyPoint coords;
     auto time = image->getDateTime();
@@ -142,7 +142,7 @@ void PolarAlign::getAxis(double *azAxis, double *altAxis) const
 }
 
 // Find the pixel in image corresponding to the desired azimuth & altitude.
-bool PolarAlign::findAzAlt(FITSData *image, double azimuth, double altitude, QPointF *pixel) const
+bool PolarAlign::findAzAlt(const QSharedPointer<FITSData> &image, double azimuth, double altitude, QPointF *pixel) const
 {
     SkyPoint spt;
     spt.setAz(azimuth);
@@ -191,7 +191,7 @@ void PolarAlign::calculateAzAltError(double *azError, double *altError) const
 // the error given the current position, but it might not be applicable to our use-case as
 // we are constrained to move along paths detemined by a user adjusting an altitude knob and then
 // an azimuth adjustment. These corrections are likely not the most direct path to solve the axis error.
-bool PolarAlign::pixelError(FITSData *image, const QPointF &pixel, const QPointF &pixel2,
+bool PolarAlign::pixelError(const QSharedPointer<FITSData> &image, const QPointF &pixel, const QPointF &pixel2,
                             double *azError, double *altError)
 {
     double azOffset, altOffset;
@@ -215,7 +215,7 @@ bool PolarAlign::pixelError(FITSData *image, const QPointF &pixel, const QPointF
     return true;
 }
 
-void PolarAlign::pixelError(FITSData *image, const QPointF &pixel, const QPointF &pixel2,
+void PolarAlign::pixelError(const QSharedPointer<FITSData> &image, const QPointF &pixel, const QPointF &pixel2,
                             double minAz, double maxAz, double azInc,
                             double minAlt, double maxAlt, double altInc,
                             double *azError, double *altError, QPointF *actualPixel)
@@ -246,7 +246,8 @@ void PolarAlign::pixelError(FITSData *image, const QPointF &pixel, const QPointF
 // Given a pixel, find its RA/DEC, then its alt/az, and then solve for another pixel
 // where, if the star in pixel is moved to that star in the user's image (by adjusting alt and az controls)
 // the polar alignment error would be 0.
-bool PolarAlign::findCorrectedPixel(FITSData *image, const QPointF &pixel, QPointF *corrected, bool altOnly)
+bool PolarAlign::findCorrectedPixel(const QSharedPointer<FITSData> &image, const QPointF &pixel, QPointF *corrected,
+                                    bool altOnly)
 {
     double azOffset, altOffset;
     calculateAzAltError(&azOffset, &altOffset);
@@ -259,7 +260,8 @@ bool PolarAlign::findCorrectedPixel(FITSData *image, const QPointF &pixel, QPoin
 // where, if the star in pixel is moved to that star in the user's image (by adjusting alt and az controls)
 // the polar alignment error would be 0. We use the fact that we can only move by adjusting and altitude
 // knob, then an azimuth knob--i.e. we likely don't traverse a great circle.
-bool PolarAlign::findCorrectedPixel(FITSData *image, const QPointF &pixel, QPointF *corrected, double azOffset,
+bool PolarAlign::findCorrectedPixel(const QSharedPointer<FITSData> &image, const QPointF &pixel, QPointF *corrected,
+                                    double azOffset,
                                     double altOffset)
 {
     // 1. Find the az/alt for the x,y point on the image.

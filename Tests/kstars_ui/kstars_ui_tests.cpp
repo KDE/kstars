@@ -41,6 +41,37 @@
 #include <ctime>
 #include <unistd.h>
 
+QSystemTrayIcon * KStarsUiTests::m_Notifier { nullptr };
+void KStarsUiTests::notifierBegin()
+{
+    if (!m_Notifier)
+        m_Notifier = new QSystemTrayIcon(QIcon::fromTheme("kstars_stars"), Ekos::Manager::Instance());
+    if (m_Notifier)
+        KStarsUiTests::m_Notifier->show();
+}
+
+void KStarsUiTests::notifierHide()
+{
+    if (m_Notifier)
+        m_Notifier->hide();
+}
+
+void KStarsUiTests::notifierMessage(QString title, QString message)
+{
+    qDebug() << message.replace('\n',' ');
+    if (m_Notifier)
+        m_Notifier->showMessage(title, message, QIcon());
+}
+
+void KStarsUiTests::notifierEnd()
+{
+    if (m_Notifier)
+    {
+        delete m_Notifier;
+        m_Notifier = nullptr;
+    }
+}
+
 // We want to launch the application before running our tests
 // Thus we want to explicitly call QApplication::exec(), and run our tests in parallel of the event loop
 // We then reimplement QTEST_MAIN(KStarsUiTests);
@@ -101,7 +132,7 @@ void execute_tests()
     QCoreApplication *app = QApplication::instance();
 
     // Limit execution duration
-    QTimer::singleShot(9 * 60 * 1000, app, &QCoreApplication::quit);
+    QTimer::singleShot(60 * 60 * 1000, app, &QCoreApplication::quit);
 
     app->exec();
 

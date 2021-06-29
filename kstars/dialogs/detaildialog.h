@@ -24,6 +24,7 @@
 #include "ui_details_log.h"
 #include "ui_details_position.h"
 
+#include "skyobjectuserdata.h"
 #include <kpagedialog.h>
 
 #include <QPalette>
@@ -205,6 +206,7 @@ class DetailDialog : public KPageDialog
     LinksWidget *Links { nullptr };
     DatabaseWidget *Adv { nullptr };
     LogWidget *Log { nullptr };
+    const SkyObjectUserdata::Data &m_user_data;
 };
 
 class DataWidget : public QFrame, public Ui::DetailsData

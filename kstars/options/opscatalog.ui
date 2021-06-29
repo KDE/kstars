@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>686</height>
+    <width>821</width>
+    <height>564</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -272,6 +272,136 @@
          </widget>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer_13">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="DSOMInZoomLabel">
+            <property name="text">
+             <string>DSO Minimal Zoom:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="kcfg_DSOMinZoomFactor">
+            <property name="minimum">
+             <number>250</number>
+            </property>
+            <property name="maximum">
+             <number>4000</number>
+            </property>
+            <property name="pageStep">
+             <number>200</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="DSOCacheLabel">
+            <property name="text">
+             <string>DSO Cache Percentage</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="kcfg_DSOCachePercentage">
+            <property name="minimum">
+             <number>5</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBothSides</enum>
+            </property>
+            <property name="tickInterval">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_1">
           <property name="topMargin">
            <number>0</number>
@@ -414,7 +544,7 @@
           <item>
            <widget class="QSlider" name="kcfg_DeepSkyLabelDensity">
             <property name="maximum">
-             <number>30</number>
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -439,85 +569,30 @@
           </item>
          </layout>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout">
-        <property name="spacing">
-         <number>6</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
         <item>
-         <widget class="QListWidget" name="CatalogList">
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOn</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
           <property name="topMargin">
            <number>0</number>
           </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
           <item>
-           <widget class="QPushButton" name="AddCatalog">
-            <property name="text">
-             <string>Import Catalog...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="LoadCatalog">
-            <property name="text">
-             <string>Load Catalog...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="RemoveCatalog">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Remove Catalog...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
+           <spacer name="horizontalSpacer_15">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
-              <height>40</height>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="manageButton">
+            <property name="text">
+             <string>Manage Deep Sky Catalogs</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -572,6 +647,14 @@
           <property name="spacing">
            <number>6</number>
           </property>
+          <item row="1" column="1">
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSkyZoomOut">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="LabelMagDeepSkyZoomOut">
             <property name="toolTip">
@@ -580,17 +663,6 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
             </property>
             <property name="text">
              <string>Faint limit zoomed out:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="LabelMag3">
-            <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
-            </property>
-            <property name="text">
-             <string>mag</string>
             </property>
            </widget>
           </item>
@@ -624,11 +696,34 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSkyZoomOut">
+          <item row="0" column="2">
+           <widget class="QLabel" name="LabelMag3">
             <property name="toolTip">
              <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
 These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+            <property name="text">
+             <string>mag</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="LabelNum">
+            <property name="toolTip">
+             <string>The number of static objects to load from the DSO
+         catalog. Some parts of KStars like need a permanent in-memory
+         list of skyobjects. Therefore the brightest N objects are
+         being loaded at startup.</string>
+            </property>
+            <property name="text">
+             <string>Number of static objects</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="kcfg_NumberStaticObjects">
+            <property name="maximum">
+             <number>100000</number>
             </property>
            </widget>
           </item>
@@ -661,7 +756,7 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
          </widget>
         </item>
         <item>
-         <spacer>
+         <spacer name="spacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>

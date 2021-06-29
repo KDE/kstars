@@ -67,7 +67,7 @@ public:
         void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
         void processLight(ILightVectorProperty *lvp) override;
-        void registerProperty(INDI::Property *prop) override;
+        void registerProperty(INDI::Property prop) override;
 
         DeviceFamily getType() override
         {

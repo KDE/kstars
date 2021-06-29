@@ -44,7 +44,7 @@ const SkyObject::UID SkyObject::UID_DEEPSKY  = 2;
 const SkyObject::UID SkyObject::UID_SOLARSYS = 3;
 
 SkyObject::SkyObject(int t, dms r, dms d, float m, const QString &n, const QString &n2, const QString &lname)
-    : SkyPoint(r, d), info()
+    : SkyPoint(r, d)
 {
     setType(t);
     sortMagnitude = m;
@@ -54,7 +54,7 @@ SkyObject::SkyObject(int t, dms r, dms d, float m, const QString &n, const QStri
 }
 
 SkyObject::SkyObject(int t, double r, double d, float m, const QString &n, const QString &n2, const QString &lname)
-    : SkyPoint(r, d), info()
+    : SkyPoint(r, d)
 {
     setType(t);
     sortMagnitude = m;
@@ -465,72 +465,6 @@ QString SkyObject::messageFromTitle(const QString &imageTitle) const
     return message;
 }
 
-//TODO: Should create a special UserLog widget that encapsulates the "default"
-//message in the widget when no log exists (much like we do with dmsBox now)
-void SkyObject::saveUserLog(const QString &newLog)
-{
-    QFile file;
-    QString logs; //existing logs
-
-    //Do nothing if:
-    //+ new log is the "default" message
-    //+ new log is empty
-    if (newLog == (i18n("Record here observation logs and/or data on %1.", name())) || newLog.isEmpty())
-        return;
-
-    // header label
-    QString KSLabel = "[KSLABEL:" + name() + ']';
-    //However, we can't accept a star name if it has a greek letter in it:
-    if (type() == STAR)
-    {
-        StarObject *star = (StarObject *)this;
-        if (name() == star->gname())
-            KSLabel = "[KSLABEL:" + star->gname(false) + ']'; //"false": spell out greek letter
-    }
-
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                     "userlog.dat"); //determine filename in local user KDE directory tree.
-    if (file.open(QIODevice::ReadOnly))
-    {
-        QTextStream instream(&file);
-        // read all data into memory
-        logs = instream.readAll();
-        file.close();
-    }
-
-    //Remove old log entry from the logs text
-    if (!userLog().isEmpty())
-    {
-        int startIndex, endIndex;
-        QString sub;
-
-        startIndex = logs.indexOf(KSLabel);
-        sub        = logs.mid(startIndex);
-        endIndex   = sub.indexOf("[KSLogEnd]");
-
-        logs.remove(startIndex, endIndex + 11);
-    }
-
-    //append the new log entry to the end of the logs text
-    logs.append(KSLabel + '\n' + newLog + "\n[KSLogEnd]\n");
-
-    //Open file for writing
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        qDebug() << "Cannot write to user log file";
-        return;
-    }
-
-    //Write new logs text
-    QTextStream outstream(&file);
-    outstream << logs;
-
-    //Set the log text in the object itself.
-    userLog() = newLog;
-
-    file.close();
-}
-
 QString SkyObject::labelString() const
 {
     return translatedName();
@@ -539,13 +473,6 @@ QString SkyObject::labelString() const
 double SkyObject::labelOffset() const
 {
     return SkyLabeler::ZoomOffset();
-}
-
-AuxInfo *SkyObject::getAuxInfo()
-{
-    if (!info)
-        info = new AuxInfo;
-    return &(*info);
 }
 
 SkyObject::UID SkyObject::getUID() const

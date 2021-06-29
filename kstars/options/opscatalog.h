@@ -27,9 +27,8 @@ class KConfigDialog;
  * The Catalog page for the Options window.  This page allows the user
  * to modify display of the major object catalogs in KStars:
  * @li Hipparcos/Tycho Star Catalog
- * @li Messier Catalog
- * @li NGC/IC Catalogs
- * @li Any Custom catalogs added by the user.
+ *
+ * DSO catalog control is deffered to `CatacalogsDBUI`.
  *
  * @short Catalog page of the Options window.
  * @author Jason Harris
@@ -44,40 +43,13 @@ class OpsCatalog : public QFrame, public Ui::OpsCatalog
     virtual ~OpsCatalog() override = default;
 
   private slots:
-    void updateCustomCatalogs();
-    void selectCatalog();
-    void slotAddCatalog();
-    void slotLoadCatalog();
-    void slotRemoveCatalog();
-    /*
-        void slotSetDrawStarMagnitude(double newValue);
-        void slotSetDrawStarZoomOutMagnitude(double newValue);
-        */
     void slotStarWidgets(bool on);
     void slotDeepSkyWidgets(bool on);
     void slotApply();
     void slotCancel();
 
   private:
-    void insertCatalog(const QString &filename);
-    void refreshCatalogList();
-    void populateInbuiltCatalogs();
-    void populateCustomCatalogs();
-    QString getCatalogName(const QString &filename);
-
-    QListWidgetItem *showMessier { nullptr };
-    QListWidgetItem *showMessImages { nullptr };
-    QListWidgetItem *showNGC { nullptr };
-    QListWidgetItem *showIC { nullptr };
-
-    KConfigDialog *m_ConfigDialog { nullptr };
-    QStringList *m_CustomCatalogFile { nullptr };
-    QStringList m_CheckedCatalogNames;
-    QList<int> m_ShowCustomCatalog;
-    float m_StarDensity { 0 };
-    bool m_ShowMessier { false };
-    bool m_ShowMessImages { false };
-    bool m_ShowNGC { false };
-    bool m_ShowIC { false };
-    bool isDirty { false };
+    KConfigDialog *m_ConfigDialog{ nullptr };
+    float m_StarDensity{ 0 };
+    bool isDirty{ false };
 };

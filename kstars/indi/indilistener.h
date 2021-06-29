@@ -59,7 +59,7 @@ class INDIListener : public QObject
 
     public slots:
 
-        void registerProperty(INDI::Property *prop);
+        void registerProperty(INDI::Property prop);
         void removeProperty(const QString &device, const QString &name);
         void processDevice(DeviceInfo *dv);
         void processSwitch(ISwitchVectorProperty *svp);

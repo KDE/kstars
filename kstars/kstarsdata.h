@@ -17,16 +17,18 @@
 
 #pragma once
 
-#include "catalogdb.h"
 #include "colorscheme.h"
 #include "geolocation.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 #include "ksuserdb.h"
 #include "simclock.h"
+#include "skyobjectuserdata.h"
+#include <qobject.h>
 #ifndef KSTARS_LITE
 #include "oal/oal.h"
 #include "oal/log.h"
+#include "polyfills/qstring_hash.h"
 #endif
 
 #include <QList>
@@ -35,6 +37,7 @@
 
 #include <iostream>
 #include <memory>
+#include <unordered_map>
 
 #define MINZOOM     250.
 #define MAXZOOM     5000000.
@@ -191,12 +194,6 @@ class KStarsData : public QObject
         KSUserDB *userdb()
         {
             return &m_ksuserdb;
-        }
-
-        /** @return pointer to the Catalog DB object */
-        CatalogDB *catalogdb()
-        {
-            return &m_catalogdb;
         }
 
         /** @return pointer to the simulation Clock object */
@@ -398,7 +395,58 @@ class KStarsData : public QObject
          */
         void setTimeDirection(float scale);
 
-    private:
+        // What follows is mostly a port of Arkashs auxdata stuff to a
+        // more centralized approach that does not store the data in
+        // the skyobjects as they are ephemeral in the new DSO implementation
+        //
+        // I've tried to reuse as much code as possible and maintain
+        // compatibility with peoples data.
+        //
+        // -- Valentin Boettcher
+
+        /**
+         * Get a reference to the user data of an object with the name \p name.
+         */
+        const SkyObjectUserdata::Data &getUserData(const QString &name);
+
+        /**
+         * Adds a link \p data to the user data for the object with \p
+         * name, both in memory and on disk.
+         *
+         * @returns {success, error_message}
+         */
+        std::pair<bool, QString> addToUserData(const QString &name,
+                                               const SkyObjectUserdata::LinkData &data);
+
+        /**
+         * Replace \p data in the user data at \p index for the object with \p
+         * name, both in memory and on disk.
+         *
+         * @returns {success, error_message}
+         */
+        std::pair<bool, QString> editUserData(const QString &name,
+                                              const unsigned int index,
+                                              const SkyObjectUserdata::LinkData &data);
+
+        /**
+         * Remove data of \p type from the user data at \p index for
+         * the object with \p name, both in memory and on disk.
+         *
+         * @returns {success, error_message}
+         */
+        std::pair<bool, QString> deleteUserData(const QString &name,
+                                                const unsigned int index,
+                                                SkyObjectUserdata::Type type);
+        /**
+         * Update the user log of the object with the \p name to
+         * contain \p newLog (find and replace).
+         *
+         * @returns {success, error_message}
+         */
+        std::pair<bool, QString> updateUserLog(const QString &name,
+                                               const QString &newLog);
+
+      private:
         /**
          * Populate list of geographic locations from "citydb.sqlite" database. Also check for custom
          * locations file "mycitydb.sqlite" database, but don't require it.  Each line in the file
@@ -456,7 +504,8 @@ class KStarsData : public QObject
          * @short Read in image and information URLs.
          * @return true if data files were successfully read.
          */
-        bool readURLData(const QString &url, int type = 0, bool deepOnly = false);
+        bool readURLData(const QString &url,
+                         SkyObjectUserdata::Type type = SkyObjectUserdata::Type::website);
 
         /**
          * @short open a file containing URL links.
@@ -472,6 +521,12 @@ class KStarsData : public QObject
          */
         void resetToNewDST(GeoLocation *geo, const bool automaticDSTchange);
 
+        /**
+         * As KStarsData::getUserData just non-const.
+         * @warning This method is not thread safe :) so take care of that when you use it.
+         */
+        SkyObjectUserdata::Data &findUserData(const QString &name);
+
         QList<ADVTreeData *> ADVtreeList;
         std::unique_ptr<SkyMapComposite> m_SkyComposite;
 
@@ -479,7 +534,6 @@ class KStarsData : public QObject
         SimClock Clock;
         KStarsDateTime LTime;
         KSUserDB m_ksuserdb;
-        CatalogDB m_catalogdb;
         ColorScheme CScheme;
 #ifndef KSTARS_LITE
         ObservingList* m_ObservingList { nullptr };
@@ -518,4 +572,7 @@ class KStarsData : public QObject
         KSNumbers m_preUpdateNum, m_updateNum;
 
         static KStarsData *pinstance;
+
+        std::unordered_map<QString, SkyObjectUserdata::Data> m_user_data;
+        QMutex m_user_data_mutex; // for m_user_data
 };

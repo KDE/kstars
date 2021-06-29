@@ -247,7 +247,7 @@ bool Projector::checkVisibility(const SkyPoint *p) const
 }
 
 // FIXME: There should be a MUCH more efficient way to do this (see EyepieceField for example)
-double Projector::findNorthPA(SkyPoint *o, float x, float y) const
+double Projector::findNorthPA(const SkyPoint *o, float x, float y) const
 {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
@@ -275,7 +275,7 @@ double Projector::findNorthPA(SkyPoint *o, float x, float y) const
     return north;
 }
 
-double Projector::findPA(SkyObject *o, float x, float y) const
+double Projector::findPA(const SkyObject *o, float x, float y) const
 {
     return (findNorthPA(o, x, y) + o->pa());
 }
@@ -416,7 +416,7 @@ bool Projector::unusablePoint(const QPointF &p) const
     return (dx * dx + dy * dy) > r0 * r0;
 }
 
-SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
+SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool onlyAltAz) const
 {
     dms c;
     double sinc, cosc;
@@ -457,6 +457,8 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
             alt = SkyPoint::unrefract(alt);
         result.setAlt(alt);
         result.setAz(az);
+        if (onlyAltAz)
+            return result;
         result.HorizontalToEquatorial(LST, lat);
     }
     else

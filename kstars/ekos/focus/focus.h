@@ -57,7 +57,7 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } FocusType;
         typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR } FocusAlgorithm;
-        typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
+        //typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
              * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -192,6 +192,13 @@ class Focus : public QWidget, public Ui::Focus
              */
         void addFilter(ISD::GDInterface *newFilter);
 
+
+        /**
+             * @brief addTemperatureSource Add temperature source to the list of available sources.
+             * @param newSource Device with temperature reporting capability
+             */
+        void addTemperatureSource(ISD::GDInterface *newSource);
+
         /**
          * @brief removeDevice Remove device from Focus module
          * @param deviceRemoved pointer to device
@@ -297,6 +304,12 @@ class Focus : public QWidget, public Ui::Focus
         void checkFilter(int filterNum = -1);
 
         /**
+             * @brief Check temperature source and make sure information is updated accordingly.
+             * @param index Index of source in combo box. If -1, then use the currently selected source.
+             */
+        void checkTemperatureSource(int index = -1);
+
+        /**
              * @brief clearDataPoints Remove all data points from HFR plots
              */
         void clearDataPoints();
@@ -319,6 +332,12 @@ class Focus : public QWidget, public Ui::Focus
              * @param nvp pointer to updated focuser number property.
              */
         void processFocusNumber(INumberVectorProperty *nvp);
+
+        /**
+             * @brief processTemperatureSource Updates focus temperature source.
+             * @param nvp pointer to updated focuser number property.
+             */
+        void processTemperatureSource(INumberVectorProperty *nvp);
 
         /**
              * @brief checkFocus Given the minimum required HFR, check focus and calculate HFR. If current HFR exceeds required HFR, start autofocus process, otherwise do nothing.
@@ -362,7 +381,7 @@ class Focus : public QWidget, public Ui::Focus
          * @brief setWeatherData Updates weather data that could be used to extract focus temperature from observatory
          * in case focus native temperature is not available.
          */
-        void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
+        //void setWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
         /**
          * @brief loadOptionsProfiles Load StellarSolver Profile
@@ -474,6 +493,11 @@ class Focus : public QWidget, public Ui::Focus
 
         void initView();
 
+        /**
+         * @brief prepareCapture Set common settings for capture for focus module
+         * @param targetChip target Chip
+         */
+        void prepareCapture(ISD::CCDChip *targetChip);
         ////////////////////////////////////////////////////////////////////
         /// HFR
         ////////////////////////////////////////////////////////////////////
@@ -519,20 +543,29 @@ class Focus : public QWidget, public Ui::Focus
          */
         void completeFocusProcedure(bool success);
 
-        void initializeFocuserTemperature();
+        //        void initializeFocuserTemperature();
         void setLastFocusTemperature();
-        void updateTemperature(TemperatureSource source, double newTemperature);
-        void emitTemperatureEvents(TemperatureSource source, double newTemperature);
+        bool findTemperatureElement(ISD::GDInterface *device);
+        //        void updateTemperature(TemperatureSource source, double newTemperature);
+        //        void emitTemperatureEvents(TemperatureSource source, double newTemperature);
 
         bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
+
+        /**
+         * @brief handleFocusMotionTimeout When focuser is command to go to a target position, we expect to receive a notification
+         * that it arrived at the desired destination. If not, we command it again.
+         */
+        void handleFocusMotionTimeout();
 
         /// Focuser device needed for focus operation
         ISD::Focuser *currentFocuser { nullptr };
         /// CCD device needed for focus operation
         ISD::CCD *currentCCD { nullptr };
-
         /// Optional device filter
         ISD::GDInterface *currentFilter { nullptr };
+        /// Optional temperature source element
+        INumber *currentTemperatureSourceElement {nullptr};
+
         /// Current filter position
         int currentFilterPosition { -1 };
         int fallbackFilterPosition { -1 };
@@ -546,9 +579,13 @@ class Focus : public QWidget, public Ui::Focus
         QList<ISD::CCD *> CCDs;
         /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
         QList<ISD::GDInterface *> Filters;
+        /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter or ISD::Weather
+        QList<ISD::GDInterface *> TemperatureSources;
 
         /// As the name implies
-        FocusDirection lastFocusDirection { FOCUS_NONE };
+        FocusDirection m_LastFocusDirection { FOCUS_NONE };
+        /// Keep track of the last requested steps
+        uint32_t m_LastFocusSteps {0};
         /// What type of focusing are we doing right now?
         FocusType focusType { FOCUS_MANUAL };
         /// Focus HFR & Centeroid algorithms
@@ -717,6 +754,10 @@ class Focus : public QWidget, public Ui::Focus
         uint8_t captureTimeoutCounter { 0 };
         uint8_t captureFailureCounter { 0 };
 
+        // Focus motion timer.
+        QTimer m_FocusMotionTimer;
+        uint8_t m_FocusMotionTimerCounter {0};
+
         // Guide Suspend
         bool m_GuidingSuspended { false };
 
@@ -733,10 +774,9 @@ class Focus : public QWidget, public Ui::Focus
 
         bool hasDeviation { false };
 
-        double focuserTemperature { INVALID_VALUE };
-        double observatoryTemperature { INVALID_VALUE };
-        double lastFocusTemperature { INVALID_VALUE };
-        TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
+        //double observatoryTemperature { INVALID_VALUE };
+        double m_LastSourceAutofocusTemperature { INVALID_VALUE };
+        //TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
 
         // Mount altitude value for logging
         double mountAlt { INVALID_VALUE };

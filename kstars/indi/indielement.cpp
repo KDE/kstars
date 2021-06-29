@@ -39,11 +39,10 @@ extern const char *libindi_strings_context;
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
+INDI_E::INDI_E(INDI_P *gProp, INDI::Property dProp)
+    : guiProp(gProp)
+    , dataProp(dProp)
 {
-    guiProp  = gProp;
-    dataProp = dProp;
-
     EHBox = new QHBoxLayout;
     EHBox->setContentsMargins(0, 0, 0, 0);
 }
@@ -147,7 +146,7 @@ void INDI_E::buildText(IText *itp)
     if (tp->text[0])
         text = i18nc(libindi_strings_context, tp->text);
 
-    switch (dataProp->getPermission())
+    switch (dataProp.getPermission())
     {
         case IP_RW:
             setupElementRead(ELEMENT_READ_WIDTH  * KStars::Instance()->devicePixelRatio());
@@ -319,7 +318,7 @@ void INDI_E::setText(const QString &newText)
     if (tp == nullptr)
         return;
 
-    switch (dataProp->getPermission())
+    switch (dataProp.getPermission())
     {
         case IP_RO:
             read_w->setText(newText);
@@ -333,6 +332,18 @@ void INDI_E::setText(const QString &newText)
             write_w->setText(newText);
             break;
     }
+}
+
+void INDI_E::setValue(double value)
+{
+    if (spin_w == nullptr || np == nullptr)
+        return;
+    // ensure that min <= value <= max
+    if (value < np->min || value > np->max)
+        return;
+
+    spin_w->setValue(value);
+    spinChanged(value);
 }
 
 void INDI_E::buildBLOB(IBLOB *ibp)
@@ -355,7 +366,7 @@ void INDI_E::buildBLOB(IBLOB *ibp)
 
     text = i18n("INDI DATA STREAM");
 
-    switch (dataProp->getPermission())
+    switch (dataProp.getPermission())
     {
         case IP_RW:
             setupElementRead(ELEMENT_READ_WIDTH * KStars::Instance()->devicePixelRatio());
@@ -403,7 +414,7 @@ void INDI_E::buildNumber(INumber *inp)
     if (np->step != 0 && (np->max - np->min) / np->step <= 100)
         scale = true;
 
-    switch (dataProp->getPermission())
+    switch (dataProp.getPermission())
     {
         case IP_RW:
             setupElementRead(ELEMENT_READ_WIDTH * KStars::Instance()->devicePixelRatio());

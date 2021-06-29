@@ -35,17 +35,18 @@
 
 class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    OpsAdvanced();
-    virtual ~OpsAdvanced() override = default;
+    public:
+        OpsAdvanced();
+        virtual ~OpsAdvanced() override = default;
 
-  private slots:
-    void slotChangeTimeScale(float newScale);
-    void slotToggleHideOptions();
-    void slotToggleVerbosityOptions();
-    void slotToggleOutputOptions();
-    void slotShowLogFiles();
-    void slotApply();
+    private slots:
+        void slotChangeTimeScale(float newScale);
+        void slotToggleHideOptions();
+        void slotToggleVerbosityOptions();
+        void slotToggleOutputOptions();
+        void slotShowLogFiles();
+        void slotApply();
+        void slotPurge();
 };

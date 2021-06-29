@@ -23,6 +23,7 @@
 class QAction;
 
 class DeepSkyObject;
+class CatalogObject;
 class KSMoon;
 class Satellite;
 class SkyObject;
@@ -77,7 +78,7 @@ class KSPopupMenu : public QMenu
         void createStarMenu(StarObject *star);
 
         /**
-         * @short Create a popup menu for a deep-sky object.
+         * @short Create a popup menu for a deep-sky catalog object.
          *
          * DSOs get the following labels:
          * a common name and/or a catalog name, an object type, and rise/transit/set
@@ -87,7 +88,7 @@ class KSPopupMenu : public QMenu
          * "Add Link..." item.  They do not get an "Add Trail" item.
          * @param obj pointer to the object which the menu describes
          */
-        void createDeepSkyObjectMenu(DeepSkyObject *obj);
+        void createCatalogObjectMenu(CatalogObject *obj);
 
         /**
          * @short Create a popup menu for a solar system body.

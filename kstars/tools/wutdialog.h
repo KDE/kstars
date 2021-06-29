@@ -20,9 +20,11 @@
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ui_wutdialog.h"
+#include "catalogobject.h"
 
 #include <QFrame>
 #include <QDialog>
+#include <qevent.h>
 
 class GeoLocation;
 class SkyObject;
@@ -50,7 +52,8 @@ class WUTDialog : public QDialog
 
   public:
     /** Constructor */
-    explicit WUTDialog(QWidget *ks, bool session = false, GeoLocation *geo = KStarsData::Instance()->geo(),
+    explicit WUTDialog(QWidget *ks, bool session = false,
+                       GeoLocation *geo  = KStarsData::Instance()->geo(),
                        KStarsDateTime lt = KStarsData::Instance()->lt());
     virtual ~WUTDialog() override = default;
 
@@ -112,6 +115,16 @@ class WUTDialog : public QDialog
 
     void updateMag();
 
+    /**
+     * Load skyobjects from the DSO database and return an `ObjectLists` like
+     * vector.
+     *
+     * \param category The category for which to load the dsos.
+     * \param types The types to load.
+     */
+    QVector<QPair<QString, const SkyObject *>>
+    load_dso(const QString &category, const std::vector<SkyObject::TYPE> &types);
+
   private:
     QSet<const SkyObject *> &visibleObjects(const QString &category);
     bool isCategoryInitialized(const QString &category);
@@ -120,15 +133,18 @@ class WUTDialog : public QDialog
     /** @short Initialize category list, used in constructor */
     void initCategories();
 
-    WUTDialogUI *WUT { nullptr };
+    void showEvent(QShowEvent *event) override;
+
+    WUTDialogUI *WUT{ nullptr };
     bool session { false };
     QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
     KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
     GeoLocation *geo { nullptr };
     int EveningFlag { 0 };
-    double m_Mag { 0 };
-    QTimer *timer { nullptr };
+    float m_Mag{ 0 };
+    QTimer *timer{ nullptr };
     QStringList m_Categories;
     QHash<QString, QSet<const SkyObject *>> m_VisibleList;
     QHash<QString, bool> m_CategoryInitialized;
+    QHash<QString, CatalogObject::CatalogObjectList> m_CatalogObjects;
 };

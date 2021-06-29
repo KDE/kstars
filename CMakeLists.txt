@@ -1,9 +1,9 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 3)
 set (KStars_VERSION_MINOR 5)
-set (KStars_VERSION_REVISION 3)
+set (KStars_VERSION_REVISION 4)
 set (KSTARS_BUILD_RELEASE "Beta")
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -14,11 +14,20 @@ option(BUILD_DOC "Build Documentation" ON)
 # Fetch translations with -DFETCH_TRANSLATIONS=ON
 option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 
+# Build the Python bindings for the SkyMesh indexation
+option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
+
 # minimal requirements
 cmake_minimum_required (VERSION 3.4.0 FATAL_ERROR)
 
 # KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
+
+# add EVERYTHING to the compile commands
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+  set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES
+    ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
 
 # For KStars Lite, we ALWAYS need to fetch translations
 if(BUILD_KSTARS_LITE)
@@ -203,7 +212,7 @@ if (ANDROID)
     set(INDI_INCLUDE_DIR ${CMAKE_BINARY_DIR}/packaging/android/indi/libs/indibase ${CMAKE_BINARY_DIR}/packaging/android/indi ${CMAKE_BINARY_DIR}/packaging/android/indi/libs)
     set(INDI_CLIENT_ANDROID_LIBRARIES ${CMAKE_BINARY_DIR}/packaging/android/indi/libindiclientqt.a)
 else ()
-    find_package(INDI 1.7.1)
+    find_package(INDI 1.9.1)
 endif ()
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
@@ -436,6 +445,9 @@ include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 if (BUILD_DOC)
     add_subdirectory(doc)
 endif()
+
+# add some utility headers
+include_directories(utils)
 
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)

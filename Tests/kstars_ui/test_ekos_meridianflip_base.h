@@ -138,17 +138,22 @@ protected:
      * @param secsToMF seconds until the meridian will be crossed
      * @param calibrate execute initial guiding to calibrate the guider
      * @param initialFocus execute upfront focusing
+     * @param guideDeviation select "Abort if Guide Deviation"
      */
-    bool prepareCaptureTestcase(int secsToMF, bool calibrate, bool initialFocus);
+    bool prepareCaptureTestcase(int secsToMF, bool calibrate, bool initialFocus, bool guideDeviation);
 
     /**
      * @brief Prepare test data iterating over all combination of parameters.
+     * @param exptime exposure time of the test frames
+     * @param locationList variants of locations
+     * @param culminationList variants of upper or lower culmination (upper = true)
      * @param filterList variants of filter parameter tests
      * @param focusList variants with/without focus tests
      * @param autofocusList variants with/without HFR autofocus tests
      * @param ditherList variants with/without dithering tests
      */
-    void prepareTestData(QList<QString> filterList, QList<bool> focusList, QList<bool> autofocusList, QList<bool> ditherList);
+    void prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<QString> filterList,
+                         QList<bool> focusList, QList<bool> autofocusList, QList<bool> ditherList);
 
     /**
      * @brief Check if astrometry files exist.
@@ -163,9 +168,8 @@ protected:
 
     /**
      * @brief Check if re-focusing is issued if required.
-     * @param is guiding on?
      */
-    bool checkRefocusing(bool guiding);
+    bool checkRefocusing();
 
     /**
      * @brief Helper function for start of alignment
@@ -229,6 +233,9 @@ protected:
      */
     void cleanupPHD2();
 
+    /** @brief Check if after a meridian flip all features work as expected: capturing, aligning, guiding and focusing */
+    bool checkPostMFBehavior();
+
 
     // Mount device
     QString m_MountDevice = "Telescope Simulator";
@@ -263,8 +270,14 @@ protected:
     bool refocus_checked = false;
     // HFR autofocus on?
     bool autofocus_checked = false;
+    // guiding used?
+    bool use_guiding = false;
+    // aligning used?
+    bool use_aligning = false;
     // regular dithering on?
     bool dithering_checked = false;
+    // astrometry files available?
+    bool astrometry_available = true;
 
     /**
      * @brief Retrieve the current alignment status.
@@ -281,11 +294,11 @@ protected:
     /**
      * @brief Retrieve the current guiding status.
      */
-    Ekos::GuideState getGuidingStatus() {return m_GuideStatus;};
+    Ekos::GuideState getGuidingStatus() { return m_GuideStatus;}
     /**
      * @brief Retrieve the current mount meridian flip status.
      */
-    Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;};
+    Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;}
 
         
 protected slots:

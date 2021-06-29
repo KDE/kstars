@@ -32,7 +32,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
     ${kstars_SOURCE_DIR}/kstars/tools
-)
+    ${kstars_SOURCE_DIR}/kstars/catalogsdb
+    ${kstars_SOURCE_DIR}/kstars/polyfills
+    )
 
 if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
@@ -143,6 +145,7 @@ if (INDI_FOUND)
             ekos/auxiliary/opslogs.ui
             ekos/auxiliary/serialportassistant.ui
             ekos/auxiliary/stellarsolverprofileeditor.ui
+            ekos/auxiliary/darklibrary.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
             # INDI Hub
@@ -162,6 +165,8 @@ if (INDI_FOUND)
             ekos/auxiliary/weather.cpp
             ekos/auxiliary/dustcap.cpp
             ekos/auxiliary/darklibrary.cpp
+            ekos/auxiliary/darkview.cpp
+            ekos/auxiliary/defectmap.cpp
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/filterdelegate.cpp
             ekos/auxiliary/opslogs.cpp
@@ -176,6 +181,7 @@ if (INDI_FOUND)
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
             ekos/capture/scriptsmanager.cpp
+            ekos/capture/placeholderpath.cpp
 
             # Analyze
             ekos/analyze/analyze.cpp
@@ -292,7 +298,9 @@ if (CFITSIO_FOUND)
         fitsviewer/bayer.c
         fitsviewer/fpack.c
         fitsviewer/fpackutil.c
-        fitsviewer/fitshistogram.cpp
+        fitsviewer/fitshistogrameditor.cpp
+        fitsviewer/fitshistogramview.cpp
+        fitsviewer/fitshistogramcommand.cpp
         fitsviewer/fitsview.cpp
         fitsviewer/fitsdata.cpp
         fitsviewer/fitsstardetector.cpp
@@ -407,7 +415,7 @@ set(libkstarstools_SRCS
     tools/eyepiecefield.cpp
     tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
-    tools/adddeepskyobject.cpp
+    tools/greatcircle.cpp
 )
 
 if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
@@ -468,7 +476,6 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/flagmanager.ui
     tools/starhopperdialog.ui
     tools/horizonmanager.ui
-    tools/adddeepskyobject.ui
     tools/polarishourangle.ui
 )
 
@@ -513,6 +520,7 @@ set(kstars_options_SRCS
     options/opssolarsystem.cpp
     options/opssatellites.cpp
     options/opssupernovae.cpp
+    options/opsterrain.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -523,10 +531,16 @@ set(kstars_optionsui_SRCS
     options/opssolarsystem.ui
     options/opssatellites.ui
     options/opssupernovae.ui
+    options/opsterrain.ui
 )
 
 set(kstars_dialogs_SRCS
-    dialogs/addcatdialog.cpp
+    dialogs/addcatalogobject.cpp
+    dialogs/catalogsdbui.cpp
+    dialogs/catalogeditform.cpp
+    dialogs/catalogdetails.cpp
+    dialogs/catalogcsvimport.cpp
+    dialogs/catalogobjectlistmodel.cpp
     dialogs/addlinkdialog.cpp
     dialogs/detaildialog.cpp
     dialogs/finddialog.cpp
@@ -538,7 +552,11 @@ set(kstars_dialogs_SRCS
 )
 
 set(kstars_dialogsui_SRCS
-    dialogs/addcatdialog.ui
+    dialogs/addcatalogobject.ui
+    dialogs/catalogsdbui.ui
+    dialogs/catalogeditform.ui
+    dialogs/catalogdetails.ui
+    dialogs/catalogcsvimport.ui
     dialogs/addlinkdialog.ui
     dialogs/details_database.ui
     dialogs/details_data.ui
@@ -565,6 +583,10 @@ set(hips_SRCS
     hips/pixcache.cpp
     hips/urlfiledownload.cpp
     hips/opships.cpp
+)
+
+set(terrain_SRCS
+    terrain/terrainrenderer.cpp
 )
 
 set(hips_manager_SRCS
@@ -643,9 +665,7 @@ set(libkstarscomponents_SRCS
     skycomponents/satellitescomponent.cpp
     skycomponents/starcomponent.cpp
     skycomponents/deepstarcomponent.cpp
-    skycomponents/deepskycomponent.cpp
-    skycomponents/catalogcomponent.cpp
-    skycomponents/syncedcatalogcomponent.cpp
+    skycomponents/catalogscomponent.cpp
     skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp
@@ -659,6 +679,7 @@ set(libkstarscomponents_SRCS
     skycomponents/equator.cpp
     skycomponents/artificialhorizoncomponent.cpp
     skycomponents/hipscomponent.cpp
+    skycomponents/terraincomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
     skycomponents/skycomponent.cpp
@@ -683,7 +704,7 @@ ENDIF ()
 
 set(kstars_skyobjects_SRCS
     skyobjects/constellationsart.cpp
-    skyobjects/deepskyobject.cpp
+    skyobjects/catalogobject.cpp
     skyobjects/jupitermoons.cpp
     skyobjects/planetmoons.cpp
     skyobjects/ksasteroid.cpp
@@ -770,6 +791,9 @@ SET(kstars_extra_kstars_SRCS
     skyqpainter.cpp
     )
 
+SET(catalogsdb_SRCS
+        catalogsdb/catalogsdb.cpp)
+
 # Temporary solution to allow use of qml files from source dir DELETE
 SET(KSTARSLITE_CPP_OPTIONS -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" -DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -806,7 +830,6 @@ set(klite_SRCS
     kstarslite/skyitems/satellitesitem.cpp
     kstarslite/skyitems/supernovaeitem.cpp
     kstarslite/skyitems/fovitem.cpp
-    kstarslite/skyitems/syncedcatalogitem.cpp
     #Line
     kstarslite/skyitems/lines/linesitem.cpp
     kstarslite/skyitems/lines/equatoritem.cpp
@@ -964,8 +987,10 @@ set(kstars_SRCS
     ${kstars_skyobjects_SRCS}
     ${kstars_dialogs_SRCS}
     ${hips_SRCS}
+    ${terrain_SRCS}
     ${oal_SRCS}
     ${printing_SRCS}
+    ${catalogsdb_SRCS}
     #KStars Lite
     ${kstarslite_SRCS}
     # Generated files
@@ -999,6 +1024,8 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_analyze_debug.h IDENTIFIER KSTARS_EKOS_ANALYZE CATEGORY_NAME org.kde.kstars.ekos.analyze)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDENTIFIER KSTARS_EKOS_OBSERVATORY CATEGORY_NAME org.kde.kstars.ekos.observatory)
+
+ecm_qt_declare_logging_category(kstars_SRCS HEADER catalogsdb_debug.h IDENTIFIER KSTARS_CATALOGS CATEGORY_NAME org.kde.kstars.catalogdb)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
@@ -1056,6 +1083,11 @@ IF (NOT ANDROID)
     )
 
     add_library(KStarsLib STATIC ${kstars_SRCS})
+
+    if (BUILD_PYKSTARS)
+      set_target_properties(KStarsLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    endif ()
+
     include(GenerateExportHeader)
     generate_export_header(KStarsLib)
 
@@ -1156,11 +1188,6 @@ if(INDI_FOUND)
         target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
         # StellarSolver
         target_link_libraries(KStarsLib StellarSolver::stellarsolver)
-        ##why is this necessary??
-        if(WIN32)
-          find_package(Boost 1.45.0 COMPONENTS regex)
-          target_link_libraries(KStarsLib wsock32 ${Boost_LIBRARIES})
-        endif(WIN32)
     endif ()
 
     if(WIN32 OR ANDROID)
@@ -1244,6 +1271,10 @@ if(APPLE)
         ${CMAKE_CURRENT_SOURCE_DIR}/data/
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
 endif(APPLE)
+
+if (BUILD_PYKSTARS)
+  add_subdirectory(python)
+endif()
 
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 

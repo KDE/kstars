@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include "auxinfo.h"
 #include "dms.h"
 #include "skypoint.h"
 
@@ -313,52 +312,10 @@ class SkyObject : public SkyPoint
     QString messageFromTitle(const QString &imageTitle) const;
 
     /**
-     * @short Save new user log text
-     */
-    void saveUserLog(const QString &newLog);
-
-    /**
      * @return the pixel distance for offseting the object's name label
      * @note overridden in StarObject, DeepSkyObject, KSPlanetBase
      */
     virtual double labelOffset() const;
-
-    /**
-     * @short Query whether this SkyObject has a valid AuxInfo structure associated with it.
-     * @return true if this SkyObject has a valid AuxInfo structure associated with it, false if not.
-     */
-    inline bool hasAuxInfo() const { return !(!info); }
-
-    /**
-     * @return A reference to a QStringList storing a list of Image URLs associated with this SkyObject.
-     */
-    inline QStringList &ImageList() { return getAuxInfo()->ImageList; }
-
-    /**
-     * @return A reference to a QStringList storing a list of Image Titles associated with this SkyObject.
-     */
-    inline QStringList &ImageTitle() { return getAuxInfo()->ImageTitle; }
-
-    /**
-     * @return A reference to a QStringList storing a list of Information Links associated with
-     * this SkyObject.
-     */
-    inline QStringList &InfoList() { return getAuxInfo()->InfoList; }
-
-    /**
-     * @return A reference to a QStringList storing a list of Information Link Titles associated with
-     * this SkyObject.
-     */
-    inline QStringList &InfoTitle() { return getAuxInfo()->InfoTitle; }
-
-    /**
-     * @return a reference to a QString storing the users' log for this SkyObject
-     */
-    inline QString &userLog() { return getAuxInfo()->userLog; }
-
-    inline QString &notes() { return getAuxInfo()->notes; }
-
-    void setNotes(QString _notes) { getAuxInfo()->notes = _notes; }
 
     /**
      * @short Return UID for object.
@@ -435,13 +392,6 @@ class SkyObject : public SkyPoint
      */
     dms elevationCorrection(void) const;
 
-    /**
-     * @short Return a pointer to the AuxInfo object associated with this SkyObject.
-     * @note  This method creates the AuxInfo object if it is non-existent
-     * @return Pointer to an AuxInfo structure
-     */
-    AuxInfo *getAuxInfo(); // FIXME: Can this be made conceptually const or the like?
-
     unsigned char Type;
     float
         sortMagnitude; // This magnitude is used for sorting / making decisions about the visibility of an object. Should not be NaN.
@@ -474,9 +424,6 @@ class SkyObject : public SkyPoint
     inline void setName2(const QString &name2 = QString()) { Name2 = name2; }
 
     QString Name, Name2, LongName;
-
-    // Pointer to an auxiliary info structure that stores Image URLs, Info URLs etc.
-    QSharedDataPointer<AuxInfo> info;
 
     // store often used name strings in static variables
     static QString emptyString;

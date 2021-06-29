@@ -75,14 +75,6 @@ LabelsItem::LabelsItem() : m_rootNode(0)
     deep_sky->appendChildNode(dso_messier);
     m_labelsLists.insert(label_t::DSO_MESSIER_LABEL, dso_messier);
 
-    LabelTypeNode *dso_ngc = new LabelTypeNode;
-    deep_sky->appendChildNode(dso_ngc);
-    m_labelsLists.insert(label_t::DSO_NGC_LABEL, dso_ngc);
-
-    LabelTypeNode *dso_ic = new LabelTypeNode;
-    deep_sky->appendChildNode(dso_ic);
-    m_labelsLists.insert(label_t::DSO_IC_LABEL, dso_ic);
-
     LabelTypeNode *dso_other = new LabelTypeNode;
     deep_sky->appendChildNode(dso_other);
     m_labelsLists.insert(label_t::DSO_OTHER_LABEL, dso_other);
@@ -199,8 +191,6 @@ void LabelsItem::update()
     updateChildLabels(label_t::CONSTEL_NAME_LABEL);
 
     updateChildLabels(label_t::DSO_MESSIER_LABEL);
-    updateChildLabels(label_t::DSO_NGC_LABEL);
-    updateChildLabels(label_t::DSO_IC_LABEL);
     updateChildLabels(label_t::DSO_OTHER_LABEL);
     updateChildLabels(label_t::CATALOG_DSO_LABEL);
 
@@ -315,8 +305,7 @@ void LabelsItem::updateChildLabels(label_t labelType)
         QSGNode *n = node->firstChild();
         while (n != 0)
         {
-            if (labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL ||
-                labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL)
+            if (labelType == STAR_LABEL || labelType == DSO_OTHER_LABEL)
             {
                 TrixelNode *trixel = static_cast<TrixelNode *>(n);
                 if (trixel->visible())

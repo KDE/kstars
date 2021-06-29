@@ -40,18 +40,23 @@
         QTest::mouseClick(button, Qt::LeftButton); }); \
     QTest::qWait(200); } while(false)
 
-#define KTRY_EKOS_START_SIMULATORS() do { \
-    KTRY_EKOS_SELECT_PROFILE("Simulators"); \
+#define KTRY_EKOS_START_PROFILE(profile) do { \
+    KTRY_EKOS_SELECT_PROFILE(profile); \
     KTRY_EKOS_CLICK(processINDIB); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 1000); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->slewStatus() != IPState::IPS_ALERT, 1000); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule() != nullptr, 1000); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule() != nullptr, 1000); } while(false)
+
+#define KTRY_EKOS_START_SIMULATORS() do { KTRY_EKOS_START_PROFILE("Simulators"); } while (false)
 
 #define KTRY_EKOS_STOP_SIMULATORS() do { \
     KTRY_EKOS_CLICK(disconnectB); \
     KTRY_EKOS_GADGET(QPushButton, processINDIB); \
     QTRY_VERIFY_WITH_TIMEOUT(processINDIB->isEnabled(), 5000); \
-    KTRY_EKOS_CLICK(processINDIB); } while(false)
+    KTRY_EKOS_CLICK(processINDIB); \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Idle, 10000); } while(false)
 
 class TestEkosSimulator : public QObject
 {

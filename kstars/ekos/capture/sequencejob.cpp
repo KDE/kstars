@@ -14,6 +14,7 @@
 #include "Options.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
+#include "ekos/scheduler/schedulerjob.h"
 
 #include <KNotifications/KNotification>
 #include <ekos_capture_debug.h>
@@ -37,6 +38,88 @@ SequenceJob::SequenceJob()
     prepareActions[ACTION_TEMPERATURE] = true;
     prepareActions[ACTION_ROTATOR] = true;
     prepareActions[ACTION_GUIDER_DRIFT] = true;
+}
+
+SequenceJob::SequenceJob(XMLEle *root):
+    SequenceJob()
+{
+    XMLEle *ep    = nullptr;
+    XMLEle *subEP = nullptr;
+
+    const QMap<QString, CCDFrameType> frameTypes =
+    {
+        { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
+    };
+
+    frameType = FRAME_NONE;
+    exposure = 0;
+    /* Reset light frame presence flag before enumerating */
+    // JM 2018-09-14: If last sequence job is not LIGHT
+    // then scheduler job light frame is set to whatever last sequence job is
+    // so if it was non-LIGHT, this value is set to false which is wrong.
+    //if (nullptr != schedJob)
+    //    schedJob->setLightFramesRequired(false);
+
+    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Exposure"))
+        {
+            exposure = atof(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Filter"))
+        {
+            filter = QString(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Type"))
+        {
+            /* Record frame type and mark presence of light frames for this sequence */
+            QString frameTypeStr = QString(pcdataXMLEle(ep));
+            if (frameTypes.contains(frameTypeStr)) {
+                frameType = frameTypes[frameTypeStr];
+            }
+            //if (FRAME_LIGHT == frameType && nullptr != schedJob)
+                //schedJob->setLightFramesRequired(true);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Prefix"))
+        {
+            subEP = findXMLEle(ep, "RawPrefix");
+            if (subEP)
+                m_RawPrefix = QString(pcdataXMLEle(subEP));
+
+            subEP = findXMLEle(ep, "FilterEnabled");
+            if (subEP)
+                filterPrefixEnabled = !strcmp("1", pcdataXMLEle(subEP));
+
+            subEP = findXMLEle(ep, "ExpEnabled");
+            if (subEP)
+                expPrefixEnabled = (!strcmp("1", pcdataXMLEle(subEP)));
+
+            subEP = findXMLEle(ep, "TimeStampEnabled");
+            if (subEP)
+                timeStampPrefixEnabled = (!strcmp("1", pcdataXMLEle(subEP)));
+
+        }
+        else if (!strcmp(tagXMLEle(ep), "Count"))
+        {
+            setCount(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Delay"))
+        {
+            setDelay(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
+        {
+            setLocalDir(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
+        {
+            setRemoteDir(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "UploadMode"))
+        {
+            setUploadMode(static_cast<ISD::CCD::UploadMode>(atoi(pcdataXMLEle(ep))));
+        }
+    }
 }
 
 void SequenceJob::reset()
@@ -212,7 +295,7 @@ bool SequenceJob::areActionsReady()
     return true;
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autofocusReady)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
 {
     activeChip->setBatchMode(!preview);
 
@@ -234,13 +317,13 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autof
         {
             QMap<QString, double> numbers = i.value();
             QMapIterator<QString, double> j(numbers);
-            INumberVectorProperty *np = customProp->getNumber();
+            auto np = customProp->getNumber();
             while (j.hasNext())
             {
                 j.next();
-                INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
+                auto oneNumber = np->findWidgetByName(j.key().toLatin1().data());
                 if (oneNumber)
-                    oneNumber->value = j.value();
+                    oneNumber->setValue(j.value());
             }
 
             activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
@@ -312,15 +395,11 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter, bool autof
 
     activeChip->setFrameType(frameType);
     activeChip->setCaptureMode(FITS_NORMAL);
-
-    if (noCaptureFilter)
-        activeChip->setCaptureFilter(FITS_NONE);
-    else
-        activeChip->setCaptureFilter(captureFilter);
+    activeChip->setCaptureFilter(FITS_NONE);
 
     // If filter is different that CCD, send the filter info
-    if (activeFilter && activeFilter != activeCCD)
-        activeCCD->setFilter(filter);
+    //    if (activeFilter && activeFilter != activeCCD)
+    //        activeCCD->setFilter(filter);
 
     //status = JOB_BUSY;
     setStatus(getStatus());

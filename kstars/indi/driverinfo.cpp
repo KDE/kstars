@@ -35,13 +35,13 @@ DriverInfo::DriverInfo(DriverInfo *di)
     uniqueLabel   = di->getUniqueLabel();
     exec          = di->getExecutable();
     version       = di->getVersion();
-    m_Manufacturer= di->manufacturer();
+    m_Manufacturer = di->manufacturer();
     userPort      = di->getUserPort();
     skelFile      = di->getSkeletonFile();
     port          = di->getPort();
     hostname      = di->getHost();
     remotePort    = di->getRemotePort();
-    remoteHostname= di->getRemoteHost();
+    remoteHostname = di->getRemoteHost();
     type          = di->getType();
     serverState   = di->getServerState();
     clientState   = di->getClientState();
@@ -71,7 +71,7 @@ DriverInfo::~DriverInfo()
 void DriverInfo::reset()
 {
     serverState   = false;
-    clientState   = false;    
+    clientState   = false;
     serverManager = nullptr;
     clientManager = nullptr;
 }
@@ -137,7 +137,7 @@ DeviceInfo *DriverInfo::getDevice(const QString &deviceName) const
 {
     foreach (DeviceInfo *idv, devices)
     {
-        if (idv->getBaseDevice()->getDeviceName() == deviceName)
+        if (idv->getDeviceName() == deviceName)
             return idv;
     }
 

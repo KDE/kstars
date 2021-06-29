@@ -73,14 +73,6 @@ void DSOTrixelNode::deleteAllChildNodes()
 DeepSkyItem::DeepSkyItem(DeepSkyComponent *dsoComp, RootNode *rootNode)
     : SkyItem(LabelsItem::label_t::DEEP_SKY_LABEL, rootNode), m_dsoComp(dsoComp), m_skyMesh(SkyMesh::Instance())
 {
-    m_Messier = new DSOIndexNode(&(m_dsoComp->m_MessierIndex), LabelsItem::label_t::DSO_MESSIER_LABEL, "MessColor");
-    appendChildNode(m_Messier);
-
-    m_NGC = new DSOIndexNode(&(m_dsoComp->m_NGCIndex), LabelsItem::label_t::DSO_NGC_LABEL, "NGCColor");
-    appendChildNode(m_NGC);
-
-    m_IC = new DSOIndexNode(&(m_dsoComp->m_ICIndex), LabelsItem::label_t::DSO_IC_LABEL, "ICColor");
-    appendChildNode(m_IC);
 
     m_other = new DSOIndexNode(&(m_dsoComp->m_OtherIndex), LabelsItem::label_t::DSO_OTHER_LABEL, "NGCColor");
     appendChildNode(m_other);
@@ -142,18 +134,6 @@ void DeepSkyItem::update()
     MeshIterator region(m_skyMesh, DRAW_BUF);
 
     drawFlag = Options::showMessier() && !(Options::hideOnSlew() && Options::hideMessier() && SkyMapLite::IsSlewing());
-
-    updateDeepSkyNode(m_Messier, drawFlag, &region, Options::showMessierImages());
-
-    drawFlag = Options::showNGC() && !(Options::hideOnSlew() && Options::hideNGC() && SkyMapLite::IsSlewing());
-
-    updateDeepSkyNode(m_NGC, drawFlag, &region);
-
-    drawFlag = Options::showIC() && !(Options::hideOnSlew() && Options::hideIC() && SkyMapLite::IsSlewing());
-
-    updateDeepSkyNode(m_IC, drawFlag, &region);
-
-    drawFlag = Options::showOther() && !(Options::hideOnSlew() && Options::hideOther() && SkyMapLite::IsSlewing());
 
     updateDeepSkyNode(m_other, drawFlag, &region);
 }

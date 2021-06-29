@@ -65,10 +65,10 @@ void RotatorSettings::setRotator(ISD::GDInterface *rotator)
 
     connect(currentRotator, &ISD::GDInterface::propertyDefined, [&](INDI::Property * prop)
     {
-        if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
+        if (prop->isNameMatch("ABS_ROTATOR_ANGLE"))
         {
-            INumberVectorProperty *absAngle = prop->getNumber();
-            setCurrentAngle(absAngle->np[0].value);
+            auto absAngle = prop->getNumber();
+            setCurrentAngle(absAngle->at(0)->getValue());
         }
     });
 }

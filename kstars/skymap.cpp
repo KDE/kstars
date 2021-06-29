@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skyobjectuserdata.h"
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -39,12 +40,10 @@
 #include "skymapqdraw.h"
 #include "starhopperdialog.h"
 #include "starobject.h"
-#include "syncedcatalogcomponent.h"
 #include "texturemanager.h"
 #include "dialogs/detaildialog.h"
 #include "printing/printingwizard.h"
 #include "skycomponents/flagcomponent.h"
-#include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/satellite.h"
 #include "tools/flagmanager.h"
@@ -55,6 +54,9 @@
 #include "projections/gnomonicprojector.h"
 #include "projections/orthographicprojector.h"
 #include "projections/stereographicprojector.h"
+#include "catalogobject.h"
+#include "catalogsdb.h"
+#include "catalogscomponent.h"
 
 #include <KActionCollection>
 #include <KToolBar>
@@ -131,7 +133,7 @@ QBitmap circleCursorBitmap(int width)
     return b;
 }
 
-}
+} // namespace
 
 SkyMap *SkyMap::pinstance = nullptr;
 
@@ -497,17 +499,22 @@ void SkyMap::slotCopyCoordinates()
     }
     else
     {
-        //SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
-        SkyPoint deprecessedPoint = clickedPoint()->catalogueCoord(data->updateNum()->julianDay());
-        deprecessedPoint.catalogueCoord(data->updateNum()->julianDay());
-        deprecessedPoint.EquatorialToHorizontal(data->lst(), data->geo()->lat());
+        // Empty point only have valid JNow RA/DE, not J2000 information.
+        SkyPoint emptyPoint = *clickedPoint();
+        // Now get J2000 from JNow but de-aberrating, de-nutating, de-preccessing
+        // This modifies emptyPoint, but the RA/DE are now missing and need
+        // to be repopulated.
+        emptyPoint.catalogueCoord(data->updateNum()->julianDay());
+        emptyPoint.setRA(clickedPoint()->ra());
+        emptyPoint.setDec(clickedPoint()->dec());
+        emptyPoint.EquatorialToHorizontal(data->lst(), data->geo()->lat());
 
-        J2000RA = deprecessedPoint.ra0();
-        J2000DE = deprecessedPoint.dec0();
-        JNowRA = deprecessedPoint.ra();
-        JNowDE = deprecessedPoint.dec();
-        Az = deprecessedPoint.az();
-        Alt = deprecessedPoint.alt();
+        J2000RA = emptyPoint.ra0();
+        J2000DE = emptyPoint.dec0();
+        JNowRA = emptyPoint.ra();
+        JNowDE = emptyPoint.dec();
+        Az = emptyPoint.az();
+        Alt = emptyPoint.alt();
     }
 
     QApplication::clipboard()->setText(i18nc("Equatorial & Horizontal Coordinates",
@@ -523,7 +530,7 @@ void SkyMap::slotCopyCoordinates()
 
 void SkyMap::slotCopyTLE()
 {
-    
+
     QString tle = "";
     if (clickedObject()->type() == SkyObject::SATELLITE)
     {
@@ -534,7 +541,7 @@ void SkyMap::slotCopyTLE()
     {
         tle = "NO TLE FOR OBJECT";
     }
-    
+
 
     QApplication::clipboard()->setText(tle);
 }
@@ -790,74 +797,19 @@ void SkyMap::slotDeleteFlag(int flagIdx)
 
 void SkyMap::slotImage()
 {
-    QString message = ((QAction *)sender())->text();
-    message         = message.remove('&'); //Get rid of accelerator markers
+    const auto *action = qobject_cast<QAction *>(sender());
+    const auto url     = action->data().toUrl();
+    const QString message{ action->text().remove('&') };
 
-    // Need to do this because we are comparing translated strings
-    int index = -1;
-    for (int i = 0; i < clickedObject()->ImageTitle().size(); ++i)
-    {
-        if (i18nc("Image/info menu item (should be translated)",
-                  clickedObject()->ImageTitle().at(i).toLocal8Bit().data()) == message)
-        {
-            index = i;
-            break;
-        }
-    }
-
-    QString sURL;
-    if (index >= 0 && index < clickedObject()->ImageList().size())
-    {
-        sURL = clickedObject()->ImageList()[index];
-    }
-    else
-    {
-        qCWarning(KSTARS) << "ImageList index out of bounds: " << index;
-        if (index == -1)
-        {
-            qCWarning(KSTARS) << "Message string \"" << message << "\" not found in ImageTitle.";
-            qCDebug(KSTARS) << clickedObject()->ImageTitle();
-        }
-    }
-
-    QUrl url(sURL);
     if (!url.isEmpty())
         new ImageViewer(url, clickedObject()->messageFromTitle(message), this);
 }
 
 void SkyMap::slotInfo()
 {
-    QString message = ((QAction *)sender())->text();
-    message         = message.remove('&'); //Get rid of accelerator markers
+    const auto *action = qobject_cast<QAction *>(sender());
+    const auto url     = action->data().toUrl();
 
-    // Need to do this because we are comparing translated strings
-    int index = -1;
-    for (int i = 0; i < clickedObject()->InfoTitle().size(); ++i)
-    {
-        if (i18nc("Image/info menu item (should be translated)",
-                  clickedObject()->InfoTitle().at(i).toLocal8Bit().data()) == message)
-        {
-            index = i;
-            break;
-        }
-    }
-
-    QString sURL;
-    if (index >= 0 && index < clickedObject()->InfoList().size())
-    {
-        sURL = clickedObject()->InfoList()[index];
-    }
-    else
-    {
-        qCWarning(KSTARS) << "InfoList index out of bounds: " << index;
-        if (index == -1)
-        {
-            qCWarning(KSTARS) << "Message string \"" << message << "\" not found in InfoTitle.";
-            qCDebug(KSTARS) << clickedObject()->InfoTitle();
-        }
-    }
-
-    QUrl url(sURL);
     if (!url.isEmpty())
         QDesktopServices::openUrl(url);
 }
@@ -885,14 +837,22 @@ void SkyMap::slotRemoveObjectLabel()
 
 void SkyMap::slotRemoveCustomObject()
 {
-    SkyObject* object = clickedObject();
+    auto *object = dynamic_cast<CatalogObject *>(clickedObject());
+    if (!object)
+        return;
 
-    // The object must be removed from the catalog...
-    data->skyComposite()->internetResolvedComponent()->removeObject(*object);
-    // ...and then in the rest of the places.
+    const auto &cat = object->getCatalog();
+    if (!cat.mut)
+        return;
+
+    CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+    manager.remove_object(cat.id, object->getObjectId());
+
     emit removeSkyObject(object);
     data->skyComposite()->removeFromNames(object);
     data->skyComposite()->removeFromLists(object);
+    data->skyComposite()->reloadDeepSky();
+    KStars::Instance()->updateTime();
 }
 
 void SkyMap::slotAddObjectLabel()

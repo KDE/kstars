@@ -16,7 +16,17 @@
 
 #pragma once
 
+#include <QString>
+#include <KLocalizedString>
+
 typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN } FITSMode;
+
+// Focus States
+static const QStringList FITSModes =   { I18N_NOOP("Normal"),  I18N_NOOP("Focus"), I18N_NOOP("Guide"),
+                                         I18N_NOOP("Calibrate"), I18N_NOOP("Align")
+                                       };
+
+const QString &getFITSModeStringString(FITSMode mode);
 
 typedef enum { FITS_HFR, FITS_WCS, FITS_VALUE, FITS_POSITION, FITS_ZOOM, FITS_RESOLUTION, FITS_LED, FITS_MESSAGE} FITSBar;
 
@@ -45,3 +55,5 @@ typedef enum { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL } FITSZoom;
 typedef enum { HFR_AVERAGE, HFR_MEDIAN, HFR_HIGH, HFR_MAX } HFRType;
 
 typedef enum { ALGORITHM_GRADIENT, ALGORITHM_CENTROID, ALGORITHM_THRESHOLD, ALGORITHM_SEP, ALGORITHM_BAHTINOV } StarAlgorithm;
+
+typedef enum { RED_CHANNEL, GREEN_CHANNEL, BLUE_CHANNEL } ColorChannels;

@@ -79,8 +79,6 @@ class LabelsItem : public SkyOpacityNode
         SATURN_MOON_LABEL,
         DEEP_SKY_LABEL,
         DSO_MESSIER_LABEL,
-        DSO_NGC_LABEL,
-        DSO_IC_LABEL,
         DSO_OTHER_LABEL,
         CONSTEL_NAME_LABEL,
         SATELLITE_LABEL,

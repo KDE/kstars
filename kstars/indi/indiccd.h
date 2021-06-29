@@ -132,8 +132,8 @@ class CCDChip
         bool canAbort() const;
         void setCanAbort(bool value);
 
-        FITSData *getImageData() const;
-        void setImageData(FITSData *data)
+        const QSharedPointer<FITSData> &getImageData() const;
+        void setImageData(const QSharedPointer<FITSData> &data)
         {
             imageData = data;
         }
@@ -145,7 +145,7 @@ class CCDChip
 
     private:
         QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
-        FITSData *imageData { nullptr };
+        QSharedPointer<FITSData> imageData { nullptr };
         FITSMode captureMode { FITS_NORMAL };
         FITSScale captureFilter { FITS_NONE };
         INDI::BaseDevice *baseDevice { nullptr };
@@ -185,7 +185,7 @@ class CCD : public DeviceDecorator
         } BType;
         typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE, TELESCOPE_UNKNOWN } TelescopeType;
 
-        void registerProperty(INDI::Property *prop) override;
+        void registerProperty(INDI::Property prop) override;
         void removeProperty(const QString &name) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
@@ -221,6 +221,10 @@ class CCD : public DeviceDecorator
         bool getTemperature(double *value);
         bool setTemperature(double value);
 
+        // Temperature Regulation
+        bool getTemperatureRegulation(double &ramp, double &threshold);
+        bool setTemperatureRegulation(double ramp, double threshold);
+
         // Utility functions
         void setISOMode(bool enable)
         {
@@ -234,10 +238,10 @@ class CCD : public DeviceDecorator
         {
             nextSequenceID = count;
         }
-        void setFilter(const QString &newFilter)
-        {
-            filter = newFilter;
-        }
+        //        void setFilter(const QString &newFilter)
+        //        {
+        //            filter = newFilter;
+        //        }
 
         // Gain controls
         bool hasGain()
@@ -341,7 +345,7 @@ class CCD : public DeviceDecorator
         //void FITSViewerDestroyed();
         void StreamWindowHidden();
         // Blob manager
-        void setBLOBManager(const char *device, INDI::Property * prop);
+        void setBLOBManager(const char *device, INDI::Property prop);
 
     protected slots:
         void setWSBLOB(const QByteArray &message, const QString &extension);
@@ -350,7 +354,7 @@ class CCD : public DeviceDecorator
         void newTemperatureValue(double value);
         void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
         void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
-        void newBLOBManager(INDI::Property *prop);
+        void newBLOBManager(INDI::Property prop);
         void newRemoteFile(QString);
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);
@@ -371,7 +375,7 @@ class CCD : public DeviceDecorator
         void setupFITSViewerWindows();
         void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
 
-        QString filter;
+        //QString filter;
         bool ISOMode { true };
         bool HasGuideHead { false };
         bool HasCooler { false };

@@ -72,6 +72,31 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="toggleCeilingB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Toggle Ceiling</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -220,7 +245,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="polygonValidatoin">
+           <widget class="QLabel" name="regionValidation">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -303,7 +328,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Artificial horizon is used to define &lt;span style=&quot; font-weight:600;&quot;&gt;Regions&lt;/span&gt; that are &lt;span style=&quot; font-style:italic;&quot;&gt;blocked&lt;/span&gt; from view from your vantage point (e.g. Tall trees or buildings). To draw a &lt;span style=&quot; font-weight:600;&quot;&gt;Region&lt;/span&gt;, define a list of &lt;span style=&quot; font-weight:600;&quot;&gt;Points&lt;/span&gt; (&lt;span style=&quot; font-style:italic;&quot;&gt;Minimum&lt;/span&gt; 5) that encompasses the blocked area. Add the points manually, or by selecting them from the Sky Map after clicking &lt;span style=&quot; font-style:italic;&quot;&gt;Select Points&lt;/span&gt; button. &lt;span style=&quot; font-weight:600;&quot;&gt;First&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Last&lt;/span&gt; points must be on the horizon. Polygons must be closed to be considered valid regions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Artificial horizon is used to define &lt;span style=&quot; font-weight:600;&quot;&gt;Regions&lt;/span&gt; on the SkyMap that are &lt;span style=&quot; font-style:italic;&quot;&gt;blocked&lt;/span&gt; from view from your vantage point (e.g. by tall trees or buildings). Regions can be areas above or below line segments that you enter. &lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To draw a &lt;span style=&quot; font-weight:600;&quot;&gt;Region&lt;/span&gt;, enter a list of &lt;span style=&quot; font-weight:600;&quot;&gt;Points&lt;/span&gt; (&lt;span style=&quot; font-style:italic;&quot;&gt;minimum&lt;/span&gt; 2) that outlines the top of a blocked area (the &lt;span style=&quot; font-weight:600;&quot;&gt;blockage is below&lt;/span&gt; the lines).&lt;/li&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Setting &lt;span style=&quot; font-style:italic;&quot;&gt;ceiling/window mode&lt;/span&gt; for a list of points instead sets the &lt;span style=&quot; font-weight:600;&quot;&gt;blockage above&lt;/span&gt; the lines.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add the points manually, or preferably by selecting them from the Sky Map after clicking &lt;span style=&quot; font-style:italic;&quot;&gt;Select Points&lt;/span&gt; button. &lt;/li&gt;&lt;/ul&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Enable a region by &lt;span style=&quot; font-style:italic;&quot;&gt;checking its box&lt;/span&gt;. &lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Selecting a region displays its points on the SkyMap. &lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When done click &lt;span style=&quot; font-style:italic;&quot;&gt;Apply&lt;/span&gt;.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Defining regions is easier when used in conjunction with the Terrain background feature.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

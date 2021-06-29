@@ -203,6 +203,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         if (m_CaptureTimeoutCounter++ > 3)
         {
             appendLogText(i18n("Capture timed out."));
+            m_CaptureTimer.stop();
             abort();
         }
         else
@@ -215,7 +216,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
                 m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
             }
             else
+            {
+                setAlignTableResult(ALIGN_RESULT_FAILED);
                 captureAndSolve();
+            }
         }
     });
 
@@ -305,6 +309,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     {
         Options::setSolverAccuracyThreshold(accuracySpin->value());
         buildTarget();
+    });
+
+    connect(alignDarkFrameCheck, &QCheckBox::toggled, [this]()
+    {
+        Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
     });
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
 
@@ -1839,20 +1848,14 @@ bool Align::isParserOK()
 
 void Align::checkAlignmentTimeout()
 {
-    if (loadSlewState != IPS_IDLE || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+    if (solveFromFile || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
         abort();
-    else if (loadSlewState == IPS_IDLE)
+    else if (!solveFromFile)
     {
         appendLogText(i18n("Solver timed out."));
         parser->stopSolver();
 
-        int currentRow = solutionTable->rowCount() - 1;
-        solutionTable->setCellWidget(currentRow, 3, new QWidget());
-        QTableWidgetItem *statusReport = new QTableWidgetItem();
-        statusReport->setIcon(QIcon(":/icons/timedout.svg"));
-        statusReport->setFlags(Qt::ItemIsSelectable);
-        solutionTable->setItem(currentRow, 3, statusReport);
-
+        setAlignTableResult(ALIGN_RESULT_FAILED);
         captureAndSolve();
     }
     // TODO must also account for loadAndSlew. Retain file name
@@ -2129,18 +2132,18 @@ bool Align::syncTelescopeInfo()
 
     syncR->setEnabled(canSync);
 
-    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
 
-        if (np && np->value > 0)
-            primaryAperture = np->value;
+        if (np && np->getValue() > 0)
+            primaryAperture = np->getValue();
 
-        np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        if (np && np->value > 0)
-            guideAperture = np->value;
+        np = nvp->findWidgetByName("GUIDER_APERTURE");
+        if (np && np->getValue() > 0)
+            guideAperture = np->getValue();
 
         aperture = primaryAperture;
 
@@ -2148,13 +2151,13 @@ bool Align::syncTelescopeInfo()
         if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
             aperture = guideAperture;
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            primaryFL = np->value;
+        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            primaryFL = np->getValue();
 
-        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && np->value > 0)
-            guideFL = np->value;
+        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
+        if (np && np->getValue() > 0)
+            guideFL = np->getValue();
 
         focal_length = primaryFL;
 
@@ -2221,34 +2224,29 @@ void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
 
 void Align::syncCCDInfo()
 {
-    INumberVectorProperty *nvp = nullptr;
-
-    if (currentCCD == nullptr)
+    if (!currentCCD)
         return;
 
-    if (useGuideHead)
-        nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
-    else
-        nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
+    auto nvp = currentCCD->getBaseDevice()->getNumber(useGuideHead ? "GUIDER_INFO" : "CCD_INFO");
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
-        if (np && np->value > 0)
-            ccd_hor_pixel = ccd_ver_pixel = np->value;
+        auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
+        if (np && np->getValue() > 0)
+            ccd_hor_pixel = ccd_ver_pixel = np->getValue();
 
-        np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
-        if (np && np->value > 0)
-            ccd_ver_pixel = np->value;
+        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
+        if (np && np->getValue() > 0)
+            ccd_ver_pixel = np->getValue();
 
-        np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
-        if (np && np->value > 0)
-            ccd_ver_pixel = np->value;
+        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
+        if (np && np->getValue() > 0)
+            ccd_ver_pixel = np->getValue();
     }
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    auto svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
     if (svp)
         setWCSEnabled(Options::astrometrySolverWCS());
 
@@ -2583,7 +2581,7 @@ void Align::generateFOVBounds(double fov_w, QString &fov_low, QString &fov_high,
 }
 
 
-QStringList Align::generateRemoteArgs(FITSData *data)
+QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
 {
     QVariantMap optionsMap;
 
@@ -2856,13 +2854,13 @@ bool Align::captureAndSolve()
         else
         {
             // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
-            ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+            auto activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
             if (activeDevices)
             {
-                IText *activeCCD = IUFindText(activeDevices, "ACTIVE_CCD");
+                auto activeCCD = activeDevices->findWidgetByName("ACTIVE_CCD");
                 if (QString(activeCCD->text) != CCDCaptureCombo->currentText())
                 {
-                    IUSaveText(activeCCD, CCDCaptureCombo->currentText().toLatin1().data());
+                    activeCCD->setText(CCDCaptureCombo->currentText().toLatin1().data());
 
                     remoteParserDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
@@ -2870,20 +2868,10 @@ bool Align::captureAndSolve()
 
             // Enable remote parse
             dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
-            dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs());
+            dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(generateRemoteArgs(QSharedPointer<FITSData>()));
             solverTimer.start();
         }
     }
-
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    {
-        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-    }
-
-    rememberCCDExposureLooping = currentCCD->isLooping();
-    if (rememberCCDExposureLooping)
-        currentCCD->setExposureLoopingEnabled(false);
 
     // Remove temporary FITS files left before by the solver
     QDir dir(QDir::tempPath());
@@ -2892,22 +2880,7 @@ bool Align::captureAndSolve()
     for (auto &dirFile : dir.entryList())
         dir.remove(dirFile);
 
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
-
-    targetChip->resetFrame();
-    targetChip->setBatchMode(false);
-    targetChip->setCaptureMode(FITS_ALIGN);
-    targetChip->setFrameType(FRAME_LIGHT);
-
-    int bin = Options::solverBinningIndex() + 1;
-    targetChip->setBinning(bin, bin);
-
-    // Set gain if applicable
-    if (currentCCD->hasGain() && GainSpin->value() > GainSpinSpecialValue)
-        currentCCD->setGain(GainSpin->value());
-    // Set ISO if applicable
-    if (ISOCombo->currentIndex() >= 0)
-        targetChip->setISOIndex(ISOCombo->currentIndex());
+    prepareCapture(targetChip);
 
     // In case we're in refresh phase of the polar alignment helper then we use capture value from there
     if (m_PAHStage == PAH_REFRESH)
@@ -2937,7 +2910,7 @@ bool Align::captureAndSolve()
     //It also starts the progress indicator.
     double ra, dec;
     currentTelescope->getEqCoords(&ra, &dec);
-    if (loadSlewState == IPS_IDLE)
+    if (!solveFromFile)
     {
         int currentRow = solutionTable->rowCount();
         solutionTable->insertRow(currentRow);
@@ -3038,14 +3011,13 @@ void Align::processData(const QSharedPointer<FITSData> &data)
                 {
                     alignView->rescale(ZOOM_KEEP_LEVEL);
                     alignView->updateFrame();
-                    setCaptureComplete();
                 }
-                else
-                    abort();
+
+                setCaptureComplete();
             });
             connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
-                    offsetX, offsetY);
+            DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
+                                             offsetX, offsetY);
             return;
         }
 
@@ -3053,9 +3025,38 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     }
 }
 
+void Align::prepareCapture(ISD::CCDChip *targetChip)
+{
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+    }
+
+    rememberCCDExposureLooping = currentCCD->isLooping();
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(false);
+
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    targetChip->resetFrame();
+    targetChip->setBatchMode(false);
+    targetChip->setCaptureMode(FITS_ALIGN);
+    targetChip->setFrameType(FRAME_LIGHT);
+
+    int bin = Options::solverBinningIndex() + 1;
+    targetChip->setBinning(bin, bin);
+
+    // Set gain if applicable
+    if (currentCCD->hasGain() && GainSpin->value() > GainSpinSpecialValue)
+        currentCCD->setGain(GainSpin->value());
+    // Set ISO if applicable
+    if (ISOCombo->currentIndex() >= 0)
+        targetChip->setISOIndex(ISOCombo->currentIndex());
+}
+
 bool Align::detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *starIndex)
 {
-    FITSData *imageData = alignView->getImageData();
+    const QSharedPointer<FITSData> imageData = alignView->imageData();
     stars->clear();
     *starIndex = -1;
 
@@ -3144,6 +3145,7 @@ void Align::processPAHRefresh()
                           .arg(refreshIteration).arg(correctionFrom.x()).arg(correctionFrom.y());
             qCDebug(KSTARS_EKOS_ALIGN) << debugString;
 
+            setAlignTableResult(ALIGN_RESULT_FAILED);
             captureAndSolve();
             return;
         }
@@ -3301,7 +3303,7 @@ void Align::startSolving()
     // This is needed because they might have directories stored in the config file.
     // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    FITSData *data = alignView->getImageData();
+    const QSharedPointer<FITSData> &data = alignView->imageData();
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
@@ -3394,7 +3396,7 @@ void Align::startSolving()
             m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
         }
 
-        if (loadSlewState == IPS_BUSY)
+        if (solveFromFile)
         {
             FITSImage::Solution solution;
             data->parseSolution(solution);
@@ -3458,7 +3460,7 @@ void Align::startSolving()
     {
         // This should run only for load&slew. For regular solve, we don't get here
         // as the image is read and solved server-side.
-        remoteParser->startSovler(data->filename(), generateRemoteArgs(data), false);
+        remoteParser->startSolver(data->filename(), generateRemoteArgs(data), false);
     }
 
     // Kick off timer
@@ -3490,11 +3492,13 @@ void Align::solverComplete()
     else
     {
         FITSImage::Solution solution = m_StellarSolver->getSolution();
-        solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale);
+        // Would be better if parity was a bool field instead of a QString with "pos" and "neg" as possible values.
+        const bool eastToTheRight = solution.parity == "pos" ? false : true;
+        solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
     }
 }
 
-void Align::solverFinished(double orientation, double ra, double dec, double pixscale)
+void Align::solverFinished(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     pi->stopAnimation();
     stopB->setEnabled(false);
@@ -3527,13 +3531,16 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     targetChip->getBinning(&binx, &biny);
 
     if (Options::alignmentLogging())
-        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'f', 5),
+    {
+        QString parityString = eastToTheRight ? "neg" : "pos";
+        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)", QString::number(ra, 'f', 5),
                            QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
-                           QString::number(pixscale, 'f', 5)));
+                           QString::number(pixscale, 'f', 5), parityString));
+    }
 
     // When solving (without Load&Slew), update effective FOV and focal length accordingly.
-    if (loadSlewState == IPS_IDLE &&
-            (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.05) &&
+    if (!solveFromFile &&
+            (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.005) &&
             pixscale > 0)
     {
         double newFOVW = ccd_width * pixscale / binx / 60.0;
@@ -3555,7 +3562,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
     // Do not update diff if we are performing load & slew.
-    if (loadSlewState == IPS_IDLE)
+    if (!solveFromFile)
     {
         pixScaleOut->setText(QString::number(pixscale, 'f', 2));
         calculateAlignTargetDiff();
@@ -3586,14 +3593,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     if (Options::astrometrySolverWCS())
     {
-        INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
+        auto ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
         if (ccdRotation)
         {
-            INumber *rotation = IUFindNumber(ccdRotation, "CCD_ROTATION_VALUE");
+            auto rotation = ccdRotation->findWidgetByName("CCD_ROTATION_VALUE");
             if (rotation)
             {
                 ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
-                rotation->value              = orientation;
+                rotation->setValue(orientation);
                 clientManager->sendNewNumber(ccdRotation);
 
                 if (m_wcsSynced == false)
@@ -3602,8 +3609,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
 
                     // Just send telescope info in case the CCD driver did not pick up before.
-                    INumberVectorProperty *telescopeInfo =
-                        currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+                    auto telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
                     if (telescopeInfo)
                         clientManager->sendNewNumber(telescopeInfo);
 
@@ -3620,7 +3626,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)",
                        alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(),
                        telescopeCoord.dec().toDMSString()));
-    if (loadSlewState == IPS_IDLE && currentGotoMode == GOTO_SLEW)
+    if (!solveFromFile && currentGotoMode == GOTO_SLEW)
     {
         dms diffDeg(m_TargetDiffTotal / 3600.0);
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
@@ -3635,13 +3641,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
     std::unique_ptr<QTableWidgetItem> statusReport(new QTableWidgetItem());
     int currentRow = solutionTable->rowCount() - 1;
-    if (loadSlewState == IPS_IDLE)
+    if (!solveFromFile)
     {
+        stopProgressAnimation();
         solutionTable->setCellWidget(currentRow, 3, new QWidget());
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
 
-    if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
+    if (solveFromFile && Options::astrometryUseRotator())
     {
         loadSlewTargetPA = solverPA;
         qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
@@ -3654,11 +3661,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         if (currentRotator != nullptr)
         {
             // Update Rotator offsets
-            INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+            auto absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
             if (absAngle)
             {
                 // PA = RawAngle * Multiplier + Offset
-                double rawAngle = absAngle->np[0].value;
+                double rawAngle = absAngle->at(0)->getValue();
                 double offset   = range360(solverPA - (rawAngle * Options::pAMultiplier()));
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
@@ -3674,7 +3681,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 //                    rawAngle += 360;
                 //                else if (rawAngle > 360)
                 //                    rawAngle -= 360;
-                absAngle->np[0].value = rawAngle;
+                absAngle->at(0)->setValue(rawAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
                 appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
@@ -3749,8 +3756,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         case GOTO_SYNC:
             executeGOTO();
 
-            if (loadSlewState == IPS_IDLE)
+            if (!solveFromFile)
             {
+                stopProgressAnimation();
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
             }
@@ -3758,13 +3766,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             return;
 
         case GOTO_SLEW:
-            if (loadSlewState == IPS_BUSY || m_TargetDiffTotal > static_cast<double>(accuracySpin->value()))
+            if (solveFromFile || m_TargetDiffTotal > static_cast<double>(accuracySpin->value()))
             {
-                if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+                if (!solveFromFile && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
                 {
                     appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
 
-                    if (loadSlewState == IPS_IDLE)
+                    if (!solveFromFile)
                     {
                         statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
                         solutionTable->setItem(currentRow, 3, statusReport.release());
@@ -3778,8 +3786,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
                 targetAccuracyNotMet = true;
 
-                if (loadSlewState == IPS_IDLE)
+                if (!solveFromFile)
                 {
+                    stopProgressAnimation();
                     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
                     solutionTable->setItem(currentRow, 3, statusReport.release());
                 }
@@ -3788,8 +3797,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 return;
             }
 
-            if (loadSlewState == IPS_IDLE)
+            if (!solveFromFile)
             {
+                stopProgressAnimation();
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
             }
@@ -3805,8 +3815,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             break;
 
         case GOTO_NOTHING:
-            if (loadSlewState == IPS_IDLE)
+            if (!solveFromFile)
             {
+                stopProgressAnimation();
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport.release());
             }
@@ -3827,7 +3838,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setProperty("visible", true);
 
     if (m_PAHStage != PAH_IDLE)
-        processPAHStage(orientation, ra, dec, pixscale);
+        processPAHStage(orientation, ra, dec, pixscale, eastToTheRight);
     else if (azStage > AZ_INIT || altStage > ALT_INIT)
         executePolarAlign();
     else
@@ -3858,7 +3869,7 @@ void Align::solverFailed()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    loadSlewState = IPS_IDLE;
+    solveFromFile = false;
     solverIterations = 0;
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
@@ -3869,15 +3880,10 @@ void Align::solverFailed()
 
     solverFOV->setProperty("visible", false);
 
-    int currentRow = solutionTable->rowCount() - 1;
-    solutionTable->setCellWidget(currentRow, 3, new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
-    statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-    statusReport->setFlags(Qt::ItemIsSelectable);
-    solutionTable->setItem(currentRow, 3, statusReport);
+    setAlignTableResult(ALIGN_RESULT_FAILED);
 }
 
-void Align::abort()
+void Align::stop(AlignState mode)
 {
     m_CaptureTimer.stop();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
@@ -3900,7 +3906,7 @@ void Align::abort()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    loadSlewState = IPS_IDLE;
+    solveFromFile = false;
     solverIterations = 0;
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
@@ -3940,16 +3946,32 @@ void Align::abort()
         }
     }
 
-    state = ALIGN_ABORTED;
+    state = mode;
     emit newStatus(state);
 
+    setAlignTableResult(ALIGN_RESULT_FAILED);
+}
+
+QProgressIndicator * Align::getProgressStatus()
+{
     int currentRow = solutionTable->rowCount() - 1;
 
-    solutionTable->setCellWidget(currentRow, 3, new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
-    statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-    statusReport->setFlags(Qt::ItemIsSelectable);
-    solutionTable->setItem(currentRow, 3, statusReport);
+    // check if the current row indicates a progress state
+    // 1. no row present
+    if (currentRow < 0)
+        return nullptr;
+    // 2. indicator is not present or not a progress indicator
+    QWidget *indicator = solutionTable->cellWidget(currentRow, 3);
+    if (indicator == nullptr)
+        return nullptr;
+    return dynamic_cast<QProgressIndicator *>(indicator);
+}
+
+void Align::stopProgressAnimation()
+{
+    QProgressIndicator *progress_indicator = getProgressStatus();
+    if (progress_indicator != nullptr)
+        progress_indicator->stopAnimation();
 }
 
 QList<double> Align::getSolutionResult()
@@ -4119,11 +4141,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                         //qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew completed.";
                         m_wasSlewStarted = false;
-                        if (loadSlewState == IPS_BUSY)
+                        if (solveFromFile)
                         {
-                            loadSlewState = IPS_IDLE;
-
-                            //qCDebug(KSTARS_EKOS_ALIGN) << "loadSlewState is IDLE.";
+                            solveFromFile = false;
 
                             state = ALIGN_PROGRESS;
                             emit newStatus(state);
@@ -4371,17 +4391,13 @@ void Align::handleMountMotion()
         if (m_PAHStage == PAH_IDLE)
         {
             // whoops, mount slews during alignment
-            appendLogText(i18n("Slew detected, aborting solving..."));
-            abort();
+            appendLogText(i18n("Slew detected, suspend solving..."));
+            suspend();
             // reset the state to busy so that solving restarts after slewing finishes
-            loadSlewState = IPS_BUSY;
+            solveFromFile = true;
             // if mount model is running, retry the current alignment point
             if (mountModelRunning)
-            {
                 appendLogText(i18n("Restarting alignment point %1", currentAlignmentPoint + 1));
-                if (currentAlignmentPoint > 0)
-                    currentAlignmentPoint--;
-            }
         }
 
         state = ALIGN_SLEWING;
@@ -4390,12 +4406,8 @@ void Align::handleMountMotion()
 
 void Align::handleMountStatus()
 {
-    INumberVectorProperty *nvp = nullptr;
-
-    if (currentTelescope->isJ2000())
-        nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
-    else
-        nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
+    auto nvp = currentTelescope->getBaseDevice()->getNumber(currentTelescope->isJ2000() ? "EQUATORIAL_COORD" :
+               "EQUATORIAL_EOD_COORD");
 
     if (nvp)
         processNumber(nvp);
@@ -4404,7 +4416,7 @@ void Align::handleMountStatus()
 
 void Align::executeGOTO()
 {
-    if (loadSlewState == IPS_BUSY)
+    if (solveFromFile)
     {
         targetCoord = alignCoord;
         SlewToTarget();
@@ -4452,7 +4464,7 @@ void Align::Slew()
 
 void Align::SlewToTarget()
 {
-    if (canSync && loadSlewState == IPS_IDLE)
+    if (canSync && !solveFromFile)
     {
         // 2018-01-24 JM: This is ugly. Maybe use DBus? Signal/Slots? Ekos Manager usage like this should be avoided
 #if 0
@@ -4968,7 +4980,7 @@ bool Align::loadAndSlew(QString fileURL)
         fileURL = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Load Image"), dirPath,
                                                "Images (*.fits *.fits.fz *.fit *.fts "
                                                "*.jpg *.jpeg *.png *.gif *.bmp "
-                                               "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
+                                               "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
 
     if (fileURL.isEmpty())
         return false;
@@ -4979,7 +4991,7 @@ bool Align::loadAndSlew(QString fileURL)
 
     differentialSlewingActivated = false;
 
-    loadSlewState = IPS_BUSY;
+    solveFromFile = true;
 
     stopPAHProcess();
 
@@ -5019,7 +5031,7 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 #endif
 
     differentialSlewingActivated = false;
-    loadSlewState = IPS_BUSY;
+    solveFromFile = true;
     stopPAHProcess();
     slewR->setChecked(true);
     currentGotoMode = GOTO_SLEW;
@@ -5173,31 +5185,31 @@ void Align::checkFilter(int filterNum)
 
 void Align::setWCSEnabled(bool enable)
 {
-    if (currentCCD == nullptr)
+    if (!currentCCD)
         return;
 
-    ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    auto wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
 
-    ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
-    ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
+    auto wcs_enable  = wcsControl->findWidgetByName("WCS_ENABLE");
+    auto wcs_disable = wcsControl->findWidgetByName("WCS_DISABLE");
 
     if (!wcs_enable || !wcs_disable)
         return;
 
-    if ((wcs_enable->s == ISS_ON && enable) || (wcs_disable->s == ISS_ON && !enable))
+    if ((wcs_enable->getState() == ISS_ON && enable) || (wcs_disable->getState() == ISS_ON && !enable))
         return;
 
-    IUResetSwitch(wcsControl);
+    wcsControl->reset();
     if (enable)
     {
         appendLogText(i18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the "
                            "CCD driver or by solving an image before proceeding to capture any further images, "
                            "otherwise the WCS information may be invalid."));
-        wcs_enable->s = ISS_ON;
+        wcs_enable->setState(ISS_ON);
     }
     else
     {
-        wcs_disable->s = ISS_ON;
+        wcs_disable->setState(ISS_ON);
         m_wcsSynced    = false;
         appendLogText(i18n("World Coordinate System (WCS) is disabled."));
     }
@@ -5223,17 +5235,44 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
         }
 
         appendLogText(i18n("Restarting capture attempt #%1", m_CaptureErrorCounter));
-
-        int currentRow = solutionTable->rowCount() - 1;
-
-        solutionTable->setCellWidget(currentRow, 3, new QWidget());
-        QTableWidgetItem *statusReport = new QTableWidgetItem();
-        statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-        statusReport->setFlags(Qt::ItemIsSelectable);
-        solutionTable->setItem(currentRow, 3, statusReport);
-
+        setAlignTableResult(ALIGN_RESULT_FAILED);
         captureAndSolve();
     }
+}
+
+void Align::setAlignTableResult(AlignResult result)
+{
+    // Do nothing if the progress indicator is not running.
+    // This is necessary since it could happen that a problem occurs
+    // before #captureAndSolve() has been started and there does not
+    // exist a table entry for the current run.
+    QProgressIndicator *progress_indicator = getProgressStatus();
+    if (progress_indicator == nullptr || ! progress_indicator->isAnimated())
+        return;
+    stopProgressAnimation();
+
+    QIcon icon;
+    switch (result)
+    {
+        case ALIGN_RESULT_SUCCESS:
+            icon = QIcon(":/icons/AlignSuccess.svg");
+            break;
+
+        case ALIGN_RESULT_WARNING:
+            icon = QIcon(":/icons/AlignWarning.svg");
+            break;
+
+        case ALIGN_RESULT_FAILED:
+        default:
+            icon = QIcon(":/icons/AlignFailure.svg");
+            break;
+    }
+    int currentRow = solutionTable->rowCount() - 1;
+    solutionTable->setCellWidget(currentRow, 3, new QWidget());
+    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    statusReport->setIcon(icon);
+    statusReport->setFlags(Qt::ItemIsSelectable);
+    solutionTable->setItem(currentRow, 3, statusReport);
 }
 
 void Align::setFocusStatus(Ekos::FocusState state)
@@ -5529,7 +5568,7 @@ void Align::setupCorrectionGraphics(const QPointF &pixel)
     // We use the previously stored image (the 3rd PAA image)
     // so we can continue to estimage the correction even after
     // capturing new images during the refresh stage.
-    FITSData *imageData = alignView->keptImage();
+    const QSharedPointer<FITSData> &imageData = alignView->keptImage();
 
     // Just the altitude correction
     if (!polarAlign.findCorrectedPixel(imageData, pixel, &correctionAltTo, true))
@@ -5559,7 +5598,7 @@ void Align::calculatePAHError()
     // Hold on to the imageData so we can use it during the refresh phase.
     alignView->holdOnToImage();
 
-    FITSData *imageData = alignView->getImageData();
+    const QSharedPointer<FITSData> imageData = alignView->imageData();
     if (!polarAlign.findAxis())
     {
         appendLogText(i18n("PAA: Failed to find RA Axis center."));
@@ -5616,8 +5655,9 @@ void Align::syncCorrectionVector()
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 {
-    double x = dx * alignView->zoomedWidth() * (alignView->getCurrentZoom() / 100);
-    double y = dy * alignView->zoomedHeight() * (alignView->getCurrentZoom() / 100);
+    double x = dx * alignView->zoomedWidth();
+    double y = dy * alignView->zoomedHeight();
+
 
     setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
 
@@ -5627,10 +5667,7 @@ void Align::setPAHCorrectionOffset(int x, int y)
 {
     if (m_PAHStage == PAH_REFRESH || m_PAHStage == PAH_PRE_REFRESH)
     {
-        KSNotification::info(
-            i18n("Unfortunately, you cannot modify the polar-alignment star once the refresh "
-                 "process has begun. You should do that before clicking 'Next'. "
-                 "The system depends on the measurements made previously."));
+        appendLogText(i18n("Polar-alignment star cannot be updated during refresh phase as it might affect error measurements."));
     }
     else
     {
@@ -5719,7 +5756,7 @@ void Align::setPAHRefreshComplete()
     stopPAHProcess();
 }
 
-void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
+void Align::processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     if (m_PAHStage == PAH_FIND_CP)
     {
@@ -5744,7 +5781,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
                    : PAHThirdWcsPage));
         }
         connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
-        alignView->injectWCS(orientation, ra, dec, pixscale, doWcs);
+        alignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
         return;
     }
 }
@@ -5767,7 +5804,7 @@ void Align::setWCSToggled(bool result)
         }
 
         polarAlign.reset();
-        polarAlign.addPoint(alignView->getImageData());
+        polarAlign.addPoint(alignView->imageData());
 
         m_PAHStage = PAH_FIRST_ROTATE;
         emit newPAHStage(m_PAHStage);
@@ -5809,13 +5846,13 @@ void Align::setWCSToggled(bool result)
             emit newPAHMessage(secondRotateText->text());
         }
 
-        polarAlign.addPoint(alignView->getImageData());
+        polarAlign.addPoint(alignView->imageData());
 
         rotatePAH();
     }
     else if (m_PAHStage == PAH_THIRD_CAPTURE)
     {
-        FITSData *imageData = alignView->getImageData();
+        const QSharedPointer<FITSData> &imageData = alignView->imageData();
 
         // Critical error
         if (result == false)
@@ -6080,6 +6117,16 @@ void Align::zoomAlignView()
     emit newFrame(alignView);
 }
 
+void Align::setAlignZoom(double scale)
+{
+    if (scale > 1)
+        alignView->ZoomIn();
+    else if (scale < 1)
+        alignView->ZoomOut();
+
+    emit newFrame(alignView);
+}
+
 QJsonObject Align::getSettings() const
 {
     QJsonObject settings;
@@ -6228,8 +6275,6 @@ QJsonObject Align::getPAHSettings() const
 
 void Align::setPAHSettings(const QJsonObject &settings)
 {
-    setSettings(settings);
-
     PAHDirectionCombo->setCurrentIndex(settings["mountDirection"].toInt(0));
     PAHRotationSpin->setValue(settings["mountRotation"].toInt(30));
     PAHExposure->setValue(settings["refresh"].toDouble(1));

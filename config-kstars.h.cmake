@@ -27,3 +27,18 @@
 
 /* Define if you have Qt5 Keychain */
 #cmakedefine HAVE_KEYCHAIN 1
+
+/* Define if indi is installed in a non-standard location */
+#cmakedefine INDI_PREFIX "@INDI_PREFIX@"
+
+/* Define if xplanet is installed in a non-standard location */
+#cmakedefine XPLANET_PREFIX "@XPLANET_PREFIX@"
+
+/* Define if sextractor is installed in a non-standard location */
+#cmakedefine SEXTRACTOR_PREFIX "@SEXTRACTOR_PREFIX@"
+
+/* Define if astrometry solver is installed in a non-standard location */
+#cmakedefine ASTROMETRY_PREFIX "@ASTROMETRY_PREFIX@"
+
+/* Define if astrometry.cfg file is located in the prefix (rather than /etc) */
+#cmakedefine ASTROMETRY_CONF_IN_PREFIX 1

@@ -87,5 +87,10 @@ RUN apt install -y --no-install-recommends \
       libsaxon-java \
       openjdk-11-jre-headless
 
+# Astrometry
+ADD http://broiler.astrometry.net/~dstn/4200/index-4208.fits /root/.local/share/kstars/astrometry/
+ADD http://broiler.astrometry.net/~dstn/4200/index-4209.fits /root/.local/share/kstars/astrometry/
+ADD http://broiler.astrometry.net/~dstn/4200/index-4210.fits /root/.local/share/kstars/astrometry/
+
 CMD /bin/bash
 

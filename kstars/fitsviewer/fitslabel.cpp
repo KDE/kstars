@@ -20,6 +20,7 @@
 #include "Options.h"
 #include "skymap.h"
 #include "ksnotification.h"
+#include <QGuiApplication>
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
@@ -43,9 +44,9 @@ FITSLabel::FITSLabel(FITSView *view, QWidget *parent) : QLabel(parent)
 
 void FITSLabel::setSize(double w, double h)
 {
-    width  = w;
-    height = h;
-    size   = w * h;
+    m_Width  = w;
+    m_Height = h;
+    m_Size   = w * h;
 }
 
 bool FITSLabel::getMouseButtonDown()
@@ -66,6 +67,13 @@ void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
         view->updateMouseCursor();
     }
 }
+
+void FITSLabel::leaveEvent(QEvent *e)
+{
+    Q_UNUSED(e);
+    view->updateMagnifyingGlass(-1, -1);
+}
+
 /**
 I added some things to the top of this method to allow panning and Scope slewing to function.
 If you are in the dragMouse mode and the mousebutton is pressed, The method checks the difference
@@ -89,7 +97,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     }
 
     double x, y;
-    FITSData *view_data = view->getImageData();
+    const QSharedPointer<FITSData> &view_data = view->imageData();
 
     uint8_t const *buffer = view_data->getImageBuffer();
 
@@ -99,8 +107,13 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x = round(e->x() / scale);
     y = round(e->y() / scale);
 
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
+    if(QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier))
+        view->updateMagnifyingGlass(x, y);
+    else
+        view->updateMagnifyingGlass(-1, -1);
+
+    x = KSUtils::clamp(x, 1.0, m_Width);
+    y = KSUtils::clamp(y, 1.0, m_Height);
 
     emit newStatus(QString("X:%1 Y:%2").arg(static_cast<int>(x)).arg(static_cast<int>(y)), FITS_POSITION);
 
@@ -108,7 +121,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x -= 1;
     y -= 1;
 
-    int index = y * width + x;
+    int index = y * m_Width + x;
     QString stringValue;
 
     switch (view_data->getStatistics().dataType)
@@ -154,19 +167,19 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     if (view_data->hasWCS() && view->getCursorMode() != FITSView::selectCursor)
     {
-        int index = x + y * width;
+        int index = x + y * m_Width;
 
         FITSImage::wcs_point *wcs_coord = view_data->getWCSCoord();
 
         if (wcs_coord)
         {
-            if (index > size)
+            if (index > m_Size)
                 return;
 
-            ra.setD(wcs_coord[index].ra);
-            dec.setD(wcs_coord[index].dec);
+            m_RA.setD(wcs_coord[index].ra);
+            m_DE.setD(wcs_coord[index].dec);
 
-            emit newStatus(QString("%1 , %2").arg(ra.toHMSString(), dec.toDMSString()), FITS_WCS);
+            emit newStatus(QString("%1 , %2").arg(m_RA.toHMSString(), m_DE.toDMSString()), FITS_WCS);
         }
 
         bool objFound = false;
@@ -184,7 +197,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             QToolTip::hideText();
     }
 
-    double HFR = view->getImageData()->getHFR(x, y);
+    double HFR = view->imageData()->getHFR(x, y);
 
     if (HFR > 0)
         QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g', 3)), this);
@@ -215,7 +228,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     else if (e->buttons() & Qt::LeftButton && view->getCursorMode() == FITSView::scopeCursor)
     {
 #ifdef HAVE_INDI
-        FITSData *view_data = view->getImageData();
+        const QSharedPointer<FITSData> &view_data = view->imageData();
         if (view_data->hasWCS())
         {
             FITSImage::wcs_point *wcs_coord = view_data->getWCSCoord();
@@ -225,9 +238,9 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
                 x = round(e->x() / scale);
                 y = round(e->y() / scale);
 
-                x         = KSUtils::clamp(x, 1.0, width);
-                y         = KSUtils::clamp(y, 1.0, height);
-                int index = x + y * width;
+                x         = KSUtils::clamp(x, 1.0, m_Width);
+                y         = KSUtils::clamp(y, 1.0, m_Height);
+                int index = x + y * m_Width;
                 if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
                             nullptr,
                             "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() +
@@ -249,11 +262,11 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     x = round(e->x() / scale);
     y = round(e->y() / scale);
 
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
+    x = KSUtils::clamp(x, 1.0, m_Width);
+    y = KSUtils::clamp(y, 1.0, m_Height);
 
 #ifdef HAVE_INDI
-    FITSData *view_data = view->getImageData();
+    const QSharedPointer<FITSData> &view_data = view->imageData();
 
     if (e->buttons() & Qt::RightButton && view->getCursorMode() != FITSView::scopeCursor)
     {
@@ -308,8 +321,8 @@ void FITSLabel::mouseDoubleClickEvent(QMouseEvent *e)
     x = round(e->x() / (view->getCurrentZoom() / ZOOM_DEFAULT));
     y = round(e->y() / (view->getCurrentZoom() / ZOOM_DEFAULT));
 
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
+    x = KSUtils::clamp(x, 1.0, m_Width);
+    y = KSUtils::clamp(y, 1.0, m_Height);
 
     emit markerSelected(x, y);
 

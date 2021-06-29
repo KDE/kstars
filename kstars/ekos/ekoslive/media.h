@@ -56,7 +56,7 @@ class Media : public QObject
         void connected();
         void disconnected();
 
-        void newBoundingRect(QRect rect, QSize view);
+        void newBoundingRect(QRect rect, QSize view, double currentZoom);
         void newMetadata(const QByteArray &metadata);
         void newImage(const QByteArray &image);
 
@@ -138,6 +138,6 @@ class Media : public QObject
         static const uint16_t RECONNECT_MAX_TRIES = 720;
 
         // Binary Metadata Size
-        static const uint16_t METADATA_PACKET = 256;
+        static const uint16_t METADATA_PACKET = 512;
 };
 }

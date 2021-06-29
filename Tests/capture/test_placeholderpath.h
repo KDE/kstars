@@ -31,21 +31,23 @@
 
 class TestPlaceholderPath : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        TestPlaceholderPath();
-        ~TestPlaceholderPath() override;
+  public:
+    TestPlaceholderPath();
+    ~TestPlaceholderPath() override;
 
-    private:
+  private slots:
 
-    private slots:
+    void testSchedulerProcessJobInfo_data();
+    void testSchedulerProcessJobInfo();
 
-        void testSequenceJobSignature_data();
-        void testSequenceJobSignature();
+    void testCaptureAddJob_data();
+    void testCaptureAddJob();
 
-    private:
+    void testSequenceJobSignature_data();
+    void testSequenceJobSignature();
+
 };
-
 
 #endif

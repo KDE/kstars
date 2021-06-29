@@ -14,6 +14,7 @@
 #include "ui_scheduler.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
+#include "schedulerjob.h"
 
 #include <lilxml.h>
 
@@ -31,9 +32,11 @@ class GeoLocation;
 class SchedulerJob;
 class SkyObject;
 class KConfigDialog;
+class TestSchedulerUnit;
 
 namespace Ekos
 {
+
 class SequenceJob;
 
 /**
@@ -118,6 +121,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         ~Scheduler() = default;
 
         QString getCurrentJobName();
+        SchedulerJob *getCurrentJob()
+        {
+            return currentJob;
+        }
+
         void appendLogText(const QString &);
         QStringList logText()
         {
@@ -255,12 +263,121 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void setErrorHandlingStrategy (ErrorHandlingStrategy strategy);
 
-
         /** @}*/
 
-        /** @{ */
+        // TODO: This section of static public and private methods should someday
+        // be moved from Scheduler and placed in a separate class,
+        // e.g. SchedulerPlanner or SchedulerJobEval
 
-private:
+        /**
+             * @brief setupJob Massive initialization of a SchedulerJob for testing and exectution
+             * @param job Target
+        */
+        static void setupJob(
+            SchedulerJob &job, const QString &name, int priority, const dms &ra,
+            const dms &dec, double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl,
+            SchedulerJob::StartupCondition startup, const QDateTime &startupTime, int16_t startupOffset,
+            SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
+            double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
+            bool track, bool focus, bool align, bool guide);
+
+        /**
+             * @brief evaluateJobs Computes estimated start and end times for the SchedulerJobs passed in. Returns a proposed schedule.
+             * @param jobs The input list of SchedulerJobs to evaluate.
+             * @param state The current scheduler state.
+             * @param capturedFramesCount which parts of the schedulerJobs have already been completed.
+             * @param dawn day fraction to dawn, as a double
+             * @param dusk day fraction to dusk, as a double
+             * @param rescheduleErrors whether jobs that failed with errors should be rescheduled.
+             * @param restartJobs whether jobs that failed for one reason or another shoulc be rescheduled.
+             * @param possiblyDelay a return value indicating whether the timer should try scheduling again after a delay.
+             * @param scheduler instance of the scheduler used for logging. Can be nullptr.
+             * @return Total score
+             */
+        static QList<SchedulerJob *> evaluateJobs(QList<SchedulerJob *> &jobs, SchedulerState state,
+                const QMap<QString, uint16_t> &capturedFramesCount,
+                double dawn, double dusk, bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler);
+        /**
+             * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
+             * @param job Target
+             * @param dawn day fraction to dawn, as a double
+             * @param dusk day fraction to dusk, as a double
+             * @param when date and time to evaluate constraints, now if omitted.
+             * @return Total score
+             */
+        static int16_t calculateJobScore(SchedulerJob const *job, double dawn, double dusk, QDateTime const &when = QDateTime());
+
+        /**
+             * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
+             * @param job target job
+             * @param capturedFramesCount a map of what's been captured already
+             * @param scheduler instance of the scheduler used for logging. Can be nullptr.
+             * @return Estimated time in seconds.
+             */
+        static bool estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount,
+                                    Scheduler *scheduler);
+        /**
+             * @brief loadSequenceQueue Loads what's necessary to estimate job completion time from a capture sequence queue file
+             * @param fileURL the filename
+             * @param schedJob the SchedulerJob is modified accoring to the contents of the sequence queue
+             * @param jobs the returned values read from the file
+             * @param hasAutoFocus a return value indicating whether autofocus can be triggered by the sequence.
+              * @param scheduler instance of the scheduler used for logging. Can be nullptr.
+             * @return Estimated time in seconds.
+             */
+
+        static bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
+                                      bool &hasAutoFocus, Scheduler *scheduler);
+
+        /**
+             * @brief getDarkSkyScore Get the dark sky score of a date and time. The further from dawn the better.
+             * @param dawn day fraction to dawn, as a double
+             * @param dusk day fraction to dusk, as a double
+             * @param when date and time to check the dark sky score, now if omitted
+             * @return Dark sky score. Daylight get bad score, as well as pre-dawn to dawn.
+             */
+        static int16_t getDarkSkyScore(double dawn, double dusk, QDateTime const &when = QDateTime());
+
+        /** @brief Setter used in testing to fix the local time. Otherwise getter gets from KStars instance. */
+        /** @{ */
+        static const KStarsDateTime &getLocalTime();
+        static void setLocalTime(KStarsDateTime *time)
+        {
+            storedLocalTime = time;
+        }
+        static bool hasLocalTime()
+        {
+            return storedLocalTime != nullptr;
+        }
+        /** @} */
+
+    private:
+        /**
+             * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
+             * @param root the filename
+             * @param schedJob the SchedulerJob is modified accoring to the contents of the sequence queue
+             * @return a capture sequence
+             */
+        static SequenceJob *processJobInfo(XMLEle *root, SchedulerJob *schedJob);
+
+        /**
+             * @brief timeHeuristics Estimates the number of seconds of overhead above and beyond imaging time, used by estimateJobTime.
+             * @param schedJob the scheduler job.
+             * @return seconds of overhead.
+             */
+        static int timeHeuristics(const SchedulerJob *schedJob);
+
+        // Used in testing, instead of KStars::Instance() resources
+        static KStarsDateTime *storedLocalTime;
+
+        friend TestSchedulerUnit;
+
+        // TODO: See above TODO. End of static methods that might be moved to
+        // a separate Scheduler-related class.
+
+        /*@{*/
+
+    private:
         /** @internal Safeguard flag to avoid registering signals from widgets multiple times.
          */
         bool jobChangesAreWatched { false };
@@ -408,7 +525,19 @@ private:
         void setPaused();
         void save();
         void saveAs();
-        void load();
+
+        /**
+         * @brief load Open a file dialog to select an ESL file, and load its contents.
+         * @param clearQueue Clear the queue before loading, or append ESL contents to queue.
+         */
+        void load(bool clearQueue);
+
+        /**
+         * @brief appendEkosScheduleList Append the contents of an ESL file to the queue.
+         * @param fileURL File URL to load contents from.
+         * @return True if contents were loaded successfully, else false.
+         */
+        bool appendEkosScheduleList(const QString &fileURL);
 
         void resetJobEdit();
 
@@ -502,7 +631,8 @@ private:
              * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
              * Given that score, the scheduler will decide which is the best job that needs to be executed.
              */
-        void evaluateJobs();
+        void evaluateJobs(bool evaluateOnly);
+        void processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluationOnly);
 
         /**
              * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
@@ -512,21 +642,6 @@ private:
         void executeJob(SchedulerJob *job);
 
         void executeScript(const QString &filename);
-
-        /**
-             * @brief getDarkSkyScore Get the dark sky score of a date and time. The further from dawn the better.
-             * @param when date and time to check the dark sky score, now if omitted
-             * @return Dark sky score. Daylight get bad score, as well as pre-dawn to dawn.
-             */
-        int16_t getDarkSkyScore(QDateTime const &when = QDateTime()) const;
-
-        /**
-             * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
-             * @param job Target
-             * @param when date and time to evaluate constraints, now if omitted.
-             * @return Total score
-             */
-        int16_t calculateJobScore(SchedulerJob const *job, QDateTime const &when = QDateTime()) const;
 
         /**
              * @brief getWeatherScore Get current weather condition score.
@@ -650,13 +765,6 @@ private:
         void updatePreDawn();
 
         /**
-             * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
-             * @param job target job
-             * @return Estimated time in seconds.
-             */
-        bool estimateJobTime(SchedulerJob *schedJob);
-
-        /**
              * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
              * and a new version given the supplied parameters are saved to the output directory
              * @param prefix Prefix to set for the job sequence
@@ -680,17 +788,12 @@ private:
 
         XMLEle *getSequenceJobRoot();
 
-        bool isWeatherOK(SchedulerJob *job);
-
         /**
             * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
             * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
             */
         void updateCompletedJobsCount(bool forced = false);
 
-        SequenceJob *processJobInfo(XMLEle *root, SchedulerJob *schedJob);
-        bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
-                               bool &hasAutoFocus);
         int getCompletedFiles(const QString &path, const QString &seqPrefix);
 
         // retrieve the guiding status
@@ -759,8 +862,6 @@ private:
         uint8_t noWeatherCounter { 0 };
         /// Are we shutting down until later?
         bool preemptiveShutdown { false };
-        /// Only run job evaluation
-        bool jobEvaluationOnly { false };
         /// Keep track of Load & Slew operation
         bool loadAndSlewProgress { false };
         /// Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
@@ -795,7 +896,7 @@ private:
 
         QUrl dirPath;
 
-        QMap<QString, uint16_t> capturedFramesCount;
+        QMap<QString, uint16_t> m_CapturedFramesCount;
 
         bool m_MountReady { false };
         bool m_CaptureReady { false };

@@ -18,6 +18,7 @@
 #include "ekos/ekos.h"
 #include "ekos/manager.h"
 
+
 namespace EkosLive
 {
 class Message : public QObject
@@ -96,8 +97,7 @@ class Message : public QObject
         void setPAHMessage(const QString &message);
         void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
         void setPAHEnabled(bool enabled);
-        void setBoundingRect(QRect rect, QSize view);
-
+        void setBoundingRect(QRect rect, QSize view, double currentZoom);
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
         void sendCaptureSettings(const QJsonObject &settings);
@@ -114,7 +114,7 @@ class Message : public QObject
         void processNewText(ITextVectorProperty *tvp);
         void processNewSwitch(ISwitchVectorProperty *svp);
         void processNewLight(ILightVectorProperty *lvp);
-        void processNewProperty(INDI::Property *prop);
+        void processNewProperty(INDI::Property prop);
         void processDeleteProperty(const QString &device, const QString &name);
 
         // StellarSolver
@@ -192,8 +192,9 @@ class Message : public QObject
         QMap<int, bool> m_Options;
         QMap<QString, QSet<QString>> m_PropertySubscriptions;
         QLineF correctionVector;
-        QRect boundingRect;
-        QSize viewSize;
+        QRect m_BoundingRect;
+        QSize m_ViewSize;
+        double m_CurrentZoom {100};
 
         QDateTime m_ThrottleTS;
 

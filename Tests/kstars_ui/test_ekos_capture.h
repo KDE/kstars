@@ -23,6 +23,15 @@
 #include <QCheckBox>
 #include <QtTest>
 
+/** @brief Helper to show the Capture tab
+ */
+#define KTRY_CAPTURE_SHOW() do { \
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule() != nullptr, 5000); \
+    KTRY_EKOS_GADGET(QTabWidget, toolsWidget); \
+    toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->captureModule()); \
+    QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->captureModule(), 5000); \
+    QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->captureModule()->camera().isEmpty(), 5000); } while (false)
+
 /** @brief Helper to retrieve a gadget in the Capture tab specifically.
  * @param klass is the class of the gadget to look for.
  * @param name is the gadget name to look for in the UI configuration.

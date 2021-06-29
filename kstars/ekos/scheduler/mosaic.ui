@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>672</width>
-    <height>408</height>
+    <width>759</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,27 +30,27 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,10">
+    <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
      <property name="spacing">
       <number>3</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0">
        <property name="spacing">
         <number>3</number>
        </property>
        <item>
         <widget class="QGroupBox" name="equipmentGroup">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="title">
-          <string>1. Equipment</string>
+          <string>↓ Equipment</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
+         <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1">
           <property name="leftMargin">
            <number>3</number>
           </property>
@@ -66,76 +66,6 @@
           <property name="spacing">
            <number>3</number>
           </property>
-          <item row="1" column="4">
-           <widget class="QLabel" name="label_15">
-            <property name="text">
-             <string>pixels</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="toolTip">
-             <string>Camera's rotation angle (East of North) in degrees. To measure the angle, solve an image and use the astrometry solver solution's rotation angle</string>
-            </property>
-            <property name="text">
-             <string>Rotation:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_10">
-              <property name="text">
-               <string>H</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="cameraHSpin">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimum">
-               <number>0</number>
-              </property>
-              <property name="maximum">
-               <number>10000</number>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="1">
-           <widget class="QDoubleSpinBox" name="focalLenSpin">
-            <property name="minimum">
-             <double>0.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>10000.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>0.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>um</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout">
             <property name="spacing">
@@ -156,6 +86,12 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Width of the frame produced by the camera, in pixels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> pix</string>
+              </property>
               <property name="minimum">
                <number>0</number>
               </property>
@@ -168,6 +104,157 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDoubleSpinBox" name="focalLenSpin">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Focal length of the telescope to use for the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="suffix">
+             <string> mm</string>
+            </property>
+            <property name="minimum">
+             <double>0.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_11">
+            <property name="toolTip">
+             <string>Camera pixel size in microns</string>
+            </property>
+            <property name="text">
+             <string>Pixel Size:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="fetchB">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Fetch equipment information from the Ekos active profile, if any.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Fetch</string>
+            </property>
+            <property name="icon">
+             <iconset theme="download">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>Camera's rotation angle (East of North) in degrees. To measure the angle, solve an image and use the astrometry solver solution's rotation angle</string>
+            </property>
+            <property name="text">
+             <string>Rotation:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>H</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="cameraHSpin">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Height of the frame produced by the camera, in pixels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> pix</string>
+              </property>
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>10000</number>
+              </property>
+              <property name="value">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="1" colspan="2">
+           <widget class="QDoubleSpinBox" name="rotationSpin">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Orientation of the camera field of view.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="suffix">
+             <string> East of North</string>
+            </property>
+            <property name="minimum">
+             <double>-360.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>360.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>5.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>H</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="pixelHSizeSpin">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Height of a single camera photosite, in micrometers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> µm</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>Mount focal length in millimeters</string>
+            </property>
+            <property name="text">
+             <string>Focal Length:</string>
+            </property>
+           </widget>
           </item>
           <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -189,6 +276,12 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Width of a single camera photosite, in micrometers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> µm</string>
+              </property>
               <property name="minimum">
                <double>0.000000000000000</double>
               </property>
@@ -198,40 +291,6 @@
              </widget>
             </item>
            </layout>
-          </item>
-          <item row="2" column="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_14">
-              <property name="text">
-               <string>H</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="pixelHSizeSpin">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_11">
-            <property name="toolTip">
-             <string>Camera pixel size in microns</string>
-            </property>
-            <property name="text">
-             <string>Pixel Size:</string>
-            </property>
-           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_8">
@@ -243,57 +302,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>Mount focal length in millimeters</string>
-            </property>
-            <property name="text">
-             <string>Focal Length:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" colspan="3">
-           <widget class="QDoubleSpinBox" name="rotationSpin">
-            <property name="minimum">
-             <double>-360.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>360.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>5.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="4">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>E of N</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>mm</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" colspan="2">
-           <widget class="QPushButton" name="fetchB">
-            <property name="toolTip">
-             <string>Fill data from Ekos active profile</string>
-            </property>
-            <property name="text">
-             <string>Fetch</string>
-            </property>
-            <property name="icon">
-             <iconset theme="download">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -302,10 +310,19 @@
          <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="title">
-          <string>2. FOV</string>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <layout class="QGridLayout" name="gridLayout_2">
+         <property name="title">
+          <string>↓ FOV</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,1,1">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
           <property name="leftMargin">
            <number>3</number>
           </property>
@@ -326,6 +343,12 @@
             <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="toolTip">
              <string>Camera FOV in arc minutes as determined from equipment parameters above</string>
             </property>
@@ -334,71 +357,56 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
-            <property name="toolTip">
-             <string>Specify the number of rows and columns of the final mosaic image</string>
-            </property>
-            <property name="text">
-             <string>Mosaic Grid:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QDoubleSpinBox" name="overlapSpin">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="maximum">
-             <double>20.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>5.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4">
-           <widget class="QLabel" name="cameraFOVUnits">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>arcmin</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="targetFOVLabel">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="toolTip">
-             <string>Final mosaic field of view size in arc minutes. Click update to calculate it or enter it manually.</string>
-            </property>
-            <property name="text">
-             <string>Mosaic FOV:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="targetFOVUnits">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>arcmin</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0">
             <property name="spacing">
              <number>3</number>
             </property>
             <item>
-             <widget class="QLabel" name="cameraHFOVLabel">
+             <widget class="QDoubleSpinBox" name="overlapSpin">
               <property name="enabled">
                <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Overlap between each tile of the mosaic. See the main help icon in the corner of the sky chart.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> %</string>
+              </property>
+              <property name="maximum">
+               <double>90.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>5.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="targetFOVHLabel">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>H</string>
@@ -406,12 +414,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cameraHFOVSpin">
+             <widget class="QDoubleSpinBox" name="targetHFOVSpin">
               <property name="enabled">
                <bool>true</bool>
               </property>
-              <property name="readOnly">
-               <bool>true</bool>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Minimum field height that the mosaic must cover, in arcminutes.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Modifying this value immediately changes the number of tiles on the mosaic height. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string>'</string>
               </property>
               <property name="maximum">
                <double>3600.000000000000000</double>
@@ -420,43 +437,61 @@
             </item>
            </layout>
           </item>
-          <item row="0" column="1" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <property name="spacing">
-             <number>3</number>
-            </property>
+          <item row="4" column="1" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
             <item>
-             <widget class="QLabel" name="cameraWFOVLabel">
-              <property name="enabled">
-               <bool>true</bool>
+             <widget class="QCheckBox" name="reverseOddRows">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked, orders mosaic tiles so that the mount moves minimally between jobs (S-shape).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>W</string>
+               <string>Minimum mount move</string>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="cameraWFOVSpin">
-              <property name="enabled">
+              <property name="checked">
                <bool>true</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-              <property name="maximum">
-               <double>3600.000000000000000</double>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="1" column="1" colspan="2">
+          <item row="1" column="0">
+           <widget class="QLabel" name="overlapLabel">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Percentage of overlap between two neighbouring images</string>
+            </property>
+            <property name="text">
+             <string>Overlap:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <property name="spacing">
              <number>3</number>
             </property>
             <item>
              <widget class="QLabel" name="label_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>W</string>
               </property>
@@ -470,33 +505,224 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Number of tiles on the mosaic width.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Modifying this value immediately changes the width of the field covered by the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> x</string>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>10</number>
               </property>
+              <property name="value">
+               <number>1</number>
+              </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="4" column="2">
-           <widget class="QLabel" name="overlapUnits">
-            <property name="enabled">
-             <bool>true</bool>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Specify the number of rows and columns of the final mosaic image</string>
             </property>
             <property name="text">
-             <string>%</string>
+             <string>Mosaic Grid:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="targetFOVWLabel">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>W</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="targetWFOVSpin">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Minimum field width that the mosaic must cover, in arcminutes.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Modifying this value immediately changes the number of tiles on the mosaic width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string>'</string>
+              </property>
+              <property name="maximum">
+               <double>3600.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <item>
+             <widget class="QLabel" name="cameraWFOVLabel">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>W</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="cameraWFOVSpin">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Field width of the camera in arcminutes.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;This value is computed from the equipment information, and defines the width of the field covered by one tile of the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="suffix">
+               <string>'</string>
+              </property>
+              <property name="maximum">
+               <double>3600.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <item>
+             <widget class="QPushButton" name="resetB">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Recompute the mosaic field from the number of tiles.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Cover FOV</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="cameraHFOVLabel">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>H</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="cameraHFOVSpin">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Field height of the camera in arcminutes.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;This value is computed from the equipment information, and defines the height of the field covered by one tile of the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="suffix">
+               <string>'</string>
+              </property>
+              <property name="maximum">
+               <double>3600.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <property name="spacing">
              <number>3</number>
             </property>
             <item>
              <widget class="QLabel" name="label_12">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>H</string>
               </property>
@@ -510,95 +736,53 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Number of tiles on the mosaic height.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Modifying this value immediately changes the height of the field covered by the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="suffix">
+               <string> x</string>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>10</number>
               </property>
+              <property name="value">
+               <number>1</number>
+              </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="overlapLabel">
+          <item row="3" column="0">
+           <widget class="QLabel" name="targetFOVLabel">
             <property name="enabled">
              <bool>true</bool>
             </property>
             <property name="toolTip">
-             <string>Percentage of overlap between two neighbouring images</string>
+             <string>Final mosaic field of view size in arc minutes. Click update to calculate it or enter it manually.</string>
             </property>
             <property name="text">
-             <string>Overlap:</string>
+             <string>Mosaic FOV:</string>
             </property>
            </widget>
-          </item>
-          <item row="2" column="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="targetFOVHLabel">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="text">
-               <string>H</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="targetHFOVSpin">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="maximum">
-               <double>3600.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="1" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="targetFOVWLabel">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="text">
-               <string>W</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="targetWFOVSpin">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="maximum">
-               <double>3600.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </item>
          </layout>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>3. Output</string>
+        <widget class="QGroupBox" name="jobsGroup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="spacing">
-           <number>3</number>
-          </property>
+         <property name="title">
+          <string>↓ Jobs</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,1,1">
           <property name="leftMargin">
            <number>3</number>
           </property>
@@ -611,31 +795,94 @@
           <property name="bottomMargin">
            <number>3</number>
           </property>
-          <item>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item row="0" column="1" colspan="2">
+           <widget class="QSpinBox" name="alignEvery">
+            <property name="suffix">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="alignEveryLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Align Every</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QSpinBox" name="focusEvery">
+            <property name="suffix">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="focusEveryLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Focus Every</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="outputGroup">
+         <property name="title">
+          <string>↓ Output</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1,1">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item row="0" column="1" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_14">
             <property name="spacing">
              <number>3</number>
             </property>
             <item>
-             <widget class="QLabel" name="jobCountLabel">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="toolTip">
-               <string>Number of scheduler jobs required to capture the mosaic image. Click update to calculate it</string>
-              </property>
-              <property name="text">
-               <string>Job Count:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QSpinBox" name="jobCountSpin">
               <property name="enabled">
-               <bool>true</bool>
+               <bool>false</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Total number of Scheduler jobs required to cover the mosaic field, and that the tool will produce.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="readOnly">
                <bool>true</bool>
+              </property>
+              <property name="suffix">
+               <string/>
               </property>
               <property name="minimum">
                <number>1</number>
@@ -657,26 +904,17 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="1" column="1" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <property name="spacing">
              <number>3</number>
             </property>
             <item>
-             <widget class="QLabel" name="textLabel1_18">
+             <widget class="QLineEdit" name="jobsDir">
               <property name="toolTip">
-               <string>Directory to save sequence images</string>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Directory:</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Filesystem folder where the Scheduler jobs required to cover the mosaic will be created in.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="jobsDir"/>
             </item>
             <item>
              <widget class="QPushButton" name="selectJobsDirB">
@@ -705,34 +943,139 @@
             </item>
            </layout>
           </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="jobCountLabel">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Number of scheduler jobs required to capture the mosaic image. Click update to calculate it</string>
+            </property>
+            <property name="text">
+             <string>Job Count:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="textLabel1_18">
+            <property name="toolTip">
+             <string>Directory to save sequence images</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Directory:</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <property name="spacing">
-          <number>3</number>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
          <item>
-          <widget class="QPushButton" name="updateB">
+          <widget class="QPushButton" name="helpIcon">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
-            <string>Calculate target FOV and number of jobs required to capture the mosaic</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This sky chart shows the expected distribution of mosaic tiles.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note:&lt;/span&gt; this version of the Mosaic Tool uses a simple plane projection and lacks precision when declination is higher than 70 degrees. Carefully overlap your tiles to avoid holes.&lt;/p&gt;&lt;p&gt;• The setting &amp;quot;Overlap&amp;quot; controls how tiles are overlaid, its effect can be seen with transparency. Tiles are then distributed as a grid from setting &amp;quot;Mosaic Grid&amp;quot;. They are rendered in transparent green and match the field of the camera from setting &amp;quot;Camera FOV&amp;quot;.&lt;/p&gt;&lt;p&gt;• The extent of the mosaic field matches the setting &amp;quot;Mosaic FOV&amp;quot; and is rendered as a red background to help you fill holes by adjusting overlap.&lt;/p&gt;&lt;p&gt;• The job options allow you to execute the mount alignment or the focus adjustment once out of several iterations only. This checks or doesn't check the relevant Scheduler job steps. You may leave those to zero if you use a mount model in Align or configure periodic re-focus in Capture.&lt;/p&gt;&lt;p&gt;• Top-right numbers in tiles indicate the order in which Scheduler jobs will be created. Setting targets are captured first, from west to east. Center numbers indicate the coordinates of the target of the job that will be generated for each tile. Bottom numbers indicate the angle those tiles are shifted compared to the center of the mosaic.&lt;/p&gt;&lt;p&gt;The suggested order of actions is to:&lt;/p&gt;&lt;p&gt;1. Fetch or enter equipment information.&lt;br/&gt;2. Configure the tile overlap.&lt;br/&gt;3. Configure the extent of the mosaic by adjusting its grid.&lt;br/&gt;4. Adjust the alignment and focus job options.&lt;br/&gt;5. Choose an output folder, where sequence and scheduler job lists will be written.&lt;br/&gt;6. Accept the dialog.&lt;/p&gt;&lt;p&gt;Use the overlap percentage to control the area over which adjacent tiles may be stitched:&lt;/p&gt;&lt;p&gt;• &lt;span style=&quot; font-weight:600;&quot;&gt;0-10%&lt;/span&gt; if you plan to register your frames over a synthetic field built from catalog stars.&lt;/p&gt;&lt;p&gt;• &lt;span style=&quot; font-weight:600;&quot;&gt;10-20%&lt;/span&gt; if you plan to stitch adjacent frames by aligning the stars in their overlapping sky patches.&lt;/p&gt;&lt;p&gt;• &lt;span style=&quot; font-weight:600;&quot;&gt;50-80%&lt;/span&gt; if you plan to process a single stack with the frames produced by the mosaic jobs.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Changing the overlap value immediately updates the number of tiles in order to cover the mosaic field entirely. The generated tiles may thus cover more field than required. For this reason, the overlap should be the first setting to consider. To recompute the field covered by the mosaic from the number of tiles considering the current overlap, click 'Cover FOV'.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;When processing a single stack, &lt;span style=&quot; font-weight:600;&quot;&gt;50%&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;75%&lt;/span&gt; are interesting overlap values. You may want to increase these slightly to work around tile rotation, apply cropping while capturing or before stacking, or avoid flat frame calibration artifacts on borders. If your sequence contains a single exposure, configure the mosaic to achieve a minimum of 13 layers at the center of the mosaic, as this will allow stacking with the winsorized sigma rejection method. As illustrations:&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;• A 5x5 mosaic with an overlap of 80% has 25 subframes at its center.&lt;br/&gt;• A 4x4 mosaic with an overlap of 75% has 16 subframes at its center.&lt;br/&gt;• A 3x3 mosaic with an overlap of 66.6% has 9 subframes at its center, and will require two passes.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Note that overlapped mosaic tiles may suffer from large-scale gradients, which will require additional processing after calibration and before stacking. Thus, capture mosaics in really dark skies and avoid placing your object of interest on the border of a tile.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="text">
-            <string>Update</string>
+            <string/>
            </property>
-           <property name="default">
-            <bool>true</bool>
+           <property name="icon">
+            <iconset theme="dialog-information"/>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="resetB">
-           <property name="toolTip">
-            <string>Reset all parameters</string>
-           </property>
+          <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Reset</string>
+            <string>Tile Transparency:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="transparencySlider">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="whatsThis">
+            <string>Adjust tiles transparency</string>
+           </property>
+           <property name="minimum">
+            <number>5</number>
+           </property>
+           <property name="maximum">
+            <number>60</number>
+           </property>
+           <property name="value">
+            <number>50</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="transparencyAuto">
+           <property name="text">
+            <string>Auto</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -749,60 +1092,49 @@
            </property>
           </spacer>
          </item>
-         <item>
-          <widget class="QPushButton" name="createJobsB">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="toolTip">
-            <string>Create scheduler jobs to capture the mosaic image</string>
-           </property>
-           <property name="text">
-            <string>Create Jobs</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+        <widget class="QGraphicsView" name="mosaicView">
+         <property name="minimumSize">
           <size>
-           <width>20</width>
-           <height>40</height>
+           <width>400</width>
+           <height>300</height>
           </size>
          </property>
-        </spacer>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="backgroundBrush">
+          <brush brushstyle="Dense6Pattern">
+           <color alpha="255">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="interactive">
+          <bool>false</bool>
+         </property>
+         <property name="renderHints">
+          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform</set>
+         </property>
+        </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QGraphicsView" name="mosaicView">
-       <property name="minimumSize">
-        <size>
-         <width>400</width>
-         <height>300</height>
-        </size>
-       </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <property name="backgroundBrush">
-        <brush brushstyle="Dense6Pattern">
-         <color alpha="255">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>
@@ -812,23 +1144,29 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>overlapSpin</tabstop>
+  <tabstop>resetB</tabstop>
+  <tabstop>mosaicWSpin</tabstop>
+  <tabstop>mosaicHSpin</tabstop>
+  <tabstop>targetWFOVSpin</tabstop>
+  <tabstop>targetHFOVSpin</tabstop>
+  <tabstop>reverseOddRows</tabstop>
+  <tabstop>jobsDir</tabstop>
+  <tabstop>selectJobsDirB</tabstop>
+  <tabstop>fetchB</tabstop>
   <tabstop>focalLenSpin</tabstop>
   <tabstop>cameraWSpin</tabstop>
   <tabstop>cameraHSpin</tabstop>
   <tabstop>pixelWSizeSpin</tabstop>
   <tabstop>pixelHSizeSpin</tabstop>
-  <tabstop>cameraWFOVSpin</tabstop>
-  <tabstop>cameraHFOVSpin</tabstop>
-  <tabstop>targetWFOVSpin</tabstop>
-  <tabstop>targetHFOVSpin</tabstop>
-  <tabstop>overlapSpin</tabstop>
+  <tabstop>rotationSpin</tabstop>
  </tabstops>
  <resources/>
  <connections>

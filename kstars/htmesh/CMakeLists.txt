@@ -34,6 +34,10 @@ ENDIF ()
 
 add_library(htmesh STATIC ${HTMesh_LIB_SRC})
 
+if (BUILD_PYKSTARS)
+  set_target_properties(htmesh PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ENDIF ()
+
 add_definitions(-D_EXPORTING)
 
 set_target_properties(htmesh PROPERTIES

@@ -140,10 +140,6 @@ class cgmath : public QObject
         {
             return guideView;
         }
-        void setPreviewMode(bool enable)
-        {
-            preview_mode = enable;
-        }
 
         // Based on PHD2 algorithm
         QList<Edge *> PSFAutoFind(int extraEdgeAllowance = 0);
@@ -153,20 +149,21 @@ class cgmath : public QObject
         void setRapidStarData(double dx, double dy);
 
         // Operations
-        void start(void);
-        void stop(void);
-        bool reset(void);
+        void start();
+        bool reset();
+        // Currently only relevant to SEP MultiStar.
+        void abort();
         void suspend(bool mode);
-        bool isSuspended(void) const;
+        bool isSuspended() const;
 
         // Star tracking
         void getStarScreenPosition(double *dx, double *dy) const;
         Vector findLocalStarPosition(void);
-        bool isStarLost(void) const;
+        bool isStarLost() const;
         void setLostStar(bool is_lost);
 
         // Main processing function
-        void performProcessing(GuideLog *logger = nullptr, bool guiding = false);
+        void performProcessing(Ekos::GuideState state, GuideLog *logger = nullptr);
 
         // Math
         bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
@@ -190,9 +187,6 @@ class cgmath : public QObject
         QVector3D selectGuideStar();
         double getGuideStarSNR();
 
-        // Currently only relevant to SEP MultiStar.
-        void abort();
-
     signals:
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);
@@ -207,7 +201,7 @@ class cgmath : public QObject
         Vector findLocalStarPosition(void) const;
 
         // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
-        float *createFloatImage(FITSData *target = nullptr) const;
+        float *createFloatImage(const QSharedPointer<FITSData> &target) const;
 
         void do_ticks(void);
         Vector point2arcsec(const Vector &p) const;
@@ -230,7 +224,6 @@ class cgmath : public QObject
         /// Video frame height
         int video_height { -1 };
         double aperture { 0 };
-        bool preview_mode { true };
         bool suspended { false };
         bool lost_star { false };
 

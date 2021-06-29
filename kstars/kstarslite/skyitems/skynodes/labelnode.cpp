@@ -57,9 +57,6 @@ void LabelNode::initialize()
             m_zoomFont    = true;
             break;
         case LabelsItem::label_t::DEEP_SKY_LABEL:
-        case LabelsItem::label_t::DSO_MESSIER_LABEL:
-        case LabelsItem::label_t::DSO_NGC_LABEL:
-        case LabelsItem::label_t::DSO_IC_LABEL:
         case LabelsItem::label_t::DSO_OTHER_LABEL:
         case LabelsItem::label_t::CATALOG_DSO_LABEL:
             m_schemeColor = "DSNameColor";

@@ -16,37 +16,29 @@ sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
    sed 's/\([A-Z].*\)/xi18nc("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp"
 
 # extract sky cultures
-grep ^C data/cnames.dat | awk '{ print "xi18nc( \"Sky Culture\", \"" $2 "\" );" }' >> "kstars_i18n.cpp"
+grep ^C data/cnames.dat | gawk '{ print "xi18nc( \"Sky Culture\", \"" $2 "\" );" }' >> "kstars_i18n.cpp"
 
 # City data (name, province, country)
-python data/scripts/extract_geo_data.py >> "kstars_i18n.cpp"
+python3 data/scripts/extract_geo_data.py >> "kstars_i18n.cpp"
 
 # extract image/info menu items
-awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\\\""); print "xi18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | sed 's/xi18nc(.*,"");//' >> "image_url.tmp"
+gawk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/"/, "\\\""); print "xi18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | sed 's/xi18nc(.*,"");//' >> "image_url.tmp"
 sort --unique image_url.tmp >> kstars_i18n.cpp
-awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\\\""); print "xi18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | sed 's/xi18nc(.*,"");//' >> "info_url.tmp"
+gawk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/"/, "\\\""); print "xi18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | sed 's/xi18nc(.*,"");//' >> "info_url.tmp"
 sort --unique info_url.tmp >> kstars_i18n.cpp
 
 # star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
 # TODO: Move this thing to starnames.dat
-cat data/stars.dat | gawk 'BEGIN { FS=", "; } ($1!~/\#/ && NF==3) { printf( "xi18nc(\"star name\", \"%s\");\n", $3); }' >> kstars_i18n.cpp;
+cat data/stars.dat | gawk 'BEGIN { FS=", "; } ($1!~/#/ && NF==3) { printf( "xi18nc(\"star name\", \"%s\");\n", $3); }' >> kstars_i18n.cpp;
 
 # extract satellite group names
-cat data/satellites.dat | gawk 'BEGIN {FS=";"} ($1!~/\#/) { printf( "xi18nc(\"Satellite group name\", \"%s\");\n", $1); }' >> kstars_i18n.cpp;
-
-# extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )
-cat data/ngcic.dat | grep -v '^#' | gawk '{ split(substr( $0, 77 ), name, " "); \
-if ( name[1]!="" ) { \
-printf( "%s", name[1] ); i=2; \
-while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
-printf( "\n" ); } }' | sort --unique | gawk '{ \
-printf( "xi18nc(\"object name (optional)\", \"%s\");\n", $0 ); }' >> kstars_i18n.cpp
+cat data/satellites.dat | gawk 'BEGIN {FS=";"} ($1!~/#/) { printf( "xi18nc(\"Satellite group name\", \"%s\");\n", $1); }' >> kstars_i18n.cpp;
 
 # Extract asteroids
-cat data/asteroids.dat | awk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); name = substr($1,8); printf("xi18nc(\"Asteroid name (optional)\",\"%s\")\n",name)}}}' >> kstars_i18n.cpp;
+cat data/asteroids.dat | gawk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); name = substr($1,8); printf("xi18nc(\"Asteroid name (optional)\",\"%s\")\n",name)}}}' >> kstars_i18n.cpp;
 
 # Extract comets
-cat data/comets.dat | awk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); sub(/^[ \t]+/, ""); printf("xi18nc(\"Comet name (optional)\",\"%s\")\n",$1)}}}' >> kstars_i18n.cpp;
+cat data/comets.dat | gawk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); sub(/^[ \t]+/, ""); printf("xi18nc(\"Comet name (optional)\",\"%s\")\n",$1)}}}' >> kstars_i18n.cpp;
 
 # extract strings from file containing advanced URLs:
 cat data/advinterface.dat | gawk '( match( $0, "KSLABEL" ) ) { \

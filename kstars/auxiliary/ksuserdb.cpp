@@ -191,6 +191,19 @@ bool KSUserDB::Initialize()
             if (!query.exec(columnQuery))
                 qCWarning(KSTARS) << query.lastError();
         }
+
+        // Add Defect Map
+        if (currentDBVersion < 307)
+        {
+            QSqlQuery query(m_UserDB);
+            // If we are upgrading, remove all previous entries.
+            QString clearQuery = QString("DELETE FROM darkframe");
+            if (!query.exec(clearQuery))
+                qCWarning(KSTARS) << query.lastError();
+            QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN defectmap TEXT DEFAULT NULL");
+            if (!query.exec(columnQuery))
+                qCWarning(KSTARS) << query.lastError();
+        }
     }
     m_UserDB.close();
     return true;
@@ -299,6 +312,8 @@ bool KSUserDB::RebuildDB()
                   "Eyepiece INTEGER DEFAULT NULL REFERENCES eyepiece (id), "
                   "FOV INTEGER DEFAULT NULL REFERENCES fov (id))");
 
+    // Note: enabled now encodes both a bool enabled value as well
+    // as another bool indicating if this is a horizon line or a ceiling line.
     tables.append("CREATE TABLE horizons ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "name TEXT NOT NULL,"
@@ -326,7 +341,7 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT "
                   "NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, "
-                  "filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
+                  "filename TEXT NOT NULL, defectmap TEXT DEFAULT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
 
     tables.append("CREATE TABLE IF NOT EXISTS hips (ID TEXT NOT NULL UNIQUE,"
                   "obs_title TEXT NOT NULL, obs_description TEXT NOT NULL, hips_order TEXT NOT NULL,"
@@ -508,6 +523,10 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
 
 /* Dark Library Section */
 
+/**
+ * @brief KSUserDB::AddDarkFrame Saves a new dark frame data to the database
+ * @param oneFrame Map that contains 1 to 1 correspondence with the database table, except for primary key and timestamp.
+ */
 void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
 {
     m_UserDB.open();
@@ -516,7 +535,6 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
     darkframe.select();
 
     QSqlRecord record = darkframe.record();
-
     // Remove PK so that it gets auto-incremented later
     record.remove(0);
     // Remove timestamp so that it gets auto-generated
@@ -526,13 +544,37 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
         record.setValue(iter.key(), iter.value());
 
     darkframe.insertRecord(-1, record);
-
     darkframe.submitAll();
 
     m_UserDB.close();
 }
 
-bool KSUserDB::DeleteDarkFrame(const QString &filename)
+/**
+ * @brief KSUserDB::UpdateDarkFrame Updates an existing dark frame record in the data, replace all values matching the supplied ID
+ * @param oneFrame dark frame to update. The ID should already exist in the database.
+ */
+void KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
+{
+    m_UserDB.open();
+    QSqlTableModel darkframe(nullptr, m_UserDB);
+    darkframe.setTable("darkframe");
+    darkframe.setFilter(QString("id=%1").arg(oneFrame["id"].toInt()));
+    darkframe.select();
+
+    QSqlRecord record = darkframe.record(0);
+    for (QVariantMap::const_iterator iter = oneFrame.begin(); iter != oneFrame.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    darkframe.setRecord(0, record);
+    darkframe.submitAll();
+    m_UserDB.close();
+}
+
+/**
+ * @brief KSUserDB::DeleteDarkFrame Delete from database a dark frame record that matches the filename field.
+ * @param filename filename of dark frame to delete from database.
+ */
+void KSUserDB::DeleteDarkFrame(const QString &filename)
 {
     m_UserDB.open();
     QSqlTableModel darkframe(nullptr, m_UserDB);
@@ -545,8 +587,6 @@ bool KSUserDB::DeleteDarkFrame(const QString &filename)
     darkframe.submitAll();
 
     m_UserDB.close();
-
-    return true;
 }
 
 void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
@@ -562,7 +602,7 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
     {
         QVariantMap recordMap;
         QSqlRecord record = darkframe.record(i);
-        for (int j = 1; j < record.count(); j++)
+        for (int j = 0; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j);
 
         darkFrames.append(recordMap);
@@ -1678,10 +1718,13 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 
     for (int i = 0; i < regions.rowCount(); ++i)
     {
-        QSqlRecord record   = regions.record(i);
-        QString regionTable = record.value("name").toString();
-        QString regionName  = record.value("label").toString();
-        bool enabled        = record.value("enabled").toInt() == 1 ? true : false;
+        QSqlRecord record         = regions.record(i);
+        const QString regionTable = record.value("name").toString();
+        const QString regionName  = record.value("label").toString();
+
+        const int flags           = record.value("enabled").toInt();
+        const bool enabled        = flags & 0x1 ? true : false;
+        const bool ceiling        = flags & 0x2 ? true : false;
 
         points.setTable(regionTable);
         points.select();
@@ -1692,6 +1735,7 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 
         horizon->setRegion(regionName);
         horizon->setEnabled(enabled);
+        horizon->setCeiling(ceiling);
         horizon->setList(skyList);
 
         horizonList.append(horizon);
@@ -1752,7 +1796,10 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
     regions.insertRow(0);
     regions.setData(regions.index(0, 1), tableName);
     regions.setData(regions.index(0, 2), horizon->region());
-    regions.setData(regions.index(0, 3), horizon->enabled() ? 1 : 0);
+    int flags = 0;
+    if (horizon->enabled()) flags |= 0x1;
+    if (horizon->ceiling()) flags |= 0x2;
+    regions.setData(regions.index(0, 3), flags);
     regions.submitAll();
     regions.clear();
 

@@ -152,6 +152,7 @@ enum COMMANDS
     PAH_SET_SETTINGS,
     PAH_RESET_VIEW,
     PAH_SLEW_DONE,
+    PAH_PAH_SET_ZOOM,
 
     // Options
     OPTION_SET_HIGH_BANDWIDTH,
@@ -313,6 +314,7 @@ static QMap<COMMANDS, QString> const commands =
     {PAH_REFRESHING_DONE, "polar_refreshing_done"},
     {PAH_RESET_VIEW, "polar_reset_view"},
     {PAH_SLEW_DONE, "polar_slew_done"},
+    {PAH_PAH_SET_ZOOM, "polar_set_zoom"},
 
     {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},

@@ -204,7 +204,7 @@ void TestEkosSimulator::testColorSchemes()
     KStars::Instance()->loadColorScheme(NAME);
     QTRY_COMPARE_WITH_TIMEOUT(KStars::Instance()->colorScheme(), FILENAME, 1000);
     QVERIFY(KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError").isValid());
-    QVERIFY(Ekos::Manager::Instance()->guideModule() != nullptr);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule() != nullptr, 5000);
     QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(0)->pen().color(),
                               KStars::Instance()->data()->colorScheme()->colorNamed("RAGuideError"), 1000);
     QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(1)->pen().color(),

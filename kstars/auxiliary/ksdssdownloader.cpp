@@ -17,9 +17,9 @@
 
 #include "ksdssdownloader.h"
 
-#include "deepskyobject.h"
 #include "Options.h"
 #include "auxiliary/filedownloader.h"
+#include "catalogobject.h"
 
 #include <QImageWriter>
 #include <QMimeDatabase>
@@ -59,7 +59,6 @@ KSDssDownloader::KSDssDownloader(const SkyPoint *const p, const QString &destFil
 
 QString KSDssDownloader::getDSSURL(const SkyPoint *const p, const QString &version, struct KSDssImage::Metadata *md)
 {
-    const DeepSkyObject *dso = nullptr;
     double height, width;
 
     double dss_default_size = Options::defaultDSSImageSize();
@@ -68,7 +67,7 @@ QString KSDssDownloader::getDSSURL(const SkyPoint *const p, const QString &versi
     Q_ASSERT(p);
     Q_ASSERT(dss_default_size > 0.0 && dss_padding >= 0.0);
 
-    dso = dynamic_cast<const DeepSkyObject *>(p);
+    const auto * dso = dynamic_cast<const CatalogObject *>(p);
 
     // Decide what to do about the height and width
     if (dso)

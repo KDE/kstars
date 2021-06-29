@@ -1,7 +1,7 @@
 /*
     KStars UI tests for meridian flip - special cases
 
-    Copyright (C) 2020
+    Copyright (C) 2020, 2021
     Wolfgang Reissenberger <sterne-jaeger@openfuture.de>
 
     This application is free software; you can redistribute it and/or
@@ -23,8 +23,18 @@ class TestEkosMeridianFlipSpecials : public TestEkosMeridianFlipBase
 public:
     explicit TestEkosMeridianFlipSpecials(QObject *parent = nullptr);
     explicit TestEkosMeridianFlipSpecials(QString guider, QObject *parent = nullptr);
-
+    
 private slots:
+
+    /** @brief Test a meridian flip where a guiding deviation aborts a capture and subsequently a flip
+     * is executed. It is expected that capturing is restarted after the flip has been executed successfully.
+     * */
+    void testCaptureGuidingDeviationMF();
+
+    /** @brief Test data for @see testSchedulerGuidingDeviationMF() */
+    void testCaptureGuidingDeviationMF_data();
+
+
     /** @brief Test a meridian flip where the dithering counter after the last capture before the flip is already 0.
      * Since dithering after the meridian flip is postponed, this checks whether after dithering takes place after
      * the first capture after the meridian flip.

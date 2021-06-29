@@ -26,12 +26,14 @@
 #include "kswizard.h"
 #include "Options.h"
 #include "skymap.h"
+#include "texturemanager.h"
 #include "dialogs/exportimagedialog.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/timedialog.h"
+#include "dialogs/catalogsdbui.h"
 #include "oal/execute.h"
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
@@ -39,6 +41,7 @@
 #include "options/opscatalog.h"
 #include "options/opscolors.h"
 #include "options/opsguides.h"
+#include "options/opsterrain.h"
 #include "options/opssatellites.h"
 #include "options/opssolarsystem.h"
 #include "options/opssupernovae.h"
@@ -50,7 +53,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/supernovaecomponent.h"
-#include "tools/adddeepskyobject.h"
+#include "skycomponents/catalogscomponent.h"
 #include "tools/altvstime.h"
 #include "tools/astrocalc.h"
 #include "tools/eyepiecefield.h"
@@ -67,7 +70,7 @@
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiview.h"
 #include "hips/hipsmanager.h"
-
+#include "catalogsdb.h"
 #ifdef HAVE_INDI
 #include <basedevice.h>
 //#include "indi/telescopewizardprocess.h"
@@ -99,7 +102,6 @@
 
 #include <QQuickWindow>
 #include <QQuickView>
-
 
 #ifdef _WIN32
 #include <windows.h>
@@ -207,7 +209,8 @@ void KStars::slotViewToolBar()
         if (!a->isChecked() && Options::useRefraction())
         {
             QString caption = i18n("Refraction effects disabled");
-            QString message = i18n("When the horizon is switched off, refraction effects are temporarily disabled.");
+            QString message = i18n("When the horizon is switched off, refraction effects "
+                                   "are temporarily disabled.");
 
             KMessageBox::information(this, message, caption, "dag_refract_hide_ground");
         }
@@ -299,7 +302,9 @@ void KStars::slotINDIToolBar()
             if (bd->isConnected() == false)
             {
                 KMessageBox::error(
-                    nullptr, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+                    nullptr,
+                    i18n("Telescope %1 is offline. Please connect and retry again.",
+                         gd->getDeviceName()));
                 return;
             }
 
@@ -368,7 +373,7 @@ void KStars::slotSetTelescopeEnabled(bool enable)
     telescopeGroup->setEnabled(enable);
     if (enable == false)
     {
-        for(QAction *a : telescopeGroup->actions())
+        for (QAction *a : telescopeGroup->actions())
         {
             a->setChecked(false);
         }
@@ -380,7 +385,7 @@ void KStars::slotSetDomeEnabled(bool enable)
     domeGroup->setEnabled(enable);
     if (enable == false)
     {
-        for(QAction *a : domeGroup->actions())
+        for (QAction *a : domeGroup->actions())
         {
             a->setChecked(false);
         }
@@ -415,7 +420,8 @@ void KStars::updateLocationFromWizard(const GeoLocation &geo)
     KStarsDateTime ltime = data()->geo()->UTtoLT(data()->ut());
 
     // reset timezonerule to compute next dst change
-    data()->geo()->tzrule()->reset_with_ltime(ltime, data()->geo()->TZ0(), data()->isTimeRunningForward());
+    data()->geo()->tzrule()->reset_with_ltime(ltime, data()->geo()->TZ0(),
+                                              data()->isTimeRunningForward());
 
     // reset next dst change time
     data()->setNextDSTChange(data()->geo()->tzrule()->nextDSTChange());
@@ -441,58 +447,67 @@ void KStars::updateLocationFromWizard(const GeoLocation &geo)
 void KStars::slotDownload()
 {
     // 2017-07-04: Explicitly load kstars.knsrc from resources file
-    QPointer<KNS3::DownloadDialog> dlg(new KNS3::DownloadDialog(":/kconfig/kstars.knsrc", this));
+    auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", nullptr);
     dlg->exec();
 
+    if (!dlg)
+        return;
+
     // Get the list of all the installed entries.
-    KNS3::Entry::List installed_entries;
-    KNS3::Entry::List changed_entries;
-    if (dlg)
-    {
-        installed_entries = dlg->installedEntries();
-        changed_entries   = dlg->changedEntries();
-    }
+    const auto changed_entries = dlg->changedEntries();
 
-    delete dlg;
-
-    foreach (const KNS3::Entry &entry, installed_entries)
+    CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+    for (const KNS3::Entry &entry : changed_entries)
     {
-        foreach (const QString &name, entry.installedFiles())
-        {
-            if (name.endsWith(QLatin1String(".cat")))
+        if (entry.category() != "dso")
+            continue;
+        const auto id = entry.id().toInt();
+
+        if (entry.status() == KNS3::Entry::Installed)
+            for (const QString &name : entry.installedFiles())
             {
-                data()->catalogdb()->AddCatalogContents(name);
-                // To start displaying the custom catalog, add it to SkyMapComposite
+                if (name.endsWith(CatalogsDB::db_file_extension))
+                {
+                    const auto meta{ CatalogsDB::read_catalog_meta_from_file(name) };
 
-                QString catalogName = data()->catalogdb()->GetCatalogName(name);
-                Options::setShowCatalogNames(Options::showCatalogNames() << catalogName);
-                Options::setCatalogFile(Options::catalogFile() << name);
-                Options::setShowCatalog(Options::showCatalog() << 1);
+                    if (!meta.first)
+                    {
+                        QMessageBox::critical(
+                            this, i18n("Error"),
+                            i18n("The catalog \"%1\" is corrupt.", entry.name()));
+                        continue;
+                    }
+
+                    if (meta.second.id != id)
+                    {
+                        QMessageBox::critical(
+                            this, i18n("Error"),
+                            i18n("The catalog \"%1\" is corrupt.<br>Expected id=%2 but "
+                                 "got id=%3",
+                                 entry.name(), id, meta.second.id));
+                        continue;
+                    }
+
+                    const auto success{ manager.import_catalog(name, true) };
+                    if (!success.first)
+                        QMessageBox::critical(
+                            this, i18n("Error"),
+                            i18n("Could not import the catalog \"%1\"<br>%2"),
+                            entry.name(), success.second);
+                }
             }
-        }
 
-        KStars::Instance()->data()->skyComposite()->reloadDeepSky();
-        // update time for all objects because they might be not initialized
-        // it's needed when using horizontal coordinates
-        KStars::Instance()->data()->setFullTimeUpdate();
-        KStars::Instance()->updateTime();
-        KStars::Instance()->map()->forceUpdate();
-    }
-
-    foreach (const KNS3::Entry &entry, changed_entries)
-    {
-        foreach (const QString &name, entry.uninstalledFiles())
+        if (entry.status() == KNS3::Entry::Deleted)
         {
-            if (name.endsWith(QLatin1String(".cat")))
-            {
-                data()->catalogdb()->RemoveCatalog(name);
-                // To start displaying the custom catalog, add it to SkyMapComposite
-                QStringList catFile = Options::catalogFile();
-                catFile.removeOne(name);
-                Options::setCatalogFile(catFile);
-            }
+            manager.remove_catalog(id);
         }
     }
+
+    KStars::Instance()->data()->skyComposite()->reloadDeepSky();
+    KStars::Instance()->data()->setFullTimeUpdate();
+    KStars::Instance()->updateTime();
+    KStars::Instance()->map()->forceUpdate();
+    TextureManager::discoverTextureDirs();
 }
 
 void KStars::slotAVT()
@@ -526,12 +541,14 @@ void KStars::slotWISettings()
 
     KConfigDialog *dialog = new KConfigDialog(this, "wisettings", Options::self());
 
-    connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(slotApplyWIConfigChanges()));
+    connect(dialog, SIGNAL(settingsChanged(QString)), this,
+            SLOT(slotApplyWIConfigChanges()));
 
     m_WISettings          = new WILPSettings(this);
     m_WIEquipmentSettings = new WIEquipSettings();
     dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
-    dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
+    dialog->addPage(m_WIEquipmentSettings,
+                    i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->exec();
     if (m_WIEquipmentSettings)
         m_WIEquipmentSettings->setAperture(); //Something isn't working with this!
@@ -553,7 +570,8 @@ void KStars::slotToggleWIView()
         m_wiDock->setWidget(container);
         m_wiDock->setMinimumWidth(400);
         addDockWidget(Qt::RightDockWidgetArea, m_wiDock);
-        connect(m_wiDock, SIGNAL(visibilityChanged(bool)), actionCollection()->action("show_whatsinteresting"),
+        connect(m_wiDock, SIGNAL(visibilityChanged(bool)),
+                actionCollection()->action("show_whatsinteresting"),
                 SLOT(setChecked(bool)));
         m_wiDock->setVisible(true);
     }
@@ -601,7 +619,6 @@ void KStars::slotJMoonTool()
         m_JMoonTool = new JMoonTool(this);
     m_JMoonTool->show();
 }
-
 
 void KStars::slotMoonPhaseTool()
 {
@@ -676,7 +693,8 @@ void KStars::slotINDIPanel()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+            KSNotification::error(i18n(
+                "Unable to find INDI server. Please make sure the package that provides "
                                        "the 'indiserver' binary is installed."));
             return;
         }
@@ -693,9 +711,11 @@ void KStars::slotINDIDriver()
 
     if (KMessageBox::warningContinueCancel(
                 nullptr,
-                i18n("INDI Device Manager should only be used by advanced technical users. It cannot be used with Ekos. Do you still want to open INDI device manager?"),
-                i18n("INDI Device Manager"),
-                KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+            i18n("INDI Device Manager should only be used by advanced technical users. "
+                 "It cannot be used with Ekos. Do you still want to open INDI device "
+                 "manager?"),
+            i18n("INDI Device Manager"), KStandardGuiItem::cont(),
+            KStandardGuiItem::cancel(),
                 "indi_device_manager_warning") == KMessageBox::Cancel)
         return;
 
@@ -716,7 +736,8 @@ void KStars::slotINDIDriver()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+            KSNotification::error(i18n(
+                "Unable to find INDI server. Please make sure the package that provides "
                                        "the 'indiserver' binary is installed."));
             return;
         }
@@ -754,14 +775,16 @@ void KStars::slotEkos()
     {
         if (QStandardPaths::findExecutable("indiserver", paths).isEmpty())
         {
-            KSNotification::error(i18n("Unable to find INDI server. Please make sure the package that provides "
+            KSNotification::error(i18n(
+                "Unable to find INDI server. Please make sure the package that provides "
                                        "the 'indiserver' binary is installed."));
             return;
         }
     }
 #endif
 
-    if (Ekos::Manager::Instance()->isVisible() && Ekos::Manager::Instance()->isActiveWindow())
+    if (Ekos::Manager::Instance()->isVisible() &&
+        Ekos::Manager::Instance()->isActiveWindow())
     {
         Ekos::Manager::Instance()->hide();
     }
@@ -784,11 +807,11 @@ void KStars::slotINDITelescopeTrack()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
 
         if (telescope != nullptr && telescope->isConnected())
         {
-            KToggleAction *a = qobject_cast<KToggleAction*>(sender());
+            KToggleAction *a = qobject_cast<KToggleAction *>(sender());
 
             if (a != nullptr)
             {
@@ -808,7 +831,7 @@ void KStars::slotINDITelescopeSlew(bool focused_object)
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
 
         if (telescope != nullptr && telescope->isConnected())
         {
@@ -843,7 +866,7 @@ void KStars::slotINDITelescopeSync(bool focused_object)
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canSync())
         {
@@ -878,7 +901,7 @@ void KStars::slotINDITelescopeAbort()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
 
         if (telescope != nullptr && telescope->isConnected())
         {
@@ -897,7 +920,7 @@ void KStars::slotINDITelescopePark()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
         {
@@ -916,7 +939,7 @@ void KStars::slotINDITelescopeUnpark()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
         {
@@ -935,7 +958,7 @@ void KStars::slotINDIDomePark()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Dome* dome = dynamic_cast<ISD::Dome*>(gd);
+        ISD::Dome *dome = dynamic_cast<ISD::Dome *>(gd);
 
         if (dome != nullptr && dome->isConnected() && dome->canPark())
         {
@@ -954,7 +977,7 @@ void KStars::slotINDIDomeUnpark()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Dome* dome = dynamic_cast<ISD::Dome*>(gd);
+        ISD::Dome *dome = dynamic_cast<ISD::Dome *>(gd);
 
         if (dome != nullptr && dome->isConnected() && dome->canPark())
         {
@@ -981,7 +1004,8 @@ void KStars::slotGeoLocator()
             KStarsDateTime ltime = newLocation->UTtoLT(data()->ut());
 
             // reset timezonerule to compute next dst change
-            newLocation->tzrule()->reset_with_ltime(ltime, newLocation->TZ0(), data()->isTimeRunningForward());
+            newLocation->tzrule()->reset_with_ltime(ltime, newLocation->TZ0(),
+                                                    data()->isTimeRunningForward());
 
             // reset next dst change time
             data()->setNextDSTChange(newLocation->tzrule()->nextDSTChange());
@@ -996,7 +1020,8 @@ void KStars::slotGeoLocator()
             // Alt/Az remain constant.
             if (!Options::isTracking() && Options::useAltAz())
             {
-                map()->focus()->HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
+                map()->focus()->HorizontalToEquatorial(data()->lst(),
+                                                       data()->geo()->lat());
             }
 
             // recalculate new times and objects
@@ -1015,7 +1040,7 @@ void KStars::slotViewOps()
     prepareOps()->show();
 }
 
-KConfigDialog* KStars::prepareOps()
+KConfigDialog *KStars::prepareOps()
 {
     KConfigDialog *dialog = KConfigDialog::exists("settings");
     if (nullptr != dialog)
@@ -1031,10 +1056,12 @@ KConfigDialog* KStars::prepareOps()
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(slotApplyConfigChanges()));
+    connect(dialog, SIGNAL(settingsChanged(QString)), this,
+            SLOT(slotApplyConfigChanges()));
 
     opcatalog     = new OpsCatalog();
     opguides      = new OpsGuides();
+    opterrain     = new OpsTerrain();
     opsolsys      = new OpsSolarSystem();
     opssatellites = new OpsSatellites();
     opssupernovae = new OpsSupernovae();
@@ -1057,6 +1084,10 @@ KConfigDialog* KStars::prepareOps()
 
     page = dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     page->setIcon(QIcon::fromTheme("kstars_guides"));
+
+    page = dialog->addPage(opterrain, i18n("Terrain"), "kstars_terrain");
+    page->setIcon(QIcon::fromTheme("kstars_terrain", QIcon(":/icons/kstars_terrain.png")));
+
 
     page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
     page->setIcon(QIcon::fromTheme("kstars_colors"));
@@ -1091,6 +1122,13 @@ KConfigDialog* KStars::prepareOps()
     return dialog;
 }
 
+void KStars::syncOps()
+{
+    opterrain->syncOptions();
+    actionCollection()->action("toggle_terrain")
+    ->setText(Options::showTerrain() ? i18n("Hide Terrain") : i18n("Show Terrain"));
+}
+
 void KStars::slotApplyConfigChanges()
 {
     Options::self()->save();
@@ -1121,11 +1159,13 @@ void KStars::slotSetTime()
         {
             if (map()->focusObject())
             {
-                map()->focusObject()->EquatorialToHorizontal(data()->lst(), data()->geo()->lat());
+                map()->focusObject()->EquatorialToHorizontal(data()->lst(),
+                                                             data()->geo()->lat());
                 map()->setFocus(map()->focusObject());
             }
             else
-                map()->focus()->HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
+                map()->focus()->HorizontalToEquatorial(data()->lst(),
+                                                       data()->geo()->lat());
         }
 
         map()->forceUpdateNow();
@@ -1150,7 +1190,8 @@ void KStars::slotSetTimeToNow()
     {
         if (map()->focusObject())
         {
-            map()->focusObject()->EquatorialToHorizontal(data()->lst(), data()->geo()->lat());
+            map()->focusObject()->EquatorialToHorizontal(data()->lst(),
+                                                         data()->geo()->lat());
             map()->setFocus(map()->focusObject());
         }
         else
@@ -1172,7 +1213,8 @@ void KStars::slotFind()
 {
     //clearCachedFindDialog();
     SkyObject *targetObject = nullptr;
-    if (FindDialog::Instance()->exec() == QDialog::Accepted && (targetObject = FindDialog::Instance()->targetObject()))
+    if (FindDialog::Instance()->exec() == QDialog::Accepted &&
+        (targetObject = FindDialog::Instance()->targetObject()))
     {
         map()->setClickedObject(targetObject);
         map()->setClickedPoint(map()->clickedObject());
@@ -1189,10 +1231,11 @@ void KStars::slotOpenFITS()
 #ifdef HAVE_CFITSIO
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
+    QUrl fileURL =
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
                    "Images (*.fits *.fits.fz *.fit *.fts "
                    "*.jpg *.jpeg *.png *.gif *.bmp "
-                   "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw)");
+                   "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
     if (fileURL.isEmpty())
         return;
 
@@ -1219,7 +1262,8 @@ void KStars::slotExportImage()
     //QFileInfo::absolutePath: QFileInfo::absolutePath: Constructed with empty filename
     //As of 2014-07-19
     //QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
-    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Image"), QUrl(),
+    QUrl fileURL =
+        QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Image"), QUrl(),
                    "Images (*.png *.jpeg *.gif *.bmp *.svg)");
 
     //User cancelled file selection dialog - abort image export
@@ -1232,7 +1276,8 @@ void KStars::slotExportImage()
     if (QFile::exists(fileURL.toLocalFile()))
     {
         int r = KMessageBox::warningContinueCancel(
-                    parentWidget(), i18n("A file named \"%1\" already exists. Overwrite it?", fileURL.fileName()),
+            parentWidget(),
+            i18n("A file named \"%1\" already exists. Overwrite it?", fileURL.fileName()),
                     i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
             return;
@@ -1246,7 +1291,8 @@ void KStars::slotExportImage()
 
     if (!m_ExportImageDialog)
     {
-        m_ExportImageDialog = new ExportImageDialog(fileURL.toLocalFile(), QSize(map()->width(), map()->height()),
+        m_ExportImageDialog = new ExportImageDialog(
+            fileURL.toLocalFile(), QSize(map()->width(), map()->height()),
                 KStarsData::Instance()->imageExporter());
     }
     else
@@ -1262,7 +1308,8 @@ void KStars::slotRunScript()
 {
     QUrl fileURL = QFileDialog::getOpenFileUrl(
                        KStars::Instance(), QString(), QUrl(QDir::homePath()),
-                       "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
+        "*.kstars|" +
+            i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)"));
     QFile f;
     //QString fname;
 
@@ -1302,12 +1349,14 @@ void KStars::slotRunScript()
             int answer;
             answer = KMessageBox::warningContinueCancel(
                          nullptr,
-                         i18n("The selected script contains unrecognized elements, "
+                i18n(
+                    "The selected script contains unrecognized elements, "
                               "indicating that it was not created using the KStars script builder. "
-                              "This script may not function properly, and it may even contain malicious code. "
+                    "This script may not function properly, and it may even contain "
+                    "malicious code. "
                               "Would you like to execute it anyway?"),
-                         i18n("Script Validation Failed"), KGuiItem(i18n("Run Nevertheless")), KStandardGuiItem::cancel(),
-                         "daExecuteScript");
+                i18n("Script Validation Failed"), KGuiItem(i18n("Run Nevertheless")),
+                KStandardGuiItem::cancel(), "daExecuteScript");
             if (answer == KMessageBox::Cancel)
                 return;
         }
@@ -1341,13 +1390,15 @@ void KStars::slotPrint()
     //Suggest Chart color scheme
     if (data()->colorScheme()->colorNamed("SkyColor") != QColor(255, 255, 255))
     {
-        QString message = i18n("You can save printer ink by using the \"Star Chart\" "
+        QString message =
+            i18n("You can save printer ink by using the \"Star Chart\" "
                                "color scheme, which uses a white background. Would you like to "
                                "temporarily switch to the Star Chart color scheme for printing?");
 
         int answer = KMessageBox::questionYesNoCancel(
-                         nullptr, message, i18n("Switch to Star Chart Colors?"), KGuiItem(i18n("Switch Color Scheme")),
-                         KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors");
+            nullptr, message, i18n("Switch to Star Chart Colors?"),
+            KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")),
+            KStandardGuiItem::cancel(), "askAgainPrintColors");
 
         if (answer == KMessageBox::Cancel)
             return;
@@ -1412,7 +1463,8 @@ void KStars::slotPointFocus()
     map()->stopTracking();
 
     if (sender() == actionCollection()->action("zenith"))
-        map()->setDestinationAltAz(dms(90.0), map()->focus()->az(), Options::useRefraction());
+        map()->setDestinationAltAz(dms(90.0), map()->focus()->az(),
+                                   Options::useRefraction());
     else if (sender() == actionCollection()->action("north"))
         map()->setDestinationAltAz(dms(15.0), dms(0.0001), Options::useRefraction());
     else if (sender() == actionCollection()->action("east"))
@@ -1482,12 +1534,14 @@ void KStars::slotManualFocus()
         if (Options::useAltAz() && realAlt > 89.0)
         {
             focusDialog->point()->setAlt(89.0);
-            focusDialog->point()->HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
+            focusDialog->point()->HorizontalToEquatorial(data()->lst(),
+                                                         data()->geo()->lat());
         }
         if (!Options::useAltAz() && realDec > 89.0)
         {
             focusDialog->point()->setDec(89.0);
-            focusDialog->point()->EquatorialToHorizontal(data()->lst(), data()->geo()->lat());
+            focusDialog->point()->EquatorialToHorizontal(data()->lst(),
+                                                         data()->geo()->lat());
         }
 
         map()->setClickedPoint(focusDialog->point());
@@ -1508,11 +1562,13 @@ void KStars::slotManualFocus()
         if (Options::useAltAz())
         {
             // N.B. We have applied unrefract() in focusDialog
-            map()->setDestinationAltAz(focusDialog->point()->alt(), focusDialog->point()->az(), false);
+            map()->setDestinationAltAz(focusDialog->point()->alt(),
+                                       focusDialog->point()->az(), false);
         }
         else
         {
-            map()->setDestination(focusDialog->point()->ra(), focusDialog->point()->dec());
+            map()->setDestination(focusDialog->point()->ra(),
+                                  focusDialog->point()->dec());
         }
 
         //Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
@@ -1534,18 +1590,22 @@ void KStars::slotZoomChanged()
     actionCollection()->action("zoom_out")->setEnabled(Options::zoomFactor() > MINZOOM);
     actionCollection()->action("zoom_in")->setEnabled(Options::zoomFactor() < MAXZOOM);
     // Update status bar
-    map()->setupProjector(); // this needs to be run redundantly, so that the FOV returned below is up-to-date.
+    map()
+        ->setupProjector(); // this needs to be run redundantly, so that the FOV returned below is up-to-date.
     float fov                      = map()->projector()->fov();
-    KLocalizedString fovi18nstring = ki18nc("approximate field of view", "Approximate FOV: %1 degrees");
+    KLocalizedString fovi18nstring =
+        ki18nc("approximate field of view", "Approximate FOV: %1 degrees");
     if (fov < 1.0)
     {
         fov           = fov * 60.0;
-        fovi18nstring = ki18nc("approximate field of view", "Approximate FOV: %1 arcminutes");
+        fovi18nstring =
+            ki18nc("approximate field of view", "Approximate FOV: %1 arcminutes");
     }
     if (fov < 1.0)
     {
         fov           = fov * 60.0;
-        fovi18nstring = ki18nc("approximate field of view", "Approximate FOV: %1 arcseconds");
+        fovi18nstring =
+            ki18nc("approximate field of view", "Approximate FOV: %1 arcseconds");
     }
     QString fovstring = fovi18nstring.subs(QString::number(fov, 'f', 1)).toString();
 
@@ -1563,7 +1623,8 @@ void KStars::slotSetZoom()
                          nullptr,
                          i18nc("The user should enter an angle for the field-of-view of the display",
                                "Enter Desired Field-of-View Angle"),
-                         i18n("Enter a field-of-view angle in degrees: "), currentAngle, minAngle, maxAngle, 1, &ok);
+        i18n("Enter a field-of-view angle in degrees: "), currentAngle, minAngle,
+        maxAngle, 1, &ok);
 
     if (ok)
     {
@@ -1584,10 +1645,13 @@ void KStars::slotCoordSys()
             {
                 // FIXME: Changed focus()->alt() to be unrefracted by convention; is this still necessary? -- asimha 2020/07/05
                 map()->setFocusAltAz(map()->focus()->alt(), map()->focus()->az());
-                map()->focus()->HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
+                map()->focus()->HorizontalToEquatorial(data()->lst(),
+                                                       data()->geo()->lat());
             }
         }
-        actionCollection()->action("coordsys")->setText(i18n("Switch to horizonal view (Horizontal &Coordinates)"));
+        actionCollection()
+            ->action("coordsys")
+            ->setText(i18n("Switch to horizonal view (Horizontal &Coordinates)"));
     }
     else
     {
@@ -1597,7 +1661,9 @@ void KStars::slotCoordSys()
             // FIXME: Changed focus()->alt() to be unrefracted by convention; is this still necessary? -- asimha 2020/07/05
             map()->setFocusAltAz(map()->focus()->alt(), map()->focus()->az());
         }
-        actionCollection()->action("coordsys")->setText(i18n("Switch to star globe view (Equatorial &Coordinates)"));
+        actionCollection()
+            ->action("coordsys")
+            ->setText(i18n("Switch to star globe view (Equatorial &Coordinates)"));
     }
     map()->forceUpdate();
 }
@@ -1658,7 +1724,7 @@ void KStars::slotTargetSymbol(bool flag)
 
 void KStars::slotHIPSSource()
 {
-    QAction *selectedAction = qobject_cast<QAction*>(sender());
+    QAction *selectedAction = qobject_cast<QAction *>(sender());
     Q_ASSERT(selectedAction != nullptr);
 
     QString selectedSource = selectedAction->text().remove('&');
@@ -1709,7 +1775,8 @@ void KStars::slotHorizonManager()
     if (!m_HorizonManager)
     {
         m_HorizonManager = new HorizonManager(this);
-        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint*)), m_HorizonManager, SLOT(addSkyPoint(SkyPoint*)));
+        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint *)), m_HorizonManager,
+                SLOT(addSkyPoint(SkyPoint *)));
     }
 
     m_HorizonManager->show();
@@ -1734,9 +1801,10 @@ void KStars::slotEyepieceView(SkyPoint *sp, const QString &imagePath)
             nameToFovMap.insert(f->name(), f);
         }
         nameToFovMap.insert(i18n("Attempt to determine from image"), nullptr);
-        fov = nameToFovMap[QInputDialog::getItem(this, i18n("Eyepiece View: Choose a field-of-view"),
-                                                       i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0,
-                                                       false, &ok)];
+        fov = nameToFovMap[QInputDialog::getItem(
+            this, i18n("Eyepiece View: Choose a field-of-view"),
+            i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0, false,
+            &ok)];
     }
     if (ok)
         m_EyepieceView->showEyepieceField(sp, fov, imagePath);
@@ -1765,19 +1833,31 @@ void KStars::slotFullScreen()
 {
     if (topLevelWidget()->isFullScreen())
     {
-        topLevelWidget()->setWindowState(topLevelWidget()->windowState() & ~Qt::WindowFullScreen); // reset
+        topLevelWidget()->setWindowState(topLevelWidget()->windowState() &
+                                         ~Qt::WindowFullScreen); // reset
     }
     else
     {
-        topLevelWidget()->setWindowState(topLevelWidget()->windowState() | Qt::WindowFullScreen); // set
+        topLevelWidget()->setWindowState(topLevelWidget()->windowState() |
+                                         Qt::WindowFullScreen); // set
     }
+}
+
+// Toggle to and from full screen mode
+void KStars::slotTerrain()
+{
+    Options::setShowTerrain(!Options::showTerrain());
+    actionCollection()->action("toggle_terrain")
+    ->setText(Options::showTerrain() ? i18n("Hide terrain") : i18n("Show terrain"));
+    KStars::Instance()->map()->forceUpdate();
 }
 
 void KStars::slotClearAllTrails()
 {
     //Exclude object with temporary trail
     SkyObject *exOb(nullptr);
-    if (map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail)
+    if (map()->focusObject() && map()->focusObject()->isSolarSystem() &&
+        data()->temporaryTrail)
     {
         exOb = map()->focusObject();
     }
@@ -1834,7 +1914,8 @@ void KStars::addColorMenuItem(const QString &name, const QString &actionName)
     colorActionMenu->addAction(kta);
 
     KConfigGroup cg = KSharedConfig::openConfig()->group("Colors");
-    if (actionName.mid(3) == cg.readEntry("ColorSchemeFile", "moonless-night.colors").remove(".colors"))
+    if (actionName.mid(3) ==
+        cg.readEntry("ColorSchemeFile", "moonless-night.colors").remove(".colors"))
     {
         kta->setChecked(true);
     }
@@ -1886,7 +1967,8 @@ void KStars::slotShowPositionBar(SkyPoint *p)
         dms a = p->alt();
         if (Options::useAltAz())
             a = p->altRefracted();
-        QString s = QString("%1, %2").arg(p->az().toDMSString(true), //true: force +/- symbol
+        QString s =
+            QString("%1, %2").arg(p->az().toDMSString(true), //true: force +/- symbol
                                           a.toDMSString(true));      //true: force +/- symbol
         //statusBar()->changeItem( s, 1 );
         AltAzField.setText(s);
@@ -1897,7 +1979,8 @@ void KStars::slotShowPositionBar(SkyPoint *p)
         lastUpdate.setDJD(KStarsData::Instance()->updateNum()->getJD());
         QString sEpoch = QString::number(lastUpdate.epoch(), 'f', 1);
         QString s      = QString("%1, %2 (J%3)")
-                         .arg(p->ra().toHMSString(), p->dec().toDMSString(true), sEpoch); //true: force +/- symbol
+                        .arg(p->ra().toHMSString(), p->dec().toDMSString(true),
+                             sEpoch); //true: force +/- symbol
         //statusBar()->changeItem( s, 2 );
         RADecField.setText(s);
     }
@@ -1917,12 +2000,14 @@ void KStars::slotShowPositionBar(SkyPoint *p)
 
 void KStars::slotUpdateComets(bool isAutoUpdate)
 {
-    data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile(isAutoUpdate);
+    data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile(
+        isAutoUpdate);
 }
 
 void KStars::slotUpdateAsteroids(bool isAutoUpdate)
 {
-    data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile(isAutoUpdate);
+    data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile(
+        isAutoUpdate);
 }
 
 void KStars::slotUpdateSupernovae()
@@ -1935,19 +2020,17 @@ void KStars::slotUpdateSatellites()
     data()->skyComposite()->satellites()->updateTLEs();
 }
 
-void KStars::slotAddDeepSkyObject()
-{
-    if (!m_addDSODialog)
-    {
-        Q_ASSERT(data() && data()->skyComposite() && data()->skyComposite()->manualAdditionsComponent());
-        m_addDSODialog = new AddDeepSkyObject(this, data()->skyComposite()->manualAdditionsComponent());
-    }
-    m_addDSODialog->show();
-}
-
 void KStars::slotConfigureNotifications()
 {
 #ifdef HAVE_NOTIFYCONFIG
     KNotifyConfigWidget::configure(this);
 #endif
+}
+void KStars::slotDSOCatalogGUI()
+{
+    auto *ui = new CatalogsDBUI{ this, CatalogsDB::dso_db_path() };
+    ui->show();
+    connect(ui, &QDialog::finished, this, [&](const auto) {
+        KStars::Instance()->data()->skyComposite()->catalogsComponent()->dropCache();
+    });
 }

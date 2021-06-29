@@ -128,9 +128,9 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     {
         connect(zoomLevelCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), [&]()
         {
-            ITextVectorProperty * tvp = eoszoom->getText();
+            auto tvp = eoszoom->getText();
             QString zoomLevel = zoomLevelCombo->currentText().remove("x");
-            IUSaveText(&(tvp->tp[0]), zoomLevel.toLatin1().constData());
+            tvp->at(0)->setText(zoomLevel.toLatin1().constData());
             handLabel->setEnabled(true);
             NSSlider->setEnabled(true);
             WESlider->setEnabled(true);
@@ -157,17 +157,17 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     {
         connect(NSSlider, &QSlider::sliderReleased, [&]()
         {
-            ITextVectorProperty * tvp = eoszoomposition->getText();
+            auto tvp = eoszoomposition->getText();
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
-            IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
+            tvp->at(0)->setText(pos.toLatin1().constData());
             currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
 
         connect(WESlider, &QSlider::sliderReleased, [&]()
         {
-            ITextVectorProperty * tvp = eoszoomposition->getText();
+            auto tvp = eoszoomposition->getText();
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
-            IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
+            tvp->at(0)->setText(pos.toLatin1().constData());
             currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
 
@@ -354,9 +354,15 @@ void StreamWG::toggleRecord()
     }
     else
     {
-        currentCCD->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
-        // Save config in INDI so the filename and directory templates are reloaded next time
-        currentCCD->setConfig(SAVE_CONFIG);
+        QString directory, filename;
+        currentCCD->getSERNameDirectory(filename, directory);
+        if (filename != options->recordFilenameEdit->text() ||
+                directory != options->recordDirectoryEdit->text())
+        {
+            currentCCD->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
+            // Save config in INDI so the filename and directory templates are reloaded next time
+            currentCCD->setConfig(SAVE_CONFIG);
+        }
 
         if (options->recordUntilStoppedR->isChecked())
         {

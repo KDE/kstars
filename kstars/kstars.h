@@ -72,6 +72,7 @@ class OpsGuides;
 class OpsSolarSystem;
 class OpsSatellites;
 class OpsSupernovae;
+class OpsTerrain;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -189,6 +190,9 @@ class KStars : public KXmlGuiWindow
              * from config file
              */
         void applyConfig(bool doApplyFocus = true);
+
+        /** Sync Options to GUI, if any */
+        void syncOps();
 
         void showImgExportDialog();
 
@@ -557,8 +561,8 @@ class KStars : public KXmlGuiWindow
         /** Show the eyepiece view tool */
         void slotEyepieceView(SkyPoint *sp, const QString &imagePath = QString());
 
-        /** Show the add deep-sky object dialog */
-        void slotAddDeepSkyObject();
+        /** Show the DSO Catalog Management GUI */
+        void slotDSOCatalogGUI();
 
         /** action slot: open KStars startup wizard */
         void slotWizard();
@@ -758,6 +762,9 @@ class KStars : public KXmlGuiWindow
         /** Toggle to and from full screen mode */
         void slotFullScreen();
 
+        /** Toggle whether to show the terrain image on the skymap. */
+        void slotTerrain();
+
         /** Save data to config file before exiting.*/
         void slotAboutToQuit();
 
@@ -901,6 +908,7 @@ class KStars : public KXmlGuiWindow
 
         OpsCatalog *opcatalog { nullptr };
         OpsGuides *opguides { nullptr };
+        OpsTerrain *opterrain { nullptr };
         OpsSolarSystem *opsolsys { nullptr };
         OpsSatellites *opssatellites { nullptr };
         OpsSupernovae *opssupernovae { nullptr };
@@ -910,4 +918,6 @@ class KStars : public KXmlGuiWindow
         OpsEkos *opsekos { nullptr };
         OpsFITS *opsfits { nullptr };
         OpsXplanet *opsxplanet { nullptr };
+
+        friend class TestArtificialHorizon;
 };

@@ -47,7 +47,7 @@ void CustomProperties::syncProperties()
                                        << "GUIDER_EXPOSURE" << "FILTER_SLOT" << "TELESCOPE_TIMED_GUIDE_NS"
                                        << "TELESCOPE_TIMED_GUIDE_WE";
 
-    for (auto &property : currentCCD->getProperties())
+    for (auto &property : *currentCCD->getProperties())
     {
         const QString name = property->getName();
         // Skip empty properties
@@ -110,18 +110,19 @@ void CustomProperties::slotApply()
         QString numberLabel = jobPropertiesList->item(i)->text();
 
         // Match against existing properties
-        for(auto &indiProp : currentCCD->getProperties())
+        for(auto &indiProp : *currentCCD->getProperties())
         {
             // If label matches then we have the property
             if (indiProp->getType() == INDI_NUMBER && QString(indiProp->getLabel()) == numberLabel)
             {
                 QMap<QString, double> numberProperty;
 
-                INumberVectorProperty *np = indiProp->getNumber();
-                for (int i = 0; i < np->nnp; i++)
-                    numberProperty[np->np[i].name] = np->np[i].value;
+                auto np = indiProp->getNumber();
 
-                newMap[np->name] = numberProperty;
+                for (const auto &it: *np)
+                    numberProperty[it.getName()] = it.getValue();
+
+                newMap[np->getName()] = numberProperty;
 
                 break;
             }

@@ -24,7 +24,7 @@ Weather::Weather(GDInterface *iPtr) : DeviceDecorator(iPtr)
     connect(readyTimer.get(), &QTimer::timeout, this, &Weather::ready);
 }
 
-void Weather::registerProperty(INDI::Property *prop)
+void Weather::registerProperty(INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;
@@ -84,40 +84,40 @@ void Weather::processText(ITextVectorProperty *tvp)
 
 Weather::Status Weather::getWeatherStatus()
 {
-    ILightVectorProperty *weatherLP = baseDevice->getLight("WEATHER_STATUS");
+    auto weatherLP = baseDevice->getLight("WEATHER_STATUS");
 
-    if (weatherLP == nullptr)
+    if (!weatherLP)
         return WEATHER_IDLE;
 
-    m_WeatherStatus = static_cast<Status>(weatherLP->s);
+    m_WeatherStatus = static_cast<Status>(weatherLP->getState());
 
-    return static_cast<Status>(weatherLP->s);
+    return static_cast<Status>(weatherLP->getState());
 }
 
 quint16 Weather::getUpdatePeriod()
 {
-    INumberVectorProperty *updateNP = baseDevice->getNumber("WEATHER_UPDATE");
+    auto updateNP = baseDevice->getNumber("WEATHER_UPDATE");
 
-    if (updateNP == nullptr)
+    if (!updateNP)
         return 0;
 
-    return static_cast<quint16>(updateNP->np[0].value);
+    return static_cast<quint16>(updateNP->at(0)->getValue());
 }
 
 bool Weather::refresh()
 {
-    ISwitchVectorProperty *refreshSP = baseDevice->getSwitch("WEATHER_REFRESH");
+    auto refreshSP = baseDevice->getSwitch("WEATHER_REFRESH");
 
     if (refreshSP == nullptr)
         return false;
 
-    ISwitch *refreshSW = IUFindSwitch(refreshSP, "REFRESH");
+    auto refreshSW = refreshSP->findWidgetByName("REFRESH");
 
     if (refreshSW == nullptr)
         return false;
 
-    IUResetSwitch(refreshSP);
-    refreshSW->s = ISS_ON;
+    refreshSP->reset();
+    refreshSW->setState(ISS_ON);
     clientManager->sendNewSwitch(refreshSP);
 
     return true;

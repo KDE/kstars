@@ -46,8 +46,6 @@ class MilkyWayItem;
 class SkyMapComposite;
 class SolarSystemComposite;
 
-class SyncedCatalogItem;
-
 class FOVItem;
 
 class TelescopeSymbolsItem;
@@ -127,9 +125,6 @@ class RootNode : public QSGClipNode
     ConstellationArtItem *m_artItem { nullptr };
     SatellitesItem *m_satItem { nullptr };
     SupernovaeItem *m_snovaItem { nullptr };
-
-    SyncedCatalogItem *m_internedResolvedCatalogItem { nullptr };
-    SyncedCatalogItem *m_manualAdditionsCatalogItem { nullptr };
 
     HorizonItem *m_horizonItem { nullptr };
     LinesItem *m_linesItem { nullptr };

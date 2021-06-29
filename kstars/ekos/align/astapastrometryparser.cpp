@@ -36,7 +36,7 @@ void ASTAPAstrometryParser::verifyIndexFiles(double, double)
 {
 }
 
-bool ASTAPAstrometryParser::startSovler(const QString &filename, const QStringList &args, bool generated)
+bool ASTAPAstrometryParser::startSolver(const QString &filename, const QStringList &args, bool generated)
 {
     INDI_UNUSED(generated);
 
@@ -99,7 +99,7 @@ void ASTAPAstrometryParser::solverComplete(int exitCode, QProcess::ExitStatus ex
     QString line = in.readLine();
 
     QStringList ini = line.split("=");
-    if (ini[1] == "F")
+    if (ini.count() <= 1 || ini[1] == "F")
     {
         align->appendLogText(i18n("Solver failed. Try again."));
         emit solverFailed();
@@ -107,7 +107,11 @@ void ASTAPAstrometryParser::solverComplete(int exitCode, QProcess::ExitStatus ex
     }
 
     double ra = 0, dec = 0, orientation = 0, pixscale = 0;
-    bool ok[4] = {false};
+    double cd11 = 0;
+    double cd22 = 0;
+    double cd12 = 0;
+    double cd21 = 0;
+    bool ok[8] = {false};
 
     line = in.readLine();
     while (!line.isNull())
@@ -121,15 +125,31 @@ void ASTAPAstrometryParser::solverComplete(int exitCode, QProcess::ExitStatus ex
             pixscale = ini[1].trimmed().toDouble(&ok[2]) * 3600.0;
         else if (ini[0] == "CROTA1")
             orientation = ini[1].trimmed().toDouble(&ok[3]);
+        else if (ini[0] == "CD1_1")
+            cd11 = ini[1].trimmed().toDouble(&ok[4]);
+        else if (ini[0] == "CD1_2")
+            cd12 = ini[1].trimmed().toDouble(&ok[5]);
+        else if (ini[0] == "CD2_1")
+            cd21 = ini[1].trimmed().toDouble(&ok[6]);
+        else if (ini[0] == "CD2_2")
+            cd22 = ini[1].trimmed().toDouble(&ok[7]);
 
         line = in.readLine();
     }
 
-    if (ok[0] && ok[1] && ok[2] && ok[3])
+    if ( ok[0] && ok[1] && ok[2] && ok[3] )
     {
+        Bool eastToTheRight = true;
+        if ( ok[4] && ok[5] && ok[6] && ok[7] )
+        {
+            // Negative determinant = positive parity (i.e. east on the left).
+            double det = cd11 * cd22 - cd12 * cd21;
+            if(det < 0)
+                eastToTheRight = false;
+        }
         int elapsed = static_cast<int>(round(solverTimer.elapsed() / 1000.0));
         align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
-        emit solverFinished(orientation, ra, dec, pixscale);
+        emit solverFinished(orientation, ra, dec, pixscale, eastToTheRight);
     }
     else
     {

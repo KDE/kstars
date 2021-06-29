@@ -57,7 +57,7 @@ class PolarAlign
         PolarAlign(const GeoLocation *geo = nullptr);
 
         // Add a sample point.
-        bool addPoint(FITSData *image);
+        bool addPoint(const QSharedPointer<FITSData> &image);
 
         // Finds the mount's axis of rotation. Three points must have been added.
         // Returns false if the axis can't be found.
@@ -68,7 +68,7 @@ class PolarAlign
         // 3 Points must have been added and findAxis() must have been called.
         // Uses the axis determined by findAxis().  Returns correctedX and correctedY,
         // the target position that the x,y pixel should move to.
-        bool findCorrectedPixel(FITSData *image, const QPointF &pixel,
+        bool findCorrectedPixel(const QSharedPointer<FITSData> &image, const QPointF &pixel,
                                 QPointF *corrected, bool altOnly = false);
 
         // Returns the mount's azimuth and altitude error given the known geographic location
@@ -79,7 +79,7 @@ class PolarAlign
         // error, if a star at location pixel were move in the camera view to pixel2.
         // image would be the 3rd PAA image.
         // Returns false if the paa error couldn't be computer.
-        bool pixelError(FITSData *image, const QPointF &pixel, const QPointF &pixel2,
+        bool pixelError(const QSharedPointer<FITSData> &image, const QPointF &pixel, const QPointF &pixel2,
                         double *azError, double *altError);
 
         /// reset starts the process over, removing the points.
@@ -94,22 +94,22 @@ class PolarAlign
         bool northernHemisphere() const;
 
         // These internal methods find the pixel with the desired azimuth and altitude.
-        bool findAzAlt(FITSData *image, double azimuth, double altitude, QPointF *pixel) const;
+        bool findAzAlt(const QSharedPointer<FITSData> &image, double azimuth, double altitude, QPointF *pixel) const;
 
         // Does the necessary processing so that azimuth and altitude values
         // can be retrieved for the x,y pixel in image.
-        bool prepareAzAlt(FITSData *image, const QPointF &pixel, SkyPoint *point) const;
+        bool prepareAzAlt(const QSharedPointer<FITSData> &image, const QPointF &pixel, SkyPoint *point) const;
 
 
         // Internal utility used by the external findCorrectedPixel and by pixelError().
         // Similar args as the public findCorrectedPixel().
-        bool findCorrectedPixel(FITSData *image, const QPointF &pixel,
+        bool findCorrectedPixel(const QSharedPointer<FITSData> &image, const QPointF &pixel,
                                 QPointF *corrected, double azError, double altError);
 
         // Internal utility used by the public pixelError, which iterates at different
         // resolutions passed in to this method. As the resoltion can be coarse, actualPixel
         // is the one used (as opposed to pixel2) for the error returned.
-        void pixelError(FITSData *image, const QPointF &pixel, const QPointF &pixel2,
+        void pixelError(const QSharedPointer<FITSData> &image, const QPointF &pixel, const QPointF &pixel2,
                         double minAz, double maxAz, double azInc,
                         double minAlt, double maxAlt, double altInc,
                         double *azError, double *altError, QPointF *actualPixel);

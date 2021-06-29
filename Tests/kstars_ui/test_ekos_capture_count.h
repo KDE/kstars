@@ -36,16 +36,6 @@ protected:
     QDir *imageLocation = nullptr;
 
     /**
-     * @brief Start a test EKOS profile.
-     */
-    bool startEkosProfile();
-
-    /**
-     * @brief Shutdown the current test EKOS profile.
-     */
-    bool shutdownEkosProfile();
-
-    /**
      * @brief Setup capturing
      * @return true iff preparation was successful
      */

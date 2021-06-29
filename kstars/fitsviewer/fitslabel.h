@@ -37,16 +37,17 @@ class FITSLabel : public QLabel
         virtual void mousePressEvent(QMouseEvent *e) override;
         virtual void mouseReleaseEvent(QMouseEvent *e) override;
         virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
+        virtual void leaveEvent(QEvent *e) override;
 
     private:
         bool mouseButtonDown { false };
         QPoint lastMousePoint;
         FITSView *view { nullptr };
-        dms ra;
-        dms dec;
-        double width { 0 };
-        double height { 0 };
-        double size { 0 };
+        dms m_RA;
+        dms m_DE;
+        double m_Width { 0 };
+        double m_Height { 0 };
+        double m_Size { 0 };
 
     signals:
         void newStatus(const QString &msg, FITSBar id);

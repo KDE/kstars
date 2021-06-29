@@ -21,8 +21,10 @@
 #include "kstarsdata.h"
 #include "dialogs/locationdialog.h"
 #include "skycomponents/constellationboundarylines.h"
+#include "skycomponents/catalogscomponent.h"
 #include "skycomponents/skymapcomposite.h"
-#include "skyobjects/deepskyobject.h"
+#include "catalogobject.h"
+#include "catalogsdb.h"
 
 ObsListWizardUI::ObsListWizardUI(QWidget *p) : QFrame(p)
 {
@@ -139,20 +141,38 @@ void ObsListWizard::initialize()
     PlanNebCount     = 0;
     GalaxyCount      = 0;
 
-    foreach (DeepSkyObject *o, data->skyComposite()->deepSkyObjects())
+    CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+
+    const auto &stats{ manager.get_master_statistics() };
+    if (!stats.first)
+        return;
+
+    for (const auto &element : stats.second.object_counts)
     {
-        if (o->type() == SkyObject::GALAXY)
-            ++GalaxyCount; //most deepsky obj are galaxies, so check them first
-        else if (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR)
-            ++StarCount;
-        else if (o->type() == SkyObject::OPEN_CLUSTER)
-            ++OpenClusterCount;
-        else if (o->type() == SkyObject::GLOBULAR_CLUSTER)
-            ++GlobClusterCount;
-        else if (o->type() == SkyObject::GASEOUS_NEBULA || o->type() == SkyObject::SUPERNOVA_REMNANT)
-            ++GasNebCount;
-        else if (o->type() == SkyObject::PLANETARY_NEBULA)
-            ++PlanNebCount;
+        switch (element.first)
+        {
+            case SkyObject::GALAXY:
+                ++GalaxyCount;
+                break;
+            case SkyObject::STAR:
+            case SkyObject::CATALOG_STAR:
+                ++StarCount;
+                break;
+            case SkyObject::OPEN_CLUSTER:
+                ++OpenClusterCount;
+                break;
+            case SkyObject::GLOBULAR_CLUSTER:
+                ++GlobClusterCount;
+            case SkyObject::GASEOUS_NEBULA:
+            case SkyObject::SUPERNOVA_REMNANT:
+                ++GasNebCount;
+                break;
+            case SkyObject::PLANETARY_NEBULA:
+                ++PlanNebCount;
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -652,14 +672,17 @@ void ObsListWizard::applyFilters(bool doBuildList)
         //filtering by region or magnitude
         if (needRegion || olw->SelectByMagnitude->isChecked() || olw->SelectByDate->isChecked())
         {
-            foreach (DeepSkyObject *o, data->skyComposite()->deepSkyObjects())
+
+            CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+
+            for(auto& o : manager.get_objects(olw->SelectByMagnitude->isChecked() ? maglimit : 99))
             {
                 //Skip unselected object types
                 bool typeSelected = false;
                 // if ( (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR) &&
                 //       isItemSelected( i18n( "Stars" ), olw->TypeList ) )
-                // typeSelected = true;
-                switch (o->type())
+    //                         typeSelected = true;
+                switch (o.type())
                 {
                     case SkyObject::OPEN_CLUSTER:
                         if (isItemSelected(i18n("Open clusters"), olw->TypeList))
@@ -692,26 +715,36 @@ void ObsListWizard::applyFilters(bool doBuildList)
 
                 if (olw->SelectByMagnitude->isChecked())
                 {
-                    if (o->mag() > 90.)
+                    if (o.mag() > 90.)
                     {
                         if (olw->IncludeNoMag->isChecked())
                         {
+                            auto *obj = &o;
+                            if(doBuildList)
+                                obj = &data->skyComposite()->catalogsComponent()
+                                           ->insertStaticObject(o);
+
                             if (needRegion)
-                                filterPass = applyRegionFilter(o, doBuildList);
+                                filterPass = applyRegionFilter(obj, doBuildList);
                             if (olw->SelectByDate->isChecked() && filterPass)
-                                applyObservableFilter(o, doBuildList);
+                                applyObservableFilter(obj, doBuildList);
                         }
                         else if (!doBuildList)
                             --ObjectCount;
                     }
                     else
                     {
-                        if (o->mag() <= maglimit)
+                        if (o.mag() <= maglimit)
                         {
+                            auto *obj = &o;
+                            if(doBuildList)
+                                obj = &data->skyComposite()->catalogsComponent()
+                                           ->insertStaticObject(o);
+
                             if (needRegion)
-                                filterPass = applyRegionFilter(o, doBuildList);
+                                filterPass = applyRegionFilter(obj, doBuildList);
                             if (olw->SelectByDate->isChecked() && filterPass)
-                                applyObservableFilter(o, doBuildList);
+                                applyObservableFilter(obj, doBuildList);
                         }
                         else if (!doBuildList)
                             --ObjectCount;
@@ -719,10 +752,15 @@ void ObsListWizard::applyFilters(bool doBuildList)
                 }
                 else
                 {
+                    auto *obj = &o;
+                    if(doBuildList)
+                        obj = &data->skyComposite()->catalogsComponent()
+                                   ->insertStaticObject(o);
+
                     if (needRegion)
-                        filterPass = applyRegionFilter(o, doBuildList);
+                        filterPass = applyRegionFilter(obj, doBuildList);
                     if (olw->SelectByDate->isChecked() && filterPass)
-                        applyObservableFilter(o, doBuildList);
+                        applyObservableFilter(obj, doBuildList);
                 }
             }
         }
