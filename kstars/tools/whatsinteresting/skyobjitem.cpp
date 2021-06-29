@@ -174,7 +174,7 @@ QString SkyObjItem::getSummary(bool includeDescription) const
     if (includeDescription)
     {
         QString description = loadObjectDescription();
-        if(description.indexOf(".") > 0) //This will shorted the description in the list to just a sentence, whereas in the larger space of the Object Infomation Summary, it is a full paragraph.
+        if(description.indexOf(".") > 0) //This will shorted the description in the list to just a sentence, whereas in the larger space of the Object Information Summary, it is a full paragraph.
            return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description.left(description.indexOf(".") + 1);
         else
             return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description;
