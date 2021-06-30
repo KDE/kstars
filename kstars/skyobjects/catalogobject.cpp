@@ -126,27 +126,18 @@ const CatalogObject::oid CatalogObject::getId() const
 
 {
     return CatalogObject::getId(SkyObject::TYPE(type()), ra0().Degrees(),
-                                dec0().Degrees(), mag(), a(), b(), pa(), flux(), name(),
-                                longname(), catalogIdentifier());
+                                dec0().Degrees(), name(), catalogIdentifier());
 }
 
-const CatalogObject::oid
-CatalogObject::getId(const SkyObject::TYPE type, const double ra, const double dec,
-                     const float mag, const double a, const double b, const double pa,
-                     const float flux, const QString &name, const QString &long_name,
-                     const QString &catalog_identifier)
+const CatalogObject::oid CatalogObject::getId(const SkyObject::TYPE type, const double ra,
+                                              const double dec, const QString &name,
+                                              const QString &catalog_identifier)
 {
     QString data;
-    data += QString::number(type, 10);
-    data += QString::number(ra, 'g', 6);
-    data += QString::number(dec, 'g', 6);
-    data += QString::number(mag, 'g', 6);
-    data += QString::number(a, 'g', 6);
-    data += QString::number(b, 'g', 6);
-    data += QString::number(pa, 'g', 6);
-    data += QString::number(flux, 'g', 6);
+    data += QString::number(type);
+    data += QString::number(static_cast<int>(std::floor(ra)));
+    data += QString::number(static_cast<int>(std::floor(dec)));
     data += name;
-    data += long_name;
     data += catalog_identifier;
 
     QCryptographicHash hash{ QCryptographicHash::Sha256 };

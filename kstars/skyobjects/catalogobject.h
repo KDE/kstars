@@ -191,9 +191,7 @@ class CatalogObject : public SkyObject
      */
     const oid getId() const;
     static const oid getId(const SkyObject::TYPE type, const double ra, const double dec,
-                           const float mag, const double a, const double b,
-                           const double pa, const float flux, const QString &name,
-                           const QString &long_name, const QString &catalog_identifier);
+                           const QString &name, const QString &catalog_identifier);
 
     /**
      * \returns the physical object id of the catalogobject

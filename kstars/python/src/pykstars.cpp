@@ -196,17 +196,7 @@ PYBIND11_MODULE(pykstars, m)
             return CatalogObject::getId(
                        static_cast<SkyObject::TYPE>(py::cast<int>(obj["type"])),
                        py::cast<double>(obj["ra"]), py::cast<double>(obj["dec"]),
-                       cast_default<float>(obj["magnitude"],
-                                           DEFAULT_CATALOG_OBJECT.mag()),
-                       cast_default<double>(obj["major_axis"],
-                                            DEFAULT_CATALOG_OBJECT.a()),
-                       cast_default<double>(obj["minor_axis"],
-                                            DEFAULT_CATALOG_OBJECT.b()),
-                       cast_default<double>(obj["position_angle"],
-                                            DEFAULT_CATALOG_OBJECT.pa()),
-                       cast_default<float>(obj["flux"], DEFAULT_CATALOG_OBJECT.flux()),
                        py::cast<QString>(obj["name"]),
-                       py::cast<QString>(obj["long_name"]),
                        py::cast<QString>(obj["catalog_identifier"]))
                 .toStdString();
         },

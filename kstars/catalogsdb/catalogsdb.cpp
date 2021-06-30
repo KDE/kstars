@@ -631,8 +631,8 @@ DBManager::add_object(const int catalog_id, const SkyObject::TYPE t, const Cachi
     const auto trixel = SkyMesh::Create(m_htmesh_level)->index(&tmp);
     QSqlQuery query{ m_db };
 
-    const auto new_id = CatalogObject::getId(t, r.Degrees(), d.Degrees(), m, a, b, pa,
-                                             flux, n, lname, catalog_identifier);
+    const auto new_id =
+        CatalogObject::getId(t, r.Degrees(), d.Degrees(), n, catalog_identifier);
     bind_catalogobject(query, catalog_id, t, r, d, n, m, lname, catalog_identifier, a, b,
                        pa, flux, trixel, new_id);
 
