@@ -614,7 +614,7 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
 
     QString name = getWikipediaName(soitem);
 
-    QUrl url("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + name + "&format=xml");
+    QUrl url("https://en.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=" + name);
 
     QNetworkReply *response = manager->get(QNetworkRequest(url));
     QTimer::singleShot(30000, response, [response]   //Shut it down after 30 sec.
@@ -623,7 +623,7 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
         response->deleteLater();
         qDebug() << "Wikipedia Download Timed out.";
     });
-    connect(response, &QNetworkReply::finished, this, [soitem, this, response]
+    connect(response, &QNetworkReply::finished, this, [soitem, this, response, name]
     {
         response->deleteLater();
         if (response->error() != QNetworkReply::NoError)
@@ -635,16 +635,13 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
             return;
         }
         QString result = QString::fromUtf8(response->readAll());
-        int leftPos    = result.indexOf("<Description") + 34;
-        if (leftPos < 34)
+        int leftPos    = result.indexOf("<extract xml:space=\"preserve\">") + 30;
+        if (leftPos < 30)
             return;
-        int rightPos = result.indexOf("</Description>") - leftPos;
-
-        int leftURL  = result.indexOf("<Url xml:space=\"preserve\">") + 26;
-        int rightURL = result.indexOf("</Url>") - leftURL;
+        int rightPos = result.indexOf("</extract>") - leftPos;
 
         QString srchtml =
-        "\n<p style=text-align:right>Source: (<a href='" + result.mid(leftURL, rightURL) + "'>" +
+        "\n<p style=text-align:right>Source: (<a href='" + QString("https://en.wikipedia.org/wiki/") + name + "'>" +
         "Wikipedia</a>)"; //Note the \n is so that the description is put on another line in the file.  Doesn't affect the display but allows the source to be loaded in the details but not the list.
         QString html = "<HTML>" + result.mid(leftPos, rightPos) + srchtml + "</HTML>";
 

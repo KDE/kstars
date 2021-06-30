@@ -184,7 +184,13 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
 QString SkyObjItem::getSummary(bool includeDescription) const
 {
     if (includeDescription)
-        return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + loadObjectDescription();
+    {
+        QString description = loadObjectDescription();
+        if(description.indexOf(".") > 0) //This will shorten the description in the list to just a sentence, whereas in the larger space of the Object Information Summary, it is a full paragraph.
+           return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description.left(description.indexOf(".") + 1);
+        else
+            return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description;
+    }
     else
         return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz();
 }
