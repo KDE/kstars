@@ -179,4 +179,6 @@ void TextureManager::discoverTextureDirs()
     {
         dirs.push_back(search.next());
     }
+
+    dirs.push_back(base);
 };
