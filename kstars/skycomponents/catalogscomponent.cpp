@@ -46,7 +46,6 @@ CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_fil
         }
     }
 
-    loadStaticObjects();
     qCInfo(KSTARS) << "Loaded DSO catalogs.";
 }
 
@@ -180,7 +179,7 @@ void CatalogsComponent::updateSkyMesh(SkyMap &map, MeshBufNum_t buf)
     m_skyMesh->aperture(focus, radius + 1.0, buf);
 }
 
-CatalogObject &CatalogsComponent::insertStaticObject(CatalogObject obj)
+CatalogObject &CatalogsComponent::insertStaticObject(const CatalogObject &obj)
 {
     auto trixel     = m_skyMesh->index(&obj);
     auto &lst       = m_static_objects[trixel];
@@ -189,6 +188,7 @@ CatalogObject &CatalogsComponent::insertStaticObject(CatalogObject obj)
     // Ideally, we would remove the object from ObjectsList if it's
     // respective catalog is disabled, but there ain't a good way to
     // do this right now
+
     if (!(found_iter == lst.end()))
     {
         auto &found = *found_iter;
@@ -197,15 +197,18 @@ CatalogObject &CatalogsComponent::insertStaticObject(CatalogObject obj)
         return found;
     }
 
-    obj.JITupdate();
+    auto copy = obj;
+    copy.JITupdate();
 
-    lst.push_back(std::move(obj));
+    lst.push_back(std::move(copy));
     auto &inserted = lst.back();
 
     // we don't bother with translations here
     auto &object_list = objectLists(inserted.type());
+
     object_list.append({ inserted.name(), &inserted });
-    object_list.append({ inserted.longname(), &inserted });
+    if (inserted.longname() != inserted.name())
+        object_list.append({ inserted.longname(), &inserted });
 
     return inserted;
 }
@@ -218,14 +221,6 @@ SkyObject *CatalogsComponent::findByName(const QString &name)
         return nullptr;
 
     return &insertStaticObject(objects.front());
-}
-
-void CatalogsComponent::loadStaticObjects()
-{
-    auto objects = m_db_manager.get_objects(Options::magLimitDrawDeepSky(),
-                                            Options::numberStaticObjects());
-    for (auto &object : objects)
-        insertStaticObject(object);
 }
 
 void CatalogsComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &region)

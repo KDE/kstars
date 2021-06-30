@@ -707,26 +707,6 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="LabelNum">
-            <property name="toolTip">
-             <string>The number of static objects to load from the DSO
-         catalog. Some parts of KStars like need a permanent in-memory
-         list of skyobjects. Therefore the brightest N objects are
-         being loaded at startup.</string>
-            </property>
-            <property name="text">
-             <string>Number of static objects</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QSpinBox" name="kcfg_NumberStaticObjects">
-            <property name="maximum">
-             <number>100000</number>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>

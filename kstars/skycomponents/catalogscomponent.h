@@ -107,7 +107,7 @@ class CatalogsComponent : public SkyComponent
      * (`CatalogObject::JITupdate`) and inserted into the parent's
      * `objectLists`.
      */
-    CatalogObject &insertStaticObject(CatalogObject obj);
+    CatalogObject &insertStaticObject(const CatalogObject &obj);
 
     /**
      * Clear the internal cache and effectively reload all objects
@@ -117,20 +117,8 @@ class CatalogsComponent : public SkyComponent
     void dropCache()
     {
         m_cache.clear();
-        loadStaticObjects();
         m_catalog_colors = {};
     };
-
-    /**
-     * \brief Load the brightest objects into `m_static_objects`.
-     *
-     * Currently the `10000` brightest objects are being loaded.
-     *
-     * Calling this method multiple times is safe, as it only inserts
-     * objects into `m_static_objects` which are _not_ already in
-     * there, so that references and pointers remain valid.
-     */
-    void loadStaticObjects();
 
     /**
      * Wether to show the DSOs.

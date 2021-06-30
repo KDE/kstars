@@ -795,15 +795,6 @@
          <whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
          <default>1.0</default>
       </entry>
-      <entry name="NumberStaticObjects" type="Int">
-         <label>Number of static objects to load from the DSO catalog.</label>
-         <whatsthis>The number of static objects to load from the DSO
-         catalog. Some parts of KStars like need a permanent in-memory
-         list of skyobjects. Therefore the brightest N objects are
-         being loaded at startup.
-         </whatsthis>
-         <default>10000</default>
-      </entry>
       <entry name="ShowUnknownMagObjects" type="Bool">
          <label>Show deep-sky objects of unknown magnitude</label>
          <whatsthis>When enabled, objects whose magnitudes are unknown, or not available to KStars, are drawn irrespective of the faint limits set.</whatsthis>

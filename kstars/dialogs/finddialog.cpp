@@ -28,7 +28,6 @@
 #include "skycomponents/skymapcomposite.h"
 #include "tools/nameresolver.h"
 #include "skyobjectlistmodel.h"
-#include "catalogsdb.h"
 #include "catalogscomponent.h"
 #include <KMessageBox>
 
@@ -70,7 +69,10 @@ FindDialog *FindDialog::Instance()
     return m_Instance;
 }
 
-FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_targetObject(nullptr)
+FindDialog::FindDialog(QWidget *parent)
+    : QDialog(parent), timer(nullptr),
+      m_targetObject(nullptr), m_manager{ CatalogsDB::dso_db_path() }
+
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -151,7 +153,6 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_tar
     QTimer::singleShot(0, this, SLOT(init()));
 
     listFiltered = false;
-
 }
 
 void FindDialog::init()
@@ -297,6 +298,13 @@ void FindDialog::filterByType()
 void FindDialog::filterList()
 {
     QString SearchText = processSearchText();
+    const auto &objs   = m_manager.find_objects_by_name(SearchText, 10);
+    for (const auto &obj : objs)
+    {
+        KStarsData::Instance()->skyComposite()->catalogsComponent()->insertStaticObject(
+            obj);
+    }
+
     sortModel->setFilterFixedString(SearchText);
     ui->InternetSearchButton->setText(i18n("or search the Internet for %1", SearchText));
     filterByType();
@@ -305,7 +313,8 @@ void FindDialog::filterList()
     //Select the first item in the list that begins with the filter string
     if (!SearchText.isEmpty())
     {
-        QStringList mItems = fModel->filter(QRegExp('^' + SearchText, Qt::CaseInsensitive));
+        QStringList mItems =
+            fModel->filter(QRegExp('^' + SearchText, Qt::CaseInsensitive));
         mItems.sort();
 
         if (mItems.size())
@@ -315,7 +324,8 @@ void FindDialog::filterList()
 
             if (selectItem.isValid())
             {
-                ui->SearchList->selectionModel()->select(selectItem, QItemSelectionModel::ClearAndSelect);
+                ui->SearchList->selectionModel()->select(
+                    selectItem, QItemSelectionModel::ClearAndSelect);
                 ui->SearchList->scrollTo(selectItem);
                 ui->SearchList->setCurrentIndex(selectItem);
 
@@ -323,7 +333,7 @@ void FindDialog::filterList()
             }
         }
         ui->InternetSearchButton->setEnabled(!mItems.contains(
-                SearchText)); // Disable searching the internet when an exact match for SearchText exists in KStars
+            SearchText)); // Disable searching the internet when an exact match for SearchText exists in KStars
     }
     else
         ui->InternetSearchButton->setEnabled(false);
@@ -411,10 +421,9 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 
         if (cedata.first)
         {
-            CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
-            manager.add_object(CatalogsDB::user_catalog_id, cedata.second);
+            m_manager.add_object(CatalogsDB::user_catalog_id, cedata.second);
             const auto &added_object =
-                manager.get_object(cedata.second.getId(), CatalogsDB::user_catalog_id);
+                m_manager.get_object(cedata.second.getId(), CatalogsDB::user_catalog_id);
 
             if (added_object.first)
             {

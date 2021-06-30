@@ -316,11 +316,12 @@ inline const QString dso_by_oid_and_catalog(const int id)
         .arg(id);
 };
 
-const QString _dso_by_name = "SELECT %1, instr(name, :name) AS in_name, instr(long_name, "
-                             ":name) AS in_lname FROM master WHERE in_name "
-                             "OR in_lname "
-                             "ORDER BY name, long_name, "
-                             "%2 LIMIT :limit";
+const QString _dso_by_name =
+    "SELECT %1, instr(lower(name), lower(:name)) AS in_name, instr(lower(long_name), "
+    "lower(:name)) AS in_lname FROM master WHERE in_name "
+    "OR in_lname "
+    "ORDER BY name, long_name, "
+    "%2 LIMIT :limit";
 
 const QString _dso_by_name_exact = "SELECT %1 FROM master WHERE name = :name LIMIT 1";
 

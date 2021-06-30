@@ -18,6 +18,7 @@
 #pragma once
 
 #include "ui_finddialog.h"
+#include "catalogsdb.h"
 
 #include <QDialog>
 #include <QKeyEvent>
@@ -144,6 +145,9 @@ class FindDialog : public QDialog
 
     // History
     QComboBox *m_HistoryCombo { nullptr};
-    QList<SkyObject*> m_HistoryList;
+    QList<SkyObject *> m_HistoryList;
+
+    // DSO Database
+    CatalogsDB::DBManager m_manager;
 };
 

@@ -60,10 +60,6 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
     kcfg_DSOMinZoomFactor->setValue(Options::dSOMinZoomFactor());
     connect(kcfg_DSOMinZoomFactor, &QSlider::valueChanged, this, [&] { isDirty = true; });
 
-    kcfg_NumberStaticObjects->setValue(Options::numberStaticObjects());
-    connect(kcfg_NumberStaticObjects, QOverload<int>::of(&QSpinBox::valueChanged), this,
-            [&] { isDirty = true; });
-
     kcfg_ShowUnknownMagObjects->setChecked(Options::showUnknownMagObjects());
     connect(kcfg_ShowUnknownMagObjects, &QCheckBox::stateChanged, this,
             [&] { isDirty = true; });
@@ -121,7 +117,6 @@ void OpsCatalog::slotApply()
         kcfg_DSOCachePercentage->value());
 
     Options::setDSOMinZoomFactor(kcfg_DSOMinZoomFactor->value());
-    Options::setNumberStaticObjects(kcfg_NumberStaticObjects->value());
     Options::setShowUnknownMagObjects(kcfg_ShowUnknownMagObjects->isChecked());
 }
 
@@ -161,7 +156,6 @@ void OpsCatalog::slotDeepSkyWidgets(bool on)
     kcfg_DSOCachePercentage->setEnabled(on);
     DSOCacheLabel->setEnabled(on);
     kcfg_DSOMinZoomFactor->setEnabled(on);
-    kcfg_NumberStaticObjects->setEnabled(on);
     kcfg_ShowUnknownMagObjects->setEnabled(on);
     DSOMInZoomLabel->setEnabled(on);
     DeepSkyLabelDensityLabel->setEnabled(on);
