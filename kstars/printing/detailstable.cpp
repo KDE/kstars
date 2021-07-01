@@ -244,7 +244,6 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 }
             }
 
-            oname += ", " + dso->catalogIdentifier();
 
             if (!oname.isEmpty())
             {
