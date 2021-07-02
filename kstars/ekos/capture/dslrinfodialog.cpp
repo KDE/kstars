@@ -46,7 +46,7 @@ void DSLRInfo::save()
 
     ISD::CCDChip *primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     primaryChip->setImageInfo(sensorMaxWidth, sensorMaxHeight, sensorPixelW, sensorPixelH, 8);
-    primaryChip->setFrame(sensorMaxWidth, sensorMaxHeight, sensorPixelW, sensorPixelH);
+    primaryChip->setFrame(0, 0, sensorMaxWidth, sensorMaxHeight);
 
     currentCCD->setConfig(SAVE_CONFIG);
 
