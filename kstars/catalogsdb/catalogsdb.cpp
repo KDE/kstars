@@ -40,13 +40,14 @@ int get_connection_index()
     return connection_index++;
 }
 
-QSqlQuery make_query(QSqlDatabase &db, QString statement, const bool forward_only)
+QSqlQuery make_query(QSqlDatabase &db, const QString &statement, const bool forward_only)
 {
     QSqlQuery query{ db };
 
     query.setForwardOnly(forward_only);
     if (!query.prepare(statement))
     {
+        qDebug() << query.lastQuery() << query.lastError().text();
         throw DatabaseError("Can't prepare query!", DatabaseError::ErrorType::PREPARE,
                             query.lastError());
     };
@@ -57,14 +58,20 @@ QSqlQuery make_query(QSqlDatabase &db, QString statement, const bool forward_onl
 /**
  * Migrate the database from \p version to the current version.
  */
-std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db)
+std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
+                                    QString prefix = "")
 {
+    if (prefix.size() > 0)
+        prefix += ".";
+
     // we have to add the timestamp collumn to the catalogs
     if (version < 2)
     {
         QSqlQuery add_ts{ db };
 
-        return { add_ts.exec("ALTER TABLE catalogs ADD COLUMN timestamp DEFAULT NULL"),
+        return { add_ts.exec(QString("ALTER TABLE %1catalogs ADD COLUMN "
+                                     "timestamp DEFAULT NULL")
+                                 .arg(prefix)),
                  add_ts.lastError().text() };
     }
 
@@ -88,8 +95,9 @@ DBManager::DBManager(const QString &filename)
     bool init                                    = false;
     std::tie(m_db_version, m_htmesh_level, init) = get_db_meta();
 
-    if (m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
+    if (!init && m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
     {
+        qDebug() << "here";
         const auto &success = migrate_db(m_db_version, m_db);
         if (success.first)
         {
@@ -772,9 +780,11 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
         return { false, i18n("Catalog file is not readable.") };
     file.close();
 
+    QTemporaryDir tmp;
+    const auto new_path = tmp.filePath("cat.kscat");
     QSqlQuery query{ m_db };
 
-    if (!query.exec(QString("ATTACH [%1] AS tmp").arg(file_path)))
+    if (!query.exec(QString("ATTACH [%1] AS tmp").arg(new_path)))
     {
         m_db.commit();
         return { false,
@@ -792,10 +802,12 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
 
     if (!query.exec("PRAGMA tmp.user_version") || !query.next() ||
         query.value(0).toInt() != m_db_version)
-        return { false,
-                 i18n("Unsupported catalog format version.<br>Wanted '%1' and got '%2'.")
-                     .arg(m_db_version)
-                     .arg(query.value(0).toInt()) };
+    {
+        const auto &success = migrate_db(query.value(0).toInt(), m_db, "tmp");
+        if (!success.first)
+            return { false, i18n("Could not migrate old catalog format.<br>%1",
+                                 success.second) };
+    }
 
     if (!query.exec("SELECT id FROM tmp.catalogs LIMIT 1") || !query.next())
         return { false,

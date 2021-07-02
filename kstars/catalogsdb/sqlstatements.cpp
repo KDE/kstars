@@ -189,7 +189,7 @@ const QString create_catalog_list_table = create_catalog_registry("catalogs");
 
 const QString _insert_catalog =
     "INSERT OR IGNORE INTO %1 (id, name, mut, enabled, precedence, author, source, "
-    "description, version, color, license, maintainer) "
+    "description, version, color, license, maintainer, timestamp) "
     "VALUES (:id, :name, :mut, :enabled, :precedence, :author, :source, :description, "
     ":version, :color, :license, :maintainer, :timestamp)";
 
