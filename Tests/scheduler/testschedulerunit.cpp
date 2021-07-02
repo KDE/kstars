@@ -128,7 +128,12 @@ bool compareFloat(double d1, double d2, double tolerance = .0001)
 bool compareTimes(const QDateTime &t1, const QDateTime &t2, int toleranceSecs = 1)
 {
     int toleranceMsecs = toleranceSecs * 1000;
-    return std::abs(t1.msecsTo(t2)) < toleranceMsecs;
+    if (std::abs(t1.msecsTo(t2)) >= toleranceMsecs)
+    {
+        QWARN(qPrintable(QString("Comparison of %1 with %2 is out of %3s tolerance.").arg(t1.toString()).arg(t2.toString()).arg(toleranceSecs)));
+        return false;
+    }
+    else return true;
 }
 
 // Test Scheduler::darkSkyScore().
@@ -136,12 +141,17 @@ bool compareTimes(const QDateTime &t1, const QDateTime &t2, int toleranceSecs = 
 // negative between dawn and dusk and not negative elsewhere.
 void TestSchedulerUnit::darkSkyScoreTest()
 {
-    constexpr double dawn = .25, dusk = .75;
+    constexpr double _dawn = .25, _dusk = .75;
     for (double offset = 0; offset < 1.0; offset += 0.1)
     {
         QDateTime t = midNight.addSecs(24 * 3600 * offset);
+        // Scheduler calculating dawn and dusk finds the NEXT dawn and dusks - let's simulate this
+        QDateTime dawn = midNight.addSecs(_dawn * 24.0 * 3600.0);
+        if (dawn < t) dawn = dawn.addDays(1);
+        QDateTime dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
+        if (dusk < t) dusk = dusk.addDays(1);
         int16_t score = Scheduler::getDarkSkyScore(dawn, dusk, t);
-        if (offset < dawn || offset > dusk)
+        if (offset < _dawn || offset > _dusk)
             QVERIFY(score >= 0);
         else
             QVERIFY(score < 0);
@@ -525,7 +535,9 @@ void TestSchedulerUnit::calculateJobScoreTest()
                 QVERIFY(altScore == altScores[hours + 12]);
 
             const int moonScore = 100;
-            const double dawn = .25, dusk = .75;
+            const double _dawn = .25, _dusk = .75;
+            QDateTime const dawn = midNight.addSecs(_dawn * 24.0 * 3600.0);
+            QDateTime const dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
             int darkScore = Scheduler::getDarkSkyScore(dawn, dusk, time);
 
             job.setEnforceTwilight(true);
@@ -556,7 +568,9 @@ void TestSchedulerUnit::evaluateJobsTest()
     // The nullptr is moon pointer. Not currently tested.
     SchedulerJob job(nullptr);
 
-    const double dawn = .25, dusk = .75;
+    const double _dawn = .25, _dusk = .75;
+    QDateTime const dawn = midNight.addSecs(_dawn * 24.0 * 3600.0);
+    QDateTime const dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
     const bool rescheduleErrors = true;
     const bool restart = true;
     bool possiblyDelay = true;
@@ -677,8 +691,8 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(compareTimes(sortedJobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
     QVERIFY(compareTimes(sortedJobs[0]->getCompletionTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
 
-    QVERIFY(compareTimes(sortedJobs[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 45 * 60), 300));
-    QVERIFY(compareTimes(sortedJobs[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 33 * 60), 300));
+    QVERIFY(compareTimes(sortedJobs[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 54 * 60), 300));
+    QVERIFY(compareTimes(sortedJobs[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
 
     jobs.clear();
     sortedJobs.clear();

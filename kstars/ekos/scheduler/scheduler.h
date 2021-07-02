@@ -286,8 +286,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @param jobs The input list of SchedulerJobs to evaluate.
              * @param state The current scheduler state.
              * @param capturedFramesCount which parts of the schedulerJobs have already been completed.
-             * @param dawn day fraction to dawn, as a double
-             * @param dusk day fraction to dusk, as a double
+             * @param dawn next dawn, as a KStarsDateTime
+             * @param dusk next dusk, as a KStarsDateTime
              * @param rescheduleErrors whether jobs that failed with errors should be rescheduled.
              * @param restartJobs whether jobs that failed for one reason or another shoulc be rescheduled.
              * @param possiblyDelay a return value indicating whether the timer should try scheduling again after a delay.
@@ -295,17 +295,17 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @return Total score
              */
         static QList<SchedulerJob *> evaluateJobs(QList<SchedulerJob *> &jobs, SchedulerState state,
-                const QMap<QString, uint16_t> &capturedFramesCount,
-                double dawn, double dusk, bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler);
+                const QMap<QString, uint16_t> &capturedFramesCount, QDateTime const &dawn, QDateTime const &dusk,
+                bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler);
         /**
              * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
              * @param job Target
-             * @param dawn day fraction to dawn, as a double
-             * @param dusk day fraction to dusk, as a double
+             * @param dawn next dawn, as a KStarsDateTime
+             * @param dusk next dusk, as a KStarsDateTime
              * @param when date and time to evaluate constraints, now if omitted.
              * @return Total score
              */
-        static int16_t calculateJobScore(SchedulerJob const *job, double dawn, double dusk, QDateTime const &when = QDateTime());
+        static int16_t calculateJobScore(SchedulerJob const *job, QDateTime const &dawn, QDateTime const &dusk, QDateTime const &when = QDateTime());
 
         /**
              * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
@@ -331,16 +331,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         /**
              * @brief getDarkSkyScore Get the dark sky score of a date and time. The further from dawn the better.
-             * @param dawn day fraction to dawn, as a double
-             * @param dusk day fraction to dusk, as a double
              * @param when date and time to check the dark sky score, now if omitted
              * @return Dark sky score. Daylight get bad score, as well as pre-dawn to dawn.
              */
-        static int16_t getDarkSkyScore(double dawn, double dusk, QDateTime const &when = QDateTime());
+        static int16_t getDarkSkyScore(QDateTime const &dawn, QDateTime const &dusk, QDateTime const &when = QDateTime());
 
         /** @brief Setter used in testing to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
-        static const KStarsDateTime &getLocalTime();
+        static KStarsDateTime getLocalTime();
         static void setLocalTime(KStarsDateTime *time)
         {
             storedLocalTime = time;
@@ -542,6 +540,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void resetJobEdit();
 
         /**
+         * @brief updateNightTime update the Twilight restriction with the argument job properties.
+         */
+        void updateNightTime(SchedulerJob const *);
+
+        /**
              * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it calls evaluateJobs() when no job is current or executeJob() if a job is selected.
              * @return False if this function needs to be called again later, true if situation is stable and operations may continue.
              */
@@ -619,6 +622,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void setEkosCommunicationStatus(Ekos::CommunicationStatus status);
 
         void simClockScaleChanged(float);
+        void simClockTimeChanged();
 
     signals:
         void newLog(const QString &text);
@@ -760,11 +764,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         bool processJobInfo(XMLEle *root);
 
         /**
-             * @brief updatePreDawn Update predawn time depending on current time and user offset
-             */
-        void updatePreDawn();
-
-        /**
              * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
              * and a new version given the supplied parameters are saved to the output directory
              * @param prefix Prefix to set for the job sequence
@@ -846,14 +845,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
         uint16_t captureBatch { 0 };
         /// Startup and Shutdown scripts process
         QProcess scriptProcess;
-        /// Store day fraction of dawn to calculate dark skies range
-        double Dawn { -1 };
-        /// Store day fraction of dusk to calculate dark skies range
-        double Dusk { -1 };
+        /// Store next dawn to calculate dark skies range
+        QDateTime Dawn;
+        /// Store next dusk to calculate dark skies range
+        QDateTime Dusk;
         /// Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
         QDateTime preDawnDateTime;
-        /// Dusk date time
-        QDateTime duskDateTime;
         /// Was job modified and needs saving?
         bool mDirty { false };
         /// Keep watch of weather status

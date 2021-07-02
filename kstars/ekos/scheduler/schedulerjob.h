@@ -575,6 +575,37 @@ class SchedulerJob
              */
         QDateTime calculateCulmination(QDateTime const &when = QDateTime()) const;
 
+        /**
+             * @brief calculateDawnDusk find the next astronomical dawn and dusk after the current date and time of observation
+             */
+        static void calculateDawnDusk(QDateTime const &when, QDateTime &dawn, QDateTime &dusk);
+
+        /**
+             * @brief getNextAstronomicalTwilightDawn
+             * @return a local time QDateTime locating the first astronomical dawn after this observation.
+             * @note The dawn time takes into account the Ekos dawn offset.
+             */
+        QDateTime getDawnAstronomicalTwilight() const
+        {
+            return nextDawn;
+        };
+
+        /**
+             * @brief getDuskAstronomicalTwilight
+             * @return a local-time QDateTime locating the first astronomical dusk after this observation.
+             * @note The dusk time takes into account the Ekos dusk offset.
+             */
+        QDateTime getDuskAstronomicalTwilight() const
+        {
+            return nextDusk;
+        };
+
+        /**
+             * @brief runsDuringAstronomicalNightTime
+             * @return true if the next dawn/dusk event after this observation is the astronomical dawn, else false.
+             * @note This function relies on the guarantee that dawn and dusk are calculated to be the first events after this observation.
+             */
+        bool runsDuringAstronomicalNightTime() const;
 
         /**
              * @brief findAltitude Find altitude given a specific time
@@ -594,7 +625,7 @@ class SchedulerJob
 
         /** @brief Setter used in the unit test to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
-        static const KStarsDateTime &getLocalTime();
+        static KStarsDateTime getLocalTime();
         static void setLocalTime(KStarsDateTime *time)
         {
             storedLocalTime = time;
@@ -651,6 +682,9 @@ class SchedulerJob
 
         bool enforceWeather { false };
         bool enforceTwilight { false };
+
+        QDateTime nextDawn;
+        QDateTime nextDusk;
 
         StepPipeline stepPipeline { USE_NONE };
 

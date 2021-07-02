@@ -38,6 +38,19 @@ KSAlmanac::KSAlmanac()
     update();
 }
 
+KSAlmanac::KSAlmanac(const KStarsDateTime &midnight, const GeoLocation *g)
+{
+    geo = g ? g : KStarsData::Instance()->geo();
+
+    dt = midnight.isValid() ?
+                midnight.timeSpec() == Qt::LocalTime ?
+                    geo->LTtoUT(midnight) :
+                    midnight :
+                KStarsData::Instance()->ut();
+
+    update();
+}
+
 void KSAlmanac::update()
 {
     RiseSetTime(&m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT);
@@ -84,55 +97,73 @@ void KSAlmanac::RiseSetTime(SkyObject *o, double *riseTime, double *setTime, QTi
     }
 }
 
-// FIXME: This is utter code duplication. All this should be handled
-// in the KStars engine. Forgive me for adding to the nonsense, but I
-// want to get the Observation Planner functional first. -- asimha
-// seems to be copied from AltVsTime::setDawnDusk
-void KSAlmanac::findDawnDusk()
+void KSAlmanac::findDawnDusk(double altitude)
 {
     KStarsDateTime today = dt;
     KSNumbers num(today.djd());
     CachingDms LST = geo->GSTtoLST(today.gst());
 
-    m_Sun.updateCoords(&num, true, geo->lat(), &LST, true); // We can abuse our own copy of the sun
-    double dawn, da, dusk, du, max_alt, min_alt;
-    double last_h   = -12.0;
-    double last_alt = findAltitude(&m_Sun, last_h);
-    dawn = dusk = -13.0;
-    max_alt     = -100.0;
-    min_alt     = 100.0;
-    for (double h = -11.95; h <= 12.0; h += 0.05)
+    // Relocate our local Sun to this almanac time - local midnight
+    m_Sun.updateCoords(&num, true, geo->lat(), &LST, true);
+
+    // Granularity
+    int const h_inc = 5;
+
+    // Compute the altitude of the Sun twelve hours before this almanac time
+    int const start_h = -1200, end_h = +1200;
+    double last_alt = findAltitude(&m_Sun, start_h/100.0);
+
+    int dawn = -1300, dusk = -1300, min_alt_time = -1300;
+    double max_alt = -100.0, min_alt = +100.0;
+
+    // Compute the dawn and dusk times in a [-12,+12] hours around the day midnight of this almanac as well as min and max altitude
+    // See the header comment about dawn and dusk positions
+    for (int h = start_h + h_inc; h <= end_h; h += h_inc)
     {
-        double alt = findAltitude(&m_Sun, h);
-        bool asc   = alt - last_alt > 0;
-        if (alt > max_alt)
+        // Compute the Sun's altitude in an increasing hour interval
+        double const alt = findAltitude(&m_Sun, h/100.0);
+
+        // Deduce whether the Sun is rising or setting
+        bool const rising = alt - last_alt > 0;
+
+        // Extend min/max altitude interval, push minimum time down
+        if (max_alt < alt)
+        {
             max_alt = alt;
-        if (alt < min_alt)
+        }
+        else if (alt < min_alt)
+        {
             min_alt = alt;
+            min_alt_time = h;
+        }
 
-        if (asc && last_alt <= -18.0 && alt >= -18.0)
-            dawn = h;
-        if (!asc && last_alt >= -18.0 && alt <= -18.0)
-            dusk = h;
+        // Dawn is when the Sun is rising and crosses an altitude of -18 degrees
+        if (dawn < 0)
+            if (rising)
+                if (last_alt <= altitude && altitude <= alt)
+                    dawn = h - h_inc * (alt == last_alt ? 0 : (alt - altitude)/(alt - last_alt));
 
-        // Never used
-//        last_h   = h;
+        // Dusk is when the Sun is setting and crosses an altitude of -18 degrees
+        if (dusk < 0)
+            if (!rising)
+                if (last_alt >= altitude && altitude >= alt)
+                    dusk = h - h_inc * (alt == last_alt ? 0 : (alt - altitude)/(alt - last_alt));
+
         last_alt = alt;
     }
 
-    if (dawn < -12.0 || dusk < -12.0)
+    // If the Sun did not cross the astronomical twilight altitude, use the minimal altitude
+    if (dawn < start_h || dusk < start_h)
     {
-        da = -1.0;
-        du = -1.0;
+        DawnAstronomicalTwilight = static_cast <double> (min_alt_time) / 2400.0;
+        DuskAstronomicalTwilight = static_cast <double> (min_alt_time) / 2400.0;
     }
+    // If the Sun did cross the astronomical twilight, use the computed time offsets
     else
     {
-        da = dawn / 24.0;
-        du = (dusk + 24.0) / 24.0;
+        DawnAstronomicalTwilight = static_cast <double> (dawn) / 2400.0;
+        DuskAstronomicalTwilight = static_cast <double> (dusk) / 2400.0;
     }
-
-    DawnAstronomicalTwilight = da;
-    DuskAstronomicalTwilight = du;
 
     SunMaxAlt = max_alt;
     SunMinAlt = min_alt;
@@ -150,9 +181,9 @@ void KSAlmanac::findMoonPhase()
     MoonPhase = m_Moon.phase().Degrees();
 }
 
-void KSAlmanac::setDate(const KStarsDateTime *newdt)
+void KSAlmanac::setDate(const KStarsDateTime &utc_midnight)
 {
-    dt = *newdt;
+    dt = utc_midnight;
     update();
 }
 
@@ -162,7 +193,7 @@ void KSAlmanac::setLocation(const GeoLocation *geo_)
     update();
 }
 
-double KSAlmanac::sunZenithAngleToTime(double z)
+double KSAlmanac::sunZenithAngleToTime(double z) const
 {
     // TODO: Correct for movement of the sun
     double HA       = acos((cos(z * dms::DegToRad) - m_Sun.dec().sin() * geo->lat()->sin()) /

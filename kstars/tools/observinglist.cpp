@@ -1164,7 +1164,7 @@ void ObservingList::plot(SkyObject *o)
 
     ui->avt->setSecondaryLimits(h1, h1 + 24.0, -90.0, 90.0);
     ksal->setLocation(geo);
-    ksal->setDate(&ut);
+    ksal->setDate(ut);
     ui->avt->setGeoLocation(geo);
     ui->avt->setSunRiseSetTimes(ksal->getSunRise(), ksal->getSunSet());
     ui->avt->setDawnDuskTimes(ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight());

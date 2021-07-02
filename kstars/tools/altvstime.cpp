@@ -839,10 +839,10 @@ void AltVsTime::computeSunRiseSetTimes()
 {
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
-    KStarsDateTime today = getDate();
-    KSAlmanac ksal;
-    ksal.setDate(&today);
-    ksal.setLocation(geo);
+
+    /* KSAlmanac ksal(getDate(), geo); */
+
+    /* ... */
 }
 
 //FIXME
@@ -1144,18 +1144,16 @@ void AltVsTime::showCurrentDate()
 void AltVsTime::drawGradient()
 {
     // Things needed for Gradient:
-    KSAlmanac ksal;
     KStarsDateTime dtt  = KStarsDateTime::currentDateTime();
     GeoLocation *geoLoc = KStarsData::Instance()->geo();
     QDateTime midnight  = QDateTime(dtt.date(), QTime());
-    KStarsDateTime utt  = geoLoc->LTtoUT(KStarsDateTime(midnight));
+    KStarsDateTime const utt  = geoLoc->LTtoUT(KStarsDateTime(midnight));
 
     // Variables needed for Gradient:
     double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
     double MoonRise, MoonSet, MoonIllum;
 
-    ksal.setLocation(geoLoc);
-    ksal.setDate(&utt);
+    KSAlmanac ksal(utt, geoLoc);
 
     // Get the values:
     SunRise   = ksal.getSunRise();
@@ -1364,47 +1362,16 @@ double AltVsTime::getEpoch(const QString &eName)
 
 void AltVsTime::setDawnDusk()
 {
-    KStarsDateTime today = getDate();
-    KSNumbers num(today.djd());
-    CachingDms LST = geo->GSTtoLST(today.gst());
+    /* TODO */
 
-    KSSun sun;
-    sun.updateCoords(&num, true, geo->lat(), &LST, true);
+    /*
+    KSAlmanac almanac(getDate(), geo);
 
-    /* TODO:
-    double last_h = -12.0;
-    double last_alt = findAltitude( &sun, last_h );
-    double dawn = -13.0;
-    double dusk = -13.0;
-    double max_alt = -100.0;
-    double min_alt = 100.0;
-    for ( double h=-11.95; h<=12.0; h+=0.05 ) {
-        double alt = findAltitude( &sun, h );
-        bool asc = alt - last_alt > 0;
-        if ( alt > max_alt )
-            max_alt = alt;
-        if ( alt < min_alt )
-            min_alt = alt;
-
-        if ( asc && last_alt <= -18.0 && alt >= -18.0 )
-            dawn = h;
-        if ( !asc && last_alt >= -18.0 && alt <= -18.0 )
-            dusk = h;
-
-        last_h   = h;
-        last_alt = alt;
-    }
-
-    if ( dawn < -12.0 || dusk < -12.0 ) {
-        da = -1.0;
-        du = -1.0;
-    } else {
-        da = dawn / 24.0;
-        du = ( dusk + 24.0 ) / 24.0;
-    }
-    avtUI->View->setDawnDuskTimes( da, du );
-    avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
+    avtUI->View->setDawnDuskTimes(almanac.getDawnAstronomicalTwilight(), almanac.getDuskAstronomicalTwilight());
+    avtUI->View->setMinMaxSunAlt(almanac.getSunMinAlt(), almanac.getSunMaxAlt());
     */
+
+    /* ... */
 }
 
 void AltVsTime::slotPrint()

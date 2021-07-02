@@ -14,6 +14,7 @@
 #include "skymapcomposite.h"
 #include "Options.h"
 #include "scheduler.h"
+#include "ksalmanac.h"
 
 #include <knotification.h>
 
@@ -45,11 +46,11 @@ void SchedulerJob::setName(const QString &value)
     updateJobCells();
 }
 
-const KStarsDateTime &SchedulerJob::getLocalTime()
+KStarsDateTime SchedulerJob::getLocalTime()
 {
     if (hasLocalTime())
         return *storedLocalTime;
-    return KStarsData::Instance()->lt();
+    return getGeo()->UTtoLT(KStarsData::Instance()->clock()->utc());
 }
 
 GeoLocation const *SchedulerJob::getGeo()
@@ -69,6 +70,9 @@ void SchedulerJob::setStartupCondition(const StartupCondition &value)
 
     /* Refresh estimated time - which update job cells */
     setEstimatedTime(estimatedTime);
+
+    /* Refresh dawn and dusk for startup date */
+    calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setStartupTime(const QDateTime &value)
@@ -86,6 +90,9 @@ void SchedulerJob::setStartupTime(const QDateTime &value)
 
     /* Refresh estimated time - which update job cells */
     setEstimatedTime(estimatedTime);
+
+    /* Refresh dawn and dusk for startup date */
+    calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setSequenceFile(const QUrl &value)
@@ -394,6 +401,7 @@ void SchedulerJob::setPriority(const uint8_t &value)
 void SchedulerJob::setEnforceTwilight(bool value)
 {
     enforceTwilight = value;
+    calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
@@ -710,6 +718,10 @@ void SchedulerJob::reset()
     leadTime = 0;
     startupCondition = fileStartupCondition;
     startupTime = fileStartupCondition == START_AT ? fileStartupTime : QDateTime();
+
+    /* Refresh dawn and dusk for startup date */
+    calculateDawnDusk(startupTime, nextDawn, nextDusk);
+
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
     updateJobCells();
@@ -1089,4 +1101,48 @@ double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when,
         *is_setting = passed_meridian;
 
     return o.alt().Degrees();
+}
+
+void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nextDawn, QDateTime &nextDusk)
+{
+    QDateTime startup = when;
+
+    if (!startup.isValid())
+        startup = getLocalTime();
+
+    // Our local midnight - the KStarsDateTime date+time constructor is safe for local times
+    KStarsDateTime midnight(startup.date(), QTime(0,0), Qt::LocalTime);
+
+    QDateTime dawn = startup, dusk = startup;
+
+    // Loop dawn and dusk calculation until the events found are the next events
+    for ( ; dawn <= startup || dusk <= startup ; midnight = midnight.addDays(1))
+    {
+        // KSAlmanac computes the closest dawn and dusk events from the local sidereal time corresponding to the midnight argument
+        KSAlmanac const ksal(midnight, getGeo());
+
+        // If dawn is in the past compared to this observation, fetch the next dawn
+        if (dawn <= startup)
+            dawn = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) * 3600.0));
+
+        // If dusk is in the past compared to this observation, fetch the next dusk
+        if (dusk <= startup)
+            dusk = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) * 3600.0));
+    }
+
+    // Now we have the next events:
+    // - if dawn comes first, observation runs during the night
+    // - if dusk comes first, observation runs during the day
+    nextDawn = dawn;
+    nextDusk = dusk;
+}
+
+bool SchedulerJob::runsDuringAstronomicalNightTime() const
+{
+    // Calculate the next astronomical dawn time, adjusted with the Ekos pre-dawn offset
+    QDateTime const earlyDawn = nextDawn; //.addSecs(-60.0 * abs(Options::preDawnTime()));
+
+    // Dawn and dusk are ordered as the immediate next events following the observation time
+    // Thus if dawn comes first, the job startup time occurs during the dusk/dawn interval.
+    return nextDawn < nextDusk && startupTime <= earlyDawn;
 }

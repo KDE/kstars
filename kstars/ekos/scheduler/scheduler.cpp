@@ -51,11 +51,11 @@ namespace Ekos
 // Allows for unit testing of static Scheduler methods,
 // as can't call KStarsData::Instance() during unit testing.
 KStarsDateTime *Scheduler::storedLocalTime = nullptr;
-const KStarsDateTime &Scheduler::getLocalTime()
+KStarsDateTime Scheduler::getLocalTime()
 {
     if (hasLocalTime())
         return *storedLocalTime;
-    return KStarsData::Instance()->lt();
+    return KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc());
 }
 
 Scheduler::Scheduler()
@@ -229,6 +229,10 @@ Scheduler::Scheduler()
 
     // Connect simulation clock scale
     connect(KStarsData::Instance()->clock(), &SimClock::scaleChanged, this, &Scheduler::simClockScaleChanged);
+    connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, this, &Scheduler::simClockTimeChanged);
+
+    // Connect geographical location - when it is available
+    //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
     // restore default values for error handling strategy
     setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
@@ -1046,7 +1050,18 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
             break;
     }
 
+    updateNightTime(job);
+
     setJobManipulation(!Options::sortSchedulerJobs(), true);
+}
+
+void Scheduler::updateNightTime(SchedulerJob const *job)
+{
+    QDateTime const dawn = job ? job->getDawnAstronomicalTwilight() : Dawn;
+    QDateTime const dusk = job ? job->getDuskAstronomicalTwilight() : Dusk;
+
+    QChar const warning(dawn == dusk ? 0x26A0 : '-');
+    nightTime->setText(i18n("%1 %2 %3", dusk.toString("hh:mm"), warning, dawn.toString("hh:mm")));
 }
 
 void Scheduler::loadJob(QModelIndex i)
@@ -1101,11 +1116,12 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
 
     SchedulerJob * const job = jobs.at(current.row());
 
-    if (job == nullptr)
-        return;
-
-    resetJobEdit();
-    syncGUIToJob(job);
+    if (job != nullptr)
+    {
+        resetJobEdit();
+        syncGUIToJob(job);
+    }
+    else nightTime->setText("-");
 }
 
 void Scheduler::clickQueueTable(QModelIndex index)
@@ -1601,7 +1617,6 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
         updateCompletedJobsCount();
 
     calculateDawnDusk();
-    updatePreDawn();
     bool possiblyDelay = false;
     QList<SchedulerJob *> sortedJobs = evaluateJobs(jobs, state, m_CapturedFramesCount, Dawn, Dusk,
                                        errorHandlingRescheduleErrorsCB->isChecked(),
@@ -1631,7 +1646,7 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
 }
 
 QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &jobs, SchedulerState state,
-        const QMap<QString, uint16_t> &capturedFramesCount, double Dawn, double Dusk,
+        const QMap<QString, uint16_t> &capturedFramesCount, QDateTime const &Dawn, QDateTime const &Dusk,
         bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler)
 {
 
@@ -1907,7 +1922,7 @@ QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &jobs, Sche
                     break;
                 }
                 // Check whether the current job has a positive dark sky score at the time of startup
-                else if (true == currentJob->getEnforceTwilight() && getDarkSkyScore(Dawn, Dusk, currentJob->getStartupTime()) < 0)
+                else if (true == currentJob->getEnforceTwilight() && !currentJob->runsDuringAstronomicalNightTime())
                 {
                     currentJob->setState(SchedulerJob::JOB_INVALID);
 
@@ -2040,54 +2055,28 @@ QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &jobs, Sche
                 // During that check, we don't verify the current job can actually complete before dawn.
                 // If the job is interrupted while running, it will be aborted and rescheduled at a later time.
 
-                // We wouldn't start observation 30 mins (default) before dawn.
-                // FIXME: Refactor duplicated dawn/dusk calculations
-                double const earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
-
-                // Compute dawn time for the startup date of the job
-                // FIXME: Use KAlmanac to find the real dawn/dusk time for the day the job is supposed to be processed
-                QDateTime const dawnDateTime(currentJob->getStartupTime().date(), QTime(0, 0).addSecs(earlyDawn * 24 * 3600));
-
-                // Check if the job starts after dawn
-                if (dawnDateTime < currentJob->getStartupTime())
+                // If the job does not run during the astronomical night time, delay it to the next dusk
+                // This function takes care of Ekos offsets, dawn/dusk and pre-dawn
+                if (!currentJob->runsDuringAstronomicalNightTime())
                 {
-                    // Compute dusk time for the startup date of the job - no lead time on dusk
-                    QDateTime duskDateTime(currentJob->getStartupTime().date(), QTime(0, 0).addSecs(Dusk * 24 * 3600));
+                    // Delay job to next dusk - we will check other requirements later on
+                    currentJob->setStartupTime(currentJob->getDuskAstronomicalTwilight());
 
-                    // Near summer solstice, dusk may happen before dawn on the same day, shift dusk by one day in that case
-                    if (duskDateTime < dawnDateTime)
-                        duskDateTime = duskDateTime.addDays(1);
+                    qCDebug(KSTARS_EKOS_SCHEDULER) <<
+                                                      QString("Job '%1' is scheduled to start at %2, in compliance with night time requirement.")
+                                                      .arg(currentJob->getName())
+                                                      .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()));
 
-                    // Check if the job starts before dusk
-                    if (currentJob->getStartupTime() < duskDateTime)
-                    {
-                        // Delay job to next dusk - we will check other requirements later on
-                        currentJob->setStartupTime(duskDateTime);
-
-                        qCDebug(KSTARS_EKOS_SCHEDULER) <<
-                                                       QString("Job '%1' is scheduled to start at %2, in compliance with night time requirement.")
-                                                       .arg(currentJob->getName())
-                                                       .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()));
-
-                        continue;
-                    }
+                    continue;
                 }
 
-                // Compute dawn time for the day following the startup time, but disregard the pre-dawn offset as we'll consider completion
-                // FIXME: Use KAlmanac to find the real dawn/dusk time for the day next to the day the job is supposed to be processed
-                QDateTime const nextDawnDateTime(currentJob->getStartupTime().date().addDays(1), QTime(0, 0).addSecs(Dawn * 24 * 3600));
-
                 // Check if the completion date overlaps the next dawn, and issue a warning if so
-                if (nextDawnDateTime < currentJob->getCompletionTime())
+                if (currentJob->getDawnAstronomicalTwilight() < currentJob->getCompletionTime())
                 {
                     if (scheduler != nullptr) scheduler->appendLogText(
                             i18n("Warning: job '%1' execution overlaps daylight, it will be interrupted at dawn and rescheduled on next night time.",
                                  currentJob->getName()));
                 }
-
-
-                Q_ASSERT_X(0 <= getDarkSkyScore(Dawn, Dusk, currentJob->getStartupTime()), __FUNCTION__,
-                           "Consolidated startup time results in a positive dark sky score.");
             }
 
 
@@ -2391,69 +2380,52 @@ int16_t Scheduler::getWeatherScore() const
     return 0;
 }
 
-int16_t Scheduler::getDarkSkyScore(double dawn, double dusk, QDateTime const &when)
+int16_t Scheduler::getDarkSkyScore(QDateTime const &dawn, QDateTime const &dusk, QDateTime const &when)
 {
     double const secsPerDay = 24.0 * 3600.0;
-    double const minsPerDay = 24.0 * 60.0;
 
-    // Dark sky score is calculated based on distance to today's dawn and next dusk.
+    // Dark sky score is calculated based on distance to today's next dawn and dusk.
     // Option "Pre-dawn Time" avoids executing a job when dawn is approaching, and is a value in minutes.
     // - If observation is between option "Pre-dawn Time" and dawn, score is BAD_SCORE/50.
-    // - If observation is before dawn today, score is fraction of the day from beginning of observation to dawn time, as percentage.
-    // - If observation is after dusk, score is fraction of the day from dusk to beginning of observation, as percentage.
-    // - If observation is between dawn and dusk, score is BAD_SCORE.
+    // - If observation is before next dawn, which arrives first, score is fraction of the day from beginning of observation to dawn time, as percentage.
+    // - If observation is before next dusk, which arrives first, score is BAD_SCORE.
     //
     // If observation time is invalid, the score is calculated for the current day time.
     // Note exact dusk time is considered valid in terms of night time, and will return a positive, albeit null, score.
 
-    // FIXME: Dark sky score should consider the middle of the local night as best value.
     // FIXME: Current algorithm uses the dawn and dusk of today, instead of the day of the observation.
 
-    int const earlyDawnSecs = static_cast <int> ((dawn - static_cast <double> (Options::preDawnTime()) / minsPerDay) *
-                              secsPerDay);
-    int const dawnSecs = static_cast <int> (dawn * secsPerDay);
-    int const duskSecs = static_cast <int> (dusk * secsPerDay);
-    int const obsSecs = (when.isValid() ? when : getLocalTime()).time().msecsSinceStartOfDay() / 1000;
+    // If both dawn and dusk are in the past, (incorrectly) readjust the dawn and dusk to the next day
+    // This was OK for next-day calculations, but Scheduler should now drop dark sky scores and rely on SchedulerJob dawn and dusk
+    QDateTime const now = when.isValid() ? when : getLocalTime();
+    int const earlyDawnSecs = now.secsTo(dawn.addDays(dawn < now ? dawn.daysTo(now)+1 : 0).addSecs(-60.0 * Options::preDawnTime()));
+    int const dawnSecs = now.secsTo(dawn.addDays(dawn < now ? dawn.daysTo(now)+1 : 0));
+    int const duskSecs = now.secsTo(dusk.addDays(dawn < now ? dusk.daysTo(now)+1 : 0));
+    int const obsSecs = now.secsTo(when);
 
-    int16_t score = 0;
+    Q_ASSERT_X(dawnSecs >= 0, __FUNCTION__, "Scheduler computes the next dawn after the considered event.");
+    Q_ASSERT_X(duskSecs >= 0, __FUNCTION__, "Scheduler computes the next dusk after the considered event.");
 
-    if (earlyDawnSecs <= obsSecs && obsSecs < dawnSecs)
-    {
-        score = BAD_SCORE / 50;
+    // If dawn is future and the next event is dusk, it is day time
+    if (obsSecs < duskSecs && duskSecs <= dawnSecs)
+        return BAD_SCORE;
 
-        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (between pre-dawn and dawn).")
-        //    .arg(observationDateTime.toString())
-        //    .arg(QString::asprintf("%+d", score));
-    }
-    else if (obsSecs < dawnSecs)
-    {
-        score = static_cast <int16_t> ((dawnSecs - obsSecs) / secsPerDay) * 100;
+    // If dawn is past and the next event is dusk, it is still day time
+    if (dawnSecs <= obsSecs && obsSecs < duskSecs)
+        return BAD_SCORE;
 
-        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (before dawn).")
-        //    .arg(observationDateTime.toString())
-        //    .arg(QString::asprintf("%+d", score));
-    }
-    else if (duskSecs <= obsSecs)
-    {
-        score = static_cast <int16_t> ((obsSecs - duskSecs) / secsPerDay) * 100;
+    // If early dawn is past and the next event is dawn, it could be OK but nope
+    if (earlyDawnSecs <= obsSecs && obsSecs < dawnSecs && dawnSecs <= duskSecs)
+        return BAD_SCORE / 50;
 
-        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (after dusk).")
-        //    .arg(observationDateTime.toString())
-        //    .arg(QString::asprintf("%+d", score));
-    }
-    else
-    {
-        score = BAD_SCORE;
+    // If the next event is early dawn, then it is night time
+    if (obsSecs < earlyDawnSecs && earlyDawnSecs <= dawnSecs && earlyDawnSecs <= duskSecs)
+        return static_cast <int16_t> ((100 * (earlyDawnSecs - obsSecs)) / secsPerDay);
 
-        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (during daylight).")
-        //    .arg(observationDateTime.toString())
-        //    .arg(QString::asprintf("%+d", score));
-    }
-
-    return score;
+    return BAD_SCORE;
 }
 
-int16_t Scheduler::calculateJobScore(SchedulerJob const *job, double dawn, double dusk, QDateTime const &when)
+int16_t Scheduler::calculateJobScore(SchedulerJob const *job, QDateTime const &dawn, QDateTime const &dusk, QDateTime const &when)
 {
     if (nullptr == job)
         return BAD_SCORE;
@@ -2515,17 +2487,9 @@ int16_t Scheduler::calculateJobScore(SchedulerJob const *job, double dawn, doubl
 
 void Scheduler::calculateDawnDusk()
 {
-    KSAlmanac ksal;
-    Dawn = ksal.getDawnAstronomicalTwilight() + Options::dawnOffset() / 24.0;
-    Dusk = ksal.getDuskAstronomicalTwilight() + Options::duskOffset() / 24.0;
+    SchedulerJob::calculateDawnDusk(QDateTime(), Dawn, Dusk);
 
-    QTime const dawn = QTime(0, 0, 0).addSecs(Dawn * 24 * 3600);
-    QTime const dusk = QTime(0, 0, 0).addSecs(Dusk * 24 * 3600);
-
-    duskDateTime.setDate(KStars::Instance()->data()->lt().date());
-    duskDateTime.setTime(dusk);
-
-    nightTime->setText(i18n("%1 - %2", dusk.toString("hh:mm"), dawn.toString("hh:mm")));
+    preDawnDateTime = Dawn.addSecs(Options::preDawnTime() * 60.0);
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
@@ -2571,7 +2535,7 @@ void Scheduler::executeJob(SchedulerJob *job)
         captureInterface->setProperty("targetName", sanitized);
     }
 
-    updatePreDawn();
+    calculateDawnDusk();
 
     // Reset autofocus so that focus step is applied properly when checked
     // When the focus step is not checked, the capture module will eventually run focus periodically
@@ -6053,18 +6017,6 @@ void Scheduler::sortJobsPerAltitude()
     }
 }
 
-
-void Scheduler::updatePreDawn()
-{
-    double earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
-    int dayOffset    = 0;
-    QTime dawn       = QTime(0, 0, 0).addSecs(Dawn * 24 * 3600);
-    if (KStarsData::Instance()->lt().time() >= dawn)
-        dayOffset = 1;
-    preDawnDateTime.setDate(KStarsData::Instance()->lt().date().addDays(dayOffset));
-    preDawnDateTime.setTime(QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
-}
-
 void Scheduler::resumeCheckStatus()
 {
     disconnect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
@@ -6623,6 +6575,20 @@ void Scheduler::simClockScaleChanged(float newScale)
                            remainingTimeMs.toString("hh:mm:ss")));
         sleepTimer.stop();
         sleepTimer.start(remainingTimeMs.msecsSinceStartOfDay());
+    }
+}
+
+void Scheduler::simClockTimeChanged()
+{
+    calculateDawnDusk();
+
+    int const currentRow = queueTable->currentRow();
+    updateNightTime(0 < currentRow ? jobs.at(currentRow) : nullptr);
+
+    // If the Scheduler is not running, reset all jobs and re-evaluate from a new current start point
+    if (SCHEDULER_RUNNING != state)
+    {
+        startJobEvaluation();
     }
 }
 
