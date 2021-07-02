@@ -47,7 +47,6 @@ QSqlQuery make_query(QSqlDatabase &db, const QString &statement, const bool forw
     query.setForwardOnly(forward_only);
     if (!query.prepare(statement))
     {
-        qDebug() << query.lastQuery() << query.lastError().text();
         throw DatabaseError("Can't prepare query!", DatabaseError::ErrorType::PREPARE,
                             query.lastError());
     };
@@ -97,7 +96,6 @@ DBManager::DBManager(const QString &filename)
 
     if (!init && m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
     {
-        qDebug() << "here";
         const auto &success = migrate_db(m_db_version, m_db);
         if (success.first)
         {
@@ -108,7 +106,6 @@ DBManager::DBManager(const QString &filename)
 
             if (!version_query.exec())
             {
-                qDebug() << version_query.lastError().text() << version_query.lastQuery();
                 throw DatabaseError(QString("Could not update the database version."),
                                     DatabaseError::ErrorType::VERSION,
                                     version_query.lastError());
@@ -775,13 +772,15 @@ std::pair<bool, QString> DBManager::dump_catalog(int catalog_id, QString file_pa
 std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
                                                    const bool overwrite)
 {
-    QFile file{ file_path };
+    QTemporaryDir tmp;
+    const auto new_path = tmp.filePath("cat.kscat");
+    QFile::copy(file_path, new_path);
+
+    QFile file{ new_path };
     if (!file.open(QIODevice::ReadOnly))
         return { false, i18n("Catalog file is not readable.") };
     file.close();
 
-    QTemporaryDir tmp;
-    const auto new_path = tmp.filePath("cat.kscat");
     QSqlQuery query{ m_db };
 
     if (!query.exec(QString("ATTACH [%1] AS tmp").arg(new_path)))
@@ -949,10 +948,30 @@ std::pair<bool, Catalog> CatalogsDB::read_catalog_meta_from_file(const QString &
     QSqlDatabase db{ QSqlDatabase::addDatabase(
         "QSQLITE", QString("tmp_%1_%2").arg(path).arg(get_connection_index())) };
     db.setDatabaseName(path);
+
     if (!db.open())
         return { false, {} };
 
     QSqlQuery query{ db };
+
+    if (!query.exec("PRAGMA user_version") || !query.next() ||
+        query.value(0).toInt() != SqlStatements::current_db_version)
+    {
+        QTemporaryDir tmp;
+        const auto new_path = tmp.filePath("cat.kscat");
+
+        QFile::copy(path, new_path);
+        db.close();
+
+        db.setDatabaseName(new_path);
+        if (!db.open())
+            return { false, {} };
+
+        const auto &success = migrate_db(query.value(0).toInt(), db);
+        if (!success.first)
+            return { false, {} };
+    }
+
     if (!query.exec(SqlStatements::get_first_catalog) || !query.first())
         return { false, {} };
 
