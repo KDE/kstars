@@ -31,7 +31,6 @@
 
 #include "gpg.h"
 
-class GuideView;
 class FITSData;
 class Edge;
 
@@ -134,13 +133,14 @@ class cgmath : public QObject
         }
         uint32_t getTicks(void) const;
 
-        void setGuideView(GuideView *image);
-
-        GuideView *getGuideView()
+        void setImageData(const QSharedPointer<FITSData> &data)
         {
-            return guideView;
+            m_ImageData = data;
         }
-
+        void setGuideView(GuideView *view)
+        {
+            guideView = view;
+        }
         // Based on PHD2 algorithm
         QList<Edge *> PSFAutoFind(int extraEdgeAllowance = 0);
 
@@ -219,6 +219,8 @@ class cgmath : public QObject
         uint32_t ticks { 0 };
         /// Pointer to image
         QPointer<GuideView> guideView;
+        /// Pointer to data
+        QSharedPointer<FITSData> m_ImageData;
         /// Video frame width
         int video_width { -1 };
         /// Video frame height

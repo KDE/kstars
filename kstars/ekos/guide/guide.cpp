@@ -1431,6 +1431,9 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
     else
         m_ImageData.reset();
 
+    if (guiderType == GUIDE_INTERNAL)
+        internalGuider->setImageData(m_ImageData);
+
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
 
@@ -1667,9 +1670,9 @@ bool Guide::guide()
                 double x = starCenter.x();
                 double y = starCenter.y();
 
-                if(guideView->imageData() != nullptr)
+                if(!m_ImageData.isNull())
                 {
-                    if(guideView->imageData()->width() > 50)
+                    if(m_ImageData->width() > 50)
                     {
                         guideConnect = connect(this, &Guide::newStatus, this, [this, x, y](Ekos::GuideState newState)
                         {
@@ -2160,9 +2163,9 @@ void Guide::syncTrackingBoxPosition()
     if(guiderType == GUIDE_PHD2)
     {
         //This way it won't set the tracking box on the Guide Star Image.
-        if(guideView->imageData() != nullptr)
+        if(!m_ImageData.isNull())
         {
-            if(guideView->imageData()->width() < 50)
+            if(m_ImageData->width() < 50)
             {
                 guideView->setTrackingBoxEnabled(false);
                 return;
@@ -2658,9 +2661,9 @@ void Guide::setTrackingStar(int x, int y)
     if(guiderType == GUIDE_PHD2)
     {
         //The Guide Star Image is 32 pixels across or less, so this guarantees it isn't that.
-        if(guideView->imageData() != nullptr)
+        if(!m_ImageData.isNull())
         {
-            if(guideView->imageData()->width() > 50)
+            if(m_ImageData->width() > 50)
                 phd2Guider->setLockPosition(starCenter.x(), starCenter.y());
         }
     }

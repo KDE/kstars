@@ -1472,7 +1472,7 @@ void Focus::analyzeSources()
     QVariantMap extractionSettings;
     extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
     extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::FocusProfiles);
-    focusView->imageData()->setSourceExtractorSettings(extractionSettings);
+    m_ImageData->setSourceExtractorSettings(extractionSettings);
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
     // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
     // a bounding box for them to be effective in near real-time application.
@@ -1481,16 +1481,17 @@ void Focus::analyzeSources()
         focusView->setTrackingBoxEnabled(false);
 
         if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-            m_StarFinderWatcher.setFuture(focusView->findStars(ALGORITHM_CENTROID));
+            m_StarFinderWatcher.setFuture(m_ImageData->findStars(ALGORITHM_CENTROID));
         else
-            m_StarFinderWatcher.setFuture(focusView->findStars(focusDetection));
+            m_StarFinderWatcher.setFuture(m_ImageData->findStars(focusDetection));
     }
     else
     {
+        QRect searchBox = focusView->isTrackingBoxEnabled() ? focusView->getTrackingBox() : QRect();
         // If star is already selected then use whatever algorithm currently selected.
         if (starSelected)
         {
-            m_StarFinderWatcher.setFuture(focusView->findStars(focusDetection));
+            m_StarFinderWatcher.setFuture(m_ImageData->findStars(focusDetection, searchBox));
         }
         else
         {
@@ -1500,10 +1501,10 @@ void Focus::analyzeSources()
             // If algorithm is set something other than Centeroid or SEP, then force Centroid
             // Since it is the most reliable detector when nothing was selected before.
             if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-                m_StarFinderWatcher.setFuture(focusView->findStars(ALGORITHM_CENTROID));
+                m_StarFinderWatcher.setFuture(m_ImageData->findStars(ALGORITHM_CENTROID));
             else
                 // Otherwise, continue to find use using the selected algorithm
-                m_StarFinderWatcher.setFuture(focusView->findStars(focusDetection));
+                m_StarFinderWatcher.setFuture(m_ImageData->findStars(focusDetection, searchBox));
         }
     }
 }
@@ -2068,7 +2069,7 @@ void Focus::setHFRComplete()
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
         QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
-        focusView->imageData()->saveImage(filename);
+        m_ImageData->saveImage(filename);
     }
 
     // If we are not in autofocus process, we're done.

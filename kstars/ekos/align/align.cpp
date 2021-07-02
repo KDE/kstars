@@ -3056,28 +3056,23 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
 
 bool Align::detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *starIndex)
 {
-    const QSharedPointer<FITSData> imageData = alignView->imageData();
     stars->clear();
     *starIndex = -1;
-
-    if (imageData == nullptr)
-        return 0;
 
     // Use the solver settings from the align tab for for "polar-align refresh" star detection.
     QVariantMap settings;
     settings["optionsProfileIndex"] = Options::solveOptionsProfile();
     settings["optionsProfileGroup"] = static_cast<int>(Ekos::AlignProfiles);
-    imageData->setSourceExtractorSettings(settings);
+    m_ImageData->setSourceExtractorSettings(settings);
 
-    QTime timer;
-    timer.restart();
-    imageData->findStars(ALGORITHM_SEP).waitForFinished();
+    QElapsedTimer timer;
+    m_ImageData->findStars(ALGORITHM_SEP).waitForFinished();
 
     QString debugString = QString("PAA Refresh: Detected %1 stars (%2s)")
-                          .arg(imageData->getStarCenters().size()).arg(timer.elapsed() / 1000.0, 5, 'f', 3);
+                          .arg(m_ImageData->getStarCenters().size()).arg(timer.elapsed() / 1000.0, 5, 'f', 3);
     qCDebug(KSTARS_EKOS_ALIGN) << debugString;
 
-    QList<Edge *> detectedStars = imageData->getStarCenters();
+    QList<Edge *> detectedStars = m_ImageData->getStarCenters();
     // Let's sort detectedStars by flux, starting with widest
     std::sort(detectedStars.begin(), detectedStars.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->sum > edge2->sum;});
 
@@ -3303,7 +3298,6 @@ void Align::startSolving()
     // This is needed because they might have directories stored in the config file.
     // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    const QSharedPointer<FITSData> &data = alignView->imageData();
     disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
@@ -3346,7 +3340,7 @@ void Align::startSolving()
             else
                 solver->deleteLater();
         }
-        m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, data->getStatistics(), data->getImageBuffer()));
+        m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
         m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
         m_StellarSolver->setProperty("SolverType", Options::solverType());
         connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
@@ -3399,7 +3393,7 @@ void Align::startSolving()
         if (solveFromFile)
         {
             FITSImage::Solution solution;
-            data->parseSolution(solution);
+            m_ImageData->parseSolution(solution);
 
             if (solution.pixscale > 0)
                 m_StellarSolver->setSearchScale(solution.pixscale * 0.8,
@@ -3460,7 +3454,7 @@ void Align::startSolving()
     {
         // This should run only for load&slew. For regular solve, we don't get here
         // as the image is read and solved server-side.
-        remoteParser->startSolver(data->filename(), generateRemoteArgs(data), false);
+        remoteParser->startSolver(m_ImageData->filename(), generateRemoteArgs(m_ImageData), false);
     }
 
     // Kick off timer
@@ -5598,7 +5592,6 @@ void Align::calculatePAHError()
     // Hold on to the imageData so we can use it during the refresh phase.
     alignView->holdOnToImage();
 
-    const QSharedPointer<FITSData> imageData = alignView->imageData();
     if (!polarAlign.findAxis())
     {
         appendLogText(i18n("PAA: Failed to find RA Axis center."));
@@ -5625,17 +5618,17 @@ void Align::calculatePAHError()
     PAHOrigErrorAlt->setText(altError.toDMSString());
     PAHOrigErrorAz->setText(azError.toDMSString());
 
-    setupCorrectionGraphics(QPointF(imageData->width() / 2, imageData->height() / 2));
+    setupCorrectionGraphics(QPointF(m_ImageData->width() / 2, m_ImageData->height() / 2));
 
     // Find Celestial pole location and mount's RA axis
     SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
     QPointF imagePoint, celestialPolePoint;
-    imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
-    if (imageData->contains(celestialPolePoint))
+    m_ImageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
+    if (m_ImageData->contains(celestialPolePoint))
     {
         alignView->setCelestialPole(celestialPolePoint);
         QPointF raAxis;
-        if (polarAlign.findCorrectedPixel(imageData, celestialPolePoint, &raAxis))
+        if (polarAlign.findCorrectedPixel(m_ImageData, celestialPolePoint, &raAxis))
             alignView->setRaAxis(raAxis);
     }
 
@@ -5804,7 +5797,7 @@ void Align::setWCSToggled(bool result)
         }
 
         polarAlign.reset();
-        polarAlign.addPoint(alignView->imageData());
+        polarAlign.addPoint(m_ImageData);
 
         m_PAHStage = PAH_FIRST_ROTATE;
         emit newPAHStage(m_PAHStage);
@@ -5846,22 +5839,20 @@ void Align::setWCSToggled(bool result)
             emit newPAHMessage(secondRotateText->text());
         }
 
-        polarAlign.addPoint(alignView->imageData());
+        polarAlign.addPoint(m_ImageData);
 
         rotatePAH();
     }
     else if (m_PAHStage == PAH_THIRD_CAPTURE)
     {
-        const QSharedPointer<FITSData> &imageData = alignView->imageData();
-
         // Critical error
         if (result == false)
         {
-            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
+            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", m_ImageData->getLastError()));
             return;
         }
 
-        polarAlign.addPoint(imageData);
+        polarAlign.addPoint(m_ImageData);
 
         // We have 3 points which uniquely defines a circle with its center representing the RA Axis
         // We have celestial pole location. So correction vector is just the vector between these two points

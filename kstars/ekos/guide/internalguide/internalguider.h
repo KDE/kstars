@@ -12,6 +12,7 @@
 #pragma once
 
 #include "matr.h"
+#include "fitsviewer/fitsdata.h"
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
 #include "guidelog.h"
@@ -108,6 +109,8 @@ class InternalGuider : public GuideInterface
 
         // Guide View
         void setGuideView(GuideView *guideView);
+        // Image Data
+        void setImageData(const QSharedPointer<FITSData> &data);
 
         // Region Axis
         void setRegionAxis(uint32_t value);
@@ -183,6 +186,7 @@ class InternalGuider : public GuideInterface
 
         std::unique_ptr<cgmath> pmath;
         QPointer<GuideView> guideFrame;
+        QSharedPointer<FITSData> m_ImageData;
         bool m_isStarted { false };
         bool m_isSubFramed { false };
         bool m_isFirstFrame { false };

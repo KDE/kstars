@@ -1693,6 +1693,9 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
     data->setProperty("blobElement", bp->name);
     data->setProperty("chip", targetChip->getType());
 
+    emit BLOBUpdated(bp);
+    emit newImage(data);
+
     switch (captureMode)
     {
         case FITS_NORMAL:
@@ -1740,21 +1743,19 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                 if (Options::focusFITSOnNewImage())
                     m_FITSViewerWindow->raise();
             }
-
-            emit BLOBUpdated(bp);
-            emit newImage(data);
         }
         break;
 
         case FITS_FOCUS:
         case FITS_GUIDE:
         case FITS_ALIGN:
-            loadImageInView(bp, targetChip, data);
+            loadImageInView(targetChip, data);
+
             break;
     }
 }
 
-void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data)
+void CCD::loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data)
 {
     FITSMode mode = targetChip->getCaptureMode();
     FITSView *view = targetChip->getImageView(mode);
@@ -1777,9 +1778,6 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip, const QSharedPoin
         if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) &&
                 (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
             m_FITSViewerWindow->show();
-
-        emit BLOBUpdated(bp);
-        emit newImage(data);
     }
 }
 

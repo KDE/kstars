@@ -16,7 +16,6 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "auxiliary/kspaths.h"
-#include "../guideview.h"
 #include "ekos_guide_debug.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
@@ -110,11 +109,6 @@ bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
     guideStars.setCalibration(calibration);
 
     return true;
-}
-
-void cgmath::setGuideView(GuideView *image)
-{
-    guideView = image;
 }
 
 bool cgmath::setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal)
@@ -329,8 +323,8 @@ void cgmath::setLostStar(bool is_lost)
 float *cgmath::createFloatImage(const QSharedPointer<FITSData> &target) const
 {
     QSharedPointer<FITSData> imageData;
-    if (target == nullptr)
-        imageData = guideView->imageData();
+    if (target.isNull())
+        imageData = m_ImageData;
     else
         imageData = target;
 
@@ -423,15 +417,13 @@ QVector<float *> cgmath::partitionImage() const
 {
     QVector<float *> regions;
 
-    const QSharedPointer<FITSData> &imageData = guideView->imageData();
-
     float *imgFloat = createFloatImage(QSharedPointer<FITSData>());
 
     if (imgFloat == nullptr)
         return regions;
 
-    const uint16_t width  = imageData->width();
-    const uint16_t height = imageData->height();
+    const uint16_t width  = m_ImageData->width();
+    const uint16_t height = m_ImageData->height();
 
     uint8_t xRegions = floor(width / regionAxis);
     uint8_t yRegions = floor(height / regionAxis);
@@ -480,15 +472,13 @@ Vector cgmath::findLocalStarPosition(void)
     if (square_alg_idx == SEP_MULTISTAR)
     {
         QRect trackingBox = guideView->getTrackingBox();
-        return guideStars.findGuideStar(guideView->imageData(), trackingBox, guideView);
+        return guideStars.findGuideStar(m_ImageData, trackingBox, guideView);
     }
 
     if (useRapidGuide)
     {
         return Vector(rapidDX, rapidDY, 0);
     }
-
-    const QSharedPointer<FITSData> &imageData = guideView->imageData();
 
     if (imageGuideEnabled)
     {
@@ -548,7 +538,7 @@ Vector cgmath::findLocalStarPosition(void)
         return Vector(median_x, median_y, -1);
     }
 
-    switch (imageData->getStatistics().dataType)
+    switch (m_ImageData->dataType())
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();
@@ -599,9 +589,7 @@ Vector cgmath::findLocalStarPosition(void) const
     if (trackingBox.isValid() == false)
         return Vector(-1, -1, -1);
 
-    const QSharedPointer<FITSData> &imageData = guideView->imageData();
-
-    if (imageData == nullptr)
+    if (m_ImageData.isNull())
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "Cannot process a nullptr image.";
         return Vector(-1, -1, -1);
@@ -612,13 +600,13 @@ Vector cgmath::findLocalStarPosition(void) const
         QVariantMap settings;
         settings["optionsProfileIndex"] = Options::guideOptionsProfile();
         settings["optionsProfileGroup"] = static_cast<int>(Ekos::GuideProfiles);
-        imageData->setSourceExtractorSettings(settings);
-        QFuture<bool> result = imageData->findStars(ALGORITHM_SEP, trackingBox);
+        m_ImageData->setSourceExtractorSettings(settings);
+        QFuture<bool> result = m_ImageData->findStars(ALGORITHM_SEP, trackingBox);
         result.waitForFinished();
         if (result.result())
         {
-            imageData->getHFR(HFR_MEDIAN);
-            Edge *star = imageData->getSelectedHFRStar();
+            m_ImageData->getHFR(HFR_MEDIAN);
+            Edge *star = m_ImageData->getSelectedHFRStar();
             if (star)
                 ret = Vector(star->x, star->y, 0);
             else
@@ -631,7 +619,7 @@ Vector cgmath::findLocalStarPosition(void) const
         return ret;
     }
 
-    T const *pdata = reinterpret_cast<T const*>(imageData->getImageBuffer());
+    T const *pdata = reinterpret_cast<T const*>(m_ImageData->getImageBuffer());
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Tracking Square " << trackingBox;
 
@@ -1450,7 +1438,7 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
     //usImage smoothed;
     //smoothed.CopyFrom(image);
     //Median3(smoothed);
-    const QSharedPointer<FITSData> smoothed(new FITSData(guideView->imageData()));
+    const QSharedPointer<FITSData> smoothed(new FITSData(m_ImageData));
     smoothed->applyFilter(FITS_MEDIAN);
 
     int searchRegion = guideView->getTrackingBox().width();
@@ -1645,7 +1633,7 @@ repeat:
 
 QVector3D cgmath::selectGuideStar()
 {
-    return guideStars.selectGuideStar(guideView->imageData());
+    return guideStars.selectGuideStar(m_ImageData);
 }
 
 double cgmath::getGuideStarSNR()

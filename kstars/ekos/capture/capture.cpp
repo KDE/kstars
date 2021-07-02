@@ -6264,16 +6264,16 @@ bool Capture::processPostCaptureCalibrationStage()
             qCInfo(KSTARS_EKOS_CAPTURE) << "Enabling FITS Viewer...";
         }
 
-        QSharedPointer<FITSData> image_data;
-        FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
+        //        QSharedPointer<FITSData> image_data;
+        //        FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
 
-        if (currentImage)
+        if (!m_ImageData.isNull())
         {
-            image_data        = currentImage->imageData();
-            double currentADU = image_data->getADU();
+            //image_data        = currentImage->imageData();
+            double currentADU = m_ImageData->getADU();
             bool outOfRange = false, saturated = false;
 
-            switch (image_data->bpp())
+            switch (m_ImageData->bpp())
             {
                 case 8:
                     if (activeJob->getTargetADU() > UINT8_MAX)
@@ -6303,7 +6303,7 @@ bool Capture::processPostCaptureCalibrationStage()
             if (outOfRange)
             {
                 appendLogText(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.",
-                                   QString::number(image_data->bpp())
+                                   QString::number(m_ImageData->bpp())
                                    , QString::number(activeJob->getTargetADU(), 'f', 2)));
                 abort();
                 return false;
@@ -6359,7 +6359,7 @@ bool Capture::processPostCaptureCalibrationStage()
             double nextExposure = -1;
 
             // If value is saturated, try to reduce it to valid range first
-            if (std::fabs(image_data->getMax(0) - image_data->getMin(0)) < 10)
+            if (std::fabs(m_ImageData->getMax(0) - m_ImageData->getMin(0)) < 10)
                 nextExposure = activeJob->getExposure() * 0.5;
             else
                 nextExposure = setCurrentADU(currentADU);

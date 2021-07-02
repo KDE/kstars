@@ -535,8 +535,13 @@ void InternalGuider::processCalibration()
 void InternalGuider::setGuideView(GuideView *guideView)
 {
     guideFrame = guideView;
-
     pmath->setGuideView(guideFrame);
+}
+
+void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
+{
+    m_ImageData = data;
+    pmath->setImageData(data);
 }
 
 void InternalGuider::reset()
@@ -1425,11 +1430,6 @@ bool InternalGuider::selectAutoStar()
     if (Options::guideAlgorithm() == SEP_MULTISTAR)
         return selectAutoStarSEPMultistar();
 
-    const QSharedPointer<FITSData> &imageData = guideFrame->imageData();
-
-    if (imageData == nullptr)
-        return false;
-
     bool useNativeDetection = false;
 
     QList<Edge *> starCenters;
@@ -1443,14 +1443,14 @@ bool InternalGuider::selectAutoStar()
         settings["maxStarsCount"] = 50;
         settings["optionsProfileIndex"] = Options::guideOptionsProfile();
         settings["optionsProfileGroup"] = static_cast<int>(Ekos::GuideProfiles);
-        imageData->setSourceExtractorSettings(settings);
+        m_ImageData->setSourceExtractorSettings(settings);
 
         if (Options::guideAlgorithm() == SEP_THRESHOLD)
-            imageData->findStars(ALGORITHM_SEP).waitForFinished();
+            m_ImageData->findStars(ALGORITHM_SEP).waitForFinished();
         else
-            imageData->findStars().waitForFinished();
+            m_ImageData->findStars().waitForFinished();
 
-        starCenters = imageData->getStarCenters();
+        starCenters = m_ImageData->getStarCenters();
         if (starCenters.empty())
             return false;
 
@@ -1471,8 +1471,8 @@ bool InternalGuider::selectAutoStar()
         guideFrame->updateFrame();
     }
 
-    int maxX = imageData->width();
-    int maxY = imageData->height();
+    int maxX = m_ImageData->width();
+    int maxY = m_ImageData->height();
 
     int scores[MAX_GUIDE_STARS];
 
