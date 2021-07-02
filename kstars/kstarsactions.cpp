@@ -499,8 +499,8 @@ void KStars::slotDownload()
                     if (!success.first)
                         QMessageBox::critical(
                             this, i18n("Error"),
-                            i18n("Could not import the catalog \"%1\"<br>%2"),
-                            entry.name(), success.second);
+                            i18n("Could not import the catalog \"%1\"<br>%2",
+                                 entry.name(), success.second));
                 }
             }
 
