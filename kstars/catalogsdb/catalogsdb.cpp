@@ -800,7 +800,7 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
         return { false, i18n("Invalid catalog file.") };
 
     if (!query.exec("PRAGMA tmp.user_version") || !query.next() ||
-        query.value(0).toInt() != m_db_version)
+        query.value(0).toInt() < m_db_version)
     {
         const auto &success = migrate_db(query.value(0).toInt(), m_db, "tmp");
         if (!success.first)
@@ -955,7 +955,7 @@ std::pair<bool, Catalog> CatalogsDB::read_catalog_meta_from_file(const QString &
     QSqlQuery query{ db };
 
     if (!query.exec("PRAGMA user_version") || !query.next() ||
-        query.value(0).toInt() != SqlStatements::current_db_version)
+        query.value(0).toInt() < SqlStatements::current_db_version)
     {
         QTemporaryDir tmp;
         const auto new_path = tmp.filePath("cat.kscat");
