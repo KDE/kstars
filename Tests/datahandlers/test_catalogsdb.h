@@ -199,9 +199,10 @@ class TestCatalogsDB_DBManager : public QObject
         const auto &names = { "a", "b", "c" };
         const int id      = m_manager.find_suitable_catalog_id();
 
+        const auto &now = QDateTime::currentDateTime();
         auto success =
             m_manager.register_catalog(id, "test", true, true, 1, "me", "test suite",
-                                       "test catalog", 2, "green", "gpl", "me");
+                                       "test catalog", 2, "green", "gpl", "me", now);
         QVERIFY(success.first);
 
         for (const auto &name : names)
@@ -213,6 +214,7 @@ class TestCatalogsDB_DBManager : public QObject
         QVERIFY2(success.first, "Dumping catalogs.");
 
         const auto cat_meta = CatalogsDB::read_catalog_meta_from_file(path);
+
         QVERIFY2(cat_meta.first, "Read dumped catalog meta data.");
         QCOMPARE(cat_meta.second.id, id);
         QCOMPARE(cat_meta.second.name, "test");
@@ -226,6 +228,7 @@ class TestCatalogsDB_DBManager : public QObject
         QCOMPARE(cat_meta.second.color, "green");
         QCOMPARE(cat_meta.second.license, "gpl");
         QCOMPARE(cat_meta.second.maintainer, "me");
+        QCOMPARE(cat_meta.second.timestamp, now);
 
         success = m_manager.import_catalog(path);
         QVERIFY2(!success.first, "Not overwriting an existing catalog.");
