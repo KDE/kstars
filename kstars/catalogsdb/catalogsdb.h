@@ -100,6 +100,15 @@ struct Catalog
      * The catalog maintainer.
      */
     QString maintainer = "";
+
+    /**
+     * Build time of the catalog. Usually only catalogs with the same
+     * timestamp can be considered dedublicated.
+     *
+     * A `null` timestamp indicates that the catalog has not been
+     * built by the catalog repository.
+     */
+    QDateTime timestamp{};
 };
 
 const Catalog cat_defaults{};
@@ -376,7 +385,8 @@ class DBManager
                      const int version          = cat_defaults.version,
                      const QString &color       = cat_defaults.color,
                      const QString &license     = cat_defaults.license,
-                     const QString &maintainer  = cat_defaults.maintainer);
+                     const QString &maintainer  = cat_defaults.maintainer,
+                     const QDateTime &timestamp = cat_defaults.timestamp);
 
     std::pair<bool, QString> register_catalog(const Catalog &cat);
 

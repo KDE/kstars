@@ -38,7 +38,7 @@ const QString mag_desc = "magnitude DESC NULLS LAST";
 
 /* constants */
 const QString catalog_prefix       = "cat_";
-constexpr int current_db_version   = 1;
+constexpr int current_db_version   = 2;
 constexpr int default_htmesh_level = 3;
 constexpr int user_catalog_id      = 0;
 const QString user_catalog_name    = "user";
@@ -50,6 +50,7 @@ const QString create_meta_table =
     "CREATE TABLE IF NOT EXISTS meta (version INTEGER NOT "
     "NULL, htmesh_level INTEGER NOT NULL, init INTEGER NOT NULL)";
 
+const QString update_version = "UPDATE meta SET version = :version";
 const QString get_meta = "SELECT version, htmesh_level, init FROM meta LIMIT 1";
 const QString set_meta = "INSERT INTO meta (version, htmesh_level, init) VALUES "
                          "(:version, :htmesh_level, :init)";
@@ -176,7 +177,8 @@ const QString _create_catalog_list_table = "CREATE TABLE IF NOT EXISTS %1 ("
                                            "enabled INTEGER DEFAULT 1,"
                                            "color TEXT DEFAULT NULL,"
                                            "license TEXT DEFAULT NULL,"
-                                           "maintainer TEXT DEFAULT NULL)";
+                                           "maintainer TEXT DEFAULT NULL,"
+                                           "timestamp DATETIME DEFAULT NULL)";
 
 inline const QString create_catalog_registry(const QString &name)
 {
@@ -189,7 +191,7 @@ const QString _insert_catalog =
     "INSERT OR IGNORE INTO %1 (id, name, mut, enabled, precedence, author, source, "
     "description, version, color, license, maintainer) "
     "VALUES (:id, :name, :mut, :enabled, :precedence, :author, :source, :description, "
-    ":version, :color, :license, :maintainer)";
+    ":version, :color, :license, :maintainer, :timestamp)";
 
 inline const QString insert_into_catalog_registry(const QString &name)
 {
@@ -208,8 +210,9 @@ inline QString create_update_list(input_iterator begin, input_iterator end)
     return prefixed_field_strings.join(", ");
 }
 
-constexpr std::array<const char *, 7> _catalog_meta_fields = {
-    "name", "author", "source", "description", "color", "license", "maintainer"
+constexpr std::array<const char *, 8> _catalog_meta_fields = {
+    "name",  "author",  "source",     "description",
+    "color", "license", "maintainer", "timestamp"
 };
 
 const QString update_catalog_meta =
@@ -280,11 +283,11 @@ const QString create_master_name_index =
 
 const QString get_first_catalog = "SELECT id, name, precedence, author, source, "
                                   "description, mut, enabled, version, color, license, "
-                                  "maintainer FROM catalogs LIMIT 1";
+                                  "maintainer, timestamp FROM catalogs LIMIT 1";
 
 const QString get_catalog_by_id = "SELECT id, name, precedence, author, source, "
                                   "description, mut, enabled, version, color, license, "
-                                  "maintainer FROM catalogs WHERE id = :id";
+                                  "maintainer, timestamp FROM catalogs WHERE id = :id";
 
 const QString exists_catalog_by_id = "SELECT 1 FROM catalogs WHERE id = :id";
 

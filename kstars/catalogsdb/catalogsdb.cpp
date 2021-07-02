@@ -54,6 +54,23 @@ QSqlQuery make_query(QSqlDatabase &db, QString statement, const bool forward_onl
     return query;
 }
 
+/**
+ * Migrate the database from \p version to the current version.
+ */
+std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db)
+{
+    // we have to add the timestamp collumn to the catalogs
+    if (version < 2)
+    {
+        QSqlQuery add_ts{ db };
+
+        return { add_ts.exec("ALTER TABLE catalogs ADD COLUMN timestamp DEFAULT NULL"),
+                 add_ts.lastError().text() };
+    }
+
+    return { true, "" };
+}
+
 DBManager::DBManager(const QString &filename)
     : m_db{ QSqlDatabase::addDatabase(
           "QSQLITE", QString("cat_%1_%2").arg(filename).arg(get_connection_index())) },
@@ -71,12 +88,31 @@ DBManager::DBManager(const QString &filename)
     bool init                                    = false;
     std::tie(m_db_version, m_htmesh_level, init) = get_db_meta();
 
-    if (m_db_version > 0 && m_db_version != SqlStatements::current_db_version)
+    if (m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
     {
-        throw DatabaseError(QString("Wrong database version. Expected %1 and got %2.")
-                                .arg(SqlStatements::current_db_version)
-                                .arg(m_db_version),
-                            DatabaseError::ErrorType::VERSION, m_db.lastError());
+        const auto &success = migrate_db(m_db_version, m_db);
+        if (success.first)
+        {
+            m_db_version = SqlStatements::current_db_version;
+            QSqlQuery version_query{ m_db };
+            version_query.prepare(SqlStatements::update_version);
+            version_query.bindValue(":version", m_db_version);
+
+            if (!version_query.exec())
+            {
+                qDebug() << version_query.lastError().text() << version_query.lastQuery();
+                throw DatabaseError(QString("Could not update the database version."),
+                                    DatabaseError::ErrorType::VERSION,
+                                    version_query.lastError());
+            }
+        }
+        else
+            throw DatabaseError(
+                QString("Wrong database version. Expected %1 and got %2 and "
+                        "migration is not possible.")
+                    .arg(SqlStatements::current_db_version)
+                    .arg(m_db_version),
+                DatabaseError::ErrorType::VERSION, success.second);
     }
 
     QSqlQuery master_exists{ m_db };
@@ -244,16 +280,17 @@ void bind_catalog(QSqlQuery &query, const Catalog &cat)
     query.bindValue(":color", cat.color);
     query.bindValue(":license", cat.license);
     query.bindValue(":maintainer", cat.maintainer);
+    query.bindValue(":timestamp", cat.timestamp);
 }
 
 std::pair<bool, QString> DBManager::register_catalog(
     const int id, const QString &name, const bool mut, const bool enabled,
     const double precedence, const QString &author, const QString &source,
     const QString &description, const int version, const QString &color,
-    const QString &license, const QString &maintainer)
+    const QString &license, const QString &maintainer, const QDateTime &timestamp)
 {
     return register_catalog({ id, name, precedence, author, source, description, mut,
-                              enabled, version, color, license, maintainer });
+                              enabled, version, color, license, maintainer, timestamp });
 }
 
 std::pair<bool, QString> DBManager::register_catalog(const Catalog &cat)
@@ -311,7 +348,8 @@ const Catalog read_catalog(const QSqlQuery &query)
              query.value("version").toInt(),
              query.value("color").toString(),
              query.value("license").toString(),
-             query.value("maintainer").toString() };
+             query.value("maintainer").toString(),
+             query.value("timestamp").toDateTime() };
 }
 
 const std::pair<bool, Catalog> DBManager::get_catalog(const int id)
@@ -783,11 +821,9 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
 
     if (!query.exec(
             "INSERT INTO catalogs (id, name, mut, enabled, precedence, author, source, "
-            "description, version, color, license, maintainer) SELECT id, name, mut, "
-            "enabled, "
-            "precedence, author, source, description, version, color, license, "
-            "maintainer FROM "
-            "tmp.catalogs LIMIT 1") ||
+            "description, version, color, license, maintainer, timestamp) SELECT id, "
+            "name, mut, enabled, precedence, author, source, description, version, "
+            "color, license, maintainer, timestamp FROM tmp.catalogs LIMIT 1") ||
         !query.exec(QString("CREATE TABLE cat_%1 AS SELECT * FROM tmp.cat").arg(id)))
         return { false,
                  i18n("Could not import the catalog.<br>%1", query.lastError().text()) };
@@ -870,6 +906,7 @@ std::pair<bool, QString> DBManager::update_catalog_meta(const Catalog &cat)
     query.bindValue(":color", cat.color);
     query.bindValue(":license", cat.license);
     query.bindValue(":maintainer", cat.maintainer);
+    query.bindValue(":timestamp", cat.timestamp);
 
     return { query.exec(), query.lastError().text() };
 }
