@@ -56,6 +56,38 @@ struct type_caster<QString>
         return *obj;
     }
 };
+
+template <>
+struct type_caster<QDateTime>
+{
+  public:
+    PYBIND11_TYPE_CASTER(QDateTime, _("QDateTime"));
+
+    bool load(handle src, bool)
+    {
+        try
+        {
+            value = QDateTime::fromMSecsSinceEpoch(
+                src.cast<std::chrono::system_clock::time_point>()
+                    .time_since_epoch()
+                    .count());
+        }
+        catch (const py::cast_error &)
+        {
+            return false;
+        }
+
+        return !PyErr_Occurred();
+    }
+
+    static handle cast(QDateTime src, return_value_policy /* policy */,
+                       handle /* parent */)
+    {
+        const handle *obj = new py::object(py::cast(std::chrono::system_clock::time_point(
+            std::chrono::seconds(src.currentMSecsSinceEpoch()))));
+        return *obj;
+    }
+};
 } // namespace detail
 } // namespace pybind11
 
@@ -145,7 +177,8 @@ PYBIND11_MODULE(pykstars, m)
                         py::cast<QString>(cat["description"]),
                         py::cast<int>(cat["version"]), py::cast<QString>(cat["color"]),
                         py::cast<QString>(cat["license"]),
-                        py::cast<QString>(cat["maintainer"]));
+                        py::cast<QString>(cat["maintainer"]),
+                        py::cast<QDateTime>(cat["timestamp"]));
                 },
                 "catalog"_a)
             .def("__repr__",
