@@ -73,7 +73,6 @@ const QImage &TextureManager::getImage(const QString &name)
     }
 }
 
-// FIXME: should be cache images which are not found?
 TextureManager::CacheIter TextureManager::findTexture(const QString &name)
 {
     Create();
@@ -121,7 +120,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
                                                                  QImage(filename, "PNG"));
     }
 
-    return m_p->m_textures.constEnd();
+    return (TextureManager::CacheIter)m_p->m_textures.insert(name, QImage());
 }
 
 #ifdef HAVE_OPENGL
@@ -170,11 +169,13 @@ TextureManager::TextureManager(QObject *parent) : QObject(parent) {}
 
 void TextureManager::discoverTextureDirs()
 {
+    // clear the cache
+    m_p->m_textures = {};
+
     const auto &base = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
     QDirIterator search(base, QStringList() << "textures_*", QDir::Dirs);
 
     auto &dirs = m_p->m_texture_directories;
-
     while (search.hasNext())
     {
         dirs.push_back(search.next());

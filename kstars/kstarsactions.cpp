@@ -448,10 +448,11 @@ void KStars::slotDownload()
 {
     // 2017-07-04: Explicitly load kstars.knsrc from resources file
     auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", nullptr);
-    dlg->exec();
 
     if (!dlg)
         return;
+
+    dlg->exec();
 
     // Get the list of all the installed entries.
     const auto changed_entries = dlg->changedEntries();
@@ -503,11 +504,11 @@ void KStars::slotDownload()
         }
     }
 
+    TextureManager::discoverTextureDirs();
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
     KStars::Instance()->data()->setFullTimeUpdate();
     KStars::Instance()->updateTime();
     KStars::Instance()->map()->forceUpdate();
-    TextureManager::discoverTextureDirs();
 }
 
 void KStars::slotAVT()

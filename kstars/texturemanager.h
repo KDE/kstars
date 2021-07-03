@@ -45,6 +45,9 @@ class TextureManager : public QObject
      */
     static const QImage &getImage(const QString &name);
 
+    /**
+     * Clear the cache and discover the directories to load textures from.
+     */
     static void discoverTextureDirs();
 #ifdef HAVE_OPENGL
     /**
