@@ -4,6 +4,108 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.4 (Gera):
+
+7498a113d 2021-07-03 Valentin Boettcher   clear texture cache before reloading the deeps sky, cache not found
+305007451 2021-07-02 Jasem Mutlaq         Set correct frame information for DSLR
+896d37996 2021-07-02 Eric Dejouhanet      Fix twilight calculation
+8443f28f1 2021-07-01 Valentin Boettcher   don't show catalog identifier
+ac694e05f 2021-06-30 Jasem Mutlaq         Merge branch 'lancaster/kstars-master'
+d76113a8d 2021-06-30 Valentin Boettcher   Better dso search
+bacb23249 2021-06-30 Valentin Boettcher   also check top level dir for textures
+01f357a9b 2021-06-30 Valentin Boettcher   update default openngc
+53b39b377 2021-06-30 Valentin Boettcher   make object hashes more stable by only hashing essential fields
+d0b0ece76 2021-06-29 Robert Lancaster     Fixing typo2
+38189b7b8 2021-06-29 Robert Lancaster     Fixing typo
+f2f82ae39 2021-06-29 Robert Lancaster     fix descriptions due to wikipedia API update
+01c0ad994 2021-06-29 Robert Lancaster     Merge branch 'master' of https://invent.kde.org/education/kstars
+f2972aa6f 2021-06-29 Valentin Boettcher   fix the thumbnails in what's interesting
+782f19f9f 2021-06-27 Valentin Boettcher   Revert "draw dso with the correct position angle" and fix it for good
+f40a0e7c6 2021-06-26 Valentin Boettcher   draw dso with the correct position angle
+9512d5254 2021-06-26 Valentin Boettcher   rediscover textures when downloading with knewstuff
+6c72ce03f 2021-06-26 Valentin Boettcher   only discover texture dirs once
+0f94ae768 2021-06-26 Jasem Mutlaq         Remove Boost requirement for Windows
+aec4d7647 2021-06-25 Valentin Boettcher   correctly detect if the master catalog exists
+0ea39d5c8 2021-06-25 Valentin Boettcher   load inline textures faster
+6fe8ccb6f 2021-06-24 Jasem Mutlaq         INDI drivers sync
+c5d43c5b5 2021-06-23 Valentin Boettcher   hide inline images and initialize m_image_loaded correctly
+b380b83fa 2021-06-23 Valentin Boettcher   bring back the moon (and other solar system textures)
+7f5e80829 2021-06-23 Valentin Boettcher   make label density even cleverer
+6d8760431 2021-06-21 Valentin Boettcher   Implement inline images for DSO, organize thumbnail downloads into separate directory
+16cf8d159 2021-06-21 Hy Murveit           Add filter synonyms for Analyze
+3574cd138 2021-06-20 Valentin Boettcher   make the label density for catalogs cleverer
+0dc0ad435 2021-06-20 Yuri Chornoivan      Fix minor typos
+c3d369471 2021-06-19 Valentin Boettcher   remove nonsensical qsqlquery wrapper
+a4b519ad1 2021-06-19 Valentin Boettcher   give the user the option to start over if the dso db is unreadable + better initialization
+f986ac75e 2021-06-18 Valentin Boettcher   fix the AUTHORS list to be in alph. orderd
+bc8f96103 2021-06-18 Valentin Boettcher   be less verbose in the detailsdialog
+8919454be 2021-06-18 Yuri Chornoivan      Fix minor typos in docs
+54bdbbc5b 2021-06-18 Yuri Chornoivan      Fix one more i18n()
+b3ba86881 2021-06-18 Yuri Chornoivan      Fix i18n()
+c9796ef79 2021-06-18 Yuri Chornoivan      Fix minor typos
+be9d8156b 2021-06-18 Yuri Chornoivan      Fix message extraction
+8a92a7ab0 2021-06-17 Valentin Boettcher   fix segfault in whatsinteresting
+55f0aea68 2021-06-17 Valentin Boettcher   fix windows build by removing unsupported structure init
+8e7e74453 2021-06-17 Valentin Boettcher   check in forgotten test data
+e0a3ea3db 2021-06-17 Valentin Boettcher   Dso overhaul
+6a17d7aff 2021-06-16 Wolfgang Reissenberger Suspend mode added to align module
+14259e3ca 2021-06-15 Jasem Mutlaq         Only force fusion on non-KDE desktops.
+286aea8cf 2021-06-15 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+f0162f7a7 2021-06-14 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+e69d7da74 2021-06-14 l10n daemon script   GIT_SILENT made messages (after extraction)
+43172bba1 2021-06-12 Jasem Mutlaq         Use newer style coding for for loops. Use ISD::Telescope instead of raw device
+10ae85bb9 2021-06-12 Jasem Mutlaq         Unless stopping driver is requested, do not try to stop drivers on remote manager
+0593d51ad 2021-06-12 Jasem Mutlaq         Since GUIDE_DITHERING_SETTLE is ONLY set when ditherSettle > 0, therefore there is no need to check if it meets this condition since it is a must, a..
+7f7ef51f4 2021-06-12 Jasem Mutlaq         If not dither settling is required, capture immediately, otherwise skip capture
+872ec4734 2021-06-08 Yuri Chornoivan      Fix minor typo
+711a107c9 2021-06-07 Eric Dejouhanet      Astrometry tests in CI
+15bc20a91 2021-06-07 Jasem Mutlaq         If focus motion command times out in 30 seconds, command it again. If after 3...
+42fd89e76 2021-06-07 Wolfgang Reissenberger Manager UI cleanup
+700da587e 2021-06-07 Jasem Mutlaq         Check if weather check is enforced before shutting down. Comment out for now unused function
+20570cef7 2021-06-02 Jasem Mutlaq         Increase sensitivity of pixel scale difference by an order of magnitude to detect small variations in focal length
+95fdd1b37 2021-05-27 Jasem Mutlaq         Better state transition logging
+be4c957b6 2021-05-26 Jasem Mutlaq         Remove extra fprintf
+38c8ca689 2021-05-26 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+70690e650 2021-05-26 l10n daemon script   GIT_SILENT made messages (after extraction)
+9cc3e2026 2021-05-24 Jasem Mutlaq         Add temperature regulation dialog box
+0ace45948 2021-05-22 Hy Murveit           Magnifying glass for fitsviewer.
+628d7db6d 2021-05-20 Hy Murveit           Cleanup. Remove deprecated FITSView::getImageData. Fix typo.
+489168917 2021-05-19 Paweł Soja           Use non-pointer INDI::Property.
+29e87a8b6 2021-05-19 Yuri Chornoivan      Remove extra semicolons
+f01492f34 2021-05-18 Hy Murveit           Remove the red text color from the polar-align instructions.
+9452053b5 2021-05-11 Hy Murveit           Readability--replace loadSlewState with solveFromFile.
+f27c9ce2d 2021-05-17 Jasem Mutlaq         INDI driver sync
+4199047fd 2021-05-16 Eric Dejouhanet      Small update to the Scheduler docbook for the Mosaic Tool.
+689ea7404 2021-05-17 Yuri Chornoivan      Fix minor typos
+0b7564b42 2021-05-17 Yuri Chornoivan      Fix minor typo
+dedb7c9d7 2021-05-16 Eric Dejouhanet      Improve Mosaic Tool state
+e1ded1e85 2021-05-15 Jasem Mutlaq         Add detection and algorithm to focus log on start
+bd7c0e5fb 2021-05-15 Jasem Mutlaq         Use source temperature directly
+0082c4259 2021-05-15 Jasem Mutlaq         if source temperature is invalid, try to read from current source
+34774e237 2021-05-14 Jasem Mutlaq         Sync setting when temperature source changes
+c73dfc823 2021-05-10 Pawel Soja           Simplify code - Use INDI::WidgetView<>.
+9a627986e 2021-05-10 Jasem Mutlaq         Use KSNotification to send events
+aef83fc6a 2021-05-10 Jasem Mutlaq         Set calibration mode (previously preview_mode) whenever calibration is started...
+0c3da5721 2021-05-08 Jasem Mutlaq         Using adjusted with path() in Qt has a negative effect in Windows where driver letters are removed from the path. Falling back to a simpler method t..
+fedf419e7 2021-05-09 Jasem Mutlaq         Make user select explicit temperature source for focus instead of assuming which source to use
+d5b11325d 2021-05-08 Jasem Mutlaq         Simplify message for toggling rotator
+346275b9a 2021-05-08 Yuri Chornoivan      Fix weird formatting
+3e21f05f8 2021-05-03 Hy Murveit           Refactor artificial horizon constraints. Add ceiling constraint. Add unit tests. Use Great circle.
+bb37143cb 2021-05-06 Alexander Lohnau     GIT_SILENT Add auto generated files to .gitignore
+e32f6399c 2021-05-04 Wolfgang Reissenberger Bugfix meridian flip for lower culmination
+efc58b174 2021-04-17 Hy Murveit           Refactor scheduler for unit testing. Add Unit Tests.
+5e0a1a6fc 2021-05-01 Eric Dejouhanet      Fix catalog download crash
+5cd188f59 2021-04-30 Jasem Mutlaq         Start using temperature in passive cameras
+58fc41ab6 2021-04-30 Jasem Mutlaq         Fix login AND to OR
+2de30edc4 2021-04-29 Jasem Mutlaq         Revert unintended change, remove Qt::DirectConnection
+dc7e3007d 2021-04-29 Jasem Mutlaq         Fix upper limit for exposure in dark library
+c7d73a5ff 2021-04-29 Jasem Mutlaq         Fix rare crash on exist where client could still be active and sending updates
+fcbd6718e 2021-04-29 Jasem Mutlaq         Fix null QObject disconnect error
+864468396 2021-04-27 Eric Dejouhanet      Improve WUT performance by testing magnitude before visibility.
+1adf58605 2021-04-26 Heiko Becker         Fix build without BUILD_KSTARS_LITE and libraw
+e2bf44592 2021-04-26 Siyu Zhang           Fix build
+ed31d56b6 2021-04-26 Jasem Mutlaq         Starting v3.5.4 development cycle
+
 3.5.2 (Huygens):
 
 ec39e58d5 2021-02-28 Jasem Mutlaq         Fix return code error
