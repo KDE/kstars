@@ -446,6 +446,12 @@ void KStars::updateLocationFromWizard(const GeoLocation &geo)
 
 void KStars::slotDownload()
 {
+    KSNotification::event(
+        QLatin1String("KnownIssue"),
+        i18n("Due to a known issue in the kde frameworks, "
+             "updating already downloaded items is currently not possible. <br> "
+             "Please uninstall and reinstall them to update."));
+
     // 2017-07-04: Explicitly load kstars.knsrc from resources file
     auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", nullptr);
 

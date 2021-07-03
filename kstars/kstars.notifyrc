@@ -1851,3 +1851,6 @@ Name[x-test]=xxCaptured image receivedxx
 Name[zh_CN]=收到拍摄的图像
 Sound=KDE-KStars-Sys-App-Message.ogg
 Action=Sound
+[Event/KnownIssue]
+Name=Known Issue
+Action=Popup
