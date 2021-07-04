@@ -96,6 +96,16 @@ DBManager::DBManager(const QString &filename)
 
     if (!init && m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
     {
+        const auto &backup_path =
+            QString("%1.%2").arg(m_db_file).arg(QDateTime::currentDateTime().toTime_t());
+
+        if (!QFile::copy(m_db_file, backup_path))
+        {
+            throw DatabaseError(
+                QString("Could not backup dso database before upgrading."),
+                DatabaseError::ErrorType::VERSION, QSqlError{});
+        }
+
         const auto &success = migrate_db(m_db_version, m_db);
         if (success.first)
         {
