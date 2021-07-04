@@ -96,8 +96,8 @@ DBManager::DBManager(const QString &filename)
 
     if (!init && m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
     {
-        const auto &backup_path =
-            QString("%1.%2").arg(m_db_file).arg(QDateTime::currentDateTime().toTime_t());
+        const auto &backup_path = QString("%1.%2").arg(m_db_file).arg(
+            QDateTime::currentDateTime().toString("dd_MMMM_yy_hh_mm_sss_zzz"));
 
         if (!QFile::copy(m_db_file, backup_path))
         {
