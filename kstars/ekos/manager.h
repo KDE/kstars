@@ -83,9 +83,9 @@ class Manager : public QDialog, public Ui::Manager
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
-        Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
-        Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
-        Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus settleStatus READ settleStatus NOTIFY settleStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus settleStatus READ settleStatus NOTIFY settleStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveStatus READ ekosLiveStatus NOTIFY ekosLiveStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
@@ -233,7 +233,7 @@ class Manager : public QDialog, public Ui::Manager
             return m_indiStatus;
         }
 
-        Q_SCRIPTABLE CommunicationStatus indiStatus()
+        Q_SCRIPTABLE Ekos::CommunicationStatus indiStatus()
         {
             return m_indiStatus;
         }
@@ -248,7 +248,7 @@ class Manager : public QDialog, public Ui::Manager
             return m_ekosStatus;
         }
 
-        Q_SCRIPTABLE CommunicationStatus ekosStatus()
+        Q_SCRIPTABLE Ekos::CommunicationStatus ekosStatus()
         {
             return m_ekosStatus;
         }
@@ -257,7 +257,7 @@ class Manager : public QDialog, public Ui::Manager
          * DBUS interface function.
          * @return Settle status (0 Idle, 1 Pending, 2 Started, 3 Error)
          */
-        Q_SCRIPTABLE CommunicationStatus settleStatus()
+        Q_SCRIPTABLE Ekos::CommunicationStatus settleStatus()
         {
             return m_settleStatus;
         }
