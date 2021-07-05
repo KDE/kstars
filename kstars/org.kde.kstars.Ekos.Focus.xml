@@ -7,7 +7,7 @@
   <property name="focuser" type="s" access="readwrite"/>
   <property name="HFR" type="d" access="read"/>
   <property name="logText" type="as" access="read"/>
-  <property name="status" type="(i)" access="read">
+  <property name="status" type="i" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::FocusState"/>
   </property>
     <method name="start">

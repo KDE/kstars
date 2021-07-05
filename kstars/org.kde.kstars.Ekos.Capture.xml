@@ -8,7 +8,7 @@
     <property name="filter" type="s" access="readwrite"/>
     <property name="coolerControl" type="b" access="readwrite"/>
     <property name="logText" type="as" access="read"/>
-    <property name="status" type="(i)" access="read">
+    <property name="status" type="i" access="read">
         <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CaptureState"/>
     </property>
     <method name="start">

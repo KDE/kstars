@@ -3,7 +3,7 @@
   <interface name="org.kde.kstars.Ekos.Scheduler">
   <property name="profile" type="s" access="readwrite"/>
   <property name="logText" type="as" access="read"/>
-  <property name="status" type="(i)" access="read">
+  <property name="status" type="i" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::SchedulerState"/>
   </property>
     <method name="start">

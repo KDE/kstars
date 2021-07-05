@@ -5,13 +5,13 @@
   <property name="st4" type="s" access="readwrite"/>
   <property name="logText" type="as" access="read"/>
   <property name="exposure" type="d" access="readwrite"/>
-  <property name="status" type="(i)" access="read">
+  <property name="status" type="i" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::GuideState"/>
   </property>
-  <property name="axisDelta" type="(i)" access="read">
+  <property name="axisDelta" type="ad" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
-  <property name="axisSigma" type="(i)" access="read">
+  <property name="axisSigma" type="ad" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
     <method name="connectGuider">

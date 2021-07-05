@@ -1,10 +1,10 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
     <interface name="org.kde.kstars.Ekos.Dome">
-        <property name="status" type="(i)" access="read">
+        <property name="status" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Dome::Status"/>
         </property>
-        <property name="parkStatus" type="(i)" access="read">
+        <property name="parkStatus" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
         </property>
         <property name="azimuthPosition" type="d" access="readwrite"/>

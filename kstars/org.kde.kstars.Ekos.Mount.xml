@@ -4,30 +4,30 @@
         <property name="logText" type="as" access="read"/>
         <property name="canPark" type="b" access="read"/>
         <property name="slewStatus" type="i" access="read"/>
-        <property name="altitudeLimits" type="(i)" access="readwrite">
+        <property name="altitudeLimits" type="ad" access="readwrite">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
         </property>
         <property name="altitudeLimitsEnabled" type="b" access="readwrite"/>
         <property name="hourAngleLimit" type="d" access="readwrite"/>
         <property name="hourAngleLimitEnabled" type="b" access="readwrite"/>
-        <property name="equatorialCoords" type="(i)" access="read">
+        <property name="equatorialCoords" type="ad" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
         </property>
-        <property name="horizontalCoords" type="(i)" access="read">
+        <property name="horizontalCoords" type="ad" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
         </property>
         <property name="slewRate" type="i" access="readwrite"/>
-        <property name="telescopeInfo" type="(i)" access="readwrite">
+        <property name="telescopeInfo" type="ad" access="readwrite">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
         </property>
         <property name="hourAngle" type="d" access="read"/>
-        <property name="status" type="(i)" access="read">
+        <property name="status" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
         </property>
-        <property name="parkStatus" type="(i)" access="read">
+        <property name="parkStatus" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
         </property>
-        <property name="pierSide" type="(i)" access="read">
+        <property name="pierSide" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::PierSide"/>
         </property>
         <method name="slew">

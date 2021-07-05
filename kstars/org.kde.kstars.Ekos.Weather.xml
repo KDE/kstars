@@ -1,7 +1,7 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
     <interface name="org.kde.kstars.Ekos.Weather">
-        <property name="status" type="(i)" access="read">
+        <property name="status" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Weather::Status"/>
         </property>
         <property name="updatePeriod" type="q" access="read"/>
