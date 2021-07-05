@@ -1853,4 +1853,12 @@ Sound=KDE-KStars-Sys-App-Message.ogg
 Action=Sound
 [Event/KnownIssue]
 Name=Known Issue
+Name[ca]=Problema conegut
+Name[ca@valencia]=Problema conegut
+Name[en_GB]=Known Issue
+Name[es]=Problema conocido
+Name[nl]=Bekend probleem
+Name[sv]=Känt problem
+Name[uk]=Відома проблема
+Name[x-test]=xxKnown Issuexx
 Action=Popup
