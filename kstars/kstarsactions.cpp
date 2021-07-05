@@ -453,7 +453,7 @@ void KStars::slotDownload()
              "Please uninstall and reinstall them to update."));
 
     // 2017-07-04: Explicitly load kstars.knsrc from resources file
-    auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", nullptr);
+    auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", this);
 
     if (!dlg)
         return;
