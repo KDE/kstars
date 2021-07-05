@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <pybind11/pybind11.h>
+#include <pybind11/chrono.h>
 #include "skyobjects/skypoint.h"
 #include "skymesh.h"
 #include "cachingdms.h"
@@ -68,8 +69,8 @@ struct type_caster<QDateTime>
         try
         {
             value = QDateTime::fromMSecsSinceEpoch(
-                src.cast<std::chrono::system_clock::time_point>()
-                    .time_since_epoch()
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    src.cast<std::chrono::system_clock::time_point>().time_since_epoch())
                     .count());
         }
         catch (const py::cast_error &)
@@ -84,7 +85,7 @@ struct type_caster<QDateTime>
                        handle /* parent */)
     {
         const handle *obj = new py::object(py::cast(std::chrono::system_clock::time_point(
-            std::chrono::seconds(src.currentMSecsSinceEpoch()))));
+            std::chrono::milliseconds(src.currentMSecsSinceEpoch()))));
         return *obj;
     }
 };
@@ -179,6 +180,22 @@ PYBIND11_MODULE(pykstars, m)
                         py::cast<QString>(cat["license"]),
                         py::cast<QString>(cat["maintainer"]),
                         py::cast<QDateTime>(cat["timestamp"]));
+                },
+                "catalog"_a)
+            .def(
+                "update_catalog_meta",
+                [](DBManager &self, const py::dict &cat) {
+                    return self.update_catalog_meta(
+                        { py::cast<int>(cat["id"]), py::cast<QString>(cat["name"]),
+                          py::cast<double>(cat["precedence"]),
+                          py::cast<QString>(cat["author"]),
+                          py::cast<QString>(cat["source"]),
+                          py::cast<QString>(cat["description"]),
+                          py::cast<bool>(cat["mut"]), py::cast<bool>(cat["enabled"]),
+                          py::cast<int>(cat["version"]), py::cast<QString>(cat["color"]),
+                          py::cast<QString>(cat["license"]),
+                          py::cast<QString>(cat["maintainer"]),
+                          py::cast<QDateTime>(cat["timestamp"]) });
                 },
                 "catalog"_a)
             .def("__repr__",
