@@ -50,6 +50,7 @@
         <file>qml/mount/go-southwest.png</file>
         <file>qml/mount/go-west.png</file>
         <file>qml/mount/mountbox.qml</file>
+        <file>qml/mount/timer.qml</file>
         <file>qml/mount/stop.png</file>
         <file>icons/kstars_terrain.png</file>
         <file>icons/kstars_satellites_invisible.svg</file>
