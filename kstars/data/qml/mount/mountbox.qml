@@ -74,10 +74,13 @@ Rectangle {
                 }
 
                 property var keyState: ({})
+                 // -1 means not moving
+                property var motionState: ({ns: -1, we: -1})
+                // It appears [Qt.Key_Up] is not a valid subsituion in QML like Javascript in older versions?
+                //property var filteredKeyState: ({[Qt.Key_Up]: false, [Qt.Key_Down]: false, [Qt.Key_Left]: false, [Qt.Key_Right]: false})
+                // Replacing it with direct values and confirmed works with older Qt versions:
                 // true means pressed
-                property var filteredKeyState: ({[Qt.Key_Up]: false, [Qt.Key_Down]: false, [Qt.Key_Left]: false, [Qt.Key_Right]: false})
-                property var motionState: ({ns: -1, we: -1})  // -1 means not moving
-
+                property var filteredKeyState: {0x13: false, 0x15: false, 0x12: false, 0x14: false}
                 function moveMount() {
                     var up = filteredKeyState[Qt.Key_Up];
                     var down = filteredKeyState[Qt.Key_Down];
