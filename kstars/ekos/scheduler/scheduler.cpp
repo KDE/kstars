@@ -71,7 +71,7 @@ Scheduler::Scheduler()
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     // Get current KStars time and set seconds to zero
-    QDateTime currentDateTime = KStarsData::Instance()->lt();
+    QDateTime currentDateTime = getLocalTime();
     QTime currentTime         = currentDateTime.time();
     currentTime.setHMS(currentTime.hour(), currentTime.minute(), 0);
     currentDateTime.setTime(currentTime);
@@ -419,7 +419,7 @@ void Scheduler::appendLogText(const QString &text)
         m_LogText.removeLast();
 
     m_LogText.prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
+                            getLocalTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << text;
 
@@ -2328,7 +2328,7 @@ void Scheduler::processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluation
     }
 
     /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
-    QDateTime const now = KStarsData::Instance()->lt();
+    QDateTime const now = getLocalTime();
 
     /* Check if job can be processed right now */
     SchedulerJob * const job_to_execute = *job_to_execute_iterator;
@@ -2398,7 +2398,7 @@ int16_t Scheduler::getDarkSkyScore(QDateTime const &dawn, QDateTime const &dusk,
     // If both dawn and dusk are in the past, (incorrectly) readjust the dawn and dusk to the next day
     // This was OK for next-day calculations, but Scheduler should now drop dark sky scores and rely on SchedulerJob dawn and dusk
     QDateTime const now = when.isValid() ? when : getLocalTime();
-    int const earlyDawnSecs = now.secsTo(dawn.addDays(dawn < now ? dawn.daysTo(now)+1 : 0).addSecs(-60.0 * Options::preDawnTime()));
+    int const earlyDawnSecs = now.secsTo(dawn.addDays(dawn < now ? dawn.daysTo(now)+1 : 0).addSecs(-60.0 * abs(Options::preDawnTime())));
     int const dawnSecs = now.secsTo(dawn.addDays(dawn < now ? dawn.daysTo(now)+1 : 0));
     int const duskSecs = now.secsTo(dusk.addDays(dawn < now ? dusk.daysTo(now)+1 : 0));
     int const obsSecs = now.secsTo(when);
@@ -2489,7 +2489,10 @@ void Scheduler::calculateDawnDusk()
 {
     SchedulerJob::calculateDawnDusk(QDateTime(), Dawn, Dusk);
 
-    preDawnDateTime = Dawn.addSecs(Options::preDawnTime() * 60.0);
+    preDawnDateTime = Dawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+
+    int const currentRow = queueTable->currentRow();
+    updateNightTime(0 < currentRow ? jobs.at(currentRow) : nullptr);
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
@@ -2507,8 +2510,6 @@ void Scheduler::executeJob(SchedulerJob *job)
     if (index >= 0)
         queueTable->selectRow(index);
 
-    QDateTime const now = KStarsData::Instance()->lt();
-
     // If we already started, we check when the next object is scheduled at.
     // If it is more than 30 minutes in the future, we park the mount if that is supported
     // and we unpark when it is due to start.
@@ -2519,7 +2520,7 @@ void Scheduler::executeJob(SchedulerJob *job)
     if (shouldSchedulerSleep(currentJob))
         return;
     // If job schedule isn't now, wait - continuing to execute would cancel a parking attempt
-    else if (0 < KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()))
+    else if (0 < getLocalTime().secsTo(currentJob->getStartupTime()))
         return;
 
     // From this point job can be executed now
@@ -3300,7 +3301,7 @@ void Scheduler::checkJobStage()
             checkJobStageCounter = 0;
     }
 
-    QDateTime const now = KStarsData::Instance()->lt();
+    QDateTime const now = getLocalTime();
 
     /* Refresh the score of the current job */
     /* currentJob->setScore(calculateJobScore(currentJob, now)); */
@@ -3377,8 +3378,8 @@ void Scheduler::checkJobStage()
         }
     }
 
-    // #4 Check if we're not at dawn
-    if (currentJob->getEnforceTwilight() && now > KStarsDateTime(preDawnDateTime))
+    // #4 Check if we're not at dawn - dawn is still next event before dusk, and early dawn is past
+    if (currentJob->getEnforceTwilight() && ((Dawn < Dusk && preDawnDateTime < now) || (Dusk < Dawn)))
     {
         // If either mount or dome are not parked, we shutdown if we approach dawn
         if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
@@ -3386,7 +3387,7 @@ void Scheduler::checkJobStage()
             // Minute is a DOUBLE value, do not use i18np
             appendLogText(i18n(
                               "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking idle.",
-                              preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
+                              preDawnDateTime.toString(), abs(Options::preDawnTime()), currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_IDLE);
             stopCurrentJobAction();
             findNextJob();
@@ -4565,7 +4566,7 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
     {
-        if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
+        if (getLocalTime().secsTo(currentJob->getCompletionTime()) <= 0)
         {
             /* Mark the job idle as well as all its duplicates for re-evaluation */
             foreach(SchedulerJob *a_job, jobs)
@@ -6741,7 +6742,7 @@ void Scheduler::setAlignStatus(Ekos::AlignState status)
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
     {
-        QDateTime const now = KStarsData::Instance()->lt();
+        QDateTime const now = getLocalTime();
         if (now < currentJob->getStartupTime())
             return;
     }
@@ -6793,7 +6794,7 @@ void Scheduler::setGuideStatus(Ekos::GuideState status)
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
     {
-        QDateTime const now = KStarsData::Instance()->lt();
+        QDateTime const now = getLocalTime();
         if (now < currentJob->getStartupTime())
             return;
     }
@@ -6872,7 +6873,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
     {
-        QDateTime const now = KStarsData::Instance()->lt();
+        QDateTime const now = getLocalTime();
         if (now < currentJob->getStartupTime())
             return;
     }
@@ -6951,7 +6952,7 @@ void Scheduler::setFocusStatus(Ekos::FocusState status)
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
     {
-        QDateTime const now = KStarsData::Instance()->lt();
+        QDateTime const now = getLocalTime();
         if (now < currentJob->getStartupTime())
             return;
     }
@@ -7002,7 +7003,7 @@ void Scheduler::setMountStatus(ISD::Telescope::Status status)
 
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
-        if (static_cast<QDateTime const>(KStarsData::Instance()->lt()) < currentJob->getStartupTime())
+        if (static_cast<QDateTime const>(getLocalTime()) < currentJob->getStartupTime())
             return;
 
     switch (currentJob->getStage())
@@ -7147,7 +7148,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
     if (currentJob->getLightFramesRequired() == false)
         return false;
 
-    QDateTime const now = KStarsData::Instance()->lt();
+    QDateTime const now = getLocalTime();
     int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
 
     // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed

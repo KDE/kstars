@@ -1140,7 +1140,7 @@ void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nextDawn,
 bool SchedulerJob::runsDuringAstronomicalNightTime() const
 {
     // Calculate the next astronomical dawn time, adjusted with the Ekos pre-dawn offset
-    QDateTime const earlyDawn = nextDawn; //.addSecs(-60.0 * abs(Options::preDawnTime()));
+    QDateTime const earlyDawn = nextDawn.addSecs(-60.0 * abs(Options::preDawnTime()));
 
     // Dawn and dusk are ordered as the immediate next events following the observation time
     // Thus if dawn comes first, the job startup time occurs during the dusk/dawn interval.
