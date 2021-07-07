@@ -36,6 +36,8 @@
 
 #include "ui_manualdither.h"
 
+#include <random>
+
 #define CAPTURE_TIMEOUT_THRESHOLD 30000
 
 namespace
@@ -159,6 +161,9 @@ Guide::Guide() : QWidget()
     //This allows the current guideSubframe option to be loaded.
     if(guiderType == GUIDE_PHD2)
         setExternalGuiderBLOBEnabled(!Options::guideSubframeEnabled());
+
+    // Initialize non guided dithering random generator.
+    resetNonGuidedDither();
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -1714,7 +1719,7 @@ bool Guide::dither()
 {
     if (Options::ditherNoGuiding() && state == GUIDE_IDLE)
     {
-        ditherDirectly();
+        nonGuidedDither();
         return true;
     }
 
@@ -1773,7 +1778,15 @@ void Guide::setCaptureStatus(CaptureState newState)
         case CAPTURE_DITHERING:
             dither();
             break;
-
+        case CAPTURE_IDLE:
+        case CAPTURE_ABORTED:
+            // We need to reset the non guided dithering status every time a new capture task is started (and not for every single capture).
+            // The non dithering logic is a bit convoluted and controlled by the Capture module,
+            // which calls Guide::setCaptureStatus(CAPTURE_DITHERING) when it wants guide to dither. 
+            // It actually calls newStatus(CAPTURE_DITHERING) in Capture::checkDithering(), but manager.cpp in Manager::connectModules() connects that to Guide::setCaptureStatus()).
+            // So the only way to reset the non guided dithering prior to a new capture task is to put it here, when the Capture status moves to IDLE or ABORTED state.
+            resetNonGuidedDither();
+            break;
         default:
             break;
     }
@@ -3310,29 +3323,57 @@ void Guide::setExternalGuiderBLOBEnabled(bool enable)
 
 }
 
-void Guide::ditherDirectly()
+void Guide::resetNonGuidedDither()
+{
+    // reset non guided dither total drift
+    nonGuidedDitherRaOffsetMsec = 0;
+    nonGuidedDitherDecOffsetMsec = 0;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Reset non guiding dithering position";
+
+    // initialize random generator if not done before 
+    if (!isNonGuidedDitherInitialized)
+    {
+        auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+        nonGuidedPulseGenerator.seed(seed); 
+        isNonGuidedDitherInitialized = true;
+        qCDebug(KSTARS_EKOS_GUIDE) << "Initialize non guiding dithering random generator";
+    }   
+}
+
+void Guide::nonGuidedDither()
 {
     double ditherPulse = Options::ditherNoGuidingPulse();
 
-    // Randomize pulse length. It is equal to 50% of pulse length + random value up to 50%
-    // e.g. if ditherPulse is 500ms then final pulse is = 250 + rand(0 to 250)
-    int ra_msec  = static_cast<int>((static_cast<double>(rand()) / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
-    int ra_polarity = (rand() % 2 == 0) ? 1 : -1;
-
-    int de_msec  = static_cast<int>((static_cast<double>(rand()) / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
-    int de_polarity = (rand() % 2 == 0) ? 1 : -1;
+    // Randomize dithering position up to +/-dithePulse distance from original
+    std::uniform_int_distribution<int> newPos(-ditherPulse, +ditherPulse);  
+    
+    // Calculate the pulse needed to move to the new position, then save the new position and apply the pulse
+    
+    // for ra
+    const int newRaOffsetMsec = newPos(nonGuidedPulseGenerator);
+    const int raPulse = nonGuidedDitherRaOffsetMsec - newRaOffsetMsec;
+    nonGuidedDitherRaOffsetMsec = newRaOffsetMsec;
+    const int raMsec  = std::abs(raPulse);
+    const int raPolarity = (raPulse >= 0 ? 1: -1);
+    
+    // and for dec
+    const int newDecOffsetMsec = newPos(nonGuidedPulseGenerator);
+    const int decPulse = nonGuidedDitherDecOffsetMsec - newDecOffsetMsec;
+    nonGuidedDitherDecOffsetMsec = newDecOffsetMsec;
+    const int decMsec  = std::abs(decPulse);
+    const int decPolarity = (decPulse >= 0 ? 1: -1);
 
     qCInfo(KSTARS_EKOS_GUIDE) << "Starting non-guiding dither...";
-    qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << ra_msec << "ra_polarity:" << ra_polarity << "de_msec:" << de_msec <<
-                               "de_polarity:" << de_polarity;
+    qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << raMsec << "ra_polarity:" << raPolarity << "de_msec:" << decMsec <<
+                               "de_polarity:" << decPolarity;
 
-    bool rc = sendPulse(ra_polarity > 0 ? RA_INC_DIR : RA_DEC_DIR, ra_msec, de_polarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
-                        de_msec);
+    bool rc = sendPulse(raPolarity > 0 ? RA_INC_DIR : RA_DEC_DIR, raMsec, decPolarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
+                        decMsec);
 
     if (rc)
     {
         qCInfo(KSTARS_EKOS_GUIDE) << "Non-guiding dither successful.";
-        QTimer::singleShot( (ra_msec > de_msec ? ra_msec : de_msec) + Options::ditherSettle() * 1000 + 100, [this]()
+        QTimer::singleShot( (raMsec > decMsec ? raMsec : decMsec) + Options::ditherSettle() * 1000 + 100, [this]()
         {
             emit newStatus(GUIDE_DITHERING_SUCCESS);
             state = GUIDE_IDLE;
