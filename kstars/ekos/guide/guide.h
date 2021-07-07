@@ -19,6 +19,8 @@
 #include <QTimer>
 #include <QtDBus>
 
+#include <random>
+
 class QProgressIndicator;
 class QTabWidget;
 
@@ -491,7 +493,7 @@ class Guide : public QWidget, public Ui::Guide
 
         void processCaptureTimeout();
 
-        void ditherDirectly();
+        void nonGuidedDither();
 
     signals:
         void newLog(const QString &text);
@@ -710,5 +712,20 @@ class Guide : public QWidget, public Ui::Guide
         // The scales of these zoom levels are defined in Guide::zoomX().
         static constexpr int defaultXZoomLevel = 3;
         int driftGraphZoomLevel {defaultXZoomLevel};
+
+        
+        // The accumulated non-guided dither offsets (in milliseconds) in the RA and DEC directions.   
+        int nonGuidedDitherRaOffsetMsec = 0, nonGuidedDitherDecOffsetMsec = 0;
+
+        // Random generator for non guided dithering
+        std::mt19937 nonGuidedPulseGenerator;
+        
+        // Flag to check if random generator for non guided dithering is initialized.
+        bool isNonGuidedDitherInitialized = false;
+
+        // Reset non guided dithering properties and initialize the random generator seed if not already done.
+        // Should be called in Guide::Guide() for initial seed initialization, and then in setCaptureStatus to reset accumulated drift
+        // every time a capture task is completed or aborted.
+        void resetNonGuidedDither();
 };
 }
