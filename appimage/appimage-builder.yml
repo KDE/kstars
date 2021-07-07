@@ -18,8 +18,6 @@ AppDir:
       - /usr/share/xsessions/plasma/kstars:$APPDIR/usr/share/xsessions/plasma/kstars
       - /usr/share/kstars:$APPDIR/usr/share/kstars
       - /usr/share/indi:$APPDIR/usr/share/indi
-    env:
-      APPDIR_LIBRARY_PATH: $APPDIR/usr/lib/x86_64-linux-gnu/libcanberra-0.30:$APPDIR/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/pulseaudio
   apt:
     arch: amd64
     sources:
@@ -34,6 +32,7 @@ AppDir:
         key_url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xdae27ffb13432bed41181735e3dbd5d75cfabf12"
 
     include:
+      - libstellarsolver
       - frameworkintegration
       - kimageformat-plugins
       - kio
