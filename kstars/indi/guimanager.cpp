@@ -274,9 +274,19 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, &ClientManager::newINDIMessage, gdm, &INDI_D::updateMessageLog);
 
-    mainTabWidget->addTab(gdm->getDeviceBox(), di->getDeviceName());
+    QString deviceName = di->getDeviceName();
+    int index = mainTabWidget->count();
+    for(int i=0; i<mainTabWidget->count(); i++)
+    {
+        if(mainTabWidget->tabText(i) > deviceName)
+        {
+            index = i;
+            break;
+        }
+    }
+    mainTabWidget->insertTab(index, gdm->getDeviceBox(), di->getDeviceName());
 
-    guidevices.append(gdm);
+    guidevices.insert(index, gdm);
 
     updateStatus(false);
 }

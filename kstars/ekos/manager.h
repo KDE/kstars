@@ -89,6 +89,18 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveStatus READ ekosLiveStatus NOTIFY ekosLiveStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
+        enum class EkosModule
+        {
+            Setup,
+            Scheduler,
+            Analyze,
+            Capture,
+            Focus,
+            Mount,
+            Align,
+            Guide,
+            Observatory,
+        };
     public:
         static Manager *Instance();
         static void release();
@@ -456,6 +468,7 @@ class Manager : public QDialog, public Ui::Manager
 
         void loadDrivers();
         void loadProfiles();
+        int addModuleTab(EkosModule module, QWidget *tab, const QIcon &icon);
 
         /**
          * @brief syncActiveDevices Syncs ACTIVE_DEVICES such as ACTIVE_TELESCOPE and ACTIVE_CCD

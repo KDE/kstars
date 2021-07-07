@@ -300,7 +300,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     // Initialize Ekos Scheduler Module
     schedulerProcess.reset(new Ekos::Scheduler());
-    int index = toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
+    int index = addModuleTab(EkosModule::Scheduler, schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
@@ -312,7 +312,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     // Initialize Ekos Analyze Module
     analyzeProcess.reset(new Ekos::Analyze());
-    index = toolsWidget->addTab(analyzeProcess.get(), QIcon(":/icons/ekos_analyze.png"), "");
+    index = addModuleTab(EkosModule::Analyze, analyzeProcess.get(), QIcon(":/icons/ekos_analyze.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Analyze"));
 
     numPermanentTabs = index + 1;
@@ -454,6 +454,39 @@ void Manager::loadProfiles()
     if (index == -1)
         index = 0;
     profileCombo->setCurrentIndex(index);
+}
+
+int Manager::addModuleTab(Manager::EkosModule module, QWidget *tab, const QIcon &icon)
+{
+    int index = 0;
+    switch(module)
+    {
+    case EkosModule::Observatory:
+        index += guideProcess ? 1 : 0;
+    case EkosModule::Guide:
+        index += alignProcess ? 1 : 0;
+    case EkosModule::Align:
+        index += mountProcess ? 1 : 0;
+    case EkosModule::Mount:
+        index += focusProcess ? 1 : 0;
+    case EkosModule::Focus:
+        index += captureProcess ? 1 : 0;
+    case EkosModule::Capture:
+        index += analyzeProcess ? 1 : 0;
+    case EkosModule::Analyze:
+        index += schedulerProcess ? 1 : 0;
+    case EkosModule::Scheduler:
+        index += 1;
+    case EkosModule::Setup:
+        // do nothing
+        break;
+    default:
+        index = toolsWidget->count();
+        break;
+    }
+
+    toolsWidget->insertTab(index, tab, icon, "");
+    return index;
 }
 
 void Manager::loadDrivers()
@@ -2251,7 +2284,7 @@ void Manager::initCapture()
 
     captureProcess.reset(new Ekos::Capture());
     captureProcess->setEnabled(false);
-    int index = toolsWidget->addTab(captureProcess.get(), QIcon(":/icons/ekos_ccd.png"), "");
+    int index = addModuleTab(EkosModule::Capture, captureProcess.get(), QIcon(":/icons/ekos_ccd.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     if (Options::ekosLeftIcons())
     {
@@ -2315,7 +2348,7 @@ void Manager::initAlign()
     alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
 
     alignProcess->setEnabled(false);
-    int index = toolsWidget->addTab(alignProcess.get(), QIcon(":/icons/ekos_align.png"), "");
+    int index = addModuleTab(EkosModule::Align, alignProcess.get(), QIcon(":/icons/ekos_align.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
     connect(alignProcess.get(), &Ekos::Align::newLog, this, &Ekos::Manager::updateLog);
     if (Options::ekosLeftIcons())
@@ -2350,7 +2383,7 @@ void Manager::initFocus()
         return;
 
     focusProcess.reset(new Ekos::Focus());
-    int index    = toolsWidget->addTab(focusProcess.get(), QIcon(":/icons/ekos_focus.png"), "");
+    int index    = addModuleTab(EkosModule::Focus, focusProcess.get(), QIcon(":/icons/ekos_focus.png"));
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
 
@@ -2481,7 +2514,7 @@ void Manager::initMount()
         return;
 
     mountProcess.reset(new Ekos::Mount());
-    int index    = toolsWidget->addTab(mountProcess.get(), QIcon(":/icons/ekos_mount.png"), "");
+    int index    = addModuleTab(EkosModule::Mount, mountProcess.get(), QIcon(":/icons/ekos_mount.png"));
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
     connect(mountProcess.get(), &Ekos::Mount::newLog, this, &Ekos::Manager::updateLog);
@@ -2568,7 +2601,7 @@ void Manager::initGuide()
         if (managedDevices.contains(KSTARS_TELESCOPE) && managedDevices[KSTARS_TELESCOPE]->isConnected())
             guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
-        int index = toolsWidget->addTab(guideProcess.get(), QIcon(":/icons/ekos_guide.png"), "");
+        int index = addModuleTab(EkosModule::Guide, guideProcess.get(), QIcon(":/icons/ekos_guide.png"));
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
         connect(guideProcess.get(), &Ekos::Guide::newLog, this, &Ekos::Manager::updateLog);
         connect(guideProcess.get(), &Ekos::Guide::driverTimedout, this, &Ekos::Manager::restartDriver);
@@ -2691,7 +2724,7 @@ void Manager::initObservatory(Weather *weather, Dome *dome)
     {
         // Initialize the Observatory Module
         observatoryProcess.reset(new Ekos::Observatory());
-        int index = toolsWidget->addTab(observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"), "");
+        int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
         connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
     }
