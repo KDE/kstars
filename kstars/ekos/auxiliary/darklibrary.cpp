@@ -61,9 +61,9 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     histogramView->setProperty("axesLabelEnabled", false);
     //histogramView->setProperty("linear", true);
 
-    QDir writableDir;
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks");
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "defectmaps");
+    QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation));
+    writableDir.mkpath("darks");
+    writableDir.mkpath("defectmaps");
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Dark Generation Connections
@@ -947,7 +947,7 @@ void DarkLibrary::clearRow()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::openDarksFolder()
 {
-    QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
+    QString darkFilesPath = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("darks");
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(darkFilesPath));
 }
@@ -1525,7 +1525,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-    QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks/darkframe_" + ts + ".fits";
+    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("darks/darkframe_" + ts + ".fits");
 
     data->calculateStats(true);
     if (!data->saveImage(path))
@@ -1591,7 +1591,7 @@ void DarkLibrary::saveDefectMap()
     if (filename.isEmpty())
     {
         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-        filename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "defectmaps/defectmap_" + ts + ".json";
+        filename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("defectmaps/defectmap_" + ts + ".json");
         newFile = true;
     }
 

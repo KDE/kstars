@@ -133,7 +133,7 @@ void SkyObjItem::setPosition(SkyObject *so)
 QString findImage(const QString &prefix, const SkyObject &obj, const QString &suffix)
 {
     static const auto base =
-        KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
+        KSPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDirIterator search(
         base,
         QStringList() << prefix + obj.name().toLower().remove(' ').remove('/') + suffix,
@@ -147,13 +147,13 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
 
     const auto &fullSizeURL = findImage("image-", *m_So, ".png");
     const auto &wikiImageURL =
-        QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation,
+        QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::AppDataLocation,
                                             "descriptions/wikiImage-" +
                                                 m_So->name().toLower().remove(' ') +
                                                 ".png"))
             .url();
     QString XPlanetURL =
-        QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation,
+        QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::AppDataLocation,
                                             "xplanet/" + m_So->name() + ".png"))
             .url();
 
@@ -239,8 +239,8 @@ inline QString SkyObjItem::loadObjectDescription() const
 {
     QFile file;
     QString fname = "description-" + getName().toLower().remove(' ') + ".html";
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" +
-                     fname); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("descriptions/" + fname));
 
     if (file.exists())
     {

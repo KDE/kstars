@@ -1175,11 +1175,11 @@ void DetailDialog::updateThumbnail()
 
     if (tp->exec() == QDialog::Accepted)
     {
-        QDir().mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                      "thumbnails");
-        QString fname = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                        "thumbnails/thumb-" +
-                        selectedObject->name().toLower().remove(' ').remove('/') + ".png";
+        QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath("thumbnails");
+
+        QString const fname =
+                QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+                .filePath("thumb-" + selectedObject->name().toLower().remove(' ').remove('/') + ".png");
 
         Data->Image->setPixmap(*(tp->image()));
 

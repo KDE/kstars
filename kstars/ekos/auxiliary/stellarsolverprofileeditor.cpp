@@ -165,7 +165,7 @@ void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
             break;
     }
 
-    savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + profileGroupFileName;
+    savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(profileGroupFileName);
     loadProfiles();
 }
 

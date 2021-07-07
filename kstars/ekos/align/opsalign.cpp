@@ -47,8 +47,7 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
 void OpsAlign::reloadOptionsProfiles()
 {
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedAlignProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("SavedAlignProfiles.ini");
 
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);

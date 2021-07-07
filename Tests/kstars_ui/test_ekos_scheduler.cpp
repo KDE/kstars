@@ -21,6 +21,14 @@ TestEkosScheduler::TestEkosScheduler(QObject *parent) : QObject(parent)
 {
 }
 
+void TestEkosScheduler::init()
+{
+}
+
+void TestEkosScheduler::cleanup()
+{
+}
+
 void TestEkosScheduler::initTestCase()
 {
     KVERIFY_EKOS_IS_HIDDEN();
@@ -37,16 +45,6 @@ void TestEkosScheduler::cleanupTestCase()
     KTRY_EKOS_STOP_SIMULATORS();
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
-}
-
-void TestEkosScheduler::init()
-{
-
-}
-
-void TestEkosScheduler::cleanup()
-{
-
 }
 
 void TestEkosScheduler::testScheduleManipulation_data()

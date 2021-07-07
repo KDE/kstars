@@ -99,8 +99,7 @@ Focus::Focus()
     connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
     // Create an autofocus CSV file, dated at startup time
-    QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
-    m_FocusLogFileName = dir + "autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
+    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("focuslogs/autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
     m_FocusLogFile.setFileName(m_FocusLogFileName);
 
     editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
@@ -130,8 +129,7 @@ Focus::Focus()
 
 void Focus::loadStellarSolverProfiles()
 {
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedFocusProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("SavedFocusProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
@@ -2062,8 +2060,7 @@ void Focus::setHFRComplete()
     {
         QDir dir;
         QDateTime now = KStarsData::Instance()->lt();
-        QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus/" +
-                       now.toString("yyyy-MM-dd");
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("autofocus/" + now.toString("yyyy-MM-dd"));
         dir.mkpath(path);
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
@@ -3066,9 +3063,8 @@ void Focus::appendFocusLogText(const QString &lines)
         if (!m_FocusLogFile.exists())
         {
             // Create focus-specific log file and write the header record
-            QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "focuslogs/";
-            if (QDir(dir).exists() == false)
-                QDir().mkpath(dir);
+            QDir dir(KSPaths::writableLocation(QStandardPaths::AppDataLocation));
+            dir.mkpath("focuslogs");
             m_FocusLogEnabled = m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
             if (m_FocusLogEnabled)
             {

@@ -44,18 +44,16 @@ void TestKStarsStartup::cleanupTestCase()
             d->hide();
 }
 
+void TestKStarsStartup::init()
+{
+}
+
+void TestKStarsStartup::cleanup()
+{
+}
+
 void TestKStarsStartup::createInstanceTest()
 {
-    // Ensure we are in test mode (user .qttest)
-    QStandardPaths::setTestModeEnabled(true);
-    QVERIFY(QStandardPaths::isTestModeEnabled());
-
-    // Remove the user folder that may eventually exist
-    QWARN(qPrintable("Removing " + KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
-    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).removeRecursively());
-    QVERIFY(!QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).exists());
-    QVERIFY(QDir().mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
-
 #if defined(HAVE_INDI)
     QWARN("INDI driver registry is unexpectedly required before we start the KStars wizard");
 

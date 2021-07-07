@@ -352,8 +352,8 @@ void KStars::initActions()
     addColorMenuItem(i18n("&Moonless Night"), "cs_moonless-night");
 
     //Add any user-defined color schemes:
-    QFile file(KSPaths::locate(QStandardPaths::GenericDataLocation,
-                               "colors.dat")); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    QFile file(KSPaths::locate(QStandardPaths::AppDataLocation, "colors.dat"));
     if (file.exists() && file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);

@@ -75,7 +75,7 @@ HIPSManager::HIPSManager() : QObject(KStars::Instance())
     }
 
     //g_discCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/cache/hips");
-    g_discCache->setCacheDirectory(KSPaths::writableLocation(QStandardPaths::GenericCacheLocation) + "hips");
+    g_discCache->setCacheDirectory(QDir(KSPaths::writableLocation(QStandardPaths::CacheLocation)).filePath("hips"));
     //g_discCache->setMaximumCacheSize(setting("hips_net_cache").toLongLong());
     //m_cache.setMaxCost(setting("hips_mem_cache").toInt());
     g_discCache->setMaximumCacheSize(Options::hIPSNetCache()*1024*1024);

@@ -8,10 +8,9 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "ksuserdb.h"
-#include "kspaths.h"
-
 #include "testksuserdb.h"
+#include "../testhelpers.h"
+#include "ksuserdb.h"
 
 TestKSUserDB::TestKSUserDB(QObject *parent) : QObject(parent)
 {
@@ -19,32 +18,20 @@ TestKSUserDB::TestKSUserDB(QObject *parent) : QObject(parent)
 
 void TestKSUserDB::initTestCase()
 {
-    // Ensure we are in test mode (user .qttest)
-    QStandardPaths::setTestModeEnabled(true);
-    QVERIFY(QStandardPaths::isTestModeEnabled());
-
-    // Remove the user folder that may eventually exist
-    QWARN(qPrintable("Removing " + KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
-    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).removeRecursively());
-    QVERIFY(!QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).exists());
 }
 
 void TestKSUserDB::cleanupTestCase()
 {
-    // Ensure we are in test mode (user .qttest)
-    QVERIFY(QStandardPaths::isTestModeEnabled());
-
-    // Remove the user folder that may eventually exist
-    QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).removeRecursively();
-    QVERIFY(!QDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)).exists());
 }
 
 void TestKSUserDB::init()
 {
+    KTEST_BEGIN();
 }
 
 void TestKSUserDB::cleanup()
 {
+    KTEST_END();
 }
 
 void TestKSUserDB::testInitializeDB()
@@ -52,12 +39,45 @@ void TestKSUserDB::testInitializeDB()
     KSUserDB * testDB = new KSUserDB();
     QVERIFY(nullptr != testDB);
 
-    // If the KStars folder does not exist, database cannot be created and the app cannot start
+    // If the KStars folder does not exist, database cannot be initialised
+    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).removeRecursively());
     QVERIFY(!testDB->Initialize());
+    QVERIFY(!QFile(testDB->GetDatabase().databaseName()).exists());
 
-    // So create the KStars folder and retry
-    QVERIFY(QDir().mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
+    // If the KStars folder has just been created, database can be initialised
+    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath("."));
     QVERIFY(testDB->Initialize());
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+
+    // Database can be initialised once again (without change?)
+    QVERIFY(testDB->Initialize());
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+
+    // If there is garbage in the database and there is no backup, database can be initialised
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    {
+        QFile dbf(testDB->GetDatabase().databaseName());
+        QVERIFY(dbf.open(QIODevice::WriteOnly));
+        QCOMPARE(dbf.write("garbage", 7), 7);
+    }
+    QVERIFY(testDB->Initialize());
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+
+    // If there is no database file, but there is a backup, database can be initialised
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).rename(testDB->GetDatabase().databaseName() + ".backup"));
+    QVERIFY(testDB->Initialize());
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+
+    // If there is garbage in the database but there is a backup, database can be initialised
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    {
+        QFile dbf(testDB->GetDatabase().databaseName());
+        QVERIFY(dbf.open(QIODevice::WriteOnly));
+        QCOMPARE(dbf.write("garbage", 7), 7);
+    }
+    QVERIFY(testDB->Initialize());
+    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
 
     delete testDB;
 }

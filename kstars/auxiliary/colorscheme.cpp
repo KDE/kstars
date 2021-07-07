@@ -270,8 +270,8 @@ bool ColorScheme::save(const QString &name)
                 filename.replace(i, 1, "-");
 
         filename = filename.append(".colors");
-        file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                         filename); //determine filename in local user KDE directory tree.
+        //determine filename in local user KDE directory tree.
+        file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(filename));
 
         //if (file.exists() || !file.open(QIODevice::ReadWrite | QIODevice::Append))
         if (!file.open(QIODevice::ReadWrite))
@@ -289,8 +289,8 @@ bool ColorScheme::save(const QString &name)
             file.close();
         }
 
-        file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                         "colors.dat"); //determine filename in local user KDE directory tree.
+        //determine filename in local user KDE directory tree.
+        file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("colors.dat"));
 
         if (!file.open(QIODevice::ReadWrite))
         {

@@ -71,7 +71,7 @@ bool ServerManager::start()
             indiServerDir = QFileInfo(Options::indiServer()).dir().path();
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         env.insert("PATH", driversDir + ':' + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
-        QString gscDirPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
+        QString gscDirPath = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("gsc");
         env.insert("GSCDAT", gscDirPath);
 
         insertEnvironmentPath(&env, "INDIPREFIX", "/../../");

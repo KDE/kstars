@@ -93,7 +93,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     }
 
     //Try to load from the file in 'skycultures/western' subdirectory for western constellation art
-    QString filename = KSPaths::locate(QStandardPaths::GenericDataLocation,
+    QString filename = KSPaths::locate(QStandardPaths::AppDataLocation,
                                        QString("skycultures/western/%1.png").arg(name));
     if (!filename.isNull())
     {
@@ -102,7 +102,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     }
 
     //Try to load from the file in 'skycultures/inuit' subdirectory for Inuit constellation art
-    filename = KSPaths::locate(QStandardPaths::GenericDataLocation,
+    filename = KSPaths::locate(QStandardPaths::AppDataLocation,
                                QString("skycultures/inuit/%1.png").arg(name));
     if (!filename.isNull())
     {
@@ -111,7 +111,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     }
 
     // Try to load from file in main data directory
-    filename = KSPaths::locate(QStandardPaths::GenericDataLocation,
+    filename = KSPaths::locate(QStandardPaths::AppDataLocation,
                                QString("textures/%1.png").arg(name));
 
     if (!filename.isNull())

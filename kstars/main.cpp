@@ -366,6 +366,12 @@ int main(int argc, char *argv[])
 
 #endif
 
+    // Create writable data dir if it does not exist
+    QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath(".");
+    QDir(KSPaths::writableLocation(QStandardPaths::AppConfigLocation)).mkpath(".");
+    QDir(KSPaths::writableLocation(QStandardPaths::CacheLocation)).mkpath(".");
+    QDir(KSPaths::writableLocation(QStandardPaths::TempLocation)).mkpath(qAppName());
+
 #ifndef KSTARS_LITE
     KStars::createInstance(true, !parser.isSet("paused"), datestring);
 

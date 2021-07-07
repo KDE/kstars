@@ -82,8 +82,7 @@ cgmath::cgmath() : QObject()
     memset(drift[GUIDE_DEC], 0, sizeof(double) * MAX_ACCUM_CNT);
     drift_integral[GUIDE_RA] = drift_integral[GUIDE_DEC] = 0;
 
-    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "guide_log.txt";
-    logFile.setFileName(logFileName);
+    logFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("guide_log.txt"));
     gpg.reset(new GPG());
 }
 

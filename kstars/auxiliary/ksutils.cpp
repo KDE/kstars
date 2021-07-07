@@ -66,7 +66,7 @@ bool isHardwareLimited()
 
 bool openDataFile(QFile &file, const QString &s)
 {
-    QString FileName = KSPaths::locate(QStandardPaths::GenericDataLocation, s);
+    QString FileName = KSPaths::locate(QStandardPaths::AppDataLocation, s);
     if (!FileName.isNull())
     {
         file.setFileName(FileName);
@@ -935,8 +935,8 @@ void Logging::UseFile()
     if (_filename.isEmpty())
     {
         QDir dir;
-        QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs/" +
-                       QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("logs/" +
+                       QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         dir.mkpath(path);
         QString name = "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
         _filename    = path + QStringLiteral("/") + name;
@@ -1140,7 +1140,7 @@ QString getDefaultPath(const QString &option)
 #elif defined(Q_OS_LINUX)
         return prefix + "/share/indi";
 #else
-        return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
+        return QStandardPaths::locate(QStandardPaths::AppDataLocation, "indi", QStandardPaths::LocateDirectory);
 #endif
     }
     else if (option == "AstrometrySolverBinary")
@@ -1192,7 +1192,7 @@ QString getDefaultPath(const QString &option)
 #if defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/share/astrometry");
 #elif defined(Q_OS_OSX)
-        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
+        return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("Astrometry/");
 #endif
         return prefix + "/share/astrometry/";
     }
@@ -1225,7 +1225,7 @@ QString getDefaultPath(const QString &option)
 QStringList getAstrometryDefaultIndexFolderPaths()
 {
     QStringList folderPaths;
-    const QString confDir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry");
+    const QString confDir = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(QLatin1String("astrometry"));
     folderPaths << confDir;
     // Check if directory already exists, if it doesn't create one
     QDir writableDir(confDir);
@@ -1501,8 +1501,8 @@ QString getAstrometryConfFilePath()
 {
 #if defined(Q_OS_LINUX)
     if (Options::astrometryConfFileIsInternal())
-        return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
-               QLatin1String("/astrometry.cfg");
+        return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(QLatin1String("astrometry") +
+               QLatin1String("/astrometry.cfg"));
 #elif defined(Q_OS_OSX)
     if (Options::astrometryConfFileIsInternal())
         return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";

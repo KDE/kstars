@@ -48,7 +48,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
 
     QPixmap im;
-    if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "ekoslive.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "ekoslive.png")))
         leftBanner->setPixmap(im);
 
     pi = new QProgressIndicator(this);

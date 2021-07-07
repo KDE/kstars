@@ -58,7 +58,7 @@ ClientManagerLite::ClientManagerLite(QQmlContext& main_context) : context(main_c
 {
 #ifdef ANDROID
     defaultImageType      = ".jpeg";
-    defaultImagesLocation = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
+    defaultImagesLocation = QDir(KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" + qAppName()).path();
 #endif
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeNS");
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeWE");
@@ -797,23 +797,15 @@ void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QStri
 
 bool ClientManagerLite::saveDisplayImage()
 {
-    QString dateTime   = QDateTime::currentDateTime().toString("dd-MM-yyyy-hh-mm-ss");
-    QString fileEnding = "kstars-lite-" + dateTime;
-    //QString filename = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
-    //#ifndef ANDROID
-    QString filename = QFileDialog::getSaveFileName(QApplication::activeWindow(), i18n("Save Image"),
-                                                    KSPaths::writableLocation(QStandardPaths::PicturesLocation) + '/' +
-                                                        fileEnding + ".jpeg",
-                                                    i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
-    //#else
-    /*if(imageType.isEmpty() || !(imageType != ".jpeg" || imageType != ".jpg" || imageType != ".png" || imageType != ".bmp")) {
-            QString warning = imageType + " is a wrong image type. Switching to \"" + defaultImageType + "\"";
-            qDebug() << warning;
-            emit newINDIMessage(warning);
-            imageType = defaultImageType;
-    }*/
-    //  QString filename(defaultImagesLocation + "/" + fileEnding + defaultImageType);
-    //#endif
+    QString const dateTime   = QDateTime::currentDateTime().toString("dd-MM-yyyy-hh-mm-ss");
+    QString const fileEnding = "kstars-lite-" + dateTime;
+    QDir const dir(KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" + qAppName()).path();
+    QFileInfo const file(QString("%1/%2.jpeg").arg(dir.path()).arg(fileEnding));
+
+    QString const filename = QFileDialog::getSaveFileName(
+                QApplication::activeWindow(), i18n("Save Image"), file.filePath(),
+                i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
+
     if (!filename.isEmpty())
     {
         if (displayImage.save(filename))
@@ -1010,7 +1002,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
         return false;
     }
 
-    QString currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
+    QString currentDir = QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" + qAppName()).path();
 
     int nr, n = 0;
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");

@@ -91,8 +91,9 @@ void prepare_tests()
 
     // Prepare our KStars configuration
     srand((unsigned int)time(nullptr));
-    QDir writableDir;
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    KSPaths::writableLocation(QStandardPaths::AppDataLocation);
+    KSPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    KSPaths::writableLocation(QStandardPaths::CacheLocation);
     KCrash::initialize();
 
     // Explicitly provide the RC file from the main app resources, not the user-customized one

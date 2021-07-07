@@ -435,7 +435,7 @@ bool LocationDialogLite::isReadOnly(const QString &fullName)
 QSqlDatabase LocationDialogLite::getDB()
 {
     QSqlDatabase mycitydb = QSqlDatabase::database("mycitydb");
-    QString dbfile        = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "mycitydb.sqlite";
+    QString dbfile        = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("mycitydb.sqlite");
 
     // If it doesn't exist, create it
     if (QFile::exists(dbfile) == false)

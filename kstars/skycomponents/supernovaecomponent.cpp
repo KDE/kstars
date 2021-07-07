@@ -69,7 +69,7 @@ void SupernovaeComponent::loadData()
     QString name, type, host, date, ra, de;
     float z, mag;
 
-    QString sFileName = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("catalog.min.json"));
+    QString sFileName = KSPaths::locate(QStandardPaths::AppDataLocation, QString("catalog.min.json"));
 
     QFile sNovaFile(sFileName);
 
@@ -245,7 +245,7 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
-    QString output = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "catalog.min.json";
+    QString output = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("catalog.min.json");
 
     downloadJob->setDownloadedFileURL(QUrl::fromLocalFile(output));
 

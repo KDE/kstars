@@ -758,8 +758,8 @@ void ScriptBuilder::initViewOptions()
 
     QFile file;
     QString line;
-    file.setFileName(KSPaths::locate(QStandardPaths::GenericDataLocation,
-                                     "colors.dat")); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(KSPaths::locate(QStandardPaths::AppDataLocation, "colors.dat"));
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);

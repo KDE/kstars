@@ -59,8 +59,12 @@ TARGET_LINK_LIBRARIES( testksuserdb ${TEST_LIBRARIES})
 ADD_TEST( NAME TestKSUserDB COMMAND testksuserdb )
 SET_TESTS_PROPERTIES( TestKSUserDB PROPERTIES LABELS "stable")
 
+ADD_EXECUTABLE( testkspaths testkspaths.cpp )
+TARGET_LINK_LIBRARIES( testkspaths ${TEST_LIBRARIES})
+ADD_TEST( NAME TestKSPaths COMMAND testkspaths )
+SET_TESTS_PROPERTIES( TestKSPaths PROPERTIES LABELS "stable")
+
 ADD_EXECUTABLE( testtrixelcache testtrixelcache.h )
 TARGET_LINK_LIBRARIES( testtrixelcache ${TEST_LIBRARIES})
 ADD_TEST( NAME TestTrixelCache COMMAND testtrixelcache )
 SET_TESTS_PROPERTIES(TestTrixelCache PROPERTIES LABELS "stable")
-

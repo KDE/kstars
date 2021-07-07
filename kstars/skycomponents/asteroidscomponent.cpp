@@ -22,6 +22,7 @@
 #endif
 #include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "kstars_debug.h"
 #include "Options.h"
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
@@ -97,6 +98,7 @@ void AsteroidsComponent::loadDataFromText()
     bool neo;
 
     emitProgressText(i18n("Loading asteroids"));
+    qCInfo(KSTARS) << "Loading asteroids";
 
     QList<QPair<QString, KSParser::DataTypes>> sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -287,10 +289,13 @@ void AsteroidsComponent::downloadReady()
     data.insert(0, '#');
 
     // Write data to asteroids.dat
-    QFile file(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "asteroids.dat");
-    file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
-    file.write(data);
-    file.close();
+    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("asteroids.dat"));
+    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
+    {
+        file.write(data);
+        file.close();
+    }
+    else qCWarning(KSTARS) << "Failed writing asteroid data to" << file.fileName();
 
     QString focusedAstroid;
 

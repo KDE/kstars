@@ -863,7 +863,7 @@ bool DriverManager::readINDIHosts()
     QString hName, hHost, hPort;
 
     lastGroup = nullptr;
-    file.setFileName(KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile));
+    file.setFileName(KSPaths::locate(QStandardPaths::AppDataLocation, indiFile));
     if (file.fileName().isEmpty() || !file.open(QIODevice::ReadOnly))
     {
         delLilXML(xmlParser);
@@ -942,7 +942,7 @@ bool DriverManager::readXMLDrivers()
     QString driverName;
 
     // This is the XML file shipped with KStars that contains all supported INDI drivers.
-    /*QString indiDriversXML = KSPaths::locate(QStandardPaths::GenericDataLocation, "indidrivers.xml");
+    /*QString indiDriversXML = KSPaths::locate(QStandardPaths::AppDataLocation, "indidrivers.xml");
     if (indiDriversXML.isEmpty() == false)
         processXMLDriver(indiDriversXML);
     */
@@ -976,7 +976,7 @@ bool DriverManager::readXMLDrivers()
         //        if (fileInfo.fileName() == "drivers.xml")
         //        {
         //            // Let first attempt to load the local version of drivers.xml
-        //            driverName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "drivers.xml";
+        //            driverName = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("drivers.xml");
 
         //            // If found, we continue, otherwise, we load the system file
         //            if (driverName.isEmpty() == false && QFile(driverName).exists())
@@ -1493,8 +1493,8 @@ void DriverManager::saveHosts()
     QFile file;
     QString hostData;
 
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                     "indihosts.xml"); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("indihosts.xml"));
 
     if (!file.open(QIODevice::WriteOnly))
     {

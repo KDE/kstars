@@ -17,7 +17,6 @@
 
 #if defined(HAVE_INDI)
 
-#include "kstars.h"
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
@@ -114,7 +113,10 @@ void TestEkosMount::cleanupTestCase()
 
 void TestEkosMount::init()
 {
+}
 
+void TestEkosMount::cleanup()
+{
 }
 
 void TestEkosMount::testMountCtrlCoordLabels()
@@ -464,11 +466,6 @@ void TestEkosMount::testMountCtrlSync()
     // close Mount Control
     KTRY_MOUNT_CLICK(mountToolBoxB);
 #endif
-}
-
-void TestEkosMount::cleanup()
-{
-
 }
 
 QTEST_KSTARS_MAIN(TestEkosMount)

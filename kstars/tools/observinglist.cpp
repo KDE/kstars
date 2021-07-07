@@ -582,7 +582,7 @@ void ObservingList::slotNewSelection()
                 ui->NotesEdit->setEnabled(false);
                 ui->SearchImage->setEnabled(false);
             }
-            QString ImagePath = KSPaths::locate(QStandardPaths::GenericDataLocation, m_currentImageFileName);
+            QString ImagePath = KSPaths::locate(QStandardPaths::AppDataLocation, m_currentImageFileName);
             if (!ImagePath.isEmpty())
             {
                 //If the image is present, show it!
@@ -1011,7 +1011,7 @@ void ObservingList::slotSaveList()
             ostream << o->name() << '\n';
         }
     }
-    f.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist");
+    f.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("wishlist.obslist"));
     if (!f.open(QIODevice::WriteOnly))
     {
         qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
@@ -1026,7 +1026,7 @@ void ObservingList::slotSaveList()
 void ObservingList::slotLoadWishList()
 {
     QFile f;
-    f.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist");
+    f.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("wishlist.obslist"));
     if (!f.open(QIODevice::ReadOnly))
     {
         qWarning(KSTARS) << "No WishList Saved yet";
@@ -1330,7 +1330,7 @@ void ObservingList::downloadReady(bool success)
     else
     {
         /*
-          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + m_currentImageFileName ).size() > 13000)
+          if( QFile( QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(m_currentImageFileName) ).size() > 13000)
           //The default image is around 8689 bytes
         */
         //ui->ImagePreview->showPreview( QUrl::fromLocalFile( getCurrentImagePath() ) );
@@ -1357,12 +1357,12 @@ void ObservingList::setCurrentImage(const SkyObject *o)
     m_currentThumbImageFileName = "thumb-" + sanitizedName + ".png";
 
     // Does full image exists in the path?
-    QString currentImagePath = KSPaths::locate(QStandardPaths::GenericDataLocation, m_currentImageFileName);
+    QString currentImagePath = KSPaths::locate(QStandardPaths::AppDataLocation, m_currentImageFileName);
 
     // Let's try to fallback to thumb-* images if they exist
     if (currentImagePath.isEmpty())
     {
-        currentImagePath = KSPaths::locate(QStandardPaths::GenericDataLocation, m_currentThumbImageFileName);
+        currentImagePath = KSPaths::locate(QStandardPaths::AppDataLocation, m_currentThumbImageFileName);
 
         // If thumb image exists, let's use it
         if (currentImagePath.isEmpty() == false)
@@ -1395,13 +1395,13 @@ void ObservingList::setCurrentImage(const SkyObject *o)
 
 QString ObservingList::getCurrentImagePath()
 {
-    QString currentImagePath = KSPaths::locate(QStandardPaths::GenericDataLocation, m_currentImageFileName);
+    QString currentImagePath = KSPaths::locate(QStandardPaths::AppDataLocation, m_currentImageFileName);
     if (QFile::exists(currentImagePath))
     {
         return currentImagePath;
     }
     else
-        return (KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentImageFileName);
+        return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(m_currentImageFileName);
 }
 
 void ObservingList::slotSaveAllImages()
@@ -1466,7 +1466,7 @@ void ObservingList::slotDeleteAllImages()
     ui->SessionView->clearSelection();
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
-    QDirIterator iterator(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    QDirIterator iterator(KSPaths::writableLocation(QStandardPaths::AppDataLocation));
     while (iterator.hasNext())
     {
         // TODO: Probably, there should be a different directory for cached images in the observing list.
@@ -1583,11 +1583,12 @@ void ObservingList::slotDeleteCurrentImage()
 
 void ObservingList::saveThumbImage()
 {
-    if (!QFile::exists(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentThumbImageFileName))
+    QFileInfo const f(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(m_currentThumbImageFileName));
+    if (!f.exists())
     {
         QImage img(getCurrentImagePath());
         img = img.scaled(200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        img.save(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentThumbImageFileName);
+        img.save(f.filePath());
     }
 }
 

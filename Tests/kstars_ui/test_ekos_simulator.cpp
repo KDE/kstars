@@ -14,7 +14,6 @@
 #if defined(HAVE_INDI)
 
 #include "test_ekos.h"
-#include "kstars.h"
 #include "ksmessagebox.h"
 
 TestEkosSimulator::TestEkosSimulator(QObject *parent) : QObject(parent)

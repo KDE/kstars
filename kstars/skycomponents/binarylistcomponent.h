@@ -159,8 +159,8 @@ template<class T, typename Component>
 template<class T, typename Component>
  BinaryListComponent<T, Component>::BinaryListComponent(Component *parent, QString basename, QString txtExt, QString binExt) : parent { parent }
 {
-     filepath_bin = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + basename + '.' + binExt;
-     filepath_txt = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + basename + '.' + txtExt;
+     filepath_bin = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(basename + '.' + binExt);
+     filepath_txt = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(basename + '.' + txtExt);
 }
 
 template<class T, typename Component>
@@ -199,24 +199,27 @@ template<class T, typename Component>
 void  BinaryListComponent<T, Component>::loadDataFromBinary(QFile &binfile)
 {
     // Open our binary file and create a Stream
-    binfile.open(QIODevice::ReadOnly);
-    QDataStream in(&binfile);
+    if (binfile.open(QIODevice::ReadOnly))
+    {
+        QDataStream in(&binfile);
 
-    // Use the specified binary version
-    // TODO: Place this into the config
-    in.setVersion(binversion);
-    in.setFloatingPointPrecision(QDataStream::DoublePrecision);
+        // Use the specified binary version
+        // TODO: Place this into the config
+        in.setVersion(binversion);
+        in.setFloatingPointPrecision(QDataStream::DoublePrecision);
 
-    while(!in.atEnd()){
-        T *new_object = nullptr;
-        in >> new_object;
+        while(!in.atEnd()){
+            T *new_object = nullptr;
+            in >> new_object;
 
-        parent->appendListObject(new_object);
-        // Add name to the list of object names
-        parent->objectNames(T::TYPE).append(new_object->name());
-        parent->objectLists(T::TYPE).append(QPair<QString, const SkyObject *>(new_object->name(), new_object));
+            parent->appendListObject(new_object);
+            // Add name to the list of object names
+            parent->objectNames(T::TYPE).append(new_object->name());
+            parent->objectLists(T::TYPE).append(QPair<QString, const SkyObject *>(new_object->name(), new_object));
+        }
+        binfile.close();
     }
-    binfile.close();
+    else qWarning() << "Failed loading binary data from" << binfile.fileName();
 }
 
 template<class T, typename Component>

@@ -8,6 +8,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "../testhelpers.h"
 #include "testcolorscheme.h"
 
 TestColorScheme::TestColorScheme(QObject *parent) : QObject(parent)

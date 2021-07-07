@@ -96,11 +96,10 @@ void OpsTerrain::syncOptions()
 
 void OpsTerrain::saveTerrainFilename()
 {
-    QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "terrain/";
-    if (QDir(dir).exists() == false)
-        QDir().mkpath(dir);
+    QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation) + "/terrain");
+    dir.mkpath(".");
 
-    QUrl dirPath = QUrl::fromLocalFile(dir);
+    QUrl dirPath = QUrl::fromLocalFile(dir.path());
     QUrl fileUrl =
         QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Terrain Image Filename"), dirPath, i18n("PNG Files (*.png)"));
 

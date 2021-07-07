@@ -52,7 +52,7 @@ void ConstellationArtComponent::loadData()
     if (m_ConstList.isEmpty())
     {
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
-        QString dbfile     = KSPaths::locate(QStandardPaths::GenericDataLocation, "skycultures.sqlite");
+        QString dbfile     = KSPaths::locate(QStandardPaths::AppDataLocation, "skycultures.sqlite");
 
         skydb.setDatabaseName(dbfile);
         if (skydb.open() == false)

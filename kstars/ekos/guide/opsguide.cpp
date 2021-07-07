@@ -80,8 +80,7 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 
 void OpsGuide::loadOptionsProfiles()
 {
-    QString savedOptionsProfiles = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                                   QString("SavedGuideProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("SavedGuideProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else

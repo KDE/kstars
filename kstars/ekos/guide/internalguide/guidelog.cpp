@@ -107,11 +107,10 @@ void GuideLog::appendToLog(const QString &lines)
 //   KStars version 3.4.0. PHD2 log version 2.5. Log enabled at 2019-11-21 00:00:48
 void GuideLog::startLog()
 {
-    QString  dir = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "guidelogs/";
-    if (QDir(dir).exists() == false)
-        QDir().mkpath(dir);
+    QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("guidelogs");
+    dir.mkpath(".");
 
-    logFileName = dir + "guide_log-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt";
+    logFileName = dir.filePath("guide_log-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
     logFile.setFileName(logFileName);
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
 

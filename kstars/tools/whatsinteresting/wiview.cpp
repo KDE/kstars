@@ -665,8 +665,8 @@ void WIView::loadObjectDescription(SkyObjItem *soitem)
 {
     QFile file;
     QString fname = "description-" + soitem->getName().toLower().remove(' ') + ".html";
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" +
-                     fname); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("descriptions/" + fname));
 
     if (file.exists())
     {
@@ -696,8 +696,8 @@ void WIView::loadObjectInfoBox(SkyObjItem *soitem)
         return;
     QFile file;
     QString fname = "infoText-" + soitem->getName().toLower().remove(' ') + ".html";
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" +
-                     fname); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("descriptions/" + fname));
 
     if (file.exists())
     {
@@ -710,7 +710,7 @@ void WIView::loadObjectInfoBox(SkyObjItem *soitem)
                 infoBoxHTML = in.readAll();
                 QString wikiImageName =
                     QUrl::fromLocalFile(
-                        KSPaths::locate(QStandardPaths::GenericDataLocation,
+                        KSPaths::locate(QStandardPaths::AppDataLocation,
                                         "descriptions/wikiImage-" + soitem->getName().toLower().remove(' ') + ".png"))
                     .url();
                 if (!wikiImageName.isEmpty())
@@ -749,8 +749,8 @@ void WIView::tryToUpdateWikipediaInfoInModel(bool onlyMissing)
         SkyObjItem *soitem = model->getSkyObjItem(i);
         QFile file;
         QString fname = "infoText-" + soitem->getName().toLower().remove(' ') + ".html";
-        file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" +
-                         fname); //determine filename in local user KDE directory tree.
+        //determine filename in local user KDE directory tree.
+        file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("descriptions/" + fname));
 
         if (file.exists() && onlyMissing)
             continue;
@@ -891,11 +891,11 @@ void WIView::saveObjectInfoBoxText(SkyObjItem *soitem, QString type, QString tex
     QFile file;
     QString fname = type + '-' + soitem->getName().toLower().remove(' ') + ".html";
 
-    QDir writableDir;
-    QString filePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions";
-    writableDir.mkpath(filePath);
+    QDir filePath(KSPaths::writableLocation(QStandardPaths::AppDataLocation) + "/descriptions");
+    filePath.mkpath(".");
 
-    file.setFileName(filePath + '/' + fname); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(filePath.filePath(fname));
 
     if (file.open(QIODevice::WriteOnly) == false)
     {
@@ -913,8 +913,8 @@ void WIView::saveObjectInfoBoxText(SkyObjItem *soitem, QString type, QString tex
 void WIView::saveImageURL(SkyObjItem *soitem, QString imageURL)
 {
     QFile file;
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                     "image_url.dat"); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("image_url.dat"));
     QString entry = soitem->getName() + ':' + "Show Wikipedia Image" + ':' + imageURL;
 
     if (file.open(QIODevice::ReadOnly))
@@ -949,8 +949,8 @@ void WIView::saveImageURL(SkyObjItem *soitem, QString imageURL)
 void WIView::saveInfoURL(SkyObjItem *soitem, QString infoURL)
 {
     QFile file;
-    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                     "info_url.dat"); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("info_url.dat"));
     QString entry = soitem->getName() + ':' + "Wikipedia Page" + ':' + infoURL;
 
     if (file.open(QIODevice::ReadOnly))
@@ -986,11 +986,10 @@ void WIView::downloadWikipediaImage(SkyObjItem *soitem, QString imageURL)
 {
     QString fname = "wikiImage-" + soitem->getName().toLower().remove(' ') + ".png";
 
-    QDir writableDir;
-    QString filePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions";
-    writableDir.mkpath(filePath);
+    QDir filePath(KSPaths::writableLocation(QStandardPaths::AppDataLocation) + "/descriptions");
+    filePath.mkpath(".");
 
-    QString fileN = filePath + '/' + fname;
+    QString fileN = filePath.filePath(fname);
 
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(imageURL)));
     QTimer::singleShot(60000, response, [response]   //Shut it down after 60 sec.

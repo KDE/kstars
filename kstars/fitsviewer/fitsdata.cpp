@@ -59,7 +59,7 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+const QString FITSData::m_TemporaryPath = QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" + qAppName()).path();
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
@@ -3667,7 +3667,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
         return false;
     }
 
-    output = QString(KSPaths::writableLocation(QStandardPaths::TempLocation) + QFileInfo(filename).fileName() + ".fits");
+    output = QDir(m_TemporaryPath).filePath(filename + ".fits");
 
     //This section sets up the FITS File
     fitsfile *fptr = nullptr;

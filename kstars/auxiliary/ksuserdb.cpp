@@ -42,8 +42,8 @@ KSUserDB::~KSUserDB()
     m_UserDB.close();
 
     // Backup
-    QString current_dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite";
-    QString backup_dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite.backup";
+    QString current_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite");
+    QString backup_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite.backup");
     QFile::remove(backup_dbfile);
     QFile::copy(current_dbfile, backup_dbfile);
 }
@@ -52,159 +52,180 @@ bool KSUserDB::Initialize()
 {
     // Every logged in user has their own db.
     m_UserDB = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite";
-    QFile testdb(dbfile);
-    bool first_run = false;
-    if (!testdb.exists())
+    if (!m_UserDB.isValid())
     {
-        qCInfo(KSTARS) << "User DB does not exist. New User DB will be created.";
-        first_run = true;
+        qCCritical(KSTARS) << "Unable to prepare database of type sqlite!";
+        return false;
     }
-    m_UserDB.setDatabaseName(dbfile);
-    // If main files fail, write to backup.
+
+    // If the database file does not exist, look for a backup
+    // If the database file exists and is empty, look for a backup
+    // If the database file exists and has data, use it.
+    // If the backup file does not exist, start fresh.
+    // If the backup file exists and has data, replace and use it.
+    // If the database file exists and has no data and the backup file exists, use it.
+    // If the database file exists and has no data and no backup file exists, start fresh.
+
+    QFileInfo dbfile(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite"));
+    QFileInfo backup_file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite.backup"));
+
+    bool const first_run = !dbfile.exists() && !backup_file.exists();
+
+    m_UserDB.setDatabaseName(dbfile.filePath());
+
+    // If main fails to open and we have no backup, fail
     if (!m_UserDB.open())
     {
-        qCWarning(KSTARS) << "Unable to open user database file. Recovering from backup...";
-        qCritical(KSTARS) << LastError();
-        return false;
-
+        if (!backup_file.exists())
+        {
+            qCCritical(KSTARS) << QString("Failed opening user database '%1'.").arg(dbfile.filePath());
+            qCCritical(KSTARS) << LastError();
+            return false;
+        }
     }
 
-    if (first_run == true)
-        FirstRun();
-    else
+    // If no main nor backup existed before opening, rebuild
+    if (m_UserDB.isOpen() && first_run)
     {
-        // Check for corrupted database
-        if (m_UserDB.tables().empty())
+        qCInfo(KSTARS) << "User DB does not exist. New User DB will be created.";
+        FirstRun();
+    }
+
+    // If main appears empty/corrupted, restore if possible or rebuild
+    if (m_UserDB.tables().empty())
+    {
+        if (backup_file.exists())
         {
             m_UserDB.close();
-            qCritical(KSTARS) << "Detected corrupted database. Attempting to recover from backup...";
-            QString backup_file = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite.backup";
-            QFile::remove(dbfile);
-            QFile::copy(backup_file, dbfile);
-            if (!m_UserDB.open())
-            {
-                qCritical(KSTARS) << LastError();
-                return false;
-            }
+            qCWarning(KSTARS) << "Detected corrupted database. Attempting to recover from backup...";
+            QFile::remove(dbfile.filePath());
+            QFile::copy(backup_file.filePath(), dbfile.filePath());
+            QFile::remove(backup_file.filePath());
+            return Initialize();
         }
+        else if (!FirstRun())
+        {
+            qCCritical(KSTARS) << QString("Failed initializing user database '%1.").arg(dbfile.filePath());
+            return false;
+        }
+    }
 
-        qCDebug(KSTARS) << "Opened the User DB. Ready.";
+    qCDebug(KSTARS) << "Opened the User DB. Ready.";
 
-        // Update table if previous version exists
-        QSqlTableModel version(nullptr, m_UserDB);
-        version.setTable("Version");
-        version.select();
-        QSqlRecord record = version.record(0);
-        version.clear();
+    // Update table if previous version exists
+    QSqlTableModel version(nullptr, m_UserDB);
+    version.setTable("Version");
+    version.select();
+    QSqlRecord record = version.record(0);
+    version.clear();
 
-        // Old version had 2.9.5 ..etc, so we remove them
-        // Starting with 2.9.7, we are using SCHEMA_VERSION which now decoupled from KStars Version and starts at 300
-        int currentDBVersion = record.value("Version").toString().remove(".").toInt();
+    // Old version had 2.9.5 ..etc, so we remove them
+    // Starting with 2.9.7, we are using SCHEMA_VERSION which now decoupled from KStars Version and starts at 300
+    int currentDBVersion = record.value("Version").toString().remove(".").toInt();
 
-        // Update database version to current KStars version
-        if (currentDBVersion != SCHEMA_VERSION)
+    // Update database version to current KStars version
+    if (currentDBVersion != SCHEMA_VERSION)
+    {
+        QSqlQuery query(m_UserDB);
+        QString versionQuery = QString("UPDATE Version SET Version=%1").arg(SCHEMA_VERSION);
+        if (!query.exec(versionQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
+    // If prior to 2.9.4 extend filters table
+    if (currentDBVersion < 294)
+    {
+        QSqlQuery query(m_UserDB);
+
+        qCWarning(KSTARS) << "Detected old format filter table, re-creating...";
+        if (!query.exec("DROP table filter"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("CREATE TABLE filter ( "
+                        "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                        "Vendor TEXT DEFAULT NULL, "
+                        "Model TEXT DEFAULT NULL, "
+                        "Type TEXT DEFAULT NULL, "
+                        "Color TEXT DEFAULT NULL,"
+                        "Exposure REAL DEFAULT 1.0,"
+                        "Offset INTEGER DEFAULT 0,"
+                        "UseAutoFocus INTEGER DEFAULT 0,"
+                        "LockedFilter TEXT DEFAULT '--',"
+                        "AbsoluteFocusPosition INTEGER DEFAULT 0)"))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
+    // If prior to 2.9.5 create fov table
+    if (currentDBVersion < 295)
+    {
+        QSqlQuery query(m_UserDB);
+
+        if (!query.exec("CREATE TABLE effectivefov ( "
+                        "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                        "Profile TEXT DEFAULT NULL, "
+                        "Width INTEGER DEFAULT NULL, "
+                        "Height INTEGER DEFAULT NULL, "
+                        "PixelW REAL DEFAULT 5.0,"
+                        "PixelH REAL DEFAULT 5.0,"
+                        "FocalLength REAL DEFAULT 0.0,"
+                        "FovW REAL DEFAULT 0.0,"
+                        "FovH REAL DEFAULT 0.0)"))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
+    if (currentDBVersion < 300)
+    {
+        QSqlQuery query(m_UserDB);
+        QString columnQuery = QString("ALTER TABLE profile ADD COLUMN remotedrivers TEXT DEFAULT NULL");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+
+        if (m_UserDB.tables().contains("customdrivers") == false)
         {
             QSqlQuery query(m_UserDB);
-            QString versionQuery = QString("UPDATE Version SET Version=%1").arg(SCHEMA_VERSION);
-            if (!query.exec(versionQuery))
-                qCWarning(KSTARS) << query.lastError();
-        }
 
-        // If prior to 2.9.4 extend filters table
-        if (currentDBVersion < 294)
-        {
-            QSqlQuery query(m_UserDB);
-
-            qCWarning(KSTARS) << "Detected old format filter table, re-creating...";
-            if (!query.exec("DROP table filter"))
-                qCWarning(KSTARS) << query.lastError();
-            if (!query.exec("CREATE TABLE filter ( "
+            if (!query.exec("CREATE TABLE customdrivers ( "
                             "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                            "Vendor TEXT DEFAULT NULL, "
-                            "Model TEXT DEFAULT NULL, "
-                            "Type TEXT DEFAULT NULL, "
-                            "Color TEXT DEFAULT NULL,"
-                            "Exposure REAL DEFAULT 1.0,"
-                            "Offset INTEGER DEFAULT 0,"
-                            "UseAutoFocus INTEGER DEFAULT 0,"
-                            "LockedFilter TEXT DEFAULT '--',"
-                            "AbsoluteFocusPosition INTEGER DEFAULT 0)"))
-                qCWarning(KSTARS) << query.lastError();
-        }
-
-        // If prior to 2.9.5 create fov table
-        if (currentDBVersion < 295)
-        {
-            QSqlQuery query(m_UserDB);
-
-            if (!query.exec("CREATE TABLE effectivefov ( "
-                            "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                            "Profile TEXT DEFAULT NULL, "
-                            "Width INTEGER DEFAULT NULL, "
-                            "Height INTEGER DEFAULT NULL, "
-                            "PixelW REAL DEFAULT 5.0,"
-                            "PixelH REAL DEFAULT 5.0,"
-                            "FocalLength REAL DEFAULT 0.0,"
-                            "FovW REAL DEFAULT 0.0,"
-                            "FovH REAL DEFAULT 0.0)"))
-                qCWarning(KSTARS) << query.lastError();
-        }
-
-        if (currentDBVersion < 300)
-        {
-            QSqlQuery query(m_UserDB);
-            QString columnQuery = QString("ALTER TABLE profile ADD COLUMN remotedrivers TEXT DEFAULT NULL");
-            if (!query.exec(columnQuery))
-                qCWarning(KSTARS) << query.lastError();
-
-            if (m_UserDB.tables().contains("customdrivers") == false)
-            {
-                QSqlQuery query(m_UserDB);
-
-                if (!query.exec("CREATE TABLE customdrivers ( "
-                                "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                                "Name TEXT DEFAULT NULL, "
-                                "Label TEXT DEFAULT NULL UNIQUE, "
-                                "Manufacturer TEXT DEFAULT NULL, "
-                                "Family TEXT DEFAULT NULL, "
-                                "Exec TEXT DEFAULT NULL, "
-                                "Version TEXT DEFAULT 1.0)"))
-                    qCWarning(KSTARS) << query.lastError();
-            }
-        }
-
-        // Add manufacturer
-        if (currentDBVersion < 305)
-        {
-            QSqlQuery query(m_UserDB);
-            QString columnQuery = QString("ALTER TABLE customdrivers ADD COLUMN Manufacturer TEXT DEFAULT NULL");
-            if (!query.exec(columnQuery))
-                qCWarning(KSTARS) << query.lastError();
-        }
-
-        // Add indihub
-        if (currentDBVersion < 306)
-        {
-            QSqlQuery query(m_UserDB);
-            QString columnQuery = QString("ALTER TABLE profile ADD COLUMN indihub INTEGER DEFAULT 0");
-            if (!query.exec(columnQuery))
-                qCWarning(KSTARS) << query.lastError();
-        }
-
-        // Add Defect Map
-        if (currentDBVersion < 307)
-        {
-            QSqlQuery query(m_UserDB);
-            // If we are upgrading, remove all previous entries.
-            QString clearQuery = QString("DELETE FROM darkframe");
-            if (!query.exec(clearQuery))
-                qCWarning(KSTARS) << query.lastError();
-            QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN defectmap TEXT DEFAULT NULL");
-            if (!query.exec(columnQuery))
+                            "Name TEXT DEFAULT NULL, "
+                            "Label TEXT DEFAULT NULL UNIQUE, "
+                            "Manufacturer TEXT DEFAULT NULL, "
+                            "Family TEXT DEFAULT NULL, "
+                            "Exec TEXT DEFAULT NULL, "
+                            "Version TEXT DEFAULT 1.0)"))
                 qCWarning(KSTARS) << query.lastError();
         }
     }
+
+    // Add manufacturer
+    if (currentDBVersion < 305)
+    {
+        QSqlQuery query(m_UserDB);
+        QString columnQuery = QString("ALTER TABLE customdrivers ADD COLUMN Manufacturer TEXT DEFAULT NULL");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
+    // Add indihub
+    if (currentDBVersion < 306)
+    {
+        QSqlQuery query(m_UserDB);
+        QString columnQuery = QString("ALTER TABLE profile ADD COLUMN indihub INTEGER DEFAULT 0");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
+    // Add Defect Map
+    if (currentDBVersion < 307)
+    {
+        QSqlQuery query(m_UserDB);
+        // If we are upgrading, remove all previous entries.
+        QString clearQuery = QString("DELETE FROM darkframe");
+        if (!query.exec(clearQuery))
+            qCWarning(KSTARS) << query.lastError();
+        QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN defectmap TEXT DEFAULT NULL");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
     m_UserDB.close();
     return true;
 }
@@ -1206,41 +1227,44 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
 void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
                          int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
-    equip.setTable("filter");
+    if (m_UserDB.open())
+    {
+        QSqlTableModel equip(nullptr, m_UserDB);
+        equip.setTable("filter");
 
-    QSqlRecord record = equip.record();
-    record.setValue("Vendor", vendor);
-    record.setValue("Model", model);
-    record.setValue("Type", type);
-    record.setValue("Color", color);
-    record.setValue("Offset", offset);
-    record.setValue("Exposure", exposure);
-    record.setValue("UseAutoFocus", useAutoFocus ? 1 : 0);
-    record.setValue("LockedFilter", lockedFilter);
-    record.setValue("AbsoluteFocusPosition", absFocusPos);
+        QSqlRecord record = equip.record();
+        record.setValue("Vendor", vendor);
+        record.setValue("Model", model);
+        record.setValue("Type", type);
+        record.setValue("Color", color);
+        record.setValue("Offset", offset);
+        record.setValue("Exposure", exposure);
+        record.setValue("UseAutoFocus", useAutoFocus ? 1 : 0);
+        record.setValue("LockedFilter", lockedFilter);
+        record.setValue("AbsoluteFocusPosition", absFocusPos);
 
-    if (equip.insertRecord(-1, record) == false)
-        qCritical() << __FUNCTION__ << equip.lastError();
+        if (equip.insertRecord(-1, record) == false)
+            qCritical() << __FUNCTION__ << equip.lastError();
 
 
-    /*int row = 0;
-    equip.insertRows(row, 1);
-    equip.setData(equip.index(row, 1), vendor);
-    equip.setData(equip.index(row, 2), model);
-    equip.setData(equip.index(row, 3), type);
-    equip.setData(equip.index(row, 4), offset);
-    equip.setData(equip.index(row, 5), color);
-    equip.setData(equip.index(row, 6), exposure);
-    equip.setData(equip.index(row, 7), lockedFilter);
-    equip.setData(equip.index(row, 8), useAutoFocus ? 1 : 0);
-    */
-    if (equip.submitAll() == false)
-        qCritical() << "AddFilter:" << equip.lastError();
+        /*int row = 0;
+        equip.insertRows(row, 1);
+        equip.setData(equip.index(row, 1), vendor);
+        equip.setData(equip.index(row, 2), model);
+        equip.setData(equip.index(row, 3), type);
+        equip.setData(equip.index(row, 4), offset);
+        equip.setData(equip.index(row, 5), color);
+        equip.setData(equip.index(row, 6), exposure);
+        equip.setData(equip.index(row, 7), lockedFilter);
+        equip.setData(equip.index(row, 8), useAutoFocus ? 1 : 0);
+        */
+        if (equip.submitAll() == false)
+            qCritical() << "AddFilter:" << equip.lastError();
 
-    equip.clear();
-    m_UserDB.close();
+        equip.clear();
+        m_UserDB.close();
+    }
+    else qCritical() << "Failed opening database connection to add filters.";
 }
 
 void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
@@ -1305,7 +1329,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
 #if 0
 bool KSUserDB::ImportFlags()
 {
-    QString flagfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "flags.dat";
+    QString flagfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("flags.dat");
     QFile flagsfile(flagfilename);
     if (!flagsfile.exists())
     {
@@ -1339,8 +1363,7 @@ bool KSUserDB::ImportFlags()
 
 bool KSUserDB::ImportUsers()
 {
-    QString usersfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() +
-                            "observerlist.xml";
+    QString usersfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("observerlist.xml");
     QFile usersfile(usersfilename);
 
     if (!usersfile.exists())
@@ -1415,8 +1438,7 @@ bool KSUserDB::ImportUsers()
 
 bool KSUserDB::ImportEquipment()
 {
-    QString equipfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() +
-                            "equipmentlist.xml";
+    QString equipfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("equipmentlist.xml");
     QFile equipfile(equipfilename);
 
     if (!equipfile.exists())

@@ -1360,17 +1360,13 @@ void CCD::processStream(IBLOB *bp)
 
 bool CCD::generateFilename(const QString &format, bool batch_mode, QString *filename)
 {
-    QString currentDir;
+    QDir currentDir;
     if (batch_mode)
-        currentDir = fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
+        currentDir.setPath(fitsDir.isEmpty() ? Options::fitsDir() : fitsDir);
     else
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
+        currentDir.setPath(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" + qAppName());
 
-    if (QDir(currentDir).exists() == false)
-        QDir().mkpath(currentDir);
-
-    if (currentDir.endsWith('/') == false)
-        currentDir.append('/');
+    currentDir.mkpath(".");
 
     // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
     // The timestamp is no longer ISO8601 but it should solve interoperality issues
@@ -1381,12 +1377,12 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
     {
         QString finalPrefix = seqPrefix;
         finalPrefix.replace("ISO8601", ts);
-        *filename = currentDir + finalPrefix +
-                    QString("_%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
+        *filename = currentDir.filePath(finalPrefix +
+                    QString("_%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
     }
     else
-        *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                    QString("%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
+        *filename = currentDir.filePath(seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
+                    QString("%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))

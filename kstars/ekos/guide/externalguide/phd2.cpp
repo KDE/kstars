@@ -107,9 +107,6 @@ PHD2::PHD2()
     //shutdown
     methodResults["stop_capture"]           = STOP_CAPTURE_COMMAND_RECEIVED;
 
-    QDir writableDir;
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
-
     abortTimer = new QTimer(this);
     connect(abortTimer, &QTimer::timeout, this, [ = ]
     {
