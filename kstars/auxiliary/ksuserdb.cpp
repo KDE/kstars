@@ -226,6 +226,15 @@ bool KSUserDB::Initialize()
             qCWarning(KSTARS) << query.lastError();
     }
 
+    // Add port selector
+    if (currentDBVersion < 308)
+    {
+        QSqlQuery query(m_UserDB);
+        QString columnQuery = QString("ALTER TABLE profile ADD COLUMN portselector INTEGER DEFAULT 0");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
     m_UserDB.close();
     return true;
 }
@@ -345,7 +354,7 @@ bool KSUserDB::RebuildDB()
                   "TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT "
                   "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderport INTEGER,"
                   "primaryscope INTEGER DEFAULT 0, guidescope INTEGER DEFAULT 0, indihub INTEGER DEFAULT 0,"
-                  "remotedrivers TEXT DEFAULT NULL)");
+                  "portselector INTEGER DEFAULT 1, remotedrivers TEXT DEFAULT NULL)");
     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role "
                   "TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
     //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
@@ -1897,7 +1906,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     // Clear data
     if (!query.exec(QString("UPDATE profile SET "
                             "host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL,"
-                            "autoconnect=NULL,primaryscope=0,guidescope=0,indihub=0 WHERE id=%1")
+                            "autoconnect=NULL,portselector=NULL,primaryscope=0,guidescope=0,indihub=0 WHERE id=%1")
                     .arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
@@ -1934,6 +1943,10 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
 
     // Update Auto Connect Info
     if (!query.exec(QString("UPDATE profile SET autoconnect=%1 WHERE id=%2").arg(pi->autoConnect ? 1 : 0).arg(pi->id)))
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
+
+    // Update Port Selector Info
+    if (!query.exec(QString("UPDATE profile SET portselector=%1 WHERE id=%2").arg(pi->portSelector ? 1 : 0).arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // Update Guide Application Info
@@ -2007,6 +2020,7 @@ void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
 
         pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
         pi->autoConnect        = (record.value("autoconnect").toInt() == 1);
+        pi->portSelector       = (record.value("portSelector").toInt() == 1);
 
         pi->indihub = record.value("indihub").toInt();
 
