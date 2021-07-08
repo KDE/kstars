@@ -3369,7 +3369,8 @@ void Capture::executeJob()
         FITSHeader["FITS_OBJECT"] = m_TargetName;
     else if (rawPrefix.isEmpty() == false)
     {
-        FITSHeader["FITS_OBJECT"] = rawPrefix;
+        // JM 2021-07-08: Remove "_" from target name.
+        FITSHeader["FITS_OBJECT"] = rawPrefix.remove("_");
     }
 
     if (FITSHeader.count() > 0)
