@@ -521,41 +521,6 @@ bool FITSView::saveImage(const QString &newFilename)
     return m_ImageData->saveImage(newFilename);
 }
 
-bool FITSView::rescale(FITSZoom type)
-{
-    switch (m_ImageData->dataType())
-    {
-        case TBYTE:
-            return rescale<uint8_t>(type);
-
-        case TSHORT:
-            return rescale<int16_t>(type);
-
-        case TUSHORT:
-            return rescale<uint16_t>(type);
-
-        case TLONG:
-            return rescale<int32_t>(type);
-
-        case TULONG:
-            return rescale<uint32_t>(type);
-
-        case TFLOAT:
-            return rescale<float>(type);
-
-        case TLONGLONG:
-            return rescale<int64_t>(type);
-
-        case TDOUBLE:
-            return rescale<double>(type);
-
-        default:
-            break;
-    }
-
-    return false;
-}
-
 FITSView::CursorMode FITSView::getCursorMode()
 {
     return cursorMode;
@@ -595,7 +560,6 @@ void FITSView::leaveEvent(QEvent * event)
     }
 }
 
-template <typename T>
 bool FITSView::rescale(FITSZoom type)
 {
     if (!m_ImageData)

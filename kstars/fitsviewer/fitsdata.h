@@ -83,7 +83,7 @@ class FITSData : public QObject
         // Does FITS have WSC header?
         Q_PROPERTY(bool hasWCS READ hasWCS)
         // Does FITS have bayer data?
-        Q_PROPERTY(bool hasDebyaer READ hasDebayer)
+        Q_PROPERTY(bool hasDebayer READ hasDebayer)
 
     public:
         explicit FITSData(FITSMode fitsMode = FITS_NORMAL);

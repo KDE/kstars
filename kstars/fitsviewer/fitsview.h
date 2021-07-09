@@ -299,9 +299,6 @@ class FITSView : public QScrollArea
         void pinchTriggered(QPinchGesture *gesture);
 
     protected:
-        template <typename T>
-        bool rescale(FITSZoom type);
-
         double average();
         double stddev();
         void calculateMaxPixel(double min, double max);
