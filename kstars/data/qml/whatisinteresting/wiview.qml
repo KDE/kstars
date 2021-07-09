@@ -2,12 +2,12 @@
 // Copyright (C) 2017 Robert Lancaster <rlancaste@gmail.com> based on work in 2013 by Samikshan Bairagya <samikshan@gmail.com>
 /***************************************************************************
  *                                                                         *
-  *   This program is free software; you can redistribute it and/or modify  *
-   *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-     *   (at your option) any later version.                                   *
-      *                                                                         *
-       ***************************************************************************/
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
@@ -21,11 +21,11 @@ Rectangle {
 
     property double buttonOpacity: 0.2
     property double categoryTitleOpacity: 0.350
-    
-   	ProgressBar {
-   		id: progress
-   		objectName: "progressBar"
-   		width: container.width
+
+    ProgressBar {
+        id: progress
+        objectName: "progressBar"
+        width: container.width
         value: 0.10
     }
 
@@ -42,7 +42,7 @@ Rectangle {
             pixelSize:22
         }
     }
-    
+
     Text {
         id: catTitle
         objectName: "categoryTitle"
@@ -87,7 +87,7 @@ Rectangle {
                 id: categoryView
                 width: parent.width
                 height: parent.height - 150
-                
+
                 Rectangle {
                     id: background
 
@@ -110,7 +110,7 @@ Rectangle {
                         color: "black"
                     }
                 }
-				Item {
+                Item {
                     id: nakedEyeItem
                     width: nakedEyeText.width
                     height: nakedEyeText.height
@@ -127,7 +127,7 @@ Rectangle {
                         anchors.centerIn: parent
                     }
                 }
-                
+
                 Item {
                     id: sunItem
                     width: sunText.width
@@ -158,7 +158,7 @@ Rectangle {
                         }
                     }
                 }
-                
+
                 Item {
                     id: moonItem
                     width: moonText.width
@@ -222,7 +222,7 @@ Rectangle {
                         }
                     }
                 }
-                
+
                 Item {
                     id: satelliteItem
                     width: satelliteText.width
@@ -284,7 +284,7 @@ Rectangle {
                         }
                     }
                 }
-                
+
                 Item {
                     id: conItem
                     width: conText.width
@@ -315,26 +315,26 @@ Rectangle {
                     }
                 }
 
-				Item {
-					id: dsoItem
-					width: dsoText.width
-					height: dsoText.height
+                Item {
+                    id: dsoItem
+                    width: dsoText.width
+                    height: dsoText.height
 
-					anchors {
-						verticalCenterOffset: -90
-						horizontalCenterOffset: 0
-						centerIn: parent
-					}
+                    anchors {
+                        verticalCenterOffset: -90
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
 
-					CategoryTitle {
-						id: dsoText
-						color: "yellow"
-						title: xi18n("Deep-sky Objects")
-						anchors.centerIn: parent
-					}
-				}
-				
-				Item {
+                    CategoryTitle {
+                        id: dsoText
+                        color: "yellow"
+                        title: xi18n("Deep-sky Objects")
+                        anchors.centerIn: parent
+                    }
+                }
+
+                Item {
                     id: asteroidItem
 
                     width: asteroidText.width
@@ -366,7 +366,7 @@ Rectangle {
                     }
                 }
 
-				Item {
+                Item {
                     id: cometItem
 
                     width: cometText.width
@@ -398,136 +398,136 @@ Rectangle {
                     }
                 }
 
-				Item {
-					id: galItem
+                Item {
+                    id: galItem
 
-					width: galText.width
-					height: galText.height
+                    width: galText.width
+                    height: galText.height
 
-					anchors {
-						verticalCenterOffset: -10
-						horizontalCenterOffset: -50
-						centerIn: parent
-					}
+                    anchors {
+                        verticalCenterOffset: -10
+                        horizontalCenterOffset: -50
+                        centerIn: parent
+                    }
 
-					CategoryTitle {
-						id: galText
-						title: xi18n("Galaxies")
-						anchors {
-							centerIn: parent
-							margins: 0
-						}
+                    CategoryTitle {
+                        id: galText
+                        title: xi18n("Galaxies")
+                        anchors {
+                            centerIn: parent
+                            margins: 0
+                        }
 
-						MouseArea {
-							id: galMouseArea
-							hoverEnabled: true
-							anchors.fill: parent
-							onEntered: galText.state = "selected"
-							onExited: galText.state = ""
-							onClicked: {
-								viewsRow.categorySelected("galaxies")
-								catTitle.text = xi18n("Galaxies")
-								container.state = "objectFromListSelected"
-							}
-						}
-					}
-				}
+                        MouseArea {
+                            id: galMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: galText.state = "selected"
+                            onExited: galText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("galaxies")
+                                catTitle.text = xi18n("Galaxies")
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
 
-				Item {
-					id: nebItem
+                Item {
+                    id: nebItem
 
-					width: nebText.width
-					height: nebText.height
+                    width: nebText.width
+                    height: nebText.height
 
-					anchors {
-						verticalCenterOffset: -10
-						horizontalCenterOffset: 50
-						centerIn: parent
-					}
+                    anchors {
+                        verticalCenterOffset: -10
+                        horizontalCenterOffset: 50
+                        centerIn: parent
+                    }
 
-					CategoryTitle {
-						id: nebText
-						title: xi18n("Nebulae")
-						anchors.centerIn: parent
+                    CategoryTitle {
+                        id: nebText
+                        title: xi18n("Nebulae")
+                        anchors.centerIn: parent
 
-						MouseArea {
-							id: nebMouseArea
-							hoverEnabled: true
-							anchors.fill: parent
-							onEntered: nebText.state = "selected"
-							onExited: nebText.state = ""
-							onClicked: {
-								viewsRow.categorySelected("nebulas")
-								catTitle.text = xi18n("Nebulae")
-								container.state = "objectFromListSelected"
-							}
-						}
-					}
-				}
+                        MouseArea {
+                            id: nebMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: nebText.state = "selected"
+                            onExited: nebText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("nebulas")
+                                catTitle.text = xi18n("Nebulae")
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
 
-				Item {
-					id: clustItem
+                Item {
+                    id: clustItem
 
-					width: clustText.width
-					height: clustText.height
+                    width: clustText.width
+                    height: clustText.height
 
-					anchors {
-						verticalCenterOffset: 30
+                    anchors {
+                        verticalCenterOffset: 30
                         horizontalCenterOffset: -75
-						centerIn: parent
-					}
+                        centerIn: parent
+                    }
 
-					CategoryTitle {
-						id: clustText
-						title: xi18n("Clusters")
-						anchors.centerIn: parent
+                    CategoryTitle {
+                        id: clustText
+                        title: xi18n("Clusters")
+                        anchors.centerIn: parent
 
-						MouseArea {
-							id: clustMouseArea
-							hoverEnabled: true
-							anchors.fill: parent
-							onEntered: clustText.state = "selected"
-							onExited: clustText.state = ""
-							onClicked: {
-								viewsRow.categorySelected("clusters")
-								catTitle.text = xi18n("Clusters")
-								container.state = "objectFromListSelected"
-							}
-						}
-					}
-				}
-				
-				Item {
-					id: superItem
+                        MouseArea {
+                            id: clustMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: clustText.state = "selected"
+                            onExited: clustText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("clusters")
+                                catTitle.text = xi18n("Clusters")
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
 
-					width: superText.width
-					height: superText.height
+                Item {
+                    id: superItem
 
-					anchors {
-						verticalCenterOffset: 30
+                    width: superText.width
+                    height: superText.height
+
+                    anchors {
+                        verticalCenterOffset: 30
                         horizontalCenterOffset: 75
-						centerIn: parent
-					}
+                        centerIn: parent
+                    }
 
-					CategoryTitle {
-						id: superText
-						title: xi18n("Supernovae")
-						anchors.centerIn: parent
+                    CategoryTitle {
+                        id: superText
+                        title: xi18n("Supernovae")
+                        anchors.centerIn: parent
 
-						MouseArea {
-							id: superMouseArea
-							hoverEnabled: true
-							anchors.fill: parent
-							onEntered: superText.state = "selected"
-							onExited: superText.state = ""
-							onClicked: {
-								viewsRow.categorySelected("supernovas")
-								catTitle.text = xi18n("Supernovae")
-								container.state = "objectFromListSelected"
-							}
-						}
-					}
-				}
+                        MouseArea {
+                            id: superMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: superText.state = "selected"
+                            onExited: superText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("supernovas")
+                                catTitle.text = xi18n("Supernovae")
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
             } //end of categoryView
 
             Flipable {
@@ -555,10 +555,10 @@ Rectangle {
                     Rectangle {
                         id: soListViewContainer
                         anchors{
-                        	top: soListContainer.top
-							bottom: soListContainer.bottom
-							left: soListContainer.left
-							right: soListContainer.right
+                            top: soListContainer.top
+                            bottom: soListContainer.bottom
+                            left: soListContainer.left
+                            right: soListContainer.right
                         }
                         color: "transparent"
                         radius: 12
@@ -567,141 +567,141 @@ Rectangle {
                             color: "#000000"
                         }
 
-						Flickable {
-								id: flickable
+                        Flickable {
+                            id: flickable
+                            anchors.fill: parent
+                            clip: true
+                            flickableDirection: Flickable.VerticalFlick
+
+
+                            ListView {
+                                id: soListView
+                                z: 0
+                                objectName: "soListObj"
                                 anchors.fill: parent
+
+                                signal soListItemClicked(int curIndex)
                                 clip: true
-								flickableDirection: Flickable.VerticalFlick
-								
-                            
-							ListView {
-								id: soListView
-								z: 0
-								objectName: "soListObj"
-								anchors.fill: parent
 
-								signal soListItemClicked(int curIndex)
-								clip: true
-								
-								highlightMoveDuration: 1
-								
-								model: soListModel
-								
-								Rectangle{
-									id: soListEmptyMessage
-									objectName: "soListEmptyMessage"
-									color: "#00060b"
-									anchors.fill: parent
-									Text{
-										anchors.fill: parent
-										text: xi18n("No Items to display")
-										verticalAlignment: Text.AlignVCenter
-										horizontalAlignment: Text.AlignHCenter
-										color: "white"
-										font{
-											family: "Arial"
-											pointSize: 20
-										}
-									}
-									visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
-								}
-								
-								Rectangle {
-        							id: scrollbar
-        							anchors.right: soListView.right
-        							y: soListView.visibleArea.yPosition * soListView.height
-        							width: 10
-        							height: (soListView.visibleArea.heightRatio * soListView.height > 10) ? soListView.visibleArea.heightRatio * soListView.height : 10
-        							color: "blue"
-        							MouseArea {
-												id: dragScrollBar
-												drag.target: scrollbar
-												drag.axis: Drag.YAxis
-												drag.minimumY: 0
-												drag.maximumY: soListView.height - scrollbar.height
-												anchors.fill: parent
-												enabled: true
-												onPositionChanged: {
-													soListView.contentY = scrollbar.y / soListView.height * soListView.contentHeight
-												}
-												
-									}//Mousearea
-    							}
+                                highlightMoveDuration: 1
 
-								delegate: Item {
-									id: soListItem
-									x: 8
-									width: parent.width
-									height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160         
- 
-									Rectangle{
-										id: summaryBackground
-										color: (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "#030723" : "transparent"
-										width: parent.width
-										height: parent.height
-										MouseArea {
-											id: mouseListArea
-											anchors.fill: parent
-											hoverEnabled: true
-											onClicked: {
-												soListView.currentIndex = index
-												soListView.soListItemClicked(soListView.currentIndex)
-												skyObjView.flipped = true
-											}
-										}//Mousearea
-										Text {
-											id: dispSummary
-											objectName: dispObjSummary
-											text: dispObjSummary
-											textFormat: Text.RichText
-											x: image.width + 5
-											width: parent.width - image.width - 30
-											color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "gray"
-	   
-											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-											font{
+                                model: soListModel
+
+                                Rectangle{
+                                    id: soListEmptyMessage
+                                    objectName: "soListEmptyMessage"
+                                    color: "#00060b"
+                                    anchors.fill: parent
+                                    Text{
+                                        anchors.fill: parent
+                                        text: xi18n("No Items to display")
+                                        verticalAlignment: Text.AlignVCenter
+                                        horizontalAlignment: Text.AlignHCenter
+                                        color: "white"
+                                        font{
+                                            family: "Arial"
+                                            pointSize: 20
+                                        }
+                                    }
+                                    visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
+                                }
+
+                                Rectangle {
+                                    id: scrollbar
+                                    anchors.right: soListView.right
+                                    y: soListView.visibleArea.yPosition * soListView.height
+                                    width: 10
+                                    height: (soListView.visibleArea.heightRatio * soListView.height > 10) ? soListView.visibleArea.heightRatio * soListView.height : 10
+                                    color: "blue"
+                                    MouseArea {
+                                        id: dragScrollBar
+                                        drag.target: scrollbar
+                                        drag.axis: Drag.YAxis
+                                        drag.minimumY: 0
+                                        drag.maximumY: soListView.height - scrollbar.height
+                                        anchors.fill: parent
+                                        enabled: true
+                                        onPositionChanged: {
+                                            soListView.contentY = scrollbar.y / soListView.height * soListView.contentHeight
+                                        }
+
+                                    }//Mousearea
+                                }
+
+                                delegate: Item {
+                                    id: soListItem
+                                    x: 8
+                                    width: parent.width
+                                    height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160
+
+                                    Rectangle{
+                                        id: summaryBackground
+                                        color: (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "#030723" : "transparent"
+                                        width: parent.width
+                                        height: parent.height
+                                        MouseArea {
+                                            id: mouseListArea
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            onClicked: {
+                                                soListView.currentIndex = index
+                                                soListView.soListItemClicked(soListView.currentIndex)
+                                                skyObjView.flipped = true
+                                            }
+                                        }//Mousearea
+                                        Text {
+                                            id: dispSummary
+                                            objectName: dispObjSummary
+                                            text: dispObjSummary
+                                            textFormat: Text.RichText
+                                            x: image.width + 5
+                                            width: parent.width - image.width - 30
+                                            color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "gray"
+
+                                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                            font{
                                                 family: "Arial"
-												pixelSize: 13
-											}
-											
-											MouseArea {
-											id: mouseTextArea
-											anchors.fill: parent
-											hoverEnabled: true
-											onClicked: {
-												soListView.currentIndex = index
-												soListView.soListItemClicked(soListView.currentIndex)
-												skyObjView.flipped = true
-											}
-										}//Mousearea
-										}
-									}
-									Image { 
-										id: image
-										width: 150
-										height: parent.height
-										fillMode: Image.PreserveAspectFit
-										source: imageSource
-										MouseArea {
-											id: mouseImgArea
-											anchors.fill: parent
-											hoverEnabled: true
-											onClicked: {
-												soListView.currentIndex = index
-												soListView.soListItemClicked(soListView.currentIndex)
-											}
-										}//Mousearea
-									}
-									Text {
-										id: dispText
-										objectName: dispName
-										text: dispName
-										color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "white"
+                                                pixelSize: 13
+                                            }
 
-										font.bold: true
-									}
-								}//soListItem
-							}//soListView
+                                            MouseArea {
+                                                id: mouseTextArea
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                onClicked: {
+                                                    soListView.currentIndex = index
+                                                    soListView.soListItemClicked(soListView.currentIndex)
+                                                    skyObjView.flipped = true
+                                                }
+                                            }//Mousearea
+                                        }
+                                    }
+                                    Image {
+                                        id: image
+                                        width: 150
+                                        height: parent.height
+                                        fillMode: Image.PreserveAspectFit
+                                        source: imageSource
+                                        MouseArea {
+                                            id: mouseImgArea
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            onClicked: {
+                                                soListView.currentIndex = index
+                                                soListView.soListItemClicked(soListView.currentIndex)
+                                            }
+                                        }//Mousearea
+                                    }
+                                    Text {
+                                        id: dispText
+                                        objectName: dispName
+                                        text: dispName
+                                        color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "white"
+
+                                        font.bold: true
+                                    }
+                                }//soListItem
+                            }//soListView
                         }//Flickable
                     }//soListViewContainer
                 }//Front, soListContainer
@@ -752,7 +752,7 @@ Rectangle {
                             }
                             verticalAlignment: Text.AlignVCenter
                         }
-                           
+
                         Text {
                             id: posText
                             objectName: "posTextObj"
@@ -780,12 +780,12 @@ Rectangle {
                             width: parent.width
                             height: 93
                             spacing: 14
-                            
+
                             DetailsItem {
                                 id: detailsText
                                 textFormat: Text.RichText
                                 objectName: "detailsTextObj"
-                                
+
                             }
 
                         }
@@ -797,7 +797,7 @@ Rectangle {
                                 left: parent.left
                                 leftMargin: 10
                             }
-                            
+
                             spacing: 14
 
                             Text {
@@ -850,37 +850,37 @@ Rectangle {
                                     onExited: centerButton.color = (nightVision.state == "active") ? "red" : "white"
                                     onClicked: centerButton.centerButtonClicked()
                                 }
-                                
+
                                 Text {
-                                	text: xi18n(" Auto     Track   ")
-                                	color: "white"
-                                	font {
+                                    text: xi18n(" Auto     Track   ")
+                                    color: "white"
+                                    font {
                                         family: "Arial"
-                                    	pixelSize: 14
-                                	}
-                                	y: 15
+                                        pixelSize: 14
+                                    }
+                                    y: 15
                                 }
 
                                 CheckBox {
-                                	id: autoCenter
-                                	objectName: "autoCenterCheckbox"
-                                	x: 37
-                                	y: 15
-                                	checked: true
+                                    id: autoCenter
+                                    objectName: "autoCenterCheckbox"
+                                    x: 37
+                                    y: 15
+                                    checked: true
                                 }
-                                                                
+
                                 CheckBox {
-                                	id: autoTrack
-                                	objectName: "autoTrackCheckbox"
-                                	x: 97
-                                	y: 15
-                                	checked: false
-                                	onClicked: centerButton.centerButtonClicked()
+                                    id: autoTrack
+                                    objectName: "autoTrackCheckbox"
+                                    x: 97
+                                    y: 15
+                                    checked: false
+                                    onClicked: centerButton.centerButtonClicked()
                                 }
 
                             }
-                            
-                            
+
+
                             Text {
                                 id: slewTelescopeButton
                                 objectName: "slewTelescopeButtonObj"
@@ -908,239 +908,239 @@ Rectangle {
                             }
                         }
                         TabView {
-                        	id: tabbedView
-                        	y: 170
-                        	width: parent.width
-                        	height: parent.height - 170 - 50
-                        	frameVisible: false
-                        	
-                        	property Component nightTabs: TabViewStyle {
-                        		tabsAlignment: Qt.AlignHCenter
-                        		frameOverlap: 1
-								tab: Rectangle {
-									border.color: "black"
-									implicitWidth: 150
-									implicitHeight: 30
-									color: "red"
-									Text {
-                						id: text
-                						anchors.centerIn: parent
-                						text: styleData.title
-                						color: styleData.selected ? "white" : "black"
-            						}
-								}
-							}
-                        	
-							Tab {
-								title: xi18n("Object Information")
+                            id: tabbedView
+                            y: 170
+                            width: parent.width
+                            height: parent.height - 170 - 50
+                            frameVisible: false
 
-								Rectangle {
-									id: descTextBox				
-									height: parent.height
-									width:  parent.width
-									color: "#010a14"
-									radius: 10
-									border.width: 0
-									anchors{
-										top: parent.top
-										left: parent.left
-										leftMargin: 4
-										right: parent.right
-										rightMargin: 4
-									}
-									border.color: "#585454"
+                            property Component nightTabs: TabViewStyle {
+                                tabsAlignment: Qt.AlignHCenter
+                                frameOverlap: 1
+                                tab: Rectangle {
+                                    border.color: "black"
+                                    implicitWidth: 150
+                                    implicitHeight: 30
+                                    color: "red"
+                                    Text {
+                                        id: text
+                                        anchors.centerIn: parent
+                                        text: styleData.title
+                                        color: styleData.selected ? "white" : "black"
+                                    }
+                                }
+                            }
 
-									Flickable {
-										id: flickableDescText
-										clip: true
-										flickableDirection: Flickable.VerticalFlick
-										width: parent.width
-										height: parent.height - 10
-										anchors{
-											top: parent.top
-											topMargin: 20
-											bottom: parent.bottom
-											bottomMargin: 4
-											left: parent.left
-											leftMargin: 10
-											right: parent.right
-											rightMargin: 10
-										}
-										contentWidth:  parent.width
-										contentHeight: col.height + 4
-										Item {
-											id: descTextItem
-											anchors.fill: parent
-											Column {
-												id: col
-												width: parent.width
-												Image { 
-													id: detailImg 
-													width: parent.width - 20
-													anchors{
-														right: parent.right
-													}
-													objectName: "detailImage"
-													property string refreshableSource
-													fillMode: Image.PreserveAspectFit
-													source: refreshableSource
-												}
-												Text {
-													id: descText
-													objectName: "descTextObj"
-													color: "white"
-													text: xi18n("text")
-													clip: true
-													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-													width: parent.width - 20
-													textFormat: Text.RichText
-													font{
+                            Tab {
+                                title: xi18n("Object Information")
+
+                                Rectangle {
+                                    id: descTextBox
+                                    height: parent.height
+                                    width:  parent.width
+                                    color: "#010a14"
+                                    radius: 10
+                                    border.width: 0
+                                    anchors{
+                                        top: parent.top
+                                        left: parent.left
+                                        leftMargin: 4
+                                        right: parent.right
+                                        rightMargin: 4
+                                    }
+                                    border.color: "#585454"
+
+                                    Flickable {
+                                        id: flickableDescText
+                                        clip: true
+                                        flickableDirection: Flickable.VerticalFlick
+                                        width: parent.width
+                                        height: parent.height - 10
+                                        anchors{
+                                            top: parent.top
+                                            topMargin: 20
+                                            bottom: parent.bottom
+                                            bottomMargin: 4
+                                            left: parent.left
+                                            leftMargin: 10
+                                            right: parent.right
+                                            rightMargin: 10
+                                        }
+                                        contentWidth:  parent.width
+                                        contentHeight: col.height + 4
+                                        Item {
+                                            id: descTextItem
+                                            anchors.fill: parent
+                                            Column {
+                                                id: col
+                                                width: parent.width
+                                                Image {
+                                                    id: detailImg
+                                                    width: parent.width - 20
+                                                    anchors{
+                                                        right: parent.right
+                                                    }
+                                                    objectName: "detailImage"
+                                                    property string refreshableSource
+                                                    fillMode: Image.PreserveAspectFit
+                                                    source: refreshableSource
+                                                }
+                                                Text {
+                                                    id: descText
+                                                    objectName: "descTextObj"
+                                                    color: "white"
+                                                    text: xi18n("text")
+                                                    clip: true
+                                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                                    width: parent.width - 20
+                                                    textFormat: Text.RichText
+                                                    font{
                                                         family: "Arial"
-														pixelSize: 13
-													}
-													onLinkActivated: Qt.openUrlExternally(link)
-													MouseArea {
-        												anchors.fill: parent
-        												acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
-        												cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-    												}
-												}
-											} //column
-										} //item
-									} //flickable
-								} //rectangle
-							} //tab
-						
-							Tab {
-								id: infoBoxTab
-								title: xi18n("Wikipedia Infotext")
-								active: true
-								Rectangle {
-									id: descTextBox2
-									color: "#010a14"
-									radius: 10
-									border.width: 0
-									states: [ 
-										State {
-											name: "outOfTab"
-											when: ( (container.state == "singleItemSelected" && detailsView.width >= 600)||(container.state != "singleItemSelected" && detailsView.width >= 600 && detailsView.width < 900))
-											PropertyChanges{target:descTextBox2; parent: detailsView}
-											PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
-											PropertyChanges{target:descTextBox2; anchors{
-													top: detailsView.top
-													topMargin: 4
-													bottom: posText.top
-													left: tabbedView.right
-													right: detailsView.right
-												}
-											}
-											PropertyChanges{target:tabbedView; currentIndex: 0}
-											PropertyChanges{target:tabbedView; tabsVisible: false}
-											PropertyChanges{target:tabbedView; width: detailsView.width / 2}
-										},
-										State {
-											name: "includeList"
-											when: (detailsView.width >= 900 && container.state!="singleItemSelected")
-											PropertyChanges{target: soListViewContainer; parent: detailsView}
-											PropertyChanges{target: soListViewContainer; anchors{
-													top: detailsView.top
-													bottom: posText.top
-													left: detailsView.left
-													right: tabbedView.left
-												}
-											}
-											PropertyChanges{target:descTextBox2; parent: detailsView}
-											PropertyChanges{target:descTextBox2; width: detailsView.width / 3}
-											PropertyChanges{target:descTextBox2; anchors{
-													top: detailsView.top
-													topMargin: 4
-													bottom: posText.top
-													left: tabbedView.right
-													right: detailsView.right
-												}
-											}
-											PropertyChanges{target:soListViewContainer; width: detailsView.width / 3}
-											PropertyChanges{target:tabbedView; x: detailsView.width / 3}
-											PropertyChanges{target:detailsViewButtonsCol; anchors.left:  soListViewContainer.right}
-											PropertyChanges{target:soname; anchors.left:  soListViewContainer.right}
-											PropertyChanges{target:detailItemsCol; x: 150 + detailsView.width / 3}
-											PropertyChanges{target:tabbedView; width: detailsView.width / 3}
-											PropertyChanges{target:tabbedView; currentIndex: 0}
-											PropertyChanges{target:tabbedView; tabsVisible: false}
-											PropertyChanges{target:skyObjView; flipped: true}
-										}
-									]
-							
-									anchors{
-										top: infoBoxTab.top
-										bottom: infoBoxTab.bottom
-										left: infoBoxTab.left
-										right: infoBoxTab.right
-										rightMargin: 4
-										leftMargin: 4
-									}
-									border.color: "#585454"
+                                                        pixelSize: 13
+                                                    }
+                                                    onLinkActivated: Qt.openUrlExternally(link)
+                                                    MouseArea {
+                                                        anchors.fill: parent
+                                                        acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+                                                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                                    }
+                                                }
+                                            } //column
+                                        } //item
+                                    } //flickable
+                                } //rectangle
+                            } //tab
 
-									Flickable {
-										id: flickableInfoText
-										clip: true
-										flickableDirection: Flickable.VerticalFlick
-										width: parent.width
-										height: parent.height - 10
-										anchors{
-											top: parent.top
-											topMargin: 10
-											bottom: parent.bottom
-											bottomMargin: 4
-											left: parent.left
-											right: parent.right
-										}
-										contentWidth:   parent.width
-										contentHeight: col2.height + 4			
-										Item {
-											id: descInfoTextItem
-											anchors{
-												top: parent.top
-												topMargin: 0
-												left: parent.left
-												leftMargin: 4
-												right: parent.right
-												rightMargin: 4
-											}
-											Column {
-												id: col2
-												width: parent.width
-												Text {
-													id: infoText
-													objectName: "infoBoxText"
-													textFormat: Text.RichText
-													color: "white"
-													onLinkActivated: Qt.openUrlExternally(link)
-													MouseArea {
-        												anchors.fill: parent
-        												acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
-        												cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-    												}
-										
-													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-													verticalAlignment: Text.AlignVCenter
-													horizontalAlignment: Text.AlignHCenter
-													text: xi18n("Info Text")
-													clip: true
-													width: parent.width
-													font{
+                            Tab {
+                                id: infoBoxTab
+                                title: xi18n("Wikipedia Infotext")
+                                active: true
+                                Rectangle {
+                                    id: descTextBox2
+                                    color: "#010a14"
+                                    radius: 10
+                                    border.width: 0
+                                    states: [
+                                        State {
+                                            name: "outOfTab"
+                                            when: ( (container.state == "singleItemSelected" && detailsView.width >= 600)||(container.state != "singleItemSelected" && detailsView.width >= 600 && detailsView.width < 900))
+                                            PropertyChanges{target:descTextBox2; parent: detailsView}
+                                            PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
+                                            PropertyChanges{target:descTextBox2; anchors{
+                                                top: detailsView.top
+                                                topMargin: 4
+                                                bottom: posText.top
+                                                left: tabbedView.right
+                                                right: detailsView.right
+                                            }
+                                                           }
+                                            PropertyChanges{target:tabbedView; currentIndex: 0}
+                                            PropertyChanges{target:tabbedView; tabsVisible: false}
+                                            PropertyChanges{target:tabbedView; width: detailsView.width / 2}
+                                        },
+                                        State {
+                                            name: "includeList"
+                                            when: (detailsView.width >= 900 && container.state!="singleItemSelected")
+                                            PropertyChanges{target: soListViewContainer; parent: detailsView}
+                                            PropertyChanges{target: soListViewContainer; anchors{
+                                                top: detailsView.top
+                                                bottom: posText.top
+                                                left: detailsView.left
+                                                right: tabbedView.left
+                                            }
+                                                           }
+                                            PropertyChanges{target:descTextBox2; parent: detailsView}
+                                            PropertyChanges{target:descTextBox2; width: detailsView.width / 3}
+                                            PropertyChanges{target:descTextBox2; anchors{
+                                                top: detailsView.top
+                                                topMargin: 4
+                                                bottom: posText.top
+                                                left: tabbedView.right
+                                                right: detailsView.right
+                                            }
+                                                           }
+                                            PropertyChanges{target:soListViewContainer; width: detailsView.width / 3}
+                                            PropertyChanges{target:tabbedView; x: detailsView.width / 3}
+                                            PropertyChanges{target:detailsViewButtonsCol; anchors.left:  soListViewContainer.right}
+                                            PropertyChanges{target:soname; anchors.left:  soListViewContainer.right}
+                                            PropertyChanges{target:detailItemsCol; x: 150 + detailsView.width / 3}
+                                            PropertyChanges{target:tabbedView; width: detailsView.width / 3}
+                                            PropertyChanges{target:tabbedView; currentIndex: 0}
+                                            PropertyChanges{target:tabbedView; tabsVisible: false}
+                                            PropertyChanges{target:skyObjView; flipped: true}
+                                        }
+                                    ]
+
+                                    anchors{
+                                        top: infoBoxTab.top
+                                        bottom: infoBoxTab.bottom
+                                        left: infoBoxTab.left
+                                        right: infoBoxTab.right
+                                        rightMargin: 4
+                                        leftMargin: 4
+                                    }
+                                    border.color: "#585454"
+
+                                    Flickable {
+                                        id: flickableInfoText
+                                        clip: true
+                                        flickableDirection: Flickable.VerticalFlick
+                                        width: parent.width
+                                        height: parent.height - 10
+                                        anchors{
+                                            top: parent.top
+                                            topMargin: 10
+                                            bottom: parent.bottom
+                                            bottomMargin: 4
+                                            left: parent.left
+                                            right: parent.right
+                                        }
+                                        contentWidth:   parent.width
+                                        contentHeight: col2.height + 4
+                                        Item {
+                                            id: descInfoTextItem
+                                            anchors{
+                                                top: parent.top
+                                                topMargin: 0
+                                                left: parent.left
+                                                leftMargin: 4
+                                                right: parent.right
+                                                rightMargin: 4
+                                            }
+                                            Column {
+                                                id: col2
+                                                width: parent.width
+                                                Text {
+                                                    id: infoText
+                                                    objectName: "infoBoxText"
+                                                    textFormat: Text.RichText
+                                                    color: "white"
+                                                    onLinkActivated: Qt.openUrlExternally(link)
+                                                    MouseArea {
+                                                        anchors.fill: parent
+                                                        acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+                                                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                                    }
+
+                                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                                    verticalAlignment: Text.AlignVCenter
+                                                    horizontalAlignment: Text.AlignHCenter
+                                                    text: xi18n("Info Text")
+                                                    clip: true
+                                                    width: parent.width
+                                                    font{
                                                         family: "Arial"
-														pixelSize: 13
-													} //font
-												} //text
-											} //column
-										} //item
-									} //flickable
-								} //rectangle
-							} //tab
-						} //tabview
-                        
-                       
+                                                        pixelSize: 13
+                                                    } //font
+                                                } //text
+                                            } //column
+                                        } //item
+                                    } //flickable
+                                } //rectangle
+                            } //tab
+                        } //tabview
+
+
 
                         Item {
                             id: nextObjRect
@@ -1177,8 +1177,8 @@ Rectangle {
                                     nextObjText.color = (nightVision.state == "active") ? "red" : "white"
                                 }
                                 onClicked: {
-                                	nextObjRect.nextObjClicked()
-                                	soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+                                    nextObjRect.nextObjClicked()
+                                    soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
                                 }
                             }
 
@@ -1253,8 +1253,8 @@ Rectangle {
                                     prevObjText.color = (nightVision.state == "active") ? "red" : "white"
                                 }
                                 onClicked: {
-                                	prevObjRect.prevObjClicked()
-                                	soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+                                    prevObjRect.prevObjClicked()
+                                    soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
                                 }
                             }
 
@@ -1289,45 +1289,45 @@ Rectangle {
                                 source: "previous.png"
                             }
                         }
-                        
-                                       
+
+
                     } //end of detailsView
-                    
+
                     Rectangle{
-						id: soItemEmptyMessage
-						objectName: "soItemEmptyMessage"
-						color: "#00060b"
-						anchors.fill: parent
-						Text{
-							anchors.fill: parent
-							text: xi18n("No Items to display")
-							verticalAlignment: Text.AlignVCenter
-							horizontalAlignment: Text.AlignHCenter
-							color: "white"
-							font{
-								family: "Arial"
-								pointSize: 20
-							}
-						}
-						visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
-					}        
-					                
+                        id: soItemEmptyMessage
+                        objectName: "soItemEmptyMessage"
+                        color: "#00060b"
+                        anchors.fill: parent
+                        Text{
+                            anchors.fill: parent
+                            text: xi18n("No Items to display")
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            color: "white"
+                            font{
+                                family: "Arial"
+                                pointSize: 20
+                            }
+                        }
+                        visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
+                    }
+
                 } //end of detailsViewContainer
-                
+
                 focus:true
-                
+
                 Keys.onPressed: {
-					if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
-						prevObjRect.prevObjClicked();
-						event.accepted = true;
-						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
-					}
-					if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
-						nextObjRect.nextObjClicked();
-						event.accepted = true;
-						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
-					}
-				}      
+                    if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
+                        prevObjRect.prevObjClicked();
+                        event.accepted = true;
+                        soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+                    }
+                    if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
+                        nextObjRect.nextObjClicked();
+                        event.accepted = true;
+                        soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+                    }
+                }
 
                 states: [
                     State {
@@ -1357,201 +1357,201 @@ Rectangle {
                     axis.y: 1
                     axis.z: 0
                 }
-                					
-				Rectangle{
-					id: loadingMessage
-					objectName: "loadingMessage"
-					color: "#00060b"
-					anchors.fill: parent
-					visible: false
-					Text{
-							anchors.fill: parent
-							text: xi18n("Loading...")
-							verticalAlignment: Text.AlignVCenter
-							horizontalAlignment: Text.AlignHCenter
-							color: "white"
-							font{
-                				family: "Arial"
-                				pointSize: 30
-            				}
-					}
-					states: [
-                   		State {
-                        	name: "loading"
-                        	PropertyChanges {target: loadingMessage; visible: true }
-                        	PropertyChanges {target: skyObjView; flipped:false }
-                    	}
-                	]
-				}
+
+                Rectangle{
+                    id: loadingMessage
+                    objectName: "loadingMessage"
+                    color: "#00060b"
+                    anchors.fill: parent
+                    visible: false
+                    Text{
+                        anchors.fill: parent
+                        text: xi18n("Loading...")
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        color: "white"
+                        font{
+                            family: "Arial"
+                            pointSize: 30
+                        }
+                    }
+                    states: [
+                        State {
+                            name: "loading"
+                            PropertyChanges {target: loadingMessage; visible: true }
+                            PropertyChanges {target: skyObjView; flipped:false }
+                        }
+                    ]
+                }
             } //end of skyObjView
         } //end of viewsContainer
         Rectangle{
-			id: helpMessage
-			objectName: "helpMessage"
-			color: "#00060b"
-			anchors.fill: parent
-			visible: false
-			Text{
-					id: helpText
-					anchors.left: helpMessage.left
-					anchors.right: helpMessage.right
-					anchors.margins: 10
-					text: xi18n("Explanation of the What's Interesting Panel")
-					horizontalAlignment: Text.AlignHCenter
-					color: "white"
-					font{
-						family: "Arial"
-						pointSize: 15
-					}
-			}
-			Text{
-					id: helpExplainText
-					anchors.margins: 10
-					anchors.top: helpText.bottom
-					anchors.left: helpMessage.left
-					anchors.right: helpMessage.right
-					text: xi18n("The What's Interesting Panel is intended to allow you to explore many different interesting objects in the night sky.  It includes objects visible to the naked eye as well as objects that require telescopes.  It is intended to appeal to both beginners and advanced astronomers.  If you click on a category or catalog, a list of objects will appear.  Clicking on an object in the list will bring up the details view where you can find out more information about the object.  If you have thumbnail images or wikipedia information for this object, these will be displayed as well.  If not, you can download them using the download icon.  If you make What's Interesting wider, the display will dynamically change to display the information more conveniently.  Please see the descriptions below for details on what the buttons at the bottom do.")
-					wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-					color: "white"
-					font{
-						family: "Arial"
-						pointSize: 11
-					}
-			}
-			Image {
-				id: helpSettingsImage
-				anchors.top: helpExplainText.bottom
-				source: "settingsIcon.png"
-				width: 28
-        		height: 28
-			}
-			Text{
-				id: helpSettingsText
-				anchors.top: helpExplainText.bottom
-				anchors.left: helpSettingsImage.right
-				anchors.right: helpMessage.right
-				anchors.margins: 10
-				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-				text: xi18n("This button will bring up the What's Interesting Settings. It will let you configure what is displayed in What's Interesting based upon which equipment you are using and the observing conditions.")
-				color: "white"
-				font{
-					family: "Arial"
-					pointSize: 11
-				}
-			}
-			Image {
-				id: helpInspectImage
-				anchors.top: helpSettingsText.bottom
-				source: "inspectIcon.png"
-				width: 28
-        		height: 28
-			}
-			Text{
-				id: helpInspectText
-				anchors.top: helpSettingsText.bottom
-				anchors.left: helpInspectImage.right
-				anchors.right: helpMessage.right
-				anchors.margins: 10
-				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-				text: xi18n("This button will turn on and off the Inspector Mode.  In this mode you can click on any object in the map and What's Interesting will display the information about it.")
-				color: "white"
-				font{
-					family: "Arial"
-					pointSize: 11
-				}
-			}
-			Image {
-				id: helpReloadImage
-				anchors.top: helpInspectText.bottom
-				source: "reloadIcon.png"
-				width: 28
-        		height: 28
-			}
-			Text{
-				id: helpReloadText
-				anchors.top: helpInspectText.bottom
-				anchors.left: helpReloadImage.right
-				anchors.right: helpMessage.right
-				anchors.margins: 10
-				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-				text: xi18n("This button will reload the current object list, update all displayed information, update any images, and update the information and images for the currently selected object.")
-				color: "white"
-				font{
-					family: "Arial"
-					pointSize: 11
-				}
-			}
-			Image {
-				id: helpVisibleImage
-				anchors.top: helpReloadText.bottom
-				source: "visibleIcon.png"
-				width: 28
-        		height: 28
-			}
-			Text{
-				id: helpVisibleText
-				anchors.top: helpReloadText.bottom
-				anchors.left: helpVisibleImage.right
-				anchors.right: helpMessage.right
-				anchors.margins: 10
-				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-				text: xi18n("This button will toggle whether to filter the list to display only currently visible objects in a list or to display all of the objects in the list.  The visibility is determined based on the current KStars date and time, the current observing equipment, and the current sky conditions based on the What's Interesting Settings.")
-				color: "white"
-				font{
-					family: "Arial"
-					pointSize: 11
-				}
-			}
-			Image {
-				id: helpFavoriteImage
-				anchors.top: helpVisibleText.bottom
-				source: "favoriteIcon.png"
-				width: 28
-        		height: 28
-			}
-			Text{
-				id: helpFavoriteText
-				anchors.top: helpVisibleText.bottom
-				anchors.left: helpFavoriteImage.right
-				anchors.right: helpMessage.right
-				anchors.margins: 10
-				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-				text: xi18n("This button will toggle whether to filter the list to display only 'interesting' objects or to display any of the objects in the list.  This setting only applies to the Galaxies, Nebulas, and Clusters lists.  The objects are considered 'interesting' if they appear on the KStars 'interesting' list.")
-				color: "white"
-				font{
-					family: "Arial"
-					pointSize: 11
-				}
-			}
-			Image {
-				id: helpDownloadImage
-				anchors.top: helpFavoriteText.bottom
-				source: "downloadIcon.png"
-				width: 28
-        		height: 28
-			}
-			Text{
-				id: helpDownloadText
-				anchors.top: helpFavoriteText.bottom
-				anchors.left: helpDownloadImage.right
-				anchors.right: helpMessage.right
-				anchors.margins: 10
-				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-				text: xi18n("This button will attempt to download information and pictures about the object(s) from Wikipedia.  You can select whether to download the information about just one object, all of the objects in a list, or only the objects in a list for which no data was downloaded yet.  Please note: If the list is currently filtered for visible objects or 'interesting' objects, only the filtered objects will be downloaded.  If you actually want all the objects in the list, turn off the filters.")
-				color: "white"
-				font{
-					family: "Arial"
-					pointSize: 11
-				}
-			}
-			states: [
-				State {
-					name: "helpDisplayed"
-					PropertyChanges {target: helpMessage; visible: true }
-					PropertyChanges {target: backButton; x: container.width - 105}
-				}
-			]
-		}
+            id: helpMessage
+            objectName: "helpMessage"
+            color: "#00060b"
+            anchors.fill: parent
+            visible: false
+            Text{
+                id: helpText
+                anchors.left: helpMessage.left
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                text: xi18n("Explanation of the What's Interesting Panel")
+                horizontalAlignment: Text.AlignHCenter
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 15
+                }
+            }
+            Text{
+                id: helpExplainText
+                anchors.margins: 10
+                anchors.top: helpText.bottom
+                anchors.left: helpMessage.left
+                anchors.right: helpMessage.right
+                text: xi18n("The What's Interesting Panel is intended to allow you to explore many different interesting objects in the night sky.  It includes objects visible to the naked eye as well as objects that require telescopes.  It is intended to appeal to both beginners and advanced astronomers.  If you click on a category or catalog, a list of objects will appear.  Clicking on an object in the list will bring up the details view where you can find out more information about the object.  If you have thumbnail images or wikipedia information for this object, these will be displayed as well.  If not, you can download them using the download icon.  If you make What's Interesting wider, the display will dynamically change to display the information more conveniently.  Please see the descriptions below for details on what the buttons at the bottom do.")
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            Image {
+                id: helpSettingsImage
+                anchors.top: helpExplainText.bottom
+                source: "settingsIcon.png"
+                width: 28
+                height: 28
+            }
+            Text{
+                id: helpSettingsText
+                anchors.top: helpExplainText.bottom
+                anchors.left: helpSettingsImage.right
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: xi18n("This button will bring up the What's Interesting Settings. It will let you configure what is displayed in What's Interesting based upon which equipment you are using and the observing conditions.")
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            Image {
+                id: helpInspectImage
+                anchors.top: helpSettingsText.bottom
+                source: "inspectIcon.png"
+                width: 28
+                height: 28
+            }
+            Text{
+                id: helpInspectText
+                anchors.top: helpSettingsText.bottom
+                anchors.left: helpInspectImage.right
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: xi18n("This button will turn on and off the Inspector Mode.  In this mode you can click on any object in the map and What's Interesting will display the information about it.")
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            Image {
+                id: helpReloadImage
+                anchors.top: helpInspectText.bottom
+                source: "reloadIcon.png"
+                width: 28
+                height: 28
+            }
+            Text{
+                id: helpReloadText
+                anchors.top: helpInspectText.bottom
+                anchors.left: helpReloadImage.right
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: xi18n("This button will reload the current object list, update all displayed information, update any images, and update the information and images for the currently selected object.")
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            Image {
+                id: helpVisibleImage
+                anchors.top: helpReloadText.bottom
+                source: "visibleIcon.png"
+                width: 28
+                height: 28
+            }
+            Text{
+                id: helpVisibleText
+                anchors.top: helpReloadText.bottom
+                anchors.left: helpVisibleImage.right
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: xi18n("This button will toggle whether to filter the list to display only currently visible objects in a list or to display all of the objects in the list.  The visibility is determined based on the current KStars date and time, the current observing equipment, and the current sky conditions based on the What's Interesting Settings.")
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            Image {
+                id: helpFavoriteImage
+                anchors.top: helpVisibleText.bottom
+                source: "favoriteIcon.png"
+                width: 28
+                height: 28
+            }
+            Text{
+                id: helpFavoriteText
+                anchors.top: helpVisibleText.bottom
+                anchors.left: helpFavoriteImage.right
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: xi18n("This button will toggle whether to filter the list to display only 'interesting' objects or to display any of the objects in the list.  This setting only applies to the Galaxies, Nebulas, and Clusters lists.  The objects are considered 'interesting' if they appear on the KStars 'interesting' list.")
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            Image {
+                id: helpDownloadImage
+                anchors.top: helpFavoriteText.bottom
+                source: "downloadIcon.png"
+                width: 28
+                height: 28
+            }
+            Text{
+                id: helpDownloadText
+                anchors.top: helpFavoriteText.bottom
+                anchors.left: helpDownloadImage.right
+                anchors.right: helpMessage.right
+                anchors.margins: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: xi18n("This button will attempt to download information and pictures about the object(s) from Wikipedia.  You can select whether to download the information about just one object, all of the objects in a list, or only the objects in a list for which no data was downloaded yet.  Please note: If the list is currently filtered for visible objects or 'interesting' objects, only the filtered objects will be downloaded.  If you actually want all the objects in the list, turn off the filters.")
+                color: "white"
+                font{
+                    family: "Arial"
+                    pointSize: 11
+                }
+            }
+            states: [
+                State {
+                    name: "helpDisplayed"
+                    PropertyChanges {target: helpMessage; visible: true }
+                    PropertyChanges {target: backButton; x: container.width - 105}
+                }
+            ]
+        }
     } //end of base
 
     Rectangle {
@@ -1608,9 +1608,9 @@ Rectangle {
             onEntered: goBackForeground.opacity = buttonOpacity
             onExited: goBackForeground.opacity = 0.0
             onClicked: {
-            	if(helpMessage.state == "helpDisplayed"){
-            		helpMessage.state = ""
-            	} else if (container.state == "objectFromListSelected") {
+                if(helpMessage.state == "helpDisplayed"){
+                    helpMessage.state = ""
+                } else if (container.state == "objectFromListSelected") {
                     if (!skyObjView.flipped||container.width>=900) {
                         container.state = "base"
                         catTitle.text = ""
@@ -1621,9 +1621,9 @@ Rectangle {
                     container.state = "base"
                     catTitle.text = ""
                     if (container.width>=900) {
-                    	skyObjView.flipped = true
+                        skyObjView.flipped = true
                     } else{
-                    	skyObjView.flipped = false
+                        skyObjView.flipped = false
                     }
                 }
             }
@@ -1667,7 +1667,7 @@ Rectangle {
             radius: 5
         }
     }
-    
+
     Image {
         id: inspectIcon
         objectName: "inspectIconObj"
@@ -1697,8 +1697,8 @@ Rectangle {
             onEntered: inspectForeground.opacity = buttonOpacity
             onExited: inspectForeground.opacity = 0.0
             onClicked: {
-            	inspectIcon.inspectIconClicked(inspectIcon.state == "checked")
-            	inspectIcon.state = (inspectIcon.state == "checked") ?  "" : "checked"
+                inspectIcon.inspectIconClicked(inspectIcon.state == "checked")
+                inspectIcon.state = (inspectIcon.state == "checked") ?  "" : "checked"
             }
         }
 
@@ -1709,13 +1709,13 @@ Rectangle {
             anchors.fill: parent
         }
         states: [
-        	State {
-        		name: "checked"
-        		PropertyChanges {target: inspectIcon; opacity: 0.5}
-        	}
+            State {
+                name: "checked"
+                PropertyChanges {target: inspectIcon; opacity: 0.5}
+            }
         ]
     }
-    
+
     Image {
         id: reloadIcon
         objectName: "reloadIconObj"
@@ -1744,8 +1744,8 @@ Rectangle {
             onEntered: reloadForeground.opacity = buttonOpacity
             onExited: reloadForeground.opacity = 0.0
             onClicked: {
-            	reloadIcon.reloadIconClicked();
-             }
+                reloadIcon.reloadIconClicked();
+            }
         }
 
         Rectangle {
@@ -1755,16 +1755,16 @@ Rectangle {
             anchors.fill: parent
         }
         states: [
-        	State {
-        		name: "invisible"
-        		when:  (container.state != "objectFromListSelected" && container.state != "singleItemSelected")
-        		PropertyChanges {target: reloadMouseArea; enabled: false}
-        		PropertyChanges {target: reloadIcon; opacity: 0}
-        	}
+            State {
+                name: "invisible"
+                when:  (container.state != "objectFromListSelected" && container.state != "singleItemSelected")
+                PropertyChanges {target: reloadMouseArea; enabled: false}
+                PropertyChanges {target: reloadIcon; opacity: 0}
+            }
         ]
-        
+
     }
-    
+
     Image {
         id: visibleIcon
         objectName: "visibleIconObj"
@@ -1794,8 +1794,8 @@ Rectangle {
             onEntered: visibleForeground.opacity = buttonOpacity
             onExited: visibleForeground.opacity = 0.0
             onClicked: {
-            	visibleIcon.visibleIconClicked(visibleIcon.state == "unchecked")
-            	visibleIcon.state = (visibleIcon.state == "unchecked") ?  "" : "unchecked"
+                visibleIcon.visibleIconClicked(visibleIcon.state == "unchecked")
+                visibleIcon.state = (visibleIcon.state == "unchecked") ?  "" : "unchecked"
             }
         }
 
@@ -1806,20 +1806,20 @@ Rectangle {
             anchors.fill: parent
         }
         states: [
-        	State {
-        		name: "invisible"
-        		when: container.state != "objectFromListSelected"
-        		PropertyChanges {target: visibleMouseArea; enabled: false}
-        		PropertyChanges {target: visibleIcon; opacity: 0}
-        	},
-        	State {
-        		name: "unchecked"
-        		PropertyChanges {target: visibleIcon; opacity: 0.5}
-        	}
+            State {
+                name: "invisible"
+                when: container.state != "objectFromListSelected"
+                PropertyChanges {target: visibleMouseArea; enabled: false}
+                PropertyChanges {target: visibleIcon; opacity: 0}
+            },
+            State {
+                name: "unchecked"
+                PropertyChanges {target: visibleIcon; opacity: 0.5}
+            }
         ]
     }
-    
-	Image {
+
+    Image {
         id: favoriteIcon
         objectName: "favoriteIconObj"
         state: "checked"
@@ -1848,15 +1848,15 @@ Rectangle {
             onEntered: favoriteForeground.opacity = buttonOpacity
             onExited: favoriteForeground.opacity = 0.0
             onClicked: {
-            	favoriteIcon.favoriteIconClicked(favoriteIcon.state == "unchecked")
-            	favoriteIcon.state = (favoriteIcon.state == "unchecked") ?  "" : "unchecked"
+                favoriteIcon.favoriteIconClicked(favoriteIcon.state == "unchecked")
+                favoriteIcon.state = (favoriteIcon.state == "unchecked") ?  "" : "unchecked"
             }
         }
         /**
-        ToolTip{
-        	id: toolTip
-        	text: "Toggles the display of *interesting* objects vs. all objects.  \n(For Galaxies, Nebulas, and Clusters Only!)"
-        }
+           ToolTip{
+           id: toolTip
+           text: "Toggles the display of *interesting* objects vs. all objects.  \n(For Galaxies, Nebulas, and Clusters Only!)"
+           }
         **/
 
         Rectangle {
@@ -1866,19 +1866,19 @@ Rectangle {
             anchors.fill: parent
         }
         states: [
-        	State {
-        		name: "invisible"
-        		when:  container.state != "objectFromListSelected"
-        		PropertyChanges {target: favoriteMouseArea; enabled: false}
-        		PropertyChanges {target: favoriteIcon; opacity: 0}
-        	},
-        	State {
-        		name: "unchecked"
-        		PropertyChanges {target: favoriteIcon; opacity: 0.5}
-        	}
+            State {
+                name: "invisible"
+                when:  container.state != "objectFromListSelected"
+                PropertyChanges {target: favoriteMouseArea; enabled: false}
+                PropertyChanges {target: favoriteIcon; opacity: 0}
+            },
+            State {
+                name: "unchecked"
+                PropertyChanges {target: favoriteIcon; opacity: 0.5}
+            }
         ]
     }
-    
+
     Image {
         id: downloadIcon
         objectName: "downloadIconObj"
@@ -1916,15 +1916,15 @@ Rectangle {
             anchors.fill: parent
         }
         states: [
-        	State {
-        		name: "invisible"
-        		when: container.state == "base" || container.state == ""
-        		PropertyChanges {target: downloadMouseArea; enabled: false}
-        		PropertyChanges {target: downloadIcon; opacity: 0}
-        	}
+            State {
+                name: "invisible"
+                when: container.state == "base" || container.state == ""
+                PropertyChanges {target: downloadMouseArea; enabled: false}
+                PropertyChanges {target: downloadIcon; opacity: 0}
+            }
         ]
     }
-    
+
     Image {
         id: helpIcon
         x: 250
@@ -1959,46 +1959,46 @@ Rectangle {
             anchors.fill: parent
         }
     }
-    
+
     Rectangle {
-            id: nightVision
-            objectName: "nightVision"
-            opacity: 0
-            color: "#510000"
-            anchors.fill: parent
-            
-            states: [
-        	State {
-        		name: "active"
-        		PropertyChanges {target: nightVision; opacity: 0.2}
-        		PropertyChanges {target: tabbedView; style: tabbedView.nightTabs}
-        		PropertyChanges {target: title; color: "red"}
-        		PropertyChanges {target: catTitle; color: "red"}
-        		PropertyChanges {target: nakedEyeText; color: "red"}
-        		PropertyChanges {target: dsoText; color: "red"}
-        		PropertyChanges {target: catalogText; color: "red"}
-        		PropertyChanges {target: soListEmptyMessage; color: "red"}
-        		PropertyChanges {target: soItemEmptyMessage; color: "red"}
-        		PropertyChanges {target: scrollbar; color: "red"}
-        		PropertyChanges {target: prevObjText; color: "red"}
-        		PropertyChanges {target: nextObjText; color: "red"}
-        		PropertyChanges {target: detailsText; color: "red"}
-        		PropertyChanges {target: soname; color: "red"}
-        		PropertyChanges {target: posText; color: "red"}
-        		PropertyChanges {target: detailsButton; color: "red"}
-        		PropertyChanges {target: centerButton; color: "red"}
-        		PropertyChanges {target: slewTelescopeButton; color: "red"}
-        		PropertyChanges {target: goBackText; color: "red"}
-        	}
+        id: nightVision
+        objectName: "nightVision"
+        opacity: 0
+        color: "#510000"
+        anchors.fill: parent
+
+        states: [
+            State {
+                name: "active"
+                PropertyChanges {target: nightVision; opacity: 0.2}
+                PropertyChanges {target: tabbedView; style: tabbedView.nightTabs}
+                PropertyChanges {target: title; color: "red"}
+                PropertyChanges {target: catTitle; color: "red"}
+                PropertyChanges {target: nakedEyeText; color: "red"}
+                PropertyChanges {target: dsoText; color: "red"}
+                PropertyChanges {target: catalogText; color: "red"}
+                PropertyChanges {target: soListEmptyMessage; color: "red"}
+                PropertyChanges {target: soItemEmptyMessage; color: "red"}
+                PropertyChanges {target: scrollbar; color: "red"}
+                PropertyChanges {target: prevObjText; color: "red"}
+                PropertyChanges {target: nextObjText; color: "red"}
+                PropertyChanges {target: detailsText; color: "red"}
+                PropertyChanges {target: soname; color: "red"}
+                PropertyChanges {target: posText; color: "red"}
+                PropertyChanges {target: detailsButton; color: "red"}
+                PropertyChanges {target: centerButton; color: "red"}
+                PropertyChanges {target: slewTelescopeButton; color: "red"}
+                PropertyChanges {target: goBackText; color: "red"}
+            }
         ]
-            
-        }
+
+    }
 
     states: [
         State {
             name: "base"
-            
-        },        
+
+        },
         State {
             name: "singleItemSelected"
 
@@ -2011,7 +2011,7 @@ Rectangle {
                     bottomMargin: 0
                 }
             }
-            
+
             PropertyChanges{target:skyObjView; flipped: true}
 
             PropertyChanges {
@@ -2031,7 +2031,7 @@ Rectangle {
                     bottomMargin: 0
                 }
             }
- 			//PropertyChanges {target: detailsView; focus: true}
+            //PropertyChanges {target: detailsView; focus: true}
             PropertyChanges {
                 target: backButton
                 x: container.width - 105
@@ -2040,7 +2040,7 @@ Rectangle {
     ]
 
     transitions: [
-        
+
         Transition {
             from: "*"
             to: "objectFromListSelected"
