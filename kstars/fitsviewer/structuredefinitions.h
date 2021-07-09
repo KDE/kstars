@@ -81,14 +81,6 @@ typedef struct
     double decError;    // The error between the search_dec position and the solution dec position in arcseconds
 } Solution;
 
-// This is point in the World Coordinate System with both RA and DEC.
-// It is used to create an array of positions for the image pixels
-typedef struct
-{
-    float ra;           // The Right Ascension in degrees
-    float dec;          // The Declination in degrees
-} wcs_point;
-
 } // FITSImage
 
 #endif // STRUCTUREDEFINITIONS_H
