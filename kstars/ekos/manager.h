@@ -32,6 +32,7 @@
 #include "observatory/observatory.h"
 #include "auxiliary/filtermanager.h"
 #include "auxiliary/serialportassistant.h"
+#include "auxiliary/portselector.h"
 #include "ksnotification.h"
 // Can't use forward declaration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
@@ -593,6 +594,7 @@ class Manager : public QDialog, public Ui::Manager
 
         // Serial Port Assistant
         std::unique_ptr<SerialPortAssistant> serialPortAssistant;
+        std::unique_ptr<Selector::Dialog> m_PortSelector;
 
         // Logs
         QPointer<OpsLogs> opsLogs;
