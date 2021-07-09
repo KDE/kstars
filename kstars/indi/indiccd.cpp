@@ -1378,11 +1378,11 @@ bool CCD::generateFilename(const QString &format, bool batch_mode, QString *file
         QString finalPrefix = seqPrefix;
         finalPrefix.replace("ISO8601", ts);
         *filename = currentDir.filePath(finalPrefix +
-                    QString("_%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
+                                        QString("_%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
     }
     else
         *filename = currentDir.filePath(seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                    QString("%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
+                                        QString("%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
@@ -1689,14 +1689,14 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
     data->setProperty("blobElement", bp->name);
     data->setProperty("chip", targetChip->getType());
 
-    emit BLOBUpdated(bp);
-    emit newImage(data);
-
     switch (captureMode)
     {
         case FITS_NORMAL:
         case FITS_CALIBRATE:
         {
+            // No need to wait until the image is loaded in the view
+            emit BLOBUpdated(bp);
+            emit newImage(data);
             if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
             {
                 bool success = false;
@@ -1746,7 +1746,8 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
         case FITS_GUIDE:
         case FITS_ALIGN:
             loadImageInView(targetChip, data);
-
+            emit BLOBUpdated(bp);
+            emit newImage(data);
             break;
     }
 }
