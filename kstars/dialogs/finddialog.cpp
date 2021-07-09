@@ -157,6 +157,12 @@ FindDialog::FindDialog(QWidget *parent)
 
 void FindDialog::init()
 {
+    const auto &objs = m_manager.get_objects(Options::magLimitDrawDeepSky(), 100);
+    for (const auto &obj : objs)
+    {
+        KStarsData::Instance()->skyComposite()->catalogsComponent()->insertStaticObject(
+            obj);
+    }
     ui->SearchBox->clear();
     filterByType();
     sortModel->sort(0);
