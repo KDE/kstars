@@ -41,30 +41,30 @@ class Device : public QObject
         Q_OBJECT
 
     public:
-        explicit Device(ISD::GDInterface *device);
+        explicit Device(ISD::GDInterface *device, QGridLayout *grid, uint8_t row);
 
-        QHBoxLayout *rowLayout()
+        const QString name() const
         {
-            return m_Layout;
+            return m_Device->getDeviceName();
         }
-
-    private:
 
         // Create GUI
         void initGUI();
         // Sync GUI to data
         void syncGUI();
 
+    private:
+
         void processNumber(INumberVectorProperty *nvp);
         void processText(ITextVectorProperty *tvp);
         void processSwitch(ISwitchVectorProperty *svp);
         void setConnected();
         void setDisconnected();
+        void setConnectionMode(ConnectionMode mode);
 
         // N.B. JM: Using smart pointers doesn't work very well in Qt widget parent/child
         // scheme and can lead to double deletion, so we're sticking to regular pointers.
         // General
-        QHBoxLayout *m_Layout {nullptr};
         KLed *m_LED {nullptr};
         QLabel *m_Label {nullptr};
         QPushButton *m_ConnectB {nullptr};
@@ -82,7 +82,13 @@ class Device : public QObject
 
         QMap<IPState, int> ColorCode;
         ConnectionMode m_ConnectionMode { CONNECTION_NONE };
+
+
         ISD::GDInterface *m_Device {nullptr};
+        QGridLayout *m_Grid{nullptr};
+        uint8_t m_Row {0};
+
+        static QStringList BAUD_RATES;
 };
 
 class Dialog : public QDialog
@@ -96,8 +102,7 @@ class Dialog : public QDialog
     private:
 
         std::vector <std::unique_ptr< Device>> m_Devices;
-        QVBoxLayout *m_Layout {nullptr};
-        static constexpr uint32_t BAUD_RATES[6] = { 9600, 19200, 38400, 57600, 115200, 230400 };
+        QGridLayout *m_Layout {nullptr};
 };
 
 }

@@ -184,8 +184,11 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // Port Selector
     connect(portSelectorB, &QPushButton::clicked, [&]()
     {
-        m_PortSelector->show();
-        m_PortSelector->raise();
+        if (m_PortSelector)
+        {
+            m_PortSelector->show();
+            m_PortSelector->raise();
+        }
     });
 
     connect(this, &Ekos::Manager::ekosStatusChanged, [&](Ekos::CommunicationStatus status)
@@ -538,6 +541,8 @@ void Manager::reset()
     observatoryProcess.reset();
     dustCapProcess.reset();
 
+    m_PortSelector.reset();
+
     DarkLibrary::Instance()->reset();
 
     Ekos::CommunicationStatus previousStatus;
@@ -606,8 +611,6 @@ void Manager::stop()
 
     //    serialPortAssistant.reset();
     //    serialPortAssistantB->setEnabled(false);
-
-    m_PortSelector.reset();
 
     if (indiHubAgent)
         indiHubAgent->terminate();
@@ -1315,7 +1318,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
         if (!m_PortSelector)
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
 
-        if (currentProfile->portSelector)
+        if (m_PortSelector && currentProfile->portSelector)
         {
             m_PortSelector->show();
             m_PortSelector->raise();
@@ -1904,6 +1907,8 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (currentProfile->portSelector && (prop->isNameMatch("DEVICE_PORT_SCAN") || prop->isNameMatch("CONNECTION_TYPE")))
     {
+        if (!m_PortSelector)
+            m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
         m_PortSelector->addDevice(deviceInterface);
     }
 
