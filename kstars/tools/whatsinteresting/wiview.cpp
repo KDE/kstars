@@ -271,10 +271,6 @@ void WIView::onCategorySelected(QString model)
         visibleIconObj->setProperty("state", "unchecked");
     if (!m_ModManager->showOnlyFavoriteObjects())
         favoriteIconObj->setProperty("state", "unchecked");
-    if (!m_ModManager->showOnlyVisibleObjects())
-        visibleIconObj->setProperty("state", "unchecked");
-    if (!m_ModManager->showOnlyFavoriteObjects())
-        favoriteIconObj->setProperty("state", "unchecked");
 
     std::unordered_map<QString, QString> search_prefixes{
         { "ngc", "NGC " }, { "ic", "IC " }, { "messier", "M " }, { "sharpless", "Sh2 " }
