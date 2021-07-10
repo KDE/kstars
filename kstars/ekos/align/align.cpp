@@ -3340,6 +3340,8 @@ void Align::startSolving()
             else
                 solver->deleteLater();
         }
+        if (!m_ImageData)
+            m_ImageData = alignView->imageData();
         m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
         m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
         m_StellarSolver->setProperty("SolverType", Options::solverType());
