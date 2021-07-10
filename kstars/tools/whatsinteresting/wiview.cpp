@@ -272,18 +272,13 @@ void WIView::onCategorySelected(QString model)
     if (!m_ModManager->showOnlyFavoriteObjects())
         favoriteIconObj->setProperty("state", "unchecked");
 
-    std::unordered_map<QString, QString> search_prefixes{
-        { "ngc", "NGC " }, { "ic", "IC " }, { "messier", "M " }, { "sharpless", "Sh2 " }
-    };
-
     if ((QStringList() << "ngc"
                        << "ic"
                        << "messier"
                        << "sharpless")
             .contains(model))
     {
-        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadCatalog, model,
-                          search_prefixes.at(model));
+        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadCatalog, model);
         return;
     }
 

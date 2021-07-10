@@ -84,10 +84,13 @@ class ModelManager : public QObject
     bool showOnlyFavoriteObjects() { return showOnlyFavorites; }
 
     /**
-     * Load objects from the dso db with a name beginning with \p
-     * prefix. The \p name can be used to retreive the object lists later.
+     * Load objects from the dso db for the catalog with \p name can
+     * be used to retreive the object lists later.
+     *
+     * This is implemented by searching the dso database for objects
+     * whichs name starts with a prefix to capture subsets of a catalog.
      */
-    void loadCatalog(const QString &name, const QString &prefix);
+    void loadCatalog(const QString &name);
 
     /**
      * @brief Returns model of given type.

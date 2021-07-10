@@ -281,15 +281,19 @@ SkyObjListModel *ModelManager::returnModel(QString modelName)
         return tempModel;
 }
 
-void ModelManager::loadCatalog(const QString &name, const QString &prefix)
+void ModelManager::loadCatalog(const QString &name)
 {
     const auto id = getModelNumber(name);
     if (m_CatalogMap.count(id) > 0)
         return;
 
+    const std::unordered_map<QString, QString> search_prefixes{
+        { "ngc", "NGC " }, { "ic", "IC " }, { "messier", "M " }, { "sharpless", "Sh2 " }
+    };
+
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
 
-    m_CatalogMap[id] = manager.find_objects_by_name(prefix);
+    m_CatalogMap[id] = manager.find_objects_by_name(search_prefixes.at(name));
     auto &lst        = m_CatalogSkyObjItems[id];
 
     for (auto &obj : m_CatalogMap[id])
