@@ -25,6 +25,7 @@
 #include "skyobjitem.h"
 #include "skyobjlistmodel.h"
 #include "starobject.h"
+#include "catalogsdb.h"
 
 #include <QtConcurrent>
 
@@ -259,6 +260,14 @@ int ModelManager::getModelNumber(QString modelName)
         return Supernovas;
     if (modelName == "satellites")
         return Satellites;
+    if (modelName == "messier")
+        return Messier;
+    if (modelName == "ngc")
+        return NGC;
+    if (modelName == "ic")
+        return IC;
+    if (modelName == "sharpless")
+        return Sharpless;
     else
         return -1;
 }
@@ -271,3 +280,28 @@ SkyObjListModel *ModelManager::returnModel(QString modelName)
     else
         return tempModel;
 }
+
+void ModelManager::loadCatalog(const QString &name, const QString &prefix)
+{
+    const auto id = getModelNumber(name);
+    if (m_CatalogMap.count(id) > 0)
+        return;
+
+    CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+
+    m_CatalogMap[id] = manager.find_objects_by_name(prefix);
+    auto &lst        = m_CatalogSkyObjItems[id];
+
+    for (auto &obj : m_CatalogMap[id])
+    {
+        obj.updateCoordsNow(KStarsData::Instance()->updateNum());
+        lst.emplace_back(&obj);
+    }
+
+    auto &p_lst = m_ObjectList[id];
+    for (auto &obj : lst)
+        p_lst.append(&obj);
+
+    updateModel(m_ObsConditions, name);
+    emit loadProgressUpdated(1);
+};

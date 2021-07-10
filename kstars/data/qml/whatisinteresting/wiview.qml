@@ -528,6 +528,153 @@ Rectangle {
                         }
                     }
                 }
+
+                Item {
+                    id: catalogsItem
+                    width: catalogText.width
+                    height: catalogText.height
+                    anchors{
+                        verticalCenterOffset: 70
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: catalogText
+                        color: "yellow"
+                        title: xi18n("Explore Catalogs")
+                        anchors.centerIn: parent
+                    }
+                }
+
+                Item {
+                    id: messierItem
+
+                    width: messierText.width
+                    height: messierText.height
+
+                    anchors {
+                        verticalCenterOffset: 110
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: messierText
+                        title: xi18n("Messier Catalog")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: messierMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: messierText.state = "selected"
+                            onExited: messierText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("messier")
+                                catTitle.text = "Messier Catalog"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    id: ngcItem
+
+                    width: ngcText.width
+                    height: ngcText.height
+
+                    anchors {
+                        verticalCenterOffset: 150
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: ngcText
+                        title: xi18n("NGC Catalog")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: ngcMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: ngcText.state = "selected"
+                            onExited: ngcText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("ngc")
+                                catTitle.text = "NGC Catalog"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    id: icItem
+
+                    width: icText.width
+                    height: icText.height
+
+                    anchors {
+                        verticalCenterOffset: 190
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: icText
+                        title: xi18n("IC Catalog")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: icMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: icText.state = "selected"
+                            onExited: icText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("ic")
+                                catTitle.text = "IC Catalog"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    id: sh2Item
+
+                    width: sh2Text.width
+                    height: sh2Text.height
+
+                    anchors {
+                        verticalCenterOffset: 230
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: sh2Text
+                        title: xi18n("Sharpless Catalog")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: sh2MouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: sh2Text.state = "selected"
+                            onExited: sh2Text.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("sharpless")
+                                catTitle.text = "Sharpless Catalog"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+
             } //end of categoryView
 
             Flipable {

@@ -69,8 +69,10 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
 
     m_Ctxt = m_BaseView->rootContext();
 
-    m_Ctxt->setContextProperty("soListModel",
-                               m_ModManager->getTempModel()); // This is to avoid an error saying it doesn't exist.
+    m_Ctxt->setContextProperty(
+        "soListModel",
+        m_ModManager
+            ->getTempModel()); // This is to avoid an error saying it doesn't exist.
 
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
@@ -101,11 +103,14 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     m_CategoryTitle = m_BaseObj->findChild<QQuickItem *>(QString("categoryTitle"));
 
     m_ViewsRowObj = m_BaseObj->findChild<QQuickItem *>(QString("viewsRowObj"));
-    connect(m_ViewsRowObj, SIGNAL(categorySelected(QString)), this, SLOT(onCategorySelected(QString)));
-    connect(m_ViewsRowObj, SIGNAL(inspectSkyObject(QString)), this, SLOT(inspectSkyObject(QString)));
+    connect(m_ViewsRowObj, SIGNAL(categorySelected(QString)), this,
+            SLOT(onCategorySelected(QString)));
+    connect(m_ViewsRowObj, SIGNAL(inspectSkyObject(QString)), this,
+            SLOT(inspectSkyObject(QString)));
 
     m_SoListObj = m_BaseObj->findChild<QQuickItem *>("soListObj");
-    connect(m_SoListObj, SIGNAL(soListItemClicked(int)), this, SLOT(onSoListItemClicked(int)));
+    connect(m_SoListObj, SIGNAL(soListItemClicked(int)), this,
+            SLOT(onSoListItemClicked(int)));
 
     m_DetailsViewObj = m_BaseObj->findChild<QQuickItem *>("detailsViewObj");
 
@@ -118,34 +123,44 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     connect(m_PrevObj, SIGNAL(prevObjClicked()), this, SLOT(onPrevObjClicked()));
 
     m_CenterButtonObj = m_BaseObj->findChild<QQuickItem *>("centerButtonObj");
-    connect(m_CenterButtonObj, SIGNAL(centerButtonClicked()), this, SLOT(onCenterButtonClicked()));
+    connect(m_CenterButtonObj, SIGNAL(centerButtonClicked()), this,
+            SLOT(onCenterButtonClicked()));
 
     autoCenterCheckbox = m_DetailsViewObj->findChild<QObject *>("autoCenterCheckbox");
     autoTrackCheckbox  = m_DetailsViewObj->findChild<QObject *>("autoTrackCheckbox");
 
-    m_SlewTelescopeButtonObj = m_BaseObj->findChild<QQuickItem *>("slewTelescopeButtonObj");
-    connect(m_SlewTelescopeButtonObj, SIGNAL(slewTelescopeButtonClicked()), this, SLOT(onSlewTelescopeButtonClicked()));
+    m_SlewTelescopeButtonObj =
+        m_BaseObj->findChild<QQuickItem *>("slewTelescopeButtonObj");
+    connect(m_SlewTelescopeButtonObj, SIGNAL(slewTelescopeButtonClicked()), this,
+            SLOT(onSlewTelescopeButtonClicked()));
 
     m_DetailsButtonObj = m_BaseObj->findChild<QQuickItem *>("detailsButtonObj");
-    connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
+    connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this,
+            SLOT(onDetailsButtonClicked()));
 
     QObject *settingsIconObj = m_BaseObj->findChild<QQuickItem *>("settingsIconObj");
-    connect(settingsIconObj, SIGNAL(settingsIconClicked()), this, SLOT(onSettingsIconClicked()));
+    connect(settingsIconObj, SIGNAL(settingsIconClicked()), this,
+            SLOT(onSettingsIconClicked()));
 
     inspectIconObj = m_BaseObj->findChild<QQuickItem *>("inspectIconObj");
-    connect(inspectIconObj, SIGNAL(inspectIconClicked(bool)), this, SLOT(onInspectIconClicked(bool)));
+    connect(inspectIconObj, SIGNAL(inspectIconClicked(bool)), this,
+            SLOT(onInspectIconClicked(bool)));
 
     visibleIconObj = m_BaseObj->findChild<QQuickItem *>("visibleIconObj");
-    connect(visibleIconObj, SIGNAL(visibleIconClicked(bool)), this, SLOT(onVisibleIconClicked(bool)));
+    connect(visibleIconObj, SIGNAL(visibleIconClicked(bool)), this,
+            SLOT(onVisibleIconClicked(bool)));
 
     favoriteIconObj = m_BaseObj->findChild<QQuickItem *>("favoriteIconObj");
-    connect(favoriteIconObj, SIGNAL(favoriteIconClicked(bool)), this, SLOT(onFavoriteIconClicked(bool)));
+    connect(favoriteIconObj, SIGNAL(favoriteIconClicked(bool)), this,
+            SLOT(onFavoriteIconClicked(bool)));
 
     QObject *reloadIconObj = m_BaseObj->findChild<QQuickItem *>("reloadIconObj");
-    connect(reloadIconObj, SIGNAL(reloadIconClicked()), this, SLOT(onReloadIconClicked()));
+    connect(reloadIconObj, SIGNAL(reloadIconClicked()), this,
+            SLOT(onReloadIconClicked()));
 
     QObject *downloadIconObj = m_BaseObj->findChild<QQuickItem *>("downloadIconObj");
-    connect(downloadIconObj, SIGNAL(downloadIconClicked()), this, SLOT(onUpdateIconClicked()));
+    connect(downloadIconObj, SIGNAL(downloadIconClicked()), this,
+            SLOT(onUpdateIconClicked()));
 
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
     m_BaseView->show();
@@ -156,14 +171,14 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     m_BaseView->setFlags(Qt::WindowCloseButtonHint);
 #endif
 
-
-    connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject*)), this,
-            SLOT(inspectSkyObjectOnClick(SkyObject*)));
+    connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject *)), this,
+            SLOT(inspectSkyObjectOnClick(SkyObject *)));
 
     manager.reset(new QNetworkAccessManager());
 
     setProgressBarVisible(true);
-    connect(m_ModManager.get(), SIGNAL(loadProgressUpdated(double)), this, SLOT(updateProgress(double)));
+    connect(m_ModManager.get(), SIGNAL(loadProgressUpdated(double)), this,
+            SLOT(updateProgress(double)));
     connect(m_ModManager.get(), SIGNAL(modelUpdated()), this, SLOT(refreshListView()));
     m_ViewsRowObj->setProperty("enabled", false);
 
@@ -249,12 +264,32 @@ void WIView::updateObservingConditions()
 void WIView::onCategorySelected(QString model)
 {
     m_CurrentObjectListName = model;
-    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurrentObjectListName));
+    m_Ctxt->setContextProperty("soListModel",
+                               m_ModManager->returnModel(m_CurrentObjectListName));
     m_CurIndex = -2;
     if (!m_ModManager->showOnlyVisibleObjects())
         visibleIconObj->setProperty("state", "unchecked");
     if (!m_ModManager->showOnlyFavoriteObjects())
         favoriteIconObj->setProperty("state", "unchecked");
+    if (!m_ModManager->showOnlyVisibleObjects())
+        visibleIconObj->setProperty("state", "unchecked");
+    if (!m_ModManager->showOnlyFavoriteObjects())
+        favoriteIconObj->setProperty("state", "unchecked");
+
+    std::unordered_map<QString, QString> search_prefixes{
+        { "ngc", "NGC " }, { "ic", "IC " }, { "messier", "M " }, { "sharpless", "Sh2 " }
+    };
+
+    if ((QStringList() << "ngc"
+                       << "ic"
+                       << "messier"
+                       << "sharpless")
+            .contains(model))
+    {
+        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadCatalog, model,
+                          search_prefixes.at(model));
+        return;
+    }
 
     updateModel(*m_Obs);
 }
