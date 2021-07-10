@@ -54,8 +54,6 @@ class Device : public QObject
         void syncGUI();
 
     private:
-
-        void processNumber(INumberVectorProperty *nvp);
         void processText(ITextVectorProperty *tvp);
         void processSwitch(ISwitchVectorProperty *svp);
         void setConnected();
@@ -80,7 +78,7 @@ class Device : public QObject
         QPushButton *m_HostProtocolTCP {nullptr};
         QPushButton *m_HostProtocolUDP {nullptr};
 
-        QMap<IPState, int> ColorCode;
+        QMap<IPState, QColor> ColorCode;
         ConnectionMode m_ConnectionMode { CONNECTION_NONE };
 
 
@@ -88,7 +86,8 @@ class Device : public QObject
         QGridLayout *m_Grid{nullptr};
         uint8_t m_Row {0};
 
-        static QStringList BAUD_RATES;
+        static const QStringList BAUD_RATES;
+        static const QString ACTIVE_STYLESHEET;
 };
 
 class Dialog : public QDialog

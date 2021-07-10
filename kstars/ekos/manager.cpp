@@ -169,17 +169,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(),
             &EkosLive::Media::resetPolarView);
-    //    connect(ekosLiveClient.get()->message(), &EkosLive::Message::previewJPEGGenerated, ekosLiveClient.get()->media(),
-    //            &EkosLive::Media::sendPreviewJPEG);
     connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendDialog);
-
-    // Serial Port Assistant
-    //    connect(serialPortAssistantB, &QPushButton::clicked, [&]()
-    //    {
-    //        serialPortAssistant->show();
-    //        serialPortAssistant->raise();
-    //    });
 
     // Port Selector
     connect(portSelectorB, &QPushButton::clicked, [&]()
@@ -608,9 +599,7 @@ void Manager::processINDI()
 void Manager::stop()
 {
     cleanDevices();
-
-    //    serialPortAssistant.reset();
-    //    serialPortAssistantB->setEnabled(false);
+    m_PortSelector.reset();
 
     if (indiHubAgent)
         indiHubAgent->terminate();
@@ -1277,28 +1266,6 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::lightUpdated, this, &Ekos::Manager::processNewLight);
     connect(devInterface, &ISD::GDInterface::BLOBUpdated, this, &Ekos::Manager::processNewBLOB);
 
-    //    if (currentProfile->isStellarMate)
-    //    {
-    //        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this, devInterface]()
-    //        {
-    //            if (!serialPortAssistant)
-    //            {
-    //                serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
-    //                serialPortAssistantB->setEnabled(true);
-    //            }
-
-    //            uint32_t driverInterface = devInterface->getDriverInterface();
-    //            // Ignore CCD interface
-    //            if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
-    //                return;
-
-    //            serialPortAssistant->addDevice(devInterface);
-
-    //            if (Options::autoLoadSerialAssistant())
-    //                serialPortAssistant->show();
-    //        });
-    //    }
-
     if (nDevices <= 0)
     {
         m_ekosStatus = Ekos::Success;
@@ -1316,7 +1283,10 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
         }
 
         if (!m_PortSelector)
+        {
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
+            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::saveProfileAndConnectAll);
+        }
 
         if (m_PortSelector && currentProfile->portSelector)
         {
@@ -1885,48 +1855,21 @@ void Manager::processNewProperty(INDI::Property prop)
 
     ekosLiveClient.get()->message()->processNewProperty(prop);
 
-    //    if (prop->isNameMatch("CONNECTION") && currentProfile->autoConnect)
-    //    {
-    //        // Check if we need to do any mappings
-    //        const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
-    //        // If we don't have port mapping, then we connect immediately.
-    //        if (port.isEmpty())
-    //            QTimer::singleShot(50, this, [deviceInterface]()
-    //        {
-    //            deviceInterface->Connect();
-    //        });
-
-    //        return;
-    //    }
-
     if (prop->isNameMatch("CONNECTION") && currentProfile->autoConnect && currentProfile->portSelector == false)
     {
         deviceInterface->Connect();
         return;
     }
 
-    if (currentProfile->portSelector && (prop->isNameMatch("DEVICE_PORT_SCAN") || prop->isNameMatch("CONNECTION_TYPE")))
+    if (prop->isNameMatch("DEVICE_PORT_SCAN") || prop->isNameMatch("CONNECTION_TYPE"))
     {
         if (!m_PortSelector)
+        {
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
+            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::saveProfileAndConnectAll);
+        }
         m_PortSelector->addDevice(deviceInterface);
     }
-
-    //    if (prop->isNameMatch("DEVICE_PORT"))
-    //    {
-    //        // Check if we need to do any mappings
-    //        const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
-    //        if (!port.isEmpty())
-    //        {
-    //            auto tvp = prop->getText();
-    //            tvp->at(0)->setText(port.toLatin1().data());
-    //            deviceInterface->getDriverInfo()->getClientManager()->sendNewText(tvp);
-    //            // Now connect if we need to.
-    //            if (currentProfile->autoConnect)
-    //                deviceInterface->Connect();
-    //            return;
-    //        }
-    //    }
 
     // Check if we need to turn on DEBUG for logging purposes
     if (prop->isNameMatch("DEBUG"))
@@ -4088,5 +4031,17 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
         Options::setObservatoryLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
+}
+
+void Manager::saveProfileAndConnectAll()
+{
+    if (currentProfile->portSelector)
+    {
+        // Turn off port selector
+        currentProfile->portSelector = false;
+        KStarsData::Instance()->userdb()->SaveProfile(currentProfile);
+    }
+
+    connectDevices();
 }
 }
