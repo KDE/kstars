@@ -96,41 +96,48 @@ void Device::initGUI()
     INDI::PropertyView<ISwitch> connectionMode = *(modeProperty->getSwitch());
     if (connectionMode.findWidgetByName("CONNECTION_SERIAL"))
     {
-        m_Ports = new QComboBox;
-        m_Ports->setEditable(true);
-        m_Ports->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
-        m_Ports->setToolTip(i18n("Select Serial port"));
-        INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice()->getSwitch("SYSTEM_PORTS"));
-        for (auto &oneSwitch : systemPorts)
-            m_Ports->addItem(oneSwitch.getLabel());
-        connect(m_Ports, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
-                [this](int index)
+        if (m_Device->getBaseDevice()->getProperty("SYSTEM_PORTS").isValid())
         {
-            INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice()->getSwitch("SYSTEM_PORTS"));
-            IUResetSwitch(&systemPorts);
-            systemPorts.at(index)->setState(ISS_ON);
-            m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&systemPorts);
-        });
-        // When combo box text changes
-        connect(m_Ports->lineEdit(), &QLineEdit::editingFinished, this, [this]()
-        {
-            INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
-            port.at(0)->setText(m_Ports->lineEdit()->text().toLatin1().constData());
-            m_Device->getDriverInfo()->getClientManager()->sendNewText(&port);
-        });
+            m_Ports = new QComboBox;
+            m_Ports->setEditable(true);
+            m_Ports->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
+            m_Ports->setToolTip(i18n("Select Serial port"));
 
-        m_BaudRates = new QComboBox;
-        m_BaudRates->addItems(BAUD_RATES);
-        m_BaudRates->setToolTip(i18n("Select Baud rate"));
-        m_BaudRates->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored);
-        connect(m_BaudRates, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
-                [this](int index)
+            INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice()->getSwitch("SYSTEM_PORTS"));
+            for (auto &oneSwitch : systemPorts)
+                m_Ports->addItem(oneSwitch.getLabel());
+            connect(m_Ports, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
+                    [this](int index)
+            {
+                INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice()->getSwitch("SYSTEM_PORTS"));
+                IUResetSwitch(&systemPorts);
+                systemPorts.at(index)->setState(ISS_ON);
+                m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&systemPorts);
+            });
+            // When combo box text changes
+            connect(m_Ports->lineEdit(), &QLineEdit::editingFinished, this, [this]()
+            {
+                INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
+                port.at(0)->setText(m_Ports->lineEdit()->text().toLatin1().constData());
+                m_Device->getDriverInfo()->getClientManager()->sendNewText(&port);
+            });
+        }
+
+        if (m_Device->getBaseDevice()->getProperty("DEVICE_BAUD_RATE").isValid())
         {
-            INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
-            IUResetSwitch(&systemBauds);
-            systemBauds.at(index)->setState(ISS_ON);
-            m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&systemBauds);
-        });
+            m_BaudRates = new QComboBox;
+            m_BaudRates->addItems(BAUD_RATES);
+            m_BaudRates->setToolTip(i18n("Select Baud rate"));
+            m_BaudRates->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored);
+            connect(m_BaudRates, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
+                    [this](int index)
+            {
+                INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
+                IUResetSwitch(&systemBauds);
+                systemBauds.at(index)->setState(ISS_ON);
+                m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&systemBauds);
+            });
+        }
     }
     else
         m_SerialB->setEnabled(false);
@@ -208,24 +215,36 @@ void Device::syncGUI()
         m_SerialB->setStyleSheet(ACTIVE_STYLESHEET);
         m_NetworkB->setStyleSheet(QString());
 
-        INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
-        m_Ports->setEditText(port.at(0)->getText());
+        if (m_Ports)
+        {
+            INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
+            m_Ports->setEditText(port.at(0)->getText());
+        }
 
-        INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
-        m_BaudRates->setCurrentIndex(systemBauds.findOnSwitchIndex());
+        if (m_BaudRates)
+        {
+            INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
+            m_BaudRates->setCurrentIndex(systemBauds.findOnSwitchIndex());
+        }
     }
     else
     {
         m_SerialB->setStyleSheet(QString());
         m_NetworkB->setStyleSheet(ACTIVE_STYLESHEET);
 
-        INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
-        m_HostName->setText(server.at(0)->getText());
-        m_HostPort->setText(server.at(1)->getText());
+        if (m_Device->getBaseDevice()->getProperty("DEVICE_ADDRESS").isValid())
+        {
+            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
+            m_HostName->setText(server.at(0)->getText());
+            m_HostPort->setText(server.at(1)->getText());
+        }
 
-        INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
-        m_HostProtocolTCP->setStyleSheet(connectionType.findOnSwitchIndex() == 0 ? ACTIVE_STYLESHEET : QString());
-        m_HostProtocolUDP->setStyleSheet(connectionType.findOnSwitchIndex() == 1 ? ACTIVE_STYLESHEET : QString());
+        if (m_Device->getBaseDevice()->getProperty("CONNECTION_TYPE").isValid())
+        {
+            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
+            m_HostProtocolTCP->setStyleSheet(connectionType.findOnSwitchIndex() == 0 ? ACTIVE_STYLESHEET : QString());
+            m_HostProtocolUDP->setStyleSheet(connectionType.findOnSwitchIndex() == 1 ? ACTIVE_STYLESHEET : QString());
+        }
     }
 
     if (m_Device->isConnected())

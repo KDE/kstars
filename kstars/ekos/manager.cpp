@@ -600,6 +600,7 @@ void Manager::stop()
 {
     cleanDevices();
     m_PortSelector.reset();
+    portSelectorB->setEnabled(false);
 
     if (indiHubAgent)
         indiHubAgent->terminate();
@@ -1284,14 +1285,21 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
 
         if (!m_PortSelector)
         {
+            portSelectorB->setEnabled(false);
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
-            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::saveProfileAndConnectAll);
+            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
         }
 
         if (m_PortSelector && currentProfile->portSelector)
         {
-            m_PortSelector->show();
-            m_PortSelector->raise();
+            if (m_PortSelector->empty() == false)
+            {
+                m_PortSelector->show();
+                m_PortSelector->raise();
+            }
+            // If port selector is enabled, but we have zero ports to work with, let's proceed to connecting if it is enabled.
+            else if (currentProfile->autoConnect)
+                setPortSelectionComplete();
         }
     }
 }
@@ -1866,8 +1874,9 @@ void Manager::processNewProperty(INDI::Property prop)
         if (!m_PortSelector)
         {
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
-            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::saveProfileAndConnectAll);
+            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
         }
+        portSelectorB->setEnabled(true);
         m_PortSelector->addDevice(deviceInterface);
     }
 
@@ -4033,7 +4042,7 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
     }
 }
 
-void Manager::saveProfileAndConnectAll()
+void Manager::setPortSelectionComplete()
 {
     if (currentProfile->portSelector)
     {
@@ -4042,6 +4051,7 @@ void Manager::saveProfileAndConnectAll()
         KStarsData::Instance()->userdb()->SaveProfile(currentProfile);
     }
 
-    connectDevices();
+    if (currentProfile->autoConnect)
+        connectDevices();
 }
 }

@@ -98,6 +98,11 @@ class Dialog : public QDialog
         // Initialize device
         void addDevice(ISD::GDInterface * devices);
 
+        bool empty() const
+        {
+            return m_Devices.empty();
+        }
+
     private:
 
         std::vector <std::unique_ptr< Device>> m_Devices;

@@ -498,7 +498,7 @@ class Manager : public QDialog, public Ui::Manager
             m_ProfileMapping = payload;
         }
         // Port Selector Save profile when connect all is pressed
-        void saveProfileAndConnectAll();
+        void setPortSelectionComplete();
         // Check if the driver binary must be one only to avoid duplicate instances
         // Some driver binaries support multiple devices per binary
         // so we only need to start a single instance to handle them all.
