@@ -362,7 +362,7 @@ bool KSUserDB::RebuildDB()
 #ifdef Q_OS_WIN
     tables.append("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)");
 #else
-    tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
+    tables.append("INSERT INTO profile (name, portselector) VALUES ('Simulators', 0)");
 #endif
 
     tables.append("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)");
@@ -2020,7 +2020,7 @@ void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
 
         pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
         pi->autoConnect        = (record.value("autoconnect").toInt() == 1);
-        pi->portSelector       = (record.value("portSelector").toInt() == 1);
+        pi->portSelector       = (record.value("portselector").toInt() == 1);
 
         pi->indihub = record.value("indihub").toInt();
 
