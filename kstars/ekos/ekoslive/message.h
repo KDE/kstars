@@ -105,6 +105,9 @@ class Message : public QObject
         // DSLR
         void requestDSLRInfo(const QString &cameraName);
 
+        // Port Selection
+        void requestPortSelection();
+
         // Dialogs
         void sendDialog(const QJsonObject &message);
         void processDialogResponse(const QJsonObject &payload);

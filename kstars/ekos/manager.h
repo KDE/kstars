@@ -333,6 +333,11 @@ class Manager : public QDialog, public Ui::Manager
          */
         Q_SCRIPTABLE void setEkosLiveUser(const QString &username, const QString &password);
 
+        /**
+         * @brief acceptPortSelection Accept current port selection settings in the Selector Dialog
+         */
+        Q_SCRIPTABLE void acceptPortSelection();
+
     signals:
         // Have to use full Ekos::CommunicationStatus for DBus signal to work
         void ekosStatusChanged(Ekos::CommunicationStatus status);

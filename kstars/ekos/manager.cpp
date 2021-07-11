@@ -1296,6 +1296,8 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
             {
                 m_PortSelector->show();
                 m_PortSelector->raise();
+
+                ekosLiveClient.get()->message()->requestPortSelection();
             }
             // If port selector is enabled, but we have zero ports to work with, let's proceed to connecting if it is enabled.
             else if (currentProfile->autoConnect)
@@ -4040,6 +4042,12 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
         Options::setObservatoryLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
+}
+
+void Manager::acceptPortSelection()
+{
+    if (m_PortSelector)
+        m_PortSelector->accept();
 }
 
 void Manager::setPortSelectionComplete()
