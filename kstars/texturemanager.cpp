@@ -172,7 +172,7 @@ void TextureManager::discoverTextureDirs()
     // clear the cache
     m_p->m_textures = {};
 
-    const auto &base = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    const auto &base = KSPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDirIterator search(base, QStringList() << "textures_*", QDir::Dirs);
 
     auto &dirs = m_p->m_texture_directories;
