@@ -37,7 +37,7 @@ CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_fil
 {
     if (load_default)
     {
-        const auto &default_file = KSPaths::locate(QStandardPaths::GenericDataLocation,
+        const auto &default_file = KSPaths::locate(QStandardPaths::AppDataLocation,
                                                    Options::dSODefaultCatalogFilename());
 
         if (QFile(default_file).exists())

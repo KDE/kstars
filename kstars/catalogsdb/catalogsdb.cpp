@@ -949,7 +949,7 @@ int DBManager::find_suitable_catalog_id()
 
 QString CatalogsDB::dso_db_path()
 {
-    return KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+    return KSPaths::writableLocation(QStandardPaths::AppDataLocation) +
            Options::dSOCatalogFilename();
 }
 
