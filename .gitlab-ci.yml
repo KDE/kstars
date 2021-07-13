@@ -54,11 +54,9 @@ build:
 # The artifacts take far too much time to propagate from one step to the other
 # The cache is unreliable, and only works on the same runner if there is no shared cache - use it for ccache instead
 # Consolidate runner with build packages and build
-# We have less than 10% unstability on stable tests, so we allow 2 attempts on the full check
 build-and-test-stable:
   stage: test
   interruptible: true
-  retry: 2
   only:
     - merge_requests
   variables:
