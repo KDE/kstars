@@ -27,53 +27,27 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="name"/>
+      </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Long Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="toolTip">
-         <string>Some catalog specific identifier, like the NGC number.</string>
-        </property>
-        <property name="whatsThis">
-         <string>Some catalog specific identifier, like the NGC number.</string>
-        </property>
-        <property name="text">
-         <string>Catalog Identifier</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Type</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="1" column="1">
+       <widget class="QComboBox" name="type"/>
+      </item>
+      <item row="2" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
          <string>RA / Dec (°, J2000)</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="name"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="long_name"/>
-      </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="catalog_identifier"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QComboBox" name="type"/>
-      </item>
-      <item row="4" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QDoubleSpinBox" name="ra">
@@ -116,14 +90,14 @@
         </item>
        </layout>
       </item>
-      <item row="5" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
          <string>Apparent Magnitude</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="3" column="1">
        <widget class="QDoubleSpinBox" name="mag">
         <property name="minimum">
          <double>-1.000000000000000</double>
@@ -147,34 +121,42 @@
         <property name="title">
          <string>Size Info in Arcminutes</string>
         </property>
-        <layout class="QFormLayout" name="formLayout_2">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Major Axis</string>
-           </property>
-          </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QFormLayout" name="formLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Minor Axis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="min">
+             <property name="maximum">
+              <double>60.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>Minor Axis</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="maj">
-           <property name="maximum">
-            <double>60.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="min">
-           <property name="maximum">
-            <double>60.000000000000000</double>
-           </property>
-          </widget>
+         <item>
+          <layout class="QFormLayout" name="formLayout_4">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Major Axis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="maj">
+             <property name="maximum">
+              <double>60.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -185,24 +167,40 @@
          <string>Misc</string>
         </property>
         <layout class="QFormLayout" name="formLayout_3">
-         <item row="0" column="0">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="toolTip">
+            <string>Some catalog specific identifier, like the NGC number.</string>
+           </property>
+           <property name="whatsThis">
+            <string>Some catalog specific identifier, like the NGC number.</string>
+           </property>
+           <property name="text">
+            <string>Catalog Identifier</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="catalog_identifier"/>
+         </item>
+         <item row="3" column="0">
           <widget class="QLabel" name="label_9">
            <property name="text">
             <string>Flux</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="3" column="1">
+          <widget class="QDoubleSpinBox" name="flux"/>
+         </item>
+         <item row="4" column="0">
           <widget class="QLabel" name="label_10">
            <property name="text">
             <string>Position Angle (°)</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="flux"/>
-         </item>
-         <item row="1" column="1">
+         <item row="4" column="1">
           <widget class="QDoubleSpinBox" name="position_angle">
            <property name="decimals">
             <number>6</number>
@@ -211,6 +209,16 @@
             <double>180.000000000000000</double>
            </property>
           </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Long Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="long_name"/>
          </item>
         </layout>
        </widget>

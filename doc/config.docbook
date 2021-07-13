@@ -319,7 +319,7 @@ Note that is requires Tycho-2 to be installed.
 </para>
 
 <para>
-The following is a summary of catalogs in KStars:
+The following is a summary of catalogs in &kstars;:
 
 <table frame="top"><title>Stars Catalogs</title>
 <tgroup cols="4" colsep="1" rowsep="1">
@@ -470,11 +470,6 @@ option. The <guilabel>Faint limit</guilabel> regulates up to which
 magnitude objects are shown on the skymap (higher magnitude is
 fainter). If <guilabel>Show objects of unknown magnitude</guilabel> is
 ticked, objects of unknown magnitude are always shown.
-The <guilabel>Number of static objects</guilabel> is the number of
-DSOs that is being loaded into the conventional &kstars; system (sorted
-by magnitude). Only those objects can be found in the search dialog
-for example. This is a technical restriction that will be lifted in
-the future.
 </para>
 <para>The following sections will detail how DSO catalogs work in
 &kstars; and how they're managed.</para>
@@ -483,6 +478,8 @@ the future.
 <title>The DSO Catalog Database</title>
 <indexterm><primary>Deep-Sky Catalogs</primary>
 <secondary>Database</secondary></indexterm>
+<indexterm><primary>Deep-Sky Catalogs</primary>
+  <secondary>Database System</secondary></indexterm>
 <note>
   <para>
     This section aims at introducing the catalog database of &kstars; in
@@ -494,7 +491,7 @@ the future.
 <para>
 DSO catalogs  in &kstars; are  just SQL (sqlite3) database  tables. Each
 catalog is represented by its own table which contains all its objects
-and an entry in a catalog  meta-data table. Additionally, catalogs may be
+and an entry in a catalog  metadata table. Additionally, catalogs may be
 imported or exported from and into stand-alone database  files.
 </para>
 
@@ -540,6 +537,449 @@ maintainers</ulink>. &kstars; provides also provides means to create
 custom catalogs by manually entering data or importing CSV tables, but
 those are less flexible and offer no deduplication.
 </para>
+</sect2>
+<sect2 id="catalog_gui">
+<title>The Catalog Management GUI</title>
+<indexterm><primary>Deep-Sky Catalogs</primary>
+<secondary>GUI</secondary></indexterm>
+<para>
+The catalog management GUI is reached
+via <menuchoice><guimenu>Data</guimenu><guimenuitem>Manage DSO
+      Catalogs</guimenuitem></menuchoice> and is displayed <link linkend="dso_manager">below</link>.
+
+<screenshot>
+<screeninfo>DSO Manager</screeninfo>
+<mediaobject id="dso_manager">
+  <imageobject>
+    <imagedata fileref="dso_manager.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>The DSO catalog management interface.</phrase>
+  </textobject>
+  <caption>The DSO catalog management interface.</caption>
+</mediaobject>
+</screenshot>
+</para>
+</sect2>
+<para>
+On the left, a list of catalogs is displayed. In this list, you can
+read off key catalog properties, including whether a catalog is
+enabled, what its ID is and what its name
+is. The <guilabel>Mutable</guilabel> column signifies whether the catalog
+can be edited or not. Catalogs which have been downloaded from the
+catalog repository
+via <menuchoice><guimenu>Data</guimenu><guimenuitem>Download New
+    Data...</guimenuitem></menuchoice> are usually immutable whereas
+user-created catalogs aren't. You can
+always <guilabel>Clone</guilabel> a catalog to make it mutable.
+</para>
+<para>
+The buttons in the upper right corner allow you to add catalogs to the
+database.
+<varlistentry id="import">
+<term><menuchoice>
+<guimenu>Import Catalog</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Import a
+    catalog in the <filename>.kscat</filename> format
+    from a file.</para>
+  <para>This is usually done to try out new versions of catalogs that
+  haven't yet been picked up by the usual download server.</para>
+</listitem>
+</varlistentry>
+
+With the buttons in the lower right corner, you can add, remove, modify
+and explore catalogs. Their actions always refer to the currently
+selected catalog (the highlighted row on the left).
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Create Catalog</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Create a new catalog. See <xref linkend="create_catalog"/>.
+  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Enable/Disable</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Enable or disable a catalog.</para>
+  <para>This is reflected in the skymap upon closing the
+    catalog management GUI.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Remove</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Remove a catalog from the catalog database.</para>
+  <para>This is reflected in the skymap upon closing the
+    catalog management GUI.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Export</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Export a catalog into a <filename>.kscat</filename> file.</para>
+  <para>The resulting file can be imported
+    with <guilabel><link linked="import">Import Catalog</link></guilabel>
+  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Clone</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Make an exact copy of the catalog and insert it into the database.</para>
+  <para>This is useful if you wish to make modifications to an
+  immutable catalog.
+    <note><para> Note however that this is not the recommended way to
+    alter catalogs that are provided by
+    the <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs">catalog
+    packaging repository</ulink> &ie; the catalogs downloaded
+    via <menuchoice><guimenu>Data</guimenu><guimenuitem>Download New
+    Data...</guimenuitem></menuchoice>.
+    </para>
+    </note>
+  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>More</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Open the catalog details dialog. (See <xref linkend="catalog_details"/>.)
+  </para>
+  <para>In there, you can see the contents of the catalog, as well as
+  some more meta information. Amongst other things, you can also edit
+  its contents (if it is mutable).
+  </para>
+</listitem>
+</varlistentry>
+</para>
+
+<sect2 id="create_catalog">
+<title>Creating a new Catalog</title>
+<screenshot>
+<screeninfo>Catalog creation dialog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="create_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Catalog creation dialog.</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+This dialog reached through the catalog management GUI (see
+<xref linkend="catalog_gui"/>). The <guilabel>ID</guilabel>
+field will be automatically chosen but can be
+changed. The <guilabel>Color</guilabel> field configures in which
+color the objects of the catalog will be displayed. All the other
+values are optional or have sensible defaults. You can, of
+course, change these values at a later point.
+</para>
+
+<para>Upon clicking <guilabel>Ok</guilabel> an empty catalog with the
+  meta data entered into the dialog will be added to the database and
+  can then be filled with
+  objects. (See <xref linkend="catalog_details"/> and <xref linkend="csv_import"/>.)
+</para>
+</sect2>
+
+<sect2 id="catalog_details">
+<title>Catalog Details Dialog</title>
+<indexterm><primary>Deep-Sky Catalogs</primary>
+  <secondary>Catalog Details Dialog</secondary></indexterm>
+
+<screenshot>
+<screeninfo>Catalog details dialog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="catalog_details.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>The catalog details dialog.</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+This dialog reached through the catalog management GUI (see
+<xref linkend="catalog_gui"/>). In the top left corner, the catalog
+metadata is being displayed. On the right, a table of all objects in
+the catalog is being shown. The search line above the table filters
+objects by name. Double-clicking a row opens the object details dialog
+(see <xref linkend="tool-details"/>).
+</para>
+<para>
+Selecting a row enables
+the <guilabel>Object</guilabel> menu on the left.
+Selecting multiple rows performs the single-object action for each
+selected object.
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Edit the catalog object. (See <xref linkend="add_object"/>)
+  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Remove</guimenu>
+</menuchoice></term>
+<listitem>
+  <para>Removes the object from the catalog.
+  </para>
+</listitem>
+</varlistentry>
+</para>
+
+<para>
+  Below the <guilabel>Object</guilabel> menu, the general catalog
+  options are situated.
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Edit Catalog Meta</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>Edit the catalog metadata displayed in the top left. This
+        opens the dialog described in <xref linkend="create_catalog"/>.
+      </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Add Object</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>Add an object to the catalog. (See <xref linkend="add_object"/>.)
+      </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Import CSV</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>Import objects from a tabular text format (csv, tsv,
+        etc...) into the catalog. (See <xref linkend="csv_import"/>.)
+      </para>
+    </listitem>
+  </varlistentry>
+</para>
+<sect3 id="add_object">
+<title>Adding/Editing Objects</title>
+<indexterm><primary>Deep-Sky Catalogs</primary>
+  <secondary>Adding/Editing Objects</secondary></indexterm>
+
+<screenshot>
+  <screeninfo>Add/Edit DSO Dialog</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="add_object.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Add/Edit DSO Dialog</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para>
+  This dialog allows to create or edit a deep sky object
+  (DSO). The <guilabel>Basics</guilabel> section contains fields that
+  have to be filled in.
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Name</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>The name of the object which will be displayed in
+      the sky.
+      </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Type</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>The type of the object.
+      </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>RA / DEC (Coordinates)</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>The coordinates of the object in degrees and with respect to
+      the J2000 epoch.
+      </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Apparent Magnitude</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>The apparent magnitude of the object.
+      </para>
+    </listitem>
+  </varlistentry>
+</para>
+<para>
+  The <guilabel>Optional</guilabel> section contains data fields that
+  are optional. They are set to and can be left at their defaults.
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Size Info</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>The object size.
+      </para>
+      <para>The object is modeled as an ellipse which is described
+      by its major and minor axis.</para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Long Name</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>A longer, more descriptive name.
+      </para>
+      <para>Usually, the long name is something
+     link "Andromeda Galaxy" for the object M31. It can contain
+     alternative designations and names in other catalogs as well.</para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Catalog Identifier</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>A catalog internal identifier.
+      </para>
+      <para>For example the screenshot above, the object originates from the
+      OpenNGC catalog where each row is identified by "NGCXXXX".</para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Flux</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>The flux of the object. Only applies for radio sources.
+      </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+        <guimenu>Position Angle</guimenu>
+    </menuchoice></term>
+    <listitem>
+      <para>If the object is extended, it must have some orientation
+      in the sky. The position angle is the angle between its major
+      axis and a straight line to the north pole.
+      </para>
+    </listitem>
+  </varlistentry>
+</para>
+</sect3>
+<sect3 id="csv_import">
+<title>Importing CSV (and similar formats)</title>
+<screenshot>
+<screeninfo>Importing CSV Catalogs</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="csv_import.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Importing CSV Catalogs</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>The screenshot above shows the CSV import dialog in its default
+  state. In the <guilabel>Input</guilabel> settings, you can
+  configure the csv parser. The <guilabel>Comment Prefix</guilabel> is
+  the character that signals commented-out lines in the
+  input. The <guilabel>Separator</guilabel> should be adjusted to fit
+  your input. Usually, it is "," or ";" but other separators can
+  occur. Finally, you can choose to skip a number of lines at the
+  beginning of the file. <guilabel>Select/Read</guilabel> lets you
+  choose a csv file to read with the above configuration. After that,
+  the dialog will look as in the screenshot below.
+</para>
+<screenshot>
+<screeninfo>Importing CSV Catalogs, Populated</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="csv_import_populated.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Importing CSV Catalogs</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+In the top right you can choose whether coordinated are being
+expressed in degrees or
+hours/minutes/seconds. The <guilabel>Mapping</guilabel> section lets
+you map columns in the CSV file to data fields in
+&kstars;. Selecting <guilabel>Ignore</guilabel> assigns the default
+value for this field. Entering your own text will use this as the
+value for every object being read.  The <guilabel>Type
+Mapping</guilabel> sections maps strings to object types. You can add
+and remove mappings by clicking <guilabel>+</guilabel>
+or <guilabel>-</guilabel>.  When you're done mapping, you can test
+your settings by clicking <guilabel>Preview</guilabel> to read the
+first few objects from the csv. If you are satisfied you can
+click <guilabel>OK</guilabel> to import the whole catalog or adjust
+your settings and preview again. As a reference, a mapping for the
+OpenNGC catalog is shown in the below screenshot.
+</para>
+<screenshot>
+<screeninfo>Importing CSV Catalogs, OpenNGC</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="csv_openngc.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Importing CSV Catalogs</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</sect3>
 </sect2>
 </sect1>
 
