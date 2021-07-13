@@ -246,6 +246,7 @@ over the more subtle behaviors of &kstars;.
 <sect1 id="catalogs">
 <title>Catalogs</title>
 <para>
+  <indexterm><primary>Catalogs</primary></indexterm>
 <screenshot>
 <screeninfo>Catalogs Window</screeninfo>
 <mediaobject>
@@ -560,7 +561,6 @@ via <menuchoice><guimenu>Data</guimenu><guimenuitem>Manage DSO
 </mediaobject>
 </screenshot>
 </para>
-</sect2>
 <para>
 On the left, a list of catalogs is displayed. In this list, you can
 read off key catalog properties, including whether a catalog is
@@ -576,6 +576,7 @@ always <guilabel>Clone</guilabel> a catalog to make it mutable.
 <para>
 The buttons in the upper right corner allow you to add catalogs to the
 database.
+<variablelist>
 <varlistentry id="import">
 <term><menuchoice>
 <guimenu>Import Catalog</guimenu>
@@ -588,11 +589,13 @@ database.
   haven't yet been picked up by the usual download server.</para>
 </listitem>
 </varlistentry>
+</variablelist>
 
 With the buttons in the lower right corner, you can add, remove, modify
 and explore catalogs. Their actions always refer to the currently
 selected catalog (the highlighted row on the left).
 
+<variablelist>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Create Catalog</guimenu>
@@ -632,7 +635,7 @@ selected catalog (the highlighted row on the left).
 <listitem>
   <para>Export a catalog into a <filename>.kscat</filename> file.</para>
   <para>The resulting file can be imported
-    with <guilabel><link linked="import">Import Catalog</link></guilabel>
+    with <link linkend="import">Import Catalog</link>
   </para>
 </listitem>
 </varlistentry>
@@ -670,7 +673,9 @@ selected catalog (the highlighted row on the left).
   </para>
 </listitem>
 </varlistentry>
+</variablelist>
 </para>
+</sect2>
 
 <sect2 id="create_catalog">
 <title>Creating a new Catalog</title>
@@ -732,6 +737,7 @@ the <guilabel>Object</guilabel> menu on the left.
 Selecting multiple rows performs the single-object action for each
 selected object.
 
+<variablelist>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Edit</guimenu>
@@ -751,13 +757,15 @@ selected object.
   </para>
 </listitem>
 </varlistentry>
+</variablelist>
 </para>
 
 <para>
   Below the <guilabel>Object</guilabel> menu, the general catalog
   options are situated.
 
-  <varlistentry>
+<variablelist>
+<varlistentry>
     <term><menuchoice>
         <guimenu>Edit Catalog Meta</guimenu>
     </menuchoice></term>
@@ -788,6 +796,7 @@ selected object.
       </para>
     </listitem>
   </varlistentry>
+</variablelist>
 </para>
 <sect3 id="add_object">
 <title>Adding/Editing Objects</title>
@@ -810,7 +819,8 @@ selected object.
   (DSO). The <guilabel>Basics</guilabel> section contains fields that
   have to be filled in.
 
-  <varlistentry>
+<variablelist>
+<varlistentry>
     <term><menuchoice>
         <guimenu>Name</guimenu>
     </menuchoice></term>
@@ -851,12 +861,14 @@ selected object.
       </para>
     </listitem>
   </varlistentry>
+</variablelist>
 </para>
 <para>
   The <guilabel>Optional</guilabel> section contains data fields that
   are optional. They are set to and can be left at their defaults.
 
-  <varlistentry>
+<variablelist>
+<varlistentry>
     <term><menuchoice>
         <guimenu>Size Info</guimenu>
     </menuchoice></term>
@@ -914,6 +926,7 @@ selected object.
       </para>
     </listitem>
   </varlistentry>
+</variablelist>
 </para>
 </sect3>
 <sect3 id="csv_import">
