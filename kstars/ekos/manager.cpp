@@ -531,7 +531,7 @@ void Manager::reset()
     observatoryProcess.reset();
     dustCapProcess.reset();
 
-    DarkLibrary::Instance()->reset();
+    DarkLibrary::Release();
 
     Ekos::CommunicationStatus previousStatus;
 

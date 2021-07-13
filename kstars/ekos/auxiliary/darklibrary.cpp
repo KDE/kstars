@@ -780,11 +780,14 @@ void DarkLibrary::processNewBLOB(IBLOB *bp)
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::reset()
+void DarkLibrary::Release()
 {
-    m_Cameras.clear();
-    cameraS->clear();
-    m_CurrentCamera = nullptr;
+    delete (_DarkLibrary);
+    _DarkLibrary = nullptr;
+
+    //    m_Cameras.clear();
+    //    cameraS->clear();
+    //    m_CurrentCamera = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1591,7 +1594,8 @@ void DarkLibrary::saveDefectMap()
     if (filename.isEmpty())
     {
         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-        filename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("defectmaps/defectmap_" + ts + ".json");
+        filename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("defectmaps/defectmap_" + ts +
+                   ".json");
         newFile = true;
     }
 
