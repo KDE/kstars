@@ -48,6 +48,8 @@ class Device : public QObject
             return m_Device->getDeviceName();
         }
 
+        uint8_t systemPortCount() const;
+
         // Create GUI
         void initGUI();
         // Sync GUI to data
@@ -97,6 +99,8 @@ class Dialog : public QDialog
 
         // Initialize device
         void addDevice(ISD::GDInterface * devices);
+
+        bool shouldShow() const;
 
         bool empty() const
         {

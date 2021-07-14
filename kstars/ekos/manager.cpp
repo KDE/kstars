@@ -1291,7 +1291,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
 
         if (m_PortSelector && currentProfile->portSelector)
         {
-            if (m_PortSelector->empty() == false)
+            if (m_PortSelector->shouldShow())
             {
                 m_PortSelector->show();
                 m_PortSelector->raise();

@@ -266,6 +266,17 @@ void Device::syncGUI()
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
+uint8_t Device::systemPortCount() const
+{
+    if (m_Ports)
+        return m_Ports->count();
+    else
+        return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+///
+//////////////////////////////////////////////////////////////////////////////////////////
 void Device::setConnectionMode(ConnectionMode mode)
 {
     if (mode == CONNECTION_SERIAL)
@@ -392,5 +403,23 @@ void Dialog::addDevice(ISD::GDInterface *device)
         (*pos)->syncGUI();
     }
 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/// Should Port Selector be shown automatically?
+/// If we only have ONE device with ONE port, then no need to bother the user
+/// with useless selection.
+//////////////////////////////////////////////////////////////////////////////////////////
+bool Dialog::shouldShow() const
+{
+    if (m_Devices.empty())
+        return false;
+
+    // If we only have one device with single port, then no need to show dialog
+    if (m_Devices.size() == 1 && m_Devices[0]->systemPortCount() == 1)
+        return false;
+
+    // Otherwise, show dialog
+    return true;
 }
 }
