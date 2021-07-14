@@ -576,6 +576,7 @@ always <guilabel>Clone</guilabel> a catalog to make it mutable.
 <para>
 The buttons in the upper right corner allow you to add catalogs to the
 database.
+</para>
 <variablelist>
 <varlistentry id="import">
 <term><menuchoice>
@@ -590,7 +591,7 @@ database.
 </listitem>
 </varlistentry>
 </variablelist>
-
+<para>
 With the buttons in the lower right corner, you can add, remove, modify
 and explore catalogs. Their actions always refer to the currently
 selected catalog (the highlighted row on the left).
@@ -888,7 +889,7 @@ selected object.
       <para>A longer, more descriptive name.
       </para>
       <para>Usually, the long name is something
-     link "Andromeda Galaxy" for the object M31. It can contain
+     like "Andromeda Galaxy" for the object M31. It can contain
      alternative designations and names in other catalogs as well.</para>
     </listitem>
   </varlistentry>
