@@ -341,12 +341,24 @@ inline const QString dso_by_name_and_catalog(const int id)
         .arg(mag_asc);
 }
 
-const QString _dso_by_wildcard =
-    "SELECT %1 FROM master WHERE name LIKE :wildcard LIMIT :limit ";
+const QString _dso_by_wildcard = "SELECT %1 FROM master WHERE name LIKE :wildcard LIMIT "
+                                 ":limit ODRER BY CAST(name AS INTEGER)";
 
 inline const QString dso_by_wildcard()
 {
     return QString(_dso_by_wildcard).arg(object_fields);
+}
+
+inline const QString dso_general_query(const QString &where, const QString &order_by = "")
+{
+    auto query = QString("SELECT %1 FROM master WHERE %2").arg(object_fields).arg(where);
+
+    if (order_by.size() > 0)
+        query += " ORDER BY " + order_by;
+
+    query += " LIMIT :limit";
+
+    return query;
 }
 
 const QString _dso_by_maglim = "SELECT %1 FROM master WHERE magnitude < :maglim "

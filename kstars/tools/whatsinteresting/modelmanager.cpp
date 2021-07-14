@@ -293,8 +293,14 @@ void ModelManager::loadCatalog(const QString &name)
 
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
 
-    m_CatalogMap[id] = manager.find_objects_by_wildcard(search_prefixes.at(name) + "%");
-    auto &lst        = m_CatalogSkyObjItems[id];
+    const auto &prefix = search_prefixes.at(name);
+    const int offset   = prefix.size();
+
+    m_CatalogMap[id] = std::get<2>(manager.general_master_query(
+        QString("name LIKE '%1'").arg(prefix + "%"),
+        QString("CAST(SUBSTR(name,%1) AS INT)").arg(offset)));
+
+    auto &lst = m_CatalogSkyObjItems[id];
 
     for (auto &obj : m_CatalogMap[id])
     {

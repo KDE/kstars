@@ -1071,3 +1071,20 @@ CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard, const i
 
     return fetch_objects(query);
 };
+std::tuple<bool, const QString, DBManager::CatalogObjectList>
+CatalogsDB::DBManager::general_master_query(const QString &where, const QString &order_by,
+                                            const int limit)
+{
+    QMutexLocker _{ &m_mutex };
+
+    QSqlQuery query{ m_db };
+
+    if (!query.prepare(SqlStatements::dso_general_query(where, order_by)))
+    {
+        return { false, query.lastError().text(), {} };
+    }
+
+    query.bindValue(":limit", limit);
+
+    return { false, "", fetch_objects(query) };
+};

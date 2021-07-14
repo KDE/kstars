@@ -246,6 +246,21 @@ class DBManager
     CatalogObjectList find_objects_by_wildcard(const QString &wildcard,
                                                const int limit = -1);
     /**
+     * \brief Find an objects by searching the master catlog with a
+     * query like `SELECT ... FROM master WHERE \p where ORDER BY \p
+     * order_by ...`.
+     *
+     * To be used if performance does not matter (much).
+     * \p order_by can be ommitted.
+     *
+     * \return wether the query was successful, an error message if
+     * any and a list of matching objects
+     */
+    std::tuple<bool, const QString, CatalogObjectList>
+    general_master_query(const QString &where, const QString &order_by = "",
+                         const int limit = -1);
+
+    /**
      * \brief Get an object by \p `oid`. Optinally a \p `catalog_id` can be speicfied.
      *
      * \returns if the object was found and the object itself
